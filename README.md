@@ -19,7 +19,6 @@ Based on [QuantAgent](https://github.com/y-research-sbu/QuantAgent) and the pape
 - [Backtest Engine](#backtest-engine)
 - [Alpha Factor System](#alpha-factor-system)
 - [Project Structure](#project-structure)
-- [Acknowledgements](#acknowledgements)
 - [Disclaimer](#disclaimer)
 
 ---
