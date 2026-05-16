@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <title>QuantAgent VN - Phân Tích Thị Trường Chứng Khoán Việt Nam</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --vn-red: #C41E3A;
+            --vn-red-light: #E8294E;
+            --vn-red-dark: #8B1528;
+            --vn-gold: #F5A623;
+            --vn-gold-light: #FBBF24;
+            --vn-bg: #FFF5F5;
+            --white: #ffffff;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --green-600: #16a34a;
+            --green-100: #dcfce7;
+            --blue-500: #3b82f6;
+            --blue-100: #eff6ff;
+            --blue-600: #2563eb;
+            --purple-500: #8b5cf6;
+            --purple-100: #f3e8ff;
+            --purple-600: #7c3aed;
+            --teal-500: #14b8a6;
+            --teal-100: #ccfbf1;
+            --teal-600: #0d9488;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--vn-bg);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--vn-red-dark) 0%, var(--vn-red) 60%, var(--vn-red-light) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 3.5rem 1rem 4rem;
+            text-align: center;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="g" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.08"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.08"/></pattern></defs><rect width="100" height="100" fill="url(%23g)"/></svg>');
+            opacity: 0.4;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 1.2rem;
+            margin: 1rem auto 2rem;
+            max-width: 660px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 20px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--vn-gold);
+            color: var(--vn-red-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-btn:hover {
+            background: var(--vn-gold-light);
+            transform: translateY(-3px);
+        }
+
+        .status-bar {
+            background: #fff;
+            border-bottom: 2px solid var(--gray-200);
+            padding: 0.55rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.86rem;
+        }
+
+        .status-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .status-separator {
+            width: 1px;
+            height: 24px;
+            background: var(--gray-200);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gray-400);
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+
+        .status-dot.ok {
+            background: #22c55e;
+            box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+        }
+
+        .status-dot.err {
+            background: #ef4444;
+        }
+
+        .status-dot.warn {
+            background: var(--vn-gold);
+        }
+
+        .status-dot.loading {
+            background: var(--vn-gold);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        .model-tag {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.78rem;
+            font-family: monospace;
+            color: var(--gray-700);
+        }
+
+        .groq-badge {
+            background: #f3e8ff;
+            border: 1px solid #d8b4fe;
+            border-radius: 8px;
+            padding: 0.2rem 0.65rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--purple-600);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .rt-badge {
+            background: var(--blue-100);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--blue-600);
+        }
+
+        .last-update {
+            font-size: 0.78rem;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .last-update.live {
+            color: var(--green-600);
+        }
+
+        .form-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(196, 30, 58, 0.12);
+            margin: 2rem auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        .form-section {
+            padding: 2.5rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--vn-red);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .panel-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: var(--vn-red-light);
+            box-shadow: 0 8px 24px rgba(196, 30, 58, 0.1);
+        }
+
+        .panel-title {
+            color: var(--vn-red);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0 0 1.2rem 0;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.4rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+            font-size: 0.92rem;
+            transition: all 0.2s ease;
+            background: var(--white);
+            width: 100%;
+            color: var(--gray-800);
+        }
+
+        .form-control:focus {
+            border-color: var(--vn-red);
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+            outline: none;
+        }
+
+        .api-key-wrapper {
+            position: relative;
+        }
+
+        .api-key-wrapper input {
+            padding-right: 3rem;
+            font-family: monospace;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-toggle-key {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.2rem;
+        }
+
+        .btn-toggle-key:hover {
+            color: var(--vn-red);
+        }
+
+        .api-key-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--gray-500);
+            margin-top: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .api-key-hint a {
+            color: var(--purple-600);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .api-key-hint a:hover {
+            text-decoration: underline;
+        }
+
+        .groq-info-panel {
+            background: var(--purple-100);
+            border: 2px solid #d8b4fe;
+        }
+
+        .groq-info-panel .panel-title {
+            color: var(--purple-600);
+            border-color: #d8b4fe;
+        }
+
+        .groq-model-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.7rem 0.9rem;
+            background: #fff;
+            border-radius: 10px;
+            margin-bottom: 0.65rem;
+            border: 1px solid #e9d5ff;
+        }
+
+        .groq-model-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .groq-model-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+
+        .groq-model-label {
+            font-weight: 700;
+            color: var(--gray-800);
+            font-size: 0.88rem;
+        }
+
+        .groq-model-desc {
+            font-size: 0.76rem;
+            color: var(--gray-500);
+            margin-top: 0.1rem;
+        }
+
+        .groq-model-badge {
+            font-family: monospace;
+            font-size: 0.75rem;
+            background: var(--purple-100);
+            color: var(--purple-600);
+            border: 1px solid #d8b4fe;
+            border-radius: 6px;
+            padding: 0.1rem 0.45rem;
+            display: inline-block;
+            margin-top: 0.3rem;
+            word-break: break-all;
+        }
+
+        .groq-free-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: var(--green-100);
+            color: var(--green-600);
+            border-radius: 6px;
+            padding: 0.1rem 0.45rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+        }
+
+        .stock-search-wrapper {
+            position: relative;
+        }
+
+        .stock-search-wrapper i.search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            pointer-events: none;
+        }
+
+        #stockSearch {
+            padding-left: 2.25rem;
+        }
+
+        .stock-list-container {
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            height: 260px;
+            overflow-y: auto;
+            background: var(--gray-50);
+            margin-top: 0.5rem;
+        }
+
+        .stock-list-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .stock-list-container::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+
+        .stock-list-container::-webkit-scrollbar-thumb {
+            background: var(--vn-red);
+            border-radius: 3px;
+        }
+
+        .stock-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.55rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--gray-200);
+            transition: all 0.15s ease;
+            color: var(--gray-700);
+        }
+
+        .stock-item:last-child {
+            border-bottom: none;
+        }
+
+        .stock-item:hover {
+            background: rgba(196, 30, 58, 0.06);
+            color: var(--vn-red);
+        }
+
+        .stock-item.active {
+            background: var(--vn-red);
+            color: #fff;
+        }
+
+        .stock-item.active .stock-company {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .stock-item.active .stock-exchange {
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+
+        .stock-code {
+            font-family: monospace;
+            font-weight: 800;
+            font-size: 0.98rem;
+            min-width: 48px;
+            flex-shrink: 0;
+        }
+
+        .stock-company {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+            margin-top: 0.05rem;
+        }
+
+        .stock-exchange {
+            font-size: 0.65rem;
+            font-weight: 700;
+            background: var(--gray-100);
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+            color: var(--gray-500);
+            flex-shrink: 0;
+        }
+
+        .stock-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            flex-shrink: 0;
+        }
+
+        .stock-item.active .stock-dot {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .stock-count-badge {
+            display: inline-block;
+            background: var(--vn-red);
+            color: #fff;
+            border-radius: 12px;
+            padding: 0.1rem 0.55rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+        }
+
+        .selected-stock-display {
+            margin-top: 0.75rem;
+            padding: 0.65rem 1rem;
+            background: rgba(196, 30, 58, 0.06);
+            border: 2px solid var(--vn-red-light);
+            border-radius: 10px;
+            font-weight: 700;
+            color: var(--vn-red);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .selected-stock-display.visible {
+            display: flex;
+        }
+
+        .selected-stock-display .code {
+            font-size: 1.2rem;
+        }
+
+        .rt-info-panel {
+            border: 2px solid #bfdbfe;
+            background: #eff6ff;
+        }
+
+        .rt-info-panel .panel-title {
+            color: var(--blue-600);
+            border-color: #bfdbfe;
+        }
+
+        .rt-status-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.9rem;
+            background: #fff;
+            border-radius: 10px;
+            margin-bottom: 0.65rem;
+            border: 1px solid #e0f2fe;
+        }
+
+        .rt-status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .rt-status-icon {
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .rt-status-label {
+            font-weight: 700;
+            color: var(--gray-800);
+            font-size: 0.88rem;
+        }
+
+        .rt-status-value {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.1rem;
+        }
+
+        .rt-pip-ok {
+            color: #22c55e;
+        }
+
+        .rt-pip-err {
+            color: #ef4444;
+        }
+
+        .btn-xs-blue {
+            background: var(--blue-500);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-xs-blue:hover {
+            background: var(--blue-600);
+        }
+
+        .settings-panel {
+            background: #FFF8F8;
+            border: 2px solid #FECACA;
+        }
+
+        .btn-sm-red {
+            background: var(--vn-red);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-sm-red:hover {
+            background: var(--vn-red-dark);
+        }
+
+        .btn-sm-purple {
+            background: var(--purple-600);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .btn-sm-purple:hover {
+            background: #6d28d9;
+        }
+
+        .alert {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.88rem;
+        }
+
+        .alert-success {
+            background: var(--green-100);
+            border-left: 4px solid var(--green-600);
+            color: #14532d;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #7f1d1d;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            color: #78350f;
+        }
+
+        .timeframe-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tf-group-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--gray-400);
+            margin-bottom: 0.1rem;
+        }
+
+        .tf-btn-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .tf-btn {
+            padding: 0.35rem 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--gray-600);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            font-family: monospace;
+            letter-spacing: 0.04em;
+        }
+
+        .tf-btn:hover {
+            border-color: var(--vn-red-light);
+            color: var(--vn-red);
+            background: rgba(196, 30, 58, 0.04);
+        }
+
+        .tf-btn.active {
+            border-color: var(--vn-red);
+            background: var(--vn-red);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(196, 30, 58, 0.25);
+        }
+
+        .tf-info-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.9rem;
+            background: linear-gradient(135deg, var(--vn-red), var(--vn-red-dark));
+            border-radius: 10px;
+            color: #fff;
+            margin-top: 0.5rem;
+        }
+
+        .tf-info-bar .tf-label {
+            font-size: 1.15rem;
+            font-weight: 900;
+        }
+
+        .tf-info-bar .tf-desc {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        .live-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--blue-100);
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.75rem;
+            color: var(--blue-600);
+            font-weight: 700;
+        }
+
+        .run-btn-wrapper {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-run {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--vn-red) 0%, var(--vn-red-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 1.1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.35);
+        }
+
+        .btn-run:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.45);
+        }
+
+        .btn-run:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--gray-200);
+            border-top-color: var(--vn-red);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 1.25rem;
+        }
+
+        .loading-card h3 {
+            color: var(--vn-red);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-card p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .loading-steps {
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        .loading-step {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 0.5rem;
+            font-size: 0.83rem;
+            color: var(--gray-400);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .loading-step.active {
+            color: var(--vn-red);
+            font-weight: 700;
+            background: rgba(196, 30, 58, 0.06);
+        }
+
+        .loading-step.done {
+            color: var(--green-600);
+            font-weight: 500;
+        }
+
+        .step-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .loading-step.active .step-dot {
+            background: var(--vn-red);
+            animation: pulse 0.8s infinite;
+            box-shadow: 0 0 6px rgba(196, 30, 58, 0.5);
+        }
+
+        .loading-step.done .step-dot {
+            background: var(--green-600);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .loading-step.done .step-dot::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 9px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .api-notice {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .api-notice.hidden {
+            display: none;
+        }
+
+        .api-notice i {
+            font-size: 1.3rem;
+            color: #92400e;
+            flex-shrink: 0;
+        }
+
+        .api-notice-text {
+            font-size: 0.88rem;
+            color: #78350f;
+        }
+
+        .api-notice-text strong {
+            font-weight: 700;
+        }
+
+        .api-notice-text a {
+            color: var(--purple-600);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .api-notice-text a:hover {
+            text-decoration: underline;
+        }
+
+        .key-status-ok {
+            color: var(--green-600);
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.4rem;
+        }
+
+        .key-status-err {
+            color: #dc2626;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.4rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--gray-200);
+            margin: 1rem 0;
+        }
+
+        /* Sentiment info badge in hero */
+        .hero-tag.teal {
+            background: rgba(20, 184, 166, 0.25);
+            border-color: rgba(20, 184, 166, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .panel-group {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                margin: 1rem;
+                border-radius: 16px;
+            }
+
+            .form-section {
+                padding: 1.5rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .status-separator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading overlay - 7 steps -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-card">
+            <div class="loading-spinner"></div>
+            <h3>Đang phân tích...</h3>
+            <p>Hệ thống đa tác nhân đang xử lý dữ liệu thị trường</p>
+            <div class="loading-steps">
+                <div class="loading-step" id="step1">
+                    <div class="step-dot"></div> <span id="step1Text">Lấy dữ liệu thời gian thực</span>
+                </div>
+                <div class="loading-step" id="step2">
+                    <div class="step-dot"></div> <span>Indicator Agent - Tính chỉ báo kỹ thuật</span>
+                </div>
+                <div class="loading-step" id="step3">
+                    <div class="step-dot"></div> <span>Alpha Agent - Phân tích sentiment &amp; tạo nhân tố alpha</span>
+                </div>
+                <div class="loading-step" id="step4">
+                    <div class="step-dot"></div> <span>Pattern Agent - Nhận dạng mô hình nến</span>
+                </div>
+                <div class="loading-step" id="step5">
+                    <div class="step-dot"></div> <span>Trend Agent - Phân tích xu hướng</span>
+                </div>
+                <div class="loading-step" id="step6">
+                    <div class="step-dot"></div> <span>Decision Agent - Đưa ra quyết định</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div style="margin-bottom:0.75rem;">
+                <span class="hero-title">QuantAgent VN</span>
+            </div>
+            <p class="hero-subtitle">
+                Hệ thống phân tích kỹ thuật đa tác nhân cho thị trường chứng khoán Việt Nam.<br>
+                Sử dụng <strong>Groq API</strong> (miễn phí) - dữ liệu thời gian thực từ <strong>vnstock (VCI /
+                    MSN)</strong>.
+            </p>
+            <div style="margin-bottom:1.75rem;">
+                <span class="hero-tag"><i class="fas fa-robot"></i> llama-3.1-8b-instant · Indicator &amp; Sentiment
+                    &amp; Alpha &amp; Decision</span>
+                <span class="hero-tag"><i class="fas fa-eye"></i> llama-4-scout · Pattern &amp; Trend</span>
+                <span class="hero-tag"><i class="fas fa-newspaper"></i> ViSoBERT · Sentiment</span>
+                <span class="hero-tag"><i class="fas fa-bolt"></i> Thời gian thực · vnstock</span>
+                <span class="hero-tag"><i class="fas fa-database"></i> HOSE / HNX / UPCOM</span>
+            </div>
+            <a href="#phan-tich" class="hero-btn">
+                <i class="fas fa-chart-line"></i>
+                Bắt đầu phân tích
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar">
+        <div class="status-group">
+            <div class="status-indicator">
+                <div class="status-dot loading" id="groqStatusDot"></div>
+                <span id="groqStatusText">Đang kiểm tra Groq...</span>
+            </div>
+            <span class="groq-badge" id="groqBadge" style="display:none;"><i class="fas fa-microchip"></i> Groq</span>
+            <span class="model-tag" id="agentModelTag" style="display:none;">llama-3.1-8b-instant</span>
+            <span class="model-tag" id="graphModelTag" style="display:none;">llama-4-scout</span>
+        </div>
+        <div class="status-separator"></div>
+        <div class="status-group">
+            <div class="status-indicator">
+                <div class="status-dot loading" id="rtStatusDot"></div>
+                <span id="rtStatusText">Đang kiểm tra vnstock...</span>
+            </div>
+            <span id="rtBadge" class="rt-badge" style="display:none;">⚡ vnstock</span>
+            <span id="lastUpdateBadge" class="last-update" style="display:none;">
+                <i class="fas fa-clock"></i> Cập nhật: <span id="lastUpdateTime">-</span>
+            </span>
+        </div>
+        <div class="status-separator"></div>
+        <div class="status-group" style="font-size:0.82rem;color:var(--gray-600);">
+            <i class="fas fa-database" style="color:var(--vn-red);"></i>
+            <span id="symbolCountLabel">Đang tải mã...</span>
+        </div>
+        <button onclick="lamMoiTatCa()" title="Làm mới"
+            style="background:none;border:none;cursor:pointer;color:var(--gray-500);font-size:0.8rem;padding:0.2rem 0.5rem;">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+    </div>
+
+    <!-- Form -->
+    <section id="phan-tich" style="padding:1.5rem 1rem 3rem;">
+        <div class="form-container">
+            <div class="form-section">
+                <h3 class="section-title"><i class="fas fa-cog"></i> Cấu hình phân tích</h3>
+
+                <div class="api-notice" id="apiNotice">
+                    <i class="fas fa-key"></i>
+                    <div class="api-notice-text">
+                        <strong>Cần Groq API Key!</strong>
+                        Lấy key miễn phí tại <a href="https://console.groq.com/keys"
+                            target="_blank">console.groq.com/keys</a>
+                        rồi nhập vào phần <strong>Cài đặt Groq API</strong> bên dưới.
+                    </div>
+                </div>
+
+                <!-- Row 1: Chọn mã + Thông tin mã -->
+                <div class="panel-group">
+                    <div class="panel">
+                        <h4 class="panel-title">
+                            <i class="fas fa-chart-candlestick"></i> Chọn mã cổ phiếu
+                            <span class="stock-count-badge" id="stockCountBadge">...</span>
+                        </h4>
+                        <div class="form-group">
+                            <div class="stock-search-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="form-control" id="stockSearch"
+                                    placeholder="Tìm: VNM, VIC, ACB, FPT..." oninput="locMa(this.value)">
+                            </div>
+                        </div>
+                        <div class="stock-list-container" id="stockListContainer">
+                            <div style="padding:2rem;text-align:center;color:var(--gray-400);">
+                                <i class="fas fa-spinner fa-spin"></i> Đang tải danh sách mã...
+                            </div>
+                        </div>
+                        <div class="selected-stock-display" id="selectedStockDisplay">
+                            <i class="fas fa-check-circle" style="color:var(--vn-red);"></i>
+                            <span>Đã chọn:</span>
+                            <span class="code" id="selectedStockCode">-</span>
+                            <span id="selectedStockName"
+                                style="font-size:0.8rem;font-weight:400;color:var(--vn-red-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;"></span>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <h4 class="panel-title"><i class="fas fa-info-circle"></i> Thông tin mã</h4>
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-clock"></i> Khung thời gian</label>
+
+                            <div class="timeframe-selector">
+                                <div class="tf-btn-row">
+                                    <button class="tf-btn" data-tf="5m" data-label="5 Phút"
+                                        data-desc="Scalping, 78 nến gần nhất">5m</button>
+                                    <button class="tf-btn" data-tf="15m" data-label="15 Phút"
+                                        data-desc="Swing ngắn, 60 nến gần nhất">15m</button>
+                                    <button class="tf-btn" data-tf="30m" data-label="30 Phút"
+                                        data-desc="Swing trung, 50 nến gần nhất">30m</button>
+                                    <button class="tf-btn" data-tf="1h" data-label="1 Giờ"
+                                        data-desc="Swing ngày, 45 nến gần nhất">1h</button>
+                                    <button class="tf-btn active" data-tf="1d" data-label="1 Ngày"
+                                        data-desc="Phân tích ngày, 45 nến gần nhất">1D</button>
+                                    <button class="tf-btn" data-tf="1w" data-label="1 Tuần"
+                                        data-desc="Phân tích tuần, 52 nến gần nhất">1W</button>
+                                    <button class="tf-btn" data-tf="1mo" data-label="1 Tháng"
+                                        data-desc="Phân tích tháng, 36 nến gần nhất">1M</button>
+                                </div>
+                            </div>
+
+                            <div class="tf-info-bar" id="tfInfoBar">
+                                <i class="fas fa-calendar-day" style="font-size:1.1rem;flex-shrink:0;"></i>
+                                <div>
+                                    <div class="tf-label" id="tfLabel">1D - 1 Ngày</div>
+                                    <div class="tf-desc" id="tfDesc">Phân tích theo khung ngày, 45 nến gần nhất</div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top:0.4rem;font-size:0.77rem;color:var(--gray-500);">
+                                <i class="fas fa-bolt" style="color:var(--blue-500);"></i>
+                                Dữ liệu thời gian thực từ vnstock · Số nến tối ưu cho từng khung.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Chi tiết mã đã chọn</label>
+                            <div id="stockInfoCard"
+                                style="background:var(--gray-50);border-radius:10px;padding:0.85rem 1rem;border:1px solid var(--gray-200);color:var(--gray-500);">
+                                <i class="fas fa-mouse-pointer"></i> Nhấn vào mã để xem thông tin
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Groq API settings + vnstock status -->
+                <div class="panel-group">
+                    <div class="panel settings-panel">
+                        <h4 class="panel-title"><i class="fas fa-microchip" style="color:var(--purple-600);"></i> Cài
+                            đặt Groq API</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-key"></i> Groq API Key
+                                <span class="groq-free-tag"
+                                    style="display:inline-flex;background:var(--green-100);color:var(--green-600);border-radius:6px;padding:0.1rem 0.45rem;font-size:0.72rem;font-weight:700;margin-left:0.4rem;">Miễn
+                                    phí</span>
+                            </label>
+                            <div class="api-key-wrapper">
+                                <input type="password" class="form-control" id="groqApiKeyInput"
+                                    placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                                <button class="btn-toggle-key" onclick="toggleKeyVisibility()" title="Hiện/ẩn key">
+                                    <i class="fas fa-eye" id="toggleKeyIcon"></i>
+                                </button>
+                            </div>
+                            <div class="api-key-hint">
+                                <i class="fas fa-external-link-alt"></i>
+                                Lấy key tại <a href="https://console.groq.com/keys"
+                                    target="_blank">console.groq.com/keys</a>
+                            </div>
+                            <div id="apiKeyStatus"></div>
+                        </div>
+
+                        <button class="btn-sm-purple" onclick="luuApiKey()">
+                            <i class="fas fa-key"></i> Lưu API Key &amp; Kết nối
+                        </button>
+
+                        <div class="divider"></div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-brain"></i> Model tác nhân văn bản
+                            </label>
+
+                            <div class="form-control" style="background:#f3f4f6; cursor:not-allowed;">
+                                llama-3.1-8b-instant
+                            </div>
+
+                            <small style="color:var(--gray-500);font-size:0.78rem;margin-top:0.3rem;display:block;">
+                                Indicator · Sentiment · Alpha · Decision
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-eye"></i> Model tác nhân thị giác
+                            </label>
+
+                            <div class="form-control" style="background:#f3f4f6; cursor:not-allowed;">
+                                meta-llama/llama-4-scout-17b-16e-instruct
+                            </div>
+
+                            <small style="color:var(--gray-500);font-size:0.78rem;margin-top:0.3rem;display:block;">
+                                Pattern · Trend
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="panel rt-info-panel">
+                        <h4 class="panel-title">
+                            <i class="fas fa-bolt" style="color:#3b82f6;"></i>
+                            vnstock - Dữ liệu thời gian thực
+                        </h4>
+                        <div id="rtDetailRows">
+                            <div class="rt-status-row">
+                                <span class="rt-status-icon">⏳</span>
+                                <div>
+                                    <div class="rt-status-label">Đang kiểm tra vnstock...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:0.75rem;display:flex;gap:0.5rem;">
+                            <button class="btn-xs-blue" onclick="xoaCache()"><i class="fas fa-trash-alt"></i> Xóa bộ nhớ
+                                đệm</button>
+                            <button class="btn-xs-blue" style="background:var(--gray-500);"
+                                onclick="kiemTraTrangThaiRT()"><i class="fas fa-sync-alt"></i> Kiểm tra lại</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="run-btn-wrapper">
+                    <button class="btn-run" id="analyzeBtn" onclick="chayPhanTich()">
+                        <i class="fas fa-play"></i>
+                        Chạy phân tích
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let maDaChon = '';
+        let KHUNG_THOI_GIAN = '1d';   // updated when user picks a timeframe
+        let danhSachMa = [];
+        let keyDaLuu = false;
+
+        // ── Timeframe selector ─────────────────────────────────────────────────────
+        const TF_META = {
+            "5m": { label: "5m - 5 Phút", desc: "78 nến gần nhất", icon: "fas fa-stopwatch" },
+            "15m": { label: "15m - 15 Phút", desc: "60 nến gần nhất", icon: "fas fa-clock" },
+            "30m": { label: "30m - 30 Phút", desc: "50 nến gần nhất", icon: "fas fa-clock" },
+            "1h": { label: "1h - 1 Giờ", desc: "45 nến gần nhất", icon: "fas fa-clock" },
+            "1d": { label: "1D - 1 Ngày", desc: "45 nến gần nhất", icon: "fas fa-calendar-day" },
+            "1w": { label: "1W - 1 Tuần", desc: "52 nến gần nhất", icon: "fas fa-calendar-week" },
+            "1mo": { label: "1M - 1 Tháng", desc: "36 nến gần nhất", icon: "fas fa-calendar-alt" },
+        };
+
+        function initTimeframeSelector() {
+            document.querySelectorAll('.tf-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    KHUNG_THOI_GIAN = btn.dataset.tf;
+                    const meta = TF_META[KHUNG_THOI_GIAN] || {};
+                    document.getElementById('tfLabel').textContent = meta.label || KHUNG_THOI_GIAN;
+                    document.getElementById('tfDesc').textContent = meta.desc || '';
+                });
+            });
+        }
+
+        // ── Step tracking (7 steps) ────────────────────────────────────────────────
+        const STEP_IDS = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
+        let _currentStep = 0;
+
+        function setLoadingStep(step) {
+            _currentStep = step;
+            STEP_IDS.forEach((id, idx) => {
+                const stepNum = idx + 1;
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.classList.remove('active', 'done');
+                if (step >= 7) {
+                    el.classList.add('done');
+                } else if (stepNum < step) {
+                    el.classList.add('done');
+                } else if (stepNum === step) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        function resetLoadingSteps() {
+            _currentStep = 0;
+            STEP_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('active', 'done');
+            });
+        }
+
+        // ── API Key ────────────────────────────────────────────────────────────────
+        function toggleKeyVisibility() {
+            const inp = document.getElementById('groqApiKeyInput');
+            const icon = document.getElementById('toggleKeyIcon');
+            if (inp.type === 'password') { inp.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+            else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
+        }
+
+        function luuApiKey() {
+            const apiKey = document.getElementById('groqApiKeyInput').value.trim();
+            const statusEl = document.getElementById('apiKeyStatus');
+            if (!apiKey) { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> Vui lòng nhập API key</div>'; return; }
+            if (!apiKey.startsWith('gsk_')) { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> Key không đúng định dạng (phải bắt đầu bằng gsk_)</div>'; return; }
+            statusEl.innerHTML = '<div style="color:var(--gray-500);font-size:0.82rem;"><i class="fas fa-spinner fa-spin"></i> Đang kết nối Groq...</div>';
+            fetch('/api/update-api-key', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ api_key: apiKey }) })
+                .then(r => r.json()).then(data => {
+                    if (data.success) {
+                        statusEl.innerHTML = '<div class="key-status-ok"><i class="fas fa-check-circle"></i> API key hợp lệ - Groq đã kết nối!</div>';
+                        keyDaLuu = true;
+                        document.getElementById('apiNotice').classList.add('hidden');
+                        localStorage.setItem('groq_key_set', '1');
+                        kiemTraGroq();
+                    } else {
+                        statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> ' + (data.error || 'Key không hợp lệ') + '</div>';
+                    }
+                }).catch(e => { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> Lỗi kết nối: ' + e.message + '</div>'; });
+        }
+
+        function kiemTraGroq() {
+            const dot = document.getElementById('groqStatusDot'), text = document.getElementById('groqStatusText');
+            dot.className = 'status-dot loading'; text.textContent = 'Đang kiểm tra Groq...';
+            fetch('/api/groq-status').then(r => r.json()).then(data => {
+                if (data.valid) {
+                    dot.className = 'status-dot ok'; text.textContent = 'Groq sẵn sàng';
+                    document.getElementById('groqBadge').style.display = 'inline-flex';
+                    document.getElementById('agentModelTag').style.display = 'inline-block';
+                    document.getElementById('graphModelTag').style.display = 'inline-block';
+                    document.getElementById('agentModelTag').textContent = (data.agent_model || '').split('/').pop().substring(0, 20);
+                    document.getElementById('graphModelTag').textContent = (data.graph_model || '').split('/').pop().substring(0, 20);
+                    document.getElementById('apiNotice').classList.add('hidden');
+                    keyDaLuu = true;
+                } else {
+                    dot.className = 'status-dot warn'; text.textContent = 'Groq chưa cấu hình';
+                    document.getElementById('groqBadge').style.display = 'none';
+                }
+            }).catch(() => { dot.className = 'status-dot err'; text.textContent = 'Không kiểm tra được Groq'; });
+        }
+
+        function kiemTraTrangThaiRT() {
+            const dot = document.getElementById('rtStatusDot'), text = document.getElementById('rtStatusText');
+            dot.className = 'status-dot loading'; text.textContent = 'Đang kiểm tra vnstock...';
+            fetch('/api/realtime-status').then(r => r.json()).then(data => {
+                const rows = [];
+                rows.push('<div class="rt-status-row"><span class="rt-status-icon ' + (data.available ? 'rt-pip-ok' : 'rt-pip-err') + '">' + (data.available ? '✅' : '❌') + '</span><div><div class="rt-status-label">Thư viện vnstock</div><div class="rt-status-value">' + (data.available ? 'Đã cài đặt ✓' : (data.install_cmd || 'pip install vnstock')) + '</div></div></div>');
+                if (data.available) {
+                    const via = data.connected_via ? ' (' + data.connected_via + ')' : '';
+                    rows.push('<div class="rt-status-row"><span class="rt-status-icon ' + (data.connected ? 'rt-pip-ok' : 'rt-pip-err') + '">' + (data.connected ? '🌐' : '🔌') + '</span><div><div class="rt-status-label">Kết nối dữ liệu' + via + '</div><div class="rt-status-value">' + (data.connected ? 'OK - ' + data.test_symbol + ': ' + data.test_rows + ' nến' : (data.error || 'Kết nối thất bại')) + '</div></div></div>');
+                    rows.push('<div class="rt-status-row"><span class="rt-status-icon">📡</span><div><div class="rt-status-label">Nguồn dữ liệu</div><div class="rt-status-value">' + (data.sources || ['VCI', 'MSN']).join(' → ') + '</div></div></div>');
+                    rows.push('<div class="rt-status-row"><span class="rt-status-icon">🗄️</span><div><div class="rt-status-label">Bộ nhớ đệm</div><div class="rt-status-value">' + (data.cached_items || 0) + ' mục · TTL ' + (data.cache_ttl || 300) + 's</div></div></div>');
+                }
+                document.getElementById('rtDetailRows').innerHTML = rows.join('');
+                if (!data.available) { dot.className = 'status-dot warn'; text.textContent = 'vnstock chưa cài'; }
+                else if (data.connected) {
+                    dot.className = 'status-dot ok'; text.textContent = 'Thời gian thực sẵn sàng';
+                    document.getElementById('rtBadge').style.display = 'inline-block';
+                    const lb = document.getElementById('lastUpdateBadge');
+                    lb.style.display = 'flex'; lb.className = 'last-update live';
+                    document.getElementById('lastUpdateTime').textContent = new Date().toLocaleTimeString('vi-VN');
+                } else { dot.className = 'status-dot err'; text.textContent = 'Kết nối thất bại'; }
+            }).catch(() => { dot.className = 'status-dot err'; text.textContent = 'Kiểm tra trạng thái thất bại'; });
+        }
+
+        function xoaCache() {
+            fetch('/api/realtime-cache/clear', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+                .then(r => r.json()).then(() => { hienThongBao('Bộ nhớ đệm đã được xóa ✓', 'ok'); kiemTraTrangThaiRT(); })
+                .catch(e => hienThongBao('Xóa bộ nhớ đệm thất bại: ' + e.message, 'error'));
+        }
+
+        function taiDanhSachMa() {
+            const container = document.getElementById('stockListContainer');
+            container.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--gray-400);"><i class="fas fa-spinner fa-spin"></i> Đang tải từ vnstock...</div>';
+            fetch('/api/assets').then(r => r.json()).then(data => {
+                danhSachMa = data.assets || [];
+                const soLuong = danhSachMa.length;
+                document.getElementById('stockCountBadge').textContent = soLuong;
+                document.getElementById('symbolCountLabel').textContent = soLuong.toLocaleString() + ' mã cổ phiếu (HOSE / HNX / UPCOM)';
+                hienThiDanhSachMa(danhSachMa);
+                const daChu = localStorage.getItem('vn_selected_asset');
+                if (daChu && danhSachMa.find(s => s.code === daChu)) chonMa(daChu);
+            }).catch(() => { container.innerHTML = '<div style="padding:1.5rem;text-align:center;color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Không tải được danh sách mã.</div>'; });
+        }
+
+        function hienThiDanhSachMa(dsMa) {
+            const container = document.getElementById('stockListContainer');
+            if (!dsMa.length) { container.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--gray-400);">Không tìm thấy mã nào</div>'; return; }
+            container.innerHTML = dsMa.map(s => {
+                const tenCty = s.name && s.name !== s.code ? s.name : '';
+                const san = s.exchange || '';
+                const sanB = san ? '<span class="stock-exchange">' + san + '</span>' : '';
+                const tenDong = tenCty ? '<div class="stock-company" title="' + tenCty + '">' + tenCty + '</div>' : '';
+                return '<div class="stock-item ' + (s.code === maDaChon ? 'active' : '') + '" data-code="' + s.code + '" onclick="chonMa(\'' + s.code + '\')"><div class="stock-dot"></div><div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;gap:0.4rem;"><span class="stock-code">' + s.code + '</span>' + sanB + '</div>' + tenDong + '</div></div>';
+            }).join('');
+        }
+
+        function locMa(tuKhoa) {
+            const q = tuKhoa.trim().toUpperCase();
+            if (!q) { hienThiDanhSachMa(danhSachMa); return; }
+            hienThiDanhSachMa(danhSachMa.filter(s => s.code.includes(q) || (s.name && s.name.toUpperCase().includes(q))));
+        }
+
+        function chonMa(ma) {
+            maDaChon = ma;
+            localStorage.setItem('vn_selected_asset', ma);
+            document.querySelectorAll('.stock-item').forEach(el => el.classList.toggle('active', el.dataset.code === ma));
+            const co = danhSachMa.find(s => s.code === ma) || {};
+            const tenCty = co.name && co.name !== ma ? co.name : '';
+            const display = document.getElementById('selectedStockDisplay');
+            display.classList.add('visible');
+            document.getElementById('selectedStockCode').textContent = ma;
+            const tenEl = document.getElementById('selectedStockName');
+            if (tenEl) tenEl.textContent = tenCty ? '- ' + tenCty : '';
+            taiThongTinMa(ma);
+        }
+
+        function taiThongTinMa(ma) {
+            const card = document.getElementById('stockInfoCard');
+            card.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+            fetch('/api/stock-info/' + ma).then(r => r.json()).then(info => {
+                if (!info.exists) { card.innerHTML = '<div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;"><strong style="color:var(--vn-red);font-size:1.05rem;">' + ma + '</strong><span class="live-tag"><i class="fas fa-bolt"></i> Thời gian thực</span></div><div style="color:var(--gray-500);font-size:0.78rem;margin-top:0.4rem;">Dữ liệu sẽ được lấy trực tiếp khi chạy phân tích.</div>'; return; }
+                const tenVN = info.organ_name || info.name || '';
+                const tenEN = info.en_organ_name || info.en_name || '';
+                const san = info.exchange || '';
+                const nganh = info.industry || '';
+                const dongTen = tenVN ? '<div style="grid-column:1/-1;margin-bottom:0.35rem;"><span style="color:var(--gray-500);font-size:0.78rem;">Công ty</span><br><strong style="color:var(--gray-800);font-size:0.88rem;line-height:1.4;">' + tenVN + '</strong>' + (tenEN ? '<div style="color:var(--gray-500);font-size:0.76rem;">' + tenEN + '</div>' : '') + '</div>' : '';
+                const sanB = san ? '<span style="display:inline-block;background:var(--vn-red);color:#fff;border-radius:5px;padding:0.1rem 0.45rem;font-size:0.7rem;font-weight:700;margin-left:0.3rem;">' + san + '</span>' : '';
+                card.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem 0.6rem;">' + dongTen + '<div><span style="color:var(--gray-500);font-size:0.78rem;">Mã</span><br><strong style="color:var(--vn-red);font-size:1.05rem;">' + info.code + '</strong>' + sanB + '<span class="live-tag" style="margin-left:0.3rem;"><i class="fas fa-bolt"></i> Trực tiếp</span></div>' + (nganh ? '<div><span style="color:var(--gray-500);font-size:0.78rem;">Ngành</span><br><strong style="font-size:0.85rem;">' + nganh + '</strong></div>' : '') + '</div>';
+            }).catch(() => { card.innerHTML = '<span style="color:var(--gray-500);">Không tải được thông tin</span>'; });
+        }
+
+        function capNhatModel() {
+            const agentModel = document.getElementById('agentModelInput').value.trim();
+            const graphModel = document.getElementById('graphModelInput').value.trim();
+            const successEl = document.getElementById('settingsSuccess'), errorEl = document.getElementById('settingsError');
+            successEl.style.display = errorEl.style.display = 'none';
+            if (!agentModel || !graphModel) { errorEl.textContent = 'Vui lòng nhập cả hai tên model.'; errorEl.style.display = 'block'; return; }
+            fetch('/api/update-models', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ agent_model: agentModel, graph_model: graphModel }) })
+                .then(r => r.json()).then(data => {
+                    if (data.success) { successEl.innerHTML = '<i class="fas fa-check-circle"></i> Đã lưu: văn bản=' + data.agent_model + ', thị giác=' + data.graph_model; successEl.style.display = 'block'; setTimeout(() => successEl.style.display = 'none', 4000); }
+                    else { errorEl.textContent = data.error || 'Cập nhật thất bại'; errorEl.style.display = 'block'; }
+                }).catch(e => { errorEl.textContent = 'Lỗi kết nối: ' + e.message; errorEl.style.display = 'block'; });
+        }
+
+        function resetBtn() {
+            const btn = document.getElementById('analyzeBtn');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-play"></i> Chạy phân tích <i class="fas fa-arrow-right"></i>';
+            document.getElementById('loadingOverlay').classList.remove('active');
+            resetLoadingSteps();
+        }
+
+        function chayPhanTich() {
+            if (!maDaChon) { hienThongBao('Vui lòng chọn mã cổ phiếu trước khi phân tích.', 'warn'); return; }
+            if (!keyDaLuu) { hienThongBao('Vui lòng nhập Groq API key và nhấn "Lưu API Key" trước.', 'warn'); document.getElementById('groqApiKeyInput').focus(); return; }
+            const btn = document.getElementById('analyzeBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang phân tích...';
+            document.getElementById('loadingOverlay').classList.add('active');
+            resetLoadingSteps();
+            setLoadingStep(1);
+
+            // Update step1 label with selected timeframe
+            const tfMeta = TF_META[KHUNG_THOI_GIAN] || {};
+            const step1El = document.getElementById('step1Text');
+            if (step1El) step1El.textContent = `Lấy dữ liệu ${tfMeta.label || KHUNG_THOI_GIAN}`;
+
+            fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ asset: maDaChon, timeframe: KHUNG_THOI_GIAN }) })
+                .then(r => r.json()).then(data => {
+                    if (data.error) { resetBtn(); hienThongBao(data.error, 'error'); return; }
+                    if (!data.job_id) { resetBtn(); hienThongBao('Lỗi server: không có job_id.', 'error'); return; }
+                    pollJob(data.job_id, 0);
+                }).catch(err => { resetBtn(); hienThongBao('Không kết nối được server Flask. (' + err.message + ')', 'error'); });
+        }
+
+        function pollJob(jobId, attempt) {
+            if (attempt >= 150) { resetBtn(); hienThongBao('Phân tích quá thời gian. Vui lòng thử lại.', 'error'); return; }
+            setTimeout(() => {
+                fetch('/api/analyze/status/' + jobId).then(r => r.json()).then(data => {
+                    if (typeof data.step === 'number' && data.step > _currentStep) setLoadingStep(data.step);
+                    if (data.status === 'running') { pollJob(jobId, attempt + 1); return; }
+                    setLoadingStep(7);
+                    setTimeout(() => {
+                        resetBtn();
+                        const result = data.result || {};
+                        if (data.status === 'error' || result.error) { hienThongBao(result.error || 'Lỗi không xác định.', 'error'); return; }
+                        if (result.redirect) {
+                            sessionStorage.setItem('analysisResults', JSON.stringify(result));
+                            window.location.href = result.redirect;
+                        }
+                    }, 600);
+                }).catch(err => { resetBtn(); hienThongBao('Lỗi poll: ' + err.message, 'error'); });
+            }, 2000);
+        }
+
+        function lamMoiTatCa() { kiemTraGroq(); kiemTraTrangThaiRT(); }
+
+        function hienThongBao(noi_dung, loai) {
+            const cu = document.getElementById('toastMsg'); if (cu) cu.remove();
+            const cls = loai === 'error' ? 'alert-danger' : loai === 'warn' ? 'alert-warning' : 'alert-success';
+            const el = document.createElement('div');
+            el.id = 'toastMsg'; el.className = 'alert ' + cls;
+            el.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;z-index:99999;min-width:280px;max-width:420px;box-shadow:0 8px 24px rgba(0,0,0,0.15);';
+            el.innerHTML = noi_dung; document.body.appendChild(el);
+            setTimeout(() => el.remove(), 6000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTimeframeSelector();
+            kiemTraGroq(); kiemTraTrangThaiRT(); taiDanhSachMa();
+            if (localStorage.getItem('groq_key_set') === '1') keyDaLuu = true;
+            setInterval(kiemTraTrangThaiRT, 5 * 60 * 1000);
+        });
+    </script>
+</body>
+
+</html>

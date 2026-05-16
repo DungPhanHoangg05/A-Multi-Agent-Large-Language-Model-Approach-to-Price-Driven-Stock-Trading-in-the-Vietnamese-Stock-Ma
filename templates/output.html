@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantAgent VN - Kết Quả Phân Tích</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --vn-red: #C41E3A;
+            --vn-red-light: #E8294E;
+            --vn-red-dark: #8B1528;
+            --vn-gold: #F5A623;
+            --vn-gold-light: #FBBF24;
+            --vn-bg: #FFF5F5;
+            --white: #ffffff;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --green-500: #22c55e;
+            --green-100: #dcfce7;
+            --green-800: #166534;
+            --red-500: #ef4444;
+            --red-100: #fee2e2;
+            --red-800: #991b1b;
+            --amber-500: #f59e0b;
+            --amber-100: #fef3c7;
+            --amber-800: #92400e;
+            --blue-500: #3b82f6;
+            --blue-100: #eff6ff;
+            --blue-800: #1e40af;
+            --purple-500: #8b5cf6;
+            --indigo-500: #6366f1;
+            --teal-500: #14b8a6;
+            --teal-100: #ccfbf1;
+            --teal-600: #0d9488;
+            --teal-800: #115e59;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--vn-bg);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .main-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(196, 30, 58, 0.15);
+            margin: 1.5rem auto;
+            max-width: 1240px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--vn-red-dark) 0%, var(--vn-red) 60%, var(--vn-red-light) 100%);
+            color: var(--white);
+            padding: 2.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="g" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.08"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.08"/></pattern></defs><rect width="100" height="100" fill="url(%23g)"/></svg>');
+            opacity: 0.4;
+        }
+
+        .header>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .header-sub {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+
+        .meta-pills {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .meta-pill {
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 20px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 0.6rem 1.4rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .stat-item {
+            padding: 1.1rem 1.25rem;
+            text-align: center;
+            border-right: 1px solid var(--gray-100);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--vn-red);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-500);
+            margin-top: 0.3rem;
+        }
+
+        .stat-value.long {
+            color: #16a34a;
+        }
+
+        .stat-value.short {
+            color: #dc2626;
+        }
+
+        .results-section {
+            padding: 2rem;
+        }
+
+        .decision-banner {
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .decision-long {
+            background: linear-gradient(135deg, #14532d 0%, #16a34a 100%);
+        }
+
+        .decision-short {
+            background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);
+        }
+
+        .decision-na {
+            background: linear-gradient(135deg, #374151 0%, #6b7280 100%);
+        }
+
+        .decision-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="p" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.06"/></pattern></defs><rect width="100" height="100" fill="url(%23p)"/></svg>');
+        }
+
+        .decision-banner>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .decision-main {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .decision-icon {
+            font-size: 3.5rem;
+        }
+
+        .decision-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .decision-text {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .decision-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .decision-meta-item {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .rr-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 0.4rem 0.9rem;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .alpha-consensus-badge {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 0.4rem 0.9rem;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .justification-box {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-left: 4px solid var(--vn-red);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .justification-box h5 {
+            color: var(--vn-red);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .justification-box p {
+            color: var(--gray-700);
+            font-size: 0.92rem;
+            line-height: 1.75;
+        }
+
+        .agent-panel {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .agent-panel:hover {
+            border-color: var(--vn-red-light);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.1);
+        }
+
+        .agent-panel-header {
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 2px solid var(--gray-100);
+            background: linear-gradient(135deg, #fff 0%, #FFF5F5 100%);
+        }
+
+        .agent-panel-header.teal-bg {
+            background: linear-gradient(135deg, #fff 0%, #f0fdfa 100%);
+        }
+
+        .agent-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .agent-icon-red {
+            background: linear-gradient(135deg, var(--vn-red), var(--vn-red-dark));
+            color: #fff;
+        }
+
+        .agent-icon-gold {
+            background: linear-gradient(135deg, #d97706, #92400e);
+            color: #fff;
+        }
+
+        .agent-icon-blue {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #fff;
+        }
+
+        .agent-icon-purple {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: #fff;
+        }
+
+        .agent-icon-teal {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            color: #fff;
+        }
+
+        .agent-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--vn-red);
+        }
+
+        .agent-title.teal {
+            color: var(--teal-600);
+        }
+
+        .agent-subtitle {
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            margin-top: 0.1rem;
+        }
+
+        .agent-panel-body {
+            padding: 1.5rem 2rem;
+        }
+
+        .agent-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .alpha-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .alpha-card {
+            background: var(--gray-50);
+            border: 1.5px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 1.1rem 1.2rem;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alpha-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .alpha-card.long::before {
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+        }
+
+        .alpha-card.short::before {
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+        }
+
+        .alpha-card.neutral::before {
+            background: linear-gradient(90deg, #6b7280, #9ca3af);
+        }
+
+        .alpha-card:hover {
+            border-color: var(--vn-red-light);
+            box-shadow: 0 4px 14px rgba(196, 30, 58, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .alpha-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.65rem;
+        }
+
+        .alpha-number {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gray-500);
+        }
+
+        .alpha-name {
+            font-weight: 800;
+            color: var(--gray-800);
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .alpha-signal {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.22rem 0.65rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .alpha-signal.long {
+            background: var(--green-100);
+            color: var(--green-800);
+        }
+
+        .alpha-signal.short {
+            background: var(--red-100);
+            color: var(--red-800);
+        }
+
+        .alpha-signal.neutral {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+
+        .alpha-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            padding: 0.4rem 0.6rem;
+            margin: 0.5rem 0;
+            color: var(--vn-red-dark);
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        .alpha-value {
+            font-size: 0.82rem;
+            color: var(--gray-600);
+            margin: 0.3rem 0;
+        }
+
+        .alpha-value strong {
+            color: var(--gray-800);
+        }
+
+        .alpha-edge {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+            margin-top: 0.4rem;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 0.4rem;
+        }
+
+        .alpha-raw-content {
+            font-size: 0.92rem;
+            line-height: 1.8;
+            color: var(--gray-700);
+        }
+
+        .alpha-consensus-section {
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 1.5px solid #fde68a;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .consensus-label {
+            font-weight: 700;
+            color: #92400e;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .consensus-bar-wrap {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .consensus-bar-track {
+            background: var(--gray-200);
+            border-radius: 6px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .consensus-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.6s ease;
+        }
+
+        .consensus-bar-fill.majority-long {
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+        }
+
+        .consensus-bar-fill.majority-short {
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+        }
+
+        .consensus-bar-fill.mixed {
+            background: linear-gradient(90deg, #6b7280, #9ca3af);
+        }
+
+        .consensus-text {
+            font-size: 0.85rem;
+            color: #92400e;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ── Sentiment Panel ────────────────────────────────────────────────── */
+        .sentiment-summary {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border: 1.5px solid #99f6e4;
+            border-radius: 14px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .sentiment-score-badge {
+            text-align: center;
+        }
+
+        .sentiment-score-num {
+            font-size: 2.4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .sentiment-score-num.positive {
+            color: #059669;
+        }
+
+        .sentiment-score-num.negative {
+            color: #dc2626;
+        }
+
+        .sentiment-score-num.neutral {
+            color: #6b7280;
+        }
+
+        .sentiment-label-text {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.2rem;
+        }
+
+        .sentiment-stat-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .sentiment-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fff;
+            border-radius: 10px;
+            padding: 0.5rem 0.8rem;
+            min-width: 64px;
+            border: 1px solid #99f6e4;
+        }
+
+        .sentiment-stat-val {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .sentiment-stat-lbl {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            color: var(--gray-500);
+        }
+
+        .sentiment-bar-section {
+            flex: 1;
+        }
+
+        .sentiment-bar-label {
+            font-size: 0.78rem;
+            color: var(--teal-600);
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .sent-bar-track {
+            background: var(--gray-200);
+            border-radius: 6px;
+            height: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sent-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+
+        .sent-bar-fill.pos {
+            background: linear-gradient(90deg, #059669, #34d399);
+        }
+
+        .sent-bar-fill.neg {
+            background: linear-gradient(90deg, #dc2626, #f87171);
+        }
+
+        .sent-bar-fill.neu {
+            background: linear-gradient(90deg, #6b7280, #9ca3af);
+        }
+
+        .visobert-badge {
+            background: var(--teal-100);
+            border: 1px solid #5eead4;
+            border-radius: 8px;
+            padding: 0.25rem 0.65rem;
+            font-size: 0.73rem;
+            font-weight: 700;
+            color: var(--teal-600);
+            white-space: nowrap;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .related-card {
+            background: var(--gray-50);
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0.65rem 0.8rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .related-card:hover {
+            border-color: var(--teal-500);
+            transform: translateY(-1px);
+        }
+
+        .related-card-code {
+            font-family: monospace;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--gray-800);
+        }
+
+        .related-card-score {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-top: 0.2rem;
+        }
+
+        .related-card-score.pos {
+            color: #059669;
+        }
+
+        .related-card-score.neg {
+            color: #dc2626;
+        }
+
+        .related-card-score.neu {
+            color: var(--gray-500);
+        }
+
+        .related-card-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--gray-400);
+        }
+
+        .sentiment-report-text {
+            font-size: 0.92rem;
+            line-height: 1.8;
+            color: var(--gray-700);
+            margin-top: 1.25rem;
+        }
+
+        /* ── Normalized Sentiment Variables ──────────────────────────────── */
+        .sentiment-norm-section {
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 1.5px solid #fde047;
+            border-radius: 14px;
+        }
+
+        .sentiment-norm-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #92400e;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .norm-reliable-badge {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+            border-radius: 6px;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .norm-warn-badge {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .norm-why-box {
+            background: #fff;
+            border: 1px solid #fde047;
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.82rem;
+            color: #78350f;
+            line-height: 1.6;
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .norm-vars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .norm-var-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 0.85rem;
+            border: 2px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .norm-var-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .norm-var-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .norm-var-card.var-positive::before {
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+        }
+
+        .norm-var-card.var-negative::before {
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+        }
+
+        .norm-var-card.var-neutral::before {
+            background: linear-gradient(90deg, #6b7280, #9ca3af);
+        }
+
+        .nv-name {
+            font-family: 'Courier New', monospace;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #92400e;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.3rem;
+        }
+
+        .nv-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .var-positive .nv-value {
+            color: #16a34a;
+        }
+
+        .var-negative .nv-value {
+            color: #dc2626;
+        }
+
+        .var-neutral .nv-value {
+            color: #6b7280;
+        }
+
+        .nv-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            background: #f3f4f6;
+            border-radius: 4px;
+            padding: 0.15rem 0.4rem;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .nv-desc {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 0.4rem;
+        }
+
+        .nv-usage {
+            font-size: 0.72rem;
+            color: #92400e;
+            line-height: 1.5;
+            background: #fefce8;
+            border-radius: 6px;
+            padding: 0.3rem 0.5rem;
+            border-left: 3px solid #fbbf24;
+        }
+
+        .nv-usage code {
+            background: #fef3c7;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #92400e;
+        }
+
+        .norm-article-note {
+            font-size: 0.78rem;
+            color: #78350f;
+            background: #fff;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: var(--vn-red-light);
+            box-shadow: 0 8px 24px rgba(196, 30, 58, 0.1);
+        }
+
+        .panel-title {
+            color: var(--vn-red);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-title.teal {
+            color: var(--teal-600);
+            border-color: #ccfbf1;
+        }
+
+        .panel-title i {
+            color: var(--vn-red-light);
+        }
+
+        .auto-beautify {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--gray-700);
+        }
+
+        .auto-beautify h1,
+        .auto-beautify h2,
+        .auto-beautify h3,
+        .auto-beautify h4,
+        .auto-beautify h5,
+        .auto-beautify h6 {
+            color: var(--vn-red);
+            font-weight: 700;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .auto-beautify p {
+            margin-bottom: 0.75rem;
+        }
+
+        .auto-beautify ul,
+        .auto-beautify ol {
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .auto-beautify li {
+            margin-bottom: 0.3rem;
+        }
+
+        .auto-beautify strong {
+            color: var(--vn-red-dark);
+            font-weight: 700;
+        }
+
+        .auto-beautify em {
+            color: var(--vn-red-light);
+            font-style: italic;
+        }
+
+        .auto-beautify code {
+            background: var(--gray-100);
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--vn-red);
+        }
+
+        .image-container {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .analysis-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .chart-caption {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .img-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 220px;
+            border: 2px dashed var(--gray-300);
+            border-radius: 10px;
+            color: var(--gray-400);
+            font-size: 0.88rem;
+            gap: 0.5rem;
+        }
+
+        .img-placeholder i {
+            font-size: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .alpha-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .agent-panel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sentiment-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 0.5rem;
+                border-radius: 12px;
+            }
+
+            .results-section {
+                padding: 1.25rem 1rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-item:nth-child(2) {
+                border-right: none;
+            }
+
+            .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .decision-banner {
+                flex-direction: column;
+            }
+
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .agent-panel-body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+
+        <!-- Tiêu đề -->
+        <div class="header">
+            <div class="header-inner">
+                <div>
+                    <div class="header-brand">
+                        <div>
+                            <div class="header-title">QuantAgent VN</div>
+                            <div class="header-sub">Kết quả phân tích kỹ thuật đa tác nhân</div>
+                        </div>
+                    </div>
+                    <div class="meta-pills">
+                        <span class="meta-pill"><i class="fas fa-chart-candlestick"></i> {{ results.asset_name if
+                            results.asset_name else 'N/A' }}</span>
+                        <span class="meta-pill"><i class="fas fa-clock"></i> {{ results.timeframe if results.timeframe
+                            else 'N/A' }}</span>
+                        <span class="meta-pill"><i class="fas fa-database"></i> {{ results.data_length if
+                            results.data_length else 0 }} nến</span>
+                        <span class="meta-pill"><i class="fas fa-robot"></i> 5 tác nhân</span>
+                        <span class="meta-pill"><i class="fas fa-newspaper"></i> Sentiment AI</span>
+                    </div>
+                </div>
+                <a href="/demo" class="btn-back"><i class="fas fa-arrow-left"></i> Phân tích mới</a>
+            </div>
+        </div>
+
+        <!-- Thanh thống kê -->
+        {% set dv = results.final_decision.decision if results.final_decision and
+        results.final_decision.decision else
+        'N/A' %}
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">{{ results.data_length if results.data_length else '-' }}</div>
+                <div class="stat-label">Số nến phân tích</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ results.timeframe if results.timeframe else '-' }}</div>
+                <div class="stat-label">Khung thời gian</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ results.asset_name if results.asset_name else '-' }}</div>
+                <div class="stat-label">Mã cổ phiếu</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value {{ dv.lower() if dv in ['LONG','SHORT'] else '' }}">{{ dv }}</div>
+                <div class="stat-label">Quyết định</div>
+            </div>
+        </div>
+
+        <div class="results-section">
+
+            <!-- Quyết định giao dịch -->
+            <div class="decision-banner decision-{{ dv.lower() if dv in ['LONG','SHORT'] else 'na' }}">
+                <div class="decision-main">
+                    <div class="decision-icon">
+                        {% if dv == 'LONG' %}📈{% elif dv == 'SHORT' %}📉{% else %}❓{% endif %}
+                    </div>
+                    <div>
+                        <div class="decision-label">Quyết định giao dịch cuối cùng</div>
+                        <div class="decision-text">{{ dv }}</div>
+                    </div>
+                </div>
+                <div class="decision-meta">
+                    {% if results.final_decision and results.final_decision.risk_reward_ratio %}
+                    <div class="decision-meta-item">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>Tỷ lệ R:R:</span>
+                        <div class="rr-badge">{{ results.final_decision.risk_reward_ratio }}</div>
+                    </div>
+                    {% endif %}
+                    {% if results.final_decision and results.final_decision.confidence %}
+                    <div class="decision-meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>Độ tự tin: <strong>{{ results.final_decision.confidence }}</strong></span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if results.final_decision and results.final_decision.justification and
+            results.final_decision.justification != 'N/A' %}
+            <div class="justification-box">
+                <h5><i class="fas fa-lightbulb"></i> Cơ sở quyết định</h5>
+                <p>{{ results.final_decision.justification }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Tác nhân Chỉ báo -->
+            <div class="agent-panel" style="margin-top:2rem;">
+                <div class="agent-panel-header">
+                    <div class="agent-icon-wrap agent-icon-red"><i class="fas fa-chart-bar"></i></div>
+                    <div>
+                        <div class="agent-title">Tác nhân Chỉ báo</div>
+                        <div class="agent-subtitle">llama-3.1-8b-instant · MACD · RSI · Stochastic · Williams %R · ROC
+                        </div>
+                    </div>
+                </div>
+                <div class="agent-panel-body">
+                    {% if results.technical_indicators %}
+                    <div class="auto-beautify" id="indicatorContent">{{ results.technical_indicators | safe }}</div>
+                    {% else %}
+                    <div style="color:var(--gray-400);text-align:center;padding:2rem;">
+                        <i class="fas fa-chart-bar" style="font-size:2rem;margin-bottom:0.5rem;display:block;"></i>Không
+                        có dữ liệu chỉ báo
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Tác nhân Alpha (bao gồm Sentiment) -->
+            <div class="agent-panel">
+                <div class="agent-panel-header">
+                    <div class="agent-icon-wrap agent-icon-gold"><i class="fas fa-flask"></i></div>
+                    <div>
+                        <div class="agent-title">Tác nhân Alpha</div>
+                        <div class="agent-subtitle">llama-3.1-8b-instant · Sentiment CafeF · ViSoBERT</div>
+                    </div>
+                </div>
+                <div class="agent-panel-body">
+
+                    <!-- ── Phần Sentiment (dữ liệu đầu vào cho Alpha) ────────────────── -->
+                    {% set sd = results.sentiment_data if results.sentiment_data else {} %}
+                    {% set ms = sd.main_sentiment if sd.main_sentiment else {} %}
+                    {% if ms %}
+                    <div style="margin-bottom:1.25rem;">
+                        <div
+                            style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--teal-600);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+                            <i class="fas fa-newspaper"></i> Dữ liệu Sentiment (CafeF · ViSoBERT)
+                        </div>
+                        {% set avg_score = ms.avg_score if ms.avg_score else 0 %}
+                        {% set s_label = ms.label if ms.label else 'neutral' %}
+                        {% set art_count = ms.article_count if ms.article_count else 0 %}
+                        {% set pos_count = ms.positive if ms.positive else 0 %}
+                        {% set neg_count = ms.negative if ms.negative else 0 %}
+                        {% set neu_count = ms.neutral_count if ms.neutral_count else 0 %}
+                        {% set pos_pct = ((pos_count / art_count * 100) | int) if art_count > 0 else 0 %}
+                        {% set neg_pct = ((neg_count / art_count * 100) | int) if art_count > 0 else 0 %}
+
+                        <div class="sentiment-summary">
+                            <div class="sentiment-score-badge">
+                                <div class="sentiment-score-num {{ s_label }}">
+                                    {% if avg_score >= 0 %}+{% endif %}{{ "%.3f"|format(avg_score) }}
+                                </div>
+                                <div class="sentiment-label-text"
+                                    style="color:{% if s_label == 'positive' %}#059669{% elif s_label == 'negative' %}#dc2626{% else %}#6b7280{% endif %};">
+                                    {% if s_label == 'positive' %}🟢 TÍCH CỰC{% elif s_label == 'negative' %}🔴 TIÊU
+                                    CỰC{% else %}⚪ TRUNG TÍNH{% endif %}
+                                </div>
+                                <div style="margin-top:0.5rem;">
+                                    <span class="visobert-badge"><i class="fas fa-brain"></i> {{ sd.model_used if
+                                        sd.model_used else 'ViSoBERT' }}</span>
+                                </div>
+                            </div>
+
+                            <div class="sentiment-bar-section">
+                                <div class="sentiment-bar-label">Phân bổ bài báo - {{ art_count }} bài</div>
+                                <div
+                                    style="display:flex;gap:0.5rem;margin-bottom:0.5rem;font-size:0.78rem;font-weight:700;">
+                                    <span style="color:#059669;">🟢 Tích cực: {{ pos_count }} ({{ pos_pct }}%)</span>
+                                    <span style="color:#6b7280;">⚪ Trung tính: {{ neu_count }}</span>
+                                    <span style="color:#dc2626;">🔴 Tiêu cực: {{ neg_count }}</span>
+                                </div>
+                                <div class="sent-bar-track">
+                                    <div class="sent-bar-fill pos" style="width:{{ pos_pct }}%;"></div>
+                                </div>
+                                <div style="margin-top:0.4rem;" class="sent-bar-track">
+                                    <div class="sent-bar-fill neg" style="width:{{ neg_pct }}%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="sentiment-stat-row">
+                                <div class="sentiment-stat">
+                                    <span class="sentiment-stat-val" style="color:#059669;">{{ pos_count }}</span>
+                                    <span class="sentiment-stat-lbl">Tích cực</span>
+                                </div>
+                                <div class="sentiment-stat">
+                                    <span class="sentiment-stat-val" style="color:#6b7280;">{{ neu_count }}</span>
+                                    <span class="sentiment-stat-lbl">Trung tính</span>
+                                </div>
+                                <div class="sentiment-stat">
+                                    <span class="sentiment-stat-val" style="color:#dc2626;">{{ neg_count }}</span>
+                                    <span class="sentiment-stat-lbl">Tiêu cực</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if sd.related_sentiment %}
+                        <div style="margin-bottom:0.75rem;">
+                            <div style="font-weight:700;color:var(--teal-600);font-size:0.88rem;margin-bottom:0.45rem;">
+                                <i class="fas fa-sitemap"></i> Công ty liên quan (top {{ sd.related_companies|length if
+                                sd.related_companies else 0 }})
+                            </div>
+                            <div class="related-grid">
+                                {% for co, cs in sd.related_sentiment.items() %}
+                                {% set cs_score = cs.avg_score if cs.avg_score else 0 %}
+                                {% set cs_label = cs.label if cs.label else 'neutral' %}
+                                <div class="related-card">
+                                    <div class="related-card-code">{{ co }}</div>
+                                    <div class="related-card-score {{ cs_label }}">
+                                        {% if cs_score >= 0 %}+{% endif %}{{ "%.3f"|format(cs_score) }}
+                                    </div>
+                                    <div class="related-card-label">
+                                        {% if cs_label == 'positive' %}🟢 TC{% elif cs_label == 'negative' %}🔴 TT{%
+                                        else %}⚪ Trung{% endif %}
+                                        · {{ cs.article_count if cs.article_count else 0 }} bài
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if results.sentiment_analysis %}
+                        <div class="auto-beautify sentiment-report-text" id="sentimentContent"
+                            style="margin-bottom:0.5rem;">{{ results.sentiment_analysis | safe }}</div>
+                        {% endif %}
+
+                        <!-- ── Biến Sentiment đã chuẩn hóa (dùng trong Alpha) ── -->
+                        {% set sn = results.sentiment_norm if results.sentiment_norm else
+                        (results.sentiment_data.sentiment_norm if results.sentiment_data and
+                        results.sentiment_data.sentiment_norm else {}) %}
+                        {% set rn = results.sentiment_data.related_norm if results.sentiment_data and
+                        results.sentiment_data.related_norm else {} %}
+                        {% if sn %}
+                        <div class="sentiment-norm-section">
+                            <div class="sentiment-norm-title">
+                                <i class="fas fa-calculator"></i> Biến Sentiment đã chuẩn hóa - Đầu vào cho Alpha
+                                {% if sn.is_reliable %}
+                                <span class="norm-reliable-badge"><i class="fas fa-check-circle"></i> Tin cậy</span>
+                                {% else %}
+                                <span class="norm-warn-badge"><i class="fas fa-exclamation-triangle"></i> Thấp - ít
+                                    bài</span>
+                                {% endif %}
+                            </div>
+                            <!-- 2 biến chính -->
+                            <div class="norm-vars-grid" style="grid-template-columns:1fr 1fr;">
+                                <div
+                                    class="norm-var-card {% if sn.z_score > 0.5 %}var-positive{% elif sn.z_score < -0.5 %}var-negative{% else %}var-neutral{% endif %}">
+                                    <div class="nv-name">SENT_ZSCORE</div>
+                                    <div class="nv-value">{{ "%+.4f"|format(sn.z_score) }}</div>
+                                    <div class="nv-formula">(avg − μ_lô) / (σ_lô + ε)</div>
+                                    <div class="nv-desc">
+                                        Chuẩn hóa điểm trung bình theo độ lệch chuẩn lô bài.<br>
+                                        <strong>≈ 0</strong> = tin tức bình thường (không phải trung tính).<br>
+                                        <strong>&gt; +1.5</strong> = tin bất thường tích cực.<br>
+                                        <strong>&lt; −1.5</strong> = tin bất thường tiêu cực.
+                                    </div>
+                                    <div class="nv-usage">Dùng phát hiện tin bất thường:
+                                        <code>sign(SENT_ZSCORE) × tanh(|SENT_ZSCORE|) × kỹ_thuật</code>
+                                    </div>
+                                </div>
+                                <div
+                                    class="norm-var-card {% if sn.rel_sentiment > 0.05 %}var-positive{% elif sn.rel_sentiment < -0.05 %}var-negative{% else %}var-neutral{% endif %}">
+                                    <div class="nv-name">REL_SENTIMENT</div>
+                                    <div class="nv-value">{{ "%+.4f"|format(sn.rel_sentiment) }}</div>
+                                    <div class="nv-formula">avg_target − avg_ngành</div>
+                                    <div class="nv-desc">
+                                        So sánh tương đối với sentiment trung bình ngành.<br>
+                                        <strong>&gt; 0</strong> = cổ phiếu outperform ngành về tin tức.<br>
+                                        <strong>&lt; 0</strong> = cổ phiếu underperform ngành.<br>
+                                        Market-wide bias tự triệt tiêu qua phép trừ.
+                                    </div>
+                                    <div class="nv-usage">Dùng trong long-short:
+                                        <code>REL_SENTIMENT × momentum_score</code>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Related company z-scores -->
+                            {% if rn %}
+                            <div style="margin-top:1rem;">
+                                <div
+                                    style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#92400e;margin-bottom:0.5rem;">
+                                    <i class="fas fa-sitemap"></i> SENT_ZSCORE Công ty liên quan - Cross-Sector Alpha
+                                </div>
+                                <div
+                                    style="font-size:0.78rem;color:#78350f;background:#fff;border:1px solid #fde047;border-radius:8px;padding:0.5rem 0.8rem;margin-bottom:0.6rem;">
+                                    Ký hiệu trong công thức alpha: <code
+                                        style="background:#fef3c7;padding:0.1rem 0.3rem;border-radius:3px;font-family:monospace;color:#92400e;">ZSCORE_[MÃ]</code>
+                                    - ví dụ: <code
+                                        style="background:#fef3c7;padding:0.1rem 0.3rem;border-radius:3px;font-family:monospace;color:#92400e;">ZSCORE_VHM</code>,
+                                    <code
+                                        style="background:#fef3c7;padding:0.1rem 0.3rem;border-radius:3px;font-family:monospace;color:#92400e;">ZSCORE_ACB</code>.
+                                    Dùng để phát hiện divergence ngành.
+                                </div>
+                                <div
+                                    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.5rem;">
+                                    {% for co, d in rn.items() %}
+                                    <div
+                                        style="background:#fff;border:1.5px solid {% if d.z_score > 0.5 %}#86efac{% elif d.z_score < -0.5 %}#fca5a5{% else %}#e5e7eb{% endif %};border-radius:10px;padding:0.6rem 0.75rem;text-align:center;position:relative;overflow:hidden;">
+                                        <div
+                                            style="position:absolute;top:0;left:0;right:0;height:3px;background:{% if d.z_score > 0.5 %}linear-gradient(90deg,#16a34a,#22c55e){% elif d.z_score < -0.5 %}linear-gradient(90deg,#dc2626,#ef4444){% else %}linear-gradient(90deg,#6b7280,#9ca3af){% endif %};">
+                                        </div>
+                                        <div
+                                            style="font-family:monospace;font-weight:800;font-size:0.88rem;color:var(--gray-800);">
+                                            {{ co }}</div>
+                                        <div
+                                            style="font-size:1.1rem;font-weight:900;color:{% if d.z_score > 0.5 %}#16a34a{% elif d.z_score < -0.5 %}#dc2626{% else %}#6b7280{% endif %};">
+                                            {{ "%+.3f"|format(d.z_score) }}
+                                        </div>
+                                        <div style="font-size:0.65rem;color:var(--gray-400);margin-top:0.15rem;">
+                                            {% if d.is_reliable %}✓{% else %}⚠{% endif %} {{ d.article_count }} bài
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div
+                        style="height:2px;background:linear-gradient(90deg,var(--vn-red-light),transparent);border-radius:2px;margin-bottom:1.25rem;">
+                    </div>
+
+                    <!-- ── Phần Alpha (công thức do LLM tạo) ──────────────────────── -->
+                    <div
+                        style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--vn-red);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;">
+                        <i class="fas fa-flask"></i> Nhân tố Alpha
+                    </div>
+
+                    {% else %}
+                    <!-- No sentiment data - show note -->
+                    <div
+                        style="background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:0.85rem;color:#78350f;">
+                        <i class="fas fa-exclamation-triangle"></i> Không có dữ liệu sentiment - alpha được tạo
+                        thuần kỹ
+                        thuật.
+                    </div>
+                    {% endif %}
+
+                    {% if results.alpha_analysis %}
+                    <div id="alphaContent">{{ results.alpha_analysis | safe }}</div>
+                    {% else %}
+                    <div style="color:var(--gray-400);text-align:center;padding:2rem;">
+                        <i class="fas fa-flask" style="font-size:2rem;margin-bottom:0.5rem;display:block;"></i>Không
+                        có
+                        dữ liệu nhân tố alpha
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Tác nhân Mô hình nến -->
+            <div class="agent-panel">
+                <div class="agent-panel-header">
+                    <div class="agent-icon-wrap agent-icon-blue"><i class="fas fa-brain"></i></div>
+                    <div>
+                        <div class="agent-title">Tác nhân Mô hình nến</div>
+                        <div class="agent-subtitle">llama-4-scout · Vision analysis</div>
+                    </div>
+                </div>
+                <div class="agent-panel-body">
+                    <div class="agent-panel-grid">
+                        <div class="panel">
+                            <h4 class="panel-title"><i class="fas fa-search"></i> Phân tích mô hình</h4>
+                            {% if results.pattern_analysis %}
+                            <div class="auto-beautify" id="patternContent">{{ results.pattern_analysis | safe }}
+                            </div>
+                            {% else %}
+                            <div style="color:var(--gray-400);padding:1rem;text-align:center;">Không có dữ liệu
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="panel">
+                            <h4 class="panel-title"><i class="fas fa-chart-area"></i> Biểu đồ nến Nhật</h4>
+                            <div class="image-container">
+                                {% if results.pattern_chart %}
+                                <img src="data:image/png;base64,{{ results.pattern_chart }}" alt="Biểu đồ mô hình"
+                                    class="analysis-image" id="patternChart">
+                                {% else %}
+                                <img src="/api/images/pattern" alt="Biểu đồ mô hình" class="analysis-image"
+                                    id="patternChart"
+                                    onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i>Biểu đồ không có sẵn</div>'">
+                                {% endif %}
+                                <p class="chart-caption">Biểu đồ nến Nhật - {{ results.asset_name if
+                                    results.asset_name
+                                    else '' }} · {{ results.timeframe if results.timeframe else '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tác nhân Xu hướng -->
+            <div class="agent-panel">
+                <div class="agent-panel-header">
+                    <div class="agent-icon-wrap agent-icon-purple"><i class="fas fa-chart-line"></i></div>
+                    <div>
+                        <div class="agent-title">Tác nhân Xu hướng</div>
+                        <div class="agent-subtitle">llama-4-scout · Vision analysis · Hỗ trợ &amp; Kháng cự</div>
+                    </div>
+                </div>
+                <div class="agent-panel-body">
+                    <div class="agent-panel-grid">
+                        <div class="panel">
+                            <h4 class="panel-title"><i class="fas fa-arrow-trend-up"></i> Phân tích xu hướng</h4>
+                            {% if results.trend_analysis %}
+                            <div class="auto-beautify" id="trendContent">{{ results.trend_analysis | safe }}</div>
+                            {% else %}
+                            <div style="color:var(--gray-400);padding:1rem;text-align:center;">Không có dữ liệu
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="panel">
+                            <h4 class="panel-title"><i class="fas fa-wave-square"></i> Biểu đồ xu hướng</h4>
+                            <div class="image-container">
+                                {% if results.trend_chart %}
+                                <img src="data:image/png;base64,{{ results.trend_chart }}" alt="Biểu đồ xu hướng"
+                                    class="analysis-image" id="trendChart">
+                                {% else %}
+                                <img src="/api/images/trend" alt="Biểu đồ xu hướng" class="analysis-image"
+                                    id="trendChart"
+                                    onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i>Biểu đồ không có sẵn</div>'">
+                                {% endif %}
+                                <p class="chart-caption">
+                                    <span style="color:#3b82f6;">■</span> Hỗ trợ &nbsp;
+                                    <span style="color:#ef4444;">■</span> Kháng cự -
+                                    {{ results.asset_name if results.asset_name else '' }} · {{ results.timeframe if
+                                    results.timeframe else '' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nút quay lại -->
+            <div style="text-align:center;margin-top:1.5rem;">
+                <a href="/demo"
+                    style="display:inline-flex;align-items:center;gap:0.6rem;background:var(--vn-red);color:#fff;padding:0.9rem 2.5rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 6px 20px rgba(196,30,58,0.3);transition:background 0.25s;"
+                    onmouseover="this.style.background='var(--vn-red-dark)'"
+                    onmouseout="this.style.background='var(--vn-red)'">
+                    <i class="fas fa-arrow-left"></i> Phân tích mã khác
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Khôi phục ảnh base64 từ sessionStorage
+            const raw = sessionStorage.getItem('analysisResults');
+            if (raw) {
+                try {
+                    const data = JSON.parse(raw);
+                    if (data.pattern_chart) {
+                        const img = document.getElementById('patternChart');
+                        if (img) img.src = `data:image/png;base64,${data.pattern_chart}`;
+                    }
+                    if (data.trend_chart) {
+                        const img = document.getElementById('trendChart');
+                        if (img) img.src = `data:image/png;base64,${data.trend_chart}`;
+                    }
+                    sessionStorage.removeItem('analysisResults');
+                } catch (e) { console.warn('Lỗi phân tích sessionStorage:', e); }
+            }
+
+            // Render Markdown
+            ['indicatorContent', 'patternContent', 'trendContent', 'sentimentContent'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const rawHtml = el.innerHTML;
+                try {
+                    const decoded = rawHtml
+                        .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+                        .replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+                    const toRender = (id === 'trendContent' && !decoded.includes('**'))
+                        ? normalizeTrendPlainText(decoded)
+                        : decoded;
+                    el.innerHTML = marked.parse(toRender);
+                } catch (e) { console.warn('Lỗi marked [' + id + ']:', e); }
+                el.classList.add('auto-beautify');
+            });
+
+            renderPanelAlpha();
+        });
+
+        function normalizeTrendPlainText(text) {
+            const LABELS = ['Hướng xu hướng', 'Mức hỗ trợ', 'Mức kháng cự', 'Độ dốc đường xu hướng', 'Giá so với hỗ trợ', 'Phân tích chi tiết', 'Dự đoán', 'Độ tin cậy'];
+            const escapedLabels = LABELS.map(l => l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+            const labelPattern = new RegExp('\\*{0,2}(' + escapedLabels.join('|') + ')\\*{0,2}\\s*:', 'gi');
+            const matches = [...text.matchAll(labelPattern)];
+            if (matches.length < 2) return text.split(/\s{2,}/).filter(Boolean).map(s => s.trim()).join('\n\n');
+            const segments = [];
+            matches.forEach((match, i) => {
+                const label = match[1];
+                const start = match.index + match[0].length;
+                const end = i + 1 < matches.length ? matches[i + 1].index : text.length;
+                const value = text.slice(start, end).trim().replace(labelPattern, '').trim();
+                if (value) segments.push(`**${label}:** ${value}`);
+            });
+            return segments.join('\n\n');
+        }
+
+        function renderPanelAlpha() {
+            const container = document.getElementById('alphaContent');
+            if (!container) return;
+
+            // ── Decode HTML entities ───────────────────────────────────────
+            const rawHtml = container.innerHTML;
+            let decoded;
+            try {
+                decoded = rawHtml
+                    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                    .replace(/&amp;/g, '&').replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, "'");
+            } catch (e) {
+                decoded = container.innerText || container.textContent || '';
+            }
+
+            if (!decoded.trim()) return;
+
+            // ── Extract CONSENSUS line for the badge ──────────────────────
+            const consensusMatch = decoded.match(/^TỔNG HỢP\s*:\s*(.+)$/im);
+            const consensusLine = consensusMatch ? consensusMatch[1].trim() : null;
+            const textForRender = decoded.replace(/^TỔNG HỢP\s*:.*$/im, '').trim();
+
+            // ── Render as markdown (same as indicator agent) ───────────────
+            let rendered = '';
+            try {
+                rendered = marked.parse(textForRender);
+            } catch (e) {
+                console.warn('marked error in alphaContent:', e);
+                rendered = `<div style="white-space:pre-wrap;">${textForRender}</div>`;
+            }
+
+            // ── Build consensus bar from parsed CONSENSUS line ─────────────
+            let consensusHtml = '';
+            if (consensusLine) {
+                const upper = consensusLine.toUpperCase();
+                let cssClass = 'mixed';
+                let pct = 50;
+                if (/\bLONG\b/.test(upper) && !/\bSHORT\b/.test(upper)) { cssClass = 'majority-long'; }
+                else if (/\bSHORT\b/.test(upper) && !/\bLONG\b/.test(upper)) { cssClass = 'majority-short'; }
+                const fracMatch = consensusLine.match(/(\d+)\s*\/\s*(\d+)/);
+                if (fracMatch) pct = Math.round((parseInt(fracMatch[1]) / parseInt(fracMatch[2])) * 100);
+                const color = cssClass === 'majority-long' ? '#16a34a' : cssClass === 'majority-short' ? '#dc2626' : '#6b7280';
+                const label = cssClass === 'majority-long' ? '▲ MUA' : cssClass === 'majority-short' ? '▼ BÁN' : '◆ HỖN HỢP';
+                consensusHtml = `
+                    <div class="alpha-consensus-section" style="margin-top:1.5rem;">
+                        <span class="consensus-label"><i class="fas fa-calculator"></i> Đồng thuận Alpha</span>
+                        <div class="consensus-bar-wrap">
+                            <div class="consensus-bar-track">
+                                <div class="consensus-bar-fill ${cssClass}" style="width:${pct}%;"></div>
+                            </div>
+                        </div>
+                        <span class="consensus-text" style="color:${color};font-weight:700;">${label} - ${consensusLine}</span>
+                    </div>`;
+            }
+
+            // ── Write final output ─────────────────────────────────────────
+            container.innerHTML = `<div class="auto-beautify alpha-sequential-report">${rendered}</div>${consensusHtml}`;
+        }
+    </script>
+</body>
+
+</html>
