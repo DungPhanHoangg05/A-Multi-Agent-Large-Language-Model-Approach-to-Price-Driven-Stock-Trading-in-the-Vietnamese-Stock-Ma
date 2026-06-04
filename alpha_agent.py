@@ -648,6 +648,12 @@ def _compute_all_alphas(
                 print(f"[AlphaAgent] Lỗi tính alpha {aid}: {e}")
                 val = 0.0
             
+            # Check if IC is negative; if so, flip the signal!
+            ic_val = a_meta["metrics"]["ic"]
+            is_flipped = ic_val < 0
+            if is_flipped:
+                val = -val
+
             # Try to get metadata from NEW_ALPHA_TEMPLATES in alpha_compare
             template = alpha_compare.NEW_ALPHA_TEMPLATES.get(aid, {})
             name = template.get("name", a_meta["description"])
@@ -658,6 +664,10 @@ def _compute_all_alphas(
             thr = 0.10
             sig = "TĂNG" if val > thr else "GIẢM" if val < -thr else "TRUNG TÍNH"
             
+            interpretation = f"{interp_base}. (IC={ic_val:+.3f}, Acc={a_meta['metrics']['accuracy']:.1%})"
+            if is_flipped:
+                interpretation += " [Đảo chiều tín hiệu do tương quan lịch sử âm (IC < 0)]"
+
             dynamic_results.append({
                 "id": i + 1,
                 "name": name,
@@ -668,10 +678,10 @@ def _compute_all_alphas(
                 "signal": sig,
                 "components": {
                     "composite_score": round(a_meta["composite_score"], 4),
-                    "ic": round(a_meta["metrics"]["ic"], 4),
+                    "ic": round(ic_val, 4),
                     "accuracy": f"{a_meta['metrics']['accuracy']:.1%}"
                 },
-                "interpretation": f"{interp_base}. (IC={a_meta['metrics']['ic']:+.3f}, Acc={a_meta['metrics']['accuracy']:.1%})"
+                "interpretation": interpretation
             })
         return dynamic_results, tv
     

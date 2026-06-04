@@ -1102,22 +1102,26 @@ def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
     ic, _ = spearmanr(av, fr)
     ic = 0.0 if math.isnan(ic) else ic
 
+    # Flip the signal for performance evaluation if IC < 0
+    flip_signal = ic < 0
+    av_metric = -av if flip_signal else av
+
     # Directional accuracy: sign(signal) matches sign(return)
-    valid = (np.abs(av) > 0.05)  # only predict when signal strong enough
+    valid = (np.abs(av_metric) > 0.05)  # only predict when signal strong enough
     if valid.sum() < 10:
         accuracy = 0.5
     else:
-        correct = np.sign(av[valid]) == np.sign(fr[valid])
+        correct = np.sign(av_metric[valid]) == np.sign(fr[valid])
         accuracy = correct.mean()
 
-    # Hypothetical strategy returns: go long when av>0, short when av<0
-    strategy_ret = np.sign(av) * fr
+    # Hypothetical strategy returns: go long when av_metric>0, short when av_metric<0
+    strategy_ret = np.sign(av_metric) * fr
     mean_ret = strategy_ret.mean()
     std_ret = strategy_ret.std()
     sharpe = (mean_ret / (std_ret + 1e-9)) * math.sqrt(252 / lookahead)
 
     # Long-only accuracy (important for VN market — limited shorting)
-    long_mask = av > 0.05
+    long_mask = av_metric > 0.05
     if long_mask.sum() >= 5:
         long_acc = (fr[long_mask] > 0).mean()
     else:
@@ -1845,7 +1849,6 @@ def main():
 
     print("=" * 100)
     print(f"  ALPHA COMPARISON — {symbol} / {interval}")
-    print(f"  Comparing: 5 current + 79 WQ-101 full set + 3 VN-custom = 87 total")
     print("=" * 100)
 
     df = load_data(symbol, interval, lookback_days=600)
@@ -1867,3 +1870,7 @@ def main():
     top5_ids, templates = generate_new_alpha_agent(ranked, top_n=5)
 
     return ranked, top5_ids
+
+
+if __name__ == "__main__":
+    main()

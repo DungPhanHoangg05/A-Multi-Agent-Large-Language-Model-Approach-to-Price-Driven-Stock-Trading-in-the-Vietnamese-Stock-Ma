@@ -794,4 +794,4 @@ if __name__ == "__main__":
     if not rt_avail:
         print("  ⚠️  vnstock chưa cài — chạy: pip install vnstock")
     print("=" * 60)
-    app.run(debug=True, host="127.0.0.1", port=5000, threaded=True, use_reloader=False)
+    app.run(debug=False, host="127.0.0.1", port=5000, threaded=True, use_reloader=False)
