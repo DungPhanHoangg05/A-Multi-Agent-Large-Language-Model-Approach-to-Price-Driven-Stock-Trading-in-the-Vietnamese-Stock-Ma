@@ -6,15 +6,15 @@ import uuid
 import urllib.parse
 from pathlib import Path
 from typing import Any, Dict, List
-from backtest_engine import BacktestEngine
+from core.backtest_engine import BacktestEngine
 from dataclasses import asdict
 
 import pandas as pd
 from flask import Flask, jsonify, render_template, request, send_file
 
-import static_util
+from utils import static_util
 from default_config import DEFAULT_CONFIG
-from realtime_loader import (
+from core.realtime_loader import (
     check_vnstock_available,
     fetch_realtime_ohlcv,
     get_all_symbols_realtime,
@@ -52,7 +52,7 @@ class WebTradingAnalyzer:
 
     def _init_graph(self):
         """Khởi tạo TradingGraph (lazy — chỉ khi đã có API key)."""
-        from trading_graph import TradingGraph
+        from utils.trading_graph import TradingGraph
         self.trading_graph = TradingGraph(config=self.config)
 
     # ── Stock list ────────────────────────────────────────────────────────────
@@ -96,7 +96,7 @@ class WebTradingAnalyzer:
             print(f"DataFrame columns : {df.columns.tolist()}")
             print(f"DataFrame shape   : {df.shape}")
 
-            from realtime_loader import get_timeframe_cfg
+            from core.realtime_loader import get_timeframe_cfg
             tf_cfg   = get_timeframe_cfg(timeframe)
             n_candles = tf_cfg["candles"]
 
@@ -216,7 +216,7 @@ class WebTradingAnalyzer:
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _format_timeframe(tf: str) -> str:
-    from realtime_loader import get_timeframe_cfg
+    from core.realtime_loader import get_timeframe_cfg
     cfg = get_timeframe_cfg(tf)
     return cfg.get("display", tf)
 
@@ -584,16 +584,7 @@ def backtest_start():
                     result_path=_json_path,
                 )
  
-                # Tính P&L lũy kế từ test_points
-                tps = summary.test_points          # list[dict] sau asdict()
-                pnl_f = sum(
-                    abs(tp["actual_pct_change"]) * (1 if tp["correct_full"] else -1)
-                    for tp in tps if tp["pred_full"] not in ("UNKNOWN", "")
-                )
-                pnl_n = sum(
-                    abs(tp["actual_pct_change"]) * (1 if tp["correct_no_alpha"] else -1)
-                    for tp in tps if tp["pred_no_alpha"] not in ("UNKNOWN", "")
-                )
+                # Test points are already tracked inside summary with their cumulative PnL
 
                 with _bt_lock:
                     _bt_jobs[bt_id]["status"]      = "done"
@@ -608,13 +599,15 @@ def backtest_start():
                         "n_valid_no":      summary.n_long_no_alpha + summary.n_short_no_alpha,
                         "n_correct_full":  round((summary.acc_full / 100) * (summary.n_long_full + summary.n_short_full)),
                         "n_correct_no":    round((summary.acc_no_alpha / 100) * (summary.n_long_no_alpha + summary.n_short_no_alpha)),
-                        "pnl_full":        round(pnl_f, 2),
-                        "pnl_no_alpha":    round(pnl_n, 2),
+                        "pnl_full":        summary.pnl_full,
+                        "pnl_no_alpha":    summary.pnl_no_alpha,
                     }
 
                 # Lưu biểu đồ PNG vào backtest_result/
                 try:
-                    _save_backtest_charts(symbol, summary.test_points, pnl_f, pnl_n, _ts)
+                    from utils.static_util import generate_backtest_summary_chart
+                    png_path = os.path.join("backtest_result", f"backtest_{symbol}_{_ts}.png")
+                    generate_backtest_summary_chart(asdict(summary), png_path)
                 except Exception as chart_exc:
                     print(f"[BT] Cảnh báo — không lưu được biểu đồ: {chart_exc}")
  
@@ -632,96 +625,6 @@ def backtest_start():
     except Exception as e:
         return jsonify({"error": str(e)})
  
- 
-def _save_backtest_charts(symbol: str, test_points: list,
-                          pnl_f: float, pnl_n: float,
-                          ts: str = ""):
-    """
-    Vẽ 2 biểu đồ bằng matplotlib và lưu vào backtest_result/:
-      - Biểu đồ trái : P&L lũy kế (%) của Full vs No-Alpha
-      - Biểu đồ phải : Số dự đoán đúng tích lũy (Cumulative Correct)
-    ts : timestamp dạng YYYYMMDD_HHMM — dùng chung với file JSON.
-    """
-    import matplotlib
-    matplotlib.use("Agg")          # non-interactive backend
-    import matplotlib.pyplot as plt
-    import matplotlib.ticker as mticker
-    from datetime import datetime as _dt
-
-    os.makedirs("backtest_result", exist_ok=True)
-
-    n = len(test_points)
-    if n == 0:
-        return
-
-    if not ts:
-        ts = _dt.now().strftime("%Y%m%d_%H%M")
-
-    labels       = [tp["test_id"]           for tp in test_points]
-    pnl_full     = [tp.get("pnl_full",    0.0) for tp in test_points]
-    pnl_no       = [tp.get("pnl_no_alpha",0.0) for tp in test_points]
-
-    cum_f, cum_n = 0, 0
-    acc_full_cum, acc_no_cum = [], []
-    for tp in test_points:
-        if tp["correct_full"]:      cum_f += 1
-        if tp["correct_no_alpha"]:  cum_n += 1
-        acc_full_cum.append(cum_f)
-        acc_no_cum.append(cum_n)
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
-    fig.patch.set_facecolor("#F0F4FF")
-    fig.suptitle(
-        f"QuantAgent Backtest — {symbol}  |  {n} tests  |  {ts[:4]}-{ts[4:6]}-{ts[6:8]}",
-        fontsize=12, fontweight="bold", color="#1F2937", y=1.01,
-    )
-    for ax in (ax1, ax2):
-        ax.set_facecolor("#FFFFFF")
-        ax.spines[["top", "right"]].set_visible(False)
-        ax.grid(axis="y", color="#E5E7EB", linewidth=0.8)
-        ax.tick_params(colors="#4B5563")
-
-    # ── Biểu đồ 1: P&L lũy kế ────────────────────────────────────────────
-    ax1.plot(labels, pnl_full, color="#2563EB", lw=2.2, marker="o", ms=4,
-             label=f"Full (α)  [{pnl_f:+.2f}%]")
-    ax1.plot(labels, pnl_no,   color="#16A34A", lw=2.2, marker="s", ms=4,
-             linestyle="--", label=f"No-α  [{pnl_n:+.2f}%]")
-    ax1.axhline(0, color="#9CA3AF", lw=1, linestyle=":")
-    ax1.fill_between(labels, pnl_full, 0,
-                     where=[v >= 0 for v in pnl_full],
-                     alpha=0.12, color="#2563EB")
-    ax1.fill_between(labels, pnl_full, 0,
-                     where=[v < 0 for v in pnl_full],
-                     alpha=0.12, color="#C41E3A")
-    ax1.set_title(f"Mô phỏng P&L lũy kế — {symbol}",
-                  fontsize=12, fontweight="bold", pad=10, color="#1F2937")
-    ax1.set_xlabel("Test #", fontsize=10, color="#4B5563")
-    ax1.set_ylabel("Lợi nhuận lũy kế (%)", fontsize=10, color="#4B5563")
-    ax1.yaxis.set_major_formatter(mticker.FuncFormatter(
-        lambda v, _: f"+{v:.1f}%" if v >= 0 else f"{v:.1f}%"))
-    ax1.legend(fontsize=9, framealpha=0.85)
-
-    # ── Biểu đồ 2: Số lần đúng tích lũy ─────────────────────────────────
-    ax2.step(labels, acc_full_cum, color="#2563EB", lw=2.2, where="post",
-             label=f"Full (α)  [{cum_f}/{n}]")
-    ax2.step(labels, acc_no_cum,   color="#16A34A", lw=2.2, where="post",
-             linestyle="--", label=f"No-α  [{cum_n}/{n}]")
-    ax2.fill_between(labels, acc_full_cum, step="post", alpha=0.10, color="#2563EB")
-    ax2.fill_between(labels, acc_no_cum,   step="post", alpha=0.10, color="#16A34A")
-    ax2.set_title("Số dự đoán đúng tích lũy",
-                  fontsize=12, fontweight="bold", pad=10, color="#1F2937")
-    ax2.set_xlabel("Test #", fontsize=10, color="#4B5563")
-    ax2.set_ylabel("Cumulative Correct", fontsize=10, color="#4B5563")
-    ax2.yaxis.set_major_locator(mticker.MaxNLocator(integer=True))
-    ax2.legend(fontsize=9, framealpha=0.85)
-
-    out = os.path.join("backtest_result", f"backtest_{symbol}_{ts}.png")
-    plt.tight_layout(pad=2.5)
-    plt.savefig(out, dpi=150, bbox_inches="tight",
-                facecolor=fig.get_facecolor())
-    plt.close(fig)
-    print(f"[BT] ✅ Đã lưu biểu đồ → {out}")
-
 
 def _bt_update(bt_id: str, progress: dict):
     from dataclasses import asdict as _asdict, fields as _fields
