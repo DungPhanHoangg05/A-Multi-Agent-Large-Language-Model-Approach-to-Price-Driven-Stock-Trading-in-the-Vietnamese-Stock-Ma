@@ -18,11 +18,11 @@ class TradingGraph:
         self._ensure_api_key()
 
         self.agent_llm = self._create_llm(
-            model=self.config.get("agent_llm_model", "llama-3.1-8b-instant"),
+            model=self.config.get("agent_llm_model", "openai/gpt-oss-20b"),
             temperature=self.config.get("agent_llm_temperature", 0.1),
         )
         self.graph_llm = self._create_llm(
-            model=self.config.get("graph_llm_model", "meta-llama/llama-4-scout-17b-16e-instruct"),
+            model=self.config.get("graph_llm_model", "qwen/qwen3.6-27b"),
             temperature=self.config.get("graph_llm_temperature", 0.1),
         )
 
@@ -65,11 +65,11 @@ class TradingGraph:
         """Tạo lại các LLM với cấu hình hiện tại (dùng khi config thay đổi)."""
         self._ensure_api_key()
         self.agent_llm = self._create_llm(
-            model=self.config.get("agent_llm_model", "llama-3.1-8b-instant"),
+            model=self.config.get("agent_llm_model", "openai/gpt-oss-20b"),
             temperature=self.config.get("agent_llm_temperature", 0.1),
         )
         self.graph_llm = self._create_llm(
-            model=self.config.get("graph_llm_model", "meta-llama/llama-4-scout-17b-16e-instruct"),
+            model=self.config.get("graph_llm_model", "qwen/qwen3.6-27b"),
             temperature=self.config.get("graph_llm_temperature", 0.1),
         )
         self.graph_setup = SetGraph(self.agent_llm, self.graph_llm, self.toolkit)
