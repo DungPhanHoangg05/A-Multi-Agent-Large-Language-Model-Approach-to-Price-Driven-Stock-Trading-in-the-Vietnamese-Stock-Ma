@@ -170,7 +170,7 @@ class BacktestEngine:
         def make_llm(model, temp=0.05):
             return ChatGroq(model=model, temperature=temp, api_key=api_key, max_retries=3)
 
-        agent_llm = make_llm(self.config.get("agent_llm_model", "llama-3.1-8b-instant"))
+        agent_llm = make_llm(self.config.get("agent_llm_model", "openai/gpt-oss-20b"))
         graph_llm = make_llm(self.config.get("graph_llm_model", "qwen/qwen3.6-27b"))
         toolkit = TechnicalTools()
 

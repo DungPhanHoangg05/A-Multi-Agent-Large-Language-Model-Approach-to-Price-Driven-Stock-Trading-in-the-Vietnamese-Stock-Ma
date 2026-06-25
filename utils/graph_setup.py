@@ -16,8 +16,8 @@ from agents.trend_agent import create_trend_agent
 class SetGraph:
     def __init__(
         self,
-        agent_llm: BaseChatModel,  # llama-3.1-8b-instant — text + tool calling
-        graph_llm: BaseChatModel,  # llama-4-scout  — vision only, NO tool calling
+        agent_llm: BaseChatModel,  
+        graph_llm: BaseChatModel,  
         toolkit: TechnicalTools,
     ):
         self.agent_llm = agent_llm
