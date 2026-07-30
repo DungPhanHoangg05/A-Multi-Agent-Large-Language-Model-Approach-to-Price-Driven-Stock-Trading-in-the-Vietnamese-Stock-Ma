@@ -1,3 +1,4 @@
+import os
 import re
 import time
 from collections import Counter
@@ -5,6 +6,14 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 from langchain_core.messages import HumanMessage, SystemMessage
+
+# Nạp .env để HF_TOKEN có mặt trong os.environ (không ghi đè biến môi trường thật)
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(override=False)
+except ImportError:
+    pass
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -38,52 +47,93 @@ CONTENT_MAX_CHARS    = 1200
 
 SENTIMENT_SCORES = {"negative": -1.0, "neutral": 0.0, "positive": 1.0}
 
-# ── Lazy-load ViSoBERT ─────────────────────────────────────────────────────────
+# ── HF Inference API ViSoBERT ──────────────────────────────────────────────────
 
-_visobert_pipeline = None
-_visobert_load_err: Optional[str] = None
+_HF_MODEL   = "5CD-AI/Vietnamese-Sentiment-visobert"
+_HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{_HF_MODEL}"
+
+HF_MAX_RETRIES = 3
+HF_COLD_WAIT   = 20
+HF_TIMEOUT     = 60
+
+_hf_warned = False
+_hf_ok     = False   # True sau khi có ít nhất 1 lần gọi HF API thành công
 
 
-def _load_visobert():
-    global _visobert_pipeline, _visobert_load_err
-    if _visobert_pipeline is not None:
-        return _visobert_pipeline
-    if _visobert_load_err:
-        return None
-    try:
-        import torch
-        from transformers import BertTokenizer, AutoModelForSequenceClassification
+def _hf_status() -> Tuple[bool, str]:
+    """Trạng thái thật của ViSoBERT sau khi scoring: (dùng được?, tên model để hiển thị)."""
+    if _hf_ok:
+        return True, f"{_HF_MODEL} (HF API)"
+    if not os.environ.get("HF_TOKEN", "").strip():
+        return False, "lexicon-fallback (thiếu HF_TOKEN)"
+    return False, "lexicon-fallback (HF API không phản hồi)"
 
-        MODEL_NAME = "5CD-AI/Vietnamese-Sentiment-visobert"
-        print("[SentimentAgent] Đang tải ViSoBERT (slow tokenizer)...")
 
-        tokenizer = BertTokenizer.from_pretrained(MODEL_NAME, use_fast=False)
-        model     = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
-        model.eval()
+def _predict(text: str) -> List[Dict]:
+    """
+    Gọi HF Inference API cho ViSoBERT.
+    Trả về [{"label": ..., "score": ...}] nếu thành công,
+    hoặc [] nếu thất bại (caller sẽ dùng lexicon fallback).
+    """
+    global _hf_warned, _hf_ok
 
-        id2label = model.config.id2label
+    token = os.environ.get("HF_TOKEN", "").strip()
+    if not token:
+        if not _hf_warned:
+            print("[ViSoBERT HF API] Thiếu HF_TOKEN → dùng lexicon fallback")
+            _hf_warned = True
+        return []
 
-        def _predict(text: str):
-            inputs = tokenizer(
-                text[:512],
-                return_tensors="pt",
-                truncation=True,
-                max_length=256,
-                padding=True,
-            )
-            with torch.no_grad():
-                logits = model(**inputs).logits
-            probs    = torch.softmax(logits, dim=-1)[0]
-            best_idx = int(probs.argmax())
-            return [{"label": id2label[best_idx], "score": float(probs[best_idx])}]
+    headers = {"Authorization": f"Bearer {token}"}
+    payload = {"inputs": text[:512]}
 
-        _visobert_pipeline = _predict
-        print("[SentimentAgent] ViSoBERT đã tải xong ✓")
-        return _visobert_pipeline
-    except Exception as e:
-        _visobert_load_err = str(e)
-        print(f"[SentimentAgent] Không tải được ViSoBERT: {e}")
-        return None
+    for attempt in range(HF_MAX_RETRIES):
+        try:
+            resp = requests.post(_HF_API_URL, headers=headers,
+                                 json=payload, timeout=HF_TIMEOUT)
+
+            if resp.status_code == 401:
+                if not _hf_warned:
+                    print("[ViSoBERT HF API] HF_TOKEN không hợp lệ (401) → lexicon fallback")
+                    _hf_warned = True
+                return []
+
+            if resp.status_code in (429, 503):
+                print(f"[ViSoBERT HF API] HTTP {resp.status_code}, chờ {HF_COLD_WAIT}s "
+                      f"(lần {attempt+1}/{HF_MAX_RETRIES})...")
+                time.sleep(HF_COLD_WAIT)
+                continue
+
+            result = resp.json()
+
+            # Model đang cold start
+            if isinstance(result, dict) and "loading" in str(result.get("error", "")).lower():
+                print(f"[ViSoBERT HF API] Model đang khởi động, chờ {HF_COLD_WAIT}s...")
+                time.sleep(HF_COLD_WAIT)
+                continue
+
+            if isinstance(result, dict) and result.get("error"):
+                print(f"[ViSoBERT HF API] API error: {result['error']}")
+                return []
+
+            # Response dạng [[{label, score}, ...]] hoặc [{label, score}, ...]
+            if isinstance(result, list) and result:
+                scores = result[0] if isinstance(result[0], list) else result
+                best   = max(scores, key=lambda x: x["score"])
+                _hf_ok = True
+                return [{"label": best["label"].lower(), "score": best["score"]}]
+
+            return []
+
+        except requests.RequestException as e:
+            print(f"[ViSoBERT HF API] Request error (lần {attempt+1}): {e}")
+            if attempt < HF_MAX_RETRIES - 1:
+                time.sleep(2 * (attempt + 1))
+        except ValueError as e:
+            print(f"[ViSoBERT HF API] Response không phải JSON: {e}")
+            return []
+
+    return []
 
 
 # ── HTTP helper ────────────────────────────────────────────────────────────────
@@ -286,27 +336,28 @@ def _score_text(text: str) -> Dict[str, Any]:
     if not text.strip():
         return {"label": "neutral", "confidence": 0.5, "numeric_score": 0.0}
 
-    pipe = _load_visobert()
-    if pipe is not None:
-        try:
-            result   = pipe(text[:512])[0]
-            raw      = result.get("label", "NEUTRAL").upper()
-            conf     = float(result.get("score", 0.5))
-            if "NEG" in raw or raw in ("LABEL_0", "0"):
-                label = "negative"
-            elif "POS" in raw or raw in ("LABEL_2", "2"):
-                label = "positive"
-            else:
-                label = "neutral"
-            return {
-                "label":         label,
-                "confidence":    round(conf, 4),
-                "numeric_score": round(SENTIMENT_SCORES[label] * conf, 4),
-            }
-        except Exception as e:
-            print(f"[ViSoBERT] Error: {e}")
+    try:
+        preds = _predict(text[:512])
+        if not preds:
+            return _lexicon_fallback(text)
 
-    return _lexicon_fallback(text)
+        result = preds[0]
+        raw    = result.get("label", "NEUTRAL").upper()
+        conf   = float(result.get("score", 0.5))
+        if "NEG" in raw or raw in ("LABEL_0", "0"):
+            label = "negative"
+        elif "POS" in raw or raw in ("LABEL_2", "2"):
+            label = "positive"
+        else:
+            label = "neutral"
+        return {
+            "label":         label,
+            "confidence":    round(conf, 4),
+            "numeric_score": round(SENTIMENT_SCORES[label] * conf, 4),
+        }
+    except Exception as e:
+        print(f"[ViSoBERT HF API] Lỗi xử lý response: {e}")
+        return _lexicon_fallback(text)
 
 
 def _lexicon_fallback(text: str) -> Dict[str, Any]:
@@ -548,9 +599,6 @@ def _build_report(
         icon = "🟢" if s.get("label")=="positive" else ("🔴" if s.get("label")=="negative" else "⚪")
         rel_sum += f"- **{co}**: {icon} {s.get('label','N/A').upper()} | điểm: {s.get('avg_score',0):+.3f} | {s.get('article_count',0)} bài\n"
 
-    visobert_note = ("✅ 5CD-AI/Vietnamese-Sentiment-visobert"
-                     if _visobert_pipeline else "⚠️ Lexicon fallback")
-
     try:
         resp = llm.invoke([
             SystemMessage(content=(
@@ -562,7 +610,6 @@ def _build_report(
 === KẾT QUẢ ===
 Số bài: {main_agg.get('article_count',0)} | Điểm TB: {main_agg.get('avg_score',0):+.4f} | Nhận định: {main_agg.get('label','neutral').upper()}
 Phân bổ: 🟢{main_agg.get('positive',0)} / ⚪{main_agg.get('neutral_count',0)} / 🔴{main_agg.get('negative',0)}
-{_sentiment_bar(main_agg.get('avg_score',0))} | Model: {visobert_note}
 
 === 15 BÀI GẦN NHẤT ===
 {art_sum or '(Không có bài)'}
@@ -621,8 +668,8 @@ def run_sentiment_for_alpha(
         "scored_articles":    [],
         "related_companies":  [],
         "related_sentiment":  {},
-        "visobert_available": _visobert_pipeline is not None,
-        "model_used": "N/A",
+        "visobert_available":  _hf_status()[0],
+        "model_used":          _hf_status()[1],
     }
 
     # Bước 1: Thu thập bài báo
@@ -710,11 +757,8 @@ def run_sentiment_for_alpha(
         "scored_articles":    scored[:15],
         "related_companies":  related,
         "related_sentiment":  related_sentiment,
-        "visobert_available": _visobert_pipeline is not None,
-        "model_used": (
-            "5CD-AI/Vietnamese-Sentiment-visobert"
-            if _visobert_pipeline else "lexicon-fallback"
-        ),
+        "visobert_available":  _hf_status()[0],
+        "model_used":          _hf_status()[1],
     }
 
     print(f"[SentimentAgent] ✓ Hoàn thành ({len(scored)} bài scored, {len(related)} related)")
