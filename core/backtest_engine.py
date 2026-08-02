@@ -288,6 +288,9 @@ class BacktestEngine:
             # ── MỚI: truyền normalisation và weights ───────────────────────────
             "alpha_norm_method": self.config.get("alpha_norm_method", "zscore_tanh"),
             "alpha_weights": self.config.get("alpha_weights", None),
+
+            # ── Ngôn ngữ đầu ra cho toàn bộ agent trong pipeline backtest ──────
+            "language": self.config.get("language", "vi"),
         }
     
         final_state = graph.invoke(initial_state)

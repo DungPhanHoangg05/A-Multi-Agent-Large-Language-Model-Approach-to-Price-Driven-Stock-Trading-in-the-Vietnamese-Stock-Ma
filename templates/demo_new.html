@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="{{ LANG }}">
 
 <head>
     <meta charset="utf-8">
-    <title>QuantAgent VN - Phân Tích Thị Trường Chứng Khoán Việt Nam</title>
+    <title>{{ T.page_title_home }}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -56,6 +56,61 @@
             overflow: hidden;
             padding: 3.5rem 1rem 4rem;
             text-align: center;
+        }
+
+        /* ── Language switcher ── */
+        .lang-switch {
+            position: absolute;
+            top: 1rem;
+            right: 1.15rem;
+            z-index: 5;
+            display: inline-flex;
+            gap: 0.15rem;
+            padding: 0.2rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(4px);
+        }
+
+        .lang-opt {
+            display: inline-block;
+            padding: 0.28rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.92);
+            text-decoration: none;
+            transition: background 0.18s, color 0.18s;
+        }
+
+        .lang-opt:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .lang-opt.active {
+            background: var(--white);
+            color: var(--vn-red);
+        }
+
+        .lang-switch-dark {
+            position: static;
+            background: var(--gray-100);
+            border-color: var(--gray-200);
+            backdrop-filter: none;
+        }
+
+        .lang-switch-dark .lang-opt {
+            color: var(--gray-600);
+        }
+
+        .lang-switch-dark .lang-opt:hover {
+            background: var(--gray-200);
+        }
+
+        .lang-switch-dark .lang-opt.active {
+            background: var(--vn-red);
+            color: var(--white);
         }
 
         .hero-section::before {
@@ -1055,26 +1110,26 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-card">
             <div class="loading-spinner"></div>
-            <h3>Đang phân tích...</h3>
-            <p>Hệ thống đa tác nhân đang xử lý dữ liệu thị trường</p>
+            <h3>{{ T.loading_title }}</h3>
+            <p>{{ T.loading_sub }}</p>
             <div class="loading-steps">
                 <div class="loading-step" id="step1">
-                    <div class="step-dot"></div> <span id="step1Text">Lấy dữ liệu thời gian thực</span>
+                    <div class="step-dot"></div> <span id="step1Text">{{ T.load_step1 }}</span>
                 </div>
                 <div class="loading-step" id="step2">
-                    <div class="step-dot"></div> <span>Indicator Agent - Tính chỉ báo kỹ thuật</span>
+                    <div class="step-dot"></div> <span>{{ T.load_step2 }}</span>
                 </div>
                 <div class="loading-step" id="step3">
-                    <div class="step-dot"></div> <span>Alpha Agent - Phân tích sentiment &amp; tạo nhân tố alpha</span>
+                    <div class="step-dot"></div> <span>{{ T.load_step3 }}</span>
                 </div>
                 <div class="loading-step" id="step4">
-                    <div class="step-dot"></div> <span>Pattern Agent - Nhận dạng mô hình nến</span>
+                    <div class="step-dot"></div> <span>{{ T.load_step4 }}</span>
                 </div>
                 <div class="loading-step" id="step5">
-                    <div class="step-dot"></div> <span>Trend Agent - Phân tích xu hướng</span>
+                    <div class="step-dot"></div> <span>{{ T.load_step5 }}</span>
                 </div>
                 <div class="loading-step" id="step6">
-                    <div class="step-dot"></div> <span>Decision Agent - Đưa ra quyết định</span>
+                    <div class="step-dot"></div> <span>{{ T.load_step6 }}</span>
                 </div>
             </div>
         </div>
@@ -1082,26 +1137,30 @@
 
     <!-- Hero -->
     <section class="hero-section">
+        <div class="lang-switch">
+            <a class="lang-opt {% if LANG == 'vi' %}active{% endif %}" href="?lang=vi">{{ T.lang_vi }}</a>
+            <a class="lang-opt {% if LANG == 'en' %}active{% endif %}" href="?lang=en">{{ T.lang_en }}</a>
+        </div>
         <div class="hero-content">
             <div style="margin-bottom:0.75rem;">
-                <span class="hero-title">QuantAgent VN</span>
+                <span class="hero-title">AI Stock Investment System</span>
             </div>
             <p class="hero-subtitle">
-                Hệ thống phân tích kỹ thuật đa tác nhân cho thị trường chứng khoán Việt Nam.<br>
-                Sử dụng <strong>Groq API</strong> (miễn phí) - dữ liệu thời gian thực từ <strong>vnstock (VCI /
-                    MSN)</strong>.
+                {{ T.hero_desc }}<br>
+                {{ T.hero_desc2 | safe }}
             </p>
             <div style="margin-bottom:1.75rem;">
-                <span class="hero-tag"><i class="fas fa-robot"></i> gpt-oss-20b · Indicator &amp; Sentiment
-                    &amp; Alpha &amp; Decision</span>
-                <span class="hero-tag"><i class="fas fa-eye"></i> qwen3.6-27b · Pattern &amp; Trend</span>
-                <span class="hero-tag"><i class="fas fa-newspaper"></i> ViSoBERT · Sentiment</span>
-                <span class="hero-tag"><i class="fas fa-bolt"></i> Thời gian thực · vnstock</span>
+                <span class="hero-tag"><i class="fas fa-robot"></i> gpt-oss-20b · {{ T.hero_tag_text_agents | safe
+                    }}</span>
+                <span class="hero-tag"><i class="fas fa-eye"></i> qwen3.6-27b · {{ T.hero_tag_vision_agents | safe
+                    }}</span>
+                <span class="hero-tag"><i class="fas fa-newspaper"></i> {{ T.hero_tag_sentiment }}</span>
+                <span class="hero-tag"><i class="fas fa-bolt"></i> {{ T.hero_tag_realtime }}</span>
                 <span class="hero-tag"><i class="fas fa-database"></i> HOSE / HNX / UPCOM</span>
             </div>
             <a href="#phan-tich" class="hero-btn">
                 <i class="fas fa-chart-line"></i>
-                Bắt đầu phân tích
+                {{ T.hero_btn }}
                 <i class="fas fa-arrow-right"></i>
             </a>
         </div>
@@ -1112,7 +1171,7 @@
         <div class="status-group">
             <div class="status-indicator">
                 <div class="status-dot loading" id="groqStatusDot"></div>
-                <span id="groqStatusText">Đang kiểm tra Groq...</span>
+                <span id="groqStatusText">{{ T.st_checking_groq }}</span>
             </div>
             <span class="groq-badge" id="groqBadge" style="display:none;"><i class="fas fa-microchip"></i> Groq</span>
             <span class="model-tag" id="agentModelTag" style="display:none;">gpt-oss-20b</span>
@@ -1122,19 +1181,19 @@
         <div class="status-group">
             <div class="status-indicator">
                 <div class="status-dot loading" id="rtStatusDot"></div>
-                <span id="rtStatusText">Đang kiểm tra vnstock...</span>
+                <span id="rtStatusText">{{ T.st_checking_vnstock }}</span>
             </div>
             <span id="rtBadge" class="rt-badge" style="display:none;">⚡ vnstock</span>
             <span id="lastUpdateBadge" class="last-update" style="display:none;">
-                <i class="fas fa-clock"></i> Cập nhật: <span id="lastUpdateTime">-</span>
+                <i class="fas fa-clock"></i> {{ T.st_updated }} <span id="lastUpdateTime">-</span>
             </span>
         </div>
         <div class="status-separator"></div>
         <div class="status-group" style="font-size:0.82rem;color:var(--gray-600);">
             <i class="fas fa-database" style="color:var(--vn-red);"></i>
-            <span id="symbolCountLabel">Đang tải mã...</span>
+            <span id="symbolCountLabel">{{ T.st_loading_symbols }}</span>
         </div>
-        <button onclick="lamMoiTatCa()" title="Làm mới"
+        <button onclick="lamMoiTatCa()" title="{{ T.st_refresh }}"
             style="background:none;border:none;cursor:pointer;color:var(--gray-500);font-size:0.8rem;padding:0.2rem 0.5rem;">
             <i class="fas fa-sync-alt"></i>
         </button>
@@ -1144,40 +1203,38 @@
     <section id="phan-tich" style="padding:1.5rem 1rem 3rem;">
         <div class="form-container">
             <div class="form-section">
-                <h3 class="section-title"><i class="fas fa-cog"></i> Cấu hình phân tích</h3>
+                <h3 class="section-title"><i class="fas fa-cog"></i> {{ T.form_title }}</h3>
 
                 <div class="api-notice" id="apiNotice">
                     <i class="fas fa-key"></i>
                     <div class="api-notice-text">
-                        <strong>Cần Groq API Key!</strong>
-                        Lấy key miễn phí tại <a href="https://console.groq.com/keys"
-                            target="_blank">console.groq.com/keys</a>
-                        rồi nhập vào phần <strong>Cài đặt Groq API</strong> bên dưới.
+                        <strong>{{ T.api_notice_title }}</strong>
+                        {{ T.api_notice_body | safe }}
                     </div>
                 </div>
 
-                <!-- Row 1: Chọn mã + Thông tin mã -->
+                <!-- Row 1: symbol picker + symbol info -->
                 <div class="panel-group">
                     <div class="panel">
                         <h4 class="panel-title">
-                            <i class="fas fa-chart-candlestick"></i> Chọn mã cổ phiếu
+                            <i class="fas fa-chart-candlestick"></i> {{ T.select_stock }}
                             <span class="stock-count-badge" id="stockCountBadge">...</span>
                         </h4>
                         <div class="form-group">
                             <div class="stock-search-wrapper">
                                 <i class="fas fa-search search-icon"></i>
                                 <input type="text" class="form-control" id="stockSearch"
-                                    placeholder="Tìm: VNM, VIC, ACB, FPT..." oninput="locMa(this.value)">
+                                    placeholder="{{ T.search_placeholder }}" oninput="locMa(this.value)">
                             </div>
                         </div>
                         <div class="stock-list-container" id="stockListContainer">
                             <div style="padding:2rem;text-align:center;color:var(--gray-400);">
-                                <i class="fas fa-spinner fa-spin"></i> Đang tải danh sách mã...
+                                <i class="fas fa-spinner fa-spin"></i> {{ T.loading_symbol_list }}
                             </div>
                         </div>
                         <div class="selected-stock-display" id="selectedStockDisplay">
                             <i class="fas fa-check-circle" style="color:var(--vn-red);"></i>
-                            <span>Đã chọn:</span>
+                            <span>{{ T.selected }}</span>
                             <span class="code" id="selectedStockCode">-</span>
                             <span id="selectedStockName"
                                 style="font-size:0.8rem;font-weight:400;color:var(--vn-red-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;"></span>
@@ -1185,47 +1242,47 @@
                     </div>
 
                     <div class="panel">
-                        <h4 class="panel-title"><i class="fas fa-info-circle"></i> Thông tin mã</h4>
+                        <h4 class="panel-title"><i class="fas fa-info-circle"></i> {{ T.stock_info }}</h4>
                         <div class="form-group">
-                            <label class="form-label"><i class="fas fa-clock"></i> Khung thời gian</label>
+                            <label class="form-label"><i class="fas fa-clock"></i> {{ T.timeframe }}</label>
 
                             <div class="timeframe-selector">
                                 <div class="tf-btn-row">
-                                    <button class="tf-btn" data-tf="5m" data-label="5 Phút"
-                                        data-desc="Scalping, 78 nến gần nhất">5m</button>
-                                    <button class="tf-btn" data-tf="15m" data-label="15 Phút"
-                                        data-desc="Swing ngắn, 60 nến gần nhất">15m</button>
-                                    <button class="tf-btn" data-tf="30m" data-label="30 Phút"
-                                        data-desc="Swing trung, 50 nến gần nhất">30m</button>
-                                    <button class="tf-btn" data-tf="1h" data-label="1 Giờ"
-                                        data-desc="Swing ngày, 45 nến gần nhất">1h</button>
-                                    <button class="tf-btn active" data-tf="1d" data-label="1 Ngày"
-                                        data-desc="Phân tích ngày, 45 nến gần nhất">1D</button>
-                                    <button class="tf-btn" data-tf="1w" data-label="1 Tuần"
-                                        data-desc="Phân tích tuần, 52 nến gần nhất">1W</button>
-                                    <button class="tf-btn" data-tf="1mo" data-label="1 Tháng"
-                                        data-desc="Phân tích tháng, 36 nến gần nhất">1M</button>
+                                    <button class="tf-btn" data-tf="5m" data-label="{{ T.tf_5m }}"
+                                        data-desc="{{ T.tf_desc_5m }}">5m</button>
+                                    <button class="tf-btn" data-tf="15m" data-label="{{ T.tf_15m }}"
+                                        data-desc="{{ T.tf_desc_15m }}">15m</button>
+                                    <button class="tf-btn" data-tf="30m" data-label="{{ T.tf_30m }}"
+                                        data-desc="{{ T.tf_desc_30m }}">30m</button>
+                                    <button class="tf-btn" data-tf="1h" data-label="{{ T.tf_1h }}"
+                                        data-desc="{{ T.tf_desc_1h }}">1h</button>
+                                    <button class="tf-btn active" data-tf="1d" data-label="{{ T.tf_1d }}"
+                                        data-desc="{{ T.tf_desc_1d }}">1D</button>
+                                    <button class="tf-btn" data-tf="1w" data-label="{{ T.tf_1w }}"
+                                        data-desc="{{ T.tf_desc_1w }}">1W</button>
+                                    <button class="tf-btn" data-tf="1mo" data-label="{{ T.tf_1mo }}"
+                                        data-desc="{{ T.tf_desc_1mo }}">1M</button>
                                 </div>
                             </div>
 
                             <div class="tf-info-bar" id="tfInfoBar">
                                 <i class="fas fa-calendar-day" style="font-size:1.1rem;flex-shrink:0;"></i>
                                 <div>
-                                    <div class="tf-label" id="tfLabel">1D - 1 Ngày</div>
-                                    <div class="tf-desc" id="tfDesc">Phân tích theo khung ngày, 45 nến gần nhất</div>
+                                    <div class="tf-label" id="tfLabel">1D - {{ T.tf_1d }}</div>
+                                    <div class="tf-desc" id="tfDesc">{{ T.tf_desc_1d }}</div>
                                 </div>
                             </div>
 
                             <div style="margin-top:0.4rem;font-size:0.77rem;color:var(--gray-500);">
                                 <i class="fas fa-bolt" style="color:var(--blue-500);"></i>
-                                Dữ liệu thời gian thực từ vnstock · Số nến tối ưu cho từng khung.
+                                {{ T.tf_note }}
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Chi tiết mã đã chọn</label>
+                            <label class="form-label">{{ T.selected_stock_detail }}</label>
                             <div id="stockInfoCard"
                                 style="background:var(--gray-50);border-radius:10px;padding:0.85rem 1rem;border:1px solid var(--gray-200);color:var(--gray-500);">
-                                <i class="fas fa-mouse-pointer"></i> Nhấn vào mã để xem thông tin
+                                <i class="fas fa-mouse-pointer"></i> {{ T.click_symbol_hint }}
                             </div>
                         </div>
                     </div>
@@ -1234,39 +1291,40 @@
                 <!-- Row 2: Groq API settings + vnstock status -->
                 <div class="panel-group">
                     <div class="panel settings-panel">
-                        <h4 class="panel-title"><i class="fas fa-microchip" style="color:var(--purple-600);"></i> Cài
-                            đặt Groq API</h4>
+                        <h4 class="panel-title"><i class="fas fa-microchip" style="color:var(--purple-600);"></i>
+                            {{ T.groq_settings }}</h4>
 
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="fas fa-key"></i> Groq API Key
+                                <i class="fas fa-key"></i> {{ T.api_key_label }}
                                 <span class="groq-free-tag"
-                                    style="display:inline-flex;background:var(--green-100);color:var(--green-600);border-radius:6px;padding:0.1rem 0.45rem;font-size:0.72rem;font-weight:700;margin-left:0.4rem;">Miễn
-                                    phí</span>
+                                    style="display:inline-flex;background:var(--green-100);color:var(--green-600);border-radius:6px;padding:0.1rem 0.45rem;font-size:0.72rem;font-weight:700;margin-left:0.4rem;">{{
+                                    T.free_tag }}</span>
                             </label>
                             <div class="api-key-wrapper">
                                 <input type="password" class="form-control" id="groqApiKeyInput"
                                     placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-                                <button class="btn-toggle-key" onclick="toggleKeyVisibility()" title="Hiện/ẩn key">
+                                <button class="btn-toggle-key" onclick="toggleKeyVisibility()"
+                                    title="{{ T.toggle_key }}">
                                     <i class="fas fa-eye" id="toggleKeyIcon"></i>
                                 </button>
                             </div>
                             <div class="api-key-hint">
                                 <i class="fas fa-external-link-alt"></i>
-                                Lấy key tại <a href="https://console.groq.com/keys"
+                                {{ T.get_key_at }} <a href="https://console.groq.com/keys"
                                     target="_blank">console.groq.com/keys</a>
                             </div>
                             <div id="apiKeyStatus"></div>
                         </div>
 
                         <button class="btn-sm-purple" onclick="luuApiKey()">
-                            <i class="fas fa-key"></i> Lưu API Key &amp; Kết nối
+                            <i class="fas fa-key"></i> {{ T.save_api_key | safe }}
                         </button>
 
                         <div class="divider"></div>
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="fas fa-brain"></i> Model tác nhân văn bản
+                                <i class="fas fa-brain"></i> {{ T.text_agent_model }}
                             </label>
 
                             <div class="form-control" style="background:#f3f4f6; cursor:not-allowed;">
@@ -1274,13 +1332,13 @@
                             </div>
 
                             <small style="color:var(--gray-500);font-size:0.78rem;margin-top:0.3rem;display:block;">
-                                Indicator · Sentiment · Alpha · Decision
+                                {{ T.text_agent_roles }}
                             </small>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="fas fa-eye"></i> Model tác nhân thị giác
+                                <i class="fas fa-eye"></i> {{ T.vision_agent_model }}
                             </label>
 
                             <div class="form-control" style="background:#f3f4f6; cursor:not-allowed;">
@@ -1288,7 +1346,7 @@
                             </div>
 
                             <small style="color:var(--gray-500);font-size:0.78rem;margin-top:0.3rem;display:block;">
-                                Pattern · Trend
+                                {{ T.vision_agent_roles }}
                             </small>
                         </div>
                     </div>
@@ -1296,21 +1354,21 @@
                     <div class="panel rt-info-panel">
                         <h4 class="panel-title">
                             <i class="fas fa-bolt" style="color:#3b82f6;"></i>
-                            vnstock - Dữ liệu thời gian thực
+                            {{ T.vnstock_panel }}
                         </h4>
                         <div id="rtDetailRows">
                             <div class="rt-status-row">
                                 <span class="rt-status-icon">⏳</span>
                                 <div>
-                                    <div class="rt-status-label">Đang kiểm tra vnstock...</div>
+                                    <div class="rt-status-label">{{ T.st_checking_vnstock }}</div>
                                 </div>
                             </div>
                         </div>
                         <div style="margin-top:0.75rem;display:flex;gap:0.5rem;">
-                            <button class="btn-xs-blue" onclick="xoaCache()"><i class="fas fa-trash-alt"></i> Xóa bộ nhớ
-                                đệm</button>
+                            <button class="btn-xs-blue" onclick="xoaCache()"><i class="fas fa-trash-alt"></i>
+                                {{ T.clear_cache }}</button>
                             <button class="btn-xs-blue" style="background:var(--gray-500);"
-                                onclick="kiemTraTrangThaiRT()"><i class="fas fa-sync-alt"></i> Kiểm tra lại</button>
+                                onclick="kiemTraTrangThaiRT()"><i class="fas fa-sync-alt"></i> {{ T.recheck }}</button>
                         </div>
                     </div>
                 </div>
@@ -1318,7 +1376,7 @@
                 <div class="run-btn-wrapper">
                     <button class="btn-run" id="analyzeBtn" onclick="chayPhanTich()">
                         <i class="fas fa-play"></i>
-                        Chạy phân tích
+                        {{ T.run_analysis }}
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -1327,6 +1385,19 @@
     </section>
 
     <script>
+        // ── i18n: catalogue + ngôn ngữ hiện tại / catalogue + current language ─────
+        const T = {{ T | tojson }};
+        const LANG = {{ LANG | tojson }};
+
+        /** Lấy chuỗi đã dịch, hỗ trợ {placeholder}. / Translate with {placeholder}. */
+        function tr(key, vars) {
+            let s = T[key] != null ? T[key] : key;
+            if (vars) {
+                for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+            }
+            return s;
+        }
+
         let maDaChon = '';
         let KHUNG_THOI_GIAN = '1d';   // updated when user picks a timeframe
         let danhSachMa = [];
@@ -1334,13 +1405,13 @@
 
         // ── Timeframe selector ─────────────────────────────────────────────────────
         const TF_META = {
-            "5m": { label: "5m - 5 Phút", desc: "78 nến gần nhất", icon: "fas fa-stopwatch" },
-            "15m": { label: "15m - 15 Phút", desc: "60 nến gần nhất", icon: "fas fa-clock" },
-            "30m": { label: "30m - 30 Phút", desc: "50 nến gần nhất", icon: "fas fa-clock" },
-            "1h": { label: "1h - 1 Giờ", desc: "45 nến gần nhất", icon: "fas fa-clock" },
-            "1d": { label: "1D - 1 Ngày", desc: "45 nến gần nhất", icon: "fas fa-calendar-day" },
-            "1w": { label: "1W - 1 Tuần", desc: "52 nến gần nhất", icon: "fas fa-calendar-week" },
-            "1mo": { label: "1M - 1 Tháng", desc: "36 nến gần nhất", icon: "fas fa-calendar-alt" },
+            "5m": { label: "5m - " + tr('tf_5m'), desc: tr('tf_recent_candles', { n: 78 }), icon: "fas fa-stopwatch" },
+            "15m": { label: "15m - " + tr('tf_15m'), desc: tr('tf_recent_candles', { n: 60 }), icon: "fas fa-clock" },
+            "30m": { label: "30m - " + tr('tf_30m'), desc: tr('tf_recent_candles', { n: 50 }), icon: "fas fa-clock" },
+            "1h": { label: "1h - " + tr('tf_1h'), desc: tr('tf_recent_candles', { n: 45 }), icon: "fas fa-clock" },
+            "1d": { label: "1D - " + tr('tf_1d'), desc: tr('tf_recent_candles', { n: 45 }), icon: "fas fa-calendar-day" },
+            "1w": { label: "1W - " + tr('tf_1w'), desc: tr('tf_recent_candles', { n: 52 }), icon: "fas fa-calendar-week" },
+            "1mo": { label: "1M - " + tr('tf_1mo'), desc: tr('tf_recent_candles', { n: 36 }), icon: "fas fa-calendar-alt" },
         };
 
         function initTimeframeSelector() {
@@ -1396,29 +1467,29 @@
         function luuApiKey() {
             const apiKey = document.getElementById('groqApiKeyInput').value.trim();
             const statusEl = document.getElementById('apiKeyStatus');
-            if (!apiKey) { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> Vui lòng nhập API key</div>'; return; }
-            if (!apiKey.startsWith('gsk_')) { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> Key không đúng định dạng (phải bắt đầu bằng gsk_)</div>'; return; }
-            statusEl.innerHTML = '<div style="color:var(--gray-500);font-size:0.82rem;"><i class="fas fa-spinner fa-spin"></i> Đang kết nối Groq...</div>';
+            if (!apiKey) { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> ' + tr('key_enter_prompt') + '</div>'; return; }
+            if (!apiKey.startsWith('gsk_')) { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> ' + tr('key_bad_format') + '</div>'; return; }
+            statusEl.innerHTML = '<div style="color:var(--gray-500);font-size:0.82rem;"><i class="fas fa-spinner fa-spin"></i> ' + tr('key_connecting') + '</div>';
             fetch('/api/update-api-key', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ api_key: apiKey }) })
                 .then(r => r.json()).then(data => {
                     if (data.success) {
-                        statusEl.innerHTML = '<div class="key-status-ok"><i class="fas fa-check-circle"></i> API key hợp lệ - Groq đã kết nối!</div>';
+                        statusEl.innerHTML = '<div class="key-status-ok"><i class="fas fa-check-circle"></i> ' + tr('key_ok') + '</div>';
                         keyDaLuu = true;
                         document.getElementById('apiNotice').classList.add('hidden');
                         localStorage.setItem('groq_key_set', '1');
                         kiemTraGroq();
                     } else {
-                        statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> ' + (data.error || 'Key không hợp lệ') + '</div>';
+                        statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> ' + (data.error || tr('key_invalid')) + '</div>';
                     }
-                }).catch(e => { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> Lỗi kết nối: ' + e.message + '</div>'; });
+                }).catch(e => { statusEl.innerHTML = '<div class="key-status-err"><i class="fas fa-times-circle"></i> ' + tr('err_connection_prefix') + e.message + '</div>'; });
         }
 
         function kiemTraGroq() {
             const dot = document.getElementById('groqStatusDot'), text = document.getElementById('groqStatusText');
-            dot.className = 'status-dot loading'; text.textContent = 'Đang kiểm tra Groq...';
+            dot.className = 'status-dot loading'; text.textContent = tr('st_checking_groq');
             fetch('/api/groq-status').then(r => r.json()).then(data => {
                 if (data.valid) {
-                    dot.className = 'status-dot ok'; text.textContent = 'Groq sẵn sàng';
+                    dot.className = 'status-dot ok'; text.textContent = tr('st_groq_ready');
                     document.getElementById('groqBadge').style.display = 'inline-flex';
                     document.getElementById('agentModelTag').style.display = 'inline-block';
                     document.getElementById('graphModelTag').style.display = 'inline-block';
@@ -1427,59 +1498,59 @@
                     document.getElementById('apiNotice').classList.add('hidden');
                     keyDaLuu = true;
                 } else {
-                    dot.className = 'status-dot warn'; text.textContent = 'Groq chưa cấu hình';
+                    dot.className = 'status-dot warn'; text.textContent = tr('st_groq_unconfigured');
                     document.getElementById('groqBadge').style.display = 'none';
                 }
-            }).catch(() => { dot.className = 'status-dot err'; text.textContent = 'Không kiểm tra được Groq'; });
+            }).catch(() => { dot.className = 'status-dot err'; text.textContent = tr('st_groq_check_failed'); });
         }
 
         function kiemTraTrangThaiRT() {
             const dot = document.getElementById('rtStatusDot'), text = document.getElementById('rtStatusText');
-            dot.className = 'status-dot loading'; text.textContent = 'Đang kiểm tra vnstock...';
+            dot.className = 'status-dot loading'; text.textContent = tr('st_checking_vnstock');
             fetch('/api/realtime-status').then(r => r.json()).then(data => {
                 const rows = [];
-                rows.push('<div class="rt-status-row"><span class="rt-status-icon ' + (data.available ? 'rt-pip-ok' : 'rt-pip-err') + '">' + (data.available ? '✅' : '❌') + '</span><div><div class="rt-status-label">Thư viện vnstock</div><div class="rt-status-value">' + (data.available ? 'Đã cài đặt ✓' : (data.install_cmd || 'pip install vnstock')) + '</div></div></div>');
+                rows.push('<div class="rt-status-row"><span class="rt-status-icon ' + (data.available ? 'rt-pip-ok' : 'rt-pip-err') + '">' + (data.available ? '✅' : '❌') + '</span><div><div class="rt-status-label">' + tr('vnstock_library') + '</div><div class="rt-status-value">' + (data.available ? tr('vnstock_installed') : (data.install_cmd || 'pip install vnstock')) + '</div></div></div>');
                 if (data.available) {
                     const via = data.connected_via ? ' (' + data.connected_via + ')' : '';
-                    rows.push('<div class="rt-status-row"><span class="rt-status-icon ' + (data.connected ? 'rt-pip-ok' : 'rt-pip-err') + '">' + (data.connected ? '🌐' : '🔌') + '</span><div><div class="rt-status-label">Kết nối dữ liệu' + via + '</div><div class="rt-status-value">' + (data.connected ? 'OK - ' + data.test_symbol + ': ' + data.test_rows + ' nến' : (data.error || 'Kết nối thất bại')) + '</div></div></div>');
-                    rows.push('<div class="rt-status-row"><span class="rt-status-icon">📡</span><div><div class="rt-status-label">Nguồn dữ liệu</div><div class="rt-status-value">' + (data.sources || ['VCI', 'MSN']).join(' → ') + '</div></div></div>');
-                    rows.push('<div class="rt-status-row"><span class="rt-status-icon">🗄️</span><div><div class="rt-status-label">Bộ nhớ đệm</div><div class="rt-status-value">' + (data.cached_items || 0) + ' mục · TTL ' + (data.cache_ttl || 300) + 's</div></div></div>');
+                    rows.push('<div class="rt-status-row"><span class="rt-status-icon ' + (data.connected ? 'rt-pip-ok' : 'rt-pip-err') + '">' + (data.connected ? '🌐' : '🔌') + '</span><div><div class="rt-status-label">' + tr('data_connection') + via + '</div><div class="rt-status-value">' + (data.connected ? 'OK - ' + data.test_symbol + ': ' + data.test_rows + ' ' + tr('candles') : (data.error || tr('st_connect_failed'))) + '</div></div></div>');
+                    rows.push('<div class="rt-status-row"><span class="rt-status-icon">📡</span><div><div class="rt-status-label">' + tr('data_sources') + '</div><div class="rt-status-value">' + (data.sources || ['VCI', 'MSN']).join(' → ') + '</div></div></div>');
+                    rows.push('<div class="rt-status-row"><span class="rt-status-icon">🗄️</span><div><div class="rt-status-label">' + tr('cache') + '</div><div class="rt-status-value">' + tr('cache_items', { n: (data.cached_items || 0), ttl: (data.cache_ttl || 300) }) + '</div></div></div>');
                 }
                 document.getElementById('rtDetailRows').innerHTML = rows.join('');
-                if (!data.available) { dot.className = 'status-dot warn'; text.textContent = 'vnstock chưa cài'; }
+                if (!data.available) { dot.className = 'status-dot warn'; text.textContent = tr('st_vnstock_missing'); }
                 else if (data.connected) {
-                    dot.className = 'status-dot ok'; text.textContent = 'Thời gian thực sẵn sàng';
+                    dot.className = 'status-dot ok'; text.textContent = tr('st_rt_ready');
                     document.getElementById('rtBadge').style.display = 'inline-block';
                     const lb = document.getElementById('lastUpdateBadge');
                     lb.style.display = 'flex'; lb.className = 'last-update live';
-                    document.getElementById('lastUpdateTime').textContent = new Date().toLocaleTimeString('vi-VN');
-                } else { dot.className = 'status-dot err'; text.textContent = 'Kết nối thất bại'; }
-            }).catch(() => { dot.className = 'status-dot err'; text.textContent = 'Kiểm tra trạng thái thất bại'; });
+                    document.getElementById('lastUpdateTime').textContent = new Date().toLocaleTimeString(tr('locale_tag'));
+                } else { dot.className = 'status-dot err'; text.textContent = tr('st_connect_failed'); }
+            }).catch(() => { dot.className = 'status-dot err'; text.textContent = tr('st_status_check_failed'); });
         }
 
         function xoaCache() {
             fetch('/api/realtime-cache/clear', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
-                .then(r => r.json()).then(() => { hienThongBao('Bộ nhớ đệm đã được xóa ✓', 'ok'); kiemTraTrangThaiRT(); })
-                .catch(e => hienThongBao('Xóa bộ nhớ đệm thất bại: ' + e.message, 'error'));
+                .then(r => r.json()).then(() => { hienThongBao(tr('cache_cleared'), 'ok'); kiemTraTrangThaiRT(); })
+                .catch(e => hienThongBao(tr('err_clear_cache') + e.message, 'error'));
         }
 
         function taiDanhSachMa() {
             const container = document.getElementById('stockListContainer');
-            container.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--gray-400);"><i class="fas fa-spinner fa-spin"></i> Đang tải từ vnstock...</div>';
+            container.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--gray-400);"><i class="fas fa-spinner fa-spin"></i> ' + tr('loading_from_vnstock') + '</div>';
             fetch('/api/assets').then(r => r.json()).then(data => {
                 danhSachMa = data.assets || [];
                 const soLuong = danhSachMa.length;
                 document.getElementById('stockCountBadge').textContent = soLuong;
-                document.getElementById('symbolCountLabel').textContent = soLuong.toLocaleString() + ' mã cổ phiếu (HOSE / HNX / UPCOM)';
+                document.getElementById('symbolCountLabel').textContent = tr('st_symbol_count', { n: soLuong.toLocaleString(tr('locale_tag')) });
                 hienThiDanhSachMa(danhSachMa);
                 const daChu = localStorage.getItem('vn_selected_asset');
                 if (daChu && danhSachMa.find(s => s.code === daChu)) chonMa(daChu);
-            }).catch(() => { container.innerHTML = '<div style="padding:1.5rem;text-align:center;color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Không tải được danh sách mã.</div>'; });
+            }).catch(() => { container.innerHTML = '<div style="padding:1.5rem;text-align:center;color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> ' + tr('err_load_symbol_list') + '</div>'; });
         }
 
         function hienThiDanhSachMa(dsMa) {
             const container = document.getElementById('stockListContainer');
-            if (!dsMa.length) { container.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--gray-400);">Không tìm thấy mã nào</div>'; return; }
+            if (!dsMa.length) { container.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--gray-400);">' + tr('no_symbol_found') + '</div>'; return; }
             container.innerHTML = dsMa.map(s => {
                 const tenCty = s.name && s.name !== s.code ? s.name : '';
                 const san = s.exchange || '';
@@ -1511,17 +1582,20 @@
 
         function taiThongTinMa(ma) {
             const card = document.getElementById('stockInfoCard');
-            card.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+            card.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + tr('loading');
             fetch('/api/stock-info/' + ma).then(r => r.json()).then(info => {
-                if (!info.exists) { card.innerHTML = '<div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;"><strong style="color:var(--vn-red);font-size:1.05rem;">' + ma + '</strong><span class="live-tag"><i class="fas fa-bolt"></i> Thời gian thực</span></div><div style="color:var(--gray-500);font-size:0.78rem;margin-top:0.4rem;">Dữ liệu sẽ được lấy trực tiếp khi chạy phân tích.</div>'; return; }
+                if (!info.exists) { card.innerHTML = '<div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;"><strong style="color:var(--vn-red);font-size:1.05rem;">' + ma + '</strong><span class="live-tag"><i class="fas fa-bolt"></i> ' + tr('realtime') + '</span></div><div style="color:var(--gray-500);font-size:0.78rem;margin-top:0.4rem;">' + tr('fetch_on_run_hint') + '</div>'; return; }
                 const tenVN = info.organ_name || info.name || '';
                 const tenEN = info.en_organ_name || info.en_name || '';
+                // Ở chế độ tiếng Anh ưu tiên tên tiếng Anh / prefer the English name in EN mode
+                const tenChinh = LANG === 'en' ? (tenEN || tenVN) : tenVN;
+                const tenPhu = LANG === 'en' ? (tenEN ? tenVN : '') : tenEN;
                 const san = info.exchange || '';
                 const nganh = info.industry || '';
-                const dongTen = tenVN ? '<div style="grid-column:1/-1;margin-bottom:0.35rem;"><span style="color:var(--gray-500);font-size:0.78rem;">Công ty</span><br><strong style="color:var(--gray-800);font-size:0.88rem;line-height:1.4;">' + tenVN + '</strong>' + (tenEN ? '<div style="color:var(--gray-500);font-size:0.76rem;">' + tenEN + '</div>' : '') + '</div>' : '';
+                const dongTen = tenChinh ? '<div style="grid-column:1/-1;margin-bottom:0.35rem;"><span style="color:var(--gray-500);font-size:0.78rem;">' + tr('company') + '</span><br><strong style="color:var(--gray-800);font-size:0.88rem;line-height:1.4;">' + tenChinh + '</strong>' + (tenPhu ? '<div style="color:var(--gray-500);font-size:0.76rem;">' + tenPhu + '</div>' : '') + '</div>' : '';
                 const sanB = san ? '<span style="display:inline-block;background:var(--vn-red);color:#fff;border-radius:5px;padding:0.1rem 0.45rem;font-size:0.7rem;font-weight:700;margin-left:0.3rem;">' + san + '</span>' : '';
-                card.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem 0.6rem;">' + dongTen + '<div><span style="color:var(--gray-500);font-size:0.78rem;">Mã</span><br><strong style="color:var(--vn-red);font-size:1.05rem;">' + info.code + '</strong>' + sanB + '<span class="live-tag" style="margin-left:0.3rem;"><i class="fas fa-bolt"></i> Trực tiếp</span></div>' + (nganh ? '<div><span style="color:var(--gray-500);font-size:0.78rem;">Ngành</span><br><strong style="font-size:0.85rem;">' + nganh + '</strong></div>' : '') + '</div>';
-            }).catch(() => { card.innerHTML = '<span style="color:var(--gray-500);">Không tải được thông tin</span>'; });
+                card.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem 0.6rem;">' + dongTen + '<div><span style="color:var(--gray-500);font-size:0.78rem;">' + tr('symbol') + '</span><br><strong style="color:var(--vn-red);font-size:1.05rem;">' + info.code + '</strong>' + sanB + '<span class="live-tag" style="margin-left:0.3rem;"><i class="fas fa-bolt"></i> ' + tr('live') + '</span></div>' + (nganh ? '<div><span style="color:var(--gray-500);font-size:0.78rem;">' + tr('industry') + '</span><br><strong style="font-size:0.85rem;">' + nganh + '</strong></div>' : '') + '</div>';
+            }).catch(() => { card.innerHTML = '<span style="color:var(--gray-500);">' + tr('err_load_stock_info') + '</span>'; });
         }
 
         function capNhatModel() {
@@ -1529,28 +1603,28 @@
             const graphModel = document.getElementById('graphModelInput').value.trim();
             const successEl = document.getElementById('settingsSuccess'), errorEl = document.getElementById('settingsError');
             successEl.style.display = errorEl.style.display = 'none';
-            if (!agentModel || !graphModel) { errorEl.textContent = 'Vui lòng nhập cả hai tên model.'; errorEl.style.display = 'block'; return; }
-            fetch('/api/update-models', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ agent_model: agentModel, graph_model: graphModel }) })
+            if (!agentModel || !graphModel) { errorEl.textContent = tr('err_models_both'); errorEl.style.display = 'block'; return; }
+            fetch('/api/update-models', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ agent_model: agentModel, graph_model: graphModel, language: LANG }) })
                 .then(r => r.json()).then(data => {
-                    if (data.success) { successEl.innerHTML = '<i class="fas fa-check-circle"></i> Đã lưu: văn bản=' + data.agent_model + ', thị giác=' + data.graph_model; successEl.style.display = 'block'; setTimeout(() => successEl.style.display = 'none', 4000); }
-                    else { errorEl.textContent = data.error || 'Cập nhật thất bại'; errorEl.style.display = 'block'; }
-                }).catch(e => { errorEl.textContent = 'Lỗi kết nối: ' + e.message; errorEl.style.display = 'block'; });
+                    if (data.success) { successEl.innerHTML = '<i class="fas fa-check-circle"></i> ' + tr('models_saved', { text: data.agent_model, vision: data.graph_model }); successEl.style.display = 'block'; setTimeout(() => successEl.style.display = 'none', 4000); }
+                    else { errorEl.textContent = data.error || tr('err_update_failed'); errorEl.style.display = 'block'; }
+                }).catch(e => { errorEl.textContent = tr('err_connection_prefix') + e.message; errorEl.style.display = 'block'; });
         }
 
         function resetBtn() {
             const btn = document.getElementById('analyzeBtn');
             btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-play"></i> Chạy phân tích <i class="fas fa-arrow-right"></i>';
+            btn.innerHTML = '<i class="fas fa-play"></i> ' + tr('run_analysis') + ' <i class="fas fa-arrow-right"></i>';
             document.getElementById('loadingOverlay').classList.remove('active');
             resetLoadingSteps();
         }
 
         function chayPhanTich() {
-            if (!maDaChon) { hienThongBao('Vui lòng chọn mã cổ phiếu trước khi phân tích.', 'warn'); return; }
-            if (!keyDaLuu) { hienThongBao('Vui lòng nhập Groq API key và nhấn "Lưu API Key" trước.', 'warn'); document.getElementById('groqApiKeyInput').focus(); return; }
+            if (!maDaChon) { hienThongBao(tr('warn_select_stock'), 'warn'); return; }
+            if (!keyDaLuu) { hienThongBao(tr('warn_save_key'), 'warn'); document.getElementById('groqApiKeyInput').focus(); return; }
             const btn = document.getElementById('analyzeBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang phân tích...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + tr('analyzing');
             document.getElementById('loadingOverlay').classList.add('active');
             resetLoadingSteps();
             setLoadingStep(1);
@@ -1558,18 +1632,19 @@
             // Update step1 label with selected timeframe
             const tfMeta = TF_META[KHUNG_THOI_GIAN] || {};
             const step1El = document.getElementById('step1Text');
-            if (step1El) step1El.textContent = `Lấy dữ liệu ${tfMeta.label || KHUNG_THOI_GIAN}`;
+            if (step1El) step1El.textContent = tr('load_step1_tf', { tf: tfMeta.label || KHUNG_THOI_GIAN });
 
-            fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ asset: maDaChon, timeframe: KHUNG_THOI_GIAN }) })
+            // Gửi kèm ngôn ngữ để các tác tử trả lời đúng ngôn ngữ / send language so agents reply in it
+            fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ asset: maDaChon, timeframe: KHUNG_THOI_GIAN, language: LANG }) })
                 .then(r => r.json()).then(data => {
                     if (data.error) { resetBtn(); hienThongBao(data.error, 'error'); return; }
-                    if (!data.job_id) { resetBtn(); hienThongBao('Lỗi server: không có job_id.', 'error'); return; }
+                    if (!data.job_id) { resetBtn(); hienThongBao(tr('err_no_job_id'), 'error'); return; }
                     pollJob(data.job_id, 0);
-                }).catch(err => { resetBtn(); hienThongBao('Không kết nối được server Flask. (' + err.message + ')', 'error'); });
+                }).catch(err => { resetBtn(); hienThongBao(tr('err_no_flask') + ' (' + err.message + ')', 'error'); });
         }
 
         function pollJob(jobId, attempt) {
-            if (attempt >= 150) { resetBtn(); hienThongBao('Phân tích quá thời gian. Vui lòng thử lại.', 'error'); return; }
+            if (attempt >= 150) { resetBtn(); hienThongBao(tr('err_timeout'), 'error'); return; }
             setTimeout(() => {
                 fetch('/api/analyze/status/' + jobId).then(r => r.json()).then(data => {
                     if (typeof data.step === 'number' && data.step > _currentStep) setLoadingStep(data.step);
@@ -1578,13 +1653,13 @@
                     setTimeout(() => {
                         resetBtn();
                         const result = data.result || {};
-                        if (data.status === 'error' || result.error) { hienThongBao(result.error || 'Lỗi không xác định.', 'error'); return; }
+                        if (data.status === 'error' || result.error) { hienThongBao(result.error || tr('err_unknown'), 'error'); return; }
                         if (result.redirect) {
                             sessionStorage.setItem('analysisResults', JSON.stringify(result));
                             window.location.href = result.redirect;
                         }
                     }, 600);
-                }).catch(err => { resetBtn(); hienThongBao('Lỗi poll: ' + err.message, 'error'); });
+                }).catch(err => { resetBtn(); hienThongBao(tr('err_poll') + err.message, 'error'); });
             }, 2000);
         }
 

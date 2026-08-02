@@ -1862,6 +1862,380 @@ NEW_ALPHA_TEMPLATES = {
 }
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 9b. English overlay for NEW_ALPHA_TEMPLATES
+# ─────────────────────────────────────────────────────────────────────────────
+# `name` và `formula` là ký hiệu toán học / tên riêng nên dùng chung cho mọi
+# ngôn ngữ; chỉ `type` và `interp` mới cần dịch.
+#
+# `name` and `formula` are notation and proper nouns, so they are shared across
+# languages; only `type` and `interp` need translating.
+
+NEW_ALPHA_TEMPLATES_EN = {
+    # ── Current Hardcoded Alphas ──
+    "CURRENT_1_FDM": {
+        "type": "Trend continuation",
+        "interp": "Measures money-flow convergence via MACD and price momentum (ROC).",
+    },
+    "CURRENT_2_SFA": {
+        "type": "Sentiment-technical hybrid",
+        "interp": "Combines news sentiment (CafeF/ViSoBERT) with liquidity recovery.",
+    },
+    "CURRENT_3_LVR": {
+        "type": "Mean reversion",
+        "interp": "Expects price to revert once it strays too far from the 5-session moving average.",
+    },
+    "CURRENT_4_BFE": {
+        "type": "Volatility breakout",
+        "interp": "Identifies the volume-expansion point while price sits at a Bollinger band.",
+    },
+    "CURRENT_5_OFE": {
+        "type": "Extreme reversal",
+        "interp": "Detects order-flow exhaustion at extreme price levels.",
+    },
+
+    # ── WorldQuant 101 Adapted Alphas ──
+    "WQ02_PriceVolDiv": {
+        "type": "Divergence",
+        "interp": "Detects the mismatch between effort (volume) and result (price movement).",
+    },
+    "WQ03_OpenVolCorr": {
+        "type": "Inverse correlation",
+        "interp": "Negative correlation between the open price and volume often signals a reversal.",
+    },
+    "WQ06_OpenVol": {
+        "type": "Volume momentum",
+        "interp": "Negative price-volume agreement reflects selling pressure.",
+    },
+    "WQ07_VolSurgeMom": {
+        "type": "Momentum breakout",
+        "interp": "Price reaction after a volume surge relative to the prior 20 sessions.",
+    },
+    "WQ09_MomContRev": {
+        "type": "Trend filter",
+        "interp": "Continuation when the trend is uniform, reversal when the last 5 sessions are mixed.",
+    },
+    "WQ12_VolPriceSign": {
+        "type": "T+1 / T+3 reversal",
+        "interp": "Rising volume on falling price → expect a bounce; rising volume on rising price → expect a shakeout.",
+    },
+    "WQ13_CovReverse": {
+        "type": "Covariance reversal",
+        "interp": "High covariance between close and volume forecasts trend exhaustion.",
+    },
+    "WQ16_HighVolCov": {
+        "type": "High-price reversal",
+        "interp": "Same as WQ13 but focused on the high price to find short-term tops.",
+    },
+    "WQ19_LongShortMom": {
+        "type": "Trend & reversal",
+        "interp": "Favours short-term reversals on top of a strong long-term trend.",
+    },
+    "WQ20_GapAnalysis": {
+        "type": "T+1 gap play",
+        "interp": "Analyses the open relative to the prior day's range to find gap-fill entries.",
+    },
+    "WQ25_RetVolHeight": {
+        "type": "Candle momentum",
+        "interp": "Combines candle range, average volume and the return.",
+    },
+    "WQ30_SignStreakVol": {
+        "type": "Up/down streak",
+        "interp": "Rates the strength of a 3-day directional streak through the volume ratio.",
+    },
+    "WQ33_BodyDirection": {
+        "type": "Candle-body momentum",
+        "interp": "Ranks on the direction and length of the candle body relative to history.",
+    },
+    "WQ34_VolRatioRev": {
+        "type": "Volatility reversal",
+        "interp": "Short-term volatility below average together with a falling price is a good buy signal.",
+    },
+    "WQ38_TsRankBody": {
+        "type": "High-zone reversal",
+        "interp": "Combines the price rank with the candle shape to find reversal points.",
+    },
+    "WQ40_HighVolatVol": {
+        "type": "High-volatility reversal",
+        "interp": "Rising high-price volatility together with positive volume correlation signals a top.",
+    },
+    "WQ41_GeoMeanVwap": {
+        "type": "Fair value gap",
+        "interp": "Measures the gap between fair value (geometric mean of H/L) and the cumulative average price.",
+    },
+    "WQ43_VolSurgeRev7": {
+        "type": "Medium-term reversal",
+        "interp": "Combines a volume surge with a 7-session oversold condition (suits T+2.5).",
+    },
+    "WQ44_HighVolCorr": {
+        "type": "Price-volume correlation",
+        "interp": "Negative correlation between the high price and the volume rank forecasts weakening.",
+    },
+    "WQ53_BarPosChange": {
+        "type": "Position within the bar",
+        "interp": "Measures how the close's position inside the candle range shifted over 9 sessions.",
+    },
+    "WQ54_BarAsymm": {
+        "type": "Candle asymmetry",
+        "interp": "Uses candle asymmetry to forecast a supply/demand imbalance.",
+    },
+    "WQ55_StochVolCorr": {
+        "type": "T+2.5 reversal",
+        "interp": "Negative correlation between price position (Stochastic) and volume is often a good entry.",
+    },
+
+    # ── Full WQ-101 set ────────────────────────────────────────────────────
+    "WQ01_ArgMaxRank": {
+        "type": "Extremum reversal",
+        "interp": "Uses std on down days and close on up days; the extremum's position within 5 candles forecasts a reversal.",
+    },
+    "WQ04_LowRankRev": {
+        "type": "Low-price reversal",
+        "interp": "Persistently low prices across many sessions build technical recovery pressure.",
+    },
+    "WQ05_OpenVwapBody": {
+        "type": "VWAP reversal",
+        "interp": "An open far from the double VWAP with a flat body forecasts a pullback to VWAP.",
+    },
+    "WQ08_OpenRetMom": {
+        "type": "Opening momentum",
+        "interp": "Divergence between current opening buying pressure and that of 10 sessions ago.",
+    },
+    "WQ10_MomRank4": {
+        "type": "Trend filter",
+        "interp": "Filters price momentum over 4 sessions: continuation or reversal.",
+    },
+    "WQ11_VwapCloseVol": {
+        "type": "VWAP volatility",
+        "interp": "The vwap-close range combined with the volume change forecasts a breakout.",
+    },
+    "WQ14_RetDeltaCorr": {
+        "type": "Flow divergence",
+        "interp": "Decaying momentum plus a negative open-volume correlation is a buy signal.",
+    },
+    "WQ15_HighVolSumCorr": {
+        "type": "Peak-volume correlation",
+        "interp": "High correlation between price peaks and volume over 3 sessions = exhaustion ahead.",
+    },
+    "WQ17_TripleRank": {
+        "type": "Price acceleration reversal",
+        "interp": "Combines price rank, acceleration and volume pressure to find reversal points.",
+    },
+    "WQ18_StdBodyCorr": {
+        "type": "Composite volatility",
+        "interp": "Body volatility + the current body + the close-open correlation forecast continuation.",
+    },
+    "WQ21_SmaCondition": {
+        "type": "SMA band condition",
+        "interp": "Three SMA8 ± std band conditions combined with the volume ratio to filter the trend.",
+    },
+    "WQ22_CorrDeltaStd": {
+        "type": "Corr-std divergence",
+        "interp": "The change in the peak-volume correlation combined with historical volatility.",
+    },
+    "WQ23_HighSmaBreak": {
+        "type": "SMA20 high breakout",
+        "interp": "When the high breaks above the SMA20 of highs, a short-term technical correction is expected.",
+    },
+    "WQ24_TrendSlope": {
+        "type": "Long-term trend",
+        "interp": "Flat long-term trend → mean reversion; steep trend → short-term momentum.",
+    },
+    "WQ26_TsMaxCorrVol": {
+        "type": "Correlation extremum",
+        "interp": "The 3-session extremum of the ts_rank_vol vs ts_rank_high correlation forecasts a reversal.",
+    },
+    "WQ27_CorrRankCond": {
+        "type": "Correlation threshold",
+        "interp": "When the vol-vwap correlation exceeds the 50th percentile, a reversal is expected.",
+    },
+    "WQ28_CorrLowClose": {
+        "type": "Fair value gap",
+        "interp": "Combines the adv20-low correlation with the price position relative to HL/2 to measure the fair value gap.",
+    },
+    "WQ29_NestedRankLog": {
+        "type": "Nested rank composite",
+        "interp": "Deeply nested ranks plus delayed momentum forecast the next move.",
+    },
+    "WQ31_DecayDeltaCorr": {
+        "type": "Decay-delta-corr composite",
+        "interp": "A triple rank with decay produces a durable signal; sign(corr) confirms it.",
+    },
+    "WQ32_ScaleCorr230": {
+        "type": "Long-term + medium-term",
+        "interp": "Combines the SMA7 deviation with the 230-session VWAP correlation.",
+    },
+    "WQ35_TripleTsRank": {
+        "type": "Multi-dimensional momentum",
+        "interp": "Strong volume × narrow range × low return = accumulation before a breakout.",
+    },
+    "WQ36_WeightedCombo": {
+        "type": "5-factor composite",
+        "interp": "A weighted blend of 5 factors: body-vol corr, body, delay, corr_vwap_adv, sma × body.",
+    },
+    "WQ37_DelayOcCorr": {
+        "type": "Long-term lagged correlation",
+        "interp": "The 200-session correlation between the lagged body and the close, plus body momentum.",
+    },
+    "WQ39_DeltaDecayRet": {
+        "type": "Momentum decay",
+        "interp": "7-session momentum adjusted by volume decay, amplified by the 250-session trend.",
+    },
+    "WQ42_VwapCloseRatio": {
+        "type": "VWAP mean reversion",
+        "interp": "Rank ratio of the VWAP-close gap to their sum: a delay-0 mean-reversion alpha.",
+    },
+    "WQ45_DelayCloseCorr": {
+        "type": "Cumulative reversal",
+        "interp": "The average lagged price combined with the close-volume and the sum-price correlations.",
+    },
+    "WQ46_SlopeCond025": {
+        "type": "Slope reversal",
+        "interp": "Rates the 10-session slope's rate of change; sharp acceleration → reversal.",
+    },
+    "WQ47_CloseMomentum": {
+        "type": "Close-high momentum",
+        "interp": "Integrates the inverse price, volume, the high-close gap and the VWAP change.",
+    },
+    "WQ49_SlopeCond01": {
+        "type": "Weak-slope reversal",
+        "interp": "When the slope drops sharply below –0.1, a technical recovery is expected.",
+    },
+    "WQ50_TsMaxCorrRank": {
+        "type": "VWAP correlation extremum",
+        "interp": "The 5-session extremum of the vol-vwap correlation; a correlation peak means a reversal is near.",
+    },
+    "WQ51_SlopeCond005": {
+        "type": "Mild-slope reversal",
+        "interp": "A softer slope threshold than WQ#49; more sensitive to small declines.",
+    },
+    "WQ52_TsMinRetVol": {
+        "type": "Breakout from the bottom",
+        "interp": "Combines a bounce off the low, long-term relative momentum and rising volume.",
+    },
+    "WQ57_VwapArgmax": {
+        "type": "VWAP mean reversion",
+        "interp": "The close-vwap gap normalised by the position of the 30-session peak.",
+    },
+    "WQ60_BodyScaleArgmax": {
+        "type": "Candle-body pressure",
+        "interp": "The difference between the body-volume ratio and the position of the most recent price peak.",
+    },
+    "WQ61_VwapMinCorr": {
+        "type": "VWAP vs adv180",
+        "interp": "When the vwap-to-trough gap is smaller than the correlation with long-term volume.",
+    },
+    "WQ62_CorrOpenRank": {
+        "type": "Corr-rank comparison",
+        "interp": "The VWAP-adv20 correlation compared against the open/hl structure to detect divergence.",
+    },
+    "WQ65_WeightedCorrMin": {
+        "type": "Corr vs open minimum",
+        "interp": "The blended-price/adv60 correlation compared against the open's breakout from its 14-session low.",
+    },
+    "WQ66_DecayVwapLow": {
+        "type": "VWAP-low gap",
+        "interp": "Combines the decayed vwap delta with the low-vwap gap as a fraction of the candle body.",
+    },
+    "WQ71_MaxTsRankDecay": {
+        "type": "Max-decay composite",
+        "interp": "The max of two decays: the ts_rank close-adv180 correlation and the squared open-vwap gap.",
+    },
+    "WQ72_DecayRatio": {
+        "type": "Correlation ratio",
+        "interp": "The ratio of the hl/2-adv40 correlation to the ts_rank(vwap)-ts_rank(vol) correlation.",
+    },
+    "WQ73_MaxDecayDelta": {
+        "type": "VWAP delta reversal",
+        "interp": "The max of the decayed vwap5 delta and the decayed open-low rate of change.",
+    },
+    "WQ74_CorrCloseAdv30": {
+        "type": "Correlation comparison",
+        "interp": "The close-adv30 correlation being smaller than the rank(high_blend)-rank(vol) correlation.",
+    },
+    "WQ75_CorrVwapAdv50": {
+        "type": "Volume correlation comparison",
+        "interp": "The short vwap-vol correlation versus the longer low-adv50 correlation.",
+    },
+    "WQ77_MinDecayHL": {
+        "type": "Min-decay composite",
+        "interp": "The min of two decays: the hl/2-vwap gap and the hl/2-adv40 correlation.",
+    },
+    "WQ78_CorrRankPow": {
+        "type": "Corr rank exponent",
+        "interp": "The blended low-vwap correlation raised to the rank(vwap)-rank(vol) correlation.",
+    },
+    "WQ83_HLRatioVol": {
+        "type": "Range-volume",
+        "interp": "The ratio of the lagged range and volume divided by the range-vwap ratio.",
+    },
+    "WQ84_SignedPowerArgmax": {
+        "type": "VWAP momentum power",
+        "interp": "The VWAP's position below the 15-session peak, amplified by the 5-session close delta.",
+    },
+    "WQ85_CorrPow": {
+        "type": "Correlation exponent",
+        "interp": "The blended high-close/adv30 correlation raised to the ts_rank(hl/2)-ts_rank(vol) correlation.",
+    },
+    "WQ86_CorrCloseAdv20": {
+        "type": "Corr vs body gap",
+        "interp": "When the close-adv20 correlation is smaller than the rank of the close-vwap gap.",
+    },
+    "WQ88_MinDecayOpen": {
+        "type": "OHLC balance",
+        "interp": "The min of the decayed OHLC-balance rank and the decayed ts_rank close-adv60 correlation.",
+    },
+    "WQ89_DecayLowVwap": {
+        "type": "Low-vwap divergence",
+        "interp": "The low-adv10 correlation minus the decayed vwap delta forecasts divergence.",
+    },
+    "WQ92_MinCondDecay": {
+        "type": "Minimum price pressure",
+        "interp": "The min of the price-pressure condition and the low-adv30 correlation.",
+    },
+    "WQ94_VwapMinPow": {
+        "type": "VWAP rebound power",
+        "interp": "The vwap's distance from its trough raised to the ts_rank(vwap)-ts_rank(adv60) correlation.",
+    },
+    "WQ95_OpenMinCorr": {
+        "type": "Open breakout vs corr",
+        "interp": "The open's breakout from its 12-session low versus the corr^5 of the summed hl/2-adv40.",
+    },
+    "WQ96_MaxDecayCorr": {
+        "type": "Correlation extremum reversal",
+        "interp": "The max decay of the vwap-vol correlation and the argmax of the close-adv60 correlation.",
+    },
+    "WQ98_DecayDiff": {
+        "type": "Corr decay divergence",
+        "interp": "The decayed vwap-adv5 correlation minus the decayed argmin of the open-adv15 correlation.",
+    },
+    "WQ99_CorrHLAdv60": {
+        "type": "HL-vol correlation comparison",
+        "interp": "The summed hl/2-adv60 correlation versus the short-term low-vol correlation.",
+    },
+    "WQ101_IntradayBody": {
+        "type": "Intraday body ratio",
+        "interp": "The candle body relative to the full daily range: +1 is a perfect up candle, –1 a perfect down candle.",
+    },
+}
+
+
+def get_alpha_template(alpha_id: str, lang: str = "vi") -> dict:
+    """
+    Trả về metadata của một alpha theo ngôn ngữ hiển thị.
+
+    `name`/`formula` lấy từ `NEW_ALPHA_TEMPLATES`; `type`/`interp` được ghi đè
+    bằng bản dịch trong `NEW_ALPHA_TEMPLATES_EN` khi lang == "en". Trả về dict
+    rỗng nếu alpha_id không có template - caller tự lo phần fallback.
+    """
+    base = NEW_ALPHA_TEMPLATES.get(alpha_id)
+    if not base:
+        return {}
+    if lang != "en":
+        return dict(base)
+    return {**base, **NEW_ALPHA_TEMPLATES_EN.get(alpha_id, {})}
+
+
 def generate_new_alpha_agent(ranked: pd.DataFrame, top_n: int = 5,
                               output_path: str = "/mnt/user-data/outputs/alpha_agent_new.py"):
     """Generate updated alpha_agent.py with top-5 new alphas."""

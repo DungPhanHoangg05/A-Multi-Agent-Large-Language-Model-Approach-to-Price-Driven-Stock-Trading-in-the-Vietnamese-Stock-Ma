@@ -555,8 +555,10 @@ def _render_indicator_table(indicators: dict, kline_data: dict) -> str:
 
 # ── Render block phân loại để inject vào prompt ───────────────────────────────
 
-def _render_classification_block(classified: dict, summary: dict) -> str:
+def _render_classification_block(classified: dict, summary: dict, lang: str = "vi") -> str:
     """Tạo chuỗi text rõ ràng để inject vào prompt như ground truth."""
+    from utils.i18n import signal_label, confidence_label
+
     label_map = {
         "macd":  "MACD (12,26,9)",
         "rsi":   "RSI (14)",
@@ -569,9 +571,28 @@ def _render_classification_block(classified: dict, summary: dict) -> str:
         info = classified.get(key, {})
         sig  = info.get("signal", "TRUNG_TÍNH")
         note = info.get("note", "")
-        lines.append(f"  - {label}: **{sig}**  ← {note}")
+        lines.append(f"  - {label}: **{signal_label(sig, lang)}**  ← {note}")
 
     breakdown_str = "\n".join(lines)
+
+    consensus_disp  = signal_label(summary["consensus"], lang)
+    confidence_disp = confidence_label(summary["confidence"], lang)
+
+    if lang == "en":
+        return (
+            "## ⚠️ SIGNAL CLASSIFICATION — DETERMINED BY THE SYSTEM, DO NOT CHANGE\n\n"
+            f"{breakdown_str}\n\n"
+            "## ⚠️ SUMMARY — COUNTED BY THE SYSTEM, DO NOT RECOUNT\n\n"
+            f"  - Indicators agreeing BULLISH : **{summary['n_tang']}/{summary['total']}**\n"
+            f"  - Indicators agreeing BEARISH : **{summary['n_giam']}/{summary['total']}**\n"
+            f"  - NEUTRAL indicators          : **{summary['n_trung']}/{summary['total']}**\n"
+            f"  - Dominant consensus          : **{consensus_disp}** — confidence **{confidence_disp}**\n\n"
+            "Mandatory rules:\n"
+            "1. Use EXACTLY the per-indicator signals above when writing your interpretation.\n"
+            "2. Do NOT recount or change the summary numbers.\n"
+            "3. Do NOT use one indicator's figures when describing another.\n"
+            "4. Each [END ... SECTION] is a hard boundary — no cross-referencing.\n"
+        )
 
     return (
         "## ⚠️ PHÂN LOẠI TÍN HIỆU — ĐÃ XÁC ĐỊNH BỞI HỆ THỐNG, KHÔNG THAY ĐỔI\n\n"
@@ -580,7 +601,7 @@ def _render_classification_block(classified: dict, summary: dict) -> str:
         f"  - Số chỉ báo đồng thuận TĂNG : **{summary['n_tang']}/{summary['total']}**\n"
         f"  - Số chỉ báo đồng thuận GIẢM : **{summary['n_giam']}/{summary['total']}**\n"
         f"  - Số chỉ báo TRUNG TÍNH       : **{summary['n_trung']}/{summary['total']}**\n"
-        f"  - Đồng thuận chủ đạo          : **{summary['consensus']}** — độ tin cậy **{summary['confidence']}**\n\n"
+        f"  - Đồng thuận chủ đạo          : **{consensus_disp}** — độ tin cậy **{confidence_disp}**\n\n"
         "Quy tắc bắt buộc:\n"
         "1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n"
         "2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n"
@@ -600,6 +621,13 @@ def create_indicator_agent(llm, toolkit):
         kline_data = state["kline_data"]
         time_frame = state["time_frame"]
 
+        # ── i18n ──────────────────────────────────────────────────────────────
+        from utils.i18n import lang_of, get_horizon, language_directive
+        lang    = lang_of(state)
+        horizon = get_horizon(time_frame, lang)
+        h_desc  = horizon["horizon_desc"]
+        h_short = horizon["horizon_short"]
+
         # ── Bước 1: Python tính toán và phân loại ─────────────────────────────
         print("[IndicatorAgent] Đang tính toán 5 chỉ báo...")
         indicators = _compute_all_indicators(kline_data, toolkit)
@@ -609,7 +637,7 @@ def create_indicator_agent(llm, toolkit):
         summary    = classified.pop("__summary__")   # tách ra để dùng riêng
 
         indicator_table      = _render_indicator_table(indicators, kline_data)
-        classification_block = _render_classification_block(classified, summary)
+        classification_block = _render_classification_block(classified, summary, lang)
 
         print(
             f"[IndicatorAgent] Python classify xong: "
@@ -620,46 +648,82 @@ def create_indicator_agent(llm, toolkit):
         )
 
         # ── Bước 2: LLM chỉ viết diễn giải ngôn ngữ ──────────────────────────
-        # ── Horizon động ──────────────────────────────────────────────────
-        from utils.static_util import get_forecast_horizon
-        horizon = get_forecast_horizon(time_frame)
-        h_desc  = horizon["horizon_desc"]
-        h_short = horizon["horizon_short"]
+        from utils.i18n import signal_label, confidence_label
+        consensus_disp  = signal_label(summary["consensus"], lang)
+        confidence_disp = confidence_label(summary["confidence"], lang)
 
-        system_prompt = (
-            "Bạn là chuyên gia phân tích kỹ thuật HFT Việt Nam.\n\n"
-            f"MỤC TIÊU DUY NHẤT: Dự đoán hướng giá cho **{h_desc}** — "
-            "KHÔNG phân tích dài hạn.\n\n"
-            "QUY TẮC QUAN TRỌNG NHẤT:\n"
-            "1. Phần PHÂN LOẠI TÍN HIỆU và TỔNG HỢP đã được xác định bởi hệ thống Python — "
-            "bạn phải sử dụng ĐÚNG các con số đó, KHÔNG tự đếm lại hay thay đổi.\n"
-            "2. Mỗi chỉ báo có ranh giới [END ... SECTION] — KHÔNG dùng số của section này "
-            "khi viết về section khác. Stochastic KHÔNG có Histogram.\n"
-            f"3. Nhiệm vụ duy nhất của bạn: viết diễn giải ngôn ngữ rõ ràng, có tính ứng dụng cho {h_short}.\n"
-            "4. KHÔNG bịa số. KHÔNG nói 'thiếu thông tin'."
-        )
+        if lang == "en":
+            system_prompt = (
+                "You are an expert HFT technical analyst covering the Vietnamese stock market.\n\n"
+                f"SINGLE OBJECTIVE: Forecast the price direction for **{h_desc}** — "
+                "do NOT produce long-term analysis.\n\n"
+                "MOST IMPORTANT RULES:\n"
+                "1. The SIGNAL CLASSIFICATION and SUMMARY sections were determined by the Python "
+                "system — you must use those numbers EXACTLY, never recount or change them.\n"
+                "2. Each indicator is delimited by [END ... SECTION] — do NOT use numbers from one "
+                "section when writing about another. Stochastic has NO Histogram.\n"
+                f"3. Your only job: write a clear, actionable interpretation for {h_short}.\n"
+                "4. Do NOT invent numbers. Do NOT say 'insufficient information'.\n\n"
+                f"{language_directive(lang)}"
+            )
 
-        user_prompt = (
-            f"## Bảng số liệu đã tính toán — {time_frame} | Mục tiêu dự đoán: {h_short}\n\n"
-            f"{indicator_table}\n\n"
-            "---\n\n"
-            f"{classification_block}\n\n"
-            "---\n\n"
-            f"## Yêu cầu: Viết báo cáo diễn giải hướng tới dự đoán {h_short}\n\n"
-            "Với MỖI chỉ báo, viết theo đúng template sau "
-            "(dùng ĐÚNG tín hiệu đã phân loại ở trên):\n\n"
-            "**[Tên chỉ báo]**\n"
-            f"- Tín hiệu {h_short}: [ĐÚNG như phân loại hệ thống]\n"
-            "- Điểm giao cắt / ngưỡng quan trọng: [mô tả cụ thể có số từ section đúng]\n"
-            "- Động lượng: [tăng tốc / giảm tốc / ổn định] — giải thích ngắn\n\n"
-            "Sau 5 chỉ báo, viết phần tổng hợp "
-            "(COPY ĐÚNG số từ phần TỔNG HỢP ĐÃ XÁC ĐỊNH BỞI HỆ THỐNG ở trên):\n\n"
-            f"**Tổng hợp hội tụ tín hiệu — Dự đoán {h_short}**\n"
-            f"- Số chỉ báo đồng thuận tăng: **{summary['n_tang']}/{summary['total']}**\n"
-            f"- Số chỉ báo đồng thuận giảm: **{summary['n_giam']}/{summary['total']}**\n"
-            f"- Xu hướng chủ đạo: **{summary['consensus']}** — mức độ tin cậy **{summary['confidence']}**\n"
-            "- Nhận xét: [1-2 câu tóm tắt khả năng tăng/giảm dựa trên các chỉ báo]\n"
-        )
+            user_prompt = (
+                f"## Computed data table — {time_frame} | Forecast target: {h_short}\n\n"
+                f"{indicator_table}\n\n"
+                "---\n\n"
+                f"{classification_block}\n\n"
+                "---\n\n"
+                f"## Task: Write an interpretive report aimed at the {h_short} forecast\n\n"
+                "For EACH indicator, follow this exact template "
+                "(use EXACTLY the signal classified above):\n\n"
+                "**[Indicator name]**\n"
+                f"- {h_short} signal: [EXACTLY as classified by the system]\n"
+                "- Crossover / key threshold: [specific description with numbers from the correct section]\n"
+                "- Momentum: [accelerating / decelerating / stable] — short explanation\n\n"
+                "After the 5 indicators, write the summary section "
+                "(COPY THE EXACT numbers from the SYSTEM-DETERMINED SUMMARY above):\n\n"
+                f"**Signal convergence summary — {h_short} forecast**\n"
+                f"- Indicators agreeing on bullish: **{summary['n_tang']}/{summary['total']}**\n"
+                f"- Indicators agreeing on bearish: **{summary['n_giam']}/{summary['total']}**\n"
+                f"- Dominant trend: **{consensus_disp}** — confidence level **{confidence_disp}**\n"
+                "- Comment: [1-2 sentences summarising the up/down probability based on the indicators]\n"
+            )
+        else:
+            system_prompt = (
+                "Bạn là chuyên gia phân tích kỹ thuật HFT Việt Nam.\n\n"
+                f"MỤC TIÊU DUY NHẤT: Dự đoán hướng giá cho **{h_desc}** — "
+                "KHÔNG phân tích dài hạn.\n\n"
+                "QUY TẮC QUAN TRỌNG NHẤT:\n"
+                "1. Phần PHÂN LOẠI TÍN HIỆU và TỔNG HỢP đã được xác định bởi hệ thống Python — "
+                "bạn phải sử dụng ĐÚNG các con số đó, KHÔNG tự đếm lại hay thay đổi.\n"
+                "2. Mỗi chỉ báo có ranh giới [END ... SECTION] — KHÔNG dùng số của section này "
+                "khi viết về section khác. Stochastic KHÔNG có Histogram.\n"
+                f"3. Nhiệm vụ duy nhất của bạn: viết diễn giải ngôn ngữ rõ ràng, có tính ứng dụng cho {h_short}.\n"
+                "4. KHÔNG bịa số. KHÔNG nói 'thiếu thông tin'.\n\n"
+                f"{language_directive(lang)}"
+            )
+
+            user_prompt = (
+                f"## Bảng số liệu đã tính toán — {time_frame} | Mục tiêu dự đoán: {h_short}\n\n"
+                f"{indicator_table}\n\n"
+                "---\n\n"
+                f"{classification_block}\n\n"
+                "---\n\n"
+                f"## Yêu cầu: Viết báo cáo diễn giải hướng tới dự đoán {h_short}\n\n"
+                "Với MỖI chỉ báo, viết theo đúng template sau "
+                "(dùng ĐÚNG tín hiệu đã phân loại ở trên):\n\n"
+                "**[Tên chỉ báo]**\n"
+                f"- Tín hiệu {h_short}: [ĐÚNG như phân loại hệ thống]\n"
+                "- Điểm giao cắt / ngưỡng quan trọng: [mô tả cụ thể có số từ section đúng]\n"
+                "- Động lượng: [tăng tốc / giảm tốc / ổn định] — giải thích ngắn\n\n"
+                "Sau 5 chỉ báo, viết phần tổng hợp "
+                "(COPY ĐÚNG số từ phần TỔNG HỢP ĐÃ XÁC ĐỊNH BỞI HỆ THỐNG ở trên):\n\n"
+                f"**Tổng hợp hội tụ tín hiệu — Dự đoán {h_short}**\n"
+                f"- Số chỉ báo đồng thuận tăng: **{summary['n_tang']}/{summary['total']}**\n"
+                f"- Số chỉ báo đồng thuận giảm: **{summary['n_giam']}/{summary['total']}**\n"
+                f"- Xu hướng chủ đạo: **{consensus_disp}** — mức độ tin cậy **{confidence_disp}**\n"
+                "- Nhận xét: [1-2 câu tóm tắt khả năng tăng/giảm dựa trên các chỉ báo]\n"
+            )
 
         messages = [
             SystemMessage(content=system_prompt),

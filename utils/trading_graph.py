@@ -24,6 +24,7 @@ class TradingGraph:
         self.graph_llm = self._create_llm(
             model=self.config.get("graph_llm_model", "qwen/qwen3.6-27b"),
             temperature=self.config.get("graph_llm_temperature", 0.1),
+            max_tokens=self.config.get("graph_llm_max_tokens", 1024),
         )
 
         self.toolkit = TechnicalTools()
@@ -44,20 +45,52 @@ class TradingGraph:
             self.config["groq_api_key"] = key
             os.environ["GROQ_API_KEY"] = key
 
-    def _create_llm(self, model: str, temperature: float) -> BaseChatModel:
-        """Tạo instance ChatGroq cho model chỉ định."""
+    def _create_llm(self, model: str, temperature: float,
+                    max_tokens: int = None) -> BaseChatModel:
+        """
+        Tạo instance ChatGroq cho model chỉ định.
+
+        Với các model SUY LUẬN (qwen3, gpt-oss, deepseek...) phải đặt
+        `reasoning_format="hidden"`: Groq sẽ tự bóc phần suy luận ở phía server
+        nên `response.content` chỉ còn CÂU TRẢ LỜI. Không đặt thì suy luận trộn
+        thẳng vào content, model hết token khi còn đang suy luận và không kịp
+        sinh trường `**Pattern:**` nào → báo cáo ra khung trắng.
+
+        Lưu ý: `/no_think` trong prompt KHÔNG có tác dụng qua Groq API (đó là
+        quy ước của template Ollama/Qwen), nên phải xử lý ở tầng tham số này.
+        """
         api_key = self.config.get("groq_api_key") or os.environ.get("GROQ_API_KEY", "")
         if not api_key:
             raise ValueError(
                 "Groq API key chưa được cấu hình. "
                 "Nhập key tại giao diện web hoặc đặt biến môi trường GROQ_API_KEY."
             )
-        return ChatGroq(
-            model=model,
-            temperature=temperature,
-            api_key=api_key,
-            max_retries=3,
-        )
+
+        kwargs = {
+            "model": model,
+            "temperature": temperature,
+            "api_key": api_key,
+            "max_retries": 3,
+        }
+        if max_tokens:
+            kwargs["max_tokens"] = max_tokens
+
+        if self._is_reasoning_model(model):
+            try:
+                return ChatGroq(reasoning_format="hidden", **kwargs)
+            except Exception as e:
+                # Model không hỗ trợ tham số này → Groq trả 400. Quay về cấu hình
+                # thường thay vì làm hỏng cả graph.
+                print(f"[TradingGraph] '{model}' không nhận reasoning_format ({e}); "
+                      f"dùng cấu hình mặc định.")
+
+        return ChatGroq(**kwargs)
+
+    @staticmethod
+    def _is_reasoning_model(model: str) -> bool:
+        """Model có sinh chain-of-thought vào content không?"""
+        name = (model or "").lower()
+        return any(tag in name for tag in ("qwen3", "gpt-oss", "deepseek", "-r1"))
 
     # ── Public methods ────────────────────────────────────────────────────────
 
@@ -71,6 +104,7 @@ class TradingGraph:
         self.graph_llm = self._create_llm(
             model=self.config.get("graph_llm_model", "qwen/qwen3.6-27b"),
             temperature=self.config.get("graph_llm_temperature", 0.1),
+            max_tokens=self.config.get("graph_llm_max_tokens", 1024),
         )
         self.graph_setup = SetGraph(self.agent_llm, self.graph_llm, self.toolkit)
         self.graph = self.graph_setup.set_graph()
