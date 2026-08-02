@@ -20,37 +20,33 @@ def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
 # ── Parse JSON + fallback ──────────────────────────────────────────────────────
 
 def _safe_parse_and_enrich(raw: str, stock_name: str, lang: str = "vi") -> str:
-    start = raw.find("{")
-    end   = raw.rfind("}") + 1
-    if start != -1 and end > start:
-        try:
-            data = json.loads(raw[start:end])
+    """
+    Chuẩn hoá output thô của Decision Agent về một khối JSON hợp lệ.
 
-            decision = str(data.get("decision", "UNKNOWN")).upper().strip()
-            try:
-                rr = float(str(data.get("risk_reward_ratio", 1.5)))
-                data["risk_reward_ratio"] = str(round(max(1.0, min(5.0, rr)), 1))
-            except Exception:
-                data["risk_reward_ratio"] = "1.5"
+    Trước đây hàm này cắt JSON bằng `raw.find("{")` → `raw.rfind("}")`. Prompt
+    lại yêu cầu model viết đoạn phân tích TRƯỚC rồi mới tới khối JSON, nên chỉ
+    cần một dấu ngoặc nhọn lọt vào phần văn xuôi là lát cắt hỏng và cả quyết
+    định rơi về "UNKNOWN"/"N/A". Nay dùng bộ trích xuất nhiều tầng ở
+    `utils.decision_parser`, có bước khôi phục bằng regex nên phán quyết đã nêu
+    trong văn bản không bao giờ bị mất.
+    """
+    from utils.decision_parser import parse_decision
 
-            return json.dumps(data, ensure_ascii=False, indent=2)
-        except json.JSONDecodeError:
-            pass
+    data = parse_decision(raw, lang=lang)
 
-    print("[DecisionAgent] Không parse được JSON → fallback.")
-    is_en = lang == "en"
-    fallback = {
-        "decision": "UNKNOWN",
-        "confidence": "Low" if is_en else "Thấp",
-        "risk_reward_ratio": "1.0",
-        "justification": (
-            f"No clear decision could be extracted for {stock_name}."
-            if is_en else
-            f"Không trích xuất được quyết định rõ ràng cho {stock_name}."
-        ),
-        "_raw_llm_response": raw[:500],
-    }
-    return json.dumps(fallback, ensure_ascii=False, indent=2)
+    if data.get("decision") == "UNKNOWN":
+        print("[DecisionAgent] Không trích xuất được phán quyết → giữ UNKNOWN.")
+        data["_raw_llm_response"] = (raw or "")[:500]
+    else:
+        print(f"[DecisionAgent] Phán quyết: {data['decision']} "
+              f"(R:R={data['risk_reward_ratio']}).")
+
+    # Bỏ các trường rỗng để UI không hiển thị ô trống, nhưng LUÔN giữ bộ khoá
+    # cốt lõi mà template và backtest engine đọc tới.
+    core = {"decision", "confidence", "risk_reward_ratio", "justification"}
+    data = {k: v for k, v in data.items() if v or k in core}
+
+    return json.dumps(data, ensure_ascii=False, indent=2)
 
 
 # ── Distill reports to save tokens ─────────────────────────────────────────────
@@ -332,8 +328,13 @@ def create_final_trade_decider(llm):
 
         response = _invoke_with_retry(llm.invoke, prompt)
 
+        # Chuẩn hoá ngay tại nguồn: mọi nơi tiêu thụ `final_trade_decision`
+        # (web_interface, backtest_engine, template) đều nhận được JSON hợp lệ
+        # thay vì phải tự đoán lại từ văn bản thô.
+        normalized = _safe_parse_and_enrich(response.content, stock_name, lang=lang)
+
         return {
-            "final_trade_decision": response.content,
+            "final_trade_decision": normalized,
             "messages": [response],
             "decision_prompt": prompt,
         }

@@ -239,7 +239,9 @@ class WebTradingAnalyzer:
             return {"error": results.get("error") or t("err_unknown", lang)}
 
         final_state    = results["final_state"]
-        final_decision = _parse_decision(final_state.get("final_trade_decision", ""))
+        final_decision = _parse_decision(
+            final_state.get("final_trade_decision", ""), lang=lang
+        )
 
         return {
             "success":              True,
@@ -283,28 +285,22 @@ def _format_timeframe(tf: str) -> str:
     return cfg.get("display", tf)
 
 
-def _parse_decision(raw: str) -> Any:
+def _parse_decision(raw: str, lang: str = DEFAULT_LANG) -> Any:
+    """
+    Trích xuất quyết định cho UI.
+
+    Trước đây trả về `{"raw": raw}` khi lát cắt JSON hỏng — template không thấy
+    khoá `decision` nên hiển thị "N/A" dù văn bản có nêu rõ LONG/SHORT. Nay dùng
+    bộ trích xuất chung, có khôi phục bằng regex.
+    """
     if not raw:
         return {}
-    try:
-        start = raw.find("{")
-        end   = raw.rfind("}") + 1
-        if start != -1 and end > start:
-            data = json.loads(raw[start:end])
-            return {
-                "decision":          data.get("decision", "N/A"),
-                "risk_reward_ratio": data.get("risk_reward_ratio", "N/A"),
-                "forecast_horizon":  data.get("forecast_horizon", "N/A"),
-                "justification":     data.get("justification", "N/A"),
-                "alpha_consensus":   data.get("alpha_consensus", ""),
-                "consensus_count":   data.get("consensus_count", ""),
-                "confidence":        data.get("confidence", ""),
-                "key_risk":          data.get("key_risk", ""),
-                "raw":               raw[:300],
-            }
-    except Exception:
-        pass
-    return {"raw": raw}
+
+    from utils.decision_parser import parse_decision as _extract
+
+    data = _extract(raw, lang=lang)
+    data["raw"] = raw[:300]
+    return data
 
 
 # ── App init ──────────────────────────────────────────────────────────────────

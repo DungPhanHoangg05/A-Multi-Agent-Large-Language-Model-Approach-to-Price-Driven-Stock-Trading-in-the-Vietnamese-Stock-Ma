@@ -36,23 +36,38 @@ _FIELD_LABELS = {
 # Đuôi `\*{0,2}` sau dấu hai chấm là bắt buộc: model sinh ra `**Pattern:**` (dấu
 # hai chấm nằm TRONG cặp **), nếu không nuốt hai dấu * này thì chúng lọt vào đầu
 # giá trị và bị bước làm sạch cắt mất.
+#
+# Mỗi nhánh còn nhận các BIẾN THỂ rút gọn mà model thực sự sinh ra
+# ("Implication:" thay vì "Trading implication:", "Candles:" thay vì
+# "Key candles:"). Không có chúng thì parser trượt nhãn, trường bị bỏ trống và
+# hiển thị thành "—"/"__".
 _LABEL_REGEXES = {
     "Mô hình":
-        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Mô\s*hình|Pattern)(?:\*{0,2})\s*:\*{0,2}",
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Mô\s*hình|Pattern(?:\s*name)?"
+        r"|Chart\s*pattern|Price\s*pattern)(?:\*{0,2})\s*:\*{0,2}",
     "Độ tin cậy":
-        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Độ\s*tin\s*cậy|Confidence)(?:\*{0,2})\s*:\*{0,2}",
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Độ\s*tin\s*cậy|Tin\s*cậy"
+        r"|Confidence(?:\s*level)?|Certainty)(?:\*{0,2})\s*:\*{0,2}",
     "Thiên lệch dự báo":
         r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Thiên\s*lệch(?:\s*dự\s*báo)?"
-        r"|Directional\s*bias|Bias)(?:\*{0,2})\s*:\*{0,2}",
+        r"|Directional\s*bias|Direction(?:al)?|Bias|Outlook)(?:\*{0,2})\s*:\*{0,2}",
     "Bằng chứng":
-        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Bằng\s*chứng|Evidence)(?:\*{0,2})\s*:\*{0,2}",
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Bằng\s*chứng|Chứng\s*cứ"
+        r"|Evidence|Rationale|Reasoning)(?:\*{0,2})\s*:\*{0,2}",
     "Nến quan trọng":
-        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Nến\s*quan\s*trọng"
-        r"|Key\s*candles?)(?:\*{0,2})\s*:\*{0,2}",
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Nến\s*quan\s*trọng|Nến\s*chính"
+        r"|Key\s*candles?|Notable\s*candles?|Candles?)(?:\*{0,2})\s*:\*{0,2}",
     "Hàm ý giao dịch":
         r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Hàm\s*ý(?:\s*giao\s*dịch)?"
-        r"|Trading\s*implication)(?:\*{0,2})\s*:\*{0,2}",
+        r"|Trading\s*implication|Implication|Trade\s*setup|Action)(?:\*{0,2})\s*:\*{0,2}",
 }
+
+# Chuỗi placeholder model để lại khi không điền được trường — phải coi như RỖNG
+# để cơ chế dự phòng tính giá trị thật, thay vì hiển thị nguyên "__" cho người dùng.
+_PLACEHOLDER_VALUE_RE = re.compile(
+    r"^[\s_\-—–\.\*]*$|^n/?a\.?$|^unknown\.?$|^none\.?$|^không\s*xác\s*định\.?$",
+    re.IGNORECASE,
+)
 
 # ── Các marker đánh dấu nội dung "suy luận nội bộ" cần loại bỏ ────────────
 # Chỉ khớp ở đầu chuỗi / sau dấu kết câu / đầu dòng — nhiều mẫu ("However,",
@@ -343,16 +358,118 @@ def _extract_field_value(text: str, start: int, end: int, lang: str = "vi",
     return raw
 
 
-def _enforce_pattern_markdown_format(text: str, lang: str = "vi") -> str:
+def _describe_recent_candles(kline_data: dict, lang: str) -> dict:
+    """
+    Mô tả cấu trúc nến gần nhất trực tiếp từ OHLCV.
+
+    Dùng để điền các trường model bỏ trống: thay vì hiển thị "—"/"__" (vô nghĩa
+    với người dùng và với Decision Agent đọc lại báo cáo này), ta mô tả bằng số
+    liệu THẬT tính từ chính dữ liệu model vừa nhìn.
+    Trả về dict rỗng nếu dữ liệu không đủ.
+    """
+    try:
+        opens  = [float(v) for v in kline_data.get("Open",  [])]
+        highs  = [float(v) for v in kline_data.get("High",  [])]
+        lows   = [float(v) for v in kline_data.get("Low",   [])]
+        closes = [float(v) for v in kline_data.get("Close", [])]
+        if not (opens and highs and lows and closes):
+            return {}
+
+        n      = min(len(opens), len(highs), len(lows), len(closes))
+        window = min(20, n)
+        c      = closes[:n][-window:]
+        o      = opens[:n][-window:]
+        h      = highs[:n][-window:]
+        l      = lows[:n][-window:]
+
+        first, last = c[0], c[-1]
+        change_pct  = ((last - first) / first * 100) if first else 0.0
+        support, resistance = min(l), max(h)
+
+        # Nến có thân dài nhất trong cửa sổ — "nến quan trọng" theo nghĩa biến động.
+        bodies   = [abs(c[i] - o[i]) for i in range(window)]
+        idx      = bodies.index(max(bodies)) if bodies else 0
+        bullish  = c[idx] >= o[idx]
+        ago      = window - idx - 1
+
+        is_en = lang == "en"
+        if change_pct > 1.0:
+            trend_word = "uptrend" if is_en else "xu hướng tăng"
+            bias       = "Bullish" if is_en else "Tăng"
+        elif change_pct < -1.0:
+            trend_word = "downtrend" if is_en else "xu hướng giảm"
+            bias       = "Bearish" if is_en else "Giảm"
+        else:
+            trend_word = "sideways range" if is_en else "vùng đi ngang"
+            bias       = "Neutral" if is_en else "Trung tính"
+
+        strong = abs(change_pct) >= 3.0
+        mid    = abs(change_pct) >= 1.0
+        if is_en:
+            confidence = "High" if strong else ("Medium" if mid else "Low")
+        else:
+            confidence = "Cao" if strong else ("Trung bình" if mid else "Thấp")
+
+        def fmt(v):
+            return f"{v:,.0f}" if v >= 1000 else f"{round(v, 2):g}"
+
+        if is_en:
+            candle_word = "bullish" if bullish else "bearish"
+            return {
+                "Mô hình": f"{window}-candle {trend_word}",
+                "Độ tin cậy": confidence,
+                "Thiên lệch dự báo": bias,
+                "Bằng chứng": (
+                    f"Close moved {change_pct:+.1f}% over the last {window} candles, "
+                    f"between {fmt(support)} and {fmt(resistance)}."
+                ),
+                "Nến quan trọng": (
+                    f"Largest {candle_word} body {ago} candle(s) ago, "
+                    f"range {fmt(l[idx])}–{fmt(h[idx])}."
+                ),
+                "Hàm ý giao dịch": (
+                    f"Favour the {bias.lower()} side while "
+                    f"{fmt(support)} support holds; invalidation below it."
+                ),
+            }
+
+        candle_word = "tăng" if bullish else "giảm"
+        return {
+            "Mô hình": f"{trend_word.capitalize()} {window} nến",
+            "Độ tin cậy": confidence,
+            "Thiên lệch dự báo": bias,
+            "Bằng chứng": (
+                f"Giá đóng cửa thay đổi {change_pct:+.1f}% trong {window} nến gần nhất, "
+                f"dao động {fmt(support)}–{fmt(resistance)}."
+            ),
+            "Nến quan trọng": (
+                f"Nến {candle_word} thân dài nhất cách đây {ago} phiên, "
+                f"biên độ {fmt(l[idx])}–{fmt(h[idx])}."
+            ),
+            "Hàm ý giao dịch": (
+                f"Ưu tiên chiều {bias.lower()} khi hỗ trợ {fmt(support)} còn giữ; "
+                f"huỷ kịch bản nếu thủng mức này."
+            ),
+        }
+    except (TypeError, ValueError, ZeroDivisionError, IndexError):
+        return {}
+
+
+def _enforce_pattern_markdown_format(text: str, lang: str = "vi",
+                                     kline_data: dict = None) -> str:
     """
     Đảm bảo output luôn có đúng 6 trường markdown chuẩn.
     Chỉ giữ lần xuất hiện ĐẦU TIÊN của mỗi trường, loại bỏ
     toàn bộ suy luận nội bộ, lặp lại, kịch bản phụ.
+
+    Trường model bỏ trống được điền bằng mô tả tính từ `kline_data` thay vì
+    placeholder "—"/"__".
     """
     if not text:
         return text
 
     text = _strip_thinking_blocks(text)
+    computed = _describe_recent_candles(kline_data or {}, lang)
 
     # Quét tìm vị trí xuất hiện đầu tiên của mỗi trường
     first_occurrences = []
@@ -381,18 +498,27 @@ def _enforce_pattern_markdown_format(text: str, lang: str = "vi") -> str:
 
         labels = _FIELD_LABELS[lang if lang in _FIELD_LABELS else "vi"]
 
+        # Không tách được trường nào → dùng mô tả tính từ OHLCV để báo cáo vẫn
+        # có nội dung thật, thay vì khung "Unknown" + 5 dấu "—".
+        values = dict(computed) if computed else {}
+        if cleaned:
+            # Văn bản còn dùng được đặt vào "Bằng chứng" — nơi hợp nghĩa nhất.
+            values["Bằng chứng"] = _truncate_at_sentence(
+                cleaned, _MAX_FIELD_CHARS["Bằng chứng"])
+
         if lang == "en":
-            # EN: luôn xuất đủ 6 trường để khung UI ổn định. Văn bản không tách
-            # được (nếu có) đặt vào "Evidence" — nơi hợp nghĩa nhất — thay vì
-            # nhồi vào "Pattern" rồi bỏ trắng 5 trường còn lại.
-            values = {f: "—" for f in _PATTERN_FIELDS}
-            values["Mô hình"] = "Unknown"
-            if cleaned:
-                values["Bằng chứng"] = _truncate_at_sentence(
-                    cleaned, _MAX_FIELD_CHARS["Bằng chứng"])
+            # EN: luôn xuất đủ 6 trường để khung UI ổn định.
+            if not values.get("Mô hình"):
+                values["Mô hình"] = "Unknown"
+            return "\n\n".join(
+                f"**{labels[field]}:** {values.get(field) or '—'}"
+                for field in _PATTERN_FIELDS
+            )
+
+        if values:
             return "\n\n".join(
                 f"**{labels[field]}:** {values[field]}"
-                for field in _PATTERN_FIELDS
+                for field in _PATTERN_FIELDS if values.get(field)
             )
 
         if not cleaned:
@@ -416,26 +542,31 @@ def _enforce_pattern_markdown_format(text: str, lang: str = "vi") -> str:
 
         value = _extract_field_value(text, val_start, val_end, lang=lang,
                                      label=item['label'])
-        if not value or value in ('.', '—'):
-            unknown = "Không xác định" if lang != "en" else "Unknown"
-            value = unknown if item['label'] == "Mô hình" else "—"
+        # Placeholder ("__", "—", "N/A", ".") coi như rỗng → điền dự phòng bên dưới.
+        if not value or _PLACEHOLDER_VALUE_RE.match(value):
+            value = ""
 
         values[item['label']] = value
 
+    # Trường trống → lấy mô tả tính từ OHLCV. Áp dụng cho CẢ hai ngôn ngữ nên
+    # không còn "__"/"—" lọt ra UI khi model bỏ sót trường.
+    for field in _PATTERN_FIELDS:
+        if not values.get(field) and computed.get(field):
+            values[field] = computed[field]
+
     if lang == "en":
-        # Luôn xuất đủ 6 trường theo thứ tự chuẩn, trường thiếu giữ chỗ bằng "—".
-        # Nhờ vậy khung UI ổn định và người dùng phân biệt được "model không trả
-        # lời trường này" với "trường bị parser đánh rơi".
+        # Luôn xuất đủ 6 trường theo thứ tự chuẩn để khung UI ổn định.
+        if not values.get("Mô hình"):
+            values["Mô hình"] = "Unknown"
         return "\n\n".join(
-            f"**{labels[field]}:** {values.get(field, '—')}"
+            f"**{labels[field]}:** {values.get(field) or '—'}"
             for field in _PATTERN_FIELDS
         )
 
-    # VI: giữ nguyên hành vi cũ — chỉ xuất các trường thực sự tìm thấy,
-    # theo đúng thứ tự chúng xuất hiện trong văn bản.
+    # VI: xuất theo thứ tự chuẩn, bỏ qua trường vẫn không có giá trị.
     return "\n\n".join(
-        f"**{labels[item['label']]}:** {values[item['label']]}"
-        for item in first_occurrences
+        f"**{labels[field]}:** {values[field]}"
+        for field in _PATTERN_FIELDS if values.get(field)
     )
 
 
@@ -722,7 +853,10 @@ EXAMPLE OF A CORRECT OUTPUT:
                     )
 
         # ── ÁP DỤNG BỘ PARSER VĂN BẢN ────────────────────────────────
-        report_content = _enforce_pattern_markdown_format(raw_output, lang=lang)
+        # Truyền `kline_data` để trường model bỏ trống được điền bằng mô tả thật
+        # tính từ OHLCV thay vì placeholder "—"/"__".
+        report_content = _enforce_pattern_markdown_format(raw_output, lang=lang,
+                                                          kline_data=kline_data)
         print(f"[PatternAgent] Hoàn thành ({len(report_content)} ký tự).")
 
         return {

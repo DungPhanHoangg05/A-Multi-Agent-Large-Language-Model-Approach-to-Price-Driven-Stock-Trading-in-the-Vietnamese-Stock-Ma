@@ -167,11 +167,19 @@ class BacktestEngine:
         if not api_key:
             raise ValueError("Groq API key chưa được cấu hình.")
 
-        def make_llm(model, temp=0.05):
+        def make_llm(model, temp=0.0):
             return ChatGroq(model=model, temperature=temp, api_key=api_key, max_retries=3)
 
-        agent_llm = make_llm(self.config.get("agent_llm_model", "openai/gpt-oss-20b"))
-        graph_llm = make_llm(self.config.get("graph_llm_model", "qwen/qwen3.6-27b"))
+        # Đọc temperature từ config thay vì cố định 0.05 — backtest phải tái lập
+        # được và dùng đúng cấu hình như đường chạy web.
+        agent_llm = make_llm(
+            self.config.get("agent_llm_model", "openai/gpt-oss-20b"),
+            self.config.get("agent_llm_temperature", 0.0),
+        )
+        graph_llm = make_llm(
+            self.config.get("graph_llm_model", "qwen/qwen3.6-27b"),
+            self.config.get("graph_llm_temperature", 0.0),
+        )
         toolkit = TechnicalTools()
 
         print("[BacktestEngine] Khởi tạo Full graph...")
@@ -227,25 +235,24 @@ class BacktestEngine:
     # ── Prediction parser ──────────────────────────────────────────────────────
 
     def _parse_prediction(self, state: dict) -> Tuple[str, str, str]:
-        """Trích xuất decision, confidence, R:R từ final_state."""
+        """
+        Trích xuất decision, confidence, R:R từ final_state.
+
+        Dùng bộ trích xuất chung (`utils.decision_parser`) thay cho lát cắt
+        `find("{")`/`rfind("}")` cũ: khi model chèn suy luận có dấu ngoặc nhọn
+        trước khối JSON thì lát cắt hỏng, dự đoán rơi về UNKNOWN và bị tính là
+        sai trong thống kê accuracy dù model đã trả lời đúng.
+        """
         raw = state.get("final_trade_decision", "")
         if not raw:
             return "UNKNOWN", "N/A", "N/A"
-        try:
-            s = raw.find("{"); e = raw.rfind("}") + 1
-            if s != -1 and e > s:
-                data       = json.loads(raw[s:e])
-                decision   = data.get("decision", "UNKNOWN").upper().strip()
-                confidence = data.get("confidence", "N/A")
-                rr         = str(data.get("risk_reward_ratio", "N/A"))
-                if decision in ("LONG", "SHORT"):
-                    return decision, confidence, rr
-        except Exception:
-            pass
-        if "LONG" in raw.upper():
-            return "LONG", "N/A", "N/A"
-        if "SHORT" in raw.upper():
-            return "SHORT", "N/A", "N/A"
+
+        from utils.decision_parser import parse_decision
+
+        data     = parse_decision(raw)
+        decision = data.get("decision", "UNKNOWN")
+        if decision in ("LONG", "SHORT"):
+            return decision, data.get("confidence", "N/A"), data.get("risk_reward_ratio", "N/A")
         return "UNKNOWN", "N/A", "N/A"
 
     # ── Single run ─────────────────────────────────────────────────────────────
