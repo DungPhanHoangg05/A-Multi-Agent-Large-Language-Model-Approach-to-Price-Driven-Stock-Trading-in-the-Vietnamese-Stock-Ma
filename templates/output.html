@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="{{ LANG }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantAgent VN - Kết Quả Phân Tích</title>
+    <title>{{ T.page_title_output }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -1137,14 +1137,14 @@
 <body>
     <div class="main-container">
 
-        <!-- Tiêu đề -->
+        <!-- Tiêu đề / Header -->
         <div class="header">
             <div class="header-inner">
                 <div>
                     <div class="header-brand">
                         <div>
-                            <div class="header-title">QuantAgent VN</div>
-                            <div class="header-sub">Kết quả phân tích kỹ thuật đa tác nhân</div>
+                            <div class="header-title">AI Stock Investment System</div>
+                            <div class="header-sub">{{ T.header_sub_output }}</div>
                         </div>
                     </div>
                     <div class="meta-pills">
@@ -1153,48 +1153,48 @@
                         <span class="meta-pill"><i class="fas fa-clock"></i> {{ results.timeframe if results.timeframe
                             else 'N/A' }}</span>
                         <span class="meta-pill"><i class="fas fa-database"></i> {{ results.data_length if
-                            results.data_length else 0 }} nến</span>
-                        <span class="meta-pill"><i class="fas fa-robot"></i> 5 tác nhân</span>
+                            results.data_length else 0 }} {{ T.candles }}</span>
+                        <span class="meta-pill"><i class="fas fa-robot"></i> {{ T.agents_count }}</span>
                         <span class="meta-pill"><i class="fas fa-newspaper"></i> Sentiment AI</span>
                     </div>
                 </div>
-                <a href="/demo" class="btn-back"><i class="fas fa-arrow-left"></i> Phân tích mới</a>
+                <a href="/demo" class="btn-back"><i class="fas fa-arrow-left"></i> {{ T.new_analysis }}</a>
             </div>
         </div>
 
-        <!-- Thanh thống kê -->
+        <!-- Thanh thống kê / Stats bar -->
         {% set dv = results.final_decision.decision if results.final_decision and
         results.final_decision.decision else
         'N/A' %}
         <div class="stats-bar">
             <div class="stat-item">
                 <div class="stat-value">{{ results.data_length if results.data_length else '-' }}</div>
-                <div class="stat-label">Số nến phân tích</div>
+                <div class="stat-label">{{ T.stat_candles }}</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value">{{ results.timeframe if results.timeframe else '-' }}</div>
-                <div class="stat-label">Khung thời gian</div>
+                <div class="stat-label">{{ T.stat_timeframe }}</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value">{{ results.asset_name if results.asset_name else '-' }}</div>
-                <div class="stat-label">Mã cổ phiếu</div>
+                <div class="stat-label">{{ T.stat_symbol }}</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value {{ dv.lower() if dv in ['LONG','SHORT'] else '' }}">{{ dv }}</div>
-                <div class="stat-label">Quyết định</div>
+                <div class="stat-label">{{ T.stat_decision }}</div>
             </div>
         </div>
 
         <div class="results-section">
 
-            <!-- Quyết định giao dịch -->
+            <!-- Quyết định giao dịch / Trading decision -->
             <div class="decision-banner decision-{{ dv.lower() if dv in ['LONG','SHORT'] else 'na' }}">
                 <div class="decision-main">
                     <div class="decision-icon">
                         {% if dv == 'LONG' %}📈{% elif dv == 'SHORT' %}📉{% else %}❓{% endif %}
                     </div>
                     <div>
-                        <div class="decision-label">Quyết định giao dịch cuối cùng</div>
+                        <div class="decision-label">{{ T.final_decision }}</div>
                         <div class="decision-text">{{ dv }}</div>
                     </div>
                 </div>
@@ -1202,14 +1202,14 @@
                     {% if results.final_decision and results.final_decision.risk_reward_ratio %}
                     <div class="decision-meta-item">
                         <i class="fas fa-balance-scale"></i>
-                        <span>Tỷ lệ R:R:</span>
+                        <span>{{ T.rr_ratio }}</span>
                         <div class="rr-badge">{{ results.final_decision.risk_reward_ratio }}</div>
                     </div>
                     {% endif %}
                     {% if results.final_decision and results.final_decision.confidence %}
                     <div class="decision-meta-item">
                         <i class="fas fa-signal"></i>
-                        <span>Độ tự tin: <strong>{{ results.final_decision.confidence }}</strong></span>
+                        <span>{{ T.confidence }}: <strong>{{ results.final_decision.confidence }}</strong></span>
                     </div>
                     {% endif %}
                 </div>
@@ -1218,18 +1218,18 @@
             {% if results.final_decision and results.final_decision.justification and
             results.final_decision.justification != 'N/A' %}
             <div class="justification-box">
-                <h5><i class="fas fa-lightbulb"></i> Cơ sở quyết định</h5>
+                <h5><i class="fas fa-lightbulb"></i> {{ T.justification }}</h5>
                 <p>{{ results.final_decision.justification }}</p>
             </div>
             {% endif %}
 
-            <!-- Tác nhân Chỉ báo -->
+            <!-- Tác tử Chỉ báo / Indicator agent -->
             <div class="agent-panel" style="margin-top:2rem;">
                 <div class="agent-panel-header">
                     <div class="agent-icon-wrap agent-icon-red"><i class="fas fa-chart-bar"></i></div>
                     <div>
-                        <div class="agent-title">Tác nhân Chỉ báo</div>
-                        <div class="agent-subtitle">gpt-oss-20b · MACD · RSI · Stochastic · Williams %R · ROC
+                        <div class="agent-title">{{ T.agent_indicator }}</div>
+                        <div class="agent-subtitle">gpt-oss-20b · {{ T.agent_sub_indicator }}
                         </div>
                     </div>
                 </div>
@@ -1238,32 +1238,32 @@
                     <div class="auto-beautify" id="indicatorContent">{{ results.technical_indicators | safe }}</div>
                     {% else %}
                     <div style="color:var(--gray-400);text-align:center;padding:2rem;">
-                        <i class="fas fa-chart-bar" style="font-size:2rem;margin-bottom:0.5rem;display:block;"></i>Không
-                        có dữ liệu chỉ báo
+                        <i class="fas fa-chart-bar" style="font-size:2rem;margin-bottom:0.5rem;display:block;"></i>{{
+                        T.no_indicator_data }}
                     </div>
                     {% endif %}
                 </div>
             </div>
 
-            <!-- Tác nhân Alpha (bao gồm Sentiment) -->
+            <!-- Tác tử Alpha (bao gồm Sentiment) / Alpha agent (includes sentiment) -->
             <div class="agent-panel">
                 <div class="agent-panel-header">
                     <div class="agent-icon-wrap agent-icon-gold"><i class="fas fa-flask"></i></div>
                     <div>
-                        <div class="agent-title">Tác nhân Alpha</div>
-                        <div class="agent-subtitle">gpt-oss-20b · Sentiment CafeF · ViSoBERT</div>
+                        <div class="agent-title">{{ T.agent_alpha }}</div>
+                        <div class="agent-subtitle">gpt-oss-20b · {{ T.agent_sub_alpha }}</div>
                     </div>
                 </div>
                 <div class="agent-panel-body">
 
-                    <!-- ── Phần Sentiment (dữ liệu đầu vào cho Alpha) ────────────────── -->
+                    <!-- ── Phần Sentiment (đầu vào cho Alpha) / Sentiment input for Alpha ── -->
                     {% set sd = results.sentiment_data if results.sentiment_data else {} %}
                     {% set ms = sd.main_sentiment if sd.main_sentiment else {} %}
                     {% if ms %}
                     <div style="margin-bottom:1.25rem;">
                         <div
                             style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--teal-600);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-                            <i class="fas fa-newspaper"></i> Dữ liệu Sentiment (CafeF · ViSoBERT)
+                            <i class="fas fa-newspaper"></i> {{ T.sentiment_data_title }}
                         </div>
                         {% set avg_score = ms.avg_score if ms.avg_score else 0 %}
                         {% set s_label = ms.label if ms.label else 'neutral' %}
@@ -1281,8 +1281,9 @@
                                 </div>
                                 <div class="sentiment-label-text"
                                     style="color:{% if s_label == 'positive' %}#059669{% elif s_label == 'negative' %}#dc2626{% else %}#6b7280{% endif %};">
-                                    {% if s_label == 'positive' %}🟢 TÍCH CỰC{% elif s_label == 'negative' %}🔴 TIÊU
-                                    CỰC{% else %}⚪ TRUNG TÍNH{% endif %}
+                                    {% if s_label == 'positive' %}🟢 {{ T.sent_positive_up }}{% elif s_label ==
+                                    'negative' %}🔴 {{ T.sent_negative_up }}{% else %}⚪ {{ T.sent_neutral_up }}{% endif
+                                    %}
                                 </div>
                                 <div style="margin-top:0.5rem;">
                                     <span class="visobert-badge"><i class="fas fa-brain"></i> {{ sd.model_used if
@@ -1291,12 +1292,14 @@
                             </div>
 
                             <div class="sentiment-bar-section">
-                                <div class="sentiment-bar-label">Phân bổ bài báo - {{ art_count }} bài</div>
+                                <div class="sentiment-bar-label">{{ T.article_distribution.replace('{n}',
+                                    art_count|string) }}</div>
                                 <div
                                     style="display:flex;gap:0.5rem;margin-bottom:0.5rem;font-size:0.78rem;font-weight:700;">
-                                    <span style="color:#059669;">🟢 Tích cực: {{ pos_count }} ({{ pos_pct }}%)</span>
-                                    <span style="color:#6b7280;">⚪ Trung tính: {{ neu_count }}</span>
-                                    <span style="color:#dc2626;">🔴 Tiêu cực: {{ neg_count }}</span>
+                                    <span style="color:#059669;">🟢 {{ T.sent_positive }}: {{ pos_count }} ({{ pos_pct
+                                        }}%)</span>
+                                    <span style="color:#6b7280;">⚪ {{ T.sent_neutral }}: {{ neu_count }}</span>
+                                    <span style="color:#dc2626;">🔴 {{ T.sent_negative }}: {{ neg_count }}</span>
                                 </div>
                                 <div class="sent-bar-track">
                                     <div class="sent-bar-fill pos" style="width:{{ pos_pct }}%;"></div>
@@ -1309,15 +1312,15 @@
                             <div class="sentiment-stat-row">
                                 <div class="sentiment-stat">
                                     <span class="sentiment-stat-val" style="color:#059669;">{{ pos_count }}</span>
-                                    <span class="sentiment-stat-lbl">Tích cực</span>
+                                    <span class="sentiment-stat-lbl">{{ T.sent_positive }}</span>
                                 </div>
                                 <div class="sentiment-stat">
                                     <span class="sentiment-stat-val" style="color:#6b7280;">{{ neu_count }}</span>
-                                    <span class="sentiment-stat-lbl">Trung tính</span>
+                                    <span class="sentiment-stat-lbl">{{ T.sent_neutral }}</span>
                                 </div>
                                 <div class="sentiment-stat">
                                     <span class="sentiment-stat-val" style="color:#dc2626;">{{ neg_count }}</span>
-                                    <span class="sentiment-stat-lbl">Tiêu cực</span>
+                                    <span class="sentiment-stat-lbl">{{ T.sent_negative }}</span>
                                 </div>
                             </div>
                         </div>
@@ -1325,8 +1328,8 @@
                         {% if sd.related_sentiment %}
                         <div style="margin-bottom:0.75rem;">
                             <div style="font-weight:700;color:var(--teal-600);font-size:0.88rem;margin-bottom:0.45rem;">
-                                <i class="fas fa-sitemap"></i> Công ty liên quan (top {{ sd.related_companies|length if
-                                sd.related_companies else 0 }})
+                                <i class="fas fa-sitemap"></i> {{ T.related_companies.replace('{n}',
+                                (sd.related_companies|length if sd.related_companies else 0)|string) }}
                             </div>
                             <div class="related-grid">
                                 {% for co, cs in sd.related_sentiment.items() %}
@@ -1338,9 +1341,10 @@
                                         {% if cs_score >= 0 %}+{% endif %}{{ "%.3f"|format(cs_score) }}
                                     </div>
                                     <div class="related-card-label">
-                                        {% if cs_label == 'positive' %}🟢 TC{% elif cs_label == 'negative' %}🔴 TT{%
-                                        else %}⚪ Trung{% endif %}
-                                        · {{ cs.article_count if cs.article_count else 0 }} bài
+                                        {% if cs_label == 'positive' %}🟢 {{ T.sent_pos_short }}{% elif cs_label ==
+                                        'negative' %}🔴 {{ T.sent_neg_short }}{%
+                                        else %}⚪ {{ T.sent_neu_short }}{% endif %}
+                                        · {{ cs.article_count if cs.article_count else 0 }} {{ T.articles }}
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -1353,7 +1357,7 @@
                             style="margin-bottom:0.5rem;">{{ results.sentiment_analysis | safe }}</div>
                         {% endif %}
 
-                        <!-- ── Biến Sentiment đã chuẩn hóa (dùng trong Alpha) ── -->
+                        <!-- ── Biến Sentiment đã chuẩn hóa / Normalized sentiment vars ── -->
                         {% set sn = results.sentiment_norm if results.sentiment_norm else
                         (results.sentiment_data.sentiment_norm if results.sentiment_data and
                         results.sentiment_data.sentiment_norm else {}) %}
@@ -1362,43 +1366,38 @@
                         {% if sn %}
                         <div class="sentiment-norm-section">
                             <div class="sentiment-norm-title">
-                                <i class="fas fa-calculator"></i> Biến Sentiment đã chuẩn hóa - Đầu vào cho Alpha
+                                <i class="fas fa-calculator"></i> {{ T.norm_title }}
                                 {% if sn.is_reliable %}
-                                <span class="norm-reliable-badge"><i class="fas fa-check-circle"></i> Tin cậy</span>
+                                <span class="norm-reliable-badge"><i class="fas fa-check-circle"></i> {{ T.norm_reliable
+                                    }}</span>
                                 {% else %}
-                                <span class="norm-warn-badge"><i class="fas fa-exclamation-triangle"></i> Thấp - ít
-                                    bài</span>
+                                <span class="norm-warn-badge"><i class="fas fa-exclamation-triangle"></i> {{
+                                    T.norm_unreliable }}</span>
                                 {% endif %}
                             </div>
-                            <!-- 2 biến chính -->
+                            <!-- 2 biến chính / two main variables -->
                             <div class="norm-vars-grid" style="grid-template-columns:1fr 1fr;">
                                 <div
                                     class="norm-var-card {% if sn.z_score > 0.5 %}var-positive{% elif sn.z_score < -0.5 %}var-negative{% else %}var-neutral{% endif %}">
                                     <div class="nv-name">SENT_ZSCORE</div>
                                     <div class="nv-value">{{ "%+.4f"|format(sn.z_score) }}</div>
-                                    <div class="nv-formula">(avg − μ_lô) / (σ_lô + ε)</div>
+                                    <div class="nv-formula">{{ T.nv_zscore_formula }}</div>
                                     <div class="nv-desc">
-                                        Chuẩn hóa điểm trung bình theo độ lệch chuẩn lô bài.<br>
-                                        <strong>≈ 0</strong> = tin tức bình thường (không phải trung tính).<br>
-                                        <strong>&gt; +1.5</strong> = tin bất thường tích cực.<br>
-                                        <strong>&lt; −1.5</strong> = tin bất thường tiêu cực.
+                                        {{ T.nv_zscore_desc | safe }}
                                     </div>
-                                    <div class="nv-usage">Dùng phát hiện tin bất thường:
-                                        <code>sign(SENT_ZSCORE) × tanh(|SENT_ZSCORE|) × kỹ_thuật</code>
+                                    <div class="nv-usage">{{ T.nv_zscore_usage }}
+                                        <code>{{ T.nv_zscore_code }}</code>
                                     </div>
                                 </div>
                                 <div
                                     class="norm-var-card {% if sn.rel_sentiment > 0.05 %}var-positive{% elif sn.rel_sentiment < -0.05 %}var-negative{% else %}var-neutral{% endif %}">
                                     <div class="nv-name">REL_SENTIMENT</div>
                                     <div class="nv-value">{{ "%+.4f"|format(sn.rel_sentiment) }}</div>
-                                    <div class="nv-formula">avg_target − avg_ngành</div>
+                                    <div class="nv-formula">{{ T.nv_rel_formula }}</div>
                                     <div class="nv-desc">
-                                        So sánh tương đối với sentiment trung bình ngành.<br>
-                                        <strong>&gt; 0</strong> = cổ phiếu outperform ngành về tin tức.<br>
-                                        <strong>&lt; 0</strong> = cổ phiếu underperform ngành.<br>
-                                        Market-wide bias tự triệt tiêu qua phép trừ.
+                                        {{ T.nv_rel_desc | safe }}
                                     </div>
-                                    <div class="nv-usage">Dùng trong long-short:
+                                    <div class="nv-usage">{{ T.nv_rel_usage }}
                                         <code>REL_SENTIMENT × momentum_score</code>
                                     </div>
                                 </div>
@@ -1408,17 +1407,11 @@
                             <div style="margin-top:1rem;">
                                 <div
                                     style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#92400e;margin-bottom:0.5rem;">
-                                    <i class="fas fa-sitemap"></i> SENT_ZSCORE Công ty liên quan - Cross-Sector Alpha
+                                    <i class="fas fa-sitemap"></i> {{ T.related_zscore_title }}
                                 </div>
                                 <div
                                     style="font-size:0.78rem;color:#78350f;background:#fff;border:1px solid #fde047;border-radius:8px;padding:0.5rem 0.8rem;margin-bottom:0.6rem;">
-                                    Ký hiệu trong công thức alpha: <code
-                                        style="background:#fef3c7;padding:0.1rem 0.3rem;border-radius:3px;font-family:monospace;color:#92400e;">ZSCORE_[MÃ]</code>
-                                    - ví dụ: <code
-                                        style="background:#fef3c7;padding:0.1rem 0.3rem;border-radius:3px;font-family:monospace;color:#92400e;">ZSCORE_VHM</code>,
-                                    <code
-                                        style="background:#fef3c7;padding:0.1rem 0.3rem;border-radius:3px;font-family:monospace;color:#92400e;">ZSCORE_ACB</code>.
-                                    Dùng để phát hiện divergence ngành.
+                                    {{ T.related_zscore_note | safe }}
                                 </div>
                                 <div
                                     style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.5rem;">
@@ -1436,7 +1429,8 @@
                                             {{ "%+.3f"|format(d.z_score) }}
                                         </div>
                                         <div style="font-size:0.65rem;color:var(--gray-400);margin-top:0.15rem;">
-                                            {% if d.is_reliable %}✓{% else %}⚠{% endif %} {{ d.article_count }} bài
+                                            {% if d.is_reliable %}✓{% else %}⚠{% endif %} {{ d.article_count }} {{
+                                            T.articles }}
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -1451,19 +1445,17 @@
                         style="height:2px;background:linear-gradient(90deg,var(--vn-red-light),transparent);border-radius:2px;margin-bottom:1.25rem;">
                     </div>
 
-                    <!-- ── Phần Alpha (công thức do LLM tạo) ──────────────────────── -->
+                    <!-- ── Phần Alpha (công thức do LLM tạo) / LLM-generated alpha ── -->
                     <div
                         style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--vn-red);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;">
-                        <i class="fas fa-flask"></i> Nhân tố Alpha
+                        <i class="fas fa-flask"></i> {{ T.alpha_factors }}
                     </div>
 
                     {% else %}
                     <!-- No sentiment data - show note -->
                     <div
                         style="background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:0.85rem;color:#78350f;">
-                        <i class="fas fa-exclamation-triangle"></i> Không có dữ liệu sentiment - alpha được tạo
-                        thuần kỹ
-                        thuật.
+                        <i class="fas fa-exclamation-triangle"></i> {{ T.no_sentiment_note }}
                     </div>
                     {% endif %}
 
@@ -1471,47 +1463,46 @@
                     <div id="alphaContent">{{ results.alpha_analysis | safe }}</div>
                     {% else %}
                     <div style="color:var(--gray-400);text-align:center;padding:2rem;">
-                        <i class="fas fa-flask" style="font-size:2rem;margin-bottom:0.5rem;display:block;"></i>Không
-                        có
-                        dữ liệu nhân tố alpha
+                        <i class="fas fa-flask" style="font-size:2rem;margin-bottom:0.5rem;display:block;"></i>{{
+                        T.no_alpha_data }}
                     </div>
                     {% endif %}
                 </div>
             </div>
 
-            <!-- Tác nhân Mô hình nến -->
+            <!-- Tác tử Mô hình nến / Pattern agent -->
             <div class="agent-panel">
                 <div class="agent-panel-header">
                     <div class="agent-icon-wrap agent-icon-blue"><i class="fas fa-brain"></i></div>
                     <div>
-                        <div class="agent-title">Tác nhân Mô hình nến</div>
-                        <div class="agent-subtitle">qwen3.6-27b · Vision analysis</div>
+                        <div class="agent-title">{{ T.agent_pattern }}</div>
+                        <div class="agent-subtitle">qwen3.6-27b · {{ T.agent_sub_pattern }}</div>
                     </div>
                 </div>
                 <div class="agent-panel-body">
                     <div class="agent-panel-grid">
                         <div class="panel">
-                            <h4 class="panel-title"><i class="fas fa-search"></i> Phân tích mô hình</h4>
+                            <h4 class="panel-title"><i class="fas fa-search"></i> {{ T.pattern_analysis }}</h4>
                             {% if results.pattern_analysis %}
                             <div class="auto-beautify" id="patternContent">{{ results.pattern_analysis | safe }}
                             </div>
                             {% else %}
-                            <div style="color:var(--gray-400);padding:1rem;text-align:center;">Không có dữ liệu
+                            <div style="color:var(--gray-400);padding:1rem;text-align:center;">{{ T.no_data }}
                             </div>
                             {% endif %}
                         </div>
                         <div class="panel">
-                            <h4 class="panel-title"><i class="fas fa-chart-area"></i> Biểu đồ nến Nhật</h4>
+                            <h4 class="panel-title"><i class="fas fa-chart-area"></i> {{ T.candlestick_chart }}</h4>
                             <div class="image-container">
                                 {% if results.pattern_chart %}
-                                <img src="data:image/png;base64,{{ results.pattern_chart }}" alt="Biểu đồ mô hình"
-                                    class="analysis-image" id="patternChart">
+                                <img src="data:image/png;base64,{{ results.pattern_chart }}"
+                                    alt="{{ T.pattern_analysis }}" class="analysis-image" id="patternChart">
                                 {% else %}
-                                <img src="/api/images/pattern" alt="Biểu đồ mô hình" class="analysis-image"
+                                <img src="/api/images/pattern" alt="{{ T.pattern_analysis }}" class="analysis-image"
                                     id="patternChart"
-                                    onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i>Biểu đồ không có sẵn</div>'">
+                                    onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i>{{ T.chart_unavailable }}</div>'">
                                 {% endif %}
-                                <p class="chart-caption">Biểu đồ nến Nhật - {{ results.asset_name if
+                                <p class="chart-caption">{{ T.candlestick_chart }} - {{ results.asset_name if
                                     results.asset_name
                                     else '' }} · {{ results.timeframe if results.timeframe else '' }}</p>
                             </div>
@@ -1520,40 +1511,40 @@
                 </div>
             </div>
 
-            <!-- Tác nhân Xu hướng -->
+            <!-- Tác tử Xu hướng / Trend agent -->
             <div class="agent-panel">
                 <div class="agent-panel-header">
                     <div class="agent-icon-wrap agent-icon-purple"><i class="fas fa-chart-line"></i></div>
                     <div>
-                        <div class="agent-title">Tác nhân Xu hướng</div>
-                        <div class="agent-subtitle">qwen3.6-27b · Vision analysis · Hỗ trợ &amp; Kháng cự</div>
+                        <div class="agent-title">{{ T.agent_trend }}</div>
+                        <div class="agent-subtitle">qwen3.6-27b · {{ T.agent_sub_trend | safe }}</div>
                     </div>
                 </div>
                 <div class="agent-panel-body">
                     <div class="agent-panel-grid">
                         <div class="panel">
-                            <h4 class="panel-title"><i class="fas fa-arrow-trend-up"></i> Phân tích xu hướng</h4>
+                            <h4 class="panel-title"><i class="fas fa-arrow-trend-up"></i> {{ T.trend_analysis }}</h4>
                             {% if results.trend_analysis %}
                             <div class="auto-beautify" id="trendContent">{{ results.trend_analysis | safe }}</div>
                             {% else %}
-                            <div style="color:var(--gray-400);padding:1rem;text-align:center;">Không có dữ liệu
+                            <div style="color:var(--gray-400);padding:1rem;text-align:center;">{{ T.no_data }}
                             </div>
                             {% endif %}
                         </div>
                         <div class="panel">
-                            <h4 class="panel-title"><i class="fas fa-wave-square"></i> Biểu đồ xu hướng</h4>
+                            <h4 class="panel-title"><i class="fas fa-wave-square"></i> {{ T.trend_chart }}</h4>
                             <div class="image-container">
                                 {% if results.trend_chart %}
-                                <img src="data:image/png;base64,{{ results.trend_chart }}" alt="Biểu đồ xu hướng"
+                                <img src="data:image/png;base64,{{ results.trend_chart }}" alt="{{ T.trend_chart }}"
                                     class="analysis-image" id="trendChart">
                                 {% else %}
-                                <img src="/api/images/trend" alt="Biểu đồ xu hướng" class="analysis-image"
+                                <img src="/api/images/trend" alt="{{ T.trend_chart }}" class="analysis-image"
                                     id="trendChart"
-                                    onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i>Biểu đồ không có sẵn</div>'">
+                                    onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i>{{ T.chart_unavailable }}</div>'">
                                 {% endif %}
                                 <p class="chart-caption">
-                                    <span style="color:#3b82f6;">■</span> Hỗ trợ &nbsp;
-                                    <span style="color:#ef4444;">■</span> Kháng cự -
+                                    <span style="color:#3b82f6;">■</span> {{ T.support }} &nbsp;
+                                    <span style="color:#ef4444;">■</span> {{ T.resistance }} -
                                     {{ results.asset_name if results.asset_name else '' }} · {{ results.timeframe if
                                     results.timeframe else '' }}
                                 </p>
@@ -1563,13 +1554,13 @@
                 </div>
             </div>
 
-            <!-- Nút quay lại -->
+            <!-- Nút quay lại / Back button -->
             <div style="text-align:center;margin-top:1.5rem;">
                 <a href="/demo"
                     style="display:inline-flex;align-items:center;gap:0.6rem;background:var(--vn-red);color:#fff;padding:0.9rem 2.5rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 6px 20px rgba(196,30,58,0.3);transition:background 0.25s;"
                     onmouseover="this.style.background='var(--vn-red-dark)'"
                     onmouseout="this.style.background='var(--vn-red)'">
-                    <i class="fas fa-arrow-left"></i> Phân tích mã khác
+                    <i class="fas fa-arrow-left"></i> {{ T.analyze_another }}
                 </a>
             </div>
 
@@ -1578,6 +1569,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
+        // ── i18n: catalogue + ngôn ngữ hiện tại / catalogue + current language ─────
+        const T = {{ T | tojson }};
+        const LANG = {{ LANG | tojson }};
+
+        /** Lấy chuỗi đã dịch, hỗ trợ {placeholder}. / Translate with {placeholder}. */
+        function tr(key, vars) {
+            let s = T[key] != null ? T[key] : key;
+            if (vars) {
+                for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+            }
+            return s;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
 
             // Khôi phục ảnh base64 từ sessionStorage
@@ -1594,7 +1598,7 @@
                         if (img) img.src = `data:image/png;base64,${data.trend_chart}`;
                     }
                     sessionStorage.removeItem('analysisResults');
-                } catch (e) { console.warn('Lỗi phân tích sessionStorage:', e); }
+                } catch (e) { console.warn('sessionStorage parse error:', e); }
             }
 
             // Render Markdown
@@ -1610,7 +1614,7 @@
                         ? normalizeTrendPlainText(decoded)
                         : decoded;
                     el.innerHTML = marked.parse(toRender);
-                } catch (e) { console.warn('Lỗi marked [' + id + ']:', e); }
+                } catch (e) { console.warn('marked error [' + id + ']:', e); }
                 el.classList.add('auto-beautify');
             });
 
@@ -1618,7 +1622,17 @@
         });
 
         function normalizeTrendPlainText(text) {
-            const LABELS = ['Hướng xu hướng', 'Mức hỗ trợ', 'Mức kháng cự', 'Độ dốc đường xu hướng', 'Giá so với hỗ trợ', 'Phân tích chi tiết', 'Dự đoán', 'Độ tin cậy'];
+            // Nhận cả nhãn tiếng Việt và tiếng Anh: báo cáo cũ có thể ở ngôn ngữ khác.
+            // Match VI and EN labels - a stored report may be in the other language.
+            const LABEL_KEYS = ['trend_lbl_direction', 'trend_lbl_support', 'trend_lbl_resistance',
+                'trend_lbl_slope', 'trend_lbl_price_vs_sup', 'trend_lbl_detail',
+                'trend_lbl_forecast', 'trend_lbl_confidence'];
+            const VI_FALLBACK = ['Hướng xu hướng', 'Mức hỗ trợ', 'Mức kháng cự', 'Độ dốc đường xu hướng', 'Giá so với hỗ trợ', 'Phân tích chi tiết', 'Dự đoán', 'Độ tin cậy'];
+            const EN_FALLBACK = ['Trend direction', 'Support level', 'Resistance level', 'Trendline slope', 'Price vs support', 'Detailed analysis', 'Forecast', 'Confidence'];
+            const LABELS = [...new Set(
+                LABEL_KEYS.map(k => T[k]).filter(Boolean)
+                    .concat(VI_FALLBACK, EN_FALLBACK)
+            )];
             const escapedLabels = LABELS.map(l => l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
             const labelPattern = new RegExp('\\*{0,2}(' + escapedLabels.join('|') + ')\\*{0,2}\\s*:', 'gi');
             const matches = [...text.matchAll(labelPattern)];
@@ -1653,9 +1667,14 @@
             if (!decoded.trim()) return;
 
             // ── Extract CONSENSUS line for the badge ──────────────────────
-            const consensusMatch = decoded.match(/^TỔNG HỢP\s*:\s*(.+)$/im);
+            // Chấp nhận cả "TỔNG HỢP" và "SUMMARY" / accept both VI and EN headings.
+            const summaryWords = [...new Set([T.alpha_summary, 'TỔNG HỢP', 'SUMMARY'].filter(Boolean))]
+                .map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+            const summaryRe = new RegExp('^(?:' + summaryWords.join('|') + ')\\s*:\\s*(.+)$', 'im');
+            const consensusMatch = decoded.match(summaryRe);
             const consensusLine = consensusMatch ? consensusMatch[1].trim() : null;
-            const textForRender = decoded.replace(/^TỔNG HỢP\s*:.*$/im, '').trim();
+            const textForRender = decoded.replace(
+                new RegExp('^(?:' + summaryWords.join('|') + ')\\s*:.*$', 'im'), '').trim();
 
             // ── Render as markdown (same as indicator agent) ───────────────
             let rendered = '';
@@ -1677,10 +1696,10 @@
                 const fracMatch = consensusLine.match(/(\d+)\s*\/\s*(\d+)/);
                 if (fracMatch) pct = Math.round((parseInt(fracMatch[1]) / parseInt(fracMatch[2])) * 100);
                 const color = cssClass === 'majority-long' ? '#16a34a' : cssClass === 'majority-short' ? '#dc2626' : '#6b7280';
-                const label = cssClass === 'majority-long' ? '▲ MUA' : cssClass === 'majority-short' ? '▼ BÁN' : '◆ HỖN HỢP';
+                const label = cssClass === 'majority-long' ? tr('consensus_buy') : cssClass === 'majority-short' ? tr('consensus_sell') : tr('consensus_mixed');
                 consensusHtml = `
                     <div class="alpha-consensus-section" style="margin-top:1.5rem;">
-                        <span class="consensus-label"><i class="fas fa-calculator"></i> Đồng thuận Alpha</span>
+                        <span class="consensus-label"><i class="fas fa-calculator"></i> ${tr('alpha_consensus')}</span>
                         <div class="consensus-bar-wrap">
                             <div class="consensus-bar-track">
                                 <div class="consensus-bar-fill ${cssClass}" style="width:${pct}%;"></div>

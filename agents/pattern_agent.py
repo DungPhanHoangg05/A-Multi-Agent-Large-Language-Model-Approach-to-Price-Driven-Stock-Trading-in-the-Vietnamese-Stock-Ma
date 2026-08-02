@@ -7,6 +7,7 @@ from utils import static_util
 from langchain_core.messages import HumanMessage, SystemMessage
 
 # ── Các trường bắt buộc trong báo cáo mô hình (thứ tự cố định) ────────────
+# Khoá canonical LUÔN là tiếng Việt; nhãn hiển thị được dịch khi render.
 _PATTERN_FIELDS = [
     "Mô hình",
     "Độ tin cậy",
@@ -16,64 +17,290 @@ _PATTERN_FIELDS = [
     "Hàm ý giao dịch",
 ]
 
-# ── Regex nhận diện từng nhãn (linh hoạt dấu *, khoảng trắng, số thứ tự) ──
+# Nhãn hiển thị theo ngôn ngữ / Display labels per language
+_FIELD_LABELS = {
+    "vi": {f: f for f in _PATTERN_FIELDS},
+    "en": {
+        "Mô hình":           "Pattern",
+        "Độ tin cậy":        "Confidence",
+        "Thiên lệch dự báo": "Directional bias",
+        "Bằng chứng":        "Evidence",
+        "Nến quan trọng":    "Key candles",
+        "Hàm ý giao dịch":   "Trading implication",
+    },
+}
+
+# ── Regex nhận diện từng nhãn (song ngữ, linh hoạt dấu *, khoảng trắng, số) ──
+# Mỗi khoá canonical khớp CẢ nhãn tiếng Việt và tiếng Anh để một parser duy nhất
+# xử lý được output của cả hai ngôn ngữ.
+# Đuôi `\*{0,2}` sau dấu hai chấm là bắt buộc: model sinh ra `**Pattern:**` (dấu
+# hai chấm nằm TRONG cặp **), nếu không nuốt hai dấu * này thì chúng lọt vào đầu
+# giá trị và bị bước làm sạch cắt mất.
 _LABEL_REGEXES = {
-    "Mô hình":          r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})Mô\s*hình(?:\*{0,2})\s*:",
-    "Độ tin cậy":       r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})Độ\s*tin\s*cậy(?:\*{0,2})\s*:",
-    "Thiên lệch dự báo": r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})Thiên\s*lệch(?:\s*dự\s*báo)?(?:\*{0,2})\s*:",
-    "Bằng chứng":      r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})Bằng\s*chứng(?:\*{0,2})\s*:",
-    "Nến quan trọng":   r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})Nến\s*quan\s*trọng(?:\*{0,2})\s*:",
-    "Hàm ý giao dịch":  r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})Hàm\s*ý(?:\s*giao\s*dịch)?(?:\*{0,2})\s*:",
+    "Mô hình":
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Mô\s*hình|Pattern)(?:\*{0,2})\s*:\*{0,2}",
+    "Độ tin cậy":
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Độ\s*tin\s*cậy|Confidence)(?:\*{0,2})\s*:\*{0,2}",
+    "Thiên lệch dự báo":
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Thiên\s*lệch(?:\s*dự\s*báo)?"
+        r"|Directional\s*bias|Bias)(?:\*{0,2})\s*:\*{0,2}",
+    "Bằng chứng":
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Bằng\s*chứng|Evidence)(?:\*{0,2})\s*:\*{0,2}",
+    "Nến quan trọng":
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Nến\s*quan\s*trọng"
+        r"|Key\s*candles?)(?:\*{0,2})\s*:\*{0,2}",
+    "Hàm ý giao dịch":
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?(?:\*{0,2})(?:Hàm\s*ý(?:\s*giao\s*dịch)?"
+        r"|Trading\s*implication)(?:\*{0,2})\s*:\*{0,2}",
 }
 
 # ── Các marker đánh dấu nội dung "suy luận nội bộ" cần loại bỏ ────────────
+# Chỉ khớp ở đầu chuỗi / sau dấu kết câu / đầu dòng — nhiều mẫu ("However,",
+# "Wait,") cũng xuất hiện trong văn xuôi hợp lệ, khớp giữa câu sẽ cắt cụt nội dung.
 _GARBAGE_PATTERNS = [
-    # Tiếng Anh
-    r"Alternative\s*:", r"Note\s*:", r"Wait\s*,", r"However\s*,",
-    r"Self[- ]?Correction\s*:", r"Refinement\s*:", r"Final\s*Check\s*:",
-    r"One\s+more\s+look", r"Let\s+me\s+reconsider",
+    # Tiếng Anh & meta-reasoning
+    r"Alternative\s*:", r"Note\s*:", r"Wait\s*[,.]", r"However\s*,",
+    r"Self[-\s]?Correction\s*:", r"Refinement\s*:", r"Final\s*Check\s*:",
+    r"One\s+more\s+look", r"Let\s+me\s+", r"Let['']s\s+",
+    r"Okay\s*[,.]", r"Alright\s*[,.]", r"Sure\s*[,.]",
+    r"Looking\s+at\s+(?:the\s+)?(?:chart|image|graph|data)",
+    r"Based\s+on\s+(?:the\s+)?(?:chart|image|graph|data)",
+    r"I\s+(?:need|will|should|can|must|am|have)\b",
+    r"I[''](?:ll|m|ve)\b",
+    # Model nói về NGƯỜI DÙNG ở ngôi thứ ba — dấu hiệu suy luận rõ nhất của
+    # qwen3: "The user wants me to analyze a candlestick chart...".
+    r"The\s+user\s+(?:wants|asks|is\s+asking|has\s+asked|requests|would\s+like)",
+    r"The\s+user['']?s\s+(?:request|prompt|question|query)",
+    r"Người\s*dùng\s+(?:muốn|yêu\s*cầu|đang\s*hỏi)",
+    r"First\s*,\s*I\b", r"Now\s*,\s*I\b",
+    r"To\s+summari[sz]e", r"In\s+summary", r"Overall\s*,",
+    r"As\s+an\s+AI", r"I\s+cannot\b",
+    r"Input\s*Data\s*:", r"visual\s*cues", r"prompt['']?s\s*context",
+    r"simulate\s*a\s*standard", r"stick\s*to\s*the\s*rules",
     # Tiếng Việt
-    r"Lưu\s*ý\s*:", r"Hoặc\s*:", r"Tuy\s*nhiên\s*,", r"Nhìn\s*kỹ\s*lại",
-    r"Nhưng\s+", r"Vậy\s+", r"Quyết\s*định\s*:", r"Kiểm\s*tra\s*lại",
+    r"Lưu\s*ý\s*:", r"Hoặc\s*:", r"Nhìn\s*kỹ\s*lại",
+    r"Quyết\s*định\s*:", r"Kiểm\s*tra\s*lại", r"Tóm\s*lại\s*[,:]",
+    r"Nhìn\s*vào\s*biểu\s*đồ", r"Dựa\s*vào\s*biểu\s*đồ",
     # Đánh dấu số thứ tự lặp (LLM lải nhải lặp trường)
     r"\d+\.\s*\*{0,2}(?:Mô hình|Độ tin cậy|Thiên lệch|Bằng chứng|Nến quan trọng|Hàm ý)",
 ]
-_GARBAGE_RE = re.compile("|".join(f"(?:{p})" for p in _GARBAGE_PATTERNS), re.IGNORECASE)
+_GARBAGE_RE = re.compile(
+    r"(?:^|(?<=[.!?…])\s+|\n\s*)(?:" + "|".join(_GARBAGE_PATTERNS) + r")",
+    re.IGNORECASE,
+)
+
+# ── Biến thể tiếng Anh: chỉ cắt ở ĐẦU giá trị hoặc đầu dòng ──────────────────
+# `_GARBAGE_RE` dùng lookbehind `(?<=[.!?…])\s+` nên khớp sau MỌI dấu chấm.
+# Ở tiếng Anh điều đó cắt nhầm câu thứ hai hợp lệ, ví dụ:
+#   "Price holds above support. Overall, momentum slows."
+# → phần sau dấu chấm bị xoá, trường rỗng và biến mất khỏi báo cáo.
+# Với EN chỉ cắt khi mẫu đứng đầu giá trị / đầu dòng mới — nơi model thật sự
+# chèn lời tự thoại.
+_GARBAGE_RE_EN = re.compile(
+    r"(?:^|\n\s*)(?:" + "|".join(_GARBAGE_PATTERNS) + r")",
+    re.IGNORECASE,
+)
+
+# ── Giới hạn độ dài mỗi trường (ký tự) ────────────────────────────────────
+# Không có giới hạn thì output của model thị giác tràn ra ngoài khung UI.
+_MAX_FIELD_CHARS = {
+    "Mô hình":           70,
+    "Độ tin cậy":        30,
+    "Thiên lệch dự báo": 30,
+    "Bằng chứng":        200,
+    "Nến quan trọng":    120,
+    "Hàm ý giao dịch":   200,
+}
+_DEFAULT_MAX_CHARS = 120
+
+# Trường liệt kê — khôi phục khi bị làm sạch thành rỗng
+_ENUM_FALLBACKS = {
+    "Độ tin cậy":        {"vi": ["Cao", "Trung bình", "Thấp"],
+                          "en": ["High", "Medium", "Low"]},
+    "Thiên lệch dự báo": {"vi": ["Tăng", "Giảm", "Trung tính"],
+                          "en": ["Bullish", "Bearish", "Neutral"]},
+}
 
 
-def _strip_thinking_blocks(text: str) -> str:
-    """Xoá toàn bộ nội dung trong <think>...</think> và ```markdown``` wrappers."""
-    # Xoá <think> blocks (Qwen3 reasoning)
-    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
+# ── Prompt thử lại "cộc lốc" khi model mải suy luận mà không sinh báo cáo ────
+# Không lời dẫn, không ví dụ, không nhắc quy tắc — chỉ khung 6 dòng cần điền.
+# Càng ít chữ thì model suy luận càng ít cớ để mở đầu bằng chain-of-thought.
+_TERSE_RETRY_EN = (
+    "Fill in these six lines from the chart. Output only these lines, nothing before "
+    "or after. Do not explain.\n\n"
+    "**Pattern:**\n"
+    "**Confidence:**\n"
+    "**Directional bias:**\n"
+    "**Evidence:**\n"
+    "**Key candles:**\n"
+    "**Trading implication:**"
+)
+
+_TERSE_RETRY_VI = (
+    "Điền sáu dòng sau dựa vào biểu đồ. Chỉ xuất đúng các dòng này, không thêm gì "
+    "trước hay sau. Không giải thích.\n\n"
+    "**Mô hình:**\n"
+    "**Độ tin cậy:**\n"
+    "**Thiên lệch dự báo:**\n"
+    "**Bằng chứng:**\n"
+    "**Nến quan trọng:**\n"
+    "**Hàm ý giao dịch:**"
+)
+
+
+def _truncate_at_sentence(value: str, limit: int) -> str:
+    """Cắt `value` về <= limit ký tự tại ranh giới câu gần nhất."""
+    if len(value) <= limit:
+        return value
+    window = value[:limit]
+    cut = max(window.rfind('. '), window.rfind('! '), window.rfind('? '))
+    if cut > limit * 0.4:
+        return window[:cut + 1].strip()
+    return window.rsplit(' ', 1)[0].rstrip(' ,;:-')
+
+
+def _strip_thinking_blocks(text: str, restore_if_empty: bool = True) -> str:
+    """
+    Xoá <think>...</think>, phần mở bài meta và ```markdown``` wrappers.
+
+    QUAN TRỌNG: phiên bản cũ dùng `re.sub(r"<think>.*", "")` nên khi thẻ KHÔNG
+    ĐÓNG (model suy luận Qwen3 bị cắt ở giới hạn token) thì toàn bộ báo cáo phía
+    sau bị xoá sạch. Formatter nhận chuỗi rỗng → không khớp trường nào → xuất ra
+    đúng khung "Pattern: Unknown" + 5 dấu "—". Đây là nguyên nhân báo cáo tiếng
+    Anh trắng hoàn toàn (EN dài hơn VI nên bị cắt thường xuyên hơn).
+
+    Nay: chỉ xoá CẶP thẻ hoàn chỉnh. Thẻ lẻ thì bỏ chính thẻ và GIỮ nội dung —
+    các trường thường nằm ngay trong phần suy luận nên vẫn tách được.
+
+    `restore_if_empty=True` (mặc định, dùng khi render): nếu sau khi xoá cặp thẻ
+    mà rỗng thì khôi phục nội dung bên trong — còn hơn là trả khung trắng.
+    `restore_if_empty=False` (dùng khi *phát hiện* nội dung): KHÔNG khôi phục,
+    vì reply chỉ gồm một cặp <think> đóng kín là suy luận thuần, không phải báo
+    cáo — lúc đó phải chạy dự phòng văn bản.
+    """
+    if not text:
+        return text
+
+    original = text
+
+    # Cặp thẻ hoàn chỉnh — nội dung bên trong là suy luận thật, xoá an toàn.
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL | re.IGNORECASE)
+
+    # Thẻ lẻ (mở không đóng, hoặc đóng không mở): chỉ xoá thẻ, GIỮ nội dung.
+    text = re.sub(r"</?think>", "", text, flags=re.IGNORECASE)
+
     # Xoá markdown/json code fences
     text = text.replace("```markdown", "").replace("```json", "").replace("```", "")
+
+    # Lưới an toàn: nếu làm sạch đã xoá hết thì dùng lại bản gốc chỉ bỏ thẻ.
+    if restore_if_empty and not text.strip():
+        text = re.sub(r"</?think>", "", original, flags=re.IGNORECASE)
+        text = text.replace("```markdown", "").replace("```json", "").replace("```", "")
+
+    # Nếu model mở bài bằng meta-reasoning rồi mới xuống các trường, chỉ bỏ phần
+    # mở bài. KHÔNG dùng .* + DOTALL ở đây: nó sẽ xoá luôn toàn bộ báo cáo phía sau.
+    first_field = re.search(
+        r"(?:^|\n)\s*(?:\d+[\.\)]\s*)?\*{0,2}"
+        r"(?:Mô\s*hình|Pattern)\*{0,2}\s*:\*{0,2}",
+        text, re.IGNORECASE,
+    )
+    if first_field and first_field.start() > 0:
+        preamble = text[:first_field.start()]
+        if _GARBAGE_RE.search(preamble) or len(preamble.split()) > 12:
+            text = text[first_field.start():]
+
     return text.strip()
 
 
-def _extract_field_value(text: str, start: int, end: int) -> str:
+def _has_usable_content(raw: str) -> bool:
+    """
+    Output thô của model có phải là một BÁO CÁO dùng được, hay chỉ là suy luận?
+
+    Dùng để phát hiện trường hợp model thị giác trả về chuỗi rỗng hoặc bị cắt ở
+    giữa phần suy luận: formatter vẫn xuất đủ 6 trường nhưng giá trị toàn "—",
+    nhìn như hệ thống chạy xong mà thực chất không có phân tích nào. Khi đó phải
+    chạy dự phòng văn bản thay vì trả khung rỗng cho UI.
+
+    QUAN TRỌNG — câu hỏi phải là "có BÁO CÁO không?", KHÔNG phải "có CHỮ không?".
+    Bản cũ chỉ đếm ký tự chữ-số (>= 8) nên một đoạn suy luận dài bất kỳ cũng đạt.
+    Model suy luận (qwen3 qua Groq, `/no_think` KHÔNG có hiệu lực) thường xuyên
+    hết token khi còn đang suy luận, chưa kịp sinh `**Pattern:**` nào. Đoạn suy
+    luận đó vượt qua guard → bỏ qua dự phòng văn bản ở `pattern_agent_node` →
+    formatter không khớp nhãn nào → xuất đúng khung "Pattern: Unknown" + 5 dấu
+    "—", với lời tự thoại lọt vào trường "Evidence". Đây là bug báo cáo EN trắng.
+
+    Nay: KHÔNG có nhãn trường nào mà lại còn dấu hiệu meta-reasoning → coi như
+    KHÔNG dùng được, để rơi xuống dự phòng và có báo cáo thật.
+    """
+    if not raw or not raw.strip():
+        return False
+
+    # Không khôi phục nội dung <think>: reply chỉ gồm suy luận thì KHÔNG dùng được.
+    probe = _strip_thinking_blocks(raw, restore_if_empty=False)
+
+    # Có ít nhất một nhãn trường thật không? Nếu có, đây là báo cáo (dù bị cắt
+    # dở) và parser tách được — chấp nhận. Nếu không, phải xét kỹ bên dưới.
+    has_label = any(
+        re.search(rx, probe, re.IGNORECASE) for rx in _LABEL_REGEXES.values()
+    )
+
+    # Không nhãn + có dấu hiệu tự thoại ("The user wants me to...", "I need to",
+    # "Looking at the chart"...) → suy luận thuần, không phải báo cáo.
+    if not has_label and (_GARBAGE_RE.search(probe) or _GARBAGE_RE_EN.search(probe)):
+        return False
+
+    # Bỏ nhãn trường (cả VI và EN) — chỉ giữ phần GIÁ TRỊ để đánh giá.
+    # Không tái dùng `_LABEL_REGEXES` vì chúng neo vào `(?:^|\n)`: sau lần thay
+    # thứ nhất, neo không còn đúng cho các nhãn tiếp theo trên cùng dòng và phần
+    # nhãn còn sót sẽ bị đếm thành "nội dung thật".
+    probe = re.sub(
+        r"\*{0,2}(?:Mô\s*hình|Pattern|Độ\s*tin\s*cậy|Confidence"
+        r"|Thiên\s*lệch(?:\s*dự\s*báo)?|Directional\s*bias|Bias"
+        r"|Bằng\s*chứng|Evidence|Nến\s*quan\s*trọng|Key\s*candles?"
+        r"|Hàm\s*ý(?:\s*giao\s*dịch)?|Trading\s*implication)"
+        r"\*{0,2}\s*:\*{0,2}",
+        " ", probe, flags=re.IGNORECASE,
+    )
+
+    # Bỏ placeholder và ký tự trang trí, chỉ đếm ký tự có nghĩa.
+    probe = re.sub(r"<[^>]*>", "", probe)
+    probe = re.sub(r"[^0-9A-Za-zÀ-ỹ]+", "", probe)
+    return len(probe) >= 8
+
+
+def _extract_field_value(text: str, start: int, end: int, lang: str = "vi",
+                         label: str = "") -> str:
     """
     Trích xuất và làm sạch giá trị của một trường từ vị trí start đến end.
-    Cắt bỏ mọi nội dung lải nhải, suy luận, tiếng Anh trong ngoặc.
+    Cắt bỏ mọi nội dung lải nhải, suy luận, tiếng Anh trong ngoặc và thẻ placeholder <...>,
+    rồi giới hạn độ dài để UI không bị tràn.
     """
     raw = text[start:end].strip()
+    original = raw
+
+    # Xoá mọi thẻ ngoặc nhọn placeholder như <tên>, <mô tả ngắn>, <liệt kê>, <kịch bản>...
+    raw = re.sub(r'<[^>]*>', '', raw)
+    raw = re.sub(r'\[[^\]]*\]', '', raw)
 
     # Xoá ký tự thừa ở đầu (dấu *, -, :, khoảng trắng)
     raw = re.sub(r'^[\s\*:\-]+', '', raw)
 
-    # Cắt đứt tại vị trí xuất hiện garbage đầu tiên
-    m = _GARBAGE_RE.search(raw)
+    # Cắt đứt tại vị trí xuất hiện garbage đầu tiên.
+    # EN dùng biến thể chỉ khớp ở đầu giá trị/đầu dòng (xem `_GARBAGE_RE_EN`).
+    garbage_re = _GARBAGE_RE_EN if lang == "en" else _GARBAGE_RE
+    m = garbage_re.search(raw)
     if m:
         raw = raw[:m.start()]
 
-    # Xoá giải thích tiếng Anh thuần trong ngoặc, vd: "(Head and Shoulders)"
-    # Giữ nguyên ngoặc chứa số hoặc tiếng Việt, vd: "(70)", "(04/06)"
-    raw = re.sub(r'\s*\([A-Za-z]{3,}[A-Za-z\s\-&]*\)', '', raw)
+    # Xoá giải thích tiếng Anh thuần trong ngoặc, vd: "(Head and Shoulders)".
+    # CHỈ áp dụng cho tiếng Việt — ở chế độ tiếng Anh đây là nội dung hợp lệ.
+    if lang != "en":
+        raw = re.sub(r'\s*\([A-Za-z]{3,}[A-Za-z\s\-&]*\)', '', raw)
 
     # Xoá các dấu * thừa bên trong
     raw = re.sub(r'\*{2,}', '', raw)
 
     # Xoá các giải thích phụ thường xuất hiện trong output lải nhải
-    # "Lý do: ...", "Vì ...", "Đây là ...", "Đánh giá ..."
     raw = re.sub(r'\.\s*\*?\s*Lý\s+do\s*:.*', '.', raw, flags=re.DOTALL)
     raw = re.sub(r'\.\s+Vì\s+.*', '.', raw, flags=re.DOTALL)
     raw = re.sub(r'\.\s+Đây\s+là\s+.*', '.', raw, flags=re.DOTALL)
@@ -85,14 +312,29 @@ def _extract_field_value(text: str, start: int, end: int) -> str:
     # Xoá các bullet "* " lẫn trong text thành dấu phẩy/chấm phẩy
     raw = re.sub(r'\.\s*\*\s+', '. ', raw)
     raw = re.sub(r',\s*\*\s+', ', ', raw)
-    # Bullet đầu dòng gộp thành text liền
     raw = re.sub(r'(?:^|\n)\s*\*\s+', ' ', raw)
+
+    # Gộp mọi xuống dòng về một đoạn liền mạch (mỗi trường đúng 1 dòng)
+    raw = re.sub(r'\s*\n+\s*', ' ', raw)
 
     # Thu gọn khoảng trắng
     raw = re.sub(r'\s{2,}', ' ', raw).strip()
 
     # Xoá ký tự thừa ở cuối
     raw = re.sub(r'[\s\*:\-\.]+$', '', raw)
+
+    # Trường liệt kê bị làm sạch thành rỗng → khôi phục từ khoá trong văn bản gốc
+    if not raw and label in _ENUM_FALLBACKS:
+        options = _ENUM_FALLBACKS[label].get(lang if lang == "en" else "vi", [])
+        for option in options:
+            if re.search(rf'\b{re.escape(option)}\b', original, re.IGNORECASE):
+                raw = option
+                break
+
+    # Giới hạn độ dài — nguyên nhân chính khiến UI không hiển thị hết
+    if raw:
+        raw = _truncate_at_sentence(raw, _MAX_FIELD_CHARS.get(label, _DEFAULT_MAX_CHARS))
+        raw = raw.rstrip(' ,;:-')
 
     # Thêm dấu chấm kết thúc nếu chưa có
     if raw and raw[-1] not in ('.', '!', '?', '—'):
@@ -101,7 +343,7 @@ def _extract_field_value(text: str, start: int, end: int) -> str:
     return raw
 
 
-def _enforce_pattern_markdown_format(text: str) -> str:
+def _enforce_pattern_markdown_format(text: str, lang: str = "vi") -> str:
     """
     Đảm bảo output luôn có đúng 6 trường markdown chuẩn.
     Chỉ giữ lần xuất hiện ĐẦU TIÊN của mỗi trường, loại bỏ
@@ -125,15 +367,44 @@ def _enforce_pattern_markdown_format(text: str) -> str:
                 "value_start": match.end(),
             })
 
-    if len(first_occurrences) < 2:
-        # Không đủ trường → trả nguyên text đã clean
-        return f"**Lỗi trích xuất định dạng:**\n\n{text}"
+    if len(first_occurrences) < 1:
+        # Không tìm thấy trường nào → dọn sạch rồi CẮT NGẮN, không đổ nguyên khối vào UI
+        cleaned = re.sub(r'<[^>]*>', '', text)
+        cleaned = _strip_thinking_blocks(cleaned)
+        m = (_GARBAGE_RE_EN if lang == "en" else _GARBAGE_RE).search(cleaned)
+        if m:
+            cleaned = cleaned[:m.start()]
+        cleaned = re.sub(r'\s*\n+\s*', ' ', cleaned)
+        cleaned = re.sub(r'\s{2,}', ' ', cleaned).strip()
+        if cleaned:
+            cleaned = _truncate_at_sentence(cleaned, 240)
+
+        labels = _FIELD_LABELS[lang if lang in _FIELD_LABELS else "vi"]
+
+        if lang == "en":
+            # EN: luôn xuất đủ 6 trường để khung UI ổn định. Văn bản không tách
+            # được (nếu có) đặt vào "Evidence" — nơi hợp nghĩa nhất — thay vì
+            # nhồi vào "Pattern" rồi bỏ trắng 5 trường còn lại.
+            values = {f: "—" for f in _PATTERN_FIELDS}
+            values["Mô hình"] = "Unknown"
+            if cleaned:
+                values["Bằng chứng"] = _truncate_at_sentence(
+                    cleaned, _MAX_FIELD_CHARS["Bằng chứng"])
+            return "\n\n".join(
+                f"**{labels[field]}:** {values[field]}"
+                for field in _PATTERN_FIELDS
+            )
+
+        if not cleaned:
+            cleaned = "Phân tích không khả dụng."
+        return f"**{labels['Mô hình']}:** {cleaned}"
 
     # Sắp xếp theo thứ tự xuất hiện trong văn bản
     first_occurrences.sort(key=lambda x: x["match_start"])
 
     # Trích xuất giá trị từng trường
-    segments = []
+    labels = _FIELD_LABELS[lang if lang in _FIELD_LABELS else "vi"]
+    values = {}
     for i, item in enumerate(first_occurrences):
         val_start = item["value_start"]
         # Kết thúc = đầu trường tiếp theo, hoặc cuối text
@@ -143,13 +414,29 @@ def _enforce_pattern_markdown_format(text: str) -> str:
             else len(text)
         )
 
-        value = _extract_field_value(text, val_start, val_end)
-        if not value:
-            value = "—"
+        value = _extract_field_value(text, val_start, val_end, lang=lang,
+                                     label=item['label'])
+        if not value or value in ('.', '—'):
+            unknown = "Không xác định" if lang != "en" else "Unknown"
+            value = unknown if item['label'] == "Mô hình" else "—"
 
-        segments.append(f"**{item['label']}:** {value}")
+        values[item['label']] = value
 
-    return "\n\n".join(segments)
+    if lang == "en":
+        # Luôn xuất đủ 6 trường theo thứ tự chuẩn, trường thiếu giữ chỗ bằng "—".
+        # Nhờ vậy khung UI ổn định và người dùng phân biệt được "model không trả
+        # lời trường này" với "trường bị parser đánh rơi".
+        return "\n\n".join(
+            f"**{labels[field]}:** {values.get(field, '—')}"
+            for field in _PATTERN_FIELDS
+        )
+
+    # VI: giữ nguyên hành vi cũ — chỉ xuất các trường thực sự tìm thấy,
+    # theo đúng thứ tự chúng xuất hiện trong văn bản.
+    return "\n\n".join(
+        f"**{labels[item['label']]}:** {values[item['label']]}"
+        for item in first_occurrences
+    )
 
 
 def _invoke_with_retry(call_fn, *args, retries: int = 2, wait_sec: int = 3):
@@ -172,7 +459,8 @@ def _invoke_with_retry(call_fn, *args, retries: int = 2, wait_sec: int = 3):
     raise RuntimeError(f"[PatternAgent] Thất bại sau {retries} lần thử. Lỗi: {last_err}")
 
 
-def _text_fallback_analysis(tool_llm, kline_data: dict, time_frame: str) -> str:
+def _text_fallback_analysis(tool_llm, kline_data: dict, time_frame: str,
+                           lang: str = "vi") -> str:
     """Fallback thuần văn bản khi không có ảnh hoặc model thị giác crash."""
     try:
         import pandas as pd
@@ -187,51 +475,93 @@ def _text_fallback_analysis(tool_llm, kline_data: dict, time_frame: str) -> str:
     except Exception as e:
         ohlcv = f"(lỗi đọc OHLCV: {e})"
 
-    prompt = (
-        f"/no_think\n"
-        f"Phân tích dữ liệu OHLCV khung {time_frame} sau.\n"
-        f"{ohlcv}\n\n"
-        "CHỈ trả lời đúng 6 dòng theo format dưới. KHÔNG giải thích thêm.\n\n"
-        "**Mô hình:** <Tên mô hình tiếng Việt>\n"
-        "**Độ tin cậy:** Cao | Trung bình | Thấp\n"
-        "**Thiên lệch dự báo:** Tăng | Giảm | Trung tính\n"
-        "**Bằng chứng:** <Mô tả ngắn gọn cấu trúc giá>\n"
-        "**Nến quan trọng:** <Liệt kê nến nổi bật>\n"
-        "**Hàm ý giao dịch:** <Kịch bản hành động ngắn gọn>"
-    )
+    if lang == "en":
+        prompt = (
+            f"Analyse the following {time_frame} OHLCV data.\n"
+            f"{ohlcv}\n\n"
+            "Reply with EXACTLY the 6 lines in the format below. No extra explanation. "
+            "NEVER use angle brackets < > or copy the placeholder wording.\n\n"
+            "**Pattern:** Specific pattern name\n"
+            "**Confidence:** High | Medium | Low\n"
+            "**Directional bias:** Bullish | Bearish | Neutral\n"
+            "**Evidence:** Description of the price structure\n"
+            "**Key candles:** The most notable candle\n"
+            "**Trading implication:** Concise action scenario"
+        )
+    else:
+        prompt = (
+            f"/no_think\n"
+            f"Phân tích dữ liệu OHLCV khung {time_frame} sau.\n"
+            f"{ohlcv}\n\n"
+            "CHỈ trả lời đúng 6 dòng theo format dưới. KHÔNG giải thích thêm. TUYỆT ĐỐI KHÔNG dùng ngoặc nhọn < > hay copy lại chữ mẫu.\n\n"
+            "**Mô hình:** Tên mô hình cụ thể\n"
+            "**Độ tin cậy:** Cao | Trung bình | Thấp\n"
+            "**Thiên lệch dự báo:** Tăng | Giảm | Trung tính\n"
+            "**Bằng chứng:** Mô tả cấu trúc giá\n"
+            "**Nến quan trọng:** Nến nổi bật nhất\n"
+            "**Hàm ý giao dịch:** Kịch bản hành động ngắn gọn"
+        )
     response = tool_llm.invoke([HumanMessage(content=prompt)])
     return response.content
 
 
 def create_pattern_agent(tool_llm, graph_llm, toolkit):
 
-    PATTERN_TEXT = """
+    PATTERN_TEXT_VI = """
         Tham khảo: Vai đầu vai ngược, Đáy đôi, Nêm giảm/tăng, Tam giác, Cờ tăng/giảm, Hộp giá, Đảo chiều chữ V, Xu hướng rõ rệt.
     """
 
-    SYSTEM_PROMPT = """/no_think
-Bạn là AI phân tích mô hình giá (Price Action).
+    PATTERN_TEXT_EN = """
+        Reference patterns: Inverse head and shoulders, Double bottom, Falling/rising wedge, Triangle, Bull/bear flag, Rectangle range, V-reversal, Clear trend.
+    """
 
-QUY TẮC TUYỆT ĐỐI:
-1. CHỈ trả lời đúng 6 trường bên dưới bằng TIẾNG VIỆT. KHÔNG thêm trường nào khác.
-2. KHÔNG suy luận, KHÔNG giải thích, KHÔNG viết "Tuy nhiên", "Hoặc", "Alternative", "Lưu ý".
-3. KHÔNG đưa ra kịch bản dự phòng. Chỉ MỘT nhận định duy nhất.
-4. Mỗi trường trên MỘT dòng. Ngắn gọn, xúc tích.
+    SYSTEM_PROMPT_VI = """/no_think
+Bạn là AI chuyên phân tích mô hình giá (Price Action).
 
-FORMAT BẮT BUỘC:
-**Mô hình:** <Tên>
-**Độ tin cậy:** Cao | Trung bình | Thấp
-**Thiên lệch dự báo:** Tăng | Giảm | Trung tính
-**Bằng chứng:** <Mô tả ngắn>
-**Nến quan trọng:** <Liệt kê>
-**Hàm ý giao dịch:** <Kịch bản>"""
+QUY TẮC BẮT BUỘC:
+1. CHỈ trả lời đúng 6 trường bên dưới bằng TIẾNG VIỆT. Phải phân tích thật và điền giá trị cụ thể.
+2. TUYỆT ĐỐI KHÔNG sử dụng các ngoặc nhọn `< >` hay lặp lại các chữ mẫu như `<tên>`, `<mô tả ngắn>`, `<liệt kê>`, `<kịch bản>`.
+3. TUYỆT ĐỐI KHÔNG viết lời thoại tiếng Anh hay câu tự thoại meta (như "Input Data...", "I need to visually analyze...").
+4. KHÔNG suy luận lan man, KHÔNG giải thích thừa, KHÔNG đưa kịch bản dự phòng.
+5. Mỗi trường đúng MỘT dòng ngắn gọn.
 
-    USER_PROMPT = """/no_think
+FORMAT CHUẨN:
+**Mô hình:** Tên mô hình giá cụ thể (ví dụ: Xu hướng tăng tích luỹ / Đáy đôi / Tam giác)
+**Độ tin cậy:** Cao hoặc Trung bình hoặc Thấp
+**Thiên lệch dự báo:** Tăng hoặc Giảm hoặc Trung tính
+**Bằng chứng:** Mô tả ngắn cấu trúc các nến gần nhất
+**Nến quan trọng:** Các nến biến động mạnh nổi bật
+**Hàm ý giao dịch:** Kịch bản hành động cụ thể"""
+
+    # Không dùng `/no_think`: đó là quy ước template Ollama/Qwen, qua Groq API nó
+    # chỉ là chữ vô nghĩa. Việc tắt suy luận xử lý ở `trading_graph._create_llm`
+    # bằng `reasoning_format="hidden"`.
+    SYSTEM_PROMPT_EN = """You are an AI specialised in price-action pattern analysis.
+
+MANDATORY RULES:
+1. Output EXACTLY the 6 fields below, in ENGLISH, and nothing else.
+2. Start your reply directly with "**Pattern:**". No preamble, no greeting, no closing remark.
+3. NEVER narrate your reasoning ("Okay", "Let me", "Looking at the chart", "I need to...").
+4. NEVER use angle brackets `< >` or repeat placeholder wording such as `<name>`, `<scenario>`.
+5. Each field is ONE short line. Hard limits: Pattern <= 8 words; Confidence and
+   Directional bias are a SINGLE word; Evidence, Key candles and Trading implication
+   <= 25 words each.
+6. State conclusions only — no hedging, no alternative scenarios, no repeated fields.
+
+REQUIRED FORMAT:
+**Pattern:** Specific price pattern name (e.g. Accumulating uptrend / Double bottom / Triangle)
+**Confidence:** High or Medium or Low
+**Directional bias:** Bullish or Bearish or Neutral
+**Evidence:** Short description of the most recent candle structure
+**Key candles:** The most notable high-volatility candles
+**Trading implication:** Concrete action scenario"""
+
+    USER_PROMPT_VI = """/no_think
 Phân tích biểu đồ nến {time_frame}. {PATTERN_TEXT}
 
-Trả về ĐÚNG 6 trường sau (mỗi trường 1 dòng, ngắn gọn, KHÔNG giải thích thêm):
+Hãy phân tích biểu đồ và trả về ĐÚNG 6 trường sau (mỗi trường 1 dòng, điền phân tích THẬT, KHÔNG dùng ngoặc nhọn `< >`, KHÔNG giải thích thêm):
 
-**Mô hình:** Tên mô hình tiếng Việt
+**Mô hình:** Tên mô hình tiếng Việt cụ thể
 **Độ tin cậy:** Cao | Trung bình | Thấp
 **Thiên lệch dự báo:** Tăng | Giảm | Trung tính
 **Bằng chứng:** Cấu trúc giá cụ thể (đỉnh, đáy, phá vỡ...)
@@ -242,17 +572,45 @@ VÍ DỤ OUTPUT CHUẨN:
 **Mô hình:** Vai đầu vai
 **Độ tin cậy:** Cao
 **Thiên lệch dự báo:** Giảm
-**Bằng chứng:** Ba đỉnh (76, 77, 74), đỉnh giữa cao nhất, phá vỡ đường cổ tại 70
+**Bằng chứng:** Ba đỉnh, đỉnh giữa cao nhất, phá vỡ đường cổ tại 70
 **Nến quan trọng:** Nến đỏ phá vỡ hỗ trợ 70 với thân dài
 **Hàm ý giao dịch:** Bán khi phá vỡ đường cổ, mục tiêu 63, ngừng lỗ trên 74"""
+
+    USER_PROMPT_EN = """Analyse this {time_frame} candlestick chart. {PATTERN_TEXT}
+
+Return EXACTLY the 6 fields below and nothing else. Begin directly with "**Pattern:**".
+No preamble, no reasoning, no closing summary. Keep every field on ONE short line
+(Evidence / Key candles / Trading implication: max 25 words each).
+
+**Pattern:** Specific pattern name in English
+**Confidence:** High | Medium | Low
+**Directional bias:** Bullish | Bearish | Neutral
+**Evidence:** Concrete price structure (peaks, troughs, breakouts...)
+**Key candles:** The most notable candle
+**Trading implication:** Concise trading action
+
+EXAMPLE OF A CORRECT OUTPUT:
+**Pattern:** Head and shoulders
+**Confidence:** High
+**Directional bias:** Bearish
+**Evidence:** Three peaks, middle peak highest, neckline broken at 70
+**Key candles:** Long-bodied red candle breaking support at 70
+**Trading implication:** Sell on the neckline break, target 63, stop above 74"""
 
     def pattern_agent_node(state):
         time_frame = state["time_frame"]
         kline_data = state["kline_data"]
 
-        from utils.static_util import get_forecast_horizon
-        horizon = get_forecast_horizon(time_frame)
+        from utils.i18n import lang_of, get_horizon, localize_timeframe
+        lang    = lang_of(state)
+        horizon = get_horizon(time_frame, lang)
         h_desc  = horizon["horizon_desc"]
+
+        tf_display   = localize_timeframe(time_frame, lang)
+        is_en        = lang == "en"
+        SYSTEM_PROMPT = SYSTEM_PROMPT_EN if is_en else SYSTEM_PROMPT_VI
+        USER_PROMPT   = USER_PROMPT_EN   if is_en else USER_PROMPT_VI
+        PATTERN_TEXT  = PATTERN_TEXT_EN  if is_en else PATTERN_TEXT_VI
 
         pattern_image_b64 = state.get("pattern_image")
 
@@ -271,7 +629,7 @@ VÍ DỤ OUTPUT CHUẨN:
             image_content = [
                 {
                     "type": "text",
-                    "text": USER_PROMPT.format(time_frame=time_frame, PATTERN_TEXT=PATTERN_TEXT, h_desc=h_desc),
+                    "text": USER_PROMPT.format(time_frame=tf_display, PATTERN_TEXT=PATTERN_TEXT, h_desc=h_desc),
                 },
                 {
                     "type": "image_url",
@@ -286,36 +644,85 @@ VÍ DỤ OUTPUT CHUẨN:
                     [SystemMessage(content=SYSTEM_PROMPT), human_msg],
                 )
                 raw_output = response.content
-                print("[PatternAgent] Phân tích thị giác hoàn thành.")
+                if _has_usable_content(raw_output):
+                    print("[PatternAgent] Phân tích thị giác hoàn thành.")
+                else:
+                    # Model trả rỗng / chỉ có <think> bị cắt → coi như thất bại
+                    # để rơi xuống dự phòng văn bản, thay vì xuất khung toàn "—".
+                    print("[PatternAgent] Thị giác trả về nội dung rỗng — dùng dự phòng.")
+                    raw_output = None
             except Exception as e:
                 err_str = str(e).lower()
                 if "at least one message" in err_str or "system" in err_str:
                     try:
                         response = _invoke_with_retry(graph_llm.invoke, [human_msg])
                         raw_output = response.content
-                        print("[PatternAgent] Phân tích thị giác hoàn thành (thử lại không system).")
+                        if _has_usable_content(raw_output):
+                            print("[PatternAgent] Phân tích thị giác hoàn thành (thử lại không system).")
+                        else:
+                            print("[PatternAgent] Thị giác (không system) rỗng — dùng dự phòng.")
+                            raw_output = None
                     except Exception as e2:
                         print(f"[PatternAgent] Thị giác thất bại: {e2}")
                 else:
                     print(f"[PatternAgent] Lỗi model thị giác: {e}")
 
+        # Thị giác không cho ra BÁO CÁO (thường do model mải suy luận rồi hết
+        # token) → thử lại đúng một lần với chỉ thị cộc lốc, vẫn dùng ảnh. Rẻ hơn
+        # nhiều so với bỏ hẳn thị giác mà rơi xuống dự phòng chỉ đọc OHLCV.
+        if not raw_output and pattern_image_b64:
+            try:
+                terse = _TERSE_RETRY_EN if is_en else _TERSE_RETRY_VI
+                retry_msg = HumanMessage(content=[
+                    {"type": "text", "text": terse},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/png;base64,{pattern_image_b64}"},
+                    },
+                ])
+                response = _invoke_with_retry(graph_llm.invoke, [retry_msg], retries=1)
+                if _has_usable_content(response.content):
+                    raw_output = response.content
+                    print("[PatternAgent] Thị giác thành công ở lần thử cộc lốc.")
+                else:
+                    print("[PatternAgent] Lần thử cộc lốc vẫn rỗng — dùng dự phòng.")
+            except Exception as e:
+                print(f"[PatternAgent] Lần thử cộc lốc thất bại: {e}")
+
         if not raw_output:
             try:
-                raw_output = _text_fallback_analysis(tool_llm, kline_data, time_frame)
-                print("[PatternAgent] Dự phòng văn bản hoàn thành.")
+                fallback = _text_fallback_analysis(tool_llm, kline_data, time_frame,
+                                                   lang=lang)
+                if _has_usable_content(fallback):
+                    raw_output = fallback
+                    print("[PatternAgent] Dự phòng văn bản hoàn thành.")
+                else:
+                    # Dự phòng cũng rỗng → để rơi xuống khung lỗi tường minh bên
+                    # dưới, thay vì xuất báo cáo trắng không rõ nguyên nhân.
+                    raise ValueError("dự phòng văn bản trả về nội dung rỗng")
             except Exception as e:
                 print(f"[PatternAgent] Dự phòng văn bản thất bại: {e}")
-                raw_output = (
-                    "**Mô hình:** Không xác định\n"
-                    "**Độ tin cậy:** Thấp\n"
-                    "**Thiên lệch dự báo:** Trung tính\n"
-                    "**Bằng chứng:** Lỗi toàn tập không thể chạy model\n"
-                    "**Nến quan trọng:** —\n"
-                    "**Hàm ý giao dịch:** —"
-                )
+                if is_en:
+                    raw_output = (
+                        "**Pattern:** Unknown\n"
+                        "**Confidence:** Low\n"
+                        "**Directional bias:** Neutral\n"
+                        "**Evidence:** All analysis models failed\n"
+                        "**Key candles:** —\n"
+                        "**Trading implication:** —"
+                    )
+                else:
+                    raw_output = (
+                        "**Mô hình:** Không xác định\n"
+                        "**Độ tin cậy:** Thấp\n"
+                        "**Thiên lệch dự báo:** Trung tính\n"
+                        "**Bằng chứng:** Lỗi toàn tập không thể chạy model\n"
+                        "**Nến quan trọng:** —\n"
+                        "**Hàm ý giao dịch:** —"
+                    )
 
         # ── ÁP DỤNG BỘ PARSER VĂN BẢN ────────────────────────────────
-        report_content = _enforce_pattern_markdown_format(raw_output)
+        report_content = _enforce_pattern_markdown_format(raw_output, lang=lang)
         print(f"[PatternAgent] Hoàn thành ({len(report_content)} ký tự).")
 
         return {

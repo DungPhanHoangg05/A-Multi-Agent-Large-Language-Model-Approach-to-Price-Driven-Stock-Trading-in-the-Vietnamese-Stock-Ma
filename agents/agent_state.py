@@ -12,6 +12,11 @@ class IndicatorAgentState(TypedDict):
     time_frame: Annotated[str, "time period for k line data provided"]
     stock_name: Annotated[dict, "stock name for prompt"]
     is_backtest: Annotated[bool, "Cờ nhận diện chế độ Backtest để chặn crawler mạng bên ngoài"]
+    language: Annotated[
+        str,
+        "Ngôn ngữ đầu ra của mọi agent: 'vi' (mặc định) hoặc 'en'. "
+        "Output language for every agent: 'vi' (default) or 'en'.",
+    ]
 
     # ── Indicator Agent — oscillator / momentum ────────────────────────────────
     rsi: Annotated[List[float], "Relative Strength Index values"]

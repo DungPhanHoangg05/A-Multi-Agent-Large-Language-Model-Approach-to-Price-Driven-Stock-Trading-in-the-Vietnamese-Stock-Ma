@@ -10,9 +10,16 @@ from core.backtest_engine import BacktestEngine
 from dataclasses import asdict
 
 import pandas as pd
-from flask import Flask, jsonify, render_template, request, send_file
+from flask import Flask, jsonify, make_response, render_template, request, send_file
 
 from utils import static_util
+from utils.i18n import (
+    DEFAULT_LANG,
+    catalogue,
+    localize_timeframe,
+    normalize_lang,
+    t,
+)
 from default_config import DEFAULT_CONFIG
 from core.realtime_loader import (
     check_vnstock_available,
@@ -25,6 +32,53 @@ from core.realtime_loader import (
 )
 
 app = Flask(__name__)
+
+# ── i18n ──────────────────────────────────────────────────────────────────────
+
+LANG_COOKIE = "qa_lang"
+_LANG_COOKIE_MAX_AGE = 60 * 60 * 24 * 365  # 1 năm / 1 year
+
+
+def current_lang() -> str:
+    """
+    Ngôn ngữ hiệu lực cho request hiện tại.
+
+    Thứ tự ưu tiên: ?lang= (người dùng vừa bấm đổi) → cookie đã lưu →
+    Accept-Language của trình duyệt → 'vi'.
+    """
+    q = request.args.get("lang")
+    if q:
+        return normalize_lang(q)
+
+    cookie = request.cookies.get(LANG_COOKIE)
+    if cookie:
+        return normalize_lang(cookie)
+
+    header = request.accept_languages.best_match(("vi", "en"))
+    return normalize_lang(header)
+
+
+def render_localized(template: str, **ctx):
+    """
+    Render template kèm catalogue i18n và ghi nhớ lựa chọn ngôn ngữ vào cookie.
+
+    Template nhận `T` (dict chuỗi đã dịch) và `LANG` (mã ngôn ngữ hiện tại).
+    """
+    lang = current_lang()
+    resp = make_response(
+        render_template(template, T=catalogue(lang), LANG=lang, **ctx)
+    )
+    resp.set_cookie(
+        LANG_COOKIE, lang,
+        max_age=_LANG_COOKIE_MAX_AGE, samesite="Lax",
+    )
+    return resp
+
+
+def lang_from_payload(data: dict) -> str:
+    """Ngôn ngữ cho request API: body JSON → cookie/header."""
+    return normalize_lang((data or {}).get("language") or current_lang())
+
 
 # ── Background job store ──────────────────────────────────────────────────────
 _jobs: dict = {}
@@ -88,9 +142,10 @@ class WebTradingAnalyzer:
     }
 
     def run_analysis(self, df: pd.DataFrame, asset_name: str, timeframe: str,
-                     step_callback=None) -> Dict[str, Any]:
+                     step_callback=None, lang: str = DEFAULT_LANG) -> Dict[str, Any]:
+        lang = normalize_lang(lang)
         if self.trading_graph is None:
-            return {"success": False, "error": "❌ Groq API key chưa được cấu hình. Vui lòng nhập API key trong phần cài đặt."}
+            return {"success": False, "error": t("err_api_key_missing", lang)}
 
         try:
             print(f"DataFrame columns : {df.columns.tolist()}")
@@ -106,7 +161,8 @@ class WebTradingAnalyzer:
             if not all(col in df_slice.columns for col in required_columns):
                 return {
                     "success": False,
-                    "error": f"Thiếu cột dữ liệu. Cột hiện có: {list(df_slice.columns)}",
+                    "error": t("err_missing_columns", lang,
+                               columns=", ".join(map(str, df_slice.columns))),
                 }
 
             df_slice_dict: Dict[str, Any] = {}
@@ -129,6 +185,8 @@ class WebTradingAnalyzer:
                 "stock_name":       asset_name,
                 "pattern_image":    p_image["pattern_image"],
                 "trend_image":      t_image["trend_image"],
+                # Ngôn ngữ đầu ra cho toàn bộ agent trong pipeline
+                "language":         lang,
             }
 
             # Use stream() to get per-node progress updates
@@ -162,20 +220,23 @@ class WebTradingAnalyzer:
             error_msg = str(e)
             print(f"[Analysis Error] {error_msg}")
 
-            if "api key" in error_msg.lower() or "authentication" in error_msg.lower() or "401" in error_msg:
-                return {"success": False, "error": "❌ Groq API key không hợp lệ. Vui lòng kiểm tra lại key tại console.groq.com"}
-            elif "rate limit" in error_msg.lower() or "429" in error_msg:
-                return {"success": False, "error": "⏳ Groq rate limit — vui lòng chờ vài giây rồi thử lại."}
-            elif "model" in error_msg.lower() and "not found" in error_msg.lower():
-                return {"success": False, "error": f"❌ Model không tồn tại. Kiểm tra tên model trong cài đặt."}
-            elif "connection" in error_msg.lower() or "refused" in error_msg.lower():
-                return {"success": False, "error": "🌐 Không kết nối được Groq API. Kiểm tra kết nối internet."}
+            low = error_msg.lower()
+            if "api key" in low or "authentication" in low or "401" in error_msg:
+                return {"success": False, "error": t("err_api_key_invalid", lang)}
+            elif "rate limit" in low or "429" in error_msg:
+                return {"success": False, "error": t("err_rate_limit", lang)}
+            elif "model" in low and "not found" in low:
+                return {"success": False, "error": t("err_model_not_found", lang)}
+            elif "connection" in low or "refused" in low:
+                return {"success": False, "error": t("err_connection", lang)}
             else:
-                return {"success": False, "error": f"❌ Lỗi phân tích: {error_msg}"}
+                return {"success": False, "error": t("err_analysis", lang, detail=error_msg)}
 
-    def extract_analysis_results(self, results: Dict[str, Any]) -> Dict[str, Any]:
+    def extract_analysis_results(self, results: Dict[str, Any],
+                                 lang: str = DEFAULT_LANG) -> Dict[str, Any]:
+        lang = normalize_lang(lang)
         if not results.get("success"):
-            return {"error": results.get("error", "Unknown error")}
+            return {"error": results.get("error") or t("err_unknown", lang)}
 
         final_state    = results["final_state"]
         final_decision = _parse_decision(final_state.get("final_trade_decision", ""))
@@ -199,11 +260,12 @@ class WebTradingAnalyzer:
             "final_decision":       final_decision,
         }
 
-    def validate_groq_connection(self) -> Dict[str, Any]:
+    def validate_groq_connection(self, lang: str = DEFAULT_LANG) -> Dict[str, Any]:
         """Không gọi mạng — chỉ check format key và trạng thái graph."""
+        lang = normalize_lang(lang)
         api_key = self.config.get("groq_api_key", "") or os.environ.get("GROQ_API_KEY", "")
         if not api_key or not api_key.startswith("gsk_"):
-            return {"valid": False, "error": "API key chưa được cấu hình"}
+            return {"valid": False, "error": t("err_api_key_not_set", lang)}
         return {
             "valid":       True,
             "agent_model": self.config.get("agent_llm_model"),
@@ -254,45 +316,49 @@ analyzer = WebTradingAnalyzer()
 
 @app.route("/")
 def index():
-    return render_template("demo_new.html")
+    return render_localized("demo_new.html")
 
 
 @app.route("/demo")
 def demo():
-    return render_template("demo_new.html")
+    return render_localized("demo_new.html")
 
 
 @app.route("/output")
 def output():
     results = request.args.get("results")
     job_id  = request.args.get("job_id")
+    lang    = current_lang()
 
-    #Ưu tiên lấy từ job_id 
+    #Ưu tiên lấy từ job_id
     if job_id:
         with _jobs_lock:
             job = _jobs.get(job_id)
             if job and job.get("result"):
-                return render_template("output.html", results=job["result"])
+                return render_localized("output.html", results=job["result"])
 
     if results:
         try:
             results_data = json.loads(urllib.parse.unquote(results))
-            return render_template("output.html", results=results_data)
+            return render_localized("output.html", results=results_data)
         except Exception as e:
             print(f"Error parsing results: {e}")
 
     default_results = {
-        "asset_name": "VNM", "timeframe": "1 day", "data_length": 45,
+        "asset_name": "VNM",
+        "timeframe": localize_timeframe("1 day", lang),
+        "data_length": 45,
         "technical_indicators": "", "alpha_analysis": "",
         "pattern_analysis": "", "trend_analysis": "",
         "pattern_chart": "", "trend_chart": "",
         "pattern_image_filename": "", "trend_image_filename": "",
         "final_decision": {
             "decision": "N/A", "risk_reward_ratio": "N/A",
-            "forecast_horizon": "N/A", "justification": "No results.",
+            "forecast_horizon": "N/A",
+            "justification": t("no_results", lang),
         },
     }
-    return render_template("output.html", results=default_results)
+    return render_localized("output.html", results=default_results)
 
 
 # ── API: assets ───────────────────────────────────────────────────────────────
@@ -330,14 +396,16 @@ def analyze():
         data       = request.get_json()
         stock_code = (data.get("asset") or "").strip().upper()
         timeframe  = data.get("timeframe", "1d")
+        # Chốt ngôn ngữ ngay tại đây: trong thread nền không còn request context.
+        lang       = lang_from_payload(data)
 
         if not stock_code:
-            return jsonify({"error": "Vui lòng chọn mã cổ phiếu."})
+            return jsonify({"error": t("err_select_stock", lang)})
         api_key = analyzer.config.get("groq_api_key", "") or os.environ.get("GROQ_API_KEY", "")
         if not api_key:
-            return jsonify({"error": "❌ Groq API key chưa được cấu hình."})
+            return jsonify({"error": t("err_api_key_missing_short", lang)})
         if not check_vnstock_available():
-            return jsonify({"error": "vnstock chưa cài. Chạy: pip install vnstock"})
+            return jsonify({"error": t("err_vnstock_missing", lang)})
 
         job_id = str(uuid.uuid4())
         with _jobs_lock:
@@ -358,12 +426,14 @@ def analyze():
                 if load_err:
                     raise RuntimeError(load_err)
                 if df.empty:
-                    raise RuntimeError(f"Không có dữ liệu cho {stock_code}.")
+                    raise RuntimeError(t("err_no_data_for", lang, symbol=stock_code))
 
                 # Step 2+: run analysis with per-node step tracking
                 _set_step(2)
-                results   = analyzer.run_analysis(df, stock_code, timeframe, step_callback=_set_step)
-                formatted = analyzer.extract_analysis_results(results)
+                results   = analyzer.run_analysis(
+                    df, stock_code, timeframe, step_callback=_set_step, lang=lang
+                )
+                formatted = analyzer.extract_analysis_results(results, lang)
                 formatted["data_source_used"] = "realtime"
                 if formatted.get("success"):
                     # Gửi redirect qua job_id để tránh lỗi URI Too Long (414)
@@ -387,7 +457,7 @@ def analyze_status(job_id: str):
     with _jobs_lock:
         job = _jobs.get(job_id)
     if not job:
-        return jsonify({"error": "Job không tồn tại."}), 404
+        return jsonify({"error": t("err_job_not_found", current_lang())}), 404
     return jsonify({"status": job["status"], "step": job.get("step", 1), "result": job["result"]})
 
 
@@ -396,7 +466,7 @@ def analyze_status(job_id: str):
 @app.route("/api/groq-status")
 def groq_status():
     try:
-        status = analyzer.validate_groq_connection()
+        status = analyzer.validate_groq_connection(current_lang())
         return jsonify(status)
     except Exception as e:
         return jsonify({"valid": False, "error": str(e)})
@@ -407,11 +477,12 @@ def update_api_key():
     """Chỉ lưu key — KHÔNG gọi mạng, KHÔNG init graph."""
     try:
         data    = request.get_json()
+        lang    = lang_from_payload(data)
         api_key = (data.get("api_key") or "").strip()
         if not api_key:
-            return jsonify({"error": "API key không được để trống."})
+            return jsonify({"error": t("err_api_key_empty", lang)})
         if not api_key.startswith("gsk_"):
-            return jsonify({"error": "Key sai định dạng (phải bắt đầu bằng gsk_)"})
+            return jsonify({"error": t("err_api_key_format", lang)})
         analyzer.config["groq_api_key"] = api_key
         os.environ["GROQ_API_KEY"]       = api_key
         analyzer.trading_graph           = None
@@ -424,24 +495,25 @@ def update_api_key():
 def update_models():
     try:
         data        = request.get_json()
-        agent_model = data.get("agent_model")
-        graph_model = data.get("graph_model")
+        lang        = lang_from_payload(data)
+        agent_model = (data.get("agent_model") or "").strip()
+        graph_model = (data.get("graph_model") or "").strip()
+        if not agent_model or not graph_model:
+            return jsonify({"error": t("err_models_both", lang)})
         if analyzer.trading_graph is None:
-            return jsonify({"error": "Vui lòng cấu hình API key trước."})
+            return jsonify({"error": t("err_api_key_first", lang)})
         analyzer.trading_graph.update_model(
             agent_model=agent_model, graph_model=graph_model,
         )
-        if agent_model:
-            analyzer.config["agent_llm_model"] = agent_model
-        if graph_model:
-            analyzer.config["graph_llm_model"] = graph_model
+        analyzer.config["agent_llm_model"] = agent_model
+        analyzer.config["graph_llm_model"] = graph_model
         return jsonify({
             "success":     True,
             "agent_model": analyzer.config["agent_llm_model"],
             "graph_model": analyzer.config["graph_llm_model"],
         })
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": f"{t('err_update_failed', lang_from_payload(request.get_json(silent=True) or {}))}: {e}"})
 
 
 # ── API: realtime status ──────────────────────────────────────────────────────
@@ -499,34 +571,38 @@ def _cleanup_bt_jobs():
  
 @app.route("/backtest")
 def backtest_page():
-    return render_template("backtest.html")
- 
- 
+    return render_localized("backtest.html")
+
+
 @app.route("/api/backtest/start", methods=["POST"])
 def backtest_start():
+    lang = DEFAULT_LANG
     try:
         data      = request.get_json()
+        lang      = lang_from_payload(data)
         symbol    = (data.get("symbol") or "").strip().upper()
         n_tests   = int(data.get("n_tests",   10))
         win_size  = int(data.get("window_size", 45))
         step      = int(data.get("step",  3))
- 
+
         if not symbol:
-            return jsonify({"error": "Vui lòng nhập mã cổ phiếu."})
- 
+            return jsonify({"error": t("err_enter_stock", lang)})
+
         api_key = analyzer.config.get("groq_api_key", "") or os.environ.get("GROQ_API_KEY", "")
         if not api_key:
-            return jsonify({"error": "Groq API key chưa được cấu hình."})
- 
+            return jsonify({"error": t("err_api_key_missing_short", lang)})
+
         if not check_vnstock_available():
-            return jsonify({"error": "vnstock chưa cài. Chạy: pip install vnstock"})
+            return jsonify({"error": t("err_vnstock_missing", lang)})
  
         n_tests  = max(3, min(n_tests,  30))
         win_size = max(20, min(win_size, 90))
         step     = max(1, min(step,      15))
  
         bt_id = str(uuid.uuid4())
-        engine = BacktestEngine(config=analyzer.config.copy())
+        bt_config = analyzer.config.copy()
+        bt_config["language"] = lang
+        engine = BacktestEngine(config=bt_config)
  
         with _bt_lock:
             _bt_jobs[bt_id] = {
@@ -550,7 +626,7 @@ def backtest_start():
                     tail=n_tests * step + win_size + 20,
                 )
                 if err or df.empty:
-                    raise RuntimeError(err or f"Không có dữ liệu cho {symbol}.")
+                    raise RuntimeError(err or t("err_no_data_for", lang, symbol=symbol))
  
                 def _cb(progress: dict):
                     tp_list = progress.get("test_points", [])
@@ -576,7 +652,9 @@ def backtest_start():
                 summary = engine.run(
                     df=df,
                     symbol=symbol,
-                    timeframe="1 day",
+                    # Nhãn tiếng Việt là *khóa logic* — get_forecast_horizon và các
+                    # agent ánh xạ ngược từ nhãn này. Việc dịch chỉ xảy ra khi hiển thị.
+                    timeframe="1 ngày",
                     n_tests=n_tests,
                     window_size=win_size,
                     step=step,
@@ -649,7 +727,7 @@ def backtest_status(bt_id: str):
     with _bt_lock:
         job = _bt_jobs.get(bt_id)
     if not job:
-        return jsonify({"error": "Job không tồn tại."}), 404
+        return jsonify({"error": t("err_job_not_found", current_lang())}), 404
     return jsonify({
         "status":      job["status"],
         "step":        job.get("step", ""),
@@ -674,11 +752,12 @@ def backtest_stop(bt_id: str):
  
 @app.route("/api/backtest/result/<bt_id>")
 def backtest_result(bt_id: str):
+    lang = current_lang()
     with _bt_lock:
         job = _bt_jobs.get(bt_id)
     if not job:
-        return jsonify({"error": "Job không tồn tại."}), 404
-    return jsonify(job.get("summary") or {"error": "Chưa hoàn thành."})
+        return jsonify({"error": t("err_job_not_found", lang)}), 404
+    return jsonify(job.get("summary") or {"error": t("err_not_finished", lang)})
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 

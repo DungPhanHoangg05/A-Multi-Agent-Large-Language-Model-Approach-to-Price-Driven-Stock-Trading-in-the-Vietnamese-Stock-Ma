@@ -445,21 +445,28 @@ def _normalize_related_sentiment(related_sentiment: dict) -> dict:
 
 # ── 5 Alpha Formulas ───────────────────────────────────────────────────────────
 
-def _alpha1_fdm(tv: dict) -> dict:
+def _alpha1_fdm(tv: dict, lang: str = "vi") -> dict:
     """Alpha 1 — Flow-Driven Momentum (FDM)"""
+    from utils.i18n import t as _t
+
     roc1_adj = _safe(tv.get("roc1_adjusted", 0.0))
     vol_surge = _safe(tv.get("vol_surge", 1.0))
-    
+
     raw = roc1_adj * vol_surge * 0.5
     value = math.tanh(raw)
-    
+
     thr = 0.10
     sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    verdict = _t(
+        "ar_a1_up" if value > thr else "ar_a1_down" if value < -thr else "ar_a1_neutral",
+        lang,
+    )
 
     return {
         "id": 1,
         "name": "Flow-Driven Momentum (FDM)",
-        "type": "Cú hích T+1 (Tiếp diễn)",
+        "type": _t("ar_a1_type", lang),
         "formula": "Tanh( ROC(1)_adj × Vol_Surge × 0.5 )",
         "horizon": "—",
         "value": round(value, 4),
@@ -469,27 +476,30 @@ def _alpha1_fdm(tv: dict) -> dict:
             "vol_surge": round(vol_surge, 4),
             "raw_momentum": round(raw, 4),
         },
-        "interpretation": (
-            f"ROC(1) hiệu chỉnh={roc1_adj:+.2f}, Đột biến Vol={vol_surge:.2f}x. "
-            f"{'Xung lực tăng mạnh có thể kéo dài sang nến T+1' if value > thr else 'Áp lực bán mạnh dự báo nến T+1 giảm' if value < -thr else 'Dòng tiền không rõ ràng'}."
+        "interpretation": _t(
+            "ar_a1_interp", lang, roc=roc1_adj, vol=vol_surge, verdict=verdict
         ),
     }
 
 
-def _alpha2_sfa(sn: dict, tv: dict) -> dict:
+def _alpha2_sfa(sn: dict, tv: dict, lang: str = "vi") -> dict:
     """Alpha 2 — Sentiment-Flow Asymmetry (SFA)"""
+    from utils.i18n import t as _t
+
     z_sent = _safe(sn.get("z_score", 0.0))
     is_reliable = sn.get("is_reliable", False)
     roc1_adj = _safe(tv.get("roc1_adjusted", 0.0))
     macd_hist = _safe(tv.get("macd_hist_cur", 0.0))
-    
+
     if is_reliable:
         raw = z_sent * 0.5 + roc1_adj * 0.5
-        logic = f"Tin cậy. Z_Sent={z_sent:+.2f}, ROC_adj={roc1_adj:+.2f}."
+        logic = _t("ar_a2_logic_reliable", lang, z=z_sent, roc=roc1_adj)
     else:
-        z_macd = math.tanh(macd_hist / (tv.get("close_0", 1.0) * 0.005)) * 1.5 
+        z_macd = math.tanh(macd_hist / (tv.get("close_0", 1.0) * 0.005)) * 1.5
         raw = z_macd + roc1_adj * 0.5
-        logic = f"Backtest/Sentiment yếu. Dùng Proxy MACD_Hist={macd_hist:+.4f} (Z~{z_macd:+.2f}) và ROC_adj={roc1_adj:+.2f}."
+        logic = _t(
+            "ar_a2_logic_proxy", lang, macd=macd_hist, zm=z_macd, roc=roc1_adj
+        )
 
     value = math.tanh(raw)
     thr = 0.10
@@ -497,9 +507,9 @@ def _alpha2_sfa(sn: dict, tv: dict) -> dict:
 
     return {
         "id": 2,
-        "name": "Sentiment-Flow (SFA) / Proxy",
-        "type": "Cú hích T+1 (Tiếp diễn / Phân kỳ)",
-        "formula": "Tanh( Z_Sent×0.5 + ROC_adj×0.5 ) hoặc Proxy MACD_Hist",
+        "name": _t("ar_a2_name", lang),
+        "type": _t("ar_a2_type", lang),
+        "formula": _t("ar_a2_formula", lang),
         "horizon": "—",
         "value": round(value, 4),
         "signal": sig,
@@ -509,24 +519,31 @@ def _alpha2_sfa(sn: dict, tv: dict) -> dict:
             "roc1_adjusted": round(roc1_adj, 4),
             "macd_hist_cur": round(macd_hist, 6),
         },
-        "interpretation": f"{logic} → Cân bằng lực lượng cho T+1: Value={value:+.4f}.",
+        "interpretation": _t("ar_a2_interp", lang, logic=logic, value=value),
     }
 
 
-def _alpha3_lvr(tv: dict) -> dict:
+def _alpha3_lvr(tv: dict, lang: str = "vi") -> dict:
     """Alpha 3 — Liquidity Void Reversion (LVR)"""
+    from utils.i18n import t as _t
+
     z_close_dev5 = _safe(tv.get("zscore_close_dev5", 0.0))
-    
+
     raw = -1.0 * z_close_dev5 * 0.8
     value = math.tanh(raw)
 
-    thr = 0.15 
+    thr = 0.15
     sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    verdict = _t(
+        "ar_a3_up" if value > thr else "ar_a3_down" if value < -thr else "ar_a3_neutral",
+        lang,
+    )
 
     return {
         "id": 3,
         "name": "Liquidity Void Reversion (LVR)",
-        "type": "Đảo chiều T+1 (Mean-Reversion)",
+        "type": _t("ar_a3_type", lang),
         "formula": "Tanh( -0.8 × ZScore( (Close - SMA5)/Close ) )",
         "horizon": "—",
         "value": round(value, 4),
@@ -535,28 +552,32 @@ def _alpha3_lvr(tv: dict) -> dict:
             "zscore_close_dev5": round(z_close_dev5, 4),
             "cur_close_dev5": round(tv.get("cur_close_dev5", 0.0), 6),
         },
-        "interpretation": (
-            f"Z-Score lệch pha SMA(5)={z_close_dev5:+.2f}. "
-            f"{'Giá bị đẩy rớt xa xuống, mồi thanh khoản để bật lại T+1' if value > thr else 'Giá hưng phấn rướn quá khỏi SMA5, rủi ro rũ nền T+1' if value < -thr else 'Dao động bám quanh SMA5, không có khoảng trống.'}"
-        ),
+        "interpretation": _t("ar_a3_interp", lang, z=z_close_dev5, verdict=verdict),
     }
 
 
-def _alpha4_bfe(tv: dict) -> dict:
+def _alpha4_bfe(tv: dict, lang: str = "vi") -> dict:
     """Alpha 4 — Bollinger Squeeze & Flow (BFE)"""
+    from utils.i18n import t as _t
+
     bb_pct_b = _safe(tv.get("bb_pct_b", 0.5))
     vol_z5 = _safe(tv.get("vol_zscore_5", 0.0))
-    
+
     raw = (bb_pct_b - 0.5) * vol_z5 * 1.5
     value = math.tanh(raw)
 
     thr = 0.10
     sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
 
+    verdict = _t(
+        "ar_a4_up" if value > thr else "ar_a4_down" if value < -thr else "ar_a4_neutral",
+        lang,
+    )
+
     return {
         "id": 4,
         "name": "Bollinger Squeeze & Flow (BFE)",
-        "type": "Bùng nổ dải Band T+1",
+        "type": _t("ar_a4_type", lang),
         "formula": "Tanh( (%B - 0.5) × Vol_ZScore(5) × 1.5 )",
         "horizon": "—",
         "value": round(value, 4),
@@ -565,29 +586,33 @@ def _alpha4_bfe(tv: dict) -> dict:
             "bb_pct_b": round(bb_pct_b, 4),
             "vol_zscore_5": round(vol_z5, 4),
         },
-        "interpretation": (
-            f"BB %B={bb_pct_b:.2f}, Z-Score(Vol, 5)={vol_z5:+.2f}. "
-            f"{'Xác nhận bứt phá biên trên cùng Vol' if value > thr else 'Áp lực đè biên dưới cùng Vol' if value < -thr else 'Chưa có sự ép biên rõ ràng'}"
-        ),
+        "interpretation": _t("ar_a4_interp", lang, b=bb_pct_b, z=vol_z5, verdict=verdict),
     }
 
 
-def _alpha5_ofe(tv: dict) -> dict:
+def _alpha5_ofe(tv: dict, lang: str = "vi") -> dict:
     """Alpha 5 — Order Flow Exhaustion (OFE)"""
+    from utils.i18n import t as _t
+
     roc1_adj = _safe(tv.get("roc1_adjusted", 0.0))
-    close_pos = _safe(tv.get("close_pos", 0.0)) 
-    
+    close_pos = _safe(tv.get("close_pos", 0.0))
+
     raw = roc1_adj * close_pos * 3.0
     value = math.tanh(raw)
 
     thr = 0.10
     sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
 
+    verdict = _t(
+        "ar_a5_up" if value > thr else "ar_a5_down" if value < -thr else "ar_a5_neutral",
+        lang,
+    )
+
     return {
         "id": 5,
         "name": "Order Flow Exhaustion (OFE)",
-        "type": "Nén xả nội phiên T+1",
-        "formula": "Tanh( ROC_adj × Vị_trí_đóng_nến × 3.0 )",
+        "type": _t("ar_a5_type", lang),
+        "formula": _t("ar_a5_formula", lang),
         "horizon": "—",
         "value": round(value, 4),
         "signal": sig,
@@ -595,10 +620,7 @@ def _alpha5_ofe(tv: dict) -> dict:
             "roc1_adjusted": round(roc1_adj, 4),
             "close_pos": round(close_pos, 4),
         },
-        "interpretation": (
-            f"Động lực qua ngày ROC_adj={roc1_adj:+.2f}, Vị trí đóng nến (Pos)={close_pos:+.2f}. "
-            f"{'Sự ủng hộ giá đóng cửa trên cao' if value > thr else 'Râu nến ngược hướng giá, đuối dòng tiền' if value < -thr else 'Thân nến trung bình'}"
-        ),
+        "interpretation": _t("ar_a5_interp", lang, roc=roc1_adj, pos=close_pos, verdict=verdict),
     }
 
 
@@ -611,11 +633,14 @@ def _compute_all_alphas(
     symbol: str,
     interval: str = "1d",
     norm_method: str = "zscore_tanh",
-    weights: dict = None
+    weights: dict = None,
+    lang: str = "vi"
 ) -> Tuple[List[dict], dict]:
     """
     Computes top-5 dynamic alphas or falls back to original 5.
     """
+    from utils.i18n import t as _t
+
     tv = _extract_tech_vars(kline_data)
     
     # 1. Try dynamic selection
@@ -657,18 +682,18 @@ def _compute_all_alphas(
                 val = -val
 
             # Try to get metadata from NEW_ALPHA_TEMPLATES in alpha_compare
-            template = alpha_compare.NEW_ALPHA_TEMPLATES.get(aid, {})
+            template = alpha_compare.get_alpha_template(aid, lang)
             name = template.get("name", a_meta["description"])
-            a_type = template.get("type", "Quantitative Alpha")
+            a_type = template.get("type", _t("ar_type_fallback", lang))
             formula = template.get("formula", f"Adapted {aid}")
             interp_base = template.get("interp", a_meta["description"])
-            
+
             thr = 0.10
             sig = "TĂNG" if val > thr else "GIẢM" if val < -thr else "TRUNG TÍNH"
-            
+
             interpretation = f"{interp_base}. (IC={ic_val:+.3f}, Acc={a_meta['metrics']['accuracy']:.1%})"
             if is_flipped:
-                interpretation += " [Đảo chiều tín hiệu do tương quan lịch sử âm (IC < 0)]"
+                interpretation += f" {_t('ar_flipped_note', lang)}"
 
             dynamic_results.append({
                 "id": i + 1,
@@ -690,11 +715,11 @@ def _compute_all_alphas(
     # 2. Fallback to original 5
     print("[AlphaAgent] Fallback về 5 alpha mặc định.")
     alphas = [
-        _alpha1_fdm(tv),
-        _alpha2_sfa(sentiment_norm, tv),
-        _alpha3_lvr(tv),
-        _alpha4_bfe(tv),
-        _alpha5_ofe(tv),
+        _alpha1_fdm(tv, lang),
+        _alpha2_sfa(sentiment_norm, tv, lang),
+        _alpha3_lvr(tv, lang),
+        _alpha4_bfe(tv, lang),
+        _alpha5_ofe(tv, lang),
     ]
     return alphas, tv
 
@@ -702,20 +727,28 @@ def _compute_all_alphas(
 # ── Report builder ─────────────────────────────────────────────────────────────
 
 def _build_alpha_report(
-    alphas: List[dict], tv: dict, sn: dict, stock_name: str
+    alphas: List[dict], tv: dict, sn: dict, stock_name: str, lang: str = "vi"
 ) -> str:
     """
     Xây dựng báo cáo markdown cho 5 alpha.
     """
-    sent_reliable_label = "✅ Đáng tin" if sn.get("is_reliable") else "⚠️ Ít bài"
+    from utils.i18n import t as _t, signal_label
+
+    sent_reliable_label = _t("ar_reliable" if sn.get("is_reliable") else "ar_few_articles", lang)
 
     lines = [
-        f"## 5 Alpha Factor — {stock_name}\n",
-        "| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |",
+        f"## {_t('ar_title', lang)} — {stock_name}\n",
+        f"| # | {_t('ar_th_alpha', lang)} | {_t('ar_th_type', lang)} "
+        f"| {_t('ar_th_value', lang)} | {_t('ar_th_signal', lang)} "
+        f"| {_t('ar_th_horizon', lang)} |",
         "|---|-------|------|---------|----------|---------|",
     ]
     for a in alphas:
-        icon = "▲ TĂNG" if a["signal"] == "TĂNG" else "▼ GIẢM" if a["signal"] == "GIẢM" else "◆ Trung tính"
+        icon = (
+            _t("ar_sig_up", lang) if a["signal"] == "TĂNG"
+            else _t("ar_sig_down", lang) if a["signal"] == "GIẢM"
+            else _t("ar_sig_neutral", lang)
+        )
         lines.append(
             f"| {a['id']} | **{a['name']}** | {a['type']} "
             f"| **{a['value']}** | {icon} | {a['horizon']} |"
@@ -723,9 +756,11 @@ def _build_alpha_report(
 
     lines += [
         "",
-        f"**Sentiment:** {sn.get('article_count', 0)} bài — {sent_reliable_label} | "
+        f"**{_t('ar_sentiment', lang)}:** {sn.get('article_count', 0)} "
+        f"{_t('articles', lang)} — {sent_reliable_label} | "
         f"Z-score: {sn.get('z_score', 0):+.4f} | "
-        f"**Volume:** {'thực' if tv.get('has_volume') else 'proxy range'}",
+        f"**{_t('ar_volume', lang)}:** "
+        f"{_t('ar_vol_real' if tv.get('has_volume') else 'ar_vol_proxy', lang)}",
         "",
         "---\n",
     ]
@@ -734,22 +769,23 @@ def _build_alpha_report(
         icon = "🟢" if a["signal"] == "TĂNG" else "🔴" if a["signal"] == "GIẢM" else "⚪"
         lines += [
             f"### Alpha {a['id']}: {a['name']}",
-            f"**Loại:** {a['type']} | **Horizon:** {a['horizon']}",
+            f"**{_t('ar_lbl_type', lang)}:** {a['type']} | "
+            f"**{_t('ar_lbl_horizon', lang)}:** {a['horizon']}",
             "",
-            "**Công thức đầy đủ:**",
+            f"**{_t('ar_full_formula', lang)}:**",
             f"`{a['formula']}`",
             "",
-            "**Các bước tính toán:**",
+            f"**{_t('ar_calc_steps', lang)}:**",
         ]
         for k, v in a.get("components", {}).items():
             lines.append(f"- `{k}` = **{v}**")
-            
+
         lines += [
             "",
-            f"**Diễn giải:** *{a['interpretation']}*",
+            f"**{_t('ar_interpretation', lang)}:** *{a['interpretation']}*",
             "",
-            f"**Kết quả cuối cùng:** `{a['value']}`",
-            f"**Tín hiệu:** {icon} **{a['signal']}**",
+            f"**{_t('ar_final_value', lang)}:** `{a['value']}`",
+            f"**{_t('ar_signal', lang)}:** {icon} **{signal_label(a['signal'], lang)}**",
             "",
             "---",
             ""
@@ -760,10 +796,13 @@ def _build_alpha_report(
 
 # ── LLM reasoning ─────────────────────────────────────────────────────────────
 
-def _llm_reason(llm, report_md: str, sentiment_md: str, stock_name: str, horizon_label: str) -> str:
+def _llm_reason(llm, report_md: str, sentiment_md: str, stock_name: str, horizon_label: str,
+                lang: str = "vi") -> str:
     """
     Yêu cầu LLM đọc 5 alpha và bản tin tâm lý để đưa ra nhận xét tổng hợp.
     """
+    from utils.i18n import language_directive
+
     prompt = f"""Bạn là chuyên gia phân tích định lượng và dòng tiền chuyên dự đoán {horizon_label}.
 Dưới đây là kết quả tính toán 5 alpha factor và bản tóm tắt tâm lý thị trường cho **{stock_name}**.
 
@@ -779,12 +818,17 @@ Hãy kết hợp cả dữ liệu định lượng và tin tức để:
 3. Chỉ ra rủi ro hoặc cơ hội tiềm ẩn từ tin tức mà các alpha kỹ thuật có thể chưa phản ánh hết.
 
 KHÔNG phân tích dài dòng. Chỉ suy luận tự nhiên từ các con số để chốt cái nhìn về {horizon_label}.
-Trả lời bằng tiếng Việt, giữ nguyên định dạng markdown."""
+Giữ nguyên định dạng markdown.
+
+{language_directive(lang)}"""
 
     try:
         resp = _invoke_with_retry(
             llm.invoke,
-            [SystemMessage(content=f"Bạn là chuyên gia định lượng chứng khoán Việt Nam, dự báo {horizon_label}."),
+            [SystemMessage(content=(
+                f"Bạn là chuyên gia định lượng chứng khoán Việt Nam, dự báo {horizon_label}.\n\n"
+                f"{language_directive(lang)}"
+             )),
              HumanMessage(content=prompt)],
         )
         return resp.content or report_md
@@ -813,13 +857,16 @@ def create_alpha_agent(llm):
         kline_data       = state["kline_data"]
         is_backtest      = state.get("is_backtest", False)
 
+        from utils.i18n import lang_of, signal_label, t as _t
+        lang = lang_of(state)
+
         # ── Step 1: Fetch sentiment ────────────────────────────────────────
         if not is_backtest:
             print(f"[AlphaAgent] Production — crawl sentiment cho {stock_name}...")
             try:
                 from agents.sentiment_agent import run_sentiment_for_alpha
                 sentiment_data, sentiment_report = run_sentiment_for_alpha(
-                    llm, stock_name, time_frame
+                    llm, stock_name, time_frame, lang=lang
                 )
             except Exception as e:
                 print(f"[AlphaAgent] Lỗi sentiment: {e}")
@@ -852,8 +899,8 @@ def create_alpha_agent(llm):
 
         # ── Step 3: Compute all 5 alphas ───────────────────────────────────
         # ── Horizon động ──────────────────────────────────────────────────
-        from utils.static_util import get_forecast_horizon
-        hz = get_forecast_horizon(time_frame)
+        from utils.i18n import get_horizon
+        hz = get_horizon(time_frame, lang)
         horizon_label = hz["horizon_short"]
         
         # Map time_frame display to interval key
@@ -865,9 +912,9 @@ def create_alpha_agent(llm):
 
         print(f"[AlphaAgent] Tính 5 alpha factor ({horizon_label})...")
         alphas, tech_vars = _compute_all_alphas(
-            kline_data, sentiment_norm, related_norm, 
+            kline_data, sentiment_norm, related_norm,
             symbol=stock_name, interval=interval_key,
-            norm_method=norm_method, weights=weights
+            norm_method=norm_method, weights=weights, lang=lang
         )
         # Inject động horizon vào từng alpha
         for a in alphas:
@@ -878,11 +925,12 @@ def create_alpha_agent(llm):
         print(f"[AlphaAgent] TĂNG={n_long} GIẢM={n_short} TRUNG TÍNH={5-n_long-n_short}")
 
         # ── Step 4: Build base report ──────────────────────────────────────
-        base_report = _build_alpha_report(alphas, tech_vars, sentiment_norm, stock_name)
+        base_report = _build_alpha_report(alphas, tech_vars, sentiment_norm, stock_name, lang)
 
         # ── Step 5: LLM reasons freely (Now with Sentiment context) ────────
-        llm_reasoning = _llm_reason(llm, base_report, sentiment_report, stock_name, horizon_label)
-        
+        llm_reasoning = _llm_reason(llm, base_report, sentiment_report, stock_name,
+                                    horizon_label, lang=lang)
+
         n_neu = 5 - n_long - n_short
         if n_long > n_short:
             consensus = "TĂNG"
@@ -893,9 +941,12 @@ def create_alpha_agent(llm):
 
         alpha_report = (
             f"{base_report}\n"
-            f"### 🤖 Chuyên gia định lượng nhận xét\n"
+            f"### 🤖 {_t('alpha_expert_note', lang)}\n"
             f"{llm_reasoning}\n\n"
-            f"**TỔNG HỢP: {consensus} ({n_long} TĂNG / {n_short} GIẢM / {n_neu} TRUNG TÍNH)**\n"
+            f"**{_t('alpha_summary', lang)}: {signal_label(consensus, lang)} "
+            f"({n_long} {signal_label('TĂNG', lang)} / "
+            f"{n_short} {signal_label('GIẢM', lang)} / "
+            f"{n_neu} {signal_label('TRUNG TÍNH', lang)})**\n"
         )
 
         print(f"[AlphaAgent] Hoàn thành ({len(alpha_report)} ký tự).")

@@ -5,6 +5,7 @@ DEFAULT_CONFIG = {
     "graph_llm_provider":     "groq",
     "agent_llm_temperature":  0.1,
     "graph_llm_temperature":  0.1,
-    "groq_api_key":           "", 
+    "graph_llm_max_tokens":   1024,   
+    "groq_api_key":           "",
     "use_historical_sentiment": True
 }

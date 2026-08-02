@@ -569,14 +569,20 @@ def _find_related_companies(llm, articles: List[dict], target: str) -> List[str]
 
 # ── Sentiment bar ──────────────────────────────────────────────────────────────
 
-def _sentiment_bar(score: float) -> str:
+def _sentiment_bar(score: float, lang: str = "vi") -> str:
+    from utils.i18n import normalize_lang
+    is_en = normalize_lang(lang) == "en"
+
     clamped = max(-1.0, min(1.0, score))
     bars    = int(abs(clamped) * 10)
     if clamped > 0.1:
-        return f"TÍCH CỰC ({score:+.3f}) {'█'*bars}"
+        label = "POSITIVE" if is_en else "TÍCH CỰC"
+        return f"{label} ({score:+.3f}) {'█'*bars}"
     if clamped < -0.1:
-        return f"TIÊU CỰC ({score:+.3f}) {'█'*bars}"
-    return f"TRUNG TÍNH ({score:+.3f}) {'▒'*max(1,bars)}"
+        label = "NEGATIVE" if is_en else "TIÊU CỰC"
+        return f"{label} ({score:+.3f}) {'█'*bars}"
+    label = "NEUTRAL" if is_en else "TRUNG TÍNH"
+    return f"{label} ({score:+.3f}) {'▒'*max(1,bars)}"
 
 
 # ── Report builder ─────────────────────────────────────────────────────────────
@@ -587,25 +593,71 @@ def _build_report(
     main_agg: Dict,
     related_companies: List[str],
     related_sentiment: Dict[str, Dict],
+    lang: str = "vi",
 ) -> str:
+    from utils.i18n import normalize_lang, language_directive, localize_timeframe
+    lang = normalize_lang(lang)
+    is_en = lang == "en"
+
+    tf_display = localize_timeframe(time_frame, lang)
+
     art_sum = ""
     for i, a in enumerate(scored_articles[:15], 1):
         icon = "🟢" if a["label"]=="positive" else ("🔴" if a["label"]=="negative" else "⚪")
-        art_sum += f"{i}. {icon} [{a['label'].upper()}] {a['title'][:80]}\n   Điểm: {a['numeric_score']:+.3f} | {a.get('date','')}\n"
+        score_lbl = "Score" if is_en else "Điểm"
+        art_sum += (
+            f"{i}. {icon} [{a['label'].upper()}] {a['title'][:80]}\n"
+            f"   {score_lbl}: {a['numeric_score']:+.3f} | {a.get('date','')}\n"
+        )
 
     rel_sum = ""
     for co in related_companies:
         s    = related_sentiment.get(co, {})
         icon = "🟢" if s.get("label")=="positive" else ("🔴" if s.get("label")=="negative" else "⚪")
-        rel_sum += f"- **{co}**: {icon} {s.get('label','N/A').upper()} | điểm: {s.get('avg_score',0):+.3f} | {s.get('article_count',0)} bài\n"
+        score_lbl    = "score" if is_en else "điểm"
+        articles_lbl = "articles" if is_en else "bài"
+        rel_sum += (
+            f"- **{co}**: {icon} {s.get('label','N/A').upper()} | "
+            f"{score_lbl}: {s.get('avg_score',0):+.3f} | "
+            f"{s.get('article_count',0)} {articles_lbl}\n"
+        )
 
-    try:
-        resp = llm.invoke([
-            SystemMessage(content=(
-                "Bạn là chuyên gia phân tích sentiment thị trường chứng khoán Việt Nam. "
-                "Tổng hợp dữ liệu từ báo chí, trả lời tiếng Việt, markdown."
-            )),
-            HumanMessage(content=f"""Phân tích sentiment cho **{target}** ({time_frame}).
+    if is_en:
+        sys_msg = (
+            "You are an expert market-sentiment analyst covering the Vietnamese stock market. "
+            "Synthesise the press data into a markdown report.\n\n"
+            f"{language_directive(lang)}"
+        )
+        human_msg = f"""Sentiment analysis for **{target}** ({tf_display}).
+
+=== RESULTS ===
+Articles: {main_agg.get('article_count',0)} | Avg score: {main_agg.get('avg_score',0):+.4f} | Verdict: {main_agg.get('label','neutral').upper()}
+Distribution: 🟢{main_agg.get('positive',0)} / ⚪{main_agg.get('neutral_count',0)} / 🔴{main_agg.get('negative',0)}
+
+=== 15 MOST RECENT ARTICLES ===
+{art_sum or '(No articles)'}
+
+=== RELATED COMPANIES ===
+{rel_sum or '(None found)'}
+
+---
+Write the report using this template:
+
+**📊 Sentiment Summary — {target}**
+**Key verdict:** [1-2 sentences]
+**Detailed analysis:**
+- News trend: [...]
+- Positive signals: [...]
+- Negative signals: [...]
+- Pressure from related companies: [...]
+"""
+    else:
+        sys_msg = (
+            "Bạn là chuyên gia phân tích sentiment thị trường chứng khoán Việt Nam. "
+            "Tổng hợp dữ liệu từ báo chí, markdown.\n\n"
+            f"{language_directive(lang)}"
+        )
+        human_msg = f"""Phân tích sentiment cho **{target}** ({tf_display}).
 
 === KẾT QUẢ ===
 Số bài: {main_agg.get('article_count',0)} | Điểm TB: {main_agg.get('avg_score',0):+.4f} | Nhận định: {main_agg.get('label','neutral').upper()}
@@ -627,11 +679,32 @@ Viết báo cáo theo template:
 - Tín hiệu tích cực: [...]
 - Tín hiệu tiêu cực: [...]
 - Áp lực từ công ty liên quan: [...]
-"""),
+"""
+
+    try:
+        resp = llm.invoke([
+            SystemMessage(content=sys_msg),
+            HumanMessage(content=human_msg),
         ])
         llm_text = resp.content or ""
     except Exception as e:
-        llm_text = f"Lỗi tổng hợp: {e}"
+        llm_text = (f"Synthesis error: {e}" if is_en else f"Lỗi tổng hợp: {e}")
+
+    if is_en:
+        return (
+            f"## 📰 Sentiment Analysis — {target}\n\n"
+            f"### Aggregate results\n"
+            f"| Metric | Value |\n|--------|----------|\n"
+            f"| Articles analysed | {main_agg.get('article_count',0)} |\n"
+            f"| Average sentiment score | **{main_agg.get('avg_score',0):+.4f}** |\n"
+            f"| Verdict | **{main_agg.get('label','neutral').upper()}** |\n"
+            f"| Positive / Neutral / Negative | "
+            f"{main_agg.get('positive',0)} / {main_agg.get('neutral_count',0)} / {main_agg.get('negative',0)} |\n"
+            f"| Sentiment bar | {_sentiment_bar(main_agg.get('avg_score',0), lang)} |\n"
+            f"### Related companies (Top {len(related_companies)})\n"
+            f"{rel_sum or '_None found_'}\n\n"
+            f"---\n\n{llm_text}\n"
+        )
 
     return (
         f"## 📰 Phân tích Sentiment — {target}\n\n"
@@ -642,7 +715,7 @@ Viết báo cáo theo template:
         f"| Nhận định | **{main_agg.get('label','neutral').upper()}** |\n"
         f"| Tích cực / Trung tính / Tiêu cực | "
         f"{main_agg.get('positive',0)} / {main_agg.get('neutral_count',0)} / {main_agg.get('negative',0)} |\n"
-        f"| Thanh cảm xúc | {_sentiment_bar(main_agg.get('avg_score',0))} |\n"
+        f"| Thanh cảm xúc | {_sentiment_bar(main_agg.get('avg_score',0), lang)} |\n"
         f"### Công ty liên quan (Top {len(related_companies)})\n"
         f"{rel_sum or '_Không tìm được_'}\n\n"
         f"---\n\n{llm_text}\n"
@@ -652,12 +725,14 @@ Viết báo cáo theo template:
 # ── Standalone function for Alpha Agent ───────────────────────────────────────
 
 def run_sentiment_for_alpha(
-    llm, stock_name: str, time_frame: str
+    llm, stock_name: str, time_frame: str, lang: str = "vi"
 ) -> Tuple[Dict[str, Any], str]:
     """
     Chạy phân tích sentiment và trả về (sentiment_data, sentiment_report).
     Được gọi trực tiếp bởi Alpha Agent thay vì chạy như một node pipeline.
     """
+    from utils.i18n import normalize_lang
+    lang = normalize_lang(lang)
     print(f"\n{'='*55}")
     print(f"[SentimentAgent] Bắt đầu thu thập sentiment: {stock_name}")
     print(f"{'='*55}")
@@ -677,13 +752,22 @@ def run_sentiment_for_alpha(
 
     if not articles:
         print(f"[SentimentAgent] ⚠️ Không lấy được bài nào cho {stock_name}")
-        report = (
-            f"## 📰 Sentiment — {stock_name}\n\n"
-            "⚠️ Không thu thập được bài báo từ CafeF.\n\n"
-            f"CafeF có thể chưa có trang riêng cho mã **{stock_name}** "
-            "hoặc lỗi kết nối mạng tạm thời.\n\n"
-            "_Sentiment score = 0 (neutral) sẽ được dùng làm đầu vào cho Alpha Agent._"
-        )
+        if lang == "en":
+            report = (
+                f"## 📰 Sentiment — {stock_name}\n\n"
+                "⚠️ No articles could be collected from CafeF.\n\n"
+                f"CafeF may not have a dedicated page for **{stock_name}**, "
+                "or there was a temporary network error.\n\n"
+                "_A sentiment score of 0 (neutral) will be used as the Alpha Agent input._"
+            )
+        else:
+            report = (
+                f"## 📰 Sentiment — {stock_name}\n\n"
+                "⚠️ Không thu thập được bài báo từ CafeF.\n\n"
+                f"CafeF có thể chưa có trang riêng cho mã **{stock_name}** "
+                "hoặc lỗi kết nối mạng tạm thời.\n\n"
+                "_Sentiment score = 0 (neutral) sẽ được dùng làm đầu vào cho Alpha Agent._"
+            )
         return empty_data, report
 
     # Bước 2: Lọc bài báo không liên quan (giải quyết vấn đề HVN ← Honda)
@@ -749,6 +833,7 @@ def run_sentiment_for_alpha(
     report = _build_report(
         llm, stock_name, time_frame,
         scored, main_agg, related, related_sentiment,
+        lang=lang,
     )
 
     sentiment_data = {
@@ -774,10 +859,13 @@ def create_sentiment_agent(llm):
     """
 
     def sentiment_agent_node(state: dict) -> dict:
+        from utils.i18n import lang_of
         stock_name = state.get("stock_name", "")
         time_frame = state.get("time_frame", "1 day")
 
-        sentiment_data, report = run_sentiment_for_alpha(llm, stock_name, time_frame)
+        sentiment_data, report = run_sentiment_for_alpha(
+            llm, stock_name, time_frame, lang=lang_of(state)
+        )
 
         return {
             "messages":         state.get("messages", []),
