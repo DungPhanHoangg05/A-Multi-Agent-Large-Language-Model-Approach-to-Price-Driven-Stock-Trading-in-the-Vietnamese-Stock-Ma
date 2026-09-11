@@ -177,7 +177,7 @@ class BacktestEngine:
             self.config.get("agent_llm_temperature", 0.0),
         )
         graph_llm = make_llm(
-            self.config.get("graph_llm_model", "qwen/qwen3.6-27b"),
+            self.config.get("graph_llm_model", "qwen/qwen3.8-27b"),
             self.config.get("graph_llm_temperature", 0.0),
         )
         toolkit = TechnicalTools()
