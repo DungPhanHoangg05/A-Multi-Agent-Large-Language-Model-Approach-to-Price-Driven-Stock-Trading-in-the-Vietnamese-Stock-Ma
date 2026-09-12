@@ -12,6 +12,14 @@ class IndicatorAgentState(TypedDict):
     time_frame: Annotated[str, "time period for k line data provided"]
     stock_name: Annotated[dict, "stock name for prompt"]
     is_backtest: Annotated[bool, "Cờ nhận diện chế độ Backtest để chặn crawler mạng bên ngoài"]
+    point_in_time_df: Annotated[
+        Any,
+        "Snapshot OHLCV lịch sử chỉ kết thúc tại nến quyết định của backtest",
+    ]
+    as_of_date: Annotated[
+        Any,
+        "Mốc thời gian chính xác của nến quyết định dùng để chặn dữ liệu tương lai",
+    ]
     language: Annotated[
         str,
         "Ngôn ngữ đầu ra của mọi agent: 'vi' (mặc định) hoặc 'en'. "

@@ -259,7 +259,8 @@ class BacktestEngine:
 
     def _run_single(
         self, graph, ohlcv_dict: dict, symbol: str, timeframe: str,
-        window_end_date: str = None   # ← tham số mới
+        window_end_date: str = None,
+        point_in_time_df: Optional[pd.DataFrame] = None,
     ):
         """Chạy một lần phân tích với sentiment lịch sử."""
         import time
@@ -291,6 +292,12 @@ class BacktestEngine:
                 else None
             ),
             "window_end_date":  window_end_date,   # "YYYY-MM-DD"
+            "point_in_time_df": point_in_time_df,
+            "as_of_date": (
+                point_in_time_df["Datetime"].iloc[-1]
+                if point_in_time_df is not None and not point_in_time_df.empty
+                else window_end_date
+            ),
             
             # ── MỚI: truyền normalisation và weights ───────────────────────────
             "alpha_norm_method": self.config.get("alpha_norm_method", "zscore_tanh"),
@@ -554,6 +561,7 @@ class BacktestEngine:
             print(f"\n── Test {i+1}/{actual_n} (end_idx={end_idx}) {'─'*30}")
 
             ohlcv, ws, we         = self._prepare_window(df, end_idx, window_size)
+            point_in_time_df      = df.iloc[:end_idx].copy()
             actual_dir, pc, nc, pct = self._get_actual_direction(df, end_idx, lookahead)
 
             print(f"  Cửa sổ : {ws} → {we}")
@@ -565,7 +573,8 @@ class BacktestEngine:
             try:
                 print("  ▶ Full system đang chạy...")
                 state_f, tf = self._run_single(self._graph_full, ohlcv, symbol, timeframe,
-                                               window_end_date=we)
+                                               window_end_date=we,
+                                               point_in_time_df=point_in_time_df)
                 pred_f, conf_f, rr_f = self._parse_prediction(state_f)
                 ok = (pred_f == "LONG" and actual_dir == "UP") or \
                      (pred_f == "SHORT" and actual_dir == "DOWN")
@@ -585,7 +594,8 @@ class BacktestEngine:
             try:
                 print("  ▶ No-Alpha system đang chạy...")
                 state_n, tn = self._run_single(self._graph_no_alpha, ohlcv, symbol, timeframe,
-                                               window_end_date=we)
+                                               window_end_date=we,
+                                               point_in_time_df=point_in_time_df)
                 pred_n, conf_n, rr_n = self._parse_prediction(state_n)
                 ok_n = (pred_n == "LONG" and actual_dir == "UP") or \
                        (pred_n == "SHORT" and actual_dir == "DOWN")

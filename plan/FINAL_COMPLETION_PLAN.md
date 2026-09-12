@@ -68,7 +68,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 
 | Mã Issue | Vấn đề kỹ thuật / Phương pháp | Trạng thái | Minh chứng trực tiếp từ Code | Minh chứng từ Paper / Review | Mức độ ưu tiên | Task xử lý |
 | :--- | :--- | :---: | :--- | :--- | :---: | :---: |
-| **ISSUE-01** | **Rò rỉ dữ liệu tương lai trong Dynamic Alpha Selection** | `OPEN` | `utils/alpha_selector.py`: dòng 18 gọi `load_data(symbol, interval, lookback_days=600)` lấy nến realtime đến ngày hiện tại thay vì dừng tại `cutoff_date`. | Review 1 (§3.2): "Data-snooping in alpha selection". Paper (§5.1): Cam kết alpha selection chỉ dùng dữ liệu tiền kiểm tra $[e-T_{hist}, e)$. | **P0** | `TASK-01` |
+| **ISSUE-01** | **Rò rỉ dữ liệu tương lai trong Dynamic Alpha Selection** | `FIXED` | `BacktestEngine` truyền snapshot `df.iloc[:end_idx]` và mốc `as_of_date`; `select_top_alphas()` cắt tối đa 600 nến đến đúng mốc này và cấm fallback realtime trong backtest. Kiểm chứng bởi `tests/test_alpha_leakage.py`. | Review 1 (§3.2): "Data-snooping in alpha selection". Paper (§5.1): Cam kết alpha selection chỉ dùng dữ liệu tiền kiểm tra $[e-T_{hist}, e)$. | **P0** | `TASK-01` |
 | **ISSUE-02** | **Vi phạm tính độc lập đối chứng No-Alpha (Table 8 Bug)** | `PAPER_MISMATCH` | `core/backtest_engine.py`: dòng 567 và 587 gọi 2 lần `_run_single` riêng rẽ; LLM thượng nguồn chạy 2 lần gây nhiễu ngẫu nhiên. | Review 1 (§3.1): "Table 8 contains an internally inconsistent result... Acc No-α varies from 57.1% to 71.4% to 42.9%". | **P0** | `TASK-02` |
 | **ISSUE-03** | **Rò rỉ bài báo không có ngày trong Sentiment Cache** | `OPEN` | `data_manager/sentiment_cache.py`: dòng 295-300 fallback lấy bài không ngày `no_date_articles` nhét vào cửa sổ khi thiếu bài. | Review 1 (§3.3) & Paper (§5.1): Cam kết không dùng bài báo tương lai; bài không ngày phải bị loại bỏ trong research mode. | **P0** | `TASK-03` |
 | **ISSUE-04** | **P&L tính bằng tổng số học rời rạc thay vì lãi kép** | `PAPER_MISMATCH` | `core/backtest_engine.py`: dòng 344 & 350 `pnl_f += r_f`, dòng 353-365 tính Sharpe trên mảng lợi nhuận cơ hội rời rạc. | Review 1 (§3.1, §5) & Paper (§6.1 chú thích Table 7): Thừa nhận "Legacy Sum" không phải là compounded account return. | **P0** | `TASK-04` |
@@ -127,6 +127,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-01] [Thứ tự: #1] [P0] Vá rò rỉ dữ liệu tương lai trong Dynamic Alpha Selection
 
 - **Task ID:** `TASK-01`
+- **Status:** `COMPLETED` — kiểm thử chống lookahead PASS bằng Python 3.13.
 - **Git Branch:** `task/TASK-01-fix-alpha-leakage`
 - **Priority:** `P0`
 - **Objective:** Đảm bảo quá trình chọn lọc top-5 alpha động tại mỗi điểm kiểm tra $e$ chỉ được phép sử dụng dữ liệu lịch sử trong quá khứ kết thúc chính xác tại $e-1$ (`window_end_date`), tuyệt đối không tải dữ liệu realtime đến ngày hôm nay.
