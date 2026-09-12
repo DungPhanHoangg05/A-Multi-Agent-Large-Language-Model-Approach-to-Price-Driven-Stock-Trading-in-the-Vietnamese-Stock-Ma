@@ -2,6 +2,7 @@ import json
 import os
 import time
 import threading
+from copy import deepcopy
 from dataclasses import dataclass, asdict, field
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -125,8 +126,8 @@ class BacktestEngine:
     Walk-forward backtest engine.
     Mỗi test point:
       1. Cắt window [end_idx - window_size : end_idx]
-      2. Chạy Full System → prediction_full
-      3. Chạy No-Alpha System → prediction_no_alpha
+      2. Chạy Indicator/Pattern/Trend đúng một lần để tạo shared snapshot
+      3. Deep-copy snapshot sang Full và No-Alpha decision graphs
       4. Kiểm tra nến [end_idx] để xác định đúng/sai
     """
 
@@ -136,8 +137,9 @@ class BacktestEngine:
 
     def __init__(self, config: dict = None):
         self.config          = {**DEFAULT_CONFIG, **(config or {})}
-        self._graph_full     = None
-        self._graph_no_alpha = None
+        self._graph_upstream = None
+        self._graph_decision_full = None
+        self._graph_decision_no_alpha = None
         self._stop_event     = threading.Event()
         self._started_at     = ""
         self._sentiment_store = None
@@ -182,13 +184,15 @@ class BacktestEngine:
         )
         toolkit = TechnicalTools()
 
-        print("[BacktestEngine] Khởi tạo Full graph...")
-        self._graph_full = SetGraph(agent_llm, graph_llm, toolkit).set_graph(include_alpha=True)
+        graph_builder = SetGraph(agent_llm, graph_llm, toolkit)
+        print("[BacktestEngine] Khởi tạo shared upstream graph...")
+        self._graph_upstream = graph_builder.compile_upstream()
+        print("[BacktestEngine] Khởi tạo Full decision graph...")
+        self._graph_decision_full = graph_builder.compile_decision(include_alpha=True)
+        print("[BacktestEngine] Khởi tạo No-Alpha decision graph...")
+        self._graph_decision_no_alpha = graph_builder.compile_decision(include_alpha=False)
 
-        print("[BacktestEngine] Khởi tạo No-Alpha graph...")
-        self._graph_no_alpha = SetGraph(agent_llm, graph_llm, toolkit).set_graph(include_alpha=False)
-
-        print("[BacktestEngine] ✓ Cả 2 graph đã sẵn sàng.")
+        print("[BacktestEngine] [OK] Paired shared-reports graphs đã sẵn sàng.")
 
     # ── Data helpers ───────────────────────────────────────────────────────────
 
@@ -309,6 +313,70 @@ class BacktestEngine:
     
         final_state = graph.invoke(initial_state)
         return final_state, time.time() - t0
+
+    def _run_paired_point(
+        self,
+        ohlcv_dict: dict,
+        symbol: str,
+        timeframe: str,
+        window_end_date: str = None,
+        point_in_time_df: Optional[pd.DataFrame] = None,
+    ):
+        """Chạy upstream một lần rồi deep-copy snapshot sang hai nhánh quyết định."""
+        from utils import static_util
+
+        t0 = time.time()
+        p_img = t_img = ""
+        try:
+            p_img = static_util.generate_kline_image(ohlcv_dict).get("pattern_image", "")
+            t_img = static_util.generate_trend_image(ohlcv_dict).get("trend_image", "")
+        except Exception as e:
+            print(f"    [!] Lỗi tạo ảnh: {e}")
+
+        initial_state = {
+            "kline_data": ohlcv_dict,
+            "analysis_results": None,
+            "messages": [],
+            "time_frame": timeframe,
+            "stock_name": symbol,
+            "pattern_image": p_img,
+            "trend_image": t_img,
+            "is_backtest": True,
+            "sentiment_store": (
+                self._sentiment_store if self._use_historical_sentiment else None
+            ),
+            "window_end_date": window_end_date,
+            "point_in_time_df": point_in_time_df,
+            "as_of_date": (
+                point_in_time_df["Datetime"].iloc[-1]
+                if point_in_time_df is not None and not point_in_time_df.empty
+                else window_end_date
+            ),
+            "language": self.config.get("language", "vi"),
+        }
+
+        upstream_state = self._graph_upstream.invoke(initial_state)
+        upstream_sec = time.time() - t0
+
+        full_state_input = deepcopy(upstream_state)
+        no_alpha_state_input = deepcopy(upstream_state)
+        full_state_input["alpha_norm_method"] = self.config.get(
+            "alpha_norm_method", "zscore_tanh"
+        )
+        full_state_input["alpha_weights"] = self.config.get("alpha_weights")
+
+        full_started = time.time()
+        full_state = self._graph_decision_full.invoke(full_state_input)
+        full_sec = upstream_sec + (time.time() - full_started)
+
+        if not self._stop_event.is_set():
+            time.sleep(self.DELAY_BETWEEN_VARIANTS)
+
+        no_alpha_started = time.time()
+        no_alpha_state = self._graph_decision_no_alpha.invoke(no_alpha_state_input)
+        no_alpha_sec = time.time() - no_alpha_started
+
+        return full_state, full_sec, no_alpha_state, no_alpha_sec
 
     # ── Metrics helpers ────────────────────────────────────────────────────────
 
@@ -514,7 +582,7 @@ class BacktestEngine:
         self._stop_event.clear()
         self._started_at = datetime.now().isoformat()
 
-        if self._graph_full is None:
+        if self._graph_upstream is None:
             self._init_graphs()
 
         # ── Xác định lookahead theo quy định T+2.5 ────────────────────────
@@ -567,42 +635,32 @@ class BacktestEngine:
             print(f"  Cửa sổ : {ws} → {we}")
             print(f"  Thực tế : {actual_dir}  {pc:.2f} → {nc:.2f}  ({pct:+.2f}%)")
 
-            # ── Full System ────────────────────────────────────────────
+            # ── Paired shared-reports protocol ─────────────────────────
             pred_f = conf_f = rr_f = "UNKNOWN"
-            tf = 0.0; err_f = ""
+            pred_n = conf_n = rr_n = "UNKNOWN"
+            tf = tn = 0.0
+            err_f = err_n = ""
+            ok = ok_n = False
             try:
-                print("  ▶ Full system đang chạy...")
-                state_f, tf = self._run_single(self._graph_full, ohlcv, symbol, timeframe,
-                                               window_end_date=we,
-                                               point_in_time_df=point_in_time_df)
+                print("  ▶ Shared upstream + paired decisions đang chạy...")
+                state_f, tf, state_n, tn = self._run_paired_point(
+                    ohlcv,
+                    symbol,
+                    timeframe,
+                    window_end_date=we,
+                    point_in_time_df=point_in_time_df,
+                )
                 pred_f, conf_f, rr_f = self._parse_prediction(state_f)
+                pred_n, conf_n, rr_n = self._parse_prediction(state_n)
                 ok = (pred_f == "LONG" and actual_dir == "UP") or \
                      (pred_f == "SHORT" and actual_dir == "DOWN")
-                print(f"  ✔ Full: {pred_f}  →  {'✅ Đúng' if ok else '❌ Sai'}  ({tf:.0f}s)")
-            except Exception as e:
-                err_f = str(e)[:200]
-                print(f"  ✘ Full lỗi: {err_f}")
-                ok = False
-
-            # Delay giữa 2 variant
-            if not self._stop_event.is_set():
-                time.sleep(self.DELAY_BETWEEN_VARIANTS)
-
-            # ── No-Alpha System ────────────────────────────────────────
-            pred_n = conf_n = rr_n = "UNKNOWN"
-            tn = 0.0; err_n = ""; ok_n = False
-            try:
-                print("  ▶ No-Alpha system đang chạy...")
-                state_n, tn = self._run_single(self._graph_no_alpha, ohlcv, symbol, timeframe,
-                                               window_end_date=we,
-                                               point_in_time_df=point_in_time_df)
-                pred_n, conf_n, rr_n = self._parse_prediction(state_n)
                 ok_n = (pred_n == "LONG" and actual_dir == "UP") or \
                        (pred_n == "SHORT" and actual_dir == "DOWN")
+                print(f"  ✔ Full: {pred_f}  →  {'✅ Đúng' if ok else '❌ Sai'}  ({tf:.0f}s)")
                 print(f"  ✔ No-Alpha: {pred_n}  →  {'✅ Đúng' if ok_n else '❌ Sai'}  ({tn:.0f}s)")
             except Exception as e:
-                err_n = str(e)[:200]
-                print(f"  ✘ No-Alpha lỗi: {err_n}")
+                err_f = err_n = str(e)[:200]
+                print(f"  ✘ Paired run lỗi: {err_f}")
 
             tp = TestPoint(
                 test_id=i + 1,

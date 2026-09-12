@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 
 from langchain_core.language_models import BaseChatModel
 from langgraph.graph import END, START, StateGraph
@@ -13,6 +13,15 @@ from agents.pattern_agent import create_pattern_agent
 from agents.trend_agent import create_trend_agent
 
 
+class BacktestAgentState(IndicatorAgentState, total=False):
+    """Các trường điều khiển chỉ dùng khi chạy graph backtest tách pha."""
+
+    sentiment_store: Any
+    window_end_date: str
+    alpha_norm_method: str
+    alpha_weights: Dict[str, float]
+
+
 class SetGraph:
     def __init__(
         self,
@@ -23,6 +32,46 @@ class SetGraph:
         self.agent_llm = agent_llm
         self.graph_llm = graph_llm
         self.toolkit = toolkit
+
+    def compile_upstream(self):
+        """Biên dịch pha Indicator → Pattern → Trend dùng chung cho backtest."""
+        graph = StateGraph(BacktestAgentState)
+        graph.add_node(
+            "Indicator Agent",
+            create_indicator_agent(self.agent_llm, self.toolkit),
+        )
+        graph.add_node(
+            "Pattern Agent",
+            create_pattern_agent(self.agent_llm, self.graph_llm, self.toolkit),
+        )
+        graph.add_node(
+            "Trend Agent",
+            create_trend_agent(self.agent_llm, self.graph_llm, self.toolkit),
+        )
+        graph.add_edge(START, "Indicator Agent")
+        graph.add_edge("Indicator Agent", "Pattern Agent")
+        graph.add_edge("Pattern Agent", "Trend Agent")
+        graph.add_edge("Trend Agent", END)
+        print("[SetGraph] Upstream graph compiled: Indicator -> Pattern -> Trend")
+        return graph.compile()
+
+    def compile_decision(self, include_alpha: bool = True):
+        """Biên dịch pha quyết định, có hoặc không có Alpha Agent."""
+        graph = StateGraph(BacktestAgentState)
+        decision_node = create_final_trade_decider(self.agent_llm)
+        graph.add_node("Decision Maker", decision_node)
+
+        if include_alpha:
+            graph.add_node("Alpha Agent", create_alpha_agent(self.agent_llm))
+            graph.add_edge(START, "Alpha Agent")
+            graph.add_edge("Alpha Agent", "Decision Maker")
+        else:
+            graph.add_edge(START, "Decision Maker")
+
+        graph.add_edge("Decision Maker", END)
+        mode = "Full (w/ Alpha)" if include_alpha else "No-Alpha"
+        print(f"[SetGraph] Decision graph compiled: {mode}")
+        return graph.compile()
 
     def set_graph(self, include_alpha: bool = True):
         """
