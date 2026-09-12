@@ -634,7 +634,10 @@ def _compute_all_alphas(
     interval: str = "1d",
     norm_method: str = "zscore_tanh",
     weights: dict = None,
-    lang: str = "vi"
+    lang: str = "vi",
+    historical_df: Optional[pd.DataFrame] = None,
+    as_of_date: Optional[str] = None,
+    is_backtest: bool = False,
 ) -> Tuple[List[dict], dict]:
     """
     Computes top-5 dynamic alphas or falls back to original 5.
@@ -645,7 +648,15 @@ def _compute_all_alphas(
     
     # 1. Try dynamic selection
     try:
-        top_alphas = select_top_alphas(symbol, interval, norm_method=norm_method, weights=weights)
+        top_alphas = select_top_alphas(
+            symbol,
+            interval,
+            norm_method=norm_method,
+            weights=weights,
+            historical_df=historical_df,
+            as_of_date=as_of_date,
+            is_backtest=is_backtest,
+        )
     except Exception as e:
         print(f"[AlphaAgent] Lỗi select_top_alphas: {e}")
         top_alphas = []
@@ -909,12 +920,16 @@ def create_alpha_agent(llm):
 
         norm_method = state.get("alpha_norm_method", "zscore_tanh")
         weights = state.get("alpha_weights", None)
+        point_in_time_df = state.get("point_in_time_df")
+        alpha_as_of_date = state.get("as_of_date") or state.get("window_end_date")
 
         print(f"[AlphaAgent] Tính 5 alpha factor ({horizon_label})...")
         alphas, tech_vars = _compute_all_alphas(
             kline_data, sentiment_norm, related_norm,
             symbol=stock_name, interval=interval_key,
-            norm_method=norm_method, weights=weights, lang=lang
+            norm_method=norm_method, weights=weights, lang=lang,
+            historical_df=point_in_time_df, as_of_date=alpha_as_of_date,
+            is_backtest=is_backtest,
         )
         # Inject động horizon vào từng alpha
         for a in alphas:
