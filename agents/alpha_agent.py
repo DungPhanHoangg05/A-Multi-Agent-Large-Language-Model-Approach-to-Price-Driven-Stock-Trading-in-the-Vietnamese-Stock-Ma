@@ -855,12 +855,20 @@ _BACKTEST_NO_CACHE_REPORT = (
     "## Sentiment — Backtest Mode (no cache)\n\n"
     "Backtest mode: Sentiment = neutral (0). Alpha thuần kỹ thuật."
 )
+_SENTIMENT_DISABLED_REPORT = (
+    "## Sentiment — Disabled by ablation\n\n"
+    "Sentiment = neutral (0); alpha factors use technical data only."
+)
 
 
 # ── Main agent factory ─────────────────────────────────────────────────────────
 
-def create_alpha_agent(llm):
-    """Alpha Agent v6 — 5 alphas, Python computes, LLM reasons freely."""
+def create_alpha_agent(
+    llm,
+    enable_alpha_factors: bool = True,
+    enable_sentiment: bool = True,
+):
+    """Tạo node đặc trưng với Alpha Factors và Sentiment bật/tắt độc lập."""
 
     def alpha_agent_node(state):
         stock_name       = state["stock_name"]
@@ -871,8 +879,12 @@ def create_alpha_agent(llm):
         from utils.i18n import lang_of, signal_label, t as _t
         lang = lang_of(state)
 
-        # ── Step 1: Fetch sentiment ────────────────────────────────────────
-        if not is_backtest:
+        # ── Step 1: Chỉ nạp sentiment khi biến thể yêu cầu ─────────────────
+        if not enable_sentiment:
+            print(f"[AlphaAgent] Sentiment disabled — {stock_name}")
+            sentiment_data = _NEUTRAL_SENTIMENT_DATA
+            sentiment_report = _SENTIMENT_DISABLED_REPORT
+        elif not is_backtest:
             print(f"[AlphaAgent] Production — crawl sentiment cho {stock_name}...")
             try:
                 from agents.sentiment_agent import run_sentiment_for_alpha
@@ -900,6 +912,15 @@ def create_alpha_agent(llm):
                 print(f"[AlphaAgent] Backtest neutral mode — {stock_name}")
                 sentiment_data   = _NEUTRAL_SENTIMENT_DATA
                 sentiment_report = _BACKTEST_NO_CACHE_REPORT
+
+        if not enable_alpha_factors:
+            print(f"[AlphaAgent] Alpha factors disabled — {stock_name}")
+            return {
+                "messages": state.get("messages", []),
+                "sentiment_report": sentiment_report,
+                "sentiment_data": sentiment_data,
+                "sentiment_norm": _normalize_sentiment_scores(sentiment_data),
+            }
 
         # ── Step 2: Normalize sentiment ────────────────────────────────────
         print(f"[AlphaAgent] Chuẩn hóa sentiment và tính biến kỹ thuật...")
@@ -977,12 +998,16 @@ def create_alpha_agent(llm):
         from langchain_core.messages import AIMessage
         dummy_msg = AIMessage(content=alpha_report)
 
-        return {
+        result = {
             "messages":         state.get("messages", []) + [dummy_msg],
             "alpha_report":     alpha_report,
-            "sentiment_report": sentiment_report,
-            "sentiment_data":   sentiment_data_ext,
-            "sentiment_norm":   sentiment_norm,
         }
+        if enable_sentiment:
+            result.update({
+                "sentiment_report": sentiment_report,
+                "sentiment_data":   sentiment_data_ext,
+                "sentiment_norm":   sentiment_norm,
+            })
+        return result
 
     return alpha_agent_node

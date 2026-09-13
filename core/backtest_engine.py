@@ -15,6 +15,7 @@ from utils import static_util
 from default_config import DEFAULT_CONFIG
 from data_manager.sentiment_cache import BacktestSentimentStore
 from utils.statistical_tests import calculate_metrics_with_significance
+from utils.graph_setup import ABLATION_CONFIGS
 
 
 # ── Data classes ───────────────────────────────────────────────────────────────
@@ -279,6 +280,7 @@ class BacktestEngine:
     def __init__(self, config: dict = None):
         self.config          = {**DEFAULT_CONFIG, **(config or {})}
         self._graph_upstream = None
+        self._graph_decision_variants = {}
         self._graph_decision_full = None
         self._graph_decision_no_alpha = None
         self._stop_event     = threading.Event()
@@ -328,12 +330,15 @@ class BacktestEngine:
         graph_builder = SetGraph(agent_llm, graph_llm, toolkit)
         print("[BacktestEngine] Khởi tạo shared upstream graph...")
         self._graph_upstream = graph_builder.compile_upstream()
-        print("[BacktestEngine] Khởi tạo Full decision graph...")
-        self._graph_decision_full = graph_builder.compile_decision(include_alpha=True)
-        print("[BacktestEngine] Khởi tạo No-Alpha decision graph...")
-        self._graph_decision_no_alpha = graph_builder.compile_decision(include_alpha=False)
+        self._graph_decision_variants = {
+            name: graph_builder.compile_decision(ablation_config=config)
+            for name, config in ABLATION_CONFIGS.items()
+        }
+        # Alias giữ tương thích với giao thức Full vs No-Alpha hiện tại.
+        self._graph_decision_full = self._graph_decision_variants["full"]
+        self._graph_decision_no_alpha = self._graph_decision_variants["baseline"]
 
-        print("[BacktestEngine] [OK] Paired shared-reports graphs đã sẵn sàng.")
+        print("[BacktestEngine] [OK] Bốn decision variants đã sẵn sàng.")
 
     # ── Data helpers ───────────────────────────────────────────────────────────
 
@@ -457,16 +462,30 @@ class BacktestEngine:
         final_state = graph.invoke(initial_state)
         return final_state, time.time() - t0
 
-    def _run_paired_point(
+    def _run_ablation_variants(
         self,
         ohlcv_dict: dict,
         symbol: str,
         timeframe: str,
         window_end_date: str = None,
         point_in_time_df: Optional[pd.DataFrame] = None,
-    ):
-        """Chạy upstream một lần rồi deep-copy snapshot sang hai nhánh quyết định."""
+        variants: Tuple[str, ...] = tuple(ABLATION_CONFIGS),
+    ) -> Dict[str, Tuple[dict, float]]:
+        """Chạy một snapshot upstream qua các biến thể ablation được yêu cầu."""
         from utils import static_util
+
+        decision_graphs = dict(self._graph_decision_variants)
+        if "full" not in decision_graphs and self._graph_decision_full is not None:
+            decision_graphs["full"] = self._graph_decision_full
+        if "baseline" not in decision_graphs and self._graph_decision_no_alpha is not None:
+            decision_graphs["baseline"] = self._graph_decision_no_alpha
+
+        unknown = set(variants).difference(ABLATION_CONFIGS)
+        if unknown:
+            raise ValueError(f"Biến thể ablation không hợp lệ: {sorted(unknown)}")
+        missing_graphs = set(variants).difference(decision_graphs)
+        if missing_graphs:
+            raise RuntimeError(f"Chưa khởi tạo graph cho: {sorted(missing_graphs)}")
 
         t0 = time.time()
         p_img = t_img = ""
@@ -500,24 +519,51 @@ class BacktestEngine:
 
         upstream_state = self._graph_upstream.invoke(initial_state)
         upstream_sec = time.time() - t0
+        results: Dict[str, Tuple[dict, float]] = {}
 
-        full_state_input = deepcopy(upstream_state)
-        no_alpha_state_input = deepcopy(upstream_state)
-        full_state_input["alpha_norm_method"] = self.config.get(
-            "alpha_norm_method", "zscore_tanh"
+        for index, variant in enumerate(variants):
+            variant_input = deepcopy(upstream_state)
+            variant_config = dict(ABLATION_CONFIGS[variant])
+            variant_input["ablation_config"] = variant_config
+            if variant_config["enable_alpha_factors"]:
+                variant_input["alpha_norm_method"] = self.config.get(
+                    "alpha_norm_method", "zscore_tanh"
+                )
+                variant_input["alpha_weights"] = self.config.get("alpha_weights")
+
+            variant_started = time.time()
+            state = decision_graphs[variant].invoke(variant_input)
+            results[variant] = (
+                state,
+                upstream_sec + (time.time() - variant_started),
+            )
+            if (
+                index < len(variants) - 1
+                and not self._stop_event.is_set()
+            ):
+                time.sleep(self.DELAY_BETWEEN_VARIANTS)
+
+        return results
+
+    def _run_paired_point(
+        self,
+        ohlcv_dict: dict,
+        symbol: str,
+        timeframe: str,
+        window_end_date: str = None,
+        point_in_time_df: Optional[pd.DataFrame] = None,
+    ):
+        """Chạy cặp Full/Baseline qua cùng một snapshot upstream."""
+        results = self._run_ablation_variants(
+            ohlcv_dict,
+            symbol,
+            timeframe,
+            window_end_date=window_end_date,
+            point_in_time_df=point_in_time_df,
+            variants=("full", "baseline"),
         )
-        full_state_input["alpha_weights"] = self.config.get("alpha_weights")
-
-        full_started = time.time()
-        full_state = self._graph_decision_full.invoke(full_state_input)
-        full_sec = upstream_sec + (time.time() - full_started)
-
-        if not self._stop_event.is_set():
-            time.sleep(self.DELAY_BETWEEN_VARIANTS)
-
-        no_alpha_started = time.time()
-        no_alpha_state = self._graph_decision_no_alpha.invoke(no_alpha_state_input)
-        no_alpha_sec = time.time() - no_alpha_started
+        full_state, full_sec = results["full"]
+        no_alpha_state, no_alpha_sec = results["baseline"]
 
         return full_state, full_sec, no_alpha_state, no_alpha_sec
 
