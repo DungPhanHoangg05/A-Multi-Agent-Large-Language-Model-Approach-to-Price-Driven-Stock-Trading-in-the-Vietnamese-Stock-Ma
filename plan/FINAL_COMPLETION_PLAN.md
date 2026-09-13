@@ -70,7 +70,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | :--- | :--- | :---: | :--- | :--- | :---: | :---: |
 | **ISSUE-01** | **Rò rỉ dữ liệu tương lai trong Dynamic Alpha Selection** | `FIXED` | `BacktestEngine` truyền snapshot `df.iloc[:end_idx]` và mốc `as_of_date`; `select_top_alphas()` cắt tối đa 600 nến đến đúng mốc này và cấm fallback realtime trong backtest. Kiểm chứng bởi `tests/test_alpha_leakage.py`. | Review 1 (§3.2): "Data-snooping in alpha selection". Paper (§5.1): Cam kết alpha selection chỉ dùng dữ liệu tiền kiểm tra $[e-T_{hist}, e)$. | **P0** | `TASK-01` |
 | **ISSUE-02** | **Vi phạm tính độc lập đối chứng No-Alpha (Table 8 Bug)** | `FIXED` | `BacktestEngine._run_paired_point()` chạy một `UpstreamGraph` duy nhất rồi deep-copy snapshot sang hai `DecisionGraph`; kiểm chứng bởi `tests/test_paired_protocol.py`. Số liệu Table 8 sẽ được tái sinh tại `TASK-09`. | Review 1 (§3.1): "Table 8 contains an internally inconsistent result... Acc No-α varies from 57.1% to 71.4% to 42.9%". | **P0** | `TASK-02` |
-| **ISSUE-03** | **Rò rỉ bài báo không có ngày trong Sentiment Cache** | `OPEN` | `data_manager/sentiment_cache.py`: dòng 295-300 fallback lấy bài không ngày `no_date_articles` nhét vào cửa sổ khi thiếu bài. | Review 1 (§3.3) & Paper (§5.1): Cam kết không dùng bài báo tương lai; bài không ngày phải bị loại bỏ trong research mode. | **P0** | `TASK-03` |
+| **ISSUE-03** | **Rò rỉ bài báo không có ngày trong Sentiment Cache** | `FIXED` | `SentimentCache.get_at()` mặc định bật `strict_research_mode`, chỉ giữ bài có ngày không vượt cutoff và trả neutral với `is_reliable=False` khi dữ liệu hợp lệ dưới ngưỡng. Kiểm chứng bởi `tests/test_sentiment_leakage.py`. | Review 1 (§3.3) & Paper (§5.1): Cam kết không dùng bài báo tương lai; bài không ngày phải bị loại bỏ trong research mode. | **P0** | `TASK-03` |
 | **ISSUE-04** | **P&L tính bằng tổng số học rời rạc thay vì lãi kép** | `PAPER_MISMATCH` | `core/backtest_engine.py`: dòng 344 & 350 `pnl_f += r_f`, dòng 353-365 tính Sharpe trên mảng lợi nhuận cơ hội rời rạc. | Review 1 (§3.1, §5) & Paper (§6.1 chú thích Table 7): Thừa nhận "Legacy Sum" không phải là compounded account return. | **P0** | `TASK-04` |
 | **ISSUE-05** | **Thiếu kiểm định ý nghĩa thống kê trong kết quả chính** | `OPEN` | `core/backtest_engine.py` không gọi `statistical_tests.py`; các file `backtest_result/*.json` không lưu p-value hay Bootstrap CI. | Review 1 (§3.1) & Review 2 (Page 4): "No significance testing anywhere in the paper... scope is too narrow without formal tests". | **P0** | `TASK-05` |
 | **ISSUE-06** | **Ablation bị gộp giữa Alpha định lượng và Sentiment tin tức** | `OPEN` | `utils/graph_setup.py`: chỉ có cờ `include_alpha` điều khiển cả node Alpha và việc truyền Sentiment vào Decision Agent. | Review 1 (§3.2, §5) & Review 2 (Page 5): "Conflated ablation... quantify the contribution of alpha vs sentiment alone". | **P1** | `TASK-06` |
@@ -208,6 +208,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-03] [Thứ tự: #3] [P0] Loại bỏ Rò rỉ Bài báo Không ngày trong Sentiment Cache
 
 - **Task ID:** `TASK-03`
+- **Status:** `COMPLETED` — kiểm thử loại bài không ngày/tương lai và neutral fallback PASS bằng Python 3.13.
 - **Git Branch:** `task/TASK-03-purge-undated-sentiment`
 - **Priority:** `P0`
 - **Objective:** Đảm bảo module `SentimentCache` loại bỏ 100% các bài báo không có ngày xuất bản (`date_parsed is None`) trong chế độ backtest; không tự ý fallback lấy bài không ngày đắp vào cửa sổ phân tích.
@@ -774,7 +775,7 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 
 ### A. Data Integrity & Leakage Checks
 - [x] Dữ liệu đầu vào cho `select_top_alphas()` có mốc thời gian tối đa đúng bằng nến quyết định $d = e - 1$ (`as_of_date`), không có nến tương lai.
-- [ ] Module `SentimentCache` không chứa bất kỳ bài báo nào có ngày lớn hơn $t_{\text{cutoff}}$ và không fallback mượn bài không ngày.
+- [x] Module `SentimentCache` không chứa bất kỳ bài báo nào có ngày lớn hơn $t_{\text{cutoff}}$ và không fallback mượn bài không ngày.
 - [ ] Không có hiện tượng Lookahead trong việc tính toán các chỉ báo kỹ thuật (Indicator Agent chỉ nhìn cửa sổ $[e-W, e)$).
 
 ### B. Protocol & Reproducibility Checks
