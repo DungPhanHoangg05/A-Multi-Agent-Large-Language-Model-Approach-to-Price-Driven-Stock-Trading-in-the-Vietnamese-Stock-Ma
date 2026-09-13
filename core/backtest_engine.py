@@ -44,7 +44,15 @@ class TestPoint:
     time_full_sec: float
     time_no_alpha_sec: float
 
-    # P&L mô phỏng lũy kế tại thời điểm này
+    # Hợp đồng tài khoản: vào tại Open(e), thoát tại Close(e-1+L)
+    entry_open: float = 0.0
+    exit_close: float = 0.0
+    account_return_full: float = 0.0
+    account_return_no_alpha: float = 0.0
+    equity_full: float = 1.0
+    equity_no_alpha: float = 1.0
+
+    # P&L lãi kép tại thời điểm này
     pnl_full: float = 0.0           # % lợi nhuận lũy kế Full system
     pnl_no_alpha: float = 0.0       # % lợi nhuận lũy kế No-Alpha system
 
@@ -69,6 +77,22 @@ class PartialSummary:
     sharpe_no_alpha: float = 0.0
     mdd_full: float = 0.0
     mdd_no_alpha: float = 0.0
+    equity_curve_full: List[float] = field(default_factory=lambda: [1.0])
+    equity_curve_no_alpha: List[float] = field(default_factory=lambda: [1.0])
+
+
+@dataclass
+class AccountMetrics:
+    """Các chỉ số kinh tế tính trên đường vốn tài khoản lãi kép."""
+
+    total_return_pct: float
+    sharpe_ratio: float
+    sortino_ratio: float
+    max_drawdown_pct: float
+    hit_rate_pct: float
+    avg_trade_pct: float
+    equity_curve: List[float]
+    period_returns: List[float]
 
 @dataclass
 class BacktestSummary:
@@ -115,8 +139,117 @@ class BacktestSummary:
     mdd_no_alpha: float = 0.0
     hit_rate_no_alpha: float = 0.0
     avg_trade_no_alpha: float = 0.0
+    equity_curve_full: List[float] = field(default_factory=lambda: [1.0])
+    equity_curve_no_alpha: List[float] = field(default_factory=lambda: [1.0])
 
     test_points: List[dict] = field(default_factory=list)
+
+
+def compute_account_metrics(
+    test_points: List[TestPoint],
+    allow_shorting: bool = False,
+    fee: float = 0.0025,
+    slippage: float = 0.001,
+) -> Dict[str, AccountMetrics]:
+    """Tính đường vốn lãi kép cho Full và No-Alpha theo Account Contract."""
+
+    def compute_variant(prediction_field: str, variant: str) -> AccountMetrics:
+        wealth = 1.0
+        equity_curve = [wealth]
+        period_returns: List[float] = []
+        executed_returns: List[float] = []
+
+        for point in test_points:
+            prediction = getattr(point, prediction_field)
+            entry_open = float(point.entry_open)
+            exit_close = float(point.exit_close)
+            is_executed = False
+            net_return = 0.0
+
+            if entry_open > 0.0 and exit_close >= 0.0:
+                if prediction == "LONG":
+                    gross_return = exit_close / entry_open - 1.0
+                    net_return = gross_return - fee - slippage
+                    is_executed = True
+                elif prediction == "SHORT" and allow_shorting:
+                    gross_return = (entry_open - exit_close) / entry_open
+                    net_return = gross_return - fee - slippage
+                    is_executed = True
+
+            # SHORT khi cấm bán khống và UNKNOWN đều được thực thi thành CASH.
+            if is_executed:
+                executed_returns.append(net_return)
+            period_returns.append(net_return)
+            wealth = max(0.0, wealth * (1.0 + net_return))
+            wealth = round(wealth, 12)
+            equity_curve.append(wealth)
+
+            cumulative_return_pct = (wealth - 1.0) * 100.0
+            if variant == "full":
+                point.account_return_full = round(net_return * 100.0, 8)
+                point.equity_full = wealth
+                point.pnl_full = round(cumulative_return_pct, 8)
+            else:
+                point.account_return_no_alpha = round(net_return * 100.0, 8)
+                point.equity_no_alpha = wealth
+                point.pnl_no_alpha = round(cumulative_return_pct, 8)
+
+        returns_array = np.asarray(period_returns, dtype=float)
+        if returns_array.size:
+            mean_return = float(np.mean(returns_array))
+            std_return = float(np.std(returns_array))
+            sharpe = (
+                mean_return / std_return * np.sqrt(252.0)
+                if std_return > 1e-12
+                else 0.0
+            )
+            downside = returns_array[returns_array < 0.0]
+            downside_std = float(np.std(downside)) if downside.size else 0.0
+            sortino = (
+                mean_return / downside_std * np.sqrt(252.0)
+                if downside_std > 1e-12
+                else 0.0
+            )
+        else:
+            sharpe = sortino = 0.0
+
+        equity_array = np.asarray(equity_curve, dtype=float)
+        running_peak = np.maximum.accumulate(equity_array)
+        drawdowns = 1.0 - np.divide(
+            equity_array,
+            running_peak,
+            out=np.ones_like(equity_array),
+            where=running_peak > 0.0,
+        )
+        max_drawdown_pct = float(np.max(drawdowns) * 100.0)
+        hit_rate_pct = (
+            sum(value > 0.0 for value in executed_returns)
+            / len(executed_returns)
+            * 100.0
+            if executed_returns
+            else 0.0
+        )
+        avg_trade_pct = (
+            float(np.mean(executed_returns) * 100.0)
+            if executed_returns
+            else 0.0
+        )
+
+        return AccountMetrics(
+            total_return_pct=(wealth - 1.0) * 100.0,
+            sharpe_ratio=float(sharpe),
+            sortino_ratio=float(sortino),
+            max_drawdown_pct=max_drawdown_pct,
+            hit_rate_pct=hit_rate_pct,
+            avg_trade_pct=avg_trade_pct,
+            equity_curve=equity_curve,
+            period_returns=[float(value) for value in period_returns],
+        )
+
+    return {
+        "full": compute_variant("pred_full", "full"),
+        "no_alpha": compute_variant("pred_no_alpha", "no_alpha"),
+    }
 
 
 # ── Engine ─────────────────────────────────────────────────────────────────────
@@ -214,7 +347,7 @@ class BacktestEngine:
 
     def _get_actual_direction(
         self, df: pd.DataFrame, end_idx: int, lookahead: int = 1
-    ) -> Tuple[str, float, float, float]:
+    ) -> Tuple[str, float, float, float, float]:
         """
         Lấy hướng thực tế sau cửa sổ phân tích.
 
@@ -225,16 +358,18 @@ class BacktestEngine:
                         - 3 = so sánh close[end_idx-1] vs close[end_idx+2]   (T+2.5)
 
         Quy ước: prev_close = close cuối cửa sổ (end_idx - 1)
+                 entry_open = open đầu kỳ thực thi (end_idx)
                  next_close = close của nến end_idx + lookahead - 1
         """
         target_idx = end_idx + lookahead - 1
         if target_idx >= len(df):
-            return "UNKNOWN", 0.0, 0.0, 0.0
+            return "UNKNOWN", 0.0, 0.0, 0.0, 0.0
         prev_close = float(df["Close"].iloc[end_idx - 1])
+        entry_open = float(df["Open"].iloc[end_idx])
         next_close = float(df["Close"].iloc[target_idx])
         pct_chg    = round((next_close - prev_close) / prev_close * 100, 4) if prev_close else 0.0
         direction  = "UP" if next_close >= prev_close else "DOWN"
-        return direction, prev_close, next_close, pct_chg
+        return direction, prev_close, next_close, pct_chg, entry_open
 
     # ── Prediction parser ──────────────────────────────────────────────────────
 
@@ -388,70 +523,28 @@ class BacktestEngine:
         af = round(cf / len(vf) * 100, 1) if vf else 0.0
         an = round(cn / len(vn) * 100, 1) if vn else 0.0
 
-        # Constants for realistic simulation
-        allow_shorting = self.config.get("allow_shorting", False)
-        tx_cost = self.config.get("tx_cost", 0.0025)  # 0.25% round trip (commission + tax)
-        slippage = self.config.get("slippage", 0.001) # 0.1% slippage
-
-        def compute_trade_pnl(pred: str, actual_dir: str, actual_pct: float, correct: bool) -> float:
-            if pred in ("UNKNOWN", ""):
-                return 0.0
-            
-            # Gross return
-            raw_pct = abs(actual_pct) if correct else -abs(actual_pct)
-            
-            if pred == "SHORT" and not allow_shorting:
-                return 0.0  # Cannot short
-            
-            # Apply costs
-            net_pct = raw_pct - (tx_cost * 100) - (slippage * 100)
-            return net_pct
-
-        pnl_f = 0.0
-        pnl_n = 0.0
-        rets_f = []
-        rets_n = []
-        
-        for tp in tps:
-            r_f = compute_trade_pnl(tp.pred_full, tp.actual_direction, tp.actual_pct_change, tp.correct_full)
-            if tp.pred_full not in ("UNKNOWN", ""):
-                rets_f.append(r_f)
-                pnl_f += r_f
-            tp.pnl_full = round(pnl_f, 2)
-                
-            r_n = compute_trade_pnl(tp.pred_no_alpha, tp.actual_direction, tp.actual_pct_change, tp.correct_no_alpha)
-            if tp.pred_no_alpha not in ("UNKNOWN", ""):
-                rets_n.append(r_n)
-                pnl_n += r_n
-            tp.pnl_no_alpha = round(pnl_n, 2)
-                
-        def calc_sharpe_mdd(rets: List[float]):
-            if not rets: return 0.0, 0.0
-            arr = np.array(rets) / 100.0
-            mean = np.mean(arr)
-            std = np.std(arr)
-            sharpe = (mean / std) * np.sqrt(252) if std > 1e-9 else 0.0
-            
-            cum = np.cumsum(arr)
-            max_so_far = np.maximum.accumulate(cum)
-            dd = max_so_far - cum
-            mdd = np.max(dd) if len(dd) > 0 else 0.0
-            return float(sharpe), float(mdd * 100)
-
-        sf, mddf = calc_sharpe_mdd(rets_f)
-        sn, mddn = calc_sharpe_mdd(rets_n)
+        account = compute_account_metrics(
+            tps,
+            allow_shorting=self.config.get("allow_shorting", False),
+            fee=self.config.get("tx_cost", 0.0025),
+            slippage=self.config.get("slippage", 0.001),
+        )
+        full_account = account["full"]
+        no_alpha_account = account["no_alpha"]
 
         return PartialSummary(
             n_completed=len(tps), n_valid_full=len(vf), n_valid_no=len(vn),
             acc_full=af, acc_no_alpha=an,
             alpha_lift=round(af - an, 1),
             n_correct_full=cf, n_correct_no=cn,
-            pnl_full=round(pnl_f, 2),
-            pnl_no_alpha=round(pnl_n, 2),
-            sharpe_full=round(sf, 2),
-            sharpe_no_alpha=round(sn, 2),
-            mdd_full=round(mddf, 2),
-            mdd_no_alpha=round(mddn, 2),
+            pnl_full=round(full_account.total_return_pct, 2),
+            pnl_no_alpha=round(no_alpha_account.total_return_pct, 2),
+            sharpe_full=round(full_account.sharpe_ratio, 2),
+            sharpe_no_alpha=round(no_alpha_account.sharpe_ratio, 2),
+            mdd_full=round(full_account.max_drawdown_pct, 2),
+            mdd_no_alpha=round(no_alpha_account.max_drawdown_pct, 2),
+            equity_curve_full=full_account.equity_curve,
+            equity_curve_no_alpha=no_alpha_account.equity_curve,
         )
 
     def _build_summary(
@@ -472,54 +565,18 @@ class BacktestEngine:
             sw     = sum(1 for _, a in shorts if a == "DOWN") / len(shorts) * 100 if shorts else 0.0
             return round(acc, 1), round(lw, 1), round(sw, 1), len(longs), len(shorts)
 
-        allow_shorting = self.config.get("allow_shorting", False)
-        tx_cost = self.config.get("tx_cost", 0.0025)
-        slippage = self.config.get("slippage", 0.001)
-
-        def compute_advanced_metrics(valid_tps, use_full: bool):
-            if not valid_tps:
-                return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-                
-            rets = []
-            for tp in valid_tps:
-                pred = tp.pred_full if use_full else tp.pred_no_alpha
-                correct = tp.correct_full if use_full else tp.correct_no_alpha
-                
-                if pred == "SHORT" and not allow_shorting:
-                    rets.append(0.0)
-                else:
-                    raw_pct = abs(tp.actual_pct_change) if correct else -abs(tp.actual_pct_change)
-                    net_pct = raw_pct - (tx_cost * 100) - (slippage * 100)
-                    rets.append(net_pct)
-                    
-            arr = np.array(rets) / 100.0
-            mean = np.mean(arr)
-            std = np.std(arr)
-            sharpe = (mean / std) * np.sqrt(252) if std > 1e-9 else 0.0
-            
-            # Sortino
-            downside = arr[arr < 0]
-            std_down = np.std(downside) if len(downside) > 0 else 0.0
-            sortino = (mean / std_down) * np.sqrt(252) if std_down > 1e-9 else 0.0
-            
-            cum = np.cumsum(arr)
-            max_so_far = np.maximum.accumulate(cum)
-            dd = max_so_far - cum
-            mdd = np.max(dd) if len(dd) > 0 else 0.0
-            
-            pnl = sum(rets)
-            hit_rate = sum(1 for r in rets if r > 0) / len(rets) * 100 if rets else 0.0
-            avg_trade = np.mean(rets) if rets else 0.0
-            
-            return pnl, sharpe, sortino, mdd * 100, hit_rate, avg_trade
-
         vf  = [tp for tp in tps if tp.pred_full     not in ("UNKNOWN", "")]
         vn  = [tp for tp in tps if tp.pred_no_alpha not in ("UNKNOWN", "")]
         af, lf, sf, nlf, nsf = metrics(vf, True)
         an, ln, sn, nln, nsn = metrics(vn, False)
-        
-        pnl_f, sharpe_f, sortino_f, mdd_f, hr_f, avg_f = compute_advanced_metrics(vf, True)
-        pnl_n, sharpe_n, sortino_n, mdd_n, hr_n, avg_n = compute_advanced_metrics(vn, False)
+        account = compute_account_metrics(
+            tps,
+            allow_shorting=self.config.get("allow_shorting", False),
+            fee=self.config.get("tx_cost", 0.0025),
+            slippage=self.config.get("slippage", 0.001),
+        )
+        full_account = account["full"]
+        no_alpha_account = account["no_alpha"]
 
         return BacktestSummary(
             symbol=symbol, timeframe=timeframe, n_tests=len(tps),
@@ -533,12 +590,20 @@ class BacktestEngine:
             n_long_no_alpha=nln, n_short_no_alpha=nsn,
             alpha_lift=round(af - an, 1),
             alpha_helps=(af > an),
-            pnl_full=round(pnl_f, 2), sharpe_full=round(sharpe_f, 2),
-            sortino_full=round(sortino_f, 2), mdd_full=round(mdd_f, 2),
-            hit_rate_full=round(hr_f, 2), avg_trade_full=round(avg_f, 2),
-            pnl_no_alpha=round(pnl_n, 2), sharpe_no_alpha=round(sharpe_n, 2),
-            sortino_no_alpha=round(sortino_n, 2), mdd_no_alpha=round(mdd_n, 2),
-            hit_rate_no_alpha=round(hr_n, 2), avg_trade_no_alpha=round(avg_n, 2),
+            pnl_full=round(full_account.total_return_pct, 2),
+            sharpe_full=round(full_account.sharpe_ratio, 2),
+            sortino_full=round(full_account.sortino_ratio, 2),
+            mdd_full=round(full_account.max_drawdown_pct, 2),
+            hit_rate_full=round(full_account.hit_rate_pct, 2),
+            avg_trade_full=round(full_account.avg_trade_pct, 2),
+            pnl_no_alpha=round(no_alpha_account.total_return_pct, 2),
+            sharpe_no_alpha=round(no_alpha_account.sharpe_ratio, 2),
+            sortino_no_alpha=round(no_alpha_account.sortino_ratio, 2),
+            mdd_no_alpha=round(no_alpha_account.max_drawdown_pct, 2),
+            hit_rate_no_alpha=round(no_alpha_account.hit_rate_pct, 2),
+            avg_trade_no_alpha=round(no_alpha_account.avg_trade_pct, 2),
+            equity_curve_full=full_account.equity_curve,
+            equity_curve_no_alpha=no_alpha_account.equity_curve,
             test_points=[asdict(tp) for tp in tps],
         )
 
@@ -630,7 +695,9 @@ class BacktestEngine:
 
             ohlcv, ws, we         = self._prepare_window(df, end_idx, window_size)
             point_in_time_df      = df.iloc[:end_idx].copy()
-            actual_dir, pc, nc, pct = self._get_actual_direction(df, end_idx, lookahead)
+            actual_dir, pc, nc, pct, entry_open = self._get_actual_direction(
+                df, end_idx, lookahead
+            )
 
             print(f"  Cửa sổ : {ws} → {we}")
             print(f"  Thực tế : {actual_dir}  {pc:.2f} → {nc:.2f}  ({pct:+.2f}%)")
@@ -672,14 +739,13 @@ class BacktestEngine:
                 pred_no_alpha=pred_n, correct_no_alpha=ok_n,
                 confidence_no_alpha=conf_n, rr_no_alpha=rr_n,
                 time_full_sec=round(tf, 1), time_no_alpha_sec=round(tn, 1),
+                entry_open=entry_open, exit_close=nc,
                 error_full=err_f, error_no_alpha=err_n,
             )
             test_points.append(tp)
 
             # Tính P&L lũy kế tại điểm này và lưu vào TestPoint
             partial = self._compute_partial(test_points)
-            tp.pnl_full     = partial.pnl_full
-            tp.pnl_no_alpha = partial.pnl_no_alpha
 
             # Callback tiến trình
             if callback:
@@ -735,8 +801,8 @@ class BacktestEngine:
             return
 
         test_ids = [p['test_id'] for p in points]
-        pnl_full = [p.get('pnl_full', 0.0) for p in points]
-        pnl_no_alpha = [p.get('pnl_no_alpha', 0.0) for p in points]
+        equity_full = summary.equity_curve_full
+        equity_no_alpha = summary.equity_curve_no_alpha
 
         correct_full = [1 if p['correct_full'] else 0 for p in points]
         correct_no_alpha = [1 if p['correct_no_alpha'] else 0 for p in points]
@@ -757,26 +823,27 @@ class BacktestEngine:
         c_full = '#2962FF'
         c_no_alpha = '#00B050'
 
-        # Left: P&L
-        ax1.set_title(f"Cumulative P&L Simulation — {symbol}", fontsize=13, fontweight='bold', pad=15)
+        # Left: compounded account equity
+        ax1.set_title(f"Compounded Account Equity — {symbol}", fontsize=13, fontweight='bold', pad=15)
         ax1.set_xlabel("Test #", fontsize=11, color='#4b5563')
-        ax1.set_ylabel("Cumulative P&L (%)", fontsize=11, color='#4b5563')
+        ax1.set_ylabel("Account Equity (W0 = 1.0)", fontsize=11, color='#4b5563')
 
-        label_full = f"Full ($\\alpha$) [{pnl_full[-1]:+.2f}%]"
-        label_no = f"No-$\\alpha$ [{pnl_no_alpha[-1]:+.2f}%]"
+        label_full = f"Full ($\\alpha$) [{summary.pnl_full:+.2f}%]"
+        label_no = f"No-$\\alpha$ [{summary.pnl_no_alpha:+.2f}%]"
+        equity_test_ids = [0] + test_ids
 
-        ax1.plot(test_ids, pnl_full, color=c_full, label=label_full, marker='o', markersize=5, linewidth=2.5)
-        ax1.plot(test_ids, pnl_no_alpha, color=c_no_alpha, label=label_no, marker='s', markersize=5, linestyle='--', linewidth=2.5)
+        ax1.plot(equity_test_ids, equity_full, color=c_full, label=label_full, marker='o', markersize=5, linewidth=2.5)
+        ax1.plot(equity_test_ids, equity_no_alpha, color=c_no_alpha, label=label_no, marker='s', markersize=5, linestyle='--', linewidth=2.5)
 
-        ax1.axhline(0, color='gray', linestyle='dotted', linewidth=1, alpha=0.7)
+        ax1.axhline(1.0, color='gray', linestyle='dotted', linewidth=1, alpha=0.7)
 
-        pnl_full_arr = np.array(pnl_full)
-        ax1.fill_between(test_ids, pnl_full_arr, 0, where=(pnl_full_arr >= 0), color=c_full, alpha=0.1)
-        ax1.fill_between(test_ids, pnl_full_arr, 0, where=(pnl_full_arr < 0), color='#ef4444', alpha=0.1)
+        equity_full_arr = np.array(equity_full)
+        ax1.fill_between(equity_test_ids, equity_full_arr, 1.0, where=(equity_full_arr >= 1.0), color=c_full, alpha=0.1)
+        ax1.fill_between(equity_test_ids, equity_full_arr, 1.0, where=(equity_full_arr < 1.0), color='#ef4444', alpha=0.1)
 
-        ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:+.1f}%'))
+        ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:.3f}x'))
         ax1.tick_params(axis='both', colors='#374151', labelsize=14)
-        ax1.set_xticks(test_ids)
+        ax1.set_xticks(equity_test_ids)
         ax1.legend(loc='upper left', framealpha=1, edgecolor='#d1d5db')
 
         # Right: Accuracy

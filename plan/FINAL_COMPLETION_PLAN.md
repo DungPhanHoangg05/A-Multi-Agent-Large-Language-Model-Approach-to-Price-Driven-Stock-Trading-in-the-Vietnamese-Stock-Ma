@@ -71,7 +71,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-01** | **Rò rỉ dữ liệu tương lai trong Dynamic Alpha Selection** | `FIXED` | `BacktestEngine` truyền snapshot `df.iloc[:end_idx]` và mốc `as_of_date`; `select_top_alphas()` cắt tối đa 600 nến đến đúng mốc này và cấm fallback realtime trong backtest. Kiểm chứng bởi `tests/test_alpha_leakage.py`. | Review 1 (§3.2): "Data-snooping in alpha selection". Paper (§5.1): Cam kết alpha selection chỉ dùng dữ liệu tiền kiểm tra $[e-T_{hist}, e)$. | **P0** | `TASK-01` |
 | **ISSUE-02** | **Vi phạm tính độc lập đối chứng No-Alpha (Table 8 Bug)** | `FIXED` | `BacktestEngine._run_paired_point()` chạy một `UpstreamGraph` duy nhất rồi deep-copy snapshot sang hai `DecisionGraph`; kiểm chứng bởi `tests/test_paired_protocol.py`. Số liệu Table 8 sẽ được tái sinh tại `TASK-09`. | Review 1 (§3.1): "Table 8 contains an internally inconsistent result... Acc No-α varies from 57.1% to 71.4% to 42.9%". | **P0** | `TASK-02` |
 | **ISSUE-03** | **Rò rỉ bài báo không có ngày trong Sentiment Cache** | `FIXED` | `SentimentCache.get_at()` mặc định bật `strict_research_mode`, chỉ giữ bài có ngày không vượt cutoff và trả neutral với `is_reliable=False` khi dữ liệu hợp lệ dưới ngưỡng. Kiểm chứng bởi `tests/test_sentiment_leakage.py`. | Review 1 (§3.3) & Paper (§5.1): Cam kết không dùng bài báo tương lai; bài không ngày phải bị loại bỏ trong research mode. | **P0** | `TASK-03` |
-| **ISSUE-04** | **P&L tính bằng tổng số học rời rạc thay vì lãi kép** | `PAPER_MISMATCH` | `core/backtest_engine.py`: dòng 344 & 350 `pnl_f += r_f`, dòng 353-365 tính Sharpe trên mảng lợi nhuận cơ hội rời rạc. | Review 1 (§3.1, §5) & Paper (§6.1 chú thích Table 7): Thừa nhận "Legacy Sum" không phải là compounded account return. | **P0** | `TASK-04` |
+| **ISSUE-04** | **P&L tính bằng tổng số học rời rạc thay vì lãi kép** | `FIXED` | `compute_account_metrics()` tính từng kỳ từ $O_e$ đến $C_{e-1+L}$, trừ 0.35% mỗi lệnh LONG, gộp $W_t=W_{t-1}(1+R_t)$ và tính MDD trên equity curve. Kiểm chứng bởi `tests/test_account_pnl.py`; bảng kết quả sẽ được tái sinh tại `TASK-08`/`TASK-09`. | Review 1 (§3.1, §5) & Paper (§6.1 chú thích Table 7): Thừa nhận "Legacy Sum" không phải là compounded account return. | **P0** | `TASK-04` |
 | **ISSUE-05** | **Thiếu kiểm định ý nghĩa thống kê trong kết quả chính** | `OPEN` | `core/backtest_engine.py` không gọi `statistical_tests.py`; các file `backtest_result/*.json` không lưu p-value hay Bootstrap CI. | Review 1 (§3.1) & Review 2 (Page 4): "No significance testing anywhere in the paper... scope is too narrow without formal tests". | **P0** | `TASK-05` |
 | **ISSUE-06** | **Ablation bị gộp giữa Alpha định lượng và Sentiment tin tức** | `OPEN` | `utils/graph_setup.py`: chỉ có cờ `include_alpha` điều khiển cả node Alpha và việc truyền Sentiment vào Decision Agent. | Review 1 (§3.2, §5) & Review 2 (Page 5): "Conflated ablation... quantify the contribution of alpha vs sentiment alone". | **P1** | `TASK-06` |
 | **ISSUE-07** | **Thiếu siêu dữ liệu xuất xứ mô hình Sentiment (Provenance Tracking)** | `PARTIAL` | `agents/sentiment_agent.py`: hàm `_predict` rơi về lexicon khi lỗi HF API nhưng không ghi nhận cờ `is_fallback` vào từng bài báo. | Paper (§4.3, §5.1): Cam kết ghi nhận scorer thực tế, model identifier, và Hub revision cho từng bản ghi cache. | **P1** | `TASK-03`, `TASK-12` |
@@ -248,6 +248,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-04] [Thứ tự: #4] [P0] Triển khai Mô hình Lãi kép Tài khoản (Compounded Account PnL) và Chuẩn hóa Chi phí
 
 - **Task ID:** `TASK-04`
+- **Status:** `COMPLETED` — account return lãi kép, chi phí LONG và CASH execution PASS bằng Python 3.13.
 - **Git Branch:** `task/TASK-04-compounded-account-pnl`
 - **Priority:** `P0`
 - **Objective:** Thay thế phương pháp cộng dồn số học rời rạc ("Legacy Sum") bằng mô hình tăng trưởng tài sản lãi kép gộp (Compounded Account Equity Curve) theo đúng Hợp đồng Tài khoản (Account Contract) đã đăng ký trong bài báo, tuân thủ ràng buộc cấm bán khống cổ phiếu cơ sở tại Việt Nam.
@@ -280,7 +281,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
   2. Viết lại hàm `compute_account_metrics(test_points, allow_shorting=False, fee=0.0025, slippage=0.001)` trong `core/backtest_engine.py`.
   3. Cập nhật các trường dữ liệu trong `TestPoint`, `PartialSummary`, `BacktestSummary` để lưu trữ đường cong vốn `equity_curve: List[float]`.
   4. Cập nhật hàm vẽ biểu đồ `_draw_backtest_result()` để vẽ đường cong vốn $W_t$ thay cho đồ thị cộng dồn số học cũ.
-  5. Viết unit test trong `tests/test_account_pnl.py`: 1 lệnh lãi 10% và 1 lệnh lỗ 10% phải cho ra tổng PnL là $-1.35\%$ (đã trừ phí).
+  5. Viết unit test trong `tests/test_account_pnl.py`: 1 lệnh lãi 10% và 1 lệnh lỗ 10% cho tổng PnL $1.0965 \times 0.8965 - 1 = -1.698775\%$ (mỗi lệnh LONG đều trừ 0.35% chi phí theo Account Contract).
   6. Chạy test, xác nhận PASS, commit và merge vào `develop`.
 - **Dependencies:** `TASK-03`.
 - **Test/Command cần chạy:**
@@ -785,9 +786,9 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 - [ ] Chạy lệnh `py -3.13 scripts/run_end_to_end_test.py` vượt qua toàn bộ mà không có ngoại lệ (zero exceptions).
 
 ### C. Financial & Statistical Rigor Checks
-- [ ] Lợi nhuận tài khoản được tính theo mô hình lãi kép thực tế ($W_t = W_{t-1}(1+R_{\text{net}})$), không dùng tổng số học.
-- [ ] Chi phí giao dịch ($0.25\%$) và trượt giá ($0.10\%$) được trừ đầy đủ cho mọi vị thế `LONG` thực thi.
-- [ ] Vị thế `SHORT` trong tài khoản tiền mặt được xử lý thành `CASH` ($R=0\%$), không sinh lời ảo và không chịu phí.
+- [x] Lợi nhuận tài khoản được tính theo mô hình lãi kép thực tế ($W_t = W_{t-1}(1+R_{\text{net}})$), không dùng tổng số học.
+- [x] Chi phí giao dịch ($0.25\%$) và trượt giá ($0.10\%$) được trừ đầy đủ cho mọi vị thế `LONG` thực thi.
+- [x] Vị thế `SHORT` trong tài khoản tiền mặt được xử lý thành `CASH` ($R=0\%$), không sinh lời ảo và không chịu phí.
 - [ ] Bảng 7 có đầy đủ p-value kiểm định McNemar, kiểm định Wilcoxon trên 9 mã, và khoảng tin cậy 95% Bootstrap.
 - [ ] Bảng Ablation Study mới định lượng rõ ràng đóng góp riêng lẻ của Alpha Factors và Sentiment tin tức.
 
