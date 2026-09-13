@@ -113,7 +113,8 @@ def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
 
 # ── Prompt builders ────────────────────────────────────────────────────────────
 
-def _build_prompt_vi(stock_name, time_frame, count, has_alpha, h_desc, h_val, h_note,
+def _build_prompt_vi(stock_name, time_frame, count, has_alpha, has_sentiment,
+                     h_desc, h_val, h_note,
                      trend_report, pattern_report, indicator_report,
                      alpha_report, sentiment_report) -> str:
     prompt = f"""Bạn là một Chuyên gia Giao dịch Định lượng (Senior Quant Trader) với 20 năm kinh nghiệm tại thị trường chứng khoán Việt Nam.
@@ -138,13 +139,19 @@ Dưới đây là {count} báo cáo phân tích đã được tổng hợp:
 {indicator_report}
 """
 
+    next_section = 4
     if has_alpha:
         prompt += f"""
 ---
-### [4] ALPHA FACTORS & DÒNG TIỀN (Alpha Agent)
+### [{next_section}] ALPHA FACTORS & DÒNG TIỀN (Alpha Agent)
 {alpha_report}
+"""
+        next_section += 1
 
-### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG (Sentiment Analysis)
+    if has_sentiment:
+        prompt += f"""
+---
+### [{next_section}] TIN TỨC & TÂM LÝ THỊ TRƯỜNG (Sentiment Analysis)
 {sentiment_report}
 """
 
@@ -168,12 +175,23 @@ Hãy phân tích theo thứ tự bắt buộc:
 - MACD: cắt lên / cắt xuống / phân kỳ?
 - Momentum có ủng hộ hướng giá không?
 
-### 4. Dòng tiền & Tâm lý (Alpha + Sentiment)
+"""
+
+    if has_alpha:
+        prompt += """
+### 4. Dòng tiền định lượng (Alpha Factors)
 - Các công thức alpha đang cho tín hiệu như nào?
 - Dòng tiền lớn đang vào hay rút ra?
-- Sentiment: bullish hay bearish? (chỉ để tham khảo, không quá quan trọng)
 - Alpha có xác nhận hoặc phủ nhận tín hiệu kỹ thuật không?
+"""
+    if has_sentiment:
+        prompt += """
+### 5. Tâm lý thị trường (Sentiment)
+- Tin tức đang nghiêng về bullish hay bearish?
+- Sentiment chỉ là tín hiệu tham khảo, không lấn át dữ liệu kỹ thuật.
+"""
 
+    prompt += f"""
 ## ĐỊNH DẠNG ĐẦU RA BẮT BUỘC
 Đầu tiên, bạn BẮT BUỘC phải viết ra một đoạn văn ngắn gọn (nhưng vô cùng logic) bằng tiếng Việt để phân tích theo Hướng dẫn Tư duy ở trên.
 Ngay sau phần phân tích đó, hãy kết thúc câu trả lời của bạn bằng MỘT VÀ CHỈ MỘT khối JSON chứa quyết định cuối cùng, đúng chuẩn format sau:
@@ -192,7 +210,8 @@ Ngay sau phần phân tích đó, hãy kết thúc câu trả lời của bạn 
     return prompt
 
 
-def _build_prompt_en(stock_name, time_frame, count, has_alpha, h_desc, h_val, h_note,
+def _build_prompt_en(stock_name, time_frame, count, has_alpha, has_sentiment,
+                     h_desc, h_val, h_note,
                      trend_report, pattern_report, indicator_report,
                      alpha_report, sentiment_report) -> str:
     prompt = f"""You are a Senior Quant Trader with 20 years of experience in the Vietnamese stock market.
@@ -217,13 +236,19 @@ Below are the {count} analysis reports that have been aggregated for you:
 {indicator_report}
 """
 
+    next_section = 4
     if has_alpha:
         prompt += f"""
 ---
-### [4] ALPHA FACTORS & MONEY FLOW (Alpha Agent)
+### [{next_section}] ALPHA FACTORS & MONEY FLOW (Alpha Agent)
 {alpha_report}
+"""
+        next_section += 1
 
-### [5] NEWS & MARKET SENTIMENT (Sentiment Analysis)
+    if has_sentiment:
+        prompt += f"""
+---
+### [{next_section}] NEWS & MARKET SENTIMENT (Sentiment Analysis)
 {sentiment_report}
 """
 
@@ -247,12 +272,23 @@ Work through the analysis in this mandatory order:
 - MACD: bullish cross / bearish cross / divergence?
 - Does momentum support the price direction?
 
-### 4. Money flow & sentiment (Alpha + Sentiment)
+"""
+
+    if has_alpha:
+        prompt += """
+### 4. Quantitative money flow (Alpha Factors)
 - What are the alpha formulas signalling?
 - Is large money flowing in or out?
-- Sentiment: bullish or bearish? (reference only, not decisive)
 - Does alpha confirm or contradict the technical signals?
+"""
+    if has_sentiment:
+        prompt += """
+### 5. Market sentiment
+- Is the news flow bullish or bearish?
+- Treat sentiment as supporting evidence, never as a substitute for technical data.
+"""
 
+    prompt += f"""
 ## MANDATORY OUTPUT FORMAT
 First, you MUST write a concise (but rigorously logical) passage in English analysing the data according to the Reasoning Guide above.
 Immediately after that analysis, end your answer with ONE AND ONLY ONE JSON block containing the final decision, in exactly this format:
@@ -276,7 +312,7 @@ Immediately after that analysis, end your answer with ONE AND ONLY ONE JSON bloc
 def create_final_trade_decider(llm):
     """
     Decision Agent v3 — Pure LLM reasoning.
-    Đọc 4 báo cáo và tự ra quyết định, không có điểm số hay trọng số.
+    Đọc 3–5 báo cáo theo cấu hình ablation và tự ra quyết định.
     """
 
     def trade_decision_node(state) -> dict:
@@ -300,12 +336,17 @@ def create_final_trade_decider(llm):
         pattern_report   = pattern_raw  # Thường đã ngắn
         trend_report     = trend_raw    # Thường đã ngắn
 
-        has_alpha = bool(
-            alpha_raw
-            and alpha_raw.strip()
-            and alpha_raw not in ("Không có dữ liệu.", "No data.")
-        )
-        count = 4 if has_alpha else 3
+        def has_report(value) -> bool:
+            return bool(
+                isinstance(value, str)
+                and value.strip()
+                and value.strip() != str(no_data).strip()
+                and value not in ("Không có dữ liệu.", "No data.")
+            )
+
+        has_alpha = has_report(alpha_raw)
+        has_sentiment = has_report(sentiment_raw)
+        count = 3 + int(has_alpha) + int(has_sentiment)
 
         time_frame = state.get("time_frame", "1 day")
         stock_name = state.get("stock_name", "Unknown")
@@ -320,7 +361,8 @@ def create_final_trade_decider(llm):
 
         build = _build_prompt_en if is_en else _build_prompt_vi
         prompt = build(
-            stock_name, time_frame, count, has_alpha, h_desc, h_val, h_note,
+            stock_name, time_frame, count, has_alpha, has_sentiment,
+            h_desc, h_val, h_note,
             trend_report, pattern_report, indicator_report,
             alpha_report, sentiment_report,
         )
