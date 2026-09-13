@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from utils import static_util
 from default_config import DEFAULT_CONFIG
 from data_manager.sentiment_cache import BacktestSentimentStore
+from utils.statistical_tests import calculate_metrics_with_significance
 
 
 # ── Data classes ───────────────────────────────────────────────────────────────
@@ -123,6 +124,13 @@ class BacktestSummary:
     # So sánh Alpha contribution
     alpha_lift: float               # acc_full - acc_no_alpha (%)
     alpha_helps: bool               # True nếu alpha tốt hơn
+
+    # Kiểm định ý nghĩa thống kê trên common support Full/No-Alpha
+    mcnemar_p_value: float = 1.0
+    is_significant_05: bool = False
+    alpha_lift_ci_95: List[float] = field(default_factory=lambda: [0.0, 0.0])
+    newey_west_statistic: float = 0.0
+    newey_west_p_value: float = 1.0
 
     # Advanced PnL metrics Full
     pnl_full: float = 0.0
@@ -569,6 +577,11 @@ class BacktestEngine:
         vn  = [tp for tp in tps if tp.pred_no_alpha not in ("UNKNOWN", "")]
         af, lf, sf, nlf, nsf = metrics(vf, True)
         an, ln, sn, nln, nsn = metrics(vn, False)
+        significance = calculate_metrics_with_significance(
+            [tp.actual_direction for tp in tps],
+            [tp.pred_full for tp in tps],
+            [tp.pred_no_alpha for tp in tps],
+        )
         account = compute_account_metrics(
             tps,
             allow_shorting=self.config.get("allow_shorting", False),
@@ -590,6 +603,14 @@ class BacktestEngine:
             n_long_no_alpha=nln, n_short_no_alpha=nsn,
             alpha_lift=round(af - an, 1),
             alpha_helps=(af > an),
+            mcnemar_p_value=float(significance["mcnemar_p_value"]),
+            is_significant_05=bool(significance["is_significant_05"]),
+            alpha_lift_ci_95=[
+                round(float(value), 4)
+                for value in significance["alpha_lift_ci_95"]
+            ],
+            newey_west_statistic=float(significance["newey_west_statistic"]),
+            newey_west_p_value=float(significance["newey_west_p_value"]),
             pnl_full=round(full_account.total_return_pct, 2),
             sharpe_full=round(full_account.sharpe_ratio, 2),
             sortino_full=round(full_account.sortino_ratio, 2),
@@ -789,6 +810,12 @@ class BacktestEngine:
         print(f"  Độ chính xác Full : {summary.acc_full}%")
         print(f"  Độ chính xác No-α : {summary.acc_no_alpha}%")
         print(f"  Alpha Lift        : {summary.alpha_lift:+.1f}%")
+        print(f"  McNemar p-value   : {summary.mcnemar_p_value:.6f}")
+        print(
+            "  Alpha Lift CI 95% : "
+            f"[{summary.alpha_lift_ci_95[0]:+.2f}, "
+            f"{summary.alpha_lift_ci_95[1]:+.2f}]"
+        )
         print(f"{'='*62}\n")
         return summary
 
