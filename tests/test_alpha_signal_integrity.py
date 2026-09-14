@@ -16,7 +16,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from agents.alpha_agent import _compute_all_alphas
 from agents.decision_agent import _distill_report, create_final_trade_decider
 from core.alpha_compare import rank_alphas
-from core.backtest_engine import BacktestEngine
+from core.backtest_engine import (
+    ALPHA_HISTORY_CANDLES,
+    BacktestEngine,
+    build_walk_forward_end_indices,
+    required_backtest_rows,
+)
 from core.realtime_loader import REQUIRED_COLS, _normalise_columns
 
 
@@ -43,6 +48,48 @@ class _DecisionLlm:
 
 
 class AlphaSignalIntegrityTests(unittest.TestCase):
+    def test_twenty_point_benchmark_reserves_600_candles_before_every_decision(self):
+        required = required_backtest_rows(
+            n_tests=20,
+            window_size=45,
+            step=3,
+            lookahead=3,
+        )
+        self.assertEqual(required, 660)
+
+        ends = build_walk_forward_end_indices(
+            total=required,
+            n_tests=20,
+            window_size=45,
+            step=3,
+            lookahead=3,
+        )
+
+        self.assertEqual(len(ends), 20)
+        self.assertGreaterEqual(min(ends), ALPHA_HISTORY_CANDLES)
+        with self.assertRaisesRegex(ValueError, "660"):
+            build_walk_forward_end_indices(
+                total=required - 1,
+                n_tests=20,
+                window_size=45,
+                step=3,
+                lookahead=3,
+            )
+
+    def test_backtest_never_silently_falls_back_when_dynamic_selection_fails(self):
+        history = _history(600)
+
+        with patch("agents.alpha_agent.select_top_alphas", return_value=[]):
+            with self.assertRaisesRegex(RuntimeError, "dynamic alpha"):
+                _compute_all_alphas(
+                    history.tail(45).to_dict(orient="list"),
+                    {},
+                    {},
+                    symbol="BHN",
+                    historical_df=history,
+                    is_backtest=True,
+                )
+
     def test_dynamic_alpha_uses_full_history_and_normalizes_before_threshold(self):
         history = _history(650)
         cutoff_row = 619

@@ -24,17 +24,22 @@ class _FakeGraph:
 
 
 class PairedProtocolTests(unittest.TestCase):
-    def test_run_invokes_one_paired_execution_per_test_point(self):
-        dates = pd.date_range("2024-01-02", periods=55, freq="B")
-        df = pd.DataFrame(
+    @staticmethod
+    def _benchmark_frame(periods: int = 603) -> pd.DataFrame:
+        dates = pd.date_range("2022-01-03", periods=periods, freq="B")
+        return pd.DataFrame(
             {
                 "Datetime": dates,
-                "Open": range(55),
-                "High": range(1, 56),
-                "Low": range(55),
-                "Close": range(1, 56),
+                "Open": range(periods),
+                "High": range(1, periods + 1),
+                "Low": range(periods),
+                "Close": range(1, periods + 1),
+                "Volume": range(1_000_000, 1_000_000 + periods),
             }
         )
+
+    def test_run_invokes_one_paired_execution_per_test_point(self):
+        df = self._benchmark_frame()
         full_state = {"final_trade_decision": json.dumps({"decision": "LONG"})}
         no_alpha_state = {"final_trade_decision": json.dumps({"decision": "SHORT"})}
         paired_run = Mock(return_value=(full_state, 1.0, no_alpha_state, 0.5))
@@ -59,6 +64,29 @@ class PairedProtocolTests(unittest.TestCase):
         paired_run.assert_called_once()
         self.assertEqual(summary.test_points[0]["pred_full"], "LONG")
         self.assertEqual(summary.test_points[0]["pred_no_alpha"], "SHORT")
+
+    def test_dynamic_alpha_failure_aborts_benchmark_immediately(self):
+        engine = BacktestEngine({"use_historical_sentiment": False})
+        engine._graph_upstream = object()
+        engine._run_paired_point = Mock(
+            side_effect=RuntimeError("Backtest không tuyển chọn được dynamic alpha")
+        )
+        engine._save = Mock()
+        engine._draw_backtest_result = Mock()
+
+        with patch("builtins.print"):
+            with self.assertRaisesRegex(RuntimeError, "dynamic alpha"):
+                engine.run(
+                    self._benchmark_frame(),
+                    "BHN",
+                    timeframe="1 ngày",
+                    n_tests=1,
+                    window_size=45,
+                    step=3,
+                    result_path="unused.json",
+                )
+
+        engine._run_paired_point.assert_called_once()
 
     def test_split_graphs_execute_expected_nodes_and_preserve_control_fields(self):
         from utils.graph_setup import SetGraph

@@ -661,6 +661,12 @@ def _compute_all_alphas(
         print(f"[AlphaAgent] Lỗi select_top_alphas: {e}")
         top_alphas = []
 
+    if not top_alphas and is_backtest:
+        raise RuntimeError(
+            "Backtest không tuyển chọn được dynamic alpha; "
+            "dừng test point thay vì fallback làm sai giao thức benchmark."
+        )
+
     if top_alphas:
         print(f"[AlphaAgent] Sử dụng {len(top_alphas)} dynamic alphas cho {symbol}")
         # Dùng cùng snapshot lịch sử tối đa 600 nến như pha tuyển
