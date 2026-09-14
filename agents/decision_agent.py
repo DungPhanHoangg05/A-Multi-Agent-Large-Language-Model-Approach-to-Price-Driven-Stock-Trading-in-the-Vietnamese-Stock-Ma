@@ -168,11 +168,18 @@ Dưới đây là {count} báo cáo phân tích đã được tổng hợp:
 ## HƯỚNG DẪN TƯ DUY (Chain of Thought)
 Hãy phân tích theo thứ tự bắt buộc:
 
-## THỨ TỰ ƯU TIÊN BẰNG CHỨNG
-- Trend và Pattern là hai nguồn chính về bối cảnh và hành động giá; Indicator xác nhận động lượng.
-- Alpha là bằng chứng định lượng bổ sung, không phải bằng chứng trực tiếp về dòng tiền tổ chức.
-- Sentiment có trọng số thấp nhất và chỉ được dùng làm ngữ cảnh.
-- Cổng mâu thuẫn: nếu Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì Alpha hoặc Sentiment tích cực. LONG chỉ hợp lệ khi Pattern cho tín hiệu đảo chiều giá khách quan và Indicator cùng xác nhận; nếu không, chọn SHORT trong bài toán nhị phân.
+## THỨ TỰ ƯU TIÊN BẰNG CHỨNG & NGUYÊN TẮC HỘI TỤ
+1. **Phân định vai trò trực giao giữa các Agent:**
+   - **Trend & Pattern:** Xác định bối cảnh không gian (kênh giá, hỗ trợ/kháng cự) và hình thái giá tức thời. Phân tích thị giác có độ trễ pha và dễ mắc bẫy giá giả (false breakout).
+   - **Alpha Factors (Lợi thế định lượng & Vi cấu trúc):** Cung cấp bằng chứng định lượng độc lập về tương quan giá - khối lượng, độ kiệt sức dòng tiền và động lượng ngầm mà biểu đồ mắt thường không thể thấy. Alpha Agent đóng vai trò là "Bộ lọc bẫy giá" và "Công cụ nhận diện đảo chiều sớm".
+   - **Indicator:** Xác nhận pha động lượng và trạng thái quá mua/quá bán chu kỳ.
+   - **Sentiment:** Trọng số thấp nhất, chỉ dùng làm ngữ cảnh tham khảo bổ trợ, tuyệt đối không lấn át dữ liệu kỹ thuật và định lượng.
+
+2. **Quyền hạn và Tác dụng cốt lõi của Alpha Agent trong việc ra quyết định:**
+   - **Quyền Phủ quyết Bẫy giá (Veto False Breakouts):** Khi Trend/Pattern báo bứt phá (Breakout) nhưng Alpha Agent phát hiện phân kỳ giá - khối lượng âm hoặc kiệt sức dòng tiền (OFE/WQ2), Alpha Agent có quyền VETO tín hiệu mua đuổi để ngăn ngừa bẫy tăng giá (Bull trap) hoặc bẫy bán tháo (Bear trap).
+   - **Quyền Dẫn dắt Đón đầu Đảo chiều (Leading at Exhaustion/Reversal):** Khi giá chạm vùng hỗ trợ/kháng cự then chốt, nến chưa kịp đảo chiều nhưng đa số các Alpha Mean-Reversion/Liquidity/Exhaustion hội tụ tín hiệu đảo chiều mạnh, Alpha Agent là căn cứ trọng yếu để kích hoạt vị thế đón đầu với tỷ lệ R:R tối ưu thay vì chờ đợi trễ pha.
+   - **Quyền Trọng tài trong Thị trường Đi ngang (Sideways Dominance):** Khi Trend Agent xác định thị trường không có xu hướng (Sideway/Chop), tín hiệu Trend bị triệt tiêu; Alpha Agent trở thành kim chỉ nam quyết định phương hướng giao dịch.
+   - **Cổng kỷ luật xu hướng (Trend & Momentum Gate):** Khi Trend và Pattern cùng xác nhận xu hướng giảm mạnh và giá đang rơi tự do giữa kênh (chưa chạm hỗ trợ hay vùng kiệt sức cung), không được chọn LONG chỉ vì Alpha có 1-2 tín hiệu riêng lẻ hoặc Sentiment tích cực. Lệnh LONG ngược xu hướng chỉ hợp lệ khi có sự hội tụ rõ ràng: giá tại hỗ trợ cứng + Alpha đảo chiều áp đảo + nến/chỉ báo xác nhận; nếu không, ưu tiên SHORT trong bài toán nhị phân.
 
 ### 1. Bối cảnh thị trường (Trend)
 - Giá đang ở gần Support hay Resistance?
@@ -194,9 +201,9 @@ Hãy phân tích theo thứ tự bắt buộc:
     if has_alpha:
         prompt += """
 ### 4. Dòng tiền định lượng (Alpha Factors)
-- Phân bố các tín hiệu alpha đã chuẩn hóa đang nghiêng về hướng nào?
-- Mức độ đồng thuận giữa các alpha có đủ mạnh hay không?
-- Alpha có xác nhận hoặc phủ nhận tín hiệu kỹ thuật không? Không suy diễn trực tiếp thành giao dịch của tổ chức.
+- Phân bố các tín hiệu alpha chuẩn hóa (Z-score) đang nghiêng về TĂNG, GIẢM hay TRUNG TÍNH?
+- Alpha đang xác nhận xu hướng hiện tại hay đang phát hiện phân kỳ cảnh báo đảo chiều / bẫy giá?
+- Mức độ đồng thuận giữa các công thức alpha có đủ mạnh (từ 3/5 alpha trở lên) để dẫn dắt hoặc phủ quyết tín hiệu hình thái hay không?
 """
     if has_sentiment:
         prompt += """
@@ -271,11 +278,18 @@ Below are the {count} analysis reports that have been aggregated for you:
 ## REASONING GUIDE (Chain of Thought)
 Work through the analysis in this mandatory order:
 
-## EVIDENCE PRIORITY
-- Trend and Pattern are the primary evidence for market context and price action; Indicator confirms momentum.
-- Alpha is supplementary quantitative evidence, not direct proof of institutional money flow.
-- Sentiment has the lowest weight and is used only as context.
-- Conflict gate: when Trend and Pattern both confirm a downtrend, do not choose LONG solely because Alpha or Sentiment is positive. LONG is valid only when Pattern provides objective price-reversal evidence and Indicator confirms it; otherwise choose SHORT in the binary task.
+## EVIDENCE PRIORITY & CONFLUENCE PRINCIPLES
+1. **Orthogonal Roles of Specialized Agents:**
+   - **Trend & Pattern:** Define market spatial context (channels, support/resistance) and immediate price morphology. Visual analysis inherently lags and is vulnerable to false breakouts.
+   - **Alpha Factors (Quantitative Edge & Microstructure):** Provide independent quantitative evidence on price-volume divergence, flow exhaustion, and latent momentum invisible on charts. Alpha Agent acts as a "False Breakout Filter" and a "Leading Turning-Point Detector".
+   - **Indicator:** Confirms momentum phases and cyclical overbought/oversold states.
+   - **Sentiment:** Lowest weight; used purely as supplemental background context, never overruling technical or quantitative data.
+
+2. **Core Decision-Making Authority & Value of Alpha Agent:**
+   - **Veto on False Breakouts:** When Trend or Pattern signals a breakout, but Alpha factors detect negative price-volume divergence or flow exhaustion (e.g., OFE/WQ2), Alpha Agent has the authority to VETO chasing the breakout, protecting the system from bull traps or bear traps.
+   - **Leading Turning-Point Detection at Extremes:** When price tests major support/resistance, even if candles have not yet formed a complete visual reversal, strong consensus among mean-reversion/liquidity alphas serves as primary evidence to trigger early counter-trend entry with superior Risk:Reward instead of lagging behind.
+   - **Dominance in Sideways Regimes:** When Trend Agent identifies a sideways/choppy market, trend signals become noisy; Alpha Agent factors become the primary compass guiding trade direction.
+   - **Trend Discipline & Conflict Gate:** When Trend and Pattern both confirm a downtrend and price is in freefall mid-channel, do not choose LONG solely because Alpha has 1-2 isolated positive signals or Sentiment is optimistic. Counter-trend LONG is valid only with decisive multi-agent confluence: price at major structural support + strong alpha consensus + confirmation from reversal patterns/indicators; otherwise choose SHORT in the binary task.
 
 ### 1. Market context (Trend)
 - Is price sitting near support or resistance?
@@ -297,9 +311,9 @@ Work through the analysis in this mandatory order:
     if has_alpha:
         prompt += """
 ### 4. Quantitative money flow (Alpha Factors)
-- Which direction does the distribution of normalized alpha signals support?
-- Is agreement across the selected alphas sufficiently strong?
-- Does alpha confirm or contradict the technical signals? Do not infer institutional trading directly from these factors.
+- Which direction does the distribution of normalized alpha signals (Z-score) support?
+- Is Alpha confirming the prevailing trend or uncovering latent divergence warning of a turning point or false breakout?
+- Is the consensus among alpha factors decisive (>= 3 of 5 alphas) to guide or veto morphological signals?
 """
     if has_sentiment:
         prompt += """
