@@ -79,7 +79,7 @@ class TestPoint:
     actual_pct_change: float        # % return Open-to-Close sau phí
 
     # Full system (có Alpha Agent)
-    pred_full: str                  # "LONG" | "SHORT" | "UNKNOWN"
+    pred_full: str                  # Hợp đồng output: "LONG" | "SHORT"
     correct_full: bool
     confidence_full: str
     rr_full: str
@@ -132,6 +132,10 @@ class TestPoint:
     # Lỗi
     error_full: str = ""
     error_no_alpha: str = ""
+    decision_source_full: str = ""
+    decision_source_no_alpha: str = ""
+    decision_fallback_reason_full: str = ""
+    decision_fallback_reason_no_alpha: str = ""
 
 
 @dataclass
@@ -670,7 +674,7 @@ class BacktestEngine:
 
     # ── Prediction parser ──────────────────────────────────────────────────────
 
-    def _parse_prediction(self, state: dict) -> Tuple[str, str, str]:
+    def _parse_prediction(self, state: dict) -> Tuple[str, str, str, str, str]:
         """
         Trích xuất decision, confidence, R:R từ final_state.
 
@@ -679,17 +683,17 @@ class BacktestEngine:
         trước khối JSON thì lát cắt hỏng, dự đoán rơi về UNKNOWN và bị tính là
         sai trong thống kê accuracy dù model đã trả lời đúng.
         """
-        raw = state.get("final_trade_decision", "")
-        if not raw:
-            return "UNKNOWN", "N/A", "N/A"
-
         from utils.decision_parser import parse_decision
 
-        data     = parse_decision(raw)
-        decision = data.get("decision", "UNKNOWN")
-        if decision in ("LONG", "SHORT"):
-            return decision, data.get("confidence", "N/A"), data.get("risk_reward_ratio", "N/A")
-        return "UNKNOWN", "N/A", "N/A"
+        raw = state.get("final_trade_decision", "")
+        data = parse_decision(raw, lang=self.config.get("language", "vi"))
+        return (
+            data["decision"],
+            data.get("confidence", "Thấp"),
+            data.get("risk_reward_ratio", "1.5"),
+            data.get("decision_source", "fallback_conservative"),
+            data.get("fallback_reason", ""),
+        )
 
     # ── Single run ─────────────────────────────────────────────────────────────
 
@@ -816,7 +820,30 @@ class BacktestEngine:
                 variant_input["alpha_weights"] = self.config.get("alpha_weights")
 
             variant_started = time.time()
-            state = decision_graphs[variant].invoke(variant_input)
+            try:
+                state = decision_graphs[variant].invoke(variant_input)
+            except Exception as exc:
+                error = str(exc)[:500]
+                if "dynamic alpha" in error.lower():
+                    raise RuntimeError(error) from exc
+
+                from utils.decision_parser import parse_decision
+
+                fallback = parse_decision("", lang=self.config.get("language", "vi"))
+                fallback["fallback_reason"] = "DECISION_RUNTIME_ERROR"
+                fallback["justification"] = (
+                    "Decision Agent failed after retries; conservative SHORT applied."
+                    if self.config.get("language") == "en"
+                    else "Decision Agent lỗi sau các lần retry; áp dụng SHORT thận trọng."
+                )
+                state = {
+                    **variant_input,
+                    "final_trade_decision": json.dumps(fallback, ensure_ascii=False),
+                    "decision_error": error,
+                }
+                print(
+                    f"    [!] Decision variant {variant} lỗi → fallback SHORT: {error}"
+                )
             results[variant] = (
                 state,
                 upstream_sec + (time.time() - variant_started),
@@ -1084,8 +1111,11 @@ class BacktestEngine:
             )
 
             # ── Paired shared-reports protocol ─────────────────────────
-            pred_f = conf_f = rr_f = "UNKNOWN"
-            pred_n = conf_n = rr_n = "UNKNOWN"
+            pred_f = pred_n = "SHORT"
+            conf_f = conf_n = "Thấp"
+            rr_f = rr_n = "1.5"
+            source_f = source_n = "fallback_conservative"
+            fallback_reason_f = fallback_reason_n = ""
             tf = tn = 0.0
             err_f = err_n = ""
             ok = ok_n = False
@@ -1098,8 +1128,16 @@ class BacktestEngine:
                     window_end_date=we,
                     point_in_time_df=point_in_time_df,
                 )
-                pred_f, conf_f, rr_f = self._parse_prediction(state_f)
-                pred_n, conf_n, rr_n = self._parse_prediction(state_n)
+                pred_f, conf_f, rr_f, source_f, fallback_reason_f = (
+                    self._parse_prediction(state_f)
+                )
+                pred_n, conf_n, rr_n, source_n, fallback_reason_n = (
+                    self._parse_prediction(state_n)
+                )
+                if pred_f not in ("LONG", "SHORT") or pred_n not in ("LONG", "SHORT"):
+                    raise AssertionError("Decision parser vi phạm hợp đồng LONG/SHORT")
+                err_f = str(state_f.get("decision_error", ""))[:200]
+                err_n = str(state_n.get("decision_error", ""))[:200]
                 ok = (pred_f == "LONG" and actual_dir == "UP") or \
                      (pred_f == "SHORT" and actual_dir == "DOWN")
                 ok_n = (pred_n == "LONG" and actual_dir == "UP") or \
@@ -1109,8 +1147,7 @@ class BacktestEngine:
             except Exception as e:
                 err_f = err_n = str(e)[:200]
                 print(f"  ✘ Paired run lỗi: {err_f}")
-                if "dynamic alpha" in str(e).lower():
-                    raise RuntimeError(str(e)) from e
+                raise RuntimeError(str(e)) from e
 
             tp = TestPoint(
                 test_id=i + 1,
@@ -1128,6 +1165,10 @@ class BacktestEngine:
                     df["Datetime"].iloc[end_idx + lookahead - 1]
                 ).isoformat(),
                 error_full=err_f, error_no_alpha=err_n,
+                decision_source_full=source_f,
+                decision_source_no_alpha=source_n,
+                decision_fallback_reason_full=fallback_reason_f,
+                decision_fallback_reason_no_alpha=fallback_reason_n,
             )
             test_points.append(tp)
 

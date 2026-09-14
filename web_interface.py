@@ -304,9 +304,6 @@ def _parse_decision(raw: str, lang: str = DEFAULT_LANG) -> Any:
     khoá `decision` nên hiển thị "N/A" dù văn bản có nêu rõ LONG/SHORT. Nay dùng
     bộ trích xuất chung, có khôi phục bằng regex.
     """
-    if not raw:
-        return {}
-
     from utils.decision_parser import parse_decision as _extract
 
     data = _extract(raw, lang=lang)
