@@ -65,6 +65,12 @@ class AlphaSignalIntegrityTests(unittest.TestCase):
         self.assertEqual(normalized["decision_source"], "fallback_conservative")
         self.assertEqual(normalized["fallback_reason"], "EMPTY_RESPONSE")
 
+    def test_none_output_falls_back_to_conservative_short(self):
+        normalized = json.loads(_safe_parse_and_enrich(None, "BHN", lang="vi"))
+
+        self.assertEqual(normalized["decision"], "SHORT")
+        self.assertEqual(normalized["fallback_reason"], "EMPTY_RESPONSE")
+
     def test_neutral_llm_output_is_forced_to_binary_short(self):
         normalized = json.loads(
             _safe_parse_and_enrich(

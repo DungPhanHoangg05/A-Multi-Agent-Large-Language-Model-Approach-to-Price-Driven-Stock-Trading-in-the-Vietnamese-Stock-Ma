@@ -307,7 +307,7 @@ def _parse_decision(raw: str, lang: str = DEFAULT_LANG) -> Any:
     from utils.decision_parser import parse_decision as _extract
 
     data = _extract(raw, lang=lang)
-    data["raw"] = raw[:300]
+    data["raw"] = (raw or "")[:300]
     return data
 
 
