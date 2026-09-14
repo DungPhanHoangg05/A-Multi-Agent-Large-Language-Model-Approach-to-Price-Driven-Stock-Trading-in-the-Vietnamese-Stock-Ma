@@ -7,7 +7,7 @@ import pandas as pd
 import requests
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-REQUIRED_COLS = ["Datetime", "Open", "High", "Low", "Close"]
+REQUIRED_COLS = ["Datetime", "Open", "High", "Low", "Close", "Volume"]
 
 INTERVAL_MAP = {
     "1m":  "1",
@@ -621,6 +621,8 @@ def _normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
             rename[col] = "Low"
         elif lc == "close":
             rename[col] = "Close"
+        elif lc == "volume":
+            rename[col] = "Volume"
     return df.rename(columns=rename)
 
 
@@ -648,6 +650,7 @@ def _fetch_ohlcv_tcbs(symbol: str, from_ts: int, to_ts: int, resolution: str = "
             "high":        "High",
             "low":         "Low",
             "close":       "Close",
+            "volume":      "Volume",
         }
         df = df.rename(columns={k: v for k, v in col_map.items() if k in df.columns})
         if "Datetime" not in df.columns and "t" in df.columns:
@@ -737,6 +740,7 @@ def _fetch_entrade_ohlcv(
             "High":     [float(v) for v in data.get("h", [])],
             "Low":      [float(v) for v in data.get("l", [])],
             "Close":    [float(v) for v in data.get("c", [])],
+            "Volume":   [float(v) for v in data.get("v", [])],
         })
         return df.dropna(subset=["Datetime"]).reset_index(drop=True)
     except Exception as e:

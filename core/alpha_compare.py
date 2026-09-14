@@ -1229,8 +1229,10 @@ def run_backtest(df: pd.DataFrame, lookahead: int = 3,
 
 def rank_alphas(df_results: pd.DataFrame, weights: dict = None) -> pd.DataFrame:
     """
-    Composite score:  0.35×|IC| + 0.30×accuracy + 0.20×long_acc + 0.15×sign(sharpe)
-    Weighted for VN market (long-biased, T+2.5 settlement).
+    Composite score đối xứng hai chiều: |IC|, accuracy và Sharpe.
+
+    ``long_acc`` vẫn được báo cáo như một diagnostic kinh tế nhưng
+    không tham gia tuyển chọn, tránh ưu tiên alpha chỉ hợp uptrend.
     """
     r = df_results.copy()
     r["ic_abs"] = r["ic"].abs()
@@ -1244,17 +1246,20 @@ def rank_alphas(df_results: pd.DataFrame, weights: dict = None) -> pd.DataFrame:
 
     r["score_ic"]     = norm01(r["ic_abs"])
     r["score_acc"]    = norm01(r["accuracy"])
-    r["score_long"]   = norm01(r["long_acc"])
     r["score_sharpe"] = norm01(r["sharpe"])
-    
+
     if weights is None:
-        weights = {"ic": 0.35, "acc": 0.30, "long_acc": 0.20, "sharpe": 0.15}
-        
+        weights = {"ic": 0.40, "acc": 0.35, "sharpe": 0.25}
+    active_weights = {key: float(weights.get(key, 0.0)) for key in ("ic", "acc", "sharpe")}
+    weight_sum = sum(active_weights.values())
+    if weight_sum <= 0.0:
+        raise ValueError("Trọng số alpha phải có tổng dương cho ic/acc/sharpe")
+    active_weights = {key: value / weight_sum for key, value in active_weights.items()}
+
     r["composite"] = (
-        weights.get("ic", 0.35) * r["score_ic"]
-      + weights.get("acc", 0.30) * r["score_acc"]
-      + weights.get("long_acc", 0.20) * r["score_long"]
-      + weights.get("sharpe", 0.15) * r["score_sharpe"]
+        active_weights["ic"] * r["score_ic"]
+      + active_weights["acc"] * r["score_acc"]
+      + active_weights["sharpe"] * r["score_sharpe"]
     )
 
     return r.sort_values("composite", ascending=False).reset_index(drop=True)
@@ -1312,7 +1317,7 @@ def print_report(ranked: pd.DataFrame, symbol: str, top_n: int = 5):
     sep = "─" * 100
     print(f"\n{'='*100}")
     print(f"  BẢNG XẾP HẠNG ALPHA — {symbol}")
-    print(f"  Tiêu chí: IC×0.35 + Accuracy×0.30 + LongAccuracy×0.20 + Sharpe×0.15")
+    print(f"  Tiêu chí: |IC|×0.40 + Accuracy×0.35 + Sharpe×0.25")
     print(f"{'='*100}")
     print(f"{'#':>3}  {'Alpha ID':<28}  {'IC':>6}  {'Acc':>6}  {'LongAcc':>8}  {'Sharpe':>7}  {'Score':>6}  Mô tả")
     print(sep)

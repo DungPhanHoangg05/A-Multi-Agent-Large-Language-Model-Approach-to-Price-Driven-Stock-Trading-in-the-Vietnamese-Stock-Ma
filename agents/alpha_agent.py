@@ -663,8 +663,22 @@ def _compute_all_alphas(
 
     if top_alphas:
         print(f"[AlphaAgent] Sử dụng {len(top_alphas)} dynamic alphas cho {symbol}")
-        # Convert kline_data to DataFrame for alpha_compare functions
-        df_base = pd.DataFrame(kline_data)
+        # Dùng cùng snapshot lịch sử tối đa 600 nến như pha tuyển
+        # chọn. Cửa sổ hiển thị 45 nến không đủ cho các alpha dùng
+        # SMA100/ADV60/decay180.
+        if historical_df is not None and not historical_df.empty:
+            df_base = historical_df.copy()
+            if as_of_date is not None and "Datetime" in df_base.columns:
+                cutoff = pd.Timestamp(as_of_date)
+                datetimes = pd.to_datetime(df_base["Datetime"], errors="coerce")
+                if datetimes.dt.tz is not None and cutoff.tzinfo is None:
+                    cutoff = cutoff.tz_localize(datetimes.dt.tz)
+                elif datetimes.dt.tz is None and cutoff.tzinfo is not None:
+                    cutoff = cutoff.tz_localize(None)
+                df_base = df_base.loc[datetimes.notna() & (datetimes <= cutoff)]
+            df_base = df_base.tail(600).copy()
+        else:
+            df_base = pd.DataFrame(kline_data)
         # Ensure numeric
         for col in ["Open", "High", "Low", "Close", "Volume"]:
             if col in df_base.columns:
@@ -680,7 +694,8 @@ def _compute_all_alphas(
             # Execute alpha on the dataframe
             try:
                 series = handler(d_features)
-                val = float(series.iloc[-1])
+                normalized = alpha_compare.normalize_alpha(series, method=norm_method)
+                val = float(normalized.iloc[-1])
                 if math.isnan(val) or math.isinf(val): val = 0.0
             except Exception as e:
                 print(f"[AlphaAgent] Lỗi tính alpha {aid}: {e}")
@@ -745,8 +760,6 @@ def _build_alpha_report(
     """
     from utils.i18n import t as _t, signal_label
 
-    sent_reliable_label = _t("ar_reliable" if sn.get("is_reliable") else "ar_few_articles", lang)
-
     lines = [
         f"## {_t('ar_title', lang)} — {stock_name}\n",
         f"| # | {_t('ar_th_alpha', lang)} | {_t('ar_th_type', lang)} "
@@ -767,9 +780,6 @@ def _build_alpha_report(
 
     lines += [
         "",
-        f"**{_t('ar_sentiment', lang)}:** {sn.get('article_count', 0)} "
-        f"{_t('articles', lang)} — {sent_reliable_label} | "
-        f"Z-score: {sn.get('z_score', 0):+.4f} | "
         f"**{_t('ar_volume', lang)}:** "
         f"{_t('ar_vol_real' if tv.get('has_volume') else 'ar_vol_proxy', lang)}",
         "",
@@ -807,26 +817,26 @@ def _build_alpha_report(
 
 # ── LLM reasoning ─────────────────────────────────────────────────────────────
 
-def _llm_reason(llm, report_md: str, sentiment_md: str, stock_name: str, horizon_label: str,
+def _llm_reason(llm, report_md: str, stock_name: str, horizon_label: str,
                 lang: str = "vi") -> str:
     """
-    Yêu cầu LLM đọc 5 alpha và bản tin tâm lý để đưa ra nhận xét tổng hợp.
+    Yêu cầu LLM diễn giải riêng 5 alpha định lượng.
+
+    Sentiment được Decision Agent nhận qua báo cáo độc lập, không trộn
+    vào lời bình Alpha để tránh khuếch đại thiên lệch tin tức.
     """
     from utils.i18n import language_directive
 
     prompt = f"""Bạn là chuyên gia phân tích định lượng và dòng tiền chuyên dự đoán {horizon_label}.
-Dưới đây là kết quả tính toán 5 alpha factor và bản tóm tắt tâm lý thị trường cho **{stock_name}**.
+Dưới đây là kết quả tính toán 5 alpha factor cho **{stock_name}**.
 
 ### 📊 KẾT QUẢ ALPHA FACTORS
 {report_md}
 
-### 🌍 TÂM LÝ THỊ TRƯỜNG & TIN TỨC
-{sentiment_md}
-
-Hãy kết hợp cả dữ liệu định lượng và tin tức để:
+Hãy chỉ dựa trên các giá trị alpha đã chuẩn hóa để:
 1. Nhận xét ngắn (1-2 câu) về xung lực dòng hiện tại.
-2. Tổng hợp góc nhìn: Dòng tiền và Tâm lý đang đồng thuận hay mâu thuẫn? kịch bản nào cho {horizon_label} có xác suất cao hơn?
-3. Chỉ ra rủi ro hoặc cơ hội tiềm ẩn từ tin tức mà các alpha kỹ thuật có thể chưa phản ánh hết.
+2. Nêu mức độ đồng thuận/mâu thuẫn giữa các alpha và kịch bản có xác suất cao hơn cho {horizon_label}.
+3. Không suy diễn tin tức, tâm lý hay hành vi tổ chức nếu các con số alpha không trực tiếp chứng minh.
 
 KHÔNG phân tích dài dòng. Chỉ suy luận tự nhiên từ các con số để chốt cái nhìn về {horizon_label}.
 Giữ nguyên định dạng markdown.
@@ -963,8 +973,8 @@ def create_alpha_agent(
         # ── Step 4: Build base report ──────────────────────────────────────
         base_report = _build_alpha_report(alphas, tech_vars, sentiment_norm, stock_name, lang)
 
-        # ── Step 5: LLM reasons freely (Now with Sentiment context) ────────
-        llm_reasoning = _llm_reason(llm, base_report, sentiment_report, stock_name,
+        # ── Step 5: LLM chỉ diễn giải Alpha; sentiment ở báo cáo riêng ──────
+        llm_reasoning = _llm_reason(llm, base_report, stock_name,
                                     horizon_label, lang=lang)
 
         n_neu = 5 - n_long - n_short

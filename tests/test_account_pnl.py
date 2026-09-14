@@ -46,6 +46,24 @@ def _test_point(
 
 
 class AccountPnlTests(unittest.TestCase):
+    def test_unchanged_close_is_down_not_up_for_binary_classification(self):
+        import pandas as pd
+
+        df = pd.DataFrame(
+            {
+                "Open": [99.0, 100.0],
+                "Close": [100.0, 100.0],
+            }
+        )
+        engine = BacktestEngine({"use_historical_sentiment": False})
+
+        direction, _, _, pct_change, _ = engine._get_actual_direction(
+            df, end_idx=1, lookahead=1
+        )
+
+        self.assertEqual(direction, "DOWN")
+        self.assertEqual(pct_change, 0.0)
+
     def test_engine_uses_open_e_as_entry_and_horizon_close_as_exit(self):
         import pandas as pd
 

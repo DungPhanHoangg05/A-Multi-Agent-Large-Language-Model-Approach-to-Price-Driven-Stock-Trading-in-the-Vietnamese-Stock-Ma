@@ -183,7 +183,7 @@ class FourWayAblationTests(unittest.TestCase):
 
                 self.assertEqual("ALPHA_PAYLOAD" in prompt, expect_alpha)
                 self.assertEqual("SENTIMENT_PAYLOAD" in prompt, expect_sentiment)
-                self.assertEqual("ALPHA FACTORS & DÒNG TIỀN" in prompt, expect_alpha)
+                self.assertEqual("ALPHA FACTORS ĐỊNH LƯỢNG" in prompt, expect_alpha)
                 self.assertEqual(
                     "TIN TỨC & TÂM LÝ THỊ TRƯỜNG" in prompt,
                     expect_sentiment,
@@ -191,8 +191,8 @@ class FourWayAblationTests(unittest.TestCase):
 
     def test_english_prompt_keeps_the_two_optional_sections_independent(self):
         for report_key, expected_heading, absent_heading in (
-            ("alpha_report", "ALPHA FACTORS & MONEY FLOW", "NEWS & MARKET SENTIMENT"),
-            ("sentiment_report", "NEWS & MARKET SENTIMENT", "ALPHA FACTORS & MONEY FLOW"),
+            ("alpha_report", "QUANTITATIVE ALPHA FACTORS", "NEWS & MARKET SENTIMENT"),
+            ("sentiment_report", "NEWS & MARKET SENTIMENT", "QUANTITATIVE ALPHA FACTORS"),
         ):
             with self.subTest(report_key=report_key):
                 llm = _DecisionLlm()

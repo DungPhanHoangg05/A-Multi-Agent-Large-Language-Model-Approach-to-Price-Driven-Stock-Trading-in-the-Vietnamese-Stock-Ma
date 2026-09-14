@@ -87,7 +87,7 @@ def main():
         "tx_cost": 0.0025,
         "slippage": 0.001,
         "alpha_norm_method": "zscore_tanh",
-        "alpha_weights": {"ic": 0.35, "acc": 0.30, "long_acc": 0.20, "sharpe": 0.15}
+        "alpha_weights": {"ic": 0.40, "acc": 0.35, "sharpe": 0.25}
     }
 
     base_kwargs = {
@@ -141,9 +141,9 @@ def main():
 
     elif args.mode == "weights":
         weights_scenarios = {
-            "default": {"ic": 0.35, "acc": 0.30, "long_acc": 0.20, "sharpe": 0.15},
-            "equal_weight": {"ic": 0.25, "acc": 0.25, "long_acc": 0.25, "sharpe": 0.25},
-            "ic_heavy": {"ic": 0.60, "acc": 0.20, "long_acc": 0.10, "sharpe": 0.10}
+            "default": {"ic": 0.40, "acc": 0.35, "sharpe": 0.25},
+            "equal_weight": {"ic": 1 / 3, "acc": 1 / 3, "sharpe": 1 / 3},
+            "ic_heavy": {"ic": 0.60, "acc": 0.20, "sharpe": 0.20}
         }
         target_tests = max(1, n_tests // len(weights_scenarios))
         for w_name, w_dict in weights_scenarios.items():

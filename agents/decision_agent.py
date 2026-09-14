@@ -76,11 +76,19 @@ def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
     is_en = lang == "en"
 
     if report_type == "alpha":
-        # Alpha report thường có Table -> --- -> Phân tích chi tiết hoặc LLM Reasoning
+        # Giữ bảng số và consensus xác định; loại lời văn LLM trung
+        # gian để Decision Agent không bị neo bởi cách diễn đạt tự tin.
         parts = text.split("---")
         if len(parts) >= 2:
-            # Lấy phần đầu (Table) và phần cuối (Reasoning)
-            return f"{parts[0].strip()}\n\n---\n\n{parts[-1].strip()}"
+            summary = next(
+                (
+                    line.strip()
+                    for line in reversed(text.splitlines())
+                    if "TỔNG HỢP:" in line or "SUMMARY:" in line
+                ),
+                "",
+            )
+            return f"{parts[0].strip()}\n\n{summary}".strip()
 
     if report_type == "sentiment":
         # Sentiment report có Kết quả tổng hợp -> 15 bài gần nhất -> --- -> LLM Text
@@ -143,7 +151,7 @@ Dưới đây là {count} báo cáo phân tích đã được tổng hợp:
     if has_alpha:
         prompt += f"""
 ---
-### [{next_section}] ALPHA FACTORS & DÒNG TIỀN (Alpha Agent)
+### [{next_section}] ALPHA FACTORS ĐỊNH LƯỢNG (Alpha Agent)
 {alpha_report}
 """
         next_section += 1
@@ -159,6 +167,12 @@ Dưới đây là {count} báo cáo phân tích đã được tổng hợp:
 ---
 ## HƯỚNG DẪN TƯ DUY (Chain of Thought)
 Hãy phân tích theo thứ tự bắt buộc:
+
+## THỨ TỰ ƯU TIÊN BẰNG CHỨNG
+- Trend và Pattern là hai nguồn chính về bối cảnh và hành động giá; Indicator xác nhận động lượng.
+- Alpha là bằng chứng định lượng bổ sung, không phải bằng chứng trực tiếp về dòng tiền tổ chức.
+- Sentiment có trọng số thấp nhất và chỉ được dùng làm ngữ cảnh.
+- Cổng mâu thuẫn: nếu Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì Alpha hoặc Sentiment tích cực. LONG chỉ hợp lệ khi Pattern cho tín hiệu đảo chiều giá khách quan và Indicator cùng xác nhận; nếu không, chọn SHORT trong bài toán nhị phân.
 
 ### 1. Bối cảnh thị trường (Trend)
 - Giá đang ở gần Support hay Resistance?
@@ -180,9 +194,9 @@ Hãy phân tích theo thứ tự bắt buộc:
     if has_alpha:
         prompt += """
 ### 4. Dòng tiền định lượng (Alpha Factors)
-- Các công thức alpha đang cho tín hiệu như nào?
-- Dòng tiền lớn đang vào hay rút ra?
-- Alpha có xác nhận hoặc phủ nhận tín hiệu kỹ thuật không?
+- Phân bố các tín hiệu alpha đã chuẩn hóa đang nghiêng về hướng nào?
+- Mức độ đồng thuận giữa các alpha có đủ mạnh hay không?
+- Alpha có xác nhận hoặc phủ nhận tín hiệu kỹ thuật không? Không suy diễn trực tiếp thành giao dịch của tổ chức.
 """
     if has_sentiment:
         prompt += """
@@ -240,7 +254,7 @@ Below are the {count} analysis reports that have been aggregated for you:
     if has_alpha:
         prompt += f"""
 ---
-### [{next_section}] ALPHA FACTORS & MONEY FLOW (Alpha Agent)
+### [{next_section}] QUANTITATIVE ALPHA FACTORS (Alpha Agent)
 {alpha_report}
 """
         next_section += 1
@@ -256,6 +270,12 @@ Below are the {count} analysis reports that have been aggregated for you:
 ---
 ## REASONING GUIDE (Chain of Thought)
 Work through the analysis in this mandatory order:
+
+## EVIDENCE PRIORITY
+- Trend and Pattern are the primary evidence for market context and price action; Indicator confirms momentum.
+- Alpha is supplementary quantitative evidence, not direct proof of institutional money flow.
+- Sentiment has the lowest weight and is used only as context.
+- Conflict gate: when Trend and Pattern both confirm a downtrend, do not choose LONG solely because Alpha or Sentiment is positive. LONG is valid only when Pattern provides objective price-reversal evidence and Indicator confirms it; otherwise choose SHORT in the binary task.
 
 ### 1. Market context (Trend)
 - Is price sitting near support or resistance?
@@ -277,9 +297,9 @@ Work through the analysis in this mandatory order:
     if has_alpha:
         prompt += """
 ### 4. Quantitative money flow (Alpha Factors)
-- What are the alpha formulas signalling?
-- Is large money flowing in or out?
-- Does alpha confirm or contradict the technical signals?
+- Which direction does the distribution of normalized alpha signals support?
+- Is agreement across the selected alphas sufficiently strong?
+- Does alpha confirm or contradict the technical signals? Do not infer institutional trading directly from these factors.
 """
     if has_sentiment:
         prompt += """
