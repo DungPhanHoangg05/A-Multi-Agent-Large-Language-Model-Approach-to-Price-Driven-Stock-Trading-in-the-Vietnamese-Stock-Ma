@@ -97,6 +97,13 @@ class TestPoint:
     # Hợp đồng tài khoản: vào tại Open(e), thoát tại Close(e-1+L)
     entry_open: float = 0.0
     exit_close: float = 0.0
+    entry_time: str = ""
+    exit_time: str = ""
+    execution_pct_change: float = 0.0  # gross return Open(e) -> Close(exit)
+    executed_action_full: str = "CASH"
+    executed_action_no_alpha: str = "CASH"
+    execution_skip_reason_full: str = ""
+    execution_skip_reason_no_alpha: str = ""
     account_return_full: float = 0.0
     account_return_no_alpha: float = 0.0
     equity_full: float = 1.0
@@ -208,45 +215,135 @@ def compute_account_metrics(
     fee: float = 0.0025,
     slippage: float = 0.001,
 ) -> Dict[str, AccountMetrics]:
-    """Tính đường vốn lãi kép cho Full và No-Alpha theo Account Contract."""
+    """Tính sổ tài khoản lãi kép cho Full và No-Alpha theo Account Contract.
+
+    ``actual_pct_change`` là nhãn phân loại Close-to-Close, còn P&L kinh tế
+    luôn dùng ``entry_open`` -> ``exit_close``. Hai đại lượng được lưu riêng để
+    một gap giá không làm giao diện diễn giải nhầm dấu lợi nhuận.
+    """
+
+    def validate_cost(name: str, value: float) -> float:
+        try:
+            parsed = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"{name} phải là số hữu hạn không âm") from exc
+        if not np.isfinite(parsed) or parsed < 0.0:
+            raise ValueError(f"{name} phải là số hữu hạn không âm")
+        return parsed
+
+    fee = validate_cost("fee", fee)
+    slippage = validate_cost("slippage", slippage)
+    total_cost = fee + slippage
+    if total_cost >= 1.0:
+        raise ValueError("Tổng fee + slippage phải nhỏ hơn 100%")
 
     def compute_variant(prediction_field: str, variant: str) -> AccountMetrics:
         wealth = 1.0
         equity_curve = [wealth]
         period_returns: List[float] = []
         executed_returns: List[float] = []
+        capital_release_time: Optional[pd.Timestamp] = None
+        previous_entry_time: Optional[pd.Timestamp] = None
 
         for point in test_points:
             prediction = getattr(point, prediction_field)
-            entry_open = float(point.entry_open)
-            exit_close = float(point.exit_close)
+            try:
+                entry_open = float(point.entry_open)
+                exit_close = float(point.exit_close)
+            except (TypeError, ValueError) as exc:
+                raise ValueError(
+                    f"TestPoint {point.test_id}: giá entry/exit phải là số dương hữu hạn"
+                ) from exc
+            if (
+                not np.isfinite(entry_open)
+                or not np.isfinite(exit_close)
+                or entry_open <= 0.0
+                or exit_close <= 0.0
+            ):
+                raise ValueError(
+                    f"TestPoint {point.test_id}: giá entry/exit phải là số dương hữu hạn"
+                )
+
+            try:
+                entry_time = pd.Timestamp(point.entry_time)
+                exit_time = pd.Timestamp(point.exit_time)
+            except (TypeError, ValueError) as exc:
+                raise ValueError(
+                    f"TestPoint {point.test_id}: thời điểm entry/exit không hợp lệ"
+                ) from exc
+            if pd.isna(entry_time) or pd.isna(exit_time) or exit_time < entry_time:
+                raise ValueError(
+                    f"TestPoint {point.test_id}: thời điểm entry/exit không hợp lệ"
+                )
+            if previous_entry_time is not None and entry_time < previous_entry_time:
+                raise ValueError("TestPoint phải được sắp xếp theo entry_time tăng dần")
+            previous_entry_time = entry_time
+
+            long_gross_return = exit_close / entry_open - 1.0
+            point.execution_pct_change = round(long_gross_return * 100.0, 8)
             is_executed = False
             net_return = 0.0
+            executed_action = "CASH"
+            skip_reason = ""
 
-            if entry_open > 0.0 and exit_close >= 0.0:
-                if prediction == "LONG":
-                    gross_return = exit_close / entry_open - 1.0
-                    net_return = gross_return - fee - slippage
+            if prediction == "LONG":
+                if capital_release_time is not None and entry_time <= capital_release_time:
+                    skip_reason = "OVERLAP_CAPITAL_LOCKED"
+                else:
+                    net_return = long_gross_return - total_cost
+                    executed_action = "LONG"
                     is_executed = True
-                elif prediction == "SHORT" and allow_shorting:
+            elif prediction == "SHORT" and allow_shorting:
+                if capital_release_time is not None and entry_time <= capital_release_time:
+                    skip_reason = "OVERLAP_CAPITAL_LOCKED"
+                else:
                     gross_return = (entry_open - exit_close) / entry_open
-                    net_return = gross_return - fee - slippage
+                    net_return = gross_return - total_cost
+                    executed_action = "SHORT"
                     is_executed = True
+            elif prediction == "SHORT":
+                skip_reason = "SHORT_DISABLED"
+            else:
+                skip_reason = "INVALID_PREDICTION"
+
+            if net_return <= -1.0 or not np.isfinite(net_return):
+                raise ValueError(
+                    f"TestPoint {point.test_id}: account return không hợp lệ "
+                    f"({net_return * 100.0:.8f}%)"
+                )
 
             # SHORT khi cấm bán khống và UNKNOWN đều được thực thi thành CASH.
             if is_executed:
                 executed_returns.append(net_return)
+                capital_release_time = exit_time
             period_returns.append(net_return)
-            wealth = max(0.0, wealth * (1.0 + net_return))
-            wealth = round(wealth, 12)
+            previous_wealth = wealth
+            next_wealth = previous_wealth * (1.0 + net_return)
+            if not np.isfinite(next_wealth) or next_wealth <= 0.0:
+                raise ValueError(
+                    f"TestPoint {point.test_id}: equity sau giao dịch không hợp lệ"
+                )
+            if net_return < 0.0 and not next_wealth < previous_wealth:
+                raise AssertionError(
+                    f"TestPoint {point.test_id}: return âm nhưng equity không giảm"
+                )
+            if net_return > 0.0 and not next_wealth > previous_wealth:
+                raise AssertionError(
+                    f"TestPoint {point.test_id}: return dương nhưng equity không tăng"
+                )
+            wealth = round(next_wealth, 12)
             equity_curve.append(wealth)
 
             cumulative_return_pct = (wealth - 1.0) * 100.0
             if variant == "full":
+                point.executed_action_full = executed_action
+                point.execution_skip_reason_full = skip_reason
                 point.account_return_full = round(net_return * 100.0, 8)
                 point.equity_full = wealth
                 point.pnl_full = round(cumulative_return_pct, 8)
             else:
+                point.executed_action_no_alpha = executed_action
+                point.execution_skip_reason_no_alpha = skip_reason
                 point.account_return_no_alpha = round(net_return * 100.0, 8)
                 point.equity_no_alpha = wealth
                 point.pnl_no_alpha = round(cumulative_return_pct, 8)
@@ -816,7 +913,12 @@ class BacktestEngine:
             )
 
             print(f"  Cửa sổ : {ws} → {we}")
-            print(f"  Thực tế : {actual_dir}  {pc:.2f} → {nc:.2f}  ({pct:+.2f}%)")
+            execution_pct = (nc / entry_open - 1.0) * 100.0
+            print(f"  Nhãn C→C: {actual_dir}  {pc:.2f} → {nc:.2f}  ({pct:+.2f}%)")
+            print(
+                f"  Thực thi O→C: {entry_open:.2f} → {nc:.2f}  "
+                f"({execution_pct:+.2f}% trước phí)"
+            )
 
             # ── Paired shared-reports protocol ─────────────────────────
             pred_f = conf_f = rr_f = "UNKNOWN"
@@ -858,6 +960,10 @@ class BacktestEngine:
                 confidence_no_alpha=conf_n, rr_no_alpha=rr_n,
                 time_full_sec=round(tf, 1), time_no_alpha_sec=round(tn, 1),
                 entry_open=entry_open, exit_close=nc,
+                entry_time=pd.Timestamp(df["Datetime"].iloc[end_idx]).isoformat(),
+                exit_time=pd.Timestamp(
+                    df["Datetime"].iloc[end_idx + lookahead - 1]
+                ).isoformat(),
                 error_full=err_f, error_no_alpha=err_n,
             )
             test_points.append(tp)

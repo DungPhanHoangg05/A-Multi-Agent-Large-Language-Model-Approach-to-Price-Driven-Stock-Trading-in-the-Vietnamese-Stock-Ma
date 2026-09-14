@@ -478,6 +478,7 @@
 
         table.timeline {
             width: 100%;
+            min-width: 1180px;
             border-collapse: collapse;
             font-size: .8rem;
         }
@@ -924,16 +925,19 @@
                                     <th>#</th>
                                     <th>{{ T.bt_th_window }}</th>
                                     <th>{{ T.bt_th_actual }}</th>
+                                    <th>{{ T.bt_th_execution }}</th>
                                     <th>{{ T.bt_th_full_pred }}</th>
                                     <th>{{ T.bt_th_full_ok }}</th>
+                                    <th>{{ T.bt_th_full_return }}</th>
                                     <th>{{ T.bt_th_no_pred }}</th>
                                     <th>{{ T.bt_th_no_ok }}</th>
+                                    <th>{{ T.bt_th_no_return }}</th>
                                     <th>{{ T.bt_th_alpha_adds }}</th>
                                 </tr>
                             </thead>
                             <tbody id="timelineTbody">
                                 <tr>
-                                    <td colspan="8">
+                                    <td colspan="11">
                                         <div class="empty"><i class="fas fa-spinner fa-spin"></i>
                                             <p>{{ T.bt_waiting_first }}</p>
                                         </div>
@@ -1247,7 +1251,12 @@
 
         function showLastTest(tp) {
             const dir = tp.actual_direction === 'UP' ? '📈' : '📉';
-            const pct = (tp.actual_pct_change >= 0 ? '+' : '') + (tp.actual_pct_change || 0).toFixed(2) + '%';
+            const pct = signedPct(tp.actual_pct_change);
+            const executionPct = signedPct(tp.execution_pct_change);
+            const fullPeriod = signedPct(tp.account_return_full);
+            const noPeriod = signedPct(tp.account_return_no_alpha);
+            const fullAction = accountActionText(tp, 'full');
+            const noAction = accountActionText(tp, 'no_alpha');
             const prog = document.getElementById('progressFill');
             const cnt = document.getElementById('progressCount');
             const nT = parseInt(document.getElementById('nTotal').textContent) || 1;
@@ -1257,8 +1266,38 @@
             document.getElementById('lastTestInfo').innerHTML =
                 `<strong>${tr('bt_test')} ${done}</strong> - ${tp.window_start} → ${tp.window_end} &nbsp;|&nbsp; ` +
                 `${tr('bt_actual')}: ${dir} ${pct} &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}</strong> ${tp.correct_full ? '✅' : '❌'} &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}</strong> ${tp.correct_no_alpha ? '✅' : '❌'}`;
+                `${tr('bt_execution')}: ${Number(tp.entry_open).toFixed(2)} → ${Number(tp.exit_close).toFixed(2)} (${executionPct}) &nbsp;|&nbsp; ` +
+                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}</strong> ${tp.correct_full ? '✅' : '❌'} → ${fullAction} · ${fullPeriod} &nbsp;|&nbsp; ` +
+                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}</strong> ${tp.correct_no_alpha ? '✅' : '❌'} → ${noAction} · ${noPeriod}`;
+        }
+
+        function signedPct(value) {
+            const number = Number(value);
+            const safe = Number.isFinite(number) ? number : 0;
+            return (safe >= 0 ? '+' : '') + safe.toFixed(2) + '%';
+        }
+
+        function accountReturnCell(tp, variant) {
+            const action = tp[`executed_action_${variant}`] || 'CASH';
+            const actionText = accountActionText(tp, variant);
+            const period = Number(tp[`account_return_${variant}`]);
+            const cumulative = Number(tp[`pnl_${variant}`]);
+            const periodClass = period > 0 ? 'badge-up' : period < 0 ? 'badge-down' : 'badge-unk';
+            return `<span class="badge ${periodClass}">${action}</span><br>` +
+                `<span style="font-size:.68rem;white-space:nowrap;">${actionText}</span><br>` +
+                `<span style="font-size:.72rem;white-space:nowrap;">${tr('bt_period')}: ${signedPct(period)}</span><br>` +
+                `<span style="font-size:.72rem;color:var(--gray-4);white-space:nowrap;">${tr('bt_cumulative')}: ${signedPct(cumulative)}</span>`;
+        }
+
+        function accountActionText(tp, variant) {
+            const action = tp[`executed_action_${variant}`] || 'CASH';
+            const reason = tp[`execution_skip_reason_${variant}`] || '';
+            const reasonKey = {
+                OVERLAP_CAPITAL_LOCKED: 'bt_skip_overlap',
+                SHORT_DISABLED: 'bt_skip_short',
+                INVALID_PREDICTION: 'bt_skip_invalid'
+            }[reason];
+            return reasonKey ? `${action}: ${tr(reasonKey)}` : action;
         }
 
         function renderTimeline(tps) {
@@ -1267,7 +1306,7 @@
                 tps.length ? tr('bt_test_points', { n: tps.length }) : tr('bt_no_data');
 
             if (!tps.length) {
-                tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><i class="fas fa-spinner fa-spin"></i><p>'
+                tbody.innerHTML = '<tr><td colspan="11"><div class="empty"><i class="fas fa-spinner fa-spin"></i><p>'
                     + tr('bt_waiting_first') + '</p></div></td></tr>';
                 return;
             }
@@ -1276,7 +1315,8 @@
                 const dirBadge = tp.actual_direction === 'UP'
                     ? `<span class="badge badge-up">📈 UP</span>`
                     : `<span class="badge badge-down">📉 DOWN</span>`;
-                const pct = (tp.actual_pct_change >= 0 ? '+' : '') + (tp.actual_pct_change || 0).toFixed(2) + '%';
+                const pct = signedPct(tp.actual_pct_change);
+                const executionPct = signedPct(tp.execution_pct_change);
 
                 const predBadge = pred => pred === 'LONG'
                     ? `<span class="badge badge-long">LONG</span>`
@@ -1297,10 +1337,13 @@
       <td>${tp.test_id}</td>
       <td style="font-size:.75rem;">${tp.window_start}<br><span style="color:var(--gray-4);">→ ${tp.window_end}</span></td>
       <td>${dirBadge}<br><span style="font-size:.72rem;color:var(--gray-4);">${pct}</span></td>
+      <td style="font-size:.75rem;white-space:nowrap;">O ${Number(tp.entry_open).toFixed(2)} → C ${Number(tp.exit_close).toFixed(2)}<br><span style="color:var(--gray-4);">${executionPct}</span></td>
       <td>${predBadge(tp.pred_full)}</td>
       <td>${okBadge(tp.correct_full)}</td>
+      <td>${accountReturnCell(tp, 'full')}</td>
       <td>${predBadge(tp.pred_no_alpha)}</td>
       <td>${okBadge(tp.correct_no_alpha)}</td>
+      <td>${accountReturnCell(tp, 'no_alpha')}</td>
       <td style="font-size:.8rem;">${alphaAdds}</td>
     </tr>`;
             }).join('');
