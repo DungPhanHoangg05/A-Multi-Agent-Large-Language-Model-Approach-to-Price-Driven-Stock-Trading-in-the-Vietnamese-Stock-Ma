@@ -604,7 +604,9 @@ def backtest_start():
  
         n_tests  = max(3, min(n_tests,  30))
         win_size = max(20, min(win_size, 90))
-        step     = max(1, min(step,      15))
+        # Backtest web luôn dùng khung ngày với horizon=3; tài khoản trạng thái
+        # không được định giá trên các kỳ chồng lấn.
+        step     = max(3, min(step,      15))
  
         bt_id = str(uuid.uuid4())
         bt_config = analyzer.config.copy()
@@ -693,6 +695,11 @@ def backtest_start():
                         "n_correct_no":    round((summary.acc_no_alpha / 100) * (summary.n_long_no_alpha + summary.n_short_no_alpha)),
                         "pnl_full":        summary.pnl_full,
                         "pnl_no_alpha":    summary.pnl_no_alpha,
+                        "pnl_full_vnd":    summary.pnl_full_vnd,
+                        "pnl_no_alpha_vnd": summary.pnl_no_alpha_vnd,
+                        "equity_full_vnd": summary.equity_full_vnd,
+                        "equity_no_alpha_vnd": summary.equity_no_alpha_vnd,
+                        "initial_capital_vnd": summary.initial_capital_vnd,
                     }
 
                 # Lưu biểu đồ PNG vào backtest_result/

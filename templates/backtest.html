@@ -478,7 +478,7 @@
 
         table.timeline {
             width: 100%;
-            min-width: 1180px;
+            min-width: 1500px;
             border-collapse: collapse;
             font-size: .8rem;
         }
@@ -763,7 +763,7 @@
 
                     <div class="form-row">
                         <label class="form-label">{{ T.bt_step }}</label>
-                        <input type="number" class="form-control" id="cfgStep" value="3" min="1" max="15">
+                        <input type="number" class="form-control" id="cfgStep" value="3" min="3" max="15">
                         <div class="hint">{{ T.bt_step_hint }}</div>
                     </div>
 
@@ -857,14 +857,14 @@
                     <div class="score-system">{{ T.bt_pnl_full }}</div>
                     <div class="score-acc" style="color:var(--blue);"><span id="pnlFullText">-</span><span
                             class="score-unit">%</span></div>
-                    <div class="score-sub">{{ T.bt_pnl_sub }}</div>
+                    <div class="score-sub" id="pnlFullSub">{{ T.bt_pnl_sub }}</div>
                 </div>
 
                 <div class="score-card" style="border-left: 5px solid var(--green);">
                     <div class="score-system">{{ T.bt_pnl_no }}</div>
                     <div class="score-acc" style="color:var(--green);"><span id="pnlNoText">-</span><span
                             class="score-unit">%</span></div>
-                    <div class="score-sub">{{ T.bt_pnl_sub }}</div>
+                    <div class="score-sub" id="pnlNoSub">{{ T.bt_pnl_sub }}</div>
                 </div>
 
                 <div class="score-card" style="background:var(--gray-0);border:2px solid var(--gray-2);">
@@ -972,6 +972,7 @@
         let testPoints = [];
         let isRunning = false;
         let startedAt = null;
+        let initialCapitalVnd = 50000000;
 
         // Chart instances
         let pnlChart = null;
@@ -1007,7 +1008,23 @@
                         ...commonOptions.plugins,
                         tooltip: {
                             callbacks: {
-                                label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? '+' : ''}${ctx.parsed.y.toFixed(2)}%`
+                                label: ctx => `${ctx.dataset.label}: ${formatVnd(ctx.parsed.y)}`,
+                                afterLabel: ctx => {
+                                    if (ctx.dataIndex === 0) return tr('bt_initial_capital');
+                                    const tp = testPoints[ctx.dataIndex - 1];
+                                    if (!tp) return '';
+                                    const variant = ctx.datasetIndex === 0 ? 'full' : 'no_alpha';
+                                    const action = tp[`executed_action_${variant}`] || 'CASH';
+                                    const cash = tp[`cash_${variant}_vnd`];
+                                    const shares = Number(tp[`shares_${variant}`]);
+                                    const fee = tp[`transaction_fee_${variant}_vnd`];
+                                    return [
+                                        `${tr('bt_action')}: ${action}`,
+                                        `${tr('bt_cash')}: ${formatVnd(cash)}`,
+                                        `${tr('bt_shares')}: ${shares.toFixed(4)}`,
+                                        `${tr('bt_fee')}: ${formatVnd(fee)}`
+                                    ];
+                                }
                             }
                         }
                     },
@@ -1016,7 +1033,7 @@
                         y: {
                             grid: { color: 'rgba(0,0,0,0.05)' },
                             title: { display: true, text: tr('bt_chart_y_pnl') },
-                            ticks: { callback: v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%' }
+                            ticks: { callback: v => formatVnd(v) }
                         }
                     }
                 }
@@ -1143,12 +1160,19 @@
             document.getElementById('accFullSub').textContent = tr('bt_calculating');
             document.getElementById('accNoSub').textContent = tr('bt_calculating');
             document.getElementById('liftSub').textContent = tr('bt_calculating');
+            document.getElementById('pnlFullText').textContent = '-';
+            document.getElementById('pnlNoText').textContent = '-';
+            document.getElementById('pnlFullSub').textContent = tr('bt_pnl_sub');
+            document.getElementById('pnlNoSub').textContent = tr('bt_pnl_sub');
             document.getElementById('etaSub').textContent = '-';
             document.getElementById('metricsBody').innerHTML =
                 '<div class="empty"><i class="fas fa-chart-bar"></i><p>' + tr('bt_waiting_data') + '</p></div>';
         }
 
         function updateScores(p) {
+            if (Number.isFinite(Number(p.initial_capital_vnd))) {
+                initialCapitalVnd = Number(p.initial_capital_vnd);
+            }
             document.getElementById('accFull').textContent = p.acc_full ?? '-';
             document.getElementById('accNo').textContent = p.acc_no_alpha ?? '-';
             document.getElementById('nDone').textContent = p.n_completed ?? 0;
@@ -1172,12 +1196,16 @@
                 const el = document.getElementById('pnlFullText');
                 el.textContent = (pf >= 0 ? '+' : '') + pf.toFixed(2);
                 el.style.color = pf >= 0 ? 'var(--blue)' : 'var(--red)';
+                document.getElementById('pnlFullSub').textContent =
+                    `${formatVnd(initialCapitalVnd)} → ${formatVnd(p.equity_full_vnd)} · P&L ${signedVnd(p.pnl_full_vnd)}`;
             }
             if (p.pnl_no_alpha !== undefined) {
                 const pn = p.pnl_no_alpha;
                 const el = document.getElementById('pnlNoText');
                 el.textContent = (pn >= 0 ? '+' : '') + pn.toFixed(2);
                 el.style.color = pn >= 0 ? 'var(--green)' : 'var(--red)';
+                document.getElementById('pnlNoSub').textContent =
+                    `${formatVnd(initialCapitalVnd)} → ${formatVnd(p.equity_no_alpha_vnd)} · P&L ${signedVnd(p.pnl_no_alpha_vnd)}`;
             }
 
             const liftDesc = lift > 2 ? tr('bt_lift_strong')
@@ -1203,9 +1231,9 @@
             initCharts();
             if (!points || !points.length) return;
 
-            const labels = points.map(tp => tp.test_id);
-            const pnlF = points.map(tp => tp.pnl_full || 0);
-            const pnlN = points.map(tp => tp.pnl_no_alpha || 0);
+            const labels = [0, ...points.map(tp => tp.test_id)];
+            const pnlF = [initialCapitalVnd, ...points.map(tp => Number(tp.equity_full_vnd) || initialCapitalVnd)];
+            const pnlN = [initialCapitalVnd, ...points.map(tp => Number(tp.equity_no_alpha_vnd) || initialCapitalVnd)];
 
             let cumCorrectF = 0;
             let cumCorrectN = 0;
@@ -1217,7 +1245,7 @@
             pnlChart.data.datasets[1].data = pnlN;
             pnlChart.update('none');
 
-            accChart.data.labels = labels;
+            accChart.data.labels = points.map(tp => tp.test_id);
             accChart.data.datasets[0].data = accF;
             accChart.data.datasets[1].data = accN;
             accChart.update('none');
@@ -1255,8 +1283,10 @@
             const executionPct = signedPct(tp.execution_pct_change);
             const fullPeriod = signedPct(tp.account_return_full);
             const noPeriod = signedPct(tp.account_return_no_alpha);
-            const fullAction = accountActionText(tp, 'full');
-            const noAction = accountActionText(tp, 'no_alpha');
+            const fullActionNote = accountActionText(tp, 'full');
+            const noActionNote = accountActionText(tp, 'no_alpha');
+            const fullAction = (tp.executed_action_full || 'CASH') + (fullActionNote ? `: ${fullActionNote}` : '');
+            const noAction = (tp.executed_action_no_alpha || 'CASH') + (noActionNote ? `: ${noActionNote}` : '');
             const prog = document.getElementById('progressFill');
             const cnt = document.getElementById('progressCount');
             const nT = parseInt(document.getElementById('nTotal').textContent) || 1;
@@ -1266,9 +1296,9 @@
             document.getElementById('lastTestInfo').innerHTML =
                 `<strong>${tr('bt_test')} ${done}</strong> - ${tp.window_start} → ${tp.window_end} &nbsp;|&nbsp; ` +
                 `${tr('bt_actual')}: ${dir} ${pct} &nbsp;|&nbsp; ` +
-                `${tr('bt_execution')}: ${Number(tp.entry_open).toFixed(2)} → ${Number(tp.exit_close).toFixed(2)} (${executionPct}) &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}</strong> ${tp.correct_full ? '✅' : '❌'} → ${fullAction} · ${fullPeriod} &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}</strong> ${tp.correct_no_alpha ? '✅' : '❌'} → ${noAction} · ${noPeriod}`;
+                `${tr('bt_execution')}: ${formatVnd(tp.entry_price_vnd)} → ${formatVnd(tp.exit_price_vnd)} (${executionPct}) &nbsp;|&nbsp; ` +
+                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}</strong> ${tp.correct_full ? '✅' : '❌'} → ${fullAction} · ${fullPeriod} · ${formatVnd(tp.equity_full_vnd)} &nbsp;|&nbsp; ` +
+                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}</strong> ${tp.correct_no_alpha ? '✅' : '❌'} → ${noAction} · ${noPeriod} · ${formatVnd(tp.equity_no_alpha_vnd)}`;
         }
 
         function signedPct(value) {
@@ -1277,14 +1307,37 @@
             return (safe >= 0 ? '+' : '') + safe.toFixed(2) + '%';
         }
 
+        function formatVnd(value) {
+            const number = Number(value);
+            const safe = Number.isFinite(number) ? number : 0;
+            return new Intl.NumberFormat(LANG === 'vi' ? 'vi-VN' : 'en-US', {
+                maximumFractionDigits: 0
+            }).format(safe) + ' ₫';
+        }
+
+        function signedVnd(value) {
+            const number = Number(value);
+            const safe = Number.isFinite(number) ? number : 0;
+            return (safe >= 0 ? '+' : '−') + formatVnd(Math.abs(safe));
+        }
+
         function accountReturnCell(tp, variant) {
             const action = tp[`executed_action_${variant}`] || 'CASH';
             const actionText = accountActionText(tp, variant);
             const period = Number(tp[`account_return_${variant}`]);
             const cumulative = Number(tp[`pnl_${variant}`]);
+            const cash = Number(tp[`cash_${variant}_vnd`]);
+            const shares = Number(tp[`shares_${variant}`]);
+            const equity = Number(tp[`equity_${variant}_vnd`]);
+            const fee = Number(tp[`transaction_fee_${variant}_vnd`]);
+            const slippage = Number(tp[`slippage_cost_${variant}_vnd`]);
             const periodClass = period > 0 ? 'badge-up' : period < 0 ? 'badge-down' : 'badge-unk';
+            const actionNote = actionText ? `<span style="font-size:.68rem;white-space:nowrap;">${actionText}</span><br>` : '';
             return `<span class="badge ${periodClass}">${action}</span><br>` +
-                `<span style="font-size:.68rem;white-space:nowrap;">${actionText}</span><br>` +
+                actionNote +
+                `<span style="font-size:.68rem;white-space:nowrap;">${tr('bt_cash')}: ${formatVnd(cash)} · ${tr('bt_shares')}: ${shares.toFixed(4)}</span><br>` +
+                `<span style="font-size:.68rem;white-space:nowrap;">${tr('bt_equity')}: ${formatVnd(equity)}</span><br>` +
+                `<span style="font-size:.68rem;white-space:nowrap;">${tr('bt_fee')}: ${formatVnd(fee)} · ${tr('bt_slippage')}: ${formatVnd(slippage)}</span><br>` +
                 `<span style="font-size:.72rem;white-space:nowrap;">${tr('bt_period')}: ${signedPct(period)}</span><br>` +
                 `<span style="font-size:.72rem;color:var(--gray-4);white-space:nowrap;">${tr('bt_cumulative')}: ${signedPct(cumulative)}</span>`;
         }
@@ -1293,11 +1346,11 @@
             const action = tp[`executed_action_${variant}`] || 'CASH';
             const reason = tp[`execution_skip_reason_${variant}`] || '';
             const reasonKey = {
-                OVERLAP_CAPITAL_LOCKED: 'bt_skip_overlap',
-                SHORT_DISABLED: 'bt_skip_short',
+                ALREADY_LONG: 'bt_hold_long',
+                NO_POSITION: 'bt_cash_no_position',
                 INVALID_PREDICTION: 'bt_skip_invalid'
             }[reason];
-            return reasonKey ? `${action}: ${tr(reasonKey)}` : action;
+            return reasonKey ? tr(reasonKey) : '';
         }
 
         function renderTimeline(tps) {
@@ -1337,7 +1390,7 @@
       <td>${tp.test_id}</td>
       <td style="font-size:.75rem;">${tp.window_start}<br><span style="color:var(--gray-4);">→ ${tp.window_end}</span></td>
       <td>${dirBadge}<br><span style="font-size:.72rem;color:var(--gray-4);">${pct}</span></td>
-      <td style="font-size:.75rem;white-space:nowrap;">O ${Number(tp.entry_open).toFixed(2)} → C ${Number(tp.exit_close).toFixed(2)}<br><span style="color:var(--gray-4);">${executionPct}</span></td>
+      <td style="font-size:.75rem;white-space:nowrap;">O ${formatVnd(tp.entry_price_vnd)} → C ${formatVnd(tp.exit_price_vnd)}<br><span style="color:var(--gray-4);">${executionPct}</span></td>
       <td>${predBadge(tp.pred_full)}</td>
       <td>${okBadge(tp.correct_full)}</td>
       <td>${accountReturnCell(tp, 'full')}</td>
@@ -1359,11 +1412,15 @@
             if (elPF) {
                 elPF.textContent = (pnlFull >= 0 ? '+' : '') + pnlFull.toFixed(2);
                 elPF.style.color = pnlFull >= 0 ? 'var(--blue)' : 'var(--red)';
+                document.getElementById('pnlFullSub').textContent =
+                    `${formatVnd(s.initial_capital_vnd)} → ${formatVnd(s.equity_full_vnd)} · P&L ${signedVnd(s.pnl_full_vnd)}`;
             }
             const elPN = document.getElementById('pnlNoText');
             if (elPN) {
                 elPN.textContent = (pnlNo >= 0 ? '+' : '') + pnlNo.toFixed(2);
                 elPN.style.color = pnlNo >= 0 ? 'var(--green)' : 'var(--red)';
+                document.getElementById('pnlNoSub').textContent =
+                    `${formatVnd(s.initial_capital_vnd)} → ${formatVnd(s.equity_no_alpha_vnd)} · P&L ${signedVnd(s.pnl_no_alpha_vnd)}`;
             }
 
             // Cập nhật metrics bars / update metric bars

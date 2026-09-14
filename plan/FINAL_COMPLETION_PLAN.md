@@ -71,7 +71,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-01** | **Rò rỉ dữ liệu tương lai trong Dynamic Alpha Selection** | `FIXED` | `BacktestEngine` truyền snapshot `df.iloc[:end_idx]` và mốc `as_of_date`; `select_top_alphas()` cắt tối đa 600 nến đến đúng mốc này và cấm fallback realtime trong backtest. Kiểm chứng bởi `tests/test_alpha_leakage.py`. | Review 1 (§3.2): "Data-snooping in alpha selection". Paper (§5.1): Cam kết alpha selection chỉ dùng dữ liệu tiền kiểm tra $[e-T_{hist}, e)$. | **P0** | `TASK-01` |
 | **ISSUE-02** | **Vi phạm tính độc lập đối chứng No-Alpha (Table 8 Bug)** | `FIXED` | `BacktestEngine._run_paired_point()` chạy một `UpstreamGraph` duy nhất rồi deep-copy snapshot sang hai `DecisionGraph`; kiểm chứng bởi `tests/test_paired_protocol.py`. Số liệu Table 8 sẽ được tái sinh tại `TASK-09`. | Review 1 (§3.1): "Table 8 contains an internally inconsistent result... Acc No-α varies from 57.1% to 71.4% to 42.9%". | **P0** | `TASK-02` |
 | **ISSUE-03** | **Rò rỉ bài báo không có ngày trong Sentiment Cache** | `FIXED` | `SentimentCache.get_at()` mặc định bật `strict_research_mode`, chỉ giữ bài có ngày không vượt cutoff và trả neutral với `is_reliable=False` khi dữ liệu hợp lệ dưới ngưỡng. Kiểm chứng bởi `tests/test_sentiment_leakage.py`. | Review 1 (§3.3) & Paper (§5.1): Cam kết không dùng bài báo tương lai; bài không ngày phải bị loại bỏ trong research mode. | **P0** | `TASK-03` |
-| **ISSUE-04** | **P&L tính bằng tổng số học rời rạc thay vì lãi kép** | `FIXED` | `compute_account_metrics()` tính từng kỳ từ $O_e$ đến $C_{e-1+L}$, trừ 0.35% mỗi lệnh LONG, gộp $W_t=W_{t-1}(1+R_t)$ và tính MDD trên equity curve. Corrective audit ngày 2026-09-14 bổ sung fail-fast cho giá/chi phí/thời điểm sai, bất biến return âm ⇒ equity giảm, bỏ qua lệnh chồng lấn khi 100% vốn còn khóa, duy trì khóa vốn độc lập giữa Full/No-Alpha, và tách rõ nhãn phân loại Close-to-Close khỏi lợi nhuận thực thi Open-to-Close trong JSON/UI. Kiểm chứng bởi 15 test P&L và toàn bộ 60 regression tests; bảng kết quả sẽ được tái sinh tại `TASK-08`/`TASK-09`. | Review 1 (§3.1, §5) & Paper (§6.1 chú thích Table 7): Thừa nhận "Legacy Sum" không phải là compounded account return. | **P0** | `TASK-04` |
+| **ISSUE-04** | **P&L tính bằng tổng số học rời rạc thay vì tài khoản trạng thái** | `FIXED` | `compute_account_metrics()` mô phỏng độc lập hai tài khoản Full/No-Alpha với vốn đầu kỳ 50.000.000 VND. LONG đang CASH ⇒ BUY toàn bộ vốn; LONG đang có cổ phiếu ⇒ HOLD; SHORT đang có cổ phiếu ⇒ SELL toàn bộ; SHORT đang CASH ⇒ CASH. Phí môi giới 0,25% và slippage 0,10% áp dụng riêng trên mỗi chiều BUY/SELL; vị thế mở được mark-to-liquidation sau phí bán. Nhãn accuracy và alpha-selection target dùng cùng net return Open-to-Close sau chi phí hai chiều. Kiểm chứng bởi 22 test P&L và toàn bộ 68 regression tests; bảng kết quả sẽ được tái sinh tại `TASK-08`/`TASK-09`. | Review 1 (§3.1, §5) & Paper (§6.1 chú thích Table 7): Thừa nhận "Legacy Sum" không phải là account return. | **P0** | `TASK-04` |
 | **ISSUE-05** | **Thiếu kiểm định ý nghĩa thống kê trong kết quả chính** | `FIXED` | `BacktestEngine._build_summary()` tự tính và lưu McNemar p-value, Newey-West statistic và Block Bootstrap 95% CI trên common support; `utils/aggregate_benchmarks.py` tính Wilcoxon trên 9 mã và xuất bảng LaTeX. Kiểm chứng bởi `tests/test_significance.py`. | Review 1 (§3.1) & Review 2 (Page 4): "No significance testing anywhere in the paper... scope is too narrow without formal tests". | **P0** | `TASK-05` |
 | **ISSUE-06** | **Ablation bị gộp giữa Alpha định lượng và Sentiment tin tức** | `FIXED` | `ABLATION_CONFIGS` cung cấp đủ bốn tổ hợp Full, Alpha-only, Sentiment-only và Baseline; Alpha-only không nạp sentiment, Sentiment-only không tính alpha, và Decision Agent chỉ nhận các báo cáo được bật. Kiểm chứng bởi `tests/test_4way_ablation.py`. | Review 1 (§3.2, §5) & Review 2 (Page 5): "Conflated ablation... quantify the contribution of alpha vs sentiment alone". | **P1** | `TASK-06` |
 | **ISSUE-07** | **Thiếu siêu dữ liệu xuất xứ mô hình Sentiment (Provenance Tracking)** | `PARTIAL` | `agents/sentiment_agent.py`: hàm `_predict` rơi về lexicon khi lỗi HF API nhưng không ghi nhận cờ `is_fallback` vào từng bài báo. | Paper (§4.3, §5.1): Cam kết ghi nhận scorer thực tế, model identifier, và Hub revision cho từng bản ghi cache. | **P1** | `TASK-03`, `TASK-12` |
@@ -248,10 +248,10 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-04] [Thứ tự: #4] [P0] Triển khai Mô hình Lãi kép Tài khoản (Compounded Account PnL) và Chuẩn hóa Chi phí
 
 - **Task ID:** `TASK-04`
-- **Status:** `COMPLETED` — account return lãi kép, chi phí LONG/CASH, khóa vốn độc lập chống lệnh chồng lấn, sổ lệnh từng kỳ và các bất biến dấu P&L PASS 15/15 test chuyên biệt, 60/60 regression tests bằng Python 3.13.
+- **Status:** `COMPLETED` — tài khoản BUY/HOLD/SELL 50 triệu VND, phí BUY/SELL riêng từng chiều, mark-to-liquidation và nhãn accuracy kinh tế PASS 22/22 test chuyên biệt, 68/68 regression tests bằng Python 3.13.
 - **Git Branch:** `task/TASK-04-compounded-account-pnl`
 - **Priority:** `P0`
-- **Objective:** Thay thế phương pháp cộng dồn số học rời rạc ("Legacy Sum") bằng mô hình tăng trưởng tài sản lãi kép gộp (Compounded Account Equity Curve) theo đúng Hợp đồng Tài khoản (Account Contract) đã đăng ký trong bài báo, tuân thủ ràng buộc cấm bán khống cổ phiếu cơ sở tại Việt Nam.
+- **Objective:** Thay thế phương pháp cộng dồn số học rời rạc ("Legacy Sum") bằng hai tài khoản trạng thái Full/No-Alpha độc lập, vốn đầu kỳ 50.000.000 VND, thực thi BUY/HOLD/SELL/CASH và không bán khống.
 - **Vấn đề hiện tại:** `core/backtest_engine.py` (dòng 344, 435) tính PnL bằng cách lấy tổng số học các giá trị phần trăm `pnl += r_f`. Nếu có 2 lệnh $+10\%$ và $-10\%$, tổng số học ra $0\%$, nhưng thực tế tài sản là $1.1 \times 0.9 - 1 = -1\%$. Ngoài ra, khi mô hình dự báo `SHORT`, hệ thống giữ tiền mặt (CASH, return = 0%) nhưng vẫn tính Sharpe trên chuỗi số có nhiều số 0 rời rạc mà không có lãi suất phi rủi ro chuẩn hóa.
 - **Evidence:**
   - `core/backtest_engine.py:344`: `pnl_f += r_f`
@@ -260,19 +260,13 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 - **File/Function cần sửa:**
   - `core/backtest_engine.py`: `_compute_partial()`, `compute_advanced_metrics()`, `_build_summary()`
 - **Cách triển khai đề xuất:**
-  1. Khởi tạo vốn tài khoản $W_0 = 1.0$.
+  1. Khởi tạo vốn mỗi tài khoản $V_0 = 50.000.000$ VND, tiền mặt 100%, số cổ phiếu bằng 0.
   2. Tại mỗi điểm kiểm tra $e$:
-     - Nếu dự báo là `LONG`:
-       - Giá vào: $O_e$ (giá mở cửa nến $e$).
-       - Giá ra: $C_{e-1+L}$ (giá đóng cửa nến $e-1+L$).
-       - Lợi nhuận gộp: $R_{\text{gross}} = \frac{C_{e-1+L}}{O_e} - 1$.
-       - Trừ chi phí giao dịch $0.25\%$ và trượt giá $0.1\%$ trên giá trị vào lệnh (tổng $0.35\%$):
-         $$R_{\text{net}} = R_{\text{gross}} - 0.0035$$
-       - Cập nhật vốn: $W_t = W_{t-1} \times (1 + R_{\text{net}})$.
-     - Nếu dự báo là `SHORT` hoặc `UNKNOWN`:
-       - Trạng thái: Giữ tiền mặt (`CASH`).
-       - Lợi nhuận kỳ: $R_{\text{net}} = 0.0$.
-       - Vốn giữ nguyên: $W_t = W_{t-1}$.
+     - `LONG` khi đang CASH: BUY tại $O_e$ bằng toàn bộ tiền; phí môi giới 0,25% và slippage 0,10% tính trên lệnh mua.
+     - `LONG` khi đang có cổ phiếu: HOLD nguyên số lượng, không phát sinh phí mới.
+     - `SHORT` khi đang có cổ phiếu: SELL toàn bộ tại $O_e$; phí môi giới 0,25% và slippage 0,10% tính trên lệnh bán.
+     - `SHORT` khi đang CASH: tiếp tục CASH, không phát sinh phí.
+     - Vị thế còn mở được định giá tại target Close theo giá trị thanh lý ròng sau chi phí bán, không giả định miễn phí thoát lệnh.
   3. Lợi nhuận tổng tài khoản (Account Total Return): $\text{Total Return} = (W_K / W_0 - 1) \times 100\%$.
   4. Tính Maximum Drawdown (MDD) chuẩn trên đường cong vốn thực tế $W_t$:
      $$MDD = \max_{t} \left( 1 - \frac{W_t}{\max_{s \le t} W_s} \right) \times 100\%$$
@@ -281,7 +275,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
   2. Viết lại hàm `compute_account_metrics(test_points, allow_shorting=False, fee=0.0025, slippage=0.001)` trong `core/backtest_engine.py`.
   3. Cập nhật các trường dữ liệu trong `TestPoint`, `PartialSummary`, `BacktestSummary` để lưu trữ đường cong vốn `equity_curve: List[float]`.
   4. Cập nhật hàm vẽ biểu đồ `_draw_backtest_result()` để vẽ đường cong vốn $W_t$ thay cho đồ thị cộng dồn số học cũ.
-  5. Viết unit test trong `tests/test_account_pnl.py`: 1 lệnh lãi 10% và 1 lệnh lỗ 10% cho tổng PnL $1.0965 \times 0.8965 - 1 = -1.698775\%$ (mỗi lệnh LONG đều trừ 0.35% chi phí theo Account Contract).
+  5. Viết unit test trong `tests/test_account_pnl.py` cho BUY toàn bộ vốn, LONG lặp lại thành HOLD, SHORT bán hết vị thế, SHORT khi chưa mua giữ CASH, phí riêng mỗi chiều và equity VND.
   6. Chạy test, xác nhận PASS, commit và merge vào `develop`.
 - **Dependencies:** `TASK-03`.
 - **Test/Command cần chạy:**
@@ -289,8 +283,9 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 - **Expected Output:** Giá trị PnL phản ánh đúng thực tế tài sản đầu tư; không còn xuất hiện hiện tượng Sharpe âm vô hạn do chia std quá nhỏ.
 - **Acceptance Criteria:**
   - P&L được tính theo công thức lãi kép chuẩn hóa.
-  - Chi phí giao dịch $0.35\%$ chỉ áp dụng cho các vị thế `LONG` thực thi, không áp dụng cho `CASH`.
-  - Khớp hoàn toàn với Section 3.1 và Section 5.4 của bài báo.
+  - Phí và slippage được thu đúng một lần tại từng giao dịch BUY hoặc SELL; HOLD/CASH không chịu phí.
+  - Nhãn accuracy dùng net Open-to-Close sau đủ chi phí hai chiều để không còn trường hợp LONG được chấm đúng nhưng giao dịch ứng viên lỗ.
+  - `TASK-11` phải đồng bộ Section 3.1 và Section 5.4 của bài báo sang hợp đồng tài khoản trạng thái này.
 - **Paper Impact:** Cập nhật các cột PnL, Sharpe, MDD trong Bảng 7 và Bảng 8 của Section 6.
 - **Estimated Complexity:** `M`
 
@@ -431,8 +426,8 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 - **Task ID:** `TASK-08`
 - **Git Branch:** `task/TASK-08-rerun-9symbol-benchmark`
-- **Corrective Gate Branches:** `task/TASK-08-fix-alpha-signal-integrity`, `task/TASK-08-fix-pnl-ledger-invariants` (phải hoàn thành và merge trước khi tạo lại nhánh benchmark).
-- **Corrective Gate Status:** `FIXED` — 60/60 regression tests pass bằng Python 3.13; UI tự tính đủ history cho mọi test point và cấm fallback dynamic alpha trong backtest; sổ P&L tách nhãn Close-to-Close khỏi thực thi Open-to-Close, bắt buộc return âm làm equity giảm và bỏ qua LONG chồng lấn bằng khóa vốn độc lập cho từng biến thể; TASK-08 benchmark vẫn chưa chạy lại.
+- **Corrective Gate Branches:** `task/TASK-08-fix-alpha-signal-integrity`, `task/TASK-08-fix-pnl-ledger-invariants`, `task/TASK-08-align-label-with-net-pnl` (phải hoàn thành và merge trước khi tạo lại nhánh benchmark).
+- **Corrective Gate Status:** `FIXED` — 68/68 regression tests pass bằng Python 3.13; alpha selection, nhãn accuracy và account P&L cùng dùng mục tiêu net Open-to-Close; Full/No-Alpha có danh mục BUY/HOLD/SELL độc lập với vốn đầu kỳ 50 triệu VND và phí từng chiều; TASK-08 benchmark vẫn chưa chạy lại.
 - **Priority:** `P0` / `P1`
 - **Objective:** Thực thi lại benchmark walk-forward cho 9 mã cổ phiếu (BHN, CMG, FPT, HVN, MBB, MWG, VCB, VJC, VNM) dưới toàn bộ các hợp đồng sửa lỗi P0 (không leak dữ liệu, paired shared reports, lãi kép, kiểm định thống kê), thu thập kết quả sạch để cập nhật Table 7.
 - **Vấn đề hiện tại:** Kết quả hiện tại trong `backtest_result/*.json` được tạo từ mã nguồn cũ (bị rò rỉ dữ liệu, PnL số học, không có shared reports). Audit trước khi chạy TASK-08 còn phát hiện dynamic Alpha Agent phân loại giá trị raw thay vì giá trị chuẩn hóa, tính trên 45 nến thay vì snapshot 600 nến, pipeline làm rơi Volume, ranking thưởng `long_acc`, và Decision Agent bị neo bởi lời bình Alpha trộn sentiment. Toàn bộ số liệu trong Table 7 hiện tại gắn liền với ghi chú tạm "archived legacy opportunity-return traces pending A20 regeneration".
@@ -444,7 +439,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
   - Chạy thực thi: `core/backtest_engine.py`
   - Kịch bản chạy hàng loạt: Tạo file `scripts/run_full_benchmark.py`
 - **Cách triển khai đề xuất:**
-  0. Trước khi chạy benchmark: chuẩn hóa dynamic alpha theo cùng `norm_method` đã dùng khi tuyển chọn; dùng snapshot tối đa 600 nến; bảo toàn Volume; xếp hạng đối xứng $0.40|IC|+0.35Accuracy+0.25Sharpe$; tách sentiment khỏi lời bình Alpha; bổ sung conflict gate cho Decision Agent; quy ước giá hòa là `DOWN` trong nhãn nhị phân vì LONG chịu phí giao dịch.
+  0. Trước khi chạy benchmark: chuẩn hóa dynamic alpha theo cùng `norm_method` đã dùng khi tuyển chọn; dùng snapshot tối đa 600 nến; bảo toàn Volume; xếp hạng đối xứng $0.40|IC|+0.35Accuracy+0.25Sharpe$; tách sentiment khỏi lời bình Alpha; bổ sung conflict gate cho Decision Agent; gán `UP` chỉ khi vòng BUY tại Open và định giá/bán tại Close mục tiêu còn lợi nhuận ròng dương sau phí hai chiều, ngược lại là `DOWN`.
      - UI phải tải tối thiểu $600 + L + (N-1)S$ nến (660 nến với cấu hình A20); mọi mốc test phải có ít nhất 600 nến tiền kiểm tra. Thiếu dữ liệu hoặc tuyển chọn dynamic alpha thất bại phải dừng benchmark, không fallback.
   1. Viết script `scripts/run_full_benchmark.py` duyệt qua danh sách 9 mã cổ phiếu:
      - Tham số cố định: $W=45, S=3, L=3, N=20$, `temperature=0.0`, `seed=42`.
@@ -728,10 +723,10 @@ Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đả
   - Text Agents (Indicator, Alpha, Decision): `openai/gpt-oss-20b` (hoặc `llama-3.3-70b-versatile`), `temperature = 0.0`.
   - Vision Agents (Pattern, Trend): `qwen/qwen3.8-27b`, `temperature = 0.0`.
 - **Mô hình chi phí & thực thi:**
-  - Phí giao dịch: $0.25\%$ trên giá trị vào lệnh.
-  - Trượt giá (slippage allowance): $0.10\%$ trên giá trị vào lệnh.
-  - Tổng chi phí vòng lộn: $0.35\%$ áp dụng cho vị thế `LONG` được khớp tại $O_e$ và thoát tại $C_{e-1+L}$.
-  - Vị thế `SHORT` trong tài khoản tiền mặt: Chuyển đổi thành giữ tiền mặt (`CASH`), lợi nhuận gộp $0.0\%$, không chịu phí.
+  - Vốn đầu kỳ: 50.000.000 VND cho mỗi biến thể Full và No-Alpha.
+  - Phí môi giới: $0.25\%$ trên giá trị khớp ở mỗi chiều BUY và SELL.
+  - Trượt giá: $0.10\%$ trên giá trị khớp ở mỗi chiều BUY và SELL.
+  - LONG đang CASH mua bằng toàn bộ vốn; LONG đang có vị thế giữ nguyên; SHORT bán toàn bộ cổ phiếu đang có; SHORT khi chưa có vị thế giữ CASH.
 
 ### 7.2. Thiết kế Ma trận Thử nghiệm (Experiment Matrix)
 

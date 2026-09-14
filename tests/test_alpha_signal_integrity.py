@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from agents.alpha_agent import _compute_all_alphas
 from agents.decision_agent import _distill_report, create_final_trade_decider
-from core.alpha_compare import rank_alphas
+from core.alpha_compare import build_forward_execution_returns, rank_alphas
 from core.backtest_engine import (
     ALPHA_HISTORY_CANDLES,
     BacktestEngine,
@@ -48,6 +48,30 @@ class _DecisionLlm:
 
 
 class AlphaSignalIntegrityTests(unittest.TestCase):
+    def test_alpha_selection_target_matches_net_open_to_close_label(self):
+        frame = pd.DataFrame(
+            {
+                "Open": [100.0, 110.0, 120.0, 130.0, 140.0],
+                "Close": [100.0, 111.0, 121.0, 132.0, 141.0],
+            }
+        )
+
+        target = build_forward_execution_returns(
+            frame,
+            lookahead=3,
+            fee=0.0025,
+            slippage=0.001,
+        )
+
+        # Signal tại index 0: mua Open[1], bán Close[3], trừ phí một lần.
+        self.assertAlmostEqual(
+            target.iloc[0],
+            132.0 / 110.0 * (1.0 - 0.001) * (1.0 - 0.0025)
+            / ((1.0 + 0.001) * (1.0 + 0.0025)) - 1.0,
+            places=12,
+        )
+        self.assertTrue(pd.isna(target.iloc[-3:]).all())
+
     def test_twenty_point_benchmark_reserves_600_candles_before_every_decision(self):
         required = required_backtest_rows(
             n_tests=20,
@@ -183,6 +207,8 @@ class AlphaSignalIntegrityTests(unittest.TestCase):
         self.assertIn("THỨ TỰ ƯU TIÊN BẰNG CHỨNG", prompt)
         self.assertIn("Trend và Pattern cùng xác nhận xu hướng giảm", prompt)
         self.assertIn("không được chọn LONG chỉ vì Alpha", prompt)
+        self.assertIn("phí môi giới 0,25%", prompt)
+        self.assertIn("tín hiệu bán toàn bộ cổ phiếu đang có", prompt)
 
 
 if __name__ == "__main__":

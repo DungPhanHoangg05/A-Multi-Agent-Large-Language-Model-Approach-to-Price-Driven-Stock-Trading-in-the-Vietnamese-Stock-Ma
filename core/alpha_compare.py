@@ -1094,12 +1094,38 @@ ALPHA_REGISTRY = {
 # 6. Backtesting engine
 # ─────────────────────────────────────────────────────────────────────────────
 
+def build_forward_execution_returns(
+    df: pd.DataFrame,
+    lookahead: int = 3,
+    fee: float = 0.0025,
+    slippage: float = 0.001,
+) -> pd.Series:
+    """Tạo net return Open[t+1] -> Close[t+L], tính phí từng chiều."""
+    if lookahead < 1:
+        raise ValueError("lookahead phải là số dương")
+    if not np.isfinite(fee) or fee < 0.0 or fee >= 1.0:
+        raise ValueError("fee phải hữu hạn và nằm trong [0, 1)")
+    if not np.isfinite(slippage) or slippage < 0.0 or slippage >= 1.0:
+        raise ValueError("slippage phải hữu hạn và nằm trong [0, 1)")
+    missing = {"Open", "Close"}.difference(df.columns)
+    if missing:
+        raise ValueError(f"Thiếu cột để tạo execution return: {sorted(missing)}")
+
+    entry_open = pd.to_numeric(df["Open"], errors="coerce").shift(-1)
+    exit_close = pd.to_numeric(df["Close"], errors="coerce").shift(-lookahead)
+    valid_prices = (entry_open > 0.0) & (exit_close > 0.0)
+    buy_factor = (1.0 + slippage) * (1.0 + fee)
+    sell_factor = (1.0 - slippage) * (1.0 - fee)
+    returns = exit_close / entry_open * sell_factor / buy_factor - 1.0
+    return returns.where(valid_prices)
+
+
 def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
                     lookahead: int = 3) -> dict:
     """
     Compute performance metrics for one alpha.
     alpha_values : signal at time t (clipped to [-1,1])
-    forward_returns: actual return over next `lookahead` periods starting at t+1
+    forward_returns: net return Open[t+1] -> Close[t+lookahead] sau phí
     """
     mask = np.isfinite(alpha_values) & np.isfinite(forward_returns)
     if mask.sum() < 20:
@@ -1117,27 +1143,18 @@ def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
     flip_signal = ic < 0
     av_metric = -av if flip_signal else av
 
-    # Directional accuracy: sign(signal) matches sign(return)
+    # Accuracy kinh tế: LONG khi net return dương; DOWN/CASH khi <= 0.
     valid = (np.abs(av_metric) > 0.05)  # only predict when signal strong enough
     if valid.sum() < 10:
         accuracy = 0.5
     else:
-        correct = np.sign(av_metric[valid]) == np.sign(fr[valid])
+        predicted_up = av_metric[valid] > 0.0
+        actual_up = fr[valid] > 0.0
+        correct = predicted_up == actual_up
         accuracy = correct.mean()
 
-    # Realistic PnL calculations
-    tx_cost = 0.0025
-    slippage = 0.001
-    
-    # Gross returns from signal
-    gross_ret = np.sign(av_metric) * fr
-    
-    # Subtract costs where trades occur (whenever signal changes or we just assume a trade per period)
-    # For a simple alpha ranking, let's assume we pay spread/cost every period we are in a trade
-    # A more complex would be `np.abs(np.diff(np.sign(av_metric))) > 0`
-    net_ret = gross_ret - (tx_cost + slippage) * np.abs(np.sign(av_metric))
-    
-    strategy_ret = net_ret
+    # Diagnostic đối xứng cho ranking; forward_returns đã trừ chi phí một lần.
+    strategy_ret = np.sign(av_metric) * fr
     mean_ret = strategy_ret.mean()
     std_ret = strategy_ret.std()
     sharpe = (mean_ret / (std_ret + 1e-9)) * math.sqrt(252 / lookahead)
@@ -1161,7 +1178,7 @@ def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
     # Long-only accuracy (important for VN market — limited shorting)
     long_mask = av_metric > 0.05
     if long_mask.sum() >= 5:
-        long_acc = (fr[long_mask] > 0).mean()
+        long_acc = (fr[long_mask] > 0.0).mean()
     else:
         long_acc = 0.5
         
@@ -1191,8 +1208,13 @@ def run_backtest(df: pd.DataFrame, lookahead: int = 3,
     print(f"\n[AlphaCompare] Tính features trên {len(df)} nến...")
     d = build_features(df)
 
-    # Forward returns (T+1 to T+lookahead sum)
-    fwd_ret = d["log_ret"].shift(-1).rolling(lookahead, min_periods=1).sum().shift(-(lookahead - 1))
+    # Cùng nhãn kinh tế với BacktestEngine: Open[t+1] -> Close[t+L], sau phí.
+    fwd_ret = build_forward_execution_returns(
+        d,
+        lookahead=lookahead,
+        fee=0.0025,
+        slippage=0.001,
+    )
     fwd_arr = fwd_ret.values
 
     results = []
