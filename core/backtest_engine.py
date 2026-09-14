@@ -349,7 +349,9 @@ class BacktestEngine:
         start_idx  = max(0, end_idx - window_size)
         window_df  = df.iloc[start_idx:end_idx].reset_index(drop=True)
         ohlcv_dict = {}
-        for col in ["Datetime", "Open", "High", "Low", "Close"]:
+        for col in ["Datetime", "Open", "High", "Low", "Close", "Volume"]:
+            if col not in window_df.columns:
+                continue
             if col == "Datetime":
                 ohlcv_dict[col] = window_df[col].dt.strftime("%Y-%m-%d %H:%M:%S").tolist()
             else:
@@ -381,7 +383,9 @@ class BacktestEngine:
         entry_open = float(df["Open"].iloc[end_idx])
         next_close = float(df["Close"].iloc[target_idx])
         pct_chg    = round((next_close - prev_close) / prev_close * 100, 4) if prev_close else 0.0
-        direction  = "UP" if next_close >= prev_close else "DOWN"
+        # Bài toán phân loại là nhị phân. Giá hòa không được
+        # coi là LONG đúng vì giao dịch mua vẫn chịu chi phí 0,35%.
+        direction  = "UP" if next_close > prev_close else "DOWN"
         return direction, prev_close, next_close, pct_chg, entry_open
 
     # ── Prediction parser ──────────────────────────────────────────────────────
@@ -700,7 +704,7 @@ class BacktestEngine:
         Walk-forward backtest.
 
         Args:
-            df           : DataFrame OHLCV với cột Datetime, Open, High, Low, Close
+            df           : DataFrame OHLCV với cột Datetime, Open, High, Low, Close, Volume
             symbol       : Mã cổ phiếu
             timeframe    : Chuỗi khung thời gian hiển thị
             n_tests      : Số test point tối đa

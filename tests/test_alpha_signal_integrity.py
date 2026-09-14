@@ -1,0 +1,142 @@
+"""Kiểm thử tính toàn vẹn của tín hiệu Alpha trước khi chạy benchmark."""
+
+from __future__ import annotations
+
+from pathlib import Path
+from types import SimpleNamespace
+import sys
+import unittest
+from unittest.mock import patch
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from agents.alpha_agent import _compute_all_alphas
+from agents.decision_agent import _distill_report, create_final_trade_decider
+from core.alpha_compare import rank_alphas
+from core.backtest_engine import BacktestEngine
+from core.realtime_loader import REQUIRED_COLS, _normalise_columns
+
+
+def _history(periods: int = 180) -> pd.DataFrame:
+    close = np.linspace(90.0, 110.0, periods)
+    return pd.DataFrame(
+        {
+            "Datetime": pd.date_range("2024-01-01", periods=periods, freq="B"),
+            "Open": close - 0.2,
+            "High": close + 0.5,
+            "Low": close - 0.5,
+            "Close": close,
+            "Volume": np.linspace(1_000_000.0, 2_000_000.0, periods),
+        }
+    )
+
+
+class _DecisionLlm:
+    def invoke(self, _messages):
+        return SimpleNamespace(
+            content='{"decision":"SHORT","confidence":"Cao",'
+            '"risk_reward_ratio":2.0,"justification":"test"}'
+        )
+
+
+class AlphaSignalIntegrityTests(unittest.TestCase):
+    def test_dynamic_alpha_uses_full_history_and_normalizes_before_threshold(self):
+        history = _history(650)
+        cutoff_row = 619
+        cutoff_history = history.iloc[: cutoff_row + 1]
+        short_window = cutoff_history.tail(45)
+        observed_lengths = []
+
+        def raw_positive_but_bearish_relative(features: pd.DataFrame) -> pd.Series:
+            observed_lengths.append(len(features))
+            values = np.full(len(features), 10.0)
+            values[-1] = 1.0
+            return pd.Series(values, index=features.index)
+
+        selected = [
+            {
+                "alpha_id": "TEST_ALPHA",
+                "handler": raw_positive_but_bearish_relative,
+                "description": "test",
+                "composite_score": 1.0,
+                "metrics": {"ic": 0.2, "accuracy": 0.6, "long_acc": 0.9, "sharpe": 1.0},
+            }
+        ]
+
+        with patch("agents.alpha_agent.select_top_alphas", return_value=selected):
+            results, _ = _compute_all_alphas(
+                short_window.to_dict(orient="list"),
+                {},
+                {},
+                symbol="FPT",
+                historical_df=history,
+                as_of_date=str(history["Datetime"].iloc[cutoff_row].date()),
+                is_backtest=True,
+            )
+
+        self.assertEqual(observed_lengths, [600])
+        self.assertLess(results[0]["value"], -0.1)
+        self.assertEqual(results[0]["signal"], "GIẢM")
+
+    def test_rank_is_neutral_to_long_only_accuracy(self):
+        results = pd.DataFrame(
+            [
+                {"alpha_id": "A", "ic": 0.2, "accuracy": 0.6, "long_acc": 0.1, "sharpe": 1.0},
+                {"alpha_id": "B", "ic": 0.2, "accuracy": 0.6, "long_acc": 0.9, "sharpe": 1.0},
+            ]
+        )
+
+        ranked = rank_alphas(results)
+
+        self.assertAlmostEqual(ranked.loc[0, "composite"], ranked.loc[1, "composite"])
+
+    def test_volume_survives_loader_normalization_and_backtest_window(self):
+        raw = _history(60).rename(columns={"Volume": "volume"})
+        normalized = _normalise_columns(raw)
+        self.assertIn("Volume", REQUIRED_COLS)
+        self.assertIn("Volume", normalized.columns)
+
+        payload, _, _ = BacktestEngine(
+            {"use_historical_sentiment": False}
+        )._prepare_window(normalized, end_idx=60, window_size=45)
+
+        self.assertEqual(payload["Volume"], normalized["Volume"].tail(45).tolist())
+
+    def test_alpha_distillation_keeps_numbers_but_drops_expert_narrative(self):
+        report = (
+            "## Alpha\n| # | Value |\n| 1 | -0.4 |\n\n---\n\n"
+            "### Nhận định của chuyên gia Alpha\nDòng tiền lớn đang gom hàng.\n\n"
+            "**TỔNG HỢP: GIẢM (1 TĂNG / 3 GIẢM / 1 TRUNG TÍNH)**"
+        )
+
+        distilled = _distill_report("alpha", report, "vi")
+
+        self.assertIn("| 1 | -0.4 |", distilled)
+        self.assertIn("TỔNG HỢP: GIẢM", distilled)
+        self.assertNotIn("gom hàng", distilled)
+
+    def test_decision_prompt_contains_evidence_hierarchy_and_conflict_gate(self):
+        state = {
+            "stock_name": "FPT",
+            "time_frame": "1 ngày",
+            "language": "vi",
+            "indicator_report": "indicator",
+            "pattern_report": "pattern",
+            "trend_report": "trend",
+            "alpha_report": "alpha",
+            "sentiment_report": "sentiment",
+        }
+
+        with patch("builtins.print"):
+            prompt = create_final_trade_decider(_DecisionLlm())(state)["decision_prompt"]
+
+        self.assertIn("THỨ TỰ ƯU TIÊN BẰNG CHỨNG", prompt)
+        self.assertIn("Trend và Pattern cùng xác nhận xu hướng giảm", prompt)
+        self.assertIn("không được chọn LONG chỉ vì Alpha", prompt)
+
+
+if __name__ == "__main__":
+    unittest.main()

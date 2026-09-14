@@ -431,16 +431,20 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 - **Task ID:** `TASK-08`
 - **Git Branch:** `task/TASK-08-rerun-9symbol-benchmark`
+- **Corrective Gate Branch:** `task/TASK-08-fix-alpha-signal-integrity` (phải hoàn thành và merge trước khi tạo lại nhánh benchmark).
+- **Corrective Gate Status:** `FIXED` — 48/48 regression tests pass bằng Python 3.13; TASK-08 benchmark vẫn chưa chạy lại.
 - **Priority:** `P0` / `P1`
 - **Objective:** Thực thi lại benchmark walk-forward cho 9 mã cổ phiếu (BHN, CMG, FPT, HVN, MBB, MWG, VCB, VJC, VNM) dưới toàn bộ các hợp đồng sửa lỗi P0 (không leak dữ liệu, paired shared reports, lãi kép, kiểm định thống kê), thu thập kết quả sạch để cập nhật Table 7.
-- **Vấn đề hiện tại:** Kết quả hiện tại trong `backtest_result/*.json` được tạo từ mã nguồn cũ (bị rò rỉ dữ liệu, PnL số học, không có shared reports). Toàn bộ số liệu trong Table 7 hiện tại gắn liền với ghi chú tạm "archived legacy opportunity-return traces pending A20 regeneration".
+- **Vấn đề hiện tại:** Kết quả hiện tại trong `backtest_result/*.json` được tạo từ mã nguồn cũ (bị rò rỉ dữ liệu, PnL số học, không có shared reports). Audit trước khi chạy TASK-08 còn phát hiện dynamic Alpha Agent phân loại giá trị raw thay vì giá trị chuẩn hóa, tính trên 45 nến thay vì snapshot 600 nến, pipeline làm rơi Volume, ranking thưởng `long_acc`, và Decision Agent bị neo bởi lời bình Alpha trộn sentiment. Toàn bộ số liệu trong Table 7 hiện tại gắn liền với ghi chú tạm "archived legacy opportunity-return traces pending A20 regeneration".
 - **Evidence:**
   - `ESWA/sections/06_backtest_results.tex`: "The archived rows report FPT and HVN Alpha Lifts... both remain pending A20 regeneration."
   - Review 1 & 2: Yêu cầu kết quả thực nghiệm sạch, tái lập được và có ý nghĩa thống kê.
 - **File/Function cần sửa:**
+  - Corrective gate: `agents/alpha_agent.py`, `core/alpha_compare.py`, `core/realtime_loader.py`, `core/backtest_engine.py`, `agents/decision_agent.py`, `core/run_robustness.py`, `web_interface.py`.
   - Chạy thực thi: `core/backtest_engine.py`
   - Kịch bản chạy hàng loạt: Tạo file `scripts/run_full_benchmark.py`
 - **Cách triển khai đề xuất:**
+  0. Trước khi chạy benchmark: chuẩn hóa dynamic alpha theo cùng `norm_method` đã dùng khi tuyển chọn; dùng snapshot tối đa 600 nến; bảo toàn Volume; xếp hạng đối xứng $0.40|IC|+0.35Accuracy+0.25Sharpe$; tách sentiment khỏi lời bình Alpha; bổ sung conflict gate cho Decision Agent; quy ước giá hòa là `DOWN` trong nhãn nhị phân vì LONG chịu phí giao dịch.
   1. Viết script `scripts/run_full_benchmark.py` duyệt qua danh sách 9 mã cổ phiếu:
      - Tham số cố định: $W=45, S=3, L=3, N=20$, `temperature=0.0`, `seed=42`.
      - Chế độ bắt cặp `paired_shared_reports`: chạy upstream 1 lần, copy sang Full và No-Alpha.
@@ -455,9 +459,13 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
   6. Commit và merge vào `develop`.
 - **Dependencies:** `TASK-01`, `TASK-02`, `TASK-03`, `TASK-04`, `TASK-05`, `TASK-07`.
 - **Test/Command cần chạy:**
+  - Corrective gate: `py -3.13 -m unittest discover -s tests -p 'test_*.py'`
   `py -3.13 scripts/run_full_benchmark.py --symbols FPT,VNM,MWG,VCB,MBB,CMG,HVN,VJC,BHN --n_tests 20`
 - **Expected Output:** 9 file JSON kết quả mới trong `backtest_result/clean_a20/` với 100% test points hoàn thành không lỗi.
 - **Acceptance Criteria:**
+  - Dynamic alpha tại nến quyết định dùng giá trị đã chuẩn hóa và đủ lịch sử; không còn fallback Volume proxy trong benchmark có OHLCV thật.
+  - Alpha ranking không ưu tiên chiều LONG; Decision Agent nhận Alpha và Sentiment như hai nguồn bằng chứng tách biệt với thứ tự ưu tiên rõ ràng.
+  - Mốc giá không đổi được gán `DOWN`, không tính LONG là dự báo đúng khi lợi nhuận gộp bằng 0 nhưng lợi nhuận ròng âm do phí.
   - Toàn bộ kết quả sinh ra dưới giao thức `paired_shared_reports`.
   - Có đầy đủ các chỉ số thống kê (McNemar, Wilcoxon, Bootstrap CI).
   - Không có bất kỳ hiện tượng rò rỉ dữ liệu nào.

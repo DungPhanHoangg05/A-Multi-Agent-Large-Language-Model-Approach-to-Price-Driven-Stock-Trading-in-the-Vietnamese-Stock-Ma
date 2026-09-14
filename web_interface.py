@@ -123,10 +123,17 @@ class WebTradingAnalyzer:
 
     def load_data(self, stock_code: str, tail: int = None, interval: str = "1d") -> tuple:
         print(f"[Analyzer] Fetching {stock_code} ({interval}) via vnstock...")
+        lookback_days = None
+        if tail is None and interval == "1d":
+            # Biểu đồ chỉ render 45 nến, nhưng Alpha Agent cần snapshot
+            # dài cho SMA100/ADV60/decay180 và các factor dài hơn.
+            tail = 600
+            lookback_days = 900
         return fetch_realtime_ohlcv(
             symbol=stock_code,
             interval=interval,
-            tail=tail,        # None → auto from TIMEFRAME_CONFIG
+            lookback_days=lookback_days,
+            tail=tail,
         )
 
     # ── Analysis ──────────────────────────────────────────────────────────────
@@ -165,8 +172,11 @@ class WebTradingAnalyzer:
                                columns=", ".join(map(str, df_slice.columns))),
                 }
 
+            payload_columns = required_columns + (
+                ["Volume"] if "Volume" in df_slice.columns else []
+            )
             df_slice_dict: Dict[str, Any] = {}
-            for col in required_columns:
+            for col in payload_columns:
                 if col == "Datetime":
                     df_slice_dict[col] = df_slice[col].dt.strftime("%Y-%m-%d %H:%M:%S").tolist()
                 else:
@@ -185,6 +195,7 @@ class WebTradingAnalyzer:
                 "stock_name":       asset_name,
                 "pattern_image":    p_image["pattern_image"],
                 "trend_image":      t_image["trend_image"],
+                "point_in_time_df": df.tail(600).copy(),
                 # Ngôn ngữ đầu ra cho toàn bộ agent trong pipeline
                 "language":         lang,
             }
