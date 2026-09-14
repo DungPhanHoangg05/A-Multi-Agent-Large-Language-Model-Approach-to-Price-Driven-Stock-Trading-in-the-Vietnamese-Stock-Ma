@@ -75,8 +75,8 @@ class TestPoint:
     window_end: str
     actual_prev_close: float
     actual_next_close: float
-    actual_direction: str           # "UP" | "DOWN"
-    actual_pct_change: float        # % thay đổi thực tế
+    actual_direction: str           # "UP" nếu net return LONG > 0, ngược lại "DOWN"
+    actual_pct_change: float        # % return Open-to-Close sau phí
 
     # Full system (có Alpha Agent)
     pred_full: str                  # "LONG" | "SHORT" | "UNKNOWN"
@@ -94,9 +94,13 @@ class TestPoint:
     time_full_sec: float
     time_no_alpha_sec: float
 
-    # Hợp đồng tài khoản: vào tại Open(e), thoát tại Close(e-1+L)
+    # Giá tham chiếu của điểm dự báo: Open(e) và Close(e-1+L).
+    # Tài khoản trạng thái có thể BUY/HOLD/SELL/CASH tại Open(e), sau đó
+    # định giá vị thế còn mở tại Close(e-1+L).
     entry_open: float = 0.0
     exit_close: float = 0.0
+    entry_price_vnd: float = 0.0
+    exit_price_vnd: float = 0.0
     entry_time: str = ""
     exit_time: str = ""
     execution_pct_change: float = 0.0  # gross return Open(e) -> Close(exit)
@@ -108,6 +112,18 @@ class TestPoint:
     account_return_no_alpha: float = 0.0
     equity_full: float = 1.0
     equity_no_alpha: float = 1.0
+    cash_full_vnd: float = 0.0
+    cash_no_alpha_vnd: float = 0.0
+    shares_full: float = 0.0
+    shares_no_alpha: float = 0.0
+    position_value_full_vnd: float = 0.0
+    position_value_no_alpha_vnd: float = 0.0
+    equity_full_vnd: float = 0.0
+    equity_no_alpha_vnd: float = 0.0
+    transaction_fee_full_vnd: float = 0.0
+    transaction_fee_no_alpha_vnd: float = 0.0
+    slippage_cost_full_vnd: float = 0.0
+    slippage_cost_no_alpha_vnd: float = 0.0
 
     # P&L lãi kép tại thời điểm này
     pnl_full: float = 0.0           # % lợi nhuận lũy kế Full system
@@ -130,6 +146,11 @@ class PartialSummary:
     n_correct_no: int = 0
     pnl_full: float = 0.0
     pnl_no_alpha: float = 0.0
+    pnl_full_vnd: float = 0.0
+    pnl_no_alpha_vnd: float = 0.0
+    equity_full_vnd: float = 50_000_000.0
+    equity_no_alpha_vnd: float = 50_000_000.0
+    initial_capital_vnd: float = 50_000_000.0
     sharpe_full: float = 0.0
     sharpe_no_alpha: float = 0.0
     mdd_full: float = 0.0
@@ -150,6 +171,12 @@ class AccountMetrics:
     avg_trade_pct: float
     equity_curve: List[float]
     period_returns: List[float]
+    initial_capital_vnd: float
+    final_equity_vnd: float
+    total_pnl_vnd: float
+    final_cash_vnd: float
+    final_shares: float
+    equity_curve_vnd: List[float]
 
 @dataclass
 class BacktestSummary:
@@ -205,22 +232,23 @@ class BacktestSummary:
     avg_trade_no_alpha: float = 0.0
     equity_curve_full: List[float] = field(default_factory=lambda: [1.0])
     equity_curve_no_alpha: List[float] = field(default_factory=lambda: [1.0])
+    initial_capital_vnd: float = 50_000_000.0
+    equity_full_vnd: float = 50_000_000.0
+    equity_no_alpha_vnd: float = 50_000_000.0
+    pnl_full_vnd: float = 0.0
+    pnl_no_alpha_vnd: float = 0.0
+    cash_full_vnd: float = 50_000_000.0
+    cash_no_alpha_vnd: float = 50_000_000.0
+    shares_full: float = 0.0
+    shares_no_alpha: float = 0.0
+    equity_curve_full_vnd: List[float] = field(default_factory=lambda: [50_000_000.0])
+    equity_curve_no_alpha_vnd: List[float] = field(default_factory=lambda: [50_000_000.0])
 
     test_points: List[dict] = field(default_factory=list)
 
 
-def compute_account_metrics(
-    test_points: List[TestPoint],
-    allow_shorting: bool = False,
-    fee: float = 0.0025,
-    slippage: float = 0.001,
-) -> Dict[str, AccountMetrics]:
-    """Tính sổ tài khoản lãi kép cho Full và No-Alpha theo Account Contract.
-
-    ``actual_pct_change`` là nhãn phân loại Close-to-Close, còn P&L kinh tế
-    luôn dùng ``entry_open`` -> ``exit_close``. Hai đại lượng được lưu riêng để
-    một gap giá không làm giao diện diễn giải nhầm dấu lợi nhuận.
-    """
+def _validate_account_costs(fee: float, slippage: float) -> Tuple[float, float, float]:
+    """Chuẩn hóa chi phí và trả về (fee, slippage, total_cost)."""
 
     def validate_cost(name: str, value: float) -> float:
         try:
@@ -231,19 +259,71 @@ def compute_account_metrics(
             raise ValueError(f"{name} phải là số hữu hạn không âm")
         return parsed
 
-    fee = validate_cost("fee", fee)
-    slippage = validate_cost("slippage", slippage)
-    total_cost = fee + slippage
+    parsed_fee = validate_cost("fee", fee)
+    parsed_slippage = validate_cost("slippage", slippage)
+    total_cost = parsed_fee + parsed_slippage
     if total_cost >= 1.0:
         raise ValueError("Tổng fee + slippage phải nhỏ hơn 100%")
+    return parsed_fee, parsed_slippage, total_cost
+
+
+def compute_round_trip_net_return(
+    entry_open: float,
+    exit_close: float,
+    fee: float = 0.0025,
+    slippage: float = 0.001,
+) -> float:
+    """Return của một vòng BUY rồi SELL, tính phí và trượt giá từng chiều."""
+    fee, slippage, _ = _validate_account_costs(fee, slippage)
+    entry_open = float(entry_open)
+    exit_close = float(exit_close)
+    if (
+        not np.isfinite(entry_open)
+        or not np.isfinite(exit_close)
+        or entry_open <= 0.0
+        or exit_close <= 0.0
+    ):
+        raise ValueError("Giá entry/exit phải là số dương hữu hạn")
+    buy_factor = (1.0 + slippage) * (1.0 + fee)
+    sell_factor = (1.0 - slippage) * (1.0 - fee)
+    return exit_close / entry_open * sell_factor / buy_factor - 1.0
+
+
+def compute_account_metrics(
+    test_points: List[TestPoint],
+    allow_shorting: bool = False,
+    fee: float = 0.0025,
+    slippage: float = 0.001,
+    initial_capital_vnd: float = 50_000_000.0,
+    price_multiplier: float = 1_000.0,
+) -> Dict[str, AccountMetrics]:
+    """Mô phỏng hai tài khoản BUY/HOLD/SELL độc lập bằng tiền Việt Nam.
+
+    LONG khi đang CASH mua bằng toàn bộ tiền; LONG khi đã có cổ phiếu là HOLD.
+    SHORT bán toàn bộ vị thế hiện có; nếu không có vị thế thì giữ CASH. Phí môi
+    giới và trượt giá được áp dụng riêng tại mỗi lần BUY và SELL.
+    """
+
+    del allow_shorting  # Giữ tham số tương thích; hợp đồng mới luôn là long-only.
+    fee, slippage, _ = _validate_account_costs(fee, slippage)
+    initial_capital_vnd = float(initial_capital_vnd)
+    price_multiplier = float(price_multiplier)
+    if not np.isfinite(initial_capital_vnd) or initial_capital_vnd <= 0.0:
+        raise ValueError("initial_capital_vnd phải là số dương hữu hạn")
+    if not np.isfinite(price_multiplier) or price_multiplier <= 0.0:
+        raise ValueError("price_multiplier phải là số dương hữu hạn")
 
     def compute_variant(prediction_field: str, variant: str) -> AccountMetrics:
-        wealth = 1.0
-        equity_curve = [wealth]
+        cash_vnd = initial_capital_vnd
+        shares = 0.0
+        position_cost_basis_vnd = 0.0
+        previous_equity_vnd = initial_capital_vnd
+        equity_curve_vnd = [initial_capital_vnd]
+        equity_curve = [1.0]
         period_returns: List[float] = []
         executed_returns: List[float] = []
-        capital_release_time: Optional[pd.Timestamp] = None
         previous_entry_time: Optional[pd.Timestamp] = None
+        previous_exit_time: Optional[pd.Timestamp] = None
 
         for point in test_points:
             prediction = getattr(point, prediction_field)
@@ -277,76 +357,107 @@ def compute_account_metrics(
                 )
             if previous_entry_time is not None and entry_time < previous_entry_time:
                 raise ValueError("TestPoint phải được sắp xếp theo entry_time tăng dần")
+            if previous_exit_time is not None and entry_time <= previous_exit_time:
+                raise ValueError(
+                    "Các test point chồng lấn thời gian; tài khoản trạng thái yêu cầu "
+                    "step >= lookahead"
+                )
             previous_entry_time = entry_time
+            previous_exit_time = exit_time
 
             long_gross_return = exit_close / entry_open - 1.0
             point.execution_pct_change = round(long_gross_return * 100.0, 8)
-            is_executed = False
-            net_return = 0.0
-            executed_action = "CASH"
+            entry_price_vnd = entry_open * price_multiplier
+            mark_price_vnd = exit_close * price_multiplier
+            point.entry_price_vnd = round(entry_price_vnd, 4)
+            point.exit_price_vnd = round(mark_price_vnd, 4)
+            executed_action = "HOLD" if shares > 0.0 else "CASH"
             skip_reason = ""
+            transaction_fee_vnd = 0.0
+            slippage_cost_vnd = 0.0
 
             if prediction == "LONG":
-                if capital_release_time is not None and entry_time <= capital_release_time:
-                    skip_reason = "OVERLAP_CAPITAL_LOCKED"
+                if shares > 0.0:
+                    executed_action = "HOLD"
+                    skip_reason = "ALREADY_LONG"
                 else:
-                    net_return = long_gross_return - total_cost
-                    executed_action = "LONG"
-                    is_executed = True
-            elif prediction == "SHORT" and allow_shorting:
-                if capital_release_time is not None and entry_time <= capital_release_time:
-                    skip_reason = "OVERLAP_CAPITAL_LOCKED"
-                else:
-                    gross_return = (entry_open - exit_close) / entry_open
-                    net_return = gross_return - total_cost
-                    executed_action = "SHORT"
-                    is_executed = True
+                    effective_buy_price = entry_price_vnd * (1.0 + slippage)
+                    execution_notional = cash_vnd / (1.0 + fee)
+                    shares = execution_notional / effective_buy_price
+                    transaction_fee_vnd = execution_notional * fee
+                    slippage_cost_vnd = shares * entry_price_vnd * slippage
+                    position_cost_basis_vnd = cash_vnd
+                    cash_vnd = max(
+                        0.0,
+                        cash_vnd - execution_notional - transaction_fee_vnd,
+                    )
+                    executed_action = "BUY"
             elif prediction == "SHORT":
-                skip_reason = "SHORT_DISABLED"
+                if shares > 0.0:
+                    quoted_sell_value = shares * entry_price_vnd
+                    gross_sell_value = quoted_sell_value * (1.0 - slippage)
+                    transaction_fee_vnd = gross_sell_value * fee
+                    slippage_cost_vnd = quoted_sell_value - gross_sell_value
+                    net_sell_value = gross_sell_value - transaction_fee_vnd
+                    closed_trade_return = (
+                        net_sell_value / position_cost_basis_vnd - 1.0
+                        if position_cost_basis_vnd > 0.0
+                        else 0.0
+                    )
+                    executed_returns.append(closed_trade_return)
+                    cash_vnd += net_sell_value
+                    shares = 0.0
+                    position_cost_basis_vnd = 0.0
+                    executed_action = "SELL"
+                else:
+                    executed_action = "CASH"
+                    skip_reason = "NO_POSITION"
             else:
                 skip_reason = "INVALID_PREDICTION"
 
-            if net_return <= -1.0 or not np.isfinite(net_return):
-                raise ValueError(
-                    f"TestPoint {point.test_id}: account return không hợp lệ "
-                    f"({net_return * 100.0:.8f}%)"
-                )
-
-            # SHORT khi cấm bán khống và UNKNOWN đều được thực thi thành CASH.
-            if is_executed:
-                executed_returns.append(net_return)
-                capital_release_time = exit_time
-            period_returns.append(net_return)
-            previous_wealth = wealth
-            next_wealth = previous_wealth * (1.0 + net_return)
-            if not np.isfinite(next_wealth) or next_wealth <= 0.0:
+            # Mark-to-liquidation: vị thế mở được định giá theo số tiền ròng
+            # sẽ nhận nếu bán tại giá Close hiện tại, gồm phí và slippage bán.
+            position_value_vnd = (
+                shares * mark_price_vnd * (1.0 - slippage) * (1.0 - fee)
+            )
+            equity_vnd = cash_vnd + position_value_vnd
+            if not np.isfinite(equity_vnd) or equity_vnd < 0.0:
                 raise ValueError(
                     f"TestPoint {point.test_id}: equity sau giao dịch không hợp lệ"
                 )
-            if net_return < 0.0 and not next_wealth < previous_wealth:
-                raise AssertionError(
-                    f"TestPoint {point.test_id}: return âm nhưng equity không giảm"
-                )
-            if net_return > 0.0 and not next_wealth > previous_wealth:
-                raise AssertionError(
-                    f"TestPoint {point.test_id}: return dương nhưng equity không tăng"
-                )
-            wealth = round(next_wealth, 12)
-            equity_curve.append(wealth)
+            period_return = equity_vnd / previous_equity_vnd - 1.0
+            previous_equity_vnd = equity_vnd
+            period_returns.append(period_return)
+            equity_ratio = equity_vnd / initial_capital_vnd
+            equity_curve_vnd.append(round(equity_vnd, 4))
+            equity_curve.append(round(equity_ratio, 12))
 
-            cumulative_return_pct = (wealth - 1.0) * 100.0
+            cumulative_return_pct = (equity_ratio - 1.0) * 100.0
+            pnl_vnd = equity_vnd - initial_capital_vnd
             if variant == "full":
                 point.executed_action_full = executed_action
                 point.execution_skip_reason_full = skip_reason
-                point.account_return_full = round(net_return * 100.0, 8)
-                point.equity_full = wealth
+                point.account_return_full = round(period_return * 100.0, 8)
+                point.equity_full = round(equity_ratio, 12)
                 point.pnl_full = round(cumulative_return_pct, 8)
+                point.cash_full_vnd = round(cash_vnd, 4)
+                point.shares_full = round(shares, 8)
+                point.position_value_full_vnd = round(position_value_vnd, 4)
+                point.equity_full_vnd = round(equity_vnd, 4)
+                point.transaction_fee_full_vnd = round(transaction_fee_vnd, 4)
+                point.slippage_cost_full_vnd = round(slippage_cost_vnd, 4)
             else:
                 point.executed_action_no_alpha = executed_action
                 point.execution_skip_reason_no_alpha = skip_reason
-                point.account_return_no_alpha = round(net_return * 100.0, 8)
-                point.equity_no_alpha = wealth
+                point.account_return_no_alpha = round(period_return * 100.0, 8)
+                point.equity_no_alpha = round(equity_ratio, 12)
                 point.pnl_no_alpha = round(cumulative_return_pct, 8)
+                point.cash_no_alpha_vnd = round(cash_vnd, 4)
+                point.shares_no_alpha = round(shares, 8)
+                point.position_value_no_alpha_vnd = round(position_value_vnd, 4)
+                point.equity_no_alpha_vnd = round(equity_vnd, 4)
+                point.transaction_fee_no_alpha_vnd = round(transaction_fee_vnd, 4)
+                point.slippage_cost_no_alpha_vnd = round(slippage_cost_vnd, 4)
 
         returns_array = np.asarray(period_returns, dtype=float)
         if returns_array.size:
@@ -389,8 +500,9 @@ def compute_account_metrics(
             else 0.0
         )
 
+        final_equity_vnd = previous_equity_vnd
         return AccountMetrics(
-            total_return_pct=(wealth - 1.0) * 100.0,
+            total_return_pct=(final_equity_vnd / initial_capital_vnd - 1.0) * 100.0,
             sharpe_ratio=float(sharpe),
             sortino_ratio=float(sortino),
             max_drawdown_pct=max_drawdown_pct,
@@ -398,6 +510,12 @@ def compute_account_metrics(
             avg_trade_pct=avg_trade_pct,
             equity_curve=equity_curve,
             period_returns=[float(value) for value in period_returns],
+            initial_capital_vnd=initial_capital_vnd,
+            final_equity_vnd=final_equity_vnd,
+            total_pnl_vnd=final_equity_vnd - initial_capital_vnd,
+            final_cash_vnd=cash_vnd,
+            final_shares=shares,
+            equity_curve_vnd=equity_curve_vnd,
         )
 
     return {
@@ -509,13 +627,13 @@ class BacktestEngine:
         self, df: pd.DataFrame, end_idx: int, lookahead: int = 1
     ) -> Tuple[str, float, float, float, float]:
         """
-        Lấy hướng thực tế sau cửa sổ phân tích.
+        Lấy nhãn kinh tế sau cửa sổ phân tích.
 
         Args:
             end_idx   : index cuối cửa sổ (nến cuối cùng agent nhìn thấy)
             lookahead : số nến phía trước để đánh giá.
-                        - 1 = so sánh close[end_idx-1] vs close[end_idx]     (T+1)
-                        - 3 = so sánh close[end_idx-1] vs close[end_idx+2]   (T+2.5)
+                        - 1 = entry Open[end_idx], exit Close[end_idx]
+                        - 3 = entry Open[end_idx], exit Close[end_idx+2]
 
         Quy ước: prev_close = close cuối cửa sổ (end_idx - 1)
                  entry_open = open đầu kỳ thực thi (end_idx)
@@ -527,10 +645,27 @@ class BacktestEngine:
         prev_close = float(df["Close"].iloc[end_idx - 1])
         entry_open = float(df["Open"].iloc[end_idx])
         next_close = float(df["Close"].iloc[target_idx])
-        pct_chg    = round((next_close - prev_close) / prev_close * 100, 4) if prev_close else 0.0
-        # Bài toán phân loại là nhị phân. Giá hòa không được
-        # coi là LONG đúng vì giao dịch mua vẫn chịu chi phí 0,35%.
-        direction  = "UP" if next_close > prev_close else "DOWN"
+        if (
+            not np.isfinite(entry_open)
+            or not np.isfinite(next_close)
+            or entry_open <= 0.0
+            or next_close <= 0.0
+        ):
+            raise ValueError("Giá entry/exit phải là số dương hữu hạn")
+        fee, slippage, _ = _validate_account_costs(
+            self.config.get("tx_cost", 0.0025),
+            self.config.get("slippage", 0.001),
+        )
+        net_return = compute_round_trip_net_return(
+            entry_open,
+            next_close,
+            fee=fee,
+            slippage=slippage,
+        )
+        pct_chg = round(net_return * 100.0, 4)
+        # Nhãn accuracy dùng cùng return sau phí với tài khoản. Nhờ đó LONG
+        # chỉ đúng khi vị thế mua thực thi tạo lợi nhuận ròng dương.
+        direction = "UP" if net_return > 0.0 else "DOWN"
         return direction, prev_close, next_close, pct_chg, entry_open
 
     # ── Prediction parser ──────────────────────────────────────────────────────
@@ -731,6 +866,8 @@ class BacktestEngine:
             allow_shorting=self.config.get("allow_shorting", False),
             fee=self.config.get("tx_cost", 0.0025),
             slippage=self.config.get("slippage", 0.001),
+            initial_capital_vnd=self.config.get("initial_capital_vnd", 50_000_000.0),
+            price_multiplier=self.config.get("price_multiplier", 1_000.0),
         )
         full_account = account["full"]
         no_alpha_account = account["no_alpha"]
@@ -742,6 +879,11 @@ class BacktestEngine:
             n_correct_full=cf, n_correct_no=cn,
             pnl_full=round(full_account.total_return_pct, 2),
             pnl_no_alpha=round(no_alpha_account.total_return_pct, 2),
+            pnl_full_vnd=round(full_account.total_pnl_vnd, 0),
+            pnl_no_alpha_vnd=round(no_alpha_account.total_pnl_vnd, 0),
+            equity_full_vnd=round(full_account.final_equity_vnd, 0),
+            equity_no_alpha_vnd=round(no_alpha_account.final_equity_vnd, 0),
+            initial_capital_vnd=full_account.initial_capital_vnd,
             sharpe_full=round(full_account.sharpe_ratio, 2),
             sharpe_no_alpha=round(no_alpha_account.sharpe_ratio, 2),
             mdd_full=round(full_account.max_drawdown_pct, 2),
@@ -782,6 +924,8 @@ class BacktestEngine:
             allow_shorting=self.config.get("allow_shorting", False),
             fee=self.config.get("tx_cost", 0.0025),
             slippage=self.config.get("slippage", 0.001),
+            initial_capital_vnd=self.config.get("initial_capital_vnd", 50_000_000.0),
+            price_multiplier=self.config.get("price_multiplier", 1_000.0),
         )
         full_account = account["full"]
         no_alpha_account = account["no_alpha"]
@@ -820,6 +964,17 @@ class BacktestEngine:
             avg_trade_no_alpha=round(no_alpha_account.avg_trade_pct, 2),
             equity_curve_full=full_account.equity_curve,
             equity_curve_no_alpha=no_alpha_account.equity_curve,
+            initial_capital_vnd=full_account.initial_capital_vnd,
+            equity_full_vnd=round(full_account.final_equity_vnd, 0),
+            equity_no_alpha_vnd=round(no_alpha_account.final_equity_vnd, 0),
+            pnl_full_vnd=round(full_account.total_pnl_vnd, 0),
+            pnl_no_alpha_vnd=round(no_alpha_account.total_pnl_vnd, 0),
+            cash_full_vnd=round(full_account.final_cash_vnd, 0),
+            cash_no_alpha_vnd=round(no_alpha_account.final_cash_vnd, 0),
+            shares_full=round(full_account.final_shares, 8),
+            shares_no_alpha=round(no_alpha_account.final_shares, 8),
+            equity_curve_full_vnd=full_account.equity_curve_vnd,
+            equity_curve_no_alpha_vnd=no_alpha_account.equity_curve_vnd,
             test_points=[asdict(tp) for tp in tps],
         )
 
@@ -863,14 +1018,19 @@ class BacktestEngine:
         self._stop_event.clear()
         self._started_at = datetime.now().isoformat()
 
-        if self._graph_upstream is None:
-            self._init_graphs()
-
         # ── Xác định lookahead theo quy định T+2.5 ────────────────────────
         from utils.static_util import get_forecast_horizon
         horizon   = get_forecast_horizon(timeframe)
         lookahead = horizon["lookahead_candles"]   # 1 (intraday) hoặc 3 (daily)
         h_val     = horizon["horizon_val"]
+        if step < lookahead:
+            raise ValueError(
+                f"step={step} nhỏ hơn horizon={lookahead}; tài khoản BUY/HOLD/SELL "
+                "không cho phép các kỳ định giá chồng lấn"
+            )
+
+        if self._graph_upstream is None:
+            self._init_graphs()
 
         # Mọi mốc quyết định phải có đủ 600 nến tiền kiểm tra
         # cho cả tuyển chọn và thực thi Alpha. Thiếu dữ liệu thì
@@ -914,10 +1074,13 @@ class BacktestEngine:
 
             print(f"  Cửa sổ : {ws} → {we}")
             execution_pct = (nc / entry_open - 1.0) * 100.0
-            print(f"  Nhãn C→C: {actual_dir}  {pc:.2f} → {nc:.2f}  ({pct:+.2f}%)")
+            print(
+                f"  Nhãn net O→C: {actual_dir}  {entry_open:.2f} → {nc:.2f}  "
+                f"({pct:+.2f}% sau phí)"
+            )
             print(
                 f"  Thực thi O→C: {entry_open:.2f} → {nc:.2f}  "
-                f"({execution_pct:+.2f}% trước phí)"
+                f"({execution_pct:+.2f}% trước phí; decision close={pc:.2f})"
             )
 
             # ── Paired shared-reports protocol ─────────────────────────
@@ -1013,6 +1176,14 @@ class BacktestEngine:
         print(f"  Độ chính xác Full : {summary.acc_full}%")
         print(f"  Độ chính xác No-α : {summary.acc_no_alpha}%")
         print(f"  Alpha Lift        : {summary.alpha_lift:+.1f}%")
+        print(
+            f"  Tài khoản Full    : {summary.equity_full_vnd:,.0f} VND "
+            f"({summary.pnl_full:+.2f}%)"
+        )
+        print(
+            f"  Tài khoản No-Alpha: {summary.equity_no_alpha_vnd:,.0f} VND "
+            f"({summary.pnl_no_alpha:+.2f}%)"
+        )
         print(f"  McNemar p-value   : {summary.mcnemar_p_value:.6f}")
         print(
             "  Alpha Lift CI 95% : "
@@ -1031,8 +1202,8 @@ class BacktestEngine:
             return
 
         test_ids = [p['test_id'] for p in points]
-        equity_full = summary.equity_curve_full
-        equity_no_alpha = summary.equity_curve_no_alpha
+        equity_full = summary.equity_curve_full_vnd
+        equity_no_alpha = summary.equity_curve_no_alpha_vnd
 
         correct_full = [1 if p['correct_full'] else 0 for p in points]
         correct_no_alpha = [1 if p['correct_no_alpha'] else 0 for p in points]
@@ -1054,24 +1225,25 @@ class BacktestEngine:
         c_no_alpha = '#00B050'
 
         # Left: compounded account equity
-        ax1.set_title(f"Compounded Account Equity — {symbol}", fontsize=13, fontweight='bold', pad=15)
+        ax1.set_title(f"BUY/HOLD/SELL Account Equity — {symbol}", fontsize=13, fontweight='bold', pad=15)
         ax1.set_xlabel("Test #", fontsize=11, color='#4b5563')
-        ax1.set_ylabel("Account Equity (W0 = 1.0)", fontsize=11, color='#4b5563')
+        ax1.set_ylabel("Account Equity (VND)", fontsize=11, color='#4b5563')
 
-        label_full = f"Full ($\\alpha$) [{summary.pnl_full:+.2f}%]"
-        label_no = f"No-$\\alpha$ [{summary.pnl_no_alpha:+.2f}%]"
+        label_full = f"Full ($\\alpha$) [{summary.equity_full_vnd:,.0f} VND; {summary.pnl_full:+.2f}%]"
+        label_no = f"No-$\\alpha$ [{summary.equity_no_alpha_vnd:,.0f} VND; {summary.pnl_no_alpha:+.2f}%]"
         equity_test_ids = [0] + test_ids
+        initial_capital = summary.initial_capital_vnd
 
         ax1.plot(equity_test_ids, equity_full, color=c_full, label=label_full, marker='o', markersize=5, linewidth=2.5)
         ax1.plot(equity_test_ids, equity_no_alpha, color=c_no_alpha, label=label_no, marker='s', markersize=5, linestyle='--', linewidth=2.5)
 
-        ax1.axhline(1.0, color='gray', linestyle='dotted', linewidth=1, alpha=0.7)
+        ax1.axhline(initial_capital, color='gray', linestyle='dotted', linewidth=1, alpha=0.7)
 
         equity_full_arr = np.array(equity_full)
-        ax1.fill_between(equity_test_ids, equity_full_arr, 1.0, where=(equity_full_arr >= 1.0), color=c_full, alpha=0.1)
-        ax1.fill_between(equity_test_ids, equity_full_arr, 1.0, where=(equity_full_arr < 1.0), color='#ef4444', alpha=0.1)
+        ax1.fill_between(equity_test_ids, equity_full_arr, initial_capital, where=(equity_full_arr >= initial_capital), color=c_full, alpha=0.1)
+        ax1.fill_between(equity_test_ids, equity_full_arr, initial_capital, where=(equity_full_arr < initial_capital), color='#ef4444', alpha=0.1)
 
-        ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:.3f}x'))
+        ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x / 1_000_000:.1f}M'))
         ax1.tick_params(axis='both', colors='#374151', labelsize=14)
         ax1.set_xticks(equity_test_ids)
         ax1.legend(loc='upper left', framealpha=1, edgecolor='#d1d5db')
