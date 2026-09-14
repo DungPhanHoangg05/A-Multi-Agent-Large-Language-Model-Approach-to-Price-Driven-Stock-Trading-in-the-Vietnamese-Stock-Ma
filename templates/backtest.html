@@ -1287,6 +1287,8 @@
             const noActionNote = accountActionText(tp, 'no_alpha');
             const fullAction = (tp.executed_action_full || 'CASH') + (fullActionNote ? `: ${fullActionNote}` : '');
             const noAction = (tp.executed_action_no_alpha || 'CASH') + (noActionNote ? `: ${noActionNote}` : '');
+            const fullSource = tp.decision_source_full === 'fallback_conservative' ? ` [${tr('bt_decision_fallback')}]` : '';
+            const noSource = tp.decision_source_no_alpha === 'fallback_conservative' ? ` [${tr('bt_decision_fallback')}]` : '';
             const prog = document.getElementById('progressFill');
             const cnt = document.getElementById('progressCount');
             const nT = parseInt(document.getElementById('nTotal').textContent) || 1;
@@ -1297,8 +1299,8 @@
                 `<strong>${tr('bt_test')} ${done}</strong> - ${tp.window_start} → ${tp.window_end} &nbsp;|&nbsp; ` +
                 `${tr('bt_actual')}: ${dir} ${pct} &nbsp;|&nbsp; ` +
                 `${tr('bt_execution')}: ${formatVnd(tp.entry_price_vnd)} → ${formatVnd(tp.exit_price_vnd)} (${executionPct}) &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}</strong> ${tp.correct_full ? '✅' : '❌'} → ${fullAction} · ${fullPeriod} · ${formatVnd(tp.equity_full_vnd)} &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}</strong> ${tp.correct_no_alpha ? '✅' : '❌'} → ${noAction} · ${noPeriod} · ${formatVnd(tp.equity_no_alpha_vnd)}`;
+                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}${fullSource}</strong> ${tp.correct_full ? '✅' : '❌'} → ${fullAction} · ${fullPeriod} · ${formatVnd(tp.equity_full_vnd)} &nbsp;|&nbsp; ` +
+                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}${noSource}</strong> ${tp.correct_no_alpha ? '✅' : '❌'} → ${noAction} · ${noPeriod} · ${formatVnd(tp.equity_no_alpha_vnd)}`;
         }
 
         function signedPct(value) {
@@ -1371,11 +1373,16 @@
                 const pct = signedPct(tp.actual_pct_change);
                 const executionPct = signedPct(tp.execution_pct_change);
 
-                const predBadge = pred => pred === 'LONG'
+                const predBadge = (pred, source) => {
+                    const badge = pred === 'LONG'
                     ? `<span class="badge badge-long">LONG</span>`
                     : pred === 'SHORT'
                         ? `<span class="badge badge-short">SHORT</span>`
                         : `<span class="badge badge-unk">?</span>`;
+                    return source === 'fallback_conservative'
+                        ? `${badge}<br><span style="font-size:.65rem;color:#d97706;white-space:nowrap;">${tr('bt_decision_fallback')}</span>`
+                        : badge;
+                };
 
                 const okBadge = ok => ok
                     ? `<span class="badge badge-ok">✅</span>`
@@ -1391,10 +1398,10 @@
       <td style="font-size:.75rem;">${tp.window_start}<br><span style="color:var(--gray-4);">→ ${tp.window_end}</span></td>
       <td>${dirBadge}<br><span style="font-size:.72rem;color:var(--gray-4);">${pct}</span></td>
       <td style="font-size:.75rem;white-space:nowrap;">O ${formatVnd(tp.entry_price_vnd)} → C ${formatVnd(tp.exit_price_vnd)}<br><span style="color:var(--gray-4);">${executionPct}</span></td>
-      <td>${predBadge(tp.pred_full)}</td>
+      <td>${predBadge(tp.pred_full, tp.decision_source_full)}</td>
       <td>${okBadge(tp.correct_full)}</td>
       <td>${accountReturnCell(tp, 'full')}</td>
-      <td>${predBadge(tp.pred_no_alpha)}</td>
+      <td>${predBadge(tp.pred_no_alpha, tp.decision_source_no_alpha)}</td>
       <td>${okBadge(tp.correct_no_alpha)}</td>
       <td>${accountReturnCell(tp, 'no_alpha')}</td>
       <td style="font-size:.8rem;">${alphaAdds}</td>

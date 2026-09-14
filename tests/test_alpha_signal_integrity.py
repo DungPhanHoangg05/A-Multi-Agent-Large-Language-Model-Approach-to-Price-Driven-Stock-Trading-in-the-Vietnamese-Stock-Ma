@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import sys
@@ -14,7 +15,11 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from agents.alpha_agent import _compute_all_alphas
-from agents.decision_agent import _distill_report, create_final_trade_decider
+from agents.decision_agent import (
+    _distill_report,
+    _safe_parse_and_enrich,
+    create_final_trade_decider,
+)
 from core.alpha_compare import build_forward_execution_returns, rank_alphas
 from core.backtest_engine import (
     ALPHA_HISTORY_CANDLES,
@@ -47,7 +52,61 @@ class _DecisionLlm:
         )
 
 
+class _EmptyDecisionLlm:
+    def invoke(self, _messages):
+        return SimpleNamespace(content="")
+
+
 class AlphaSignalIntegrityTests(unittest.TestCase):
+    def test_empty_llm_output_falls_back_to_conservative_short(self):
+        normalized = json.loads(_safe_parse_and_enrich("", "BHN", lang="vi"))
+
+        self.assertEqual(normalized["decision"], "SHORT")
+        self.assertEqual(normalized["decision_source"], "fallback_conservative")
+        self.assertEqual(normalized["fallback_reason"], "EMPTY_RESPONSE")
+
+    def test_neutral_llm_output_is_forced_to_binary_short(self):
+        normalized = json.loads(
+            _safe_parse_and_enrich(
+                '{"decision":"NEUTRAL","justification":"Không đủ tín hiệu"}',
+                "BHN",
+                lang="vi",
+            )
+        )
+
+        self.assertEqual(normalized["decision"], "SHORT")
+        self.assertEqual(normalized["decision_source"], "fallback_conservative")
+        self.assertEqual(normalized["fallback_reason"], "NO_BINARY_DECISION")
+
+    def test_malformed_json_recovers_explicit_long_from_text(self):
+        normalized = json.loads(
+            _safe_parse_and_enrich(
+                'Phân tích bị cắt giữa JSON {"decision": nhưng kết luận cuối cùng: LONG',
+                "BHN",
+                lang="vi",
+            )
+        )
+
+        self.assertEqual(normalized["decision"], "LONG")
+        self.assertEqual(normalized["decision_source"], "llm_text_recovery")
+
+    def test_decision_node_never_emits_unknown_for_empty_content(self):
+        state = {
+            "stock_name": "BHN",
+            "time_frame": "1 ngày",
+            "language": "vi",
+            "indicator_report": "indicator",
+            "pattern_report": "pattern",
+            "trend_report": "trend",
+        }
+
+        with patch("builtins.print"):
+            result = create_final_trade_decider(_EmptyDecisionLlm())(state)
+
+        decision = json.loads(result["final_trade_decision"])
+        self.assertEqual(decision["decision"], "SHORT")
+        self.assertEqual(decision["decision_source"], "fallback_conservative")
+
     def test_alpha_selection_target_matches_net_open_to_close_label(self):
         frame = pd.DataFrame(
             {

@@ -34,8 +34,11 @@ def _safe_parse_and_enrich(raw: str, stock_name: str, lang: str = "vi") -> str:
 
     data = parse_decision(raw, lang=lang)
 
-    if data.get("decision") == "UNKNOWN":
-        print("[DecisionAgent] Không trích xuất được phán quyết → giữ UNKNOWN.")
+    if data.get("decision_source") == "fallback_conservative":
+        print(
+            "[DecisionAgent] Model không trả phán quyết nhị phân → "
+            f"fallback SHORT ({data.get('fallback_reason', 'UNKNOWN_REASON')})."
+        )
         data["_raw_llm_response"] = (raw or "")[:500]
     else:
         print(f"[DecisionAgent] Phán quyết: {data['decision']} "

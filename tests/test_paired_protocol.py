@@ -24,6 +24,78 @@ class _FakeGraph:
 
 
 class PairedProtocolTests(unittest.TestCase):
+    def test_empty_final_state_is_parsed_as_conservative_short(self):
+        engine = BacktestEngine({"use_historical_sentiment": False})
+
+        decision, confidence, rr, source, reason = engine._parse_prediction({})
+
+        self.assertEqual(decision, "SHORT")
+        self.assertEqual(confidence, "Thấp")
+        self.assertEqual(rr, "1.5")
+        self.assertEqual(source, "fallback_conservative")
+        self.assertEqual(reason, "EMPTY_RESPONSE")
+
+    def test_one_decision_variant_failure_does_not_discard_the_other(self):
+        engine = BacktestEngine({"use_historical_sentiment": False})
+        engine.DELAY_BETWEEN_VARIANTS = 0.0
+        engine._graph_upstream = _FakeGraph(
+            lambda state: {
+                **state,
+                "indicator_report": "indicator",
+                "pattern_report": "pattern",
+                "trend_report": "trend",
+            }
+        )
+        engine._graph_decision_full = _FakeGraph(
+            lambda state: {
+                **state,
+                "final_trade_decision": json.dumps({"decision": "LONG"}),
+            }
+        )
+        engine._graph_decision_no_alpha = _FakeGraph(
+            lambda _state: (_ for _ in ()).throw(RuntimeError("temporary LLM error"))
+        )
+
+        with (
+            patch("utils.static_util.generate_kline_image", return_value={}),
+            patch("utils.static_util.generate_trend_image", return_value={}),
+            patch("builtins.print"),
+        ):
+            full_state, _, no_alpha_state, _ = engine._run_paired_point(
+                {"Datetime": [], "Open": [], "High": [], "Low": [], "Close": []},
+                "BHN",
+                "1 ngày",
+            )
+
+        self.assertEqual(engine._parse_prediction(full_state)[0], "LONG")
+        self.assertEqual(engine._parse_prediction(no_alpha_state)[0], "SHORT")
+        self.assertEqual(
+            engine._parse_prediction(no_alpha_state)[3],
+            "fallback_conservative",
+        )
+        self.assertIn("temporary LLM error", no_alpha_state["decision_error"])
+
+    def test_generic_paired_failure_aborts_instead_of_saving_unknown(self):
+        engine = BacktestEngine({"use_historical_sentiment": False})
+        engine._graph_upstream = object()
+        engine._run_paired_point = Mock(side_effect=RuntimeError("upstream unavailable"))
+        engine._save = Mock()
+        engine._draw_backtest_result = Mock()
+
+        with patch("builtins.print"):
+            with self.assertRaisesRegex(RuntimeError, "upstream unavailable"):
+                engine.run(
+                    self._benchmark_frame(),
+                    "BHN",
+                    timeframe="1 ngày",
+                    n_tests=1,
+                    window_size=45,
+                    step=3,
+                    result_path="unused.json",
+                )
+
+        engine._save.assert_not_called()
+
     @staticmethod
     def _benchmark_frame(periods: int = 603) -> pd.DataFrame:
         dates = pd.date_range("2022-01-03", periods=periods, freq="B")
@@ -64,6 +136,8 @@ class PairedProtocolTests(unittest.TestCase):
         paired_run.assert_called_once()
         self.assertEqual(summary.test_points[0]["pred_full"], "LONG")
         self.assertEqual(summary.test_points[0]["pred_no_alpha"], "SHORT")
+        self.assertEqual(summary.test_points[0]["decision_source_full"], "llm_json")
+        self.assertEqual(summary.test_points[0]["decision_source_no_alpha"], "llm_json")
 
     def test_dynamic_alpha_failure_aborts_benchmark_immediately(self):
         engine = BacktestEngine({"use_historical_sentiment": False})
@@ -223,7 +297,7 @@ class PairedProtocolTests(unittest.TestCase):
                     point_in_time_df=history,
                 )
 
-            prediction, _, _ = engine._parse_prediction(no_alpha_state)
+            prediction, _, _, _, _ = engine._parse_prediction(no_alpha_state)
             predictions.append(prediction)
 
         self.assertEqual(predictions, ["LONG", "LONG", "LONG"])
