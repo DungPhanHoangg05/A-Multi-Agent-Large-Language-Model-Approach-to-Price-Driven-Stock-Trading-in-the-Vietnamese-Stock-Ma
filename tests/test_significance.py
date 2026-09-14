@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
 import sys
@@ -22,6 +23,8 @@ from utils.statistical_tests import (
 
 
 def _point(test_id: int, actual: str, full: str, no_alpha: str) -> TestPoint:
+    entry_time = datetime(2024, 1, 1) + timedelta(days=(test_id - 1) * 3)
+    exit_time = entry_time + timedelta(days=2)
     return TestPoint(
         test_id=test_id,
         window_start="2024-01-01",
@@ -44,6 +47,8 @@ def _point(test_id: int, actual: str, full: str, no_alpha: str) -> TestPoint:
         time_no_alpha_sec=0.0,
         entry_open=100.0,
         exit_close=101.0 if actual == "UP" else 99.0,
+        entry_time=entry_time.isoformat(),
+        exit_time=exit_time.isoformat(),
     )
 
 
