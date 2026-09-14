@@ -815,9 +815,14 @@ def fetch_realtime_ohlcv(
     cache_key = (symbol.upper(), interval)
     if use_cache and cache_key in _cache:
         ts, cached_df = _cache[cache_key]
-        if time.time() - ts < CACHE_TTL_SECONDS:
+        if time.time() - ts < CACHE_TTL_SECONDS and len(cached_df) >= tail:
             print(f"[RealtimeLoader] Cache hit: {symbol} ({interval})")
             return cached_df.tail(tail).reset_index(drop=True), ""
+        if time.time() - ts < CACHE_TTL_SECONDS:
+            print(
+                f"[RealtimeLoader] Cache thiếu dữ liệu: "
+                f"có {len(cached_df)}/{tail} nến — tải lại."
+            )
 
     end_dt   = datetime.now()
     start_dt = end_dt - timedelta(days=lookback_days)

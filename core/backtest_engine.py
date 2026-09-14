@@ -18,6 +18,54 @@ from utils.statistical_tests import calculate_metrics_with_significance
 from utils.graph_setup import ABLATION_CONFIGS
 
 
+ALPHA_HISTORY_CANDLES = 600
+
+
+def required_backtest_rows(
+    n_tests: int,
+    window_size: int,
+    step: int,
+    lookahead: int,
+    alpha_history: int = ALPHA_HISTORY_CANDLES,
+) -> int:
+    """Số nến tối thiểu để mọi test point có đủ lịch sử Alpha."""
+    if n_tests < 1 or window_size < 1 or step < 1 or lookahead < 1:
+        raise ValueError("n_tests, window_size, step và lookahead phải là số dương")
+    decision_history = max(window_size, alpha_history)
+    return decision_history + lookahead + (n_tests - 1) * step
+
+
+def build_walk_forward_end_indices(
+    total: int,
+    n_tests: int,
+    window_size: int,
+    step: int,
+    lookahead: int,
+    alpha_history: int = ALPHA_HISTORY_CANDLES,
+) -> List[int]:
+    """Tạo đúng N mốc walk-forward, không cho phép Alpha fallback."""
+    required = required_backtest_rows(
+        n_tests, window_size, step, lookahead, alpha_history
+    )
+    if total < required:
+        raise ValueError(
+            "Không đủ dữ liệu cho dynamic alpha trong backtest: "
+            f"cần ít nhất {required} nến để {n_tests} test point "
+            f"có {max(window_size, alpha_history)} nến tiền kiểm tra; "
+            f"hiện có {total}."
+        )
+
+    max_end = total - lookahead
+    min_end = max(window_size, alpha_history)
+    latest_first = [max_end - offset * step for offset in range(n_tests)]
+    if latest_first[-1] < min_end:
+        raise ValueError(
+            f"Mốc test sớm nhất chỉ có {latest_first[-1]} nến; "
+            f"dynamic alpha cần {min_end}."
+        )
+    return list(reversed(latest_first))
+
+
 # ── Data classes ───────────────────────────────────────────────────────────────
 
 @dataclass
@@ -727,20 +775,17 @@ class BacktestEngine:
         lookahead = horizon["lookahead_candles"]   # 1 (intraday) hoặc 3 (daily)
         h_val     = horizon["horizon_val"]
 
-        # Xác định test point indices (chronological)
+        # Mọi mốc quyết định phải có đủ 600 nến tiền kiểm tra
+        # cho cả tuyển chọn và thực thi Alpha. Thiếu dữ liệu thì
+        # fail-fast thay vì âm thầm giảm N hoặc fallback sang 5 alpha cũ.
         total = len(df)
-        # Cần ít nhất `lookahead` nến SAU end_idx để xác minh hướng thực tế
-        max_end = total - lookahead
-        min_end = window_size    # cần ít nhất window_size nến trước đó
-
-        all_ends = list(range(max_end, min_end, -step))[:n_tests]
-        all_ends = list(reversed(all_ends))
-
-        if not all_ends:
-            raise ValueError(
-                f"Không đủ dữ liệu để backtest. "
-                f"Cần ≥ {window_size + step + lookahead} nến, hiện có {total}."
-            )
+        all_ends = build_walk_forward_end_indices(
+            total=total,
+            n_tests=n_tests,
+            window_size=window_size,
+            step=step,
+            lookahead=lookahead,
+        )
 
         data_start = df["Datetime"].iloc[0].strftime("%Y-%m-%d")
         data_end   = df["Datetime"].iloc[-1].strftime("%Y-%m-%d")
@@ -799,6 +844,8 @@ class BacktestEngine:
             except Exception as e:
                 err_f = err_n = str(e)[:200]
                 print(f"  ✘ Paired run lỗi: {err_f}")
+                if "dynamic alpha" in str(e).lower():
+                    raise RuntimeError(str(e)) from e
 
             tp = TestPoint(
                 test_id=i + 1,

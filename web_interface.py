@@ -6,7 +6,7 @@ import uuid
 import urllib.parse
 from pathlib import Path
 from typing import Any, Dict, List
-from core.backtest_engine import BacktestEngine
+from core.backtest_engine import BacktestEngine, required_backtest_rows
 from dataclasses import asdict
 
 import pandas as pd
@@ -626,11 +626,18 @@ def backtest_start():
                     _bt_jobs[bt_id]["step"] = "loading"
                     _bt_jobs[bt_id]["status"] = "running"
  
-                lookback = max(365, (n_tests * step + win_size) * 3)
+                required_rows = required_backtest_rows(
+                    n_tests=n_tests,
+                    window_size=win_size,
+                    step=step,
+                    lookahead=3,
+                )
+                # Quy đổi dư dả sang ngày lịch để bù cuối tuần/nghỉ lễ.
+                lookback = max(365, required_rows * 2)
                 df, err = fetch_realtime_ohlcv(
                     symbol=symbol, interval="1d",
                     lookback_days=lookback,
-                    tail=n_tests * step + win_size + 20,
+                    tail=required_rows,
                 )
                 if err or df.empty:
                     raise RuntimeError(err or t("err_no_data_for", lang, symbol=symbol))
