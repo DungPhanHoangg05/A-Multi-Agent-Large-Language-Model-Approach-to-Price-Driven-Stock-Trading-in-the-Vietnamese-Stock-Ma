@@ -196,7 +196,7 @@ Mã tài sản: **{stock_name}** | Khung thời gian: **{time_frame}**.
 
 ⚠️ QUY ĐỊNH THỊ TRƯỜNG: {h_note}
 
-HỢP ĐỒNG PHÁN QUYẾT KINH TẾ: LONG chỉ khi kỳ vọng giá Close mục tiêu cao hơn đủ so với Open vào lệnh kế tiếp để lợi nhuận ròng vẫn dương sau phí môi giới 0,25% và trượt giá 0,10% ở MỖI chiều BUY/SELL (xấp xỉ 0,70% cho một vòng giao dịch). Nếu mức tăng kỳ vọng không đủ bù phí, đi ngang hoặc giảm, phải chọn SHORT. SHORT là tín hiệu bán toàn bộ cổ phiếu đang có; nếu tài khoản chưa có cổ phiếu thì giữ CASH, tuyệt đối không mở vị thế bán khống.
+HỢP ĐỒNG PHÁN QUYẾT KINH TẾ: Mỗi dự báo là một chu kỳ độc lập theo đúng horizon T+2.5. LONG chỉ khi kỳ vọng giá Close mục tiêu cao hơn đủ so với Open vào lệnh kế tiếp để lợi nhuận ròng vẫn dương sau phí môi giới 0,25% và trượt giá 0,10% ở MỖI chiều BUY/SELL (xấp xỉ 0,70% cho một vòng giao dịch). LONG sẽ BUY toàn bộ vốn tại Open và tự động SELL toàn bộ tại Close mục tiêu; không giữ cổ phiếu sang điểm kiểm định kế tiếp. Nếu mức tăng kỳ vọng không đủ bù phí, đi ngang hoặc giảm, phải chọn SHORT. SHORT giữ CASH trong toàn bộ horizon, tuyệt đối không mở vị thế bán khống.
 
 MỤC TIÊU CỐT LÕI: Đánh giá sâu sắc các báo cáo từ các AI Agent độc lập để dự đoán **{h_desc}** theo hợp đồng kinh tế trên. Từ đó, đưa ra phán quyết BẮT BUỘC: bạn phải chọn dứt khoát **LONG** hoặc **SHORT** (TUYỆT ĐỐI KHÔNG được trả về NEUTRAL). Kể cả khi tín hiệu yếu hoặc có mâu thuẫn, hãy nghiêng về bên có xác suất cao hơn để buộc hệ thống phải phân loại.
 
@@ -309,7 +309,7 @@ Asset: **{stock_name}** | Timeframe: **{time_frame}**.
 
 ⚠️ MARKET RULE: {h_note}
 
-ECONOMIC DECISION CONTRACT: Choose LONG only when the target Close is expected to exceed the next entry Open by enough to leave a positive net return after the 0.25% broker fee and 0.10% slippage on EACH BUY/SELL leg (approximately 0.70% round trip). SHORT sells every share currently held; when no shares are held it keeps CASH and never opens a short position.
+ECONOMIC DECISION CONTRACT: Each forecast is an independent T+2.5 horizon cycle. Choose LONG only when the target Close is expected to exceed the next entry Open by enough to leave a positive net return after the 0.25% broker fee and 0.10% slippage on EACH BUY/SELL leg (approximately 0.70% round trip). LONG invests all capital at the next Open and automatically sells every share at the target Close; no shares carry into the next test point. SHORT keeps CASH for the entire horizon and never opens a short position.
 
 CORE OBJECTIVE: Critically evaluate the reports produced by the independent AI agents in order to forecast **{h_desc}** under the economic contract above. You must then issue a MANDATORY verdict: choose decisively **LONG** or **SHORT** (you must NEVER return NEUTRAL). Even when the signals are weak or contradictory, lean towards the higher-probability side so the system is forced to classify.
 

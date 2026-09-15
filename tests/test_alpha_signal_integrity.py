@@ -348,7 +348,9 @@ class AlphaSignalIntegrityTests(unittest.TestCase):
         self.assertIn("Trend và Pattern cùng xác nhận xu hướng giảm", prompt)
         self.assertIn("không được chọn LONG chỉ vì Alpha", prompt)
         self.assertIn("phí môi giới 0,25%", prompt)
-        self.assertIn("tín hiệu bán toàn bộ cổ phiếu đang có", prompt)
+        self.assertIn("BUY toàn bộ vốn tại Open", prompt)
+        self.assertIn("SELL toàn bộ tại Close mục tiêu", prompt)
+        self.assertIn("SHORT giữ CASH trong toàn bộ horizon", prompt)
         self.assertIn("CHỈ trả về MỘT đối tượng JSON", prompt)
 
 

@@ -95,8 +95,8 @@ class TestPoint:
     time_no_alpha_sec: float
 
     # Giá tham chiếu của điểm dự báo: Open(e) và Close(e-1+L).
-    # Tài khoản trạng thái có thể BUY/HOLD/SELL/CASH tại Open(e), sau đó
-    # định giá vị thế còn mở tại Close(e-1+L).
+    # Mỗi điểm là một chu kỳ khép kín: LONG mua tại Open(e) và bán tại
+    # Close(e-1+L); SHORT giữ tiền mặt. Không mang vị thế sang điểm kế tiếp.
     entry_open: float = 0.0
     exit_close: float = 0.0
     entry_price_vnd: float = 0.0
@@ -301,11 +301,12 @@ def compute_account_metrics(
     initial_capital_vnd: float = 50_000_000.0,
     price_multiplier: float = 1_000.0,
 ) -> Dict[str, AccountMetrics]:
-    """Mô phỏng hai tài khoản BUY/HOLD/SELL độc lập bằng tiền Việt Nam.
+    """Mô phỏng hai tài khoản theo các chu kỳ Open-to-Close khép kín.
 
-    LONG khi đang CASH mua bằng toàn bộ tiền; LONG khi đã có cổ phiếu là HOLD.
-    SHORT bán toàn bộ vị thế hiện có; nếu không có vị thế thì giữ CASH. Phí môi
-    giới và trượt giá được áp dụng riêng tại mỗi lần BUY và SELL.
+    Mỗi LONG dùng toàn bộ tiền để BUY tại Open rồi tự động SELL tại target Close.
+    Mỗi SHORT giữ CASH trong toàn bộ horizon vì không bán khống cổ phiếu cơ sở.
+    Phí môi giới và trượt giá được áp dụng riêng trên cả hai chiều BUY/SELL.
+    Cách thực thi này đồng nhất tuyệt đối horizon của P&L với horizon chấm nhãn.
     """
 
     del allow_shorting  # Giữ tham số tương thích; hợp đồng mới luôn là long-only.
@@ -319,8 +320,6 @@ def compute_account_metrics(
 
     def compute_variant(prediction_field: str, variant: str) -> AccountMetrics:
         cash_vnd = initial_capital_vnd
-        shares = 0.0
-        position_cost_basis_vnd = 0.0
         previous_equity_vnd = initial_capital_vnd
         equity_curve_vnd = [initial_capital_vnd]
         equity_curve = [1.0]
@@ -363,7 +362,7 @@ def compute_account_metrics(
                 raise ValueError("TestPoint phải được sắp xếp theo entry_time tăng dần")
             if previous_exit_time is not None and entry_time <= previous_exit_time:
                 raise ValueError(
-                    "Các test point chồng lấn thời gian; tài khoản trạng thái yêu cầu "
+                    "Các test point chồng lấn thời gian; chu kỳ giao dịch yêu cầu "
                     "step >= lookahead"
                 )
             previous_entry_time = entry_time
@@ -372,59 +371,55 @@ def compute_account_metrics(
             long_gross_return = exit_close / entry_open - 1.0
             point.execution_pct_change = round(long_gross_return * 100.0, 8)
             entry_price_vnd = entry_open * price_multiplier
-            mark_price_vnd = exit_close * price_multiplier
+            exit_price_vnd = exit_close * price_multiplier
             point.entry_price_vnd = round(entry_price_vnd, 4)
-            point.exit_price_vnd = round(mark_price_vnd, 4)
-            executed_action = "HOLD" if shares > 0.0 else "CASH"
+            point.exit_price_vnd = round(exit_price_vnd, 4)
+            executed_action = "CASH"
             skip_reason = ""
             transaction_fee_vnd = 0.0
             slippage_cost_vnd = 0.0
+            shares_bought = 0.0
 
             if prediction == "LONG":
-                if shares > 0.0:
-                    executed_action = "HOLD"
-                    skip_reason = "ALREADY_LONG"
-                else:
-                    effective_buy_price = entry_price_vnd * (1.0 + slippage)
-                    execution_notional = cash_vnd / (1.0 + fee)
-                    shares = execution_notional / effective_buy_price
-                    transaction_fee_vnd = execution_notional * fee
-                    slippage_cost_vnd = shares * entry_price_vnd * slippage
-                    position_cost_basis_vnd = cash_vnd
-                    cash_vnd = max(
-                        0.0,
-                        cash_vnd - execution_notional - transaction_fee_vnd,
+                capital_before_trade = cash_vnd
+                effective_buy_price = entry_price_vnd * (1.0 + slippage)
+                buy_notional_vnd = capital_before_trade / (1.0 + fee)
+                shares_bought = buy_notional_vnd / effective_buy_price
+                buy_fee_vnd = buy_notional_vnd * fee
+                buy_slippage_vnd = shares_bought * entry_price_vnd * slippage
+
+                quoted_sell_value_vnd = shares_bought * exit_price_vnd
+                sell_notional_vnd = quoted_sell_value_vnd * (1.0 - slippage)
+                sell_fee_vnd = sell_notional_vnd * fee
+                sell_slippage_vnd = quoted_sell_value_vnd - sell_notional_vnd
+                cash_vnd = sell_notional_vnd - sell_fee_vnd
+
+                transaction_fee_vnd = buy_fee_vnd + sell_fee_vnd
+                slippage_cost_vnd = buy_slippage_vnd + sell_slippage_vnd
+                trade_return = cash_vnd / capital_before_trade - 1.0
+                expected_return = compute_round_trip_net_return(
+                    entry_open,
+                    exit_close,
+                    fee=fee,
+                    slippage=slippage,
+                )
+                if not np.isclose(trade_return, expected_return, atol=1e-12):
+                    raise ArithmeticError(
+                        f"TestPoint {point.test_id}: P&L vòng LONG lệch mục tiêu nhãn"
                     )
-                    executed_action = "BUY"
+                executed_returns.append(trade_return)
+                executed_action = "BUY_SELL"
             elif prediction == "SHORT":
-                if shares > 0.0:
-                    quoted_sell_value = shares * entry_price_vnd
-                    gross_sell_value = quoted_sell_value * (1.0 - slippage)
-                    transaction_fee_vnd = gross_sell_value * fee
-                    slippage_cost_vnd = quoted_sell_value - gross_sell_value
-                    net_sell_value = gross_sell_value - transaction_fee_vnd
-                    closed_trade_return = (
-                        net_sell_value / position_cost_basis_vnd - 1.0
-                        if position_cost_basis_vnd > 0.0
-                        else 0.0
-                    )
-                    executed_returns.append(closed_trade_return)
-                    cash_vnd += net_sell_value
-                    shares = 0.0
-                    position_cost_basis_vnd = 0.0
-                    executed_action = "SELL"
-                else:
-                    executed_action = "CASH"
-                    skip_reason = "NO_POSITION"
+                executed_action = "CASH"
+                skip_reason = "SHORT_STAYS_CASH"
             else:
                 skip_reason = "INVALID_PREDICTION"
 
-            # Mark-to-liquidation: vị thế mở được định giá theo số tiền ròng
-            # sẽ nhận nếu bán tại giá Close hiện tại, gồm phí và slippage bán.
-            position_value_vnd = (
-                shares * mark_price_vnd * (1.0 - slippage) * (1.0 - fee)
-            )
-            equity_vnd = cash_vnd + position_value_vnd
+            # Chu kỳ luôn kết thúc bằng CASH; shares_bought chỉ phục vụ audit
+            # phép tính và không được mang sang điểm kiểm định kế tiếp.
+            position_value_vnd = 0.0
+            shares = 0.0
+            equity_vnd = cash_vnd
             if not np.isfinite(equity_vnd) or equity_vnd < 0.0:
                 raise ValueError(
                     f"TestPoint {point.test_id}: equity sau giao dịch không hợp lệ"
@@ -518,7 +513,7 @@ def compute_account_metrics(
             final_equity_vnd=final_equity_vnd,
             total_pnl_vnd=final_equity_vnd - initial_capital_vnd,
             final_cash_vnd=cash_vnd,
-            final_shares=shares,
+            final_shares=0.0,
             equity_curve_vnd=equity_curve_vnd,
         )
 
@@ -1054,7 +1049,7 @@ class BacktestEngine:
         h_val     = horizon["horizon_val"]
         if step < lookahead:
             raise ValueError(
-                f"step={step} nhỏ hơn horizon={lookahead}; tài khoản BUY/HOLD/SELL "
+                f"step={step} nhỏ hơn horizon={lookahead}; các chu kỳ BUY→SELL "
                 "không cho phép các kỳ định giá chồng lấn"
             )
 
@@ -1268,7 +1263,7 @@ class BacktestEngine:
         c_no_alpha = '#00B050'
 
         # Left: compounded account equity
-        ax1.set_title(f"BUY/HOLD/SELL Account Equity — {symbol}", fontsize=13, fontweight='bold', pad=15)
+        ax1.set_title(f"Fixed-Horizon BUY→SELL Account Equity — {symbol}", fontsize=13, fontweight='bold', pad=15)
         ax1.set_xlabel("Test #", fontsize=11, color='#4b5563')
         ax1.set_ylabel("Account Equity (VND)", fontsize=11, color='#4b5563')
 
