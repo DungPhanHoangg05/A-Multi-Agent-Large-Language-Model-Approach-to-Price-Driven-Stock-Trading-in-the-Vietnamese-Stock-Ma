@@ -17,8 +17,8 @@ Chiến lược ở đây đi từ chắc chắn nhất tới nới lỏng dần
   3. Quét cân bằng ngoặc nhọn, thử parse từng ứng viên, LẤY KHỐI CUỐI hợp lệ có
      chứa khoá "decision" (model kết thúc bằng phán quyết cuối cùng).
   4. Khôi phục bằng regex: dò từ khoá LONG/SHORT/MUA/BÁN cùng R:R và lý do.
-  5. Nếu vẫn không có nhãn nhị phân, trả SHORT thận trọng và ghi provenance
-     `fallback_conservative` thay vì để UNKNOWN lọt vào kết quả.
+  5. Nếu vẫn không có nhãn nhị phân, đánh dấu `invalid_output`; tầng Decision
+     Agent sẽ yêu cầu model sinh lại và từ chối lưu điểm benchmark nếu vẫn lỗi.
 """
 
 import json
@@ -227,12 +227,12 @@ def _recover_from_text(text: str) -> Dict[str, str]:
 
 def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
     """
-    Trích xuất quyết định nhị phân từ output thô, không bao giờ trả UNKNOWN.
+    Trích xuất quyết định từ output thô và ghi rõ provenance.
 
     Luôn trả về dict có đủ các khoá `decision`, `confidence`,
-    `risk_reward_ratio`, `justification`. Nếu model không đưa ra được LONG hoặc
-    SHORT, áp dụng nguyên tắc thận trọng của hợp đồng kinh tế: không có đủ bằng
-    chứng cho một vị thế mua có lợi nhuận ròng thì chọn SHORT (bán/giữ CASH).
+    `risk_reward_ratio`, `justification`. Output không có LONG/SHORT được trả về
+    `UNKNOWN` với nguồn `invalid_output` để caller retry hoặc dừng an toàn; hàm
+    không tự gán SHORT vì việc đó tạo thiên lệch cho benchmark.
     """
     is_en = lang == "en"
     text  = strip_thinking(raw or "")
@@ -248,6 +248,7 @@ def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
         if declared_source in {
             "llm_json",
             "llm_text_recovery",
+            "llm_structured",
             "fallback_conservative",
         }
         else ("llm_json" if decision in ("LONG", "SHORT") else "")
@@ -264,8 +265,8 @@ def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
 
     fallback_reason = _clean_text_value(data.get("fallback_reason"))
     if decision not in ("LONG", "SHORT"):
-        decision = "SHORT"
-        decision_source = "fallback_conservative"
+        decision = "UNKNOWN"
+        decision_source = "invalid_output"
         fallback_reason = "EMPTY_RESPONSE" if not text.strip() else "NO_BINARY_DECISION"
 
     confidence = (

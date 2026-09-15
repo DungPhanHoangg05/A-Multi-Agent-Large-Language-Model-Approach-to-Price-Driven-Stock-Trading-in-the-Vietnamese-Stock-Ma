@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from agents.alpha_agent import _compute_all_alphas
 from agents.decision_agent import (
     _distill_report,
+    _retry_delay,
     _safe_parse_and_enrich,
     create_final_trade_decider,
 )
@@ -53,36 +54,73 @@ class _DecisionLlm:
 
 
 class _EmptyDecisionLlm:
+    def __init__(self):
+        self.calls = 0
+
     def invoke(self, _messages):
+        self.calls += 1
         return SimpleNamespace(content="")
 
 
+class _StructuredDecisionLlm:
+    def __init__(self, fail_first: bool = False):
+        self.schema = None
+        self.method = None
+        self.fail_first = fail_first
+        self.calls = 0
+
+    def with_structured_output(self, schema, *, method, include_raw):
+        self.schema = schema
+        self.method = method
+        self.include_raw = include_raw
+        return self
+
+    def invoke(self, _messages):
+        self.calls += 1
+        if self.fail_first and self.calls == 1:
+            return {
+                "raw": SimpleNamespace(content=""),
+                "parsed": None,
+                "parsing_error": ValueError("invalid schema"),
+            }
+        parsed = self.schema(
+            decision="LONG",
+            forecast_horizon="T+2.5",
+            confidence="High",
+            risk_reward_ratio=2.0,
+            evidence_for="Trend and momentum agree.",
+            evidence_against="Execution cost.",
+            justification="Expected net return is positive.",
+        )
+        return {
+            "raw": SimpleNamespace(content='{"decision":"LONG"}'),
+            "parsed": parsed,
+            "parsing_error": None,
+        }
+
+
 class AlphaSignalIntegrityTests(unittest.TestCase):
-    def test_empty_llm_output_falls_back_to_conservative_short(self):
-        normalized = json.loads(_safe_parse_and_enrich("", "BHN", lang="vi"))
+    def test_rate_limit_retry_uses_server_hint_and_exponential_backoff(self):
+        error = RuntimeError("Rate limit reached; try again in 12.5s")
 
-        self.assertEqual(normalized["decision"], "SHORT")
-        self.assertEqual(normalized["decision_source"], "fallback_conservative")
-        self.assertEqual(normalized["fallback_reason"], "EMPTY_RESPONSE")
+        self.assertEqual(_retry_delay(error, wait_sec=5.0, attempt=0), 13.5)
+        self.assertEqual(_retry_delay(RuntimeError("429"), 5.0, attempt=2), 20.0)
 
-    def test_none_output_falls_back_to_conservative_short(self):
-        normalized = json.loads(_safe_parse_and_enrich(None, "BHN", lang="vi"))
+    def test_empty_llm_output_is_rejected_instead_of_biased_short(self):
+        with self.assertRaisesRegex(ValueError, "LONG/SHORT"):
+            _safe_parse_and_enrich("", "BHN", lang="vi")
 
-        self.assertEqual(normalized["decision"], "SHORT")
-        self.assertEqual(normalized["fallback_reason"], "EMPTY_RESPONSE")
+    def test_none_output_is_rejected_instead_of_biased_short(self):
+        with self.assertRaisesRegex(ValueError, "LONG/SHORT"):
+            _safe_parse_and_enrich(None, "BHN", lang="vi")
 
-    def test_neutral_llm_output_is_forced_to_binary_short(self):
-        normalized = json.loads(
+    def test_neutral_llm_output_is_rejected_instead_of_biased_short(self):
+        with self.assertRaisesRegex(ValueError, "LONG/SHORT"):
             _safe_parse_and_enrich(
                 '{"decision":"NEUTRAL","justification":"Không đủ tín hiệu"}',
                 "BHN",
                 lang="vi",
             )
-        )
-
-        self.assertEqual(normalized["decision"], "SHORT")
-        self.assertEqual(normalized["decision_source"], "fallback_conservative")
-        self.assertEqual(normalized["fallback_reason"], "NO_BINARY_DECISION")
 
     def test_malformed_json_recovers_explicit_long_from_text(self):
         normalized = json.loads(
@@ -96,7 +134,8 @@ class AlphaSignalIntegrityTests(unittest.TestCase):
         self.assertEqual(normalized["decision"], "LONG")
         self.assertEqual(normalized["decision_source"], "llm_text_recovery")
 
-    def test_decision_node_never_emits_unknown_for_empty_content(self):
+    def test_decision_node_retries_then_rejects_empty_content(self):
+        llm = _EmptyDecisionLlm()
         state = {
             "stock_name": "BHN",
             "time_frame": "1 ngày",
@@ -107,11 +146,47 @@ class AlphaSignalIntegrityTests(unittest.TestCase):
         }
 
         with patch("builtins.print"):
-            result = create_final_trade_decider(_EmptyDecisionLlm())(state)
+            with self.assertRaisesRegex(RuntimeError, "LONG/SHORT"):
+                create_final_trade_decider(llm)(state)
+
+        self.assertEqual(llm.calls, 2)
+
+    def test_decision_node_uses_groq_structured_output_schema(self):
+        llm = _StructuredDecisionLlm()
+        state = {
+            "stock_name": "BHN",
+            "time_frame": "1 ngày",
+            "language": "vi",
+            "indicator_report": "indicator",
+            "pattern_report": "pattern",
+            "trend_report": "trend",
+        }
+
+        with patch("builtins.print"):
+            result = create_final_trade_decider(llm)(state)
 
         decision = json.loads(result["final_trade_decision"])
-        self.assertEqual(decision["decision"], "SHORT")
-        self.assertEqual(decision["decision_source"], "fallback_conservative")
+        self.assertEqual(decision["decision"], "LONG")
+        self.assertEqual(decision["decision_source"], "llm_structured")
+        self.assertEqual(llm.method, "json_schema")
+
+    def test_structured_output_schema_error_is_retried_before_success(self):
+        llm = _StructuredDecisionLlm(fail_first=True)
+        state = {
+            "stock_name": "BHN",
+            "time_frame": "1 ngày",
+            "language": "vi",
+            "indicator_report": "indicator",
+            "pattern_report": "pattern",
+            "trend_report": "trend",
+        }
+
+        with patch("builtins.print"):
+            result = create_final_trade_decider(llm)(state)
+
+        decision = json.loads(result["final_trade_decision"])
+        self.assertEqual(decision["decision"], "LONG")
+        self.assertEqual(llm.calls, 2)
 
     def test_alpha_selection_target_matches_net_open_to_close_label(self):
         frame = pd.DataFrame(
@@ -274,6 +349,7 @@ class AlphaSignalIntegrityTests(unittest.TestCase):
         self.assertIn("không được chọn LONG chỉ vì Alpha", prompt)
         self.assertIn("phí môi giới 0,25%", prompt)
         self.assertIn("tín hiệu bán toàn bộ cổ phiếu đang có", prompt)
+        self.assertIn("CHỈ trả về MỘT đối tượng JSON", prompt)
 
 
 if __name__ == "__main__":

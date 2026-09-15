@@ -1,8 +1,42 @@
 import json
+import re
 import time
+from typing import Literal
+
+from pydantic import BaseModel, Field
+
+
+class TradeDecisionOutput(BaseModel):
+    """Schema nhị phân bắt buộc cho Groq Structured Outputs."""
+
+    decision: Literal["LONG", "SHORT"] = Field(
+        description="Mandatory binary trading decision. Never neutral."
+    )
+    forecast_horizon: str
+    confidence: str
+    risk_reward_ratio: float = Field(ge=1.0, le=5.0)
+    evidence_for: str
+    evidence_against: str
+    justification: str
+
+
+DECISION_FORMAT_ATTEMPTS = 2
 
 
 # ── Retry wrapper ──────────────────────────────────────────────────────────────
+
+def _retry_delay(error: Exception, wait_sec: float, attempt: int) -> float:
+    """Backoff theo cấp số nhân, tôn trọng thời gian retry Groq nếu có."""
+    delay = wait_sec * (2 ** attempt)
+    match = re.search(
+        r"(?:try again in|retry after)\s*([0-9]+(?:\.[0-9]+)?)\s*s",
+        str(error),
+        flags=re.IGNORECASE,
+    )
+    if match:
+        delay = max(delay, float(match.group(1)) + 1.0)
+    return min(delay, 60.0)
+
 
 def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
     last_err = None
@@ -13,11 +47,13 @@ def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
             last_err = e
             print(f"[DecisionAgent] Lỗi lần {attempt + 1}/{retries}: {e}")
             if attempt < retries - 1:
-                time.sleep(wait_sec)
+                delay = _retry_delay(e, wait_sec, attempt)
+                print(f"[DecisionAgent] Chờ {delay:.1f}s trước khi retry...")
+                time.sleep(delay)
     raise RuntimeError(f"[DecisionAgent] Thất bại sau {retries} lần thử. Lỗi: {last_err}")
 
 
-# ── Parse JSON + fallback ──────────────────────────────────────────────────────
+# ── Parse + strict validation ─────────────────────────────────────────────────
 
 def _safe_parse_and_enrich(raw: str, stock_name: str, lang: str = "vi") -> str:
     """
@@ -28,21 +64,19 @@ def _safe_parse_and_enrich(raw: str, stock_name: str, lang: str = "vi") -> str:
     cần một dấu ngoặc nhọn lọt vào phần văn xuôi là lát cắt hỏng và cả quyết
     định rơi về "UNKNOWN"/"N/A". Nay dùng bộ trích xuất nhiều tầng ở
     `utils.decision_parser`, có bước khôi phục bằng regex nên phán quyết đã nêu
-    trong văn bản không bao giờ bị mất.
+    trong văn bản không bị mất. Nếu vẫn không có LONG/SHORT, hàm báo lỗi để
+    caller yêu cầu model sinh lại thay vì tự gán một hướng giao dịch.
     """
     from utils.decision_parser import parse_decision
 
     data = parse_decision(raw, lang=lang)
 
-    if data.get("decision_source") == "fallback_conservative":
-        print(
-            "[DecisionAgent] Model không trả phán quyết nhị phân → "
-            f"fallback SHORT ({data.get('fallback_reason', 'UNKNOWN_REASON')})."
-        )
-        data["_raw_llm_response"] = (raw or "")[:500]
-    else:
-        print(f"[DecisionAgent] Phán quyết: {data['decision']} "
-              f"(R:R={data['risk_reward_ratio']}).")
+    if data.get("decision") not in ("LONG", "SHORT"):
+        reason = data.get("fallback_reason", "NO_BINARY_DECISION")
+        raise ValueError(f"Decision Agent không trả LONG/SHORT ({reason})")
+
+    print(f"[DecisionAgent] Phán quyết: {data['decision']} "
+          f"(R:R={data['risk_reward_ratio']}).")
 
     # Bỏ các trường rỗng để UI không hiển thị ô trống, nhưng LUÔN giữ bộ khoá
     # cốt lõi mà template và backtest engine đọc tới.
@@ -50,6 +84,35 @@ def _safe_parse_and_enrich(raw: str, stock_name: str, lang: str = "vi") -> str:
     data = {k: v for k, v in data.items() if v or k in core}
 
     return json.dumps(data, ensure_ascii=False, indent=2)
+
+
+def _normalize_structured_result(result: dict, lang: str) -> tuple[str, object]:
+    """Kiểm tra kết quả `with_structured_output(..., include_raw=True)`."""
+    if not isinstance(result, dict):
+        raise ValueError("Structured Output không trả về dict")
+    parsing_error = result.get("parsing_error")
+    parsed = result.get("parsed")
+    if parsing_error is not None or parsed is None:
+        raise ValueError(f"Structured Output không hợp lệ: {parsing_error}")
+
+    if isinstance(parsed, BaseModel):
+        data = parsed.model_dump()
+    elif isinstance(parsed, dict):
+        data = dict(parsed)
+    else:
+        raise ValueError("Structured Output không đúng schema quyết định")
+
+    if data.get("decision") not in ("LONG", "SHORT"):
+        raise ValueError("Structured Output không chứa LONG/SHORT")
+    data["confidence"] = data.get("confidence") or ("Low" if lang == "en" else "Thấp")
+    data["justification"] = data.get("justification") or (
+        "Structured decision returned without a detailed explanation."
+        if lang == "en"
+        else "Quyết định có cấu trúc không kèm giải thích chi tiết."
+    )
+    data["decision_source"] = "llm_structured"
+    data["fallback_reason"] = ""
+    return json.dumps(data, ensure_ascii=False, indent=2), result.get("raw")
 
 
 # ── Distill reports to save tokens ─────────────────────────────────────────────
@@ -219,10 +282,10 @@ Hãy phân tích theo thứ tự bắt buộc:
 
     prompt += f"""
 ## ĐỊNH DẠNG ĐẦU RA BẮT BUỘC
-Đầu tiên, bạn BẮT BUỘC phải viết ra một đoạn văn ngắn gọn (nhưng vô cùng logic) bằng tiếng Việt để phân tích theo Hướng dẫn Tư duy ở trên.
-Ngay sau phần phân tích đó, hãy kết thúc câu trả lời của bạn bằng MỘT VÀ CHỈ MỘT khối JSON chứa quyết định cuối cùng, đúng chuẩn format sau:
+Suy luận nội bộ theo hướng dẫn trên, nhưng CHỈ trả về MỘT đối tượng JSON hợp lệ.
+Không viết phân tích, Markdown, code fence hoặc bất kỳ ký tự nào bên ngoài JSON.
+Giữ nguyên chính xác các tên trường tiếng Anh và bắt buộc `decision` chỉ là `LONG` hoặc `SHORT`:
 
-```json
 {{
   "decision": "<LONG hoặc SHORT>",
   "forecast_horizon": "{h_val}",
@@ -232,7 +295,8 @@ Ngay sau phần phân tích đó, hãy kết thúc câu trả lời của bạn 
   "evidence_against": "<Rủi ro chốt chặn lớn nhất, hoặc tín hiệu từ báo cáo nào đang đi ngược lại>",
   "justification": "<Tóm gọn mạch lạc nhất vì sao lại chốt giao dịch tại thời điểm này>"
 }}
-```"""
+
+Nội dung các trường mô tả phải viết bằng tiếng Việt tự nhiên."""
     return prompt
 
 
@@ -331,10 +395,10 @@ Work through the analysis in this mandatory order:
 
     prompt += f"""
 ## MANDATORY OUTPUT FORMAT
-First, you MUST write a concise (but rigorously logical) passage in English analysing the data according to the Reasoning Guide above.
-Immediately after that analysis, end your answer with ONE AND ONLY ONE JSON block containing the final decision, in exactly this format:
+Reason internally using the guide above, but return ONLY ONE valid JSON object.
+Do not output analysis, Markdown, code fences, or any characters outside the JSON.
+Keep the exact field names below and set `decision` to exactly `LONG` or `SHORT`:
 
-```json
 {{
   "decision": "<LONG or SHORT>",
   "forecast_horizon": "{h_val}",
@@ -344,7 +408,8 @@ Immediately after that analysis, end your answer with ONE AND ONLY ONE JSON bloc
   "evidence_against": "<The single largest blocking risk, or which report is signalling the opposite>",
   "justification": "<The most coherent summary of why the trade is taken at this moment>"
 }}
-```"""
+
+Write all descriptive field values in natural English."""
     return prompt
 
 
@@ -356,9 +421,20 @@ def create_final_trade_decider(llm):
     Đọc 3–5 báo cáo theo cấu hình ablation và tự ra quyết định.
     """
 
+    structured_llm = None
+    if hasattr(llm, "with_structured_output"):
+        try:
+            structured_llm = llm.with_structured_output(
+                TradeDecisionOutput,
+                method="json_schema",
+                include_raw=True,
+            )
+        except (AttributeError, NotImplementedError, TypeError, ValueError) as exc:
+            print(f"[DecisionAgent] Structured Output không khả dụng: {exc}")
+
     def trade_decision_node(state) -> dict:
         # ── i18n ──────────────────────────────────────────────────────────────
-        from utils.i18n import lang_of, get_horizon, language_directive, t as _t
+        from utils.i18n import lang_of, get_horizon, t as _t
         lang  = lang_of(state)
         is_en = lang == "en"
 
@@ -407,18 +483,38 @@ def create_final_trade_decider(llm):
             trend_report, pattern_report, indicator_report,
             alpha_report, sentiment_report,
         )
-        prompt += f"\n\n{language_directive(lang)}"
-
-        response = _invoke_with_retry(llm.invoke, prompt)
-
-        # Chuẩn hoá ngay tại nguồn: mọi nơi tiêu thụ `final_trade_decision`
-        # (web_interface, backtest_engine, template) đều nhận được JSON hợp lệ
-        # thay vì phải tự đoán lại từ văn bản thô.
-        normalized = _safe_parse_and_enrich(response.content, stock_name, lang=lang)
+        response = None
+        last_format_error = None
+        normalized = ""
+        for format_attempt in range(DECISION_FORMAT_ATTEMPTS):
+            try:
+                if structured_llm is not None:
+                    structured_result = _invoke_with_retry(structured_llm.invoke, prompt)
+                    normalized, response = _normalize_structured_result(
+                        structured_result, lang
+                    )
+                else:
+                    response = _invoke_with_retry(llm.invoke, prompt)
+                    normalized = _safe_parse_and_enrich(
+                        getattr(response, "content", ""), stock_name, lang=lang
+                    )
+                break
+            except ValueError as exc:
+                last_format_error = exc
+                if format_attempt < DECISION_FORMAT_ATTEMPTS - 1:
+                    print(
+                        "[DecisionAgent] Output sai schema; yêu cầu model sinh lại "
+                        f"({format_attempt + 1}/{DECISION_FORMAT_ATTEMPTS})."
+                    )
+                    continue
+                raise RuntimeError(
+                    "Decision Agent không trả LONG/SHORT hợp lệ sau "
+                    f"{DECISION_FORMAT_ATTEMPTS} lần: {last_format_error}"
+                ) from exc
 
         return {
             "final_trade_decision": normalized,
-            "messages": [response],
+            "messages": [response] if response is not None else [],
             "decision_prompt": prompt,
         }
 

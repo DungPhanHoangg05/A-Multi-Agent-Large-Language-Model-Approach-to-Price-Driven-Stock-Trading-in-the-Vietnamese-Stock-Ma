@@ -579,18 +579,34 @@ class BacktestEngine:
         if not api_key:
             raise ValueError("Groq API key chưa được cấu hình.")
 
-        def make_llm(model, temp=0.0):
-            return ChatGroq(model=model, temperature=temp, api_key=api_key, max_retries=3)
+        def make_llm(model, temp=0.0, max_tokens=None):
+            kwargs = {
+                "model": model,
+                "temperature": temp,
+                "api_key": api_key,
+                "max_retries": 3,
+            }
+            if max_tokens:
+                kwargs["max_tokens"] = max_tokens
+            model_name = (model or "").lower()
+            if any(
+                tag in model_name
+                for tag in ("qwen3", "gpt-oss", "deepseek", "-r1")
+            ):
+                kwargs["reasoning_format"] = "hidden"
+            return ChatGroq(**kwargs)
 
         # Đọc temperature từ config thay vì cố định 0.05 — backtest phải tái lập
         # được và dùng đúng cấu hình như đường chạy web.
         agent_llm = make_llm(
             self.config.get("agent_llm_model", "openai/gpt-oss-20b"),
             self.config.get("agent_llm_temperature", 0.0),
+            self.config.get("agent_llm_max_tokens", 2048),
         )
         graph_llm = make_llm(
             self.config.get("graph_llm_model", "qwen/qwen3.8-27b"),
             self.config.get("graph_llm_temperature", 0.0),
+            self.config.get("graph_llm_max_tokens", 1024),
         )
         toolkit = TechnicalTools()
 
@@ -687,11 +703,14 @@ class BacktestEngine:
 
         raw = state.get("final_trade_decision", "")
         data = parse_decision(raw, lang=self.config.get("language", "vi"))
+        if data.get("decision") not in ("LONG", "SHORT"):
+            reason = data.get("fallback_reason", "NO_BINARY_DECISION")
+            raise ValueError(f"Decision Agent không trả LONG/SHORT ({reason})")
         return (
             data["decision"],
-            data.get("confidence", "Thấp"),
-            data.get("risk_reward_ratio", "1.5"),
-            data.get("decision_source", "fallback_conservative"),
+            data.get("confidence", "N/A"),
+            data.get("risk_reward_ratio", "N/A"),
+            data.get("decision_source", "invalid_output"),
             data.get("fallback_reason", ""),
         )
 
@@ -824,26 +843,9 @@ class BacktestEngine:
                 state = decision_graphs[variant].invoke(variant_input)
             except Exception as exc:
                 error = str(exc)[:500]
-                if "dynamic alpha" in error.lower():
-                    raise RuntimeError(error) from exc
-
-                from utils.decision_parser import parse_decision
-
-                fallback = parse_decision("", lang=self.config.get("language", "vi"))
-                fallback["fallback_reason"] = "DECISION_RUNTIME_ERROR"
-                fallback["justification"] = (
-                    "Decision Agent failed after retries; conservative SHORT applied."
-                    if self.config.get("language") == "en"
-                    else "Decision Agent lỗi sau các lần retry; áp dụng SHORT thận trọng."
-                )
-                state = {
-                    **variant_input,
-                    "final_trade_decision": json.dumps(fallback, ensure_ascii=False),
-                    "decision_error": error,
-                }
-                print(
-                    f"    [!] Decision variant {variant} lỗi → fallback SHORT: {error}"
-                )
+                raise RuntimeError(
+                    f"Decision variant {variant} thất bại; không lưu fallback: {error}"
+                ) from exc
             results[variant] = (
                 state,
                 upstream_sec + (time.time() - variant_started),
@@ -1114,7 +1116,7 @@ class BacktestEngine:
             pred_f = pred_n = "SHORT"
             conf_f = conf_n = "Thấp"
             rr_f = rr_n = "1.5"
-            source_f = source_n = "fallback_conservative"
+            source_f = source_n = "invalid_output"
             fallback_reason_f = fallback_reason_n = ""
             tf = tn = 0.0
             err_f = err_n = ""
