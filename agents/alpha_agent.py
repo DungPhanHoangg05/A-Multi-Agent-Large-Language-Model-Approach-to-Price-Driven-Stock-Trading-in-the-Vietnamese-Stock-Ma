@@ -980,8 +980,16 @@ def create_alpha_agent(
         base_report = _build_alpha_report(alphas, tech_vars, sentiment_norm, stock_name, lang)
 
         # ── Step 5: LLM chỉ diễn giải Alpha; sentiment ở báo cáo riêng ──────
-        llm_reasoning = _llm_reason(llm, base_report, stock_name,
-                                    horizon_label, lang=lang)
+        # Decision Agent trong benchmark chỉ nhận bảng số + consensus và chủ
+        # động loại lời bình này để tránh anchoring. Vì vậy không tạo một LLM
+        # request rồi bỏ kết quả ở mỗi test point.
+        llm_reasoning = "" if is_backtest else _llm_reason(
+            llm,
+            base_report,
+            stock_name,
+            horizon_label,
+            lang=lang,
+        )
 
         n_neu = 5 - n_long - n_short
         if n_long > n_short:
@@ -991,10 +999,14 @@ def create_alpha_agent(
         else:
             consensus = "TRUNG TÍNH"
 
+        reasoning_section = (
+            f"### 🤖 {_t('alpha_expert_note', lang)}\n{llm_reasoning}\n\n"
+            if llm_reasoning
+            else ""
+        )
         alpha_report = (
             f"{base_report}\n"
-            f"### 🤖 {_t('alpha_expert_note', lang)}\n"
-            f"{llm_reasoning}\n\n"
+            f"{reasoning_section}"
             f"**{_t('alpha_summary', lang)}: {signal_label(consensus, lang)} "
             f"({n_long} {signal_label('TĂNG', lang)} / "
             f"{n_short} {signal_label('GIẢM', lang)} / "

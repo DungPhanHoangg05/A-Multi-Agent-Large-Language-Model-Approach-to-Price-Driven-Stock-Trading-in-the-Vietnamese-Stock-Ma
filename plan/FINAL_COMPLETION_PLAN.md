@@ -425,8 +425,8 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 - **Task ID:** `TASK-08`
 - **Git Branch:** `task/TASK-08-rerun-9symbol-benchmark`
-- **Corrective Gate Branches:** `task/TASK-08-fix-alpha-signal-integrity`, `task/TASK-08-fix-pnl-ledger-invariants`, `task/TASK-08-align-label-with-net-pnl`, `task/TASK-08-eliminate-unknown-decisions`, `task/TASK-04-align-pnl-horizon` (phải hoàn thành và merge trước khi tạo lại nhánh benchmark).
-- **Corrective Gate Status:** `FIXED` — 81/81 regression tests pass bằng Python 3.13. Decision Agent dùng Groq Structured Outputs với schema `decision: Literal["LONG", "SHORT"]`, prompt JSON-only, tối đa 2 lần sửa format và backoff thích ứng cho lỗi 429. `BacktestEngine` đã đồng nhất `reasoning_format="hidden"` cho `gpt-oss`/Qwen và giới hạn token với đường chạy web. Output `None`/rỗng/NEUTRAL sau retry hoặc lỗi một decision variant sẽ dừng điểm benchmark, tuyệt đối không tự gán SHORT và không đưa fallback vào thống kê. Alpha selection, nhãn accuracy và account P&L cùng dùng mục tiêu net Open-to-Close; Full/No-Alpha có chu kỳ LONG BUY tại Open rồi SELL tại target Close, còn SHORT giữ CASH; TASK-08 benchmark vẫn chưa chạy lại.
+- **Corrective Gate Branches:** `task/TASK-08-fix-alpha-signal-integrity`, `task/TASK-08-fix-pnl-ledger-invariants`, `task/TASK-08-align-label-with-net-pnl`, `task/TASK-08-eliminate-unknown-decisions`, `task/TASK-04-align-pnl-horizon`, `task/TASK-08-reduce-input-tokens` (phải hoàn thành và merge trước khi tạo lại nhánh benchmark).
+- **Corrective Gate Status:** `FIXED` — 84/84 regression tests pass bằng Python 3.13. Decision Agent dùng Groq Structured Outputs với schema `decision: Literal["LONG", "SHORT"]`, prompt JSON-only, tối đa 2 lần sửa format và backoff thích ứng cho lỗi 429. Backtest bỏ hai lượt diễn giải LLM không đóng góp thông tin ở Indicator/Alpha, giảm đường chạy chuẩn từ 6 xuống 4 request LLM mỗi test point; năm báo cáo có tổng ngân sách tối đa 4.500 ký tự và prompt Decision compact tối đa 7.500 ký tự. Output `None`/rỗng/NEUTRAL sau retry hoặc lỗi một decision variant sẽ dừng điểm benchmark, tuyệt đối không tự gán SHORT và không đưa fallback vào thống kê. Alpha selection, nhãn accuracy và account P&L cùng dùng mục tiêu net Open-to-Close; Full/No-Alpha có chu kỳ LONG BUY tại Open rồi SELL tại target Close, còn SHORT giữ CASH; TASK-08 benchmark vẫn chưa chạy lại.
 - **Priority:** `P0` / `P1`
 - **Objective:** Thực thi lại benchmark walk-forward cho 9 mã cổ phiếu (BHN, CMG, FPT, HVN, MBB, MWG, VCB, VJC, VNM) dưới toàn bộ các hợp đồng sửa lỗi P0 (không leak dữ liệu, paired shared reports, lãi kép, kiểm định thống kê), thu thập kết quả sạch để cập nhật Table 7.
 - **Vấn đề hiện tại:** Kết quả hiện tại trong `backtest_result/*.json` được tạo từ mã nguồn cũ (bị rò rỉ dữ liệu, PnL số học, không có shared reports). Audit trước khi chạy TASK-08 còn phát hiện dynamic Alpha Agent phân loại giá trị raw thay vì giá trị chuẩn hóa, tính trên 45 nến thay vì snapshot 600 nến, pipeline làm rơi Volume, ranking thưởng `long_acc`, và Decision Agent bị neo bởi lời bình Alpha trộn sentiment. Toàn bộ số liệu trong Table 7 hiện tại gắn liền với ghi chú tạm "archived legacy opportunity-return traces pending A20 regeneration".
@@ -440,6 +440,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 - **Cách triển khai đề xuất:**
   0. Trước khi chạy benchmark: chuẩn hóa dynamic alpha theo cùng `norm_method` đã dùng khi tuyển chọn; dùng snapshot tối đa 600 nến; bảo toàn Volume; xếp hạng đối xứng $0.40|IC|+0.35Accuracy+0.25Sharpe$; tách sentiment khỏi lời bình Alpha; bổ sung conflict gate cho Decision Agent; gán `UP` chỉ khi vòng BUY tại Open và định giá/bán tại Close mục tiêu còn lợi nhuận ròng dương sau phí hai chiều, ngược lại là `DOWN`.
      - UI phải tải tối thiểu $600 + L + (N-1)S$ nến (660 nến với cấu hình A20); mọi mốc test phải có ít nhất 600 nến tiền kiểm tra. Thiếu dữ liệu hoặc tuyển chọn dynamic alpha thất bại phải dừng benchmark, không fallback.
+     - Ngân sách quota: trong backtest, Indicator dùng trực tiếp bảng/phân loại Python và Alpha dùng trực tiếp bảng số + consensus, không gọi LLM chỉ để tạo lời bình bị Decision distill bỏ. Decision dùng prompt compact, giới hạn từng report lần lượt Trend 900, Pattern 900, Indicator 900, Alpha 1.200 và Sentiment 600 ký tự; tổng prompt không vượt 7.500 ký tự trong kiểm thử biên.
   1. Viết script `scripts/run_full_benchmark.py` duyệt qua danh sách 9 mã cổ phiếu:
      - Tham số cố định: $W=45, S=3, L=3, N=20$, `temperature=0.0`, `seed=42`.
      - Chế độ bắt cặp `paired_shared_reports`: chạy upstream 1 lần, copy sang Full và No-Alpha.
@@ -455,6 +456,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 - **Dependencies:** `TASK-01`, `TASK-02`, `TASK-03`, `TASK-04`, `TASK-05`, `TASK-07`.
 - **Test/Command cần chạy:**
   - Corrective gate: `py -3.13 -m unittest discover -s tests -p 'test_*.py'`
+  - Token budget gate: `py -3.13 tests/test_backtest_token_budget.py`
   `py -3.13 scripts/run_full_benchmark.py --symbols FPT,VNM,MWG,VCB,MBB,CMG,HVN,VJC,BHN --n_tests 20`
 - **Expected Output:** 9 file JSON kết quả mới trong `backtest_result/clean_a20/` với 100% test points hoàn thành không lỗi.
 - **Acceptance Criteria:**

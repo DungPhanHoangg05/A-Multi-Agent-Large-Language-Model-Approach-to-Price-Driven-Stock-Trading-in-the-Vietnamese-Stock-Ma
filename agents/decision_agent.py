@@ -130,6 +130,28 @@ _ARTICLES_HEADINGS = [
     "### 15 MOST RECENT ARTICLES",
 ]
 
+# Ngân sách ký tự cứng cho payload của từng báo cáo. Đây là proxy bảo thủ cho
+# input tokens vì tokenizer thay đổi theo model/ngôn ngữ; tổng payload tối đa
+# 4.500 ký tự trước khi ghép prompt quyết định.
+_REPORT_CHAR_LIMITS = {
+    "trend": 900,
+    "pattern": 900,
+    "indicator": 900,
+    "alpha": 1_200,
+    "sentiment": 600,
+}
+
+
+def _cap_report(text: str, report_type: str, lang: str) -> str:
+    """Giữ đầu và kết luận cuối báo cáo trong một ngân sách cố định."""
+    limit = _REPORT_CHAR_LIMITS.get(report_type, 900)
+    if len(text) <= limit:
+        return text
+    marker = "\n...[truncated]...\n" if lang == "en" else "\n...[đã rút gọn]...\n"
+    head_size = int((limit - len(marker)) * 0.7)
+    tail_size = limit - len(marker) - head_size
+    return text[:head_size].rstrip() + marker + text[-tail_size:].lstrip()
+
 
 def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
     """
@@ -139,7 +161,7 @@ def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
     if not text or text in ("Không có dữ liệu.", "No data."):
         return text
 
-    is_en = lang == "en"
+    distilled = text
 
     if report_type == "alpha":
         # Giữ bảng số và consensus xác định; loại lời văn LLM trung
@@ -154,35 +176,28 @@ def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
                 ),
                 "",
             )
-            return f"{parts[0].strip()}\n\n{summary}".strip()
+            distilled = f"{parts[0].strip()}\n\n{summary}".strip()
 
-    if report_type == "sentiment":
+    elif report_type == "sentiment":
         # Sentiment report có Kết quả tổng hợp -> 15 bài gần nhất -> --- -> LLM Text
         # Loại bỏ phần 15 bài gần nhất
         for heading in _ARTICLES_HEADINGS:
             if heading in text:
                 header = text.split(heading)[0]
-                parts = text.split("---")
-                reasoning = parts[-1] if len(parts) > 1 else ""
-                return f"{header.strip()}\n\n---\n\n{reasoning.strip()}"
+                # Chỉ giữ bảng tổng hợp định lượng. Danh sách tiêu đề bài báo
+                # và lời bình dài không đủ giá trị để tiêu tốn quota mỗi test.
+                distilled = header.strip()
+                break
 
-    if report_type == "indicator":
+    elif report_type == "indicator":
         # Indicator report có chi tiết 5 chỉ báo -> --- -> Tổng hợp
         for heading in _CONVERGENCE_HEADINGS:
             if heading in text:
                 summary_part = text.split(heading)[-1].strip()
-                return f"**{heading}**\n{summary_part}"
+                distilled = f"**{heading}**\n{summary_part}"
+                break
 
-    # Fallback: Trọng tâm là 2000 ký tự đầu nếu không parse được
-    if len(text) > 3000:
-        trimmed = (
-            "... [Report truncated to save tokens]"
-            if is_en else
-            "... [Báo cáo được cắt ngắn để tiết kiệm token]"
-        )
-        return text[:2500] + trimmed
-
-    return text
+    return _cap_report(distilled, report_type, lang)
 
 
 # ── Prompt builders ────────────────────────────────────────────────────────────
@@ -413,6 +428,76 @@ Write all descriptive field values in natural English."""
     return prompt
 
 
+def _build_compact_prompt_vi(
+    stock_name, time_frame, count, has_alpha, has_sentiment,
+    h_desc, h_val, h_note,
+    trend_report, pattern_report, indicator_report,
+    alpha_report, sentiment_report,
+) -> str:
+    """Prompt benchmark gọn, giữ nguyên hợp đồng và các cổng quyết định P0."""
+    reports = (
+        f"### [1] PHÂN TÍCH XU HƯỚNG\n{trend_report}\n\n"
+        f"### [2] MÔ HÌNH NẾN\n{pattern_report}\n\n"
+        f"### [3] CHỈ BÁO KỸ THUẬT\n{indicator_report}"
+    )
+    if has_alpha:
+        reports += f"\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n{alpha_report}"
+    if has_sentiment:
+        index = 5 if has_alpha else 4
+        reports += f"\n\n### [{index}] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\n{sentiment_report}"
+
+    return f"""Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: {stock_name}; khung: {time_frame}; mục tiêu: {h_desc} ({h_val}).
+
+HỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: {h_note}
+
+{count} BÁO CÁO:
+{reports}
+
+THỨ TỰ ƯU TIÊN BẰNG CHỨNG:
+1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.
+2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.
+3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.
+4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.
+
+Chỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:
+{{"decision":"LONG hoặc SHORT","forecast_horizon":"{h_val}","confidence":"Rất cao|Cao|Trung bình|Thấp","risk_reward_ratio":1.0,"evidence_for":"tối đa 2 câu","evidence_against":"tối đa 1 câu","justification":"tối đa 2 câu"}}"""
+
+
+def _build_compact_prompt_en(
+    stock_name, time_frame, count, has_alpha, has_sentiment,
+    h_desc, h_val, h_note,
+    trend_report, pattern_report, indicator_report,
+    alpha_report, sentiment_report,
+) -> str:
+    """Compact benchmark prompt retaining the full economic decision contract."""
+    reports = (
+        f"### [1] TREND ANALYSIS\n{trend_report}\n\n"
+        f"### [2] CANDLESTICK PATTERNS\n{pattern_report}\n\n"
+        f"### [3] TECHNICAL INDICATORS\n{indicator_report}"
+    )
+    if has_alpha:
+        reports += f"\n\n### [4] QUANTITATIVE ALPHA FACTORS\n{alpha_report}"
+    if has_sentiment:
+        index = 5 if has_alpha else 4
+        reports += f"\n\n### [{index}] NEWS & MARKET SENTIMENT\n{sentiment_report}"
+
+    return f"""You are a Vietnamese-market quant trader. Asset: {stock_name}; timeframe: {time_frame}; target: {h_desc} ({h_val}).
+
+CONTRACT: Choose only LONG or SHORT. LONG only when buying with all cash at entry Open and selling at target Close remains profitable after the 0.25% broker fee and 0.10% slippage on EACH leg (~0.70% round trip). Otherwise choose SHORT, keep CASH for the horizon, never short-sell, and never carry shares into the next test. Rule: {h_note}
+
+{count} REPORTS:
+{reports}
+
+EVIDENCE PRIORITY:
+1. Trend/Pattern define regime, barriers and timing; Indicator confirms momentum.
+2. Normalized Alpha is quantitative evidence: it may veto a flow-less breakout or lead a reversal only with >=3/5 agreement.
+3. Sentiment has the lowest weight and never overrides price or Alpha.
+4. Conflict gate: when Trend and Pattern both confirm a downtrend, do not choose LONG merely from 1-2 positive alphas or upbeat news. Counter-trend LONG requires major support, dominant reversal Alpha, and candle/indicator confirmation; otherwise choose SHORT.
+
+Return one valid JSON object only; no Markdown or text outside JSON:
+{{"decision":"LONG or SHORT","forecast_horizon":"{h_val}","confidence":"Very high|High|Medium|Low","risk_reward_ratio":1.0,"evidence_for":"max 2 sentences","evidence_against":"max 1 sentence","justification":"max 2 sentences"}}"""
+
+
 # ── Main agent factory ─────────────────────────────────────────────────────────
 
 def create_final_trade_decider(llm):
@@ -446,12 +531,13 @@ def create_final_trade_decider(llm):
         sentiment_raw = state.get("sentiment_report", no_data)
         alpha_raw     = state.get("alpha_report",     no_data)
 
-        # Rút gọn báo cáo để tránh lỗi TPM Groq
+        # Rút gọn mọi báo cáo theo ngân sách cứng để tránh cạn quota Groq ở
+        # cuối benchmark 20 điểm.
         indicator_report = _distill_report("indicator", indicator_raw, lang)
         alpha_report     = _distill_report("alpha",     alpha_raw,     lang)
         sentiment_report = _distill_report("sentiment", sentiment_raw, lang)
-        pattern_report   = pattern_raw  # Thường đã ngắn
-        trend_report     = trend_raw    # Thường đã ngắn
+        pattern_report   = _distill_report("pattern",   pattern_raw,   lang)
+        trend_report     = _distill_report("trend",     trend_raw,     lang)
 
         def has_report(value) -> bool:
             return bool(
@@ -476,13 +562,22 @@ def create_final_trade_decider(llm):
 
         print(f"[DecisionAgent] Tổng hợp {count} báo cáo (condensed, horizon={h_val}, lang={lang})...")
 
-        build = _build_prompt_en if is_en else _build_prompt_vi
+        is_backtest = bool(state.get("is_backtest", False))
+        if is_backtest:
+            build = _build_compact_prompt_en if is_en else _build_compact_prompt_vi
+        else:
+            build = _build_prompt_en if is_en else _build_prompt_vi
         prompt = build(
             stock_name, time_frame, count, has_alpha, has_sentiment,
             h_desc, h_val, h_note,
             trend_report, pattern_report, indicator_report,
             alpha_report, sentiment_report,
         )
+        if is_backtest:
+            print(
+                f"[DecisionAgent] Prompt compact: {len(prompt)} ký tự "
+                f"(giới hạn 7500)."
+            )
         response = None
         last_format_error = None
         normalized = ""
