@@ -24,18 +24,42 @@ class _FakeGraph:
 
 
 class PairedProtocolTests(unittest.TestCase):
-    def test_empty_final_state_is_parsed_as_conservative_short(self):
+    def test_backtest_reasoning_models_hide_reasoning_and_set_token_limits(self):
+        engine = BacktestEngine(
+            {
+                "groq_api_key": "gsk_test",
+                "agent_llm_model": "openai/gpt-oss-20b",
+                "graph_llm_model": "qwen/qwen3.8-27b",
+                "agent_llm_max_tokens": 2048,
+                "graph_llm_max_tokens": 1024,
+            }
+        )
+        builder = Mock()
+        builder.compile_upstream.return_value = object()
+        builder.compile_decision.side_effect = [object(), object(), object(), object()]
+
+        with (
+            patch("langchain_groq.ChatGroq") as chat_groq,
+            patch("utils.graph_setup.SetGraph", return_value=builder),
+            patch("builtins.print"),
+        ):
+            engine._init_graphs()
+
+        self.assertEqual(chat_groq.call_count, 2)
+        agent_kwargs = chat_groq.call_args_list[0].kwargs
+        graph_kwargs = chat_groq.call_args_list[1].kwargs
+        self.assertEqual(agent_kwargs["reasoning_format"], "hidden")
+        self.assertEqual(agent_kwargs["max_tokens"], 2048)
+        self.assertEqual(graph_kwargs["reasoning_format"], "hidden")
+        self.assertEqual(graph_kwargs["max_tokens"], 1024)
+
+    def test_empty_final_state_is_rejected(self):
         engine = BacktestEngine({"use_historical_sentiment": False})
 
-        decision, confidence, rr, source, reason = engine._parse_prediction({})
+        with self.assertRaisesRegex(ValueError, "LONG/SHORT"):
+            engine._parse_prediction({})
 
-        self.assertEqual(decision, "SHORT")
-        self.assertEqual(confidence, "Thấp")
-        self.assertEqual(rr, "1.5")
-        self.assertEqual(source, "fallback_conservative")
-        self.assertEqual(reason, "EMPTY_RESPONSE")
-
-    def test_one_decision_variant_failure_does_not_discard_the_other(self):
+    def test_one_decision_variant_failure_aborts_paired_point(self):
         engine = BacktestEngine({"use_historical_sentiment": False})
         engine.DELAY_BETWEEN_VARIANTS = 0.0
         engine._graph_upstream = _FakeGraph(
@@ -61,19 +85,12 @@ class PairedProtocolTests(unittest.TestCase):
             patch("utils.static_util.generate_trend_image", return_value={}),
             patch("builtins.print"),
         ):
-            full_state, _, no_alpha_state, _ = engine._run_paired_point(
-                {"Datetime": [], "Open": [], "High": [], "Low": [], "Close": []},
-                "BHN",
-                "1 ngày",
-            )
-
-        self.assertEqual(engine._parse_prediction(full_state)[0], "LONG")
-        self.assertEqual(engine._parse_prediction(no_alpha_state)[0], "SHORT")
-        self.assertEqual(
-            engine._parse_prediction(no_alpha_state)[3],
-            "fallback_conservative",
-        )
-        self.assertIn("temporary LLM error", no_alpha_state["decision_error"])
+            with self.assertRaisesRegex(RuntimeError, "temporary LLM error"):
+                engine._run_paired_point(
+                    {"Datetime": [], "Open": [], "High": [], "Low": [], "Close": []},
+                    "BHN",
+                    "1 ngày",
+                )
 
     def test_generic_paired_failure_aborts_instead_of_saving_unknown(self):
         engine = BacktestEngine({"use_historical_sentiment": False})

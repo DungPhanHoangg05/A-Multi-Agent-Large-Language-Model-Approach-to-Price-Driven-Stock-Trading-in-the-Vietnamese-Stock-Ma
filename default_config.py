@@ -5,6 +5,7 @@ DEFAULT_CONFIG = {
     "graph_llm_provider":     "groq",
     "agent_llm_temperature":  0.0,
     "graph_llm_temperature":  0.0,
+    "agent_llm_max_tokens":   2048,
     "graph_llm_max_tokens":   1024,   # đủ chỗ cho 6 trường sau khi bóc suy luận
     "groq_api_key":           "",
     "use_historical_sentiment": True,
