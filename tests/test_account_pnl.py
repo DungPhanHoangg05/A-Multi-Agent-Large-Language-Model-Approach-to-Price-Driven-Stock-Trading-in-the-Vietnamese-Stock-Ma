@@ -46,11 +46,13 @@ def _test_point(
         actual_direction=direction,
         actual_pct_change=pct_change,
         pred_full=pred_full,
-        correct_full=(pred_full == "LONG" and direction == "UP"),
+        correct_full=(pred_full == ("LONG" if direction == "UP" else "SHORT")),
         confidence_full="N/A",
         rr_full="N/A",
         pred_no_alpha=pred_no_alpha,
-        correct_no_alpha=(pred_no_alpha == "LONG" and direction == "UP"),
+        correct_no_alpha=(
+            pred_no_alpha == ("LONG" if direction == "UP" else "SHORT")
+        ),
         confidence_no_alpha="N/A",
         rr_no_alpha="N/A",
         time_full_sec=0.0,
@@ -63,7 +65,7 @@ def _test_point(
 
 
 class AccountPnlTests(unittest.TestCase):
-    def test_long_buys_with_all_cash_and_marks_position_in_vnd(self):
+    def test_long_executes_complete_buy_sell_cycle_in_vnd(self):
         point = _test_point(1, 100.0, 110.0, pred_no_alpha="SHORT")
 
         metrics = compute_account_metrics(
@@ -74,16 +76,20 @@ class AccountPnlTests(unittest.TestCase):
             price_multiplier=1.0,
         )["full"]
 
-        expected_shares = 1_000.0 / (100.0 * 1.01)
-        expected_equity = expected_shares * 110.0 * 0.99
-        self.assertEqual(point.executed_action_full, "BUY")
-        self.assertAlmostEqual(point.cash_full_vnd, 0.0, places=8)
-        self.assertAlmostEqual(point.shares_full, expected_shares, places=8)
-        self.assertAlmostEqual(point.transaction_fee_full_vnd, 1_000.0 / 1.01 * 0.01, places=4)
+        buy_notional = 1_000.0 / 1.01
+        expected_shares_bought = buy_notional / 100.0
+        gross_sell = expected_shares_bought * 110.0
+        expected_equity = gross_sell * 0.99
+        expected_fee = buy_notional * 0.01 + gross_sell * 0.01
+        self.assertEqual(point.executed_action_full, "BUY_SELL")
+        self.assertAlmostEqual(point.cash_full_vnd, expected_equity, places=4)
+        self.assertEqual(point.shares_full, 0.0)
+        self.assertAlmostEqual(point.transaction_fee_full_vnd, expected_fee, places=4)
         self.assertAlmostEqual(point.equity_full_vnd, expected_equity, places=4)
         self.assertAlmostEqual(metrics.final_equity_vnd, expected_equity, places=8)
+        self.assertEqual(metrics.final_shares, 0.0)
 
-    def test_repeated_long_holds_without_second_buy_fee(self):
+    def test_repeated_long_opens_a_new_closed_cycle_each_time(self):
         points = [
             _test_point(1, 100.0, 110.0),
             _test_point(2, 115.0, 120.0),
@@ -97,12 +103,13 @@ class AccountPnlTests(unittest.TestCase):
             price_multiplier=1.0,
         )
 
-        self.assertEqual(points[0].executed_action_full, "BUY")
-        self.assertEqual(points[1].executed_action_full, "HOLD")
-        self.assertEqual(points[1].transaction_fee_full_vnd, 0.0)
-        self.assertAlmostEqual(points[1].shares_full, points[0].shares_full, places=8)
+        self.assertEqual(points[0].executed_action_full, "BUY_SELL")
+        self.assertEqual(points[1].executed_action_full, "BUY_SELL")
+        self.assertGreater(points[1].transaction_fee_full_vnd, 0.0)
+        self.assertEqual(points[0].shares_full, 0.0)
+        self.assertEqual(points[1].shares_full, 0.0)
 
-    def test_short_sells_all_shares_and_charges_sell_fee(self):
+    def test_short_after_long_does_not_carry_position_across_test_gap(self):
         points = [
             _test_point(1, 100.0, 110.0, pred_full="LONG"),
             _test_point(2, 120.0, 119.0, pred_full="SHORT"),
@@ -116,15 +123,37 @@ class AccountPnlTests(unittest.TestCase):
             price_multiplier=1.0,
         )["full"]
 
-        shares = 1_000.0 / (100.0 * 1.01)
-        gross_sell = shares * 120.0
-        expected_cash = gross_sell * 0.99
-        self.assertEqual(points[1].executed_action_full, "SELL")
-        self.assertAlmostEqual(points[1].transaction_fee_full_vnd, gross_sell * 0.01, places=4)
+        first_cycle_cash = 1_000.0 / 1.01 / 100.0 * 110.0 * 0.99
+        self.assertEqual(points[0].executed_action_full, "BUY_SELL")
+        self.assertEqual(points[1].executed_action_full, "CASH")
+        self.assertEqual(points[1].transaction_fee_full_vnd, 0.0)
         self.assertEqual(points[1].shares_full, 0.0)
-        self.assertAlmostEqual(points[1].cash_full_vnd, expected_cash, places=4)
-        self.assertAlmostEqual(metrics.final_cash_vnd, expected_cash, places=8)
-        self.assertAlmostEqual(metrics.final_equity_vnd, expected_cash, places=8)
+        self.assertAlmostEqual(points[1].cash_full_vnd, first_cycle_cash, places=4)
+        self.assertAlmostEqual(points[1].account_return_full, 0.0, places=8)
+        self.assertAlmostEqual(metrics.final_cash_vnd, first_cycle_cash, places=8)
+        self.assertAlmostEqual(metrics.final_equity_vnd, first_cycle_cash, places=8)
+
+    def test_correct_long_then_correct_short_never_loses_in_inter_test_gap(self):
+        """Hồi quy lỗi BHN: 27.120 -> 26.390 không thuộc horizon nào."""
+        points = [
+            _test_point(1, 26.850, 27.120, pred_full="LONG"),
+            _test_point(2, 26.390, 26.120, pred_full="SHORT"),
+        ]
+
+        metrics = compute_account_metrics(points)["full"]
+
+        self.assertTrue(points[0].correct_full)
+        self.assertTrue(points[1].correct_full)
+        self.assertGreater(points[0].account_return_full, 0.0)
+        self.assertEqual(points[1].account_return_full, 0.0)
+        self.assertEqual(points[0].executed_action_full, "BUY_SELL")
+        self.assertEqual(points[1].executed_action_full, "CASH")
+        self.assertAlmostEqual(
+            points[1].equity_full_vnd,
+            points[0].equity_full_vnd,
+            places=4,
+        )
+        self.assertGreater(metrics.total_return_pct, 0.0)
 
     def test_short_without_position_keeps_fifty_million_cash(self):
         point = _test_point(
@@ -138,7 +167,7 @@ class AccountPnlTests(unittest.TestCase):
         metrics = compute_account_metrics([point])["full"]
 
         self.assertEqual(point.executed_action_full, "CASH")
-        self.assertEqual(point.execution_skip_reason_full, "NO_POSITION")
+        self.assertEqual(point.execution_skip_reason_full, "SHORT_STAYS_CASH")
         self.assertEqual(point.cash_full_vnd, 50_000_000.0)
         self.assertEqual(point.equity_full_vnd, 50_000_000.0)
         self.assertEqual(metrics.total_pnl_vnd, 0.0)
@@ -243,7 +272,7 @@ class AccountPnlTests(unittest.TestCase):
             places=4,
         )
 
-    def test_two_long_signals_buy_once_then_hold_same_position(self):
+    def test_two_long_cycles_compound_without_gap_exposure(self):
         points = [
             _test_point(1, 100.0, 110.0),
             _test_point(2, 100.0, 90.0),
@@ -257,13 +286,14 @@ class AccountPnlTests(unittest.TestCase):
         )["full"]
 
         expected_first = 1.0 + compute_round_trip_net_return(100.0, 110.0)
-        expected_final = 1.0 + compute_round_trip_net_return(100.0, 90.0)
+        expected_second_factor = 1.0 + compute_round_trip_net_return(100.0, 90.0)
+        expected_final = expected_first * expected_second_factor
         self.assertAlmostEqual(metrics.total_return_pct, (expected_final - 1.0) * 100.0, places=6)
         self.assertAlmostEqual(metrics.equity_curve[1], expected_first, places=10)
         self.assertAlmostEqual(metrics.equity_curve[2], expected_final, places=10)
-        self.assertEqual(points[0].executed_action_full, "BUY")
-        self.assertEqual(points[1].executed_action_full, "HOLD")
-        self.assertEqual(points[1].transaction_fee_full_vnd, 0.0)
+        self.assertEqual(points[0].executed_action_full, "BUY_SELL")
+        self.assertEqual(points[1].executed_action_full, "BUY_SELL")
+        self.assertGreater(points[1].transaction_fee_full_vnd, 0.0)
 
     def test_losing_long_always_reduces_equity_and_cumulative_pnl(self):
         points = [
@@ -276,7 +306,7 @@ class AccountPnlTests(unittest.TestCase):
         self.assertLess(points[1].account_return_full, 0.0)
         self.assertLess(points[1].equity_full, points[0].equity_full)
         self.assertLess(points[1].pnl_full, points[0].pnl_full)
-        self.assertEqual(points[1].executed_action_full, "HOLD")
+        self.assertEqual(points[1].executed_action_full, "BUY_SELL")
         self.assertAlmostEqual(points[1].execution_pct_change, -1.0, places=8)
         self.assertEqual(metrics.equity_curve[-1], points[1].equity_full)
 
@@ -357,11 +387,11 @@ class AccountPnlTests(unittest.TestCase):
 
         compute_account_metrics(points)
 
-        self.assertEqual(points[1].executed_action_full, "HOLD")
-        self.assertEqual(points[1].execution_skip_reason_full, "ALREADY_LONG")
-        self.assertEqual(points[1].transaction_fee_full_vnd, 0.0)
+        self.assertEqual(points[1].executed_action_full, "BUY_SELL")
+        self.assertEqual(points[1].execution_skip_reason_full, "")
+        self.assertGreater(points[1].transaction_fee_full_vnd, 0.0)
 
-    def test_full_and_no_alpha_have_independent_portfolio_state(self):
+    def test_full_and_no_alpha_have_independent_compounded_capital(self):
         first = _test_point(
             1,
             100.0,
@@ -373,10 +403,11 @@ class AccountPnlTests(unittest.TestCase):
 
         compute_account_metrics([first, second])
 
-        self.assertEqual(second.executed_action_full, "HOLD")
-        self.assertEqual(second.executed_action_no_alpha, "BUY")
-        self.assertGreater(second.shares_full, 0.0)
-        self.assertGreater(second.shares_no_alpha, 0.0)
+        self.assertEqual(second.executed_action_full, "BUY_SELL")
+        self.assertEqual(second.executed_action_no_alpha, "BUY_SELL")
+        self.assertEqual(second.shares_full, 0.0)
+        self.assertEqual(second.shares_no_alpha, 0.0)
+        self.assertGreater(second.cash_full_vnd, second.cash_no_alpha_vnd)
 
     def test_invalid_execution_times_fail_fast(self):
         point = _test_point(1, 100.0, 101.0)
@@ -385,7 +416,7 @@ class AccountPnlTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "thời điểm entry/exit"):
             compute_account_metrics([point])
 
-    def test_daily_stateful_backtest_rejects_overlapping_step(self):
+    def test_daily_fixed_horizon_backtest_rejects_overlapping_step(self):
         import pandas as pd
 
         engine = BacktestEngine({"use_historical_sentiment": False})
@@ -421,9 +452,9 @@ class AccountPnlTests(unittest.TestCase):
 
         metrics = compute_account_metrics(points, fee=0.0, slippage=0.0)["full"]
 
-        self.assertEqual(metrics.equity_curve, [1.0, 1.1, 0.8, 1.05])
-        self.assertAlmostEqual(metrics.max_drawdown_pct, 100.0 * (1.0 - 0.8 / 1.1), places=8)
-        self.assertAlmostEqual(metrics.total_return_pct, 5.0, places=8)
+        self.assertEqual(metrics.equity_curve, [1.0, 1.1, 0.88, 0.924])
+        self.assertAlmostEqual(metrics.max_drawdown_pct, 20.0, places=8)
+        self.assertAlmostEqual(metrics.total_return_pct, -7.6, places=8)
 
     def test_partial_and_final_summaries_expose_same_equity_curve(self):
         points = [
@@ -437,11 +468,9 @@ class AccountPnlTests(unittest.TestCase):
             "FPT", "1 ngày", 2, 45, 3, points, "2024-01-01", "2024-02-01"
         )
 
-        expected_curve = [
-            1.0,
-            round(1.0 + compute_round_trip_net_return(100.0, 110.0), 12),
-            round(1.0 + compute_round_trip_net_return(100.0, 90.0), 12),
-        ]
+        first_factor = 1.0 + compute_round_trip_net_return(100.0, 110.0)
+        second_factor = 1.0 + compute_round_trip_net_return(100.0, 90.0)
+        expected_curve = [1.0, round(first_factor, 12), round(first_factor * second_factor, 12)]
         self.assertEqual(partial.equity_curve_full, expected_curve)
         self.assertEqual(summary.equity_curve_full, expected_curve)
         self.assertEqual(summary.pnl_full, round((expected_curve[-1] - 1.0) * 100.0, 2))

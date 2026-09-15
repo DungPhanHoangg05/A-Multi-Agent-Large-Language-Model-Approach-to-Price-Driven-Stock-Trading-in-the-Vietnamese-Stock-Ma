@@ -302,7 +302,7 @@ def generate_trend_image(kline_data, timeframe: str = "1d") -> dict:
 def generate_backtest_summary_chart(summary: dict, output_path: str) -> None:
     """
     Tạo biểu đồ so sánh hiệu quả Backtest:
-    - Trên: Giá trị tài khoản BUY/HOLD/SELL bằng VND
+    - Trên: Giá trị tài khoản theo chu kỳ BUY→SELL khép kín bằng VND
     - Dưới: Số lần dự đoán đúng lũy tiến.
     """
     try:
@@ -337,7 +337,7 @@ def generate_backtest_summary_chart(summary: dict, output_path: str) -> None:
         ax1.plot(equity_ids, equity_f, marker='o', color='#2563eb', linewidth=2, label=f"Full System ({equity_f[-1]:,.0f} VND)")
         ax1.plot(equity_ids, equity_n, marker='s', color='#16a34a', linewidth=2, linestyle='--', label=f"No-Alpha ({equity_n[-1]:,.0f} VND)")
         ax1.axhline(y=initial_capital, color='black', linestyle='-', linewidth=0.8, alpha=0.3)
-        ax1.set_title(f"BUY/HOLD/SELL Account Equity - {summary.get('symbol')}", fontsize=12, fontweight='bold', pad=10)
+        ax1.set_title(f"Fixed-Horizon BUY→SELL Account Equity - {summary.get('symbol')}", fontsize=12, fontweight='bold', pad=10)
         ax1.set_ylabel("Account Equity (VND)", fontsize=10)
         ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, _: f"{value / 1_000_000:.1f}M"))
         ax1.legend(loc="upper left", fontsize=9)
