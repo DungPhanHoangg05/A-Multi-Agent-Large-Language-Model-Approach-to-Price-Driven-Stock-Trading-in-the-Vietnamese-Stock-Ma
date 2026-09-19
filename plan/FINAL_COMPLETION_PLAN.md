@@ -75,7 +75,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-05** | **Thiếu kiểm định ý nghĩa thống kê trong kết quả chính** | `FIXED` | `BacktestEngine._build_summary()` tự tính và lưu McNemar p-value, Newey-West statistic và Block Bootstrap 95% CI trên common support; `utils/aggregate_benchmarks.py` tính Wilcoxon trên 9 mã và xuất bảng LaTeX. Kiểm chứng bởi `tests/test_significance.py`. | Review 1 (§3.1) & Review 2 (Page 4): "No significance testing anywhere in the paper... scope is too narrow without formal tests". | **P0** | `TASK-05` |
 | **ISSUE-06** | **Ablation bị gộp giữa Alpha định lượng và Sentiment tin tức** | `FIXED` | `ABLATION_CONFIGS` cung cấp đủ bốn tổ hợp Full, Alpha-only, Sentiment-only và Baseline; Alpha-only không nạp sentiment, Sentiment-only không tính alpha, và Decision Agent chỉ nhận các báo cáo được bật. Kiểm chứng bởi `tests/test_4way_ablation.py`. | Review 1 (§3.2, §5) & Review 2 (Page 5): "Conflated ablation... quantify the contribution of alpha vs sentiment alone". | **P1** | `TASK-06` |
 | **ISSUE-07** | **Thiếu siêu dữ liệu xuất xứ mô hình Sentiment (Provenance Tracking)** | `PARTIAL` | `agents/sentiment_agent.py`: hàm `_predict` rơi về lexicon khi lỗi HF API nhưng không ghi nhận cờ `is_fallback` vào từng bài báo. | Paper (§4.3, §5.1): Cam kết ghi nhận scorer thực tế, model identifier, và Hub revision cho từng bản ghi cache. | **P1** | `TASK-03`, `TASK-12` |
-| **ISSUE-08** | **Mẫu thử Robustness Sweep quá nhỏ (N=7)** | `OPEN` | `core/run_robustness.py`: dòng 104, 124, 148 chia `n_tests // 3 = 7` dẫn đến tỷ lệ 57.1% (4/7), 71.4% (5/7) gây sai số cực lớn. | Review 1 (§3.2): "Robustness sweep is under-powered and single-symbol... N=7 cannot establish stability". | **P1** | `TASK-09` |
+| **ISSUE-08** | **Mẫu thử Robustness Sweep quá nhỏ (N=7)** | `FIXED` | `core/run_robustness.py` cố định `N=20` cho từng cấu hình, dùng checkpoint/resume và shared upstream/control cho Panel B/C. Sáu sweep FPT/VNM trong `outputs/robustness/clean_a20/` đều có 3 hàng × 20 điểm; 18/18 checkpoint không có bản ghi lỗi. | Review 1 (§3.2): "Robustness sweep is under-powered and single-symbol... N=7 cannot establish stability". | **P1** | `TASK-09` |
 | **ISSUE-09** | **Thiếu quy tắc đối chiếu luật cho Tác nhân Thị giác (LVLM Verification)** | `FIXED` | Pattern Agent đối chiếu thiên lệch với thân và hướng 5 nến cuối; Trend Agent đối chiếu hướng với vị trí dưới/trên SMA20, cửa sổ dài SMA50 và độ dốc giá. Mâu thuẫn hiển nhiên bị hạ Confidence và gắn cảnh báo ngay trong báo cáo downstream. Kiểm chứng bởi `tests/test_vision_verification.py`. | Review 2 (Page 4): "Vision agents have no quantified accuracy checks... LVLM vulnerabilities to chart hallucination (CHARTHAL)". | **P1** | `TASK-07` |
 | **ISSUE-10** | **Chưa có lý giải khoa học cho việc chọn 9 mã cổ phiếu** | `PAPER_MISMATCH` | Repo chỉ lưu kết quả cứng của 9 mã: BHN, CMG, FPT, HVN, MBB, MWG, VCB, VJC, VNM mà không có file giải trình tiêu chí lọc. | Review 1 (§3.3, §5): "Ticker selection is unexplained... Were smaller-cap, more thinly-covered symbols excluded?". | **P1** | `TASK-12` |
 | **ISSUE-11** | **Mâu thuẫn số lượng Alpha giữa các phần tài liệu (85 vs 87)** | `FIXED` | `core/alpha_compare.py`: dòng 1003 `ALPHA_REGISTRY` có đúng 85 alpha. Đã kiểm tra import thành công 85 alpha. | Review 1 (§3.3) & Review 2 (Page 6): "Alpha registry size is inconsistently stated (85 vs 87)". | **P2** | `TASK-11` |
@@ -476,6 +476,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-09] [Thứ tự: #9] [P1] Tái sinh Bảng Robustness Check và Xóa bỏ Lỗi Bất nhất trong Table 8
 
 - **Task ID:** `TASK-09`
+- **Status:** `COMPLETED` — đã nghiệm thu đủ Panel A/B/C trên FPT và VNM, mỗi cấu hình 20 điểm (360 điểm tổng cộng), không có quyết định lỗi; `Acc No-α` và chuỗi baseline bất biến tuyệt đối trong từng Panel B/C. Lệnh kiểm thử TASK-09 và 90/90 regression tests đều PASS bằng Python 3.13.
 - **Git Branch:** `task/TASK-09-rerun-robustness-sweep`
 - **Priority:** `P0` / `P1`
 - **Objective:** Chạy lại toàn bộ thử nghiệm Robustness Check trên FPT (và bổ sung 1 mã đối chứng như VNM) với cỡ mẫu đủ lớn ($N=20$) dưới giao thức shared reports; chứng minh độ chính xác của No-Alpha bất biến tuyệt đối khi thay đổi tham số chuẩn hóa và trọng số Alpha.
@@ -791,8 +792,8 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 
 ### B. Protocol & Reproducibility Checks
 - [x] Giao thức `paired_shared_reports` hoạt động chuẩn xác: Indicator, Pattern, Trend chỉ chạy 1 lần cho mỗi test point.
-- [ ] Bảng Robustness Check (Table 8) có giá trị `Acc No-α` không đổi trên toàn bộ các hàng của Panel B (Normalization) và Panel C (Weights).
-- [ ] Đặt `random.seed(42)` và `np.random.seed(42)` đảm bảo khả năng tái lập kết quả.
+- [x] Bảng Robustness Check (Table 8) có giá trị `Acc No-α` không đổi trên toàn bộ các hàng của Panel B (Normalization) và Panel C (Weights).
+- [x] Đặt `random.seed(42)` và `np.random.seed(42)` đảm bảo khả năng tái lập kết quả.
 - [ ] Chạy lệnh `py -3.13 scripts/run_end_to_end_test.py` vượt qua toàn bộ mà không có ngoại lệ (zero exceptions).
 
 ### C. Financial & Statistical Rigor Checks
