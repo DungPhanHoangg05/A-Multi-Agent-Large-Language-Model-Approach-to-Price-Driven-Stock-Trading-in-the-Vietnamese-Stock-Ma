@@ -517,6 +517,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-10] [Thứ tự: #10] [P1] Thực hiện Thí nghiệm Phân rã Đóng góp (Disentangled Ablation Matrix)
 
 - **Task ID:** `TASK-10`
+- **Status:** `COMPLETED` — đã chạy đủ ma trận 4 biến thể trên FPT, VNM và VCB với 20 điểm/mã (60 shared test points, 240 phán quyết hợp lệ). Đóng góp Alpha-only độc lập dương trên cả ba mã: FPT `+5 pp`, VNM `+5 pp`, VCB `+15 pp`; trung bình `+8.33 pp`. Lệnh nghiệm thu TASK-10 và 93/93 regression tests đều PASS bằng Python 3.13.
 - **Git Branch:** `task/TASK-10-run-disentangled-ablation`
 - **Priority:** `P1`
 - **Objective:** Chạy thực nghiệm 4 biến thể (Full, Alpha-Only, Sentiment-Only, No-Alpha/No-Sentiment) trên 3 mã đại diện (FPT - Công nghệ, VNM - Tiêu dùng, VCB - Ngân hàng) để trả lời dứt khoát câu hỏi của Reviewer: Alpha định lượng đóng góp bao nhiêu pp và Sentiment đóng góp bao nhiêu pp vào Alpha Lift.
@@ -801,7 +802,7 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 - [x] Chi phí giao dịch ($0.25\%$) và trượt giá ($0.10\%$) được trừ đầy đủ cho mọi vị thế `LONG` thực thi.
 - [x] Vị thế `SHORT` trong tài khoản tiền mặt được xử lý thành `CASH` ($R=0\%$), không sinh lời ảo và không chịu phí.
 - [ ] Bảng 7 có đầy đủ p-value kiểm định McNemar, kiểm định Wilcoxon trên 9 mã, và khoảng tin cậy 95% Bootstrap.
-- [ ] Bảng Ablation Study mới định lượng rõ ràng đóng góp riêng lẻ của Alpha Factors và Sentiment tin tức.
+- [x] Bảng Ablation Study mới định lượng rõ ràng đóng góp riêng lẻ của Alpha Factors và Sentiment tin tức.
 
 ### D. Paper & Documentation Checks
 - [ ] Toàn bộ các ghi chú tạm ("pending A20 regeneration", "legacy sum", "unresolved issue") đã được loại bỏ 100% khỏi các file `.tex`.
