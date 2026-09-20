@@ -255,7 +255,6 @@ class SentimentCache:
         llm,
         window_days: int = 90,
         min_articles: int = 3,
-        strict_research_mode: bool = True,
     ) -> Tuple[Dict[str, Any], str]:
         """
         Trả về (sentiment_data, sentiment_report) sử dụng bài báo
@@ -266,7 +265,6 @@ class SentimentCache:
             llm          : LLM instance để tạo báo cáo
             window_days  : Chỉ dùng bài trong N ngày gần nhất
             min_articles : Nếu ít hơn min_articles bài, dùng neutral
-            strict_research_mode: Loại tuyệt đối bài không ngày trong nghiên cứu
 
         Returns:
             (sentiment_data dict, report string)
@@ -294,60 +292,17 @@ class SentimentCache:
             f"{len(filtered)} bài (window={window_days}d)"
         )
 
-        # Research mode: không bao giờ mượn bài không ngày. Khi dữ liệu thưa,
-        # giữ danh sách bài hợp lệ để audit nhưng trả tín hiệu trung tính và
-        # đánh dấu không đáng tin cậy.
+        # Fallback: không đủ bài có ngày → dùng tất cả bài không có ngày
         if len(filtered) < min_articles:
-            if strict_research_mode:
-                print(
-                    f"[SentimentCache] CẢNH BÁO {self.symbol}: chỉ có "
-                    f"{len(filtered)}/{min_articles} bài hợp lệ; "
-                    "strict research mode trả sentiment trung tính"
-                )
-                neutral_agg = {
-                    "label": "neutral",
-                    "avg_score": 0.0,
-                    "article_count": len(filtered),
-                    "positive": 0,
-                    "negative": 0,
-                    "neutral_count": len(filtered),
-                }
-                sentiment_data = {
-                    "target_stock": self.symbol,
-                    "main_sentiment": neutral_agg,
-                    "scored_articles": filtered[:15],
-                    "related_companies": [],
-                    "related_sentiment": {},
-                    "model_used": "neutral-insufficient-dated-history",
-                    "cutoff_date": cutoff_date,
-                    "n_articles_used": len(filtered),
-                    "is_reliable": False,
-                }
-                # Không đưa nhãn từng bài thưa thớt vào prompt Decision Agent;
-                # chúng chỉ được giữ trong sentiment_data để audit provenance.
-                report = self._build_short_report(neutral_agg, [], cutoff_date)
-                report += (
-                    f"\n\n⚠️ Không đủ {min_articles} bài có ngày hợp lệ; "
-                    "sentiment được đặt về trung tính."
-                )
-                return sentiment_data, report
-
-            no_date_articles = [
-                article
-                for article in self._scored_articles
-                if not article.get("date_parsed")
-            ]
-            needed = max(0, min_articles - len(filtered))
-            filtered = filtered + no_date_articles[:needed]
+            no_date_articles = [a for a in self._scored_articles if not a.get("date_parsed")]
+            filtered = filtered + no_date_articles[:max(0, min_articles - len(filtered))]
             print(
-                f"[SentimentCache] {self.symbol}: non-strict mode bổ sung "
-                f"{min(needed, len(no_date_articles))} bài không có ngày"
+                f"[SentimentCache] {self.symbol}: Bổ sung {len(no_date_articles)} "
+                f"bài không có ngày làm fallback"
             )
 
         if not filtered:
-            sentiment_data, report = self._neutral_result(cutoff_date)
-            sentiment_data["is_reliable"] = False
-            return sentiment_data, report
+            return self._neutral_result(cutoff_date)
 
         # Tổng hợp sentiment
         main_agg = _aggregate(filtered)
@@ -361,7 +316,6 @@ class SentimentCache:
             "model_used":        "cached-historical",
             "cutoff_date":       cutoff_date,
             "n_articles_used":   len(filtered),
-            "is_reliable":       len(filtered) >= min_articles,
         }
 
         # Tạo báo cáo ngắn (không gọi LLM để tiết kiệm rate limit)

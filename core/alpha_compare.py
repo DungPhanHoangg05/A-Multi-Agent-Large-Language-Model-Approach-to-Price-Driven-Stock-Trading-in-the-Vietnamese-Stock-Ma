@@ -1094,38 +1094,12 @@ ALPHA_REGISTRY = {
 # 6. Backtesting engine
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_forward_execution_returns(
-    df: pd.DataFrame,
-    lookahead: int = 3,
-    fee: float = 0.0025,
-    slippage: float = 0.001,
-) -> pd.Series:
-    """Tạo net return Open[t+1] -> Close[t+L], tính phí từng chiều."""
-    if lookahead < 1:
-        raise ValueError("lookahead phải là số dương")
-    if not np.isfinite(fee) or fee < 0.0 or fee >= 1.0:
-        raise ValueError("fee phải hữu hạn và nằm trong [0, 1)")
-    if not np.isfinite(slippage) or slippage < 0.0 or slippage >= 1.0:
-        raise ValueError("slippage phải hữu hạn và nằm trong [0, 1)")
-    missing = {"Open", "Close"}.difference(df.columns)
-    if missing:
-        raise ValueError(f"Thiếu cột để tạo execution return: {sorted(missing)}")
-
-    entry_open = pd.to_numeric(df["Open"], errors="coerce").shift(-1)
-    exit_close = pd.to_numeric(df["Close"], errors="coerce").shift(-lookahead)
-    valid_prices = (entry_open > 0.0) & (exit_close > 0.0)
-    buy_factor = (1.0 + slippage) * (1.0 + fee)
-    sell_factor = (1.0 - slippage) * (1.0 - fee)
-    returns = exit_close / entry_open * sell_factor / buy_factor - 1.0
-    return returns.where(valid_prices)
-
-
 def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
                     lookahead: int = 3) -> dict:
     """
     Compute performance metrics for one alpha.
     alpha_values : signal at time t (clipped to [-1,1])
-    forward_returns: net return Open[t+1] -> Close[t+lookahead] sau phí
+    forward_returns: actual return over next `lookahead` periods starting at t+1
     """
     mask = np.isfinite(alpha_values) & np.isfinite(forward_returns)
     if mask.sum() < 20:
@@ -1143,18 +1117,27 @@ def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
     flip_signal = ic < 0
     av_metric = -av if flip_signal else av
 
-    # Accuracy kinh tế: LONG khi net return dương; DOWN/CASH khi <= 0.
+    # Directional accuracy: sign(signal) matches sign(return)
     valid = (np.abs(av_metric) > 0.05)  # only predict when signal strong enough
     if valid.sum() < 10:
         accuracy = 0.5
     else:
-        predicted_up = av_metric[valid] > 0.0
-        actual_up = fr[valid] > 0.0
-        correct = predicted_up == actual_up
+        correct = np.sign(av_metric[valid]) == np.sign(fr[valid])
         accuracy = correct.mean()
 
-    # Diagnostic đối xứng cho ranking; forward_returns đã trừ chi phí một lần.
-    strategy_ret = np.sign(av_metric) * fr
+    # Realistic PnL calculations
+    tx_cost = 0.0025
+    slippage = 0.001
+    
+    # Gross returns from signal
+    gross_ret = np.sign(av_metric) * fr
+    
+    # Subtract costs where trades occur (whenever signal changes or we just assume a trade per period)
+    # For a simple alpha ranking, let's assume we pay spread/cost every period we are in a trade
+    # A more complex would be `np.abs(np.diff(np.sign(av_metric))) > 0`
+    net_ret = gross_ret - (tx_cost + slippage) * np.abs(np.sign(av_metric))
+    
+    strategy_ret = net_ret
     mean_ret = strategy_ret.mean()
     std_ret = strategy_ret.std()
     sharpe = (mean_ret / (std_ret + 1e-9)) * math.sqrt(252 / lookahead)
@@ -1178,7 +1161,7 @@ def compute_metrics(alpha_values: np.ndarray, forward_returns: np.ndarray,
     # Long-only accuracy (important for VN market — limited shorting)
     long_mask = av_metric > 0.05
     if long_mask.sum() >= 5:
-        long_acc = (fr[long_mask] > 0.0).mean()
+        long_acc = (fr[long_mask] > 0).mean()
     else:
         long_acc = 0.5
         
@@ -1208,13 +1191,8 @@ def run_backtest(df: pd.DataFrame, lookahead: int = 3,
     print(f"\n[AlphaCompare] Tính features trên {len(df)} nến...")
     d = build_features(df)
 
-    # Cùng nhãn kinh tế với BacktestEngine: Open[t+1] -> Close[t+L], sau phí.
-    fwd_ret = build_forward_execution_returns(
-        d,
-        lookahead=lookahead,
-        fee=0.0025,
-        slippage=0.001,
-    )
+    # Forward returns (T+1 to T+lookahead sum)
+    fwd_ret = d["log_ret"].shift(-1).rolling(lookahead, min_periods=1).sum().shift(-(lookahead - 1))
     fwd_arr = fwd_ret.values
 
     results = []
@@ -1251,10 +1229,8 @@ def run_backtest(df: pd.DataFrame, lookahead: int = 3,
 
 def rank_alphas(df_results: pd.DataFrame, weights: dict = None) -> pd.DataFrame:
     """
-    Composite score đối xứng hai chiều: |IC|, accuracy và Sharpe.
-
-    ``long_acc`` vẫn được báo cáo như một diagnostic kinh tế nhưng
-    không tham gia tuyển chọn, tránh ưu tiên alpha chỉ hợp uptrend.
+    Composite score:  0.35×|IC| + 0.30×accuracy + 0.20×long_acc + 0.15×sign(sharpe)
+    Weighted for VN market (long-biased, T+2.5 settlement).
     """
     r = df_results.copy()
     r["ic_abs"] = r["ic"].abs()
@@ -1268,20 +1244,17 @@ def rank_alphas(df_results: pd.DataFrame, weights: dict = None) -> pd.DataFrame:
 
     r["score_ic"]     = norm01(r["ic_abs"])
     r["score_acc"]    = norm01(r["accuracy"])
+    r["score_long"]   = norm01(r["long_acc"])
     r["score_sharpe"] = norm01(r["sharpe"])
-
+    
     if weights is None:
-        weights = {"ic": 0.40, "acc": 0.35, "sharpe": 0.25}
-    active_weights = {key: float(weights.get(key, 0.0)) for key in ("ic", "acc", "sharpe")}
-    weight_sum = sum(active_weights.values())
-    if weight_sum <= 0.0:
-        raise ValueError("Trọng số alpha phải có tổng dương cho ic/acc/sharpe")
-    active_weights = {key: value / weight_sum for key, value in active_weights.items()}
-
+        weights = {"ic": 0.35, "acc": 0.30, "long_acc": 0.20, "sharpe": 0.15}
+        
     r["composite"] = (
-        active_weights["ic"] * r["score_ic"]
-      + active_weights["acc"] * r["score_acc"]
-      + active_weights["sharpe"] * r["score_sharpe"]
+        weights.get("ic", 0.35) * r["score_ic"]
+      + weights.get("acc", 0.30) * r["score_acc"]
+      + weights.get("long_acc", 0.20) * r["score_long"]
+      + weights.get("sharpe", 0.15) * r["score_sharpe"]
     )
 
     return r.sort_values("composite", ascending=False).reset_index(drop=True)
@@ -1339,7 +1312,7 @@ def print_report(ranked: pd.DataFrame, symbol: str, top_n: int = 5):
     sep = "─" * 100
     print(f"\n{'='*100}")
     print(f"  BẢNG XẾP HẠNG ALPHA — {symbol}")
-    print(f"  Tiêu chí: |IC|×0.40 + Accuracy×0.35 + Sharpe×0.25")
+    print(f"  Tiêu chí: IC×0.35 + Accuracy×0.30 + LongAccuracy×0.20 + Sharpe×0.15")
     print(f"{'='*100}")
     print(f"{'#':>3}  {'Alpha ID':<28}  {'IC':>6}  {'Acc':>6}  {'LongAcc':>8}  {'Sharpe':>7}  {'Score':>6}  Mô tả")
     print(sep)

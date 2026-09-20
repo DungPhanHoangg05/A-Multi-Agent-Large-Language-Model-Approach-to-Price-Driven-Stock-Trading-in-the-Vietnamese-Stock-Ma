@@ -1,7 +1,6 @@
 from agents import indicator_agent
 import time
 import json
-import math
 import re
 
 from utils import static_util
@@ -456,101 +455,6 @@ def _describe_recent_candles(kline_data: dict, lang: str) -> dict:
         return {}
 
 
-def _verify_pattern_against_ohlcv(
-    report: str,
-    kline_data: dict,
-    lang: str = "vi",
-) -> str:
-    """Hạ tin cậy khi thiên lệch thị giác trái với cấu trúc năm nến cuối."""
-
-    if (
-        not report
-        or "Cảnh báo đối chiếu" in report
-        or "Verification warning" in report
-    ):
-        return report
-
-    direction_match = re.search(
-        r"\*\*(?:Thiên lệch dự báo|Directional bias):\*\*\s*([^\n]+)",
-        report,
-        flags=re.IGNORECASE,
-    )
-    if not direction_match:
-        return report
-
-    direction = direction_match.group(1).lower()
-    claims_bullish = bool(re.search(r"\b(?:bullish|tăng)\b", direction))
-    claims_bearish = bool(re.search(r"\b(?:bearish|giảm)\b", direction))
-    if not claims_bullish and not claims_bearish:
-        return report
-
-    try:
-        opens = [float(value) for value in kline_data.get("Open", [])][-5:]
-        highs = [float(value) for value in kline_data.get("High", [])][-5:]
-        lows = [float(value) for value in kline_data.get("Low", [])][-5:]
-        closes = [float(value) for value in kline_data.get("Close", [])][-5:]
-        n_candles = min(len(opens), len(highs), len(lows), len(closes))
-        if n_candles == 0:
-            return report
-        opens, highs, lows, closes = (
-            values[-n_candles:] for values in (opens, highs, lows, closes)
-        )
-        if not all(
-            math.isfinite(value)
-            for values in (opens, highs, lows, closes)
-            for value in values
-        ):
-            return report
-    except (TypeError, ValueError):
-        return report
-
-    last_body = closes[-1] - opens[-1]
-    last_range = max(highs[-1] - lows[-1], abs(last_body), 1e-12)
-    strong_bullish_last = last_body > 0.0 and last_body / last_range >= 0.6
-    strong_bearish_last = last_body < 0.0 and abs(last_body) / last_range >= 0.6
-    bullish_count = sum(close > open_ for open_, close in zip(opens, closes))
-    bearish_count = sum(close < open_ for open_, close in zip(opens, closes))
-    mostly_bullish = n_candles >= 3 and bullish_count >= math.ceil(0.8 * n_candles)
-    mostly_bearish = n_candles >= 3 and bearish_count >= math.ceil(0.8 * n_candles)
-
-    conflict = (
-        claims_bullish
-        and (strong_bearish_last or (mostly_bearish and last_body <= 0.0))
-    ) or (
-        claims_bearish
-        and (strong_bullish_last or (mostly_bullish and last_body >= 0.0))
-    )
-    if not conflict:
-        return report
-
-    if lang == "en":
-        report = re.sub(
-            r"(\*\*Confidence:\*\*\s*)(?:High|Medium|Low)\.?",
-            r"\g<1>Low",
-            report,
-            count=1,
-            flags=re.IGNORECASE,
-        )
-        claimed_side = "bullish" if claims_bullish else "bearish"
-        warning = (
-            "[Verification warning: Actual candle structure contradicts the "
-            f"{claimed_side} pattern]"
-        )
-    else:
-        report = re.sub(
-            r"(\*\*Độ tin cậy:\*\*\s*)(?:Cao|Trung bình|Thấp)\.?",
-            r"\g<1>Thấp",
-            report,
-            count=1,
-            flags=re.IGNORECASE,
-        )
-        claimed_side = "tăng" if claims_bullish else "giảm"
-        warning = (
-            f"[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình {claimed_side}]"
-        )
-    return f"{report.rstrip()}\n\n{warning}"
-
-
 def _enforce_pattern_markdown_format(text: str, lang: str = "vi",
                                      kline_data: dict = None) -> str:
     """
@@ -953,9 +857,6 @@ EXAMPLE OF A CORRECT OUTPUT:
         # tính từ OHLCV thay vì placeholder "—"/"__".
         report_content = _enforce_pattern_markdown_format(raw_output, lang=lang,
                                                           kline_data=kline_data)
-        report_content = _verify_pattern_against_ohlcv(
-            report_content, kline_data, lang=lang
-        )
         print(f"[PatternAgent] Hoàn thành ({len(report_content)} ký tự).")
 
         return {

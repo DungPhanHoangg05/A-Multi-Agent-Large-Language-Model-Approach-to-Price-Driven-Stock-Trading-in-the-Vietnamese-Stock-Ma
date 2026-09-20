@@ -1,5 +1,4 @@
 import json
-import math
 import re
 import time
 
@@ -499,108 +498,6 @@ def _compute_levels(kline_data: dict, lookback: int = 30) -> dict:
         return {}
 
 
-def _verify_trend_against_ohlcv(
-    report: str,
-    kline_data: dict,
-    lang: str = "vi",
-) -> str:
-    """Gắn cờ xu hướng thị giác trái với SMA20/SMA50 và độ dốc giá."""
-
-    if (
-        not report
-        or "Cảnh báo đối chiếu" in report
-        or "Verification warning" in report
-    ):
-        return report
-
-    direction_match = re.search(
-        r"\*\*(?:Hướng xu hướng|Trend direction):\*\*\s*([^\n]+)",
-        report,
-        flags=re.IGNORECASE,
-    )
-    if not direction_match:
-        return report
-
-    direction = direction_match.group(1).lower()
-    claims_up = bool(re.search(r"\bup\b|tăng", direction))
-    claims_down = bool(re.search(r"\bdown\b|giảm", direction))
-    if not claims_up and not claims_down:
-        return report
-
-    try:
-        closes = [float(value) for value in kline_data.get("Close", [])]
-        if len(closes) < 20 or not all(math.isfinite(value) for value in closes):
-            return report
-    except (TypeError, ValueError):
-        return report
-
-    def linear_slope(values) -> float:
-        n_values = len(values)
-        x_mean = (n_values - 1) / 2.0
-        y_mean = sum(values) / n_values
-        numerator = sum(
-            (index - x_mean) * (value - y_mean)
-            for index, value in enumerate(values)
-        )
-        denominator = sum((index - x_mean) ** 2 for index in range(n_values))
-        return numerator / denominator if denominator else 0.0
-
-    short_window = closes[-20:]
-    # Backtest mặc định W=45; khi chưa đủ 50 nến, dùng toàn bộ lịch sử khả dụng
-    # làm cửa sổ dài thay vì vô hiệu hóa hoàn toàn chốt chặn.
-    long_window = closes[-50:] if len(closes) >= 50 else closes
-    last_close = closes[-1]
-    sma20 = sum(short_window) / len(short_window)
-    sma50 = sum(long_window) / len(long_window)
-    slope20 = linear_slope(short_window)
-    slope50 = linear_slope(long_window)
-
-    conflicts_up = (
-        claims_up
-        and last_close < sma20
-        and last_close < sma50
-        and slope20 < 0.0
-        and slope50 < 0.0
-    )
-    conflicts_down = (
-        claims_down
-        and last_close > sma20
-        and last_close > sma50
-        and slope20 > 0.0
-        and slope50 > 0.0
-    )
-    if not conflicts_up and not conflicts_down:
-        return report
-
-    if lang == "en":
-        report = re.sub(
-            r"(\*\*Confidence:\*\*\s*)(?:High|Medium|Low)\.?",
-            r"\g<1>Low",
-            report,
-            count=1,
-            flags=re.IGNORECASE,
-        )
-        claimed_side = "uptrend" if conflicts_up else "downtrend"
-        warning = (
-            f"[Verification warning: Visual {claimed_side} conflicts with "
-            "SMA20/SMA50 and price slopes]"
-        )
-    else:
-        report = re.sub(
-            r"(\*\*Độ tin cậy:\*\*\s*)(?:Cao|Trung bình|Thấp)\.?",
-            r"\g<1>Thấp",
-            report,
-            count=1,
-            flags=re.IGNORECASE,
-        )
-        claimed_side = "tăng" if conflicts_up else "giảm"
-        warning = (
-            f"[Cảnh báo đối chiếu: Xu hướng thị giác {claimed_side} mâu thuẫn "
-            "với SMA20/SMA50 và độ dốc giá]"
-        )
-    return f"{report.rstrip()}\n\n{warning}"
-
-
 def _fmt_price(value: float) -> str:
     """Định dạng giá: bỏ phần thập phân thừa cho giá lớn (cổ phiếu VN tính bằng đồng)."""
     if value >= 1000:
@@ -1006,9 +903,6 @@ def create_trend_agent(tool_llm, graph_llm, toolkit):
         # thật (hỗ trợ/kháng cự/độ dốc) thay vì placeholder "—"/"__".
         report_content = _enforce_markdown_format(report_content, lang=lang,
                                                   kline_data=kline_data)
-        report_content = _verify_trend_against_ohlcv(
-            report_content, kline_data, lang=lang
-        )
         print(f"[TrendAgent] Hoàn thành ({len(report_content)} ký tự).")
 
         messages_out = state.get("messages", [])

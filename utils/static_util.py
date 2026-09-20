@@ -302,7 +302,7 @@ def generate_trend_image(kline_data, timeframe: str = "1d") -> dict:
 def generate_backtest_summary_chart(summary: dict, output_path: str) -> None:
     """
     Tạo biểu đồ so sánh hiệu quả Backtest:
-    - Trên: Giá trị tài khoản theo chu kỳ BUY→SELL khép kín bằng VND
+    - Trên: Lợi nhuận gộp mô phỏng (Cumulative P&L %)
     - Dưới: Số lần dự đoán đúng lũy tiến.
     """
     try:
@@ -311,10 +311,8 @@ def generate_backtest_summary_chart(summary: dict, output_path: str) -> None:
             return
 
         ids = [tp["test_id"] for tp in test_points]
-        initial_capital = float(summary.get("initial_capital_vnd", 50_000_000.0))
-        equity_f = [initial_capital] + [tp.get("equity_full_vnd", initial_capital) for tp in test_points]
-        equity_n = [initial_capital] + [tp.get("equity_no_alpha_vnd", initial_capital) for tp in test_points]
-        equity_ids = [0] + ids
+        pnl_f = [tp.get("pnl_full", 0.0) for tp in test_points]
+        pnl_n = [tp.get("pnl_no_alpha", 0.0) for tp in test_points]
         
         # Tính số lần đúng lũy tiến
         correct_f = []
@@ -333,13 +331,12 @@ def generate_backtest_summary_chart(summary: dict, output_path: str) -> None:
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
         plt.subplots_adjust(hspace=0.25)
 
-        # Subplot 1: Account equity
-        ax1.plot(equity_ids, equity_f, marker='o', color='#2563eb', linewidth=2, label=f"Full System ({equity_f[-1]:,.0f} VND)")
-        ax1.plot(equity_ids, equity_n, marker='s', color='#16a34a', linewidth=2, linestyle='--', label=f"No-Alpha ({equity_n[-1]:,.0f} VND)")
-        ax1.axhline(y=initial_capital, color='black', linestyle='-', linewidth=0.8, alpha=0.3)
-        ax1.set_title(f"Fixed-Horizon BUY→SELL Account Equity - {summary.get('symbol')}", fontsize=12, fontweight='bold', pad=10)
-        ax1.set_ylabel("Account Equity (VND)", fontsize=10)
-        ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, _: f"{value / 1_000_000:.1f}M"))
+        # Subplot 1: P&L
+        ax1.plot(ids, pnl_f, marker='o', color='#2563eb', linewidth=2, label=f"Full System ({pnl_f[-1]:+.1f}%)")
+        ax1.plot(ids, pnl_n, marker='s', color='#16a34a', linewidth=2, linestyle='--', label=f"No-Alpha ({pnl_n[-1]:+.1f}%)")
+        ax1.axhline(y=0, color='black', linestyle='-', linewidth=0.8, alpha=0.3)
+        ax1.set_title(f"Cumulative Simulated P&L - {summary.get('symbol')}", fontsize=12, fontweight='bold', pad=10)
+        ax1.set_ylabel("P&L (%)", fontsize=10)
         ax1.legend(loc="upper left", fontsize=9)
         ax1.grid(True, linestyle=':', alpha=0.6)
 
@@ -356,7 +353,7 @@ def generate_backtest_summary_chart(summary: dict, output_path: str) -> None:
         ax2.set_xticks(ids)
 
         # Footer info
-        pnl_lift = summary.get('pnl_full', 0.0) - summary.get('pnl_no_alpha', 0.0)
+        pnl_lift = summary.get('pnl_lift', (pnl_f[-1] - pnl_n[-1]) if pnl_f and pnl_n else 0.0)
         plt.figtext(0.5, 0.02, 
                     f"Backtest: {summary.get('symbol')} | {len(ids)} tests | "
                     f"Alpha Lift: {summary.get('alpha_lift', 0.0):+.1f}% | "

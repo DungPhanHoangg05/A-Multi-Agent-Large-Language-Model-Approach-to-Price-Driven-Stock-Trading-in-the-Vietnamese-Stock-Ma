@@ -478,7 +478,6 @@
 
         table.timeline {
             width: 100%;
-            min-width: 1500px;
             border-collapse: collapse;
             font-size: .8rem;
         }
@@ -763,7 +762,7 @@
 
                     <div class="form-row">
                         <label class="form-label">{{ T.bt_step }}</label>
-                        <input type="number" class="form-control" id="cfgStep" value="3" min="3" max="15">
+                        <input type="number" class="form-control" id="cfgStep" value="3" min="1" max="15">
                         <div class="hint">{{ T.bt_step_hint }}</div>
                     </div>
 
@@ -857,14 +856,14 @@
                     <div class="score-system">{{ T.bt_pnl_full }}</div>
                     <div class="score-acc" style="color:var(--blue);"><span id="pnlFullText">-</span><span
                             class="score-unit">%</span></div>
-                    <div class="score-sub" id="pnlFullSub">{{ T.bt_pnl_sub }}</div>
+                    <div class="score-sub">{{ T.bt_pnl_sub }}</div>
                 </div>
 
                 <div class="score-card" style="border-left: 5px solid var(--green);">
                     <div class="score-system">{{ T.bt_pnl_no }}</div>
                     <div class="score-acc" style="color:var(--green);"><span id="pnlNoText">-</span><span
                             class="score-unit">%</span></div>
-                    <div class="score-sub" id="pnlNoSub">{{ T.bt_pnl_sub }}</div>
+                    <div class="score-sub">{{ T.bt_pnl_sub }}</div>
                 </div>
 
                 <div class="score-card" style="background:var(--gray-0);border:2px solid var(--gray-2);">
@@ -925,19 +924,16 @@
                                     <th>#</th>
                                     <th>{{ T.bt_th_window }}</th>
                                     <th>{{ T.bt_th_actual }}</th>
-                                    <th>{{ T.bt_th_execution }}</th>
                                     <th>{{ T.bt_th_full_pred }}</th>
                                     <th>{{ T.bt_th_full_ok }}</th>
-                                    <th>{{ T.bt_th_full_return }}</th>
                                     <th>{{ T.bt_th_no_pred }}</th>
                                     <th>{{ T.bt_th_no_ok }}</th>
-                                    <th>{{ T.bt_th_no_return }}</th>
                                     <th>{{ T.bt_th_alpha_adds }}</th>
                                 </tr>
                             </thead>
                             <tbody id="timelineTbody">
                                 <tr>
-                                    <td colspan="11">
+                                    <td colspan="8">
                                         <div class="empty"><i class="fas fa-spinner fa-spin"></i>
                                             <p>{{ T.bt_waiting_first }}</p>
                                         </div>
@@ -972,7 +968,6 @@
         let testPoints = [];
         let isRunning = false;
         let startedAt = null;
-        let initialCapitalVnd = 50000000;
 
         // Chart instances
         let pnlChart = null;
@@ -1008,23 +1003,7 @@
                         ...commonOptions.plugins,
                         tooltip: {
                             callbacks: {
-                                label: ctx => `${ctx.dataset.label}: ${formatVnd(ctx.parsed.y)}`,
-                                afterLabel: ctx => {
-                                    if (ctx.dataIndex === 0) return tr('bt_initial_capital');
-                                    const tp = testPoints[ctx.dataIndex - 1];
-                                    if (!tp) return '';
-                                    const variant = ctx.datasetIndex === 0 ? 'full' : 'no_alpha';
-                                    const action = displayAccountAction(tp[`executed_action_${variant}`]);
-                                    const cash = tp[`cash_${variant}_vnd`];
-                                    const shares = Number(tp[`shares_${variant}`]);
-                                    const fee = tp[`transaction_fee_${variant}_vnd`];
-                                    return [
-                                        `${tr('bt_action')}: ${action}`,
-                                        `${tr('bt_cash')}: ${formatVnd(cash)}`,
-                                        `${tr('bt_shares')}: ${shares.toFixed(4)}`,
-                                        `${tr('bt_fee')}: ${formatVnd(fee)}`
-                                    ];
-                                }
+                                label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? '+' : ''}${ctx.parsed.y.toFixed(2)}%`
                             }
                         }
                     },
@@ -1033,7 +1012,7 @@
                         y: {
                             grid: { color: 'rgba(0,0,0,0.05)' },
                             title: { display: true, text: tr('bt_chart_y_pnl') },
-                            ticks: { callback: v => formatVnd(v) }
+                            ticks: { callback: v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%' }
                         }
                     }
                 }
@@ -1160,19 +1139,12 @@
             document.getElementById('accFullSub').textContent = tr('bt_calculating');
             document.getElementById('accNoSub').textContent = tr('bt_calculating');
             document.getElementById('liftSub').textContent = tr('bt_calculating');
-            document.getElementById('pnlFullText').textContent = '-';
-            document.getElementById('pnlNoText').textContent = '-';
-            document.getElementById('pnlFullSub').textContent = tr('bt_pnl_sub');
-            document.getElementById('pnlNoSub').textContent = tr('bt_pnl_sub');
             document.getElementById('etaSub').textContent = '-';
             document.getElementById('metricsBody').innerHTML =
                 '<div class="empty"><i class="fas fa-chart-bar"></i><p>' + tr('bt_waiting_data') + '</p></div>';
         }
 
         function updateScores(p) {
-            if (Number.isFinite(Number(p.initial_capital_vnd))) {
-                initialCapitalVnd = Number(p.initial_capital_vnd);
-            }
             document.getElementById('accFull').textContent = p.acc_full ?? '-';
             document.getElementById('accNo').textContent = p.acc_no_alpha ?? '-';
             document.getElementById('nDone').textContent = p.n_completed ?? 0;
@@ -1196,16 +1168,12 @@
                 const el = document.getElementById('pnlFullText');
                 el.textContent = (pf >= 0 ? '+' : '') + pf.toFixed(2);
                 el.style.color = pf >= 0 ? 'var(--blue)' : 'var(--red)';
-                document.getElementById('pnlFullSub').textContent =
-                    `${formatVnd(initialCapitalVnd)} → ${formatVnd(p.equity_full_vnd)} · P&L ${signedVnd(p.pnl_full_vnd)}`;
             }
             if (p.pnl_no_alpha !== undefined) {
                 const pn = p.pnl_no_alpha;
                 const el = document.getElementById('pnlNoText');
                 el.textContent = (pn >= 0 ? '+' : '') + pn.toFixed(2);
                 el.style.color = pn >= 0 ? 'var(--green)' : 'var(--red)';
-                document.getElementById('pnlNoSub').textContent =
-                    `${formatVnd(initialCapitalVnd)} → ${formatVnd(p.equity_no_alpha_vnd)} · P&L ${signedVnd(p.pnl_no_alpha_vnd)}`;
             }
 
             const liftDesc = lift > 2 ? tr('bt_lift_strong')
@@ -1231,9 +1199,9 @@
             initCharts();
             if (!points || !points.length) return;
 
-            const labels = [0, ...points.map(tp => tp.test_id)];
-            const pnlF = [initialCapitalVnd, ...points.map(tp => Number(tp.equity_full_vnd) || initialCapitalVnd)];
-            const pnlN = [initialCapitalVnd, ...points.map(tp => Number(tp.equity_no_alpha_vnd) || initialCapitalVnd)];
+            const labels = points.map(tp => tp.test_id);
+            const pnlF = points.map(tp => tp.pnl_full || 0);
+            const pnlN = points.map(tp => tp.pnl_no_alpha || 0);
 
             let cumCorrectF = 0;
             let cumCorrectN = 0;
@@ -1245,7 +1213,7 @@
             pnlChart.data.datasets[1].data = pnlN;
             pnlChart.update('none');
 
-            accChart.data.labels = points.map(tp => tp.test_id);
+            accChart.data.labels = labels;
             accChart.data.datasets[0].data = accF;
             accChart.data.datasets[1].data = accN;
             accChart.update('none');
@@ -1279,16 +1247,7 @@
 
         function showLastTest(tp) {
             const dir = tp.actual_direction === 'UP' ? '📈' : '📉';
-            const pct = signedPct(tp.actual_pct_change);
-            const executionPct = signedPct(tp.execution_pct_change);
-            const fullPeriod = signedPct(tp.account_return_full);
-            const noPeriod = signedPct(tp.account_return_no_alpha);
-            const fullActionNote = accountActionText(tp, 'full');
-            const noActionNote = accountActionText(tp, 'no_alpha');
-            const fullAction = displayAccountAction(tp.executed_action_full) + (fullActionNote ? `: ${fullActionNote}` : '');
-            const noAction = displayAccountAction(tp.executed_action_no_alpha) + (noActionNote ? `: ${noActionNote}` : '');
-            const fullSource = tp.decision_source_full === 'fallback_conservative' ? ` [${tr('bt_decision_fallback')}]` : '';
-            const noSource = tp.decision_source_no_alpha === 'fallback_conservative' ? ` [${tr('bt_decision_fallback')}]` : '';
+            const pct = (tp.actual_pct_change >= 0 ? '+' : '') + (tp.actual_pct_change || 0).toFixed(2) + '%';
             const prog = document.getElementById('progressFill');
             const cnt = document.getElementById('progressCount');
             const nT = parseInt(document.getElementById('nTotal').textContent) || 1;
@@ -1298,66 +1257,8 @@
             document.getElementById('lastTestInfo').innerHTML =
                 `<strong>${tr('bt_test')} ${done}</strong> - ${tp.window_start} → ${tp.window_end} &nbsp;|&nbsp; ` +
                 `${tr('bt_actual')}: ${dir} ${pct} &nbsp;|&nbsp; ` +
-                `${tr('bt_execution')}: ${formatVnd(tp.entry_price_vnd)} → ${formatVnd(tp.exit_price_vnd)} (${executionPct}) &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}${fullSource}</strong> ${tp.correct_full ? '✅' : '❌'} → ${fullAction} · ${fullPeriod} · ${formatVnd(tp.equity_full_vnd)} &nbsp;|&nbsp; ` +
-                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}${noSource}</strong> ${tp.correct_no_alpha ? '✅' : '❌'} → ${noAction} · ${noPeriod} · ${formatVnd(tp.equity_no_alpha_vnd)}`;
-        }
-
-        function signedPct(value) {
-            const number = Number(value);
-            const safe = Number.isFinite(number) ? number : 0;
-            return (safe >= 0 ? '+' : '') + safe.toFixed(2) + '%';
-        }
-
-        function formatVnd(value) {
-            const number = Number(value);
-            const safe = Number.isFinite(number) ? number : 0;
-            return new Intl.NumberFormat(LANG === 'vi' ? 'vi-VN' : 'en-US', {
-                maximumFractionDigits: 0
-            }).format(safe) + ' ₫';
-        }
-
-        function signedVnd(value) {
-            const number = Number(value);
-            const safe = Number.isFinite(number) ? number : 0;
-            return (safe >= 0 ? '+' : '−') + formatVnd(Math.abs(safe));
-        }
-
-        function displayAccountAction(action) {
-            return action === 'BUY_SELL' ? 'BUY → SELL' : (action || 'CASH');
-        }
-
-        function accountReturnCell(tp, variant) {
-            const action = tp[`executed_action_${variant}`] || 'CASH';
-            const actionLabel = displayAccountAction(action);
-            const actionText = accountActionText(tp, variant);
-            const period = Number(tp[`account_return_${variant}`]);
-            const cumulative = Number(tp[`pnl_${variant}`]);
-            const cash = Number(tp[`cash_${variant}_vnd`]);
-            const shares = Number(tp[`shares_${variant}`]);
-            const equity = Number(tp[`equity_${variant}_vnd`]);
-            const fee = Number(tp[`transaction_fee_${variant}_vnd`]);
-            const slippage = Number(tp[`slippage_cost_${variant}_vnd`]);
-            const periodClass = period > 0 ? 'badge-up' : period < 0 ? 'badge-down' : 'badge-unk';
-            const actionNote = actionText ? `<span style="font-size:.68rem;white-space:nowrap;">${actionText}</span><br>` : '';
-            return `<span class="badge ${periodClass}">${actionLabel}</span><br>` +
-                actionNote +
-                `<span style="font-size:.68rem;white-space:nowrap;">${tr('bt_cash')}: ${formatVnd(cash)} · ${tr('bt_shares')}: ${shares.toFixed(4)}</span><br>` +
-                `<span style="font-size:.68rem;white-space:nowrap;">${tr('bt_equity')}: ${formatVnd(equity)}</span><br>` +
-                `<span style="font-size:.68rem;white-space:nowrap;">${tr('bt_fee')}: ${formatVnd(fee)} · ${tr('bt_slippage')}: ${formatVnd(slippage)}</span><br>` +
-                `<span style="font-size:.72rem;white-space:nowrap;">${tr('bt_period')}: ${signedPct(period)}</span><br>` +
-                `<span style="font-size:.72rem;color:var(--gray-4);white-space:nowrap;">${tr('bt_cumulative')}: ${signedPct(cumulative)}</span>`;
-        }
-
-        function accountActionText(tp, variant) {
-            const action = tp[`executed_action_${variant}`] || 'CASH';
-            const reason = tp[`execution_skip_reason_${variant}`] || '';
-            const reasonKey = {
-                SHORT_STAYS_CASH: 'bt_cash_short',
-                INVALID_PREDICTION: 'bt_skip_invalid'
-            }[reason];
-            if (action === 'BUY_SELL') return tr('bt_trade_round_trip');
-            return reasonKey ? tr(reasonKey) : '';
+                `${tr('bt_ds_full_pnl')}: <strong>${tp.pred_full}</strong> ${tp.correct_full ? '✅' : '❌'} &nbsp;|&nbsp; ` +
+                `${tr('bt_ds_no_pnl')}: <strong>${tp.pred_no_alpha}</strong> ${tp.correct_no_alpha ? '✅' : '❌'}`;
         }
 
         function renderTimeline(tps) {
@@ -1366,7 +1267,7 @@
                 tps.length ? tr('bt_test_points', { n: tps.length }) : tr('bt_no_data');
 
             if (!tps.length) {
-                tbody.innerHTML = '<tr><td colspan="11"><div class="empty"><i class="fas fa-spinner fa-spin"></i><p>'
+                tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><i class="fas fa-spinner fa-spin"></i><p>'
                     + tr('bt_waiting_first') + '</p></div></td></tr>';
                 return;
             }
@@ -1375,19 +1276,13 @@
                 const dirBadge = tp.actual_direction === 'UP'
                     ? `<span class="badge badge-up">📈 UP</span>`
                     : `<span class="badge badge-down">📉 DOWN</span>`;
-                const pct = signedPct(tp.actual_pct_change);
-                const executionPct = signedPct(tp.execution_pct_change);
+                const pct = (tp.actual_pct_change >= 0 ? '+' : '') + (tp.actual_pct_change || 0).toFixed(2) + '%';
 
-                const predBadge = (pred, source) => {
-                    const badge = pred === 'LONG'
+                const predBadge = pred => pred === 'LONG'
                     ? `<span class="badge badge-long">LONG</span>`
                     : pred === 'SHORT'
                         ? `<span class="badge badge-short">SHORT</span>`
                         : `<span class="badge badge-unk">?</span>`;
-                    return source === 'fallback_conservative'
-                        ? `${badge}<br><span style="font-size:.65rem;color:#d97706;white-space:nowrap;">${tr('bt_decision_fallback')}</span>`
-                        : badge;
-                };
 
                 const okBadge = ok => ok
                     ? `<span class="badge badge-ok">✅</span>`
@@ -1402,13 +1297,10 @@
       <td>${tp.test_id}</td>
       <td style="font-size:.75rem;">${tp.window_start}<br><span style="color:var(--gray-4);">→ ${tp.window_end}</span></td>
       <td>${dirBadge}<br><span style="font-size:.72rem;color:var(--gray-4);">${pct}</span></td>
-      <td style="font-size:.75rem;white-space:nowrap;">O ${formatVnd(tp.entry_price_vnd)} → C ${formatVnd(tp.exit_price_vnd)}<br><span style="color:var(--gray-4);">${executionPct}</span></td>
-      <td>${predBadge(tp.pred_full, tp.decision_source_full)}</td>
+      <td>${predBadge(tp.pred_full)}</td>
       <td>${okBadge(tp.correct_full)}</td>
-      <td>${accountReturnCell(tp, 'full')}</td>
-      <td>${predBadge(tp.pred_no_alpha, tp.decision_source_no_alpha)}</td>
+      <td>${predBadge(tp.pred_no_alpha)}</td>
       <td>${okBadge(tp.correct_no_alpha)}</td>
-      <td>${accountReturnCell(tp, 'no_alpha')}</td>
       <td style="font-size:.8rem;">${alphaAdds}</td>
     </tr>`;
             }).join('');
@@ -1424,15 +1316,11 @@
             if (elPF) {
                 elPF.textContent = (pnlFull >= 0 ? '+' : '') + pnlFull.toFixed(2);
                 elPF.style.color = pnlFull >= 0 ? 'var(--blue)' : 'var(--red)';
-                document.getElementById('pnlFullSub').textContent =
-                    `${formatVnd(s.initial_capital_vnd)} → ${formatVnd(s.equity_full_vnd)} · P&L ${signedVnd(s.pnl_full_vnd)}`;
             }
             const elPN = document.getElementById('pnlNoText');
             if (elPN) {
                 elPN.textContent = (pnlNo >= 0 ? '+' : '') + pnlNo.toFixed(2);
                 elPN.style.color = pnlNo >= 0 ? 'var(--green)' : 'var(--red)';
-                document.getElementById('pnlNoSub').textContent =
-                    `${formatVnd(s.initial_capital_vnd)} → ${formatVnd(s.equity_no_alpha_vnd)} · P&L ${signedVnd(s.pnl_no_alpha_vnd)}`;
             }
 
             // Cập nhật metrics bars / update metric bars

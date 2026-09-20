@@ -643,23 +643,9 @@ def create_indicator_agent(llm, toolkit):
             f"[IndicatorAgent] Python classify xong: "
             f"TĂNG={summary['n_tang']}, GIẢM={summary['n_giam']}, "
             f"TRUNG_TÍNH={summary['n_trung']}, "
-            f"Đồng thuận={summary['consensus']} ({summary['confidence']})."
+            f"Đồng thuận={summary['consensus']} ({summary['confidence']}). "
+            f"Gọi LLM diễn giải..."
         )
-
-        # Trong benchmark, Decision Agent chỉ sử dụng phần phân loại/hội tụ do
-        # Python xác định. Không gọi LLM để diễn giải lại cùng dữ liệu: bước đó
-        # tiêu tốn một request và hàng nghìn token ở mỗi test nhưng bị distill
-        # bỏ trước quyết định, nên không đóng góp thông tin cho kết quả.
-        if state.get("is_backtest", False):
-            report = indicator_table + "\n\n---\n\n" + classification_block
-            print(
-                f"[IndicatorAgent] Backtest dùng báo cáo Python xác định "
-                f"({len(report)} ký tự), không gọi LLM diễn giải."
-            )
-            return {
-                "messages": state.get("messages", []),
-                "indicator_report": report,
-            }
 
         # ── Bước 2: LLM chỉ viết diễn giải ngôn ngữ ──────────────────────────
         from utils.i18n import signal_label, confidence_label
