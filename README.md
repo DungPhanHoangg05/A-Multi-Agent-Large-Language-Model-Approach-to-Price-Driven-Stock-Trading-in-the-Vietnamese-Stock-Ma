@@ -1,14 +1,30 @@
 # A Multi-Agent Large Language Model Approach to Price-Driven Stock Trading in the Vietnamese Stock Market
 
-This repository contains the research code for a LangGraph-based trading-decision framework tailored to the Vietnamese stock market. Five specialized agents combine technical indicators, candlestick patterns, trend structure, dynamically selected quantitative alpha factors, and Vietnamese financial-news sentiment to produce a forced `LONG`/`SHORT` classification.
+Research code for a LangGraph-based stock-direction framework designed for the Vietnamese market. The pipeline combines technical indicators, chart-pattern and trend analysis, dynamically selected quantitative alpha factors, Vietnamese financial-news sentiment, and a structured decision stage that emits a binary `LONG` or `SHORT` forecast.
 
-The economic evaluation is deliberately distinct from directional classification: `LONG` executes a fixed-horizon buy-then-sell cycle, while `SHORT` remains in cash because uncovered short selling of the underlying stock is not modeled. Account returns are compounded and include a 0.25% brokerage fee plus 0.10% slippage on each trade leg.
+The forecast label and the economic simulation are intentionally separate. A `LONG` forecast opens a fixed-horizon buy-at-open, sell-at-target-close cycle. A `SHORT` forecast remains in cash because the simulator does not assume uncovered short selling of Vietnamese underlying equities. Account returns are compounded from an initial VND 50,000,000 balance and apply a 0.25% brokerage fee plus 0.10% slippage on both the buy and sell legs.
 
-## Reproducible setup
+## What is implemented
 
-Python **3.13** is required. The repository is tested with Python 3.13.5; using the system `python` command is not sufficient when it resolves to another installed version.
+- Five-stage LangGraph workflow: Indicator, Alpha/Sentiment, Pattern, Trend, and Decision.
+- Point-in-time alpha selection from an 85-factor registry, using at most 600 candles ending at the decision cutoff.
+- Strict historical-sentiment filtering that rejects future-dated and undated records in research mode.
+- Shared upstream reports for paired comparisons, preventing repeated vision or indicator inference from contaminating treatment/control results.
+- Four ablation modes: `full`, `alpha_only`, `sentiment_only`, and `baseline`.
+- Compounded account P&L, two-sided trading costs, maximum drawdown, Sharpe ratio, and hit-rate reporting.
+- McNemar, Wilcoxon, Newey-West, and block-bootstrap significance utilities.
+- OHLCV consistency guards for chart-pattern and trend reports.
+- A deterministic offline end-to-end regression test that does not require API credentials.
 
-On Windows PowerShell, clone the repository and create an isolated environment as follows:
+## Requirements
+
+- Windows with the Python launcher (`py`) for the commands below.
+- Python **3.13**. The checked-in `.python-version` pins 3.13.5.
+- Internet access for live market data and hosted-model inference.
+- A Groq API key for live agent inference, supplied through `.env` or the web interface.
+- An optional Hugging Face token for the hosted ViSoBERT scorer. Without it, sentiment scoring records and uses the lexicon fallback.
+
+## Installation
 
 ```powershell
 git clone https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git
@@ -18,56 +34,58 @@ py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-TA-Lib is listed in `requirements.txt`. If its wheel is unavailable for a different platform, install the platform's TA-Lib native library first and then rerun the final command. Do not silently switch Python versions.
+`TA-Lib` is declared in `requirements.txt`. If a wheel is unavailable on another platform, install that platform's native TA-Lib dependency before rerunning the final command. Do not switch Python versions silently; the supported runtime is Python 3.13.
 
-### Environment variables
-
-Create a local `.env` file in the repository root for online inference:
+Create a local `.env` file only when using hosted services:
 
 ```dotenv
 GROQ_API_KEY=replace_with_your_groq_key
 HF_TOKEN=replace_with_your_optional_huggingface_token
 ```
 
-`GROQ_API_KEY` is required for live text/vision inference. `HF_TOKEN` enables the hosted ViSoBERT sentiment scorer; when it is absent or unavailable, the code records and uses its lexicon fallback. Never commit `.env` or API keys. The automated end-to-end regression test below is fully offline and requires neither key.
+Never commit `.env` or credentials.
 
-## One-command end-to-end reproduction
+## Verify the system
 
-After installing `requirements.txt`, run:
+Run the deterministic end-to-end test:
 
 ```powershell
 py -3.13 scripts/run_end_to_end_test.py
 ```
 
-The command executes one complete T+2.5 walk-forward point through the real data contracts, CafeF parser, historical sentiment cache, chart generators, 85-candidate Alpha Selector, five-agent LangGraph, structured Decision Agent output, compounded account P&L, transaction costs, and statistical summary. Network and hosted-LLM boundaries use deterministic local fixtures, so the regression result is independent of API quota and model drift. A successful run ends with:
+It exercises the production data contracts with fixed local OHLCV and CafeF fixtures, generates the charts, selects alpha factors, executes the LangGraph workflow with deterministic LLM doubles, computes account metrics, and validates the statistical summary. A successful run ends with:
 
 ```text
 [PASS] ALL PIPELINE CHECKS SUCCESSFUL IN <runtime>s
 ```
 
-Temporary JSON and PNG artifacts are validated and removed automatically. The test also reports peak Python-traced memory. It exits with a non-zero status at the first violated pipeline contract.
-
-To run the complete unit-test suite:
+Run the complete unit-test suite:
 
 ```powershell
 py -3.13 -X utf8 -m unittest discover -s tests -v
 ```
 
-## Running the application
+Optionally compile every Python module before running the tests:
 
-With `GROQ_API_KEY` configured, start the web interface:
+```powershell
+py -3.13 -m compileall agents core data_manager scripts tests utils web_interface.py
+```
+
+## Run the web application
 
 ```powershell
 py -3.13 web_interface.py
 ```
 
-Open `http://127.0.0.1:5000`. The interface supports live analysis and walk-forward backtesting. Backtest JSON and figures are written beneath `backtest_result/`; this directory is intentionally excluded from version control because full runs are large and may be regenerated.
+Open `http://127.0.0.1:5000`. Set `PORT` to override the default port. The interface accepts a Groq key at runtime when `GROQ_API_KEY` is not already configured.
 
-## Reproducing research experiments
+The UI supports live analysis and walk-forward backtesting. Generated JSON and PNG files are written to `backtest_result/`, which is intentionally excluded from version control.
 
-Online experiments require `.env`, market-data access, and the historical `sentiment_cache_<TICKER>.json` files appropriate to the frozen evaluation dates. All commands must use Python 3.13.
+## Run the research experiments
 
-Robustness panels for FPT (20 points each):
+These commands use live market data and hosted models, so exact reruns depend on provider availability, the requested data cutoff, local dated sentiment caches, and model revisions.
+
+Robustness sweeps:
 
 ```powershell
 py -3.13 core/run_robustness.py --mode hyperparams --symbol FPT --n_tests 20
@@ -75,48 +93,46 @@ py -3.13 core/run_robustness.py --mode norm --symbol FPT --n_tests 20
 py -3.13 core/run_robustness.py --mode weights --symbol FPT --n_tests 20
 ```
 
-Four-way ablation for the frozen nine-symbol sample:
+Four-way ablation on the representative sample:
 
 ```powershell
-py -3.13 scripts/run_ablation_matrix.py --symbols FPT,CMG,VCB,MBB,MWG,VNM,BHN,HVN,VJC --n_tests 20
+py -3.13 scripts/run_ablation_matrix.py --symbols FPT,VNM,VCB --n_tests 20
 ```
 
-Both experiment runners checkpoint completed work. After an HTTP 429 response, stop the process, replace the exhausted key in `.env`, and rerun the same command to resume from the last valid checkpoint.
+Both runners checkpoint completed work. If a hosted service returns HTTP 429, stop the process, update the credential if necessary, and rerun the same command to resume. Their generated files are written beneath `outputs/`, which is also excluded from version control.
 
-The paper-facing validation utilities are:
-
-```powershell
-py -3.13 scripts/analyze_sentiment_coverage.py
-py -3.13 scripts/verify_latex_tables.py
-```
-
-## Reproducibility boundary
-
-The offline regression command is deterministic (`random.seed(42)` and `numpy.random.seed(42)`) and validates the full integration path without external services. Exact paper-result regeneration additionally depends on the archived market-data cutoffs, dated sentiment caches, and the hosted model versions used for the recorded runs. Hosted LLM inference is not bit-reproducible across provider revisions; consequently, the repository distinguishes deterministic software regression from empirical reruns and retains structured JSON/CSV checkpoints for auditability.
-
-No trading result in this repository is investment advice. The framework is a research prototype and does not model every exchange rule, tax, liquidity constraint, or production execution risk.
+Use `--data-cutoff YYYY-MM-DD` to freeze the final market-data date and `--output-dir <path>` to choose a different local artifact directory.
 
 ## Architecture
 
-- **Indicator Agent** computes and classifies momentum, volatility, and trend-strength indicators from the decision window only.
-- **Pattern Agent** inspects a generated candlestick chart and applies OHLCV-based consistency guards.
-- **Trend Agent** analyzes chart structure, support, resistance, and trend direction with factual verification.
-- **Alpha Agent** selects the top five factors from an 85-candidate registry using at most 600 candles ending at the decision cutoff, and reads only news dated at or before that cutoff.
-- **Decision Agent** synthesizes the available reports through a strict structured-output schema and returns only `LONG` or `SHORT`.
+1. **Indicator Agent** computes momentum, volatility, and trend-strength indicators from the decision window.
+2. **Alpha/Sentiment stage** selects the top five point-in-time alpha factors and, when enabled, loads only news available at the cutoff.
+3. **Pattern Agent** analyzes a candlestick chart and applies OHLCV-based consistency checks.
+4. **Trend Agent** analyzes chart structure, support, resistance, and direction with numerical verification.
+5. **Decision Agent** receives only the reports enabled by the selected ablation mode and returns structured `LONG` or `SHORT` output.
 
-The backtest uses a shared upstream snapshot for paired variants, preventing stochastic differences in Indicator, Pattern, or Trend reports from contaminating the treatment/control comparison.
+For paired backtests, Indicator, Pattern, and Trend run once per test point. Their state is deep-copied into the treatment and baseline decision branches so upstream stochasticity cannot alter the control input.
 
-## Repository structure
+## Repository layout
 
-- `agents/`: five agent implementations and output contracts.
-- `core/`: alpha evaluation, data loading, robustness runner, and compounded backtest engine.
-- `data_manager/`: historical sentiment-cache management.
-- `scripts/`: end-to-end regression, ablation, coverage, and manuscript-validation utilities.
-- `tests/`: unit and regression tests for leakage, paired execution, finance, statistics, and report guards.
-- `outputs/`: structured robustness, ablation, coverage, and paper-facing audit artifacts.
-- `ESWA/`: Elsevier manuscript source and compiled paper.
-- `web_interface.py`, `templates/`, `static/`: Flask application and user interface.
+- `agents/`: agent implementations, prompts, and structured output contracts.
+- `core/`: market-data loading, alpha evaluation, the backtest engine, and robustness runner.
+- `data_manager/`: historical sentiment-cache filtering and lookup.
+- `scripts/`: deterministic end-to-end testing and experiment utilities.
+- `tests/`: leakage, pairing, ablation, financial, statistical, token-budget, and vision-guard tests.
+- `utils/`: graph assembly, technical tools, decision parsing, alpha selection, and statistical helpers.
+- `templates/`, `static/`, `web_interface.py`: Flask user interface.
 
-## Code and artifact availability
+## Public/private artifact boundary
 
-The repository contains the source code, automated tests, experiment runners, structured analysis artifacts, and manuscript required to audit the reported method. Secrets, temporary charts, raw backtest work products, and local sentiment caches are excluded from version control. Researchers publishing a release should archive the frozen input snapshots and result directory alongside the tagged source revision so that empirical outputs remain traceable to their exact data cutoff and model configuration.
+This public repository contains the implementation and automated tests. The manuscript, private planning/governance documents, local sentiment caches, raw backtest outputs, and generated experiment artifacts are intentionally not versioned. The corresponding ignore rules cover `ESWA/`, `plan/`, `AGENTS.md`, `sentiment_cache_*`, `backtest_result/`, and `outputs/`.
+
+Some audit utilities can consume those private local artifacts when they are present, but they are not required for the deterministic software test suite.
+
+## Reproducibility notes
+
+The offline regression path seeds Python and NumPy with 42 and replaces network/LLM boundaries with deterministic fixtures. It verifies software behavior, not the exact empirical outputs of a historical hosted-model run.
+
+Exact empirical reproduction additionally requires the original point-in-time market snapshots, dated sentiment caches, model identifiers/revisions, and private result artifacts. Hosted inference is not guaranteed to be bit-reproducible across provider revisions.
+
+This project is a research prototype, not investment advice. It does not model every exchange rule, tax, liquidity constraint, market-impact effect, or production execution risk.
