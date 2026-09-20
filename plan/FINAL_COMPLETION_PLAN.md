@@ -558,6 +558,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 ### [TASK-11] [Thứ tự: #11] [P1] Đồng bộ hóa Toàn bộ Bài báo LaTeX (Sections 5, 6, 7 và các Bảng biểu)
 
 - **Task ID:** `TASK-11`
+- **Status:** `COMPLETED` — đồng bộ toàn bộ bản thảo với artefact sạch của TASK-08/09/10; Table 7–9 được kiểm tra tự động theo từng hàng, PDF 37 trang biên dịch thành công và đã kiểm tra trực quan không tràn bảng.
 - **Git Branch:** `task/TASK-11-sync-latex-manuscript`
 - **Priority:** `P1`
 - **Objective:** Cập nhật toàn bộ các file LaTeX trong `ESWA/sections/` để phản ánh chính xác kết quả thực nghiệm mới; xóa bỏ các câu văn thừa nhận tình trạng tạm ("pending regeneration", "legacy sum"); cập nhật Bảng 7, Bảng 8 và bổ sung Bảng Ablation mới.
@@ -801,14 +802,14 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 - [x] Lợi nhuận tài khoản được tính theo mô hình lãi kép thực tế ($W_t = W_{t-1}(1+R_{\text{net}})$), không dùng tổng số học.
 - [x] Chi phí giao dịch ($0.25\%$) và trượt giá ($0.10\%$) được trừ đầy đủ cho mọi vị thế `LONG` thực thi.
 - [x] Vị thế `SHORT` trong tài khoản tiền mặt được xử lý thành `CASH` ($R=0\%$), không sinh lời ảo và không chịu phí.
-- [ ] Bảng 7 có đầy đủ p-value kiểm định McNemar, kiểm định Wilcoxon trên 9 mã, và khoảng tin cậy 95% Bootstrap.
+- [x] Bảng 7 có đầy đủ p-value kiểm định McNemar, kiểm định Wilcoxon trên 9 mã, và khoảng tin cậy 95% Bootstrap.
 - [x] Bảng Ablation Study mới định lượng rõ ràng đóng góp riêng lẻ của Alpha Factors và Sentiment tin tức.
 
 ### D. Paper & Documentation Checks
-- [ ] Toàn bộ các ghi chú tạm ("pending A20 regeneration", "legacy sum", "unresolved issue") đã được loại bỏ 100% khỏi các file `.tex`.
-- [ ] Tất cả số liệu trong văn bản khớp từng chữ số với các bảng và file JSON kết quả.
-- [ ] Số lượng alpha được thống nhất duy nhất là con số **85** trên toàn bộ bài báo và mã nguồn.
-- [ ] File `ESWA/main.pdf` biên dịch thành công, không có lỗi cú pháp, không tràn viền bảng biểu.
+- [x] Toàn bộ các ghi chú tạm ("pending A20 regeneration", "legacy sum", "unresolved issue") đã được loại bỏ 100% khỏi các file `.tex`.
+- [x] Tất cả số liệu trong văn bản khớp từng chữ số với các bảng và file JSON kết quả.
+- [x] Số lượng alpha được thống nhất duy nhất là con số **85** trên toàn bộ bài báo và mã nguồn.
+- [x] File `ESWA/main.pdf` biên dịch thành công, không có lỗi cú pháp, không tràn viền bảng biểu.
 - [ ] File `README.md` hướng dẫn đầy đủ cách chạy lại hệ thống với Python 3.13.
 
 ---

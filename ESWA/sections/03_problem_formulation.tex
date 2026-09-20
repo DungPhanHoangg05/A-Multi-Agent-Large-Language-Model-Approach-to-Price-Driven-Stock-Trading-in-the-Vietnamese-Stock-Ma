@@ -1,0 +1,516 @@
+\section{Problem Formulation}
+\label{sec:formulation}
+
+\begin{algorithm}[htbp]
+\small
+\caption{Walk-Forward Evaluation}
+\label{alg:walkforward}
+
+\KwIn{
+OHLCV series $\mathbf{X}$,
+alpha registry $\mathcal{A}$,
+historical sentiment cache $\mathcal{D}$,
+window size $W$,
+lookahead $L$,
+step size $S$
+}
+
+\KwOut{
+Directional predictions $\hat{y}_{e,L}$,
+accuracy, Alpha Lift, and compounded account return
+}
+
+Initialize results list $\mathcal{R} \leftarrow \emptyset$
+
+\ForEach{test point $e$ in the walk-forward schedule}{
+
+    Extract the exact analysis window $\mathbf{X}_e=\mathbf{X}_{[e-W,e)}$
+
+    Compute technical indicators using TA-Lib
+
+    Evaluate all candidate alphas $\alpha^{(k)} \in \mathcal{A}$
+
+    Remove candidates with no fitted transform, fewer than 20 finite
+    evaluation observations, or non-finite ranking metrics to form $\mathcal{V}$
+
+    Min--max normalise each metric over $\mathcal{V}$ and rank using:
+
+    \[
+    S_k =
+    0.40\mathcal{N}_{\mathcal{V}}(|IC_k|)
+    + 0.35\mathcal{N}_{\mathcal{V}}(Acc_k)
+    + 0.25\mathcal{N}_{\mathcal{V}}(Sharpe_k)
+    \]
+
+    Select top-5 alpha factors $\mathcal{A}^{*}$
+
+    Retrieve historical CafeF sentiment at the decision cutoff $d=e-1$
+
+    Generate candlestick and trendline chart images from the same exact
+    $\mathbf{X}_e$ window
+
+    Run the Indicator, Alpha, Pattern, and Trend Agents
+
+    Pass all reports to Decision Agent
+
+    Obtain binary prediction
+    $\hat{y}_{e,L} \in \{\texttt{LONG}, \texttt{SHORT}\}$
+
+    Compare prediction with realised return
+
+    Store metrics in $\mathcal{R}$
+}
+
+Compute directional accuracy and Alpha Lift
+
+Compute compounded account return under Eq.~\eqref{eq:account_return}
+
+\Return{$\mathcal{R}$}
+
+\end{algorithm}
+\subsection{Market Model and Data}
+
+Let $\mathcal{S} = \{s_1, s_2, \ldots, s_N\}$ denote the universe of
+Vietnamese equities listed on HOSE, HNX, or UPCoM.
+For each asset $s \in \mathcal{S}$, the market is observed as a
+discrete-time OHLCV series:
+\begin{equation}
+    \mathbf{x}_u = \bigl(O_u,\, H_u,\, L_u,\, C_u,\, V_u\bigr)
+    \;\in\; \mathbb{R}^5_{+},
+    \quad u = 0, 1, \ldots, T-1,
+\end{equation}
+where $O_u$, $H_u$, $L_u$, $C_u$, $V_u$ denote the open, high, low,
+closing price, and trading volume at zero-based bar position $u$ respectively.
+When volume observations are missing for more than 50\% of bars, the
+intra-bar range $H_u - L_u$ is substituted as a liquidity proxy.
+
+We use zero-based row positions and an exclusive window-end boundary.  For a
+test point with boundary $e$, the analysis window of size $W$ is exactly:
+\begin{equation}
+    \mathbf{X}_{e} = \bigl(\mathbf{x}_{e-W},\,
+                           \mathbf{x}_{e-W+1},\, \ldots,\,
+                           \mathbf{x}_{e-1}\bigr)
+    \;\in\; \mathbb{R}^{W \times 5}.
+    \qquad\text{(equivalently, }\mathbf{X}_{e}=\mathbf{X}_{[e-W,e)}\text{)}
+\end{equation}
+Thus $e$ is not itself a visible bar: the final visible (decision) bar is
+$d=e-1$.  The next bar, $e$, is reserved for the earliest simulated entry,
+and the immutable label target is $h=e-1+L$.  A candidate economic exit may
+use that close only if the separate execution contract accepts it. This mapping is used in the
+engine, alpha labels, persisted provenance, and the experiments:
+\begin{equation}
+    \boxed{\quad
+    \text{window}=[e-W,e),\qquad d=e-1,\qquad
+    \text{entry}=e,\qquad h=e-1+L.\quad}
+    \label{eq:time_index_contract}
+\end{equation}
+The mapping is positional rather than calendar arithmetic; timestamps are
+carried alongside every index, so a weekend or holiday gap does not create a
+synthetic bar.  The first complete window is $e=W$, and it is evaluable only
+when the target is present, i.e., $T\geq W+L$.  For $L=1$, the target is the
+entry bar ($h=e$), while for $L=3$ it is two positions after entry
+($h=e+2$).  Any boundary whose target is outside the available frame is
+rejected rather than shortened.
+
+\subsection{Directional Prediction Task}
+
+The core task predicts whether a candidate LONG cycle is profitable after
+the configured transaction costs. With $d=e-1$ and $h=e-1+L$, define
+\begin{equation}
+    r^{\mathrm{net}}_{e,L}
+    =\frac{C_h}{O_e}
+      \frac{(1-c_{\mathrm{slip}})(1-c_{\mathrm{fee}})}
+           {(1+c_{\mathrm{slip}})(1+c_{\mathrm{fee}})}-1,
+    \qquad
+    y_{e,L}=
+    \begin{cases}
+        +1, & r^{\mathrm{net}}_{e,L}>0,\\
+        -1, & r^{\mathrm{net}}_{e,L}\leq 0.
+    \end{cases}
+    \label{eq:label}
+\end{equation}
+Here $O_e$ is the next-bar entry open and $C_h$ is the target close. The same
+net Open-to-Close return defines the directional label, the alpha-selection
+target, and the realised return of an executed LONG. Thus an opening gap and
+both transaction legs are represented consistently. The reported study uses
+daily bars with $L=3$; intraday execution is outside its empirical scope.
+
+A trading system $\mathcal{F}$ maps each analysis window to a binary
+decision:
+\begin{equation}
+    \hat{y}_{e,L} \;=\; \mathcal{F}\!\bigl(\mathbf{X}_e\bigr)
+    \;\in\; \{-1,\, +1\},
+\end{equation}
+where $+1$ corresponds to a \texttt{LONG} signal and $-1$ to
+\texttt{SHORT}.
+
+\subsection{Alpha Factor Formalisation and Adaptation}
+
+An \emph{alpha factor} $\alpha^{(k)}$ is a measurable function that maps
+a feature frame derived from $\mathbf{X}_e$ to a scalar signal:
+\begin{equation}
+    \alpha^{(k)} : \mathbb{R}^{T_{\mathrm{hist}} \times d}
+    \;\longrightarrow\; \mathbb{R},
+\end{equation}
+where $d$ is the number of engineered features and
+$T_{\mathrm{hist}}$ is the historical window used for computation.
+
+While the system incorporates the WorldQuant-101 corpus, these formulas were originally designed for cross-sectional ranking across a broad, highly liquid equity universe. To apply them to the Vietnamese market's single-stock setting, we introduce a \emph{semantic translation layer} that redefines cross-sectional operators into rolling time-series equivalents.
+
+\paragraph{Operator Localisation.}
+The primary transformation involves the cross-sectional $\operatorname{rank}(x)$ operator, which denotes the relative percentile of a stock against its peers. We adapt this to a time-series percentile rank $\operatorname{ts\_rank}(x_u, w)$, representing the position of the current value $x_u$ relative to its own history over a rolling window $w$:
+\begin{equation}
+    \operatorname{ts\_rank}(x_u, w) \;=\; \frac{1}{w-1} \sum_{i=1}^{w-1} \mathbf{1}\!\left[x_u > x_{u-i}\right].
+\end{equation}
+The window parameter $w$ is inherited from the original WQ-101 specification and is typically between 5 and 20 bars, depending on the formula. It is kept unchanged to preserve each formula's intended look-back horizon. Operators that reference cross-sectional averages or market returns are re-parametrised using the asset's own rolling history: Average Daily Volume ($\mathrm{ADV}_{n}$) uses a $n$-day rolling mean of the asset's volume ($n = 10$ or $20$ as specified in the original formula), and the Volume Weighted Average Price (VWAP) is approximated by the daily intra-bar proxy $(H_u + L_u + C_u)/3$. Time-series functions such as $\delta(x, d)$ and $\operatorname{delay}(x, d)$ are implemented as $d$-period first differences and lags respectively, with $d$ taken directly from the original formula. The minimum look-back required to compute a candidate is at least $\max(w) + d$ valid observations; candidates that cannot be evaluated within the 60-candle minimum history are excluded from selection at that test point.
+
+\paragraph{Consistent Normalisation.}
+To ensure comparability across candidates with different scales, each adapted raw alpha value is normalised to $[-1,1]$ via:
+\begin{equation}
+    \tilde{\alpha}^{(k)}_u
+    \;=\;
+    \tanh\!\left(
+        \frac{\alpha^{(k)}_u - \mu_k}{\sigma_k + \varepsilon}
+    \right),
+    \label{eq:alpha_norm}
+\end{equation}
+where $\mu_k$ and $\sigma_k$ are the rolling mean and standard deviation
+of $\alpha^{(k)}$ over the calibration history, and $\varepsilon > 0$
+prevents division by zero.
+The resulting signal $\tilde{\alpha}^{(k)}_u \in (-1, 1)$ is treated as
+a continuous directional score: positive values favour \texttt{LONG} and
+negative values favour \texttt{SHORT}.
+
+\subsection{Walk-Forward Alpha Selection}
+
+Let $\mathcal{A} = \bigl\{\alpha^{(1)}, \alpha^{(2)}, \ldots,
+\alpha^{(M)}\bigr\}$ denote the registry of $M = 85$ candidate alpha
+functions. Each point-in-time history ends at the decision cutoff and is
+therefore disjoint from the current entry and target bars. Given the net
+Open-to-Close execution-return series $r^{\mathrm{net},(L)}_u$ defined as in
+Eq.~\eqref{eq:label}, the following diagnostics are computed on finite
+historical observations:
+
+\paragraph{Information Coefficient (IC).}
+Following Grinold and Kahn \cite{grinold1999active}, the Spearman rank correlation between the normalised alpha signal and
+forward returns over the evaluation suffix:
+\begin{equation}
+    \mathrm{IC}_k \;=\;
+    \operatorname{SpearmanCorr}\!\bigl(
+        \tilde{\alpha}^{(k)}_{\mathcal{T}_{\mathrm{eval}}},\;
+        r^{\mathrm{net},(L)}_{\mathcal{T}_{\mathrm{eval}}}
+    \bigr).
+    \label{eq:ic}
+\end{equation}
+
+\paragraph{Directional Accuracy.}
+The fraction of bars where the predicted direction agrees with the
+realised direction, restricted to bars with a strong enough signal:
+\begin{equation}
+    \mathrm{Acc}_k \;=\;
+    \frac{1}{|\mathcal{T}^*|}
+    \sum_{u \in \mathcal{T}^*}
+    \mathbf{1}\!\left[
+        \operatorname{sign}\!\bigl(\tilde{\alpha}^{(k)}_u\bigr)
+        = y^{(L)}_u
+    \right],
+\end{equation}
+where $\mathcal{T}^* = \bigl\{u : |\tilde{\alpha}^{(k)}_u| > 0.05\bigr\}$
+excludes near-zero signals and $y^{(L)}_u$ is the canonical binary label from
+Eq.~\eqref{eq:label}; hence a zero net return is \texttt{DOWN}, not a third class.
+
+\paragraph{Long-Only Win Rate.}
+The precision of the alpha on bullish signals:
+\begin{equation}
+    \mathrm{LongAcc}_k \;=\;
+    \frac{
+        \sum_u \mathbf{1}\!\left[
+            \tilde{\alpha}^{(k)}_u > 0.05 \;\wedge\; r^{\mathrm{net},(L)}_u > 0
+        \right]
+    }{
+        \sum_u \mathbf{1}\!\left[
+            \tilde{\alpha}^{(k)}_u > 0.05
+        \right]
+    }.
+\end{equation}
+
+\paragraph{Horizon Sharpe diagnostic.}
+For ranking, define $z^{(k)}_u=\operatorname{sign}(\tilde{\alpha}^{(k)}_u)
+r^{\mathrm{net},(L)}_u$ on the finite historical sample. Following Sharpe
+\cite{sharpe1966mutual}, the diagnostic is:
+\begin{equation}
+    \mathrm{Sharpe}_k \;=\;
+    \sqrt{\frac{252}{L}} \cdot
+    \frac{
+        \mathbb{E}_{u\in\mathcal{T}_{\mathrm{eval}}}\!\left[z^{(k)}_u\right]
+    }{
+        \mathrm{Std}_{u\in\mathcal{T}_{\mathrm{eval}}}\!\left[z^{(k)}_u\right]
+        + \varepsilon
+    }.
+    \label{eq:sharpe}
+\end{equation}
+Sortino, maximum drawdown, hit rate, long-only accuracy, and average trade are
+retained as descriptive candidate diagnostics but do not enter the composite
+selection score.
+
+Candidates with no fitted transform, fewer than 20 finite evaluation
+observations, or a non-finite value for any ranking metric are excluded before scaling. Let
+$\mathcal{V}\subseteq\mathcal{A}$ be the remaining eligible set and let
+$q\in\{|\mathrm{IC}|,\mathrm{Acc},\mathrm{Sharpe}\}$.
+The implementation applies candidate-wise min--max scaling:
+\begin{equation}
+    \mathcal{N}_{\mathcal{V}}(q_k) =
+    \begin{cases}
+        \dfrac{q_k-q_{\min}}{q_{\max}-q_{\min}},
+        & q_{\max}-q_{\min} \geq \varepsilon_{\mathrm{rank}},\\[6pt]
+        \dfrac{1}{2}, & \text{otherwise},
+    \end{cases}
+    \label{eq:candidate_minmax}
+\end{equation}
+where $q_{\min}=\min_{j\in\mathcal{V}}q_j$,
+$q_{\max}=\max_{j\in\mathcal{V}}q_j$, and
+$\varepsilon_{\mathrm{rank}}=10^{-9}$. The default composite selection
+score is therefore:
+\begin{equation}
+    S_k \;=\;
+    0.40\,\mathcal{N}_{\mathcal{V}}(|\mathrm{IC}_k|)
+    \;+\; 0.35\,\mathcal{N}_{\mathcal{V}}(\mathrm{Acc}_k)
+    \;+\; 0.25\,\mathcal{N}_{\mathcal{V}}(\mathrm{Sharpe}_k).
+    \label{eq:composite}
+\end{equation}
+
+The weights prioritise association and directional accuracy while retaining a
+risk-adjusted return diagnostic. Long-only accuracy is reported but excluded
+from ranking to avoid favouring factors solely because the sample trends up.
+
+Signal orientation is inferred from the sign of IC on the cutoff-safe
+historical snapshot. A negative-IC candidate is multiplied by $-1$ for its
+historical directional metrics and for the current inference value. All labels
+used for this operation have matured by the decision cutoff, but estimating
+orientation and ranking on the same finite history remains a selection risk
+discussed in Section~\ref{sec:limitations_futurework}.
+
+Let $K=\min(5,|\mathcal{V}|)$. The top candidates are selected as:
+\begin{equation}
+    \mathcal{A}^{*} \;=\;
+    \underset{\mathcal{B}\,\subseteq\,\mathcal{V},\;|\mathcal{B}|=K}
+    {\arg\max}
+    \;\sum_{\alpha^{(k)} \in \mathcal{B}} S_k.
+    \label{eq:selection}
+\end{equation}
+
+\subsection{Sentiment Signal Construction}
+
+Let $\mathcal{D}_e = \{d_1, d_2, \ldots, d_{|\mathcal{D}_e|}\}$ be the
+set of CafeF articles available to the system for asset $s$ at the timestamp
+$\tau_d$ of decision bar $d=e-1$.
+Each article is assigned a score by the scorer actually recorded for that
+article:
+\begin{equation}
+    \rho_i \;=\; \mathrm{Scorer}_i(d_i) \;\in\; [-1,\, 1],
+\end{equation}
+where $\rho_i = +1$ denotes strongly positive, $-1$ strongly negative,
+and $0$ neutral sentiment. For newly scored records,
+$\mathrm{Scorer}_i$ is either the configured
+\texttt{5CD-AI/Vietnamese-Sentiment-visobert} HF Inference API endpoint or
+the versioned deterministic lexicon fallback. Each record stores the scorer,
+requested model identifier, observed Hub revision and its verification status,
+and fallback status/reason. Legacy scores without these fields are marked
+\texttt{legacy-unknown}; no model identity is inferred from their numeric values.
+
+The unweighted mean sentiment score for descriptive reporting is:
+\begin{equation}
+    \bar{\rho}_e \;=\;
+    \frac{1}{|\mathcal{D}_e|} \sum_{i=1}^{|\mathcal{D}_e|} \rho_i.
+\end{equation}
+
+For the causal sentiment context, each dated article receives an exponential
+weight based on its age at cutoff $\tau_d$:
+\begin{align}
+    \Delta_i(\tau_d) &= \tau_d - \mathrm{date}(d_i), \\
+    w_i(\tau_d) &= 2^{-\Delta_i(\tau_d)/h}, \qquad h=30\ \text{days}, \\
+    S_{\mathrm{decay},e}
+    &= \frac{\sum_{d_i\in\mathcal{D}_e} w_i(\tau_d)\rho_i}
+             {\sum_{d_i\in\mathcal{D}_e} w_i(\tau_d)},
+    \label{eq:sent_decay} \\[4pt]
+    \mathrm{Rel}_{\mathrm{sent},e}
+    &\;=\;
+    S_{\mathrm{decay},e} \;-\;
+    \frac{1}{|\mathcal{R}_e|}
+    \sum_{s' \in \mathcal{R}_e} S^{(s')}_{\mathrm{decay},e},
+    \label{eq:relsent}
+\end{align}
+where $\mathcal{R}_e$ contains only related companies with at least three
+valid dated-and-scored articles at cutoff $\tau_d$.  The exponential mean makes recent articles
+more influential without comparing a batch mean against the same batch from
+which it was calculated.  $\mathrm{Rel}_{\mathrm{sent},e}$ compares like-for-like
+time-decayed scores.
+
+\paragraph{Batch definition and low-news stability.}
+The set $\mathcal{D}_e$ contains all dated articles for target stock $s$ in the 90-day sliding window ending at cutoff $\tau_d$. The complete compact observation set is used for Eq.~\ref{eq:sent_decay}; the 15-article list stored for display is not the normalization sample. With fewer than three valid dated-and-scored observations, $S_{\mathrm{decay},e}$ is marked unavailable rather than assigned a neutral zero. Likewise, $\mathrm{Rel}_{\mathrm{sent},e}$ is unavailable when $\mathcal{R}_e$ is empty. The effective sample size, invalid-date/score counts, and number of post-cutoff observations excluded are stored in run provenance. Neither context variable enters any numerical alpha formula or the registry ranking.
+
+To prevent look-ahead leakage during backtesting, every cached article stores
+timezone-aware \texttt{published\_at} and \texttt{available\_at} fields in
+\texttt{Asia/Ho\_Chi\_Minh}. The cache is keyed by $(s,\,\tau_d)$ and returns only
+articles satisfying $\mathrm{available\_at}(d_i)\leq \tau_d$. CafeF records having
+date-only precision are assigned a conservative availability time of 00:00 on
+the following local day; records without a parseable date are rejected in
+research mode and never used to fill a sparse historical window. All 180
+articles in the nine supplied cache artifacts contain parseable dates, so the
+previous undated fallback was a latent risk rather than evidence that those
+reported runs actually consumed undated articles.
+
+\subsection{Multi-Agent Decision Function}
+
+The full system decomposes $\mathcal{F}$ into five
+sub-functions corresponding to the five specialised agents:
+\begin{align}
+    \mathbf{r}^{\mathrm{ind}}
+    &\;=\; \mathcal{F}_{\mathrm{ind}}\!\bigl(\mathbf{X}_e\bigr),
+    \label{eq:ind} \\
+    \mathbf{a}_e
+    &\;=\; \mathcal{F}_{\mathrm{factor}}\!\bigl(
+            \mathbf{X}_e,\; \mathcal{A}^{*}
+           \bigr),
+    \label{eq:alpha_factor} \\
+    \mathbf{c}^{\mathrm{sent}}_e
+    &\;=\; \mathcal{F}_{\mathrm{context}}\!\bigl(
+            \mathcal{D}_e,\;
+            S_{\mathrm{decay},e},\;
+            \mathrm{Rel}_{\mathrm{sent},e}
+           \bigr),
+    \label{eq:sent_context} \\
+    \mathbf{r}^{\mathrm{alpha}}
+    &\;=\; \mathcal{F}_{\mathrm{text}}\!\bigl(
+            \mathbf{a}_e,\; \mathbf{c}^{\mathrm{sent}}_e
+           \bigr),
+    \label{eq:alpha} \\
+    \mathbf{r}^{\mathrm{pat}}
+    &\;=\; \mathcal{F}_{\mathrm{pat}}\!\bigl(
+            \mathbf{I}^{\mathrm{kline}}_e
+           \bigr),
+    \label{eq:pat} \\
+    \mathbf{r}^{\mathrm{trend}}
+    &\;=\; \mathcal{F}_{\mathrm{trend}}\!\bigl(
+            \mathbf{I}^{\mathrm{trend}}_e
+           \bigr),
+    \label{eq:trend}
+\end{align}
+where $\mathbf{I}^{\mathrm{kline}}_e$ and
+$\mathbf{I}^{\mathrm{trend}}_e$ are the candlestick and
+trendline-annotated chart images rendered from $\mathbf{X}_e$, and
+$\mathbf{c}^{\mathrm{sent}}_e$ is a separate textual context containing the
+target and related-company sentiment summaries. The factor values in
+$\mathbf{a}_e$ are functions of $\mathbf{X}_e$ only; the LLM compares
+them qualitatively with $\mathbf{c}^{\mathrm{sent}}_e$ when producing
+$\mathbf{r}^{\mathrm{alpha}}$.
+
+The Decision Agent aggregates all four reports through structured
+chain-of-thought prompting \cite{wei2022chain} and produces the final binary signal:
+\begin{equation}
+    \hat{y}_{e,L} \;=\; \mathcal{F}_{\mathrm{dec}}\!\bigl(
+        \mathbf{r}^{\mathrm{ind}},\;
+        \mathbf{r}^{\mathrm{alpha}},\;
+        \mathbf{r}^{\mathrm{pat}},\;
+        \mathbf{r}^{\mathrm{trend}}
+    \bigr) \;\in\; \{-1,\, +1\}.
+    \label{eq:decision}
+\end{equation}
+
+The forced binary output constraint ensures $\hat{y}_{e,L}\neq 0$ for every
+valid \emph{prediction}; it does not imply an always-invested account. Under
+the default long-only action map, \texttt{SHORT} becomes \texttt{CASH}.
+\texttt{LONG} executes a complete next-open-to-target-close cycle when valid
+positive prices and timestamps are available. This separation permits binary
+directional evaluation without misrepresenting a bearish prediction as an
+executed short sale.
+
+\subsection{Walk-Forward Evaluation Protocol}
+
+We adopt a rolling walk-forward evaluation protocol commonly used in quantitative trading system evaluation \cite{pardo2008evaluation}.
+
+Given a historical series of $T$ bars, valid test points are exclusive
+boundaries with $W\leq e\leq T-L$.  The implementation uses the latest
+available boundaries at spacing $S$ (up to $N_{\mathrm{test}}$ points) and
+processes them in chronological order:
+\begin{equation}
+    \mathcal{T} \;=\;
+    \bigl\{\, e_i = T-L-(i-1)\cdot S
+    \;\mid\; i = 1, 2, \ldots, N_{\mathrm{test}} \,\bigr\},
+    \label{eq:testpoints}
+\end{equation}
+retaining only values $e_i\geq W$ before reversing the list for execution.
+Thus $e=W$ is included whenever it is among the requested points, and every
+selected point satisfies the complete-window and complete-target conditions.
+Here $S$ is the step size between consecutive test points and
+$N_{\mathrm{test}} = 20$ in our main experiments.
+
+The three primary evaluation metrics are:
+\begin{align}
+    \mathrm{Acc}
+    &\;=\;
+    \frac{1}{|\mathcal{T}|}
+    \sum_{e \in \mathcal{T}}
+    \mathbf{1}\!\bigl[\hat{y}_{e,L} = y_{e,L}\bigr],
+    \label{eq:acc} \\[4pt]
+    \Delta\mathrm{Acc}
+    &\;=\;
+    \mathrm{Acc}_{\mathrm{Full}}
+    \;-\; \mathrm{Acc}_{\mathrm{No\text{-}\alpha}},
+    \label{eq:lift} \\[4pt]
+    q_e
+    &\;=\;
+    a_e\left[
+    \frac{C_{e-1+L}}{O_e}
+    \frac{(1-c_{\mathrm{slip}})(1-c_{\mathrm{fee}})}
+         {(1+c_{\mathrm{slip}})(1+c_{\mathrm{fee}})}-1
+    \right],
+    \label{eq:execution_return}\\[4pt]
+    W_{k+1}
+    &\;=\;
+    W_k\left(1+q_{e_k}\right),\qquad W_0=1,
+    \label{eq:wealth_update}\\[4pt]
+    R_{\mathrm{acct}}
+    &\;=\;
+    \frac{W_K}{W_0}-1,
+    \label{eq:account_return}
+\end{align}
+where $\Delta\mathrm{Acc}$ (\emph{Alpha Lift}) quantifies the improvement
+in directional accuracy attributable to the Alpha Agent. In the economic
+simulation, $a_e=1$ for \texttt{LONG} and $a_e=0$ for \texttt{SHORT}. Each
+LONG allocates all available cash at $O_e$, pays fee and slippage on the BUY
+leg, liquidates all shares at $C_{e-1+L}$, and pays the same rates on the SELL
+leg. The configured values are $c_{\mathrm{fee}}=0.25\%$ and
+$c_{\mathrm{slip}}=0.10\%$ per leg. Each test point is a closed cycle and the
+implementation requires $S\geq L$, so no shares carry into the next point.
+SHORT forecasts hold cash and incur neither fee nor slippage. Let
+$\rho_k=W_{k+1}/W_k-1=q_{e_k}$ denote the cycle return, including zeros for
+CASH. The account risk metrics are
+\begin{align}
+    \mathrm{Sharpe}_{\mathrm{acct}}
+    &=\sqrt{252}\,\frac{\mathbb{E}[\rho_k]}
+    {\mathrm{Std}[\rho_k]+\varepsilon},
+    \label{eq:account_sharpe}\\[4pt]
+    \mathrm{MDD}_{\mathrm{acct}}
+    &=\max_{0\leq k\leq K}
+      \left(1-\frac{W_k}{\max_{0\leq i\leq k}W_i}\right).
+    \label{eq:account_mdd}
+\end{align}
+The Sharpe risk-free rate is zero, and the population standard deviation is
+used. Maximum drawdown is a relative wealth loss and includes the initial
+wealth anchor $W_0$, so an initial losing cycle is not omitted.
+
+Finally, let $\mathcal{X}=\{e_k:a_{e_k}=1\}$ be the executed-position sample.
+Trade-level summaries are
+\begin{equation}
+    \mathrm{HitRate}=\frac{1}{|\mathcal{X}|}
+    \sum_{e\in\mathcal{X}}\mathbf{1}[q_e>0],\qquad
+    \mathrm{AvgTrade}=\frac{1}{|\mathcal{X}|}
+    \sum_{e\in\mathcal{X}}q_e,
+    \label{eq:account_trade_metrics}
+\end{equation}
+with both defined as zero when $\mathcal{X}$ is empty. SHORT/CASH cycles do not
+dilute either executed-trade denominator. Risk ratios are reported as zero when
+their dispersion denominator does not exceed the numerical tolerance. The
+cost rates are research allowances rather than a claim about a particular
+venue's realised fee schedule.

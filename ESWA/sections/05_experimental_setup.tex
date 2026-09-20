@@ -1,0 +1,151 @@
+\section{Experimental Setup}
+\label{sec:experimentalsetup}
+
+\subsection{Dataset and Point-in-Time Data Contract}
+
+The daily evaluation universe contains nine Vietnamese equities spanning technology, aviation, banking, retail, and consumer staples: BHN, CMG, FPT, HVN, MBB, MWG, VCB, VJC, and VNM. The benchmark contains 20 chronologically ordered test points per symbol, for 180 paired observations in total. Section~\ref{sec:limitations_futurework} discusses the limits of this deliberately small universe; the ticker-selection rationale and sentiment-coverage audit are reported separately from the performance analysis.
+
+OHLCV observations are obtained through the project's \texttt{vnstock}-based data loader. At an exclusive test boundary $e$, every agent sees only bars in $[e-W,e)$, so the last visible decision bar is $d=e-1$. Dynamic alpha selection receives a cutoff-safe prefix ending at the same decision bar and containing at most 600 observations. Neither the factor calculations nor the chart renderers can inspect the entry bar or target bar. The numerical, candlestick, and trend inputs use the same requested window length and fail closed when a complete window is unavailable.
+
+The historical sentiment store applies the same cutoff. Only records with a parseable availability date no later than $d$ are eligible; undated records are rejected in research mode instead of being borrowed from a later cache state. The sentiment pathway remains text context for the Decision Agent and does not enter any OHLCV alpha formula.
+
+\subsection{Walk-Forward Protocol}
+
+All reported experiments use daily observations. The main configuration is $W=45$, step size $S=3$, and lookahead $L=3$. For boundary $e$, the simulated entry is the next open $O_e$ and the target exit is $C_{e-1+L}$. The realised net return of a candidate LONG cycle is
+\begin{equation}
+ r^{\mathrm{net}}_{e,L}
+ =\frac{C_{e-1+L}}{O_e}
+  \frac{(1-c_{\mathrm{slip}})(1-c_{\mathrm{fee}})}
+       {(1+c_{\mathrm{slip}})(1+c_{\mathrm{fee}})}-1,
+ \label{eq:execution_return_setup}
+\end{equation}
+where $c_{\mathrm{fee}}=0.0025$ and $c_{\mathrm{slip}}=0.001$ are applied separately on both the BUY and SELL legs. The economic direction label is \texttt{UP} only when $r^{\mathrm{net}}_{e,L}>0$ and is \texttt{DOWN} otherwise. This definition makes the classification target, alpha-selection target, and account return share the same Open-to-Close horizon and cost convention.
+
+\begin{table}[H]
+\centering
+\caption{Main walk-forward configuration.}
+\label{tab:backtest_hyperparameters}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{|l|l|X|}
+\hline
+\textbf{Parameter} & \textbf{Value} & \textbf{Operational meaning} \\
+\hline
+Analysis window $W$ & 45 bars & Exact agent input $[e-W,e)$ \\
+\hline
+Step size $S$ & 3 bars & Separation between consecutive test boundaries \\
+\hline
+Lookahead $L$ & 3 bars & Entry at $O_e$ and exit at $C_{e-1+L}$ \\
+\hline
+Test points & 20 per symbol & 180 paired observations over nine symbols \\
+\hline
+Alpha history & Up to 600 bars & Cutoff-safe calibration/evaluation prefix ending at $d=e-1$ \\
+\hline
+Alpha registry & 85 candidates & Top five selected at each test point \\
+\hline
+Random seeds & 42 & Python/NumPy and bootstrap reproducibility \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Paired Baseline and Disentangled Ablations}
+
+The primary benchmark compares the Full System with a No-Alpha baseline under the implemented \texttt{paired\_shared\_reports} protocol. Indicator, Pattern, and Trend agents run once at each cutoff. Their immutable report snapshot is deep-copied into both decision branches, so only the Alpha bundle and the corresponding final decision differ. This eliminates upstream LLM and chart-generation variation within each pair. All 180 benchmark pairs produced valid binary decisions.
+
+\begin{table}[H]
+\centering
+\caption{Paired benchmark variants.}
+\label{tab:system_variants}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\textbf{Component} & \textbf{Full System} & \textbf{No-Alpha baseline} \\
+\hline
+Indicator report & Shared upstream snapshot & Identical shared snapshot \\
+\hline
+Pattern and Trend reports & Shared upstream snapshot & Identical shared snapshot \\
+\hline
+OHLCV alpha factors & Enabled & Disabled \\
+\hline
+Vietnamese sentiment context & Enabled & Disabled \\
+\hline
+Final Decision Agent & Receives all enabled reports & Receives only shared upstream reports \\
+\hline
+\end{tabularx}
+\end{table}
+
+To separate the two components bundled in the primary intervention, a second experiment uses the \texttt{four\_way\_shared\_upstream} protocol on FPT, VNM, and VCB. It evaluates Full (factors and sentiment), Alpha-only (factors), Sentiment-only (sentiment), and Baseline (neither). All four branches receive the same upstream snapshot at each test point. The independent directional contributions are defined relative to Baseline, while the interaction is
+\begin{equation}
+ \mathrm{Synergy}
+ =\mathrm{Acc}_{\mathrm{Full}}
+ -\max\!\left(\mathrm{Acc}_{\mathrm{AlphaOnly}},
+               \mathrm{Acc}_{\mathrm{SentimentOnly}}\right).
+ \label{eq:ablation_synergy}
+\end{equation}
+
+\clearpage
+\subsection{Account and Statistical Metrics}
+
+Each variant starts with VND~50,000,000 and is simulated independently. Every LONG uses all available cash at $O_e$, pays fee and slippage on purchase, sells all shares at $C_{e-1+L}$, and pays both costs again on sale. Every cycle therefore ends in cash before the next test point. A SHORT forecast is a directional prediction only and maps to CASH because uncovered short selling of the underlying equity is disabled. With cycle return $q_k=r^{\mathrm{net}}_{e_k,L}$ for LONG and $q_k=0$ for SHORT, wealth compounds as
+\begin{equation}
+ W_{k+1}=W_k(1+q_k),\qquad
+ R_{\mathrm{acct}}=\frac{W_K}{W_0}-1.
+ \label{eq:account_return_setup}
+\end{equation}
+
+Account Sharpe is the mean of the 20 cycle returns divided by their population standard deviation and annualised by $\sqrt{252}$; CASH cycles contribute zero. Maximum drawdown is computed from the compounded cycle-end equity curve anchored at $W_0$. These metrics describe the stated research simulation rather than a deployable execution strategy: spread variation, partial fills, taxes, liquidity limits, and market impact are outside the model.
+
+Statistical inference is computed on paired common support. For each symbol, an exact two-sided McNemar test compares discordant correctness outcomes. A moving-block bootstrap with block length five, 1,000 replications, and seed 42 yields the 95\% interval for Alpha Lift. A Newey--West test is also stored for the paired correctness-difference series. Across the nine symbols, a two-sided Wilcoxon signed-rank test evaluates whether the symbol-level lifts are centred at zero.
+
+\begin{table}[H]
+\centering
+\caption{Evaluation metrics and estimands.}
+\label{tab:evaluation_metrics}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Metric} & \textbf{Definition} \\
+\hline
+Directional accuracy & Fraction of valid LONG/SHORT forecasts matching the net economic direction in Eq.~\eqref{eq:label}. \\
+\hline
+Alpha Lift & Full accuracy minus the accuracy of its paired No-Alpha branch, in percentage points. \\
+\hline
+Account return & Compounded fixed-cycle return $W_K/W_0-1$; LONG executes and SHORT holds cash. \\
+\hline
+Account Sharpe & Mean cycle return divided by population standard deviation and annualised by $\sqrt{252}$. \\
+\hline
+Maximum drawdown & Largest peak-to-trough decline on the compounded cycle-end equity curve. \\
+\hline
+Paired inference & Exact McNemar test, moving-block 95\% lift interval, Newey--West mean test, and cross-symbol Wilcoxon signed-rank test. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Implementation and Robustness Design}
+
+The text model is \texttt{openai/gpt-oss-20b} and the vision model is \texttt{qwen/qwen3.8-27b}; both use temperature zero in the reported runs. Hosted inference can nevertheless remain nondeterministic. Calls are executed sequentially with rate-limit pacing, and checkpoint files permit completed test points to be resumed without changing their stored outputs.
+
+\begin{table}[H]
+\centering
+\caption{Implementation configuration used by the reported experiments.}
+\label{tab:implementation_details}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{Component} & \textbf{Configuration} \\
+\hline
+Text / vision models & \texttt{openai/gpt-oss-20b} / \texttt{qwen/qwen3.8-27b}; temperature $0.0$ \\
+\hline
+Initial capital & VND~50,000,000 independently for each variant \\
+\hline
+Costs & 0.25\% fee and 0.10\% slippage on each BUY and SELL leg \\
+\hline
+Position rule & LONG invests all cash for one fixed cycle; SHORT remains in CASH \\
+\hline
+Primary protocol & \texttt{paired\_shared\_reports}; 20 test points per symbol \\
+\hline
+Four-way protocol & \texttt{four\_way\_shared\_upstream}; Full, Alpha-only, Sentiment-only, Baseline \\
+\hline
+\end{tabularx}
+\end{table}
+
+The robustness experiment evaluates FPT and VNM with 20 test points per configuration. Panel A changes the common analysis window to $W\in\{30,45,60\}$. Panel B compares \texttt{zscore\_tanh}, \texttt{minmax}, and \texttt{rank} alpha normalisation. Panel C compares default, equal, and IC-heavy ranking weights. For Panels B and C, the No-Alpha branch is reused from the same shared upstream/control checkpoint within each symbol and panel; its decisions must therefore be invariant to parameters that only affect the Alpha branch. Panel A deliberately changes the shared input window, so its No-Alpha output is not expected to remain constant across rows.
