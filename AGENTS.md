@@ -12,7 +12,7 @@ Tài liệu này là **bộ quy tắc bắt buộc** cho bất kỳ AI Coding Ag
 
 2. **Chế độ Single-Agent Tuần tự:**
    - Dự án được thực thi bởi **1 Agent duy nhất theo trình tự tuyến tính (linear sequence)**.
-   - Thực hiện từng task một theo đúng thứ tự: `TASK-01` → `TASK-02` → ... → `TASK-14`. Không nhảy cóc, không làm dở dang nhiều task cùng lúc.
+   - Thực hiện từng task một theo đúng thứ tự: `TASK-01` → `TASK-02` → ... → `TASK-15`. Không nhảy cóc, không làm dở dang nhiều task cùng lúc.
 
 3. **Zero Hallucination (Tuyệt đối không bịa đặt):**
    - Không bịa đặt tên hàm, tham số API của bên thứ ba (`vnstock`, `langchain`, `langgraph`, `TA-Lib`, `scipy`, `groq`).

@@ -155,28 +155,33 @@ a feature frame derived from $\mathbf{X}_e$ to a scalar signal:
 where $d$ is the number of engineered features and
 $T_{\mathrm{hist}}$ is the historical window used for computation.
 
-While the system incorporates the WorldQuant-101 corpus, these formulas were originally designed for cross-sectional ranking across a broad, highly liquid equity universe. To apply them to the Vietnamese market's single-stock setting, we introduce a \emph{semantic translation layer} that redefines cross-sectional operators into rolling time-series equivalents.
+The executable registry contains 80 adaptations drawn from the WorldQuant-101 catalogue, not all 101 source expressions, plus five proprietary formulas. The source expressions were designed primarily for cross-sectional ranking across a broad, liquid equity universe. To apply the registered subset to a single Vietnamese stock, we use a \emph{semantic translation layer} that replaces cross-sectional operators with rolling time-series surrogates. This is an engineering heuristic rather than an invariance-preserving mathematical transformation.
 
 \paragraph{Operator Localisation.}
-The primary transformation involves the cross-sectional $\operatorname{rank}(x)$ operator, which denotes the relative percentile of a stock against its peers. We adapt this to a time-series percentile rank $\operatorname{ts\_rank}(x_u, w)$, representing the position of the current value $x_u$ relative to its own history over a rolling window $w$:
+The primary transformation involves the cross-sectional $\operatorname{rank}(x)$ operator, which denotes the relative percentile of a stock against its peers. A cross-sectional rank is localised to a 20-bar time-series percentile rank unless the source expression already specifies a time-series rank with its own window. Let $\mathcal{H}_{u,w}$ contain the available preceding observations in that rolling window and let $n_{u,w}=|\mathcal{H}_{u,w}|+1$. The implementation computes
 \begin{equation}
-    \operatorname{ts\_rank}(x_u, w) \;=\; \frac{1}{w-1} \sum_{i=1}^{w-1} \mathbf{1}\!\left[x_u > x_{u-i}\right].
+    \operatorname{ts\_rank}(x_u,w)
+    \;=\;
+    \frac{1}{\max(n_{u,w}-1,1)}
+    \sum_{x_v\in\mathcal{H}_{u,w}} \mathbf{1}[x_u>x_v].
+    \label{eq:ts_rank_localised}
 \end{equation}
-The window parameter $w$ is inherited from the original WQ-101 specification and is typically between 5 and 20 bars, depending on the formula. It is kept unchanged to preserve each formula's intended look-back horizon. Operators that reference cross-sectional averages or market returns are re-parametrised using the asset's own rolling history: Average Daily Volume ($\mathrm{ADV}_{n}$) uses a $n$-day rolling mean of the asset's volume ($n = 10$ or $20$ as specified in the original formula), and the Volume Weighted Average Price (VWAP) is approximated by the daily intra-bar proxy $(H_u + L_u + C_u)/3$. Time-series functions such as $\delta(x, d)$ and $\operatorname{delay}(x, d)$ are implemented as $d$-period first differences and lags respectively, with $d$ taken directly from the original formula. The minimum look-back required to compute a candidate is at least $\max(w) + d$ valid observations; candidates that cannot be evaluated within the 60-candle minimum history are excluded from selection at that test point.
+Thus ties are not counted as strictly lower values, and an initial partial window is permitted once the operator-specific minimum is met. Other explicit time-series lookbacks are retained from each registered expression and can be substantially longer than 20 bars. Average Daily Volume ($\mathrm{ADV}_{n}$) is the asset's own $n$-day rolling mean volume, and VWAP is approximated by the daily typical price $(H_u+L_u+C_u)/3$. Functions $\delta(x,d)$ and $\operatorname{delay}(x,d)$ are implemented as $d$-period differences and lags. These substitutions remove peer-relative information, so neither the economic interpretation nor the stochastic properties of the source cross-sectional alpha are presumed to survive unchanged.
 
 \paragraph{Consistent Normalisation.}
 To ensure comparability across candidates with different scales, each adapted raw alpha value is normalised to $[-1,1]$ via:
 \begin{equation}
-    \tilde{\alpha}^{(k)}_u
+    \tilde{\alpha}^{(k)}_{u,e}
     \;=\;
     \tanh\!\left(
-        \frac{\alpha^{(k)}_u - \mu_k}{\sigma_k + \varepsilon}
+        \frac{\alpha^{(k)}_u - \mu_{k,e}}{\sigma_{k,e} + \varepsilon}
     \right),
     \label{eq:alpha_norm}
 \end{equation}
-where $\mu_k$ and $\sigma_k$ are the rolling mean and standard deviation
-of $\alpha^{(k)}$ over the calibration history, and $\varepsilon > 0$
-prevents division by zero.
+where $\mu_{k,e}$ and $\sigma_{k,e}$ are computed over the finite values in
+the cutoff-safe calibration snapshot available at decision boundary $e$, and
+$\varepsilon > 0$ prevents division by zero. They are recomputed at the next
+cutoff; they are not estimated from the entry or target bars.
 The resulting signal $\tilde{\alpha}^{(k)}_u \in (-1, 1)$ is treated as
 a continuous directional score: positive values favour \texttt{LONG} and
 negative values favour \texttt{SHORT}.
@@ -190,6 +195,13 @@ therefore disjoint from the current entry and target bars. Given the net
 Open-to-Close execution-return series $r^{\mathrm{net},(L)}_u$ defined as in
 Eq.~\eqref{eq:label}, the following diagnostics are computed on finite
 historical observations:
+
+The same matured calibration sample is used to estimate IC sign, orient the
+signal, calculate the three ranking diagnostics, and select the top five.
+Consequently, point-in-time truncation prevents future-data leakage but does
+not provide an independent inner/outer assessment of the adaptive selection
+rule. The equations below define the implemented selector; they should not be
+read as post-selection-unbiased estimates of an individual factor's skill.
 
 \paragraph{Information Coefficient (IC).}
 Following Grinold and Kahn \cite{grinold1999active}, the Spearman rank correlation between the normalised alpha signal and
