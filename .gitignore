@@ -1,9 +1,17 @@
 __pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 .venv/
 kline_chart.png
 trend_graph.png
 record.csv
 .vscode/
+.DS_Store
+Thumbs.db
 backtest_result/
 sentiment_cache_*
 .env
@@ -13,4 +21,7 @@ ESWA/*.blg
 ESWA/*.log
 ESWA/*.out
 ESWA/*.spl
+ESWA/*.fdb_latexmk
+ESWA/*.fls
+ESWA/*.synctex.gz
 tmp/
