@@ -1,77 +1,122 @@
 # A Multi-Agent Large Language Model Approach to Price-Driven Stock Trading in the Vietnamese Stock Market
 
-This project is a Multi-Agent Large Language Model (LLM) framework designed for automated technical analysis and trading decision support specifically tailored for the Vietnamese stock market. Built on top of LangGraph, it coordinates multiple specialized AI agents to analyze stock price data, technical indicators, chart patterns, and news sentiment, ultimately synthesizing a cohesive trading decision.
+This repository contains the research code for a LangGraph-based trading-decision framework tailored to the Vietnamese stock market. Five specialized agents combine technical indicators, candlestick patterns, trend structure, dynamically selected quantitative alpha factors, and Vietnamese financial-news sentiment to produce a forced `LONG`/`SHORT` classification.
 
-## Features
+The economic evaluation is deliberately distinct from directional classification: `LONG` executes a fixed-horizon buy-then-sell cycle, while `SHORT` remains in cash because uncovered short selling of the underlying stock is not modeled. Account returns are compounded and include a 0.25% brokerage fee plus 0.10% slippage on each trade leg.
 
-- **Multi-Agent Architecture**: Built with LangGraph, combining the strengths of multiple specialized agents:
-  - **Indicator Agent**: Analyzes momentum oscillators and technical indicators.
-  - **Alpha Agent**: Selects top-performing quantitative factors from an 85-candidate registry, augmented with Vietnamese sentiment signals (from CafeF and ViSoBERT).
-  - **Pattern Agent**: Uses vision-language models to analyze candlestick patterns.
-  - **Trend Agent**: Uses vision-language models to analyze trendlines and chart structures.
-  - **Decision Agent**: Synthesizes all reports into a forced LONG/SHORT trading decision calibrated to Vietnam’s T+2.5 settlement structure.
-- **Vietnamese Market Adaptation**: Explicitly adapted for the T+2.5 settlement rule, domestic news ecosystem (CafeF), and single-stock OHLCV data characteristics.
-- **Web Interface**: A Flask-based web interface to interact with the system, visualize charts, and run analyses.
+## Reproducible setup
 
-## Requirements
+Python **3.13** is required. The repository is tested with Python 3.13.5; using the system `python` command is not sufficient when it resolves to another installed version.
 
-The project uses Python and requires several dependencies. Make sure you have Python installed, then install the packages listed in `requirements.txt`:
+On Windows PowerShell, clone the repository and create an isolated environment as follows:
 
-```bash
-pip install -r requirements.txt
+```powershell
+git clone https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git
+cd A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma
+py -3.13 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-### Key Dependencies
-- `flask`: For the web interface
-- `langchain`, `langchain-groq`, `langgraph`: For the LLM agent orchestration
-- `pandas`, `numpy`, `scipy`, `TA-Lib`: For technical analysis and data manipulation
-- `matplotlib`, `mplfinance`: For chart generation
-- `vnstock`: For fetching Vietnamese stock data
-- `transformers`, `torch`: For local sentiment analysis models
+TA-Lib is listed in `requirements.txt`. If its wheel is unavailable for a different platform, install the platform's TA-Lib native library first and then rerun the final command. Do not silently switch Python versions.
 
-## Configuration
+### Environment variables
 
-The system uses Groq for LLM inference (both text and vision models). You need to provide a Groq API Key.
+Create a local `.env` file in the repository root for online inference:
 
-You can configure the system by either:
-1. Setting the `GROQ_API_KEY` environment variable:
-   ```bash
-   export GROQ_API_KEY="your_api_key_here"
-   ```
-2. Or editing the `default_config.py` file to include your API key and adjust model selections:
-   ```python
-   DEFAULT_CONFIG = {
-       "agent_llm_model":        "openai/gpt-oss-20b",   # text agent 
-       "graph_llm_model":        "qwen/qwen3.8-27b",       # vision agent 
-       "agent_llm_provider":     "groq",
-       "graph_llm_provider":     "groq",
-       "agent_llm_temperature":  0.1,
-       "graph_llm_temperature":  0.1,
-       "groq_api_key":           "your_api_key_here", 
-       "use_historical_sentiment": True
-   }
-   ```
-
-## Usage
-
-To start the web interface, run the `web_interface.py` file:
-
-```bash
-python web_interface.py
+```dotenv
+GROQ_API_KEY=replace_with_your_groq_key
+HF_TOKEN=replace_with_your_optional_huggingface_token
 ```
 
-By default, the Flask application will start a local server. Open your web browser and navigate to `http://127.0.0.1:5000` (or the address provided in your terminal) to interact with the system.
+`GROQ_API_KEY` is required for live text/vision inference. `HF_TOKEN` enables the hosted ViSoBERT sentiment scorer; when it is absent or unavailable, the code records and uses its lexicon fallback. Never commit `.env` or API keys. The automated end-to-end regression test below is fully offline and requires neither key.
 
-## Project Structure
+## One-command end-to-end reproduction
 
-- `web_interface.py`: The main Flask application providing the UI and coordinating the analysis.
-- `agents/`: Contains the specialized LangGraph agents (`indicator_agent.py`, `alpha_agent.py`, `pattern_agent.py`, `trend_agent.py`, `decision_agent.py`).
-- `core/`: Core engine logic, including the backtesting engine (`backtest_engine.py`) and data loaders.
-- `utils/`: Utility functions for graph setup, chart generation (`static_util.py`), etc.
-- `data_manager/`: Modules for managing historical and realtime data.
-- `static/` & `templates/`: HTML, CSS, and JS assets for the web interface.
-- `default_config.py`: Default configuration for models and API keys.
+After installing `requirements.txt`, run:
 
-## Architecture & Research Context
+```powershell
+py -3.13 scripts/run_end_to_end_test.py
+```
 
-This project extends the QuantAgent framework to emerging markets. While typical LLM trading frameworks are designed for mature, English-language markets, this framework addresses challenges specific to Vietnam, such as the T+2.5 minimum holding period and the necessity for Vietnamese-language sentiment analysis. The system evaluates the contribution of quantitative alpha integration and localized sentiment over a technical-only pipeline.
+The command executes one complete T+2.5 walk-forward point through the real data contracts, CafeF parser, historical sentiment cache, chart generators, 85-candidate Alpha Selector, five-agent LangGraph, structured Decision Agent output, compounded account P&L, transaction costs, and statistical summary. Network and hosted-LLM boundaries use deterministic local fixtures, so the regression result is independent of API quota and model drift. A successful run ends with:
+
+```text
+[PASS] ALL PIPELINE CHECKS SUCCESSFUL IN <runtime>s
+```
+
+Temporary JSON and PNG artifacts are validated and removed automatically. The test also reports peak Python-traced memory. It exits with a non-zero status at the first violated pipeline contract.
+
+To run the complete unit-test suite:
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -v
+```
+
+## Running the application
+
+With `GROQ_API_KEY` configured, start the web interface:
+
+```powershell
+py -3.13 web_interface.py
+```
+
+Open `http://127.0.0.1:5000`. The interface supports live analysis and walk-forward backtesting. Backtest JSON and figures are written beneath `backtest_result/`; this directory is intentionally excluded from version control because full runs are large and may be regenerated.
+
+## Reproducing research experiments
+
+Online experiments require `.env`, market-data access, and the historical `sentiment_cache_<TICKER>.json` files appropriate to the frozen evaluation dates. All commands must use Python 3.13.
+
+Robustness panels for FPT (20 points each):
+
+```powershell
+py -3.13 core/run_robustness.py --mode hyperparams --symbol FPT --n_tests 20
+py -3.13 core/run_robustness.py --mode norm --symbol FPT --n_tests 20
+py -3.13 core/run_robustness.py --mode weights --symbol FPT --n_tests 20
+```
+
+Four-way ablation for the frozen nine-symbol sample:
+
+```powershell
+py -3.13 scripts/run_ablation_matrix.py --symbols FPT,CMG,VCB,MBB,MWG,VNM,BHN,HVN,VJC --n_tests 20
+```
+
+Both experiment runners checkpoint completed work. After an HTTP 429 response, stop the process, replace the exhausted key in `.env`, and rerun the same command to resume from the last valid checkpoint.
+
+The paper-facing validation utilities are:
+
+```powershell
+py -3.13 scripts/analyze_sentiment_coverage.py
+py -3.13 scripts/verify_latex_tables.py
+```
+
+## Reproducibility boundary
+
+The offline regression command is deterministic (`random.seed(42)` and `numpy.random.seed(42)`) and validates the full integration path without external services. Exact paper-result regeneration additionally depends on the archived market-data cutoffs, dated sentiment caches, and the hosted model versions used for the recorded runs. Hosted LLM inference is not bit-reproducible across provider revisions; consequently, the repository distinguishes deterministic software regression from empirical reruns and retains structured JSON/CSV checkpoints for auditability.
+
+No trading result in this repository is investment advice. The framework is a research prototype and does not model every exchange rule, tax, liquidity constraint, or production execution risk.
+
+## Architecture
+
+- **Indicator Agent** computes and classifies momentum, volatility, and trend-strength indicators from the decision window only.
+- **Pattern Agent** inspects a generated candlestick chart and applies OHLCV-based consistency guards.
+- **Trend Agent** analyzes chart structure, support, resistance, and trend direction with factual verification.
+- **Alpha Agent** selects the top five factors from an 85-candidate registry using at most 600 candles ending at the decision cutoff, and reads only news dated at or before that cutoff.
+- **Decision Agent** synthesizes the available reports through a strict structured-output schema and returns only `LONG` or `SHORT`.
+
+The backtest uses a shared upstream snapshot for paired variants, preventing stochastic differences in Indicator, Pattern, or Trend reports from contaminating the treatment/control comparison.
+
+## Repository structure
+
+- `agents/`: five agent implementations and output contracts.
+- `core/`: alpha evaluation, data loading, robustness runner, and compounded backtest engine.
+- `data_manager/`: historical sentiment-cache management.
+- `scripts/`: end-to-end regression, ablation, coverage, and manuscript-validation utilities.
+- `tests/`: unit and regression tests for leakage, paired execution, finance, statistics, and report guards.
+- `outputs/`: structured robustness, ablation, coverage, and paper-facing audit artifacts.
+- `ESWA/`: Elsevier manuscript source and compiled paper.
+- `web_interface.py`, `templates/`, `static/`: Flask application and user interface.
+
+## Code and artifact availability
+
+The repository contains the source code, automated tests, experiment runners, structured analysis artifacts, and manuscript required to audit the reported method. Secrets, temporary charts, raw backtest work products, and local sentiment caches are excluded from version control. Researchers publishing a release should archive the frozen input snapshots and result directory alongside the tagged source revision so that empirical outputs remain traceable to their exact data cutoff and model configuration.

@@ -80,7 +80,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-10** | **Chưa có lý giải khoa học cho việc chọn 9 mã cổ phiếu** | `FIXED` | `scripts/analyze_sentiment_coverage.py` tạo audit CSV cho đủ 9 mã và 180 test point; Section 5.1 giải thích thiết kế chọn mẫu phân tầng có chủ đích theo 5 nhóm ngành và strata quy mô/sở hữu. | Appendix Table E.12 công bố từng ticker, nhóm ngành, design stratum và coverage 90 ngày; đồng thời nêu rõ mẫu không ngẫu nhiên và không đại diện toàn thị trường. | **P1** | `TASK-12` |
 | **ISSUE-11** | **Mâu thuẫn số lượng Alpha giữa các phần tài liệu (85 vs 87)** | `FIXED` | `core/alpha_compare.py`: dòng 1003 `ALPHA_REGISTRY` có đúng 85 alpha. Đã kiểm tra import thành công 85 alpha. | Review 1 (§3.3) & Review 2 (Page 6): "Alpha registry size is inconsistently stated (85 vs 87)". | **P2** | `TASK-11` |
 | **ISSUE-12** | **Đảo dấu Alpha phụ thuộc mẫu ngắn (Sign-Flipping Risk)** | `PARTIAL` | `agents/alpha_agent.py`: dòng 678-683 đảo dấu nếu $IC < 0$. Logic chạy đúng nhưng chưa có kiểm định độ ổn định của dấu trên cửa sổ lăn. | Review 1 (§3.2, §4): "Composite scoring with \|IC\| plus post-hoc sign-flip is standard but can be fragile in short samples". | **P1** | `TASK-01`, `TASK-11` |
-| **ISSUE-13** | **Thiếu hướng dẫn môi trường và cấu hình phiên bản Python** | `OPEN` | System python mặc định là 3.11 thiếu pandas/TA-Lib; chỉ có Python 3.13 cài đủ gói nhưng không có script kích hoạt môi trường chuẩn. | Review 1 (§3.4): "Reproducibility caveats... public code and environment reproducibility". | **P2** | `TASK-13` |
+| **ISSUE-13** | **Thiếu hướng dẫn môi trường và cấu hình phiên bản Python** | `FIXED` | `README.md` chuẩn hóa virtual environment Python 3.13, `.env`, lệnh thí nghiệm và biên tái lập; `scripts/run_end_to_end_test.py` fail-fast nếu không chạy Python 3.13 hoặc thiếu dependency. | Review 1 (§3.4): code/environment availability được kiểm chứng bằng một lệnh E2E ngoại tuyến, không cần API key. | **P2** | `TASK-13` |
 | **ISSUE-14** | **Mô tả Intraday (L=1) không có dữ liệu thực nghiệm** | `OBSOLETE` | Khung mã nguồn có logic `lookahead = 1` cho intraday nhưng paper chỉ định vị đây là mở rộng lý thuyết, không có dữ liệu khớp lệnh phút. | Review 1 (§3.3): "Intraday capability is specified but never evaluated". Paper cần làm rõ phạm vi bài báo chỉ tập trung nến ngày (1D). | **P2** | `TASK-11` |
 
 ---
@@ -674,6 +674,7 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
   - Đạt 100% tiêu chí trong Definition of Done.
 - **Paper Impact:** Phục vụ cam kết Code & Artifact Availability trong Section 7.3 và Acknowledgments.
 - **Estimated Complexity:** `S`
+- **Completion Status:** `COMPLETED (2026-09-20)` — E2E 5-agent PASS trong 14.4 giây, peak Python-traced memory 6.4 MiB; 95/95 unit tests PASS; Table 7/8/9 và PDF 37 trang đã được biên dịch/render/kiểm tra lại.
 
 ---
 
@@ -791,13 +792,13 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 ### A. Data Integrity & Leakage Checks
 - [x] Dữ liệu đầu vào cho `select_top_alphas()` có mốc thời gian tối đa đúng bằng nến quyết định $d = e - 1$ (`as_of_date`), không có nến tương lai.
 - [x] Module `SentimentCache` không chứa bất kỳ bài báo nào có ngày lớn hơn $t_{\text{cutoff}}$ và không fallback mượn bài không ngày.
-- [ ] Không có hiện tượng Lookahead trong việc tính toán các chỉ báo kỹ thuật (Indicator Agent chỉ nhìn cửa sổ $[e-W, e)$).
+- [x] Không có hiện tượng Lookahead trong việc tính toán các chỉ báo kỹ thuật (Indicator Agent chỉ nhìn cửa sổ $[e-W, e)$).
 
 ### B. Protocol & Reproducibility Checks
 - [x] Giao thức `paired_shared_reports` hoạt động chuẩn xác: Indicator, Pattern, Trend chỉ chạy 1 lần cho mỗi test point.
 - [x] Bảng Robustness Check (Table 8) có giá trị `Acc No-α` không đổi trên toàn bộ các hàng của Panel B (Normalization) và Panel C (Weights).
 - [x] Đặt `random.seed(42)` và `np.random.seed(42)` đảm bảo khả năng tái lập kết quả.
-- [ ] Chạy lệnh `py -3.13 scripts/run_end_to_end_test.py` vượt qua toàn bộ mà không có ngoại lệ (zero exceptions).
+- [x] Chạy lệnh `py -3.13 scripts/run_end_to_end_test.py` vượt qua toàn bộ mà không có ngoại lệ (zero exceptions).
 
 ### C. Financial & Statistical Rigor Checks
 - [x] Lợi nhuận tài khoản được tính theo mô hình lãi kép thực tế ($W_t = W_{t-1}(1+R_{\text{net}})$), không dùng tổng số học.
@@ -812,7 +813,7 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 - [x] Số lượng alpha được thống nhất duy nhất là con số **85** trên toàn bộ bài báo và mã nguồn.
 - [x] File `ESWA/main.pdf` biên dịch thành công, không có lỗi cú pháp, không tràn viền bảng biểu.
 - [x] Section 5.1 và Appendix công bố tiêu chí chọn 9 ticker, coverage 90 ngày và giới hạn provenance scorer từ artefact thật.
-- [ ] File `README.md` hướng dẫn đầy đủ cách chạy lại hệ thống với Python 3.13.
+- [x] File `README.md` hướng dẫn đầy đủ cách chạy lại hệ thống với Python 3.13.
 
 ---
 
