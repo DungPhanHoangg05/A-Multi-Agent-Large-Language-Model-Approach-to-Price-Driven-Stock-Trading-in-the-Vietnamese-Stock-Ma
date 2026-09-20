@@ -634,7 +634,10 @@ def _compute_all_alphas(
     interval: str = "1d",
     norm_method: str = "zscore_tanh",
     weights: dict = None,
-    lang: str = "vi"
+    lang: str = "vi",
+    historical_df: Optional[pd.DataFrame] = None,
+    as_of_date: Optional[str] = None,
+    is_backtest: bool = False,
 ) -> Tuple[List[dict], dict]:
     """
     Computes top-5 dynamic alphas or falls back to original 5.
@@ -645,15 +648,43 @@ def _compute_all_alphas(
     
     # 1. Try dynamic selection
     try:
-        top_alphas = select_top_alphas(symbol, interval, norm_method=norm_method, weights=weights)
+        top_alphas = select_top_alphas(
+            symbol,
+            interval,
+            norm_method=norm_method,
+            weights=weights,
+            historical_df=historical_df,
+            as_of_date=as_of_date,
+            is_backtest=is_backtest,
+        )
     except Exception as e:
         print(f"[AlphaAgent] Lỗi select_top_alphas: {e}")
         top_alphas = []
 
+    if not top_alphas and is_backtest:
+        raise RuntimeError(
+            "Backtest không tuyển chọn được dynamic alpha; "
+            "dừng test point thay vì fallback làm sai giao thức benchmark."
+        )
+
     if top_alphas:
         print(f"[AlphaAgent] Sử dụng {len(top_alphas)} dynamic alphas cho {symbol}")
-        # Convert kline_data to DataFrame for alpha_compare functions
-        df_base = pd.DataFrame(kline_data)
+        # Dùng cùng snapshot lịch sử tối đa 600 nến như pha tuyển
+        # chọn. Cửa sổ hiển thị 45 nến không đủ cho các alpha dùng
+        # SMA100/ADV60/decay180.
+        if historical_df is not None and not historical_df.empty:
+            df_base = historical_df.copy()
+            if as_of_date is not None and "Datetime" in df_base.columns:
+                cutoff = pd.Timestamp(as_of_date)
+                datetimes = pd.to_datetime(df_base["Datetime"], errors="coerce")
+                if datetimes.dt.tz is not None and cutoff.tzinfo is None:
+                    cutoff = cutoff.tz_localize(datetimes.dt.tz)
+                elif datetimes.dt.tz is None and cutoff.tzinfo is not None:
+                    cutoff = cutoff.tz_localize(None)
+                df_base = df_base.loc[datetimes.notna() & (datetimes <= cutoff)]
+            df_base = df_base.tail(600).copy()
+        else:
+            df_base = pd.DataFrame(kline_data)
         # Ensure numeric
         for col in ["Open", "High", "Low", "Close", "Volume"]:
             if col in df_base.columns:
@@ -669,7 +700,8 @@ def _compute_all_alphas(
             # Execute alpha on the dataframe
             try:
                 series = handler(d_features)
-                val = float(series.iloc[-1])
+                normalized = alpha_compare.normalize_alpha(series, method=norm_method)
+                val = float(normalized.iloc[-1])
                 if math.isnan(val) or math.isinf(val): val = 0.0
             except Exception as e:
                 print(f"[AlphaAgent] Lỗi tính alpha {aid}: {e}")
@@ -734,8 +766,6 @@ def _build_alpha_report(
     """
     from utils.i18n import t as _t, signal_label
 
-    sent_reliable_label = _t("ar_reliable" if sn.get("is_reliable") else "ar_few_articles", lang)
-
     lines = [
         f"## {_t('ar_title', lang)} — {stock_name}\n",
         f"| # | {_t('ar_th_alpha', lang)} | {_t('ar_th_type', lang)} "
@@ -756,9 +786,6 @@ def _build_alpha_report(
 
     lines += [
         "",
-        f"**{_t('ar_sentiment', lang)}:** {sn.get('article_count', 0)} "
-        f"{_t('articles', lang)} — {sent_reliable_label} | "
-        f"Z-score: {sn.get('z_score', 0):+.4f} | "
         f"**{_t('ar_volume', lang)}:** "
         f"{_t('ar_vol_real' if tv.get('has_volume') else 'ar_vol_proxy', lang)}",
         "",
@@ -796,26 +823,26 @@ def _build_alpha_report(
 
 # ── LLM reasoning ─────────────────────────────────────────────────────────────
 
-def _llm_reason(llm, report_md: str, sentiment_md: str, stock_name: str, horizon_label: str,
+def _llm_reason(llm, report_md: str, stock_name: str, horizon_label: str,
                 lang: str = "vi") -> str:
     """
-    Yêu cầu LLM đọc 5 alpha và bản tin tâm lý để đưa ra nhận xét tổng hợp.
+    Yêu cầu LLM diễn giải riêng 5 alpha định lượng.
+
+    Sentiment được Decision Agent nhận qua báo cáo độc lập, không trộn
+    vào lời bình Alpha để tránh khuếch đại thiên lệch tin tức.
     """
     from utils.i18n import language_directive
 
     prompt = f"""Bạn là chuyên gia phân tích định lượng và dòng tiền chuyên dự đoán {horizon_label}.
-Dưới đây là kết quả tính toán 5 alpha factor và bản tóm tắt tâm lý thị trường cho **{stock_name}**.
+Dưới đây là kết quả tính toán 5 alpha factor cho **{stock_name}**.
 
 ### 📊 KẾT QUẢ ALPHA FACTORS
 {report_md}
 
-### 🌍 TÂM LÝ THỊ TRƯỜNG & TIN TỨC
-{sentiment_md}
-
-Hãy kết hợp cả dữ liệu định lượng và tin tức để:
+Hãy chỉ dựa trên các giá trị alpha đã chuẩn hóa để:
 1. Nhận xét ngắn (1-2 câu) về xung lực dòng hiện tại.
-2. Tổng hợp góc nhìn: Dòng tiền và Tâm lý đang đồng thuận hay mâu thuẫn? kịch bản nào cho {horizon_label} có xác suất cao hơn?
-3. Chỉ ra rủi ro hoặc cơ hội tiềm ẩn từ tin tức mà các alpha kỹ thuật có thể chưa phản ánh hết.
+2. Nêu mức độ đồng thuận/mâu thuẫn giữa các alpha và kịch bản có xác suất cao hơn cho {horizon_label}.
+3. Không suy diễn tin tức, tâm lý hay hành vi tổ chức nếu các con số alpha không trực tiếp chứng minh.
 
 KHÔNG phân tích dài dòng. Chỉ suy luận tự nhiên từ các con số để chốt cái nhìn về {horizon_label}.
 Giữ nguyên định dạng markdown.
@@ -844,12 +871,20 @@ _BACKTEST_NO_CACHE_REPORT = (
     "## Sentiment — Backtest Mode (no cache)\n\n"
     "Backtest mode: Sentiment = neutral (0). Alpha thuần kỹ thuật."
 )
+_SENTIMENT_DISABLED_REPORT = (
+    "## Sentiment — Disabled by ablation\n\n"
+    "Sentiment = neutral (0); alpha factors use technical data only."
+)
 
 
 # ── Main agent factory ─────────────────────────────────────────────────────────
 
-def create_alpha_agent(llm):
-    """Alpha Agent v6 — 5 alphas, Python computes, LLM reasons freely."""
+def create_alpha_agent(
+    llm,
+    enable_alpha_factors: bool = True,
+    enable_sentiment: bool = True,
+):
+    """Tạo node đặc trưng với Alpha Factors và Sentiment bật/tắt độc lập."""
 
     def alpha_agent_node(state):
         stock_name       = state["stock_name"]
@@ -860,8 +895,12 @@ def create_alpha_agent(llm):
         from utils.i18n import lang_of, signal_label, t as _t
         lang = lang_of(state)
 
-        # ── Step 1: Fetch sentiment ────────────────────────────────────────
-        if not is_backtest:
+        # ── Step 1: Chỉ nạp sentiment khi biến thể yêu cầu ─────────────────
+        if not enable_sentiment:
+            print(f"[AlphaAgent] Sentiment disabled — {stock_name}")
+            sentiment_data = _NEUTRAL_SENTIMENT_DATA
+            sentiment_report = _SENTIMENT_DISABLED_REPORT
+        elif not is_backtest:
             print(f"[AlphaAgent] Production — crawl sentiment cho {stock_name}...")
             try:
                 from agents.sentiment_agent import run_sentiment_for_alpha
@@ -890,6 +929,15 @@ def create_alpha_agent(llm):
                 sentiment_data   = _NEUTRAL_SENTIMENT_DATA
                 sentiment_report = _BACKTEST_NO_CACHE_REPORT
 
+        if not enable_alpha_factors:
+            print(f"[AlphaAgent] Alpha factors disabled — {stock_name}")
+            return {
+                "messages": state.get("messages", []),
+                "sentiment_report": sentiment_report,
+                "sentiment_data": sentiment_data,
+                "sentiment_norm": _normalize_sentiment_scores(sentiment_data),
+            }
+
         # ── Step 2: Normalize sentiment ────────────────────────────────────
         print(f"[AlphaAgent] Chuẩn hóa sentiment và tính biến kỹ thuật...")
         sentiment_norm = _normalize_sentiment_scores(sentiment_data)
@@ -909,12 +957,16 @@ def create_alpha_agent(llm):
 
         norm_method = state.get("alpha_norm_method", "zscore_tanh")
         weights = state.get("alpha_weights", None)
+        point_in_time_df = state.get("point_in_time_df")
+        alpha_as_of_date = state.get("as_of_date") or state.get("window_end_date")
 
         print(f"[AlphaAgent] Tính 5 alpha factor ({horizon_label})...")
         alphas, tech_vars = _compute_all_alphas(
             kline_data, sentiment_norm, related_norm,
             symbol=stock_name, interval=interval_key,
-            norm_method=norm_method, weights=weights, lang=lang
+            norm_method=norm_method, weights=weights, lang=lang,
+            historical_df=point_in_time_df, as_of_date=alpha_as_of_date,
+            is_backtest=is_backtest,
         )
         # Inject động horizon vào từng alpha
         for a in alphas:
@@ -927,9 +979,17 @@ def create_alpha_agent(llm):
         # ── Step 4: Build base report ──────────────────────────────────────
         base_report = _build_alpha_report(alphas, tech_vars, sentiment_norm, stock_name, lang)
 
-        # ── Step 5: LLM reasons freely (Now with Sentiment context) ────────
-        llm_reasoning = _llm_reason(llm, base_report, sentiment_report, stock_name,
-                                    horizon_label, lang=lang)
+        # ── Step 5: LLM chỉ diễn giải Alpha; sentiment ở báo cáo riêng ──────
+        # Decision Agent trong benchmark chỉ nhận bảng số + consensus và chủ
+        # động loại lời bình này để tránh anchoring. Vì vậy không tạo một LLM
+        # request rồi bỏ kết quả ở mỗi test point.
+        llm_reasoning = "" if is_backtest else _llm_reason(
+            llm,
+            base_report,
+            stock_name,
+            horizon_label,
+            lang=lang,
+        )
 
         n_neu = 5 - n_long - n_short
         if n_long > n_short:
@@ -939,10 +999,14 @@ def create_alpha_agent(llm):
         else:
             consensus = "TRUNG TÍNH"
 
+        reasoning_section = (
+            f"### 🤖 {_t('alpha_expert_note', lang)}\n{llm_reasoning}\n\n"
+            if llm_reasoning
+            else ""
+        )
         alpha_report = (
             f"{base_report}\n"
-            f"### 🤖 {_t('alpha_expert_note', lang)}\n"
-            f"{llm_reasoning}\n\n"
+            f"{reasoning_section}"
             f"**{_t('alpha_summary', lang)}: {signal_label(consensus, lang)} "
             f"({n_long} {signal_label('TĂNG', lang)} / "
             f"{n_short} {signal_label('GIẢM', lang)} / "
@@ -962,12 +1026,16 @@ def create_alpha_agent(llm):
         from langchain_core.messages import AIMessage
         dummy_msg = AIMessage(content=alpha_report)
 
-        return {
+        result = {
             "messages":         state.get("messages", []) + [dummy_msg],
             "alpha_report":     alpha_report,
-            "sentiment_report": sentiment_report,
-            "sentiment_data":   sentiment_data_ext,
-            "sentiment_norm":   sentiment_norm,
         }
+        if enable_sentiment:
+            result.update({
+                "sentiment_report": sentiment_report,
+                "sentiment_data":   sentiment_data_ext,
+                "sentiment_norm":   sentiment_norm,
+            })
+        return result
 
     return alpha_agent_node
