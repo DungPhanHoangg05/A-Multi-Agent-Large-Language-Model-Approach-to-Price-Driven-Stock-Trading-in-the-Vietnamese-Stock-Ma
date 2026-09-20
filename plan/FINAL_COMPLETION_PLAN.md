@@ -30,7 +30,7 @@ Mục tiêu của kế hoạch này là **thu hẹp toàn bộ khoảng cách** 
   5. **Thiếu kiểm định ý nghĩa thống kê:** Bảng 7 chỉ báo cáo số điểm tuyệt đối mà không có khoảng tin cậy (Confidence Intervals) hoặc p-value (McNemar test, Wilcoxon signed-rank test).
 
 ### 1.3. Lộ trình Thực thi Tuyến tính cho Single Agent (3–5 ngày)
-Toàn bộ 16 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 9 giai đoạn rõ ràng:
+Toàn bộ 17 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 10 giai đoạn rõ ràng:
 - **Giai đoạn 1 (Ngày 1: Core Correctness & Data Integrity):** Thực hiện tuần tự `TASK-01` (vá data leakage trong alpha selection), `TASK-02` (cố định snapshot báo cáo thượng nguồn - paired shared reports), và `TASK-03` (loại bỏ bài báo không ngày trong sentiment cache).
 - **Giai đoạn 2 (Ngày 1–2: Financial Math & Statistical Rigor):** Thực hiện tuần tự `TASK-04` (chuẩn hóa mô hình P&L lãi kép và chi phí giao dịch) và `TASK-05` (tích hợp bộ kiểm định thống kê McNemar, Wilcoxon, Bootstrap CI).
 - **Giai đoạn 3 (Ngày 2: Architecture Decoupling & Reliability):** Thực hiện `TASK-06` (tách rời độc lập Alpha vs Sentiment tạo 4-way ablation) và `TASK-07` (bổ sung quy tắc đối chiếu luật chống ảo giác thị giác).
@@ -40,6 +40,7 @@ Toàn bộ 16 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua
 - **Giai đoạn 7 (Ngày 5: Conservative Repository Cleanup):** Thực hiện `TASK-14` (loại artefact cũ không còn tham chiếu, chuẩn hóa Python 3.13 và làm sạch repo mà không thay đổi kiến trúc/runtime contract).
 - **Giai đoạn 8 (Ngày 5: Reviewer Concern Clarification):** Thực hiện `TASK-15` (giải trình sâu rủi ro selection bias, evidence faithfulness, heuristic alpha adaptation và cấu hình tái lập trong bài báo).
 - **Giai đoạn 9 (Ngày 5: Figure Evidence Refresh):** Thực hiện `TASK-16` (đặc tả prompt tái tạo bốn sơ đồ theo runtime hiện hành và thay bộ ảnh backtest legacy bằng artifact benchmark tháng 09/2026).
+- **Giai đoạn 10 (Ngày 5: Final PDF Rebuild & Cleanup):** Thực hiện `TASK-17` (biên dịch lại PDF với bốn sơ đồ mới, kiểm tra trực quan và xóa file trung gian LaTeX sau build).
 
 ---
 
@@ -88,6 +89,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-15** | **Repository còn artefact tạm và cấu hình Python lệch chuẩn** | `FIXED` | `.python-version` đã đồng bộ Python 3.13.5; năm artefact robustness legacy không còn tham chiếu đã bị xóa; dependency `ipython` không dùng đã được bỏ; cache/build output cục bộ đã được dọn và bổ sung vào `.gitignore`. Toàn bộ dữ liệu `clean_a20`, checkpoint, `.env`, sentiment cache, backtest result và `main.bbl` được bảo toàn. | Code availability package tối thiểu, nhất quán với Python 3.13 và không còn artefact tạm gây nhầm lẫn với kết quả `clean_a20`. | **P2** | `TASK-14` |
 | **ISSUE-16** | **Các giới hạn kỹ thuật và cấu hình tái lập chưa được giải trình đủ sâu** | `FIXED` | Sections 1--5, 7--8 đã phân biệt cutoff safety với selection overfitting; consistency gate với causal evidence faithfulness; định nghĩa IC decay/autocorrelation/turnover audit còn thiếu; công bố token caps, retries, seed scope và giới hạn provider revision. Registry được đối chiếu trực tiếp từ code: 85 = 5 proprietary + 80 WorldQuant adaptations, không phải toàn bộ 101. | Reviewer concern được trả lời trực tiếp, có dẫn nguồn primary research và không tuyên bố các kiểm định chưa chạy là đã hoàn thành. | **P1** | `TASK-15` |
 | **ISSUE-17** | **Sơ đồ kiến trúc và ảnh backtest trong gói ESWA còn phản ánh cấu hình legacy** | `FIXED` | Bốn prompt tái tạo đã khóa registry 85 = 5 + 80, score 0.40/0.35/0.25, output LONG/SHORT, action map SHORT→CASH và time-index contract `[e-W,e)`, `d=e-1`, entry `e`, target `e-1+L`; 9 ảnh backtest tháng 06/2026 đã được thay bằng bộ tháng 09/2026. | `plan/FIGURE_REGENERATION_PROMPTS.md` lưu đặc tả và provenance; SHA-256 của đủ 9 cặp nguồn/đích trùng khớp, không còn ảnh `202606` trong `ESWA/figs/`. | **P1** | `TASK-16` |
+| **ISSUE-18** | **PDF chưa được build lại với bốn sơ đồ mới và thư mục ESWA còn file trung gian LaTeX** | `FIXED` | `main.pdf` đã được biên dịch lại với ba sơ đồ được LaTeX tham chiếu (`system_pipeline`, `alpha_agent_pipeline`, `decision_agent_pipeline`) và kiểm tra trực quan; `walkforward_protocol.png` được giữ làm asset nhưng hiện chưa có `\includegraphics` trong bản thảo. | PDF cuối 39 trang hợp lệ; Table 7/8/9 verifier PASS; không còn file trung gian LaTeX thuộc allowlist trong `ESWA/`. | **P2** | `TASK-17` |
 
 ---
 
@@ -778,6 +780,22 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 ---
 
+### [TASK-17] [Thứ tự: #17] [P2] Biên dịch PDF với Sơ đồ Mới và Dọn File LaTeX Trung gian
+
+- **Task ID:** `TASK-17`
+- **Git Branch:** `task/TASK-17-compile-clean-latex`
+- **Priority:** `P2`
+- **Objective:** Biên dịch lại `ESWA/main.pdf` từ bốn sơ đồ mới do người dùng cung cấp, kiểm tra trực quan các trang chứa hình, rồi xóa các file trung gian LaTeX không cần cho gói nộp cuối.
+- **Phạm vi bảo vệ:** Giữ nguyên `.tex`, `.bib`, `elsarticle.cls`, `elsarticle-num.bst`, toàn bộ `ESWA/figs/` và PDF cuối; không sửa nội dung khoa học hoặc byte của bốn PNG mới.
+- **File trung gian cần xóa sau khi QA:** `*.aux`, `*.bbl`, `*.blg`, `*.log`, `*.out`, `*.toc`, `*.lof`, `*.lot`, `*.fls`, `*.fdb_latexmk`, `*.bcf`, `*.run.xml`, `*.synctex.gz`, `*.nav`, `*.snm`, `*.vrb` trong `ESWA/`.
+- **Test/Command cần chạy:** `py -3.13 scripts/verify_latex_tables.py`; kiểm tra PDF 40 trang bằng render; xác nhận không còn file trung gian thuộc allowlist sau cleanup.
+- **Acceptance Criteria:** PDF build thành công và hiển thị đúng bốn sơ đồ mới, không clip/overlap; Table 7/8/9 vẫn khớp; chỉ PDF và nguồn cần thiết còn lại trong gói ESWA; task được merge vào `develop` qua nhánh riêng.
+- **Paper Impact:** Cập nhật tài sản PDF cuối và vệ sinh gói nộp, không thay đổi kết luận khoa học.
+- **Estimated Complexity:** `S`
+- **Completion Status:** `COMPLETED (2026-09-20)` — biên dịch PDF thành công với ba sơ đồ mới đang được tham chiếu; render QA trang graphical abstract, Alpha Agent, Decision Agent và Backtest Results không phát hiện clip/overlap; PDF cuối 39 trang (4.951.371 bytes); Table 7/8/9 verifier PASS; đã xóa `main.aux`, `main.bbl`, `main.blg`, `main.log`, `main.out` và toàn bộ PNG render tạm, xác nhận 0 file trung gian LaTeX còn lại.
+
+---
+
 ## 6. Single-Agent Execution Protocol & Phased Roadmap
 
 Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đảm bảo không bao giờ bị rối loạn ngữ cảnh (context overload) và duy trì tính ổn định của mã nguồn, Agent bắt buộc tuân theo quy trình vận hành chuẩn dưới đây:
@@ -817,6 +835,7 @@ Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đả
 | **Pha 7: Repository Hygiene** | `TASK-14` | Xóa artefact legacy/tạm, đồng bộ Python 3.13 và kiểm chứng không hồi quy. | Ngày 5 |
 | **Pha 8: Reviewer Clarification** | `TASK-15` | Giải trình selection bias, vision faithfulness, alpha adaptation và reproducibility. | Ngày 5 |
 | **Pha 9: Figure Evidence Refresh** | `TASK-16` | Khóa prompt sơ đồ theo runtime và thay ảnh backtest legacy bằng artifact sạch mới nhất. | Ngày 5 |
+| **Pha 10: Final PDF Rebuild & Cleanup** | `TASK-17` | Build PDF với sơ đồ mới, render QA và xóa file trung gian LaTeX. | Ngày 5 |
 
 ---
 
