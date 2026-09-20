@@ -1,0 +1,39 @@
+\section{Limitations \& Future Work}
+\label{sec:limitations_futurework}
+
+\subsection{Limitations}
+
+\paragraph{L1. Statistical scale and economic interpretation.}
+The paired benchmark controls upstream reports and evaluates 180 decisions, but each symbol contributes only 20 observations. Moving-block confidence intervals and exact McNemar tests correctly expose this low per-symbol power: no individual McNemar result is significant at 5\%, even though the cross-symbol Wilcoxon test is significant. The nine tickers are also not a probability sample of the Vietnamese market. Results should therefore be read as evidence for this benchmark universe rather than a market-wide performance estimate.
+
+Directional skill and economic value remain distinct. The Full System raises mean accuracy by 13.9 pp and improves account return relative to No-Alpha for every symbol, yet its mean compounded return is $-1.69\%$ and only three symbols finish positive. Correct SHORT forecasts earn no return because the cash-equity simulator maps SHORT to CASH. Consequently, the reported lift does not establish deployable profitability.
+
+\paragraph{L2. Simplified execution model.}
+The fixed-cycle ledger removes the previous horizon mismatch: labels, alpha targets, and account returns all use the same next-open-to-target-close net return, wealth is compounded, and fee plus slippage are charged on both BUY and SELL. Nevertheless, the constants are benchmark assumptions. The model omits time-varying bid--ask spreads, taxes, order-book depth, partial fills, volume-dependent market impact, position limits, and portfolio competition among simultaneous symbols. It also assumes that each $S=L=3$ cycle is closed before the next entry. A venue-calibrated event-driven simulator is required before live deployment.
+
+\paragraph{L3. Alpha selection and sensitivity.}
+Selecting five factors from an 85-candidate registry creates multiple-testing and selection risks. The point-in-time cutoff prevents future leakage, and the composite score uses $0.40|\mathrm{IC}|+0.35\mathrm{Accuracy}+0.25\mathrm{Sharpe}$, but short calibration histories can still make signal orientation and ranking unstable. The robustness results confirm this concern: FPT produces a negative lift at $W=60$, and performance changes materially across normalisation and weighting schemes. Furthermore, translating cross-sectional WorldQuant operators into single-asset time-series operators changes their economic and statistical meaning.
+
+\paragraph{L4. Hosted-model and visual reliability.}
+Temperature zero and fixed prompts do not guarantee bitwise deterministic output from hosted models. The paired design removes upstream variation within a Full/No-Alpha comparison, but separate runs can still differ because of provider-side model updates or inference nondeterminism. Pattern and Trend agents now compare visual conclusions with deterministic OHLCV rules and downgrade contradictory outputs; this gate reduces obvious chart hallucinations but is not a substitute for an externally labelled pattern-recognition benchmark.
+
+\paragraph{L5. Sentiment coverage and attribution.}
+Strict cutoff filtering prevents future and undated articles from entering a historical decision. Coverage can nevertheless be sparse and uneven across firms, particularly for smaller or less news-intensive equities. The three-symbol ablation finds a positive independent sentiment contribution only for VNM and a negative factor--sentiment interaction for VCB. This heterogeneity limits any broad causal claim about Vietnamese news sentiment.
+
+\subsection{Future Work}
+
+\paragraph{F1. Larger and longer evaluation.}
+The most important extension is a preregistered study over a broader universe such as the VN100 and multiple market regimes. More test points would increase per-symbol power, support sector-level analysis, and permit out-of-time validation rather than repeated analysis of the same recent period.
+
+\paragraph{F2. Stronger baselines and multiplicity control.}
+Future experiments should add random-walk, logistic, tree-based, and sequence-model baselines on the identical information set. White's Reality Check, false-discovery-rate control, or the Deflated Sharpe Ratio should accompany factor selection to account for searching across 85 candidates.
+
+\paragraph{F3. Execution and portfolio realism.}
+A portfolio simulator should model lot sizes, taxes, dynamic spreads, liquidity limits, partial fills, and market impact, and should allocate capital jointly across symbols. Confidence gates and risk-based sizing can then be assessed without conflating forecasting accuracy with all-in binary allocation.
+
+\paragraph{F4. Component reliability.}
+Repeated hosted-model runs should quantify decision variance. Vision outputs should be compared with deterministic pattern detectors and human-labelled charts, while sentiment should be evaluated against a Vietnamese financial-domain test set. The observed negative VCB interaction also motivates an explicit conflict-resolution mechanism between factor and sentiment evidence.
+
+\subsection{Broader Impact}
+
+Localized financial AI can broaden research beyond English-language, highly liquid markets, but automated use in a shallow market may amplify noise and herding. The framework should therefore be treated as decision-support research rather than trading advice. Reproducible releases must preserve model and data provenance while respecting news copyright, provider terms, and privacy obligations.

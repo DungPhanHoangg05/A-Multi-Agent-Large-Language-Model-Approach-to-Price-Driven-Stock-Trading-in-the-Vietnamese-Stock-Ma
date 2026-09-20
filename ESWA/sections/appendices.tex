@@ -1,0 +1,535 @@
+\appendix
+
+\section{Agent System Prompts}
+\label{app:prompts}
+
+This appendix presents the system and user prompts deployed in the agents.
+
+\textit{Note: The original prompts in the codebase are written entirely in Vietnamese to match the target market's language conventions and to elicit native-level analysis from the LLMs. For the purpose of this paper, they have been translated into English and condensed, while strictly preserving their original logic, constraints, and instructions.}
+
+\subsection{Decision Agent Prompt}
+\label{app:prompt_decision}
+
+The Decision Agent receives all upstream reports condensed to save tokens. The prompt enforces a forced binary direction forecast (LONG or SHORT), explicitly distinct from an executed action, and a structured reasoning process. The forecast horizon is dynamically injected as a bar count (e.g., \texttt{L=3 bars} for daily data), never as settlement notation. Below is the prompt template (with placeholder variables denoted by \texttt{\{...\}}):
+
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+You are a Senior Quant Trader with 20 years of experience in the VN stock market.
+Asset: **{stock_name}** | Timeframe: **{time_frame}**.
+
+MARKET RULE: {h_note}
+
+TIME-INDEX CONTRACT: the input window is [e-W,e); the final visible decision
+bar is d=e-1; candidate entry is at the next-bar open O[e]; the immutable
+entry is O[e] and the target exit is C[e-1+L]. The label is UP only
+when this LONG cycle remains profitable after costs on both legs.
+
+CORE OBJECTIVE: Deeply evaluate reports from independent AI Agents
+to forecast **{h_desc}**. You MUST make a definitive decision:
+choose either **LONG** or **SHORT** (NEUTRAL is STRICTLY FORBIDDEN).
+
+---
+### [1] TREND ANALYSIS (Trend Agent)
+{trend_report}
+---
+### [2] PRICE PATTERNS (Pattern Agent)
+{pattern_report}
+---
+### [3] TECHNICAL INDICATORS (Indicator Agent)
+{indicator_report}
+---
+### [4] ALPHA FACTORS & ORDER FLOW (Alpha Agent)
+{alpha_report}
+### [5] NEWS & MARKET SENTIMENT (Sentiment Analysis)
+{sentiment_report}
+---
+## REASONING GUIDE (Chain of Thought)
+1. Market Context (Trend)
+2. Price Action & Timing (Pattern)
+3. Momentum (Indicator)
+4. Flow & Sentiment (Alpha + Sentiment)
+
+## MANDATORY OUTPUT FORMAT
+```json
+{
+  "decision": "<LONG or SHORT>",
+  "forecast_horizon": "{h_val}",
+  "confidence": "<Very High | High | Medium | Low>",
+  "risk_reward_ratio": <float>,
+  "evidence_for": "<3 sentences summarizing reasons>",
+  "evidence_against": "<Biggest risk>",
+  "justification": "<Brief justification>"
+}
+```
+\end{verbatim}
+\end{small}
+\end{framed}
+
+The agent reports 4 (when Alpha Agent is active) or 3 (No-Alpha ablation) upstream summaries. Sections \texttt{[4]} and \texttt{[5]} are omitted entirely when \texttt{include\_alpha=False}.
+
+\subsection{Pattern Agent Prompt}
+\label{app:prompt_pattern}
+
+The frozen configuration names the vision-language model \texttt{qwen/qwen3.8-27b}; the following Pattern Agent prompt is prototype source, not a provenance-validated research artifact:
+
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+/no_think
+You are an AI specializing in Price Action pattern analysis.
+
+ABSOLUTE RULES:
+1. ONLY return the 6 fields below. Do NOT add any other fields.
+2. NO reasoning, NO explanations.
+3. NO fallback scenarios. Provide exactly ONE definitive assessment.
+4. Each field on ONE line. Be concise.
+
+MANDATORY FORMAT:
+**Pattern:** <Name>
+**Confidence:** High | Medium | Low
+**Forecast Bias:** Bullish | Bearish | Neutral
+**Evidence:** <Brief description>
+**Key Candle:** <List key candle>
+**Trade Implication:** <Scenario>
+\end{verbatim}
+\end{small}
+\end{framed}
+
+The 16 reference patterns provided to the model include: Inverse Head and Shoulders, Double Bottom, Falling/Rising Wedge, Triangle, Bull/Bear Flag, Rectangle, V-Reversal, and Clear Trend.
+
+If the vision model fails, the agent falls back to a text-only analysis of the most recent 20 OHLCV rows using the text LLM (\texttt{openai/gpt-oss-20b}).
+
+\subsection{Trend Agent Prompt}
+\label{app:prompt_trend}
+
+The Trend Agent also utilizes a vision-language model to evaluate dynamically generated support and resistance lines.
+
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+You are an expert at analyzing K-line trend patterns in high-frequency trading.
+Your sole objective: PREDICT {h_desc}.
+You must always reply in the exact markdown format requested.
+NEVER write all fields on a single line.
+
+This is a {time_frame} candlestick chart with automatic trendlines:
+- **Blue line** = support line (derived from close prices)
+- **Red line** = resistance line (derived from close prices)
+
+Your tasks:
+1. Analyze how price interacts with the blue and red lines.
+2. Determine if candles are bouncing, breaking out, or compressing.
+3. Evaluate the slope and distance between the two lines.
+4. Predict the direction for **{h_val}**: bullish, bearish, or sideways.
+
+MANDATORY FORMAT:
+**Trend Direction:** Bullish | Bearish | Sideways
+**Support Level:** <specific price>
+**Resistance Level:** <specific price>
+**Trendline Slope:** Rising | Falling | Flat
+**Price vs Support:** <bouncing / breaking / compressing>
+**Detailed Analysis:** <2-3 sentences of price action analysis>
+**Trend Prediction:** <1-2 sentences forecasting {h_desc}>
+**Confidence:** High | Medium | Low
+\end{verbatim}
+\end{small}
+\end{framed}
+
+\subsection{Indicator Agent Prompt}
+\label{app:prompt_indicator}
+
+The Indicator Agent receives a pre-calculated table of technical indicators and their deterministic classifications (computed in Python). Its prompt forces it to adhere strictly to the system's hardcoded signals rather than re-interpreting the raw data.
+
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+You are an expert at High-Frequency Trading technical analysis.
+SOLE OBJECTIVE: Predict price direction for **{h_desc}**.
+
+MOST IMPORTANT RULES:
+1. SIGNAL CLASSIFICATION and CONSENSUS have already been determined
+   by the system — you MUST use these exact conclusions. Do NOT count
+   or change them.
+2. Each indicator has a strict [END ... SECTION] boundary. Do NOT use
+   numbers from one section to describe another.
+3. Your only task: write a clear, actionable qualitative interpretation
+   for {h_short}.
+4. NO hallucinated numbers. NO saying 'missing information'.
+
+## Data Table (Calculated & Classified)
+[Pre-rendered Table and System Consensus injected here]
+
+## Requirement: Write an interpretation report
+For EACH indicator, use this exact template:
+**[Indicator Name]**
+- {h_short} Signal: [EXACT system classification]
+- Key levels/crossovers: [Specific numbers from the correct section]
+- Momentum: [accelerating / decelerating / stable] — short explanation
+
+Then summarize the final consensus:
+**Signal Convergence Summary — Prediction for {h_short}**
+- Bullish agreement: **{n_tang}/{total}**
+- Bearish agreement: **{n_giam}/{total}**
+- Primary Trend: **{consensus}** — Confidence: **{confidence}**
+- Conclusion: [1-2 sentences summarizing potential movement]
+\end{verbatim}
+\end{small}
+\end{framed}
+
+\subsection{Sentiment LLM Prompt (Subroutine of Alpha Agent)}
+\label{app:prompt_sentiment}
+
+Sentiment Analysis is invoked programmatically as a subroutine within the Alpha Agent node rather than acting as a standalone agent in the DAG. The configured hosted ViSoBERT endpoint is the primary scorer and a deterministic lexicon is the explicit fallback. The actual scorer is retained per article; the text LLM only synthesizes a qualitative summary of the resulting news bias and related-company impacts.
+
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+You are an expert at analyzing sentiment in the VN stock market.
+Synthesize data from press articles. Reply in markdown.
+
+Analyze sentiment for **{target}** ({time_frame}).
+
+=== AGGREGATE RESULTS ===
+Article Count: {article_count} | Avg Score: {avg_score} | Label: {label}
+Distribution: {positive} / {neutral_count} / {negative}
+Sentiment Bar: {sentiment_bar_visual} | Model: {model_note}
+
+=== LATEST 15 ARTICLES ===
+{art_sum}
+
+=== RELATED COMPANIES ===
+{rel_sum}
+
+---
+Write the report using this template:
+
+**Sentiment Summary — {target}**
+**Main Takeaway:** [1-2 sentences]
+**Detailed Analysis:**
+- News Trend: [...]
+- Positive Signals: [...]
+- Negative Signals: [...]
+- Pressure from Related Companies: [...]
+\end{verbatim}
+\end{small}
+\end{framed}
+
+\subsection{Alpha Agent LLM Reasoning Prompt}
+\label{app:prompt_alpha}
+
+After computing the five alpha factors programmatically, the Alpha Agent invokes the text LLM to synthesise a qualitative interpretation. The prompt template is:
+
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+You are a quantitative and order flow analyst forecasting {horizon_label}.
+Below are OHLCV-only alpha factors and a separate sentiment context
+for **{stock_name}**.
+
+### ALPHA FACTORS RESULTS
+{report_md}
+
+### SEPARATE SENTIMENT & NEWS CONTEXT
+{sentiment_context_md}
+
+FUSION CONTRACT:
+- Alpha values and ranks use OHLCV only.
+- Sentiment does not enter factor formulas; it is text context only.
+
+Compare the two evidence sources qualitatively to:
+1. Provide a short comment (1-2 sentences) on current momentum.
+2. Synthesize: Are flow and sentiment in agreement or contradiction?
+3. Identify hidden risks/opportunities from news not captured by technical alphas.
+
+Do NOT over-analyze. Deduce from the numbers to conclude the view for {horizon_label}.
+\end{verbatim}
+\end{small}
+\end{framed}
+
+
+\section{LangGraph State Schema}
+\label{app:state_schema}
+
+The entire multi-agent pipeline shares a single typed state object defined as a Python \texttt{TypedDict}. Table~\ref{tab:state_schema} lists all fields, grouped by the agent that writes them and annotated with their data types.  The backtest wrapper records the zero-based provenance separately for each test point: exclusive boundary $e$, window $[e-W,e)$, decision $d=e-1$, entry $e$, target $e-1+L$, and the source timestamp for every index.  These fields make calendar gaps (including weekends and exchange holidays) explicit rather than inferring timestamps by adding calendar days.
+
+\begin{table}[htb]
+\centering
+\caption{Complete LangGraph state schema (\texttt{IndicatorAgentState})}
+\label{tab:state_schema}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{3pt}
+
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\multicolumn{3}{|l|}{\textit{Input fields (set before graph execution)}} \\
+\hline
+\texttt{kline\_data} & \texttt{dict} & OHLCV dictionary for technical indicator computation \\
+\texttt{interval} & \texttt{str} & Canonical market-data interval code (e.g., ``1d'') \\
+\texttt{forecast\_horizon\_bars} & \texttt{int} & Target horizon $L$; label at decision $d=e-1$ is $\log(C_{e-1+L}/C_{e-1})$ \\
+\texttt{holding\_policy} & \texttt{str} & Explicit next-bar-open-to-target-close execution policy \\
+\texttt{alpha\_history} & \texttt{dict} & Point-in-time OHLCV prefix ending at decision cutoff; no entry/target bars \\
+\texttt{alpha\_cutoff} & \texttt{str} & Exact timestamp of the final observable decision bar \\
+\texttt{history\_requirements} & \texttt{dict} & Separate chart and alpha-calibration requests; calendar lookback and actual-bar minimums are distinct \\
+\texttt{window\_end\_date} & \texttt{str} & Decision cutoff timestamp used for point-in-time sentiment availability \\
+\texttt{time\_frame} & \texttt{str} & Time period for K-line data (e.g., ``1 ngày'') \\
+\texttt{stock\_name} & \texttt{str} & Stock ticker symbol \\
+\texttt{is\_backtest} & \texttt{bool} & Flag to block external crawlers in backtest mode \\
+\texttt{pattern\_image} & \texttt{str} & Base64-encoded candlestick chart PNG \\
+\texttt{trend\_image} & \texttt{str} & Base64-encoded trendline-annotated chart PNG \\
+\hline
+\multicolumn{3}{|l|}{\textit{Indicator Agent outputs}} \\
+\hline
+\texttt{rsi} & \texttt{List[float]} & RSI values (period 14) \\
+\texttt{macd, macd\_signal, macd\_hist} & \texttt{List[float]} & MACD line, signal, histogram (12, 26, 9) \\
+\texttt{stoch\_k, stoch\_d} & \texttt{List[float]} & Stochastic \%K, \%D (14, 3, 3) \\
+\texttt{roc} & \texttt{List[float]} & Rate of Change (period 10) \\
+\texttt{willr} & \texttt{List[float]} & Williams \%R (period 14) \\
+\texttt{bb\_upper, bb\_middle, bb\_lower} & \texttt{List[float]} & Bollinger Bands (20, 2) \\
+\texttt{adx, plus\_di, minus\_di} & \texttt{List[float]} & ADX and directional indicators \\
+\texttt{indicator\_report} & \texttt{str} & Markdown summary with consensus \\
+\hline
+\multicolumn{3}{|l|}{\textit{Alpha Agent outputs}} \\
+\hline
+\texttt{alpha\_report} & \texttt{str} & Five alpha factors + LLM reasoning \\
+\hline
+\multicolumn{3}{|l|}{\textit{Pattern Agent outputs}} \\
+\hline
+\texttt{pattern\_report} & \texttt{str} & Six-field markdown pattern analysis \\
+\hline
+\multicolumn{3}{|l|}{\textit{Trend Agent outputs}} \\
+\hline
+\texttt{trend\_report} & \texttt{str} & Eight-field markdown trend analysis \\
+\hline
+\multicolumn{3}{|l|}{\textit{Sentiment outputs (written by Alpha Agent internally)}} \\
+\hline
+\texttt{sentiment\_report} & \texttt{str} & CafeF sentiment summary \\
+\texttt{sentiment\_data} & \texttt{Dict[str, Any]} & Display articles plus complete compact cutoff-safe observations \\
+\texttt{sentiment\_norm} & \texttt{Dict[str, Any]} & Time-decayed sentiment, relative context, availability and provenance \\
+\hline
+\multicolumn{3}{|l|}{\textit{Decision Agent outputs}} \\
+\hline
+\texttt{final\_trade\_decision} & \texttt{str} & Raw LLM response containing JSON decision \\
+\texttt{decision\_prompt} & \texttt{str} & Full prompt sent to the Decision Agent \\
+\texttt{messages} & \texttt{List[BaseMessage]} & LangChain message history \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\paragraph{Graph topology.}
+The DAG is constructed in \texttt{graph\_setup.py} using the LangGraph \texttt{StateGraph} API. In the Full System configuration, the sequential edge order is:
+\begin{center}
+\texttt{START} $\rightarrow$ \texttt{Indicator} $\rightarrow$ \texttt{Alpha} $\rightarrow$ \texttt{Pattern} $\rightarrow$ \texttt{Trend} $\rightarrow$ \texttt{Decision} $\rightarrow$ \texttt{END}
+\end{center}
+During evaluation, graph execution is split into a variant-independent upstream graph and variant-specific decision graphs. Indicator, Pattern, and Trend run once per exact cutoff; the resulting state is deep-copied into Full, Alpha-only, Sentiment-only, and Baseline branches as required by the experiment. This shared-artifact topology prevents Alpha settings from changing the No-Alpha evidence snapshot.
+
+
+\section{Proprietary Alpha Formula Implementation}
+\label{app:alpha_impl}
+
+This appendix provides the exact Python implementation of the five proprietary alpha formulas listed in Table~\ref{tab:proprietary_alphas}. All formulas operate on the technical variables extracted from the OHLCV window by the function \texttt{\_extract\_tech\_vars()}.
+
+\subsection{$\alpha_1$: Flow-Driven Momentum (FDM)}
+
+\begin{small}
+\begin{verbatim}
+def _alpha1_fdm(tv: dict) -> dict:
+    roc1_adj  = tv["roc1_adjusted"]    # ROC(1) / rolling_std(ROC, 20)
+    vol_surge = tv["vol_surge"]        # Volume / ADV(20)
+    raw   = roc1_adj * vol_surge * 0.5
+    value = math.tanh(raw)
+    # Signal threshold: |value| > 0.10
+\end{verbatim}
+\end{small}
+
+Where \texttt{roc1\_adjusted} is the one-period rate of change normalised by its 20-period rolling standard deviation, and \texttt{vol\_surge} is the ratio of current volume (or intra-bar range proxy when volume is unavailable) to the 20-period average volume.
+
+\subsection{$\alpha_2$: MACD-Flow Proxy (MFP)}
+
+\begin{small}
+\begin{verbatim}
+def _alpha2_mfp(tv: dict) -> dict:
+    roc1_adj = tv["roc1_adjusted"]
+    macd_hist = tv["macd_hist_cur"]
+    z_macd = tanh(macd_hist / (close * 0.005)) * 1.5
+    raw = z_macd + roc1_adj * 0.5
+    value = math.tanh(raw)
+\end{verbatim}
+\end{small}
+
+This factor always uses price-derived MACD histogram and ROC inputs. Sentiment coverage does not switch or modify its formula; sentiment is provided only to the later LLM text-context comparison.
+
+\subsection{$\alpha_3$: Liquidity Void Reversion (LVR)}
+
+\begin{small}
+\begin{verbatim}
+def _alpha3_lvr(tv: dict) -> dict:
+    z_close_dev5 = tv["zscore_close_dev5"]
+    raw   = -1.0 * z_close_dev5 * 0.8
+    value = math.tanh(raw)
+    # Signal threshold: |value| > 0.15 (higher than other alphas)
+\end{verbatim}
+\end{small}
+
+Where \texttt{zscore\_close\_dev5} is the z-score of the series $\frac{C_u - \mathrm{SMA}_5}{C_u}$ over a 20-period rolling window at bar position $u$. The negative sign creates a mean-reversion signal: when the close is abnormally far above SMA(5), the alpha predicts a pullback.
+
+\subsection{$\alpha_4$: Bollinger Squeeze \& Flow (BFE)}
+
+\begin{small}
+\begin{verbatim}
+def _alpha4_bfe(tv: dict) -> dict:
+    bb_pct_b = tv["bb_pct_b"]         # Bollinger %B
+    vol_z5   = tv["vol_zscore_5"]     # Volume z-score (5-period)
+    raw   = (bb_pct_b - 0.5) * vol_z5 * 1.5
+    value = math.tanh(raw)
+\end{verbatim}
+\end{small}
+
+This formula fires when price breaks above/below the Bollinger midline ($\%B \ne 0.5$) with confirming volume expansion ($|Z_{\mathrm{vol}}| > 0$). The multiplicative interaction ensures both conditions must co-occur.
+
+\subsection{$\alpha_5$: Order Flow Exhaustion (OFE)}
+
+\begin{small}
+\begin{verbatim}
+def _alpha5_ofe(tv: dict) -> dict:
+    roc1_adj  = tv["roc1_adjusted"]
+    close_pos = tv["close_pos"]   # (Close - Low)/(High - Low) - 0.5
+    raw   = roc1_adj * close_pos * 3.0
+    value = math.tanh(raw)
+\end{verbatim}
+\end{small}
+
+Where \texttt{close\_pos} $\in [-0.5, 0.5]$ measures where the closing price falls within the intra-bar range, centred at zero. A positive \texttt{close\_pos} with positive momentum confirms buying pressure; the $\times 3.0$ amplification increases signal responsiveness.
+
+
+\section{Indicator Signal Classification Logic}
+\label{app:indicator_classify}
+
+Section~\ref{sec:systemarchitecture} describes the Indicator Agent's deterministic signal classification. This appendix provides the exact classification logic implemented in Python (function \texttt{\_classify\_signals}), which is injected into the LLM prompt as immutable ground truth.
+
+\subsection{MACD Classification}
+
+\begin{enumerate}
+\item \textbf{Priority 1 --- Crossover detection}: If $\mathrm{MACD}_{t-1} < \mathrm{Signal}_{t-1}$ and $\mathrm{MACD}_t \geq \mathrm{Signal}_t$, classify as BULLISH (Golden Cross). Conversely, classify as BEARISH (Death Cross).
+\item \textbf{Priority 2 --- Histogram direction}: If no crossover occurred, classify based on histogram sign and trend (expanding or contracting).
+\end{enumerate}
+
+\subsection{RSI Classification}
+
+\begin{itemize}
+\item $\mathrm{RSI} \leq 30$: BULLISH (oversold bounce expected)
+\item $\mathrm{RSI} \geq 70$: BEARISH (overbought pullback expected)
+\item $55 \leq \mathrm{RSI} < 70$: BULLISH (positive momentum)
+\item $30 < \mathrm{RSI} \leq 45$: BEARISH (negative momentum)
+\item Otherwise: NEUTRAL
+\end{itemize}
+
+\subsection{Stochastic Oscillator Classification}
+
+\begin{enumerate}
+\item \textbf{Priority 1 --- \%K/\%D crossover}: \%K crossing above \%D $\rightarrow$ BULLISH; \%K crossing below \%D $\rightarrow$ BEARISH.
+\item \textbf{Priority 2 --- Extreme zones}: $\%K \geq 80$ $\rightarrow$ BEARISH (overbought); $\%K \leq 20$ $\rightarrow$ BULLISH (oversold).
+\item \textbf{Otherwise}: Compare current \%K vs \%D position.
+\end{enumerate}
+
+\subsection{Williams \%R Classification}
+
+\begin{itemize}
+\item $\%R \geq -20$: BEARISH (overbought, near 0)
+\item $\%R \leq -80$: BULLISH (oversold, near $-100$)
+\item Neutral zone: Classify based on 3-bar trend direction (improving toward 0 $\rightarrow$ BULLISH; deteriorating toward $-100$ $\rightarrow$ BEARISH).
+\end{itemize}
+
+\subsection{ROC Classification}
+
+\begin{itemize}
+\item $\mathrm{ROC} > +0.5\%$: BULLISH
+\item $\mathrm{ROC} < -0.5\%$: BEARISH
+\item Otherwise: NEUTRAL
+\end{itemize}
+
+
+\subsection{Consensus Rule}
+
+The overall consensus is determined by majority vote over the five indicators:
+\begin{itemize}
+\item $\geq 4$ agreement $\rightarrow$ High confidence
+\item $3$ agreement $\rightarrow$ Medium confidence
+\item Otherwise $\rightarrow$ Low confidence
+\end{itemize}
+
+\section{Software Dependencies and Reproducibility}
+\label{app:dependencies}
+
+Table~\ref{tab:dependencies} lists the core software dependencies used in the implementation. All packages are specified in \texttt{requirements.txt} and are installable via \texttt{pip}.
+
+\begin{table}[htb]
+\centering
+\caption{Software dependencies}
+\label{tab:dependencies}
+\renewcommand{\arraystretch}{1.15}
+
+\begin{tabularx}{\textwidth}{|l|l|X|}
+\hline
+\textbf{Package} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+\texttt{flask} & latest & Web interface for real-time demo \\
+\hline
+\texttt{pandas} & latest & Data manipulation and OHLCV processing \\
+\hline
+\texttt{numpy} & latest & Numerical computation \\
+\hline
+\texttt{matplotlib} & latest & Chart rendering backend \\
+\hline
+\texttt{mplfinance} & latest & Candlestick chart generation \\
+\hline
+\texttt{scipy} & latest & Statistical functions \\
+\hline
+\texttt{TA-Lib} & latest & Technical indicator computation (MACD, RSI, etc.) \\
+\hline
+\texttt{langchain} & latest & LLM abstraction layer \\
+\hline
+\texttt{langchain-groq} & latest & Groq API integration for LLM inference \\
+\hline
+\texttt{langgraph} & latest & Multi-agent DAG orchestration framework \\
+\hline
+\texttt{vnstock} & $\geq$ 3.0.0 & Vietnamese stock market data (VCI/MSN sources) \\
+\hline
+\texttt{requests} & latest & HTTP client for CafeF crawling and hosted sentiment inference \\
+\hline
+\texttt{beautifulsoup4} & latest & HTML parsing for article content extraction \\
+\hline
+\texttt{Pillow} & latest & Image processing utilities \\
+\hline
+\end{tabularx}
+\end{table}
+
+\paragraph{Sentiment scorer provenance.}
+The runtime does not load \texttt{BertTokenizer}, \texttt{transformers}, or
+\texttt{torch}. It sends at most 512 text characters to the hosted Hugging Face
+Inference API route configured for
+\texttt{5CD-AI/Vietnamese-Sentiment-visobert}. A successful model-route response
+records that endpoint identifier; a failure records use of
+\texttt{viquant-lexicon-v1} and its reason. Each new article also stores the Hub
+HEAD revision observed at request time. Because the shared serverless route does
+not expose or pin its deployed checkpoint, this revision is labelled
+\texttt{hub\_head\_observed\_unpinned} and
+\texttt{checkpoint\_revision\_verified=false}. Consequently, a run may name the
+ViSoBERT endpoint only when every included article verifies that route, and it
+must not claim checkpoint-level reproducibility. Mixed and fallback-only runs
+are labelled explicitly; old cache records without these fields are marked
+\texttt{legacy-unknown}.
+
+\paragraph{Reproducibility artifacts.}
+The following artifacts are provided or specified for reproducibility:
+\begin{itemize}
+\item \textbf{Model versions}: The reported text default is \texttt{openai/gpt-oss-20b}; the vision default is \texttt{qwen/qwen3.8-27b}. Both use the Groq API. The backtest engine resolves these configurations directly and stores the effective run settings with its result artifacts.
+\item \textbf{Temperature}: The current default is $T=0.0$. Effective temperature, token caps, reasoning format, retry count, and a stable credential-free configuration hash are recorded per run; this metadata does not guarantee deterministic hosted-model output.
+\item \textbf{Retry policy}: The application policy defaults to at most three text calls (two retries with 5/10-second exponential waits) and two vision calls (one retry with a 3-second wait) when SDK retries are disabled. Positive SDK \texttt{max\_retries} budgets make the SDK the single retry owner and reduce the application wrapper to one call; SDK-internal attempts are not observable and remain unknown in telemetry. Inter-test pacing is recorded separately from retry delays.
+\item \textbf{Historical sentiment cache}: Nine JSON files (\texttt{sentiment\_cache\_\{SYMBOL\}.json}), one per evaluated stock, containing pre-crawled and scored CafeF articles. Legacy date-only fields are migrated in memory to timezone-aware \texttt{published\_at}/\texttt{available\_at}; availability is delayed to the next local day and undated records are rejected. The supplied files lack historical scorer metadata, so their scores are labelled \texttt{legacy-unknown}; newly produced schema-v3 cache entries retain scorer, model/revision status, and fallback evidence per article.
+\item \textbf{Default configuration}: Stored in \texttt{default\_config.py} with all hyperparameters.
+\end{itemize}

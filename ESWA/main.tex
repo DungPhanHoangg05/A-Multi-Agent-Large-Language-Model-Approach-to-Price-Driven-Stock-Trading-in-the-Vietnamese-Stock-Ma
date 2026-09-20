@@ -1,0 +1,185 @@
+%%
+%% viQuantAgent / QuantAgent VN -- Academic Paper
+%% Converted to the Elsevier elsarticle (numbered-citation) template,
+%% based on elsarticle-template-num.tex, for submission to
+%% Expert Systems with Applications (ESWA).
+%%
+%% FORMAT CONVERSION ONLY: the scientific content is unchanged from the
+%% original cas-sc source (DKE_2026.tex); only front-matter markup and
+%% class-specific macros (\credit, \printcredits, [pos=...] float
+%% placement, \begin{keywords}, \tnotemark/\fnmark/\cormark, natbib
+%% \citep) have been adapted to elsarticle conventions.
+%%
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage[
+    left=1.8cm,
+    right=1.8cm,
+    top=2.0cm,
+    bottom=2.0cm
+]{geometry}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout -- left commented, preprint style is used here.
+%% \documentclass[final,3p,times]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in elsarticle.cls.
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsmath package provides various useful equation environments.
+\usepackage{amsmath}
+
+%% Packages required by the original manuscript content (tables,
+%% algorithms, float placement) -- preserved from the source document.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese, english]{babel}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{framed}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{orcidlink}
+
+\journal{Expert Systems with Applications}
+
+%% Figures live under figures/figs/... in this project; original
+%% \includegraphics calls use the relative path "figs/..." as in the
+%% source manuscript, so we add "figures/" to the graphics search path.
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+\title{A Multi-Agent Large Language Model Approach to Price-Driven Stock Trading in the Vietnamese Stock Market\tnoteref{t1}}
+\tnotetext[t1]{This research is funded by Foreign Trade University under research program number FTURP02-2026-08.}
+
+%% Authors
+\author[1]{Hong-Viet Tran\,\orcidlink{0000-0002-4675-2123}}
+\author[1]{Hoang-Dung Phan\,\orcidlink{0009-0003-6859-0852}}
+\author[1,2]{Thanh-Tam Do Thi\,\orcidlink{0000-0002-7594-276X}}
+\author[1]{Phuong-Thai Nguyen\,\orcidlink{0009-2063-7338-7789}}
+\author[3]{Van-Tang Nguyen\,\corref{cor1}\orcidlink{0009-0009-7266-2437}}
+
+%% Affiliations
+\affiliation[1]{organization={Institute for Artificial Intelligence, University of Engineering and Technology, Vietnam National University},
+            city={Hanoi},
+            country={Vietnam}}
+
+\affiliation[2]{organization={Faculty of Economic Information System and E-Commerce, Thuongmai University},
+            city={Hanoi},
+            country={Vietnam}}
+
+\affiliation[3]{organization={Faculty of Technology and Data Science, Foreign Trade University},
+            city={Hanoi},
+            country={Vietnam}}
+
+\cortext[cor1]{Corresponding author}
+
+
+%% Abstract
+\begin{abstract}
+Algorithmic trading research increasingly uses large language models (LLMs), yet most systems assume liquid, English-dominated markets. We present a five-agent LangGraph system for Vietnamese equities that combines technical indicators, point-in-time selection from 85 OHLCV alpha candidates, Vietnamese sentiment context, vision-language chart analysis, and a binary LONG/SHORT decision. A paired shared-report protocol holds Indicator, Pattern, and Trend evidence fixed between Full and No-Alpha branches, while a fixed-cycle long-only ledger compounds wealth and charges fee and slippage on both transaction legs. Across nine equities and 180 paired test points, Full accuracy is 65.0\% versus 51.1\% for No-Alpha, a mean lift of 13.9 percentage points (cross-symbol Wilcoxon $p=0.0078$). Mean Full account return remains negative at $-1.69\%$, so directional improvement does not imply profitability. A four-way ablation on FPT, VNM, and VCB attributes a larger independent contribution to alpha factors (+8.33 pp on average) than sentiment (+1.67 pp) and reveals heterogeneous interactions.
+\end{abstract}
+
+%%Graphical abstract
+\begin{graphicalabstract}
+\centering
+\includegraphics[width=0.95\textwidth]{figs/system_pipeline.png}
+\end{graphicalabstract}
+
+%%Research highlights
+\begin{highlights}
+\item A leakage-safe five-agent LangGraph system for Vietnamese equities.
+\item Paired shared reports isolate the Alpha bundle on 180 test points.
+\item Full accuracy reaches 65.0\% versus 51.1\% for No-Alpha.
+\item A compounded long-only ledger separates accuracy from economic return.
+\item Four-way ablation disentangles alpha factors and sentiment context.
+\end{highlights}
+
+%% Keywords
+\begin{keyword}
+Multi-agent LLM \sep Vietnamese stock market \sep Alpha factor selection \sep Sentiment analysis
+\end{keyword}
+
+\end{frontmatter}
+% The elsarticle preprint footer exceeds its output box by 2.61pt.
+% Visual inspection confirms no clipping; use a 3pt output tolerance.
+\global\hfuzz=3pt
+
+%% main text
+\input{sections/01_introduction.tex}
+\input{sections/02_related_work.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_system_architecture.tex}
+\input{sections/05_experimental_setup.tex}
+\input{sections/06_backtest_results.tex}
+\input{sections/07_limitations.tex}
+\input{sections/08_conclusion.tex}
+
+%% CRediT authorship contribution statement
+%% (elsarticle.cls has no \credit/\printcredits macros; the CRediT
+%% roles from the original cas-sc source are preserved here verbatim
+%% as a standard Elsevier "CRediT authorship contribution statement"
+%% section instead.)
+\section*{CRediT authorship contribution statement}
+
+\textbf{Van-Tang Nguyen:} Conceptualization (C); Software (So); Validation (Va); Investigation (I); Original draft preparation (O); Project administration (P); Funding acquisition (Fu).
+
+\textbf{Hoang-Dung Phan:} Methodology (M); Software (So); Formal analysis (Fo); Investigation (I); Resources (R); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Visualization (Vi); Supervision (Su).
+
+\textbf{Thanh-Tam Do Thi:} Methodology (M); Investigation (I); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Supervision (Su).
+
+\textbf{Phuong-Thai Nguyen:} Methodology (M); Investigation (I); Data curation (D); Original draft preparation (O); Visualization (Vi); Supervision (Su).
+
+\textbf{Hong-Viet Tran:} Conceptualization (C); Methodology (M); Software (So); Validation (Va); Formal analysis (Fo); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Project administration (P).
+
+\section*{CONFLICT OF INTEREST STATEMENT (mandatory)}
+Authors state no conflict of interest.
+
+% \section*{INFORMED CONSENT (if applicable)}
+% The protection of privacy is a legal right that must not be breached without individual informed consent. In cases where the identification of personal information is necessary for scientific reasons, authors should obtain full documentation of informed consent, including written permission from the patient prior to inclusion in the study. Incorporate the following (or a similar) statement: We have obtained informed consent from all individuals included in this study.
+
+% \section*{ETHICAL APPROVAL (if applicable)}
+% When papers talk about using people or animals, authors should make it clear that the research followed all national rules and institutional policies, and it was approved by the authors' institutional review board or a similar committee. The Helsinki Declaration's tenets must guide all investigations involving human subjects. Authors must also identify the committee or review board approving the experiments and provide a statement indicating approval of the research. Incorporate the following (or a similar) statement: The research related to human use has been complied with all the relevant national regulations and institutional policies in accordance with the tenets of the Helsinki Declaration and has been approved by the authors' institutional review board or equivalent committee; or: The research related to animal use has been complied with all the relevant national regulations and institutional policies for the care and use of animals.
+
+\section*{DATA AVAILABILITY (mandatory)}
+\begin{itemize}[topsep=0.3ex, itemsep=0.3ex, parsep=0.2ex]
+    \item[-]The supporting data of this study are openly available from the CafeF at https://cafef.vn~ financial information platform and consist of publicly accessible financial reports of Vietnamese enterprises.
+
+    % \item[-] The data that support the findings of this study are available on request from the corresponding author, [initials: AB]. The data, which contain information that could compromise the privacy of research participants, are not publicly available due to certain restrictions.
+    % \item[-] Derived data supporting the findings of this study are available from the corresponding author [initials: AB] on request.
+    % \item[-] The data that support the findings of this study are available from [third party]. Restrictions apply to the availability of these data, which were used under license for this study. Data are available [from the authors / at URL] with the permission of [third party].
+% \item[-] The authors confirm that the data supporting the findings of this study are available within the article [and/or its supplementary materials].
+    % \item[-] The data that support the findings of this study are available from the corresponding author, [initials: AB], upon reasonable request.
+    % \item[-] Data availability is not applicable to this paper as no new data were created or analyzed in this study.
+\end{itemize}
+\section*{CODE AVAILABILITY}
+\begin{itemize}[topsep=0.3ex, itemsep=0.3ex, parsep=0.2ex]
+    \item[-]A demonstration chatbot system developed from the proposed framework is available in the \href{https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git}{project repository}.
+
+\end{itemize}
+
+\input{sections/acknowledgments.tex}
+
+\input{sections/appendices.tex}
+
+%% Loading bibliography style file
+\bibliographystyle{elsarticle-num}
+
+%% Loading bibliography database
+\bibliography{references}
+
+\clearpage
+
+\end{document}
