@@ -30,7 +30,7 @@ Mục tiêu của kế hoạch này là **thu hẹp toàn bộ khoảng cách** 
   5. **Thiếu kiểm định ý nghĩa thống kê:** Bảng 7 chỉ báo cáo số điểm tuyệt đối mà không có khoảng tin cậy (Confidence Intervals) hoặc p-value (McNemar test, Wilcoxon signed-rank test).
 
 ### 1.3. Lộ trình Thực thi Tuyến tính cho Single Agent (3–5 ngày)
-Toàn bộ 15 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 8 giai đoạn rõ ràng:
+Toàn bộ 16 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 9 giai đoạn rõ ràng:
 - **Giai đoạn 1 (Ngày 1: Core Correctness & Data Integrity):** Thực hiện tuần tự `TASK-01` (vá data leakage trong alpha selection), `TASK-02` (cố định snapshot báo cáo thượng nguồn - paired shared reports), và `TASK-03` (loại bỏ bài báo không ngày trong sentiment cache).
 - **Giai đoạn 2 (Ngày 1–2: Financial Math & Statistical Rigor):** Thực hiện tuần tự `TASK-04` (chuẩn hóa mô hình P&L lãi kép và chi phí giao dịch) và `TASK-05` (tích hợp bộ kiểm định thống kê McNemar, Wilcoxon, Bootstrap CI).
 - **Giai đoạn 3 (Ngày 2: Architecture Decoupling & Reliability):** Thực hiện `TASK-06` (tách rời độc lập Alpha vs Sentiment tạo 4-way ablation) và `TASK-07` (bổ sung quy tắc đối chiếu luật chống ảo giác thị giác).
@@ -39,6 +39,7 @@ Toàn bộ 15 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua
 - **Giai đoạn 6 (Ngày 5: Final Validation & Submission Ready):** Thực hiện `TASK-13` (chạy regression test đầu cuối, kiểm tra biên dịch PDF, rà soát Definition of Done).
 - **Giai đoạn 7 (Ngày 5: Conservative Repository Cleanup):** Thực hiện `TASK-14` (loại artefact cũ không còn tham chiếu, chuẩn hóa Python 3.13 và làm sạch repo mà không thay đổi kiến trúc/runtime contract).
 - **Giai đoạn 8 (Ngày 5: Reviewer Concern Clarification):** Thực hiện `TASK-15` (giải trình sâu rủi ro selection bias, evidence faithfulness, heuristic alpha adaptation và cấu hình tái lập trong bài báo).
+- **Giai đoạn 9 (Ngày 5: Figure Evidence Refresh):** Thực hiện `TASK-16` (đặc tả prompt tái tạo bốn sơ đồ theo runtime hiện hành và thay bộ ảnh backtest legacy bằng artifact benchmark tháng 09/2026).
 
 ---
 
@@ -86,6 +87,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-14** | **Mô tả Intraday (L=1) không có dữ liệu thực nghiệm** | `OBSOLETE` | Khung mã nguồn có logic `lookahead = 1` cho intraday nhưng paper chỉ định vị đây là mở rộng lý thuyết, không có dữ liệu khớp lệnh phút. | Review 1 (§3.3): "Intraday capability is specified but never evaluated". Paper cần làm rõ phạm vi bài báo chỉ tập trung nến ngày (1D). | **P2** | `TASK-11` |
 | **ISSUE-15** | **Repository còn artefact tạm và cấu hình Python lệch chuẩn** | `FIXED` | `.python-version` đã đồng bộ Python 3.13.5; năm artefact robustness legacy không còn tham chiếu đã bị xóa; dependency `ipython` không dùng đã được bỏ; cache/build output cục bộ đã được dọn và bổ sung vào `.gitignore`. Toàn bộ dữ liệu `clean_a20`, checkpoint, `.env`, sentiment cache, backtest result và `main.bbl` được bảo toàn. | Code availability package tối thiểu, nhất quán với Python 3.13 và không còn artefact tạm gây nhầm lẫn với kết quả `clean_a20`. | **P2** | `TASK-14` |
 | **ISSUE-16** | **Các giới hạn kỹ thuật và cấu hình tái lập chưa được giải trình đủ sâu** | `FIXED` | Sections 1--5, 7--8 đã phân biệt cutoff safety với selection overfitting; consistency gate với causal evidence faithfulness; định nghĩa IC decay/autocorrelation/turnover audit còn thiếu; công bố token caps, retries, seed scope và giới hạn provider revision. Registry được đối chiếu trực tiếp từ code: 85 = 5 proprietary + 80 WorldQuant adaptations, không phải toàn bộ 101. | Reviewer concern được trả lời trực tiếp, có dẫn nguồn primary research và không tuyên bố các kiểm định chưa chạy là đã hoàn thành. | **P1** | `TASK-15` |
+| **ISSUE-17** | **Sơ đồ kiến trúc và ảnh backtest trong gói ESWA còn phản ánh cấu hình legacy** | `FIXED` | Bốn prompt tái tạo đã khóa registry 85 = 5 + 80, score 0.40/0.35/0.25, output LONG/SHORT, action map SHORT→CASH và time-index contract `[e-W,e)`, `d=e-1`, entry `e`, target `e-1+L`; 9 ảnh backtest tháng 06/2026 đã được thay bằng bộ tháng 09/2026. | `plan/FIGURE_REGENERATION_PROMPTS.md` lưu đặc tả và provenance; SHA-256 của đủ 9 cặp nguồn/đích trùng khớp, không còn ảnh `202606` trong `ESWA/figs/`. | **P1** | `TASK-16` |
 
 ---
 
@@ -751,6 +753,31 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 ---
 
+### [TASK-16] [Thứ tự: #16] [P1] Đồng bộ Prompt Sơ đồ và Ảnh Backtest ESWA
+
+- **Task ID:** `TASK-16`
+- **Git Branch:** `task/TASK-16-refresh-paper-figures`
+- **Priority:** `P1`
+- **Objective:** Tạo bốn prompt tái dựng sơ đồ `system_pipeline`, `alpha_agent_pipeline`, `decision_agent_pipeline`, `walkforward_protocol` bám chính xác runtime và hợp đồng tài chính hiện hành; thay toàn bộ chín ảnh backtest legacy trong `ESWA/figs/` bằng ảnh benchmark sạch mới nhất trong `backtest_result/`.
+- **Phạm vi:** `plan/FIGURE_REGENERATION_PROMPTS.md`, `ESWA/figs/backtest_*.png`, plan và governance. Không tự sinh số liệu, không sửa mã runtime, công thức, kết quả JSON hoặc nội dung Tables 7--9.
+- **Nguồn bằng chứng bắt buộc:** `utils/graph_setup.py`, `agents/alpha_agent.py`, `agents/decision_agent.py`, `core/alpha_compare.py`, `core/backtest_engine.py`, Sections 3--5 của bài báo và chín cặp JSON/PNG tháng 09/2026 trong `backtest_result/`.
+- **Cách triển khai:**
+  1. Audit trực quan bốn sơ đồ cũ và liệt kê mọi nhãn legacy cần cấm tái xuất hiện.
+  2. Viết prompt tiếng Anh dạng production brief, khóa nguyên văn labels, topology, time-index contract, scoring weights và LONG/SHORT-to-action mapping.
+  3. Xóa đúng chín ảnh backtest tháng 06/2026 khỏi `ESWA/figs/`, sao chép đúng chín PNG tháng 09/2026 từ `backtest_result/` với tên gốc để giữ provenance.
+  4. Xác minh SHA-256 nguồn/đích, đối chiếu chín JSON, chạy verifier LaTeX và biên dịch/render PDF.
+- **Test/Command cần chạy:**
+  - `py -3.13 scripts/verify_latex_tables.py`
+  - `py -3.13 -X utf8 -m unittest discover -s tests -v`
+  - Kiểm tra hash nguồn/đích cho đủ 9 ticker và kiểm tra không còn ảnh `backtest_*_202606*.png` trong `ESWA/figs/`.
+  - Biên dịch và render `ESWA/main.pdf` để kiểm tra không phát sinh lỗi tài sản hoặc bố cục.
+- **Acceptance Criteria:** Bốn prompt không còn chi tiết legacy và đủ chính xác để tái tạo sơ đồ; `ESWA/figs/` chứa đúng 9 ảnh backtest benchmark mới; hash nguồn/đích trùng khớp; LaTeX/table verifier, unit tests và PDF QA PASS.
+- **Paper Impact:** Chỉ làm mới tài sản hình ảnh và đặc tả tái tạo; không thay số liệu hoặc kết luận khoa học.
+- **Estimated Complexity:** `S`
+- **Completion Status:** `COMPLETED (2026-09-20)` — bốn prompt đã được audit theo code và Sections 3--5; đủ 9 ảnh benchmark tháng 09/2026 được sao chép nguyên byte với SHA-256 nguồn/đích trùng khớp; không còn ảnh legacy tháng 06/2026; 95/95 unit tests PASS; Table 7/8/9 verifier PASS; PDF 40 trang biên dịch và kiểm tra trực quan không phát sinh lỗi bố cục.
+
+---
+
 ## 6. Single-Agent Execution Protocol & Phased Roadmap
 
 Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đảm bảo không bao giờ bị rối loạn ngữ cảnh (context overload) và duy trì tính ổn định của mã nguồn, Agent bắt buộc tuân theo quy trình vận hành chuẩn dưới đây:
@@ -789,6 +816,7 @@ Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đả
 | **Pha 6: Final Verification** | `TASK-13` | Chạy regression test đầu cuối, cập nhật README, xác nhận Definition of Done. | Ngày 5 |
 | **Pha 7: Repository Hygiene** | `TASK-14` | Xóa artefact legacy/tạm, đồng bộ Python 3.13 và kiểm chứng không hồi quy. | Ngày 5 |
 | **Pha 8: Reviewer Clarification** | `TASK-15` | Giải trình selection bias, vision faithfulness, alpha adaptation và reproducibility. | Ngày 5 |
+| **Pha 9: Figure Evidence Refresh** | `TASK-16` | Khóa prompt sơ đồ theo runtime và thay ảnh backtest legacy bằng artifact sạch mới nhất. | Ngày 5 |
 
 ---
 
