@@ -30,13 +30,14 @@ Mục tiêu của kế hoạch này là **thu hẹp toàn bộ khoảng cách** 
   5. **Thiếu kiểm định ý nghĩa thống kê:** Bảng 7 chỉ báo cáo số điểm tuyệt đối mà không có khoảng tin cậy (Confidence Intervals) hoặc p-value (McNemar test, Wilcoxon signed-rank test).
 
 ### 1.3. Lộ trình Thực thi Tuyến tính cho Single Agent (3–5 ngày)
-Toàn bộ 13 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 6 giai đoạn rõ ràng:
+Toàn bộ 14 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 7 giai đoạn rõ ràng:
 - **Giai đoạn 1 (Ngày 1: Core Correctness & Data Integrity):** Thực hiện tuần tự `TASK-01` (vá data leakage trong alpha selection), `TASK-02` (cố định snapshot báo cáo thượng nguồn - paired shared reports), và `TASK-03` (loại bỏ bài báo không ngày trong sentiment cache).
 - **Giai đoạn 2 (Ngày 1–2: Financial Math & Statistical Rigor):** Thực hiện tuần tự `TASK-04` (chuẩn hóa mô hình P&L lãi kép và chi phí giao dịch) và `TASK-05` (tích hợp bộ kiểm định thống kê McNemar, Wilcoxon, Bootstrap CI).
 - **Giai đoạn 3 (Ngày 2: Architecture Decoupling & Reliability):** Thực hiện `TASK-06` (tách rời độc lập Alpha vs Sentiment tạo 4-way ablation) và `TASK-07` (bổ sung quy tắc đối chiếu luật chống ảo giác thị giác).
 - **Giai đoạn 4 (Ngày 3: Batch Experimentation):** Chạy thực nghiệm tự động qua script: `TASK-08` (chạy lại benchmark 9 mã), `TASK-09` (chạy lại Robustness Sweep giải quyết triệt để lỗi Table 8), và `TASK-10` (chạy ma trận phân rã ablation).
 - **Giai đoạn 5 (Ngày 4: Paper & Evidence Alignment):** Thực hiện `TASK-11` (đồng bộ toàn diện các file LaTeX trong `ESWA/`, xóa bỏ ghi chú tạm, cập nhật Bảng 7, 8, 9) và `TASK-12` (bổ sung bảng giải trình ticker selection và tỷ lệ phủ sentiment).
 - **Giai đoạn 6 (Ngày 5: Final Validation & Submission Ready):** Thực hiện `TASK-13` (chạy regression test đầu cuối, kiểm tra biên dịch PDF, rà soát Definition of Done).
+- **Giai đoạn 7 (Ngày 5: Conservative Repository Cleanup):** Thực hiện `TASK-14` (loại artefact cũ không còn tham chiếu, chuẩn hóa Python 3.13 và làm sạch repo mà không thay đổi kiến trúc/runtime contract).
 
 ---
 
@@ -82,6 +83,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-12** | **Đảo dấu Alpha phụ thuộc mẫu ngắn (Sign-Flipping Risk)** | `PARTIAL` | `agents/alpha_agent.py`: dòng 678-683 đảo dấu nếu $IC < 0$. Logic chạy đúng nhưng chưa có kiểm định độ ổn định của dấu trên cửa sổ lăn. | Review 1 (§3.2, §4): "Composite scoring with \|IC\| plus post-hoc sign-flip is standard but can be fragile in short samples". | **P1** | `TASK-01`, `TASK-11` |
 | **ISSUE-13** | **Thiếu hướng dẫn môi trường và cấu hình phiên bản Python** | `FIXED` | `README.md` chuẩn hóa virtual environment Python 3.13, `.env`, lệnh thí nghiệm và biên tái lập; `scripts/run_end_to_end_test.py` fail-fast nếu không chạy Python 3.13 hoặc thiếu dependency. | Review 1 (§3.4): code/environment availability được kiểm chứng bằng một lệnh E2E ngoại tuyến, không cần API key. | **P2** | `TASK-13` |
 | **ISSUE-14** | **Mô tả Intraday (L=1) không có dữ liệu thực nghiệm** | `OBSOLETE` | Khung mã nguồn có logic `lookahead = 1` cho intraday nhưng paper chỉ định vị đây là mở rộng lý thuyết, không có dữ liệu khớp lệnh phút. | Review 1 (§3.3): "Intraday capability is specified but never evaluated". Paper cần làm rõ phạm vi bài báo chỉ tập trung nến ngày (1D). | **P2** | `TASK-11` |
+| **ISSUE-15** | **Repository còn artefact tạm và cấu hình Python lệch chuẩn** | `FIXED` | `.python-version` đã đồng bộ Python 3.13.5; năm artefact robustness legacy không còn tham chiếu đã bị xóa; dependency `ipython` không dùng đã được bỏ; cache/build output cục bộ đã được dọn và bổ sung vào `.gitignore`. Toàn bộ dữ liệu `clean_a20`, checkpoint, `.env`, sentiment cache, backtest result và `main.bbl` được bảo toàn. | Code availability package tối thiểu, nhất quán với Python 3.13 và không còn artefact tạm gây nhầm lẫn với kết quả `clean_a20`. | **P2** | `TASK-14` |
 
 ---
 
@@ -107,6 +109,7 @@ graph TD
     T10 -->|merge to dev| T11[Task 11: Synchronize LaTeX Sections 5, 6, 7 & Tables]:::p1
     T11 -->|merge to dev| T12[Task 12: Add Ticker Selection Rationale & Sentiment Coverage]:::p2
     T12 -->|merge to dev| T13[Task 13: End-to-End Regression Test & Definition of Done Verification]:::p2
+    T13 -->|merge to dev| T14[Task 14: Conservative Repository Cleanup]:::p2
 ```
 
 ### Các Cổng Kiểm soát Giai đoạn (Phased Merge Gates):
@@ -115,12 +118,13 @@ graph TD
 - **Cổng 3 (Hoàn thành Architecture - sau Task 07):** LangGraph hỗ trợ 4 biến thể độc lập và mô hình thị giác có chốt chặn kiểm tra nến thực tế chống ảo giác.
 - **Cổng 4 (Hoàn thành Thực nghiệm - sau Task 10):** Đã thu thập 100% dữ liệu thực nghiệm mới, sạch, tái lập được cho Benchmark 9 mã, Robustness sweep và Ablation matrix.
 - **Cổng 5 (Hoàn thành Bài báo & Nghiệm thu - sau Task 13):** LaTeX được đồng bộ hoàn hảo, PDF biên dịch không lỗi, đạt 100% Definition of Done.
+- **Cổng 6 (Repository Hygiene - sau Task 14):** Không còn artefact cũ/tạm trong phạm vi Git, Python version nhất quán, test/PDF giữ nguyên hành vi.
 
 ---
 
 ## 5. Detailed Task Breakdown (Thứ tự Tuần tự Tuyến tính)
 
-Tất cả các task dưới đây được đánh số theo đúng thứ tự thực thi từ **#1 đến #13**. Mỗi task có đầy đủ thông tin kỹ thuật, tên nhánh git tương ứng, lệnh kiểm tra và tiêu chí nghiệm thu để Agent có thể thực thi độc lập.
+Tất cả các task dưới đây được đánh số theo đúng thứ tự thực thi từ **#1 đến #14**. Mỗi task có đầy đủ thông tin kỹ thuật, tên nhánh git tương ứng, lệnh kiểm tra và tiêu chí nghiệm thu để Agent có thể thực thi độc lập.
 
 ---
 
@@ -678,6 +682,46 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 ---
 
+### [TASK-14] [Thứ tự: #14] [P2] Làm sạch Repository và Tái cấu trúc Bảo thủ
+
+- **Task ID:** `TASK-14`
+- **Git Branch:** `task/TASK-14-repository-cleanup`
+- **Priority:** `P2`
+- **Objective:** Thu gọn repository công khai, loại file sinh tự động/artefact legacy không còn tham chiếu và chuẩn hóa cấu hình môi trường, trong khi giữ nguyên toàn bộ kiến trúc 5-agent, CLI, web UI, kết quả `clean_a20` và hợp đồng tài chính/thống kê.
+- **Evidence audit:**
+  - `.python-version` ghi `3.10.12`, mâu thuẫn với Python 3.13 bắt buộc và README đã kiểm chứng trên 3.13.5.
+  - `outputs/robustness/temp_result.{json,png}` và ba CSV sweep tháng 06/2026 không được bất kỳ code, test, README hoặc file LaTeX nào tham chiếu; verifier chỉ đọc `outputs/robustness/clean_a20/`.
+  - `ipython` không được import trong mã nguồn, test hoặc script runtime.
+  - Cache Python, ảnh chart gốc, `record.csv`, `tmp/` và LaTeX auxiliary files là output sinh lại được.
+- **File/Function cần sửa:**
+  - `plan/FINAL_COMPLETION_PLAN.md`, `AGENTS.md` (ghi nhận task được phê duyệt).
+  - `.python-version`, `.gitignore`, `requirements.txt`.
+  - Xóa chính xác năm artefact legacy trong `outputs/robustness/`; không xóa `clean_a20/`.
+- **Phạm vi bảo vệ bắt buộc:**
+  - Giữ nguyên `.env`, `sentiment_cache_*.json`, `backtest_result/`, toàn bộ `outputs/**/clean_a20/`, checkpoint, `ESWA/figs/`, `ESWA/main_submit.tex`, `elsarticle.cls`, `elsarticle-num.bst` và `ESWA/main.bbl` cục bộ.
+  - Không đổi tên/move module Python, không thay public API, graph topology, prompt, công thức alpha, P&L hoặc logic thống kê.
+- **Các bước thực hiện:**
+  1. Tạo branch `task/TASK-14-repository-cleanup` từ `develop` sạch.
+  2. Xóa artefact tracked legacy đã audit và output cục bộ có thể sinh lại; mở rộng `.gitignore` cho cache/build output chuẩn.
+  3. Đồng bộ `.python-version` với Python 3.13.5 và bỏ dependency không dùng sau khi xác minh import.
+  4. Chạy compile, 95 unit tests, E2E, verifier LaTeX/PDF và kiểm tra Git hygiene.
+  5. Commit, merge `--no-ff` và xóa task branch.
+- **Test/Command cần chạy:**
+  - `py -3.13 -m compileall agents core data_manager scripts tests utils web_interface.py`
+  - `py -3.13 -X utf8 -m unittest discover -s tests -v`
+  - `py -3.13 scripts/run_end_to_end_test.py`
+  - `py -3.13 scripts/verify_latex_tables.py`
+- **Acceptance Criteria:**
+  - Chỉ xóa các file có bằng chứng không còn tham chiếu hoặc là output sinh lại; không mất dữ liệu nghiên cứu/secret.
+  - Python 3.13 nhất quán giữa governance, README và `.python-version`.
+  - 100% unit tests, E2E và LaTeX/PDF verifier PASS; `git status` sạch sau merge.
+  - Không thay đổi kiến trúc hay chức năng hệ thống hiện có.
+- **Paper Impact:** Không thay đổi nội dung khoa học; củng cố Code & Artifact Availability.
+- **Estimated Complexity:** `S`
+- **Completion Status:** `COMPLETED (2026-09-20)` — compile PASS; 95/95 unit tests PASS; E2E 5-agent PASS trong 7.5 giây với peak Python-traced memory 6.4 MiB; Table 7/8/9 verifier PASS; PDF 37 trang biên dịch và kiểm tra trực quan không có lỗi bố cục. Năm artefact robustness legacy cùng cache/build output đã được xóa, trong khi toàn bộ dữ liệu và giao diện runtime được bảo toàn.
+
+---
+
 ## 6. Single-Agent Execution Protocol & Phased Roadmap
 
 Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đảm bảo không bao giờ bị rối loạn ngữ cảnh (context overload) và duy trì tính ổn định của mã nguồn, Agent bắt buộc tuân theo quy trình vận hành chuẩn dưới đây:
@@ -714,6 +758,7 @@ Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đả
 | **Pha 4: Batch Experiments** | `TASK-08`, `TASK-09`, `TASK-10` | Chạy lại Benchmark 9 mã cổ phiếu, Robustness sweep (N=20) và Ma trận Ablation; thu thập JSON sạch. | Ngày 3 |
 | **Pha 5: Paper Alignment** | `TASK-11`, `TASK-12` | Đồng bộ toàn bộ các file LaTeX trong `ESWA/`, xóa bỏ ghi chú tạm, cập nhật Bảng 7, 8, 9 và phụ lục. | Ngày 4 |
 | **Pha 6: Final Verification** | `TASK-13` | Chạy regression test đầu cuối, cập nhật README, xác nhận Definition of Done. | Ngày 5 |
+| **Pha 7: Repository Hygiene** | `TASK-14` | Xóa artefact legacy/tạm, đồng bộ Python 3.13 và kiểm chứng không hồi quy. | Ngày 5 |
 
 ---
 
@@ -814,6 +859,12 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 - [x] File `ESWA/main.pdf` biên dịch thành công, không có lỗi cú pháp, không tràn viền bảng biểu.
 - [x] Section 5.1 và Appendix công bố tiêu chí chọn 9 ticker, coverage 90 ngày và giới hạn provenance scorer từ artefact thật.
 - [x] File `README.md` hướng dẫn đầy đủ cách chạy lại hệ thống với Python 3.13.
+
+### E. Repository Hygiene Checks
+- [x] `.python-version`, README và runtime gate cùng nhất quán Python 3.13.
+- [x] Không còn artefact robustness legacy/tạm trong Git; `clean_a20` và checkpoint được bảo toàn.
+- [x] Cache/build output cục bộ được dọn mà không xóa `.env`, sentiment cache, backtest result hoặc `main.bbl`.
+- [x] Toàn bộ compile, unit test, E2E và LaTeX/PDF verifier PASS sau cleanup.
 
 ---
 
