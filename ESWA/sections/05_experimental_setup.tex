@@ -122,7 +122,9 @@ Paired inference & Exact McNemar test, moving-block 95\% lift interval, Newey--W
 
 \subsection{Implementation and Robustness Design}
 
-The text model is \texttt{openai/gpt-oss-20b} and the vision model is \texttt{qwen/qwen3.8-27b}; both use temperature zero in the reported runs. Hosted inference can nevertheless remain nondeterministic. Calls are executed sequentially with rate-limit pacing, and checkpoint files permit completed test points to be resumed without changing their stored outputs.
+The text model is \texttt{openai/gpt-oss-20b} and the vision model is \texttt{qwen/qwen3.8-27b}; both use temperature zero in the reported runs. Text and vision output caps are 2,048 and 1,024 tokens, respectively, with at most three client retries and hidden reasoning format requested for supported reasoning models. Python and NumPy seed 42 controls local experiment ordering and deterministic utilities; the moving-block bootstrap uses seeds 42, 43, and 44 for Full, No-Alpha, and paired-lift resamples. No seed is passed to the hosted decoding API. Temperature zero therefore reduces sampling variation but does not imply bitwise determinism.
+
+The configured provider identifiers are recorded, but the Groq endpoint did not expose an immutable weight digest or provider-side revision in the archived run artifacts, and the aliases were not pinned to such a revision. Exact replay across a later provider update is therefore not guaranteed. This limitation is separate from checkpoint reproducibility: calls are executed sequentially with rate-limit pacing, and resuming a checkpoint preserves completed outputs instead of regenerating them. The legacy sentiment caches have an analogous, explicitly reported provenance limit: their article scores predate revision metadata and are labelled \texttt{legacy-unknown} rather than attributed retrospectively to a ViSoBERT revision.
 
 \begin{table}[H]
 \centering
@@ -134,6 +136,12 @@ The text model is \texttt{openai/gpt-oss-20b} and the vision model is \texttt{qw
 \textbf{Component} & \textbf{Configuration} \\
 \hline
 Text / vision models & \texttt{openai/gpt-oss-20b} / \texttt{qwen/qwen3.8-27b}; temperature $0.0$ \\
+\hline
+Decoding controls & Text/vision caps 2,048/1,024 tokens; three client retries; hidden reasoning requested where supported \\
+\hline
+Randomness scope & Python/NumPy seed 42; bootstrap seeds 42--44; no hosted-decoding seed \\
+\hline
+Model revision & Provider aliases recorded; immutable Groq weight revision/digest unavailable and not pinned \\
 \hline
 Initial capital & VND~50,000,000 independently for each variant \\
 \hline

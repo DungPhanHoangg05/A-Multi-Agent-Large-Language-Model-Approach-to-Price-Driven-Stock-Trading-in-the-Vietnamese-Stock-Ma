@@ -30,7 +30,7 @@ Mục tiêu của kế hoạch này là **thu hẹp toàn bộ khoảng cách** 
   5. **Thiếu kiểm định ý nghĩa thống kê:** Bảng 7 chỉ báo cáo số điểm tuyệt đối mà không có khoảng tin cậy (Confidence Intervals) hoặc p-value (McNemar test, Wilcoxon signed-rank test).
 
 ### 1.3. Lộ trình Thực thi Tuyến tính cho Single Agent (3–5 ngày)
-Toàn bộ 14 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 7 giai đoạn rõ ràng:
+Toàn bộ 15 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua 8 giai đoạn rõ ràng:
 - **Giai đoạn 1 (Ngày 1: Core Correctness & Data Integrity):** Thực hiện tuần tự `TASK-01` (vá data leakage trong alpha selection), `TASK-02` (cố định snapshot báo cáo thượng nguồn - paired shared reports), và `TASK-03` (loại bỏ bài báo không ngày trong sentiment cache).
 - **Giai đoạn 2 (Ngày 1–2: Financial Math & Statistical Rigor):** Thực hiện tuần tự `TASK-04` (chuẩn hóa mô hình P&L lãi kép và chi phí giao dịch) và `TASK-05` (tích hợp bộ kiểm định thống kê McNemar, Wilcoxon, Bootstrap CI).
 - **Giai đoạn 3 (Ngày 2: Architecture Decoupling & Reliability):** Thực hiện `TASK-06` (tách rời độc lập Alpha vs Sentiment tạo 4-way ablation) và `TASK-07` (bổ sung quy tắc đối chiếu luật chống ảo giác thị giác).
@@ -38,6 +38,7 @@ Toàn bộ 14 tasks được thực thi tuần tự bởi 1 Agent duy nhất qua
 - **Giai đoạn 5 (Ngày 4: Paper & Evidence Alignment):** Thực hiện `TASK-11` (đồng bộ toàn diện các file LaTeX trong `ESWA/`, xóa bỏ ghi chú tạm, cập nhật Bảng 7, 8, 9) và `TASK-12` (bổ sung bảng giải trình ticker selection và tỷ lệ phủ sentiment).
 - **Giai đoạn 6 (Ngày 5: Final Validation & Submission Ready):** Thực hiện `TASK-13` (chạy regression test đầu cuối, kiểm tra biên dịch PDF, rà soát Definition of Done).
 - **Giai đoạn 7 (Ngày 5: Conservative Repository Cleanup):** Thực hiện `TASK-14` (loại artefact cũ không còn tham chiếu, chuẩn hóa Python 3.13 và làm sạch repo mà không thay đổi kiến trúc/runtime contract).
+- **Giai đoạn 8 (Ngày 5: Reviewer Concern Clarification):** Thực hiện `TASK-15` (giải trình sâu rủi ro selection bias, evidence faithfulness, heuristic alpha adaptation và cấu hình tái lập trong bài báo).
 
 ---
 
@@ -84,6 +85,7 @@ Bảng đối chiếu tổng thể giữa thiết kế trong mã nguồn, các v
 | **ISSUE-13** | **Thiếu hướng dẫn môi trường và cấu hình phiên bản Python** | `FIXED` | `README.md` chuẩn hóa virtual environment Python 3.13, `.env`, lệnh thí nghiệm và biên tái lập; `scripts/run_end_to_end_test.py` fail-fast nếu không chạy Python 3.13 hoặc thiếu dependency. | Review 1 (§3.4): code/environment availability được kiểm chứng bằng một lệnh E2E ngoại tuyến, không cần API key. | **P2** | `TASK-13` |
 | **ISSUE-14** | **Mô tả Intraday (L=1) không có dữ liệu thực nghiệm** | `OBSOLETE` | Khung mã nguồn có logic `lookahead = 1` cho intraday nhưng paper chỉ định vị đây là mở rộng lý thuyết, không có dữ liệu khớp lệnh phút. | Review 1 (§3.3): "Intraday capability is specified but never evaluated". Paper cần làm rõ phạm vi bài báo chỉ tập trung nến ngày (1D). | **P2** | `TASK-11` |
 | **ISSUE-15** | **Repository còn artefact tạm và cấu hình Python lệch chuẩn** | `FIXED` | `.python-version` đã đồng bộ Python 3.13.5; năm artefact robustness legacy không còn tham chiếu đã bị xóa; dependency `ipython` không dùng đã được bỏ; cache/build output cục bộ đã được dọn và bổ sung vào `.gitignore`. Toàn bộ dữ liệu `clean_a20`, checkpoint, `.env`, sentiment cache, backtest result và `main.bbl` được bảo toàn. | Code availability package tối thiểu, nhất quán với Python 3.13 và không còn artefact tạm gây nhầm lẫn với kết quả `clean_a20`. | **P2** | `TASK-14` |
+| **ISSUE-16** | **Các giới hạn kỹ thuật và cấu hình tái lập chưa được giải trình đủ sâu** | `FIXED` | Sections 1--5, 7--8 đã phân biệt cutoff safety với selection overfitting; consistency gate với causal evidence faithfulness; định nghĩa IC decay/autocorrelation/turnover audit còn thiếu; công bố token caps, retries, seed scope và giới hạn provider revision. Registry được đối chiếu trực tiếp từ code: 85 = 5 proprietary + 80 WorldQuant adaptations, không phải toàn bộ 101. | Reviewer concern được trả lời trực tiếp, có dẫn nguồn primary research và không tuyên bố các kiểm định chưa chạy là đã hoàn thành. | **P1** | `TASK-15` |
 
 ---
 
@@ -110,6 +112,7 @@ graph TD
     T11 -->|merge to dev| T12[Task 12: Add Ticker Selection Rationale & Sentiment Coverage]:::p2
     T12 -->|merge to dev| T13[Task 13: End-to-End Regression Test & Definition of Done Verification]:::p2
     T13 -->|merge to dev| T14[Task 14: Conservative Repository Cleanup]:::p2
+    T14 -->|merge to dev| T15[Task 15: Clarify Technical Limitations and Reproducibility]:::p1
 ```
 
 ### Các Cổng Kiểm soát Giai đoạn (Phased Merge Gates):
@@ -119,12 +122,13 @@ graph TD
 - **Cổng 4 (Hoàn thành Thực nghiệm - sau Task 10):** Đã thu thập 100% dữ liệu thực nghiệm mới, sạch, tái lập được cho Benchmark 9 mã, Robustness sweep và Ablation matrix.
 - **Cổng 5 (Hoàn thành Bài báo & Nghiệm thu - sau Task 13):** LaTeX được đồng bộ hoàn hảo, PDF biên dịch không lỗi, đạt 100% Definition of Done.
 - **Cổng 6 (Repository Hygiene - sau Task 14):** Không còn artefact cũ/tạm trong phạm vi Git, Python version nhất quán, test/PDF giữ nguyên hành vi.
+- **Cổng 7 (Reviewer Clarification - sau Task 15):** Bài báo phân biệt rõ leakage với selection overfitting, consistency với evidence faithfulness, và công bố giới hạn model revision/reproducibility.
 
 ---
 
 ## 5. Detailed Task Breakdown (Thứ tự Tuần tự Tuyến tính)
 
-Tất cả các task dưới đây được đánh số theo đúng thứ tự thực thi từ **#1 đến #14**. Mỗi task có đầy đủ thông tin kỹ thuật, tên nhánh git tương ứng, lệnh kiểm tra và tiêu chí nghiệm thu để Agent có thể thực thi độc lập.
+Tất cả các task dưới đây được đánh số theo đúng thứ tự thực thi từ **#1 đến #15**. Mỗi task có đầy đủ thông tin kỹ thuật, tên nhánh git tương ứng, lệnh kiểm tra và tiêu chí nghiệm thu để Agent có thể thực thi độc lập.
 
 ---
 
@@ -722,6 +726,31 @@ Tất cả các task dưới đây được đánh số theo đúng thứ tự t
 
 ---
 
+### [TASK-15] [Thứ tự: #15] [P1] Giải trình Technical Concerns và Reproducibility
+
+- **Task ID:** `TASK-15`
+- **Git Branch:** `task/TASK-15-address-technical-concerns`
+- **Priority:** `P1`
+- **Objective:** Mở rộng bài báo bằng giải trình có dẫn nguồn và bám sát code cho selection bias của dynamic alpha, evidence faithfulness của vision agents, giới hạn heuristic khi chuyển WorldQuant sang chuỗi đơn tài sản, registry accounting, formula notation và cấu hình tái lập.
+- **Phạm vi:** `ESWA/sections/01_introduction.tex`, `02_related_work.tex`, `03_problem_formulation.tex`, `04_system_architecture.tex`, `05_experimental_setup.tex`, `07_limitations.tex`, `ESWA/references.bib`, plan và governance.
+- **Ràng buộc:** Không tạo thêm kết quả thực nghiệm, không tuyên bố nested cross-validation/Deflated Sharpe/evidence-faithfulness audit đã được chạy, không thay đổi code runtime hoặc số liệu Tables 7--9.
+- **Cách triển khai:**
+  1. Phân biệt point-in-time leakage control với post-selection inference và overfitting còn tồn tại.
+  2. Giải thích consistency gate hiện tại chỉ phát hiện mâu thuẫn thô, không chứng minh VLM sử dụng local visual evidence; dẫn nguồn benchmark tài chính/chart gốc.
+  3. Ghi rõ registry thực thi là 85 ứng viên = 5 proprietary + 80 WorldQuant adaptations; sửa mọi tuyên bố “full 101”.
+  4. Hiệu chỉnh ký hiệu time-series rank/normalisation theo code và định nghĩa diagnostics decay, autocorrelation, turnover cần bổ sung.
+  5. Công bố temperature, token caps, retry/reasoning settings, seed scope và việc hosted model revisions không được provider pin/expose.
+- **Test/Command cần chạy:**
+  - `py -3.13 scripts/verify_latex_tables.py`
+  - Kiểm tra toàn văn không còn tuyên bố 87 alpha hoặc “full WorldQuant 101 corpus”.
+  - Biên dịch và render PDF để kiểm tra citation, cross-reference và bố cục.
+- **Acceptance Criteria:** Các concern được trả lời trực tiếp, trung thực; thuật ngữ “implemented safeguard” và “unresolved limitation” không bị nhập nhằng; LaTeX/PDF PASS và không thay đổi số liệu thực nghiệm.
+- **Paper Impact:** Sections 1--5 và 7 cùng bibliography.
+- **Estimated Complexity:** `M`
+- **Completion Status:** `COMPLETED (2026-09-20)` — registry import audit xác nhận 85 = 5 + 80; không còn tuyên bố “full WorldQuant 101 corpus”; LaTeX Table 7/8/9 verifier PASS; citations/cross-references sạch; PDF 40 trang biên dịch và kiểm tra trực quan không có lỗi bố cục mới.
+
+---
+
 ## 6. Single-Agent Execution Protocol & Phased Roadmap
 
 Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đảm bảo không bao giờ bị rối loạn ngữ cảnh (context overload) và duy trì tính ổn định của mã nguồn, Agent bắt buộc tuân theo quy trình vận hành chuẩn dưới đây:
@@ -759,6 +788,7 @@ Dự án được thực hiện bởi **1 Coding Agent** duy nhất. Để đả
 | **Pha 5: Paper Alignment** | `TASK-11`, `TASK-12` | Đồng bộ toàn bộ các file LaTeX trong `ESWA/`, xóa bỏ ghi chú tạm, cập nhật Bảng 7, 8, 9 và phụ lục. | Ngày 4 |
 | **Pha 6: Final Verification** | `TASK-13` | Chạy regression test đầu cuối, cập nhật README, xác nhận Definition of Done. | Ngày 5 |
 | **Pha 7: Repository Hygiene** | `TASK-14` | Xóa artefact legacy/tạm, đồng bộ Python 3.13 và kiểm chứng không hồi quy. | Ngày 5 |
+| **Pha 8: Reviewer Clarification** | `TASK-15` | Giải trình selection bias, vision faithfulness, alpha adaptation và reproducibility. | Ngày 5 |
 
 ---
 
@@ -865,6 +895,12 @@ Checklist nghiệm thu kỹ thuật bắt buộc phải vượt qua 100% trướ
 - [x] Không còn artefact robustness legacy/tạm trong Git; `clean_a20` và checkpoint được bảo toàn.
 - [x] Cache/build output cục bộ được dọn mà không xóa `.env`, sentiment cache, backtest result hoặc `main.bbl`.
 - [x] Toàn bộ compile, unit test, E2E và LaTeX/PDF verifier PASS sau cleanup.
+
+### F. Technical Concern Clarification Checks
+- [x] Phân biệt rõ cutoff safety không đồng nghĩa với loại bỏ selection bias/overfitting.
+- [x] Nêu đúng giới hạn của vision consistency gate và thiết kế evidence-faithfulness audit còn thiếu.
+- [x] Registry và ký hiệu công thức nhất quán với implementation: 85 = 5 + 80.
+- [x] Công bố đầy đủ tham số suy luận, seed scope và giới hạn hosted-model revision.
 
 ---
 
