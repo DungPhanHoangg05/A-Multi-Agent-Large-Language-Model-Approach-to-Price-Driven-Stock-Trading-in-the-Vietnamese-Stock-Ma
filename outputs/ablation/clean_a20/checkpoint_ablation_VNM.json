@@ -1,0 +1,1276 @@
+{
+  "symbol": "VNM",
+  "timeframe": "1d",
+  "n_tests": 20,
+  "window_size": 45,
+  "step": 3,
+  "data_start": "2023-10-26",
+  "data_end": "2026-09-18",
+  "seed": 42,
+  "protocol": "four_way_shared_upstream",
+  "variants": [
+    "full",
+    "alpha_only",
+    "sentiment_only",
+    "baseline"
+  ],
+  "updated_at": "2026-09-20T10:58:29.368758",
+  "status": "complete",
+  "completed": 20,
+  "summary": {
+    "symbol": "VNM",
+    "n_tests": 20,
+    "data_start": "2023-10-26",
+    "data_end": "2026-09-18",
+    "contributions": {
+      "alpha_contribution_pp": 5.0,
+      "sentiment_contribution_pp": 5.0,
+      "synergy_pp": 10.0,
+      "full_lift_pp": 15.0
+    },
+    "rows": [
+      {
+        "symbol": "VNM",
+        "variant": "full",
+        "enable_alpha_factors": true,
+        "enable_sentiment": true,
+        "n_tests": 20,
+        "accuracy": 60.0,
+        "baseline_accuracy": 45.0,
+        "delta_vs_baseline_pp": 15.0,
+        "n_long": 3,
+        "n_short": 17,
+        "long_win_rate": 33.3,
+        "short_win_rate": 64.7,
+        "account_return_pct": -4.03,
+        "sharpe_ratio": -2.94,
+        "sortino_ratio": -8.54,
+        "max_drawdown_pct": 6.08,
+        "hit_rate_pct": 33.3,
+        "mcnemar_p_value_vs_baseline": 0.453125,
+        "lift_ci_95_vs_baseline": [
+          -10.0,
+          40.0
+        ],
+        "newey_west_p_value_vs_baseline": 0.22375144469313504,
+        "data_start": "2023-10-26",
+        "data_end": "2026-09-18",
+        "window_size": 45,
+        "step": 3,
+        "protocol": "four_way_shared_upstream",
+        "seed": 42,
+        "alpha_contribution_pp": 5.0,
+        "sentiment_contribution_pp": 5.0,
+        "synergy_pp": 10.0,
+        "full_lift_pp": 15.0
+      },
+      {
+        "symbol": "VNM",
+        "variant": "alpha_only",
+        "enable_alpha_factors": true,
+        "enable_sentiment": false,
+        "n_tests": 20,
+        "accuracy": 50.0,
+        "baseline_accuracy": 45.0,
+        "delta_vs_baseline_pp": 5.0,
+        "n_long": 9,
+        "n_short": 11,
+        "long_win_rate": 33.3,
+        "short_win_rate": 63.6,
+        "account_return_pct": 2.26,
+        "sharpe_ratio": 1.04,
+        "sortino_ratio": 1.51,
+        "max_drawdown_pct": 6.06,
+        "hit_rate_pct": 33.3,
+        "mcnemar_p_value_vs_baseline": 1.0,
+        "lift_ci_95_vs_baseline": [
+          -10.0,
+          15.0
+        ],
+        "newey_west_p_value_vs_baseline": 0.5060670856887157,
+        "data_start": "2023-10-26",
+        "data_end": "2026-09-18",
+        "window_size": 45,
+        "step": 3,
+        "protocol": "four_way_shared_upstream",
+        "seed": 42,
+        "alpha_contribution_pp": 5.0,
+        "sentiment_contribution_pp": 5.0,
+        "synergy_pp": 10.0,
+        "full_lift_pp": 15.0
+      },
+      {
+        "symbol": "VNM",
+        "variant": "sentiment_only",
+        "enable_alpha_factors": false,
+        "enable_sentiment": true,
+        "n_tests": 20,
+        "accuracy": 50.0,
+        "baseline_accuracy": 45.0,
+        "delta_vs_baseline_pp": 5.0,
+        "n_long": 7,
+        "n_short": 13,
+        "long_win_rate": 28.6,
+        "short_win_rate": 61.5,
+        "account_return_pct": -5.86,
+        "sharpe_ratio": -2.56,
+        "sortino_ratio": -3.84,
+        "max_drawdown_pct": 10.02,
+        "hit_rate_pct": 28.6,
+        "mcnemar_p_value_vs_baseline": 1.0,
+        "lift_ci_95_vs_baseline": [
+          -15.0,
+          20.124999999999886
+        ],
+        "newey_west_p_value_vs_baseline": 0.5601459927646104,
+        "data_start": "2023-10-26",
+        "data_end": "2026-09-18",
+        "window_size": 45,
+        "step": 3,
+        "protocol": "four_way_shared_upstream",
+        "seed": 42,
+        "alpha_contribution_pp": 5.0,
+        "sentiment_contribution_pp": 5.0,
+        "synergy_pp": 10.0,
+        "full_lift_pp": 15.0
+      },
+      {
+        "symbol": "VNM",
+        "variant": "baseline",
+        "enable_alpha_factors": false,
+        "enable_sentiment": false,
+        "n_tests": 20,
+        "accuracy": 45.0,
+        "baseline_accuracy": 45.0,
+        "delta_vs_baseline_pp": 0.0,
+        "n_long": 10,
+        "n_short": 10,
+        "long_win_rate": 30.0,
+        "short_win_rate": 60.0,
+        "account_return_pct": -3.96,
+        "sharpe_ratio": -1.24,
+        "sortino_ratio": -2.07,
+        "max_drawdown_pct": 10.25,
+        "hit_rate_pct": 30.0,
+        "mcnemar_p_value_vs_baseline": 1.0,
+        "lift_ci_95_vs_baseline": [
+          0.0,
+          0.0
+        ],
+        "newey_west_p_value_vs_baseline": 1.0,
+        "data_start": "2023-10-26",
+        "data_end": "2026-09-18",
+        "window_size": 45,
+        "step": 3,
+        "protocol": "four_way_shared_upstream",
+        "seed": 42,
+        "alpha_contribution_pp": 5.0,
+        "sentiment_contribution_pp": 5.0,
+        "synergy_pp": 10.0,
+        "full_lift_pp": 15.0
+      }
+    ]
+  },
+  "test_points": [
+    {
+      "test_id": 1,
+      "window_start": "2026-04-17",
+      "window_end": "2026-06-23",
+      "actual_prev_close": 56.6,
+      "actual_next_close": 56.3,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -1.5544,
+      "entry_open": 56.79,
+      "exit_close": 56.3,
+      "entry_time": "2026-06-24T07:00:00",
+      "exit_time": "2026-06-26T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 10.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 7.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 7.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 6.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 2,
+      "window_start": "2026-04-22",
+      "window_end": "2026-06-26",
+      "actual_prev_close": 56.3,
+      "actual_next_close": 55.2,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -2.9824,
+      "entry_open": 56.5,
+      "exit_close": 55.2,
+      "entry_time": "2026-06-29T07:00:00",
+      "exit_time": "2026-07-01T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 13.8,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 10.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 10.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 8.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 3,
+      "window_start": "2026-04-28",
+      "window_end": "2026-07-01",
+      "actual_prev_close": 55.2,
+      "actual_next_close": 55.3,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -0.6976,
+      "entry_open": 55.3,
+      "exit_close": 55.3,
+      "entry_time": "2026-07-02T07:00:00",
+      "exit_time": "2026-07-06T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 8.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 7.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 5.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 5.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 4,
+      "window_start": "2026-05-05",
+      "window_end": "2026-07-06",
+      "actual_prev_close": 55.3,
+      "actual_next_close": 55.7,
+      "actual_direction": "UP",
+      "actual_pct_change": 0.2019,
+      "entry_open": 55.2,
+      "exit_close": 55.7,
+      "entry_time": "2026-07-07T07:00:00",
+      "exit_time": "2026-07-09T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 13.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 11.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 13.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 11.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 5,
+      "window_start": "2026-05-08",
+      "window_end": "2026-07-09",
+      "actual_prev_close": 55.7,
+      "actual_next_close": 56.0,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -0.5199,
+      "entry_open": 55.9,
+      "exit_close": 56.0,
+      "entry_time": "2026-07-10T07:00:00",
+      "exit_time": "2026-07-14T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 11.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 11.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 11.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 11.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 6,
+      "window_start": "2026-05-13",
+      "window_end": "2026-07-14",
+      "actual_prev_close": 56.0,
+      "actual_next_close": 59.0,
+      "actual_direction": "UP",
+      "actual_pct_change": 4.6222,
+      "entry_open": 56.0,
+      "exit_close": 59.0,
+      "entry_time": "2026-07-15T07:00:00",
+      "exit_time": "2026-07-17T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Thấp",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 16.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Thấp",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 15.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 18.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 15.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 7,
+      "window_start": "2026-05-18",
+      "window_end": "2026-07-17",
+      "actual_prev_close": 59.0,
+      "actual_next_close": 59.1,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -0.1909,
+      "entry_open": 58.8,
+      "exit_close": 59.1,
+      "entry_time": "2026-07-20T07:00:00",
+      "exit_time": "2026-07-22T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 14.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 15.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 14.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 17.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 8,
+      "window_start": "2026-05-21",
+      "window_end": "2026-07-22",
+      "actual_prev_close": 59.1,
+      "actual_next_close": 57.9,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -2.7139,
+      "entry_open": 59.1,
+      "exit_close": 57.9,
+      "entry_time": "2026-07-23T07:00:00",
+      "exit_time": "2026-07-27T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 16.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 16.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 15.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 14.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 9,
+      "window_start": "2026-05-26",
+      "window_end": "2026-07-27",
+      "actual_prev_close": 57.9,
+      "actual_next_close": 61.2,
+      "actual_direction": "UP",
+      "actual_pct_change": 5.326,
+      "entry_open": 57.7,
+      "exit_close": 61.2,
+      "entry_time": "2026-07-28T07:00:00",
+      "exit_time": "2026-07-30T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 15.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 15.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.2",
+          "time_sec": 15.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 17.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 10,
+      "window_start": "2026-05-29",
+      "window_end": "2026-07-30",
+      "actual_prev_close": 61.2,
+      "actual_next_close": 59.5,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -3.456,
+      "entry_open": 61.2,
+      "exit_close": 59.5,
+      "entry_time": "2026-07-31T07:00:00",
+      "exit_time": "2026-08-04T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 14.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 13.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "5.0",
+          "time_sec": 12.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 14.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 11,
+      "window_start": "2026-06-03",
+      "window_end": "2026-08-04",
+      "actual_prev_close": 59.5,
+      "actual_next_close": 62.0,
+      "actual_direction": "UP",
+      "actual_pct_change": 3.649,
+      "entry_open": 59.4,
+      "exit_close": 62.0,
+      "entry_time": "2026-08-05T07:00:00",
+      "exit_time": "2026-08-07T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 5.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Thấp",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 5.8,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Thấp",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 4.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 4.4,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 12,
+      "window_start": "2026-06-08",
+      "window_end": "2026-08-07",
+      "actual_prev_close": 62.0,
+      "actual_next_close": 61.8,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -0.3751,
+      "entry_open": 61.6,
+      "exit_close": 61.8,
+      "entry_time": "2026-08-10T07:00:00",
+      "exit_time": "2026-08-12T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Thấp",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 19.4,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 19.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "3.0",
+          "time_sec": 19.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 19.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 13,
+      "window_start": "2026-06-11",
+      "window_end": "2026-08-12",
+      "actual_prev_close": 61.8,
+      "actual_next_close": 62.2,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -0.0548,
+      "entry_open": 61.8,
+      "exit_close": 62.2,
+      "entry_time": "2026-08-13T07:00:00",
+      "exit_time": "2026-08-17T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 14.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 14.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 16.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 13.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 14,
+      "window_start": "2026-06-16",
+      "window_end": "2026-08-17",
+      "actual_prev_close": 62.2,
+      "actual_next_close": 64.0,
+      "actual_direction": "UP",
+      "actual_pct_change": 2.1761,
+      "entry_open": 62.2,
+      "exit_close": 64.0,
+      "entry_time": "2026-08-18T07:00:00",
+      "exit_time": "2026-08-20T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 14.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 14.4,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "4.0",
+          "time_sec": 20.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 13.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 15,
+      "window_start": "2026-06-19",
+      "window_end": "2026-08-20",
+      "actual_prev_close": 64.0,
+      "actual_next_close": 62.6,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -3.0213,
+      "entry_open": 64.1,
+      "exit_close": 62.6,
+      "entry_time": "2026-08-21T07:00:00",
+      "exit_time": "2026-08-25T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 12.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 15.2,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 25.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 10.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 16,
+      "window_start": "2026-06-24",
+      "window_end": "2026-08-25",
+      "actual_prev_close": 62.6,
+      "actual_next_close": 62.3,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -1.3311,
+      "entry_open": 62.7,
+      "exit_close": 62.3,
+      "entry_time": "2026-08-26T07:00:00",
+      "exit_time": "2026-08-28T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 8.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 18.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 37.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 10.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 17,
+      "window_start": "2026-06-29",
+      "window_end": "2026-08-28",
+      "actual_prev_close": 62.3,
+      "actual_next_close": 60.7,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -3.0923,
+      "entry_open": 62.2,
+      "exit_close": 60.7,
+      "entry_time": "2026-09-03T07:00:00",
+      "exit_time": "2026-09-07T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 8.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Thấp",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 8.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 7.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 16.6,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 18,
+      "window_start": "2026-07-02",
+      "window_end": "2026-09-07",
+      "actual_prev_close": 60.7,
+      "actual_next_close": 61.6,
+      "actual_direction": "UP",
+      "actual_pct_change": 0.7748,
+      "entry_open": 60.7,
+      "exit_close": 61.6,
+      "entry_time": "2026-09-08T07:00:00",
+      "exit_time": "2026-09-10T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 7.9,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 14.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.0",
+          "time_sec": 6.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 15.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 19,
+      "window_start": "2026-07-07",
+      "window_end": "2026-09-10",
+      "actual_prev_close": 61.6,
+      "actual_next_close": 59.7,
+      "actual_direction": "DOWN",
+      "actual_pct_change": -3.1314,
+      "entry_open": 61.2,
+      "exit_close": 59.7,
+      "entry_time": "2026-09-11T07:00:00",
+      "exit_time": "2026-09-15T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": true,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 6.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 15.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 11.0,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "LONG",
+          "correct": false,
+          "confidence": "Trung bình",
+          "risk_reward_ratio": "1.5",
+          "time_sec": 11.3,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    },
+    {
+      "test_id": 20,
+      "window_start": "2026-07-10",
+      "window_end": "2026-09-15",
+      "actual_prev_close": 59.7,
+      "actual_next_close": 61.2,
+      "actual_direction": "UP",
+      "actual_pct_change": 1.6272,
+      "entry_open": 59.8,
+      "exit_close": 61.2,
+      "entry_time": "2026-09-16T07:00:00",
+      "exit_time": "2026-09-18T07:00:00",
+      "variants": {
+        "full": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 11.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "alpha_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 7.1,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "sentiment_only": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.0",
+          "time_sec": 11.5,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        },
+        "baseline": {
+          "prediction": "SHORT",
+          "correct": false,
+          "confidence": "Cao",
+          "risk_reward_ratio": "2.5",
+          "time_sec": 4.7,
+          "decision_source": "llm_structured",
+          "fallback_reason": "",
+          "error": ""
+        }
+      }
+    }
+  ]
+}
