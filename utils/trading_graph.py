@@ -20,6 +20,7 @@ class TradingGraph:
         self.agent_llm = self._create_llm(
             model=self.config.get("agent_llm_model", "openai/gpt-oss-20b"),
             temperature=self.config.get("agent_llm_temperature", 0.1),
+            max_tokens=self.config.get("agent_llm_max_tokens", 2048),
         )
         self.graph_llm = self._create_llm(
             model=self.config.get("graph_llm_model", "qwen/qwen3.8-27b"),
@@ -100,6 +101,7 @@ class TradingGraph:
         self.agent_llm = self._create_llm(
             model=self.config.get("agent_llm_model", "openai/gpt-oss-20b"),
             temperature=self.config.get("agent_llm_temperature", 0.1),
+            max_tokens=self.config.get("agent_llm_max_tokens", 2048),
         )
         self.graph_llm = self._create_llm(
             model=self.config.get("graph_llm_model", "qwen/qwen3.8-27b"),
