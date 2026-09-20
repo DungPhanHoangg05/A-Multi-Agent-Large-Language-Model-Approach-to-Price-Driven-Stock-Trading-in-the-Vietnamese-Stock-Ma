@@ -17,7 +17,8 @@ Chiến lược ở đây đi từ chắc chắn nhất tới nới lỏng dần
   3. Quét cân bằng ngoặc nhọn, thử parse từng ứng viên, LẤY KHỐI CUỐI hợp lệ có
      chứa khoá "decision" (model kết thúc bằng phán quyết cuối cùng).
   4. Khôi phục bằng regex: dò từ khoá LONG/SHORT/MUA/BÁN cùng R:R và lý do.
-Nhờ bước 4, quyết định không bao giờ mất trắng khi trong văn bản có phán quyết.
+  5. Nếu vẫn không có nhãn nhị phân, đánh dấu `invalid_output`; tầng Decision
+     Agent sẽ yêu cầu model sinh lại và từ chối lưu điểm benchmark nếu vẫn lỗi.
 """
 
 import json
@@ -226,11 +227,12 @@ def _recover_from_text(text: str) -> Dict[str, str]:
 
 def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
     """
-    Trích xuất quyết định từ output thô, KHÔNG BAO GIỜ mất trắng.
+    Trích xuất quyết định từ output thô và ghi rõ provenance.
 
     Luôn trả về dict có đủ các khoá `decision`, `confidence`,
-    `risk_reward_ratio`, `justification`. `decision` chỉ là "UNKNOWN" khi trong
-    văn bản thực sự không có phán quyết nào.
+    `risk_reward_ratio`, `justification`. Output không có LONG/SHORT được trả về
+    `UNKNOWN` với nguồn `invalid_output` để caller retry hoặc dừng an toàn; hàm
+    không tự gán SHORT vì việc đó tạo thiên lệch cho benchmark.
     """
     is_en = lang == "en"
     text  = strip_thinking(raw or "")
@@ -240,6 +242,17 @@ def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
     data = {str(k).lower(): v for k, v in data.items()}
 
     decision = normalize_decision(data.get("decision"))
+    declared_source = _clean_text_value(data.get("decision_source"))
+    decision_source = (
+        declared_source
+        if declared_source in {
+            "llm_json",
+            "llm_text_recovery",
+            "llm_structured",
+            "fallback_conservative",
+        }
+        else ("llm_json" if decision in ("LONG", "SHORT") else "")
+    )
 
     # JSON thiếu/không có phán quyết → khôi phục từ văn xuôi.
     recovered: Dict[str, str] = {}
@@ -247,6 +260,14 @@ def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
         recovered = _recover_from_text(text)
         if decision == "UNKNOWN":
             decision = normalize_decision(recovered.get("decision"))
+            if decision in ("LONG", "SHORT"):
+                decision_source = "llm_text_recovery"
+
+    fallback_reason = _clean_text_value(data.get("fallback_reason"))
+    if decision not in ("LONG", "SHORT"):
+        decision = "UNKNOWN"
+        decision_source = "invalid_output"
+        fallback_reason = "EMPTY_RESPONSE" if not text.strip() else "NO_BINARY_DECISION"
 
     confidence = (
         _clean_text_value(data.get("confidence"))
@@ -280,5 +301,7 @@ def parse_decision(raw: str, lang: str = "vi") -> Dict[str, Any]:
         "alpha_consensus":   _clean_text_value(data.get("alpha_consensus")),
         "consensus_count":   _clean_text_value(data.get("consensus_count")),
         "key_risk":          _clean_text_value(data.get("key_risk")),
+        "decision_source":   decision_source,
+        "fallback_reason":   fallback_reason,
     }
     return result

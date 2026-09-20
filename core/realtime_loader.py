@@ -7,7 +7,7 @@ import pandas as pd
 import requests
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-REQUIRED_COLS = ["Datetime", "Open", "High", "Low", "Close"]
+REQUIRED_COLS = ["Datetime", "Open", "High", "Low", "Close", "Volume"]
 
 INTERVAL_MAP = {
     "1m":  "1",
@@ -621,6 +621,8 @@ def _normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
             rename[col] = "Low"
         elif lc == "close":
             rename[col] = "Close"
+        elif lc == "volume":
+            rename[col] = "Volume"
     return df.rename(columns=rename)
 
 
@@ -648,6 +650,7 @@ def _fetch_ohlcv_tcbs(symbol: str, from_ts: int, to_ts: int, resolution: str = "
             "high":        "High",
             "low":         "Low",
             "close":       "Close",
+            "volume":      "Volume",
         }
         df = df.rename(columns={k: v for k, v in col_map.items() if k in df.columns})
         if "Datetime" not in df.columns and "t" in df.columns:
@@ -737,6 +740,7 @@ def _fetch_entrade_ohlcv(
             "High":     [float(v) for v in data.get("h", [])],
             "Low":      [float(v) for v in data.get("l", [])],
             "Close":    [float(v) for v in data.get("c", [])],
+            "Volume":   [float(v) for v in data.get("v", [])],
         })
         return df.dropna(subset=["Datetime"]).reset_index(drop=True)
     except Exception as e:
@@ -811,9 +815,14 @@ def fetch_realtime_ohlcv(
     cache_key = (symbol.upper(), interval)
     if use_cache and cache_key in _cache:
         ts, cached_df = _cache[cache_key]
-        if time.time() - ts < CACHE_TTL_SECONDS:
+        if time.time() - ts < CACHE_TTL_SECONDS and len(cached_df) >= tail:
             print(f"[RealtimeLoader] Cache hit: {symbol} ({interval})")
             return cached_df.tail(tail).reset_index(drop=True), ""
+        if time.time() - ts < CACHE_TTL_SECONDS:
+            print(
+                f"[RealtimeLoader] Cache thiếu dữ liệu: "
+                f"có {len(cached_df)}/{tail} nến — tải lại."
+            )
 
     end_dt   = datetime.now()
     start_dt = end_dt - timedelta(days=lookback_days)

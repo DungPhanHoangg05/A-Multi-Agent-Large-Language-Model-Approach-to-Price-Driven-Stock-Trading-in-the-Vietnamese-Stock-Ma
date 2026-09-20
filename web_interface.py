@@ -6,7 +6,7 @@ import uuid
 import urllib.parse
 from pathlib import Path
 from typing import Any, Dict, List
-from core.backtest_engine import BacktestEngine
+from core.backtest_engine import BacktestEngine, required_backtest_rows
 from dataclasses import asdict
 
 import pandas as pd
@@ -123,10 +123,17 @@ class WebTradingAnalyzer:
 
     def load_data(self, stock_code: str, tail: int = None, interval: str = "1d") -> tuple:
         print(f"[Analyzer] Fetching {stock_code} ({interval}) via vnstock...")
+        lookback_days = None
+        if tail is None and interval == "1d":
+            # Biểu đồ chỉ render 45 nến, nhưng Alpha Agent cần snapshot
+            # dài cho SMA100/ADV60/decay180 và các factor dài hơn.
+            tail = 600
+            lookback_days = 900
         return fetch_realtime_ohlcv(
             symbol=stock_code,
             interval=interval,
-            tail=tail,        # None → auto from TIMEFRAME_CONFIG
+            lookback_days=lookback_days,
+            tail=tail,
         )
 
     # ── Analysis ──────────────────────────────────────────────────────────────
@@ -165,8 +172,11 @@ class WebTradingAnalyzer:
                                columns=", ".join(map(str, df_slice.columns))),
                 }
 
+            payload_columns = required_columns + (
+                ["Volume"] if "Volume" in df_slice.columns else []
+            )
             df_slice_dict: Dict[str, Any] = {}
-            for col in required_columns:
+            for col in payload_columns:
                 if col == "Datetime":
                     df_slice_dict[col] = df_slice[col].dt.strftime("%Y-%m-%d %H:%M:%S").tolist()
                 else:
@@ -185,6 +195,7 @@ class WebTradingAnalyzer:
                 "stock_name":       asset_name,
                 "pattern_image":    p_image["pattern_image"],
                 "trend_image":      t_image["trend_image"],
+                "point_in_time_df": df.tail(600).copy(),
                 # Ngôn ngữ đầu ra cho toàn bộ agent trong pipeline
                 "language":         lang,
             }
@@ -293,13 +304,10 @@ def _parse_decision(raw: str, lang: str = DEFAULT_LANG) -> Any:
     khoá `decision` nên hiển thị "N/A" dù văn bản có nêu rõ LONG/SHORT. Nay dùng
     bộ trích xuất chung, có khôi phục bằng regex.
     """
-    if not raw:
-        return {}
-
     from utils.decision_parser import parse_decision as _extract
 
     data = _extract(raw, lang=lang)
-    data["raw"] = raw[:300]
+    data["raw"] = (raw or "")[:300]
     return data
 
 
@@ -593,7 +601,9 @@ def backtest_start():
  
         n_tests  = max(3, min(n_tests,  30))
         win_size = max(20, min(win_size, 90))
-        step     = max(1, min(step,      15))
+        # Backtest web luôn dùng khung ngày với horizon=3; tài khoản trạng thái
+        # không được định giá trên các kỳ chồng lấn.
+        step     = max(3, min(step,      15))
  
         bt_id = str(uuid.uuid4())
         bt_config = analyzer.config.copy()
@@ -615,11 +625,18 @@ def backtest_start():
                     _bt_jobs[bt_id]["step"] = "loading"
                     _bt_jobs[bt_id]["status"] = "running"
  
-                lookback = max(365, (n_tests * step + win_size) * 3)
+                required_rows = required_backtest_rows(
+                    n_tests=n_tests,
+                    window_size=win_size,
+                    step=step,
+                    lookahead=3,
+                )
+                # Quy đổi dư dả sang ngày lịch để bù cuối tuần/nghỉ lễ.
+                lookback = max(365, required_rows * 2)
                 df, err = fetch_realtime_ohlcv(
                     symbol=symbol, interval="1d",
                     lookback_days=lookback,
-                    tail=n_tests * step + win_size + 20,
+                    tail=required_rows,
                 )
                 if err or df.empty:
                     raise RuntimeError(err or t("err_no_data_for", lang, symbol=symbol))
@@ -675,6 +692,11 @@ def backtest_start():
                         "n_correct_no":    round((summary.acc_no_alpha / 100) * (summary.n_long_no_alpha + summary.n_short_no_alpha)),
                         "pnl_full":        summary.pnl_full,
                         "pnl_no_alpha":    summary.pnl_no_alpha,
+                        "pnl_full_vnd":    summary.pnl_full_vnd,
+                        "pnl_no_alpha_vnd": summary.pnl_no_alpha_vnd,
+                        "equity_full_vnd": summary.equity_full_vnd,
+                        "equity_no_alpha_vnd": summary.equity_no_alpha_vnd,
+                        "initial_capital_vnd": summary.initial_capital_vnd,
                     }
 
                 # Lưu biểu đồ PNG vào backtest_result/
