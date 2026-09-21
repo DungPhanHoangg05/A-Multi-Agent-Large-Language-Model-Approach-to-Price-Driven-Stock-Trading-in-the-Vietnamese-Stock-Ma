@@ -1,8 +1,10 @@
 import os
 import re
+import threading
 import time
 from collections import Counter
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 import requests
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -49,91 +51,229 @@ SENTIMENT_SCORES = {"negative": -1.0, "neutral": 0.0, "positive": 1.0}
 
 # ── HF Inference API ViSoBERT ──────────────────────────────────────────────────
 
-_HF_MODEL   = "5CD-AI/Vietnamese-Sentiment-visobert"
-_HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{_HF_MODEL}"
+_HF_MODEL = "5CD-AI/Vietnamese-Sentiment-visobert"
+_HF_ENDPOINT_ENV = "HF_INFERENCE_ENDPOINT_URL"
+_VISOBERT_BACKEND_ENV = "VISOBERT_BACKEND"
+_VISOBERT_DEVICE_ENV = "VISOBERT_DEVICE"
+_VALID_BACKENDS = {"auto", "endpoint", "local", "lexicon"}
 
 HF_MAX_RETRIES = 3
 HF_COLD_WAIT   = 20
 HF_TIMEOUT     = 60
 
 _hf_warned = False
-_hf_ok     = False   # True sau khi có ít nhất 1 lần gọi HF API thành công
+_hf_ok = False
+_hf_backend_used = ""
+_hf_last_error = ""
+_local_pipeline = None
+_local_pipeline_error = ""
+_local_pipeline_lock = threading.Lock()
+
+
+def _configured_backend() -> str:
+    backend = os.environ.get(_VISOBERT_BACKEND_ENV, "auto").strip().lower()
+    if backend not in _VALID_BACKENDS:
+        print(
+            f"[ViSoBERT] {_VISOBERT_BACKEND_ENV}={backend!r} is invalid; "
+            "using 'auto'."
+        )
+        return "auto"
+    return backend
+
+
+def _configured_endpoint_url() -> str:
+    endpoint_url = os.environ.get(_HF_ENDPOINT_ENV, "").strip()
+    if not endpoint_url:
+        return ""
+    parsed = urlparse(endpoint_url)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return ""
+    return endpoint_url
 
 
 def _hf_status() -> Tuple[bool, str]:
-    """Trạng thái thật của ViSoBERT sau khi scoring: (dùng được?, tên model để hiển thị)."""
+    """Return whether ViSoBERT ran and the backend shown in reports."""
     if _hf_ok:
-        return True, f"{_HF_MODEL} (HF API)"
-    if not os.environ.get("HF_TOKEN", "").strip():
-        return False, "lexicon-fallback (thiếu HF_TOKEN)"
-    return False, "lexicon-fallback (HF API không phản hồi)"
+        return True, f"{_HF_MODEL} ({_hf_backend_used})"
+    reason = _hf_last_error or "ViSoBERT has not produced a prediction"
+    return False, f"lexicon-fallback ({reason})"
 
 
-def _predict(text: str) -> List[Dict]:
-    """
-    Gọi HF Inference API cho ViSoBERT.
-    Trả về [{"label": ..., "score": ...}] nếu thành công,
-    hoặc [] nếu thất bại (caller sẽ dùng lexicon fallback).
-    """
-    global _hf_warned, _hf_ok
+def _best_prediction(result: Any) -> List[Dict]:
+    """Normalize Transformers and Inference Endpoint classification output."""
+    if isinstance(result, dict):
+        if result.get("error"):
+            return []
+        scores = [result] if "label" in result and "score" in result else []
+    elif isinstance(result, list) and result:
+        scores = result[0] if isinstance(result[0], list) else result
+    else:
+        scores = []
 
-    token = os.environ.get("HF_TOKEN", "").strip()
-    if not token:
+    candidates = [
+        item for item in scores
+        if isinstance(item, dict) and "label" in item and "score" in item
+    ]
+    if not candidates:
+        return []
+    best = max(candidates, key=lambda item: float(item["score"]))
+    return [{"label": str(best["label"]), "score": float(best["score"])}]
+
+
+def _predict_endpoint(text: str) -> List[Dict]:
+    """Call a user-provisioned Hugging Face Dedicated Inference Endpoint."""
+    global _hf_backend_used, _hf_last_error, _hf_ok, _hf_warned
+
+    endpoint_url = _configured_endpoint_url()
+    if not endpoint_url:
+        _hf_last_error = f"missing or invalid {_HF_ENDPOINT_ENV}"
         if not _hf_warned:
-            print("[ViSoBERT HF API] Thiếu HF_TOKEN → dùng lexicon fallback")
+            print(f"[ViSoBERT endpoint] {_hf_last_error}")
             _hf_warned = True
         return []
 
-    headers = {"Authorization": f"Bearer {token}"}
-    payload = {"inputs": text[:512]}
+    headers = {"Content-Type": "application/json"}
+    token = os.environ.get("HF_TOKEN", "").strip()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    payload = {"inputs": text}
 
     for attempt in range(HF_MAX_RETRIES):
         try:
-            resp = requests.post(_HF_API_URL, headers=headers,
-                                 json=payload, timeout=HF_TIMEOUT)
-
-            if resp.status_code == 401:
-                if not _hf_warned:
-                    print("[ViSoBERT HF API] HF_TOKEN không hợp lệ (401) → lexicon fallback")
-                    _hf_warned = True
-                return []
-
-            if resp.status_code in (429, 503):
-                print(f"[ViSoBERT HF API] HTTP {resp.status_code}, chờ {HF_COLD_WAIT}s "
-                      f"(lần {attempt+1}/{HF_MAX_RETRIES})...")
+            response = requests.post(
+                endpoint_url, headers=headers, json=payload, timeout=HF_TIMEOUT
+            )
+            if response.status_code in (429, 503) and attempt < HF_MAX_RETRIES - 1:
+                print(
+                    f"[ViSoBERT endpoint] HTTP {response.status_code}; retrying "
+                    f"({attempt + 1}/{HF_MAX_RETRIES})..."
+                )
                 time.sleep(HF_COLD_WAIT)
                 continue
-
-            result = resp.json()
-
-            # Model đang cold start
-            if isinstance(result, dict) and "loading" in str(result.get("error", "")).lower():
-                print(f"[ViSoBERT HF API] Model đang khởi động, chờ {HF_COLD_WAIT}s...")
-                time.sleep(HF_COLD_WAIT)
-                continue
-
-            if isinstance(result, dict) and result.get("error"):
-                print(f"[ViSoBERT HF API] API error: {result['error']}")
+            try:
+                result = response.json()
+            except ValueError:
+                result = None
+            if response.status_code >= 400:
+                detail = result.get("error") if isinstance(result, dict) else response.text[:200]
+                _hf_last_error = f"endpoint HTTP {response.status_code}: {detail}"
+                print(f"[ViSoBERT endpoint] {_hf_last_error}")
                 return []
-
-            # Response dạng [[{label, score}, ...]] hoặc [{label, score}, ...]
-            if isinstance(result, list) and result:
-                scores = result[0] if isinstance(result[0], list) else result
-                best   = max(scores, key=lambda x: x["score"])
+            prediction = _best_prediction(result)
+            if prediction:
                 _hf_ok = True
-                return [{"label": best["label"].lower(), "score": best["score"]}]
-
+                _hf_last_error = ""
+                _hf_backend_used = f"dedicated-endpoint:{urlparse(endpoint_url).netloc}"
+                return prediction
+            _hf_last_error = "endpoint returned an unsupported response"
+            print(f"[ViSoBERT endpoint] {_hf_last_error}")
             return []
-
-        except requests.RequestException as e:
-            print(f"[ViSoBERT HF API] Request error (lần {attempt+1}): {e}")
+        except requests.RequestException as exc:
+            _hf_last_error = f"endpoint request failed: {exc}"
+            print(
+                f"[ViSoBERT endpoint] Request failed "
+                f"({attempt + 1}/{HF_MAX_RETRIES}): {exc}"
+            )
             if attempt < HF_MAX_RETRIES - 1:
                 time.sleep(2 * (attempt + 1))
-        except ValueError as e:
-            print(f"[ViSoBERT HF API] Response không phải JSON: {e}")
-            return []
-
     return []
+
+
+def _local_device() -> int:
+    requested = os.environ.get(_VISOBERT_DEVICE_ENV, "auto").strip().lower()
+    if requested in {"cpu", "-1"}:
+        return -1
+    if requested in {"cuda", "cuda:0", "gpu", "0"}:
+        return 0
+    try:
+        import torch
+
+        return 0 if torch.cuda.is_available() else -1
+    except ImportError:
+        return -1
+
+
+def _predict_local(text: str) -> List[Dict]:
+    """Run the model card's recommended Transformers pipeline locally."""
+    global _hf_backend_used, _hf_last_error, _hf_ok
+    global _local_pipeline, _local_pipeline_error
+
+    if _local_pipeline_error:
+        _hf_last_error = _local_pipeline_error
+        return []
+
+    if _local_pipeline is None:
+        with _local_pipeline_lock:
+            if _local_pipeline is None and not _local_pipeline_error:
+                try:
+                    from transformers import (
+                        AutoModelForSequenceClassification,
+                        PreTrainedTokenizerFast,
+                        pipeline,
+                    )
+
+                    token = os.environ.get("HF_TOKEN", "").strip()
+                    download_kwargs: Dict[str, Any] = {}
+                    if token:
+                        download_kwargs["token"] = token
+
+                    # The repository declares the legacy slow XLM-R tokenizer,
+                    # which is incompatible with tokenizers 0.22. Its checked-in
+                    # tokenizer.json is the authoritative fast-tokenizer artifact.
+                    tokenizer = PreTrainedTokenizerFast.from_pretrained(
+                        _HF_MODEL, **download_kwargs
+                    )
+                    model = AutoModelForSequenceClassification.from_pretrained(
+                        _HF_MODEL, **download_kwargs
+                    )
+                    _local_pipeline = pipeline(
+                        task="sentiment-analysis",
+                        model=model,
+                        tokenizer=tokenizer,
+                        device=_local_device(),
+                    )
+                except Exception as exc:
+                    _local_pipeline_error = f"local model unavailable: {exc}"
+                    _hf_last_error = _local_pipeline_error
+                    print(f"[ViSoBERT local] {_local_pipeline_error}")
+                    return []
+
+    try:
+        result = _local_pipeline(text, truncation=True, max_length=256)
+        prediction = _best_prediction(result)
+        if prediction:
+            _hf_ok = True
+            _hf_last_error = ""
+            device_name = "cuda" if _local_device() == 0 else "cpu"
+            _hf_backend_used = f"local-transformers:{device_name}"
+            return prediction
+        _hf_last_error = "local model returned an unsupported response"
+    except Exception as exc:
+        _hf_last_error = f"local inference failed: {exc}"
+        print(f"[ViSoBERT local] {_hf_last_error}")
+    return []
+
+
+def _predict(text: str) -> List[Dict]:
+    """Select a supported ViSoBERT backend and return its best prediction."""
+    global _hf_last_error
+
+    backend = _configured_backend()
+    if backend == "lexicon":
+        _hf_last_error = "VISOBERT_BACKEND=lexicon"
+        return []
+    if backend == "endpoint":
+        return _predict_endpoint(text)
+    if backend == "local":
+        return _predict_local(text)
+
+    endpoint_url = _configured_endpoint_url()
+    if endpoint_url:
+        prediction = _predict_endpoint(text)
+        if prediction:
+            return prediction
+        print("[ViSoBERT] Dedicated endpoint failed; trying local Transformers.")
+    return _predict_local(text)
 
 
 # ── HTTP helper ────────────────────────────────────────────────────────────────
@@ -334,7 +474,14 @@ def _collect_articles(ticker: str, max_articles: int = MAX_ARTICLES) -> List[dic
 
 def _score_text(text: str) -> Dict[str, Any]:
     if not text.strip():
-        return {"label": "neutral", "confidence": 0.5, "numeric_score": 0.0}
+        return {
+            "label": "neutral",
+            "confidence": 0.5,
+            "numeric_score": 0.0,
+            "scorer": "viquant-lexicon-v1",
+            "scorer_backend": "empty-text",
+            "is_fallback": True,
+        }
 
     try:
         preds = _predict(text[:512])
@@ -346,7 +493,7 @@ def _score_text(text: str) -> Dict[str, Any]:
         conf   = float(result.get("score", 0.5))
         if "NEG" in raw or raw in ("LABEL_0", "0"):
             label = "negative"
-        elif "POS" in raw or raw in ("LABEL_2", "2"):
+        elif "POS" in raw or raw in ("LABEL_1", "1"):
             label = "positive"
         else:
             label = "neutral"
@@ -354,9 +501,12 @@ def _score_text(text: str) -> Dict[str, Any]:
             "label":         label,
             "confidence":    round(conf, 4),
             "numeric_score": round(SENTIMENT_SCORES[label] * conf, 4),
+            "scorer":        _HF_MODEL,
+            "scorer_backend": _hf_backend_used,
+            "is_fallback":   False,
         }
     except Exception as e:
-        print(f"[ViSoBERT HF API] Lỗi xử lý response: {e}")
+        print(f"[ViSoBERT] Lỗi xử lý response: {e}")
         return _lexicon_fallback(text)
 
 
@@ -371,10 +521,24 @@ def _lexicon_fallback(text: str) -> Dict[str, Any]:
     pos = sum(1 for w in POS if w in lower)
     neg = sum(1 for w in NEG if w in lower)
     if pos > neg:
-        return {"label":"positive","confidence":0.5,"numeric_score":round(min(0.65,0.3+0.05*pos),4)}
+        return {
+            "label":"positive", "confidence":0.5,
+            "numeric_score":round(min(0.65,0.3+0.05*pos),4),
+            "scorer":"viquant-lexicon-v1", "scorer_backend":"lexicon",
+            "is_fallback":True,
+        }
     if neg > pos:
-        return {"label":"negative","confidence":0.5,"numeric_score":round(max(-0.65,-0.3-0.05*neg),4)}
-    return {"label":"neutral","confidence":0.5,"numeric_score":0.0}
+        return {
+            "label":"negative", "confidence":0.5,
+            "numeric_score":round(max(-0.65,-0.3-0.05*neg),4),
+            "scorer":"viquant-lexicon-v1", "scorer_backend":"lexicon",
+            "is_fallback":True,
+        }
+    return {
+        "label":"neutral", "confidence":0.5, "numeric_score":0.0,
+        "scorer":"viquant-lexicon-v1", "scorer_backend":"lexicon",
+        "is_fallback":True,
+    }
 
 
 def _aggregate_sentiment(scored: List[Dict]) -> Dict[str, Any]:
@@ -795,6 +959,9 @@ def run_sentiment_for_alpha(
                 "label":         s["label"],
                 "numeric_score": s["numeric_score"],
                 "confidence":    s["confidence"],
+                "scorer":        s["scorer"],
+                "scorer_backend": s["scorer_backend"],
+                "is_fallback":   s["is_fallback"],
                 "content":       text[:200],
             })
 

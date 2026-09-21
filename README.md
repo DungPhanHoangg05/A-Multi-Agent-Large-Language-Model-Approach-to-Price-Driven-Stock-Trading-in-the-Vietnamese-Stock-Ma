@@ -20,9 +20,9 @@ The forecast label and the economic simulation are intentionally separate. A `LO
 
 - Windows with the Python launcher (`py`) for the commands below.
 - Python **3.13**. The checked-in `.python-version` pins 3.13.5.
-- Internet access for live market data and hosted-model inference.
+- Internet access for live market data, model download, and hosted-model inference.
 - A Groq API key for live agent inference, supplied through `.env` or the web interface.
-- An optional Hugging Face token for the hosted ViSoBERT scorer. Without it, sentiment scoring records and uses the lexicon fallback.
+- ViSoBERT runs locally through Transformers by default. A Hugging Face token is optional for the public model, but is normally required for a protected Dedicated Inference Endpoint.
 
 ## Installation
 
@@ -36,14 +36,24 @@ py -3.13 -m venv .venv
 
 `TA-Lib` is declared in `requirements.txt`. If a wheel is unavailable on another platform, install that platform's native TA-Lib dependency before rerunning the final command. Do not switch Python versions silently; the supported runtime is Python 3.13.
 
-Create a local `.env` file only when using hosted services:
+Create a local `.env` file for credentials and optional ViSoBERT settings:
 
 ```dotenv
 GROQ_API_KEY=replace_with_your_groq_key
 HF_TOKEN=replace_with_your_optional_huggingface_token
+
+# auto (default), local, endpoint, or lexicon
+VISOBERT_BACKEND=auto
+# auto (default), cpu, or cuda:0
+VISOBERT_DEVICE=auto
+# Required only when VISOBERT_BACKEND=endpoint. Use the exact URL created by
+# Hugging Face Dedicated Inference Endpoints, not router.huggingface.co.
+HF_INFERENCE_ENDPOINT_URL=https://your-endpoint.endpoints.huggingface.cloud
 ```
 
 Never commit `.env` or credentials.
+
+In `auto` mode, the application calls `HF_INFERENCE_ENDPOINT_URL` when it is set and falls back to the local Transformers model if that endpoint fails. Without an endpoint URL it loads `5CD-AI/Vietnamese-Sentiment-visobert` locally. The first local request downloads and caches the model, so it can take longer than later requests. The lexicon scorer is used only if the selected ViSoBERT backend cannot run, and each article records `scorer`, `scorer_backend`, and `is_fallback` provenance fields.
 
 ## Verify the system
 

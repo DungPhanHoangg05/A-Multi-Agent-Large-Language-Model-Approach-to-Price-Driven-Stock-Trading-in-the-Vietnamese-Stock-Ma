@@ -174,6 +174,9 @@ def _score_articles(articles: List[dict]) -> List[dict]:
                 "label":         s["label"],
                 "numeric_score": s["numeric_score"],
                 "confidence":    s["confidence"],
+                "scorer":        s["scorer"],
+                "scorer_backend": s["scorer_backend"],
+                "is_fallback":   s["is_fallback"],
                 "content":       text[:200],
             })
     return scored
