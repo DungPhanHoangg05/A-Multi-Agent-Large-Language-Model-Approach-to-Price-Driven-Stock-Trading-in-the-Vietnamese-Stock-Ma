@@ -174,7 +174,11 @@ def _extract_tech_vars(kline_data: dict) -> dict:
         lows   = [_safe(x) for x in df["Low"].tolist()]
         n      = len(closes)
 
-        has_vol = (
+        # Pandas/NumPy comparisons can return ``numpy.bool_``.  Python's
+        # ``and`` operator returns its final operand unchanged, so without the
+        # explicit cast this value leaked into ``sentiment_data.tech_vars`` and
+        # made Flask's JSON encoder fail after an otherwise successful analysis.
+        has_vol = bool(
             "Volume" in df.columns
             and df["Volume"].notna().sum() > n * 0.5
             and df["Volume"].sum() > 0

@@ -13,6 +13,7 @@ import pandas as pd
 from flask import Flask, jsonify, make_response, render_template, request, send_file
 
 from utils import static_util
+from utils.json_util import to_json_compatible
 from utils.i18n import (
     DEFAULT_LANG,
     catalogue,
@@ -254,7 +255,7 @@ class WebTradingAnalyzer:
             final_state.get("final_trade_decision", ""), lang=lang
         )
 
-        return {
+        return to_json_compatible({
             "success":              True,
             "asset_name":           results["asset_name"],
             "timeframe":            results["timeframe"],
@@ -271,7 +272,7 @@ class WebTradingAnalyzer:
             "sentiment_data":       final_state.get("sentiment_data", {}),
             "sentiment_norm":       final_state.get("sentiment_norm", final_state.get("sentiment_data", {}).get("sentiment_norm", {})),
             "final_decision":       final_decision,
-        }
+        })
 
     def validate_groq_connection(self, lang: str = DEFAULT_LANG) -> Dict[str, Any]:
         """Không gọi mạng — chỉ check format key và trạng thái graph."""
@@ -462,7 +463,11 @@ def analyze_status(job_id: str):
         job = _jobs.get(job_id)
     if not job:
         return jsonify({"error": t("err_job_not_found", current_lang())}), 404
-    return jsonify({"status": job["status"], "step": job.get("step", 1), "result": job["result"]})
+    return jsonify(to_json_compatible({
+        "status": job["status"],
+        "step": job.get("step", 1),
+        "result": job["result"],
+    }))
 
 
 # ── API: Groq status ──────────────────────────────────────────────────────────
@@ -746,7 +751,7 @@ def backtest_status(bt_id: str):
         job = _bt_jobs.get(bt_id)
     if not job:
         return jsonify({"error": t("err_job_not_found", current_lang())}), 404
-    return jsonify({
+    return jsonify(to_json_compatible({
         "status":      job["status"],
         "step":        job.get("step", ""),
         "partial":     job.get("partial", {}),
@@ -754,7 +759,7 @@ def backtest_status(bt_id: str):
         "summary":     job.get("summary"),
         "error":       job.get("error", ""),
         "latest":      job["test_points"][-1] if job.get("test_points") else None,
-    })
+    }))
  
  
 @app.route("/api/backtest/stop/<bt_id>", methods=["POST"])
@@ -775,7 +780,9 @@ def backtest_result(bt_id: str):
         job = _bt_jobs.get(bt_id)
     if not job:
         return jsonify({"error": t("err_job_not_found", lang)}), 404
-    return jsonify(job.get("summary") or {"error": t("err_not_finished", lang)})
+    return jsonify(to_json_compatible(
+        job.get("summary") or {"error": t("err_not_finished", lang)}
+    ))
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
