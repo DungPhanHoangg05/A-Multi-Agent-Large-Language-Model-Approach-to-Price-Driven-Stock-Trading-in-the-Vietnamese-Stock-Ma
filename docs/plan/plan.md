@@ -255,8 +255,8 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 - **Nhiệm vụ cụ thể**:
   - [x] Đọc và đối chiếu sâu bài báo ICML 2026 với repo hiện tại.
   - [ ] Thu thập và làm sạch dữ liệu Daily EOD của VN-Index và 4 mã (FPT, VNM, VCB, MWG) giai đoạn 2018–2025.
-  - [ ] Thiết kế JSON Schema chuẩn cho `HistoricalTaskRecord` và `MarketRegimeState`.
-  - [ ] Soạn thảo tài liệu đặc tả phương pháp nghiên cứu `docs/methodology_spec.md`.
+  - [x] Thiết kế JSON Schema chuẩn cho `HistoricalTaskRecord` và `MarketRegimeState` ([chi tiết tuần 1](week1/README.md)).
+  - [x] Soạn thảo tài liệu đặc tả phương pháp nghiên cứu `docs/methodology_spec.md`.
 - **Deliverables cuối tuần 1**:
   - File dữ liệu sạch lưu tại `data/historical/` (đã kiểm tra không khuyết thiếu nến).
   - Tài liệu đặc tả kỹ thuật `docs/methodology_spec.md`.

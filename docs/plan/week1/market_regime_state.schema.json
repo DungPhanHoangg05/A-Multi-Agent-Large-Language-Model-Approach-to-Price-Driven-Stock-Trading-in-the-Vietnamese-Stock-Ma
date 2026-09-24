@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kltn:market-regime-state:1",
+  "title": "MarketRegimeState",
+  "description": "Trạng thái VN-Index chỉ dùng dữ liệu đã công bố đến as_of_date.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["as_of_date", "regime_id", "regime_name", "volatility_level", "trend_strength", "source_symbol", "feature_end_date"],
+  "properties": {
+    "as_of_date": {"type": "string", "format": "date"},
+    "regime_id": {"type": "integer", "minimum": 0, "maximum": 3},
+    "regime_name": {"type": "string", "enum": ["BULL", "BEAR", "CHOPPY", "CONSOLIDATION"]},
+    "volatility_level": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH"]},
+    "trend_strength": {"type": "number"},
+    "source_symbol": {"const": "VNINDEX"},
+    "feature_end_date": {"type": "string", "format": "date"}
+  }
+}

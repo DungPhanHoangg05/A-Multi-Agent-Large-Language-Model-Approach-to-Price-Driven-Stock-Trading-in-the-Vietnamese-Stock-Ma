@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kltn:historical-task-record:1",
+  "title": "HistoricalTaskRecord",
+  "description": "Một chu kỳ T+2.5 đã tất toán; điều kiện exit_date < ngày truy vấn được kiểm tra ở tầng ứng dụng.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["episode_id", "symbol", "as_of_date", "entry_date", "exit_date", "regime", "agent_signals", "outcome"],
+  "properties": {
+    "episode_id": {"type": "string", "minLength": 1},
+    "symbol": {"type": "string", "enum": ["FPT", "VNM", "VCB", "MWG"]},
+    "as_of_date": {"type": "string", "format": "date"},
+    "entry_date": {"type": "string", "format": "date"},
+    "exit_date": {"type": "string", "format": "date"},
+    "regime": {"type": "string", "enum": ["BULL", "BEAR", "CHOPPY", "CONSOLIDATION"]},
+    "agent_signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trend", "pattern", "alpha_consensus", "indicator_consensus", "sentiment"],
+      "properties": {
+        "trend": {"type": "string", "minLength": 1},
+        "pattern": {"type": "string", "minLength": 1},
+        "alpha_consensus": {"type": "string", "minLength": 1},
+        "indicator_consensus": {"type": "string", "minLength": 1},
+        "sentiment": {"type": "string", "minLength": 1}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actual_direction", "net_return_pct", "was_bull_trap", "result"],
+      "properties": {
+        "actual_direction": {"type": "string", "enum": ["UP", "DOWN"]},
+        "net_return_pct": {"type": "number"},
+        "was_bull_trap": {"type": "boolean"},
+        "result": {"type": "string", "enum": ["WIN_IF_LONG", "LOSS_IF_LONG"]}
+      }
+    }
+  }
+}

@@ -140,7 +140,7 @@ Khi nhận bất kỳ yêu cầu phát triển nào, Coding Agent phải thực 
   code liên quan          feat/<task-name>         Code & P0 rules         unittest, E2E           Merge vào develop
 ```
 
-1. **Bước 1 - Khảo sát**: Đọc kỹ [docs/plan.md](file:///c:/Users/Legion/OneDrive/Ta%CC%80i%20li%C3%AA%CC%A3u/GitHub/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma/docs/plan.md), kiểm tra các file mã nguồn liên quan và xác định phạm vi ảnh hưởng.
+1. **Bước 1 - Khảo sát**: Đọc kỹ [docs/plan/plan.md](docs/plan/plan.md), kiểm tra các file mã nguồn liên quan và xác định phạm vi ảnh hưởng.
 2. **Bước 2 - Tạo Branch**: Tạo nhánh mới từ `develop` theo quy ước `feat/...`, `fix/...`, `test/...`.
 3. **Bước 3 - Lập trình**: Viết mã tối giản, module hóa cao, có đầy đủ type annotations và docstrings tiếng Việt.
 4. **Bước 4 - Kiểm thử**: 
