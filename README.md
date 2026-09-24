@@ -133,12 +133,6 @@ For paired backtests, Indicator, Pattern, and Trend run once per test point. The
 - `utils/`: graph assembly, technical tools, decision parsing, alpha selection, and statistical helpers.
 - `templates/`, `static/`, `web_interface.py`: Flask user interface.
 
-## Public/private artifact boundary
-
-This public repository contains the implementation and automated tests. The manuscript, private planning/governance documents, local sentiment caches, raw backtest outputs, and generated experiment artifacts are intentionally not versioned. The corresponding ignore rules cover `ESWA/`, `plan/`, `AGENTS.md`, `sentiment_cache_*`, `backtest_result/`, and `outputs/`.
-
-Some audit utilities can consume those private local artifacts when they are present, but they are not required for the deterministic software test suite.
-
 ## Reproducibility notes
 
 The offline regression path seeds Python and NumPy with 42 and replaces network/LLM boundaries with deterministic fixtures. It verifies software behavior, not the exact empirical outputs of a historical hosted-model run.
