@@ -1,0 +1,1045 @@
+import math
+import time
+from typing import Any, Dict, List, Optional, Tuple
+
+import pandas as pd
+from langchain_core.messages import HumanMessage, SystemMessage
+
+from utils.alpha_selector import select_top_alphas
+from core import alpha_compare
+
+
+# ── Retry wrapper ──────────────────────────────────────────────────────────────
+
+def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
+    last_err = None
+    for attempt in range(retries):
+        try:
+            return call_fn(*args)
+        except Exception as e:
+            last_err = e
+            print(f"[AlphaAgent] Lỗi lần {attempt + 1}/{retries}: {e}")
+            if attempt < retries - 1:
+                time.sleep(wait_sec)
+    raise RuntimeError(f"[AlphaAgent] Vượt quá số lần thử lại. Lỗi cuối: {last_err}")
+
+
+# ── Math helpers ───────────────────────────────────────────────────────────────
+
+def _clip(x: float, lo: float = -1.0, hi: float = 1.0) -> float:
+    return max(lo, min(hi, float(x)))
+
+
+def _safe(x) -> float:
+    try:
+        v = float(x)
+        return 0.0 if (math.isnan(v) or math.isinf(v)) else v
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _hist_rank(series: List[float], descending: bool = False) -> float:
+    clean: List[float] = [
+        v for v in series
+        if not (math.isnan(float(v)) or math.isinf(float(v)))
+    ]
+    if len(clean) < 2:
+        return 0.5
+    current = clean[-1]
+    prior   = clean[:-1]
+    rank    = sum(1 for v in prior if v <= current) / len(prior)
+    return round(1.0 - rank if descending else rank, 4)
+
+
+def _zscore_of_series(series: List[float]) -> float:
+    clean = [_safe(v) for v in series]
+    clean = [v for v in clean if not (math.isnan(v) or math.isinf(v))]
+    if len(clean) < 2:
+        return 0.0
+    mu    = sum(clean) / len(clean)
+    sigma = math.sqrt(sum((x - mu) ** 2 for x in clean) / len(clean))
+    return round((clean[-1] - mu) / (sigma + 1e-9), 4)
+
+
+def _sign(x: float) -> float:
+    if x > 1e-9:  return  1.0
+    if x < -1e-9: return -1.0
+    return 0.0
+
+
+# ── Technical Indicator Helpers ────────────────────────────────────────────────
+
+def _ema(prices: List[float], period: int) -> float:
+    n = len(prices)
+    if n == 0:
+        return 0.0
+    init = sum(prices[:min(period, n)]) / min(period, n)
+    k = 2.0 / (period + 1)
+    val = init
+    for p in prices[min(period, n):]:
+        val = p * k + val * (1.0 - k)
+    return val
+
+
+def _sma(prices: List[float], period: int) -> float:
+    window = prices[-period:] if len(prices) >= period else prices
+    return sum(window) / len(window) if window else 0.0
+
+
+def _rolling_std(prices: List[float], period: int) -> float:
+    window = prices[-period:] if len(prices) >= period else prices
+    if len(window) < 2:
+        return 1e-6
+    mu  = sum(window) / len(window)
+    var = sum((x - mu) ** 2 for x in window) / len(window)
+    return max(math.sqrt(var), 1e-9)
+
+
+def _rsi(closes: List[float], period: int = 14) -> float:
+    n = len(closes)
+    if n <= period:
+        return 50.0
+    gains, losses = [], []
+    for i in range(1, n):
+        d = closes[i] - closes[i - 1]
+        gains.append(max(d, 0.0))
+        losses.append(abs(min(d, 0.0)))
+    ag = sum(gains[:period]) / period
+    al = sum(losses[:period]) / period
+    for i in range(period, len(gains)):
+        ag = (ag * (period - 1) + gains[i]) / period
+        al = (al * (period - 1) + losses[i]) / period
+    if al < 1e-9:
+        return 100.0
+    return round(100.0 - 100.0 / (1.0 + ag / al), 4)
+
+
+def _willr(highs: List[float], lows: List[float], closes: List[float], period: int = 14) -> float:
+    n = len(closes)
+    p = min(period, n)
+    if p == 0:
+        return -50.0
+    hh = max(highs[-p:])
+    ll = min(lows[-p:])
+    if hh - ll < 1e-9:
+        return -50.0
+    return round(-100.0 * (hh - closes[-1]) / (hh - ll), 4)
+
+
+def _bollinger(closes: List[float], period: int = 20, mult: float = 2.0) -> Dict:
+    window = closes[-period:] if len(closes) >= period else closes
+    sma    = sum(window) / len(window)
+    std    = math.sqrt(sum((x - sma) ** 2 for x in window) / len(window))
+    upper  = sma + mult * std
+    lower  = sma - mult * std
+    width  = upper - lower
+    pct_b  = (closes[-1] - lower) / (width + 1e-9)
+    return {
+        "upper":       round(upper, 4),
+        "middle":      round(sma, 4),
+        "lower":       round(lower, 4),
+        "width_price": round(width, 4),
+        "width_rel":   round(width / (sma + 1e-9), 4),
+        "pct_b":       round(pct_b, 4),
+        "std":         round(std, 4),
+    }
+
+
+def _macd_last_hist(closes: List[float], fast: int = 12, slow: int = 26, signal: int = 9) -> float:
+    n = len(closes)
+    if n < slow + signal:
+        return 0.0
+    macd_lines: List[float] = []
+    for i in range(max(slow, n - signal - 10), n):
+        ef = _ema(closes[:i + 1], fast)
+        es = _ema(closes[:i + 1], slow)
+        macd_lines.append(ef - es)
+    if len(macd_lines) < 2:
+        ef = _ema(closes, fast)
+        es = _ema(closes, slow)
+        return ef - es
+    signal_val = _ema(macd_lines, signal)
+    return round(macd_lines[-1] - signal_val, 6)
+
+
+# ── Extract all technical vars ─────────────────────────────────────────────────
+
+def _extract_tech_vars(kline_data: dict) -> dict:
+    RANK_WINDOW = 30
+
+    try:
+        df     = pd.DataFrame(kline_data)
+        closes = [_safe(x) for x in df["Close"].tolist()]
+        highs  = [_safe(x) for x in df["High"].tolist()]
+        lows   = [_safe(x) for x in df["Low"].tolist()]
+        n      = len(closes)
+
+        # Pandas/NumPy comparisons can return ``numpy.bool_``.  Python's
+        # ``and`` operator returns its final operand unchanged, so without the
+        # explicit cast this value leaked into ``sentiment_data.tech_vars`` and
+        # made Flask's JSON encoder fail after an otherwise successful analysis.
+        has_vol = bool(
+            "Volume" in df.columns
+            and df["Volume"].notna().sum() > n * 0.5
+            and df["Volume"].sum() > 0
+        )
+        volumes = [_safe(x) for x in df["Volume"].tolist()] if has_vol else None
+
+        close_0 = closes[-1]
+        high_0  = highs[-1]
+        low_0   = lows[-1]
+
+        ema5  = _ema(closes, 5)
+        ema20 = _ema(closes, 20)
+        sma5  = _sma(closes, 5)
+        sma10 = _sma(closes, 10)
+        sma20 = _sma(closes, 20)
+        bb    = _bollinger(closes, 20)
+        rsi_val   = _rsi(closes, 14)
+        willr_val = _willr(highs, lows, closes, 14)
+        roc1_pct  = (
+            (close_0 - closes[-2]) / (closes[-2] + 1e-9) * 100.0
+            if n >= 2 else 0.0
+        )
+        ema_diff     = ema5 - ema20
+        ema_diff_pct = ema_diff / (close_0 + 1e-9) * 100.0
+        rs10         = _rolling_std(closes, 10)
+        rs10_pct     = rs10 / (close_0 + 1e-9) * 100.0
+        intra_range  = high_0 - low_0
+        close_pos    = (close_0 - low_0) / (intra_range + 1e-9) - 0.5
+        close_dev_sma10 = (close_0 - sma10) / (bb["width_price"] + 1e-9)
+
+        if has_vol and volumes:
+            vol_0     = volumes[-1]
+            sma_vol20 = _sma(volumes, 20)
+            vol_surge = vol_0 / (sma_vol20 + 1e-9)
+        else:
+            ranges    = [h - l for h, l in zip(highs, lows)]
+            avg_range = _sma(ranges, 20) if ranges else 1.0
+            vol_surge = intra_range / (avg_range + 1e-9)
+
+        if has_vol and volumes:
+            vol_10 = volumes[-10:] if len(volumes) >= 10 else volumes
+        else:
+            _ranges = [h - l for h, l in zip(highs, lows)]
+            vol_10  = _ranges[-10:] if len(_ranges) >= 10 else _ranges
+        vol_zscore_10 = _zscore_of_series(vol_10)
+
+        macd_hist_cur  = _macd_last_hist(closes)
+        macd_hist_sign = _sign(macd_hist_cur)
+
+        close_dev5_series: List[float] = []
+        for i in range(max(5, n - 20), n):
+            s5_i = _sma(closes[max(0, i - 5): i + 1], 5)
+            close_dev5_series.append((closes[i] - s5_i) / (closes[i] + 1e-9))
+        if not close_dev5_series:
+            close_dev5_series = [(close_0 - sma5) / (close_0 + 1e-9)]
+        cur_close_dev5   = (close_0 - sma5) / (close_0 + 1e-9)
+        zscore_close_dev5 = _zscore_of_series(close_dev5_series)
+
+        roc1_history: List[float] = []
+        for i in range(max(1, n - 25), n):
+            roc1_history.append(
+                (closes[i] - closes[i - 1]) / (closes[i - 1] + 1e-9) * 100.0
+            )
+        std_roc1 = max(
+            math.sqrt(
+                sum((r - sum(roc1_history) / len(roc1_history)) ** 2 for r in roc1_history)
+                / len(roc1_history)
+            ) if len(roc1_history) > 1 else 0.01,
+            0.01,
+        )
+        roc1_adjusted = roc1_pct / (std_roc1 + 1e-9)
+
+        roc1_adj_series: List[float] = []
+        for i in range(max(21, n - RANK_WINDOW), n):
+            roc_i    = (closes[i] - closes[i - 1]) / (closes[i - 1] + 1e-9) * 100.0
+            roc_hist = [
+                (closes[j] - closes[j - 1]) / (closes[j - 1] + 1e-9) * 100.0
+                for j in range(max(1, i - 20), i)
+            ]
+            if roc_hist:
+                mu_r  = sum(roc_hist) / len(roc_hist)
+                std_r = max(math.sqrt(sum((r - mu_r) ** 2 for r in roc_hist) / len(roc_hist)), 0.01)
+                roc1_adj_series.append(roc_i / (std_r + 1e-9))
+            else:
+                roc1_adj_series.append(0.0)
+        if not roc1_adj_series:
+            roc1_adj_series = [roc1_adjusted]
+
+        vol_surge_series: List[float] = []
+        for i in range(max(21, n - RANK_WINDOW), n):
+            ir = highs[i] - lows[i]
+            if has_vol and volumes:
+                sv = _sma(volumes[max(0, i - 20): i], 20) or 1.0
+                vol_surge_series.append(volumes[i] / (sv + 1e-9))
+            else:
+                rng_hist = [highs[j] - lows[j] for j in range(max(0, i - 20), i)]
+                avg_r    = sum(rng_hist) / len(rng_hist) if rng_hist else 1.0
+                vol_surge_series.append(ir / (avg_r + 1e-9))
+        if not vol_surge_series:
+            vol_surge_series = [vol_surge]
+
+        bb_pos_series_5: List[float] = []
+        for i in range(max(20, n - 15), n):
+            bb_i    = _bollinger(closes[max(0, i - 20): i + 1], 20)
+            width_i = bb_i["upper"] - bb_i["lower"]
+            bb_pos_series_5.append((closes[i] - bb_i["lower"]) / (width_i + 1e-9))
+        if not bb_pos_series_5:
+            bb_pos_series_5 = [bb["pct_b"]]
+        zscore_bb_pos = _zscore_of_series(bb_pos_series_5)
+
+        if has_vol and volumes:
+            vol_5 = volumes[-5:] if len(volumes) >= 5 else volumes
+        else:
+            _ranges2 = [h - l for h, l in zip(highs, lows)]
+            vol_5    = _ranges2[-5:] if len(_ranges2) >= 5 else _ranges2
+        vol_zscore_5 = _zscore_of_series(vol_5)
+
+        ema5_minus_sma20 = ema5 - sma20
+        ema_diff_series: List[float] = []
+        for i in range(max(20, n - RANK_WINDOW), n):
+            e5_i  = _ema(closes[max(0, i - 15): i + 1], 5)
+            s20_i = _sma(closes[max(0, i - 20): i + 1], 20)
+            ema_diff_series.append(e5_i - s20_i)
+        if not ema_diff_series:
+            ema_diff_series = [ema5_minus_sma20]
+
+        return {
+            "close_0":            round(close_0, 4),
+            "high_0":             round(high_0, 4),
+            "low_0":              round(low_0, 4),
+            "ema5":               round(ema5, 4),
+            "ema20":              round(ema20, 4),
+            "ema_diff":           round(ema_diff, 4),
+            "ema_diff_pct":       round(ema_diff_pct, 4),
+            "sma5":               round(sma5, 4),
+            "sma10":              round(sma10, 4),
+            "sma20":              round(sma20, 4),
+            "bb_upper":           bb["upper"],
+            "bb_middle":          bb["middle"],
+            "bb_lower":           bb["lower"],
+            "bb_width_price":     bb["width_price"],
+            "bb_width_rel":       bb["width_rel"],
+            "bb_pct_b":           bb["pct_b"],
+            "rolling_std10":      round(rs10, 4),
+            "rolling_std10_pct":  round(rs10_pct, 4),
+            "rsi":                round(rsi_val, 4),
+            "willr":              round(willr_val, 4),
+            "roc1_pct":           round(roc1_pct, 4),
+            "close_pos":          round(close_pos, 4),
+            "close_dev_sma10":    round(close_dev_sma10, 4),
+            "vol_surge":          round(vol_surge, 4),
+            "has_volume":         has_vol,
+            "vol_zscore_10":      round(vol_zscore_10, 4),
+            "macd_hist_cur":      round(macd_hist_cur, 6),
+            "macd_hist_sign":     macd_hist_sign,
+            "cur_close_dev5":     round(cur_close_dev5, 6),
+            "zscore_close_dev5":  round(zscore_close_dev5, 4),
+            "roc1_adjusted":      round(roc1_adjusted, 4),
+            "std_roc1":           round(std_roc1, 4),
+            "zscore_bb_pos":      round(zscore_bb_pos, 4),
+            "vol_zscore_5":       round(vol_zscore_5, 4),
+            "ema5_minus_sma20":   round(ema5_minus_sma20, 4),
+            "_roc1_adj_series":   roc1_adj_series,
+            "_vol_surge_series":  vol_surge_series,
+            "_ema_diff_series":   ema_diff_series,
+        }
+
+    except Exception as e:
+        print(f"[AlphaAgent] Lỗi tính tech vars: {e}")
+        return {
+            "error": str(e),
+            "close_0": 100.0, "high_0": 101.0, "low_0": 99.0,
+            "ema5": 100.0, "ema20": 100.0, "ema_diff": 0.0, "ema_diff_pct": 0.0,
+            "sma5": 100.0, "sma10": 100.0, "sma20": 100.0,
+            "bb_upper": 103.0, "bb_middle": 100.0, "bb_lower": 97.0,
+            "bb_width_price": 6.0, "bb_width_rel": 0.06, "bb_pct_b": 0.5,
+            "rolling_std10": 1.5, "rolling_std10_pct": 1.5,
+            "rsi": 50.0, "willr": -50.0, "roc1_pct": 0.0,
+            "close_pos": 0.0, "close_dev_sma10": 0.0,
+            "vol_surge": 1.0, "has_volume": False,
+            "vol_zscore_10": 0.0, "macd_hist_cur": 0.0, "macd_hist_sign": 0.0,
+            "cur_close_dev5": 0.0, "zscore_close_dev5": 0.0,
+            "roc1_adjusted": 0.0, "std_roc1": 1.0,
+            "zscore_bb_pos": 0.0, "vol_zscore_5": 0.0,
+            "ema5_minus_sma20": 0.0,
+            "_roc1_adj_series": [0.0], "_vol_surge_series": [1.0],
+            "_ema_diff_series": [0.0],
+        }
+
+
+# ── Sentiment normalization ────────────────────────────────────────────────────
+
+def _normalize_sentiment_scores(sentiment_data: dict) -> dict:
+    empty = {
+        "z_score": 0.0, "rel_sentiment": 0.0,
+        "article_count": 0, "is_reliable": False,
+        "raw_avg_score": 0.0, "delta_1d_proxy": 0.0,
+    }
+    if not sentiment_data:
+        return empty
+    ms = sentiment_data.get("main_sentiment", {})
+    if not ms:
+        return empty
+    article_count = ms.get("article_count", 0)
+    if article_count < 3:
+        return {**empty, "article_count": article_count}
+
+    avg_score = ms.get("avg_score", 0.0)
+    scored    = sentiment_data.get("scored_articles", [])
+
+    if len(scored) >= 3:
+        scores = [_safe(a.get("numeric_score", 0.0)) for a in scored]
+        mu     = sum(scores) / len(scores)
+        sigma  = math.sqrt(sum((s - mu) ** 2 for s in scores) / len(scores))
+        z_score = round((avg_score - mu) / (sigma + 0.001), 4)
+    else:
+        z_score = 0.0
+
+    rel_sent = sentiment_data.get("related_sentiment", {})
+    if rel_sent:
+        rel_scores = [v.get("avg_score", 0.0) for v in rel_sent.values()
+                      if v.get("article_count", 0) >= 2]
+        rel_mean     = sum(rel_scores) / len(rel_scores) if rel_scores else 0.0
+        rel_sentiment = round(avg_score - rel_mean, 4)
+    else:
+        rel_sentiment = 0.0
+
+    delta_proxy = round(z_score * 0.5, 4)
+
+    return {
+        "z_score":        z_score,
+        "rel_sentiment":  rel_sentiment,
+        "article_count":  article_count,
+        "is_reliable":    article_count >= 8,
+        "raw_avg_score":  round(avg_score, 4),
+        "delta_1d_proxy": delta_proxy,
+    }
+
+
+def _normalize_related_sentiment(related_sentiment: dict) -> dict:
+    result = {}
+    for co, data in related_sentiment.items():
+        art_count = data.get("article_count", 0)
+        avg_score = data.get("avg_score", 0.0)
+        if art_count < 2:
+            result[co] = {
+                "z_score": 0.0, "article_count": art_count,
+                "is_reliable": False, "label": data.get("label", "neutral"),
+            }
+            continue
+        pos = data.get("positive", 0)
+        neg = data.get("negative", 0)
+        neu = data.get("neutral_count", 0)
+        approx = [1.0] * pos + [-1.0] * neg + [0.0] * neu
+        if len(approx) >= 2:
+            mu    = sum(approx) / len(approx)
+            sigma = math.sqrt(sum((s - mu) ** 2 for s in approx) / len(approx))
+            z     = round((avg_score - mu) / (sigma + 0.001), 4)
+        else:
+            z = 0.0
+        result[co] = {
+            "z_score": z, "article_count": art_count,
+            "is_reliable": art_count >= 5,
+            "label": data.get("label", "neutral"),
+        }
+    return result
+
+
+# ── 5 Alpha Formulas ───────────────────────────────────────────────────────────
+
+def _alpha1_fdm(tv: dict, lang: str = "vi") -> dict:
+    """Alpha 1 — Flow-Driven Momentum (FDM)"""
+    from utils.i18n import t as _t
+
+    roc1_adj = _safe(tv.get("roc1_adjusted", 0.0))
+    vol_surge = _safe(tv.get("vol_surge", 1.0))
+
+    raw = roc1_adj * vol_surge * 0.5
+    value = math.tanh(raw)
+
+    thr = 0.10
+    sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    verdict = _t(
+        "ar_a1_up" if value > thr else "ar_a1_down" if value < -thr else "ar_a1_neutral",
+        lang,
+    )
+
+    return {
+        "id": 1,
+        "name": "Flow-Driven Momentum (FDM)",
+        "type": _t("ar_a1_type", lang),
+        "formula": "Tanh( ROC(1)_adj × Vol_Surge × 0.5 )",
+        "horizon": "—",
+        "value": round(value, 4),
+        "signal": sig,
+        "components": {
+            "roc1_adjusted": round(roc1_adj, 4),
+            "vol_surge": round(vol_surge, 4),
+            "raw_momentum": round(raw, 4),
+        },
+        "interpretation": _t(
+            "ar_a1_interp", lang, roc=roc1_adj, vol=vol_surge, verdict=verdict
+        ),
+    }
+
+
+def _alpha2_sfa(sn: dict, tv: dict, lang: str = "vi") -> dict:
+    """Alpha 2 — Sentiment-Flow Asymmetry (SFA)"""
+    from utils.i18n import t as _t
+
+    z_sent = _safe(sn.get("z_score", 0.0))
+    is_reliable = sn.get("is_reliable", False)
+    roc1_adj = _safe(tv.get("roc1_adjusted", 0.0))
+    macd_hist = _safe(tv.get("macd_hist_cur", 0.0))
+
+    if is_reliable:
+        raw = z_sent * 0.5 + roc1_adj * 0.5
+        logic = _t("ar_a2_logic_reliable", lang, z=z_sent, roc=roc1_adj)
+    else:
+        z_macd = math.tanh(macd_hist / (tv.get("close_0", 1.0) * 0.005)) * 1.5
+        raw = z_macd + roc1_adj * 0.5
+        logic = _t(
+            "ar_a2_logic_proxy", lang, macd=macd_hist, zm=z_macd, roc=roc1_adj
+        )
+
+    value = math.tanh(raw)
+    thr = 0.10
+    sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    return {
+        "id": 2,
+        "name": _t("ar_a2_name", lang),
+        "type": _t("ar_a2_type", lang),
+        "formula": _t("ar_a2_formula", lang),
+        "horizon": "—",
+        "value": round(value, 4),
+        "signal": sig,
+        "components": {
+            "z_sent": round(z_sent, 4),
+            "is_reliable": is_reliable,
+            "roc1_adjusted": round(roc1_adj, 4),
+            "macd_hist_cur": round(macd_hist, 6),
+        },
+        "interpretation": _t("ar_a2_interp", lang, logic=logic, value=value),
+    }
+
+
+def _alpha3_lvr(tv: dict, lang: str = "vi") -> dict:
+    """Alpha 3 — Liquidity Void Reversion (LVR)"""
+    from utils.i18n import t as _t
+
+    z_close_dev5 = _safe(tv.get("zscore_close_dev5", 0.0))
+
+    raw = -1.0 * z_close_dev5 * 0.8
+    value = math.tanh(raw)
+
+    thr = 0.15
+    sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    verdict = _t(
+        "ar_a3_up" if value > thr else "ar_a3_down" if value < -thr else "ar_a3_neutral",
+        lang,
+    )
+
+    return {
+        "id": 3,
+        "name": "Liquidity Void Reversion (LVR)",
+        "type": _t("ar_a3_type", lang),
+        "formula": "Tanh( -0.8 × ZScore( (Close - SMA5)/Close ) )",
+        "horizon": "—",
+        "value": round(value, 4),
+        "signal": sig,
+        "components": {
+            "zscore_close_dev5": round(z_close_dev5, 4),
+            "cur_close_dev5": round(tv.get("cur_close_dev5", 0.0), 6),
+        },
+        "interpretation": _t("ar_a3_interp", lang, z=z_close_dev5, verdict=verdict),
+    }
+
+
+def _alpha4_bfe(tv: dict, lang: str = "vi") -> dict:
+    """Alpha 4 — Bollinger Squeeze & Flow (BFE)"""
+    from utils.i18n import t as _t
+
+    bb_pct_b = _safe(tv.get("bb_pct_b", 0.5))
+    vol_z5 = _safe(tv.get("vol_zscore_5", 0.0))
+
+    raw = (bb_pct_b - 0.5) * vol_z5 * 1.5
+    value = math.tanh(raw)
+
+    thr = 0.10
+    sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    verdict = _t(
+        "ar_a4_up" if value > thr else "ar_a4_down" if value < -thr else "ar_a4_neutral",
+        lang,
+    )
+
+    return {
+        "id": 4,
+        "name": "Bollinger Squeeze & Flow (BFE)",
+        "type": _t("ar_a4_type", lang),
+        "formula": "Tanh( (%B - 0.5) × Vol_ZScore(5) × 1.5 )",
+        "horizon": "—",
+        "value": round(value, 4),
+        "signal": sig,
+        "components": {
+            "bb_pct_b": round(bb_pct_b, 4),
+            "vol_zscore_5": round(vol_z5, 4),
+        },
+        "interpretation": _t("ar_a4_interp", lang, b=bb_pct_b, z=vol_z5, verdict=verdict),
+    }
+
+
+def _alpha5_ofe(tv: dict, lang: str = "vi") -> dict:
+    """Alpha 5 — Order Flow Exhaustion (OFE)"""
+    from utils.i18n import t as _t
+
+    roc1_adj = _safe(tv.get("roc1_adjusted", 0.0))
+    close_pos = _safe(tv.get("close_pos", 0.0))
+
+    raw = roc1_adj * close_pos * 3.0
+    value = math.tanh(raw)
+
+    thr = 0.10
+    sig = "TĂNG" if value > thr else "GIẢM" if value < -thr else "TRUNG TÍNH"
+
+    verdict = _t(
+        "ar_a5_up" if value > thr else "ar_a5_down" if value < -thr else "ar_a5_neutral",
+        lang,
+    )
+
+    return {
+        "id": 5,
+        "name": "Order Flow Exhaustion (OFE)",
+        "type": _t("ar_a5_type", lang),
+        "formula": _t("ar_a5_formula", lang),
+        "horizon": "—",
+        "value": round(value, 4),
+        "signal": sig,
+        "components": {
+            "roc1_adjusted": round(roc1_adj, 4),
+            "close_pos": round(close_pos, 4),
+        },
+        "interpretation": _t("ar_a5_interp", lang, roc=roc1_adj, pos=close_pos, verdict=verdict),
+    }
+
+
+# ── Compute Dynamic Alphas ──────────────────────────────────────────────────
+
+def _compute_all_alphas(
+    kline_data: dict,
+    sentiment_norm: dict,
+    related_norm: dict,
+    symbol: str,
+    interval: str = "1d",
+    norm_method: str = "zscore_tanh",
+    weights: dict = None,
+    lang: str = "vi",
+    historical_df: Optional[pd.DataFrame] = None,
+    as_of_date: Optional[str] = None,
+    is_backtest: bool = False,
+) -> Tuple[List[dict], dict]:
+    """
+    Computes top-5 dynamic alphas or falls back to original 5.
+    """
+    from utils.i18n import t as _t
+
+    tv = _extract_tech_vars(kline_data)
+    
+    # 1. Try dynamic selection
+    try:
+        top_alphas = select_top_alphas(
+            symbol,
+            interval,
+            norm_method=norm_method,
+            weights=weights,
+            historical_df=historical_df,
+            as_of_date=as_of_date,
+            is_backtest=is_backtest,
+        )
+    except Exception as e:
+        print(f"[AlphaAgent] Lỗi select_top_alphas: {e}")
+        top_alphas = []
+
+    if not top_alphas and is_backtest:
+        raise RuntimeError(
+            "Backtest không tuyển chọn được dynamic alpha; "
+            "dừng test point thay vì fallback làm sai giao thức benchmark."
+        )
+
+    if top_alphas:
+        print(f"[AlphaAgent] Sử dụng {len(top_alphas)} dynamic alphas cho {symbol}")
+        # Dùng cùng snapshot lịch sử tối đa 600 nến như pha tuyển
+        # chọn. Cửa sổ hiển thị 45 nến không đủ cho các alpha dùng
+        # SMA100/ADV60/decay180.
+        if historical_df is not None and not historical_df.empty:
+            df_base = historical_df.copy()
+            if as_of_date is not None and "Datetime" in df_base.columns:
+                cutoff = pd.Timestamp(as_of_date)
+                datetimes = pd.to_datetime(df_base["Datetime"], errors="coerce")
+                if datetimes.dt.tz is not None and cutoff.tzinfo is None:
+                    cutoff = cutoff.tz_localize(datetimes.dt.tz)
+                elif datetimes.dt.tz is None and cutoff.tzinfo is not None:
+                    cutoff = cutoff.tz_localize(None)
+                df_base = df_base.loc[datetimes.notna() & (datetimes <= cutoff)]
+            df_base = df_base.tail(600).copy()
+        else:
+            df_base = pd.DataFrame(kline_data)
+        # Ensure numeric
+        for col in ["Open", "High", "Low", "Close", "Volume"]:
+            if col in df_base.columns:
+                df_base[col] = pd.to_numeric(df_base[col], errors="coerce").fillna(0.0)
+        
+        d_features = alpha_compare.build_features(df_base)
+        
+        dynamic_results = []
+        for i, a_meta in enumerate(top_alphas):
+            aid = a_meta["alpha_id"]
+            handler = a_meta["handler"]
+            
+            # Execute alpha on the dataframe
+            try:
+                series = handler(d_features)
+                normalized = alpha_compare.normalize_alpha(series, method=norm_method)
+                val = float(normalized.iloc[-1])
+                if math.isnan(val) or math.isinf(val): val = 0.0
+            except Exception as e:
+                print(f"[AlphaAgent] Lỗi tính alpha {aid}: {e}")
+                val = 0.0
+            
+            # Check if IC is negative; if so, flip the signal!
+            ic_val = a_meta["metrics"]["ic"]
+            is_flipped = ic_val < 0
+            if is_flipped:
+                val = -val
+
+            # Try to get metadata from NEW_ALPHA_TEMPLATES in alpha_compare
+            template = alpha_compare.get_alpha_template(aid, lang)
+            name = template.get("name", a_meta["description"])
+            a_type = template.get("type", _t("ar_type_fallback", lang))
+            formula = template.get("formula", f"Adapted {aid}")
+            interp_base = template.get("interp", a_meta["description"])
+
+            thr = 0.10
+            sig = "TĂNG" if val > thr else "GIẢM" if val < -thr else "TRUNG TÍNH"
+
+            interpretation = f"{interp_base}. (IC={ic_val:+.3f}, Acc={a_meta['metrics']['accuracy']:.1%})"
+            if is_flipped:
+                interpretation += f" {_t('ar_flipped_note', lang)}"
+
+            dynamic_results.append({
+                "id": i + 1,
+                "name": name,
+                "type": a_type,
+                "formula": formula,
+                "horizon": "—",
+                "value": round(val, 4),
+                "signal": sig,
+                "components": {
+                    "composite_score": round(a_meta["composite_score"], 4),
+                    "ic": round(ic_val, 4),
+                    "accuracy": f"{a_meta['metrics']['accuracy']:.1%}"
+                },
+                "interpretation": interpretation
+            })
+        return dynamic_results, tv
+    
+    # 2. Fallback to original 5
+    print("[AlphaAgent] Fallback về 5 alpha mặc định.")
+    alphas = [
+        _alpha1_fdm(tv, lang),
+        _alpha2_sfa(sentiment_norm, tv, lang),
+        _alpha3_lvr(tv, lang),
+        _alpha4_bfe(tv, lang),
+        _alpha5_ofe(tv, lang),
+    ]
+    return alphas, tv
+
+
+# ── Report builder ─────────────────────────────────────────────────────────────
+
+def _build_alpha_report(
+    alphas: List[dict], tv: dict, sn: dict, stock_name: str, lang: str = "vi"
+) -> str:
+    """
+    Xây dựng báo cáo markdown cho 5 alpha.
+    """
+    from utils.i18n import t as _t, signal_label
+
+    lines = [
+        f"## {_t('ar_title', lang)} — {stock_name}\n",
+        f"| # | {_t('ar_th_alpha', lang)} | {_t('ar_th_type', lang)} "
+        f"| {_t('ar_th_value', lang)} | {_t('ar_th_signal', lang)} "
+        f"| {_t('ar_th_horizon', lang)} |",
+        "|---|-------|------|---------|----------|---------|",
+    ]
+    for a in alphas:
+        icon = (
+            _t("ar_sig_up", lang) if a["signal"] == "TĂNG"
+            else _t("ar_sig_down", lang) if a["signal"] == "GIẢM"
+            else _t("ar_sig_neutral", lang)
+        )
+        lines.append(
+            f"| {a['id']} | **{a['name']}** | {a['type']} "
+            f"| **{a['value']}** | {icon} | {a['horizon']} |"
+        )
+
+    lines += [
+        "",
+        f"**{_t('ar_volume', lang)}:** "
+        f"{_t('ar_vol_real' if tv.get('has_volume') else 'ar_vol_proxy', lang)}",
+        "",
+        "---\n",
+    ]
+
+    for a in alphas:
+        icon = "🟢" if a["signal"] == "TĂNG" else "🔴" if a["signal"] == "GIẢM" else "⚪"
+        lines += [
+            f"### Alpha {a['id']}: {a['name']}",
+            f"**{_t('ar_lbl_type', lang)}:** {a['type']} | "
+            f"**{_t('ar_lbl_horizon', lang)}:** {a['horizon']}",
+            "",
+            f"**{_t('ar_full_formula', lang)}:**",
+            f"`{a['formula']}`",
+            "",
+            f"**{_t('ar_calc_steps', lang)}:**",
+        ]
+        for k, v in a.get("components", {}).items():
+            lines.append(f"- `{k}` = **{v}**")
+
+        lines += [
+            "",
+            f"**{_t('ar_interpretation', lang)}:** *{a['interpretation']}*",
+            "",
+            f"**{_t('ar_final_value', lang)}:** `{a['value']}`",
+            f"**{_t('ar_signal', lang)}:** {icon} **{signal_label(a['signal'], lang)}**",
+            "",
+            "---",
+            ""
+        ]
+
+    return "\n".join(lines)
+
+
+# ── LLM reasoning ─────────────────────────────────────────────────────────────
+
+def _llm_reason(llm, report_md: str, stock_name: str, horizon_label: str,
+                lang: str = "vi") -> str:
+    """
+    Yêu cầu LLM diễn giải riêng 5 alpha định lượng.
+
+    Sentiment được Decision Agent nhận qua báo cáo độc lập, không trộn
+    vào lời bình Alpha để tránh khuếch đại thiên lệch tin tức.
+    """
+    from utils.i18n import language_directive
+
+    prompt = f"""Bạn là chuyên gia phân tích định lượng và dòng tiền chuyên dự đoán {horizon_label}.
+Dưới đây là kết quả tính toán 5 alpha factor cho **{stock_name}**.
+
+### 📊 KẾT QUẢ ALPHA FACTORS
+{report_md}
+
+Hãy chỉ dựa trên các giá trị alpha đã chuẩn hóa để:
+1. Nhận xét ngắn (1-2 câu) về xung lực dòng hiện tại.
+2. Nêu mức độ đồng thuận/mâu thuẫn giữa các alpha và kịch bản có xác suất cao hơn cho {horizon_label}.
+3. Không suy diễn tin tức, tâm lý hay hành vi tổ chức nếu các con số alpha không trực tiếp chứng minh.
+
+KHÔNG phân tích dài dòng. Chỉ suy luận tự nhiên từ các con số để chốt cái nhìn về {horizon_label}.
+Giữ nguyên định dạng markdown.
+
+{language_directive(lang)}"""
+
+    try:
+        resp = _invoke_with_retry(
+            llm.invoke,
+            [SystemMessage(content=(
+                f"Bạn là chuyên gia định lượng chứng khoán Việt Nam, dự báo {horizon_label}.\n\n"
+                f"{language_directive(lang)}"
+             )),
+             HumanMessage(content=prompt)],
+        )
+        return resp.content or report_md
+    except Exception as e:
+        print(f"[AlphaAgent] LLM reasoning lỗi: {e}")
+        return report_md
+
+
+# ── Sentinel constants ─────────────────────────────────────────────────────────
+
+_NEUTRAL_SENTIMENT_DATA = {}
+_BACKTEST_NO_CACHE_REPORT = (
+    "## Sentiment — Backtest Mode (no cache)\n\n"
+    "Backtest mode: Sentiment = neutral (0). Alpha thuần kỹ thuật."
+)
+_SENTIMENT_DISABLED_REPORT = (
+    "## Sentiment — Disabled by ablation\n\n"
+    "Sentiment = neutral (0); alpha factors use technical data only."
+)
+
+
+# ── Main agent factory ─────────────────────────────────────────────────────────
+
+def create_alpha_agent(
+    llm,
+    enable_alpha_factors: bool = True,
+    enable_sentiment: bool = True,
+):
+    """Tạo node đặc trưng với Alpha Factors và Sentiment bật/tắt độc lập."""
+
+    def alpha_agent_node(state):
+        stock_name       = state["stock_name"]
+        time_frame       = state["time_frame"]
+        kline_data       = state["kline_data"]
+        is_backtest      = state.get("is_backtest", False)
+
+        from utils.i18n import lang_of, signal_label, t as _t
+        lang = lang_of(state)
+
+        # ── Step 1: Chỉ nạp sentiment khi biến thể yêu cầu ─────────────────
+        if not enable_sentiment:
+            print(f"[AlphaAgent] Sentiment disabled — {stock_name}")
+            sentiment_data = _NEUTRAL_SENTIMENT_DATA
+            sentiment_report = _SENTIMENT_DISABLED_REPORT
+        elif not is_backtest:
+            print(f"[AlphaAgent] Production — crawl sentiment cho {stock_name}...")
+            try:
+                from agents.sentiment_agent import run_sentiment_for_alpha
+                sentiment_data, sentiment_report = run_sentiment_for_alpha(
+                    llm, stock_name, time_frame, lang=lang
+                )
+            except Exception as e:
+                print(f"[AlphaAgent] Lỗi sentiment: {e}")
+                sentiment_data, sentiment_report = {}, f"Lỗi sentiment: {e}"
+        else:
+            sentiment_store = state.get("sentiment_store")
+            window_end_date = state.get("window_end_date")
+            if sentiment_store is not None and window_end_date:
+                print(f"[AlphaAgent] Backtest historical sentiment — {stock_name} @ {window_end_date}")
+                try:
+                    sentiment_data, sentiment_report = sentiment_store.get_sentiment_at(
+                        symbol=stock_name, cutoff_date=window_end_date,
+                        llm=llm, window_days=90,
+                    )
+                except Exception as e:
+                    print(f"[AlphaAgent] Lỗi historical sentiment: {e}")
+                    sentiment_data   = _NEUTRAL_SENTIMENT_DATA
+                    sentiment_report = f"Lỗi: {e}"
+            else:
+                print(f"[AlphaAgent] Backtest neutral mode — {stock_name}")
+                sentiment_data   = _NEUTRAL_SENTIMENT_DATA
+                sentiment_report = _BACKTEST_NO_CACHE_REPORT
+
+        if not enable_alpha_factors:
+            print(f"[AlphaAgent] Alpha factors disabled — {stock_name}")
+            return {
+                "messages": state.get("messages", []),
+                "sentiment_report": sentiment_report,
+                "sentiment_data": sentiment_data,
+                "sentiment_norm": _normalize_sentiment_scores(sentiment_data),
+            }
+
+        # ── Step 2: Normalize sentiment ────────────────────────────────────
+        print(f"[AlphaAgent] Chuẩn hóa sentiment và tính biến kỹ thuật...")
+        sentiment_norm = _normalize_sentiment_scores(sentiment_data)
+        related_norm   = _normalize_related_sentiment(
+            sentiment_data.get("related_sentiment", {})
+        )
+
+        # ── Step 3: Compute all 5 alphas ───────────────────────────────────
+        # ── Horizon động ──────────────────────────────────────────────────
+        from utils.i18n import get_horizon
+        hz = get_horizon(time_frame, lang)
+        horizon_label = hz["horizon_short"]
+        
+        # Map time_frame display to interval key
+        interval_map = {"1 ngày": "1d", "1 tuần": "1w", "1 tháng": "1mo", "1 giờ": "1h", "15 phút": "15m", "1 phút": "1m"}
+        interval_key = interval_map.get(time_frame, "1d")
+
+        norm_method = state.get("alpha_norm_method", "zscore_tanh")
+        weights = state.get("alpha_weights", None)
+        point_in_time_df = state.get("point_in_time_df")
+        alpha_as_of_date = state.get("as_of_date") or state.get("window_end_date")
+
+        print(f"[AlphaAgent] Tính 5 alpha factor ({horizon_label})...")
+        alphas, tech_vars = _compute_all_alphas(
+            kline_data, sentiment_norm, related_norm,
+            symbol=stock_name, interval=interval_key,
+            norm_method=norm_method, weights=weights, lang=lang,
+            historical_df=point_in_time_df, as_of_date=alpha_as_of_date,
+            is_backtest=is_backtest,
+        )
+        # Inject động horizon vào từng alpha
+        for a in alphas:
+            a["horizon"] = horizon_label
+
+        n_long  = sum(1 for a in alphas if a["signal"] == "TĂNG")
+        n_short = sum(1 for a in alphas if a["signal"] == "GIẢM")
+        print(f"[AlphaAgent] TĂNG={n_long} GIẢM={n_short} TRUNG TÍNH={5-n_long-n_short}")
+
+        # ── Step 4: Build base report ──────────────────────────────────────
+        base_report = _build_alpha_report(alphas, tech_vars, sentiment_norm, stock_name, lang)
+
+        # ── Step 5: LLM chỉ diễn giải Alpha; sentiment ở báo cáo riêng ──────
+        # Decision Agent trong benchmark chỉ nhận bảng số + consensus và chủ
+        # động loại lời bình này để tránh anchoring. Vì vậy không tạo một LLM
+        # request rồi bỏ kết quả ở mỗi test point.
+        llm_reasoning = "" if is_backtest else _llm_reason(
+            llm,
+            base_report,
+            stock_name,
+            horizon_label,
+            lang=lang,
+        )
+
+        n_neu = 5 - n_long - n_short
+        if n_long > n_short:
+            consensus = "TĂNG"
+        elif n_short > n_long:
+            consensus = "GIẢM"
+        else:
+            consensus = "TRUNG TÍNH"
+
+        reasoning_section = (
+            f"### 🤖 {_t('alpha_expert_note', lang)}\n{llm_reasoning}\n\n"
+            if llm_reasoning
+            else ""
+        )
+        alpha_report = (
+            f"{base_report}\n"
+            f"{reasoning_section}"
+            f"**{_t('alpha_summary', lang)}: {signal_label(consensus, lang)} "
+            f"({n_long} {signal_label('TĂNG', lang)} / "
+            f"{n_short} {signal_label('GIẢM', lang)} / "
+            f"{n_neu} {signal_label('TRUNG TÍNH', lang)})**\n"
+        )
+
+        print(f"[AlphaAgent] Hoàn thành ({len(alpha_report)} ký tự).")
+
+        sentiment_data_ext = {
+            **sentiment_data,
+            "sentiment_norm": sentiment_norm,
+            "related_norm":   related_norm,
+            "tech_vars":      tech_vars,
+            "alpha_results":  alphas,
+        }
+
+        from langchain_core.messages import AIMessage
+        dummy_msg = AIMessage(content=alpha_report)
+
+        result = {
+            "messages":         state.get("messages", []) + [dummy_msg],
+            "alpha_report":     alpha_report,
+        }
+        if enable_sentiment:
+            result.update({
+                "sentiment_report": sentiment_report,
+                "sentiment_data":   sentiment_data_ext,
+                "sentiment_norm":   sentiment_norm,
+            })
+        return result
+
+    return alpha_agent_node
