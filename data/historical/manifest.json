@@ -1,0 +1,142 @@
+{
+  "source_library": "vnstock",
+  "source_library_version": "3.5.2",
+  "sources": [
+    "VCI",
+    "KBS"
+  ],
+  "primary_source": "VCI",
+  "corrections": [
+    {
+      "symbol": "VNINDEX",
+      "date": "2019-06-24",
+      "original_source": "VCI",
+      "replacement_source": "KBS",
+      "original": {
+        "Open": 949.48,
+        "High": 967.11,
+        "Low": 962.63,
+        "Close": 962.85,
+        "Volume": 113476250.0
+      },
+      "replacement": {
+        "Open": 960.29,
+        "High": 967.11,
+        "Low": 959.8,
+        "Close": 962.85,
+        "Volume": 113476250.0
+      }
+    },
+    {
+      "symbol": "VNINDEX",
+      "date": "2019-06-25",
+      "original_source": "VCI",
+      "replacement_source": "KBS",
+      "original": {
+        "Open": 949.48,
+        "High": 963.23,
+        "Low": 960.06,
+        "Close": 960.13,
+        "Volume": 120760130.0
+      },
+      "replacement": {
+        "Open": 961.19,
+        "High": 963.23,
+        "Low": 960.06,
+        "Close": 960.13,
+        "Volume": 120760130.0
+      }
+    },
+    {
+      "symbol": "VNINDEX",
+      "date": "2019-06-26",
+      "original_source": "VCI",
+      "replacement_source": "KBS",
+      "original": {
+        "Open": 949.48,
+        "High": 962.7,
+        "Low": 958.49,
+        "Close": 959.13,
+        "Volume": 119422620.0
+      },
+      "replacement": {
+        "Open": 958.6,
+        "High": 962.7,
+        "Low": 958.38,
+        "Close": 959.13,
+        "Volume": 119422620.0
+      }
+    },
+    {
+      "symbol": "VNINDEX",
+      "date": "2021-08-23",
+      "original_source": "VCI",
+      "replacement_source": "KBS",
+      "original": {
+        "Open": 1329.43,
+        "High": 1326.07,
+        "Low": 1298.86,
+        "Close": 1298.86,
+        "Volume": 761345100.0
+      },
+      "replacement": {
+        "Open": 1322.62,
+        "High": 1327.04,
+        "Low": 1298.86,
+        "Close": 1298.86,
+        "Volume": 768105500.0
+      }
+    }
+  ],
+  "interval": "1D",
+  "requested_start": "2018-01-01",
+  "requested_end": "2025-12-31",
+  "retrieved_at_utc": "2026-09-24T08:25:15.849111+00:00",
+  "price_unit": "nghìn VND/cổ phiếu đối với cổ phiếu; điểm đối với VNINDEX",
+  "corporate_action_basis": "Chưa xác minh giá thô và hệ số điều chỉnh tại từng thời điểm; chỉ dùng cho đặc trưng kỹ thuật trước khi kiểm toán nhãn kinh tế.",
+  "columns": [
+    "Datetime",
+    "Open",
+    "High",
+    "Low",
+    "Close",
+    "Volume"
+  ],
+  "files": {
+    "VNINDEX": {
+      "file": "VNINDEX.csv",
+      "rows": 1999,
+      "first_date": "2018-01-02",
+      "last_date": "2025-12-31",
+      "sha256": "971eec19f3f2b252b0810f551bbfd50c0c31a2c26957da0b9434b9b25e869a34"
+    },
+    "FPT": {
+      "file": "FPT.csv",
+      "rows": 1999,
+      "first_date": "2018-01-02",
+      "last_date": "2025-12-31",
+      "sha256": "dd5fbef75f33b5147c73fad26b3442d0282464076506bf98e11b66c0ded6e297"
+    },
+    "VNM": {
+      "file": "VNM.csv",
+      "rows": 1999,
+      "first_date": "2018-01-02",
+      "last_date": "2025-12-31",
+      "sha256": "8a1392ab05e08d047ae0cd908bcc3b4391981f5bd37933847951816c34d4f545"
+    },
+    "VCB": {
+      "file": "VCB.csv",
+      "rows": 1999,
+      "first_date": "2018-01-02",
+      "last_date": "2025-12-31",
+      "sha256": "8330259b47b201130f796b871a5a9de4c312255820b417f7c130dd5d9eeabcc0"
+    },
+    "MWG": {
+      "file": "MWG.csv",
+      "rows": 1999,
+      "first_date": "2018-01-02",
+      "last_date": "2025-12-31",
+      "sha256": "f5483ff27f47390701f7d9bec4866e708b4f201982fcef807a39a0e62d51f73f"
+    }
+  }
+}

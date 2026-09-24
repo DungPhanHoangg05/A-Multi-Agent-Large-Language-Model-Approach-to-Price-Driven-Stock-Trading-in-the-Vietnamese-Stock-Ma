@@ -1,10 +1,11 @@
 """Kiểm tra các rào chắn dữ liệu EOD dùng trong nghiên cứu."""
 
 import unittest
+from unittest.mock import patch
 
 import pandas as pd
 
-from scripts.prepare_historical_data import clean_ohlcv, validate_calendar
+from scripts.prepare_historical_data import clean_ohlcv, download_data, validate_calendar
 
 
 class HistoricalDataPrepTests(unittest.TestCase):
@@ -45,6 +46,28 @@ class HistoricalDataPrepTests(unittest.TestCase):
         frames["FPT"] = reference.iloc[[0]].copy()
         with self.assertRaisesRegex(ValueError, "thiếu 1 phiên"):
             validate_calendar(frames)
+
+    def test_vci_bad_candle_is_replaced_by_complete_kbs_candle(self) -> None:
+        """Chỉ dùng KBS cho nguyên nến lỗi và lưu cả hai bản gốc."""
+        primary = self.fixture()
+        primary.loc[0, "open"] = 12.0
+        secondary = self.fixture()
+        secondary.loc[0, "open"] = 10.2
+        secondary.loc[0, "volume"] = 900
+
+        def fetch(_symbol: str, _start: str, _end: str, _interval: str, source: str) -> pd.DataFrame:
+            return primary if source == "VCI" else secondary
+
+        with (
+            patch("scripts.prepare_historical_data.SYMBOLS", ("VNINDEX",)),
+            patch("scripts.prepare_historical_data._fetch_from_vnstock", side_effect=fetch),
+        ):
+            frames, corrections = download_data("2024-01-01", "2024-01-31")
+        self.assertEqual(len(corrections), 1)
+        self.assertEqual(corrections[0]["date"], "2024-01-02")
+        self.assertEqual(corrections[0]["original"]["Open"], 12.0)
+        self.assertEqual(corrections[0]["replacement"]["Volume"], 900.0)
+        self.assertEqual(float(frames["VNINDEX"].loc[0, "Volume"]), 900.0)
 
 
 if __name__ == "__main__":

@@ -254,7 +254,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 - **Mục tiêu**: Hoàn thành hồ sơ đặc tả toán học, làm sạch dữ liệu VN-Index và 4 mã cổ phiếu, thiết lập môi trường nghiên cứu.
 - **Nhiệm vụ cụ thể**:
   - [x] Đọc và đối chiếu sâu bài báo ICML 2026 với repo hiện tại.
-  - [ ] Thu thập và làm sạch dữ liệu Daily EOD của VN-Index và 4 mã (FPT, VNM, VCB, MWG) giai đoạn 2018–2025.
+  - [x] Thu thập và làm sạch dữ liệu Daily EOD của VN-Index và 4 mã (FPT, VNM, VCB, MWG) giai đoạn 2018–2025 ([biên bản và giới hạn sử dụng](week1/data_audit.md)).
   - [x] Thiết kế JSON Schema chuẩn cho `HistoricalTaskRecord` và `MarketRegimeState` ([chi tiết tuần 1](week1/README.md)).
   - [x] Soạn thảo tài liệu đặc tả phương pháp nghiên cứu `docs/methodology_spec.md`.
 - **Deliverables cuối tuần 1**:

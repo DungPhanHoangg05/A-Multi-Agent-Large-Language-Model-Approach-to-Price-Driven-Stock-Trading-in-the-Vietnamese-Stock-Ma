@@ -23,11 +23,11 @@ Hai cấp thông tin không được trộn lẫn: `MarketRegimeState` mô tả 
 | Kiểm định ngoài mẫu | 2023-01-01 đến 2024-12-31 |
 | Năm 2025 | Lưu để tái lập và khảo sát sau; không tham gia fit, chuẩn hóa, chọn tham số hoặc tạo prior cho kiểm định 2023–2024 |
 | CSV chuẩn | `Datetime,Open,High,Low,Close,Volume`, ngày ISO, thứ tự tăng; giá cổ phiếu theo nghìn VND, chỉ số theo điểm |
-| Nguồn bước đầu | `vnstock` 3.5.2, `Quote(..., source="VCI").history(..., interval="1D")`; manifest ghi phiên bản, thời điểm lấy, checksum SHA-256 |
+| Nguồn W1 | `vnstock` 3.5.2: VCI là nguồn chính, KBS thay nguyên nến khi VCI sai OHLC; manifest ghi phiên bản, thời điểm lấy, checksum SHA-256 và từng dòng thay |
 
 Script `scripts/prepare_historical_data.py` loại bản ghi nằm ngoài khoảng yêu cầu, sắp ngày và đổi tên cột. Nó **không** tự điền phiên thiếu, xóa ngày trùng, nội suy giá hay ép giá Open vào khoảng High–Low. Điều kiện chấp nhận: ngày hợp lệ và duy nhất; 5 giá trị số hữu hạn; Open/High/Low/Close dương; Volume không âm; High là cực đại và Low là cực tiểu hợp lệ trong nến; lịch bốn cổ phiếu khớp VN-Index. Lịch phiên VN-Index là đối chiếu thực nghiệm cho bốn mã này, không phải giả định mọi cổ phiếu luôn giao dịch. Nếu có ngừng giao dịch hợp lệ, phải ghi ngoại lệ theo từng mã/ngày với nguồn chứng minh trước khi sửa quy tắc.
 
-**Phát hiện hiện tại:** bản tải VCI có 1.999 ngày/mã và không thiếu phiên theo phép đối chiếu trên, nhưng bốn nến VN-Index có Open nằm ngoài High–Low: 2019-06-24, 2019-06-25, 2019-06-26 và 2021-08-23. Script dừng tại lỗi đầu tiên. Dữ liệu này **chưa đạt chuẩn đầu vào nghiên cứu**; phải đối chiếu OHLC ở nguồn thứ hai, lưu giá trị gốc và biên bản hiệu chỉnh trước khi tạo CSV sạch. Khác biệt điều chỉnh giá cổ phiếu do cổ tức/chia tách cũng cần kiểm toán: bản dữ liệu tải tại một ngày sau kỳ kiểm định có thể đã điều chỉnh ngược về quá khứ. Phải xác nhận ý nghĩa của giá Open/Close và việc điều chỉnh có làm lệch tín hiệu point-in-time hoặc P&L trước khi dùng cho thực nghiệm.
+**Kết quả W1:** bản tải VCI có 1.999 ngày/mã. Bốn nến VN-Index vi phạm OHLC vào 2019-06-24, 2019-06-25, 2019-06-26 và 2021-08-23 đã được thay bằng nguyên nến KBS cùng ngày. Cả bản gốc và bản thay nằm trong `data/historical/manifest.json`; năm CSV đã pass kiểm tra offline. [Biên bản dữ liệu](plan/week1/data_audit.md) ghi phạm vi của phép kiểm toán điều chỉnh giá: hiện chưa đủ căn cứ xem Open/Close trong CSV là giá thực thi chưa điều chỉnh. Không dùng CSV để sinh nhãn kinh tế cho Memory Bank đến khi có giá thực thi hoặc hệ số điều chỉnh phù hợp từng thời điểm.
 
 ## 3. Giao thức thời gian và nhãn kinh tế
 
@@ -58,4 +58,4 @@ Chỉ số chính: độ chính xác hướng, hit-rate LONG, lợi nhuận ròn
 
 ## 7. Điều kiện chuyển sang thực nghiệm
 
-Trước pilot hoặc benchmark: dữ liệu sạch có manifest và kiểm toán điều chỉnh giá; schema/quan hệ ngày được test; `compileall`, toàn bộ unit tests, E2E xác định và test leakage đều pass. Khi dữ liệu đầu vào hoặc nguồn giá còn bất định, dừng tạo nhãn/memory thay vì xuất kết quả trông có vẻ hợp lệ.
+Trước pilot hoặc benchmark: dữ liệu sạch có manifest; trạng thái giá thực thi và điều chỉnh theo thời điểm phải được xác minh để sinh nhãn; schema/quan hệ ngày được test; `compileall`, toàn bộ unit tests, E2E xác định và test leakage đều pass. Bộ CSV W1 đã đạt kiểm tra nến/lịch, nhưng **chưa mở gate tạo nhãn kinh tế**. Khi nguồn giá thực thi còn bất định, dừng tạo nhãn/memory thay vì xuất kết quả trông có vẻ hợp lệ.
