@@ -73,3 +73,26 @@ state = detector.get_market_regime("2023-01-10")
 Kết quả chỉ chứa bảy trường schema W1; ID/name có ánh xạ cố định, scalar Python gốc, ngày định dạng ISO và `feature_end_date <= as_of_date`. Ngày nghỉ trả ngày phiên cuối thật, không tạo nến giả. `validate_regime_state` kiểm cả schema và tính nhất quán ID/name, ngày cutoff. Posterior HMM được lấy ở cuối chuỗi đã cắt, không decode toàn archive rồi lấy lại một hàng quá khứ. Model, scaler, mapping và ngưỡng không thay đổi trong suy luận.
 
 Model đầy đủ hiện từ chối truy vấn trước 2022-12-30. Khi Phase C làm episode 2020–2022, cần fit/cache model prefix bằng cùng cấu hình trên dữ liệu chỉ đến ngày quyết định, không dùng artifact đầy đủ cho những ngày đó. Các kết quả trên CSV hiện vẫn là nghiên cứu do gate cơ sở giá còn chặn.
+
+## W2-08 — kiểm toán thời gian và hồi quy
+
+Các test nằm trong `tests/test_regime_features.py`, `test_regime_model.py`, `test_regime_mapping.py`, `test_regime_api.py` và `test_regime_leakage.py`. Test model còn kiểm tra artifact của đặc trưng gần hằng số: StandardScaler đặt scale bằng 1 trong ngưỡng sai số float64, không phải lúc nào cũng bằng căn phương sai. Bộ leakage chuyên biệt kiểm:
+
+- Sửa toàn bộ giá sau cutoff thành NaN, Infinity hoặc giá cực lớn không thay đổi endpoint HMM; fallback cũng giữ nguyên khi giá tương lai bị sửa.
+- Snapshot còn nến tương lai, model/scaler/calibration đã fit sau cutoff hoặc train ngoài 2018–2022 đều bị từ chối.
+- Fit hai prefix giống nhau dù archive sau cutoff khác nhau cho cùng HMM, scaler, mapping, ngưỡng và kết quả; truy vấn nhiều ngày không đổi tham số đã đóng băng.
+- Thiếu khởi động, thiếu/sửa hàng train, metadata calibration/hội tụ sai, tham số không hữu hạn hoặc scalar NumPy ở JSON đều gây `ValueError`.
+
+Kiểm tra này chứng minh hợp đồng thời gian của thuật toán trên dữ liệu cung cấp, không chứng nhận rằng provider chưa điều chỉnh hồi tố giá lịch sử. Gate giá Phase A vẫn giữ nguyên. Cấu hình HMM, fallback và tiêu chí chất lượng không được chỉnh sau khi quan sát kết quả fit thật.
+
+### Gate cuối Phase B ngày 2026-09-26
+
+| Lệnh | Kết quả |
+| --- | --- |
+| `py -3.13 -m compileall agents core data_manager scripts tests utils` | Pass |
+| `py -3.13 -X utf8 -m unittest discover -s tests -v` | Pass 135 test (26 test regime mới) |
+| `py -3.13 scripts/run_end_to_end_test.py` | Pass, giữ hợp đồng kinh tế và upstream ghép cặp |
+| `py -3.13 -X utf8 -m unittest discover -s tests -p 'test_*leakage.py' -v` | Pass 16 test |
+| `py -3.13 -X utf8 scripts/train_regime_detector.py --verify-only` | Hash/model/scaler/calibration của artifact thật hợp lệ |
+
+Các task W2-03 đến W2-08 được làm trên sáu nhánh riêng từ `develop`; từng nhánh qua bốn gate trước khi tích hợp. Phase C (Memory Bank) và Phase D (biểu đồ/chốt tuần) chưa thực hiện; không đánh dấu W2-16 hay W2-17 hoàn thành chỉ vì Phase B đã pass hồi quy.

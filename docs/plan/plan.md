@@ -264,7 +264,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 ### 📅 TUẦN 2: Xây dựng Module Phân loại Chế độ Thị trường & Historical Memory Bank
 - **Mục tiêu**: Xây dựng module nhận diện chế độ thị trường và sinh cơ sở dữ liệu chu kỳ lịch sử cho giai đoạn 2018–2022.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022).
+    - [x] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022; [đặc tả, artifact và kiểm thử Phase B](../week2/phase_b_regime_detector.md)).
   - [ ] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: tính tín hiệu 5 agent và nhãn kinh tế ròng sau phí.
   - [ ] Lưu trữ kết quả vào `data_manager/regime_memory_store.json` (>300 episodes).
   - [ ] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN.

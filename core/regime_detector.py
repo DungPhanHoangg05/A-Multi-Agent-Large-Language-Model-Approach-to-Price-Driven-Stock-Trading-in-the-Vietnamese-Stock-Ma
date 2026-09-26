@@ -35,6 +35,8 @@ REGIME_NAMES = ("BULL", "BEAR", "CHOPPY", "CONSOLIDATION")
 
 def _as_date(value: str | pd.Timestamp) -> pd.Timestamp:
     """Chuẩn hóa ngày EOD, từ chối giờ hoặc múi giờ không rõ hợp đồng."""
+    if not isinstance(value, (str, pd.Timestamp)):
+        raise ValueError("Mốc EOD phải là chuỗi ngày hoặc Timestamp")
     date = pd.Timestamp(value)
     if pd.isna(date) or date.tz is not None or date != date.normalize():
         raise ValueError("Mốc EOD phải là ngày hợp lệ, không có giờ hoặc múi giờ")
@@ -43,7 +45,7 @@ def _as_date(value: str | pd.Timestamp) -> pd.Timestamp:
 
 def _validate_history(frame: pd.DataFrame) -> pd.DataFrame:
     """Xác thực giá đóng cửa VN-Index; không tự sửa, sắp xếp hoặc bỏ nến lỗi."""
-    if not {"Datetime", "Close"}.issubset(frame.columns) or frame.empty:
+    if not isinstance(frame, pd.DataFrame) or not {"Datetime", "Close"}.issubset(frame.columns) or frame.empty:
         raise ValueError("Lịch sử phải có Datetime và Close, không được rỗng")
     if frame.attrs.get("symbol", "VNINDEX") != "VNINDEX":
         raise ValueError("Bộ nhận diện chỉ nhận lịch sử VNINDEX")
@@ -244,6 +246,15 @@ class MarketRegimeDetector:
                     or meta["feature_rows"] != meta["training_rows"] - 199
                     or meta["feature_rows"] < MIN_TRAIN_FEATURES):
                 raise ValueError("Số hàng train không khớp khởi động")
+            if (type(meta["iterations"]) is not int or not 1 <= meta["iterations"] <= HMM_PARAMETERS["n_iter"]
+                    or type(meta["em_converged"]) is not bool
+                    or (meta["last_gain"] is not None
+                        and (type(meta["last_gain"]) not in (float, int) or not np.isfinite(meta["last_gain"])))):
+                raise ValueError("Thông tin hội tụ không hợp lệ")
+            converged = (meta["last_gain"] is not None and 0 <= meta["last_gain"] < HMM_PARAMETERS["tol"]
+                         and meta["iterations"] < HMM_PARAMETERS["n_iter"])
+            if meta["em_converged"] != converged:
+                raise ValueError("Cờ hội tụ không khớp số vòng và gain")
             digest = meta["training_data_sha256"]
             if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
                 raise ValueError("Hash dữ liệu train không hợp lệ")
@@ -255,12 +266,19 @@ class MarketRegimeDetector:
                     or model.means_.shape != (4, 5) or model.covars_.shape != (4, 5, 5)
                     or any(array.shape != (5,) for array in (scaler.mean_, scaler.scale_, scaler.var_))):
                 raise ValueError("Kích thước model/scaler không khớp")
+            if (scaler.var_ < 0).any():
+                raise ValueError("Phương sai scaler không được âm")
+            # StandardScaler đặt scale=1 khi phương sai nằm trong sai số của bộ tích lũy float64.
+            epsilon = np.finfo(np.float64).eps
+            count = meta["feature_rows"]
+            upper_bound = count * epsilon * scaler.var_ + (count * scaler.mean_ * epsilon) ** 2
+            expected_scale = np.where(scaler.var_ <= upper_bound, 1.0, np.sqrt(scaler.var_))
             if ((model.startprob_ < 0).any() or (model.transmat_ < 0).any()
                     or not np.isclose(model.startprob_.sum(), 1)
                     or not np.allclose(model.transmat_.sum(axis=1), 1)
                     or (np.diagonal(model.covars_, axis1=1, axis2=2) <= 0).any()
                     or (scaler.scale_ <= 0).any() or (scaler.var_ < 0).any()
-                    or not np.allclose(scaler.scale_, np.where(scaler.var_ > 0, np.sqrt(scaler.var_), 1))):
+                    or not np.allclose(scaler.scale_, expected_scale, rtol=1e-12, atol=1e-15)):
                 raise ValueError("Xác suất, covariance hoặc scaler không hợp lệ")
             occupancy = np.asarray(meta["state_occupancy"], dtype=float)
             means = np.asarray(meta["state_feature_means"], dtype=float)
@@ -291,7 +309,10 @@ class MarketRegimeDetector:
         history = _validate_history(point_in_time_df)
         features = build_regime_features(history, date)
         training_prefix = history.loc[history.Datetime <= train_end]
-        if training_data_hash(training_prefix) != meta["training_data_sha256"]:
+        if (len(training_prefix) != meta["training_rows"]
+                or training_prefix.Datetime.iloc[0] != _as_date(meta["train_start_date"])
+                or training_prefix.Datetime.iloc[-1] != train_end
+                or training_data_hash(training_prefix) != meta["training_data_sha256"]):
             raise ValueError("Lịch sử truy vấn không khớp prefix train của model")
         raw = features.loc[:, FEATURE_COLUMNS].to_numpy(dtype=float)
         last = raw[-1]
@@ -368,7 +389,8 @@ class MarketRegimeDetector:
         try:
             envelope = json.loads(Path(path).read_text(encoding="utf-8"))
             payload = envelope["payload"]
-            if envelope["sha256"] != _payload_hash(payload) or payload["format_version"] not in (1, 2):
+            if (envelope["sha256"] != _payload_hash(payload) or type(payload["format_version"]) is not int
+                    or payload["format_version"] not in (1, 2)):
                 raise ValueError("Checksum hoặc phiên bản artifact không hợp lệ")
             result = cls()
             result._metadata = payload["metadata"]

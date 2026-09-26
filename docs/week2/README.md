@@ -1,6 +1,6 @@
 # Tuần 2 — phân loại chế độ thị trường và Historical Memory Bank
 
-Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); các module regime và Memory Bank vẫn chờ thực hiện.
+Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Memory Bank và biểu đồ tuần 2 vẫn chờ thực hiện.
 
 ## Mục tiêu và điều kiện đầu vào
 
@@ -31,7 +31,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 | W2-05 | Cài đặt fit một lần và lưu artifact của HMM | `MarketRegimeDetector.fit/save/load`, runner offline và `data_manager/regime_model.json`: 1.251 nến train, 1.052 hàng đặc trưng, checksum và phiên bản được xác thực | W2-04 | [x] |
 | W2-06 | Ánh xạ trạng thái HMM sang bốn tên regime | Mapping train-only, ID chuẩn và fallback đa yếu tố có lý do trong artifact; HMM dữ liệu thật đạt tiêu chí đã chốt | W2-05 | [x] |
 | W2-07 | Cung cấp API phân loại tại `as_of_date` | `get_market_regime` cắt archive trước suy luận; `classify_regime` kiểm snapshot, hash train và ngày fit; trả đúng schema W1 bằng kiểu Python gốc | W2-05, W2-06 | [x] |
-| W2-08 | Kiểm thử regime và cắt thời gian | Test thay dữ liệu sau $t$ không đổi kết quả tại $t$; test từ chối input vượt cutoff, thiếu warm-up, model/data không khớp và trạng thái/schema sai bằng `ValueError`/`AssertionError` | W2-07 | [ ] |
+| W2-08 | Kiểm thử regime và cắt thời gian | `tests/test_regime_leakage.py` cùng test features/model/mapping/API kiểm cutoff của dữ liệu lẫn model/scaler/calibration, hash, warm-up, schema và JSON | W2-07 | [x] |
 
 ## C. Historical Memory Bank
 
@@ -55,6 +55,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 ## Nhật ký tiến độ
 
 ### 2026-09-26
+
+- **W2-08 hoàn thành**: `tests/test_regime_leakage.py` pass 8 test (`py -3.13 -X utf8 -m unittest discover -s tests -p test_regime_leakage.py -v`). Đổi giá tương lai thành NaN/Infinity/giá cực lớn không đổi endpoint; model prefix và fallback giữ tính nhân quả; từ chối model tương lai, snapshot chưa cắt, thiếu train/warm-up, metadata sai và NumPy scalar. Đã sửa và thêm test hồi quy cho artifact với đặc trưng gần hằng số. Runner `--verify-only` tiếp tục pass artifact thật. Gate trước merge: compileall, 135 unit tests, E2E và 16 leakage tests đều pass; [lệnh tái lập](phase_b_regime_detector.md#w2-08--kiểm-toán-thời-gian-và-hồi-quy). W2-16 vẫn chờ toàn bộ deliverables W2.
 
 - **W2-07 hoàn thành**: API archive và snapshot trong `core/regime_detector.py`, kèm `validate_regime_state`; `unittest discover -s tests -p test_regime_api.py -v` pass 4 test schema/JSON, ngày nghỉ, hash prefix và model fit sau cutoff. Đã bổ sung quy tắc model prefix cho episode lịch sử vào đặc tả phương pháp. Gate trước merge: compileall, 126 unit tests, E2E và 8 leakage tests đều pass.
 

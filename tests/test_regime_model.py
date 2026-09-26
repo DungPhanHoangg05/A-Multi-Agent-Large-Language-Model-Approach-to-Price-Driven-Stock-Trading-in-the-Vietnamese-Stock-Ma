@@ -69,3 +69,15 @@ class RegimeModelTests(unittest.TestCase):
     def test_same_seed_produces_same_parameters(self) -> None:
         other = MarketRegimeDetector().fit(self.history)
         np.testing.assert_allclose(other._model.means_, self.detector._model.means_, rtol=0, atol=1e-12)
+
+    def test_near_constant_features_preserve_standard_scaler_convention(self) -> None:
+        history = make_history()
+        history["Close"] = 1000.0 * np.exp(.001 * np.arange(len(history)))
+        detector = MarketRegimeDetector().fit(history)
+        self.assertTrue(((detector._scaler.var_ > 0) & (detector._scaler.scale_ == 1)).any())
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "constant.json"
+            detector.save(path)
+            loaded = MarketRegimeDetector.load(path)
+            self.assertEqual(detector.classify_regime(history, history.Datetime.iloc[-1]),
+                             loaded.classify_regime(history, history.Datetime.iloc[-1]))
