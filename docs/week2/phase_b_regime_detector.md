@@ -42,3 +42,11 @@ HMM được dùng khi EM thực sự dừng do gain trong `[0, tol)` trước t
 - `volatility_level`: LOW dưới phân vị 1/3, HIGH từ phân vị 2/3 trở lên, MEDIUM ở giữa. `trend_strength = abs(mean(distance_ma20, distance_ma50, distance_ma200)) / max(volatility_20, 1e-12)`; không có đơn vị.
 
 Fallback này dùng khoảng cách MA và biến động Close thay cho ví dụ ATR/ADX trong kế hoạch tổng; không bổ sung breadth chưa được xác thực. Tiêu chí được áp dụng tự động, không đổi ngưỡng sau khi xem regime hoặc hiệu quả giao dịch.
+
+## W2-05 — model đóng băng và artifact
+
+`MarketRegimeDetector.fit` kiểm tra toàn bộ input trước fit; nến ngoài 2018–2022 hoặc ít hơn 300 hàng đặc trưng bị từ chối. Instance đã fit/nạp không được refit. `save` lưu JSON qua file tạm và thay nguyên tử; không có pickle hoặc nạp mã thực thi. `load` kiểm tra checksum, format, shape/xác suất/covariance, scaler, phiên bản và hash train tùy chọn. `metadata` trả deep copy.
+
+Lệnh `py -3.13 -X utf8 scripts/train_regime_detector.py` kiểm checksum CSV từ manifest W1, cắt khoảng train tường minh và lưu `data_manager/regime_model.json`; từ chối ghi đè artifact hiện có. Lệnh cùng script với `--verify-only` không refit, kiểm artifact với hash train hiện tại. Cắt khoảng ở runner không thay thế kiểm cutoff nghiêm ngặt trong `fit`.
+
+Đã fit 1.251 nến, 1.052 hàng đặc trưng, 2018-01-02 đến 2022-12-30; hash ngày/Close train `dadb02d1c14a96d3d4b9ac906518afe45b5a67d77ba990b87e0452fec30a8be6`. Artifact ghi `price_basis_status=UNVERIFIED`, `artifact_purpose=RESEARCH_ONLY`; không chứng nhận giá PIT hay mở gate nhãn kinh tế.
