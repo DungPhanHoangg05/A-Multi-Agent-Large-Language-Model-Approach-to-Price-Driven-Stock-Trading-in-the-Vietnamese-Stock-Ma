@@ -30,6 +30,7 @@ HMM_PARAMETERS = MappingProxyType({
     "n_components": 4, "covariance_type": "diag", "random_state": 42,
     "n_iter": 500, "tol": 0.001, "min_covar": 0.001, "implementation": "log",
 })
+REGIME_NAMES = ("BULL", "BEAR", "CHOPPY", "CONSOLIDATION")
 
 
 def _as_date(value: str | pd.Timestamp) -> pd.Timestamp:
@@ -109,6 +110,46 @@ def _payload_hash(payload: dict[str, Any]) -> str:
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
+def _regime_calibration(metadata: dict[str, Any]) -> dict[str, Any]:
+    """Ánh xạ latent và quyết định fallback bằng tiêu chí đã chốt trên train."""
+    means = np.asarray(metadata["state_feature_means"], dtype=float)
+    occupancy = np.asarray(metadata["state_occupancy"], dtype=float)
+    bull = min(range(4), key=lambda state: (-means[state, 4], state))
+    bear = min((state for state in range(4) if state != bull), key=lambda state: (means[state, 4], state))
+    neutral = [state for state in range(4) if state not in (bull, bear)]
+    choppy = min(neutral, key=lambda state: (-means[state, 1], state))
+    consolidation = next(state for state in neutral if state != choppy)
+    names = [""] * 4
+    for state, name in ((bull, "BULL"), (bear, "BEAR"), (choppy, "CHOPPY"), (consolidation, "CONSOLIDATION")):
+        names[state] = name
+    reasons = []
+    if not metadata["em_converged"]:
+        reasons.append("EM chưa hội tụ theo tiêu chí gain đã chốt")
+    if (occupancy < 0.05).any():
+        reasons.append("Có trạng thái chiếm dưới 5% posterior train")
+    if not (means[bull, 4] > 0 and means[bear, 4] < 0):
+        reasons.append("BULL/BEAR không tách được hai phía MA200")
+    if means[bull, 4] - means[bear, 4] < 0.5 * metadata["ma200_train_std"]:
+        reasons.append("Khoảng cách BULL/BEAR dưới ngưỡng phân tách")
+    if not (means[choppy, 1] > 0 and means[choppy, 1] >= 1.1 * means[consolidation, 1]):
+        reasons.append("CHOPPY/CONSOLIDATION không tách đủ biến động")
+    return {"calibration_rule_version": 1, "latent_state_names": names,
+            "classification_method": "MULTI_FACTOR" if reasons else "HMM", "fallback_reasons": reasons}
+
+
+def _fallback_regime(feature: np.ndarray, metadata: dict[str, Any]) -> str:
+    """Phân loại đa yếu tố bằng MA và ngưỡng biến động chỉ từ tập train."""
+    _, volatility, _, distance50, distance200 = feature
+    threshold = metadata["trend_threshold"]
+    if distance50 > 0 and distance200 > threshold:
+        return "BULL"
+    if distance50 < 0 and distance200 < -threshold:
+        return "BEAR"
+    if volatility > 0 and volatility >= metadata["volatility_quantiles"][1]:
+        return "CHOPPY"
+    return "CONSOLIDATION"
+
+
 class MarketRegimeDetector:
     """Quản lý HMM/scaler đóng băng; mỗi instance chỉ được fit một lần."""
 
@@ -157,6 +198,7 @@ class MarketRegimeDetector:
             "ma200_train_std": float(raw[:, 4].std(ddof=1)),
             "price_basis_status": "UNVERIFIED", "artifact_purpose": "RESEARCH_ONLY",
         }
+        self._metadata.update(_regime_calibration(self._metadata))
         self._validate_fitted()
         return self
 
@@ -207,6 +249,9 @@ class MarketRegimeDetector:
                     or not np.isfinite(meta["trend_threshold"]) or meta["trend_threshold"] < 0
                     or not np.isfinite(meta["ma200_train_std"]) or meta["ma200_train_std"] < 0):
                 raise ValueError("Thống kê calibration không hợp lệ")
+            calibration = _regime_calibration(meta)
+            if any(meta[key] != value for key, value in calibration.items()):
+                raise ValueError("Ánh xạ trạng thái hoặc quyết định fallback không khớp train")
         except (KeyError, TypeError, AttributeError, IndexError) as exc:
             raise ValueError("Artifact thiếu hoặc sai trường bắt buộc") from exc
 
@@ -215,7 +260,7 @@ class MarketRegimeDetector:
         self._validate_fitted()
         model, scaler = self._model, self._scaler
         payload = {
-            "format_version": 1, "metadata": self.metadata,
+            "format_version": 2, "metadata": self.metadata,
             "model": {"startprob": model.startprob_.tolist(), "transmat": model.transmat_.tolist(),
                       "means": model.means_.tolist(),
                       "covars": np.diagonal(model.covars_, axis1=1, axis2=2).tolist()},
@@ -243,10 +288,12 @@ class MarketRegimeDetector:
         try:
             envelope = json.loads(Path(path).read_text(encoding="utf-8"))
             payload = envelope["payload"]
-            if envelope["sha256"] != _payload_hash(payload) or payload["format_version"] != 1:
+            if envelope["sha256"] != _payload_hash(payload) or payload["format_version"] not in (1, 2):
                 raise ValueError("Checksum hoặc phiên bản artifact không hợp lệ")
             result = cls()
             result._metadata = payload["metadata"]
+            if payload["format_version"] == 1:
+                result._metadata.update(_regime_calibration(result._metadata))
             result._model = GaussianHMM(**HMM_PARAMETERS)
             model = payload["model"]
             result._model.startprob_ = np.asarray(model["startprob"], dtype=float)

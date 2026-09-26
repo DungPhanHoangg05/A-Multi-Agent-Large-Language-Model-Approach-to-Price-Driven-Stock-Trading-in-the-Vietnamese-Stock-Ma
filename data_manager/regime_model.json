@@ -1,7 +1,7 @@
 {
-  "sha256": "a9c1f56be21e45c022848c2839aaf815999667dc795ada6db0ddddc5e1c45092",
+  "sha256": "e8274ad3271f6e35a794a9f931a2aacf66297b923c00e2acde304ef6048b0747",
   "payload": {
-    "format_version": 1,
+    "format_version": 2,
     "metadata": {
       "source_symbol": "VNINDEX",
       "parameters": {
@@ -79,7 +79,16 @@
       "trend_threshold": 0.08767600717996793,
       "ma200_train_std": 0.12793768137492736,
       "price_basis_status": "UNVERIFIED",
-      "artifact_purpose": "RESEARCH_ONLY"
+      "artifact_purpose": "RESEARCH_ONLY",
+      "calibration_rule_version": 1,
+      "latent_state_names": [
+        "BULL",
+        "CHOPPY",
+        "CONSOLIDATION",
+        "BEAR"
+      ],
+      "classification_method": "HMM",
+      "fallback_reasons": []
     },
     "model": {
       "startprob": [

@@ -50,3 +50,9 @@ Fallback này dùng khoảng cách MA và biến động Close thay cho ví dụ
 Lệnh `py -3.13 -X utf8 scripts/train_regime_detector.py` kiểm checksum CSV từ manifest W1, cắt khoảng train tường minh và lưu `data_manager/regime_model.json`; từ chối ghi đè artifact hiện có. Lệnh cùng script với `--verify-only` không refit, kiểm artifact với hash train hiện tại. Cắt khoảng ở runner không thay thế kiểm cutoff nghiêm ngặt trong `fit`.
 
 Đã fit 1.251 nến, 1.052 hàng đặc trưng, 2018-01-02 đến 2022-12-30; hash ngày/Close train `dadb02d1c14a96d3d4b9ac906518afe45b5a67d77ba990b87e0452fec30a8be6`. Artifact ghi `price_basis_status=UNVERIFIED`, `artifact_purpose=RESEARCH_ONLY`; không chứng nhận giá PIT hay mở gate nhãn kinh tế.
+
+## W2-06 — kết quả calibration trên train
+
+HMM hội tụ sau 41 vòng, gain cuối 0,00082354. Ánh xạ latent 0–3 lần lượt `[BULL, CHOPPY, CONSOLIDATION, BEAR]`; tỷ trọng posterior train lần lượt 32,84%, 23,54%, 32,54%, 11,09%. Các tiêu chí W2-04 đều đạt nên artifact dùng `classification_method=HMM`, `fallback_reasons=[]`. Đây là thống kê calibration, không phải kết quả walk-forward hay kết quả giao dịch.
+
+Artifact format 2 thêm mapping và quyết định fallback. Loader có thể chuyển format 1 của W2-05 sang calibration theo đúng quy tắc đã chốt, không refit HMM/scaler. Khi nạp format 2, mapping/fallback phải khớp kết quả tính lại từ thống kê train; dữ liệu bị sửa sẽ bị từ chối. Khi các phân vị biến động đều bằng 0, giá phẳng được xem là CONSOLIDATION với biến động LOW, tránh coi không biến động là CHOPPY.

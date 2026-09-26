@@ -29,7 +29,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 | W2-03 | Đặc tả và tính đặc trưng VN-Index theo ngày | [Đặc tả Phase B](phase_b_regime_detector.md), `build_regime_features` và 4 test công thức/khởi động/cutoff; không dùng breadth | CSV W1 | [x] |
 | W2-04 | Chốt cấu hình Gaussian HMM và khả năng tái lập | [Cấu hình Phase B](phase_b_regime_detector.md): HMM 4 trạng thái, seed 42, scaler train-only, dependency ghim và tiêu chí fallback chốt trước fit | W2-03 | [x] |
 | W2-05 | Cài đặt fit một lần và lưu artifact của HMM | `MarketRegimeDetector.fit/save/load`, runner offline và `data_manager/regime_model.json`: 1.251 nến train, 1.052 hàng đặc trưng, checksum và phiên bản được xác thực | W2-04 | [x] |
-| W2-06 | Ánh xạ trạng thái HMM sang bốn tên regime | Quy tắc từ thống kê tập train thành `BULL`, `BEAR`, `CHOPPY`, `CONSOLIDATION` ổn định qua lần chạy; quyết định fallback đa yếu tố nếu HMM không đủ tách biệt được ghi bằng tiêu chí xác định trước | W2-05 | [ ] |
+| W2-06 | Ánh xạ trạng thái HMM sang bốn tên regime | Mapping train-only, ID chuẩn và fallback đa yếu tố có lý do trong artifact; HMM dữ liệu thật đạt tiêu chí đã chốt | W2-05 | [x] |
 | W2-07 | Cung cấp API phân loại tại `as_of_date` | `get_market_regime`/`classify_regime` trả `regime_id`, `regime_name`, `volatility_level`, `trend_strength` và ngày cuối đặc trưng theo [schema W1](../plan/week1/market_regime_state.schema.json); JSON dùng kiểu Python gốc | W2-05, W2-06 | [ ] |
 | W2-08 | Kiểm thử regime và cắt thời gian | Test thay dữ liệu sau $t$ không đổi kết quả tại $t$; test từ chối input vượt cutoff, thiếu warm-up, model/data không khớp và trạng thái/schema sai bằng `ValueError`/`AssertionError` | W2-07 | [ ] |
 
@@ -55,6 +55,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 ## Nhật ký tiến độ
 
 ### 2026-09-26
+
+- **W2-06 hoàn thành**: ánh xạ latent `[BULL, CHOPPY, CONSOLIDATION, BEAR]`, HMM hội tụ sau 41 vòng (gain 0,00082354), cả bốn trạng thái đạt tiêu chí; không kích hoạt fallback trên artifact thật. `unittest discover -s tests -p test_regime_mapping.py -v` pass 4 test mapping/phá hòa/tiêu chí fallback. Đã bổ sung calibration vào artifact, giữ nguyên tham số HMM đã fit. Gate trước merge: compileall, 122 unit tests, E2E và 8 leakage tests đều pass.
 
 - **W2-05 hoàn thành**: `MarketRegimeDetector` fit một lần và ghi JSON nguyên tử; `scripts/train_regime_detector.py` fit dữ liệu thật và `--verify-only` đều pass (1.251 nến, 1.052 đặc trưng, train cuối 2022-12-30). `unittest discover -s tests -p test_regime_model.py -v` pass 5 test về refit, khoảng train, checksum, model/scaler và seed. Gate trước merge: compileall, 118 unit tests, E2E và 8 leakage tests đều pass.
 
