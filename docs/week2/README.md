@@ -26,7 +26,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W2-03 | Đặc tả và tính đặc trưng VN-Index theo ngày | Log-return, biến động 20 phiên và các khoảng cách MA20/50/200 có công thức, warm-up, đơn vị rõ; mọi cửa sổ kết thúc tại `as_of_date`; breadth nếu chỉ dùng bốn mã phải ghi là proxy | CSV W1 | [ ] |
+| W2-03 | Đặc tả và tính đặc trưng VN-Index theo ngày | [Đặc tả Phase B](phase_b_regime_detector.md), `build_regime_features` và 4 test công thức/khởi động/cutoff; không dùng breadth | CSV W1 | [x] |
 | W2-04 | Chốt cấu hình Gaussian HMM và khả năng tái lập | Bốn trạng thái, dependency/phiên bản, seed, scaler, siêu tham số và cách lưu model được chốt **trước** đánh giá; fit và chọn cấu hình chỉ trên 2018–2022 | W2-03 | [ ] |
 | W2-05 | Cài đặt fit một lần và lưu artifact của HMM | `core/regime_detector.py` fit 2018–2022, lưu model/scaler/metadata cùng hash dữ liệu huấn luyện; không nhận nến 2023+ khi fit | W2-04 | [ ] |
 | W2-06 | Ánh xạ trạng thái HMM sang bốn tên regime | Quy tắc từ thống kê tập train thành `BULL`, `BEAR`, `CHOPPY`, `CONSOLIDATION` ổn định qua lần chạy; quyết định fallback đa yếu tố nếu HMM không đủ tách biệt được ghi bằng tiêu chí xác định trước | W2-05 | [ ] |
@@ -53,6 +53,10 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 | W2-17 | Rà soát deliverables, cập nhật tiến độ và tích hợp | Đối chiếu đủ ba đầu ra W2, sửa trạng thái trong kế hoạch tổng, commit Conventional Commit và merge theo `AGENTS.md` sau khi W2-16 pass | W2-01 đến W2-16 | [ ] |
 
 ## Nhật ký tiến độ
+
+### 2026-09-26
+
+- **W2-03 hoàn thành**: `core/regime_detector.py`, `tests/test_regime_features.py` và [đặc tả Phase B](phase_b_regime_detector.md); `py -3.13 -X utf8 -m unittest discover -s tests -p test_regime_features.py -v` pass 4 test. Đặc trưng vector hóa, 200 phiên khởi động, input vượt cutoff bị từ chối. Gate trước merge: compileall, 113 unit tests, E2E và 8 leakage tests đều pass.
 
 ### 2026-09-24
 
