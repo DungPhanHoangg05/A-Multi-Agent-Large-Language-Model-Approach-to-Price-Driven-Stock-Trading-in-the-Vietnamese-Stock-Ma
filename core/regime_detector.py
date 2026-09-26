@@ -4,12 +4,20 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from types import MappingProxyType
 
 
 FEATURE_COLUMNS = (
     "log_return", "volatility_20", "distance_ma20", "distance_ma50", "distance_ma200",
 )
 WARMUP_ROWS = 200
+TRAIN_START = pd.Timestamp("2018-01-01")
+TRAIN_END = pd.Timestamp("2022-12-31")
+MIN_TRAIN_FEATURES = 300
+HMM_PARAMETERS = MappingProxyType({
+    "n_components": 4, "covariance_type": "diag", "random_state": 42,
+    "n_iter": 500, "tol": 0.001, "min_covar": 0.001, "implementation": "log",
+})
 
 
 def _as_date(value: str | pd.Timestamp) -> pd.Timestamp:

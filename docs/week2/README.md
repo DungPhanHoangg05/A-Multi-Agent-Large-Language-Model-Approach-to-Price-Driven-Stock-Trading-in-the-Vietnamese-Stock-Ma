@@ -27,7 +27,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W2-03 | Đặc tả và tính đặc trưng VN-Index theo ngày | [Đặc tả Phase B](phase_b_regime_detector.md), `build_regime_features` và 4 test công thức/khởi động/cutoff; không dùng breadth | CSV W1 | [x] |
-| W2-04 | Chốt cấu hình Gaussian HMM và khả năng tái lập | Bốn trạng thái, dependency/phiên bản, seed, scaler, siêu tham số và cách lưu model được chốt **trước** đánh giá; fit và chọn cấu hình chỉ trên 2018–2022 | W2-03 | [ ] |
+| W2-04 | Chốt cấu hình Gaussian HMM và khả năng tái lập | [Cấu hình Phase B](phase_b_regime_detector.md): HMM 4 trạng thái, seed 42, scaler train-only, dependency ghim và tiêu chí fallback chốt trước fit | W2-03 | [x] |
 | W2-05 | Cài đặt fit một lần và lưu artifact của HMM | `core/regime_detector.py` fit 2018–2022, lưu model/scaler/metadata cùng hash dữ liệu huấn luyện; không nhận nến 2023+ khi fit | W2-04 | [ ] |
 | W2-06 | Ánh xạ trạng thái HMM sang bốn tên regime | Quy tắc từ thống kê tập train thành `BULL`, `BEAR`, `CHOPPY`, `CONSOLIDATION` ổn định qua lần chạy; quyết định fallback đa yếu tố nếu HMM không đủ tách biệt được ghi bằng tiêu chí xác định trước | W2-05 | [ ] |
 | W2-07 | Cung cấp API phân loại tại `as_of_date` | `get_market_regime`/`classify_regime` trả `regime_id`, `regime_name`, `volatility_level`, `trend_strength` và ngày cuối đặc trưng theo [schema W1](../plan/week1/market_regime_state.schema.json); JSON dùng kiểu Python gốc | W2-05, W2-06 | [ ] |
@@ -55,6 +55,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 ## Nhật ký tiến độ
 
 ### 2026-09-26
+
+- **W2-04 hoàn thành**: cấu hình bất biến trong `core/regime_detector.py`, ghim `hmmlearn==0.3.3` và `scikit-learn==1.7.2` trong `requirements.txt`; đã cài thành công wheel Python 3.13. Đặc tả chốt hyperparameters, mapping, fallback và yêu cầu `train_end_date <= as_of_date` trước fit dữ liệu thật. Gate trước merge: compileall, 113 unit tests, E2E và 8 leakage tests đều pass.
 
 - **W2-03 hoàn thành**: `core/regime_detector.py`, `tests/test_regime_features.py` và [đặc tả Phase B](phase_b_regime_detector.md); `py -3.13 -X utf8 -m unittest discover -s tests -p test_regime_features.py -v` pass 4 test. Đặc trưng vector hóa, 200 phiên khởi động, input vượt cutoff bị từ chối. Gate trước merge: compileall, 113 unit tests, E2E và 8 leakage tests đều pass.
 
