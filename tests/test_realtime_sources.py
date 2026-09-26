@@ -36,11 +36,11 @@ class RealtimeSourcesTests(unittest.TestCase):
         self.assertEqual(float(frame.loc[0, "Open"]), 10.0)
         self.assertEqual([call.args[-1] for call in mocked.call_args_list], ["VCI", "KBS"])
 
-    def test_kbs_index_price_is_rescaled_to_points(self) -> None:
-        """Giá KBS của VN-Index không được thấp hơn 1.000 lần."""
+    def test_index_price_is_preserved_in_points(self) -> None:
+        """vnstock 4.0.9 trả chỉ số theo điểm; không được nhân thêm 1.000 lần."""
         raw = pd.DataFrame({
-            "time": ["2024-01-02"], "open": [1.20], "high": [1.21],
-            "low": [1.19], "close": [1.205], "volume": [100],
+            "time": ["2024-01-02"], "open": [1200.0], "high": [1210.0],
+            "low": [1190.0], "close": [1205.0], "volume": [100],
         })
 
         class FakeQuote:
@@ -53,10 +53,11 @@ class RealtimeSourcesTests(unittest.TestCase):
             def history(self, **_kwargs) -> pd.DataFrame:
                 return raw
 
-        with patch("vnstock.api.quote.Quote", FakeQuote):
-            frame = loader._fetch_from_vnstock("VNINDEX", "2024-01-01", "2024-01-31", "1D", "KBS")
-        self.assertEqual(float(frame.loc[0, "open"]), 1200.0)
-        self.assertEqual(float(frame.loc[0, "close"]), 1205.0)
+        for source in loader.DATA_SOURCES:
+            with self.subTest(source=source), patch("vnstock.api.quote.Quote", FakeQuote):
+                frame = loader._fetch_from_vnstock("VNINDEX", "2024-01-01", "2024-01-31", "1D", source)
+            self.assertEqual(float(frame.loc[0, "open"]), 1200.0)
+            self.assertEqual(float(frame.loc[0, "close"]), 1205.0)
 
 
 if __name__ == "__main__":

@@ -36,6 +36,8 @@ py -3.13 -m venv .venv
 
 `TA-Lib` is declared in `requirements.txt`. If a wheel is unavailable on another platform, install that platform's native TA-Lib dependency before rerunning the final command. Do not switch Python versions silently; the supported runtime is Python 3.13.
 
+`requirements.txt` ghim `vnstock==4.0.9`, `vnai==2.6.2` và bổ sung kho gói chính thức `https://vnstocks.com/api/simple`, nên lệnh cài từ file requirements ở trên đã có cấu hình cần thiết. Loader sử dụng VCI/KBS; chỉ số giữ đơn vị điểm và giá cổ phiếu giữ đơn vị nghìn VND. Xem [biên bản nâng cấp](docs/vnstock_upgrade.md).
+
 Create a local `.env` file for credentials and optional ViSoBERT settings:
 
 ```dotenv

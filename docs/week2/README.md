@@ -56,6 +56,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 ### 2026-09-26
 
+- **Nâng cấp dependency hoàn thành**: `vnstock 4.0.9`, `vnai 2.6.2`, kho gói chính thức trong `requirements.txt`; sửa loader KBS để giữ nguyên VN-Index theo điểm. API lịch sử/danh mục/hồ sơ VCI/KBS hoạt động; compileall, 135 unit tests, E2E và 16 leakage tests đều pass. CSV/model cũ vẫn xác minh hợp lệ; gate giá W2-01 tiếp tục bị chặn. Xem [biên bản và lệnh tái lập](../vnstock_upgrade.md).
+
 - **W2-08 hoàn thành**: `tests/test_regime_leakage.py` pass 8 test (`py -3.13 -X utf8 -m unittest discover -s tests -p test_regime_leakage.py -v`). Đổi giá tương lai thành NaN/Infinity/giá cực lớn không đổi endpoint; model prefix và fallback giữ tính nhân quả; từ chối model tương lai, snapshot chưa cắt, thiếu train/warm-up, metadata sai và NumPy scalar. Đã sửa và thêm test hồi quy cho artifact với đặc trưng gần hằng số. Runner `--verify-only` tiếp tục pass artifact thật. Gate trước merge: compileall, 135 unit tests, E2E và 16 leakage tests đều pass; [lệnh tái lập](phase_b_regime_detector.md#w2-08--kiểm-toán-thời-gian-và-hồi-quy). W2-16 vẫn chờ toàn bộ deliverables W2.
 
 - **W2-07 hoàn thành**: API archive và snapshot trong `core/regime_detector.py`, kèm `validate_regime_state`; `unittest discover -s tests -p test_regime_api.py -v` pass 4 test schema/JSON, ngày nghỉ, hash prefix và model fit sau cutoff. Đã bổ sung quy tắc model prefix cho episode lịch sử vào đặc tả phương pháp. Gate trước merge: compileall, 126 unit tests, E2E và 8 leakage tests đều pass.

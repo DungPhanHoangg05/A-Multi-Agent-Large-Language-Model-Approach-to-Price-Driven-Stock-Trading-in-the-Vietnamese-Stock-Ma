@@ -77,7 +77,7 @@ def _normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
 def _fetch_from_vnstock(
     symbol: str, start: str, end: str, interval_str: str, source: str
 ) -> pd.DataFrame:
-    """Tải OHLCV; đổi đơn vị VN-Index của KBS từ nghìn điểm sang điểm."""
+    """Tải OHLCV; vnstock 4.0.9 trả chỉ số theo điểm, cổ phiếu theo nghìn VND."""
     if source not in DATA_SOURCES:
         raise ValueError(f"Nguồn dữ liệu không được phép: {source}")
     from vnstock.api.quote import Quote
@@ -88,10 +88,6 @@ def _fetch_from_vnstock(
     )
     if not isinstance(frame, pd.DataFrame) or frame.empty:
         raise ValueError(f"{source}: dữ liệu rỗng cho {symbol}")
-    if source == "KBS" and symbol.upper() == "VNINDEX":
-        frame = frame.copy()
-        for column in ("open", "high", "low", "close"):
-            frame[column] = pd.to_numeric(frame[column], errors="raise") * 1_000.0
     return frame
 
 
@@ -236,7 +232,7 @@ def get_realtime_status() -> dict:
               "sources": list(DATA_SOURCES), "cache_ttl": CACHE_TTL_SECONDS,
               "cached_items": len(_cache)}
     if not status["available"]:
-        status["install_cmd"] = "pip install vnstock"
+        status["install_cmd"] = "py -3.13 -m pip install -r requirements.txt"
         return status
     end = datetime.now()
     start = end - timedelta(days=10)
