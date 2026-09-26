@@ -150,6 +150,29 @@ def _fallback_regime(feature: np.ndarray, metadata: dict[str, Any]) -> str:
     return "CONSOLIDATION"
 
 
+def validate_regime_state(state: dict[str, Any]) -> None:
+    """Xác thực hợp đồng MarketRegimeState và kiểu JSON Python nguyên bản."""
+    keys = {"as_of_date", "regime_id", "regime_name", "volatility_level", "trend_strength",
+            "source_symbol", "feature_end_date"}
+    if not isinstance(state, dict) or set(state) != keys:
+        raise ValueError("MarketRegimeState thiếu hoặc thừa trường")
+    if (any(type(state[key]) is not str for key in keys - {"regime_id", "trend_strength"})
+            or type(state["regime_id"]) is not int
+            or type(state["trend_strength"]) not in (float, int)):
+        raise ValueError("MarketRegimeState phải dùng kiểu Python nguyên bản")
+    if (state["source_symbol"] != "VNINDEX" or state["regime_name"] not in REGIME_NAMES
+            or state["regime_id"] != REGIME_NAMES.index(state["regime_name"])
+            or state["volatility_level"] not in ("LOW", "MEDIUM", "HIGH")
+            or not np.isfinite(state["trend_strength"]) or state["trend_strength"] < 0):
+        raise ValueError("Tên/ID regime, biến động hoặc độ mạnh xu hướng không hợp lệ")
+    for key in ("as_of_date", "feature_end_date"):
+        date = _as_date(state[key])
+        if date.strftime("%Y-%m-%d") != state[key]:
+            raise ValueError("Ngày trong MarketRegimeState phải có dạng YYYY-MM-DD")
+    if _as_date(state["feature_end_date"]) > _as_date(state["as_of_date"]):
+        raise ValueError("Ngày đặc trưng vượt ngày quyết định")
+
+
 class MarketRegimeDetector:
     """Quản lý HMM/scaler đóng băng; mỗi instance chỉ được fit một lần."""
 
@@ -254,6 +277,63 @@ class MarketRegimeDetector:
                 raise ValueError("Ánh xạ trạng thái hoặc quyết định fallback không khớp train")
         except (KeyError, TypeError, AttributeError, IndexError) as exc:
             raise ValueError("Artifact thiếu hoặc sai trường bắt buộc") from exc
+
+    def classify_regime(
+        self, point_in_time_df: pd.DataFrame, as_of_date: str | pd.Timestamp,
+    ) -> dict[str, Any]:
+        """Phân loại snapshot nghiêm ngặt; từ chối nến/model vượt ngày quyết định."""
+        self._validate_fitted()
+        date = _as_date(as_of_date)
+        meta = self._metadata
+        train_end = _as_date(meta["train_end_date"])
+        if date < train_end:
+            raise ValueError("Model/scaler/calibration đã học dữ liệu sau as_of_date")
+        history = _validate_history(point_in_time_df)
+        features = build_regime_features(history, date)
+        training_prefix = history.loc[history.Datetime <= train_end]
+        if training_data_hash(training_prefix) != meta["training_data_sha256"]:
+            raise ValueError("Lịch sử truy vấn không khớp prefix train của model")
+        raw = features.loc[:, FEATURE_COLUMNS].to_numpy(dtype=float)
+        last = raw[-1]
+        if meta["classification_method"] == "HMM":
+            # Posterior cuối prefix không có quan sát tương lai để backward nhìn thấy.
+            posterior = self._model.predict_proba(self._scaler.transform(raw))[-1]
+            if not np.isfinite(posterior).all() or not np.isclose(posterior.sum(), 1):
+                raise ValueError("Posterior HMM không hợp lệ")
+            name = meta["latent_state_names"][int(np.argmax(posterior))]
+        else:
+            name = _fallback_regime(last, meta)
+        lower, upper = meta["volatility_quantiles"]
+        volatility = float(last[1])
+        level = "LOW" if volatility <= 0 or volatility < lower else ("HIGH" if volatility >= upper else "MEDIUM")
+        state = {
+            "as_of_date": date.strftime("%Y-%m-%d"), "regime_id": int(REGIME_NAMES.index(name)),
+            "regime_name": name, "volatility_level": level,
+            "trend_strength": float(abs(last[2:5].mean()) / max(volatility, 1e-12)),
+            "source_symbol": "VNINDEX", "feature_end_date": features.Datetime.iloc[-1].strftime("%Y-%m-%d"),
+        }
+        validate_regime_state(state)
+        return state
+
+    def get_market_regime(
+        self, as_of_date: str | pd.Timestamp, df_historical: pd.DataFrame | None = None,
+    ) -> dict[str, Any]:
+        """Cắt archive tường minh trước phân loại; mặc định đọc CSV VNINDEX W1."""
+        date = _as_date(as_of_date)
+        if df_historical is None:
+            path = Path(__file__).resolve().parents[1] / "data/historical/VNINDEX.csv"
+            df_historical = pd.read_csv(path)
+        if "Datetime" not in df_historical:
+            raise ValueError("Archive thiếu Datetime")
+        try:
+            dates = pd.to_datetime(df_historical["Datetime"], errors="raise")
+        except (TypeError, ValueError) as exc:
+            raise ValueError("Archive chứa ngày không hợp lệ") from exc
+        if dates.isna().any() or dates.dt.tz is not None:
+            raise ValueError("Archive chứa ngày thiếu hoặc múi giờ chưa chuẩn hóa")
+        snapshot = df_historical.loc[dates <= date].copy()
+        snapshot["Datetime"] = dates.loc[dates <= date]
+        return self.classify_regime(snapshot, date)
 
     def save(self, path: str | Path) -> None:
         """Lưu JSON model/scaler nguyên tử, có checksum và không dùng pickle."""

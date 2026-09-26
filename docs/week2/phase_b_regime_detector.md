@@ -56,3 +56,20 @@ Lệnh `py -3.13 -X utf8 scripts/train_regime_detector.py` kiểm checksum CSV t
 HMM hội tụ sau 41 vòng, gain cuối 0,00082354. Ánh xạ latent 0–3 lần lượt `[BULL, CHOPPY, CONSOLIDATION, BEAR]`; tỷ trọng posterior train lần lượt 32,84%, 23,54%, 32,54%, 11,09%. Các tiêu chí W2-04 đều đạt nên artifact dùng `classification_method=HMM`, `fallback_reasons=[]`. Đây là thống kê calibration, không phải kết quả walk-forward hay kết quả giao dịch.
 
 Artifact format 2 thêm mapping và quyết định fallback. Loader có thể chuyển format 1 của W2-05 sang calibration theo đúng quy tắc đã chốt, không refit HMM/scaler. Khi nạp format 2, mapping/fallback phải khớp kết quả tính lại từ thống kê train; dữ liệu bị sửa sẽ bị từ chối. Khi các phân vị biến động đều bằng 0, giá phẳng được xem là CONSOLIDATION với biến động LOW, tránh coi không biến động là CHOPPY.
+
+## W2-07 — API theo ngày quyết định
+
+```python
+from core.regime_detector import MarketRegimeDetector
+
+detector = MarketRegimeDetector.load("data_manager/regime_model.json")
+state = detector.get_market_regime("2023-01-10")
+# Có thể truyền archive VNINDEX làm đối số thứ hai để tránh đọc CSV mỗi lần.
+# Với snapshot đã cắt: detector.classify_regime(snapshot, "2023-01-10").
+```
+
+`get_market_regime` là API archive: cắt hàng theo ngày **trước** kiểm tra giá, tính đặc trưng và lấy posterior. `classify_regime` là API snapshot: từ chối ngay input có nến sau cutoff. Cả hai đòi hỏi model đã fit/nạp, `train_end_date <= as_of_date` và toàn bộ prefix train trong lịch sử truy vấn có đúng hash. Vì vậy không ghép model vào lịch sử mã khác, lịch thiếu phiên, giá train bị sửa hoặc snapshot bỏ phần khởi động.
+
+Kết quả chỉ chứa bảy trường schema W1; ID/name có ánh xạ cố định, scalar Python gốc, ngày định dạng ISO và `feature_end_date <= as_of_date`. Ngày nghỉ trả ngày phiên cuối thật, không tạo nến giả. `validate_regime_state` kiểm cả schema và tính nhất quán ID/name, ngày cutoff. Posterior HMM được lấy ở cuối chuỗi đã cắt, không decode toàn archive rồi lấy lại một hàng quá khứ. Model, scaler, mapping và ngưỡng không thay đổi trong suy luận.
+
+Model đầy đủ hiện từ chối truy vấn trước 2022-12-30. Khi Phase C làm episode 2020–2022, cần fit/cache model prefix bằng cùng cấu hình trên dữ liệu chỉ đến ngày quyết định, không dùng artifact đầy đủ cho những ngày đó. Các kết quả trên CSV hiện vẫn là nghiên cứu do gate cơ sở giá còn chặn.
