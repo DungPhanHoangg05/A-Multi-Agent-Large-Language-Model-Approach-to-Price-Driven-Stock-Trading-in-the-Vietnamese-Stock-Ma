@@ -1,6 +1,6 @@
 # Tuần 2 — phân loại chế độ thị trường và Historical Memory Bank
 
-Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Memory Bank và biểu đồ tuần 2 vẫn chờ thực hiện.
+Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Phase C đã hoàn thành [kho lưu/xác thực và bộ trích tín hiệu](phase_c_historical_memory.md) cho W2-09/W2-10; sinh Memory Bank và biểu đồ tuần 2 vẫn chờ thực hiện.
 
 ## Mục tiêu và điều kiện đầu vào
 
@@ -37,8 +37,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W2-09 | Cài đặt cấu trúc lưu và xác thực `HistoricalTaskRecord` | `core/bayesian_memory.py` nạp/lưu JSON, ID duy nhất, đủ 5 tín hiệu, `as_of_date < entry_date < exit_date` theo phiên, kết quả kinh tế nhất quán; lưu nguyên tử và từ chối record sai | Schema W1, W2-02 | [ ] |
-| W2-10 | Trích tín hiệu năm agent từ snapshot lịch sử | Indicator → Pattern → Trend chạy một lần cho mỗi $t$; Alpha và Sentiment chỉ dùng dữ liệu/tin tức `<= t`, bỏ tin không ngày; lưu tín hiệu và provenance, không gọi lại upstream cho cùng điểm | W2-02, W2-07 | [ ] |
+| W2-09 | Cài đặt cấu trúc lưu và xác thực `HistoricalTaskRecord` | `core/bayesian_memory.py` nạp/lưu JSON, ID duy nhất, đủ 5 tín hiệu, `as_of_date < entry_date < exit_date` theo phiên, kiểm P&L và lưu nguyên tử; [bằng chứng Phase C](phase_c_historical_memory.md) | Schema W1, W2-02 | [x] |
+| W2-10 | Trích tín hiệu năm agent từ snapshot lịch sử | `core/historical_signals.py` dùng graph hiện có, snapshot thô VCI và tin `<= t`; năm tín hiệu/báo cáo/provenance, checkpoint upstream một lần; [bằng chứng Phase C](phase_c_historical_memory.md#w2-10--trích-tín-hiệu-từ-snapshot-lịch-sử) | W2-02, W2-07 | [x] |
 | W2-11 | Tạo nhãn kinh tế cho chu kỳ đã tất toán | Dùng **chính** `compute_round_trip_net_return` của engine trên giá đã qua W2-01, tính `net_return_pct`, hướng, thắng/thua LONG; `SHORT` không mở vị thế; test đối chiếu entry/exit sau đúng ba phiên | W2-01, W2-02 | [ ] |
 | W2-12 | Viết runner offline có thể tiếp tục | Script tạo episode kết hợp regime, tín hiệu và nhãn; checkpoint sau mỗi điểm, seed/cấu hình cố định, API LLM qua `_invoke_with_retry`, lỗi leakage dừng ngay, không lưu record nửa chừng | W2-09, W2-10, W2-11 | [ ] |
 | W2-13 | Sinh Memory Bank 2018–2022 | `data_manager/regime_memory_store.json` có >300 episode hợp lệ trên bốn mã; không chứa quyết định/exit sau 2022, không có cặp chu kỳ cùng mã chồng lấn trái quy tắc W2-02 | W2-12 | [ ] |
@@ -56,7 +56,9 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 ### 2026-09-27
 
-- **W2-09 ho?n th?nh**: `core/bayesian_memory.py` n?p/l?u nguy?n t?, ki?m schema W1, gi? VCI x?c minh, T+3, P&L d?ng h?m engine, ID/ch?ng l?n v? cutoff truy v?n. 12 test m?i pass; compileall, 166 unit tests, E2E v? 25 leakage tests ??u pass. [Chi ti?t v? gi?i h?n](phase_c_historical_memory.md). Ch?a sinh Memory Bank; W2-11 ??n W2-14 v?n ch?.
+- **W2-10 hoàn thành**: `core/historical_signals.py`, Alpha strict mode và 19 test mới (12 tín hiệu/checkpoint + 7 leakage). Tái sử dụng graph và Alpha Selector thật trên giá VCI đã xác minh với LLM giả lập trong kiểm thử; checkpoint giữ upstream một lần, lưu năm tín hiệu/báo cáo/provenance và độ tin cậy tin. Compileall, 185 unit tests, E2E và 32 leakage tests đều pass. [Chi tiết](phase_c_historical_memory.md#w2-10--trích-tín-hiệu-từ-snapshot-lịch-sử). Chưa chạy sinh tín hiệu hàng loạt hoặc tạo kho >300 episode; W2-11 đến W2-14 vẫn chờ.
+
+- **W2-09 hoàn thành**: `core/bayesian_memory.py` nạp/lưu nguyên tử, kiểm schema W1, giá VCI xác minh, T+3, P&L dùng hàm engine, ID/chồng lấn và cutoff truy vấn. 12 test mới pass; compileall, 166 unit tests, E2E và 25 leakage tests đều pass. [Chi tiết và giới hạn](phase_c_historical_memory.md). Chưa sinh Memory Bank; W2-11 đến W2-14 vẫn chờ.
 
 - **W2-01 hoàn tất tích hợp gate giá**: tái xác minh offline bộ giá thô ngày 26/09, giữ 852 chu kỳ qua gate và danh sách 16 chu kỳ bị loại. Compileall, 154 unit tests, E2E và 23 leakage tests đều pass; [biên bản gate](phase_a_price_gate.md) ghi bằng chứng và lệnh tái lập. Phase C/D vẫn chưa thực hiện.
 

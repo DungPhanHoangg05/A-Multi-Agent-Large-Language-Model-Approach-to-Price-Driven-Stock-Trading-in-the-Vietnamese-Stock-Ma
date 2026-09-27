@@ -140,18 +140,16 @@ def _parse_datetime(df: pd.DataFrame) -> pd.DataFrame:
 
 # ── generate_kline_image ───────────────────────────────────────────────────────
 
-def generate_kline_image(kline_data, timeframe: str = "1d") -> dict:
-    """
-    Generate a candlestick (K-line) chart from OHLCV data.
-    timeframe controls candle count, date format, and tick spacing.
-    """
+def generate_kline_image(kline_data: dict, timeframe: str = "1d", *, write_artifacts: bool = True) -> dict:
+    """Tạo ảnh nến OHLCV; có thể tắt ghi file phụ khi trích tín hiệu lịch sử."""
     cfg = _get_tf_chart(timeframe)
     candle_count = cfg["candles"]
     date_fmt     = cfg["date_fmt"]
     tick_every   = cfg["tick_every"]
 
     df = pd.DataFrame(kline_data).tail(candle_count).copy()
-    df.to_csv("record.csv", index=False, date_format="%Y-%m-%d %H:%M:%S")
+    if write_artifacts:
+        df.to_csv("record.csv", index=False, date_format="%Y-%m-%d %H:%M:%S")
     df = _parse_datetime(df)
 
     fig, axlist = mpf.plot(
@@ -175,7 +173,8 @@ def generate_kline_image(kline_data, timeframe: str = "1d") -> dict:
         fontsize=9, pad=5,
     )
 
-    fig.savefig("kline_chart.png", dpi=DPI_SAVE, bbox_inches="tight", pad_inches=0.2)
+    if write_artifacts:
+        fig.savefig("kline_chart.png", dpi=DPI_SAVE, bbox_inches="tight", pad_inches=0.2)
 
     buf = io.BytesIO()
     fig.savefig(buf, format="png", dpi=DPI_SAVE, bbox_inches="tight", pad_inches=0.2)
@@ -194,11 +193,8 @@ def generate_kline_image(kline_data, timeframe: str = "1d") -> dict:
 
 # ── generate_trend_image ───────────────────────────────────────────────────────
 
-def generate_trend_image(kline_data, timeframe: str = "1d") -> dict:
-    """
-    Generate a candlestick chart with support/resistance trendlines.
-    timeframe controls candle count, date format, and tick spacing.
-    """
+def generate_trend_image(kline_data: dict, timeframe: str = "1d", *, write_artifacts: bool = True) -> dict:
+    """Tạo ảnh nến với hỗ trợ/kháng cự; cho phép chỉ trả ảnh trong bộ nhớ."""
     cfg = _get_tf_chart(timeframe)
     candle_count = cfg["candles"]
     date_fmt     = cfg["date_fmt"]
@@ -274,11 +270,12 @@ def generate_trend_image(kline_data, timeframe: str = "1d") -> dict:
         loc="upper left", fontsize=9, framealpha=0.7,
     )
 
-    # ── save local file ──
-    fig.savefig(
-        "trend_graph.png", format="png",
-        dpi=DPI_SAVE, bbox_inches="tight", pad_inches=0.2,
-    )
+    # Chỉ ghi ảnh phụ khi caller yêu cầu; ảnh base64 luôn được trả về.
+    if write_artifacts:
+        fig.savefig(
+            "trend_graph.png", format="png",
+            dpi=DPI_SAVE, bbox_inches="tight", pad_inches=0.2,
+        )
 
     # ── encode to base64 ──
     buf = io.BytesIO()
