@@ -6,7 +6,7 @@ Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md
 
 Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ từ VN-Index, `data_manager/regime_memory_store.json` chứa **hơn 300** chu kỳ đã tất toán giai đoạn 2018–2022, và `outputs/vnindex_regimes_2018_2022.png`. Bản ghi phải khớp [schema W1](../plan/week1/historical_task_record.schema.json) và [đặc tả phương pháp](../methodology_spec.md).
 
-**Gate dữ liệu bắt buộc:** [kiểm toán W1](../plan/week1/data_audit.md) xác nhận CSV sạch về nến và lịch, nhưng chưa xác nhận Open/Close là giá thực thi point-in-time. W2-01 phải xác minh giá thực thi hoặc hệ số điều chỉnh theo từng thời điểm **trước khi sinh bất kỳ nhãn kinh tế nào**. Nếu chưa đạt, tiếp tục các task regime độc lập; W2-11 đến W2-14 giữ trạng thái chưa hoàn thành. Không thay bằng lợi nhuận Close-to-Close hoặc gán nhãn từ giá chưa xác thực.
+**Gate dữ liệu:** [Gate giá Phase A](phase_a_price_gate.md) đã PASS ngày 26/09/2026 cho bộ giá thô VCI 2018–2022, đối chiếu VCI/KBS: 852/868 chu kỳ ứng viên đủ cơ sở giá, 16 chu kỳ bị loại vì quyền/tham chiếu. Phase C phải dùng `data/execution_prices` cho tín hiệu cổ phiếu và giá vào/ra, qua loader xác minh; CSV cổ phiếu W1 không được dùng để sinh nhãn. W2-11 đến W2-14 vẫn chưa thực hiện. Gate này chưa mở dữ liệu giá thô kiểm định 2023–2024.
 
 ## Quy ước cập nhật tiến độ
 
@@ -19,7 +19,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W2-01 | Xác minh giá thực thi point-in-time và cơ chế điều chỉnh doanh nghiệp từ hai provider được phép | [Biên bản Phase A](phase_a_data_and_sampling.md) đối chiếu cổ tức/chia tách và API VCI/KBS; **gate giá bị chặn** vì chưa có giá thô hoặc hệ số điều chỉnh PIT; không phát hành nhãn | Kiểm toán W1 | [x] Kiểm toán xong; gate bị chặn |
+| W2-01 | Xác minh giá thực thi point-in-time và cơ chế điều chỉnh doanh nghiệp từ hai provider được phép | [Gate giá đã mở](phase_a_price_gate.md): 5.004 nến thô VCI, 8 mẫu quyền đối chiếu VCI/KBS, checksum/evidence/prefix và chính sách loại chu kỳ có quyền; chưa phát hành nhãn | Kiểm toán W1 | [x] Gate giá PASS cho tập 2018–2022 |
 | W2-02 | Chốt cách lấy mẫu chu kỳ 2018–2022 | [Quy tắc Phase A](phase_a_data_and_sampling.md) chốt $t$, $t+1$, $t+3$, bước 3, warm-up 600 nến, 868 chu kỳ ứng viên không nhãn trên bốn mã và giới hạn phủ năm | W2-01 cho nhãn; CSV W1 cho lịch | [x] |
 
 ## B. Market Regime Detector
@@ -54,7 +54,13 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 ## Nhật ký tiến độ
 
+### 2026-09-27
+
+- **W2-01 hoàn tất tích hợp gate giá**: tái xác minh offline bộ giá thô ngày 26/09, giữ 852 chu kỳ qua gate và danh sách 16 chu kỳ bị loại. Compileall, 154 unit tests, E2E và 23 leakage tests đều pass; [biên bản gate](phase_a_price_gate.md) ghi bằng chứng và lệnh tái lập. Phase C/D vẫn chưa thực hiện.
+
 ### 2026-09-26
+
+- **W2-01 mở gate giá**: `core/execution_prices.py`, `scripts/verify_execution_price_gate.py`, `data/execution_prices` và [biên bản gate](phase_a_price_gate.md). `--verify-only` PASS bốn mã/5.004 nến/tám mẫu quyền; 852/868 chu kỳ qua gate, 16 trường hợp có quyền/tham chiếu bị loại có lý do. Bộ test giá/cutoff/provenance pass 19 test. Phase C chưa sinh nhãn hoặc Memory Bank; sẽ dùng snapshot thô mới. Kết quả bốn gate tích hợp ghi ở cuối biên bản gate.
 
 - **Nâng cấp dependency hoàn thành**: `vnstock 4.0.9`, `vnai 2.6.2`, kho gói chính thức trong `requirements.txt`; sửa loader KBS để giữ nguyên VN-Index theo điểm. API lịch sử/danh mục/hồ sơ VCI/KBS hoạt động; compileall, 135 unit tests, E2E và 16 leakage tests đều pass. CSV/model cũ vẫn xác minh hợp lệ; gate giá W2-01 tiếp tục bị chặn. Xem [biên bản và lệnh tái lập](../vnstock_upgrade.md).
 

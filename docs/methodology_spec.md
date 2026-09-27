@@ -2,7 +2,7 @@
 
 **Đề tài:** Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading
 
-**Phiên bản đặc tả:** 2026-09-24
+**Phiên bản đặc tả:** 2026-09-26
 
 **Phạm vi:** Dữ liệu Daily EOD, VN-Index và FPT/VNM/VCB/MWG. Đây là hợp đồng triển khai cho các tuần tiếp theo; kết quả kinh tế chỉ được công bố sau khi dữ liệu và bốn gate kiểm thử đạt yêu cầu.
 
@@ -30,6 +30,8 @@ Script `scripts/prepare_historical_data.py` loại bản ghi nằm ngoài khoả
 **Kết quả W1:** bản tải VCI có 1.999 ngày/mã. Bốn nến VN-Index vi phạm OHLC vào 2019-06-24, 2019-06-25, 2019-06-26 và 2021-08-23 đã được thay bằng nguyên nến KBS cùng ngày. Cả bản gốc và bản thay nằm trong `data/historical/manifest.json`; năm CSV đã pass kiểm tra offline. [Biên bản dữ liệu](plan/week1/data_audit.md) ghi phạm vi của phép kiểm toán điều chỉnh giá: hiện chưa đủ căn cứ xem Open/Close trong CSV là giá thực thi chưa điều chỉnh. Không dùng CSV để sinh nhãn kinh tế cho Memory Bank đến khi có giá thực thi hoặc hệ số điều chỉnh phù hợp từng thời điểm.
 
 ## 3. Giao thức thời gian và nhãn kinh tế
+
+**Cập nhật cơ sở giá Phase A:** [Gate giá đã mở](week2/phase_a_price_gate.md) cho `data/execution_prices` 2018–2022: trường OHLC thô VCI, đối chiếu tám mẫu quyền qua VCI/KBS. Phase C dùng `load_verified_execution_data` và `raw_point_in_time_snapshot` cho cả tín hiệu cổ phiếu và giá nhãn; không dùng CSV cổ phiếu W1 đã điều chỉnh hồi tố. Giữ lịch 868 ứng viên, 852 đủ cơ sở giá, 16 loại vì quyền/tham chiếu trong `(entry_date, exit_date]`; không đổi mốc hoặc bù mẫu. Loại cả chu kỳ có phiên không khớp lệnh trong khoảng nắm giữ. Đây là lọc chất lượng nhãn sau tất toán, không là thông tin đầu vào ở ngày quyết định. Chưa kiểm toán bộ giá thô ngoài mẫu 2023–2024; snapshot năm 2026 không chứng nhận mọi vintage lịch sử không bị sửa sai.
 
 Gọi $t$ là ngày nến cuối được thấy. `point_in_time_df` phải có `Datetime <= as_of_date = t`. Quyết định `LONG` mua tại `Open(t+1)` và đóng vị thế tại `Close(t+3)`, tức ba phiên thực thi. `SHORT` trong schema quyết định hệ thống hiện tại có nghĩa **giữ tiền mặt**, không mở vị thế bán khống. Phí môi giới 0,25% và trượt giá 0,10% áp dụng cho cả chiều mua lẫn chiều bán. Không được đổi hợp đồng này khi thêm prior.
 
@@ -60,4 +62,4 @@ Chỉ số chính: độ chính xác hướng, hit-rate LONG, lợi nhuận ròn
 
 ## 7. Điều kiện chuyển sang thực nghiệm
 
-Trước pilot hoặc benchmark: dữ liệu sạch có manifest; trạng thái giá thực thi và điều chỉnh theo thời điểm phải được xác minh để sinh nhãn; schema/quan hệ ngày được test; `compileall`, toàn bộ unit tests, E2E xác định và test leakage đều pass. Bộ CSV W1 đã đạt kiểm tra nến/lịch, nhưng **chưa mở gate tạo nhãn kinh tế**. Khi nguồn giá thực thi còn bất định, dừng tạo nhãn/memory thay vì xuất kết quả trông có vẻ hợp lệ.
+Trước pilot hoặc benchmark: dữ liệu sạch có manifest; trạng thái giá thực thi và điều chỉnh theo thời điểm phải được xác minh để sinh nhãn; schema/quan hệ ngày được test; `compileall`, toàn bộ unit tests, E2E xác định và test leakage đều pass. Bộ giá thô riêng đã mở gate giá cho 852 ứng viên tạo Memory Bank 2018–2022; các gate schema/tín hiệu và dữ liệu thô kiểm định 2023–2024 vẫn phải hoàn tất trước thực nghiệm. CSV cổ phiếu W1 không được dùng làm giá nhãn kinh tế. Khi nguồn giá thực thi còn bất định, dừng tạo nhãn/memory.

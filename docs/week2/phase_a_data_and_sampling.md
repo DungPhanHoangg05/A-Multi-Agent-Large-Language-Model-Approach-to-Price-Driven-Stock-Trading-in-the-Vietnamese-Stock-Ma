@@ -4,6 +4,8 @@
 
 ## W2-01 — cơ sở giá thực thi
 
+**Cập nhật 26/09/2026:** [Gate giá đã mở](phase_a_price_gate.md) bằng bộ giá thô VCI riêng, kiểm tra tám mẫu quyền trên VCI/KBS. Lịch 868 ứng viên giữ nguyên; 852 qua điều kiện giá, 16 loại vì quyền/tham chiếu. Phần kiểm toán 24/09 bên dưới được giữ làm lịch sử bằng chứng; CSV cổ phiếu W1 không trở thành giá thô sau khi mở gate.
+
 `Quote.history` trong bản `vnstock` 3.5.2 của cả VCI và KBS chỉ trả OHLCV; chữ ký hàm không có tùy chọn giá thô/đã điều chỉnh hoặc lịch sử hệ số điều chỉnh. `get_all=True` của KBS trong khoảng kiểm tra vẫn chỉ trả sáu cột OHLCV. Hai nguồn gần trùng nhau, nhưng sự đồng thuận này không chứng minh đó là giá có thể khớp lệnh tại thời điểm lịch sử. [Tài liệu chính thức của Vnstock Data](https://www.vnstocks.com/docs/vnstock-data/du-lieu-giao-dich) nêu `Quote.history` là giá đã điều chỉnh để phân tích kỹ thuật; đó là **gói `vnstock_data` khác** với gói đang dùng, nên không lấy mô tả này làm xác nhận trực tiếp cho CSV W1.
 
 Đối chiếu sự kiện qua `Company(symbol='FPT', source='VCI')._fetch_events(event_codes='DIV,ISS', from_date='20180101', to_date='20221231', page=0, size=500)` và `Quote.history` của cả hai nguồn:

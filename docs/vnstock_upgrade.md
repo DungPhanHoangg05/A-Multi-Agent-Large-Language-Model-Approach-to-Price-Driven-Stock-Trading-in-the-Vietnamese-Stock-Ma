@@ -40,4 +40,4 @@ py -3.13 -m pip install --upgrade --extra-index-url https://vnstocks.com/api/sim
 
 Manifest dữ liệu lịch sử vẫn ghi `vnstock 3.5.2`, đúng phiên bản đã tạo snapshot đó. Không tải lại CSV hoặc fit lại HMM trong task này; các phiên bản dependency số học của artifact được giữ nguyên.
 
-Gate giá Phase A vẫn bị chặn: giá OHLCV tải được và đúng đơn vị chưa đủ xác nhận giá thực thi point-in-time hoặc hệ số điều chỉnh theo thời điểm. Xem [biên bản Phase A](week2/phase_a_data_and_sampling.md).
+Tại thời điểm commit nâng cấp, gate giá Phase A còn bị chặn: OHLCV tải được và đúng đơn vị chưa đủ xác nhận cơ sở giá thực thi. Task tiếp theo đã [mở gate cho bộ giá thô riêng 2018–2022](week2/phase_a_price_gate.md); kết quả này không thay provenance của snapshot trước nâng cấp.

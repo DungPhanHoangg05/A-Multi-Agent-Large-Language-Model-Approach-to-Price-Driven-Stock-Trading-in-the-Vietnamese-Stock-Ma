@@ -1,0 +1,981 @@
+{
+  "price_gate": "PASS",
+  "price_basis": "UNADJUSTED_EXECUTION",
+  "price_unit": "thousand_VND",
+  "primary_source": "VCI",
+  "crosscheck_sources": [
+    "VCI",
+    "KBS"
+  ],
+  "source_library": "vnstock",
+  "source_library_version": "4.0.9",
+  "requested_start": "2018-01-01",
+  "requested_end": "2022-12-31",
+  "raw_field_map": {
+    "tradingDate": "Datetime",
+    "openPrice": "Open",
+    "highestPrice": "High",
+    "lowestPrice": "Low",
+    "closePrice": "Close",
+    "totalMatchVolume": "Volume",
+    "referencePrice": "Reference",
+    "matchPrice": "MatchPrice"
+  },
+  "calendar_sha256": "971eec19f3f2b252b0810f551bbfd50c0c31a2c26957da0b9434b9b25e869a34",
+  "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+  "signal_price_basis": "UNADJUSTED_PREFIX_NO_RETROACTIVE_ADJUSTMENTS",
+  "files": {
+    "FPT": {
+      "csv": {
+        "file": "FPT.csv",
+        "sha256": "0a6606403e70247c8cf501844f2f011ec357c21d83095ed5c90336cd4f043a53"
+      },
+      "evidence": {
+        "file": "FPT.evidence.json.gz",
+        "sha256": "16faea0ecdd68dd1f9af75a416ee30ded34e35ab60c09e53b00552babeaf90a5"
+      },
+      "events": {
+        "file": "FPT.events.json",
+        "sha256": "0b37c6fd385b0e6ecd082aad0d00942d04343fa42ed2ec19aae4d3666991871c"
+      },
+      "rows": 1251,
+      "candidates": 217,
+      "eligible": 211,
+      "excluded_cycles": [
+        {
+          "as_of_date": "2021-04-05",
+          "entry_date": "2021-04-06",
+          "exit_date": "2021-04-08",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2021-05-28",
+          "entry_date": "2021-05-31",
+          "exit_date": "2021-06-02",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2021-08-12",
+          "entry_date": "2021-08-13",
+          "exit_date": "2021-08-17",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2022-05-06",
+          "entry_date": "2022-05-09",
+          "exit_date": "2022-05-11",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2022-06-09",
+          "entry_date": "2022-06-10",
+          "exit_date": "2022-06-14",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2022-08-19",
+          "entry_date": "2022-08-22",
+          "exit_date": "2022-08-24",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        }
+      ],
+      "event_samples": [
+        {
+          "symbol": "FPT",
+          "type": "stock_dividend",
+          "previous_date": "2022-06-10",
+          "exright_date": "2022-06-13",
+          "raw_before": {
+            "id": "FPT20220610",
+            "ticker": "FPT",
+            "tradingDate": "2022-06-10T00:00:00",
+            "openPrice": 113400.0,
+            "highestPrice": 114700.0,
+            "lowestPrice": 110000.0,
+            "closePrice": 110000.0,
+            "totalMatchVolume": 2972500.0,
+            "referencePrice": 115300.0,
+            "matchPrice": 110000.0,
+            "openPriceAdjusted": 51615.47,
+            "highestPriceAdjusted": 52207.18,
+            "lowestPriceAdjusted": 50067.92,
+            "closePriceAdjusted": 50067.92,
+            "totalShares": 914195914.0
+          },
+          "raw_exright": {
+            "id": "FPT20220613",
+            "ticker": "FPT",
+            "tradingDate": "2022-06-13T00:00:00",
+            "openPrice": 88000.0,
+            "highestPrice": 90800.0,
+            "lowestPrice": 86000.0,
+            "closePrice": 86200.0,
+            "totalMatchVolume": 3393300.0,
+            "referencePrice": 90838.0,
+            "matchPrice": 86200.0,
+            "openPriceAdjusted": 48503.68,
+            "highestPriceAdjusted": 50046.97,
+            "lowestPriceAdjusted": 47401.32,
+            "closePriceAdjusted": 47511.55,
+            "totalShares": 1097035096.0
+          },
+          "cash_dividend_vnd": 1000.0,
+          "stock_dividend_ratio": 0.2,
+          "theoretical_reference_vnd": 90833.33333333334,
+          "reference_difference_vnd": 4.666666666656965,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 51.62,
+                "High": 52.21,
+                "Low": 50.07,
+                "Close": 50.07
+              },
+              "exright": {
+                "Open": 48.5,
+                "High": 50.05,
+                "Low": 47.4,
+                "Close": 47.51
+              },
+              "close_scale_before": 0.4551818181818182,
+              "close_scale_exright": 0.5511600928074245
+            },
+            "KBS": {
+              "before": {
+                "Open": 51.628,
+                "High": 52.22,
+                "Low": 50.08,
+                "Close": 50.08
+              },
+              "exright": {
+                "Open": 48.535,
+                "High": 50.08,
+                "Low": 47.432,
+                "Close": 47.543
+              },
+              "close_scale_before": 0.4552727272727273,
+              "close_scale_exright": 0.5515429234338747
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/FPT/price-history?fromDate=20220610&toDate=20220610&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:58:38.246643+00:00",
+              "response_sha256": "1f87c66ea0b34175cdb83a9768472ec953260bb5020bfc9f1b1efddcdf87a1c3",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        },
+        {
+          "symbol": "FPT",
+          "type": "cash_dividend",
+          "previous_date": "2022-08-23",
+          "exright_date": "2022-08-24",
+          "raw_before": {
+            "id": "FPT20220823",
+            "ticker": "FPT",
+            "tradingDate": "2022-08-23T00:00:00",
+            "openPrice": 86100.0,
+            "highestPrice": 87000.0,
+            "lowestPrice": 86100.0,
+            "closePrice": 87000.0,
+            "totalMatchVolume": 1085700.0,
+            "referencePrice": 86800.0,
+            "matchPrice": 87000.0,
+            "openPriceAdjusted": 47456.44,
+            "highestPriceAdjusted": 47952.5,
+            "lowestPriceAdjusted": 47456.44,
+            "closePriceAdjusted": 47952.5,
+            "totalShares": 1097026572.0
+          },
+          "raw_exright": {
+            "id": "FPT20220824",
+            "ticker": "FPT",
+            "tradingDate": "2022-08-24T00:00:00",
+            "openPrice": 86500.0,
+            "highestPrice": 86800.0,
+            "lowestPrice": 86100.0,
+            "closePrice": 86200.0,
+            "totalMatchVolume": 1008000.0,
+            "referencePrice": 85999.0,
+            "matchPrice": 86200.0,
+            "openPriceAdjusted": 48231.57,
+            "highestPriceAdjusted": 48398.85,
+            "lowestPriceAdjusted": 48008.53,
+            "closePriceAdjusted": 48064.29,
+            "totalShares": 1097026572.0
+          },
+          "cash_dividend_vnd": 1000.0,
+          "stock_dividend_ratio": 0,
+          "theoretical_reference_vnd": 86000.0,
+          "reference_difference_vnd": 1.0,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 47.46,
+                "High": 47.95,
+                "Low": 47.46,
+                "Close": 47.95
+              },
+              "exright": {
+                "Open": 48.23,
+                "High": 48.4,
+                "Low": 48.01,
+                "Close": 48.06
+              },
+              "close_scale_before": 0.5511494252873563,
+              "close_scale_exright": 0.5575406032482598
+            },
+            "KBS": {
+              "before": {
+                "Open": 47.488,
+                "High": 47.984,
+                "Low": 47.488,
+                "Close": 47.984
+              },
+              "exright": {
+                "Open": 48.263,
+                "High": 48.43,
+                "Low": 48.04,
+                "Close": 48.096
+              },
+              "close_scale_before": 0.5515402298850575,
+              "close_scale_exright": 0.5579582366589326
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/FPT/price-history?fromDate=20220823&toDate=20220823&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:58:42.450029+00:00",
+              "response_sha256": "ea2e3cd3d98ce3c50c3215966f438ae91922754adc0070635f47cb3d681c105a",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        }
+      ],
+      "nonmatched_dates": [
+        "2018-01-23",
+        "2018-01-24"
+      ],
+      "close_last_match_disagreements": []
+    },
+    "VNM": {
+      "csv": {
+        "file": "VNM.csv",
+        "sha256": "7f36c58a33d6330ef75164d2d4e45de91494d19d723de9d4e4c573b6acdbdf1c"
+      },
+      "evidence": {
+        "file": "VNM.evidence.json.gz",
+        "sha256": "e10845a4547032817345c4fe6995afd25baf4eb3fd5773e180790ed4be0ea0c6"
+      },
+      "events": {
+        "file": "VNM.events.json",
+        "sha256": "31dc19e82f3ed1965568393ea91e281924cff7d9aa0efcb7e97446e00c174fd9"
+      },
+      "rows": 1251,
+      "candidates": 217,
+      "eligible": 213,
+      "excluded_cycles": [
+        {
+          "as_of_date": "2020-06-25",
+          "entry_date": "2020-06-26",
+          "exit_date": "2020-06-30",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2021-06-02",
+          "entry_date": "2021-06-03",
+          "exit_date": "2021-06-07",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2022-01-06",
+          "entry_date": "2022-01-07",
+          "exit_date": "2022-01-11",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2022-12-19",
+          "entry_date": "2022-12-20",
+          "exit_date": "2022-12-22",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        }
+      ],
+      "event_samples": [
+        {
+          "symbol": "VNM",
+          "type": "stock_dividend",
+          "previous_date": "2020-09-28",
+          "exright_date": "2020-09-29",
+          "raw_before": {
+            "id": "VNM20200928",
+            "ticker": "VNM",
+            "tradingDate": "2020-09-28T00:00:00",
+            "openPrice": 128000.0,
+            "highestPrice": 128600.0,
+            "lowestPrice": 127300.0,
+            "closePrice": 128300.0,
+            "totalMatchVolume": 2169790.0,
+            "referencePrice": 127700.0,
+            "matchPrice": 128300.0,
+            "openPriceAdjusted": 76632.4,
+            "highestPriceAdjusted": 76991.62,
+            "lowestPriceAdjusted": 76213.32,
+            "closePriceAdjusted": 76812.01,
+            "totalShares": 1741377694.0
+          },
+          "raw_exright": {
+            "id": "VNM20200929",
+            "ticker": "VNM",
+            "tradingDate": "2020-09-29T00:00:00",
+            "openPrice": 110000.0,
+            "highestPrice": 112600.0,
+            "lowestPrice": 108000.0,
+            "closePrice": 109200.0,
+            "totalMatchVolume": 5191680.0,
+            "referencePrice": 105244.0,
+            "matchPrice": 109200.0,
+            "openPriceAdjusted": 80282.79,
+            "highestPriceAdjusted": 82180.38,
+            "lowestPriceAdjusted": 78823.1,
+            "closePriceAdjusted": 79698.91,
+            "totalShares": 2089653232.0
+          },
+          "cash_dividend_vnd": 2000.0,
+          "stock_dividend_ratio": 0.2,
+          "theoretical_reference_vnd": 105250.0,
+          "reference_difference_vnd": 6.0,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 76.63,
+                "High": 76.99,
+                "Low": 76.21,
+                "Close": 76.81
+              },
+              "exright": {
+                "Open": 80.28,
+                "High": 82.18,
+                "Low": 78.82,
+                "Close": 79.7
+              },
+              "close_scale_before": 0.5986749805144193,
+              "close_scale_exright": 0.7298534798534798
+            },
+            "KBS": {
+              "before": {
+                "Open": 76.968,
+                "High": 77.329,
+                "Low": 76.547,
+                "Close": 77.149
+              },
+              "exright": {
+                "Open": 80.592,
+                "High": 82.497,
+                "Low": 79.127,
+                "Close": 80.006
+              },
+              "close_scale_before": 0.6013172252533125,
+              "close_scale_exright": 0.7326556776556776
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/VNM/price-history?fromDate=20200928&toDate=20200928&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:58:50.130511+00:00",
+              "response_sha256": "7493c33505fcbffcbf8e0f8eb907da2eb102863216874247a2dd17d8f05a04f0",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        },
+        {
+          "symbol": "VNM",
+          "type": "cash_dividend",
+          "previous_date": "2022-12-21",
+          "exright_date": "2022-12-22",
+          "raw_before": {
+            "id": "VNM20221221",
+            "ticker": "VNM",
+            "tradingDate": "2022-12-21T00:00:00",
+            "openPrice": 79700.0,
+            "highestPrice": 80600.0,
+            "lowestPrice": 79500.0,
+            "closePrice": 79700.0,
+            "totalMatchVolume": 2306984.0,
+            "referencePrice": 78700.0,
+            "matchPrice": 79700.0,
+            "openPriceAdjusted": 63600.32,
+            "highestPriceAdjusted": 64318.52,
+            "lowestPriceAdjusted": 63440.72,
+            "closePriceAdjusted": 63600.32,
+            "totalShares": 2089955445.0
+          },
+          "raw_exright": {
+            "id": "VNM20221222",
+            "ticker": "VNM",
+            "tradingDate": "2022-12-22T00:00:00",
+            "openPrice": 79300.0,
+            "highestPrice": 79500.0,
+            "lowestPrice": 77000.0,
+            "closePrice": 77000.0,
+            "totalMatchVolume": 1588107.0,
+            "referencePrice": 78297.0,
+            "matchPrice": 77000.0,
+            "openPriceAdjusted": 64414.82,
+            "highestPriceAdjusted": 64577.28,
+            "lowestPriceAdjusted": 62546.55,
+            "closePriceAdjusted": 62546.55,
+            "totalShares": 2089955445.0
+          },
+          "cash_dividend_vnd": 1400.0,
+          "stock_dividend_ratio": 0,
+          "theoretical_reference_vnd": 78300.0,
+          "reference_difference_vnd": 3.0,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 63.6,
+                "High": 64.32,
+                "Low": 63.44,
+                "Close": 63.6
+              },
+              "exright": {
+                "Open": 64.41,
+                "High": 64.58,
+                "Low": 62.55,
+                "Close": 62.55
+              },
+              "close_scale_before": 0.7979924717691342,
+              "close_scale_exright": 0.8123376623376622
+            },
+            "KBS": {
+              "before": {
+                "Open": 63.805,
+                "High": 64.526,
+                "Low": 63.645,
+                "Close": 63.805
+              },
+              "exright": {
+                "Open": 64.62,
+                "High": 64.783,
+                "Low": 62.746,
+                "Close": 62.746
+              },
+              "close_scale_before": 0.800564617314931,
+              "close_scale_exright": 0.8148831168831169
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/VNM/price-history?fromDate=20221221&toDate=20221221&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:58:53.717461+00:00",
+              "response_sha256": "06d8598b1beae9474337506dcfc3dfd28d22014f863a15c8b94c174bfd52f8ac",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        }
+      ],
+      "nonmatched_dates": [
+        "2018-01-23",
+        "2018-01-24"
+      ],
+      "close_last_match_disagreements": []
+    },
+    "VCB": {
+      "csv": {
+        "file": "VCB.csv",
+        "sha256": "64b6b272bad012f7739b6ecf33ce2d4e7dd8ae26429022fbeed3954796bbbe88"
+      },
+      "evidence": {
+        "file": "VCB.evidence.json.gz",
+        "sha256": "a2d6434d43680fee3dd9be27021a48519fd542e5346d6cb37d1e528e6934fcc8"
+      },
+      "events": {
+        "file": "VCB.events.json",
+        "sha256": "0b01353f19a36696b6a5ff23a18d6920f8c4358f1bcebbfb22a0f9d31c992fc1"
+      },
+      "rows": 1251,
+      "candidates": 217,
+      "eligible": 215,
+      "excluded_cycles": [
+        {
+          "as_of_date": "2020-12-16",
+          "entry_date": "2020-12-17",
+          "exit_date": "2020-12-21",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2021-12-20",
+          "entry_date": "2021-12-21",
+          "exit_date": "2021-12-23",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        }
+      ],
+      "event_samples": [
+        {
+          "symbol": "VCB",
+          "type": "stock_dividend",
+          "previous_date": "2021-12-21",
+          "exright_date": "2021-12-22",
+          "raw_before": {
+            "id": "VCB20211221",
+            "ticker": "VCB",
+            "tradingDate": "2021-12-21T00:00:00",
+            "openPrice": 99000.0,
+            "highestPrice": 99800.0,
+            "lowestPrice": 98500.0,
+            "closePrice": 98900.0,
+            "totalMatchVolume": 774100.0,
+            "referencePrice": 99500.0,
+            "matchPrice": 98900.0,
+            "openPriceAdjusted": 42738.69,
+            "highestPriceAdjusted": 43084.05,
+            "lowestPriceAdjusted": 42522.84,
+            "closePriceAdjusted": 42695.52,
+            "totalShares": 3708877448.0
+          },
+          "raw_exright": {
+            "id": "VCB20211222",
+            "ticker": "VCB",
+            "tradingDate": "2021-12-22T00:00:00",
+            "openPrice": 77000.0,
+            "highestPrice": 77800.0,
+            "lowestPrice": 76600.0,
+            "closePrice": 76900.0,
+            "totalMatchVolume": 1915300.0,
+            "referencePrice": 76568.0,
+            "matchPrice": 76900.0,
+            "openPriceAdjusted": 42936.2,
+            "highestPriceAdjusted": 43382.29,
+            "lowestPriceAdjusted": 42713.15,
+            "closePriceAdjusted": 42880.43,
+            "totalShares": 4732527623.0
+          },
+          "cash_dividend_vnd": 1200.0,
+          "stock_dividend_ratio": 0.276,
+          "theoretical_reference_vnd": 76567.39811912226,
+          "reference_difference_vnd": 0.6018808777444065,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 42.74,
+                "High": 43.08,
+                "Low": 42.52,
+                "Close": 42.7
+              },
+              "exright": {
+                "Open": 42.94,
+                "High": 43.38,
+                "Low": 42.71,
+                "Close": 42.88
+              },
+              "close_scale_before": 0.43174924165824063,
+              "close_scale_exright": 0.5576072821846554
+            },
+            "KBS": {
+              "before": {
+                "Open": 42.815,
+                "High": 43.161,
+                "Low": 42.598,
+                "Close": 42.771
+              },
+              "exright": {
+                "Open": 42.995,
+                "High": 43.441,
+                "Low": 42.771,
+                "Close": 42.939
+              },
+              "close_scale_before": 0.43246713852376134,
+              "close_scale_exright": 0.558374512353706
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/VCB/price-history?fromDate=20211221&toDate=20211221&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:59:01.747675+00:00",
+              "response_sha256": "98a11c6e0c89d6aee70832988ecfdfcc150b54e16f6af86df2c72071936aba4c",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        },
+        {
+          "symbol": "VCB",
+          "type": "cash_dividend",
+          "previous_date": "2020-12-18",
+          "exright_date": "2020-12-21",
+          "raw_before": {
+            "id": "VCB20201218",
+            "ticker": "VCB",
+            "tradingDate": "2020-12-18T00:00:00",
+            "openPrice": 96000.0,
+            "highestPrice": 98900.0,
+            "lowestPrice": 96000.0,
+            "closePrice": 98900.0,
+            "totalMatchVolume": 1053200.0,
+            "referencePrice": 96000.0,
+            "matchPrice": 98900.0,
+            "openPriceAdjusted": 41107.88,
+            "highestPriceAdjusted": 42349.69,
+            "lowestPriceAdjusted": 41107.88,
+            "closePriceAdjusted": 42349.69,
+            "totalShares": 3708877448.0
+          },
+          "raw_exright": {
+            "id": "VCB20201221",
+            "ticker": "VCB",
+            "tradingDate": "2020-12-21T00:00:00",
+            "openPrice": 98900.0,
+            "highestPrice": 99000.0,
+            "lowestPrice": 97300.0,
+            "closePrice": 98900.0,
+            "totalMatchVolume": 697030.0,
+            "referencePrice": 98099.0,
+            "matchPrice": 98900.0,
+            "openPriceAdjusted": 42695.52,
+            "highestPriceAdjusted": 42738.69,
+            "lowestPriceAdjusted": 42004.79,
+            "closePriceAdjusted": 42695.52,
+            "totalShares": 3708877448.0
+          },
+          "cash_dividend_vnd": 800.0,
+          "stock_dividend_ratio": 0,
+          "theoretical_reference_vnd": 98100.0,
+          "reference_difference_vnd": 1.0,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 41.11,
+                "High": 42.35,
+                "Low": 41.11,
+                "Close": 42.35
+              },
+              "exright": {
+                "Open": 42.7,
+                "High": 42.74,
+                "Low": 42.0,
+                "Close": 42.7
+              },
+              "close_scale_before": 0.4282103134479272,
+              "close_scale_exright": 0.43174924165824063
+            },
+            "KBS": {
+              "before": {
+                "Open": 41.182,
+                "High": 42.426,
+                "Low": 41.182,
+                "Close": 42.426
+              },
+              "exright": {
+                "Open": 42.771,
+                "High": 42.815,
+                "Low": 42.08,
+                "Close": 42.771
+              },
+              "close_scale_before": 0.4289787664307381,
+              "close_scale_exright": 0.43246713852376134
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/VCB/price-history?fromDate=20201218&toDate=20201218&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:59:05.562099+00:00",
+              "response_sha256": "9a15888cee55385654675913b3c54ea10b6b859a3d4cd77f388b94eeb6483757",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        }
+      ],
+      "nonmatched_dates": [
+        "2018-01-23",
+        "2018-01-24"
+      ],
+      "close_last_match_disagreements": [
+        "2018-01-22",
+        "2018-01-23",
+        "2018-01-24",
+        "2018-02-28",
+        "2018-07-23"
+      ]
+    },
+    "MWG": {
+      "csv": {
+        "file": "MWG.csv",
+        "sha256": "3839c5d0d7240c997e02624b6afceb3aba88fb621a6e157a3852bcec15464693"
+      },
+      "evidence": {
+        "file": "MWG.evidence.json.gz",
+        "sha256": "7b3424fe6ad1db982a684fbd6b7c4dbaa593161023b10bf3ed51f9c71cd0f3a9"
+      },
+      "events": {
+        "file": "MWG.events.json",
+        "sha256": "d9dc14691cc7943e663a4d54dd503fd4f684b1ceb8d43a4b6364f630abb96607"
+      },
+      "rows": 1251,
+      "candidates": 217,
+      "eligible": 213,
+      "excluded_cycles": [
+        {
+          "as_of_date": "2020-10-14",
+          "entry_date": "2020-10-15",
+          "exit_date": "2020-10-19",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2021-01-07",
+          "entry_date": "2021-01-08",
+          "exit_date": "2021-01-12",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2021-08-25",
+          "entry_date": "2021-08-26",
+          "exit_date": "2021-08-30",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        },
+        {
+          "as_of_date": "2022-06-14",
+          "entry_date": "2022-06-15",
+          "exit_date": "2022-06-17",
+          "eligible": false,
+          "exclusion_reason": "CORPORATE_ACTION_DURING_HOLDING"
+        }
+      ],
+      "event_samples": [
+        {
+          "symbol": "MWG",
+          "type": "stock_dividend",
+          "previous_date": "2022-06-15",
+          "exright_date": "2022-06-16",
+          "raw_before": {
+            "id": "MWG20220615",
+            "ticker": "MWG",
+            "tradingDate": "2022-06-15T00:00:00",
+            "openPrice": 145000.0,
+            "highestPrice": 147700.0,
+            "lowestPrice": 144000.0,
+            "closePrice": 147700.0,
+            "totalMatchVolume": 2560200.0,
+            "referencePrice": 143500.0,
+            "matchPrice": 147700.0,
+            "openPriceAdjusted": 69157.72,
+            "highestPriceAdjusted": 70445.49,
+            "lowestPriceAdjusted": 68680.77,
+            "closePriceAdjusted": 70445.49,
+            "totalShares": 731854815.0
+          },
+          "raw_exright": {
+            "id": "MWG20220616",
+            "ticker": "MWG",
+            "tradingDate": "2022-06-16T00:00:00",
+            "openPrice": 79000.0,
+            "highestPrice": 79000.0,
+            "lowestPrice": 77600.0,
+            "closePrice": 79000.0,
+            "totalMatchVolume": 6038900.0,
+            "referencePrice": 73900.0,
+            "matchPrice": 79000.0,
+            "openPriceAdjusted": 75358.07,
+            "highestPriceAdjusted": 75358.07,
+            "lowestPriceAdjusted": 74022.61,
+            "closePriceAdjusted": 75358.07,
+            "totalShares": 1463709630.0
+          },
+          "cash_dividend_vnd": 0,
+          "stock_dividend_ratio": 1.0,
+          "theoretical_reference_vnd": 73850.0,
+          "reference_difference_vnd": 50.0,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 69.16,
+                "High": 70.45,
+                "Low": 68.68,
+                "Close": 70.45
+              },
+              "exright": {
+                "Open": 75.36,
+                "High": 75.36,
+                "Low": 74.02,
+                "Close": 75.36
+              },
+              "close_scale_before": 0.4769803656059581,
+              "close_scale_exright": 0.9539240506329114
+            },
+            "KBS": {
+              "before": {
+                "Open": 69.204,
+                "High": 70.492,
+                "Low": 68.726,
+                "Close": 70.492
+              },
+              "exright": {
+                "Open": 75.357,
+                "High": 75.357,
+                "Low": 74.022,
+                "Close": 75.357
+              },
+              "close_scale_before": 0.47726472579553153,
+              "close_scale_exright": 0.953886075949367
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/MWG/price-history?fromDate=20220615&toDate=20220615&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:59:13.402906+00:00",
+              "response_sha256": "eccf40a19b70fb1b7ea96fbe9b72d5e1ea98fea41c0ff734da4bc1fa827ea281",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        },
+        {
+          "symbol": "MWG",
+          "type": "cash_dividend",
+          "previous_date": "2022-06-06",
+          "exright_date": "2022-06-07",
+          "raw_before": {
+            "id": "MWG20220606",
+            "ticker": "MWG",
+            "tradingDate": "2022-06-06T00:00:00",
+            "openPrice": 154000.0,
+            "highestPrice": 156500.0,
+            "lowestPrice": 154000.0,
+            "closePrice": 154700.0,
+            "totalMatchVolume": 1887900.0,
+            "referencePrice": 153200.0,
+            "matchPrice": 154700.0,
+            "openPriceAdjusted": 72972.84,
+            "highestPriceAdjusted": 74157.47,
+            "lowestPriceAdjusted": 72972.84,
+            "closePriceAdjusted": 73304.54,
+            "totalShares": 731854815.0
+          },
+          "raw_exright": {
+            "id": "MWG20220607",
+            "ticker": "MWG",
+            "tradingDate": "2022-06-07T00:00:00",
+            "openPrice": 154000.0,
+            "highestPrice": 154000.0,
+            "lowestPrice": 149000.0,
+            "closePrice": 153000.0,
+            "totalMatchVolume": 1845100.0,
+            "referencePrice": 153694.0,
+            "matchPrice": 153000.0,
+            "openPriceAdjusted": 73450.27,
+            "highestPriceAdjusted": 73450.27,
+            "lowestPriceAdjusted": 71065.52,
+            "closePriceAdjusted": 72973.32,
+            "totalShares": 731854815.0
+          },
+          "cash_dividend_vnd": 1000.0,
+          "stock_dividend_ratio": 0,
+          "theoretical_reference_vnd": 153700.0,
+          "reference_difference_vnd": 6.0,
+          "quotes": {
+            "VCI": {
+              "before": {
+                "Open": 72.97,
+                "High": 74.16,
+                "Low": 72.97,
+                "Close": 73.3
+              },
+              "exright": {
+                "Open": 73.45,
+                "High": 73.45,
+                "Low": 71.07,
+                "Close": 72.97
+              },
+              "close_scale_before": 0.47382029734970915,
+              "close_scale_exright": 0.4769281045751634
+            },
+            "KBS": {
+              "before": {
+                "Open": 73.024,
+                "High": 74.209,
+                "Low": 73.024,
+                "Close": 73.356
+              },
+              "exright": {
+                "Open": 73.499,
+                "High": 73.499,
+                "Low": 71.113,
+                "Close": 73.022
+              },
+              "close_scale_before": 0.47418228829993536,
+              "close_scale_exright": 0.47726797385620917
+            }
+          },
+          "prefix_request": [
+            {
+              "url": "https://iq.vietcap.com.vn/api/iq-insight-service/v1/company/MWG/price-history?fromDate=20220606&toDate=20220606&page=0&size=1000",
+              "retrieved_at_utc": "2026-09-26T13:59:17.109740+00:00",
+              "response_sha256": "2ecd246487aee43ae56ab11169494646db50df17af617827548911d611272370",
+              "number": 0,
+              "size": 1000,
+              "rows": 1,
+              "total_elements": 1,
+              "total_pages": 1
+            }
+          ],
+          "raw_prefix_equals_extended": true
+        }
+      ],
+      "nonmatched_dates": [
+        "2018-01-23",
+        "2018-01-24"
+      ],
+      "close_last_match_disagreements": []
+    }
+  },
+  "verified_at_utc": "2026-09-26T13:59:18.224480+00:00",
+  "acquisition_method": "VCI_PUBLIC_PRICE_HISTORY_REST_WITH_VNSTOCK_HEADERS"
+}

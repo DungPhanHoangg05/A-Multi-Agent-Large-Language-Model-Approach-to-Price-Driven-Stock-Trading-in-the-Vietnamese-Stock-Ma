@@ -1,5 +1,7 @@
 # Phase B — bộ nhận diện chế độ VN-Index
 
+**Cập nhật 26/09/2026 sau Phase B:** [Gate giá Phase A](phase_a_price_gate.md) đã mở bằng bộ giá thô cổ phiếu VCI riêng. Các ghi nhận gate bị chặn bên dưới mô tả thời điểm triển khai Phase B. Artifact HMM và CSV VN-Index giữ nguyên; điều kiện model prefix cho episode trước cuối train vẫn bắt buộc.
+
 ## W2-03 — đặc trưng EOD
 
 `core/regime_detector.py::build_regime_features(point_in_time_df, as_of_date)` nhận VNINDEX đã được cắt thời gian. Input có ngày lớn hơn cutoff, giá không dương/hữu hạn, ngày trùng/đảo thứ tự hoặc thiếu 200 phiên bị từ chối bằng `ValueError`; không tự bỏ nến lỗi.
