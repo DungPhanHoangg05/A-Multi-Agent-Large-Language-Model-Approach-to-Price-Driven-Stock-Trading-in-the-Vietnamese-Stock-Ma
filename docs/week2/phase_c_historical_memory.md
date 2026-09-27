@@ -182,3 +182,105 @@ W2-11 chỉ tạo bộ sinh nhãn, chưa phát hành nhãn hàng loạt hoặc M
 
 Bốn gate trước merge ngày 27/09/2026: compileall PASS, **195 unit tests** PASS,
 E2E PASS (13,7 giây), **34 leakage tests** PASS. Dùng bốn lệnh tái lập đã ghi ở W2-09.
+
+## W2-12 — runner offline và tiếp tục từ checkpoint
+
+`scripts/run_historical_memory.py` dùng `core/historical_runner.py` để ghép ba
+thành phần W2-09/10/11. Giá và tin chỉ đọc từ dữ liệu/cache offline; tạo tín hiệu
+thị giác vẫn gọi API Groq khi chạy chế độ sinh episode thật. `--plan-only` và
+`--verify-only` không cần API key, không gọi LLM hoặc fit thêm model.
+
+### Lịch chạy và model prefix
+
+- Lịch giữ warm-up 600 nến, bước 3, quy tắc loại quyền/thanh khoản của gate A,
+  chỉ nhận quyết định và ngày thoát trong 2018–2022. Thứ tự cố định theo
+  `(as_of_date, symbol)`. Toàn bộ lịch có 868 ứng viên, 852 hợp lệ, 16 bị loại.
+- `PrefixRegimeProvider` xác minh VN-Index W1 bằng manifest/checksum VCI/KBS.
+  Mỗi ngày quyết định chỉ fit HMM/scaler/calibration trên prefix `2018-01-01..t`,
+  cùng cấu hình Phase B và seed 42; artifact tại `regimes/VNINDEX-t.json`.
+  Bốn mã có cùng ngày dùng lại một artifact. Khi tiếp tục, loader kiểm hash train,
+  phiên bản và metadata rồi nạp model; không refit artifact đã có.
+- Model đầy đủ `data_manager/regime_model.json` fit hết 2022 không được dùng cho
+  episode năm 2020. `train_end_date` phải đúng ngày quyết định; feature và state
+  không được vượt cutoff. Cơ sở giá VN-Index vẫn mang trạng thái nghiên cứu
+  `UNVERIFIED` của Phase B; giá cổ phiếu và nhãn chỉ dùng bộ giá VCI đã mở gate A.
+- Model LLM/nhiệt độ/token theo cấu hình hệ thống; temperature cố định 0, seed
+  chạy 42. Phản hồi LLM được giữ bằng checkpoint. Mọi request của runner, kể cả
+  dự phòng văn bản, đi qua `utils/historical_api._invoke_with_retry` qua adapter
+  `RetryingLLM`: backoff cấp số nhân, chờ đủ `retry after X seconds` hoặc
+  `try again in XmYs`. Chờ dài được chia đoạn tối đa 60 giây. Lỗi
+  `ValueError`/`AssertionError` không được retry tại adapter.
+
+### Thứ tự tạo episode và cấu trúc journal
+
+1. Kiểm regime prefix trước khi gọi agent.
+2. W2-10 trích/lấy lại năm tín hiệu đã checkpoint, chỉ nhận giá/tin `<= t`.
+3. W2-11 tính outcome từ giá entry/exit trong đầu vào riêng, sau khi đã có tín
+   hiệu. State upstream không nhận outcome, ngày vào/thoát hoặc giá tương lai.
+4. Xác thực schema/ID/lịch/P&L của record, artifact regime, checksum tín hiệu,
+   prefix giá, cutoff Alpha/tin và checksum báo cáo.
+5. Ghi episode hoàn chỉnh nguyên tử, rồi xuất lại kho từ các episode đã xác thực.
+   Lỗi dừng run ngay; record nửa chừng không vào journal/kho.
+
+Thư mục staging mặc định `outputs/historical_memory_run` chứa:
+
+| Đường dẫn | Vai trò |
+| --- | --- |
+| `run_manifest.json` | Cấu hình bất biến, lịch, hash giá/sự kiện/tin/VN-Index, mã nguồn, runtime và signature |
+| `regimes/VNINDEX-YYYY-MM-DD.json` | HMM/scaler/calibration fit đúng prefix |
+| `signals/SYMBOL-YYYY-MM-DD.json` | Checkpoint upstream và bundle W2-10 |
+| `episodes/SYMBOL-YYYY-MM-DD.json` | Record W1 hoàn chỉnh và provenance regime/tín hiệu, kèm checksum/signature |
+| `memory.json` | Danh sách record W1 đã hoàn thành, nạp được bằng `HistoricalMemory` |
+
+Khi tiếp tục, runner xác minh lại manifest, mọi episode đã hoàn thành, model và
+checkpoint tín hiệu; chỉ chạy điểm chưa có episode. Thay dữ liệu/cấu hình/mã
+nguồn/runtime, journal có khoảng trống hoặc file ngoài lịch đều bị từ chối.
+Hash archive tin đóng băng cả cache của run; cập nhật cache cần phiên chạy riêng.
+JSON tín hiệu vẫn chỉ tổng hợp tin hợp lệ tại cutoff của từng điểm.
+
+Gián đoạn sau khi episode đã lưu nhưng trước khi `memory.json` được xuất:
+runner chấp nhận kho chậm đúng một episode, phục hồi từ journal đã xác thực rồi
+tiếp tục, không gọi upstream lại. Kho khác nội dung journal bị từ chối ghi đè.
+`--verify-only` báo lỗi khi kho cần phục hồi; chạy tiếp chế độ thường để phục hồi.
+`run.lock` ngăn hai runner đồng thời; khóa còn lại sau process bị dừng đột ngột
+phải được rà soát trước khi bỏ. Upstream dở dang vẫn áp dụng quy tắc W2-10, không
+tự gọi lại thị giác khi chưa lưu được báo cáo hoàn chỉnh.
+
+### Lệnh dùng
+
+```powershell
+# Chỉ kiểm dữ liệu và lịch, không tạo artifact hoặc gọi API.
+py -3.13 -X utf8 scripts/run_historical_memory.py --plan-only
+
+# Sinh một điểm mới vào staging; cần GROQ_API_KEY trong môi trường hoặc .env.
+py -3.13 -X utf8 scripts/run_historical_memory.py --max-new-points 1
+
+# Chạy cùng lệnh để tiếp tục, bỏ qua episode đã hoàn thành.
+py -3.13 -X utf8 scripts/run_historical_memory.py --max-new-points 1
+
+# Kiểm journal/kho; lặp lại cùng symbols/start/end nếu run dùng phạm vi riêng.
+py -3.13 -X utf8 scripts/run_historical_memory.py --verify-only
+```
+
+`--max-new-points` giới hạn **số episode mới trong lần gọi hiện tại**, không đổi
+lịch/signature. `--symbols`, `--start`, `--end` chốt phạm vi cho một thư mục run;
+ngày `--end` là ngày tất toán muộn nhất. Để đổi phạm vi dùng `--output-dir` khác.
+W2-13 sẽ chạy sinh kho >300 episode và phát hành vào
+`data_manager/regime_memory_store.json`; W2-12 chưa tạo file nghiên cứu chính thức.
+
+### Kiểm thử W2-12
+
+Chín test runner, bốn test leakage và ba test retry. Kiểm thử tích hợp chạy hai
+episode FPT/MWG cùng ngày bằng giá VCI, HMM/scaler/calibration, graph, ảnh,
+Alpha Selector và nhãn engine thật; chỉ phản hồi LLM được giả lập. Kiểm tra fit
+HMM một lần, upstream một lần mỗi điểm, tiếp tục không sinh trùng và kho nạp
+được bằng `HistoricalMemory`. Các test gián đoạn/model tương lai/tin tương lai
+kiểm tra không có episode nửa chừng. Toàn bộ output thử nghiệm nằm trong thư
+mục tạm; không đưa tín hiệu LLM giả lập vào kho nghiên cứu.
+
+Bốn gate trước merge ngày 27/09/2026: compileall PASS, **211 unit tests** PASS,
+E2E PASS (13,0 giây), **38 leakage tests** PASS. Dùng bốn lệnh tái lập ở W2-09.
+Lệnh CLI `--plan-only` đã chạy trên bộ dữ liệu thật: **868 ứng viên, 852 hợp lệ,
+16 bị loại**, bốn điểm đầu có ngày quyết định 2020-06-01 và thoát 2020-06-04.
+Không tạo thư mục run hay file `data_manager/regime_memory_store.json` trong
+lần triển khai W2-12; các journal tích hợp thử nghiệm đã được dọn cùng thư mục tạm.

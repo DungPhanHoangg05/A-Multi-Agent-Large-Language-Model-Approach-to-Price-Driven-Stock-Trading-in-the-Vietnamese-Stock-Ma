@@ -1,12 +1,12 @@
 # Tuần 2 — phân loại chế độ thị trường và Historical Memory Bank
 
-Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Phase C đã hoàn thành [kho lưu/xác thực và bộ trích tín hiệu](phase_c_historical_memory.md) cho W2-09/W2-10; sinh Memory Bank và biểu đồ tuần 2 vẫn chờ thực hiện.
+Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Phase C đã hoàn thành [kho lưu, tín hiệu, nhãn và runner có checkpoint](phase_c_historical_memory.md) cho W2-09 đến W2-12; sinh Memory Bank >300 episode và biểu đồ tuần 2 vẫn chờ thực hiện.
 
 ## Mục tiêu và điều kiện đầu vào
 
 Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ từ VN-Index, `data_manager/regime_memory_store.json` chứa **hơn 300** chu kỳ đã tất toán giai đoạn 2018–2022, và `outputs/vnindex_regimes_2018_2022.png`. Bản ghi phải khớp [schema W1](../plan/week1/historical_task_record.schema.json) và [đặc tả phương pháp](../methodology_spec.md).
 
-**Gate dữ liệu:** [Gate giá Phase A](phase_a_price_gate.md) đã PASS ngày 26/09/2026 cho bộ giá thô VCI 2018–2022, đối chiếu VCI/KBS: 852/868 chu kỳ ứng viên đủ cơ sở giá, 16 chu kỳ bị loại vì quyền/tham chiếu. Phase C phải dùng `data/execution_prices` cho tín hiệu cổ phiếu và giá vào/ra, qua loader xác minh; CSV cổ phiếu W1 không được dùng để sinh nhãn. W2-11 đến W2-14 vẫn chưa thực hiện. Gate này chưa mở dữ liệu giá thô kiểm định 2023–2024.
+**Gate dữ liệu:** [Gate giá Phase A](phase_a_price_gate.md) đã PASS ngày 26/09/2026 cho bộ giá thô VCI 2018–2022, đối chiếu VCI/KBS: 852/868 chu kỳ ứng viên đủ cơ sở giá, 16 chu kỳ bị loại vì quyền/tham chiếu. Phase C dùng `data/execution_prices` cho tín hiệu cổ phiếu và giá vào/ra, qua loader xác minh; CSV cổ phiếu W1 không được dùng để sinh nhãn. W2-13/W2-14 vẫn chưa thực hiện. Gate này chưa mở dữ liệu giá thô kiểm định 2023–2024.
 
 ## Quy ước cập nhật tiến độ
 
@@ -40,7 +40,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 | W2-09 | Cài đặt cấu trúc lưu và xác thực `HistoricalTaskRecord` | `core/bayesian_memory.py` nạp/lưu JSON, ID duy nhất, đủ 5 tín hiệu, `as_of_date < entry_date < exit_date` theo phiên, kiểm P&L và lưu nguyên tử; [bằng chứng Phase C](phase_c_historical_memory.md) | Schema W1, W2-02 | [x] |
 | W2-10 | Trích tín hiệu năm agent từ snapshot lịch sử | `core/historical_signals.py` dùng graph hiện có, snapshot thô VCI và tin `<= t`; năm tín hiệu/báo cáo/provenance, checkpoint upstream một lần; [bằng chứng Phase C](phase_c_historical_memory.md#w2-10--trích-tín-hiệu-từ-snapshot-lịch-sử) | W2-02, W2-07 | [x] |
 | W2-11 | Tạo nhãn kinh tế cho chu kỳ đã tất toán | `core/historical_outcomes.py` dùng hàm engine, giá VCI xác minh, Open(t+1)/Close(t+3), phí/slippage và bull trap; [bằng chứng Phase C](phase_c_historical_memory.md#w2-11--bộ-sinh-nhãn-kinh-tế) | W2-01, W2-02 | [x] |
-| W2-12 | Viết runner offline có thể tiếp tục | Script tạo episode kết hợp regime, tín hiệu và nhãn; checkpoint sau mỗi điểm, seed/cấu hình cố định, API LLM qua `_invoke_with_retry`, lỗi leakage dừng ngay, không lưu record nửa chừng | W2-09, W2-10, W2-11 | [ ] |
+| W2-12 | Viết runner offline có thể tiếp tục | `scripts/run_historical_memory.py`, regime prefix, journal nguyên tử/tiếp tục, seed/cấu hình cố định, LLM qua retry/backoff; [bằng chứng và lệnh dùng](phase_c_historical_memory.md#w2-12--runner-offline-và-tiếp-tục-từ-checkpoint) | W2-09, W2-10, W2-11 | [x] |
 | W2-13 | Sinh Memory Bank 2018–2022 | `data_manager/regime_memory_store.json` có >300 episode hợp lệ trên bốn mã; không chứa quyết định/exit sau 2022, không có cặp chu kỳ cùng mã chồng lấn trái quy tắc W2-02 | W2-12 | [ ] |
 | W2-14 | Kiểm toán Memory Bank | Kiểm schema, ID, ngày, số lượng theo mã/regime/năm, dấu P&L, độ phủ năm và không có giá trị NumPy trong JSON; mọi vi phạm ném ngoại lệ; xuất báo cáo QA có thể tái lập | W2-13 | [ ] |
 
@@ -55,6 +55,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 ## Nhật ký tiến độ
 
 ### 2026-09-27
+
+- **W2-12 hoàn thành**: `core/historical_runner.py`, `scripts/run_historical_memory.py`, `utils/historical_api.py` và 16 test mới (9 runner + 4 leakage + 3 retry). Pipeline tích hợp hai episode bằng giá/HMM/graph/Alpha/nhãn thật với LLM giả lập; tiếp tục không fit/chạy upstream trùng, phục hồi lỗi xuất kho từ journal và chặn dữ liệu/model tương lai. `--plan-only` xác nhận 868 ứng viên, 852 hợp lệ, 16 loại; không ghi artifact hoặc gọi API. Compileall, 211 unit tests, E2E và 38 leakage tests đều pass. [Chi tiết và lệnh dùng](phase_c_historical_memory.md#w2-12--runner-offline-và-tiếp-tục-từ-checkpoint). Chưa sinh kho nghiên cứu >300 episode; W2-13/W2-14 vẫn chờ.
 
 - **W2-11 hoàn thành**: `core/historical_outcomes.py`, 8 test nhãn và 2 test leakage. Kiểm hàm P&L dùng chung, lịch ba phiên, chi phí, quyền/thanh khoản và giá VCI thật trên cả bốn mã; chu kỳ chưa tất toán bị từ chối. Compileall, 195 unit tests, E2E và 34 leakage tests đều pass. [Chi tiết](phase_c_historical_memory.md#w2-11--bộ-sinh-nhãn-kinh-tế). Chưa sinh nhãn hàng loạt hoặc Memory Bank.
 

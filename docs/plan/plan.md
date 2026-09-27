@@ -265,7 +265,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 - **Mục tiêu**: Xây dựng module nhận diện chế độ thị trường và sinh cơ sở dữ liệu chu kỳ lịch sử cho giai đoạn 2018–2022.
 - **Nhiệm vụ cụ thể**:
     - [x] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022; [đặc tả, artifact và kiểm thử Phase B](../week2/phase_b_regime_detector.md)).
-  - [ ] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: tính tín hiệu 5 agent và nhãn kinh tế ròng sau phí.
+  - [x] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: `scripts/run_historical_memory.py`, regime prefix, tín hiệu 5 agent, nhãn ròng và journal tiếp tục ([W2-09 đến W2-12](../week2/phase_c_historical_memory.md)); chưa chạy sinh kho hàng loạt.
   - [ ] Lưu trữ kết quả vào `data_manager/regime_memory_store.json` (>300 episodes).
   - [ ] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN.
 - **Deliverables cuối tuần 2**:
