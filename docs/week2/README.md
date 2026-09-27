@@ -39,7 +39,7 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 | --- | --- | --- | --- | --- |
 | W2-09 | Cài đặt cấu trúc lưu và xác thực `HistoricalTaskRecord` | `core/bayesian_memory.py` nạp/lưu JSON, ID duy nhất, đủ 5 tín hiệu, `as_of_date < entry_date < exit_date` theo phiên, kiểm P&L và lưu nguyên tử; [bằng chứng Phase C](phase_c_historical_memory.md) | Schema W1, W2-02 | [x] |
 | W2-10 | Trích tín hiệu năm agent từ snapshot lịch sử | `core/historical_signals.py` dùng graph hiện có, snapshot thô VCI và tin `<= t`; năm tín hiệu/báo cáo/provenance, checkpoint upstream một lần; [bằng chứng Phase C](phase_c_historical_memory.md#w2-10--trích-tín-hiệu-từ-snapshot-lịch-sử) | W2-02, W2-07 | [x] |
-| W2-11 | Tạo nhãn kinh tế cho chu kỳ đã tất toán | Dùng **chính** `compute_round_trip_net_return` của engine trên giá đã qua W2-01, tính `net_return_pct`, hướng, thắng/thua LONG; `SHORT` không mở vị thế; test đối chiếu entry/exit sau đúng ba phiên | W2-01, W2-02 | [ ] |
+| W2-11 | Tạo nhãn kinh tế cho chu kỳ đã tất toán | `core/historical_outcomes.py` dùng hàm engine, giá VCI xác minh, Open(t+1)/Close(t+3), phí/slippage và bull trap; [bằng chứng Phase C](phase_c_historical_memory.md#w2-11--bộ-sinh-nhãn-kinh-tế) | W2-01, W2-02 | [x] |
 | W2-12 | Viết runner offline có thể tiếp tục | Script tạo episode kết hợp regime, tín hiệu và nhãn; checkpoint sau mỗi điểm, seed/cấu hình cố định, API LLM qua `_invoke_with_retry`, lỗi leakage dừng ngay, không lưu record nửa chừng | W2-09, W2-10, W2-11 | [ ] |
 | W2-13 | Sinh Memory Bank 2018–2022 | `data_manager/regime_memory_store.json` có >300 episode hợp lệ trên bốn mã; không chứa quyết định/exit sau 2022, không có cặp chu kỳ cùng mã chồng lấn trái quy tắc W2-02 | W2-12 | [ ] |
 | W2-14 | Kiểm toán Memory Bank | Kiểm schema, ID, ngày, số lượng theo mã/regime/năm, dấu P&L, độ phủ năm và không có giá trị NumPy trong JSON; mọi vi phạm ném ngoại lệ; xuất báo cáo QA có thể tái lập | W2-13 | [ ] |
@@ -55,6 +55,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 ## Nhật ký tiến độ
 
 ### 2026-09-27
+
+- **W2-11 hoàn thành**: `core/historical_outcomes.py`, 8 test nhãn và 2 test leakage. Kiểm hàm P&L dùng chung, lịch ba phiên, chi phí, quyền/thanh khoản và giá VCI thật trên cả bốn mã; chu kỳ chưa tất toán bị từ chối. Compileall, 195 unit tests, E2E và 34 leakage tests đều pass. [Chi tiết](phase_c_historical_memory.md#w2-11--bộ-sinh-nhãn-kinh-tế). Chưa sinh nhãn hàng loạt hoặc Memory Bank.
 
 - **W2-10 hoàn thành**: `core/historical_signals.py`, Alpha strict mode và 19 test mới (12 tín hiệu/checkpoint + 7 leakage). Tái sử dụng graph và Alpha Selector thật trên giá VCI đã xác minh với LLM giả lập trong kiểm thử; checkpoint giữ upstream một lần, lưu năm tín hiệu/báo cáo/provenance và độ tin cậy tin. Compileall, 185 unit tests, E2E và 32 leakage tests đều pass. [Chi tiết](phase_c_historical_memory.md#w2-10--trích-tín-hiệu-từ-snapshot-lịch-sử). Chưa chạy sinh tín hiệu hàng loạt hoặc tạo kho >300 episode; W2-11 đến W2-14 vẫn chờ.
 
