@@ -56,6 +56,8 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 ### 2026-09-27
 
+- **W2-09 ho?n th?nh**: `core/bayesian_memory.py` n?p/l?u nguy?n t?, ki?m schema W1, gi? VCI x?c minh, T+3, P&L d?ng h?m engine, ID/ch?ng l?n v? cutoff truy v?n. 12 test m?i pass; compileall, 166 unit tests, E2E v? 25 leakage tests ??u pass. [Chi ti?t v? gi?i h?n](phase_c_historical_memory.md). Ch?a sinh Memory Bank; W2-11 ??n W2-14 v?n ch?.
+
 - **W2-01 hoàn tất tích hợp gate giá**: tái xác minh offline bộ giá thô ngày 26/09, giữ 852 chu kỳ qua gate và danh sách 16 chu kỳ bị loại. Compileall, 154 unit tests, E2E và 23 leakage tests đều pass; [biên bản gate](phase_a_price_gate.md) ghi bằng chứng và lệnh tái lập. Phase C/D vẫn chưa thực hiện.
 
 ### 2026-09-26
