@@ -150,3 +150,35 @@ tín hiệu LLM giả lập vào Memory Bank nghiên cứu.
 Bốn gate trước merge ngày 27/09/2026: compileall PASS, **185 unit tests** PASS,
 E2E PASS (13,2 giây; upstream một lần mỗi điểm), **32 leakage tests** PASS.
 Các lệnh tái lập dùng cùng bốn lệnh ở phần W2-09 phía trên.
+
+## W2-11 — bộ sinh nhãn kinh tế
+
+`core/historical_outcomes.py` cung cấp `HistoricalOutcomeGenerator.generate`.
+Loader mặc định xác minh bộ giá thô VCI; nhãn dùng đúng `Open(t+1)` và `Close(t+3)`
+theo lịch phiên, qua cùng kiểm tra quyền/thanh khoản của gate A. `settled_as_of`
+phải từ ngày thoát trở đi (sau đóng cửa); chu kỳ chưa tất toán bị từ chối trước
+khi đọc giá nhãn.
+
+Hàm gọi **chính** `compute_round_trip_net_return` của engine với phí `0.0025` và
+slippage `0.001` ở cả hai chiều. `net_return_pct` giữ nguyên độ chính xác float,
+không làm tròn. Net dương → `UP`/`WIN_IF_LONG`; net bằng không hoặc âm →
+`DOWN`/`LOSS_IF_LONG`. Bull trap áp dụng quy tắc đã chốt W2-09: Trend hoặc Pattern
+tăng nhưng LONG không có lợi nhuận ròng dương. Nhãn luôn là kết quả giả định LONG;
+không suy ra lợi nhuận bán khống từ `BEARISH` hoặc `SHORT`, không mở vị thế.
+
+```python
+from core.historical_outcomes import HistoricalOutcomeGenerator
+
+outcome = HistoricalOutcomeGenerator().generate(
+    "FPT", "2020-06-01", "2020-06-02", "2020-06-04", signals,
+    settled_as_of="2022-12-31",
+)
+```
+
+Tám test kinh tế kiểm hàm engine/chi phí, tăng giá nhưng lỗ sau phí, bull trap,
+net bằng không, lịch phiên, quyền/thanh khoản, JSON gốc và giá VCI thật trên bốn
+mã; hai test leakage kiểm chu kỳ chưa tất toán và biến đổi giá sau ngày thoát.
+W2-11 chỉ tạo bộ sinh nhãn, chưa phát hành nhãn hàng loạt hoặc Memory Bank.
+
+Bốn gate trước merge ngày 27/09/2026: compileall PASS, **195 unit tests** PASS,
+E2E PASS (13,7 giây), **34 leakage tests** PASS. Dùng bốn lệnh tái lập đã ghi ở W2-09.
