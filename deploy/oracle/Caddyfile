@@ -1,0 +1,7 @@
+{$APP_DOMAIN} {
+    # Giao diện có chức năng đổi API key nên bảo vệ toàn bộ ứng dụng.
+    basic_auth {
+        {$APP_USERNAME} {$APP_PASSWORD_HASH}
+    }
+    reverse_proxy web:8000
+}

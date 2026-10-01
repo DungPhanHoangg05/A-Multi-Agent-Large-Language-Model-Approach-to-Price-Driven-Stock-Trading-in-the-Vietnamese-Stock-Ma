@@ -93,6 +93,12 @@ Open `http://127.0.0.1:5000`. Set `PORT` to override the default port. The inter
 
 The UI supports live analysis and walk-forward backtesting. Generated JSON and PNG files are written to `backtest_result/`, which is intentionally excluded from version control.
 
+## Triển khai trên Oracle Cloud
+
+Backend Flask và mô hình ViSoBERT được triển khai bằng Docker Compose trên Oracle Compute VM. Dùng một Gunicorn worker, PyTorch CPU và volume lưu cache mô hình/kết quả. Xem [hướng dẫn Oracle từ bước tạo VM](docs/oracle_deployment.md), bao gồm truy cập SSH khi chưa có tên miền và HTTPS khi công bố ứng dụng.
+
+Không còn workflow xuất toàn repository lên GitHub Pages. Cấu hình Oracle không đặt trần RAM container; cần chọn VM đủ bộ nhớ và theo dõi mức sử dụng thực tế.
+
 ## Run the research experiments
 
 These commands use live market data and hosted models, so exact reruns depend on provider availability, the requested data cutoff, local dated sentiment caches, and model revisions.

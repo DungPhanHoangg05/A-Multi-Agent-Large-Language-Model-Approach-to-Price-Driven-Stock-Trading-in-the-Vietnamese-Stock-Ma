@@ -1,0 +1,28 @@
+name: quantagent-vn
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      VISOBERT_BACKEND: local
+      VISOBERT_DEVICE: cpu
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - model_cache:/home/app/.cache/huggingface
+      - backtest_results:/app/backtest_result
+      - research_outputs:/app/outputs
+    stop_grace_period: 5m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  model_cache:
+  backtest_results:
+  research_outputs:
