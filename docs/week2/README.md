@@ -54,6 +54,12 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 ## Nhật ký tiến độ
 
+### 2026-10-01
+
+- **Kiểm chứng bản khôi phục**: `--help` hoạt động; compileall, toàn bộ unit tests, E2E xác định và 38 leakage tests PASS. Không gọi LLM thật khi kiểm tra.
+
+- **Khôi phục lệnh tiếp tục Memory Bank**: đưa lại `scripts/resume_historical_memory.py` và `scripts/run_paced_historical_memory.py` từ commit `1c82c51` của nhánh `feat/historical-memory-bank`, cùng các test key/checkpoint/TPM. Lệnh dùng: `py -3.13 -X utf8 scripts/resume_historical_memory.py`; đọc lại key trong `.env` giữa các đợt, nghỉ mặc định 75 giây giữa các lời gọi LLM, dừng ở lỗi đầu tiên và lưu cooldown. Đây là khôi phục công cụ điều phối; W2-13 vẫn cần sinh và kiểm toán kho trước khi chốt.
+
 ### 2026-09-27
 
 - **W2-12 hoàn thành**: `core/historical_runner.py`, `scripts/run_historical_memory.py`, `utils/historical_api.py` và 16 test mới (9 runner + 4 leakage + 3 retry). Pipeline tích hợp hai episode bằng giá/HMM/graph/Alpha/nhãn thật với LLM giả lập; tiếp tục không fit/chạy upstream trùng, phục hồi lỗi xuất kho từ journal và chặn dữ liệu/model tương lai. `--plan-only` xác nhận 868 ứng viên, 852 hợp lệ, 16 loại; không ghi artifact hoặc gọi API. Compileall, 211 unit tests, E2E và 38 leakage tests đều pass. [Chi tiết và lệnh dùng](phase_c_historical_memory.md#w2-12--runner-offline-và-tiếp-tục-từ-checkpoint). Chưa sinh kho nghiên cứu >300 episode; W2-13/W2-14 vẫn chờ.
