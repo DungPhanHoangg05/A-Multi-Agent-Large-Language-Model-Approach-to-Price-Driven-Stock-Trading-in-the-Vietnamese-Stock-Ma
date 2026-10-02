@@ -54,6 +54,12 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 ## Nhật ký tiến độ
 
+### 2026-10-03
+
+- **Gate bản sửa**: compileall, toàn bộ unit tests, E2E xác định và 38 leakage tests PASS.
+
+- **W2-13 sửa định dạng Trend để tiếp tục**: checkpoint `FPT @ 2022-03-04` đã lưu upstream nhưng báo cáo dùng `Hướng xu: Tăng` thay cho `Hướng xu hướng: Tăng`. Thêm bộ đọc tương thích vào `scripts/run_paced_historical_memory.py`: ưu tiên parser gốc, chỉ nhận một trường viết tắt có hướng rõ ràng; từ chối trường trùng, mẫu hướng hoặc giá trị mơ hồ. Không sửa báo cáo hay mã nguồn đã nằm trong chữ ký run. Mỗi lần dùng quy tắc mới ghi `report_parse_compat.json` với hash báo cáo, nhãn, phiên bản quy tắc và hash mã bộ đọc; cần giữ file này khi kiểm toán/phát hành kho. Năm test mới kiểm trường sai/mơ hồ, checksum biên bản và tiếp tục checkpoint không chạy upstream trùng. Đã hoàn tất điểm FPT từ báo cáo lưu với lời gọi LLM mới bị chặn; staging tăng từ 577 lên 578/852, còn 274. Chưa chốt W2-13.
+
 ### 2026-10-01
 
 - **Kiểm chứng bản khôi phục**: `--help` hoạt động; compileall, toàn bộ unit tests, E2E xác định và 38 leakage tests PASS. Không gọi LLM thật khi kiểm tra.

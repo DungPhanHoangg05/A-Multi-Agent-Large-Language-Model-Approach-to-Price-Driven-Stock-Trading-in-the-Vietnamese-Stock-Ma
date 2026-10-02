@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import math
 import os
+import re
 from pathlib import Path
 import sys
 import time
@@ -17,12 +19,60 @@ for stream in (sys.stdout, sys.stderr):
     if hasattr(stream, "reconfigure"):
         stream.reconfigure(encoding="utf-8", errors="replace")
 
-from core.bayesian_memory import atomic_write_json, read_json
+from core.bayesian_memory import atomic_write_json, exact_object, read_json
+from core import historical_signals
 from utils import historical_api
 
 PACE_FILE = "api_pace.json"
 DEFAULT_LLM_GAP_SECONDS = 75.0
 BASE_RETRYING_LLM = historical_api.RetryingLLM
+BASE_REPORT_SIGNAL = historical_signals.report_signal
+REPORT_PARSE_FILE = "report_parse_compat.json"
+
+
+def make_compatible_report_parser(output_dir: Path) -> Callable[[str, tuple[str, ...]], str]:
+    """Đọc trường Trend viết tắt, lưu biên bản riêng và giữ nguyên báo cáo gốc."""
+    def parse(report: str, labels: tuple[str, ...]) -> str:
+        """Ưu tiên bộ đọc gốc; không suy đoán hướng từ phần diễn giải."""
+        try:
+            return BASE_REPORT_SIGNAL(report, labels)
+        except ValueError:
+            if type(report) is not str or labels != ("Hướng xu hướng", "Trend direction"):
+                raise
+            cleaned = report.replace("**", "")
+            canonical = r"^\s*(?:[-*]\s*)?(?:Hướng xu hướng|Trend direction)\s*:"
+            if re.search(canonical, cleaned, re.IGNORECASE | re.MULTILINE):
+                raise
+            fields = re.findall(r"^\s*(?:[-*]\s*)?Hướng xu\s*:\s*([^\n]+)", cleaned,
+                                flags=re.IGNORECASE | re.MULTILINE)
+            if len(fields) != 1 or len(re.findall(r"\bHướng xu\s*:", cleaned, re.IGNORECASE)) != 1:
+                raise
+            direction = re.split(r"\s+(?=(?:Mức h|Mức k|Độ dốc đường xu)\s*:|Giá so với h(?:\s|[.:]|$))",
+                                 fields[0], maxsplit=1, flags=re.IGNORECASE)[0].strip()
+            if not re.fullmatch(r"(?:Tăng|Giảm|Đi ngang|Trung tính|Hỗn hợp)[.!]?", direction,
+                                flags=re.IGNORECASE):
+                raise
+            signal = BASE_REPORT_SIGNAL(f"Hướng xu hướng: {direction}", labels)
+            entry = {"report_sha256": historical_signals.digest(report), "signal": signal,
+                     "parser_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                     "rule": "abbreviated_trend_direction_v1"}
+            path = output_dir / REPORT_PARSE_FILE
+            payload = {"format_version": 1, "entries": []}
+            if path.exists():
+                envelope = read_json(path)
+                exact_object(envelope, {"payload", "sha256"})
+                payload = envelope["payload"]
+                exact_object(payload, {"format_version", "entries"})
+                if (historical_signals.digest(payload) != envelope["sha256"]
+                        or payload["format_version"] != 1 or type(payload["entries"]) is not list):
+                    raise ValueError("Biên bản đọc báo cáo tương thích sai checksum hoặc cấu trúc")
+            if entry not in payload["entries"]:
+                payload["entries"].append(entry)
+                atomic_write_json(path, {"payload": payload, "sha256": historical_signals.digest(payload)})
+            print(f"[Tín hiệu] Đọc trường Trend viết tắt thành {signal}; đã lưu biên bản tương thích.", flush=True)
+            return signal
+
+    return parse
 
 
 class RequestPacer:
@@ -95,6 +145,7 @@ def main() -> None:
     gap = float(os.environ.get("HISTORICAL_LLM_GAP_SECONDS", DEFAULT_LLM_GAP_SECONDS))
     pacer = RequestPacer(options.output_dir.resolve(), gap)
     historical_api.RetryingLLM = make_paced_llm_class(pacer)
+    historical_signals.report_signal = make_compatible_report_parser(options.output_dir.resolve())
     from scripts.run_historical_memory import main as run_original
     run_original()
 
