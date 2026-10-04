@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: đã lập kế hoạch; chưa triển khai các task W3.**
+**Trạng thái: W3-01 hoàn thành; W3-02 đến W3-16 chưa thực hiện. Phase A đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -48,7 +48,7 @@ Chi tiết: [Phase A](phase_a_contract_and_method.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W3-01 | Kiểm tra đầu vào và ranh giới W3 | Biên bản hash/QA/852 record, khả năng tái dùng `eligible`, giới hạn và điểm bàn giao W4 | W2 hoàn thành | [ ] |
+| W3-01 | Kiểm tra đầu vào và ranh giới W3 | [Biên bản Phase A](phase_a_contract_and_method.md#04102026--w3-01-hoàn-thành), [receipt](input_readiness.json): hash/QA/852 record PASS; cutoff/deep copy/không I/O mỗi query xác minh; ranh giới W4 và phép đo khóa | W2 hoàn thành | [x] |
 | W3-02 | Chốt API truy vấn và kết quả | Kiểu query/result, mode/K/seed/scope, metadata, lỗi đầu vào, empty/K=0 được đặc tả | W3-01 | [ ] |
 | W3-03 | Chốt cách chọn prior và similarity | Bốn mode, chuẩn hóa tín hiệu, tie-break, seed theo query, thiếu mẫu; không xếp hạng bằng outcome | W3-02 | [ ] |
 | W3-04 | Chốt thống kê và mẫu BRPP | Công thức/mẫu số, phạm vi thống kê, n=0, thiếu tin, mẫu K=0..3 và đơn vị đo ký tự | W3-02, W3-03 | [ ] |
@@ -105,6 +105,16 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-04
+
+- **W3-01 hoàn thành**: `scripts/verify_bayesian_inputs.py` và [receipt](input_readiness.json)
+  PASS 852 record, hash kho/schema/signature và độ phủ khớp manifest/QA; nạp giá đúng
+  một lần/mã, cutoff nghiêm ngặt, deep copy và không I/O JSON/giá trong query PASS.
+  Audit gốc chạy lại PASS. [Biên bản Phase A](phase_a_contract_and_method.md#04102026--w3-01-hoàn-thành)
+  ghi chi phí nạp một lần, giới hạn dữ liệu, ranh giới W4 và phép đo W3-14 đã khóa.
+- **Gate tích hợp W3-01**: compileall PASS; 235/235 unit tests PASS (65,681 giây),
+  E2E xác định PASS (13,0 giây), 38/38 leakage tests PASS (5,592 giây).
+  Không triển khai retriever/formatter hoặc khóa các lựa chọn của W3-02..04;
+  Gate A còn mở. Thay đổi trên nhánh `docs/bayesian-input-readiness`, tích hợp sau gate.
 
 - Đã lập kế hoạch 16 task trong bốn phase, dựa trên W2 đã chốt và code hiện có.
   Đây là bước lập kế hoạch; chưa hoàn thành W3-01 hoặc triển khai module W3.
