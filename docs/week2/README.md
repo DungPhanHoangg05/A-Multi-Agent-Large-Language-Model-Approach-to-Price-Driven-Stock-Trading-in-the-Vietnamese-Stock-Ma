@@ -1,6 +1,6 @@
 # Tuần 2 — phân loại chế độ thị trường và Historical Memory Bank
 
-Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Phase C đã hoàn thành W2-09 đến W2-14: pipeline lịch sử, kho chính thức 852 episode và [biên bản phát hành/QA](phase_c_memory_generation.md). Phase D (biểu đồ và chốt tuần) còn chờ thực hiện.
+Tài liệu này chia [mục Tuần 2 của kế hoạch tổng](../plan/plan.md#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix) thành các task có đầu ra và điều kiện hoàn thành riêng. Phase A đã có [biên bản kiểm toán giá và quy tắc lấy mẫu](phase_a_data_and_sampling.md); Phase B đã có [bộ nhận diện regime, artifact và kiểm thử](phase_b_regime_detector.md). Phase C đã hoàn thành W2-09 đến W2-14: pipeline lịch sử, kho chính thức 852 episode và [biên bản phát hành/QA](phase_c_memory_generation.md). Phase D đã hoàn thành biểu đồ, bốn gate và rà soát deliverables trong [biên bản chốt tuần](phase_d_week_close.md). **W2 hoàn thành ngày 04/10/2026.**
 
 ## Mục tiêu và điều kiện đầu vào
 
@@ -48,13 +48,17 @@ Cuối W2 cần có `core/regime_detector.py` phân loại bốn chế độ t�
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W2-15 | Vẽ chế độ VN-Index 2018–2022 | `outputs/vnindex_regimes_2018_2022.png` có chú giải bốn regime, trục ngày/điểm rõ, không vẽ dữ liệu 2023+; kiểm tra ảnh bằng mắt trước khi dùng trong báo cáo | W2-07 | [ ] |
-| W2-16 | Chạy bốn gate hồi quy và kiểm toán leakage | `compileall`, toàn bộ unit tests, E2E xác định và `tests/test_*leakage.py` đều pass; ghi số test và kết quả, không có đổi công thức P&L hay chạy lại upstream trong nhánh đối chứng | W2-08, W2-14, W2-15 | [ ] |
-| W2-17 | Rà soát deliverables, cập nhật tiến độ và tích hợp | Đối chiếu đủ ba đầu ra W2, sửa trạng thái trong kế hoạch tổng, commit Conventional Commit và merge theo `AGENTS.md` sau khi W2-16 pass | W2-01 đến W2-16 | [ ] |
+| W2-15 | Vẽ chế độ VN-Index 2018–2022 | PNG 300 DPI, SVG và manifest/checksum; phân biệt nhãn hồi cứu với 217 ngày PIT, đủ chú giải/trục, không có 2023+; đã kiểm tra ảnh trực quan ([biên bản](phase_d_week_close.md#w2-15--biểu-đồ-vn-index)) | W2-07 | [x] |
+| W2-16 | Chạy bốn gate hồi quy và kiểm toán leakage | Compileall PASS, 235/235 unit tests PASS, E2E PASS, 38/38 leakage tests PASS; QA kho thực tế PASS 852 episode ([bằng chứng](phase_d_week_close.md#w2-16--bốn-gate-và-kiểm-toán-kho)) | W2-08, W2-14, W2-15 | [x] |
+| W2-17 | Rà soát deliverables, cập nhật tiến độ và tích hợp | Đủ ba đầu ra W2, kế hoạch tổng đã cập nhật; Conventional Commit và tích hợp theo `AGENTS.md` sau bốn gate PASS ([đối chiếu](phase_d_week_close.md#w2-17--đối-chiếu-đầu-ra-và-tiến-độ)) | W2-01 đến W2-16 | [x] |
 
 ## Nhật ký tiến độ
 
 ### 2026-10-04
+
+- **W2-15 hoàn thành**: `py -3.13 -X utf8 scripts/plot_vnindex_regimes.py` xuất PNG 300 DPI/SVG/manifest; 1.251 phiên giá, 1.052 nhãn hồi cứu và 217 ngày PIT từ 852 episode đã QA. Đã kiểm tra ảnh trực quan; ghi rõ khác biệt hồi cứu/PIT và vùng warm-up.
+- **W2-16 hoàn thành**: compileall PASS, 235/235 unit tests PASS (43,477 giây), E2E PASS (7,2 giây), 38/38 leakage tests PASS (3,930 giây); chạy lại audit kho thực tế PASS 852 episode. Không sửa engine P&L hoặc giao thức upstream.
+- **W2-17 hoàn thành**: đủ module regime/test/artifact, Memory Bank/manifest/QA và biểu đồ; cập nhật kế hoạch tổng, [biên bản chốt Phase D](phase_d_week_close.md) và tích hợp sau bốn gate. Toàn bộ W2 hoàn thành; bước tiếp theo W3.
 
 - **W2-13 hoàn thành**: khôi phục và tích hợp script phát hành, chạy `py -3.13 -X utf8 scripts/publish_historical_memory.py --require-complete` PASS 852/852. Kho chính thức cùng manifest và biên bản bộ đọc nằm trong `data_manager/`; archive tin và mã bộ đọc được đóng băng trong staging. Thêm ignore staging/bản ZIP; giữ nguyên bằng chứng gốc.
 - **W2-14 hoàn thành**: `py -3.13 -X utf8 scripts/audit_historical_memory.py` PASS toàn bộ journal và kho phát hành; đối chiếu tín hiệu/báo cáo/factor Alpha, ba trường Trend viết tắt, P&L, lịch và cutoff. Độ phủ: 201/329/322 episode năm 2020/2021/2022; đủ bốn regime; 0 episode có tin đủ độ tin cậy. [Bằng chứng và lệnh tái lập](phase_c_memory_generation.md). Phase D chưa chốt.

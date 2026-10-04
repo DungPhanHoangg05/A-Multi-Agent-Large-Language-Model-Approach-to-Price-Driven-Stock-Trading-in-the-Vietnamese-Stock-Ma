@@ -267,11 +267,13 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
     - [x] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022; [đặc tả, artifact và kiểm thử Phase B](../week2/phase_b_regime_detector.md)).
   - [x] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: `scripts/run_historical_memory.py`, regime prefix, tín hiệu 5 agent, nhãn ròng và journal tiếp tục ([W2-09 đến W2-12](../week2/phase_c_historical_memory.md)); đã sinh đủ 852 điểm hợp lệ.
   - [x] Lưu trữ và kiểm toán `data_manager/regime_memory_store.json`: 852 episode, manifest/checksum/biên bản bộ đọc và [QA Phase C](../week2/phase_c_memory_generation.md) PASS ngày 04/10/2026. Do warm-up 600 phiên, episode phủ 2020–2022; không có tin lịch sử đủ độ tin cậy nên sentiment NEUTRAL. Đây là kho prior, chưa là kết quả benchmark.
-  - [ ] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN.
+  - [x] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN: PNG 300 DPI/SVG, phân biệt nhãn hồi cứu toàn tập train và 217 ngày nhãn PIT trong kho ([Phase D](../week2/phase_d_week_close.md)).
 - **Deliverables cuối tuần 2**:
   - Module `core/regime_detector.py` hoạt động độc lập kèm test.
   - File `data_manager/regime_memory_store.json` đạt chuẩn schema.
   - Biểu đồ `outputs/vnindex_regimes_2018_2022.png`.
+
+**Trạng thái:** W2 hoàn thành ngày 04/10/2026; đủ ba deliverables, compileall/E2E PASS, 235 unit tests và 38 leakage tests PASS. [Biên bản chốt và giới hạn nghiên cứu](../week2/phase_d_week_close.md). Bước tiếp theo là W3.
 
 ### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
 - **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.

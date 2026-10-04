@@ -2,7 +2,8 @@
 
 **Ngày chốt: 04/10/2026. W2-13 và W2-14 hoàn thành.** Toàn bộ 852 điểm hợp lệ
 đã được sinh bằng pipeline hiện có; bước phát hành và QA không gọi LLM, không
-fit lại HMM và không sinh thêm episode. W2-15 đến W2-17 thuộc Phase D còn mở.
+fit lại HMM và không sinh thêm episode. W2-15 đến W2-17 đã được chốt trong
+[biên bản Phase D](phase_d_week_close.md).
 
 ## Đầu ra chính thức
 
@@ -113,5 +114,6 @@ có bản sao lưu độc lập. Lần chốt Phase C này chưa xóa file tạm
   scalar NumPy, archive tin sai hash và bằng chứng bộ đọc sai checksum.
 - Phát hành dữ liệu thật: 852 hoàn thành, 0 còn lại; QA dữ liệu thật PASS.
 
-Bước tiếp theo: Phase D — vẽ regime VN-Index (W2-15), chạy gate chốt với đủ
-deliverables (W2-16), rà soát và chốt toàn bộ tuần (W2-17).
+Phase D đã hoàn thành: biểu đồ, bốn gate và rà soát deliverables được ghi trong
+[biên bản chốt tuần](phase_d_week_close.md). Bước tiếp theo là W3: Bayesian Prior
+Retriever và bộ định dạng tiền tố ngắn gọn.
