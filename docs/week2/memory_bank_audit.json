@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "format_version": 1,
+  "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+  "run_signature": "e2f04ef08863e53570589c3a443be16759a7c9e3474074dfa284afcb816f173c",
+  "schema_sha256": "77954798615a5075ccca1c4f7817a33bc58eac1e398ec0460114bc46eca39148",
+  "candidate_count": 868,
+  "excluded_count": 16,
+  "compatible_trend_reports": 3,
+  "completed": 852,
+  "by_symbol": {
+    "FPT": 211,
+    "MWG": 213,
+    "VCB": 215,
+    "VNM": 213
+  },
+  "by_regime": {
+    "BEAR": 191,
+    "BULL": 337,
+    "CHOPPY": 248,
+    "CONSOLIDATION": 76
+  },
+  "by_year": {
+    "2018": 0,
+    "2019": 0,
+    "2020": 201,
+    "2021": 329,
+    "2022": 322
+  },
+  "by_symbol_year": {
+    "FPT": {
+      "2018": 0,
+      "2019": 0,
+      "2020": 51,
+      "2021": 81,
+      "2022": 79
+    },
+    "MWG": {
+      "2018": 0,
+      "2019": 0,
+      "2020": 50,
+      "2021": 82,
+      "2022": 81
+    },
+    "VCB": {
+      "2018": 0,
+      "2019": 0,
+      "2020": 50,
+      "2021": 83,
+      "2022": 82
+    },
+    "VNM": {
+      "2018": 0,
+      "2019": 0,
+      "2020": 50,
+      "2021": 83,
+      "2022": 80
+    }
+  },
+  "by_symbol_regime": {
+    "FPT": {
+      "BULL": 83,
+      "BEAR": 47,
+      "CHOPPY": 62,
+      "CONSOLIDATION": 19
+    },
+    "MWG": {
+      "BULL": 84,
+      "BEAR": 48,
+      "CHOPPY": 62,
+      "CONSOLIDATION": 19
+    },
+    "VCB": {
+      "BULL": 85,
+      "BEAR": 48,
+      "CHOPPY": 63,
+      "CONSOLIDATION": 19
+    },
+    "VNM": {
+      "BULL": 85,
+      "BEAR": 48,
+      "CHOPPY": 61,
+      "CONSOLIDATION": 19
+    }
+  },
+  "first_as_of_date": "2020-06-01",
+  "last_exit_date": "2022-12-30",
+  "economic_labels": {
+    "LOSS_IF_LONG": 508,
+    "WIN_IF_LONG": 344
+  },
+  "bull_traps": 338,
+  "net_return_pct": {
+    "minimum": -13.790767835655583,
+    "maximum": 18.74036824320693,
+    "mean": -0.4684377683788939
+  },
+  "sentiment_labels": {
+    "NEUTRAL": 852
+  },
+  "reliable_sentiment_by_symbol": {
+    "FPT": 0,
+    "MWG": 0,
+    "VCB": 0,
+    "VNM": 0
+  },
+  "checks": [
+    "schema_native_json",
+    "unique_ids",
+    "complete_schedule",
+    "nonoverlap",
+    "execution_prices_and_net_labels",
+    "regime_and_news_cutoff",
+    "journal_and_report_checksums",
+    "signals_match_reports",
+    "publication_manifest",
+    "frozen_news",
+    "compat_parser_evidence"
+  ],
+  "limitations": [
+    "600 phiên khởi động: không có episode 2018–2019; lịch quyết định bắt đầu 2020-06-01.",
+    "Thiếu tin lịch sử đáng tin cậy được ghi rõ; không diễn giải NEUTRAL thành tin thị trường trung tính.",
+    "QA này không mở gate giá thô kiểm định 2023–2024."
+  ]
+}
