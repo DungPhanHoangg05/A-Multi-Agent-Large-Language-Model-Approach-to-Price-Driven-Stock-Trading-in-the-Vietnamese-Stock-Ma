@@ -4,6 +4,11 @@
 `core/bayesian_retriever.py`, test `tests/test_bayesian_prior_prefix.py`, smoke
 `scripts/verify_bayesian_prior.py`, biên bản `docs/week3/prior_smoke.json`.
 
+Template, schema metric và các trường hợp biên đã khóa tại
+[W3-04](statistics_and_prefix_contract.md), [policy](statistics_prefix_policy.json).
+Receipt Phase A kiểm mẫu tham chiếu ≤600, chưa thay test formatter/runtime hoặc
+prompt ghép thực tế trong các task bên dưới.
+
 **Điểm cần đối chiếu khi triển khai:** log E2E hiện tại ghi trần prompt compact
 7.500 ký tự, cao hơn ràng buộc 6.500 trong `AGENTS.md`. W3 phải kiểm độ dài prompt
 ghép thử thực tế, không lấy trần cũ làm tiêu chí PASS; W4 cần áp dụng ràng buộc

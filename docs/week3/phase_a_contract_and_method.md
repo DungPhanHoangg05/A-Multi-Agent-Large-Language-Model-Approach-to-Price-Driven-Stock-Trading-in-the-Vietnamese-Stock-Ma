@@ -1,7 +1,8 @@
 # Phase A — chốt hợp đồng truy xuất và phương pháp
 
-**Trạng thái: W3-01 đến W3-03 hoàn thành ngày 04/10/2026; W3-04 chưa thực hiện.** Các quy tắc của W3-04 dưới đây là đề xuất để khóa ở Phase A;
-mọi thay đổi phải ghi lý do trước khi dùng kết quả kiểm định 2023–2024.
+**Trạng thái: W3-01 đến W3-04 hoàn thành ngày 04/10/2026; Gate A đã đóng.**
+Các hợp đồng/phương pháp đã khóa; mọi thay đổi phải ghi lý do và phiên bản trước
+khi dùng kết quả kiểm định 2023–2024. Chưa triển khai retriever runtime/Phase B.
 
 ## W3-01 — đầu vào
 
@@ -55,25 +56,25 @@ Pool chung: kho hợp lệ → `exit_date < as_of_date` → scope đã chốt. R
 
 ## W3-04 — thống kê và BRPP
 
-Đề xuất thống kê từ **toàn bộ pool cùng regime sau cutoff/scope**, không chỉ K ví dụ.
-Ghi cùng thống kê cho các nhánh prior đối chứng để khác biệt chính là cách chọn task;
-phải khóa quy tắc này trước chạy pilot. Original không nhận thống kê.
+Đã chốt [thống kê và BRPP](statistics_and_prefix_contract.md) cùng
+[policy v1](statistics_prefix_policy.json). Population là **toàn bộ pool cùng regime
+sau cutoff/scope**, không chỉ K ví dụ. Ghi cùng thống kê cho các nhánh prior đối chứng;
+Original không nhận thống kê.
 
-- [ ] Win-rate LONG: `wins / n`, với wins là `WIN_IF_LONG`; đây là nhãn LONG giả định
+- [x] Win-rate LONG: `wins / n`, với wins là `WIN_IF_LONG`; đây là nhãn LONG giả định
   sau phí, không phải hit-rate lệnh LONG thực tế của Decision.
-- [ ] Bull trap có điều kiện: số bullish Trend hoặc Pattern nhưng LOSS chia cho số
-  episode có ít nhất một trong hai tín hiệu bullish; ghi thêm tổng số trap/n nếu dùng.
-- [ ] False bullish riêng từng agent: số bullish nhưng LOSS / số bullish của agent;
+- [x] Bull trap có điều kiện: số bullish Trend hoặc Pattern nhưng LOSS chia cho số
+  episode có ít nhất một trong hai tín hiệu bullish; union không đếm đôi, tử số khớp flag W2.
+- [x] False bullish riêng Trend/Pattern: số bullish nhưng LOSS / số bullish của agent;
   không coi mọi LOSS là false breakout hoặc suy ra độ tin cậy của Sentiment Agent.
-- [ ] Mẫu số 0 → `null`/không đủ mẫu, không 0% và không NaN; luôn có count hỗ trợ.
-- [ ] Nếu thêm Beta smoothing: khóa alpha/beta và công thức trước, lưu riêng tỷ lệ mẫu
-  và ước lượng làm trơn. Không bắt buộc thêm smoothing để đạt W3; không gọi empirical rate
-  là posterior hiệu chuẩn hay chứng minh LLM suy diễn Bayes.
-- [ ] Khóa template, đơn vị `len(text)` (ký tự Unicode), làm tròn và n=0/K=0/K<3;
+- [x] Mẫu số 0 → `null`/không đủ mẫu, không 0% và không NaN; luôn có count hỗ trợ.
+- [x] Chốt không smoothing Beta/Laplace, không ngưỡng minimum support; giữ tỷ lệ mẫu
+  và counts. Không gọi empirical rate là posterior hiệu chuẩn hoặc xác suất thắng query.
+- [x] Khóa template, đơn vị `len(text)` (ký tự Unicode), làm tròn và n=0/K=0/K<3;
   không có dấu hiệu sentiment đáng tin khi dữ liệu thực tế thiếu tin.
 
-**Gate A:** bốn task trên đủ biên bản quyết định; không còn lựa chọn mở ảnh hưởng
-scope, metric, thống kê hoặc đối chứng. Cập nhật đặc tả phương pháp nếu cần.
+**Gate A PASS:** bốn task trên đủ biên bản quyết định; scope, metric, thống kê,
+đối chứng và template/version đã khóa. Đặc tả phương pháp đã cập nhật.
 
 ## Kết quả và nhật ký
 
@@ -185,3 +186,22 @@ Kết quả audit và verifier PASS, bốn gate tích hợp ghi trong nhật ký
 - Bổ sung version metric/sampling và effective_seed dạng hex vào metadata API v1
   trước triển khai. Stats/version thống kê vẫn chờ W3-04.
 - Bốn gate codebase trước tích hợp ghi tại README. **Gate A còn mở vì W3-04 chưa xong.**
+
+### 04/10/2026 — W3-04 hoàn thành, đóng Gate A
+
+- [Hợp đồng stats/BRPP](statistics_and_prefix_contract.md),
+  [policy v1](statistics_prefix_policy.json), [receipt](statistics_prefix_review.json).
+- Chốt population cùng scope/regime sau cutoff, stats chung bốn nhánh prior,
+  bốn metric có numerator/denominator/rate, zero denominator=None, không smoothing
+  hoặc minimum support. Original K=0 không nhận stats/prefix.
+- Chốt template tiếng Việt NFC, rate một chữ số thập phân, return có dấu và
+  scientific khi cần giữ dấu/độ dài; W/L vẫn lấy từ nhãn LONG ròng đã xác minh.
+  Ghi thiếu tin một lần, không suy diễn Sentiment Agent đáng tin từ NEUTRAL.
+- Fixture tính tay PASS (WIN 2/4, trap 2/3, TrendFail 1/2, PatternFail 2/2);
+  n=0/không bullish và mẫu K=0..3 PASS. Mẫu dài nhất đã khảo sát 397 ký tự.
+  Kho thật đối chiếu 344 WIN/852 và 338 trap, ghi rõ scope pooled/tóm tắt mô tả.
+- Bổ sung statistics/prefix version vào metadata API; cập nhật đặc tả phương pháp,
+  đầu vào Phase B/C và kế hoạch tổng. Bốn gate hồi quy ghi tại README.
+- **Phase A hoàn thành, Gate A PASS.** W3-05..16 vẫn chưa thực hiện;
+  bước tiếp theo W3-05 nạp kho/lọc PIT/bảo vệ dữ liệu, không có retriever runtime
+  hoặc prompt ghép thực tế đã được báo PASS trong task chốt phương pháp này.

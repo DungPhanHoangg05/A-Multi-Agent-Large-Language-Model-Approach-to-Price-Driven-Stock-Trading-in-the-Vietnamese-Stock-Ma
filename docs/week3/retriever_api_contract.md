@@ -3,7 +3,7 @@
 **Chốt ngày 04/10/2026 cho W3-02.** Đây là đặc tả để triển khai từ W3-05,
 chưa phải module có thể import. Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
 [W3-03](prior_selection_method.md) ngày 04/10/2026;
-công thức và tên metric thống kê được chốt ở W3-04.
+công thức/schema metric và template BRPP đã chốt tại [W3-04](statistics_and_prefix_contract.md).
 
 ## 1. Khởi tạo và chữ ký
 
@@ -73,7 +73,7 @@ ngày snapshot và provenance trước khi gọi. Retriever kiểm cutoff của 
 3. Tập sau hai bước là **eligible pool chung** cho cả bốn mode. Bayesian tiếp tục
    lọc cùng regime trước ranking; các mode đối chứng xếp hạng/chọn từ pool chung.
 4. Thống kê lấy dữ liệu đã qua cutoff/scope, với tập cùng regime được ghi bằng
-   `population_count`. Công thức/tên metric sẽ khóa ở W3-04.
+   `population_count`. Công thức/tên metric đã khóa ở W3-04.
 
 **Chốt cấu hình nghiên cứu mặc định:** `scope="same_symbol"`, K=3, seed=42.
 `pooled` là lựa chọn tường minh cho thí nghiệm cấu hình khác, không fallback tự động.
@@ -101,8 +101,9 @@ Top-level có đúng ba trường: `tasks`, `stats`, `metadata`.
   scope/regime, không phải số task đã chọn; `metrics` là dictionary theo đặc tả W3-04.
 - Kho rỗng/số mẫu thống kê 0 vẫn trả object với count 0 và các tỷ lệ không xác định
   là None theo W3-04; không dùng 0% thay cho thiếu mẫu, không có NaN/Infinity.
-- Chưa khóa tên metric/công thức ở W3-02. W3-04 phải điền hợp đồng metric trước khi
-  triển khai W3-09; không tự dùng dictionary tùy ý khi đưa vào formatter.
+- `metrics` có đúng `win_rate_long`, `bull_trap_rate`, `trend_false_bullish_rate`,
+  `pattern_false_bullish_rate`; mỗi item đúng `numerator: int`, `denominator: int`,
+  `rate: float | None` theo W3-04. Không smoothing; không tự dùng dictionary tùy ý.
 
 ### `metadata: dict`
 
@@ -110,6 +111,7 @@ Top-level có đúng ba trường: `tasks`, `stats`, `metadata`.
 | --- | --- |
 | `api_contract_version` | int, hiện là 1 |
 | `sampling_version`, `metric_version` | str, `prior_sampling_v1` và `signal_match_v1` đã khóa ở W3-03 |
+| `statistics_version`, `prefix_version` | str, `regime_empirical_stats_v1` và `compact_brpp_v1` đã khóa ở W3-04 |
 | `effective_seed` | str hex SHA-256 64 ký tự ở random K>0, kể cả pool rỗng; còn lại None |
 | `bank_sha256` | str, SHA-256 kho đã xác minh khi khởi tạo |
 | `symbol`, `as_of_date`, `current_regime`, `mode`, `scope` | str, giữ đúng query đã kiểm |
@@ -125,8 +127,8 @@ Top-level có đúng ba trường: `tasks`, `stats`, `metadata`.
 
 `selected_scores.score` là float Python hữu hạn trong [0,1] cho similarity/Bayesian;
 recent/random dùng None, không giả định một score chất lượng. Score cụ thể đã khóa ở W3-03.
-Metadata version sampling/metric đã bổ sung trước triển khai. Version thống kê còn
-chờ W3-04; thay đổi hợp đồng đã chốt phải ghi rõ phiên bản tương thích.
+Metadata version sampling/metric/statistics/prefix đã bổ sung trước triển khai;
+thay đổi hợp đồng đã chốt phải ghi rõ phiên bản tương thích.
 
 ## 5. K=0, thiếu mẫu và lỗi
 
@@ -165,6 +167,8 @@ Ví dụ **hợp đồng K=0**, không phải output của module đã triển k
     "api_contract_version": 1,
     "sampling_version": "prior_sampling_v1",
     "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1",
     "effective_seed": null,
     "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
     "symbol": "FPT",

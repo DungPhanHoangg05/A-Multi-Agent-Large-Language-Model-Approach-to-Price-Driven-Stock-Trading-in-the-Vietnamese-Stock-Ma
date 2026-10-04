@@ -277,7 +277,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
 - **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. W3-01 đến W3-03 hoàn thành ngày 04/10/2026: đầu vào PASS, [API v1](../week3/retriever_api_contract.md) và [luật chọn prior](../week3/prior_selection_method.md) đã chốt scope/K/seed/alias/score/tie-break cho bốn mode. W3-04 đến W3-16 chưa thực hiện; thống kê/BRPP còn chờ chốt ở Phase A, chưa triển khai retriever runtime.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Phase A (W3-01..04) hoàn thành ngày 04/10/2026, Gate A PASS: đầu vào, API, scope/K/seed/alias/score/tie-break, [thống kê và mẫu BRPP](../week3/statistics_and_prefix_contract.md) đã khóa. W3-05 đến W3-16 chưa thực hiện; tiếp theo Phase B triển khai retriever runtime, các nhiệm vụ cài đặt dưới đây vẫn chưa hoàn thành.
 - **Nhiệm vụ cụ thể**:
   - [ ] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity`.
   - [ ] Xây dựng thuật toán tính toán thống kê Bayes kinh nghiệm (Empirical Win-rate, Trap Probabilities) cho từng regime.
