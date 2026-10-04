@@ -130,7 +130,7 @@ flowchart TD
 
     subgraph Memory_Layer["Tầng Bộ Nhớ Tiên Nghiệm Lịch Sử"]
         HistEpisodes["Historical Memory Bank\n(300+ Episodes 2018-2022)\n[Regime | Agent Signals | T+2.5 Outcome]"]
-        CurrentRegime --> BayRetriever["Bayesian Prior Retriever\n(Strict: record.date < as_of_date)"]
+        CurrentRegime --> BayRetriever["Bayesian Prior Retriever\n(Strict: record.exit_date < as_of_date)"]
         HistEpisodes --> BayRetriever
         BayRetriever --> PriorPrefix["Compact Bayesian Prior Prefix\n(K=3 episodes + Empirical Stats)\n< 600 chars"]
     end
@@ -176,7 +176,7 @@ flowchart TD
      ```
 3. **`core/bayesian_retriever.py`**:
    - Nhận vào `symbol`, `as_of_date`, `current_regime` và tham số $K$ (mặc định $K=3$).
-   - Lọc tất cả record trong memory có `record.as_of_date < as_of_date` và `record.regime == current_regime`.
+   - Lọc tất cả record trong memory có `record.exit_date < as_of_date` trước xếp hạng/thống kê; chế độ Bayesian lọc thêm `record.regime == current_regime`.
    - Tính toán thống kê Bayes kinh nghiệm:
      - Tỷ lệ false breakout của Trend/Pattern trong regime này.
      - Tỷ lệ thành công của các lệnh LONG trong regime này.
@@ -277,6 +277,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
 - **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Hiện mới lập kế hoạch, chưa triển khai W3; scope/metric/thống kê và cách đo hiệu năng phải được chốt ở Phase A.
 - **Nhiệm vụ cụ thể**:
   - [ ] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity`.
   - [ ] Xây dựng thuật toán tính toán thống kê Bayes kinh nghiệm (Empirical Win-rate, Trap Probabilities) cho từng regime.
