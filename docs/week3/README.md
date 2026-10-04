@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: W3-01/W3-02 hoàn thành; W3-03 đến W3-16 chưa thực hiện. Phase A đang triển khai.**
+**Trạng thái: W3-01 đến W3-03 hoàn thành; W3-04 đến W3-16 chưa thực hiện. Phase A đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -50,7 +50,7 @@ Chi tiết: [Phase A](phase_a_contract_and_method.md).
 | --- | --- | --- | --- | --- |
 | W3-01 | Kiểm tra đầu vào và ranh giới W3 | [Biên bản Phase A](phase_a_contract_and_method.md#04102026--w3-01-hoàn-thành), [receipt](input_readiness.json): hash/QA/852 record PASS; cutoff/deep copy/không I/O mỗi query xác minh; ranh giới W4 và phép đo khóa | W2 hoàn thành | [x] |
 | W3-02 | Chốt API truy vấn và kết quả | [Hợp đồng API v1](retriever_api_contract.md): kiểu query/result, bốn mode, K=0..3, seed, scope cùng mã/pooled, metadata/counts/score, lỗi và thiếu mẫu đã chốt | W3-01 | [x] |
-| W3-03 | Chốt cách chọn prior và similarity | Bốn mode, chuẩn hóa tín hiệu, tie-break, seed theo query, thiếu mẫu; không xếp hạng bằng outcome | W3-02 | [ ] |
+| W3-03 | Chốt cách chọn prior và similarity | [Luật chọn prior](prior_selection_method.md), [policy v1](prior_selection_policy.json): bốn mode, alias/NFC, score bốn trường, tie-break, seed theo query; thiếu mẫu giữ pool, không ranking bằng outcome | W3-02 | [x] |
 | W3-04 | Chốt thống kê và mẫu BRPP | Công thức/mẫu số, phạm vi thống kê, n=0, thiếu tin, mẫu K=0..3 và đơn vị đo ký tự | W3-02, W3-03 | [ ] |
 
 ## B. Retriever và thống kê
@@ -105,6 +105,17 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-04
+
+- **W3-03 hoàn thành**: [luật chọn prior](prior_selection_method.md),
+  [policy v1](prior_selection_policy.json) và [receipt](selection_policy_review.json)
+  chốt bốn mode, alias/NFC, score bốn trường 0,25/trường, sentiment 0, tie-break,
+  seed SHA-256 theo query và thiếu mẫu không mở scope/regime. Kiểm kê toàn bộ 852
+  episode, ranking tham chiếu, Random theo seed/đảo pool/thêm ứng viên tương lai,
+  hash policy và JSON ví dụ API PASS. Không triển khai retriever runtime.
+- **Gate tích hợp W3-03**: compileall PASS; 235/235 unit tests PASS (89,889 giây),
+  E2E xác định PASS (13,3 giây), 38/38 leakage tests PASS (5,528 giây),
+  `git diff --check` và liên kết nội bộ PASS. Nhánh `docs/prior-selection-method`,
+  tích hợp sau bốn gate. Gate A còn mở; tiếp theo W3-04 chốt thống kê/BRPP.
 
 - **W3-02 hoàn thành**: [hợp đồng API v1](retriever_api_contract.md) chốt constructor/query,
   validation kiểu Python gốc, K=0..3, seed=42 mặc định, scope `same_symbol`/`pooled`,

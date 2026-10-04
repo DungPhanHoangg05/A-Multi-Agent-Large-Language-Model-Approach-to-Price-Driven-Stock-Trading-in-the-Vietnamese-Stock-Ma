@@ -1,6 +1,6 @@
 # Phase A — chốt hợp đồng truy xuất và phương pháp
 
-**Trạng thái: W3-01 và W3-02 hoàn thành ngày 04/10/2026; W3-03/W3-04 chưa thực hiện.** Các quy tắc của W3-03/W3-04 dưới đây là đề xuất để khóa ở Phase A;
+**Trạng thái: W3-01 đến W3-03 hoàn thành ngày 04/10/2026; W3-04 chưa thực hiện.** Các quy tắc của W3-04 dưới đây là đề xuất để khóa ở Phase A;
 mọi thay đổi phải ghi lý do trước khi dùng kết quả kiểm định 2023–2024.
 
 ## W3-01 — đầu vào
@@ -35,20 +35,23 @@ do caller xác minh PIT; retriever kiểm cutoff prior, không tự fit HMM ho�
 Pool chung: kho hợp lệ → `exit_date < as_of_date` → scope đã chốt. Record không
 đủ cutoff được loại bởi bộ lọc; nếu lọt vào kết quả/stats, ném `ValueError`/`AssertionError`.
 
-| Mode | Đề xuất phải chốt | Khi ít hơn K |
+Đã chốt [luật chọn prior](prior_selection_method.md) và
+[cấu hình phiên bản 1](prior_selection_policy.json).
+
+| Mode | Quy tắc đã chốt | Khi ít hơn K |
 | --- | --- | --- |
 | `recent` | `exit_date` giảm dần, tie-break `episode_id` tăng dần | Lấy số hiện có |
 | `random` | Lấy không hoàn lại từ pool đã sắp ID; RNG cục bộ theo seed và query bằng hash ổn định, không dùng `hash()` Python | Lấy số hiện có |
 | `similarity` | Điểm so khớp hướng tín hiệu; score giảm dần, rồi ngày exit giảm dần, rồi ID tăng dần | Lấy số hiện có |
 | `bayesian_regime` | Lọc cùng regime, chọn similarity cao nhất, tie-break giống similarity | Giữ cùng regime, không bù khác regime |
 
-- [ ] Khóa bảng ánh xạ mỗi tín hiệu sang hướng chuẩn; dùng helper hiện có khi phù hợp,
+- [x] Khóa bảng ánh xạ mỗi tín hiệu sang hướng chuẩn; dùng helper hiện có khi phù hợp,
   từ chối giá trị không rõ thay vì tự suy diễn hướng từ đoạn văn.
-- [ ] Đề xuất similarity dùng tỷ lệ khớp của bốn trường Trend/Pattern/Alpha/Indicator,
+- [x] Similarity dùng tỷ lệ khớp của bốn trường Trend/Pattern/Alpha/Indicator,
   trọng số bằng nhau; sentiment không góp điểm vì cả kho thiếu tin. Nếu bổ sung tin,
   phải đổi phiên bản metric và kiểm tra lại trước thí nghiệm.
-- [ ] Không dùng return, WIN/LOSS, bull trap hoặc nhãn tương lai của query để chọn K.
-- [ ] Ghi metric/weight/seed/tie-break/scope vào cấu hình và receipt; không tuning trên OOS.
+- [x] Không dùng return, WIN/LOSS, bull trap hoặc nhãn tương lai của query để chọn K.
+- [x] Ghi metric/weight/seed/tie-break/scope vào cấu hình và receipt; không tuning trên OOS.
 
 ## W3-04 — thống kê và BRPP
 
@@ -165,3 +168,20 @@ Kết quả audit và verifier PASS, bốn gate tích hợp ghi trong nhật ký
   thuật toán. W3-03 còn khóa ranking/metric/alias, W3-04 còn khóa metric stats/template.
 - Bốn gate hồi quy hiện có được chạy trước tích hợp; kết quả ghi ở README.
   **Gate A còn mở vì W3-03/W3-04 chưa hoàn thành.**
+
+### 04/10/2026 — W3-03 hoàn thành
+
+- Đầu ra: [luật chọn prior](prior_selection_method.md),
+  [policy v1](prior_selection_policy.json), [receipt kiểm chứng](selection_policy_review.json).
+- Khóa NFC/strip/upper/exact alias theo từng miền tín hiệu; kiểm kê nhãn cả 852
+  record PASS. Không tự đọc hướng từ báo cáo hoặc biến trường sai thành NEUTRAL.
+- Khóa score tỷ lệ khớp bốn tín hiệu kỹ thuật, 0,25/trường; sentiment 0, không dùng
+  outcome/return vào ranking. Bayesian lọc cùng regime rồi ranking giống Similarity.
+- Khóa Recent theo exit giảm dần/ID tăng dần; Similarity theo score giảm dần rồi
+  exit giảm dần/ID tăng dần; thiếu mẫu không đổi scope/regime.
+- Khóa RNG cục bộ theo digest query, sample trên pool sắp ID, không dùng hash kho
+  hoặc global RNG. Ví dụ tham chiếu ranking/random, đảo thứ tự pool, thêm record
+  tương lai hợp lệ và không đổi global RNG đều PASS; không phải test runtime retriever.
+- Bổ sung version metric/sampling và effective_seed dạng hex vào metadata API v1
+  trước triển khai. Stats/version thống kê vẫn chờ W3-04.
+- Bốn gate codebase trước tích hợp ghi tại README. **Gate A còn mở vì W3-04 chưa xong.**
