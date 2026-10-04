@@ -1,22 +1,23 @@
 # Phase B — retriever và thống kê
 
-**Trạng thái: chưa thực hiện.** Bắt đầu sau Gate A. File dự kiến:
+**Trạng thái: W3-05 hoàn thành; W3-06..09 chưa thực hiện.** File nền đã có:
 `core/bayesian_retriever.py`, `tests/test_bayesian_retriever.py`,
 `tests/test_bayesian_statistics.py`.
 
 Gate A đã PASS; dùng [API](retriever_api_contract.md),
 [luật chọn prior](prior_selection_method.md) và
-[stats/BRPP](statistics_and_prefix_contract.md) đã khóa. Phase B chưa triển khai.
+[stats/BRPP](statistics_and_prefix_contract.md) đã khóa. Gate B chưa đóng.
 
 ## W3-05 — kho và cutoff
 
-- [ ] Nạp/xác minh kho một lần bằng `HistoricalMemory`; giữ hash/version trong metadata.
-- [ ] Tái dùng `eligible()` hoặc index tương đương có cùng bất biến; lọc trước ranking
+- [x] Nạp/xác minh kho một lần bằng `HistoricalMemory`; giữ hash/version trong metadata.
+- [x] Tái dùng `eligible()` hoặc index tương đương có cùng bất biến; lọc trước ranking
   và thống kê. Không đặt cache chỉ theo regime mà bỏ qua cutoff/scope/bank version.
-- [ ] Kiểm lại mọi task đầu ra: ID duy nhất, thuộc pool, exit trước query; kiểm cả
-  tập dùng thống kê. Vi phạm phải ném lỗi.
-- [ ] Kết quả deep copy; sửa kết quả query trước không làm thay đổi query sau.
-- [ ] Test ngày bằng cutoff, chu kỳ vắt qua cutoff, pool rỗng, mã/ngày sai và K=0.
+- [x] Kiểm pool/population và cung cấp chốt `_validate_selection` cho bộ chọn ở task sau:
+  ID duy nhất, record nguyên bản, cutoff/scope/regime, không vượt K; vi phạm ném lỗi.
+- [x] Kết quả deep copy; pool/population không chia sẻ record mutable, sửa query trước
+  không làm thay đổi query sau.
+- [x] Test ngày bằng cutoff, chu kỳ vắt qua cutoff, pool rỗng, mã/ngày sai và K=0.
 
 ## W3-06 — recent và random
 
@@ -55,4 +56,31 @@ input/result không bị mutate, metadata đủ cho Phase C và bàn giao W4.
 
 ## Kết quả và nhật ký
 
-Chưa có kết quả thực thi. Sau từng task điền file, lệnh test, số test và kết quả.
+### 04/10/2026 — W3-05 hoàn thành
+
+- Module `core/bayesian_retriever.py`: constructor khớp API, đối chiếu hash kho/schema,
+  format/signature/QA PASS/counts/độ phủ, rồi `HistoricalMemory.load()` kiểm giá/P&L
+  một lần. File thay đổi trong lúc nạp bị từ chối; toàn bộ alias cũng được kiểm.
+- `prepare_query()` kiểm query, trả `eligible_tasks`, `regime_population`, metadata
+  cutoff/scope/counts/hash/version trước ranking/stats. Không cache theo ngày/regime
+  nên gọi ngày sau rồi ngày trước vẫn lọc đúng. Hai danh sách trả bản sao độc lập.
+- `_assert_pool()`/`_validate_selection()` chặn ID trùng, record sửa so với snapshot,
+  NumPy scalar thay giá trị Python, cutoff/scope/regime sai hoặc quá K.
+- `retrieve(k=0)` trả đúng disabled/tasks rỗng/stats None/counts None; query sai vẫn
+  ValueError. `retrieve(k>0)` hiện ném **NotImplementedError**, không giả kết quả
+  empty/complete: ranking thuộc W3-06..08, stats thuộc W3-09. Đây là phạm vi task nền.
+- [Receipt kho thật](retriever_foundation_review.json): 852 record, loader giá đúng
+  một lần/FPT/MWG/VCB/VNM; hot query chặn JSON/CSV/giá vẫn PASS. Scope FPT có 211
+  eligible/83 BULL, pooled có 852/337 BULL; cutoff exit đầu 04/06/2020 trả rỗng.
+  Regime BULL của probe là fixture đầu vào, không khẳng định VN-Index tại 03/01/2023.
+- 14 test mới (11 nền + 3 leakage) dùng validator/engine thật trên fixture giá trong
+  thư mục tạm. Phát hiện và sửa alias giữa pool/population; không sửa bank/model W2.
+
+Lệnh kiểm nền:
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_retriever*.py' -v
+```
+
+Kết quả và gate tích hợp cuối cùng ghi tại README. **Gate B còn mở**; tiếp theo
+W3-06 Recent/Random, rồi Similarity/Bayesian và stats theo thứ tự đã chốt.
