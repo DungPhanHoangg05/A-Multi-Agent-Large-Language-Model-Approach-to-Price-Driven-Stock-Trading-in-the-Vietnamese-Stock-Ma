@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: W3-01 hoàn thành; W3-02 đến W3-16 chưa thực hiện. Phase A đang triển khai.**
+**Trạng thái: W3-01/W3-02 hoàn thành; W3-03 đến W3-16 chưa thực hiện. Phase A đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -49,7 +49,7 @@ Chi tiết: [Phase A](phase_a_contract_and_method.md).
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W3-01 | Kiểm tra đầu vào và ranh giới W3 | [Biên bản Phase A](phase_a_contract_and_method.md#04102026--w3-01-hoàn-thành), [receipt](input_readiness.json): hash/QA/852 record PASS; cutoff/deep copy/không I/O mỗi query xác minh; ranh giới W4 và phép đo khóa | W2 hoàn thành | [x] |
-| W3-02 | Chốt API truy vấn và kết quả | Kiểu query/result, mode/K/seed/scope, metadata, lỗi đầu vào, empty/K=0 được đặc tả | W3-01 | [ ] |
+| W3-02 | Chốt API truy vấn và kết quả | [Hợp đồng API v1](retriever_api_contract.md): kiểu query/result, bốn mode, K=0..3, seed, scope cùng mã/pooled, metadata/counts/score, lỗi và thiếu mẫu đã chốt | W3-01 | [x] |
 | W3-03 | Chốt cách chọn prior và similarity | Bốn mode, chuẩn hóa tín hiệu, tie-break, seed theo query, thiếu mẫu; không xếp hạng bằng outcome | W3-02 | [ ] |
 | W3-04 | Chốt thống kê và mẫu BRPP | Công thức/mẫu số, phạm vi thống kê, n=0, thiếu tin, mẫu K=0..3 và đơn vị đo ký tự | W3-02, W3-03 | [ ] |
 
@@ -105,6 +105,16 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-04
+
+- **W3-02 hoàn thành**: [hợp đồng API v1](retriever_api_contract.md) chốt constructor/query,
+  validation kiểu Python gốc, K=0..3, seed=42 mặc định, scope `same_symbol`/`pooled`,
+  tasks/stats/metadata, counts/score/status/reason, thiếu mẫu và trách nhiệm PIT.
+  Đã đối chiếu schema W1, API kho và đặc tả phương pháp; JSON ví dụ K=0, liên kết
+  nội bộ và `git diff --check` PASS. Chưa triển khai module hoặc các test thuật toán.
+- **Gate tích hợp W3-02**: compileall PASS; 235/235 unit tests PASS (90,278 giây),
+  E2E xác định PASS (13,1 giây), 38/38 leakage tests PASS (5,720 giây).
+  Tài liệu trên nhánh `docs/bayesian-query-contract`, tích hợp sau gate.
+  Gate A còn mở: tiếp tục W3-03/W3-04.
 
 - **W3-01 hoàn thành**: `scripts/verify_bayesian_inputs.py` và [receipt](input_readiness.json)
   PASS 852 record, hash kho/schema/signature và độ phủ khớp manifest/QA; nạp giá đúng

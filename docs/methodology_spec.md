@@ -54,6 +54,13 @@ Triển khai Phase B dùng năm đặc trưng Close, chưa dùng breadth; [cấu
 
 Retriever lọc theo `exit_date < current_as_of_date` trước mọi phép xếp hạng. Bayesian regime prior chọn tối đa $K=3$ chu kỳ đã đóng và có regime phù hợp; khi số bản ghi ít hơn $K$, dùng số hiện có và ghi lại số lượng, không kéo bản ghi tương lai vào để đủ mẫu. So sánh với Random, Recent và Similarity trên **cùng tập prior hợp lệ**. Seed của Random phải cố định và lưu trong kết quả. Cách đo similarity và mọi ngưỡng phải chốt trên tập 2018–2022. Prefix BRPP dài tối đa 600 ký tự cho $K=3$; prompt Decision Agent trong backtest dưới 6.500 ký tự sau khi ghép báo cáo.
 
+[Hợp đồng truy xuất W3-02](week3/retriever_api_contract.md) chốt mặc định cùng mã
+(`same_symbol`), K=3, seed=42; gộp bốn mã (`pooled`) chỉ dùng khi chọn tường minh
+trong cấu hình thí nghiệm, cùng scope cho mọi nhánh prior đối chứng. Không mở rộng
+scope để bù thiếu mẫu. API hỗ trợ K=0..3; K=0 cho Original trả tasks rỗng, stats None
+và không inject BRPP. Kiểu kết quả/metadata và trách nhiệm xác minh PIT của caller
+được đặc tả tại hợp đồng; ranking và công thức thống kê sẽ khóa riêng ở W3-03/W3-04.
+
 ## 6. Giao thức so sánh và đánh giá
 
 Mỗi test point chạy `Indicator → Pattern → Trend` một lần. Deep copy nguyên state upstream sang năm nhánh: Original $K=0$, Random $K=3$, Recent $K=3$, Similarity $K=3$, Bayesian Regime $K=3$. Alpha/Sentiment/Decision được điều khiển theo cấu hình từng nhánh, nhưng cùng dữ liệu đầu vào, cùng mốc thời gian và cùng chi phí giao dịch. Lưu `symbol`, `as_of_date`, `regime_name`, `prior_episode_ids`, dự đoán, confidence, lý do fallback, prompt length và kết quả tài khoản theo nhánh. Mỗi điểm được checkpoint sau khi hoàn tất để chạy tiếp mà không thay seed hoặc lặp upstream.
