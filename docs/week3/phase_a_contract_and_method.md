@@ -1,6 +1,6 @@
 # Phase A — chốt hợp đồng truy xuất và phương pháp
 
-**Trạng thái: W3-01 hoàn thành ngày 04/10/2026; W3-02 đến W3-04 chưa thực hiện.** Các quy tắc dưới đây là đề xuất để khóa ở Phase A;
+**Trạng thái: W3-01 và W3-02 hoàn thành ngày 04/10/2026; W3-03/W3-04 chưa thực hiện.** Các quy tắc của W3-03/W3-04 dưới đây là đề xuất để khóa ở Phase A;
 mọi thay đổi phải ghi lý do trước khi dùng kết quả kiểm định 2023–2024.
 
 ## W3-01 — đầu vào
@@ -15,19 +15,20 @@ mọi thay đổi phải ghi lý do trước khi dùng kết quả kiểm địn
 
 ## W3-02 — API
 
-Đề xuất `BayesianPriorRetriever.retrieve(...)` nhận `symbol`, `as_of_date`,
-`current_regime`, `current_signals`, `mode`, `k=3`, `seed=42`, `scope`.
-Regime là đầu vào đã xác minh PIT; retriever không tự fit HMM hoặc gọi upstream.
+Đã chốt [hợp đồng API phiên bản 1](retriever_api_contract.md): khởi tạo từ kho,
+manifest và QA đã xác minh; `retrieve(...)` nhận tham số theo tên. Regime/tín hiệu
+do caller xác minh PIT; retriever kiểm cutoff prior, không tự fit HMM hoặc gọi upstream.
 
-- [ ] Khóa kiểu và validation: mã/ngày/regime/mode hợp lệ, K nguyên không âm,
-  giới hạn K hỗ trợ cho BRPP, seed nguyên, tín hiệu đủ cho mode cần similarity.
-- [ ] Chốt `scope`: đề xuất mặc định cùng mã; tùy chọn pooled bốn mã phải tường minh
+- [x] Khóa kiểu và validation: mã/ngày/regime/mode hợp lệ, K nguyên Python gốc 0..3,
+  seed nguyên Python gốc 0..2^32−1; signals đủ năm trường khi dùng similarity/Bayesian với K>0.
+- [x] Chốt `scope`: mặc định `same_symbol`; tùy chọn `pooled` bốn mã phải tường minh
   và dùng giống nhau cho cả bốn mode trong một thí nghiệm. Không tự mở rộng scope khi thiếu K.
-- [ ] Chốt result: `tasks`, `stats`, `metadata` (mode, scope, seed, cutoff, regime,
+- [x] Chốt result: `tasks`, `stats`, `metadata` (mode, scope, seed, cutoff, regime,
   bank hash, số eligible/cùng regime/selected, IDs, score, lý do thiếu mẫu).
-- [ ] K=0 trả tasks rỗng; nhánh Original không nhận BRPP hoặc thống kê. Pool rỗng
+- [x] K=0 trả tasks rỗng, stats None và pool counts None; Original không nhận BRPP hoặc thống kê. Pool rỗng
   là kết quả hợp lệ có lý do, đầu vào sai hoặc hậu điều kiện cutoff sai phải ném lỗi.
-- [ ] Không làm thay đổi record gốc; trả kiểu Python gốc có thể JSON serialize.
+- [x] Không làm thay đổi input/record gốc hoặc chia sẻ object mutable giữa query;
+  trả kiểu Python gốc có thể JSON serialize với `allow_nan=False`.
 
 ## W3-03 — luật chọn prior
 
@@ -147,4 +148,20 @@ py -3.13 -X utf8 scripts/verify_bayesian_inputs.py
 Verifier mặc định ghi lại `docs/week3/input_readiness.json`; timings có thể thay đổi
 giữa các lần chạy. Hash mã verifier được tính từ văn bản UTF-8 chuẩn hóa newline.
 Kết quả audit và verifier PASS, bốn gate tích hợp ghi trong nhật ký README.
-**Gate A chưa đóng:** W3-02, W3-03, W3-04 còn chờ chốt hợp đồng/phương pháp.
+**Tại thời điểm chốt W3-01, Gate A chưa đóng:** W3-02, W3-03, W3-04 còn chờ chốt hợp đồng/phương pháp.
+
+### 04/10/2026 — W3-02 hoàn thành
+
+- Đầu ra: [retriever_api_contract.md](retriever_api_contract.md), phiên bản API 1.
+- Chốt chữ ký constructor/query, validation, K=0..3, seed, scope mặc định cùng mã
+  và pooled tường minh; mọi mode paired phải dùng cùng scope/version kho.
+- Chốt tasks nguyên schema W1, stats envelope, metadata/score/counts và bảng
+  disabled/empty/partial/complete. Thiếu dữ liệu là kết quả có reason; input/bất biến
+  sai là lỗi, không trả empty để che lỗi nạp kho/cutoff.
+- Chốt trách nhiệm caller xác minh regime/tín hiệu PIT và result không mutate input/kho.
+- Ghi ca nghiệm thu cho triển khai W3-05..13 và ví dụ K=0 minh họa, không dùng nhãn
+  regime giả định làm chứng cứ dữ liệu thực tế.
+- Đây là bước chốt hợp đồng: chưa tạo module retriever hoặc chạy các ca nghiệm thu
+  thuật toán. W3-03 còn khóa ranking/metric/alias, W3-04 còn khóa metric stats/template.
+- Bốn gate hồi quy hiện có được chạy trước tích hợp; kết quả ghi ở README.
+  **Gate A còn mở vì W3-03/W3-04 chưa hoàn thành.**
