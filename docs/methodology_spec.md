@@ -63,7 +63,17 @@ và không inject BRPP. Kiểu kết quả/metadata và trách nhiệm xác minh
 so khớp bốn tín hiệu kỹ thuật, trọng số 0,25 mỗi trường, sentiment 0 do kho thiếu tin;
 Bayesian lọc cùng regime rồi ranking như Similarity. Phá hòa theo exit giảm dần/ID
 tăng dần; Random dùng RNG cục bộ, seed SHA-256 từ query và sample không hoàn lại
-trên pool sắp ID, không đưa outcome/hash kho vào seed. Công thức thống kê còn chờ W3-04.
+trên pool sắp ID, không đưa outcome/hash kho vào seed.
+
+[W3-04](week3/statistics_and_prefix_contract.md) chốt thống kê từ toàn bộ prior
+cùng scope/regime đã tất toán trước cutoff, dùng chung cho bốn nhánh prior.
+Win-rate LONG lấy WIN/n; trap có điều kiện lấy số bullish Trend hoặc Pattern nhưng
+LOSS chia cho số episode có ít nhất một trong hai tín hiệu bullish; false bullish
+riêng Trend/Pattern có mẫu số là số bullish của agent đó. Luôn lưu counts, mẫu số
+0 trả None, không smoothing hoặc ngưỡng minimum support; không gọi tỷ lệ mẫu là
+posterior hiệu chuẩn. BRPP khóa template ≤600 ký tự, số ví dụ thực tế và nhãn LONG
+ròng sau phí; ghi thiếu tin thay vì suy luận độ tin cậy sentiment. Original K=0
+không nhận stats/BRPP; so với Original chưa tách riêng tác động stats và ví dụ.
 
 ## 6. Giao thức so sánh và đánh giá
 

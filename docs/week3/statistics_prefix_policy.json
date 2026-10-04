@@ -1,0 +1,28 @@
+{
+  "statistics_version": "regime_empirical_stats_v1",
+  "prefix_version": "compact_brpp_v1",
+  "population": "eligible_same_scope_and_current_regime",
+  "shared_stats_across_prior_modes": true,
+  "smoothing": "none",
+  "minimum_support_threshold": null,
+  "zero_denominator_rate": null,
+  "metrics": {
+    "win_rate_long": {"numerator": "WIN_IF_LONG", "denominator": "population"},
+    "bull_trap_rate": {"numerator": "bullish_union_AND_LOSS_IF_LONG", "denominator": "bullish_trend_OR_pattern"},
+    "trend_false_bullish_rate": {"numerator": "bullish_trend_AND_LOSS_IF_LONG", "denominator": "bullish_trend"},
+    "pattern_false_bullish_rate": {"numerator": "bullish_pattern_AND_LOSS_IF_LONG", "denominator": "bullish_pattern"}
+  },
+  "prefix_char_limit": 600,
+  "decision_prompt_char_limit_exclusive": 6500,
+  "length_unit": "python_len_unicode_codepoints",
+  "rate_rendering": "numerator/denominator(percent_1_decimal)_or_0/0(N/A)",
+  "return_rendering": "signed_percent_2_decimals_or_scientific_2_decimals_if_abs_ge_10000_or_nonzero_abs_lt_0.005",
+  "sentiment_in_examples": "omit_with_explicit_missing_news_note",
+  "overflow_policy": "raise_ValueError_no_truncation_or_dropping_examples",
+  "template_lines": [
+    "[BRPP v1] R={regime}; n={population_count}; k={selected_count}",
+    "LONGwin={win_rate_long}; Trap={bull_trap_rate}; TrendFail={trend_false_bullish_rate}; PatternFail={pattern_false_bullish_rate}",
+    "T/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.",
+    "{symbol}@{as_of_date} R={task_regime} T/P/A/I={signal_codes} {result_code} {net_return_text}"
+  ]
+}

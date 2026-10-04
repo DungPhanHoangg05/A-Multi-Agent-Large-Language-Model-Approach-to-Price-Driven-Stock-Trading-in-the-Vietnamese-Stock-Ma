@@ -1,0 +1,189 @@
+{
+  "format_version": 1,
+  "status": "PASS",
+  "statistics_version": "regime_empirical_stats_v1",
+  "prefix_version": "compact_brpp_v1",
+  "policy_text_sha256": "dcde854a1f12e98c2ac9f080f1e8408b0abecf12d87661e2de7a41b7d6d6a743",
+  "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+  "reference_stats": {
+    "regime": "BULL",
+    "population_count": 4,
+    "metrics": {
+      "win_rate_long": {
+        "numerator": 2,
+        "denominator": 4,
+        "rate": 0.5
+      },
+      "bull_trap_rate": {
+        "numerator": 2,
+        "denominator": 3,
+        "rate": 0.6666666666666666
+      },
+      "trend_false_bullish_rate": {
+        "numerator": 1,
+        "denominator": 2,
+        "rate": 0.5
+      },
+      "pattern_false_bullish_rate": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1.0
+      }
+    }
+  },
+  "real_bank_summary": {
+    "scope": "pooled",
+    "cutoff": "2023-01-03",
+    "by_regime": {
+      "BEAR": {
+        "regime": "BEAR",
+        "population_count": 191,
+        "metrics": {
+          "win_rate_long": {
+            "numerator": 88,
+            "denominator": 191,
+            "rate": 0.4607329842931937
+          },
+          "bull_trap_rate": {
+            "numerator": 59,
+            "denominator": 106,
+            "rate": 0.5566037735849056
+          },
+          "trend_false_bullish_rate": {
+            "numerator": 45,
+            "denominator": 79,
+            "rate": 0.569620253164557
+          },
+          "pattern_false_bullish_rate": {
+            "numerator": 53,
+            "denominator": 93,
+            "rate": 0.5698924731182796
+          }
+        }
+      },
+      "BULL": {
+        "regime": "BULL",
+        "population_count": 337,
+        "metrics": {
+          "win_rate_long": {
+            "numerator": 138,
+            "denominator": 337,
+            "rate": 0.4094955489614243
+          },
+          "bull_trap_rate": {
+            "numerator": 148,
+            "denominator": 245,
+            "rate": 0.6040816326530613
+          },
+          "trend_false_bullish_rate": {
+            "numerator": 103,
+            "denominator": 179,
+            "rate": 0.5754189944134078
+          },
+          "pattern_false_bullish_rate": {
+            "numerator": 134,
+            "denominator": 225,
+            "rate": 0.5955555555555555
+          }
+        }
+      },
+      "CHOPPY": {
+        "regime": "CHOPPY",
+        "population_count": 248,
+        "metrics": {
+          "win_rate_long": {
+            "numerator": 88,
+            "denominator": 248,
+            "rate": 0.3548387096774194
+          },
+          "bull_trap_rate": {
+            "numerator": 100,
+            "denominator": 152,
+            "rate": 0.6578947368421053
+          },
+          "trend_false_bullish_rate": {
+            "numerator": 58,
+            "denominator": 96,
+            "rate": 0.6041666666666666
+          },
+          "pattern_false_bullish_rate": {
+            "numerator": 88,
+            "denominator": 138,
+            "rate": 0.6376811594202898
+          }
+        }
+      },
+      "CONSOLIDATION": {
+        "regime": "CONSOLIDATION",
+        "population_count": 76,
+        "metrics": {
+          "win_rate_long": {
+            "numerator": 30,
+            "denominator": 76,
+            "rate": 0.39473684210526316
+          },
+          "bull_trap_rate": {
+            "numerator": 31,
+            "denominator": 53,
+            "rate": 0.5849056603773585
+          },
+          "trend_false_bullish_rate": {
+            "numerator": 23,
+            "denominator": 39,
+            "rate": 0.5897435897435898
+          },
+          "pattern_false_bullish_rate": {
+            "numerator": 29,
+            "denominator": 49,
+            "rate": 0.5918367346938775
+          }
+        }
+      }
+    }
+  },
+  "prefix_examples": {
+    "original_k0": {
+      "length": 0,
+      "text": ""
+    },
+    "empty_prior_n0": {
+      "length": 188,
+      "text": "[BRPP v1] R=BULL; n=0; k=0\nLONGwin=0/0(N/A); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin."
+    },
+    "no_bullish": {
+      "length": 235,
+      "text": "[BRPP v1] R=BULL; n=1; k=1\nLONGwin=1/1(100.0%); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=00-0 W +1.25%"
+    },
+    "fixture_k1": {
+      "length": 241,
+      "text": "[BRPP v1] R=BULL; n=4; k=1\nLONGwin=2/4(50.0%); Trap=2/3(66.7%); TrendFail=1/2(50.0%); PatternFail=2/2(100.0%)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=+0-0 W +1.25%"
+    },
+    "fixture_k2": {
+      "length": 285,
+      "text": "[BRPP v1] R=BULL; n=4; k=2\nLONGwin=2/4(50.0%); Trap=2/3(66.7%); TrendFail=1/2(50.0%); PatternFail=2/2(100.0%)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=+0-0 W +1.25%\nFPT@2021-01-04 R=BULL T/P/A/I=++-0 L -1.25%"
+    },
+    "fixture_k3": {
+      "length": 329,
+      "text": "[BRPP v1] R=BULL; n=4; k=3\nLONGwin=2/4(50.0%); Trap=2/3(66.7%); TrendFail=1/2(50.0%); PatternFail=2/2(100.0%)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=+0-0 W +1.25%\nFPT@2021-01-04 R=BULL T/P/A/I=++-0 L -1.25%\nFPT@2021-01-04 R=BULL T/P/A/I=-+-0 L -1.25%"
+    },
+    "longest_regime_large_return_k3": {
+      "length": 397,
+      "text": "[BRPP v1] R=CONSOLIDATION; n=852; k=3\nLONGwin=426/852(50.0%); Trap=426/852(50.0%); TrendFail=426/852(50.0%); PatternFail=426/852(50.0%)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=CONSOLIDATION T/P/A/I=++-0 W +1.00e+308%\nFPT@2021-01-04 R=CONSOLIDATION T/P/A/I=++-0 W +1.00e+308%\nFPT@2021-01-04 R=CONSOLIDATION T/P/A/I=++-0 W +1.00e+308%"
+    },
+    "return_0.0": {
+      "length": 232,
+      "text": "[BRPP v1] R=BULL; n=1; k=1\nLONGwin=0/1(0.0%); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=00-0 L 0.00%"
+    },
+    "return_0.001": {
+      "length": 239,
+      "text": "[BRPP v1] R=BULL; n=1; k=1\nLONGwin=1/1(100.0%); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=00-0 W +1.00e-03%"
+    },
+    "return_-0.001": {
+      "length": 237,
+      "text": "[BRPP v1] R=BULL; n=1; k=1\nLONGwin=0/1(0.0%); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2021-01-04 R=BULL T/P/A/I=00-0 L -1.00e-03%"
+    }
+  },
+  "maximum_reference_length": 397,
+  "runtime_implemented": false,
+  "decision_prompt_assembly_tested": false
+}

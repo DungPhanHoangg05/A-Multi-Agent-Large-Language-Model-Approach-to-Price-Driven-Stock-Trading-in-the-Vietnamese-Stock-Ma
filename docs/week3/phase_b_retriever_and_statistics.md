@@ -4,6 +4,10 @@
 `core/bayesian_retriever.py`, `tests/test_bayesian_retriever.py`,
 `tests/test_bayesian_statistics.py`.
 
+Gate A đã PASS; dùng [API](retriever_api_contract.md),
+[luật chọn prior](prior_selection_method.md) và
+[stats/BRPP](statistics_and_prefix_contract.md) đã khóa. Phase B chưa triển khai.
+
 ## W3-05 — kho và cutoff
 
 - [ ] Nạp/xác minh kho một lần bằng `HistoricalMemory`; giữ hash/version trong metadata.

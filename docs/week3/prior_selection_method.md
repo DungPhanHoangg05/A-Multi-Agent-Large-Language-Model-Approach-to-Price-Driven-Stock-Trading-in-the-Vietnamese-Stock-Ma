@@ -165,7 +165,8 @@ Metadata bổ sung vào API v1 **trước triển khai**:
   khi đọc checkpoint bằng công cụ JavaScript; RNG dùng int chuyển từ chính digest đó.
 
 Ba trường này có trong cấu hình/receipt/checkpoint và JSON ví dụ API đã cập nhật;
-chưa khóa thống kê W3-04. Khi triển khai, các ca cần PASS:
+thống kê/template đã khóa riêng tại [W3-04](statistics_and_prefix_contract.md).
+Khi triển khai, các ca cần PASS:
 
 1. Canonical/alias/NFC đúng; nhãn mơ hồ/sai miền lỗi; không mutate record hoặc signals.
 2. Score 0/0,25/0,5/0,75/1, neutral match đúng, sentiment khác không đổi score.

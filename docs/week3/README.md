@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: W3-01 đến W3-03 hoàn thành; W3-04 đến W3-16 chưa thực hiện. Phase A đang triển khai.**
+**Trạng thái: Phase A hoàn thành (W3-01..04), Gate A PASS; W3-05 đến W3-16 chưa thực hiện.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -51,7 +51,7 @@ Chi tiết: [Phase A](phase_a_contract_and_method.md).
 | W3-01 | Kiểm tra đầu vào và ranh giới W3 | [Biên bản Phase A](phase_a_contract_and_method.md#04102026--w3-01-hoàn-thành), [receipt](input_readiness.json): hash/QA/852 record PASS; cutoff/deep copy/không I/O mỗi query xác minh; ranh giới W4 và phép đo khóa | W2 hoàn thành | [x] |
 | W3-02 | Chốt API truy vấn và kết quả | [Hợp đồng API v1](retriever_api_contract.md): kiểu query/result, bốn mode, K=0..3, seed, scope cùng mã/pooled, metadata/counts/score, lỗi và thiếu mẫu đã chốt | W3-01 | [x] |
 | W3-03 | Chốt cách chọn prior và similarity | [Luật chọn prior](prior_selection_method.md), [policy v1](prior_selection_policy.json): bốn mode, alias/NFC, score bốn trường, tie-break, seed theo query; thiếu mẫu giữ pool, không ranking bằng outcome | W3-02 | [x] |
-| W3-04 | Chốt thống kê và mẫu BRPP | Công thức/mẫu số, phạm vi thống kê, n=0, thiếu tin, mẫu K=0..3 và đơn vị đo ký tự | W3-02, W3-03 | [ ] |
+| W3-04 | Chốt thống kê và mẫu BRPP | [Hợp đồng stats/BRPP](statistics_and_prefix_contract.md), [policy](statistics_prefix_policy.json): bốn metric có counts, mẫu số 0=None, không smoothing; template/600 ký tự/K=0..3/thiếu tin đã khóa | W3-02, W3-03 | [x] |
 
 ## B. Retriever và thống kê
 
@@ -105,6 +105,18 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-04
+
+- **W3-04 hoàn thành; Gate A PASS**: [hợp đồng stats/BRPP](statistics_and_prefix_contract.md),
+  [policy v1](statistics_prefix_policy.json) và [receipt](statistics_prefix_review.json)
+  khóa population cùng scope/regime, bốn metric có counts, denominator 0=None,
+  không smoothing/minimum support; stats chung bốn nhánh prior, Original không nhận prior.
+  Template NFC/600 ký tự/K=0..3/return scientific/thiếu tin đã chốt. Fixture tính tay
+  PASS, mẫu khảo sát dài nhất 397 ký tự; thống kê mô tả kho khớp 344 WIN và 338 trap.
+- **Gate tích hợp W3-04**: compileall PASS; 235/235 unit tests PASS (87,619 giây),
+  E2E xác định PASS (8,3 giây), 38/38 leakage tests PASS (4,195 giây).
+  Hash policy/receipt, counts/độ dài mẫu, JSON ví dụ API, liên kết nội bộ và
+  `git diff --check` PASS. Nhánh `docs/prior-statistics-prefix`, tích hợp sau gate.
+  Phase A đã hoàn thành; Phase B/C/D chưa thực hiện, tiếp theo W3-05.
 
 - **W3-03 hoàn thành**: [luật chọn prior](prior_selection_method.md),
   [policy v1](prior_selection_policy.json) và [receipt](selection_policy_review.json)
