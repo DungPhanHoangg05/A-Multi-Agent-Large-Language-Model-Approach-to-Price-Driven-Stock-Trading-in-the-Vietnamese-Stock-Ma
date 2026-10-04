@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A hoàn thành (W3-01..04), Gate A PASS; W3-05 đến W3-16 chưa thực hiện.**
+**Trạng thái: Phase A hoàn thành, W3-05 hoàn thành; W3-06 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -59,7 +59,7 @@ Chi tiết: [Phase B](phase_b_retriever_and_statistics.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W3-05 | Nạp kho, lọc PIT và bảo vệ dữ liệu | `BayesianPriorRetriever`, dùng kho xác minh, lọc trước ranking/stats, kết quả độc lập, kiểm cutoff đầu ra | W3-01..04 | [ ] |
+| W3-05 | Nạp kho, lọc PIT và bảo vệ dữ liệu | `core/bayesian_retriever.py`: constructor/prepare_query/K=0, chốt pool/selection/cutoff; 14 test nền/leakage và [probe kho thật](retriever_foundation_review.json) PASS; [phạm vi](phase_b_retriever_and_statistics.md) | W3-01..04 | [x] |
 | W3-06 | Cài `recent` và `random` | Thứ tự/tie-break ổn định, seed tái lập theo query, không trùng record, không phụ thuộc thứ tự gọi | W3-05 | [ ] |
 | W3-07 | Cài `similarity` | So khớp tín hiệu theo đặc tả, xử lý trường hằng/không rõ, ranking xác định và score có thể kiểm toán | W3-03, W3-05 | [ ] |
 | W3-08 | Cài `bayesian_regime` | Lọc cùng regime từ pool chung rồi xếp hạng theo đặc tả; K thiếu có lý do, không bù khác regime | W3-06, W3-07 | [ ] |
@@ -105,6 +105,17 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-04
+
+- **W3-05 hoàn thành**: `core/bayesian_retriever.py` xác minh kho/manifest/QA/schema,
+  nạp giá/P&L một lần, chuẩn bị pool/population PIT, bảo vệ ID/record/cutoff/scope,
+  query validation và K=0. [Receipt kho thật](retriever_foundation_review.json) PASS
+  852 record, nạp giá một lần/mã, không I/O query, bản sao độc lập và cutoff exit đầu.
+  14 test mới nền/leakage PASS; lỗi chia sẻ record giữa pool/population đã được sửa.
+- **Gate tích hợp W3-05**: compileall PASS; 249/249 unit tests PASS (96,389 giây),
+  E2E xác định PASS (14,0 giây), 41/41 leakage tests PASS (6,748 giây).
+  Hash mã trong receipt, liên kết nội bộ và `git diff --check` PASS.
+  Nhánh `feat/bayesian-retriever-foundation`, tích hợp sau gate. Gate B còn mở;
+  retrieve K>0 chưa có ranking/stats và dừng tường minh, tiếp theo W3-06.
 
 - **W3-04 hoàn thành; Gate A PASS**: [hợp đồng stats/BRPP](statistics_and_prefix_contract.md),
   [policy v1](statistics_prefix_policy.json) và [receipt](statistics_prefix_review.json)

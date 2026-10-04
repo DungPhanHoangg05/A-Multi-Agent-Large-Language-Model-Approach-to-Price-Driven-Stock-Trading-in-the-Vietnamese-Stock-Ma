@@ -1,7 +1,8 @@
 # Hợp đồng API Bayesian Prior Retriever — phiên bản 1
 
 **Chốt ngày 04/10/2026 cho W3-02.** Đây là đặc tả để triển khai từ W3-05,
-chưa phải module có thể import. Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
+Module nền đã triển khai trong W3-05 và có thể import; `retrieve(k>0)` chưa có
+ranking/stats. Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
 [W3-03](prior_selection_method.md) ngày 04/10/2026;
 công thức/schema metric và template BRPP đã chốt tại [W3-04](statistics_and_prefix_contract.md).
 
@@ -204,3 +205,17 @@ Không thực hiện giao dịch hoặc vượt gate giá từ ví dụ query n�
 - Sửa input/result không đổi kho/state/query khác; seed và cấu hình được ghi đúng.
 
 Các ca này là tiêu chí kiểm thử cho triển khai, chưa được báo PASS ở W3-02.
+
+## 8. Phạm vi triển khai W3-05
+
+Constructor và validation/cutoff/bản sao đã có. `prepare_query(...)` có cùng query
+signature như retrieve, là API chuẩn bị bổ sung cho Phase B, trả đúng ba trường:
+`eligible_tasks` (pool chung sau cutoff/scope), `regime_population` (cùng regime),
+`metadata` (query/hash/version và counts). Hai danh sách là bản sao độc lập.
+Không có stats/ranking/selected IDs trong kết quả chuẩn bị; không coi đây là
+result retrieve hoàn chỉnh hoặc gửi trực tiếp vào formatter.
+
+K=0: prepare trả hai list rỗng và counts None; retrieve trả result disabled đúng
+hợp đồng. K>0: prepare hoạt động, retrieve ném NotImplementedError đến khi bộ chọn
+và stats được triển khai trong W3-06..09; lỗi này mô tả tính năng chưa có, không
+thay cho ValueError khi query/data sai. W3-05 chưa triển khai formatter hoặc tích hợp W4.
