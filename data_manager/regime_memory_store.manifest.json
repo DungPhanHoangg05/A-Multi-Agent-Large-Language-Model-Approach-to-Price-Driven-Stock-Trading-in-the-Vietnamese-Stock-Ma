@@ -1,0 +1,68 @@
+{
+  "format_version": 1,
+  "run_dir": "outputs/historical_memory_run",
+  "run_signature": "e2f04ef08863e53570589c3a443be16759a7c9e3474074dfa284afcb816f173c",
+  "records_sha256": "6a8530fcabbcd25da4d540142d0ac9d37c2c297e1fef2a008152476513b4428c",
+  "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+  "completed": 852,
+  "remaining": 0,
+  "by_symbol": {
+    "FPT": 211,
+    "MWG": 213,
+    "VCB": 215,
+    "VNM": 213
+  },
+  "by_regime": {
+    "BEAR": 191,
+    "BULL": 337,
+    "CHOPPY": 248,
+    "CONSOLIDATION": 76
+  },
+  "by_year": {
+    "2020": 201,
+    "2021": 329,
+    "2022": 322
+  },
+  "first_as_of_date": "2020-06-01",
+  "last_exit_date": "2022-12-30",
+  "reliable_sentiment_by_symbol": {
+    "FPT": 0,
+    "MWG": 0,
+    "VCB": 0,
+    "VNM": 0
+  },
+  "models": {
+    "agent_llm_max_tokens": 2048,
+    "agent_llm_model": "openai/gpt-oss-20b",
+    "agent_llm_temperature": 0.0,
+    "graph_llm_max_tokens": 1024,
+    "graph_llm_model": "qwen/qwen3.8-27b",
+    "graph_llm_temperature": 0.0
+  },
+  "frozen_news": {
+    "FPT": {
+      "file": "inputs/news/FPT.json",
+      "sha256": "ec2b5a6a86ce17edcfdf4b543e71375e9d65fada989ddb3b4993bd19d18d1d6e"
+    },
+    "MWG": {
+      "file": "inputs/news/MWG.json",
+      "sha256": "b1ce3b8269a5a3720d7e4fa3198b1282e99a2c5f5cb35092f4c3b9eaf1618836"
+    },
+    "VCB": {
+      "file": "inputs/news/VCB.json",
+      "sha256": "7dcafba9dcf86fef2955c0d4da45d4463928a3b4af2d953486826a6bdf27b386"
+    },
+    "VNM": {
+      "file": "inputs/news/VNM.json",
+      "sha256": "25c291d8fe67c3656525b1e82d4c3a3ef05a192f4d4ebbd3de190da2932b3a3c"
+    }
+  },
+  "report_parse_compat": {
+    "file": "regime_memory_store.parse_compat.json",
+    "sha256": "3ed1026a42eb598d30c7ce5a098eb96507ce7efe982d16b300fac0e1b655eff0",
+    "parser_sources": {
+      "acf7d66506718252b6c04705870bbe7429d1378db0b01b9e1639bd8b13327f7c": "inputs/compat/acf7d66506718252b6c04705870bbe7429d1378db0b01b9e1639bd8b13327f7c.py"
+    },
+    "entries": 3
+  }
+}
