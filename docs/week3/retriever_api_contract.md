@@ -1,7 +1,8 @@
 # Hợp đồng API Bayesian Prior Retriever — phiên bản 1
 
 **Chốt ngày 04/10/2026 cho W3-02.** Đây là đặc tả để triển khai từ W3-05,
-chưa phải module có thể import. Luật ranking/chuẩn hóa tín hiệu được chốt ở W3-03;
+chưa phải module có thể import. Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
+[W3-03](prior_selection_method.md) ngày 04/10/2026;
 công thức và tên metric thống kê được chốt ở W3-04.
 
 ## 1. Khởi tạo và chữ ký
@@ -52,8 +53,8 @@ Năm trường tín hiệu: `trend`, `pattern`, `alpha_consensus`, `indicator_co
 `sentiment`. Nếu truyền dict, luôn kiểm cấu trúc qua `validate_signals()` kể cả
 K=0. Với K>0, `similarity` và `bayesian_regime` **bắt buộc có current_signals**;
 `random`/`recent` cho phép None. K=0 cho phép None ở mọi mode.
-Nhận dạng hướng/alias và xử lý nhãn không rõ là trách nhiệm W3-03; schema chuỗi
-không đủ để khẳng định nhãn đó có nghĩa hợp lệ cho similarity.
+Nếu có signals, chuẩn hóa/kiểm alias theo W3-03 ở mọi mode/K; schema chuỗi
+không đủ để khẳng định nhãn đó có nghĩa hợp lệ. Không sửa tín hiệu gốc.
 
 Validation kiểu/enum chạy trước nhánh K=0: truy vấn sai không được bỏ qua chỉ vì
 không cần prior. Không nhận outcome/return/nhãn tương lai của query làm tham số.
@@ -90,7 +91,7 @@ Top-level có đúng ba trường: `tasks`, `stats`, `metadata`.
   không nhét score vào record. IDs không trùng; cùng thứ tự với `metadata.selected_ids`.
 - Mỗi `exit_date < as_of_date`; thuộc scope/pool đã chốt, và cùng regime khi mode Bayesian.
 - `len(tasks) <= k`; không bù dữ liệu ngoài pool hoặc bịa ví dụ để đủ K.
-- Ranking quyết định thứ tự trong list; W3-03 khóa thuật toán và tie-break.
+- Ranking quyết định thứ tự trong list; thuật toán và tie-break đã khóa tại W3-03.
 
 ### `stats: dict | None`
 
@@ -108,6 +109,8 @@ Top-level có đúng ba trường: `tasks`, `stats`, `metadata`.
 | Trường | Kiểu / ý nghĩa |
 | --- | --- |
 | `api_contract_version` | int, hiện là 1 |
+| `sampling_version`, `metric_version` | str, `prior_sampling_v1` và `signal_match_v1` đã khóa ở W3-03 |
+| `effective_seed` | str hex SHA-256 64 ký tự ở random K>0, kể cả pool rỗng; còn lại None |
 | `bank_sha256` | str, SHA-256 kho đã xác minh khi khởi tạo |
 | `symbol`, `as_of_date`, `current_regime`, `mode`, `scope` | str, giữ đúng query đã kiểm |
 | `requested_k`, `seed` | int, giữ đúng query đã kiểm |
@@ -121,9 +124,9 @@ Top-level có đúng ba trường: `tasks`, `stats`, `metadata`.
 | `reason` | None hoặc str: `k_zero`, `no_eligible_history`, `no_matching_regime`, `insufficient_candidates` |
 
 `selected_scores.score` là float Python hữu hạn trong [0,1] cho similarity/Bayesian;
-recent/random dùng None, không giả định một score chất lượng. Score cụ thể thuộc W3-03.
-Version thuật toán/metric/statistics sẽ được W3-03/W3-04 bổ sung vào cấu hình/metadata
-trước triển khai; thay đổi hợp đồng đã chốt phải ghi rõ phiên bản tương thích.
+recent/random dùng None, không giả định một score chất lượng. Score cụ thể đã khóa ở W3-03.
+Metadata version sampling/metric đã bổ sung trước triển khai. Version thống kê còn
+chờ W3-04; thay đổi hợp đồng đã chốt phải ghi rõ phiên bản tương thích.
 
 ## 5. K=0, thiếu mẫu và lỗi
 
@@ -160,6 +163,9 @@ Ví dụ **hợp đồng K=0**, không phải output của module đã triển k
   "stats": null,
   "metadata": {
     "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "effective_seed": null,
     "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
     "symbol": "FPT",
     "as_of_date": "2023-01-03",

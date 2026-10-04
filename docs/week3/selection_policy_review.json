@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "format_version": 1,
+  "sampling_version": "prior_sampling_v1",
+  "metric_version": "signal_match_v1",
+  "policy_text_sha256": "e0bffba36abdd586c37d5481a2a29d7753b34d34b8aaa650a1cfc156be6f7f4e",
+  "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+  "records_checked": 852,
+  "signal_counts": {
+    "trend": {
+      "BEARISH": 241,
+      "BULLISH": 393,
+      "NEUTRAL": 218
+    },
+    "pattern": {
+      "BEARISH": 309,
+      "BULLISH": 505,
+      "NEUTRAL": 38
+    },
+    "alpha_consensus": {
+      "BEARISH": 481,
+      "BULLISH": 269,
+      "NEUTRAL": 102
+    },
+    "indicator_consensus": {
+      "BEARISH": 365,
+      "BULLISH": 343,
+      "NEUTRAL": 144
+    },
+    "sentiment": {
+      "NEUTRAL": 852
+    }
+  },
+  "reference_fixture": {
+    "rankings": {
+      "recent": [
+        "D",
+        "B",
+        "C"
+      ],
+      "similarity": [
+        "B",
+        "C",
+        "A"
+      ],
+      "bayesian_regime": [
+        "C",
+        "A",
+        "D"
+      ]
+    },
+    "scores": [
+      1.0,
+      1.0,
+      1.0,
+      0.75
+    ],
+    "random_ids": [
+      "A",
+      "B",
+      "D"
+    ],
+    "random_effective_seed": "032d323c2c461e03f5c55914deea672c49d291cb662faa25f0ba374792b23778",
+    "random_seed_payload": {
+      "sampling_version": "prior_sampling_v1",
+      "seed": 42,
+      "symbol": "FPT",
+      "as_of_date": "2021-01-11",
+      "scope": "same_symbol"
+    }
+  },
+  "checks": {
+    "all_bank_labels_supported": true,
+    "aliases_unambiguous": true,
+    "unicode_NFC": true,
+    "reference_rankings": true,
+    "random_order_independent": true,
+    "future_record_does_not_change_draw": true,
+    "global_rng_unchanged": true,
+    "sentiment_zero_weight": true
+  },
+  "limitations": [
+    "Kiểm chứng cấu hình và ví dụ tham chiếu; chưa kiểm thử retriever runtime."
+  ]
+}

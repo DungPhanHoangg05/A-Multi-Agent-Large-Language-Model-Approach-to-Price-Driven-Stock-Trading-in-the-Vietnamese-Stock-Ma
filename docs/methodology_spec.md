@@ -59,7 +59,11 @@ Retriever lọc theo `exit_date < current_as_of_date` trước mọi phép xếp
 trong cấu hình thí nghiệm, cùng scope cho mọi nhánh prior đối chứng. Không mở rộng
 scope để bù thiếu mẫu. API hỗ trợ K=0..3; K=0 cho Original trả tasks rỗng, stats None
 và không inject BRPP. Kiểu kết quả/metadata và trách nhiệm xác minh PIT của caller
-được đặc tả tại hợp đồng; ranking và công thức thống kê sẽ khóa riêng ở W3-03/W3-04.
+được đặc tả tại hợp đồng. [W3-03](week3/prior_selection_method.md) đã khóa similarity
+so khớp bốn tín hiệu kỹ thuật, trọng số 0,25 mỗi trường, sentiment 0 do kho thiếu tin;
+Bayesian lọc cùng regime rồi ranking như Similarity. Phá hòa theo exit giảm dần/ID
+tăng dần; Random dùng RNG cục bộ, seed SHA-256 từ query và sample không hoàn lại
+trên pool sắp ID, không đưa outcome/hash kho vào seed. Công thức thống kê còn chờ W3-04.
 
 ## 6. Giao thức so sánh và đánh giá
 
