@@ -25,9 +25,12 @@ thống kê regime, BRPP và kiểm chứng offline tại
 W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/guard prompt;
 runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
 [Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
-**Phase A W4 hoàn thành 4/4**, tiến độ W4 **4/16**; Gate A PASS đặc tả với
+**Phase A W4 hoàn thành 4/4**, **Phase B 1/4 (W4-05)**, tiến độ W4 **5/16**;
+Gate A PASS đặc tả với
 [hợp đồng kết quả/checkpoint](docs/plan/week4/checkpoint_contract.md) và
-[receipt](docs/plan/week4/checkpoint_review.json). Tiếp theo W4-05 state/config validator;
+[receipt](docs/plan/week4/checkpoint_review.json). State/config runtime đã có tám field
+optional, parser strict và guard off/enabled, **367 unit/E2E/56 leakage PASS**:
+[biên bản](docs/plan/week4/state_config_runtime.md). Tiếp theo W4-06 cap/guard prompt;
 runtime prior/checkpoint/budget và gate giá ngoài mẫu chưa được nghiệm thu.
 
 ## Requirements
