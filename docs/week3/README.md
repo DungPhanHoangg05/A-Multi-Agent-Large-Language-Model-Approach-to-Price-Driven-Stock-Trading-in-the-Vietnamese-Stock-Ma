@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. Phase D đang triển khai: W3-13 hoàn thành, W3-14 đến W3-16 chưa thực hiện; tiếp theo benchmark W3-14. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
+**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. Phase D đang triển khai: W3-13/W3-14 hoàn thành; benchmark p95 từng mode PASS, tiếp theo W3-15/W3-16. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -82,7 +82,7 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W3-13 | Kiểm thử hành vi và zero-leakage | Mười leakage + hai behavior test mới, fixture nhãn từ engine thật; suite 95 test Bayesian, kiểm cả ranking/stats/BRPP, nguồn sai gây lỗi trước formatter; [biên bản và bảng coverage](phase_d_validation_and_handoff.md) | W3-05..12 | [x] |
-| W3-14 | Benchmark retrieval tái lập | Script, receipt JSON và biên bản: đủ bốn mode, p95 <30 ms từng mode, cold load tách riêng | W3-12, W3-13 | [ ] |
+| W3-14 | Benchmark retrieval tái lập | `scripts/benchmark_bayesian_retriever.py`, [receipt](retrieval_benchmark.json), [biên bản/profile](phase_d_validation_and_handoff.md): 32 query/mode, 100 warm-up và 1.000 mẫu/mode/giai đoạn; p95 15,809 / 14,812 / 14,179 / 18,239 ms PASS; cold load riêng, giữ hai lượt FAIL và tối ưu bản sao/so snapshot | W3-12, W3-13 | [x] |
 | W3-15 | Chạy bốn gate trước tích hợp | Compileall, toàn bộ unit tests, E2E và leakage PASS; ghi số test/thời gian/lệnh | W3-13, W3-14 | [ ] |
 | W3-16 | Chốt deliverables và bàn giao W4 | API/docs/example/benchmark đủ; cập nhật kế hoạch tổng, Conventional Commit/merge sau gate | W3-01..15 | [ ] |
 
@@ -99,10 +99,29 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 - [x] Mọi prior và thống kê đều từ `exit_date < as_of_date`, không dùng nhãn query.
 - [x] K=3, seed/scope/metric được đóng băng, thiếu mẫu có metadata rõ ràng.
 - [x] BRPP ≤600 ký tự; prompt ghép thử <6.500 với cấu hình bàn giao đã kiểm. Cap runtime cũ chưa đủ khi ghép BRPP; W4 phải áp dụng phương án và guard cuối cùng.
-- [ ] Retrieval p95 <30 ms từng mode theo phép đo đã chốt.
+- [x] Retrieval p95 <30 ms từng mode theo phép đo đã chốt; [receipt kho thật](retrieval_benchmark.json), đầy đủ mẫu thô và môi trường.
 - [ ] Unit tests, E2E và leakage PASS; API độc lập sẵn sàng cho W4.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W3-14
+
+- **Hoàn thành benchmark** trên kho thật 852 episode: 16 context quan sát PIT,
+  hai scope thành 32 query/mode, K=3/seed=42; đo tuần tự ba giai đoạn, không gọi LLM.
+  P95 retrieval Bayesian/Random/Recent/Similarity lần lượt
+  **15,809 / 14,812 / 14,179 / 18,239 ms**, đều <30 ms.
+- Giữ [baseline FAIL](retrieval_benchmark_baseline.json),
+  [lượt sao chép FAIL](retrieval_benchmark_copy.json), [profile](retrieval_profile.json)
+  và [receipt cuối PASS](retrieval_benchmark.json). Tối ưu sao chép sâu schema phẳng
+  và so snapshot sau profile; giữ validation/cutoff/kiểu dữ liệu/bản sao độc lập.
+- Thêm chín test phép đo/copy/snapshot, không đặt ngưỡng thời gian thật trong unit test.
+  Bốn gate task PASS: compileall, **339/339** unit (gồm **104** Bayesian),
+  E2E **7,0 giây**, leakage **56/56**.
+  Chi tiết môi trường, kết quả gate tích hợp và lệnh chạy lại ở [Phase D](phase_d_validation_and_handoff.md).
+- W3-15/W3-16 chưa chốt; W4 còn cap/guard runtime. Receipt ngân sách/smoke cũ
+  giữ như snapshot: khi chạy lại smoke đầy đủ cần refresh kiểm ngân sách trước
+  do hash module đã thay đổi. Benchmark mới đã đối chiếu output hiện tại với
+  oracle và smoke cũ, archive/kho/giá/model không đổi.
 
 ### 2026-10-05
 

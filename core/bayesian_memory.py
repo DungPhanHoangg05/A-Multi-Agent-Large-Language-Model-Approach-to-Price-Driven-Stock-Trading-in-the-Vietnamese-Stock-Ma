@@ -25,6 +25,29 @@ DEFAULT_DATA_DIR = Path(__file__).resolve().parents[1] / "data" / "execution_pri
 ExecutionLoader = Callable[[str], tuple[pd.DataFrame, list[dict[str, Any]]]]
 
 
+def copy_historical_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Sao chép sâu schema phẳng; dữ liệu sai/mở rộng dùng deepcopy, không ép kiểu.
+
+    Record hợp lệ chỉ có hai dict con với lá bất biến. Sao chép cả ba dict giữ
+    mọi mức dữ liệu khả biến độc lập, tránh dispatch/memo cho từng scalar.
+    Hàm không thay validator; nhánh dự phòng giữ nguyên lỗi để caller từ chối.
+    """
+    scalar_types = (str, int, float, bool, type(None))
+    result: list[dict[str, Any]] = []
+    for record in records:
+        if (type(record) is dict and record.keys() == RECORD_KEYS
+                and type(record['agent_signals']) is dict and record['agent_signals'].keys() == SIGNAL_KEYS
+                and type(record['outcome']) is dict and record['outcome'].keys() == OUTCOME_KEYS
+                and all(type(value) in scalar_types for key, value in record.items()
+                        if key not in ('agent_signals', 'outcome'))
+                and all(type(value) in scalar_types for value in record['agent_signals'].values())
+                and all(type(value) in scalar_types for value in record['outcome'].values())):
+            result.append({**record, 'agent_signals': dict(record['agent_signals']), 'outcome': dict(record['outcome'])})
+        else:
+            result.append(copy.deepcopy(record))
+    return result
+
+
 def iso_date(value: Any) -> str:
     """Chấp nhận đúng ngày ISO bằng chuỗi Python gốc."""
     if type(value) is not str:
@@ -194,4 +217,4 @@ class HistoricalMemory:
                   and (symbol is None or r["symbol"] == symbol)]
         if any(r["exit_date"] >= cutoff for r in result):
             raise ValueError("Kho trả chu kỳ chưa tất toán trước cutoff")
-        return copy.deepcopy(result)
+        return copy_historical_records(result)

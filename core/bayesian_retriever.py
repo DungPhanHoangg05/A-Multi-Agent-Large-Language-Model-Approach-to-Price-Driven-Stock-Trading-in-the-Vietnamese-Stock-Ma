@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import copy
 from collections import Counter
 import hashlib
 import json
@@ -15,7 +14,7 @@ import unicodedata
 
 from core.bayesian_memory import (
     HistoricalMemory, OUTCOME_KEYS, RECORD_KEYS, REGIMES, SYMBOLS, exact_object,
-    is_bullish, iso_date, read_json, validate_signals,
+    copy_historical_records, is_bullish, iso_date, read_json, validate_signals,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,9 +52,21 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
     if type(actual) is not type(expected):
         return False
     if type(expected) is dict:
-        return actual.keys() == expected.keys() and all(
-            type(key) is str and _matches_snapshot(actual[key], value) for key, value in expected.items()
-        )
+        if actual.keys() != expected.keys():
+            return False
+        for key, value in expected.items():
+            if type(key) is not str:
+                return False
+            candidate = actual[key]
+            if type(candidate) is not type(value):
+                return False
+            # So lá ngay tại vòng lặp; chỉ đệ quy khi còn dict con.
+            if type(value) is dict:
+                if not _matches_snapshot(candidate, value):
+                    return False
+            elif not bool(candidate == value):
+                return False
+        return True
     return bool(actual == expected)
 
 
@@ -288,8 +299,8 @@ class BayesianPriorRetriever:
                           scope=scope, regime=current_regime)
         metadata.update(eligible_count=len(eligible), matched_regime_count=len(population),
                         candidate_count=len(population) if mode == "bayesian_regime" else len(eligible))
-        return {"eligible_tasks": copy.deepcopy(eligible),
-                "regime_population": copy.deepcopy(population), "metadata": metadata}
+        return {"eligible_tasks": copy_historical_records(eligible),
+                "regime_population": copy_historical_records(population), "metadata": metadata}
 
     def _validate_selection(self, selected: list[dict[str, Any]], *, symbol: str,
                             as_of_date: str, current_regime: str, scope: str,
@@ -373,8 +384,8 @@ class BayesianPriorRetriever:
                         selected_scores=[{"episode_id": r["episode_id"], "score": scores.get(r["episode_id"])}
                                          for r in selected],
                         status=status, reason=reason)
-        return {"tasks": copy.deepcopy(selected),
-                "regime_population": copy.deepcopy(prepared["regime_population"]), "metadata": metadata}
+        return {"tasks": copy_historical_records(selected),
+                "regime_population": copy_historical_records(prepared["regime_population"]), "metadata": metadata}
 
     def _compute_statistics(self, population: list[dict[str, Any]], *, symbol: str,
                             as_of_date: str, current_regime: str, scope: str) -> dict[str, Any]:
