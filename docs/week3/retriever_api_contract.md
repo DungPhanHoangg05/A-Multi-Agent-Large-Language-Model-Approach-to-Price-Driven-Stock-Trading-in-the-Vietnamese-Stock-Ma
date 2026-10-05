@@ -260,3 +260,15 @@ nhánh đối chứng có thể có tasks khác regime trong khi population stat
 
 [Receipt runtime](statistics_runtime_review.json) đối chiếu kho thật và counts/mẫu số;
 chưa là phép đo p95, formatter BRPP hoặc kết quả giao dịch OOS.
+
+## 11. Formatter W3-10
+
+Hàm module `format_compact_prior_prefix(tasks, stats) -> str` nhận hai trường của
+result retrieve, theo [hợp đồng BRPP](statistics_and_prefix_contract.md).
+[]/None trả rỗng; stats object luôn render khối thống kê, kể cả tasks rỗng/n=0.
+Task giữ thứ tự, ngày quyết định và regime riêng; n là population, k là số ví dụ.
+Schema/nhãn/counts/ID sai hoặc prefix vượt 600 gây ValueError; không đọc giá/P&L.
+Chữ ký không có query cutoff, nên trách nhiệm PIT/provenance vẫn thuộc retriever/caller.
+V1 dùng câu S=thiếu tin cho kho đã phát hành; task sentiment ngoài NEUTRAL/alias
+cần phiên bản mới. [Receipt formatter](prefix_formatter_review.json) kiểm fixture,
+chưa thay suite/prompt ghép W3-11 hoặc smoke kho thật W3-12.

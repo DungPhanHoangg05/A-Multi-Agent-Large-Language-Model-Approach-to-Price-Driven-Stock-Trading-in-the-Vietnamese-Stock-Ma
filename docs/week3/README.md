@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A và Phase B hoàn thành, Gate A/Gate B PASS; W3-10 đến W3-16 chưa thực hiện. Tiếp theo Phase C.**
+**Trạng thái: Phase A/B hoàn thành, Gate A/B PASS; W3-10 hoàn thành. W3-11 đến W3-16 chưa thực hiện; Phase C đang triển khai, Gate C còn mở.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -71,7 +71,7 @@ Chi tiết: [Phase C](phase_c_prefix_and_budget.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W3-10 | Định dạng BRPP compact | `format_compact_prior_prefix(tasks, stats)` cùng schema nội bộ, giữ tín hiệu/nhãn/phí đúng nghĩa | W3-08, W3-09 | [ ] |
+| W3-10 | Định dạng BRPP compact | Formatter/schema/nhãn/mẫu số theo policy, guard ≤600, 13 test mới và [receipt mẫu](prefix_formatter_review.json) PASS; prompt ghép và smoke còn W3-11/W3-12 | W3-08, W3-09 | [x] |
 | W3-11 | Kiểm tra 600 ký tự và prompt ghép | Test K=0..3, dữ liệu dài, tiếng Việt, n=0; BRPP ≤600; prompt ghép thử <6.500; không sửa pipeline W4 | W3-10 | [ ] |
 | W3-12 | Smoke offline trên kho thật | Biên bản bốn mode, IDs/stats/seed/hash/cutoff/độ dài; không fit HMM hoặc gọi LLM | W3-06..11 | [ ] |
 
@@ -105,6 +105,23 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-10 hoàn thành**: hàm module `format_compact_prior_prefix` có template BRPP v1,
+  header n/k, bốn rate với counts/N/A, code T/P/A/I, nhãn W/L của LONG sau phí,
+  SHORT tiền mặt và ghi rõ S=thiếu tin. Giữ thứ tự/ngày quyết định/regime từng task;
+  percentage không nhân 100 lần nữa, return sát 0/lớn dùng scientific đúng policy.
+- Validation schema/alias/NFC/ngày/ID/nhãn/counts/rate Python gốc hữu hạn; quá 600
+  ký tự gây ValueError, không truncate hoặc bỏ ví dụ. []/None Original trả rỗng;
+  stats object/n=0 vẫn render header/rates. Input không bị sửa, không đọc CSV/P&L.
+- 13 test formatter mới PASS; tổng 68 test Bayesian tập trung PASS. [Receipt](prefix_formatter_review.json)
+  khớp mười mẫu tham chiếu Phase A, dài nhất trong các mẫu là 397 ký tự; có test lỗi
+  kiểu/schema/nhãn/NaN/NumPy/counts/duplicate/K>3, overflow và result retriever bốn mode.
+- **Gate tích hợp W3-10**: compileall PASS, 303/303 unit tests PASS (92,341 giây),
+  E2E xác định PASS (13,4 giây), 46/46 leakage tests PASS (6,569 giây). Hash receipt,
+  liên kết Markdown và `git diff --check` PASS; tích hợp nhánh `feat/compact-prior-prefix`
+  sau gate. **Gate C còn mở**: W3-11 kiểm ngân sách/prompt ghép <6.500; W3-12 smoke
+  retrieval/formatter trên query PIT. Receipt hiện tại là fixture render, chưa là
+  smoke kho thật hoặc benchmark giao dịch OOS.
 
 - **W3-09 hoàn thành — Phase B/Gate B PASS**: `retrieve` trả đầy đủ tasks/stats/metadata
   ở cả bốn mode; stats dùng toàn population cùng scope/regime đã PIT, không phải K

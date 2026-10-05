@@ -277,11 +277,11 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
 - **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Phase A/B hoàn thành, Gate A/B PASS; W3-05..09 có nền PIT, bốn bộ chọn và API retrieve đầy đủ với thống kê trên toàn population cùng scope/regime; counts/score/bản sao/thiếu mẫu và cutoff được kiểm thử ([Phase B](../week3/phase_b_retriever_and_statistics.md)). W3-10 đến W3-16 chưa thực hiện; tiếp theo formatter BRPP ở Phase C.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Phase A/B hoàn thành, Gate A/B PASS; API retrieve đầy đủ và stats PIT đã có ([Phase B](../week3/phase_b_retriever_and_statistics.md)). W3-10 có formatter BRPP v1 đúng template/nhãn/mẫu số, schema và guard 600 ký tự ([Phase C](../week3/phase_c_prefix_and_budget.md)). W3-11 đến W3-16 chưa thực hiện; tiếp theo suite ngân sách và prompt ghép, rồi smoke kho thật. Gate C còn mở.
 - **Nhiệm vụ cụ thể**:
   - [x] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity`; `retrieve` trả tasks/stats/metadata đầy đủ, Original K=0 không nhận stats.
   - [x] Xây dựng thuật toán tính toán thống kê thực nghiệm (Empirical Win-rate, Trap Probabilities) cho từng regime: population PIT/cùng scope, bốn metric có counts, mẫu số 0=None, không smoothing hoặc diễn giải thành xác suất đã hiệu chuẩn.
-  - [ ] Hiện thực hóa hàm `format_compact_prior_prefix(tasks, stats)` đảm bảo độ dài $\le 600$ ký tự.
+  - [x] Hiện thực hóa hàm `format_compact_prior_prefix(tasks, stats)` với template BRPP v1 và guard $\le 600$ ký tự; không truncate. Suite ngân sách/prompt ghép đầy đủ còn W3-11.
   - [ ] Viết benchmark đo lường thời gian thực thi: yêu cầu retrieval hoàn tất dưới 30ms.
 - **Deliverables cuối tuần 3**:
   - Module `core/bayesian_retriever.py` hoàn chỉnh.

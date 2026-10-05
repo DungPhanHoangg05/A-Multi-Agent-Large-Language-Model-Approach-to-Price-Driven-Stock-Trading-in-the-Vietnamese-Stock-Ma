@@ -2,7 +2,8 @@
 
 **W3-04 chốt ngày 04/10/2026; Phase A hoàn thành.**
 [Policy](statistics_prefix_policy.json) đóng băng công thức/template cho W3-09..11;
-Stats runtime và API retrieve đã triển khai ở W3-09; formatter runtime còn chờ W3-10/W3-11.
+Stats runtime và API retrieve đã triển khai ở W3-09; formatter runtime có ở W3-10,
+còn chờ suite ngân sách/prompt ghép W3-11 và smoke W3-12.
 Biên bản thiết kế W3-04 vẫn là snapshot tham chiếu, tách với
 [biên bản runtime Phase B](statistics_runtime_review.json).
 
@@ -139,8 +140,9 @@ không cam kết mọi số nguyên tùy ý đều render dưới 600.
 
 Độ dài các mẫu và thống kê kho thật được ghi tại
 [statistics_prefix_review.json](statistics_prefix_review.json). Đây là kiểm mẫu
-tham chiếu ở Phase A; formatter runtime, test lỗi và prompt ghép thực tế vẫn thuộc
-W3-10/W3-11, không đánh dấu Phase C hoàn thành từ biên bản này.
+tham chiếu ở Phase A. Formatter/runtime và test lỗi cơ bản đã có ở W3-10 với
+[receipt riêng](prefix_formatter_review.json); prompt ghép và kiểm ngân sách đầy đủ
+còn thuộc W3-11, không đánh dấu Phase C hoàn thành từ biên bản mẫu.
 
 Mẫu đã tính: K=0 là 0 ký tự; empty n=0 là 188; K=1/2/3 trên fixture là
 241/285/329; mẫu CONSOLIDATION, counts 852 và return scientific rất lớn là
@@ -177,3 +179,17 @@ hoặc benchmark tốc độ W3-15 sau triển khai.
   bốn mã, bốn regime và K=1..3; đối chiếu đúng thống kê kho thật đã khóa ở Phase A.
 - W3-10/W3-11 tiếp tục kiểm schema/định dạng BRPP và trần ký tự; W3-12 sẽ kiểm
   smoke cả retrieval lẫn formatter. Tốc độ p95 và bàn giao W4 thuộc Phase D.
+
+## 8. Bàn giao formatter W3-10
+
+```python
+from core.bayesian_retriever import format_compact_prior_prefix
+
+prefix = format_compact_prior_prefix(result["tasks"], result["stats"])
+```
+
+`result` phải đến từ query/PIT đã xác minh. Formatter kiểm cấu trúc/ngày/nhãn và
+quan hệ counts, không truy cập kho/CSV hoặc tính lại nhãn kinh tế. V1 kiểm sentiment
+task là NEUTRAL/alias để câu S=thiếu tin phù hợp kho đã chốt; dữ liệu tin thật khác
+cần prefix version mới trước sử dụng. Guard >600 ném ValueError, không tự truncate.
+W3-11 tiếp tục suite trần và prompt ghép; W3-12 tiếp tục smoke với nguồn query PIT.
