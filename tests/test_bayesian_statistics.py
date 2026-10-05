@@ -47,7 +47,7 @@ class BayesianStatisticsTests(unittest.TestCase):
 
     def test_hand_reference_shared_across_all_modes_k_and_selection(self):
         retriever = self.fixture.create()
-        reference = read_json(ROOT / "docs/week3/statistics_prefix_review.json")["reference_stats"]
+        reference = read_json(ROOT / "docs/plan/week3/statistics_prefix_review.json")["reference_stats"]
         selections = set()
         for mode in sorted(MODES):
             for k in (1, 2, 3):
@@ -114,7 +114,7 @@ class BayesianStatisticsTests(unittest.TestCase):
         self.fixture.publish_fixture()
         original = copy.deepcopy(self.fixture.rows)
         stats = self.fixture.create().retrieve(**self.query())["stats"]
-        self.assertEqual(stats, read_json(ROOT / "docs/week3/statistics_prefix_review.json")["reference_stats"])
+        self.assertEqual(stats, read_json(ROOT / "docs/plan/week3/statistics_prefix_review.json")["reference_stats"])
         self.assertEqual(self.fixture.rows, original)
 
     def test_zero_k_does_not_build_population_or_compute_statistics_in_any_mode(self):

@@ -43,7 +43,7 @@ class SimilaritySelectionTests(unittest.TestCase):
                 for name, exit_date, regime in (("A", "2021-01-04", "BULL"),
                     ("B", "2021-01-07", "BEAR"), ("C", "2021-01-07", "BULL"),
                     ("D", "2021-01-08", "BULL"))]
-        reference = read_json(ROOT / "docs/week3/selection_policy_review.json")["reference_fixture"]
+        reference = read_json(ROOT / "docs/plan/week3/selection_policy_review.json")["reference_fixture"]
         before = copy.deepcopy(rows)
         for candidates in (rows, list(reversed(rows))):
             selected, scores = BayesianPriorRetriever._select_similarity(candidates, 3, query)

@@ -144,9 +144,9 @@ def verify() -> dict[str, Any]:
     """Nạp kho giá đã QA một lần; smoke chỉ đọc và mọi lỗi gây dừng trước xuất PASS."""
     bank = ROOT / 'data_manager/regime_memory_store.json'
     manifest_path = bank.with_suffix('.manifest.json')
-    audit_path = ROOT / 'docs/week2/memory_bank_audit.json'
+    audit_path = ROOT / 'docs/plan/week2/memory_bank_audit.json'
     manifest = read_json(manifest_path)
-    budget_path = ROOT / 'docs/week3/prompt_budget_review.json'
+    budget_path = ROOT / 'docs/plan/week3/prompt_budget_review.json'
     budget = read_json(budget_path)
     if (budget['status'] != 'PASS_WITH_REQUIRED_W4_HANDOFF' or budget['matrix_max_prompt_length'] >= 6500
             or any(row['prefix_length'] != 600 or row['prompt_length'] >= 6500 for row in budget['full_600_character_reserve'])):
@@ -294,7 +294,7 @@ def verify() -> dict[str, Any]:
 def main() -> None:
     """Xuất receipt mới; không viết vào archive, kho/model hoặc .env."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, default=ROOT / 'docs/week3/prior_smoke.json')
+    parser.add_argument('--output', type=Path, default=ROOT / 'docs/plan/week3/prior_smoke.json')
     args = parser.parse_args()
     output = args.output.resolve()
     if any(output.is_relative_to(ROOT / directory) for directory in ('data', 'data_manager', 'outputs', 'agents', 'core')):

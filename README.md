@@ -16,6 +16,15 @@ The forecast label and the economic simulation are intentionally separate. A `LO
 - OHLCV consistency guards for chart-pattern and trend reports.
 - A deterministic offline end-to-end regression test that does not require API credentials.
 
+## Tiến độ nâng cấp nghiên cứu
+
+Kế hoạch theo tuần đặt tại `docs/plan/week<N>/`; kế hoạch tổng ở
+[docs/plan/plan.md](docs/plan/plan.md). **W3 đã hoàn thành 16/16 task**, bàn giao API retriever độc lập,
+thống kê regime, BRPP và kiểm chứng offline tại
+[biên bản chốt/bàn giao W4](docs/plan/week3/week_close_and_handoff.md).
+W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/guard prompt;
+runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
+
 ## Requirements
 
 - Windows with the Python launcher (`py`) for the commands below.

@@ -264,29 +264,33 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 ### 📅 TUẦN 2: Xây dựng Module Phân loại Chế độ Thị trường & Historical Memory Bank
 - **Mục tiêu**: Xây dựng module nhận diện chế độ thị trường và sinh cơ sở dữ liệu chu kỳ lịch sử cho giai đoạn 2018–2022.
 - **Nhiệm vụ cụ thể**:
-    - [x] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022; [đặc tả, artifact và kiểm thử Phase B](../week2/phase_b_regime_detector.md)).
-  - [x] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: `scripts/run_historical_memory.py`, regime prefix, tín hiệu 5 agent, nhãn ròng và journal tiếp tục ([W2-09 đến W2-12](../week2/phase_c_historical_memory.md)); đã sinh đủ 852 điểm hợp lệ.
-  - [x] Lưu trữ và kiểm toán `data_manager/regime_memory_store.json`: 852 episode, manifest/checksum/biên bản bộ đọc và [QA Phase C](../week2/phase_c_memory_generation.md) PASS ngày 04/10/2026. Do warm-up 600 phiên, episode phủ 2020–2022; không có tin lịch sử đủ độ tin cậy nên sentiment NEUTRAL. Đây là kho prior, chưa là kết quả benchmark.
-  - [x] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN: PNG 300 DPI/SVG, phân biệt nhãn hồi cứu toàn tập train và 217 ngày nhãn PIT trong kho ([Phase D](../week2/phase_d_week_close.md)).
+    - [x] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022; [đặc tả, artifact và kiểm thử Phase B](week2/phase_b_regime_detector.md)).
+  - [x] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: `scripts/run_historical_memory.py`, regime prefix, tín hiệu 5 agent, nhãn ròng và journal tiếp tục ([W2-09 đến W2-12](week2/phase_c_historical_memory.md)); đã sinh đủ 852 điểm hợp lệ.
+  - [x] Lưu trữ và kiểm toán `data_manager/regime_memory_store.json`: 852 episode, manifest/checksum/biên bản bộ đọc và [QA Phase C](week2/phase_c_memory_generation.md) PASS ngày 04/10/2026. Do warm-up 600 phiên, episode phủ 2020–2022; không có tin lịch sử đủ độ tin cậy nên sentiment NEUTRAL. Đây là kho prior, chưa là kết quả benchmark.
+  - [x] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN: PNG 300 DPI/SVG, phân biệt nhãn hồi cứu toàn tập train và 217 ngày nhãn PIT trong kho ([Phase D](week2/phase_d_week_close.md)).
 - **Deliverables cuối tuần 2**:
   - Module `core/regime_detector.py` hoạt động độc lập kèm test.
   - File `data_manager/regime_memory_store.json` đạt chuẩn schema.
   - Biểu đồ `outputs/vnindex_regimes_2018_2022.png`.
 
-**Trạng thái:** W2 hoàn thành ngày 04/10/2026; đủ ba deliverables, compileall/E2E PASS, 235 unit tests và 38 leakage tests PASS. [Biên bản chốt và giới hạn nghiên cứu](../week2/phase_d_week_close.md). Bước tiếp theo là W3.
+**Trạng thái:** W2 hoàn thành ngày 04/10/2026; đủ ba deliverables, compileall/E2E PASS, 235 unit tests và 38 leakage tests PASS. [Biên bản chốt và giới hạn nghiên cứu](week2/phase_d_week_close.md). Bước tiếp theo là W3.
 
 ### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
 - **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Phase A/B/C hoàn thành, Gate A/B/C offline PASS; API retrieve/stats PIT, formatter BRPP v1 và kiểm ngân sách đã có. W3-12 [smoke kho thật](../week3/prior_smoke.json) PASS 288 query + 288 lượt lặp trên 32 context, bốn mode/hai scope, BRPP lớn nhất 373 ([Phase C](../week3/phase_c_prefix_and_budget.md)). W3-13 hoàn thành mười leakage + hai behavior test mới, suite Bayesian 95 test kiểm ranking/stats/BRPP và JSON/input/bản sao. W3-14 [benchmark](../week3/retrieval_benchmark.json) PASS sau tối ưu sao chép sâu/so snapshot theo profile: p95 Bayesian/Random/Recent/Similarity 15,809 / 14,812 / 14,179 / 18,239 ms, chín test mới; giữ hai lượt FAIL, kho/giá/model không đổi ([Phase D](../week3/phase_d_validation_and_handoff.md)). W3-15 [gate chốt](../week3/integration_gate_review.json) hoàn thành: compileall, 339 unit/104 Bayesian, E2E, 56 leakage PASS; refresh ngân sách/smoke theo hash nguồn hiện tại, [benchmark chốt](../week3/retrieval_benchmark_integration.json) p95 15,522 / 13,823 / 13,912 / 18,299 ms PASS. Tiếp theo W3-16. Cap cũ tổng 4.500 vượt trần khi ghép BRPP; cap bàn giao 4.000 dự phòng BRPP đủ 600 cho prompt tối đa 6.289, W4 phải áp dụng cap và guard prompt cuối `<6500`. Chưa chốt Phase D, tích hợp runtime hoặc kết quả giao dịch OOS.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](week3/README.md), tiếp nối kho 852 episode đã QA của W2. **W3 hoàn thành ngày 05/10/2026, 16/16 task và bốn phase PASS**; [biên bản chốt/API/example bàn giao W4](week3/week_close_and_handoff.md), [receipt cuối](week3/week_close_review.json).
+- **Kiểm chứng cuối**: compileall, 339 unit (104 Bayesian), E2E và 56 leakage PASS; smoke 288 query + 288 lượt lặp trên 32 context, BRPP max 373. Ngân sách fixture dự phòng đủ BRPP 600 cho prompt tối đa 6.289. [Benchmark trên cấu trúc mới](week3/retrieval_benchmark_week_close.json) p95 Bayesian/Random/Recent/Similarity 15,483 / 13,874 / 13,981 / 17,621 ms, đều <30 ms; giữ nguyên các receipt lịch sử và các lượt FAIL.
+- **Bàn giao tiếp theo**: W4 tích hợp state/graph/Decision/checkpoint/paired upstream; áp dụng cap báo cáo tổng 4.000 và guard toàn prompt `<6500`. Cap cũ tổng 4.500 chưa đủ khi ghép BRPP; runtime budget và giá kiểm định 2023–2024 còn gate riêng, chưa có kết quả giao dịch OOS. Tài liệu các tuần tiếp theo dùng `docs/plan/week<N>/` theo cấu trúc người dùng đã chuyển và quy ước AGENTS.md.
 - **Nhiệm vụ cụ thể**:
   - [x] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity`; `retrieve` trả tasks/stats/metadata đầy đủ, Original K=0 không nhận stats.
   - [x] Xây dựng thuật toán tính toán thống kê thực nghiệm (Empirical Win-rate, Trap Probabilities) cho từng regime: population PIT/cùng scope, bốn metric có counts, mẫu số 0=None, không smoothing hoặc diễn giải thành xác suất đã hiệu chuẩn.
-  - [x] Hiện thực hóa hàm `format_compact_prior_prefix(tasks, stats)` với template BRPP v1 và guard $\le 600$ ký tự; không truncate. W3-11 PASS kiểm chứng ngân sách/prompt ghép với cấu hình bàn giao, [receipt](../week3/prompt_budget_review.json); chưa là gate ngân sách runtime W4.
-  - [x] Viết benchmark đo lường thời gian thực thi: [receipt W3-14](../week3/retrieval_benchmark.json) PASS p95 từng mode <30 ms, 32 query/mode × 1.000 mẫu, cold load/formatter/retrieval+format tách riêng; giữ baseline/profile và kiểm bản sao/zero-leakage sau tối ưu.
-  - [x] Chạy gate tích hợp W3-15 trên phiên bản sau tối ưu: [biên bản](../week3/phase_d_validation_and_handoff.md), [receipt](../week3/integration_gate_review.json) PASS; dữ liệu/code không đổi, giữ giới hạn prompt runtime W4 và bàn giao W3-16 còn mở.
+  - [x] Hiện thực hóa hàm `format_compact_prior_prefix(tasks, stats)` với template BRPP v1 và guard $\le 600$ ký tự; không truncate. W3-11 PASS kiểm chứng ngân sách/prompt ghép với cấu hình bàn giao, [receipt](week3/prompt_budget_review.json); chưa là gate ngân sách runtime W4.
+  - [x] Viết benchmark đo lường thời gian thực thi: [receipt W3-14](week3/retrieval_benchmark.json) PASS p95 từng mode <30 ms, 32 query/mode × 1.000 mẫu, cold load/formatter/retrieval+format tách riêng; giữ baseline/profile và kiểm bản sao/zero-leakage sau tối ưu.
+  - [x] Chạy gate tích hợp W3-15 trên phiên bản sau tối ưu: [biên bản](week3/phase_d_validation_and_handoff.md), [receipt](week3/integration_gate_review.json) PASS; giữ giới hạn prompt runtime W4.
+  - [x] Chốt W3-16: [deliverables/API/example và kế hoạch tích hợp W4](week3/week_close_and_handoff.md), đồng bộ thư mục mới, [bốn gate cuối](week3/week_close_review.json) PASS.
 - **Deliverables cuối tuần 3**:
   - Module `core/bayesian_retriever.py` hoàn chỉnh.
-  - Bộ unit test kiểm tra định dạng và tốc độ sinh tiền tố.
+  - Bộ unit/leakage kiểm schema/cutoff/hành vi và script benchmark p95 thực trên kho thật.
+  - Biên bản bàn giao W4, các receipt kiểm chứng và checklist 16/16 đã chốt tại `docs/plan/week3/`.
 
 ### 📅 TUẦN 4: Tích hợp LangGraph & Bộ Kiểm thử Chống Rò rỉ Dữ liệu
 - **Mục tiêu**: Ghép nối luồng tiên nghiệm vào LangGraph state và xây dựng chốt chặn kiểm thử tự động.

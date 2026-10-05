@@ -25,7 +25,7 @@ def verify() -> dict[str, Any]:
     """Đối chiếu bằng chứng và kiểm cutoff/bản sao/I/O trên kho chính thức."""
     bank_path = ROOT / "data_manager/regime_memory_store.json"
     manifest = read_json(bank_path.with_suffix(".manifest.json"))
-    qa = read_json(ROOT / "docs/week2/memory_bank_audit.json")
+    qa = read_json(ROOT / "docs/plan/week2/memory_bank_audit.json")
     bank_hash = hashlib.sha256(bank_path.read_bytes()).hexdigest()
     schema_hash = hashlib.sha256((ROOT / "docs/plan/week1/historical_task_record.schema.json").read_bytes()).hexdigest()
     if qa["status"] != "PASS" or bank_hash != qa["bank_sha256"] or bank_hash != manifest["bank_sha256"]:
@@ -102,7 +102,7 @@ def verify() -> dict[str, Any]:
 def main() -> None:
     """Xuất biên bản đầu vào; không sửa kho/model hoặc gọi LLM."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=ROOT / "docs/week3/input_readiness.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "docs/plan/week3/input_readiness.json")
     args = parser.parse_args()
     result = verify()
     atomic_write_json(args.output, result)

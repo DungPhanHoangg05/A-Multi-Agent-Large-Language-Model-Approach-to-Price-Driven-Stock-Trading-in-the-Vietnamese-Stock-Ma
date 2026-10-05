@@ -193,7 +193,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", type=Path, default=ROOT / "outputs/historical_memory_run")
     parser.add_argument("--bank", type=Path, default=ROOT / "data_manager/regime_memory_store.json")
-    parser.add_argument("--output", type=Path, default=ROOT / "docs/week2/memory_bank_audit.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "docs/plan/week2/memory_bank_audit.json")
     args = parser.parse_args()
     result = audit(args.run_dir, args.bank)
     atomic_write_json(args.output, result)

@@ -14,7 +14,7 @@ import test_bayesian_statistics as fixtures
 
 class CompactPriorPrefixTests(unittest.TestCase):
     def setUp(self):
-        self.reference = read_json(ROOT / "docs/week3/statistics_prefix_review.json")
+        self.reference = read_json(ROOT / "docs/plan/week3/statistics_prefix_review.json")
         self.stats = copy.deepcopy(self.reference["reference_stats"])
         self.tasks = [self.task("a", "BULLISH", "NEUTRAL", 1.25),
                       self.task("b", "BULLISH", "BULLISH", -1.25),

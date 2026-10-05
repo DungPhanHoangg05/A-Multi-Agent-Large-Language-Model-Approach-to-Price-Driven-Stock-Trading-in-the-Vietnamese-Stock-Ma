@@ -31,7 +31,7 @@ class RecentRandomSelectionTests(unittest.TestCase):
         self.assertTrue(all(item["score"] is None for item in second["metadata"]["selected_scores"]))
 
     def test_random_matches_frozen_reference_digest_and_draw(self):
-        reference = read_json(ROOT / "docs/week3/selection_policy_review.json")["reference_fixture"]
+        reference = read_json(ROOT / "docs/plan/week3/selection_policy_review.json")["reference_fixture"]
         payload = reference["random_seed_payload"]
         candidates = [{"episode_id": name} for name in ("D", "C", "B", "A")]
         selected, digest = BayesianPriorRetriever._select_random(candidates, 3, payload)
