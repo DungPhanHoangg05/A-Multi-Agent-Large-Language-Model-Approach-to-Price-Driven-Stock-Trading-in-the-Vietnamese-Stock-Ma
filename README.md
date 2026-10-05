@@ -24,6 +24,8 @@ thống kê regime, BRPP và kiểm chứng offline tại
 [biên bản chốt/bàn giao W4](docs/plan/week3/week_close_and_handoff.md).
 W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/guard prompt;
 runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
+[Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
+các task triển khai chưa bắt đầu.
 
 ## Requirements
 
