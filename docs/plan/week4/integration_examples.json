@@ -1,0 +1,1013 @@
+{
+  "format_version": 1,
+  "contract_version": "prior_runtime_contract_v1",
+  "task": "W4-02",
+  "config_examples": [
+    {
+      "case": "omitted_or_none",
+      "input": null,
+      "expected_normalized": {
+        "enable_bayesian_prior": false,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    },
+    {
+      "case": "empty_dict",
+      "input": {},
+      "expected_normalized": {
+        "enable_bayesian_prior": false,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    },
+    {
+      "case": "disabled",
+      "input": {
+        "enable_bayesian_prior": false
+      },
+      "expected_normalized": {
+        "enable_bayesian_prior": false,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    },
+    {
+      "case": "original",
+      "input": {
+        "enable_bayesian_prior": true,
+        "k": 0
+      },
+      "expected_normalized": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 0,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    },
+    {
+      "case": "bayesian",
+      "input": {
+        "enable_bayesian_prior": true
+      },
+      "expected_normalized": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    },
+    {
+      "case": "random_pooled_single_run",
+      "input": {
+        "enable_bayesian_prior": true,
+        "mode": "random",
+        "scope": "pooled",
+        "seed": 7,
+        "k": 1
+      },
+      "expected_normalized": {
+        "enable_bayesian_prior": true,
+        "mode": "random",
+        "k": 1,
+        "seed": 7,
+        "scope": "pooled",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    },
+    {
+      "case": "disabled_file_not_required",
+      "input": {
+        "bank_path": "missing/bank.json"
+      },
+      "expected_normalized": {
+        "enable_bayesian_prior": false,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "missing/bank.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "verification_scope": "SPECIFICATION_ONLY_PARSER_NOT_IMPLEMENTED"
+    }
+  ],
+  "legacy_disabled_state": {
+    "prior_config": {
+      "enable_bayesian_prior": false,
+      "mode": "bayesian_regime",
+      "k": 3,
+      "seed": 42,
+      "scope": "same_symbol",
+      "bank_path": "data_manager/regime_memory_store.json",
+      "manifest_path": "data_manager/regime_memory_store.manifest.json",
+      "audit_path": "docs/plan/week2/memory_bank_audit.json"
+    },
+    "market_regime": null,
+    "current_signals": null,
+    "prior_provenance": null,
+    "prior_tasks": [],
+    "prior_stats": null,
+    "prior_metadata": null,
+    "bayesian_prior_context": ""
+  },
+  "query_examples": [
+    {
+      "case": "original",
+      "query": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 0
+      },
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 0,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "state_result_projection": {
+        "prior_tasks": [],
+        "prior_stats": null,
+        "prior_metadata": {
+          "api_contract_version": 1,
+          "sampling_version": "prior_sampling_v1",
+          "metric_version": "signal_match_v1",
+          "statistics_version": "regime_empirical_stats_v1",
+          "prefix_version": "compact_brpp_v1",
+          "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+          "symbol": "FPT",
+          "as_of_date": "2022-12-27",
+          "current_regime": "BEAR",
+          "mode": "bayesian_regime",
+          "scope": "same_symbol",
+          "requested_k": 0,
+          "seed": 42,
+          "eligible_count": null,
+          "matched_regime_count": null,
+          "candidate_count": null,
+          "effective_seed": null,
+          "selected_count": 0,
+          "selected_ids": [],
+          "selected_scores": [],
+          "status": "disabled",
+          "reason": "k_zero"
+        },
+        "bayesian_prior_context": ""
+      },
+      "source_kind": "verified_historical_prefix",
+      "source_reference": {
+        "receipt": "docs/plan/week3/prior_smoke.json",
+        "case_kind": "observed",
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27"
+      },
+      "market_regime": {
+        "as_of_date": "2022-12-27",
+        "regime_id": 1,
+        "regime_name": "BEAR",
+        "volatility_level": "HIGH",
+        "trend_strength": 3.587622261653564,
+        "source_symbol": "VNINDEX",
+        "feature_end_date": "2022-12-27"
+      },
+      "runtime_execution_authorized": false,
+      "verification_scope": "API_W3_AND_FORMATTER_NOT_RUNTIME_PROVENANCE_VALIDATION"
+    },
+    {
+      "case": "bayesian",
+      "query": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "state_result_projection": {
+        "prior_tasks": [
+          {
+            "episode_id": "FPT:2020-07-29",
+            "symbol": "FPT",
+            "as_of_date": "2020-07-29",
+            "entry_date": "2020-07-30",
+            "exit_date": "2020-08-03",
+            "regime": "BEAR",
+            "agent_signals": {
+              "trend": "BULLISH",
+              "pattern": "BULLISH",
+              "indicator_consensus": "BEARISH",
+              "alpha_consensus": "NEUTRAL",
+              "sentiment": "NEUTRAL"
+            },
+            "outcome": {
+              "actual_direction": "UP",
+              "net_return_pct": 2.19690902568912,
+              "was_bull_trap": false,
+              "result": "WIN_IF_LONG"
+            }
+          },
+          {
+            "episode_id": "FPT:2022-11-15",
+            "symbol": "FPT",
+            "as_of_date": "2022-11-15",
+            "entry_date": "2022-11-16",
+            "exit_date": "2022-11-18",
+            "regime": "BEAR",
+            "agent_signals": {
+              "trend": "BEARISH",
+              "pattern": "BEARISH",
+              "indicator_consensus": "BEARISH",
+              "alpha_consensus": "NEUTRAL",
+              "sentiment": "NEUTRAL"
+            },
+            "outcome": {
+              "actual_direction": "UP",
+              "net_return_pct": 15.825851358553077,
+              "was_bull_trap": false,
+              "result": "WIN_IF_LONG"
+            }
+          },
+          {
+            "episode_id": "FPT:2022-11-07",
+            "symbol": "FPT",
+            "as_of_date": "2022-11-07",
+            "entry_date": "2022-11-08",
+            "exit_date": "2022-11-10",
+            "regime": "BEAR",
+            "agent_signals": {
+              "trend": "BEARISH",
+              "pattern": "BEARISH",
+              "indicator_consensus": "BEARISH",
+              "alpha_consensus": "NEUTRAL",
+              "sentiment": "NEUTRAL"
+            },
+            "outcome": {
+              "actual_direction": "UP",
+              "net_return_pct": 1.385711231725617,
+              "was_bull_trap": false,
+              "result": "WIN_IF_LONG"
+            }
+          }
+        ],
+        "prior_stats": {
+          "regime": "BEAR",
+          "population_count": 45,
+          "metrics": {
+            "win_rate_long": {
+              "numerator": 19,
+              "denominator": 45,
+              "rate": 0.4222222222222222
+            },
+            "bull_trap_rate": {
+              "numerator": 15,
+              "denominator": 23,
+              "rate": 0.6521739130434783
+            },
+            "trend_false_bullish_rate": {
+              "numerator": 13,
+              "denominator": 18,
+              "rate": 0.7222222222222222
+            },
+            "pattern_false_bullish_rate": {
+              "numerator": 14,
+              "denominator": 21,
+              "rate": 0.6666666666666666
+            }
+          }
+        },
+        "prior_metadata": {
+          "api_contract_version": 1,
+          "sampling_version": "prior_sampling_v1",
+          "metric_version": "signal_match_v1",
+          "statistics_version": "regime_empirical_stats_v1",
+          "prefix_version": "compact_brpp_v1",
+          "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+          "symbol": "FPT",
+          "as_of_date": "2022-12-27",
+          "current_regime": "BEAR",
+          "mode": "bayesian_regime",
+          "scope": "same_symbol",
+          "requested_k": 3,
+          "seed": 42,
+          "eligible_count": 209,
+          "matched_regime_count": 45,
+          "candidate_count": 45,
+          "effective_seed": null,
+          "selected_count": 3,
+          "selected_ids": [
+            "FPT:2020-07-29",
+            "FPT:2022-11-15",
+            "FPT:2022-11-07"
+          ],
+          "selected_scores": [
+            {
+              "episode_id": "FPT:2020-07-29",
+              "score": 0.75
+            },
+            {
+              "episode_id": "FPT:2022-11-15",
+              "score": 0.5
+            },
+            {
+              "episode_id": "FPT:2022-11-07",
+              "score": 0.5
+            }
+          ],
+          "status": "complete",
+          "reason": null
+        },
+        "bayesian_prior_context": "[BRPP v1] R=BEAR; n=45; k=3\nLONGwin=19/45(42.2%); Trap=15/23(65.2%); TrendFail=13/18(72.2%); PatternFail=14/21(66.7%)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2020-07-29 R=BEAR T/P/A/I=++0- W +2.20%\nFPT@2022-11-15 R=BEAR T/P/A/I=--0- W +15.83%\nFPT@2022-11-07 R=BEAR T/P/A/I=--0- W +1.39%"
+      },
+      "source_kind": "verified_historical_prefix",
+      "source_reference": {
+        "receipt": "docs/plan/week3/prior_smoke.json",
+        "case_kind": "observed",
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27"
+      },
+      "market_regime": {
+        "as_of_date": "2022-12-27",
+        "regime_id": 1,
+        "regime_name": "BEAR",
+        "volatility_level": "HIGH",
+        "trend_strength": 3.587622261653564,
+        "source_symbol": "VNINDEX",
+        "feature_end_date": "2022-12-27"
+      },
+      "runtime_execution_authorized": false,
+      "verification_scope": "API_W3_AND_FORMATTER_NOT_RUNTIME_PROVENANCE_VALIDATION"
+    },
+    {
+      "case": "empty",
+      "query": {
+        "symbol": "FPT",
+        "as_of_date": "2020-05-31",
+        "current_regime": "CHOPPY",
+        "current_signals": {
+          "trend": "NEUTRAL",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "NEUTRAL",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "state_result_projection": {
+        "prior_tasks": [],
+        "prior_stats": {
+          "regime": "CHOPPY",
+          "population_count": 0,
+          "metrics": {
+            "win_rate_long": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "bull_trap_rate": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "trend_false_bullish_rate": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "pattern_false_bullish_rate": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            }
+          }
+        },
+        "prior_metadata": {
+          "api_contract_version": 1,
+          "sampling_version": "prior_sampling_v1",
+          "metric_version": "signal_match_v1",
+          "statistics_version": "regime_empirical_stats_v1",
+          "prefix_version": "compact_brpp_v1",
+          "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+          "symbol": "FPT",
+          "as_of_date": "2020-05-31",
+          "current_regime": "CHOPPY",
+          "mode": "bayesian_regime",
+          "scope": "same_symbol",
+          "requested_k": 3,
+          "seed": 42,
+          "eligible_count": 0,
+          "matched_regime_count": 0,
+          "candidate_count": 0,
+          "effective_seed": null,
+          "selected_count": 0,
+          "selected_ids": [],
+          "selected_scores": [],
+          "status": "empty",
+          "reason": "no_eligible_history"
+        },
+        "bayesian_prior_context": "[BRPP v1] R=CHOPPY; n=0; k=0\nLONGwin=0/0(N/A); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin."
+      },
+      "source_kind": "boundary_fixture",
+      "source_reference": {
+        "receipt": "docs/plan/week3/prior_smoke.json",
+        "case_kind": "before_first",
+        "symbol": "FPT",
+        "as_of_date": "2020-05-31"
+      },
+      "market_regime": null,
+      "runtime_execution_authorized": false,
+      "verification_scope": "API_W3_AND_FORMATTER_NOT_RUNTIME_PROVENANCE_VALIDATION"
+    },
+    {
+      "case": "partial",
+      "query": {
+        "symbol": "FPT",
+        "as_of_date": "2020-06-12",
+        "current_regime": "CHOPPY",
+        "current_signals": {
+          "trend": "BEARISH",
+          "pattern": "BEARISH",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "BEARISH",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "state_result_projection": {
+        "prior_tasks": [
+          {
+            "episode_id": "FPT:2020-06-01",
+            "symbol": "FPT",
+            "as_of_date": "2020-06-01",
+            "entry_date": "2020-06-02",
+            "exit_date": "2020-06-04",
+            "regime": "CHOPPY",
+            "agent_signals": {
+              "trend": "NEUTRAL",
+              "pattern": "NEUTRAL",
+              "indicator_consensus": "BULLISH",
+              "alpha_consensus": "BEARISH",
+              "sentiment": "NEUTRAL"
+            },
+            "outcome": {
+              "actual_direction": "DOWN",
+              "net_return_pct": -0.491961686800646,
+              "was_bull_trap": false,
+              "result": "LOSS_IF_LONG"
+            }
+          }
+        ],
+        "prior_stats": {
+          "regime": "CHOPPY",
+          "population_count": 1,
+          "metrics": {
+            "win_rate_long": {
+              "numerator": 0,
+              "denominator": 1,
+              "rate": 0.0
+            },
+            "bull_trap_rate": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "trend_false_bullish_rate": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            },
+            "pattern_false_bullish_rate": {
+              "numerator": 0,
+              "denominator": 0,
+              "rate": null
+            }
+          }
+        },
+        "prior_metadata": {
+          "api_contract_version": 1,
+          "sampling_version": "prior_sampling_v1",
+          "metric_version": "signal_match_v1",
+          "statistics_version": "regime_empirical_stats_v1",
+          "prefix_version": "compact_brpp_v1",
+          "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+          "symbol": "FPT",
+          "as_of_date": "2020-06-12",
+          "current_regime": "CHOPPY",
+          "mode": "bayesian_regime",
+          "scope": "same_symbol",
+          "requested_k": 3,
+          "seed": 42,
+          "eligible_count": 2,
+          "matched_regime_count": 1,
+          "candidate_count": 1,
+          "effective_seed": null,
+          "selected_count": 1,
+          "selected_ids": [
+            "FPT:2020-06-01"
+          ],
+          "selected_scores": [
+            {
+              "episode_id": "FPT:2020-06-01",
+              "score": 0.25
+            }
+          ],
+          "status": "partial",
+          "reason": "insufficient_candidates"
+        },
+        "bayesian_prior_context": "[BRPP v1] R=CHOPPY; n=1; k=1\nLONGwin=0/1(0.0%); Trap=0/0(N/A); TrendFail=0/0(N/A); PatternFail=0/0(N/A)\nT/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.\nFPT@2020-06-01 R=CHOPPY T/P/A/I=00-+ L -0.49%"
+      },
+      "source_kind": "verified_historical_prefix",
+      "source_reference": {
+        "receipt": "docs/plan/week3/prior_smoke.json",
+        "case_kind": "partial",
+        "symbol": "FPT",
+        "as_of_date": "2020-06-12"
+      },
+      "market_regime": {
+        "as_of_date": "2020-06-12",
+        "regime_id": 2,
+        "regime_name": "CHOPPY",
+        "volatility_level": "HIGH",
+        "trend_strength": 0.07362693094351329,
+        "source_symbol": "VNINDEX",
+        "feature_end_date": "2020-06-12"
+      },
+      "runtime_execution_authorized": false,
+      "verification_scope": "API_W3_AND_FORMATTER_NOT_RUNTIME_PROVENANCE_VALIDATION"
+    }
+  ],
+  "invalid_config_examples": [
+    {
+      "case": "flag_string",
+      "input": {
+        "enable_bayesian_prior": "false"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "flag_int",
+      "input": {
+        "enable_bayesian_prior": 0
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "unknown_key",
+      "input": {
+        "enable_prior": true
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "bad_mode_disabled",
+      "input": {
+        "mode": "Bayesian"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "bad_scope",
+      "input": {
+        "scope": "same_stock"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "k_bool",
+      "input": {
+        "k": true
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "k_float",
+      "input": {
+        "k": 3.0
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "k_out_of_range",
+      "input": {
+        "k": 4
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "negative_k",
+      "input": {
+        "k": -1
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "seed_bool",
+      "input": {
+        "seed": true
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "seed_float",
+      "input": {
+        "seed": 42.0
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "seed_negative",
+      "input": {
+        "seed": -1
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "seed_overflow",
+      "input": {
+        "seed": 4294967296
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "null_bank_path",
+      "input": {
+        "bank_path": null
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "empty_bank_path",
+      "input": {
+        "bank_path": ""
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "absolute_path",
+      "input": {
+        "bank_path": "C:/data/bank.json"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "parent_path",
+      "input": {
+        "bank_path": "../bank.json"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "url_path",
+      "input": {
+        "bank_path": "https://example.invalid/bank.json"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    },
+    {
+      "case": "backslash_path",
+      "input": {
+        "bank_path": "data\\bank.json"
+      },
+      "expected_error": "ValueError",
+      "runtime_validator_implemented": false
+    }
+  ],
+  "incompatible_runtime_examples": [
+    {
+      "case": "enabled_baseline",
+      "prior_config": {
+        "enable_bayesian_prior": true
+      },
+      "ablation": "baseline",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "enabled_alpha_only",
+      "prior_config": {
+        "enable_bayesian_prior": true
+      },
+      "ablation": "alpha_only",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "enabled_include_alpha_false",
+      "prior_config": {
+        "enable_bayesian_prior": true
+      },
+      "include_alpha": false,
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "enabled_legacy_truthy_flag",
+      "ablation_config": {
+        "enable_alpha_factors": "false",
+        "enable_sentiment": true
+      },
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "enabled_timeframe_1_day",
+      "time_frame": "1 day",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "enabled_live",
+      "is_backtest": false,
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "enabled_missing_provenance",
+      "prior_provenance": null,
+      "expected_error": "ValueError",
+      "content_contract_task": "W4-03"
+    },
+    {
+      "case": "disabled_stale_prefix",
+      "prior_config": {
+        "enable_bayesian_prior": false
+      },
+      "bayesian_prior_context": "[BRPP v1]",
+      "expected_error": "ValueError"
+    }
+  ],
+  "python_type_only_examples": [
+    {
+      "expression": "numpy.int64(3)",
+      "field": "k",
+      "expected_error": "ValueError"
+    },
+    {
+      "expression": "numpy.bool_(True)",
+      "field": "enable_bayesian_prior",
+      "expected_error": "ValueError"
+    },
+    {
+      "expression": "float(\"nan\")",
+      "field": "market_regime.trend_strength",
+      "expected_error": "ValueError"
+    },
+    {
+      "expression": "pandas.DataFrame(...)",
+      "field": "checkpoint JSON projection",
+      "expected_error": "ValueError"
+    }
+  ],
+  "existing_w3_invalid_query_probes": [
+    {
+      "case": "k_bool",
+      "input": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": true
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    },
+    {
+      "case": "seed_bool",
+      "input": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": true,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    },
+    {
+      "case": "bad_mode_k_zero",
+      "input": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "Bayesian",
+        "scope": "same_symbol",
+        "k": 0
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    },
+    {
+      "case": "bad_date_k_zero",
+      "input": {
+        "symbol": "FPT",
+        "as_of_date": "2022-02-30",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 0
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    },
+    {
+      "case": "bad_symbol",
+      "input": {
+        "symbol": "fpt",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    },
+    {
+      "case": "missing_signals",
+      "input": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": null,
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    },
+    {
+      "case": "extra_signal_outcome",
+      "input": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL",
+          "actual_direction": "UP"
+        },
+        "seed": 42,
+        "mode": "bayesian_regime",
+        "scope": "same_symbol",
+        "k": 3
+      },
+      "result": "ValueError",
+      "status": "PASS"
+    }
+  ],
+  "runtime_parser_validator_implemented": false,
+  "limitations": [
+    "Ví dụ config/state là đặc tả; chưa có validator runtime mới.",
+    "Projection W3 được kiểm bằng API thật; không cấp quyền chạy OOS hoặc bỏ qua provenance W4-03.",
+    "Empty trước kho là fixture, không là regime thị trường quan sát được."
+  ]
+}

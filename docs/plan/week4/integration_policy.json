@@ -1,0 +1,300 @@
+{
+  "format_version": 1,
+  "contract_version": "prior_runtime_contract_v1",
+  "status": "LOCKED_SPECIFICATION",
+  "task": "W4-02",
+  "date": "2026-10-05",
+  "runtime_implemented": false,
+  "config": {
+    "input": "None hoặc dict Python gốc một phần",
+    "normalized_keys": [
+      "enable_bayesian_prior",
+      "mode",
+      "k",
+      "seed",
+      "scope",
+      "bank_path",
+      "manifest_path",
+      "audit_path"
+    ],
+    "defaults": {
+      "enable_bayesian_prior": false,
+      "mode": "bayesian_regime",
+      "k": 3,
+      "seed": 42,
+      "scope": "same_symbol",
+      "bank_path": "data_manager/regime_memory_store.json",
+      "manifest_path": "data_manager/regime_memory_store.manifest.json",
+      "audit_path": "docs/plan/week2/memory_bank_audit.json"
+    },
+    "unknown_keys": "ValueError",
+    "native_python_types_only": true,
+    "mode_enum": [
+      "bayesian_regime",
+      "random",
+      "recent",
+      "similarity"
+    ],
+    "scope_enum": [
+      "pooled",
+      "same_symbol"
+    ],
+    "k_range": [
+      0,
+      3
+    ],
+    "seed_range": [
+      0,
+      4294967295
+    ],
+    "path_policy": {
+      "syntax": "repo_relative_posix",
+      "reject_absolute_drive_unc_url": true,
+      "reject_backslash": true,
+      "reject_dot_or_parent_segments": true,
+      "enabled_resolve_within_repo_including_symlinks": true,
+      "disabled_filesystem_io": false
+    },
+    "disabled_still_validates_supplied_values": true
+  },
+  "state": {
+    "fields": {
+      "prior_config": {
+        "type": "dict[str, JSONValue]",
+        "default": {
+          "enable_bayesian_prior": false,
+          "mode": "bayesian_regime",
+          "k": 3,
+          "seed": 42,
+          "scope": "same_symbol",
+          "bank_path": "data_manager/regime_memory_store.json",
+          "manifest_path": "data_manager/regime_memory_store.manifest.json",
+          "audit_path": "docs/plan/week2/memory_bank_audit.json"
+        },
+        "required_at": "normalized_runtime_config"
+      },
+      "market_regime": {
+        "type": "MarketRegimeState | None",
+        "default": null,
+        "required_at": "before_enabled_query"
+      },
+      "current_signals": {
+        "type": "dict[str, str] | None",
+        "default": null,
+        "required_at": "before_enabled_query_including_k_zero"
+      },
+      "prior_provenance": {
+        "type": "dict[str, JSONValue] | None",
+        "default": null,
+        "required_at": "before_enabled_query",
+        "content_contract_task": "W4-03"
+      },
+      "prior_tasks": {
+        "type": "list[HistoricalTaskRecord]",
+        "default": [],
+        "source": "retrieve.tasks"
+      },
+      "prior_stats": {
+        "type": "RegimeStatistics | None",
+        "default": null,
+        "source": "retrieve.stats"
+      },
+      "prior_metadata": {
+        "type": "PriorMetadata | None",
+        "default": null,
+        "source": "retrieve.metadata"
+      },
+      "bayesian_prior_context": {
+        "type": "str",
+        "default": "",
+        "source": "format_compact_prior_prefix(prior_tasks, prior_stats)"
+      }
+    },
+    "new_fields_not_required_for_legacy_typed_dict": true,
+    "enabled_required_at_stage_not_only_type_annotation": true,
+    "duplicate_fields_forbidden": [
+      "current_regime",
+      "regime_name",
+      "selected_ids",
+      "prior_result"
+    ],
+    "disabled_supplied_derived_fields": "Chỉ chấp nhận sentinel, khác sentinel gây ValueError",
+    "deep_copy_per_branch": true,
+    "json_projection_task": "W4-04"
+  },
+  "regime": {
+    "schema": "docs/plan/week1/market_regime_state.schema.json",
+    "regime_ids": {
+      "BULL": 0,
+      "BEAR": 1,
+      "CHOPPY": 2,
+      "CONSOLIDATION": 3
+    },
+    "source_symbol": "VNINDEX",
+    "feature_end_date_lte_as_of_date": true,
+    "proof_contract_task": "W4-03"
+  },
+  "signals": {
+    "required_for_all_enabled_queries": true,
+    "keys": [
+      "trend",
+      "pattern",
+      "alpha_consensus",
+      "indicator_consensus",
+      "sentiment"
+    ],
+    "normalizer": "core.bayesian_retriever.normalize_signals",
+    "no_query_outcome": true
+  },
+  "execution": {
+    "enabled_context": "backtest_only",
+    "enabled_ablation": "full",
+    "enabled_ablation_flags_strict_bool": true,
+    "enabled_unsupported_combinations": "ValueError before init",
+    "enabled_include_alpha": [
+      "None",
+      "True"
+    ],
+    "enabled_live_supported": false,
+    "legacy_ablation_configs": {
+      "full": {
+        "enable_alpha_factors": true,
+        "enable_sentiment": true
+      },
+      "alpha_only": {
+        "enable_alpha_factors": true,
+        "enable_sentiment": false
+      },
+      "sentiment_only": {
+        "enable_alpha_factors": false,
+        "enable_sentiment": true
+      },
+      "baseline": {
+        "enable_alpha_factors": false,
+        "enable_sentiment": false
+      }
+    },
+    "legacy_include_alpha_behavior_unchanged": true
+  },
+  "timeframe": {
+    "enabled_input_enum": [
+      "1d",
+      "1 ngày"
+    ],
+    "canonical": "1d",
+    "lookahead_candles": 3,
+    "reject_missing_or_other_aliases": true,
+    "legacy_default_unchanged": true
+  },
+  "standard_matrix": [
+    {
+      "branch_id": "original",
+      "label": "Original",
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 0,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "ablation": "full"
+    },
+    {
+      "branch_id": "random",
+      "label": "Random",
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "random",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "ablation": "full"
+    },
+    {
+      "branch_id": "recent",
+      "label": "Recent",
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "recent",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "ablation": "full"
+    },
+    {
+      "branch_id": "similarity",
+      "label": "Similarity",
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "similarity",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "ablation": "full"
+    },
+    {
+      "branch_id": "bayesian",
+      "label": "Bayesian",
+      "prior_config": {
+        "enable_bayesian_prior": true,
+        "mode": "bayesian_regime",
+        "k": 3,
+        "seed": 42,
+        "scope": "same_symbol",
+        "bank_path": "data_manager/regime_memory_store.json",
+        "manifest_path": "data_manager/regime_memory_store.manifest.json",
+        "audit_path": "docs/plan/week2/memory_bank_audit.json"
+      },
+      "ablation": "full"
+    }
+  ],
+  "matrix_scope_seed_frozen": true,
+  "single_variant_configurable_with_new_signature": true,
+  "retriever_versions": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1"
+  },
+  "result": {
+    "mapping": {
+      "tasks": "prior_tasks",
+      "stats": "prior_stats",
+      "metadata": "prior_metadata"
+    },
+    "prefix_char_limit_inclusive": 600,
+    "decision_prompt_char_limit_exclusive": 6500,
+    "original_enabled_k_zero_requires_query_validation": true,
+    "legacy_disabled_calls_retriever": false,
+    "empty_partial_preserve_stats_and_metadata": true,
+    "all_priors_exit_strictly_before_cutoff": true,
+    "stats_same_population_for_four_prior_modes": true
+  },
+  "json": {
+    "allow_nan": false,
+    "allow_duplicate_keys": false,
+    "native_types_only": true,
+    "no_dataframe_or_runtime_objects_in_checkpoint": true,
+    "no_secrets": true
+  },
+  "remaining_contracts": {
+    "W4-03": "Provenance nguồn/PIT và thứ tự caller",
+    "W4-04": "Schema/signature/checkpoint/resume"
+  }
+}
