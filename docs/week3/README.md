@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. W3-13 đến W3-16 chưa thực hiện; tiếp theo Phase D. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
+**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. Phase D đang triển khai: W3-13 hoàn thành, W3-14 đến W3-16 chưa thực hiện; tiếp theo benchmark W3-14. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -81,7 +81,7 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W3-13 | Kiểm thử hành vi và zero-leakage | Suite retriever/stats/prefix, `test_bayesian_retriever_leakage.py`; cả ranking/stats/prefix chống dữ liệu tương lai | W3-05..12 | [ ] |
+| W3-13 | Kiểm thử hành vi và zero-leakage | Mười leakage + hai behavior test mới, fixture nhãn từ engine thật; suite 95 test Bayesian, kiểm cả ranking/stats/BRPP, nguồn sai gây lỗi trước formatter; [biên bản và bảng coverage](phase_d_validation_and_handoff.md) | W3-05..12 | [x] |
 | W3-14 | Benchmark retrieval tái lập | Script, receipt JSON và biên bản: đủ bốn mode, p95 <30 ms từng mode, cold load tách riêng | W3-12, W3-13 | [ ] |
 | W3-15 | Chạy bốn gate trước tích hợp | Compileall, toàn bộ unit tests, E2E và leakage PASS; ghi số test/thời gian/lệnh | W3-13, W3-14 | [ ] |
 | W3-16 | Chốt deliverables và bàn giao W4 | API/docs/example/benchmark đủ; cập nhật kế hoạch tổng, Conventional Commit/merge sau gate | W3-01..15 | [ ] |
@@ -105,6 +105,23 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-13 hoàn thành — Phase D đang triển khai**: mở rộng test leakage toàn pipeline,
+  thêm `test_bayesian_prior_behavior.py` và fixture chung sinh nhãn bằng engine
+  T+2.5 thật. Mười test leakage mới kiểm bốn mode/hai scope: equal/straddling/future,
+  thêm/sửa lịch sử chưa đóng, ngày sau → trước, source/selector/population sai gây
+  ValueError trước BRPP, tách query khỏi outcome và bản sao nhánh độc lập.
+- Hai test behavior kiểm 56 input sai kể cả K=0 trước đọc pool và 256 tổ hợp
+  mode/scope/regime/K=0..3 với JSON strict/kiểu Python gốc/input không đổi/no I/O.
+  Suite hợp nhất **95 test Bayesian**; [coverage và lệnh tái lập](phase_d_validation_and_handoff.md).
+  Sửa nhãn **đã đóng** được phép đổi stats/BRPP, nhưng IDs/scores/seed không ranking
+  theo WIN; sửa chu kỳ chưa đóng không được đổi bằng chứng query cũ.
+- **Gate tích hợp W3-13**: compileall PASS, 330/330 unit tests PASS (48,346 giây),
+  E2E xác định PASS (7,2 giây), 56/56 leakage tests PASS (5,360 giây); suite
+  Bayesian 95/95 PASS (3,854 giây). Nhánh `test/prior-zero-leakage-suite` tích hợp
+  sau gate; hash receipt W3-11/12, liên kết và `git diff --check` được kiểm trước commit.
+  Runtime và các receipt/kho/model giữ nguyên. **W3-14..16 còn mở**; chưa đo p95,
+  chưa chốt Phase D hoặc áp dụng cap/guard prompt vào runtime W4.
 
 - **W3-12 hoàn thành — Phase C/Gate C offline PASS**: script smoke trên kho thật
   đã QA 852 episode; 16 context lịch sử phủ bốn mã/bốn regime, tám context lịch sử
