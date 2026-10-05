@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A hoàn thành, W3-05 hoàn thành; W3-06 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
+**Trạng thái: Phase A hoàn thành, W3-05/W3-06 hoàn thành; W3-07 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -60,7 +60,7 @@ Chi tiết: [Phase B](phase_b_retriever_and_statistics.md).
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W3-05 | Nạp kho, lọc PIT và bảo vệ dữ liệu | `core/bayesian_retriever.py`: constructor/prepare_query/K=0, chốt pool/selection/cutoff; 14 test nền/leakage và [probe kho thật](retriever_foundation_review.json) PASS; [phạm vi](phase_b_retriever_and_statistics.md) | W3-01..04 | [x] |
-| W3-06 | Cài `recent` và `random` | Thứ tự/tie-break ổn định, seed tái lập theo query, không trùng record, không phụ thuộc thứ tự gọi | W3-05 | [ ] |
+| W3-06 | Cài `recent` và `random` | `select_prior_tasks`: thứ tự/tie-break/seed/draw đúng policy, metadata empty/partial/complete; tám test mới và [probe kho thật](recent_random_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-05 | [x] |
 | W3-07 | Cài `similarity` | So khớp tín hiệu theo đặc tả, xử lý trường hằng/không rõ, ranking xác định và score có thể kiểm toán | W3-03, W3-05 | [ ] |
 | W3-08 | Cài `bayesian_regime` | Lọc cùng regime từ pool chung rồi xếp hạng theo đặc tả; K thiếu có lý do, không bù khác regime | W3-06, W3-07 | [ ] |
 | W3-09 | Tính thống kê theo regime | Count/win/trap/mẫu số theo cutoff; fixture kiểm tay, JSON Python gốc; tách pool khỏi K ví dụ | W3-04, W3-05 | [ ] |
@@ -103,6 +103,21 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 - [ ] Unit tests, E2E và leakage PASS; API độc lập sẵn sàng cho W4.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05
+
+- **W3-06 hoàn thành**: Recent xếp exit giảm dần/ID tăng dần; Random sample không
+  hoàn lại bằng RNG local và seed query SHA-256 đúng policy. `select_prior_tasks`
+  trả tasks/population/metadata selected IDs/scores None/effective seed/status/reason;
+  không mở scope để bù K. Tám test mới PASS, tổng 22 test Bayesian tập trung PASS.
+- [Probe kho thật](recent_random_review.json) PASS 16 query trên 852 record:
+  bốn mã × hai scope × hai mode; lặp query, biên exit, empty/partial, không I/O
+  JSON/CSV/giá và không đổi global RNG. Regime probe là fixture, không kết quả OOS.
+- **Gate tích hợp W3-06**: compileall PASS, 257/257 unit tests PASS (46,861 giây),
+  E2E xác định PASS (7,3 giây), 42/42 leakage tests PASS (4,275 giây).
+  Hash mã trong receipt, liên kết và `git diff --check` PASS. Nhánh
+  `feat/recent-random-prior-selection`, tích hợp sau gate. Gate B còn mở;
+  W3-07/W3-08 thêm Similarity/Bayesian, W3-09 tính stats và hoàn thiện retrieve K>0.
 
 ### 2026-10-04
 

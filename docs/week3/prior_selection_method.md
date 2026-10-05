@@ -2,7 +2,8 @@
 
 **Chốt W3-03 ngày 04/10/2026.** Cấu hình đóng băng tại
 [prior_selection_policy.json](prior_selection_policy.json), tương thích
-[hợp đồng API v1](retriever_api_contract.md). Chưa triển khai retriever W3-05..08.
+[hợp đồng API v1](retriever_api_contract.md). Nền W3-05 và Recent/Random W3-06 đã có;
+Similarity/Bayesian W3-07/W3-08 còn chờ triển khai.
 Không chọn tham số bằng kết quả kiểm định 2023–2024.
 
 ## 1. Tập hợp và thứ tự xử lý
@@ -142,7 +143,8 @@ ordered_candidates = sorted(eligible, key=lambda record: record["episode_id"])
 tasks = rng.sample(ordered_candidates, min(k, len(ordered_candidates)))
 ```
 
-Đây là thuật toán tham chiếu để triển khai, chưa là code runtime retriever.
+Thuật toán này đã triển khai trong `_select_random()` ở W3-06; stats và result
+retrieve hoàn chỉnh còn chờ W3-09.
 Không đưa `bank_sha256`, outcome, signals, regime, mode hoặc K vào seed_payload:
 thêm/đổi record tương lai hợp lệ ngoài E không được đổi draw của query cũ.
 Hash kho vẫn lưu để kiểm toán; không dùng nó làm nguồn ngẫu nhiên cho query.
