@@ -1,0 +1,1439 @@
+{
+  "format_version": 1,
+  "status": "PASS",
+  "date": "2026-10-05",
+  "query_context": "component_probe_fixture_signals_and_regime_not_observed_market_state",
+  "real_bank_records": 852,
+  "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+  "versions": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1"
+  },
+  "as_of_date": "2023-01-03",
+  "requested_k": 3,
+  "seed": 42,
+  "current_signals": {
+    "trend": "BULLISH",
+    "pattern": "BULLISH",
+    "alpha_consensus": "BEARISH",
+    "indicator_consensus": "NEUTRAL",
+    "sentiment": "NEUTRAL"
+  },
+  "queries": [
+    {
+      "symbol": "FPT",
+      "scope": "same_symbol",
+      "current_regime": "BULL",
+      "eligible_count": 211,
+      "matched_regime_count": 83,
+      "candidate_count": 83,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2021-06-23",
+        "FPT:2021-04-13",
+        "FPT:2020-12-16"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2021-06-23",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2021-04-13",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2020-12-16",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2021-06-28",
+        "2021-04-16",
+        "2020-12-21"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "FPT:2022-06-06",
+        "FPT:2022-03-25"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "same_symbol",
+      "current_regime": "BEAR",
+      "eligible_count": 211,
+      "matched_regime_count": 47,
+      "candidate_count": 47,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-12-09",
+        "FPT:2022-12-01",
+        "FPT:2022-11-28"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-12-09",
+          "score": 0.75
+        },
+        {
+          "episode_id": "FPT:2022-12-01",
+          "score": 0.75
+        },
+        {
+          "episode_id": "FPT:2022-11-28",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-14",
+        "2022-12-06",
+        "2022-12-01"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "FPT:2022-06-06",
+        "FPT:2022-03-25"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "same_symbol",
+      "current_regime": "CHOPPY",
+      "eligible_count": 211,
+      "matched_regime_count": 62,
+      "candidate_count": 62,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-12-06",
+        "FPT:2022-06-06",
+        "FPT:2022-02-16"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2022-06-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2022-02-16",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2022-06-09",
+        "2022-02-21"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "FPT:2022-06-06",
+        "FPT:2022-03-25"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "same_symbol",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 211,
+      "matched_regime_count": 19,
+      "candidate_count": 19,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-03-25",
+        "FPT:2020-07-16",
+        "FPT:2022-04-13"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-03-25",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2020-07-16",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2022-04-13",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-03-30",
+        "2020-07-21",
+        "2022-04-18"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "FPT:2022-06-06",
+        "FPT:2022-03-25"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "pooled",
+      "current_regime": "BULL",
+      "eligible_count": 852,
+      "matched_regime_count": 337,
+      "candidate_count": 337,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-08-11",
+        "VNM:2021-11-29",
+        "VNM:2021-11-24"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-08-11",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-29",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-24",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-08-16",
+        "2021-12-02",
+        "2021-11-29"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "pooled",
+      "current_regime": "BEAR",
+      "eligible_count": 852,
+      "matched_regime_count": 191,
+      "candidate_count": 191,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-12-01",
+        "VNM:2022-11-02",
+        "VNM:2022-10-28"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-12-01",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-11-02",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-10-28",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-06",
+        "2022-11-07",
+        "2022-11-02"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "pooled",
+      "current_regime": "CHOPPY",
+      "eligible_count": 852,
+      "matched_regime_count": 248,
+      "candidate_count": 248,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-12-06",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2022-12-09",
+        "2022-12-09"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "FPT",
+      "scope": "pooled",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 852,
+      "matched_regime_count": 76,
+      "candidate_count": 76,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-03-25",
+        "FPT:2020-07-16",
+        "VNM:2022-09-08"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-03-25",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2020-07-16",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-09-08",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-03-30",
+        "2020-07-21",
+        "2022-09-13"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "same_symbol",
+      "current_regime": "BULL",
+      "eligible_count": 213,
+      "matched_regime_count": 84,
+      "candidate_count": 84,
+      "selected_count": 3,
+      "selected_ids": [
+        "MWG:2020-12-03",
+        "MWG:2022-08-29",
+        "MWG:2022-08-24"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "MWG:2020-12-03",
+          "score": 1.0
+        },
+        {
+          "episode_id": "MWG:2022-08-29",
+          "score": 0.75
+        },
+        {
+          "episode_id": "MWG:2022-08-24",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2020-12-08",
+        "2022-09-05",
+        "2022-08-29"
+      ],
+      "similarity_ids": [
+        "MWG:2022-10-12",
+        "MWG:2022-05-19",
+        "MWG:2021-09-14"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "same_symbol",
+      "current_regime": "BEAR",
+      "eligible_count": 213,
+      "matched_regime_count": 48,
+      "candidate_count": 48,
+      "selected_count": 3,
+      "selected_ids": [
+        "MWG:2022-10-12",
+        "MWG:2022-05-19",
+        "MWG:2020-08-03"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "MWG:2022-10-12",
+          "score": 1.0
+        },
+        {
+          "episode_id": "MWG:2022-05-19",
+          "score": 1.0
+        },
+        {
+          "episode_id": "MWG:2020-08-03",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-10-17",
+        "2022-05-24",
+        "2020-08-06"
+      ],
+      "similarity_ids": [
+        "MWG:2022-10-12",
+        "MWG:2022-05-19",
+        "MWG:2021-09-14"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "same_symbol",
+      "current_regime": "CHOPPY",
+      "eligible_count": 213,
+      "matched_regime_count": 62,
+      "candidate_count": 62,
+      "selected_count": 3,
+      "selected_ids": [
+        "MWG:2021-09-14",
+        "MWG:2021-08-09",
+        "MWG:2021-08-04"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "MWG:2021-09-14",
+          "score": 1.0
+        },
+        {
+          "episode_id": "MWG:2021-08-09",
+          "score": 1.0
+        },
+        {
+          "episode_id": "MWG:2021-08-04",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2021-09-17",
+        "2021-08-12",
+        "2021-08-09"
+      ],
+      "similarity_ids": [
+        "MWG:2022-10-12",
+        "MWG:2022-05-19",
+        "MWG:2021-09-14"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "same_symbol",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 213,
+      "matched_regime_count": 19,
+      "candidate_count": 19,
+      "selected_count": 3,
+      "selected_ids": [
+        "MWG:2022-04-13",
+        "MWG:2022-04-04",
+        "MWG:2022-03-30"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "MWG:2022-04-13",
+          "score": 0.75
+        },
+        {
+          "episode_id": "MWG:2022-04-04",
+          "score": 0.75
+        },
+        {
+          "episode_id": "MWG:2022-03-30",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-04-18",
+        "2022-04-07",
+        "2022-04-04"
+      ],
+      "similarity_ids": [
+        "MWG:2022-10-12",
+        "MWG:2022-05-19",
+        "MWG:2021-09-14"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "pooled",
+      "current_regime": "BULL",
+      "eligible_count": 852,
+      "matched_regime_count": 337,
+      "candidate_count": 337,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-08-11",
+        "VNM:2021-11-29",
+        "VNM:2021-11-24"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-08-11",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-29",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-24",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-08-16",
+        "2021-12-02",
+        "2021-11-29"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "pooled",
+      "current_regime": "BEAR",
+      "eligible_count": 852,
+      "matched_regime_count": 191,
+      "candidate_count": 191,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-12-01",
+        "VNM:2022-11-02",
+        "VNM:2022-10-28"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-12-01",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-11-02",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-10-28",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-06",
+        "2022-11-07",
+        "2022-11-02"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "pooled",
+      "current_regime": "CHOPPY",
+      "eligible_count": 852,
+      "matched_regime_count": 248,
+      "candidate_count": 248,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-12-06",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2022-12-09",
+        "2022-12-09"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "scope": "pooled",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 852,
+      "matched_regime_count": 76,
+      "candidate_count": 76,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-03-25",
+        "FPT:2020-07-16",
+        "VNM:2022-09-08"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-03-25",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2020-07-16",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-09-08",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-03-30",
+        "2020-07-21",
+        "2022-09-13"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "same_symbol",
+      "current_regime": "BULL",
+      "eligible_count": 215,
+      "matched_regime_count": 85,
+      "candidate_count": 85,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-08-11",
+        "VCB:2021-11-08",
+        "VCB:2020-12-08"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-08-11",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2021-11-08",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2020-12-08",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-08-16",
+        "2021-11-11",
+        "2020-12-11"
+      ],
+      "similarity_ids": [
+        "VCB:2022-12-06",
+        "VCB:2022-08-11",
+        "VCB:2021-11-08"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "same_symbol",
+      "current_regime": "BEAR",
+      "eligible_count": 215,
+      "matched_regime_count": 48,
+      "candidate_count": 48,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2020-08-06",
+        "VCB:2022-12-01",
+        "VCB:2022-11-18"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2020-08-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2022-12-01",
+          "score": 0.75
+        },
+        {
+          "episode_id": "VCB:2022-11-18",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2020-08-11",
+        "2022-12-06",
+        "2022-11-23"
+      ],
+      "similarity_ids": [
+        "VCB:2022-12-06",
+        "VCB:2022-08-11",
+        "VCB:2021-11-08"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "same_symbol",
+      "current_regime": "CHOPPY",
+      "eligible_count": 215,
+      "matched_regime_count": 63,
+      "candidate_count": 63,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-12-06",
+        "VCB:2021-07-06",
+        "VCB:2022-09-21"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2021-07-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2022-09-21",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2021-07-09",
+        "2022-09-26"
+      ],
+      "similarity_ids": [
+        "VCB:2022-12-06",
+        "VCB:2022-08-11",
+        "VCB:2021-11-08"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "same_symbol",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 215,
+      "matched_regime_count": 19,
+      "candidate_count": 19,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-03-22",
+        "VCB:2022-03-17",
+        "VCB:2022-03-14"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-03-22",
+          "score": 0.75
+        },
+        {
+          "episode_id": "VCB:2022-03-17",
+          "score": 0.75
+        },
+        {
+          "episode_id": "VCB:2022-03-14",
+          "score": 0.5
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-03-25",
+        "2022-03-22",
+        "2022-03-17"
+      ],
+      "similarity_ids": [
+        "VCB:2022-12-06",
+        "VCB:2022-08-11",
+        "VCB:2021-11-08"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "pooled",
+      "current_regime": "BULL",
+      "eligible_count": 852,
+      "matched_regime_count": 337,
+      "candidate_count": 337,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-08-11",
+        "VNM:2021-11-29",
+        "VNM:2021-11-24"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-08-11",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-29",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-24",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-08-16",
+        "2021-12-02",
+        "2021-11-29"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "pooled",
+      "current_regime": "BEAR",
+      "eligible_count": 852,
+      "matched_regime_count": 191,
+      "candidate_count": 191,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-12-01",
+        "VNM:2022-11-02",
+        "VNM:2022-10-28"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-12-01",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-11-02",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-10-28",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-06",
+        "2022-11-07",
+        "2022-11-02"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "pooled",
+      "current_regime": "CHOPPY",
+      "eligible_count": 852,
+      "matched_regime_count": 248,
+      "candidate_count": 248,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-12-06",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2022-12-09",
+        "2022-12-09"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "scope": "pooled",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 852,
+      "matched_regime_count": 76,
+      "candidate_count": 76,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-03-25",
+        "FPT:2020-07-16",
+        "VNM:2022-09-08"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-03-25",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2020-07-16",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-09-08",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-03-30",
+        "2020-07-21",
+        "2022-09-13"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "same_symbol",
+      "current_regime": "BULL",
+      "eligible_count": 213,
+      "matched_regime_count": 85,
+      "candidate_count": 85,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2021-11-29",
+        "VNM:2021-11-24",
+        "VNM:2020-12-16"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2021-11-29",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-24",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2020-12-16",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2021-12-02",
+        "2021-11-29",
+        "2020-12-21"
+      ],
+      "similarity_ids": [
+        "VNM:2022-12-06",
+        "VNM:2022-12-01",
+        "VNM:2022-11-02"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "same_symbol",
+      "current_regime": "BEAR",
+      "eligible_count": 213,
+      "matched_regime_count": 48,
+      "candidate_count": 48,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-12-01",
+        "VNM:2022-11-02",
+        "VNM:2022-10-28"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-12-01",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-11-02",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-10-28",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-06",
+        "2022-11-07",
+        "2022-11-02"
+      ],
+      "similarity_ids": [
+        "VNM:2022-12-06",
+        "VNM:2022-12-01",
+        "VNM:2022-11-02"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "same_symbol",
+      "current_regime": "CHOPPY",
+      "eligible_count": 213,
+      "matched_regime_count": 61,
+      "candidate_count": 61,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-12-06",
+        "VNM:2022-09-21",
+        "VNM:2022-09-16"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-09-21",
+          "score": 0.75
+        },
+        {
+          "episode_id": "VNM:2022-09-16",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2022-09-26",
+        "2022-09-21"
+      ],
+      "similarity_ids": [
+        "VNM:2022-12-06",
+        "VNM:2022-12-01",
+        "VNM:2022-11-02"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "same_symbol",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 213,
+      "matched_regime_count": 19,
+      "candidate_count": 19,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-09-08",
+        "VNM:2022-04-04",
+        "VNM:2020-09-10"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-09-08",
+          "score": 0.75
+        },
+        {
+          "episode_id": "VNM:2022-04-04",
+          "score": 0.75
+        },
+        {
+          "episode_id": "VNM:2020-09-10",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-09-13",
+        "2022-04-07",
+        "2020-09-15"
+      ],
+      "similarity_ids": [
+        "VNM:2022-12-06",
+        "VNM:2022-12-01",
+        "VNM:2022-11-02"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "pooled",
+      "current_regime": "BULL",
+      "eligible_count": 852,
+      "matched_regime_count": 337,
+      "candidate_count": 337,
+      "selected_count": 3,
+      "selected_ids": [
+        "VCB:2022-08-11",
+        "VNM:2021-11-29",
+        "VNM:2021-11-24"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VCB:2022-08-11",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-29",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2021-11-24",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-08-16",
+        "2021-12-02",
+        "2021-11-29"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "pooled",
+      "current_regime": "BEAR",
+      "eligible_count": 852,
+      "matched_regime_count": 191,
+      "candidate_count": 191,
+      "selected_count": 3,
+      "selected_ids": [
+        "VNM:2022-12-01",
+        "VNM:2022-11-02",
+        "VNM:2022-10-28"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "VNM:2022-12-01",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-11-02",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-10-28",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-06",
+        "2022-11-07",
+        "2022-11-02"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "pooled",
+      "current_regime": "CHOPPY",
+      "eligible_count": 852,
+      "matched_regime_count": 248,
+      "candidate_count": 248,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VCB:2022-12-06",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-12-06",
+          "score": 1.0
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-12-09",
+        "2022-12-09",
+        "2022-12-09"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "scope": "pooled",
+      "current_regime": "CONSOLIDATION",
+      "eligible_count": 852,
+      "matched_regime_count": 76,
+      "candidate_count": 76,
+      "selected_count": 3,
+      "selected_ids": [
+        "FPT:2022-03-25",
+        "FPT:2020-07-16",
+        "VNM:2022-09-08"
+      ],
+      "selected_scores": [
+        {
+          "episode_id": "FPT:2022-03-25",
+          "score": 1.0
+        },
+        {
+          "episode_id": "FPT:2020-07-16",
+          "score": 1.0
+        },
+        {
+          "episode_id": "VNM:2022-09-08",
+          "score": 0.75
+        }
+      ],
+      "status": "complete",
+      "reason": null,
+      "effective_seed": null,
+      "selected_exit_dates": [
+        "2022-03-30",
+        "2020-07-21",
+        "2022-09-13"
+      ],
+      "similarity_ids": [
+        "FPT:2022-12-06",
+        "VCB:2022-12-06",
+        "VNM:2022-12-06"
+      ]
+    }
+  ],
+  "empty_example": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1",
+    "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+    "symbol": "FPT",
+    "as_of_date": "2020-06-04",
+    "current_regime": "BULL",
+    "mode": "bayesian_regime",
+    "scope": "same_symbol",
+    "requested_k": 3,
+    "seed": 42,
+    "eligible_count": 0,
+    "matched_regime_count": 0,
+    "candidate_count": 0,
+    "effective_seed": null,
+    "selected_count": 0,
+    "selected_ids": [],
+    "selected_scores": [],
+    "status": "empty",
+    "reason": "no_eligible_history"
+  },
+  "missing_regime_example": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1",
+    "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+    "symbol": "FPT",
+    "as_of_date": "2020-06-05",
+    "current_regime": "BULL",
+    "mode": "bayesian_regime",
+    "scope": "same_symbol",
+    "requested_k": 3,
+    "seed": 42,
+    "eligible_count": 1,
+    "matched_regime_count": 0,
+    "candidate_count": 0,
+    "effective_seed": null,
+    "selected_count": 0,
+    "selected_ids": [],
+    "selected_scores": [],
+    "status": "empty",
+    "reason": "no_matching_regime"
+  },
+  "partial_example": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1",
+    "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+    "symbol": "FPT",
+    "as_of_date": "2020-06-05",
+    "current_regime": "CHOPPY",
+    "mode": "bayesian_regime",
+    "scope": "same_symbol",
+    "requested_k": 3,
+    "seed": 42,
+    "eligible_count": 1,
+    "matched_regime_count": 1,
+    "candidate_count": 1,
+    "effective_seed": null,
+    "selected_count": 1,
+    "selected_ids": [
+      "FPT:2020-06-01"
+    ],
+    "selected_scores": [
+      {
+        "episode_id": "FPT:2020-06-01",
+        "score": 0.25
+      }
+    ],
+    "status": "partial",
+    "reason": "insufficient_candidates"
+  },
+  "checks": {
+    "four_symbols_two_scopes_four_regimes": true,
+    "same_pool_as_similarity": true,
+    "same_score_and_tie_break_as_similarity": true,
+    "regime_filter_before_top_k": true,
+    "same_query_repeats": true,
+    "input_unchanged": true,
+    "strict_exit_cutoff": true,
+    "native_float_scores": true,
+    "no_query_json_csv_price_io": true,
+    "empty_missing_regime_partial_distinguished": true
+  },
+  "source_text_sha256": {
+    "core/bayesian_retriever.py": "f8a136a65d9bbeb2d2fc888c1aedc9b9f1966256d2849b092bbbdaf921796c19",
+    "tests/test_bayesian_regime_selection.py": "152a9a8864aeb447bd6282950b82768475f9f76b3f782dc9e5ebe7ecd3305f56",
+    "tests/test_bayesian_recent_random.py": "1a9d3ca6df3a507d24889787a0980930b47f1b18916e1d4039ba9e5c625fb4bf",
+    "tests/test_bayesian_retriever_leakage.py": "52841a83bfde873ac41c559de193cd534115d9ebdcd177c4f5f84caff8031c82"
+  },
+  "statistics_implemented": false,
+  "full_retrieve_positive_k_implemented": false,
+  "oos_trading_backtest": false
+}

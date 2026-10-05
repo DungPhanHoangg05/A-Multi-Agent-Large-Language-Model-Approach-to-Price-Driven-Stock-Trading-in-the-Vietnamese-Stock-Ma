@@ -277,9 +277,9 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
 - **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Phase A hoàn thành, Gate A PASS; W3-05/W3-06/W3-07 đã có nền PIT, Recent/Random và Similarity theo policy đã khóa; score/metadata/bản sao/thiếu mẫu và tính độc lập với outcome được kiểm thử ([Phase B](../week3/phase_b_retriever_and_statistics.md)). W3-08 đến W3-16 chưa thực hiện; retrieve K>0 còn chờ Bayesian và stats W3-09, các nhiệm vụ cài đặt đầy đủ dưới đây vẫn chưa hoàn thành.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](../week3/README.md), tiếp nối kho 852 episode đã QA của W2. Phase A hoàn thành, Gate A PASS; W3-05..08 đã có nền PIT và bốn bộ chọn, Bayesian lọc cùng regime trước ranking Similarity; score/metadata/bản sao/thiếu mẫu và tính độc lập với outcome được kiểm thử ([Phase B](../week3/phase_b_retriever_and_statistics.md)). W3-09 đến W3-16 chưa thực hiện; retrieve K>0 còn chờ stats W3-09. Gate B chưa đóng.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity`.
+  - [x] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity` qua `select_prior_tasks`; result retrieve K>0 đầy đủ chờ thống kê W3-09.
   - [ ] Xây dựng thuật toán tính toán thống kê Bayes kinh nghiệm (Empirical Win-rate, Trap Probabilities) cho từng regime.
   - [ ] Hiện thực hóa hàm `format_compact_prior_prefix(tasks, stats)` đảm bảo độ dài $\le 600$ ký tự.
   - [ ] Viết benchmark đo lường thời gian thực thi: yêu cầu retrieval hoàn tất dưới 30ms.

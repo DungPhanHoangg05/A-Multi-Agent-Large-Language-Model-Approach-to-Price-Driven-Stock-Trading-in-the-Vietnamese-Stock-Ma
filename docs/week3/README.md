@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A hoàn thành, W3-05/W3-06/W3-07 hoàn thành; W3-08 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
+**Trạng thái: Phase A hoàn thành, W3-05..08 hoàn thành; W3-09 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -62,7 +62,7 @@ Chi tiết: [Phase B](phase_b_retriever_and_statistics.md).
 | W3-05 | Nạp kho, lọc PIT và bảo vệ dữ liệu | `core/bayesian_retriever.py`: constructor/prepare_query/K=0, chốt pool/selection/cutoff; 14 test nền/leakage và [probe kho thật](retriever_foundation_review.json) PASS; [phạm vi](phase_b_retriever_and_statistics.md) | W3-01..04 | [x] |
 | W3-06 | Cài `recent` và `random` | `select_prior_tasks`: thứ tự/tie-break/seed/draw đúng policy, metadata empty/partial/complete; tám test mới và [probe kho thật](recent_random_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-05 | [x] |
 | W3-07 | Cài `similarity` | `signal_match_v1`, ranking score/exit/ID, metadata score float; chín test mới, leakage và [probe kho thật](similarity_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-03, W3-05 | [x] |
-| W3-08 | Cài `bayesian_regime` | Lọc cùng regime từ pool chung rồi xếp hạng theo đặc tả; K thiếu có lý do, không bù khác regime | W3-06, W3-07 | [ ] |
+| W3-08 | Cài `bayesian_regime` | Chọn population cùng regime bằng ranking Similarity; metadata empty/partial/complete, mười test mới và [probe kho thật](bayesian_regime_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-06, W3-07 | [x] |
 | W3-09 | Tính thống kê theo regime | Count/win/trap/mẫu số theo cutoff; fixture kiểm tay, JSON Python gốc; tách pool khỏi K ví dụ | W3-04, W3-05 | [ ] |
 
 ## C. Tiền tố và ngân sách prompt
@@ -105,6 +105,23 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-08 hoàn thành**: Bayesian lọc cùng regime từ pool PIT/scope trước top K,
+  tái dùng `_select_similarity()` và chốt hậu điều kiện cutoff/scope/regime/ID/K.
+  Metadata trả score float, candidate count bằng matched count, effective seed None.
+  Thiếu K giữ mẫu hiện có; phân biệt no_eligible_history và no_matching_regime.
+- Chín test bộ chọn mới và một leakage mới PASS; tổng 41 test Bayesian tập trung
+  PASS. Kiểm bốn regime, không bù mã/regime, ranking C,A,D so với Similarity B,C,A,
+  score 0, query đảo thứ tự, bản sao và fixture đổi nhãn kinh tế hợp lệ.
+- [Receipt kho thật](bayesian_regime_review.json) đối chiếu 32 query Bayesian với
+  32 query Similarity trên 852 episode; kiểm cùng pool/score/tie-break và biên
+  empty/no_matching_regime/partial khi chặn I/O JSON/CSV/giá. Tín hiệu và regime
+  query là fixture kiểm module, không phải trạng thái thị trường hoặc backtest OOS.
+- **Gate tích hợp W3-08**: compileall PASS, 276/276 unit tests PASS (83,354 giây),
+  E2E xác định PASS (13,3 giây), 43/43 leakage tests PASS (6,307 giây). Hash mã
+  trong receipt, liên kết Markdown và `git diff --check` PASS. Nhánh
+  `feat/regime-prior-selection` tích hợp sau gate. Bốn bộ chọn đã có;
+  **Gate B còn mở**, cần W3-09 tính stats và hoàn thiện `retrieve(K>0)` trước Phase C.
 
 - **W3-07 hoàn thành**: Similarity so khớp bốn tín hiệu kỹ thuật với trọng số đều;
   sentiment trọng số 0, alias/NFC được kiểm nghiêm ngặt. Chọn pool PIT cùng scope,
