@@ -1,0 +1,818 @@
+{
+  "format_version": 1,
+  "task": "W4-03",
+  "status": "SPECIFICATION_EXAMPLES",
+  "replay_examples": [
+    {
+      "case": "replay_2022-12-27",
+      "market_regime": {
+        "as_of_date": "2022-12-27",
+        "regime_id": 1,
+        "regime_name": "BEAR",
+        "volatility_level": "HIGH",
+        "trend_strength": 3.587622261653564,
+        "source_symbol": "VNINDEX",
+        "feature_end_date": "2022-12-27"
+      },
+      "current_signals": {
+        "trend": "BULLISH",
+        "pattern": "NEUTRAL",
+        "indicator_consensus": "BEARISH",
+        "alpha_consensus": "NEUTRAL",
+        "sentiment": "NEUTRAL"
+      },
+      "prior_provenance": {
+        "contract_version": "prior_provenance_v1",
+        "context": {
+          "symbol": "FPT",
+          "as_of_date": "2022-12-27",
+          "time_frame": "1d",
+          "provider_mode": "historical_prefix"
+        },
+        "prices": {
+          "source_library": "vnstock",
+          "source_library_version": "4.0.9",
+          "primary_source": "VCI",
+          "crosscheck_sources": [
+            "VCI",
+            "KBS"
+          ],
+          "price_basis": "UNADJUSTED_EXECUTION",
+          "price_unit": "thousand_VND",
+          "manifest_path": "data/execution_prices/manifest.json",
+          "manifest_sha256": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+          "csv_path": "data/execution_prices/FPT.csv",
+          "evidence_path": "data/execution_prices/FPT.evidence.json.gz",
+          "events_path": "data/execution_prices/FPT.events.json",
+          "csv_sha256": "0a6606403e70247c8cf501844f2f011ec357c21d83095ed5c90336cd4f043a53",
+          "evidence_sha256": "16faea0ecdd68dd1f9af75a416ee30ded34e35ab60c09e53b00552babeaf90a5",
+          "events_sha256": "0b37c6fd385b0e6ecd082aad0d00942d04343fa42ed2ec19aae4d3666991871c",
+          "schema": [
+            "Datetime",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume"
+          ],
+          "snapshot_start_date": "2018-01-02",
+          "snapshot_end_date": "2022-12-27",
+          "snapshot_rows": 1248,
+          "snapshot_sha256": "4d9d9ac3f599a432a894d16475397191d3efec6813f4601784ee445e9c74bef4",
+          "window_size": 45,
+          "window_rows": 45,
+          "window_end_date": "2022-12-27",
+          "window_sha256": "d222e83203d195d3bf2a068c47303d05dd5ac5f13967909a7680fa2b26a49c50",
+          "alpha_start_date": "2020-08-07",
+          "alpha_end_date": "2022-12-27",
+          "alpha_rows": 600,
+          "alpha_sha256": "b6fbdf53898321b7baf78d816694065c75840917dbff00dc8f1bb8bbe32d1d48"
+        },
+        "news": {
+          "snapshot_path": "outputs/historical_memory_run/inputs/news/FPT.json",
+          "snapshot_sha256": "ec2b5a6a86ce17edcfdf4b543e71375e9d65fada989ddb3b4993bd19d18d1d6e",
+          "source_articles_sha256": "c82d2d09a3ea40a5704eec9eaf9f31fd027e58cd26c98114fe00086b0a912dd0",
+          "visible_articles_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "input_count": 20,
+          "visible_count": 0,
+          "excluded_counts": {
+            "undated": 0,
+            "future": 20,
+            "outside_window": 0
+          },
+          "coverage_start_date": null,
+          "coverage_end_date": null,
+          "window_days": 90,
+          "min_articles": 3,
+          "is_reliable": false,
+          "model_used": "neutral-insufficient-dated-history",
+          "neutral_reason": "INSUFFICIENT_DATED_HISTORY"
+        },
+        "regime": {
+          "source_symbol": "VNINDEX",
+          "source_manifest_path": "data/historical/manifest.json",
+          "source_manifest_sha256": "0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c",
+          "source_csv_path": "data/historical/VNINDEX.csv",
+          "source_csv_sha256": "971eec19f3f2b252b0810f551bbfd50c0c31a2c26957da0b9434b9b25e869a34",
+          "inference_prefix_sha256": "c98991eae4284bb9d67b4e825b14d1ec460170eb3d172972c941ad96b5b638fe",
+          "feature_sha256": "3c3f1bc294f0e923cbcf87f8e14e7ddfbd7850913bd88aa1fa7c1bc82ed77316",
+          "artifact_path": "outputs/historical_memory_run/regimes/VNINDEX-2022-12-27.json",
+          "artifact_sha256": "dd138a040e2271769e425550d774c8e03e4a9842d9955f7dbdb136dc8a6d5459",
+          "metadata": {
+            "source_symbol": "VNINDEX",
+            "parameters": {
+              "n_components": 4,
+              "covariance_type": "diag",
+              "random_state": 42,
+              "n_iter": 500,
+              "tol": 0.001,
+              "min_covar": 0.001,
+              "implementation": "log"
+            },
+            "feature_columns": [
+              "log_return",
+              "volatility_20",
+              "distance_ma20",
+              "distance_ma50",
+              "distance_ma200"
+            ],
+            "versions": {
+              "python": "3.13.5",
+              "numpy": "2.1.2",
+              "pandas": "2.3.3",
+              "scipy": "1.16.1",
+              "hmmlearn": "0.3.3",
+              "scikit-learn": "1.7.2"
+            },
+            "train_start_date": "2018-01-02",
+            "train_end_date": "2022-12-27",
+            "training_rows": 1248,
+            "feature_rows": 1049,
+            "training_data_sha256": "c98991eae4284bb9d67b4e825b14d1ec460170eb3d172972c941ad96b5b638fe",
+            "iterations": 50,
+            "last_gain": 0.0009870181529549882,
+            "em_converged": true,
+            "state_occupancy": [
+              0.40204184007160854,
+              0.2794444168469829,
+              0.3080271188495154,
+              0.010486624231891098
+            ],
+            "state_feature_means": [
+              [
+                -0.00026644292937183137,
+                0.008120604269965154,
+                -0.0008210053004050325,
+                -1.2442406090649975e-05,
+                0.01793169480510361
+              ],
+              [
+                -0.002656113296382738,
+                0.018217705731748485,
+                -0.028670662554382942,
+                -0.06014828268203052,
+                -0.11108123700245444
+              ],
+              [
+                0.0026929934523855638,
+                0.00901985092188748,
+                0.028021101501641964,
+                0.05770919502781851,
+                0.11828228503367282
+              ],
+              [
+                0.005689576494516736,
+                0.028908607125281194,
+                0.043714364145144485,
+                0.05178411687082325,
+                0.23570882420665507
+              ]
+            ],
+            "volatility_quantiles": [
+              0.007676822804987008,
+              0.011729703537020348
+            ],
+            "trend_threshold": 0.08737490775341394,
+            "ma200_train_std": 0.12779410134370794,
+            "price_basis_status": "UNVERIFIED",
+            "artifact_purpose": "RESEARCH_ONLY",
+            "calibration_rule_version": 1,
+            "latent_state_names": [
+              "CONSOLIDATION",
+              "BEAR",
+              "CHOPPY",
+              "BULL"
+            ],
+            "classification_method": "MULTI_FACTOR",
+            "fallback_reasons": [
+              "Có trạng thái chiếm dưới 5% posterior train"
+            ]
+          },
+          "state_sha256": "9ab77550244c0cf401d78ca3ca3b2da982fefebe001b7227ce8e88bdc08ba2d6",
+          "component_train_end_dates": {
+            "hmm": "2022-12-27",
+            "scaler": "2022-12-27",
+            "calibration": "2022-12-27"
+          },
+          "frozen_model": null
+        },
+        "signals": {
+          "origin": "historical_signal_checkpoint",
+          "checkpoint_path": "outputs/historical_memory_run/signals/FPT-2022-12-27.json",
+          "checkpoint_sha256": "4a545cb8d1c002eb74cf43e0669fecb43129574af060df33fb898f69b070bc50",
+          "reports_sha256": "21067e0c09baa653487d6298a3723386d03a6d2920dba86392034dd1aaaf52e7",
+          "signals_sha256": "8f0038d71af653ccb1417c23156d31a62503b5672a6a48f5ac92dca98d48b77a",
+          "config_sha256": "1b1b9537627b06aa40dac7d4ef9b7e751e7891cee95b9def5a2968d3364ec62f",
+          "models": {
+            "agent_llm_max_tokens": 2048,
+            "agent_llm_model": "openai/gpt-oss-20b",
+            "agent_llm_temperature": 0.0,
+            "graph_llm_max_tokens": 1024,
+            "graph_llm_model": "qwen/qwen3.8-27b",
+            "graph_llm_temperature": 0.0
+          },
+          "runtime": {
+            "python": "3.13.5",
+            "numpy": "2.1.2",
+            "pandas": "2.3.3",
+            "scipy": "1.16.1",
+            "TA-Lib": "0.6.8",
+            "langgraph": "1.0.10",
+            "langchain-core": "1.2.17",
+            "langchain-groq": "1.1.2"
+          },
+          "code_sha256": {
+            "core/historical_signals.py": "58b0d84b6a746d003a44791db74b574a574ccba5ce2469dbbd71bf64c9908a01",
+            "core/execution_prices.py": "e0f45d292cd4cfc458adf65da90c3c787816404bff0b7e6bb58f34f07c4890f6",
+            "core/bayesian_memory.py": "cf3d57454104feab1a1b0b73674987adf2a97d654731bacc628b31b6368308ae",
+            "agents/indicator_agent.py": "9e2e6981de2b2aa385ff644277f0d0b04bf05667f79b22b6a5db77278fa230e1",
+            "agents/pattern_agent.py": "5faa82b850ee3128a0a9f9e9203839303ef5c8659576eae38630af33f49bd5c4",
+            "agents/trend_agent.py": "510c1a989eebcfe6f62fe1be01f548a92ed0a082e5d8b3e53e50d9d2ed226b50",
+            "agents/alpha_agent.py": "687cd5b9b1a4849496a9d91ee8dbbd023934fc735ffd29dd145be0d920567940",
+            "data_manager/sentiment_cache.py": "20fa3ac2b26dab4c3aa697a9da214a8aec1110e51ccedf83db6d944e45c1eedd",
+            "agents/sentiment_agent.py": "b7017689afac4100c66e4459d13cecd565d9a7da4ad608cda3528562089bc1fa",
+            "core/alpha_compare.py": "567471d1b848b93ddad710ce363c155c12d55399ecc033090cc1fad500f5d549",
+            "utils/alpha_selector.py": "5a5766d4da3316dcd1374f944834a5c0d07b6cb86ac46fed7f963fcf51e84533",
+            "utils/static_util.py": "d5f4b62ea02d291f85f1c1a3a3c56cc695dd26d78810b6c527e90cd156252b49",
+            "utils/graph_util.py": "08dc4931de1b114b3c1773ff58e547efb4c5bca4e7a604f40b1f928696e2e42d",
+            "utils/graph_setup.py": "9a2a75ade50f24f88bb9615de5a514bc3dae0e832184435e873b588b50590e39",
+            "utils/i18n.py": "705ac7ab2b661db147bff2cabc1a37c96d9e71493d05da6f31c92a8a4f90b444"
+          }
+        },
+        "bank": {
+          "bank_path": "data_manager/regime_memory_store.json",
+          "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+          "manifest_path": "data_manager/regime_memory_store.manifest.json",
+          "manifest_sha256": "70ea72a41a518fc4e3ab57ebdac99506710733edc41fececbb6d832e39fdfb88",
+          "audit_path": "docs/plan/week2/memory_bank_audit.json",
+          "audit_sha256": "c6368f7483191d5023cf5c74f305393b119864f2148c66a2fb7b09000f14eb54",
+          "versions": {
+            "api_contract_version": 1,
+            "sampling_version": "prior_sampling_v1",
+            "metric_version": "signal_match_v1",
+            "statistics_version": "regime_empirical_stats_v1",
+            "prefix_version": "compact_brpp_v1"
+          }
+        }
+      }
+    },
+    {
+      "case": "replay_2020-06-04",
+      "market_regime": {
+        "as_of_date": "2020-06-04",
+        "regime_id": 3,
+        "regime_name": "CONSOLIDATION",
+        "volatility_level": "MEDIUM",
+        "trend_strength": 4.428283631126818,
+        "source_symbol": "VNINDEX",
+        "feature_end_date": "2020-06-04"
+      },
+      "current_signals": {
+        "trend": "BULLISH",
+        "pattern": "BULLISH",
+        "indicator_consensus": "BULLISH",
+        "alpha_consensus": "BEARISH",
+        "sentiment": "NEUTRAL"
+      },
+      "prior_provenance": {
+        "contract_version": "prior_provenance_v1",
+        "context": {
+          "symbol": "FPT",
+          "as_of_date": "2020-06-04",
+          "time_frame": "1d",
+          "provider_mode": "historical_prefix"
+        },
+        "prices": {
+          "source_library": "vnstock",
+          "source_library_version": "4.0.9",
+          "primary_source": "VCI",
+          "crosscheck_sources": [
+            "VCI",
+            "KBS"
+          ],
+          "price_basis": "UNADJUSTED_EXECUTION",
+          "price_unit": "thousand_VND",
+          "manifest_path": "data/execution_prices/manifest.json",
+          "manifest_sha256": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+          "csv_path": "data/execution_prices/FPT.csv",
+          "evidence_path": "data/execution_prices/FPT.evidence.json.gz",
+          "events_path": "data/execution_prices/FPT.events.json",
+          "csv_sha256": "0a6606403e70247c8cf501844f2f011ec357c21d83095ed5c90336cd4f043a53",
+          "evidence_sha256": "16faea0ecdd68dd1f9af75a416ee30ded34e35ab60c09e53b00552babeaf90a5",
+          "events_sha256": "0b37c6fd385b0e6ecd082aad0d00942d04343fa42ed2ec19aae4d3666991871c",
+          "schema": [
+            "Datetime",
+            "Open",
+            "High",
+            "Low",
+            "Close",
+            "Volume"
+          ],
+          "snapshot_start_date": "2018-01-02",
+          "snapshot_end_date": "2020-06-04",
+          "snapshot_rows": 603,
+          "snapshot_sha256": "21d1cdea2f6c92328e3a25b5641669206363ba1786a3be4d2e07b3f7a645a866",
+          "window_size": 45,
+          "window_rows": 45,
+          "window_end_date": "2020-06-04",
+          "window_sha256": "a12193e1ddba7bc1e6e5320ac887894a2072c6a4ec96d1aa5a961994a191a1db",
+          "alpha_start_date": "2018-01-05",
+          "alpha_end_date": "2020-06-04",
+          "alpha_rows": 600,
+          "alpha_sha256": "3c01c9a18a57e4561a8bb8af1d61248f9fe261c36d0734fcb404bdd36101d854"
+        },
+        "news": {
+          "snapshot_path": "outputs/historical_memory_run/inputs/news/FPT.json",
+          "snapshot_sha256": "ec2b5a6a86ce17edcfdf4b543e71375e9d65fada989ddb3b4993bd19d18d1d6e",
+          "source_articles_sha256": "c82d2d09a3ea40a5704eec9eaf9f31fd027e58cd26c98114fe00086b0a912dd0",
+          "visible_articles_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "input_count": 20,
+          "visible_count": 0,
+          "excluded_counts": {
+            "undated": 0,
+            "future": 20,
+            "outside_window": 0
+          },
+          "coverage_start_date": null,
+          "coverage_end_date": null,
+          "window_days": 90,
+          "min_articles": 3,
+          "is_reliable": false,
+          "model_used": "neutral-insufficient-dated-history",
+          "neutral_reason": "INSUFFICIENT_DATED_HISTORY"
+        },
+        "regime": {
+          "source_symbol": "VNINDEX",
+          "source_manifest_path": "data/historical/manifest.json",
+          "source_manifest_sha256": "0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c",
+          "source_csv_path": "data/historical/VNINDEX.csv",
+          "source_csv_sha256": "971eec19f3f2b252b0810f551bbfd50c0c31a2c26957da0b9434b9b25e869a34",
+          "inference_prefix_sha256": "13220ea5670cf08113a86b69a53e44ade76c825ef183367eb97cd2a482790532",
+          "feature_sha256": "43c426dbeed10608e9985c43646dd01b60989cc7e0f65233b1292bb5f8df6ba7",
+          "artifact_path": "outputs/historical_memory_run/regimes/VNINDEX-2020-06-04.json",
+          "artifact_sha256": "aebae4b9f8ca2fa649462cf28caa6c64fb866dc06c91ec7163a9fe1e54d17dda",
+          "metadata": {
+            "source_symbol": "VNINDEX",
+            "parameters": {
+              "n_components": 4,
+              "covariance_type": "diag",
+              "random_state": 42,
+              "n_iter": 500,
+              "tol": 0.001,
+              "min_covar": 0.001,
+              "implementation": "log"
+            },
+            "feature_columns": [
+              "log_return",
+              "volatility_20",
+              "distance_ma20",
+              "distance_ma50",
+              "distance_ma200"
+            ],
+            "versions": {
+              "python": "3.13.5",
+              "numpy": "2.1.2",
+              "pandas": "2.3.3",
+              "scipy": "1.16.1",
+              "hmmlearn": "0.3.3",
+              "scikit-learn": "1.7.2"
+            },
+            "train_start_date": "2018-01-02",
+            "train_end_date": "2020-06-04",
+            "training_rows": 603,
+            "feature_rows": 404,
+            "training_data_sha256": "13220ea5670cf08113a86b69a53e44ade76c825ef183367eb97cd2a482790532",
+            "iterations": 12,
+            "last_gain": 3.5412351735431e-05,
+            "em_converged": true,
+            "state_occupancy": [
+              0.6356466692411472,
+              0.21336323174219252,
+              0.049522017333289925,
+              0.10146808168337232
+            ],
+            "state_feature_means": [
+              [
+                0.0003421479462707965,
+                0.006675529113860649,
+                0.0038083897171373752,
+                0.006330430963038466,
+                0.012732183829906077
+              ],
+              [
+                -0.0019207615927039462,
+                0.01096388860977383,
+                -0.02037323275781673,
+                -0.03665806776171041,
+                -0.08005270087799249
+              ],
+              [
+                -0.009527761065561708,
+                0.023329226109661413,
+                -0.1154611045154352,
+                -0.19000150781977004,
+                -0.2420250669247572
+              ],
+              [
+                0.004442862197859235,
+                0.017425588483267043,
+                0.04919232787860763,
+                0.028697107658844093,
+                -0.1255065452733798
+              ]
+            ],
+            "volatility_quantiles": [
+              0.006589631324676923,
+              0.009616065410102992
+            ],
+            "trend_threshold": 0.035732142769006436,
+            "ma200_train_std": 0.0765436694472313,
+            "price_basis_status": "UNVERIFIED",
+            "artifact_purpose": "RESEARCH_ONLY",
+            "calibration_rule_version": 1,
+            "latent_state_names": [
+              "BULL",
+              "CONSOLIDATION",
+              "BEAR",
+              "CHOPPY"
+            ],
+            "classification_method": "MULTI_FACTOR",
+            "fallback_reasons": [
+              "Có trạng thái chiếm dưới 5% posterior train"
+            ]
+          },
+          "state_sha256": "bf2172c81eb8edb95f74fb2b490238952198730155158581a1c04fe964c00eb6",
+          "component_train_end_dates": {
+            "hmm": "2020-06-04",
+            "scaler": "2020-06-04",
+            "calibration": "2020-06-04"
+          },
+          "frozen_model": null
+        },
+        "signals": {
+          "origin": "historical_signal_checkpoint",
+          "checkpoint_path": "outputs/historical_memory_run/signals/FPT-2020-06-04.json",
+          "checkpoint_sha256": "afb96110b46a086947b281350f95423986d361a17e92c12e49ab7697182c84d2",
+          "reports_sha256": "cc54c3ade94b1125e5fb7bcff5aecd555f06b7bccf71fba0439c59b718544da5",
+          "signals_sha256": "6d6c172dc16e7269e5d5694a03ff1aff43e3a2fc55026f5cdc7b4621d0c775b1",
+          "config_sha256": "1b1b9537627b06aa40dac7d4ef9b7e751e7891cee95b9def5a2968d3364ec62f",
+          "models": {
+            "agent_llm_max_tokens": 2048,
+            "agent_llm_model": "openai/gpt-oss-20b",
+            "agent_llm_temperature": 0.0,
+            "graph_llm_max_tokens": 1024,
+            "graph_llm_model": "qwen/qwen3.8-27b",
+            "graph_llm_temperature": 0.0
+          },
+          "runtime": {
+            "python": "3.13.5",
+            "numpy": "2.1.2",
+            "pandas": "2.3.3",
+            "scipy": "1.16.1",
+            "TA-Lib": "0.6.8",
+            "langgraph": "1.0.10",
+            "langchain-core": "1.2.17",
+            "langchain-groq": "1.1.2"
+          },
+          "code_sha256": {
+            "core/historical_signals.py": "58b0d84b6a746d003a44791db74b574a574ccba5ce2469dbbd71bf64c9908a01",
+            "core/execution_prices.py": "e0f45d292cd4cfc458adf65da90c3c787816404bff0b7e6bb58f34f07c4890f6",
+            "core/bayesian_memory.py": "cf3d57454104feab1a1b0b73674987adf2a97d654731bacc628b31b6368308ae",
+            "agents/indicator_agent.py": "9e2e6981de2b2aa385ff644277f0d0b04bf05667f79b22b6a5db77278fa230e1",
+            "agents/pattern_agent.py": "5faa82b850ee3128a0a9f9e9203839303ef5c8659576eae38630af33f49bd5c4",
+            "agents/trend_agent.py": "510c1a989eebcfe6f62fe1be01f548a92ed0a082e5d8b3e53e50d9d2ed226b50",
+            "agents/alpha_agent.py": "687cd5b9b1a4849496a9d91ee8dbbd023934fc735ffd29dd145be0d920567940",
+            "data_manager/sentiment_cache.py": "20fa3ac2b26dab4c3aa697a9da214a8aec1110e51ccedf83db6d944e45c1eedd",
+            "agents/sentiment_agent.py": "b7017689afac4100c66e4459d13cecd565d9a7da4ad608cda3528562089bc1fa",
+            "core/alpha_compare.py": "567471d1b848b93ddad710ce363c155c12d55399ecc033090cc1fad500f5d549",
+            "utils/alpha_selector.py": "5a5766d4da3316dcd1374f944834a5c0d07b6cb86ac46fed7f963fcf51e84533",
+            "utils/static_util.py": "d5f4b62ea02d291f85f1c1a3a3c56cc695dd26d78810b6c527e90cd156252b49",
+            "utils/graph_util.py": "08dc4931de1b114b3c1773ff58e547efb4c5bca4e7a604f40b1f928696e2e42d",
+            "utils/graph_setup.py": "9a2a75ade50f24f88bb9615de5a514bc3dae0e832184435e873b588b50590e39",
+            "utils/i18n.py": "705ac7ab2b661db147bff2cabc1a37c96d9e71493d05da6f31c92a8a4f90b444"
+          }
+        },
+        "bank": {
+          "bank_path": "data_manager/regime_memory_store.json",
+          "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+          "manifest_path": "data_manager/regime_memory_store.manifest.json",
+          "manifest_sha256": "70ea72a41a518fc4e3ab57ebdac99506710733edc41fececbb6d832e39fdfb88",
+          "audit_path": "docs/plan/week2/memory_bank_audit.json",
+          "audit_sha256": "c6368f7483191d5023cf5c74f305393b119864f2148c66a2fb7b09000f14eb54",
+          "versions": {
+            "api_contract_version": 1,
+            "sampling_version": "prior_sampling_v1",
+            "metric_version": "signal_match_v1",
+            "statistics_version": "regime_empirical_stats_v1",
+            "prefix_version": "compact_brpp_v1"
+          }
+        }
+      }
+    }
+  ],
+  "verified_source_checks": [
+    {
+      "symbol": "FPT",
+      "cutoff": "2022-12-27",
+      "episode_path": "outputs/historical_memory_run/episodes/FPT-2022-12-27.json",
+      "episode_sha256": "b3b376bb51e52d06a0765b4a7f76230fd8defbbe6397c25bc459a99066bb5745",
+      "signal_sha256": "4a545cb8d1c002eb74cf43e0669fecb43129574af060df33fb898f69b070bc50",
+      "source_binding_passed": true,
+      "visible_news_count": 0,
+      "snapshot_sha256": "4d9d9ac3f599a432a894d16475397191d3efec6813f4601784ee445e9c74bef4",
+      "regime_artifact_sha256": "dd138a040e2271769e425550d774c8e03e4a9842d9955f7dbdb136dc8a6d5459",
+      "feature_sha256": "3c3f1bc294f0e923cbcf87f8e14e7ddfbd7850913bd88aa1fa7c1bc82ed77316"
+    },
+    {
+      "symbol": "MWG",
+      "cutoff": "2022-12-27",
+      "episode_path": "outputs/historical_memory_run/episodes/MWG-2022-12-27.json",
+      "episode_sha256": "4c4f28f6b83ca48d67dba196e6e45968d19cca278b764b7446ab2d49bff50af6",
+      "signal_sha256": "f2b5bbd1594b900526f5f53d0b5b711fa819f8434964b37170995200a215b00a",
+      "source_binding_passed": true,
+      "visible_news_count": 0,
+      "snapshot_sha256": "4b210710e27be833c9df0f4ad283b60ec477e31733bb49e5ce5e0bea8fc60f4c",
+      "regime_artifact_sha256": "dd138a040e2271769e425550d774c8e03e4a9842d9955f7dbdb136dc8a6d5459",
+      "feature_sha256": "3c3f1bc294f0e923cbcf87f8e14e7ddfbd7850913bd88aa1fa7c1bc82ed77316"
+    },
+    {
+      "symbol": "VCB",
+      "cutoff": "2022-12-27",
+      "episode_path": "outputs/historical_memory_run/episodes/VCB-2022-12-27.json",
+      "episode_sha256": "7610ebe707651bb76cd00b383c5a3a830f6ab3dcea7620ec2b10953703660d2e",
+      "signal_sha256": "075a71f4d99fdb488692764c2b04f43d75036aa474fee99832093c235b929ee3",
+      "source_binding_passed": true,
+      "visible_news_count": 0,
+      "snapshot_sha256": "099610532d8f00568b5e7c1c8aea093e8869ef5b31636045877e37a47cf01316",
+      "regime_artifact_sha256": "dd138a040e2271769e425550d774c8e03e4a9842d9955f7dbdb136dc8a6d5459",
+      "feature_sha256": "3c3f1bc294f0e923cbcf87f8e14e7ddfbd7850913bd88aa1fa7c1bc82ed77316"
+    },
+    {
+      "symbol": "VNM",
+      "cutoff": "2022-12-27",
+      "episode_path": "outputs/historical_memory_run/episodes/VNM-2022-12-27.json",
+      "episode_sha256": "8c47245608fc5a88ddf354286fba2c8e2f003efcc26c22584a87703bd9ccb770",
+      "signal_sha256": "cdd5ef180e277a54e63b181d660aeb4c544260755dd1f9e58d1026b816837842",
+      "source_binding_passed": true,
+      "visible_news_count": 0,
+      "snapshot_sha256": "39cc04d051dbb21a14c2cf5140fceba1100edb3f6c114d7db3b045d3cae01f29",
+      "regime_artifact_sha256": "dd138a040e2271769e425550d774c8e03e4a9842d9955f7dbdb136dc8a6d5459",
+      "feature_sha256": "3c3f1bc294f0e923cbcf87f8e14e7ddfbd7850913bd88aa1fa7c1bc82ed77316"
+    },
+    {
+      "symbol": "FPT",
+      "cutoff": "2020-06-04",
+      "episode_path": "outputs/historical_memory_run/episodes/FPT-2020-06-04.json",
+      "episode_sha256": "8e081dcb912c70c404f8e403376b475af34b2cd954a5e7d511f25ec406b88911",
+      "signal_sha256": "afb96110b46a086947b281350f95423986d361a17e92c12e49ab7697182c84d2",
+      "source_binding_passed": true,
+      "visible_news_count": 0,
+      "snapshot_sha256": "21d1cdea2f6c92328e3a25b5641669206363ba1786a3be4d2e07b3f7a645a866",
+      "regime_artifact_sha256": "aebae4b9f8ca2fa649462cf28caa6c64fb866dc06c91ec7163a9fe1e54d17dda",
+      "feature_sha256": "43c426dbeed10608e9985c43646dd01b60989cc7e0f65233b1292bb5f8df6ba7"
+    }
+  ],
+  "fixed_model_probe": {
+    "purpose": "TECHNICAL_PIT_CLASSIFICATION_ONLY",
+    "oos_trading_gate_passed": false,
+    "cutoff": "2023-01-10",
+    "state": {
+      "as_of_date": "2023-01-10",
+      "regime_id": 0,
+      "regime_name": "BULL",
+      "volatility_level": "HIGH",
+      "trend_strength": 1.1275051364302933,
+      "source_symbol": "VNINDEX",
+      "feature_end_date": "2023-01-10"
+    },
+    "artifact_path": "data_manager/regime_model.json",
+    "artifact_sha256": "58a8bccb11466177114017aeb648d934106629c1598ac96bd0bde9e5d5263ebd",
+    "train_end_date": "2022-12-30",
+    "price_basis_status": "UNVERIFIED",
+    "artifact_purpose": "RESEARCH_ONLY",
+    "frozen_model_example": {
+      "freeze_as_of_date": "2022-12-30",
+      "artifact_sha256": "58a8bccb11466177114017aeb648d934106629c1598ac96bd0bde9e5d5263ebd",
+      "training_data_sha256": "dadb02d1c14a96d3d4b9ac906518afe45b5a67d77ba990b87e0452fec30a8be6"
+    },
+    "freeze_example_is_specification_not_historical_freeze_receipt": true
+  },
+  "synthetic_news_boundary_fixture": {
+    "input": [
+      {
+        "title": "Tin fixture kiểm biên ngày",
+        "date_parsed": "2022-12-27",
+        "label": "positive",
+        "numeric_score": 0.5
+      },
+      {
+        "title": "Tin fixture kiểm biên ngày",
+        "date_parsed": "2022-09-28",
+        "label": "positive",
+        "numeric_score": 0.5
+      },
+      {
+        "title": "Tin fixture kiểm biên ngày",
+        "date_parsed": "2022-12-28",
+        "label": "positive",
+        "numeric_score": 0.5
+      },
+      {
+        "title": "Tin fixture kiểm biên ngày",
+        "date_parsed": null,
+        "label": "positive",
+        "numeric_score": 0.5
+      },
+      {
+        "title": "Tin fixture kiểm biên ngày",
+        "date_parsed": "2022-09-27",
+        "label": "positive",
+        "numeric_score": 0.5
+      }
+    ],
+    "visible_dates": [
+      "2022-12-27",
+      "2022-09-28"
+    ],
+    "label": "NEUTRAL"
+  },
+  "existing_validator_probes": [
+    {
+      "case": "snapshot_missing_cutoff",
+      "api": "raw_point_in_time_snapshot",
+      "exception": "ValueError",
+      "message": "Thiếu nến tại as_of_date",
+      "passed": true
+    },
+    {
+      "case": "future_feature_candles",
+      "api": "build_regime_features",
+      "exception": "ValueError",
+      "message": "Lịch sử chứa nến sau as_of_date",
+      "passed": true
+    },
+    {
+      "case": "future_feature_end",
+      "api": "HistoricalMemoryRunner._validate_regime",
+      "exception": "ValueError",
+      "message": "Ngày đặc trưng vượt ngày quyết định",
+      "passed": true
+    },
+    {
+      "case": "future_component_train",
+      "api": "HistoricalMemoryRunner._validate_regime",
+      "exception": "ValueError",
+      "message": "Regime/model/scaler/calibration vượt cutoff hoặc khác ngày quyết định",
+      "passed": true
+    },
+    {
+      "case": "replay_wrong_train_end",
+      "api": "HistoricalMemoryRunner._validate_regime",
+      "exception": "ValueError",
+      "message": "Regime/model/scaler/calibration vượt cutoff hoặc khác ngày quyết định",
+      "passed": true
+    },
+    {
+      "case": "wrong_state_cutoff",
+      "api": "HistoricalMemoryRunner._validate_regime",
+      "exception": "ValueError",
+      "message": "Regime/model/scaler/calibration vượt cutoff hoặc khác ngày quyết định",
+      "passed": true
+    },
+    {
+      "case": "future_news_in_visible_proof",
+      "api": "verify_bayesian_prior.validate_source",
+      "exception": "ValueError",
+      "message": "Query lịch sử không có provenance PIT hợp lệ",
+      "passed": true
+    },
+    {
+      "case": "missing_replay_artifact",
+      "api": "PrefixRegimeProvider.get(verify_only=True)",
+      "exception": "ValueError",
+      "message": "Thiếu artifact regime của episode đã hoàn thành",
+      "passed": true
+    },
+    {
+      "case": "full_train_for_early_query",
+      "api": "MarketRegimeDetector.classify_regime",
+      "exception": "ValueError",
+      "message": "Model/scaler/calibration đã học dữ liệu sau as_of_date",
+      "passed": true
+    },
+    {
+      "case": "oos_changed_training_prefix",
+      "api": "MarketRegimeDetector.classify_regime",
+      "exception": "ValueError",
+      "message": "Lịch sử truy vấn không khớp prefix train của model",
+      "passed": true
+    },
+    {
+      "case": "corrupt_artifact_hash",
+      "api": "MarketRegimeDetector.load",
+      "exception": "ValueError",
+      "message": "Checksum hoặc phiên bản artifact không hợp lệ",
+      "passed": true
+    },
+    {
+      "case": "malformed_news_date",
+      "api": "FrozenSentimentSnapshot",
+      "exception": "ValueError",
+      "message": "Ngày ISO không hợp lệ",
+      "passed": true
+    },
+    {
+      "case": "dated_news_inclusive_boundaries_and_neutral",
+      "api": "FrozenSentimentSnapshot",
+      "passed": true,
+      "visible_dates": [
+        "2022-12-27",
+        "2022-09-28"
+      ],
+      "visible_count": 2,
+      "is_reliable": false
+    },
+    {
+      "case": "equal_exit_excluded_from_pool_and_stats",
+      "api": "BayesianPriorRetriever.prepare_query/retrieve",
+      "passed": true,
+      "excluded_ids": [
+        "FPT:2020-06-01"
+      ],
+      "four_modes_same_stats": true,
+      "query_io": false
+    }
+  ],
+  "adapter_cases_documented_not_executed": [
+    {
+      "case": "snapshot_claims_pit_but_has_future_rows",
+      "stop_before": "before_upstream",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "snapshot_hash_schema_symbol_or_timeframe_mismatch",
+      "stop_before": "before_upstream",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "undated_news_leaks_into_visible_output",
+      "stop_before": "before_upstream",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "oos_train_end_equal_cutoff",
+      "stop_before": "before_upstream",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "oos_freeze_date_not_before_first_query",
+      "stop_before": "run_init",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "oos_freeze_hash_differs_from_loaded_artifact",
+      "stop_before": "run_init",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "component_train_dates_differ_from_unified_metadata",
+      "stop_before": "before_upstream",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "regime_state_differs_from_loaded_artifact_result",
+      "stop_before": "before_upstream",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "shared_signals_or_reports_hash_config_mismatch",
+      "stop_before": "before_retriever",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "query_outcome_in_shared_state_or_provenance",
+      "stop_before": "before_upstream_or_retriever",
+      "expected_error": "ValueError"
+    },
+    {
+      "case": "prior_equal_exit_in_returned_selection",
+      "stop_before": "before_formatter",
+      "expected_error": "ValueError_or_AssertionError"
+    },
+    {
+      "case": "stats_use_k_examples_instead_of_eligible_population",
+      "stop_before": "before_formatter",
+      "expected_error": "ValueError_or_AssertionError"
+    },
+    {
+      "case": "missing_news_snapshot_file",
+      "stop_before": "run_init",
+      "expected_error": "FileNotFoundError"
+    },
+    {
+      "case": "non_native_or_non_finite_json_proof",
+      "stop_before": "before_upstream_or_retriever",
+      "expected_error": "ValueError"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # Phase A — Khóa hợp đồng tích hợp
 
-**Trạng thái: đang thực hiện; W4-01 và W4-02 hoàn thành ngày 05/10/2026 (2/4 task).
-W4-03/04 và Gate A còn mở.** [Checklist W4](README.md).
+**Trạng thái: đang thực hiện; W4-01..03 hoàn thành ngày 05/10/2026 (3/4 task).
+W4-04 và Gate A còn mở.** [Checklist W4](README.md).
 Mục tiêu: chốt trách nhiệm của caller/graph/Decision/checkpoint trước khi sửa code.
 Tài liệu đầu ra dự kiến: `integration_contract.md`, `input_readiness.json` và
 `checkpoint_contract.md` trong thư mục tuần. Không tạo receipt PASS khi chỉ khảo sát.
@@ -53,23 +53,23 @@ cho flag off, Original, Bayesian, empty/partial và input sai; không nới poli
 
 **Phụ thuộc:** W4-01, W4-02. **Phạm vi:** hợp đồng provider/caller.
 
-- [ ] Giá: `point_in_time_df` và mọi feature chỉ chứa nến ≤cutoff; ngày cuối
+- [x] Giá: `point_in_time_df` và mọi feature chỉ chứa nến ≤cutoff; ngày cuối
   snapshot khớp query. Chốt fingerprint nguồn giá/schema/symbol/timeframe.
-- [ ] Tin: chỉ bài có ngày công bố ≤cutoff; bài không ngày bị loại; ghi hash
+- [x] Tin: chỉ bài có ngày công bố ≤cutoff; bài không ngày bị loại; ghi hash
   và coverage. Thiếu tin hợp lệ trả NEUTRAL có lý do, không dựng tin giả.
-- [ ] Regime: `as_of_date == cutoff`, `feature_end_date <= cutoff`, đúng VNINDEX,
+- [x] Regime: `as_of_date == cutoff`, `feature_end_date <= cutoff`, đúng VNINDEX,
   state hợp lệ và hash artifact/source. HMM/scaler/calibration train end ≤cutoff.
-- [ ] Chốt hai đường provider: replay dùng prefix đã xác minh đúng ngày;
+- [x] Chốt hai đường provider: replay dùng prefix đã xác minh đúng ngày;
   OOS dùng artifact train đóng băng trước ngày query và feature PIT. Không áp
   quy tắc `train_end == cutoff` của prefix lịch sử cho model train cố định OOS.
-- [ ] Đối chiếu `PrefixRegimeProvider`/validator/model W2 để chọn thành phần tái
+- [x] Đối chiếu `PrefixRegimeProvider`/validator/model W2 để chọn thành phần tái
   sử dụng. Artifact thiếu/sai/chứa train tương lai phải dừng, không lấy model
   toàn tập train để suy ra regime trước cuối train hoặc tự fit trong query.
-- [ ] Query chỉ gồm tín hiệu chuẩn hóa có sẵn tại cutoff; không chứa actual
+- [x] Query chỉ gồm tín hiệu chuẩn hóa có sẵn tại cutoff; không chứa actual
   direction, entry/exit tương lai, net return hay nhãn của chính test point.
-- [ ] Khóa thứ tự: snapshot/provenance → báo cáo/tín hiệu chung → retriever →
+- [x] Khóa thứ tự: snapshot/provenance → báo cáo/tín hiệu chung → retriever →
   BRPP → Decision; nhãn đánh giá giữ ngoài state đưa vào agent/retriever.
-- [ ] Prior đã đóng có `exit_date < cutoff`; stats cùng population hợp lệ.
+- [x] Prior đã đóng có `exit_date < cutoff`; stats cùng population hợp lệ.
   Vi phạm nguồn/cutoff phải ValueError/AssertionError trước formatter/API.
 
 **Hoàn thành khi:** có bảng nguồn/validator/trách nhiệm và ca biên cùng ngày,
@@ -110,6 +110,23 @@ Sau mỗi task, thêm nhật ký theo mẫu: **ngày — mã task — nhánh/com
 kiểm chứng — kết quả — phần còn mở**, rồi cập nhật [README](README.md).
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-03 hoàn thành
+
+- Nhánh `docs/prior-provenance-contract`, baseline `545e34c`;
+  [contract](provenance_contract.md), [policy](provenance_policy.json),
+  [ví dụ/biên](provenance_examples.json), [receipt](provenance_review.json).
+- Khóa object provenance bảy nhóm; giá raw VCI/KBS, schema/unit/hash và
+  endpoints; tin dated/coverage/NEUTRAL; state/artifact/feature/ba component.
+- Hai provider riêng: prefix train-end=cutoff readonly; fixed OOS train-end<cutoff
+  và freeze trước query đầu. Không fit/download/sinh episode trong probe.
+- Kiểm nguồn thật năm context/bốn mã; 14 probe validator hiện có PASS,
+  14 ca adapter mới ghi rõ chưa thực thi. Prior bằng cutoff bị loại khỏi
+  cả pool/stats; bốn mode giữ stats cùng population. Outcome query ở evaluator.
+- Compileall, 339 unit (48,126 giây), E2E, 56 leakage (5,077 giây) PASS;
+  2.308 file nguồn/archive/bằng chứng giữ nguyên hash trước/sau gate.
+- Phase A 3/4, W4 3/16; W4-04 khóa checkpoint tiếp theo. Gate A,
+  validator tích hợp/provider OOS runtime và gate giá 2023–2024 còn mở.
 
 ### 2026-10-05 — W4-02 hoàn thành
 
