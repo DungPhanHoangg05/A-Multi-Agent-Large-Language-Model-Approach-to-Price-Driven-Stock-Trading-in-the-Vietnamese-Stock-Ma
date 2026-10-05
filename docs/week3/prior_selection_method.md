@@ -3,7 +3,7 @@
 **Chốt W3-03 ngày 04/10/2026.** Cấu hình đóng băng tại
 [prior_selection_policy.json](prior_selection_policy.json), tương thích
 [hợp đồng API v1](retriever_api_contract.md). Nền W3-05, Recent/Random W3-06 và
-Similarity W3-07 và Bayesian W3-08 đã có; stats/result retrieve K>0 chờ W3-09.
+Similarity W3-07, Bayesian W3-08 và stats/result retrieve K>0 W3-09 đã có.
 Không chọn tham số bằng kết quả kiểm định 2023–2024.
 
 ## 1. Tập hợp và thứ tự xử lý

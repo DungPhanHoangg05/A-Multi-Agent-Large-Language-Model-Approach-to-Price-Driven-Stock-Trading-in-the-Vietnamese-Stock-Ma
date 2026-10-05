@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A hoàn thành, W3-05..08 hoàn thành; W3-09 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
+**Trạng thái: Phase A và Phase B hoàn thành, Gate A/Gate B PASS; W3-10 đến W3-16 chưa thực hiện. Tiếp theo Phase C.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -63,7 +63,7 @@ Chi tiết: [Phase B](phase_b_retriever_and_statistics.md).
 | W3-06 | Cài `recent` và `random` | `select_prior_tasks`: thứ tự/tie-break/seed/draw đúng policy, metadata empty/partial/complete; tám test mới và [probe kho thật](recent_random_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-05 | [x] |
 | W3-07 | Cài `similarity` | `signal_match_v1`, ranking score/exit/ID, metadata score float; chín test mới, leakage và [probe kho thật](similarity_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-03, W3-05 | [x] |
 | W3-08 | Cài `bayesian_regime` | Chọn population cùng regime bằng ranking Similarity; metadata empty/partial/complete, mười test mới và [probe kho thật](bayesian_regime_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-06, W3-07 | [x] |
-| W3-09 | Tính thống kê theo regime | Count/win/trap/mẫu số theo cutoff; fixture kiểm tay, JSON Python gốc; tách pool khỏi K ví dụ | W3-04, W3-05 | [ ] |
+| W3-09 | Tính thống kê theo regime | Bốn metric trên toàn population PIT, API `retrieve` đầy đủ; fixture tính tay/zero-return/null/native JSON, 14 test mới và [probe kho thật](statistics_runtime_review.json) PASS; Gate B PASS | W3-04, W3-05 | [x] |
 
 ## C. Tiền tố và ngân sách prompt
 
@@ -95,9 +95,9 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 
 ## Checklist chốt tuần
 
-- [ ] Bốn chế độ dùng cùng pool hợp lệ trước bộ lọc/xếp hạng riêng của từng mode.
-- [ ] Mọi prior và thống kê đều từ `exit_date < as_of_date`, không dùng nhãn query.
-- [ ] K=3, seed/scope/metric được đóng băng, thiếu mẫu có metadata rõ ràng.
+- [x] Bốn chế độ dùng cùng pool hợp lệ trước bộ lọc/xếp hạng riêng của từng mode.
+- [x] Mọi prior và thống kê đều từ `exit_date < as_of_date`, không dùng nhãn query.
+- [x] K=3, seed/scope/metric được đóng băng, thiếu mẫu có metadata rõ ràng.
 - [ ] BRPP ≤600 ký tự; prompt ghép thử <6.500 ký tự.
 - [ ] Retrieval p95 <30 ms từng mode theo phép đo đã chốt.
 - [ ] Unit tests, E2E và leakage PASS; API độc lập sẵn sàng cho W4.
@@ -105,6 +105,23 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-09 hoàn thành — Phase B/Gate B PASS**: `retrieve` trả đầy đủ tasks/stats/metadata
+  ở cả bốn mode; stats dùng toàn population cùng scope/regime đã PIT, không phải K
+  ví dụ. Bốn metric giữ counts và float không làm tròn; mẫu số 0 → None, không smoothing.
+  K=0 không tạo pool hoặc tính stats; thống kê và kết quả là object Python gốc độc lập.
+- 14 test mới (11 stats + ba leakage), tổng 55 test Bayesian tập trung PASS: fixture
+  tính tay 2/4, 2/3, 1/2, 2/2; union không đếm đôi, no-bullish/zero-return/empty/K=0,
+  scope/regime/K/mode, hậu điều kiện, không mutate/I/O và đổi outcome tương lai hợp lệ.
+- [Receipt runtime](statistics_runtime_review.json) PASS 384 query chính và 128 query
+  lặp trên 32 context (bốn mã × hai scope × bốn regime), bốn mode, K=1..3. Stats
+  khớp biên bản Phase A; pooled có 852 record, 344 WIN, 338 trap. Context của probe
+  là fixture, không là regime hiện tại hoặc kết quả giao dịch OOS.
+- **Gate tích hợp W3-09**: compileall PASS, 290/290 unit tests PASS (60,778 giây),
+  E2E xác định PASS (8,7 giây), 46/46 leakage tests PASS (5,133 giây). Receipt/hash,
+  liên kết Markdown và `git diff --check` được kiểm trước tích hợp nhánh
+  `feat/regime-empirical-statistics`. Tiếp theo W3-10 BRPP compact; trần prompt,
+  smoke formatter, p95 và bàn giao W4 vẫn thuộc các task còn lại.
 
 - **W3-08 hoàn thành**: Bayesian lọc cùng regime từ pool PIT/scope trước top K,
   tái dùng `_select_similarity()` và chốt hậu điều kiện cutoff/scope/regime/ID/K.
