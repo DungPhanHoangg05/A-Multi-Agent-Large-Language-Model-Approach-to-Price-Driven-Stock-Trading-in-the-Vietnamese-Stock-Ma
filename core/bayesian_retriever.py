@@ -6,6 +6,7 @@ import copy
 from collections import Counter
 import hashlib
 import json
+import math
 from pathlib import Path
 import random
 import re
@@ -13,7 +14,8 @@ from typing import Any
 import unicodedata
 
 from core.bayesian_memory import (
-    HistoricalMemory, REGIMES, SYMBOLS, is_bullish, iso_date, read_json, validate_signals,
+    HistoricalMemory, OUTCOME_KEYS, RECORD_KEYS, REGIMES, SYMBOLS, exact_object,
+    is_bullish, iso_date, read_json, validate_signals,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,6 +57,123 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
             type(key) is str and _matches_snapshot(actual[key], value) for key, value in expected.items()
         )
     return bool(actual == expected)
+
+
+PREFIX_METRICS = ("win_rate_long", "bull_trap_rate", "trend_false_bullish_rate", "pattern_false_bullish_rate")
+PREFIX_CHAR_LIMIT = 600
+
+
+def _validate_prefix_statistics(stats: dict[str, Any]) -> None:
+    """Kiểm schema/tỷ lệ/mẫu số và các quan hệ counts đã khóa; không sửa input."""
+    exact_object(stats, {"regime", "population_count", "metrics"})
+    if type(stats["regime"]) is not str or stats["regime"] not in REGIMES:
+        raise ValueError("Regime của thống kê không hợp lệ")
+    count = stats["population_count"]
+    if type(count) is not int or count < 0:
+        raise ValueError("Population count phải là int Python gốc không âm")
+    metrics = stats["metrics"]
+    exact_object(metrics, set(PREFIX_METRICS))
+    for item in metrics.values():
+        exact_object(item, {"numerator", "denominator", "rate"})
+        numerator, denominator, rate = item["numerator"], item["denominator"], item["rate"]
+        if (type(numerator) is not int or type(denominator) is not int
+                or not 0 <= numerator <= denominator <= count):
+            raise ValueError("Counts metric không hợp lệ")
+        if denominator == 0:
+            if rate is not None:
+                raise ValueError("Mẫu số 0 phải có rate None")
+        elif (type(rate) is not float or not math.isfinite(rate) or not 0 <= rate <= 1
+              or not math.isclose(rate, numerator / denominator, rel_tol=0.0, abs_tol=1e-12)):
+            raise ValueError("Rate khác tỷ lệ counts hoặc không là float Python gốc hữu hạn")
+    win, trap, trend, pattern = (metrics[name] for name in PREFIX_METRICS)
+    if (win["denominator"] != count
+            or trap["numerator"] > count - win["numerator"]
+            or not max(trend["numerator"], pattern["numerator"]) <= trap["numerator"]
+            <= trend["numerator"] + pattern["numerator"]
+            or not max(trend["denominator"], pattern["denominator"]) <= trap["denominator"]
+            <= min(count, trend["denominator"] + pattern["denominator"])):
+        raise ValueError("Quan hệ counts win/trap/bullish không hợp lệ")
+
+
+def _format_net_return(net: float | int) -> str:
+    """Giữ đơn vị phần trăm và dấu; dùng scientific ở sát 0 hoặc số rất lớn."""
+    try:
+        finite = type(net) in (float, int) and math.isfinite(net)
+    except OverflowError:
+        finite = False
+    if not finite:
+        raise ValueError("Lợi nhuận phải là số Python gốc hữu hạn")
+    if net == 0:
+        return "0.00%"
+    return f"{net:+.2f}%" if 0.005 <= abs(net) < 10000 else f"{net:+.2e}%"
+
+
+def _prefix_task_line(task: dict[str, Any]) -> str:
+    """Kiểm task theo schema nội bộ; không đọc giá hoặc tự xác nhận cutoff/provenance."""
+    exact_object(task, RECORD_KEYS)
+    if type(task["episode_id"]) is not str or not task["episode_id"].strip():
+        raise ValueError("Task prefix thiếu ID hợp lệ")
+    for field, allowed in (("symbol", SYMBOLS), ("regime", REGIMES)):
+        if type(task[field]) is not str or task[field] not in allowed:
+            raise ValueError(f"{field} của task prefix không hợp lệ")
+    dates = [iso_date(task[field]) for field in ("as_of_date", "entry_date", "exit_date")]
+    if not dates[0] < dates[1] < dates[2]:
+        raise ValueError("Ngày quyết định/vào/thoát của task prefix không tăng")
+    signals = normalize_signals(task["agent_signals"])
+    if signals["sentiment"] != "NEUTRAL":
+        raise ValueError("BRPP v1 dành cho kho thiếu tin; tín hiệu tin khác cần phiên bản prefix mới")
+    outcome = task["outcome"]
+    exact_object(outcome, OUTCOME_KEYS)
+    net_text = _format_net_return(outcome["net_return_pct"])
+    positive = outcome["net_return_pct"] > 0
+    if (type(outcome["result"]) is not str or type(outcome["actual_direction"]) is not str
+            or outcome["result"] != ("WIN_IF_LONG" if positive else "LOSS_IF_LONG")
+            or outcome["actual_direction"] != ("UP" if positive else "DOWN")):
+        raise ValueError("Nhãn LONG/hướng không khớp dấu lợi nhuận ròng")
+    bullish = is_bullish(signals["trend"]) or is_bullish(signals["pattern"])
+    if type(outcome["was_bull_trap"]) is not bool or outcome["was_bull_trap"] != (bullish and not positive):
+        raise ValueError("Nhãn bull trap của task prefix không hợp lệ")
+    codes = {"BULLISH": "+", "BEARISH": "-", "NEUTRAL": "0"}
+    directions = "".join(codes[signals[field]] for field in (
+        "trend", "pattern", "alpha_consensus", "indicator_consensus"
+    ))
+    return (f"{task['symbol']}@{task['as_of_date']} R={task['regime']} T/P/A/I={directions} "
+            f"{'W' if positive else 'L'} {net_text}")
+
+
+def format_compact_prior_prefix(tasks: list[dict[str, Any]], stats: dict[str, Any] | None) -> str:
+    """Render BRPP v1 ≤600 ký tự; caller phải xác minh PIT và provenance trước khi gọi."""
+    if type(tasks) is not list or len(tasks) > 3:
+        raise ValueError("BRPP v1 nhận list Python gốc có tối đa ba task")
+    if stats is None:
+        if tasks:
+            raise ValueError("Task prior không rỗng phải có thống kê")
+        return ""
+    _validate_prefix_statistics(stats)
+    ids: set[str] = set()
+    task_lines: list[str] = []
+    for task in tasks:
+        line = _prefix_task_line(task)
+        if task["episode_id"] in ids:
+            raise ValueError("Task prefix trùng ID")
+        ids.add(task["episode_id"])
+        task_lines.append(line)
+
+    def rate_text(item: dict[str, Any]) -> str:
+        """Giữ mẫu số hỗ trợ, dùng N/A thay cho tỷ lệ chưa xác định."""
+        if item["denominator"] == 0:
+            return "0/0(N/A)"
+        return f"{item['numerator']}/{item['denominator']}({item['rate'] * 100:.1f}%)"
+
+    rates = [rate_text(stats["metrics"][name]) for name in PREFIX_METRICS]
+    lines = [f"[BRPP v1] R={stats['regime']}; n={stats['population_count']}; k={len(tasks)}",
+             f"LONGwin={rates[0]}; Trap={rates[1]}; TrendFail={rates[2]}; PatternFail={rates[3]}",
+             "T/P/A/I:+ tăng,- giảm,0 trung tính; W/L=LONG ròng sau phí; SHORT=tiền mặt; S=thiếu tin.",
+             *task_lines]
+    prefix = unicodedata.normalize("NFC", "\n".join(lines))
+    if len(prefix) > PREFIX_CHAR_LIMIT:
+        raise ValueError("BRPP vượt 600 ký tự; cần chốt phiên bản mới, không cắt chuỗi hoặc bỏ task")
+    return prefix
 
 
 class BayesianPriorRetriever:
