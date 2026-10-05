@@ -1,7 +1,7 @@
 # Phase A — Khóa hợp đồng tích hợp
 
-**Trạng thái: đang thực hiện; W4-01 hoàn thành ngày 05/10/2026 (1/4 task).
-W4-02..04 và Gate A còn mở.** [Checklist W4](README.md).
+**Trạng thái: đang thực hiện; W4-01 và W4-02 hoàn thành ngày 05/10/2026 (2/4 task).
+W4-03/04 và Gate A còn mở.** [Checklist W4](README.md).
 Mục tiêu: chốt trách nhiệm của caller/graph/Decision/checkpoint trước khi sửa code.
 Tài liệu đầu ra dự kiến: `integration_contract.md`, `input_readiness.json` và
 `checkpoint_contract.md` trong thư mục tuần. Không tạo receipt PASS khi chỉ khảo sát.
@@ -30,20 +30,20 @@ thiếu, baseline và phạm vi sửa. Không dùng checksum đơn lẻ làm b�
 
 **Phụ thuộc:** W4-01. **Phạm vi:** đặc tả, chưa cài validator.
 
-- [ ] Chốt trường mới: `market_regime` chứa state đầy đủ, `prior_tasks`,
+- [x] Chốt trường mới: `market_regime` chứa state đầy đủ, `prior_tasks`,
   `bayesian_prior_context` (BRPP), stats/metadata/provenance; tên cuối cùng và
   kiểu được ghi trong hợp đồng, tránh hai trường chứa thông tin mâu thuẫn.
-- [ ] Chốt `prior_config`: `enable_bayesian_prior=false`, mode/K/scope/seed,
+- [x] Chốt `prior_config`: `enable_bayesian_prior=false`, mode/K/scope/seed,
   bank/manifest/audit paths; K=0..3 theo W3, seed=42, `same_symbol` mặc định.
-- [ ] Khóa năm nhánh ở README; Original K=0 vẫn kiểm query khi chạy ma trận mới,
+- [x] Khóa năm nhánh ở README; Original K=0 vẫn kiểm query khi chạy ma trận mới,
   không nạp kho/đòi model mới ở đường legacy khi flag tắt.
-- [ ] Giữ `ABLATION_CONFIGS` và `include_alpha` tương thích; chốt xử lý tổ hợp
+- [x] Giữ `ABLATION_CONFIGS` và `include_alpha` tương thích; chốt xử lý tổ hợp
   prior + ablation ngoài ma trận Full (từ chối rõ hoặc hợp đồng riêng có test).
-- [ ] Chốt input sai: mode/scope/kiểu bool/K/seed/ngày/state không hợp lệ phải
+- [x] Chốt input sai: mode/scope/kiểu bool/K/seed/ngày/state không hợp lệ phải
   lỗi rõ trước LLM. Phân biệt flag tắt với `empty` hợp lệ và lỗi nguồn.
-- [ ] Chốt JSON: ngày ISO, Python scalar gốc, không NaN/Infinity; snapshot
+- [x] Chốt JSON: ngày ISO, Python scalar gốc, không NaN/Infinity; snapshot
   DataFrame trong state không được serialize trực tiếp vào checkpoint JSON.
-- [ ] Khóa daily `1d`/`1 ngày` với horizon=3; khảo sát default `1 day` hiện có
+- [x] Khóa daily `1d`/`1 ngày` với horizon=3; khảo sát default `1 day` hiện có
   và chốt chuẩn hóa hoặc từ chối rõ ở adapter mới, không đổi âm thầm timeframe cũ.
 
 **Hoàn thành khi:** có bảng kiểu/default/required/validation và ví dụ input/output
@@ -110,6 +110,21 @@ Sau mỗi task, thêm nhật ký theo mẫu: **ngày — mã task — nhánh/com
 kiểm chứng — kết quả — phần còn mở**, rồi cập nhật [README](README.md).
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-02 hoàn thành
+
+- Nhánh `docs/prior-state-config-contract`, baseline `62a673a`; [hợp đồng](integration_contract.md),
+  [policy](integration_policy.json), [ví dụ](integration_examples.json), [receipt](state_config_review.json).
+- Khóa tám key config/tám field state, native JSON, default disabled; Original
+  enabled K=0 có metadata/query validation, khác đường legacy flag off không I/O mới.
+- Enabled chỉ Full/backtest, cờ bool strict; năm branch ID cố định. Legacy giữ
+  bốn ablation/include_alpha/output. Daily `1d`/`1 ngày` canonical=`1d`, horizon=3;
+  adapter mới từ chối `1 day`, không sửa default/alias legacy.
+- Bảy ví dụ config và bốn projection API W3, bảy probe lỗi W3 đã đối chiếu.
+  Ca parser config mới chỉ là đặc tả cho W4-05, chưa có validator runtime.
+- Compileall, 339 unit (91,391 giây), E2E (13,8 giây), 56 leakage (7,637 giây)
+  PASS; runtime/kho/model/receipt cũ giữ nguyên. W4-03 chốt provenance/PIT,
+  W4-04 chốt checkpoint; Gate A/runtime budget/OOS chưa PASS.
 
 ### 2026-10-05 — W4-01 hoàn thành
 

@@ -1,8 +1,8 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A đang thực hiện; W4-01 hoàn thành ngày 05/10/2026,
-tiến độ 1/16 task. [Biên bản/bản đồ đầu vào](input_readiness.md),
-[receipt kiểm chứng](input_readiness.json). W4-02..16 và Gate A còn mở.**
+**Trạng thái: Phase A đang thực hiện; W4-01/02 hoàn thành ngày 05/10/2026,
+tiến độ 2/16 task. [Đầu vào](input_readiness.md), [hợp đồng state/config](integration_contract.md),
+[receipt đặc tả](state_config_review.json). W4-03..16 và Gate A còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -72,7 +72,7 @@ Chi tiết: [Phase A](phase_a_integration_contract.md).
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W4-01 | Kiểm tra bàn giao và các điểm nối runtime | [Bản đồ/biên bản](input_readiness.md), [receipt](input_readiness.json): 852 record và archive/QA/hash PASS; replay 288 query + 288 lượt lặp, bốn gate mới PASS | W3 hoàn thành | [x] |
-| W4-02 | Chốt state và cấu hình prior độc lập | Hợp đồng kiểu/default/lỗi; năm nhánh nghiên cứu và tương thích bốn ablation cũ | W4-01 | [ ] |
+| W4-02 | Chốt state và cấu hình prior độc lập | [Contract v1](integration_contract.md), [policy](integration_policy.json), [ví dụ](integration_examples.json), [receipt](state_config_review.json): tám config/tám field, Full only, daily chuẩn, bốn gate PASS; chưa cài validator runtime | W4-01 | [x] |
 | W4-03 | Chốt provenance và thứ tự PIT | Luật giá/tin/HMM/scaler/calibration; ranh giới outcome và provider replay/OOS | W4-01, W4-02 | [ ] |
 | W4-04 | Chốt schema kết quả và resume | Metadata/hash/config; checkpoint từng nhánh, upstream dùng lại và chính sách file cũ | W4-02, W4-03 | [ ] |
 
@@ -132,6 +132,20 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-02 hoàn thành
+
+- Nhánh `docs/prior-state-config-contract`, baseline `62a673a`; [contract](integration_contract.md)
+  và policy/ví dụ khóa config/state, lỗi và ownership dữ liệu; chưa sửa runtime.
+- Flag off không I/O nguồn mới; Original enabled K=0 vẫn query/validate. Prior
+  enabled chỉ ablation Full trong backtest, cấu hình độc lập với ablation cũ.
+  Daily nhận `1d`/`1 ngày`, canonical=`1d`; adapter mới từ chối `1 day`.
+- Bảy ví dụ config và bốn projection W3 đã đối chiếu; prefix 0/338/190/237 ký tự,
+  bảy probe query sai W3 PASS. Các ca config mới chờ validator W4-05.
+- Compileall / **339 unit** (91,391 giây) / **E2E** (13,8 giây) / **56 leakage**
+  (7,637 giây) PASS; [receipt](state_config_review.json) ghi hash/version/log.
+- **Tiếp theo W4-03**: provenance và trình tự PIT. W4-04/checkpoint, Gate A,
+  runtime integration/budget và giá OOS còn mở; tiến độ 2/16, Phase A 2/4.
 
 ### 2026-10-05 — W4-01 hoàn thành
 
