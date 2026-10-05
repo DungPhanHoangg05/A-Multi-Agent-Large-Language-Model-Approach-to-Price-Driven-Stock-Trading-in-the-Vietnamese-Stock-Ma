@@ -58,7 +58,7 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
 
 
 class BayesianPriorRetriever:
-    """Nạp kho một lần; lọc PIT và chọn Recent/Random, chưa tính stats."""
+    """Nạp kho một lần; lọc PIT và chọn Recent/Random/Similarity, chưa tính stats."""
 
     def __init__(self, *, bank_path: str | Path, manifest_path: str | Path,
                  audit_path: str | Path) -> None:
@@ -201,6 +201,21 @@ class BayesianPriorRetriever:
         ordered = sorted(candidates, key=lambda record: record["episode_id"])
         return generator.sample(ordered, min(k, len(ordered))), digest.hex()
 
+    @staticmethod
+    def _select_similarity(candidates: list[dict[str, Any]], k: int,
+                           current_signals: dict[str, str]) -> tuple[list[dict[str, Any]], dict[str, float]]:
+        """So khớp bốn tín hiệu; phá hòa bằng exit/ID, không đọc nhãn kinh tế."""
+        query = normalize_signals(current_signals)
+        fields = ("trend", "pattern", "alpha_consensus", "indicator_consensus")
+        scores: dict[str, float] = {}
+        for record in candidates:
+            signals = normalize_signals(record["agent_signals"])
+            scores[record["episode_id"]] = 0.25 * sum(signals[field] == query[field] for field in fields)
+        ordered = sorted(candidates, key=lambda record: record["episode_id"])
+        ordered.sort(key=lambda record: record["exit_date"], reverse=True)
+        ordered.sort(key=lambda record: scores[record["episode_id"]], reverse=True)
+        return ordered[:k], scores
+
     def select_prior_tasks(self, *, symbol: str, as_of_date: str, current_regime: str,
                            current_signals: dict[str, str] | None = None,
                            mode: str = "bayesian_regime", k: int = 3, seed: int = 42,
@@ -211,6 +226,7 @@ class BayesianPriorRetriever:
                                       mode=mode, k=k, seed=seed, scope=scope)
         metadata = prepared["metadata"]
         effective_seed = None
+        scores: dict[str, float] = {}
         if k == 0:
             selected: list[dict[str, Any]] = []
             status, reason = "disabled", "k_zero"
@@ -220,8 +236,10 @@ class BayesianPriorRetriever:
                 selected = self._select_recent(candidates, k)
             elif mode == "random":
                 selected, effective_seed = self._select_random(candidates, k, metadata)
+            elif mode == "similarity":
+                selected, scores = self._select_similarity(candidates, k, current_signals)
             else:
-                raise NotImplementedError("Bộ chọn Similarity/Bayesian sẽ triển khai ở W3-07/W3-08")
+                raise NotImplementedError("Bộ chọn Bayesian sẽ triển khai ở W3-08")
             self._validate_selection(selected, symbol=symbol, as_of_date=as_of_date,
                                      current_regime=current_regime, scope=scope, mode=mode, k=k)
             if not selected:
@@ -232,7 +250,8 @@ class BayesianPriorRetriever:
                 status, reason = "complete", None
         metadata.update(effective_seed=effective_seed, selected_count=len(selected),
                         selected_ids=[r["episode_id"] for r in selected],
-                        selected_scores=[{"episode_id": r["episode_id"], "score": None} for r in selected],
+                        selected_scores=[{"episode_id": r["episode_id"], "score": scores.get(r["episode_id"])}
+                                         for r in selected],
                         status=status, reason=reason)
         return {"tasks": copy.deepcopy(selected),
                 "regime_population": copy.deepcopy(prepared["regime_population"]), "metadata": metadata}

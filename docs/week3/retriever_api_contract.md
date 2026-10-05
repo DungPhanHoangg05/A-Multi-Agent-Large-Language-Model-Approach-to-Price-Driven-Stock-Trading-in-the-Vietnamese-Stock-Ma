@@ -1,7 +1,7 @@
 # Hợp đồng API Bayesian Prior Retriever — phiên bản 1
 
 **Chốt ngày 04/10/2026 cho W3-02.** Đây là đặc tả để triển khai từ W3-05,
-Module nền W3-05 và bộ chọn Recent/Random W3-06 đã triển khai; `retrieve(k>0)` còn
+Module nền W3-05, Recent/Random W3-06 và Similarity W3-07 đã triển khai; `retrieve(k>0)` còn
 chờ stats W3-09. Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
 [W3-03](prior_selection_method.md) ngày 04/10/2026;
 công thức/schema metric và template BRPP đã chốt tại [W3-04](statistics_and_prefix_contract.md).
@@ -220,13 +220,16 @@ hợp đồng. K>0: prepare hoạt động, retrieve ném NotImplementedError đ
 và stats được triển khai trong W3-06..09; lỗi này mô tả tính năng chưa có, không
 thay cho ValueError khi query/data sai. W3-05 chưa triển khai formatter hoặc tích hợp W4.
 
-## 9. Phạm vi triển khai W3-06
+## 9. Phạm vi triển khai W3-06/W3-07
 
 `select_prior_tasks(...)` có cùng query signature, trả đúng `tasks`,
 `regime_population`, `metadata`: task đã chọn, population PIT để tính stats sau,
-và metadata chọn đầy đủ. Dùng mode recent/random với K>0; Similarity/Bayesian còn
-NotImplementedError. K=0 hoạt động với mọi mode sau validation.
+và metadata chọn đầy đủ. Dùng mode recent/random/similarity với K>0; Bayesian còn
+NotImplementedError đến W3-08. K=0 hoạt động với mọi mode sau validation.
 Không dùng kết quả chọn thay result retrieve vì chưa có trường stats đã tính.
 Recent/Random không phụ thuộc current_regime hoặc signals để ranking; population
 vẫn cùng regime query theo hợp đồng thống kê. Effective seed Random K>0 kể cả
-empty là hex digest đúng policy; Recent/K=0 dùng None.
+empty là hex digest đúng policy; Recent/Similarity/K=0 dùng None.
+Similarity trả score float theo `signal_match_v1` trong metadata, dùng toàn pool
+eligible cùng scope và không lọc regime. Giữ nguyên tín hiệu thô của task đã chọn;
+chỉ bản sao chuẩn hóa tham gia tính điểm. Sentiment vẫn được kiểm alias dù trọng số 0.

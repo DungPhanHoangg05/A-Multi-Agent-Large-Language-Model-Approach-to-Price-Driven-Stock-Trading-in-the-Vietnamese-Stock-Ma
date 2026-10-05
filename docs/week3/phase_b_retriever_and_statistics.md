@@ -1,6 +1,6 @@
 # Phase B — retriever và thống kê
 
-**Trạng thái: W3-05/W3-06 hoàn thành; W3-07..09 chưa thực hiện.** File nền đã có:
+**Trạng thái: W3-05/W3-06/W3-07 hoàn thành; W3-08/W3-09 chưa thực hiện.** File nền đã có:
 `core/bayesian_retriever.py`, `tests/test_bayesian_retriever.py`,
 `tests/test_bayesian_statistics.py`.
 
@@ -29,11 +29,11 @@ Gate A đã PASS; dùng [API](retriever_api_contract.md),
 
 ## W3-07 — similarity
 
-- [ ] Ánh xạ tín hiệu theo bảng khóa ở A; điểm nằm trong miền đã đặc tả.
-- [ ] Không dùng outcome hoặc đặc trưng tính từ dữ liệu sau query; không fit embedding/scaler
+- [x] Ánh xạ tín hiệu theo bảng khóa ở A; điểm nằm trong miền đã đặc tả.
+- [x] Không dùng outcome hoặc đặc trưng tính từ dữ liệu sau query; không fit embedding/scaler
   bằng dữ liệu OOS. Với metric so khớp tín hiệu, không cần gọi LLM/embedding API.
-- [ ] Test điểm khớp hoàn toàn/một phần, trường hằng/không rõ và tie-break xác định.
-- [ ] Đổi outcome của record trong fixture hợp lệ không được đổi ranking dựa trên tín hiệu.
+- [x] Test điểm khớp hoàn toàn/một phần, trường hằng/không rõ và tie-break xác định.
+- [x] Đổi outcome của record trong fixture hợp lệ không được đổi ranking dựa trên tín hiệu.
 
 ## W3-08 — bayesian_regime
 
@@ -112,3 +112,24 @@ py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_*.py' -v
 ```
 
 22 test nền/chọn/leakage PASS. Gate tích hợp cuối ghi tại README; Gate B còn mở.
+
+### 05/10/2026 — W3-07 hoàn thành
+
+- `_select_similarity()` dùng `signal_match_v1`: mỗi trường trend/pattern/alpha/indicator
+  khớp đóng góp 0,25; NEUTRAL khớp vẫn tính điểm. Sentiment được kiểm alias nhưng có
+  trọng số 0. Score là float Python trong {0; 0,25; 0,5; 0,75; 1}; không có threshold.
+- Chọn từ toàn pool eligible theo scope, không lọc regime; thứ tự score giảm dần →
+  exit giảm dần → ID tăng dần. Metadata giữ IDs/scores/counts/status/reason, effective
+  seed None. Chỉ chuẩn hóa bản sao tín hiệu để tính điểm; task trả nguyên nội dung kho.
+- Chín test mới PASS: các mức điểm, NEUTRAL, alias/NFC, sentiment hằng/khác, nhãn sai,
+  ranking B,C,A tham chiếu, đảo thứ tự, empty/partial/K=0, không I/O hoặc mutate,
+  record tương lai và hậu điều kiện. Fixture đổi LOSS thành WIN bằng giá hợp lệ và
+  `compute_round_trip_net_return`, nạp lại qua validator thật: IDs/scores không đổi.
+- Test leakage của bộ chọn đã mở rộng sang Similarity: exit bằng cutoff bị loại;
+  query ngày sau rồi ngày trước vẫn đúng. Tổng 31 test Bayesian tập trung PASS.
+- [Receipt kho thật](similarity_review.json): tám query = bốn mã × hai scope,
+  kiểm ranking/score, lặp query, JSON float hữu hạn, cutoff và empty/partial. Query
+  dùng tín hiệu/regime fixture; không suy ra trạng thái thị trường tại ngày query
+  hoặc kết quả giao dịch OOS. Các receipt cũ là snapshot mã ở thời điểm task trước.
+- `retrieve(K>0)` vẫn chờ stats W3-09; `select_prior_tasks` chỉ là bước chọn task.
+  Gate tích hợp ghi tại README. Gate B còn mở; tiếp theo W3-08 rồi W3-09.

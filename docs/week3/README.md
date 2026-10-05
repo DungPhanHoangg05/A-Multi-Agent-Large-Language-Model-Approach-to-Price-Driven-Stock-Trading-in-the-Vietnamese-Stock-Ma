@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A hoàn thành, W3-05/W3-06 hoàn thành; W3-07 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
+**Trạng thái: Phase A hoàn thành, W3-05/W3-06/W3-07 hoàn thành; W3-08 đến W3-16 chưa thực hiện. Phase B đang triển khai.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -61,7 +61,7 @@ Chi tiết: [Phase B](phase_b_retriever_and_statistics.md).
 | --- | --- | --- | --- | --- |
 | W3-05 | Nạp kho, lọc PIT và bảo vệ dữ liệu | `core/bayesian_retriever.py`: constructor/prepare_query/K=0, chốt pool/selection/cutoff; 14 test nền/leakage và [probe kho thật](retriever_foundation_review.json) PASS; [phạm vi](phase_b_retriever_and_statistics.md) | W3-01..04 | [x] |
 | W3-06 | Cài `recent` và `random` | `select_prior_tasks`: thứ tự/tie-break/seed/draw đúng policy, metadata empty/partial/complete; tám test mới và [probe kho thật](recent_random_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-05 | [x] |
-| W3-07 | Cài `similarity` | So khớp tín hiệu theo đặc tả, xử lý trường hằng/không rõ, ranking xác định và score có thể kiểm toán | W3-03, W3-05 | [ ] |
+| W3-07 | Cài `similarity` | `signal_match_v1`, ranking score/exit/ID, metadata score float; chín test mới, leakage và [probe kho thật](similarity_review.json) PASS ([Phase B](phase_b_retriever_and_statistics.md)) | W3-03, W3-05 | [x] |
 | W3-08 | Cài `bayesian_regime` | Lọc cùng regime từ pool chung rồi xếp hạng theo đặc tả; K thiếu có lý do, không bù khác regime | W3-06, W3-07 | [ ] |
 | W3-09 | Tính thống kê theo regime | Count/win/trap/mẫu số theo cutoff; fixture kiểm tay, JSON Python gốc; tách pool khỏi K ví dụ | W3-04, W3-05 | [ ] |
 
@@ -105,6 +105,19 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-07 hoàn thành**: Similarity so khớp bốn tín hiệu kỹ thuật với trọng số đều;
+  sentiment trọng số 0, alias/NFC được kiểm nghiêm ngặt. Chọn pool PIT cùng scope,
+  phá hòa score/exit/ID; score 0 vẫn hợp lệ, không ranking bằng outcome/regime.
+- Chín test Similarity mới PASS; test cutoff của bộ chọn mở rộng sang Similarity.
+  Tổng 31 test Bayesian tập trung PASS, gồm fixture đổi nhãn kinh tế hợp lệ nhưng
+  IDs/scores không đổi. [Receipt](similarity_review.json) kiểm tám query trên 852
+  episode, empty/partial và không đọc lại JSON/CSV/giá khi query.
+- **Gate tích hợp W3-07**: compileall PASS, 266/266 unit tests PASS, E2E xác định
+  PASS (13,4 giây), 42/42 leakage tests PASS (5,923 giây). Hash mã trong receipt
+  và `git diff --check` PASS; nhánh `feat/signal-similarity-selection` tích hợp
+  sau gate. Gate B còn mở: tiếp theo W3-08 Bayesian, W3-09 stats và retrieve K>0;
+  context của probe là fixture.
 
 - **W3-06 hoàn thành**: Recent xếp exit giảm dần/ID tăng dần; Random sample không
   hoàn lại bằng RNG local và seed query SHA-256 đúng policy. `select_prior_tasks`
