@@ -1,8 +1,10 @@
 # Phase C — BRPP và ngân sách prompt
 
-**Trạng thái: W3-10 hoàn thành; W3-11/W3-12 chưa thực hiện. Gate C còn mở.**
+**Trạng thái: W3-10/W3-11 hoàn thành; W3-12 chưa thực hiện. Gate C còn mở.**
 Formatter nằm trong `core/bayesian_retriever.py`, test `tests/test_bayesian_prior_prefix.py`,
-biên bản [formatter](prefix_formatter_review.json). Script `scripts/verify_bayesian_prior.py`
+biên bản [formatter](prefix_formatter_review.json). W3-11 có test
+`tests/test_bayesian_prompt_budget.py`, script `scripts/verify_prior_prompt_budget.py`
+và [receipt ngân sách](prompt_budget_review.json). Script `scripts/verify_bayesian_prior.py`
 và `docs/week3/prior_smoke.json` còn dự kiến cho W3-12.
 
 Template, schema metric và các trường hợp biên đã khóa tại
@@ -10,10 +12,11 @@ Template, schema metric và các trường hợp biên đã khóa tại
 Receipt Phase A kiểm mẫu tham chiếu ≤600, chưa thay test formatter/runtime hoặc
 prompt ghép thực tế trong các task bên dưới.
 
-**Điểm cần đối chiếu khi triển khai:** log E2E hiện tại ghi trần prompt compact
-7.500 ký tự, cao hơn ràng buộc 6.500 trong `AGENTS.md`. W3 phải kiểm độ dài prompt
-ghép thử thực tế, không lấy trần cũ làm tiêu chí PASS; W4 cần áp dụng ràng buộc
-<6.500 tại runtime khi tích hợp BRPP.
+**Blocker tích hợp đã xác minh ở W3-11:** cap báo cáo hiện tại tổng 4.500 cho
+prompt ghép BRPP 397 ký tự dài 6.565 VI / 6.582 EN; không đạt `<6500`.
+Log trần 7.500 hiện tại không phải guard theo `AGENTS.md`. Phương án cap tổng
+4.000 đã PASS offline, chưa áp dụng runtime. W4 phải áp dụng cap này (hoặc kiểm
+chứng phương án thay thế) và guard `<6500` sau khi thêm toàn bộ hướng dẫn/BRPP.
 
 ## W3-10 — định dạng compact
 
@@ -28,13 +31,13 @@ ghép thử thực tế, không lấy trần cũ làm tiêu chí PASS; W4 cần 
 
 ## W3-11 — giới hạn ký tự và prompt ghép thử
 
-- [ ] Kiểm `len(prefix) <= 600` cho K=1..3, các regime, số liệu cực trị hợp lệ,
+- [x] Kiểm `len(prefix) <= 600` cho K=1..3, các regime, số liệu cực trị hợp lệ,
   nhiều chữ số, tiếng Việt và input dài; với K>3 thực hiện đúng chính sách Gate A.
-- [ ] Không âm thầm truncate: rút gọn theo template đã khóa hoặc từ chối nếu vẫn vượt trần.
-- [ ] Kiểm việc render là xác định, không sửa tasks/stats; giá trị mơ hồ/NaN bị từ chối.
-- [ ] Dùng builder compact hiện có của Decision để ghép thử báo cáo fixture + BRPP:
-  tổng prompt phải **<6.500** ký tự; thử cả ngôn ngữ builder đang hỗ trợ.
-- [ ] Giữ `_distill_report`, `_cap_report`; chỉ test/ngân sách bàn giao, chưa inject
+- [x] Không âm thầm truncate: rút gọn theo template đã khóa hoặc từ chối nếu vẫn vượt trần.
+- [x] Kiểm việc render là xác định, không sửa tasks/stats; giá trị mơ hồ/NaN bị từ chối.
+- [x] Dùng builder compact hiện có của Decision để ghép thử báo cáo fixture + BRPP:
+  VI/EN **<6.500** với cap bàn giao 4.000; cap cũ 4.500 không đạt khi ghép BRPP.
+- [x] Giữ `_distill_report`, `_cap_report`; chỉ test/ngân sách bàn giao, chưa inject
   BRPP vào runtime Decision/graph/backtest. Nếu fixture hợp lệ vượt trần, ghi blocker
   và phương án xử lý cụ thể trước khi chốt W3/W4.
 
@@ -51,10 +54,69 @@ ghép thử thực tế, không lấy trần cũ làm tiêu chí PASS; W4 cần 
 - [ ] Biên bản phân biệt smoke retrieval và benchmark giao dịch OOS; hạn chế dữ liệu
   vẫn được ghi rõ.
 
-**Gate C:** prefix đủ nghĩa và ≤600, prompt ghép thử <6.500, smoke bốn mode PASS
-với receipt tái lập. Chưa coi đây là hệ thống tích hợp W4.
+**Gate C:** prefix đủ nghĩa và ≤600, prompt ghép thử <6.500 với ngân sách bàn giao
+đã kiểm, smoke bốn mode PASS với receipt tái lập. Chưa coi đây là hệ thống tích hợp
+W4; cap cũ không được tái sử dụng nguyên trạng khi inject BRPP.
 
 ## Kết quả và nhật ký
+
+### 05/10/2026 — W3-11 hoàn thành
+
+Chín test mới và script đo dùng formatter/builder compact thật; ghép BRPP ngay
+trước báo cáo đầu tiên. K=0/Original không thêm ký tự. Fixture daily `1d` và
+`1 ngày` đều xác nhận T+2.5 / ba phiên, LONG mua Open rồi bán Close, SHORT giữ
+tiền mặt và đầy đủ phí/trượt giá. Không chạy node Decision hoặc gọi API.
+
+| Báo cáo | Cap hiện tại | Cap bàn giao đã kiểm |
+| --- | ---: | ---: |
+| Trend | 900 | 800 |
+| Pattern | 900 | 800 |
+| Indicator | 900 | 800 |
+| Alpha | 1.200 | 1.100 |
+| Sentiment | 600 | 500 |
+| Tổng | 4.500 | 4.000 |
+
+- Báo cáo fixture bão hòa làm rõ blocker: BRPP 397 + cap hiện tại cho prompt
+  VI **6.565**, EN **6.582**, đều không đạt `<6500`. Không sửa pipeline để xử lý
+  trong W3-11; phương án W4 dùng cùng hàm distill/cap với ngân sách trong bảng.
+- Phương án đo bằng cap patch tạm thời rồi khôi phục: **1.024 ca** = hai ngôn ngữ
+  × hai alias daily × bốn mã × bốn cấu hình Alpha/Sentiment × bốn regime × K=0..3.
+  Prefix lớn nhất trong ma trận 397, prompt lớn nhất **6.086**.
+- Fixture counts 26 chữ số và return hữu hạn cực lớn tạo BRPP **đúng 600**:
+  prompt VI `1d`/`1 ngày` là 6.268/6.272; EN là 6.285/**6.289**. Còn 211 ký tự
+  đến mốc 6.500, tức chỉ thêm tối đa 210 ký tự nếu các thành phần khác giữ nguyên.
+  Không cam kết hướng dẫn mới W4 sẽ vừa ngân sách; phải đo và guard prompt cuối.
+  Counts 27 chữ số làm vượt 600 bị từ chối, không bỏ ví dụ để vượt gate.
+- Kiểm số sát 0/zero/âm/dương, n=0 và không bullish/N/A, nhãn mơ hồ/NaN/K>3,
+  alias tiếng Việt NFD/NFC và ID rất dài. Renderer xác định, input không thay đổi.
+  Fixture structured kiểm nhánh distill theo heading, giữ kết luận ở cuối báo cáo;
+  nguyên trạng `_distill_report`, `_cap_report` và cap runtime sau phép đo.
+- [Receipt](prompt_budget_review.json) có hash nguồn và trạng thái
+  **PASS_WITH_REQUIRED_W4_HANDOFF**, `runtime_budget_gate_passed=false`.
+  Điều kiện trước chạy W4: áp dụng cap đã kiểm hoặc kiểm chứng ngân sách khác;
+  guard `len(final_prompt) < 6500` **sau mọi hướng dẫn được thêm**; giữ nguyên
+  BRPP hoặc báo lỗi, không truncate/bỏ ví dụ. Độ dài là code point Python,
+  không phải phép đo token/TPM.
+- Bốn gate: compileall PASS; **312/312** unit tests PASS (94,466 giây);
+  E2E xác định PASS (12,4 giây); **46/46** leakage tests PASS (5,660 giây).
+  Task hoàn thành phần kiểm chứng/bàn giao; **Gate C chưa đóng**, còn W3-12.
+  Receipt là fixture ngân sách, chưa smoke kho thật, fit HMM hoặc backtest OOS.
+
+Lệnh tái lập:
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_prompt_budget.py' -v
+py -3.13 -X utf8 scripts/verify_prior_prompt_budget.py
+```
+
+Lệnh bốn gate tích hợp đã chạy:
+
+```powershell
+py -3.13 -m compileall agents core data_manager scripts tests utils
+py -3.13 -X utf8 -m unittest discover -s tests -v
+py -3.13 scripts/run_end_to_end_test.py
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_*leakage.py' -v
+```
 
 ### 05/10/2026 — W3-10 hoàn thành
 

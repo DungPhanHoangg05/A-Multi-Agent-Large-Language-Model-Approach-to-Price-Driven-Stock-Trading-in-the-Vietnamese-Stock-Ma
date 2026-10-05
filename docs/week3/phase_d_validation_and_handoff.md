@@ -59,7 +59,10 @@ py -3.13 -X utf8 -m unittest discover -s tests -p 'test_*leakage.py' -v
 - [ ] Ghi API/example cho W4: regime PIT và tín hiệu hiện tại vào query; tasks/stats,
   BRPP/IDs/hash/seed/fallback ra ngoài; Original K=0 không nhận prefix.
 - [ ] Nêu rõ việc W4 cần làm: trường state, inject Decision, ablation flag, checkpoint
-  metadata, paired upstream và chốt giới hạn prompt tại runtime.
+  metadata, paired upstream và chốt giới hạn prompt tại runtime. Theo
+  [receipt W3-11](prompt_budget_review.json), cap cũ tổng 4.500 vượt trần khi ghép
+  BRPP: phải áp dụng cap bàn giao tổng 4.000 (hoặc kiểm chứng phương án khác) và
+  guard `<6500` sau toàn bộ hướng dẫn. Không lấy PASS offline làm PASS runtime.
 - [ ] Giữ giới hạn tin/độ phủ/gate giá 2023–2024; W3 không phát hành kết quả lợi nhuận OOS.
 - [ ] Cập nhật README W3, kế hoạch tổng và biên bản chốt; Conventional Commit/merge
   từ nhánh task vào `develop` sau đủ gate; không đưa mã tuần/ngày vào commit message.
