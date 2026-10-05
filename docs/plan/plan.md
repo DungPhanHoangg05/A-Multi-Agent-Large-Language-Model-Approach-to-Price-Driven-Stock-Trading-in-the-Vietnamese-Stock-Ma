@@ -294,16 +294,20 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ### 📅 TUẦN 4: Tích hợp LangGraph & Bộ Kiểm thử Chống Rò rỉ Dữ liệu
 - **Mục tiêu**: Ghép nối luồng tiên nghiệm vào LangGraph state và xây dựng chốt chặn kiểm thử tự động.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](week4/README.md), dựa trên bàn giao W3. **Đã lập kế hoạch ngày 05/10/2026, chưa triển khai (0/16)**. Phase A khóa hợp đồng; B tích hợp state/prompt/graph; C ghép PIT/paired/checkpoint; D kiểm chứng offline và bàn giao W5.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Cập nhật `agents/agent_state.py`: thêm các trường `market_regime`, `prior_tasks`, `bayesian_prior_context`.
+  - [ ] Chốt hợp đồng state/config, provenance regime/snapshot và schema kết quả/checkpoint (W4-01..04).
+  - [ ] Cập nhật `agents/agent_state.py`: thêm các trường `market_regime`, `prior_tasks`, `bayesian_prior_context`, stats/metadata và validator (W4-05).
   - [ ] Cập nhật `agents/decision_agent.py`: inject BRPP vào prompt reasoning và hướng dẫn suy diễn phân cấp; áp dụng cap báo cáo tổng 4.000 đã kiểm ở W3-11 (hoặc kiểm chứng phương án khác), guard prompt cuối `<6500` sau toàn bộ hướng dẫn.
-  - [ ] Cập nhật `utils/graph_setup.py`: bổ sung nhánh ablation `enable_bayesian_prior`.
-  - [ ] Cập nhật `core/backtest_engine.py`: gọi retriever tại mỗi test point trước khi kích hoạt Decision Maker.
-  - [ ] Viết `tests/test_regime_leakage.py`: kiểm tra nghiêm ngặt điều kiện $t_{\text{prior}} < t_{\text{decision}}$.
-  - [ ] Chạy lại toàn bộ unit tests hiện có và `scripts/run_end_to_end_test.py`.
+  - [ ] Cập nhật `utils/graph_setup.py`: cấu hình prior độc lập với bốn ablation cũ, flag mặc định tắt; chuẩn bị Full reports một lần trước năm Decision nghiên cứu (W4-06..08).
+  - [ ] Cập nhật `core/backtest_engine.py`: xác minh PIT, nạp retriever một lần, query từng cutoff; năm nhánh Original/Random/Recent/Similarity/Bayesian dùng báo cáo chung, giữ nhãn/P&L kinh tế (W4-09..11).
+  - [ ] Lưu checkpoint theo điểm/nhánh, metadata/hash/config và báo cáo chung; resume phần còn thiếu, không gọi lại upstream (W4-12).
+  - [ ] Tái sử dụng `tests/test_regime_leakage.py` và các suite leakage hiện có, bổ sung kiểm toàn pipeline: prior `exit_date < as_of_date`, giá/tin/model/checkpoint PIT (W4-13).
+  - [ ] Smoke E2E offline, bốn gate compileall/unit/E2E/leakage và biên bản đóng tuần (W4-14..16).
 - **Deliverables cuối tuần 4**:
-  - Hệ thống tích hợp hoàn chỉnh, không phá vỡ bất kỳ tính năng cũ nào.
-  - File test `tests/test_regime_leakage.py` chạy PASS 100%.
+  - Runtime state/graph/Decision/backtest tích hợp, prior mặc định tắt; cap/guard được kiểm ở runtime thật.
+  - PIT/paired/checkpoint và hồi quy cũ PASS; receipts và hướng dẫn bàn giao tại `docs/plan/week4/`.
+  - Gate giá thô vnstock/VCI hoặc vnstock/KBS 2023–2024 là điều kiện trước pilot/OOS; W4 kiểm chứng offline, chưa tạo kết quả giao dịch ngoài mẫu.
 
 ### 📅 TUẦN 5: Thử nghiệm Pilot trên FPT & Tối ưu Hạn ngạch Quota
 - **Mục tiêu**: Chạy thử nghiệm toàn diện trên 1 cổ phiếu thí điểm để kiểm tra tính ổn định, đo lường chi phí token và bắt lỗi runtime.
