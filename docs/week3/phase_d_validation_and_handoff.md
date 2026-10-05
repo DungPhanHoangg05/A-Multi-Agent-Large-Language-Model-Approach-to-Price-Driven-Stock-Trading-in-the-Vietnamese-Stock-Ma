@@ -1,7 +1,7 @@
 # Phase D — kiểm thử, hiệu năng và bàn giao W4
 
-**Trạng thái: W3-13 hoàn thành; W3-14/W3-15/W3-16 chưa thực hiện.** Gate C offline
-đã PASS; tiếp theo benchmark W3-14, Phase D chưa chốt.
+**Trạng thái: W3-13/W3-14 hoàn thành; W3-15/W3-16 chưa chốt.** Gate C offline
+đã PASS; p95 retrieval bốn mode PASS, tiếp theo gate chốt/bàn giao, Phase D chưa chốt.
 Smoke [receipt](prior_smoke.json) không thay benchmark p95 hoặc gate runtime W4.
 
 ## W3-13 — hành vi và zero-leakage
@@ -18,8 +18,8 @@ Smoke [receipt](prior_smoke.json) không thay benchmark p95 hoặc gate runtime 
 
 ## W3-14 — benchmark retrieval
 
-File dự kiến `scripts/benchmark_bayesian_retriever.py`, receipt
-`docs/week3/retrieval_benchmark.json` và biên bản hiệu năng trong file này.
+File đã có `scripts/benchmark_bayesian_retriever.py`, [receipt PASS](retrieval_benchmark.json)
+và biên bản hiệu năng bên dưới; giữ các lượt FAIL để đối chiếu.
 
 **Phép đo đề xuất khóa tại W3-01 trước khi chạy benchmark:**
 
@@ -35,9 +35,26 @@ File dự kiến `scripts/benchmark_bayesian_retriever.py`, receipt
 - Ghi Python/dependency/CPU/OS, bank hash, seed/config, phương pháp percentile và ngày đo.
   Threshold không đặt làm unit test thời gian dễ chập chờn trên máy khác.
 
-- [ ] Script/receipt tái lập, đủ bốn mode và môi trường.
-- [ ] Nếu vượt ngưỡng: chỉ tối ưu nút chậm đã đo; không bỏ validation/cutoff/deep copy.
-- [ ] Sau tối ưu chạy lại test liên quan và benchmark cùng phép đo; không đổi gate
+**Tập query và cách tính đã khóa cho lượt chạy:** 16 context `observed` của
+[smoke W3-12](prior_smoke.json), một context/mã/regime, với hai scope
+`pooled` và `same_symbol`: 32 query/mode, K=3, seed=42. Xếp context theo
+symbol/regime rồi scope; mỗi giai đoạn luân phiên `index % 32`, bắt đầu lại ở
+index=0 sau warm-up. Mỗi giai đoạn có 100 warm-up và 1.000 mẫu/mode, đo tuần tự.
+P95 dùng nearest-rank `ceil(0.95*n)-1` trên mẫu ns đã sắp tăng; xét gate bằng ns
+chưa làm tròn. Không bỏ outlier; giữ GC mặc định và không cache kết quả query/ranking.
+Gate là p95 retrieval từng mode trên tập query chung; thống kê từng scope để
+chẩn đoán, formatter và retrieval+format được báo riêng. Cold load chỉ bao
+constructor/xác minh kho/giá/P&L/snapshot, không bao import hoặc preflight.
+
+Script đối chiếu hash archive/giá/kho/model của smoke trước/sau phép đo,
+kiểm nguồn tín hiệu/regime PIT từ checkpoint, kiểm ranking/counts/prefix bằng
+oracle và receipt đóng băng trước đo. Mọi kết quả đo được đối chiếu ngoài timer;
+hot query chặn loader giá, đọc JSON, network, signal extractor, runner và HMM fit.
+Mẫu ns thô và môi trường được giữ trong receipt để tính lại percentile.
+
+- [x] Script/receipt tái lập, đủ bốn mode và môi trường.
+- [x] Nếu vượt ngưỡng: chỉ tối ưu nút chậm đã đo; không bỏ validation/cutoff/deep copy.
+- [x] Sau tối ưu chạy lại test liên quan và benchmark cùng phép đo; không đổi gate
   sau khi nhìn kết quả để báo PASS.
 
 ## W3-15 — gate tích hợp
@@ -134,3 +151,83 @@ Nhánh `test/prior-zero-leakage-suite` tích hợp sau gate. Phải chạy lại
 tuần sau benchmark W3-14 và mọi tối ưu cần thiết. Chưa có phép đo p95 hoặc bàn giao
 chốt W3-16; ngân sách runtime W4/gate giá kiểm định 2023–2024 và giới hạn thiếu tin
 vẫn còn. Các receipt trước được giữ nguyên vì code/corpus được chúng xác minh không đổi.
+
+### 05/10/2026 — W3-14: benchmark và tối ưu theo profile
+
+Các lượt đo dùng cùng cấu hình đã khóa, không bỏ mẫu ngoại lai hay đổi ngưỡng.
+Lượt đầu được giữ ở [baseline](retrieval_benchmark_baseline.json); sau tối ưu
+sao chép giữ ở [lượt sao chép](retrieval_benchmark_copy.json). Cả hai FAIL và
+không được dùng làm bằng chứng gate PASS.
+
+| Mode | p95 baseline (ms) | p95 sau tối ưu sao chép (ms) |
+| --- | ---: | ---: |
+| bayesian_regime | 65,811 | 34,304 |
+| random | 44,009 | 32,105 |
+| recent | 64,646 | 34,868 |
+| similarity | 73,237 | 41,645 |
+
+[Profile](retrieval_profile.json) của 64 query pooled (bốn mode × 16 context)
+ghi tổng 17,126 giây dưới cProfile; `deepcopy` chiếm 12,697 giây (~74,1%),
+`_assert_pool` 3,263 giây (~19,1%, gồm so snapshot). Thời gian profile có overhead,
+chỉ dùng xác định nút chậm, không xét gate bằng số này.
+
+- `copy_historical_records`: với schema phẳng và lá bất biến, tạo mới list,
+  dict record, dict tín hiệu và dict outcome. Không chia sẻ dữ liệu khả biến.
+  Record khác cấu trúc hoặc chứa kiểu khác đi qua `deepcopy`, không ép kiểu hay
+  tự sửa lỗi; validator và đối chiếu snapshot vẫn từ chối như trước.
+- `_matches_snapshot`: kiểm key/kiểu/giá trị các lá ngay tại vòng lặp, chỉ đệ quy
+  ở dict con, tránh lời gọi hàm/generator cho từng scalar. Giữ kiểm đầy đủ từng
+  trường, không dùng hash thay cho đối chiếu dữ liệu và không cache query/stats.
+- Các receipt W3-11/W3-12 được giữ như snapshot của phiên bản trước tối ưu.
+  Benchmark mới kiểm nguồn PIT/hash của archive không đổi và dùng oracle độc lập
+  để đối chiếu output hiện tại với smoke cũ. Khi chạy lại verifier đầy đủ W3-12,
+  phải chạy lại kiểm ngân sách W3-11 trước vì hash module đã thay đổi; không bỏ guard hash.
+
+**Kết quả cuối — [receipt PASS](retrieval_benchmark.json):**
+
+| Mode | Retrieval min / median / p95 / max (ms) | Formatter p95 (ms) | Retrieval+format p95 (ms) |
+| --- | --- | ---: | ---: |
+| bayesian_regime | 2,393 / 7,554 / **15,809** / 23,508 | 0,119 | 16,442 |
+| random | 2,342 / 6,926 / **14,812** / 20,807 | 0,046 | 14,913 |
+| recent | 2,310 / 6,805 / **14,179** / 21,416 | 0,044 | 14,382 |
+| similarity | 3,167 / 10,141 / **18,239** / 159,908 | 0,041 | 18,372 |
+
+Gate là **p95**, không phải mọi mẫu <30 ms; mẫu max/outlier vẫn được giữ.
+Mỗi scope có 500 mẫu/mode/giai đoạn; p95 pooled lần lượt
+16,237 / 15,633 / 14,500 / 18,785 ms (scope chỉ là chẩn đoán bổ sung).
+Cold constructor **9.155,388 ms** (baseline 18.000,227 ms), không đưa vào gate.
+Đo trên Windows 11 build 26200, CPU Intel64 Family 6 Model 183 Stepping 1,
+24 CPU logic, Python **3.13.5**, NumPy 2.1.2/Pandas 2.3.3/SciPy 1.16.1/hmmlearn 0.3.3;
+GC bật. Tải nền/CPU có thể ảnh hưởng thời gian; số đo chỉ áp dụng môi trường/lượt
+chạy được ghi, không khẳng định p95 trên máy khác hoặc hiệu quả giao dịch.
+
+Hash kho vẫn `09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949`.
+Không thay nhãn P&L, snapshot nguồn, model, kho, retry hay upstream. Receipt lưu
+hash nguồn code hiện tại và 12.000 mẫu ns (4 mode × 3 giai đoạn × 1.000).
+Chín test mới kiểm timer/rotation/p95/gate nghiêm ngặt, context PIT,
+bản sao sâu/nhánh dự phòng và so snapshot chặn NumPy/NaN/sai key/giá trị.
+
+**Lệnh chạy lại** (đóng các tiến trình test/benchmark cạnh tranh, cần archive
+local đã đóng băng; dùng tên receipt mới để không ghi đè bằng chứng):
+
+```powershell
+py -3.13 -X utf8 scripts/benchmark_bayesian_retriever.py --output docs/week3/retrieval_benchmark_rerun.json
+```
+
+Mặc định `--warmup 100 --samples 1000`; CLI từ chối giảm dưới mức đã khóa.
+Nếu gate FAIL vẫn ghi receipt và thoát mã 1. Không chạy runner tạo episode,
+không fit model hoặc gọi API để bổ sung dữ liệu còn thiếu.
+
+**Bốn gate tích hợp W3-14:**
+
+| Gate | Kết quả |
+| --- | --- |
+| Compileall `agents core data_manager scripts tests utils` | PASS |
+| Unit tests toàn hệ thống | **339/339 PASS**, 49,850 giây (gồm **104** test Bayesian) |
+| E2E xác định | **PASS**, 7,0 giây |
+| `test_*leakage.py` toàn hệ thống | **56/56 PASS**, 5,206 giây |
+
+Lệnh là khối bốn gate ở mục W3-15. Đây là lượt tích hợp task **W3-14**;
+W3-15/W3-16 còn việc chốt bằng chứng/bàn giao và chưa được đánh dấu hoàn thành.
+Nhánh `test/retriever-performance-benchmark` tích hợp vào `develop` sau gate;
+không push. Ngân sách prompt runtime W4 và gate giá kiểm định 2023–2024 vẫn chưa mở.
