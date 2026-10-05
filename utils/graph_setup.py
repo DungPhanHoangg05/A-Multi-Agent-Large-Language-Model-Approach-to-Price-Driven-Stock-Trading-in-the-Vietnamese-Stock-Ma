@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Callable, Dict
 
 from langchain_core.language_models import BaseChatModel
 from langgraph.graph import END, START, StateGraph
@@ -11,6 +11,20 @@ from utils.graph_util import TechnicalTools
 from agents.indicator_agent import create_indicator_agent
 from agents.pattern_agent import create_pattern_agent
 from agents.trend_agent import create_trend_agent
+from core.prior_config import PRIOR_STATE_FIELDS, normalize_prior_state
+
+
+def _guard_prior_state(
+    node: Callable[[dict[str, Any]], dict[str, Any]],
+) -> Callable[[dict[str, Any]], dict[str, Any]]:
+    """Kiểm prior trước node và giữ field chuẩn hóa qua các channel của graph."""
+    def guarded(state: dict[str, Any]) -> dict[str, Any]:
+        prepared = normalize_prior_state(state)
+        result = node(prepared)
+        checked = normalize_prior_state({**prepared, **result})
+        return {**result, **{field: checked[field] for field in PRIOR_STATE_FIELDS if field in checked}}
+
+    return guarded
 
 
 ABLATION_CONFIGS: Dict[str, Dict[str, bool]] = {
@@ -76,15 +90,15 @@ class SetGraph:
         graph = StateGraph(BacktestAgentState)
         graph.add_node(
             "Indicator Agent",
-            create_indicator_agent(self.agent_llm, self.toolkit),
+            _guard_prior_state(create_indicator_agent(self.agent_llm, self.toolkit)),
         )
         graph.add_node(
             "Pattern Agent",
-            create_pattern_agent(self.agent_llm, self.graph_llm, self.toolkit),
+            _guard_prior_state(create_pattern_agent(self.agent_llm, self.graph_llm, self.toolkit)),
         )
         graph.add_node(
             "Trend Agent",
-            create_trend_agent(self.agent_llm, self.graph_llm, self.toolkit),
+            _guard_prior_state(create_trend_agent(self.agent_llm, self.graph_llm, self.toolkit)),
         )
         graph.add_edge(START, "Indicator Agent")
         graph.add_edge("Indicator Agent", "Pattern Agent")
@@ -104,16 +118,16 @@ class SetGraph:
         enable_sentiment = config["enable_sentiment"]
         graph = StateGraph(BacktestAgentState)
         decision_node = create_final_trade_decider(self.agent_llm)
-        graph.add_node("Decision Maker", decision_node)
+        graph.add_node("Decision Maker", _guard_prior_state(decision_node))
 
         if enable_alpha or enable_sentiment:
             graph.add_node(
                 "Alpha Agent",
-                create_alpha_agent(
+                _guard_prior_state(create_alpha_agent(
                     self.agent_llm,
                     enable_alpha,
                     enable_sentiment,
-                ),
+                )),
             )
             graph.add_edge(START, "Alpha Agent")
             graph.add_edge("Alpha Agent", "Decision Maker")
@@ -175,9 +189,9 @@ class SetGraph:
         graph = StateGraph(IndicatorAgentState)
 
         for agent_type, node in agent_nodes.items():
-            graph.add_node(f"{agent_type.capitalize()} Agent", node)
+            graph.add_node(f"{agent_type.capitalize()} Agent", _guard_prior_state(node))
 
-        graph.add_node("Decision Maker", decision_agent_node)
+        graph.add_node("Decision Maker", _guard_prior_state(decision_agent_node))
 
         # Entry point
         graph.add_edge(START, "Indicator Agent")

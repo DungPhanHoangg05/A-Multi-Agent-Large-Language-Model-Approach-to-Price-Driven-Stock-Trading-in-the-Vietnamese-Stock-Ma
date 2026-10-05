@@ -1,6 +1,6 @@
 # Phase B — State, ngân sách prompt và graph
 
-**Trạng thái: chưa thực hiện.** [Checklist W4](README.md).
+**Trạng thái: W4-05 hoàn thành, Phase B 1/4; W4-06..08 còn mở.** [Checklist W4](README.md).
 Đầu vào: Gate A và các policy W3. Test mới dưới đây là tên dự kiến;
 tái sử dụng test ablation/paired/token hiện có khi phù hợp.
 
@@ -9,19 +9,26 @@ tái sử dụng test ablation/paired/token hiện có khi phù hợp.
 **Phụ thuộc:** Gate A. **File chính:** `agents/agent_state.py`,
 `utils/graph_setup.py`; helper cấu hình riêng chỉ thêm khi cần.
 
-- [ ] Thêm trường theo hợp đồng W4-02 vào đúng TypedDict mà graph thực tế dùng,
+- [x] Thêm trường theo hợp đồng W4-02 vào đúng TypedDict mà graph thực tế dùng,
   bao gồm `BacktestAgentState`; tránh LangGraph lọc mất prior/provenance.
-- [ ] Cài parser/validator `prior_config` độc lập với `resolve_ablation_config`;
+- [x] Cài parser/validator `prior_config` độc lập với `resolve_ablation_config`;
   default disabled, tên mode/scope/K/seed đúng policy đã khóa.
-- [ ] Chuẩn hóa dữ liệu JSON về scalar Python/ngày ISO, bản sao task/stats/metadata
+- [x] Chuẩn hóa dữ liệu JSON về scalar Python/ngày ISO, bản sao task/stats/metadata
   độc lập; giữ DataFrame và đối tượng runtime ngoài phần JSON checkpoint.
-- [ ] Đường flag off không đòi artifact mới hoặc đọc kho; không nhận prefix còn
+- [x] Đường flag off không đòi artifact mới hoặc đọc kho; không nhận prefix còn
   sót từ nhánh trước. Đường enabled không chấp nhận context chưa xác minh nguồn.
-- [ ] Test schema xuyên graph, flag off/Original, invalid bool/K/mode/scope,
+- [x] Test schema xuyên graph, flag off/Original, invalid bool/K/mode/scope,
   input thiếu, conflict config và deep copy bằng fixture nhỏ.
 
-**Nghiệm thu:** test state/config dự kiến `tests/test_prior_runtime_config.py`
-PASS; bốn ablation cũ và `include_alpha` vẫn đúng hợp đồng.
+**Nghiệm thu 05/10/2026:** `tests/test_prior_runtime_config.py` **28 test PASS**;
+bốn ablation cũ và `include_alpha` vẫn đúng hợp đồng. Compileall/**367 unit**/
+E2E/**56 leakage** PASS; xem [biên bản](state_config_runtime.md) và
+[receipt mới](state_config_runtime_review.json). Kho/spec/receipt Phase A giữ nguyên.
+
+Enabled/Original được parser chấp nhận khi hợp lệ, nhưng graph production
+dừng trước node nếu chưa có adapter xác minh nguồn PIT (W4-09). Kiểm
+shape/ngày/tín hiệu không là xác minh nguồn. Caller nghiên cứu phải kiểm
+state thô trước bộ lọc channel của LangGraph; graph nghiên cứu ở W4-08 còn mở.
 
 ## W4-06 — Cap/guard trên prompt runtime
 

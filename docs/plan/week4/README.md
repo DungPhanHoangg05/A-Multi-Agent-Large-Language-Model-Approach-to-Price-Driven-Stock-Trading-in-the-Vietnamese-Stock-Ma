@@ -1,9 +1,10 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A hoàn thành 4/4 task ngày 05/10/2026; Gate A PASS đặc tả,
-tiến độ W4 4/16. [State/config](integration_contract.md),
+**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05 (1/4),
+tiến độ W4 5/16 ngày 05/10/2026. Gate A PASS đặc tả. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
-[receipt/Gate A](checkpoint_review.json). Tiếp theo W4-05; runtime và Gate B/C/D còn mở.**
+[receipt/Gate A](checkpoint_review.json), [state/config runtime](state_config_runtime_review.json).
+Tiếp theo W4-06; Gate B/C/D và tích hợp prior/PIT/checkpoint còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -83,7 +84,7 @@ Chi tiết: [Phase B](phase_b_state_prompt_graph.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W4-05 | Cài state/config và validator | Trường prior qua graph không mất; input sai bị từ chối, JSON strict, flag off tương thích | Gate A | [ ] |
+| W4-05 | Cài state/config và validator | [Biên bản](state_config_runtime.md), [receipt](state_config_runtime_review.json): tám field optional, parser strict, JSON/context, guard off/enabled, 28 test mới và bốn gate PASS | Gate A | [x] |
 | W4-06 | Áp dụng cap và guard prompt runtime | Cap 800/800/800/1.100/500; guard sau mọi hướng dẫn và trước API, VI/EN/boundary PASS | W4-05 | [ ] |
 | W4-07 | Chèn BRPP và hướng dẫn reasoning | Prefix ≤600, đúng một lần trước báo cáo; Original rỗng, lỗi không bị nuốt | W4-06 | [ ] |
 | W4-08 | Ghép graph với ranh giới chuẩn bị báo cáo | Hỗ trợ prior config; chuẩn bị Full dùng chung rồi Decision riêng, bảo toàn graph cũ | W4-05, W4-07 | [ ] |
@@ -133,6 +134,28 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-05 hoàn thành
+
+- Nhánh `feat/prior-runtime-state-config`, baseline `f2906b9`; thêm
+  `core/prior_config.py`, tám field optional trong schema graph production và
+  guard state trước/sau node tại ba builder hiện có; giữ topology/chữ ký cũ.
+- Parser tám key strict, default disabled; enum/K/seed/path theo policy,
+  enabled Full/backtest/daily, Original K=0 vẫn enabled; ablation và cờ cũ giữ nghĩa.
+- JSON native/finite và deep copy; helper query kiểm ngày ISO/regime/tín hiệu.
+  Flag off không I/O kho; dữ liệu prior còn sót bị từ chối. Enabled tự khai
+  provenance không đủ, dừng trước node đến khi có adapter PIT W4-09.
+- **28 test mới PASS**, gồm policy/ví dụ khóa, path containment, off/Original,
+  conflict/legacy, JSON/date/ownership, optional schema và channel graph thật.
+  Probe schema enabled không là phép chạy prior production đã xác minh nguồn.
+- Bốn gate mới PASS: compileall; **367 unit** (59,045 giây), **E2E**
+  (pipeline 7,8 giây), **56 leakage** (5,773 giây). **2.384 file bảo vệ giữ hash**;
+  259 file W4-01 còn nguyên, hai file runtime state/graph được sửa có chủ đích.
+  Receipt/spec Phase A và kho 852 episode giữ nguyên byte.
+- [Biên bản runtime](state_config_runtime.md), [receipt](state_config_runtime_review.json)
+  ghi nguồn/lệnh/log/hash/phạm vi. **Phase B 1/4, W4 5/16**; Gate B còn mở.
+  Tiếp theo **W4-06** cap/guard prompt; BRPP/graph nghiên cứu, PIT, retrieve,
+  checkpoint và giá thực thi OOS chưa nghiệm thu.
 
 ### 2026-10-05 — W4-04 và Phase A hoàn thành
 

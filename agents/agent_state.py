@@ -1,10 +1,21 @@
-from typing import Annotated, Any, Dict, List, TypedDict
+from typing import Annotated, Any, Dict, List, NotRequired, TypedDict
 
 from langchain_core.messages import BaseMessage
+from core.prior_config import JSONValue, MarketRegimeState, PriorConfig
 
 
 class IndicatorAgentState(TypedDict):
     """State type for the multi-agent trading system."""
+
+    # Các field prior không bắt buộc đối với state legacy; runtime kiểm theo giai đoạn.
+    prior_config: NotRequired[PriorConfig]
+    market_regime: NotRequired[MarketRegimeState | None]
+    current_signals: NotRequired[dict[str, str] | None]
+    prior_provenance: NotRequired[dict[str, JSONValue] | None]
+    prior_tasks: NotRequired[list[dict[str, JSONValue]]]
+    prior_stats: NotRequired[dict[str, JSONValue] | None]
+    prior_metadata: NotRequired[dict[str, JSONValue] | None]
+    bayesian_prior_context: NotRequired[str]
 
     kline_data: Annotated[
         dict, "OHLCV dictionary used for computing technical indicators"
