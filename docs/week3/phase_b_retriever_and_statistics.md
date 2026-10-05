@@ -1,6 +1,6 @@
 # Phase B — retriever và thống kê
 
-**Trạng thái: W3-05/W3-06/W3-07 hoàn thành; W3-08/W3-09 chưa thực hiện.** File nền đã có:
+**Trạng thái: W3-05..08 hoàn thành; W3-09 chưa thực hiện.** File nền đã có:
 `core/bayesian_retriever.py`, `tests/test_bayesian_retriever.py`,
 `tests/test_bayesian_statistics.py`.
 
@@ -37,10 +37,10 @@ Gate A đã PASS; dùng [API](retriever_api_contract.md),
 
 ## W3-08 — bayesian_regime
 
-- [ ] Lấy cùng regime từ pool chung; dùng ranking đã chốt, không ưu tiên WIN sau khi
+- [x] Lấy cùng regime từ pool chung; dùng ranking đã chốt, không ưu tiên WIN sau khi
   nhìn nhãn và không tự đổi regime khi thiếu mẫu.
-- [ ] Test bốn regime, regime thiếu/rỗng, K<3; trả score/IDs/lý do để kiểm toán.
-- [ ] Đối chiếu với similarity trên cùng pool để chứng minh bộ lọc regime hoạt động đúng.
+- [x] Test bốn regime, regime thiếu/rỗng, K<3; trả score/IDs/lý do để kiểm toán.
+- [x] Đối chiếu với similarity trên cùng pool để chứng minh bộ lọc regime hoạt động đúng.
 
 ## W3-09 — thống kê
 
@@ -133,3 +133,30 @@ py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_*.py' -v
   hoặc kết quả giao dịch OOS. Các receipt cũ là snapshot mã ở thời điểm task trước.
 - `retrieve(K>0)` vẫn chờ stats W3-09; `select_prior_tasks` chỉ là bước chọn task.
   Gate tích hợp ghi tại README. Gate B còn mở; tiếp theo W3-08 rồi W3-09.
+
+### 05/10/2026 — W3-08 hoàn thành
+
+- `select_prior_tasks(mode="bayesian_regime")` dùng `regime_population` của
+  `prepare_query`: lọc exit < cutoff, scope và cùng regime trước khi lấy K.
+  Dùng chính `_select_similarity()` nên metric/tie-break/score 0/alias không lệch
+  với nhánh Similarity. Không ưu tiên WIN, không suy regime từ outcome.
+- Chốt `_validate_selection` xác nhận record nguyên bản, cutoff, scope, regime,
+  ID duy nhất và số task ≤ K. Tasks/population/metadata là bản sao độc lập.
+- K=0 disabled; pool chung rỗng empty/no_eligible_history; có lịch sử nhưng thiếu
+  cùng regime empty/no_matching_regime; thiếu K partial/insufficient_candidates.
+  Không đổi scope/regime để bù K. Candidate count bằng matched regime count;
+  score là float Python, effective seed None. Seed vẫn được kiểm kiểu/miền.
+- Chín test bộ chọn mới PASS: bốn regime, scope và K=1..3, score 0, query sai,
+  empty/partial/K=0, ranking C,A,D theo ví dụ Gate A so với Similarity B,C,A,
+  đảo thứ tự kho/query, seed không ảnh hưởng, không mutate/I/O và hậu điều kiện.
+  Fixture đổi giá và nhãn LOSS thành WIN qua engine/validator thật giữ nguyên IDs/scores.
+- Một leakage mới chặn pool giả lập đưa record tương lai cùng regime vào query;
+  test cutoff của bộ chọn mở rộng sang cả bốn mode. Thêm record tương lai hợp lệ
+  không đổi lựa chọn cũ. Tổng 41 test Bayesian tập trung PASS.
+- [Receipt kho thật](bayesian_regime_review.json): 32 query Bayesian = bốn mã × hai
+  scope × bốn regime, đối chiếu 32 query Similarity; cùng pool, cùng score/tie-break,
+  lọc regime trước top K, metadata native JSON, lặp query và biên thiếu mẫu đều PASS.
+  Chặn đọc JSON/CSV/giá trong hot query. Regime/signals là fixture; không gọi HMM,
+  LLM hoặc suy luận trạng thái thị trường tại cutoff. Receipt cũ là snapshot task trước.
+- Gate tích hợp ghi tại README. **Gate B còn mở**: bốn bộ chọn đã hoàn thành,
+  `retrieve(K>0)` vẫn ném NotImplementedError vì chưa tích hợp stats W3-09.

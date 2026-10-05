@@ -43,9 +43,9 @@ class BayesianRetrieverLeakageTests(unittest.TestCase):
         self.assertEqual(before["regime_population"], after["regime_population"])
         self.assertNotEqual(before["metadata"]["bank_sha256"], after["metadata"]["bank_sha256"])
 
-    def test_recent_random_similarity_selected_tasks_respect_equal_exit_and_earlier_query(self):
+    def test_all_selected_tasks_respect_equal_exit_and_earlier_query(self):
         retriever = self.fixture.create()
-        for mode in ("recent", "random", "similarity"):
+        for mode in ("recent", "random", "similarity", "bayesian_regime"):
             for scope in ("same_symbol", "pooled"):
                 retriever.select_prior_tasks(**self.fixture.query(mode=mode, scope=scope))
                 selected = retriever.select_prior_tasks(**self.fixture.query(
@@ -54,6 +54,13 @@ class BayesianRetrieverLeakageTests(unittest.TestCase):
                 equal = retriever.select_prior_tasks(**self.fixture.query(
                     mode=mode, scope=scope, as_of_date=self.fixture.rows[0]["exit_date"]))
                 self.assertEqual(equal["tasks"], [])
+
+    def test_bayesian_matching_future_regime_cannot_enter_selection(self):
+        retriever = self.fixture.create()
+        for pool in ([self.fixture.rows[1]], [self.fixture.rows[0], self.fixture.rows[1]]):
+            with patch.object(retriever._memory, "eligible", return_value=pool), self.assertRaises(ValueError):
+                retriever.select_prior_tasks(**self.fixture.query(
+                    mode="bayesian_regime", current_regime="BEAR", as_of_date="2020-01-07"))
 
 
 if __name__ == "__main__":

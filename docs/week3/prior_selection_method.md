@@ -3,7 +3,7 @@
 **Chốt W3-03 ngày 04/10/2026.** Cấu hình đóng băng tại
 [prior_selection_policy.json](prior_selection_policy.json), tương thích
 [hợp đồng API v1](retriever_api_contract.md). Nền W3-05, Recent/Random W3-06 và
-Similarity W3-07 đã có; Bayesian W3-08 còn chờ triển khai.
+Similarity W3-07 và Bayesian W3-08 đã có; stats/result retrieve K>0 chờ W3-09.
 Không chọn tham số bằng kết quả kiểm định 2023–2024.
 
 ## 1. Tập hợp và thứ tự xử lý
@@ -179,6 +179,8 @@ Khi triển khai, các ca cần PASS:
 6. Empty/K<3/K=0 đúng API; không tự mở scope/khác regime để bù mẫu.
 
 Kiểm chứng W3-03 là kiểm kê nhãn, rà soát cấu hình và tính ví dụ tham chiếu;
-Recent/Random W3-06 và Similarity W3-07 đã được kiểm thử runtime tại Phase B.
+Recent/Random W3-06, Similarity W3-07 và Bayesian W3-08 có kiểm thử runtime tại Phase B.
 Similarity dùng `_select_similarity()`: điểm bốn trường, phá hòa exit/ID, giữ score 0
-và bỏ qua outcome khi ranking. Bayesian W3-08 và bộ hồi quy W3-13 còn chờ thực hiện.
+và bỏ qua outcome khi ranking. Bayesian W3-08 dùng cùng hàm này trên population
+cùng regime đã lọc PIT/scope; không tự đổi regime khi thiếu mẫu. Bộ hồi quy đầy đủ
+W3-13 còn chờ thực hiện; receipt từng task ghi snapshot mã tại thời điểm kiểm.

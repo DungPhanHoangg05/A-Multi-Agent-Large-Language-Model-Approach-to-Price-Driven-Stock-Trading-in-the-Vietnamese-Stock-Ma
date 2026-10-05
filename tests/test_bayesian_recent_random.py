@@ -111,8 +111,6 @@ class RecentRandomSelectionTests(unittest.TestCase):
         for selected in ([self.fixture.rows[0], self.fixture.rows[0]], [self.fixture.rows[1]]):
             with patch.object(retriever, "_select_recent", return_value=selected), self.assertRaises(ValueError):
                 self.select(retriever, mode="recent", as_of_date="2020-01-07")
-        with self.assertRaises(NotImplementedError):
-            self.select(retriever, mode="bayesian_regime")
 
 
 if __name__ == "__main__":

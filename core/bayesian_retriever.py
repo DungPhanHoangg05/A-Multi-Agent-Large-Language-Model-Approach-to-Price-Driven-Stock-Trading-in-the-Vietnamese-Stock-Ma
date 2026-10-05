@@ -58,7 +58,7 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
 
 
 class BayesianPriorRetriever:
-    """Nạp kho một lần; lọc PIT và chọn Recent/Random/Similarity, chưa tính stats."""
+    """Nạp kho một lần; lọc PIT và chọn prior ở bốn mode, chưa tính stats."""
 
     def __init__(self, *, bank_path: str | Path, manifest_path: str | Path,
                  audit_path: str | Path) -> None:
@@ -239,11 +239,12 @@ class BayesianPriorRetriever:
             elif mode == "similarity":
                 selected, scores = self._select_similarity(candidates, k, current_signals)
             else:
-                raise NotImplementedError("Bộ chọn Bayesian sẽ triển khai ở W3-08")
+                selected, scores = self._select_similarity(prepared["regime_population"], k, current_signals)
             self._validate_selection(selected, symbol=symbol, as_of_date=as_of_date,
                                      current_regime=current_regime, scope=scope, mode=mode, k=k)
             if not selected:
-                status, reason = "empty", "no_eligible_history"
+                status = "empty"
+                reason = "no_eligible_history" if metadata["eligible_count"] == 0 else "no_matching_regime"
             elif len(selected) < k:
                 status, reason = "partial", "insufficient_candidates"
             else:
@@ -259,12 +260,12 @@ class BayesianPriorRetriever:
     def retrieve(self, *, symbol: str, as_of_date: str, current_regime: str,
                  current_signals: dict[str, str] | None = None, mode: str = "bayesian_regime",
                  k: int = 3, seed: int = 42, scope: str = "same_symbol") -> dict[str, Any]:
-        """Xử lý Original K=0; K>0 chưa có ranking/stats thì dừng tường minh."""
+        """Xử lý Original K=0; K>0 chờ tích hợp thống kê thì dừng tường minh."""
         prepared = self.prepare_query(symbol=symbol, as_of_date=as_of_date,
                                       current_regime=current_regime, current_signals=current_signals,
                                       mode=mode, k=k, seed=seed, scope=scope)
         if k > 0:
-            raise NotImplementedError("Ranking/stats sẽ triển khai trong W3-06 đến W3-09")
+            raise NotImplementedError("Thống kê và result retrieve K>0 sẽ tích hợp ở W3-09")
         metadata = prepared["metadata"]
         metadata.update(effective_seed=None, selected_count=0, selected_ids=[], selected_scores=[],
                         status="disabled", reason="k_zero")
