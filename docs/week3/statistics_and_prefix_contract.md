@@ -4,7 +4,8 @@
 [Policy](statistics_prefix_policy.json) đóng băng công thức/template cho W3-09..11;
 Stats runtime và API retrieve đã triển khai ở W3-09; formatter runtime có ở W3-10,
 W3-11 đã kiểm ngân sách/prompt ghép offline và ghi phương án cap bắt buộc bàn giao
-W4; còn chờ smoke W3-12. Cap runtime hiện tại không đạt khi ghép BRPP bão hòa.
+W4; smoke kho thật W3-12 đã PASS, Phase C/Gate C offline hoàn thành.
+Cap runtime hiện tại không đạt khi ghép BRPP bão hòa.
 Biên bản thiết kế W3-04 vẫn là snapshot tham chiếu, tách với
 [biên bản runtime Phase B](statistics_runtime_review.json).
 
@@ -146,7 +147,9 @@ tham chiếu ở Phase A. Formatter/runtime và test lỗi cơ bản đã có �
 kiểm ngân sách/prompt ghép với cap bàn giao tổng 4.000: 1.024 ca và dự phòng BRPP
 600 PASS, prompt lớn nhất 6.289. Cap runtime cũ tổng 4.500 cho prompt VI/EN
 6.565/6.582 khi ghép prefix 397; W4 phải áp dụng phương án đã kiểm và guard prompt
-cuối `<6500` sau mọi hướng dẫn. Phase C còn chờ smoke W3-12.
+cuối `<6500` sau mọi hướng dẫn. [Smoke W3-12](prior_smoke.json) PASS 288 query
+và 288 lượt lặp với nguồn lịch sử prefix PIT/fixture biên được phân biệt rõ.
+Gate C offline PASS; ngân sách runtime vẫn thuộc W4.
 
 Mẫu đã tính: K=0 là 0 ký tự; empty n=0 là 188; K=1/2/3 trên fixture là
 241/285/329; mẫu CONSOLIDATION, counts 852 và return scientific rất lớn là
@@ -181,8 +184,8 @@ hoặc benchmark tốc độ W3-15 sau triển khai.
   corpus. Population có lỗi cutoff/scope/regime/ID/nhãn trap phải dừng.
 - [Biên bản runtime](statistics_runtime_review.json) kiểm bốn mode, hai scope,
   bốn mã, bốn regime và K=1..3; đối chiếu đúng thống kê kho thật đã khóa ở Phase A.
-- W3-10/W3-11 đã kiểm schema/định dạng BRPP và ngân sách ghép thử; W3-12 sẽ kiểm
-  smoke cả retrieval lẫn formatter. Tốc độ p95 và bàn giao W4 thuộc Phase D.
+- W3-10/W3-11 đã kiểm schema/định dạng BRPP và ngân sách ghép thử; W3-12 đã smoke
+  retrieval/formatter trên kho thật. Tốc độ p95 và bàn giao W4 thuộc Phase D.
 
 ## 8. Bàn giao formatter W3-10
 
@@ -198,4 +201,4 @@ task là NEUTRAL/alias để câu S=thiếu tin phù hợp kho đã chốt; dữ
 cần prefix version mới trước sử dụng. Guard >600 ném ValueError, không tự truncate.
 W3-11 hoàn thành suite trần và prompt ghép với điều kiện bàn giao cap/guard W4
 tại [Phase C](phase_c_prefix_and_budget.md). Chưa áp dụng cap mới vào runtime.
-W3-12 tiếp tục smoke với nguồn query PIT.
+W3-12 đã smoke với nguồn query PIT; biên bản tại [Phase C](phase_c_prefix_and_budget.md).
