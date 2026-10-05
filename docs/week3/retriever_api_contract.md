@@ -275,4 +275,7 @@ cần phiên bản mới. [Receipt formatter](prefix_formatter_review.json) ki�
 cáo hiện tại tổng 4.500 cho prompt ghép bão hòa VI/EN 6.565/6.582, không đạt
 `<6500`. Cap bàn giao tổng 4.000 dự phòng BRPP đủ 600 cho prompt tối đa 6.289;
 W4 phải áp dụng cap đã kiểm và guard prompt cuối sau mọi hướng dẫn thêm vào.
-Runtime Decision chưa thay đổi; smoke kho thật W3-12 còn pending.
+Runtime Decision chưa thay đổi; [smoke kho thật W3-12](prior_smoke.json) PASS 288 query
+và 288 lượt lặp. 24 context lịch sử có prefix PIT đúng ngày; tám fixture biên dùng
+regime/tín hiệu cố định, không suy ra trạng thái thị trường. Gate C offline PASS;
+tốc độ p95 và bàn giao đầy đủ vẫn thuộc Phase D.

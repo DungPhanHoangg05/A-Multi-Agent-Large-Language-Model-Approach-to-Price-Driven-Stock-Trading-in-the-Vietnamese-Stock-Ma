@@ -1,11 +1,12 @@
 # Phase C — BRPP và ngân sách prompt
 
-**Trạng thái: W3-10/W3-11 hoàn thành; W3-12 chưa thực hiện. Gate C còn mở.**
+**Trạng thái: W3-10/W3-11/W3-12 hoàn thành; Phase C/Gate C offline PASS. Ngân sách runtime tích hợp vẫn thuộc W4.**
 Formatter nằm trong `core/bayesian_retriever.py`, test `tests/test_bayesian_prior_prefix.py`,
 biên bản [formatter](prefix_formatter_review.json). W3-11 có test
 `tests/test_bayesian_prompt_budget.py`, script `scripts/verify_prior_prompt_budget.py`
-và [receipt ngân sách](prompt_budget_review.json). Script `scripts/verify_bayesian_prior.py`
-và `docs/week3/prior_smoke.json` còn dự kiến cho W3-12.
+và [receipt ngân sách](prompt_budget_review.json). W3-12 có script
+`scripts/verify_bayesian_prior.py`, test `tests/test_bayesian_prior_smoke.py`
+và [receipt smoke kho thật](prior_smoke.json).
 
 Template, schema metric và các trường hợp biên đã khóa tại
 [W3-04](statistics_and_prefix_contract.md), [policy](statistics_prefix_policy.json).
@@ -43,22 +44,77 @@ chứng phương án thay thế) và guard `<6500` sau khi thêm toàn bộ hư�
 
 ## W3-12 — smoke trên kho thật, offline
 
-- [ ] Script nạp kho QA PASS, chọn truy vấn xác định trên bốn mã/bốn regime từ dữ liệu
+- [x] Script nạp kho QA PASS, chọn truy vấn xác định trên bốn mã/bốn regime từ dữ liệu
   có sẵn; fixture/query lịch sử phải mang regime prefix PIT, không nhãn hồi cứu Panel A.
-- [ ] Có cutoff trước episode đầu, cutoff bằng exit, query thiếu K và query sau cuối kho.
+- [x] Có cutoff trước episode đầu, cutoff bằng exit, query thiếu K và query sau cuối kho.
   Không suy ra regime thực tế của ngày giả định nếu chưa có snapshot xác minh.
-- [ ] Chạy bốn mode, ghi bank hash/config/seed, IDs/dates, số mẫu, stats, score,
+- [x] Chạy bốn mode, ghi bank hash/config/seed, IDs/dates, số mẫu, stats, score,
   lý do thiếu mẫu và prefix length; kiểm bằng cutoff ở từng task đầu ra.
-- [ ] Không gọi upstream/LLM, fit lại HMM, sinh episode hoặc tải giá mới; không ghi đè
+- [x] Không gọi upstream/LLM, fit lại HMM, sinh episode hoặc tải giá mới; không ghi đè
   kho/manifest W2. Receipt chỉ chứa dữ liệu nghiên cứu, không key/.env.
-- [ ] Biên bản phân biệt smoke retrieval và benchmark giao dịch OOS; hạn chế dữ liệu
+- [x] Biên bản phân biệt smoke retrieval và benchmark giao dịch OOS; hạn chế dữ liệu
   vẫn được ghi rõ.
 
 **Gate C:** prefix đủ nghĩa và ≤600, prompt ghép thử <6.500 với ngân sách bàn giao
 đã kiểm, smoke bốn mode PASS với receipt tái lập. Chưa coi đây là hệ thống tích hợp
 W4; cap cũ không được tái sử dụng nguyên trạng khi inject BRPP.
+**Kết luận W3-12: Gate C offline PASS** theo các bằng chứng W3-10/11/12; không
+chuyển `runtime_budget_gate_passed` thành true hoặc đóng điều kiện bàn giao W4.
 
 ## Kết quả và nhật ký
+
+### 05/10/2026 — W3-12 hoàn thành, Phase C/Gate C offline PASS
+
+- `scripts/verify_bayesian_prior.py` nạp kho/manifest/QA/schema đã chốt, đối chiếu
+  signature archive W2 và checksum canonical records; validator/engine thật kiểm
+  nhãn kinh tế với giá thực thi đã xác minh. Cold load giá một lần mỗi mã.
+- 16 context chính: lấy episode mới nhất từng cặp mã/regime, không chọn bằng
+  outcome. Tám context lịch sử biên: ngày bằng exit đầu (**2020-06-04**) và ngày
+  có population cùng mã/regime thiếu K (**2020-06-12**). Đối chiếu envelope episode,
+  tín hiệu COMPLETE, model/scaler/calibration prefix và artifact hash; chỉ nạp
+  model có sẵn với `verify_only=True`, không fit lại. Snapshot giá/Alpha và ngày
+  tin không vượt cutoff; báo cáo khớp checksum. Outcome của query không gửi vào API.
+- Tám context fixture: trước episode đầu (**2020-05-31**) và sau exit cuối
+  (**2022-12-31**) trên bốn mã. Regime CHOPPY và năm tín hiệu NEUTRAL cố định cho
+  kiểm module; không dùng tín hiệu episode để suy ra trạng thái ngày giả định,
+  không gán provenance prefix lịch sử cho fixture.
+- **32 context; 288 query + 288 lượt lặp**: bốn mode × hai scope × K=3 cho mọi
+  context; thêm Original K=0 cho 16 context chính ở hai scope. Bộ tham chiếu độc
+  lập lọc `exit_date < cutoff`, tính counts bằng tập ID và đối chiếu thứ tự/score/
+  seed Random. Stats luôn dùng toàn population PIT/cùng regime, không K ví dụ.
+- **176 complete / 64 empty / 16 partial / 32 disabled**. Biên bằng exit loại
+  toàn bộ episode chưa đóng; cùng mã thiếu K không bù mã khác, pooled chỉ hoạt
+  động khi được yêu cầu. Empty vẫn render n=0/N/A; Original prefix rỗng. BRPP
+  lớn nhất **373 ký tự trong các query đã kiểm**, không thay upper bound 600.
+- Input không đổi, query lặp nhận cùng IDs/stats/prefix. Chặn socket kết nối mạng,
+  `fit`, trích tín hiệu và runner sinh episode; chặn đọc JSON/giá trong query.
+  Hash mọi file bằng chứng được dùng giữ nguyên trước/sau smoke. Receipt chứa
+  query/config/versions/seed, nguồn PIT, IDs/dates, counts/score/stats/BRPP,
+  hash kho/manifest/QA/giá/model/checkpoint và mã verifier.
+- Sáu test mới PASS: kiểm coverage/cutoff/scope/n=0/Original/partial, nguồn lịch
+  sử so với fixture, model/tin tương lai/báo cáo sửa/hash giá và kết quả sai cutoff/
+  counts bị từ chối. Unit tests dùng kho/receipt đã commit và payload lỗi giả lập;
+  không đòi archive local trong clone mới. Smoke thực tế được chạy bằng CLI.
+- [Receipt](prior_smoke.json) **PASS**, liên kết hash với receipt ngân sách W3-11
+  và kiểm nguồn của receipt đó còn khớp. **Gate C offline PASS**; W4 phải áp dụng
+  cap/guard đã bàn giao, chưa inject runtime. W3-13..16 chưa thực hiện; p95 chưa đo.
+  Kho 2020–2022/thiếu tin và gate giá kiểm định 2023–2024 vẫn giữ giới hạn; đây
+  không phải bằng chứng hiệu quả giao dịch hoặc benchmark OOS.
+
+Tái lập tại gốc repo (cần archive W2 đầy đủ cùng giá/VN-Index đã đóng băng):
+
+```powershell
+py -3.13 -X utf8 scripts/verify_bayesian_prior.py
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_prior_smoke.py' -v
+```
+
+Archive gồm run manifest, episodes, signals và regimes trong
+`outputs/historical_memory_run/`, vốn bị gitignore; phải giữ bản sao nghiên cứu để
+tái lập. Thiếu/sai bằng chứng dừng với lỗi, không chạy upstream/HMM để tạo thay thế.
+Bốn gate tích hợp W3-12 PASS: compileall; **318/318** unit tests (96,853 giây);
+E2E xác định (13,7 giây); **46/46** leakage tests (6,645 giây). Hash nguồn và 76
+file bằng chứng còn khớp receipt; liên kết Markdown và `git diff --check` PASS.
+Nhánh `test/offline-prior-smoke` commit/merge sau gate theo `AGENTS.md`.
 
 ### 05/10/2026 — W3-11 hoàn thành
 

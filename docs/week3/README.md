@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A/B hoàn thành, Gate A/B PASS; W3-10/W3-11 hoàn thành. W3-12 đến W3-16 chưa thực hiện; Gate C còn mở. W3-11 PASS cho cấu hình ngân sách bàn giao offline; W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng.**
+**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. W3-13 đến W3-16 chưa thực hiện; tiếp theo Phase D. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -71,9 +71,9 @@ Chi tiết: [Phase C](phase_c_prefix_and_budget.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W3-10 | Định dạng BRPP compact | Formatter/schema/nhãn/mẫu số theo policy, guard ≤600, 13 test mới và [receipt mẫu](prefix_formatter_review.json) PASS; ngân sách đã kiểm ở W3-11, smoke còn W3-12 | W3-08, W3-09 | [x] |
+| W3-10 | Định dạng BRPP compact | Formatter/schema/nhãn/mẫu số theo policy, guard ≤600, 13 test mới và [receipt mẫu](prefix_formatter_review.json) PASS; ngân sách W3-11 và smoke W3-12 đã kiểm | W3-08, W3-09 | [x] |
 | W3-11 | Kiểm tra 600 ký tự và prompt ghép | Chín test mới; [receipt](prompt_budget_review.json) kiểm 1.024 ca VI/EN, biên BRPP đúng 600; prompt bàn giao tối đa 6.289. Cap cũ vượt trần khi ghép BRPP; phương án cap 4.000 và guard cuối cùng bàn giao W4, chưa sửa runtime ([Phase C](phase_c_prefix_and_budget.md)) | W3-10 | [x] |
-| W3-12 | Smoke offline trên kho thật | Biên bản bốn mode, IDs/stats/seed/hash/cutoff/độ dài; không fit HMM hoặc gọi LLM | W3-06..11 | [ ] |
+| W3-12 | Smoke offline trên kho thật | `scripts/verify_bayesian_prior.py`, [receipt](prior_smoke.json): 32 context, 288 query và 288 lượt lặp, đủ bốn mode/hai scope, nguồn prefix PIT và các biên; BRPP tối đa 373, sáu test mới PASS; Gate C offline PASS ([Phase C](phase_c_prefix_and_budget.md)) | W3-06..11 | [x] |
 
 ## D. Leakage, hiệu năng và bàn giao
 
@@ -105,6 +105,27 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-12 hoàn thành — Phase C/Gate C offline PASS**: script smoke trên kho thật
+  đã QA 852 episode; 16 context lịch sử phủ bốn mã/bốn regime, tám context lịch sử
+  kiểm exit bằng cutoff/thiếu K, tám fixture biên trước/sau kho. Query lịch sử có
+  artifact HMM/scaler/calibration prefix đúng ngày và checksum tín hiệu/giá/tin;
+  fixture dùng tín hiệu/regime cố định, không suy ra trạng thái thị trường ngày đó.
+- [Receipt smoke](prior_smoke.json): **288 query + 288 lượt lặp**, bốn mode/hai scope,
+  K=3 và Original K=0. Counts/stats/ranking/score/seed khớp tham chiếu độc lập trên
+  population PIT; 176 complete, 64 empty, 16 partial, 32 disabled. Prefix lớn nhất
+  **373 ký tự**; input và file bằng chứng giữ nguyên. Chặn mạng, fit/sinh episode,
+  đọc JSON/giá trong query; cold load nạp giá đúng một lần/mã.
+- Sáu test mới kiểm receipt/kho đã commit và lỗi nguồn/query; unit suite không
+  phụ thuộc archive local vốn bị gitignore. CLI tái lập smoke cần archive W2
+  `outputs/historical_memory_run/` đầy đủ, thiếu/sai hash gây lỗi, không tự tạo lại.
+  **Gate tích hợp W3-12**: compileall PASS, 318/318 unit tests PASS (96,853 giây),
+  E2E xác định PASS (13,7 giây), 46/46 leakage tests PASS (6,645 giây).
+  Hash nguồn/bằng chứng, liên kết Markdown và `git diff --check` PASS;
+  nhánh `test/offline-prior-smoke` tích hợp sau gate.
+- Gate C giữ điều kiện W3-11: cap bàn giao tổng 4.000 đã kiểm, guard prompt cuối
+  `<6500` còn phải áp dụng ở W4. Smoke không đo p95 hoặc kết quả giao dịch OOS.
+  **Tiếp theo W3-13**, rồi benchmark W3-14 và chốt W3-15/W3-16.
 
 - **W3-11 hoàn thành — kiểm chứng và bàn giao ngân sách**: `tests/test_bayesian_prompt_budget.py`
   có chín test mới PASS; `scripts/verify_prior_prompt_budget.py` dùng formatter,

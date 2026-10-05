@@ -1,6 +1,7 @@
 # Phase D — kiểm thử, hiệu năng và bàn giao W4
 
-**Trạng thái: chưa thực hiện.** Bắt đầu sau Gate C.
+**Trạng thái: chưa thực hiện; Gate C offline đã PASS ở W3-12.** Tiếp theo W3-13.
+Smoke [receipt](prior_smoke.json) không thay benchmark p95 hoặc gate runtime W4.
 
 ## W3-13 — hành vi và zero-leakage
 
