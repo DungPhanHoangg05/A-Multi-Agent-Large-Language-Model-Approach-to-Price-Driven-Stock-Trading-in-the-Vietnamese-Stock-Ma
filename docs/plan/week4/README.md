@@ -1,9 +1,11 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: đã lập kế hoạch ngày 05/10/2026; 0/16 task triển khai hoàn thành.**
+**Trạng thái: Phase A đang thực hiện; W4-01 hoàn thành ngày 05/10/2026,
+tiến độ 1/16 task. [Biên bản/bản đồ đầu vào](input_readiness.md),
+[receipt kiểm chứng](input_readiness.json). W4-02..16 và Gate A còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
-[kế hoạch tổng](../plan.md). Bước lập kế hoạch chỉ tạo tài liệu; các checklist
-triển khai bên dưới đều đang mở.
+[kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
+đầu ra và kiểm chứng của task đều đạt.
 
 ## Mục tiêu và ranh giới
 
@@ -69,7 +71,7 @@ Chi tiết: [Phase A](phase_a_integration_contract.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W4-01 | Kiểm tra bàn giao và các điểm nối runtime | Bản đồ entry point, hash/QA và baseline; xác định thiếu dữ liệu/archive và phạm vi offline | W3 hoàn thành | [ ] |
+| W4-01 | Kiểm tra bàn giao và các điểm nối runtime | [Bản đồ/biên bản](input_readiness.md), [receipt](input_readiness.json): 852 record và archive/QA/hash PASS; replay 288 query + 288 lượt lặp, bốn gate mới PASS | W3 hoàn thành | [x] |
 | W4-02 | Chốt state và cấu hình prior độc lập | Hợp đồng kiểu/default/lỗi; năm nhánh nghiên cứu và tương thích bốn ablation cũ | W4-01 | [ ] |
 | W4-03 | Chốt provenance và thứ tự PIT | Luật giá/tin/HMM/scaler/calibration; ranh giới outcome và provider replay/OOS | W4-01, W4-02 | [ ] |
 | W4-04 | Chốt schema kết quả và resume | Metadata/hash/config; checkpoint từng nhánh, upstream dùng lại và chính sách file cũ | W4-02, W4-03 | [ ] |
@@ -130,6 +132,20 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-01 hoàn thành
+
+- Kiểm đầu vào trên baseline `516d0ed`, nhánh `docs/prior-runtime-readiness`:
+  99 file bằng chứng + 176 file nguồn bàn giao W3 khớp checksum; 852 record
+  đúng schema/nhãn kinh tế, 852 cặp episode/signal, 217 prefix và staging khớp.
+- Replay mới 32 context: **288 query + 288 lượt lặp**, BRPP max **373**, đủ
+  mode/scope và Original. Không gọi LLM/mạng, fit model hoặc sinh episode.
+- Bốn gate **compileall / 339 unit / E2E / 56 leakage PASS**; số liệu/lệnh/log/hash
+  tại [receipt](input_readiness.json). Giữ 261 file bảo vệ trước/sau gate.
+- [Biên bản](input_readiness.md) có luồng live/backtest, điểm nối, schema callback/
+  web và khoảng trống resume nhánh; `.gitattributes` bảo toàn byte receipt W4.
+- W4-02 tiếp tục khóa state/config; cap/guard runtime, provider PIT/OOS và
+  gate giá thô 2023–2024 chưa PASS. **Phase A chưa hoàn thành.**
 
 ### 2026-10-05 — Lập kế hoạch
 

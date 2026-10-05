@@ -1,6 +1,7 @@
 # Phase A — Khóa hợp đồng tích hợp
 
-**Trạng thái: chưa thực hiện.** [Checklist W4](README.md).
+**Trạng thái: đang thực hiện; W4-01 hoàn thành ngày 05/10/2026 (1/4 task).
+W4-02..04 và Gate A còn mở.** [Checklist W4](README.md).
 Mục tiêu: chốt trách nhiệm của caller/graph/Decision/checkpoint trước khi sửa code.
 Tài liệu đầu ra dự kiến: `integration_contract.md`, `input_readiness.json` và
 `checkpoint_contract.md` trong thư mục tuần. Không tạo receipt PASS khi chỉ khảo sát.
@@ -9,18 +10,18 @@ Tài liệu đầu ra dự kiến: `integration_contract.md`, `input_readiness.j
 
 **Phụ thuộc:** W3 hoàn thành. **Phạm vi:** khảo sát và kiểm chứng đầu vào.
 
-- [ ] Đối chiếu kho/manifest với QA W2: 852 record, checksum, schema, nhãn kinh tế;
+- [x] Đối chiếu kho/manifest với QA W2: 852 record, checksum, schema, nhãn kinh tế;
   ghi hash/version của code và bằng chứng W3 đang dùng.
-- [ ] Đọc `agent_state.py`, `SetGraph.compile_upstream/compile_decision/set_graph`,
+- [x] Đọc `agent_state.py`, `SetGraph.compile_upstream/compile_decision/set_graph`,
   `BacktestEngine._run_ablation_variants/_run_paired_point/run/_save`,
   `create_final_trade_decider` và các test paired/ablation/token hiện có.
-- [ ] Vẽ luồng đang chạy: upstream chung → Alpha/Sentiment theo ablation → Decision;
+- [x] Vẽ luồng đang chạy: upstream chung → Alpha/Sentiment theo ablation → Decision;
   chỉ ra chỗ cần chuẩn bị Full một lần trước năm Decision nghiên cứu.
-- [ ] Ghi schema output Full/No-Alpha, callback/web JSON và cách lưu tạm hiện tại;
+- [x] Ghi schema output Full/No-Alpha, callback/web JSON và cách lưu tạm hiện tại;
   phân biệt lưu kết quả sau điểm với resume một nhánh đang dở.
-- [ ] Ghi nguồn fixture có thể tái lập từ Git và nguồn replay cần archive local;
+- [x] Ghi nguồn fixture có thể tái lập từ Git và nguồn replay cần archive local;
   thiếu archive phải báo thiếu, không gọi LLM hoặc tạo episode để bù.
-- [ ] Đóng baseline từ commit nền và kết quả test, liệt kê gate giá 2023–2024 còn mở.
+- [x] Đóng baseline từ commit nền và kết quả test, liệt kê gate giá 2023–2024 còn mở.
 
 **Hoàn thành khi:** receipt đầu vào và bản đồ tích hợp ghi rõ cái đã có, cái còn
 thiếu, baseline và phạm vi sửa. Không dùng checksum đơn lẻ làm bằng chứng PIT.
@@ -107,3 +108,19 @@ upstream, sau báo cáo chung, giữa nhánh, sau nhánh cuối và trước com
 
 Sau mỗi task, thêm nhật ký theo mẫu: **ngày — mã task — nhánh/commit — file —
 kiểm chứng — kết quả — phần còn mở**, rồi cập nhật [README](README.md).
+
+## Nhật ký tiến độ
+
+### 2026-10-05 — W4-01 hoàn thành
+
+- Nhánh `docs/prior-runtime-readiness`, baseline `516d0ed`; [biên bản/bản đồ](input_readiness.md)
+  và [receipt](input_readiness.json). Giữ byte kho, giá, model và bằng chứng W2/W3.
+- Kiểm schema/nhãn 852 record bằng validator/engine thật; 852 episode/signal,
+  217 artifact prefix và staging khớp. Replay 288 query + 288 lượt lặp PASS,
+  BRPP tối đa 373; phân biệt 24 nguồn lịch sử và tám fixture biên.
+- Bốn gate mới PASS: compileall, 339 unit (48,455 giây), E2E (7,0 giây),
+  56 leakage (5,130 giây). Nguồn/bằng chứng so trước/sau gate giữ nguyên.
+- Ghi đủ schema callback/web/Full/No-Alpha, resume điểm hoàn chỉnh của runner
+  ablation và khoảng trống resume nhánh/backtest, cap/guard runtime, alias `1 day`.
+- Chỉ cập nhật tài liệu/receipt và quy tắc byte JSON W4; bước tiếp theo W4-02.
+  Gate A, provider OOS, runtime budget và giá 2023–2024 còn mở.
