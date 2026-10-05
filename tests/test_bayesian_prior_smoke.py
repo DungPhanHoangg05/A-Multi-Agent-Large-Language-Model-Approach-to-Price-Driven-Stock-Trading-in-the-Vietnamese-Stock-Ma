@@ -13,7 +13,7 @@ class BayesianPriorSmokeTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.receipt = read_json(ROOT / 'docs/week3/prior_smoke.json')
+        cls.receipt = read_json(ROOT / 'docs/plan/week3/prior_smoke.json')
 
     def test_coverage_and_original_on_real_bank(self) -> None:
         r = self.receipt

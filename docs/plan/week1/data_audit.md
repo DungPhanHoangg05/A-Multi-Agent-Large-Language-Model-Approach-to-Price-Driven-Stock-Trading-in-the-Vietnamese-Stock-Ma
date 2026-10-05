@@ -22,7 +22,7 @@ Bốn ngày thay nguồn: `2019-06-24`, `2019-06-25`, `2019-06-26`, `2021-08-23`
 
 ## Kiểm toán giá điều chỉnh và point-in-time
 
-**Cập nhật 26/09/2026:** [Phase A mở gate giá](../../week2/phase_a_price_gate.md) bằng bộ giá thô VCI riêng tại `data/execution_prices`, đối chiếu VCI/KBS. CSV W1 và manifest 3.5.2 vẫn giữ nguyên provenance; các giới hạn của bộ CSV này bên dưới vẫn áp dụng.
+**Cập nhật 26/09/2026:** [Phase A mở gate giá](../week2/phase_a_price_gate.md) bằng bộ giá thô VCI riêng tại `data/execution_prices`, đối chiếu VCI/KBS. CSV W1 và manifest 3.5.2 vẫn giữ nguyên provenance; các giới hạn của bộ CSV này bên dưới vẫn áp dụng.
 
 [Tài liệu Quote của Vnstock](https://www.vnstocks.com/docs/vnstock-data/du-lieu-giao-dich) mô tả lịch sử OHLCV của sản phẩm `vnstock_data` là giá đã điều chỉnh để phân tích kỹ thuật; đây là tài liệu của **sản phẩm khác** với gói `vnstock` 3.5.2 đang cài. Gói hiện dùng không công bố rõ trong kết quả `Quote.history` liệu từng Open/Close là giá giao dịch thô hay đã điều chỉnh theo sự kiện doanh nghiệp. Hai provider cho chuỗi cổ phiếu rất gần nhau, nhưng sự trùng khớp đó không xác nhận chế độ điều chỉnh hay snapshot as-of trong quá khứ.
 

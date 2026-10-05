@@ -31,7 +31,7 @@ Script `scripts/prepare_historical_data.py` loại bản ghi nằm ngoài khoả
 
 ## 3. Giao thức thời gian và nhãn kinh tế
 
-**Cập nhật cơ sở giá Phase A:** [Gate giá đã mở](week2/phase_a_price_gate.md) cho `data/execution_prices` 2018–2022: trường OHLC thô VCI, đối chiếu tám mẫu quyền qua VCI/KBS. Phase C dùng `load_verified_execution_data` và `raw_point_in_time_snapshot` cho cả tín hiệu cổ phiếu và giá nhãn; không dùng CSV cổ phiếu W1 đã điều chỉnh hồi tố. Giữ lịch 868 ứng viên, 852 đủ cơ sở giá, 16 loại vì quyền/tham chiếu trong `(entry_date, exit_date]`; không đổi mốc hoặc bù mẫu. Loại cả chu kỳ có phiên không khớp lệnh trong khoảng nắm giữ. Đây là lọc chất lượng nhãn sau tất toán, không là thông tin đầu vào ở ngày quyết định. Chưa kiểm toán bộ giá thô ngoài mẫu 2023–2024; snapshot năm 2026 không chứng nhận mọi vintage lịch sử không bị sửa sai.
+**Cập nhật cơ sở giá Phase A:** [Gate giá đã mở](plan/week2/phase_a_price_gate.md) cho `data/execution_prices` 2018–2022: trường OHLC thô VCI, đối chiếu tám mẫu quyền qua VCI/KBS. Phase C dùng `load_verified_execution_data` và `raw_point_in_time_snapshot` cho cả tín hiệu cổ phiếu và giá nhãn; không dùng CSV cổ phiếu W1 đã điều chỉnh hồi tố. Giữ lịch 868 ứng viên, 852 đủ cơ sở giá, 16 loại vì quyền/tham chiếu trong `(entry_date, exit_date]`; không đổi mốc hoặc bù mẫu. Loại cả chu kỳ có phiên không khớp lệnh trong khoảng nắm giữ. Đây là lọc chất lượng nhãn sau tất toán, không là thông tin đầu vào ở ngày quyết định. Chưa kiểm toán bộ giá thô ngoài mẫu 2023–2024; snapshot năm 2026 không chứng nhận mọi vintage lịch sử không bị sửa sai.
 
 Gọi $t$ là ngày nến cuối được thấy. `point_in_time_df` phải có `Datetime <= as_of_date = t`. Quyết định `LONG` mua tại `Open(t+1)` và đóng vị thế tại `Close(t+3)`, tức ba phiên thực thi. `SHORT` trong schema quyết định hệ thống hiện tại có nghĩa **giữ tiền mặt**, không mở vị thế bán khống. Phí môi giới 0,25% và trượt giá 0,10% áp dụng cho cả chiều mua lẫn chiều bán. Không được đổi hợp đồng này khi thêm prior.
 
@@ -50,22 +50,22 @@ JSON Schema kiểm tra hình dạng và kiểu từng trường. Các bất bi�
 
 Gaussian HMM bốn trạng thái được fit **một lần** trên VN-Index 2018–2022. Chuẩn hóa đặc trưng, ngưỡng và phép gán nhãn trạng thái cũng chỉ dùng tập này. Các đặc trưng dự kiến: log-return, độ biến động 20 phiên, khoảng cách MA20/MA50/MA200 và độ rộng thị trường. Nếu breadth chỉ tính từ bốn mã nghiên cứu, phải gọi rõ là **proxy của bốn mã**, không gọi là độ rộng toàn HOSE. Nến tại $t$ có thể dùng sau khi đóng cửa $t$; mọi nến sau $t$ bị cấm trong nhận diện regime. Trong kiểm định 2023–2024, áp dụng tham số HMM đã đóng băng, chỉ cung cấp chuỗi giá đến ngày truy vấn.
 
-Triển khai Phase B dùng năm đặc trưng Close, chưa dùng breadth; [cấu hình và fallback đã chốt](week2/phase_b_regime_detector.md). Model đầy đủ trên 2018–2022 chỉ dùng từ ngày cuối train trở đi. Với nhãn regime point-in-time cho episode lịch sử trước ngày cuối train, mỗi model prefix phải fit một lần chỉ đến ngày quyết định (cùng cấu hình), và scaler/mapping/ngưỡng cũng chỉ học prefix đó. API từ chối `train_end_date > as_of_date`; không coi nhãn retrospective từ model toàn tập train là nhãn online. Việc cắt ngày và kiểm model cutoff không mở gate cơ sở giá chưa được xác minh của Phase A.
+Triển khai Phase B dùng năm đặc trưng Close, chưa dùng breadth; [cấu hình và fallback đã chốt](plan/week2/phase_b_regime_detector.md). Model đầy đủ trên 2018–2022 chỉ dùng từ ngày cuối train trở đi. Với nhãn regime point-in-time cho episode lịch sử trước ngày cuối train, mỗi model prefix phải fit một lần chỉ đến ngày quyết định (cùng cấu hình), và scaler/mapping/ngưỡng cũng chỉ học prefix đó. API từ chối `train_end_date > as_of_date`; không coi nhãn retrospective từ model toàn tập train là nhãn online. Việc cắt ngày và kiểm model cutoff không mở gate cơ sở giá chưa được xác minh của Phase A.
 
 Retriever lọc theo `exit_date < current_as_of_date` trước mọi phép xếp hạng. Bayesian regime prior chọn tối đa $K=3$ chu kỳ đã đóng và có regime phù hợp; khi số bản ghi ít hơn $K$, dùng số hiện có và ghi lại số lượng, không kéo bản ghi tương lai vào để đủ mẫu. So sánh với Random, Recent và Similarity trên **cùng tập prior hợp lệ**. Seed của Random phải cố định và lưu trong kết quả. Cách đo similarity và mọi ngưỡng phải chốt trên tập 2018–2022. Prefix BRPP dài tối đa 600 ký tự cho $K=3$; prompt Decision Agent trong backtest dưới 6.500 ký tự sau khi ghép báo cáo.
 
-[Hợp đồng truy xuất W3-02](week3/retriever_api_contract.md) chốt mặc định cùng mã
+[Hợp đồng truy xuất W3-02](plan/week3/retriever_api_contract.md) chốt mặc định cùng mã
 (`same_symbol`), K=3, seed=42; gộp bốn mã (`pooled`) chỉ dùng khi chọn tường minh
 trong cấu hình thí nghiệm, cùng scope cho mọi nhánh prior đối chứng. Không mở rộng
 scope để bù thiếu mẫu. API hỗ trợ K=0..3; K=0 cho Original trả tasks rỗng, stats None
 và không inject BRPP. Kiểu kết quả/metadata và trách nhiệm xác minh PIT của caller
-được đặc tả tại hợp đồng. [W3-03](week3/prior_selection_method.md) đã khóa similarity
+được đặc tả tại hợp đồng. [W3-03](plan/week3/prior_selection_method.md) đã khóa similarity
 so khớp bốn tín hiệu kỹ thuật, trọng số 0,25 mỗi trường, sentiment 0 do kho thiếu tin;
 Bayesian lọc cùng regime rồi ranking như Similarity. Phá hòa theo exit giảm dần/ID
 tăng dần; Random dùng RNG cục bộ, seed SHA-256 từ query và sample không hoàn lại
 trên pool sắp ID, không đưa outcome/hash kho vào seed.
 
-[W3-04](week3/statistics_and_prefix_contract.md) chốt thống kê từ toàn bộ prior
+[W3-04](plan/week3/statistics_and_prefix_contract.md) chốt thống kê từ toàn bộ prior
 cùng scope/regime đã tất toán trước cutoff, dùng chung cho bốn nhánh prior.
 Win-rate LONG lấy WIN/n; trap có điều kiện lấy số bullish Trend hoặc Pattern nhưng
 LOSS chia cho số episode có ít nhất một trong hai tín hiệu bullish; false bullish

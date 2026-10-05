@@ -1,0 +1,283 @@
+{
+  "format_version": 1,
+  "purpose": "Chẩn đoán sau gate FAIL, không dùng thời gian profile xét gate.",
+  "query_count": 64,
+  "scope": "pooled",
+  "k": 3,
+  "seed": 42,
+  "baseline_receipt_sha256": "761842ce43190da82e2fd15fd69ca9f1ab3a99e77dadab13c58af4f8156484b2",
+  "retriever_sha256": "4a40350d4fa6b2cdbfb14b73c67967bbf1cac273f9596d5cbf9e38c4c7eab84a",
+  "total_profile_seconds": 17.1255205,
+  "top_cumulative": [
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 413,
+      "function": "retrieve",
+      "primitive_calls": 64,
+      "total_calls": 64,
+      "own_seconds": 0.020773100000000003,
+      "cumulative_seconds": 17.1254974
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 338,
+      "function": "select_prior_tasks",
+      "primitive_calls": 64,
+      "total_calls": 64,
+      "own_seconds": 0.0206839,
+      "cumulative_seconds": 16.053265500000002
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 271,
+      "function": "prepare_query",
+      "primitive_calls": 64,
+      "total_calls": 64,
+      "own_seconds": 0.018668200000000003,
+      "cumulative_seconds": 14.138780800000001
+    },
+    {
+      "file": "C:\\Users\\Legion\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\copy.py",
+      "line": 119,
+      "function": "deepcopy",
+      "primitive_calls": 320,
+      "total_calls": 4469120,
+      "own_seconds": 6.376467900000001,
+      "cumulative_seconds": 12.6967999
+    },
+    {
+      "file": "C:\\Users\\Legion\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\copy.py",
+      "line": 192,
+      "function": "_deepcopy_list",
+      "primitive_calls": 320,
+      "total_calls": 320,
+      "own_seconds": 0.0925088,
+      "cumulative_seconds": 12.695153900000001
+    },
+    {
+      "file": "C:\\Users\\Legion\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\copy.py",
+      "line": 218,
+      "function": "_deepcopy_dict",
+      "primitive_calls": 127680,
+      "total_calls": 383040,
+      "own_seconds": 2.1956095,
+      "cumulative_seconds": 12.0794283
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+      "line": 188,
+      "function": "eligible",
+      "primitive_calls": 64,
+      "total_calls": 64,
+      "own_seconds": 0.0173628,
+      "cumulative_seconds": 5.094909400000001
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 253,
+      "function": "_assert_pool",
+      "primitive_calls": 256,
+      "total_calls": 256,
+      "own_seconds": 0.1759501,
+      "cumulative_seconds": 3.2632822000000004
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 51,
+      "function": "_matches_snapshot",
+      "primitive_calls": 77184,
+      "total_calls": 1389312,
+      "own_seconds": 1.4059514000000002,
+      "cumulative_seconds": 3.0031712
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.all>",
+      "primitive_calls": 77184,
+      "total_calls": 231552,
+      "own_seconds": 0.40714310000000004,
+      "cumulative_seconds": 2.7266415000000004
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 56,
+      "function": "<genexpr>",
+      "primitive_calls": 694656,
+      "total_calls": 1543680,
+      "own_seconds": 1.0090293000000001,
+      "cumulative_seconds": 2.5538094
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'get' of 'dict' objects>",
+      "primitive_calls": 9092480,
+      "total_calls": 9092480,
+      "own_seconds": 2.0849367,
+      "cumulative_seconds": 2.0849367
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 379,
+      "function": "_compute_statistics",
+      "primitive_calls": 64,
+      "total_calls": 64,
+      "own_seconds": 0.0506332,
+      "cumulative_seconds": 1.0514588
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.id>",
+      "primitive_calls": 5236160,
+      "total_calls": 5236160,
+      "own_seconds": 0.9130289,
+      "cumulative_seconds": 0.9130289
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 37,
+      "function": "normalize_signals",
+      "primitive_calls": 29280,
+      "total_calls": 29280,
+      "own_seconds": 0.3734368,
+      "cumulative_seconds": 0.8502843000000001
+    },
+    {
+      "file": "C:\\Users\\Legion\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\copy.py",
+      "line": 173,
+      "function": "_deepcopy_atomic",
+      "primitive_calls": 4085760,
+      "total_calls": 4085760,
+      "own_seconds": 0.5694819,
+      "cumulative_seconds": 0.5694819
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+      "line": 323,
+      "function": "_select_similarity",
+      "primitive_calls": 32,
+      "total_calls": 32,
+      "own_seconds": 0.029126700000000002,
+      "cumulative_seconds": 0.5529696000000001
+    },
+    {
+      "file": "C:\\Users\\Legion\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\copy.py",
+      "line": 232,
+      "function": "_keep_alive",
+      "primitive_calls": 383360,
+      "total_calls": 383360,
+      "own_seconds": 0.2761465,
+      "cumulative_seconds": 0.4443962
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+      "line": 47,
+      "function": "validate_signals",
+      "primitive_calls": 29280,
+      "total_calls": 29280,
+      "own_seconds": 0.054282300000000006,
+      "cumulative_seconds": 0.2764301
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'items' of 'dict' objects>",
+      "primitive_calls": 790272,
+      "total_calls": 790272,
+      "own_seconds": 0.2183412,
+      "cumulative_seconds": 0.2183412
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.any>",
+      "primitive_calls": 29344,
+      "total_calls": 29344,
+      "own_seconds": 0.060684100000000005,
+      "cumulative_seconds": 0.1940763
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'append' of 'list' objects>",
+      "primitive_calls": 510720,
+      "total_calls": 510720,
+      "own_seconds": 0.13686790000000001,
+      "cumulative_seconds": 0.13686790000000001
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+      "line": 50,
+      "function": "<genexpr>",
+      "primitive_calls": 175680,
+      "total_calls": 175680,
+      "own_seconds": 0.09134060000000001,
+      "cumulative_seconds": 0.12373100000000001
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'keys' of 'dict' objects>",
+      "primitive_calls": 463104,
+      "total_calls": 463104,
+      "own_seconds": 0.11904880000000001,
+      "cumulative_seconds": 0.11904880000000001
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'strip' of 'str' objects>",
+      "primitive_calls": 319296,
+      "total_calls": 319296,
+      "own_seconds": 0.073631,
+      "cumulative_seconds": 0.073631
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'upper' of 'str' objects>",
+      "primitive_calls": 172896,
+      "total_calls": 172896,
+      "own_seconds": 0.046374500000000006,
+      "cumulative_seconds": 0.046374500000000006
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.sum>",
+      "primitive_calls": 15936,
+      "total_calls": 15936,
+      "own_seconds": 0.0235514,
+      "cumulative_seconds": 0.045591700000000006
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method unicodedata.normalize>",
+      "primitive_calls": 146400,
+      "total_calls": 146400,
+      "own_seconds": 0.039985900000000005,
+      "cumulative_seconds": 0.039985900000000005
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.len>",
+      "primitive_calls": 146944,
+      "total_calls": 146944,
+      "own_seconds": 0.0396841,
+      "cumulative_seconds": 0.0396841
+    },
+    {
+      "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+      "line": 41,
+      "function": "exact_object",
+      "primitive_calls": 29280,
+      "total_calls": 29280,
+      "own_seconds": 0.0393768,
+      "cumulative_seconds": 0.0393768
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "format_version": 1,
+  "status": "PASS",
+  "query_context": "component_probe_fixture_regime_not_observed_market_state",
+  "cold_load_ms": 18663.606999907643,
+  "execution_loader_symbols": [
+    "FPT",
+    "MWG",
+    "VCB",
+    "VNM"
+  ],
+  "same_symbol_metadata": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1",
+    "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+    "symbol": "FPT",
+    "as_of_date": "2023-01-03",
+    "current_regime": "BULL",
+    "mode": "recent",
+    "scope": "same_symbol",
+    "requested_k": 3,
+    "seed": 42,
+    "eligible_count": 211,
+    "matched_regime_count": 83,
+    "candidate_count": 211
+  },
+  "pooled_metadata": {
+    "api_contract_version": 1,
+    "sampling_version": "prior_sampling_v1",
+    "metric_version": "signal_match_v1",
+    "statistics_version": "regime_empirical_stats_v1",
+    "prefix_version": "compact_brpp_v1",
+    "bank_sha256": "09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949",
+    "symbol": "FPT",
+    "as_of_date": "2023-01-03",
+    "current_regime": "BULL",
+    "mode": "recent",
+    "scope": "pooled",
+    "requested_k": 3,
+    "seed": 42,
+    "eligible_count": 852,
+    "matched_regime_count": 337,
+    "candidate_count": 852
+  },
+  "boundary_cutoff": "2020-06-04",
+  "boundary_pool_size": 0,
+  "checks": {
+    "one_price_load_per_symbol": true,
+    "no_hot_query_json_csv_price_io": true,
+    "strict_boundary": true,
+    "deep_copy": true,
+    "independent_pool_population_copies": true,
+    "disabled_k_zero": true
+  },
+  "source_text_sha256": {
+    "core/bayesian_retriever.py": "b8b308e0742554ebc687d453e5050bb94cedf3e6d746d167042d7f5247abfd94",
+    "tests/test_bayesian_retriever.py": "bebc1e9fe48706b85de029c3ca996f8d30ac8e2d597980e3ba8b3fbbced212c5",
+    "tests/test_bayesian_retriever_leakage.py": "7c98ab8933db80e07142a8620eab352d794b07fe94ca9124197f2de2147a3d32"
+  },
+  "active_retrieval_implemented": false,
+  "ranking_statistics_prefix_implemented": false
+}

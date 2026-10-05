@@ -150,7 +150,7 @@ def verify_budget() -> dict[str, Any]:
 def main() -> None:
     """Xuất receipt fixture; không đọc .env hoặc gọi API."""
     parser = argparse.ArgumentParser(description="Kiểm ngân sách BRPP/prompt offline và bàn giao W4")
-    parser.add_argument("--output", type=Path, default=ROOT / "docs/week3/prompt_budget_review.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "docs/plan/week3/prompt_budget_review.json")
     args = parser.parse_args()
     receipt = verify_budget()
     atomic_write_json(args.output, receipt)

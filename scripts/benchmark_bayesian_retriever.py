@@ -30,7 +30,7 @@ from core.historical_runner import HistoricalMemoryRunner
 from scripts.verify_bayesian_prior import check_result, validate_source
 
 THRESHOLD_NS = 30_000_000
-SMOKE_PATH = ROOT / 'docs/week3/prior_smoke.json'
+SMOKE_PATH = ROOT / 'docs/plan/week3/prior_smoke.json'
 
 
 def file_hash(path: Path) -> str:
@@ -156,7 +156,7 @@ def benchmark(*, warmup: int = 100, samples: int = 1000) -> dict[str, Any]:
     print('Đã kiểm nguồn PIT và hash bằng chứng; bắt đầu cold load.', flush=True)
     start = perf_counter_ns()
     retriever = BayesianPriorRetriever(bank_path=bank, manifest_path=ROOT / 'data_manager/regime_memory_store.manifest.json',
-                                      audit_path=ROOT / 'docs/week2/memory_bank_audit.json')
+                                      audit_path=ROOT / 'docs/plan/week2/memory_bank_audit.json')
     cold_ns = perf_counter_ns() - start
     results: dict[str, Any] = {}
     query_receipts: list[dict[str, Any]] = []
@@ -243,11 +243,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--warmup', type=int, default=100)
     parser.add_argument('--samples', type=int, default=1000)
-    parser.add_argument('--output', type=Path, default=ROOT / 'docs/week3/retrieval_benchmark.json')
+    parser.add_argument('--output', type=Path, default=ROOT / 'docs/plan/week3/retrieval_benchmark.json')
     args = parser.parse_args()
     output = args.output.resolve()
-    if not output.is_relative_to((ROOT / 'docs/week3').resolve()) or output.suffix != '.json' or output.exists():
-        parser.error('Receipt mới phải nằm trong docs/week3, đuôi .json và chưa tồn tại; không ghi đè bằng chứng')
+    if not output.is_relative_to((ROOT / 'docs/plan/week3').resolve()) or output.suffix != '.json' or output.exists():
+        parser.error('Receipt mới phải nằm trong docs/plan/week3, đuôi .json và chưa tồn tại; không ghi đè bằng chứng')
     result = benchmark(warmup=args.warmup, samples=args.samples)
     atomic_write_json(output, result)
     print(f"Đã lưu receipt {output.relative_to(ROOT)}: {result['status']}", flush=True)

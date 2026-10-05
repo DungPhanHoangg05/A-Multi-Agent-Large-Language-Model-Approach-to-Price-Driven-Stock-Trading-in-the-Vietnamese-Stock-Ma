@@ -56,7 +56,7 @@ def plot(output: Path) -> dict:
                                          expected_training_hash=training_data_hash(train))
     states = retrospective_states(detector, train)
     bank_path = ROOT / "data_manager/regime_memory_store.json"
-    qa = read_json(ROOT / "docs/week2/memory_bank_audit.json")
+    qa = read_json(ROOT / "docs/plan/week2/memory_bank_audit.json")
     if qa["status"] != "PASS" or qa["bank_sha256"] != hashlib.sha256(bank_path.read_bytes()).hexdigest():
         raise ValueError("Kho dùng cho panel PIT chưa có QA khớp checksum")
     bank = pd.DataFrame(read_json(bank_path))

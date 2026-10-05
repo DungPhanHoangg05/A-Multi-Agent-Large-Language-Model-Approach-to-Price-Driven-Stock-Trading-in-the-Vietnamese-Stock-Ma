@@ -60,7 +60,7 @@ class RegimeSelectionTests(unittest.TestCase):
         query = self.fixture.query(current_signals=signals, scope="pooled")
         bayesian = retriever.select_prior_tasks(**query)
         similarity = retriever.select_prior_tasks(**{**query, "mode": "similarity"})
-        reference = read_json(ROOT / "docs/week3/selection_policy_review.json")["reference_fixture"]["rankings"]
+        reference = read_json(ROOT / "docs/plan/week3/selection_policy_review.json")["reference_fixture"]["rankings"]
         for mode, result in (("bayesian_regime", bayesian), ("similarity", similarity)):
             self.assertEqual(result["metadata"]["selected_ids"], [identifiers[name] for name in reference[mode]])
         self.assertEqual([item["score"] for item in bayesian["metadata"]["selected_scores"]], [1.0, 1.0, 0.75])
