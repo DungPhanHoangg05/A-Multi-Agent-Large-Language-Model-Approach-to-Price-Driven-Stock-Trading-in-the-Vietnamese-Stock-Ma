@@ -1,0 +1,129 @@
+{
+  "format_version": 1,
+  "task": "W4-03",
+  "status": "PASS_SPECIFICATION",
+  "contract_version": "prior_runtime_contract_v1",
+  "provenance_version": "prior_provenance_v1",
+  "base_commit": "545e34c17e9a7752f1a3277014918ec271989959",
+  "branch": "docs/prior-provenance-contract",
+  "checked_at_utc": "2026-10-05T10:34:58.747412+00:00",
+  "python": "3.13.5",
+  "replay_source_count": 5,
+  "full_provenance_example_count": 2,
+  "existing_validator_probe_count": 14,
+  "documented_adapter_case_count": 14,
+  "checks": {
+    "real_replay_price_news_regime_signal_binding": true,
+    "no_probe_network_fit_or_episode_generation": true,
+    "fixed_model_classification_keeps_metadata": true,
+    "equal_exit_excluded_all_four_modes": true,
+    "strict_json_examples": true,
+    "protected_files_unchanged": true,
+    "four_current_gates_passed": true,
+    "protected_files_unchanged_after_gates": true
+  },
+  "contract_file_sha256": {
+    "provenance_policy.json": "b47c84fc70b55a549d05bf1a221dfecb9441c7707407e6c46e53d62c7e575788",
+    "provenance_examples.json": "2532a47eceb32e75a193b0317fb5472ab8df86806815a7ebebe11493357bd429"
+  },
+  "contract_text_sha256": "13dfaeac228986075b658e67599497aeefe3b56fac0d4b63ec66ac34a5bb7c3c",
+  "protected_files": {
+    "count": 2308,
+    "manifest_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-provenance-4098b86544a14d45bbef9115159461d0\\protected_files.json",
+    "manifest_sha256": "dd3e4b6ca1801ecac57eae99eb64213464f57af68923cc8ae2e4ae2cb356057f"
+  },
+  "verification_helper": {
+    "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-provenance-4098b86544a14d45bbef9115159461d0\\review.py",
+    "sha256": "e73025f31d38b9f3f34014210b0d47f87518e3a587c255cec99aa411d8a8f825"
+  },
+  "runtime_validator_implemented": false,
+  "provider_oos_runtime_implemented": false,
+  "phase_a_gate_passed": false,
+  "runtime_budget_gate_passed": false,
+  "oos_trading_backtest": false,
+  "limitations": [
+    "Ca adapter mới là đặc tả; probe chỉ chạy API hiện có.",
+    "Freeze OOS trong ví dụ là giá trị mẫu, không là receipt được lập trước ngày lịch sử.",
+    "Không chạy lại LLM/Alpha khi replay; kiểm journal/config/hash và tính lại regime/features.",
+    "Gate giá thực thi 2023–2024 vẫn mở."
+  ],
+  "gates": [
+    {
+      "gate": "compileall",
+      "command": [
+        "py",
+        "-3.13",
+        "-m",
+        "compileall",
+        "agents",
+        "core",
+        "data_manager",
+        "scripts",
+        "tests",
+        "utils"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.115,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-provenance-4098b86544a14d45bbef9115159461d0\\compileall.log",
+      "log_sha256": "d2fa1b30f4f93da717300a13ff2d4de879734108a9cf8a1ffafcfab3ffe05ea6"
+    },
+    {
+      "gate": "unit",
+      "command": [
+        "py",
+        "-3.13",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 56.619,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-provenance-4098b86544a14d45bbef9115159461d0\\unit.log",
+      "log_sha256": "60a7cbbbce2d3de3894d1d9b92a7d78e5d40dfbb7693de0d1fe12e5a5128e9c8",
+      "test_count": 339,
+      "suite_seconds": 48.126
+    },
+    {
+      "gate": "e2e",
+      "command": [
+        "py",
+        "-3.13",
+        "scripts/run_end_to_end_test.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 15.011,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-provenance-4098b86544a14d45bbef9115159461d0\\e2e.log",
+      "log_sha256": "8da09eb210e607d61c2ddf36efc21d7c32dd7d1055747f418c1fa008f374ca23",
+      "pipeline_seconds": 7.0
+    },
+    {
+      "gate": "leakage",
+      "command": [
+        "py",
+        "-3.13",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*leakage.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 13.351,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-provenance-4098b86544a14d45bbef9115159461d0\\leakage.log",
+      "log_sha256": "ffc8db4c175e09edac151da51f4b009f70d3fbc1cff81b09348e2c62b3c992e5",
+      "test_count": 56,
+      "suite_seconds": 5.077
+    }
+  ],
+  "gates_finished_at_utc": "2026-10-05T10:36:42.236093+00:00"
+}

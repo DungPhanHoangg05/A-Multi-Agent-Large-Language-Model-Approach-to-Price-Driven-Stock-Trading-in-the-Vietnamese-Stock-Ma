@@ -1,8 +1,9 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A đang thực hiện; W4-01/02 hoàn thành ngày 05/10/2026,
-tiến độ 2/16 task. [Đầu vào](input_readiness.md), [hợp đồng state/config](integration_contract.md),
-[receipt đặc tả](state_config_review.json). W4-03..16 và Gate A còn mở.**
+**Trạng thái: Phase A đang thực hiện; W4-01..03 hoàn thành ngày 05/10/2026,
+tiến độ 3/16 task. [Đầu vào](input_readiness.md), [hợp đồng state/config](integration_contract.md),
+[hợp đồng provenance/PIT](provenance_contract.md), [receipt W4-03](provenance_review.json).
+W4-04..16 và Gate A còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -73,7 +74,7 @@ Chi tiết: [Phase A](phase_a_integration_contract.md).
 | --- | --- | --- | --- | --- |
 | W4-01 | Kiểm tra bàn giao và các điểm nối runtime | [Bản đồ/biên bản](input_readiness.md), [receipt](input_readiness.json): 852 record và archive/QA/hash PASS; replay 288 query + 288 lượt lặp, bốn gate mới PASS | W3 hoàn thành | [x] |
 | W4-02 | Chốt state và cấu hình prior độc lập | [Contract v1](integration_contract.md), [policy](integration_policy.json), [ví dụ](integration_examples.json), [receipt](state_config_review.json): tám config/tám field, Full only, daily chuẩn, bốn gate PASS; chưa cài validator runtime | W4-01 | [x] |
-| W4-03 | Chốt provenance và thứ tự PIT | Luật giá/tin/HMM/scaler/calibration; ranh giới outcome và provider replay/OOS | W4-01, W4-02 | [ ] |
+| W4-03 | Chốt provenance và thứ tự PIT | [Contract](provenance_contract.md), [policy](provenance_policy.json), [ví dụ](provenance_examples.json), [receipt](provenance_review.json): hai provider, nguồn/shape/thứ tự PIT, 5 replay context và 14 probe hiện có, bốn gate PASS; chưa cài adapter | W4-01, W4-02 | [x] |
 | W4-04 | Chốt schema kết quả và resume | Metadata/hash/config; checkpoint từng nhánh, upstream dùng lại và chính sách file cũ | W4-02, W4-03 | [ ] |
 
 ## B. State, prompt và graph
@@ -132,6 +133,24 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-03 hoàn thành
+
+- Nhánh `docs/prior-provenance-contract`, baseline `545e34c`; khóa
+  [provenance v1](provenance_contract.md), policy, ví dụ và receipt riêng.
+- Chốt giá raw VCI/crosscheck KBS, hash snapshot/window/Alpha; tin dated ≤cutoff,
+  coverage trước giới hạn hiển thị và NEUTRAL có lý do khi thiếu ba bài.
+- Replay dùng artifact train-end=cutoff, readonly `verify_only=True`; OOS dùng
+  model đóng băng train-end<cutoff, kiểm toàn prefix train và ba component.
+  Model full-train `RESEARCH_ONLY/UNVERIFIED` chỉ dùng probe kỹ thuật.
+- Năm context nguồn thật (bốn mã và biên bằng exit), hai ví dụ provenance đầy đủ;
+  **14 probe API hiện có PASS**. **14 ca adapter chỉ là đặc tả** cho W4-09/13.
+  Outcome query giữ ngoài state/retriever; lỗi nguồn dừng trước upstream,
+  lỗi tín hiệu trước retrieve, lỗi pool/stats trước formatter/Decision.
+- Compileall / **339 unit** (48,126 giây) / **E2E** / **56 leakage** (5,077 giây)
+  PASS; 2.308 file nguồn/bằng chứng/archive giữ hash trước/sau gate.
+- **Tiếp theo W4-04** khóa schema/signature/checkpoint. Tiến độ **3/16**,
+  Phase A **3/4**; Gate A, adapter/provider OOS runtime và gate giá OOS còn mở.
 
 ### 2026-10-05 — W4-02 hoàn thành
 
