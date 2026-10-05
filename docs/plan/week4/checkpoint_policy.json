@@ -1,0 +1,214 @@
+{
+  "format_version": 1,
+  "task": "W4-04",
+  "status": "LOCKED_SPECIFICATION",
+  "checkpoint_version": "prior_research_checkpoint_v1",
+  "identity_version": "prior_run_identity_v1",
+  "runtime_implemented": false,
+  "hash_algorithm": "prior_checkpoint_canonical_json_v1",
+  "documents": [
+    "run_manifest",
+    "point_checkpoint",
+    "research_result"
+  ],
+  "branch_order": [
+    "original",
+    "random",
+    "recent",
+    "similarity",
+    "bayesian"
+  ],
+  "process_statuses": [
+    "planned",
+    "running",
+    "failed",
+    "complete"
+  ],
+  "retrieval_statuses": [
+    "disabled",
+    "empty",
+    "partial",
+    "complete"
+  ],
+  "shared_stages": [
+    "not_started",
+    "upstream_started",
+    "upstream_complete",
+    "full_started",
+    "shared_complete"
+  ],
+  "attempt_statuses": [
+    "running",
+    "failed",
+    "complete",
+    "unknown"
+  ],
+  "identity_keys": [
+    "identity_version",
+    "protocol",
+    "versions",
+    "matrix",
+    "run_config",
+    "bank",
+    "sources",
+    "models",
+    "templates",
+    "code_sha256",
+    "runtime",
+    "point_plan"
+  ],
+  "signature_excludes": [
+    "credentials_and_their_hashes",
+    "timestamps",
+    "host_pid_owner",
+    "output_dir",
+    "latency",
+    "pacing_cooldown"
+  ],
+  "full_bundle_keys": [
+    "reports",
+    "current_signals",
+    "market_regime",
+    "prior_provenance",
+    "alpha_factors",
+    "sentiment_data"
+  ],
+  "projection_fields": [
+    "stock_name",
+    "as_of_date",
+    "window_end_date",
+    "time_frame",
+    "language",
+    "is_backtest",
+    "snapshot_ref"
+  ],
+  "research_scope": "five_way_matrix_full_only",
+  "input_source_proof_groups": [
+    "context",
+    "prices",
+    "news",
+    "regime",
+    "bank"
+  ],
+  "source_snapshot_storage": "verified_local_csv_reference_then_pit_cut_and_hash_check",
+  "all_points_durable_before_initialized": true,
+  "missing_point_after_initialized": "ValueError",
+  "branch_complete_is_immutable": true,
+  "point_complete_is_sealed": true,
+  "legacy_migration": "REJECT_MISSING_PROOF",
+  "source_paths_root": "repository",
+  "point_files_paths_root": "run_directory",
+  "zero_sample_accuracy_and_account_metrics": null,
+  "legacy_flag_off_format_unchanged": true,
+  "outcome_outside_agent_projection_and_full_bundle": true,
+  "resume_running_decision": "NEW_ATTEMPT_WITH_SAME_INPUT_AND_UNKNOWN_PREVIOUS_ATTEMPT",
+  "resume_ambiguous_upstream_or_full": "STOP_FOR_RECONCILIATION_NO_AUTOMATIC_REINVOKE",
+  "atomic_writer": "core.bayesian_memory.atomic_write_json",
+  "lock_backend_windows": "msvcrt_byte_0_handle_held",
+  "lock_files_not_unlinked": true,
+  "lock_scope": "single_local_host_not_distributed",
+  "owner_fields": [
+    "host_id",
+    "boot_id",
+    "pid",
+    "process_start_time",
+    "owner_uuid",
+    "acquired_at",
+    "run_signature",
+    "owner_state",
+    "released_at"
+  ],
+  "lock_unknown_live_or_other_host": "STOP_FOR_REVIEW",
+  "state_transitions": [
+    {
+      "stage": "not_started",
+      "branches_complete": [],
+      "expected_action": "START_UPSTREAM_ONCE_AFTER_DURABLE_MARKER"
+    },
+    {
+      "stage": "upstream_started",
+      "branches_complete": [],
+      "expected_action": "STOP_AMBIGUOUS_UPSTREAM"
+    },
+    {
+      "stage": "upstream_complete",
+      "branches_complete": [],
+      "expected_action": "REUSE_UPSTREAM_START_FULL_ONCE"
+    },
+    {
+      "stage": "full_started",
+      "branches_complete": [],
+      "expected_action": "STOP_AMBIGUOUS_FULL"
+    },
+    {
+      "stage": "shared_complete",
+      "branches_complete": [],
+      "expected_action": "DECISION_FOR_FIVE_PENDING_BRANCHES"
+    },
+    {
+      "stage": "shared_complete",
+      "branches_complete": [
+        "original",
+        "random"
+      ],
+      "expected_action": "DECISION_ONLY_FOR_THREE_PENDING_BRANCHES"
+    },
+    {
+      "stage": "shared_complete",
+      "branches_complete": [
+        "original",
+        "random",
+        "recent",
+        "similarity",
+        "bayesian"
+      ],
+      "expected_action": "EVALUATE_AND_SEAL_WITHOUT_LLM"
+    },
+    {
+      "stage": "point_complete",
+      "branches_complete": [
+        "original",
+        "random",
+        "recent",
+        "similarity",
+        "bayesian"
+      ],
+      "expected_action": "REBUILD_RESULT_WITHOUT_LLM"
+    }
+  ],
+  "semantic_validations": [
+    "native_finite_json",
+    "envelope_run_source_shared_query_prompt_hashes",
+    "config_matrix_mapping",
+    "point_ids_order_common_support",
+    "price_news_model_prior_pit",
+    "metadata_full_w3_projection",
+    "counts_rates_selection_order_scores",
+    "prompt_recompute_and_budget",
+    "economic_engine_evaluation",
+    "attempt_stage_status_relations",
+    "no_credentials_in_persisted_objects"
+  ],
+  "runtime_cases_not_executed": [
+    "all_crash_failpoints",
+    "live_lock_dead_owner_pid_reuse",
+    "lock_unknown_host",
+    "interrupt_during_upstream_and_full",
+    "quota_resume_key_rotation",
+    "disk_error_before_after_each_stage",
+    "five_branch_resume_equivalence",
+    "legacy_reader_dispatch"
+  ],
+  "implementation_tasks": [
+    "W4-11",
+    "W4-12",
+    "W4-13",
+    "W4-14"
+  ],
+  "owner_states": [
+    "active",
+    "released"
+  ],
+  "clean_release": "WRITE_RELEASED_UNDER_OWN_OS_LOCK_THEN_CLOSE_HANDLE",
+  "released_live_process_may_reacquire": true
+}
