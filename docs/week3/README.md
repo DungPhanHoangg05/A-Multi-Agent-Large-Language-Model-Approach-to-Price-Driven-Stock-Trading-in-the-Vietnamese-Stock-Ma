@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. Phase D đang triển khai: W3-13/W3-14 hoàn thành; benchmark p95 từng mode PASS, tiếp theo W3-15/W3-16. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
+**Trạng thái: Phase A/B/C hoàn thành, Gate A/B/C PASS cho API và kiểm chứng offline. W3-13/W3-14/W3-15 hoàn thành: bốn gate tích hợp và bằng chứng offline trên phiên bản sau tối ưu đều PASS. Tiếp theo W3-16 chốt/bàn giao; Phase D chưa chốt. W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng; chưa PASS ngân sách runtime tích hợp.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -83,7 +83,7 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 | --- | --- | --- | --- | --- |
 | W3-13 | Kiểm thử hành vi và zero-leakage | Mười leakage + hai behavior test mới, fixture nhãn từ engine thật; suite 95 test Bayesian, kiểm cả ranking/stats/BRPP, nguồn sai gây lỗi trước formatter; [biên bản và bảng coverage](phase_d_validation_and_handoff.md) | W3-05..12 | [x] |
 | W3-14 | Benchmark retrieval tái lập | `scripts/benchmark_bayesian_retriever.py`, [receipt](retrieval_benchmark.json), [biên bản/profile](phase_d_validation_and_handoff.md): 32 query/mode, 100 warm-up và 1.000 mẫu/mode/giai đoạn; p95 15,809 / 14,812 / 14,179 / 18,239 ms PASS; cold load riêng, giữ hai lượt FAIL và tối ưu bản sao/so snapshot | W3-12, W3-13 | [x] |
-| W3-15 | Chạy bốn gate trước tích hợp | Compileall, toàn bộ unit tests, E2E và leakage PASS; ghi số test/thời gian/lệnh | W3-13, W3-14 | [ ] |
+| W3-15 | Chạy bốn gate trước tích hợp | [Receipt chốt](integration_gate_review.json), [biên bản](phase_d_validation_and_handoff.md): compileall, 339 unit, E2E, 56 leakage PASS; refresh ngân sách/smoke và [benchmark](retrieval_benchmark_integration.json), hash dữ liệu/code không đổi | W3-13, W3-14 | [x] |
 | W3-16 | Chốt deliverables và bàn giao W4 | API/docs/example/benchmark đủ; cập nhật kế hoạch tổng, Conventional Commit/merge sau gate | W3-01..15 | [ ] |
 
 ## Thứ tự triển khai đề xuất
@@ -100,9 +100,29 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 - [x] K=3, seed/scope/metric được đóng băng, thiếu mẫu có metadata rõ ràng.
 - [x] BRPP ≤600 ký tự; prompt ghép thử <6.500 với cấu hình bàn giao đã kiểm. Cap runtime cũ chưa đủ khi ghép BRPP; W4 phải áp dụng phương án và guard cuối cùng.
 - [x] Retrieval p95 <30 ms từng mode theo phép đo đã chốt; [receipt kho thật](retrieval_benchmark.json), đầy đủ mẫu thô và môi trường.
-- [ ] Unit tests, E2E và leakage PASS; API độc lập sẵn sàng cho W4.
+- [x] Unit tests, E2E và leakage PASS; API độc lập đã kiểm trên phiên bản sau tối ưu. Bàn giao chính thức ở W3-16, cap/guard runtime ở W4.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W3-15
+
+- **Bốn gate chốt PASS** trên commit nền `5e720ab`: compileall; **339/339** unit
+  (56,360 giây, gồm 104 Bayesian); E2E xác định **7,0 giây**;
+  **56/56** leakage (5,196 giây). [Receipt](integration_gate_review.json) ghi
+  lệnh, mã thoát, thời gian thực toàn tiến trình, hash log/nguồn/bằng chứng.
+- Chạy lại kiểm ngân sách và smoke sau tối ưu W3-14, giữ bản trước trong
+  [ngân sách cũ](prompt_budget_review_before_integration.json) và
+  [smoke cũ](prior_smoke_before_integration.json). Ngân sách chỉ đổi hash nguồn;
+  context/đầu ra smoke giữ nguyên: 288 query + 288 lượt lặp, BRPP tối đa 373.
+  Prompt bàn giao tối đa 6.086, dự phòng đủ BRPP 600 tối đa 6.289 (<6.500).
+- [Benchmark chốt](retrieval_benchmark_integration.json) cùng phép đo W3-14:
+  p95 Bayesian/Random/Recent/Similarity **15,522 / 13,823 / 13,912 / 18,299 ms**,
+  cả bốn <30 ms. Giữ receipt W3-14 như kết quả lịch sử; không gộp hoặc chọn mẫu
+  tốt nhất giữa các lượt. Cold load/formatter/toàn chuỗi vẫn được báo riêng.
+- Hash toàn bộ file đã track trong code/data/outputs và bằng chứng được đối chiếu
+  trước/sau gate. Task chỉ cập nhật tài liệu/receipt, không sửa runtime, nhãn P&L,
+  upstream, retry, kho/model hoặc `.env`. Nhánh `test/prior-integration-gates`
+  tích hợp sau gate; tiếp theo **W3-16**, chưa chốt Phase D hoặc runtime W4.
 
 ### 2026-10-05 — W3-14
 

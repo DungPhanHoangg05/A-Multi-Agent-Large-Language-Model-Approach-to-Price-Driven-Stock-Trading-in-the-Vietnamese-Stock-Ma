@@ -1,7 +1,8 @@
 # Phase D — kiểm thử, hiệu năng và bàn giao W4
 
-**Trạng thái: W3-13/W3-14 hoàn thành; W3-15/W3-16 chưa chốt.** Gate C offline
-đã PASS; p95 retrieval bốn mode PASS, tiếp theo gate chốt/bàn giao, Phase D chưa chốt.
+**Trạng thái: W3-13/W3-14/W3-15 hoàn thành; W3-16 chưa chốt.** Gate C offline,
+bốn gate tích hợp và p95 retrieval từng mode PASS trên phiên bản sau tối ưu;
+tiếp theo chốt/bàn giao W3-16, Phase D chưa chốt.
 Smoke [receipt](prior_smoke.json) không thay benchmark p95 hoặc gate runtime W4.
 
 ## W3-13 — hành vi và zero-leakage
@@ -68,9 +69,15 @@ py -3.13 scripts/run_end_to_end_test.py
 py -3.13 -X utf8 -m unittest discover -s tests -p 'test_*leakage.py' -v
 ```
 
-- [ ] Bốn gate PASS; ghi số test/thời gian/commit, không dùng kết quả W2 thay kết quả W3.
-- [ ] Diff không đổi engine P&L, upstream ghép cặp, artifact kho/model hoặc cơ chế retry.
-- [ ] Gate smoke/600 ký tự/6.500 ký tự/30 ms có bằng chứng trước merge.
+- [x] Bốn gate PASS; ghi số test/thời gian/commit, không dùng kết quả W2 thay kết quả W3.
+- [x] Diff không đổi engine P&L, upstream ghép cặp, artifact kho/model hoặc cơ chế retry.
+- [x] Gate smoke/600 ký tự/6.500 ký tự/30 ms có bằng chứng trước merge. Prompt
+  <6.500 là kiểm chứng offline với cap bàn giao; cap/guard runtime vẫn thuộc W4.
+
+Bằng chứng chốt: [receipt tích hợp](integration_gate_review.json),
+[ngân sách hiện tại](prompt_budget_review.json), [smoke hiện tại](prior_smoke.json),
+[benchmark hiện tại](retrieval_benchmark_integration.json). Chi tiết lượt chạy ở
+nhật ký W3-15 cuối file.
 
 ## W3-16 — chốt và bàn giao
 
@@ -231,3 +238,66 @@ Lệnh là khối bốn gate ở mục W3-15. Đây là lượt tích hợp task
 W3-15/W3-16 còn việc chốt bằng chứng/bàn giao và chưa được đánh dấu hoàn thành.
 Nhánh `test/retriever-performance-benchmark` tích hợp vào `develop` sau gate;
 không push. Ngân sách prompt runtime W4 và gate giá kiểm định 2023–2024 vẫn chưa mở.
+
+### 05/10/2026 — W3-15 hoàn thành: gate tích hợp sau tối ưu
+
+**Phiên bản kiểm:** commit nền `5e720ab` trên nhánh `test/prior-integration-gates`.
+Task chỉ thay tài liệu/receipt; không thay file đã track trong `agents`, `core`,
+`data_manager`, `scripts`, `tests`, `utils`, `data`, `outputs`. Hash các file này và
+bằng chứng kho/giá/archive/model được kiểm trước/sau bốn gate, không chỉ xem diff.
+[Receipt chốt](integration_gate_review.json) giữ lệnh chính xác, mã thoát, thời gian,
+hash log và hash nguồn/bằng chứng. Log đầy đủ nằm trong thư mục tạm được ghi trong
+receipt, không đưa log test hoặc archive chạy LLM lên Git.
+
+#### Kiểm lại bằng chứng offline
+
+Chạy tuần tự, benchmark kết thúc trước khi bắt đầu các gate để không tranh tài nguyên:
+
+```powershell
+py -3.13 -X utf8 scripts/verify_prior_prompt_budget.py
+py -3.13 -X utf8 scripts/verify_bayesian_prior.py
+py -3.13 -X utf8 scripts/benchmark_bayesian_retriever.py --output docs/week3/retrieval_benchmark_integration.json
+```
+
+Đây là lệnh của lượt chốt đã ghi; nếu đo lại, chọn tên `--output` mới.
+Benchmark từ chối ghi đè receipt có sẵn để giữ bằng chứng các lượt trước.
+
+- Ngân sách: **1.024 ca PASS**, prompt bàn giao tối đa **6.086**; mọi ca dự phòng
+  BRPP đúng **600** ký tự có prompt <6.500, tối đa **6.289**. Cap runtime được
+  hoàn trả sau phép kiểm, `runtime_budget_gate_passed=false` vẫn giữ nguyên.
+- Smoke: **288 query + 288 lượt lặp PASS** trên 32 context/bốn mode/hai scope,
+  BRPP tối đa **373**. Context và kết quả bằng bản trước tối ưu; chỉ đổi hash nguồn,
+  hash receipt ngân sách và liên kết bàn giao. Không gọi API/fit HMM/tạo episode.
+- Lưu nguyên bản trước refresh ở [ngân sách cũ](prompt_budget_review_before_integration.json)
+  và [smoke cũ](prior_smoke_before_integration.json). Receipt benchmark W3-14 giữ
+  nguyên như kết quả lịch sử trên bằng chứng cũ; receipt mới dùng hash bằng chứng
+  hiện tại. Không tắt guard hash hoặc sửa kết quả cũ để nhận PASS.
+
+| Mode | P95 retrieval chốt (ms) | Gate <30 ms |
+| --- | ---: | --- |
+| bayesian_regime | 15,522 | PASS |
+| random | 13,823 | PASS |
+| recent | 13,912 | PASS |
+| similarity | 18,299 | PASS |
+
+Giữ phép đo W3-14: 100 warm-up, 1.000 mẫu/mode/giai đoạn, 32 query/mode,
+K=3/seed=42, p95 nearest-rank, không loại outlier/cache query. Cold constructor
+**8.772,802 ms**, formatter và retrieval+format báo riêng trong receipt;
+không tính cold load vào gate, không diễn giải thời gian thành hiệu quả giao dịch.
+
+#### Kết quả bốn gate
+
+| Gate | Kết quả | Thời gian bộ kiểm báo (s) | Thời gian toàn tiến trình (s) |
+| --- | --- | ---: | ---: |
+| Compileall | PASS | — | 0,152 |
+| Unit tests | **339/339 PASS**, gồm 104 Bayesian | 56,360 | 66,063 |
+| E2E xác định | PASS | 7,0 | 14,985 |
+| `test_*leakage.py` | **56/56 PASS** | 5,196 | 13,403 |
+
+Lệnh là khối bốn gate ở mục W3-15. Thời gian toàn tiến trình bao gồm khởi động/import;
+không dùng thời gian unit/leakage của W3-14 hoặc W2 thay lượt chốt này.
+Mỗi gate có mã thoát 0 và output thành công; các file được bảo vệ không đổi.
+Không mở gate giá 2023–2024, không chạy giao dịch OOS; W4 còn phải áp dụng cap
+bàn giao tổng 4.000 và guard prompt cuối `<6500`. **W3-16 còn mở** để chốt
+deliverables/API/example và biên bản bàn giao. Nhánh task tích hợp vào `develop`
+sau gate theo AGENTS.md, không push.
