@@ -1,9 +1,9 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A đang thực hiện; W4-01..03 hoàn thành ngày 05/10/2026,
-tiến độ 3/16 task. [Đầu vào](input_readiness.md), [hợp đồng state/config](integration_contract.md),
-[hợp đồng provenance/PIT](provenance_contract.md), [receipt W4-03](provenance_review.json).
-W4-04..16 và Gate A còn mở.**
+**Trạng thái: Phase A hoàn thành 4/4 task ngày 05/10/2026; Gate A PASS đặc tả,
+tiến độ W4 4/16. [State/config](integration_contract.md),
+[provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
+[receipt/Gate A](checkpoint_review.json). Tiếp theo W4-05; runtime và Gate B/C/D còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -75,7 +75,7 @@ Chi tiết: [Phase A](phase_a_integration_contract.md).
 | W4-01 | Kiểm tra bàn giao và các điểm nối runtime | [Bản đồ/biên bản](input_readiness.md), [receipt](input_readiness.json): 852 record và archive/QA/hash PASS; replay 288 query + 288 lượt lặp, bốn gate mới PASS | W3 hoàn thành | [x] |
 | W4-02 | Chốt state và cấu hình prior độc lập | [Contract v1](integration_contract.md), [policy](integration_policy.json), [ví dụ](integration_examples.json), [receipt](state_config_review.json): tám config/tám field, Full only, daily chuẩn, bốn gate PASS; chưa cài validator runtime | W4-01 | [x] |
 | W4-03 | Chốt provenance và thứ tự PIT | [Contract](provenance_contract.md), [policy](provenance_policy.json), [ví dụ](provenance_examples.json), [receipt](provenance_review.json): hai provider, nguồn/shape/thứ tự PIT, 5 replay context và 14 probe hiện có, bốn gate PASS; chưa cài adapter | W4-01, W4-02 | [x] |
-| W4-04 | Chốt schema kết quả và resume | Metadata/hash/config; checkpoint từng nhánh, upstream dùng lại và chính sách file cũ | W4-02, W4-03 | [ ] |
+| W4-04 | Chốt schema kết quả và resume | [Contract](checkpoint_contract.md), [schema](research_checkpoint.schema.json), [policy](checkpoint_policy.json), [ví dụ](checkpoint_examples.json), [receipt](checkpoint_review.json): identity không chứa key, lưu từng nhánh, xử lý crash/khóa; bốn gate PASS, Gate A đóng đặc tả | W4-02, W4-03 | [x] |
 
 ## B. State, prompt và graph
 
@@ -112,7 +112,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 
 ## Thứ tự và gate chuyển phase
 
-1. W4-01 → 02 → 03 → 04: **Gate A** khóa hợp đồng trước khi sửa runtime.
+1. W4-01 → 02 → 03 → 04: **Gate A PASS đặc tả**; đủ hợp đồng trước khi sửa runtime.
 2. W4-05 → 06 → 07 → 08: **Gate B** state/Decision/graph offline PASS.
 3. W4-09 → 10 → 11 → 12: **Gate C** PIT, dùng chung báo cáo và resume PASS.
 4. W4-13 → 14 → 15 → 16: **Gate D** đủ bốn gate và biên bản bàn giao.
@@ -133,6 +133,28 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-05 — W4-04 và Phase A hoàn thành
+
+- Nhánh `docs/research-checkpoint-contract`, baseline `e3aa3f8`; khóa
+  [contract kết quả/checkpoint](checkpoint_contract.md), schema/policy/ví dụ và receipt riêng.
+- Ba loại envelope: run manifest, point checkpoint và result dẫn xuất; schema
+  nghiên cứu riêng, giữ Full/No-Alpha/legacy reader khi flag tắt.
+- Identity khóa config/plan/bank/nguồn/model/template/code; key và hash key
+  không được lưu. Shared Full durable trước Decision, persist từng nhánh;
+  resume không gọi lại branch complete, không đưa evaluation vào agent.
+- Chốt OS lock giữ bằng handle; khóa còn file không tự chặn resume. Crash
+  upstream/Full chưa có output durable phải dừng ambiguous; không tự lặp vision.
+  Crash sau nhánh cuối chỉ evaluate/seal/rebuild result offline.
+- **4 document mẫu**, **7 shape trạng thái**, **11 ca schema sai**, **5 projection
+  retriever thật**, **8 mutation signature**, **3 probe atomic/strict reader** PASS.
+  Decision là fixture; failpoint/lock/resume mới chưa triển khai, chờ W4-12.
+- Bốn gate mới: compileall; **339 unit** (130,278 giây), **E2E** (17,6 giây),
+  **56 leakage** (6,097 giây) PASS. 2.312 file giữ hash; kiểm lại 261 file
+  bằng chứng W4-01. Receipt W4-01..03 giữ nguyên.
+- **Gate A PASS_CONTRACTS_ONLY**, Phase A **4/4**, W4 **4/16**.
+  Tiếp theo **W4-05** state/config validator; runtime budget/paired/checkpoint,
+  Gate B/C/D, pilot LLM W5 và giá thực thi OOS 2023–2024 còn mở.
 
 ### 2026-10-05 — W4-03 hoàn thành
 

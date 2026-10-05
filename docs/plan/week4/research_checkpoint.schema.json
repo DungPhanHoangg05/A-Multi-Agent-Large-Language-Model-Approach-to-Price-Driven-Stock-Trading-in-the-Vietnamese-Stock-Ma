@@ -1,0 +1,3862 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kltn:prior-research-checkpoint:1",
+  "title": "PriorResearchCheckpoint",
+  "description": "Đặc tả ba envelope nghiên cứu; PIT/hash và chuyển trạng thái được kiểm ngoài JSON Schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "payload",
+    "sha256"
+  ],
+  "properties": {
+    "payload": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/manifest"
+        },
+        {
+          "$ref": "#/$defs/point"
+        },
+        {
+          "$ref": "#/$defs/result"
+        }
+      ]
+    },
+    "sha256": {
+      "$ref": "#/$defs/sha"
+    }
+  },
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "json": {
+      "anyOf": [
+        {
+          "type": [
+            "null",
+            "boolean",
+            "string",
+            "number"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/json"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/json"
+          }
+        }
+      ]
+    },
+    "map": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/json"
+      }
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+    },
+    "priorConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enable_bayesian_prior",
+        "mode",
+        "k",
+        "seed",
+        "scope",
+        "bank_path",
+        "manifest_path",
+        "audit_path"
+      ],
+      "properties": {
+        "enable_bayesian_prior": {
+          "type": "boolean"
+        },
+        "mode": {
+          "enum": [
+            "bayesian_regime",
+            "random",
+            "recent",
+            "similarity"
+          ]
+        },
+        "k": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "scope": {
+          "enum": [
+            "pooled",
+            "same_symbol"
+          ]
+        },
+        "bank_path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+        },
+        "manifest_path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+        },
+        "audit_path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "as_of_date",
+        "time_frame"
+      ],
+      "properties": {
+        "symbol": {
+          "enum": [
+            "FPT",
+            "MWG",
+            "VCB",
+            "VNM"
+          ]
+        },
+        "as_of_date": {
+          "$ref": "#/$defs/date"
+        },
+        "time_frame": {
+          "const": "1d"
+        }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trend",
+        "pattern",
+        "alpha_consensus",
+        "indicator_consensus",
+        "sentiment"
+      ],
+      "properties": {
+        "trend": {
+          "enum": [
+            "BULLISH",
+            "BEARISH",
+            "NEUTRAL"
+          ]
+        },
+        "pattern": {
+          "enum": [
+            "BULLISH",
+            "BEARISH",
+            "NEUTRAL"
+          ]
+        },
+        "alpha_consensus": {
+          "enum": [
+            "BULLISH",
+            "BEARISH",
+            "NEUTRAL"
+          ]
+        },
+        "indicator_consensus": {
+          "enum": [
+            "BULLISH",
+            "BEARISH",
+            "NEUTRAL"
+          ]
+        },
+        "sentiment": {
+          "enum": [
+            "POSITIVE",
+            "NEGATIVE",
+            "NEUTRAL"
+          ]
+        }
+      }
+    },
+    "provenance_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "as_of_date",
+        "time_frame",
+        "provider_mode"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "minLength": 1
+        },
+        "as_of_date": {
+          "$ref": "#/$defs/date"
+        },
+        "time_frame": {
+          "const": "1d"
+        },
+        "provider_mode": {
+          "enum": [
+            "historical_prefix",
+            "fixed_train_oos"
+          ]
+        }
+      }
+    },
+    "provenance_prices": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_library",
+        "source_library_version",
+        "primary_source",
+        "crosscheck_sources",
+        "price_basis",
+        "price_unit",
+        "manifest_path",
+        "manifest_sha256",
+        "csv_path",
+        "evidence_path",
+        "events_path",
+        "csv_sha256",
+        "evidence_sha256",
+        "events_sha256",
+        "schema",
+        "snapshot_start_date",
+        "snapshot_end_date",
+        "snapshot_rows",
+        "snapshot_sha256",
+        "window_size",
+        "window_rows",
+        "window_end_date",
+        "window_sha256",
+        "alpha_start_date",
+        "alpha_end_date",
+        "alpha_rows",
+        "alpha_sha256"
+      ],
+      "properties": {
+        "source_library": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_library_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primary_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "crosscheck_sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "price_basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "price_unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "manifest_path": {
+          "$ref": "#/$defs/path"
+        },
+        "manifest_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "csv_path": {
+          "$ref": "#/$defs/path"
+        },
+        "evidence_path": {
+          "$ref": "#/$defs/path"
+        },
+        "events_path": {
+          "$ref": "#/$defs/path"
+        },
+        "csv_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "events_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "snapshot_start_date": {
+          "$ref": "#/$defs/date"
+        },
+        "snapshot_end_date": {
+          "$ref": "#/$defs/date"
+        },
+        "snapshot_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "window_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "window_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "window_end_date": {
+          "$ref": "#/$defs/date"
+        },
+        "window_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "alpha_start_date": {
+          "$ref": "#/$defs/date"
+        },
+        "alpha_end_date": {
+          "$ref": "#/$defs/date"
+        },
+        "alpha_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "alpha_sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      }
+    },
+    "provenance_news": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_path",
+        "snapshot_sha256",
+        "source_articles_sha256",
+        "visible_articles_sha256",
+        "input_count",
+        "visible_count",
+        "excluded_counts",
+        "coverage_start_date",
+        "coverage_end_date",
+        "window_days",
+        "min_articles",
+        "is_reliable",
+        "model_used",
+        "neutral_reason"
+      ],
+      "properties": {
+        "snapshot_path": {
+          "$ref": "#/$defs/path"
+        },
+        "snapshot_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_articles_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "visible_articles_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "input_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "visible_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excluded_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "undated",
+            "future",
+            "outside_window"
+          ],
+          "properties": {
+            "undated": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "future": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "outside_window": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "coverage_start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coverage_end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "window_days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "min_articles": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "is_reliable": {
+          "type": "boolean"
+        },
+        "model_used": {
+          "type": "string",
+          "minLength": 1
+        },
+        "neutral_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "provenance_regime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_symbol",
+        "source_manifest_path",
+        "source_manifest_sha256",
+        "source_csv_path",
+        "source_csv_sha256",
+        "inference_prefix_sha256",
+        "feature_sha256",
+        "artifact_path",
+        "artifact_sha256",
+        "metadata",
+        "state_sha256",
+        "component_train_end_dates",
+        "frozen_model"
+      ],
+      "properties": {
+        "source_symbol": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_manifest_path": {
+          "$ref": "#/$defs/path"
+        },
+        "source_manifest_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "source_csv_path": {
+          "$ref": "#/$defs/path"
+        },
+        "source_csv_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "inference_prefix_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "feature_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "artifact_path": {
+          "$ref": "#/$defs/path"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "metadata": {
+          "$ref": "#/$defs/map"
+        },
+        "state_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "component_train_end_dates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hmm",
+            "scaler",
+            "calibration"
+          ],
+          "properties": {
+            "hmm": {
+              "$ref": "#/$defs/date"
+            },
+            "scaler": {
+              "$ref": "#/$defs/date"
+            },
+            "calibration": {
+              "$ref": "#/$defs/date"
+            }
+          }
+        },
+        "frozen_model": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "freeze_as_of_date",
+                "artifact_sha256",
+                "training_data_sha256"
+              ],
+              "properties": {
+                "freeze_as_of_date": {
+                  "$ref": "#/$defs/date"
+                },
+                "artifact_sha256": {
+                  "$ref": "#/$defs/sha"
+                },
+                "training_data_sha256": {
+                  "$ref": "#/$defs/sha"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "provenance_signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin",
+        "checkpoint_path",
+        "checkpoint_sha256",
+        "reports_sha256",
+        "signals_sha256",
+        "config_sha256",
+        "models",
+        "runtime",
+        "code_sha256"
+      ],
+      "properties": {
+        "origin": {
+          "enum": [
+            "historical_signal_checkpoint",
+            "shared_full"
+          ]
+        },
+        "checkpoint_path": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/path"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "checkpoint_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reports_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "signals_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "config_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "models": {
+          "$ref": "#/$defs/map"
+        },
+        "runtime": {
+          "$ref": "#/$defs/map"
+        },
+        "code_sha256": {
+          "$ref": "#/$defs/map"
+        }
+      }
+    },
+    "provenance_bank": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bank_path",
+        "bank_sha256",
+        "manifest_path",
+        "manifest_sha256",
+        "audit_path",
+        "audit_sha256",
+        "versions"
+      ],
+      "properties": {
+        "bank_path": {
+          "$ref": "#/$defs/path"
+        },
+        "bank_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "manifest_path": {
+          "$ref": "#/$defs/path"
+        },
+        "manifest_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "audit_path": {
+          "$ref": "#/$defs/path"
+        },
+        "audit_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "versions": {
+          "$ref": "#/$defs/map"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "context",
+        "prices",
+        "news",
+        "regime",
+        "signals",
+        "bank"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "prior_provenance_v1"
+        },
+        "context": {
+          "$ref": "#/$defs/provenance_context"
+        },
+        "prices": {
+          "$ref": "#/$defs/provenance_prices"
+        },
+        "news": {
+          "$ref": "#/$defs/provenance_news"
+        },
+        "regime": {
+          "$ref": "#/$defs/provenance_regime"
+        },
+        "signals": {
+          "$ref": "#/$defs/provenance_signals"
+        },
+        "bank": {
+          "$ref": "#/$defs/provenance_bank"
+        }
+      }
+    },
+    "sourceProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context",
+        "prices",
+        "news",
+        "regime",
+        "bank"
+      ],
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/provenance_context"
+        },
+        "prices": {
+          "$ref": "#/$defs/provenance_prices"
+        },
+        "news": {
+          "$ref": "#/$defs/provenance_news"
+        },
+        "regime": {
+          "$ref": "#/$defs/provenance_regime"
+        },
+        "bank": {
+          "$ref": "#/$defs/provenance_bank"
+        }
+      }
+    },
+    "reports3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "indicator_report",
+        "pattern_report",
+        "trend_report"
+      ],
+      "properties": {
+        "indicator_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pattern_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trend_report": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "reports5": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "indicator_report",
+        "pattern_report",
+        "trend_report",
+        "alpha_report",
+        "sentiment_report"
+      ],
+      "properties": {
+        "indicator_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pattern_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trend_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alpha_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sentiment_report": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reports",
+        "current_signals",
+        "market_regime",
+        "prior_provenance",
+        "alpha_factors",
+        "sentiment_data"
+      ],
+      "properties": {
+        "reports": {
+          "$ref": "#/$defs/reports5"
+        },
+        "current_signals": {
+          "$ref": "#/$defs/signals"
+        },
+        "market_regime": {
+          "$ref": "urn:kltn:market-regime-state:1"
+        },
+        "prior_provenance": {
+          "$ref": "#/$defs/provenance"
+        },
+        "alpha_factors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/map"
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "sentiment_data": {
+          "$ref": "#/$defs/map"
+        }
+      }
+    },
+    "shared": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "upstream_reports",
+        "full_bundle",
+        "shared_sha256"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "not_started",
+            "upstream_started",
+            "upstream_complete",
+            "full_started",
+            "shared_complete"
+          ]
+        },
+        "upstream_reports": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/reports3"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "full_bundle": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/bundle"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shared_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "not_started"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "upstream_reports": {
+                "type": "null"
+              },
+              "full_bundle": {
+                "type": "null"
+              },
+              "shared_sha256": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "upstream_started"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "upstream_reports": {
+                "type": "null"
+              },
+              "full_bundle": {
+                "type": "null"
+              },
+              "shared_sha256": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "upstream_complete"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "upstream_reports": {
+                "$ref": "#/$defs/reports3"
+              },
+              "full_bundle": {
+                "type": "null"
+              },
+              "shared_sha256": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "full_started"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "upstream_reports": {
+                "$ref": "#/$defs/reports3"
+              },
+              "full_bundle": {
+                "type": "null"
+              },
+              "shared_sha256": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "shared_complete"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "upstream_reports": {
+                "$ref": "#/$defs/reports3"
+              },
+              "full_bundle": {
+                "$ref": "#/$defs/bundle"
+              },
+              "shared_sha256": {
+                "$ref": "#/$defs/sha"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "api_contract_version",
+        "sampling_version",
+        "metric_version",
+        "statistics_version",
+        "prefix_version"
+      ],
+      "properties": {
+        "api_contract_version": {
+          "const": 1
+        },
+        "sampling_version": {
+          "const": "prior_sampling_v1"
+        },
+        "metric_version": {
+          "const": "signal_match_v1"
+        },
+        "statistics_version": {
+          "const": "regime_empirical_stats_v1"
+        },
+        "prefix_version": {
+          "const": "compact_brpp_v1"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "api_contract_version",
+        "sampling_version",
+        "metric_version",
+        "statistics_version",
+        "prefix_version",
+        "bank_sha256",
+        "symbol",
+        "as_of_date",
+        "current_regime",
+        "mode",
+        "scope",
+        "requested_k",
+        "seed",
+        "eligible_count",
+        "matched_regime_count",
+        "candidate_count",
+        "effective_seed",
+        "selected_count",
+        "selected_ids",
+        "selected_scores",
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "api_contract_version": {
+          "const": 1
+        },
+        "sampling_version": {
+          "const": "prior_sampling_v1"
+        },
+        "metric_version": {
+          "const": "signal_match_v1"
+        },
+        "statistics_version": {
+          "const": "regime_empirical_stats_v1"
+        },
+        "prefix_version": {
+          "const": "compact_brpp_v1"
+        },
+        "bank_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "symbol": {
+          "enum": [
+            "FPT",
+            "MWG",
+            "VCB",
+            "VNM"
+          ]
+        },
+        "as_of_date": {
+          "$ref": "#/$defs/date"
+        },
+        "current_regime": {
+          "enum": [
+            "BULL",
+            "BEAR",
+            "CHOPPY",
+            "CONSOLIDATION"
+          ]
+        },
+        "mode": {
+          "enum": [
+            "bayesian_regime",
+            "random",
+            "recent",
+            "similarity"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "pooled",
+            "same_symbol"
+          ]
+        },
+        "requested_k": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "eligible_count": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "matched_regime_count": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_count": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effective_seed": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selected_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "selected_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "selected_scores": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "episode_id",
+              "score"
+            ],
+            "properties": {
+              "episode_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "maxItems": 3
+        },
+        "status": {
+          "enum": [
+            "disabled",
+            "empty",
+            "partial",
+            "complete"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "enum": [
+                "k_zero",
+                "no_eligible_history",
+                "no_matching_regime",
+                "insufficient_candidates"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "regime",
+        "population_count",
+        "metrics"
+      ],
+      "properties": {
+        "regime": {
+          "enum": [
+            "BULL",
+            "BEAR",
+            "CHOPPY",
+            "CONSOLIDATION"
+          ]
+        },
+        "population_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "win_rate_long",
+            "bull_trap_rate",
+            "trend_false_bullish_rate",
+            "pattern_false_bullish_rate"
+          ],
+          "properties": {
+            "win_rate_long": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "numerator",
+                "denominator",
+                "rate"
+              ],
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "rate": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "bull_trap_rate": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "numerator",
+                "denominator",
+                "rate"
+              ],
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "rate": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "trend_false_bullish_rate": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "numerator",
+                "denominator",
+                "rate"
+              ],
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "rate": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "pattern_false_bullish_rate": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "numerator",
+                "denominator",
+                "rate"
+              ],
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "rate": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "char_count",
+        "sha256"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6499
+        },
+        "char_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6499
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha"
+        }
+      }
+    },
+    "branchInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prior_config",
+        "shared_sha256",
+        "query_sha256",
+        "prior_tasks",
+        "prior_stats",
+        "prior_metadata",
+        "bayesian_prior_context",
+        "prompt"
+      ],
+      "properties": {
+        "prior_config": {
+          "$ref": "#/$defs/priorConfig"
+        },
+        "shared_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "query_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "prior_tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:kltn:historical-task-record:1"
+          },
+          "maxItems": 3
+        },
+        "prior_stats": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/stats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prior_metadata": {
+          "$ref": "#/$defs/metadata"
+        },
+        "bayesian_prior_context": {
+          "type": "string",
+          "maxLength": 600
+        },
+        "prompt": {
+          "$ref": "#/$defs/prompt"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message_vi",
+        "retryable",
+        "retry_after_seconds"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "QUOTA",
+            "RATE_LIMIT",
+            "FORMAT",
+            "SOURCE",
+            "INTERRUPT",
+            "PERSISTENCE",
+            "AMBIGUOUS_UPSTREAM",
+            "AMBIGUOUS_FULL",
+            "RUNTIME"
+          ]
+        },
+        "message_vi": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retry_after_seconds": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_id",
+        "started_at",
+        "finished_at",
+        "status",
+        "error"
+      ],
+      "properties": {
+        "attempt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "started_at": {
+          "$ref": "#/$defs/utc"
+        },
+        "finished_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/utc"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "running",
+            "failed",
+            "complete",
+            "unknown"
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "confidence",
+        "risk_reward_ratio",
+        "raw_response",
+        "normalized_response",
+        "decision_source",
+        "fallback_reason",
+        "provider_request_id",
+        "latency_seconds"
+      ],
+      "properties": {
+        "action": {
+          "enum": [
+            "LONG",
+            "SHORT"
+          ]
+        },
+        "confidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_reward_ratio": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw_response": {
+          "type": "string",
+          "minLength": 1
+        },
+        "normalized_response": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fallback_reason": {
+          "type": "string"
+        },
+        "provider_request_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latency_seconds": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "input",
+        "attempts",
+        "decision",
+        "error"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "planned",
+            "running",
+            "failed",
+            "complete"
+          ]
+        },
+        "input": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/branchInput"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attempts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/attempt"
+          }
+        },
+        "decision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/decision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "input": {
+                "$ref": "#/$defs/branchInput"
+              },
+              "decision": {
+                "$ref": "#/$defs/decision"
+              },
+              "error": {
+                "type": "null"
+              },
+              "attempts": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "running"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "input": {
+                "$ref": "#/$defs/branchInput"
+              },
+              "decision": {
+                "type": "null"
+              },
+              "error": {
+                "type": "null"
+              },
+              "attempts": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "decision": {
+                "type": "null"
+              },
+              "error": {
+                "$ref": "#/$defs/error"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "branches": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original",
+        "random",
+        "recent",
+        "similarity",
+        "bayesian"
+      ],
+      "properties": {
+        "original": {
+          "$ref": "#/$defs/branch"
+        },
+        "random": {
+          "$ref": "#/$defs/branch"
+        },
+        "recent": {
+          "$ref": "#/$defs/branch"
+        },
+        "similarity": {
+          "$ref": "#/$defs/branch"
+        },
+        "bayesian": {
+          "$ref": "#/$defs/branch"
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_date",
+        "exit_date",
+        "entry_open",
+        "exit_close",
+        "net_return_long",
+        "actual_direction",
+        "branches"
+      ],
+      "properties": {
+        "entry_date": {
+          "$ref": "#/$defs/date"
+        },
+        "exit_date": {
+          "$ref": "#/$defs/date"
+        },
+        "entry_open": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "exit_close": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "net_return_long": {
+          "type": "number"
+        },
+        "actual_direction": {
+          "enum": [
+            "UP",
+            "DOWN"
+          ]
+        },
+        "branches": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "original",
+            "random",
+            "recent",
+            "similarity",
+            "bayesian"
+          ],
+          "properties": {
+            "original": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "correct",
+                "executed_action",
+                "cycle_net_return"
+              ],
+              "properties": {
+                "correct": {
+                  "type": "boolean"
+                },
+                "executed_action": {
+                  "enum": [
+                    "BUY_SELL",
+                    "CASH"
+                  ]
+                },
+                "cycle_net_return": {
+                  "type": "number"
+                }
+              }
+            },
+            "random": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "correct",
+                "executed_action",
+                "cycle_net_return"
+              ],
+              "properties": {
+                "correct": {
+                  "type": "boolean"
+                },
+                "executed_action": {
+                  "enum": [
+                    "BUY_SELL",
+                    "CASH"
+                  ]
+                },
+                "cycle_net_return": {
+                  "type": "number"
+                }
+              }
+            },
+            "recent": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "correct",
+                "executed_action",
+                "cycle_net_return"
+              ],
+              "properties": {
+                "correct": {
+                  "type": "boolean"
+                },
+                "executed_action": {
+                  "enum": [
+                    "BUY_SELL",
+                    "CASH"
+                  ]
+                },
+                "cycle_net_return": {
+                  "type": "number"
+                }
+              }
+            },
+            "similarity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "correct",
+                "executed_action",
+                "cycle_net_return"
+              ],
+              "properties": {
+                "correct": {
+                  "type": "boolean"
+                },
+                "executed_action": {
+                  "enum": [
+                    "BUY_SELL",
+                    "CASH"
+                  ]
+                },
+                "cycle_net_return": {
+                  "type": "number"
+                }
+              }
+            },
+            "bayesian": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "correct",
+                "executed_action",
+                "cycle_net_return"
+              ],
+              "properties": {
+                "correct": {
+                  "type": "boolean"
+                },
+                "executed_action": {
+                  "enum": [
+                    "BUY_SELL",
+                    "CASH"
+                  ]
+                },
+                "cycle_net_return": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stock_name",
+        "as_of_date",
+        "window_end_date",
+        "time_frame",
+        "language",
+        "is_backtest",
+        "snapshot_ref"
+      ],
+      "properties": {
+        "stock_name": {
+          "enum": [
+            "FPT",
+            "MWG",
+            "VCB",
+            "VNM"
+          ]
+        },
+        "as_of_date": {
+          "$ref": "#/$defs/date"
+        },
+        "window_end_date": {
+          "$ref": "#/$defs/date"
+        },
+        "time_frame": {
+          "const": "1d"
+        },
+        "language": {
+          "enum": [
+            "vi",
+            "en"
+          ]
+        },
+        "is_backtest": {
+          "const": true
+        },
+        "snapshot_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "csv_sha256",
+            "snapshot_sha256",
+            "rows",
+            "start_date",
+            "end_date",
+            "schema"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+            },
+            "csv_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "snapshot_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "rows": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "start_date": {
+              "$ref": "#/$defs/date"
+            },
+            "end_date": {
+              "$ref": "#/$defs/date"
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 6,
+              "maxItems": 6
+            }
+          }
+        }
+      }
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "run_signature",
+        "document_type",
+        "point_id",
+        "revision",
+        "status",
+        "context",
+        "source_proof",
+        "source_sha256",
+        "agent_projection",
+        "shared",
+        "branches",
+        "evaluation",
+        "error"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "prior_research_checkpoint_v1"
+        },
+        "run_signature": {
+          "$ref": "#/$defs/sha"
+        },
+        "document_type": {
+          "const": "point_checkpoint"
+        },
+        "point_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "running",
+            "failed",
+            "complete"
+          ]
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        },
+        "source_proof": {
+          "$ref": "#/$defs/sourceProof"
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha"
+        },
+        "agent_projection": {
+          "$ref": "#/$defs/projection"
+        },
+        "shared": {
+          "$ref": "#/$defs/shared"
+        },
+        "branches": {
+          "$ref": "#/$defs/branches"
+        },
+        "evaluation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/evaluation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "shared": {
+                "properties": {
+                  "stage": {
+                    "const": "shared_complete"
+                  }
+                }
+              },
+              "branches": {
+                "properties": {
+                  "original": {
+                    "properties": {
+                      "status": {
+                        "const": "complete"
+                      }
+                    }
+                  },
+                  "random": {
+                    "properties": {
+                      "status": {
+                        "const": "complete"
+                      }
+                    }
+                  },
+                  "recent": {
+                    "properties": {
+                      "status": {
+                        "const": "complete"
+                      }
+                    }
+                  },
+                  "similarity": {
+                    "properties": {
+                      "status": {
+                        "const": "complete"
+                      }
+                    }
+                  },
+                  "bayesian": {
+                    "properties": {
+                      "status": {
+                        "const": "complete"
+                      }
+                    }
+                  }
+                }
+              },
+              "evaluation": {
+                "$ref": "#/$defs/evaluation"
+              },
+              "error": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "$ref": "#/$defs/error"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_version",
+        "protocol",
+        "versions",
+        "matrix",
+        "run_config",
+        "bank",
+        "sources",
+        "models",
+        "templates",
+        "code_sha256",
+        "runtime",
+        "point_plan"
+      ],
+      "properties": {
+        "identity_version": {
+          "const": "prior_run_identity_v1"
+        },
+        "protocol": {
+          "const": "five_way_full_shared_pit"
+        },
+        "versions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state_contract",
+            "provenance",
+            "checkpoint",
+            "hash_algorithm",
+            "retriever",
+            "state_projection",
+            "prompt_pipeline"
+          ],
+          "properties": {
+            "state_contract": {
+              "const": "prior_runtime_contract_v1"
+            },
+            "provenance": {
+              "const": "prior_provenance_v1"
+            },
+            "checkpoint": {
+              "const": "prior_research_checkpoint_v1"
+            },
+            "hash_algorithm": {
+              "const": "prior_checkpoint_canonical_json_v1"
+            },
+            "retriever": {
+              "$ref": "#/$defs/versions"
+            },
+            "state_projection": {
+              "const": "prior_state_projection_v1"
+            },
+            "prompt_pipeline": {
+              "enum": [
+                "prior_decision_prompt_v1",
+                "checkpoint_fixture_prompt_v1"
+              ]
+            }
+          }
+        },
+        "matrix": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "branch_id",
+              "prior_config",
+              "ablation"
+            ],
+            "properties": {
+              "branch_id": {
+                "enum": [
+                  "original",
+                  "random",
+                  "recent",
+                  "similarity",
+                  "bayesian"
+                ]
+              },
+              "prior_config": {
+                "$ref": "#/$defs/priorConfig"
+              },
+              "ablation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "enable_alpha_factors",
+                  "enable_sentiment"
+                ],
+                "properties": {
+                  "enable_alpha_factors": {
+                    "const": true
+                  },
+                  "enable_sentiment": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "run_config": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "symbols",
+            "time_frame",
+            "language",
+            "window_size",
+            "step",
+            "lookahead_candles",
+            "alpha_norm_method",
+            "alpha_weights",
+            "fee",
+            "slippage",
+            "initial_capital_vnd",
+            "price_multiplier",
+            "execution_mode"
+          ],
+          "properties": {
+            "symbols": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "FPT",
+                  "MWG",
+                  "VCB",
+                  "VNM"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "time_frame": {
+              "const": "1d"
+            },
+            "language": {
+              "enum": [
+                "vi",
+                "en"
+              ]
+            },
+            "window_size": {
+              "type": "integer",
+              "minimum": 20,
+              "maximum": 600
+            },
+            "step": {
+              "type": "integer",
+              "minimum": 3
+            },
+            "lookahead_candles": {
+              "const": 3
+            },
+            "alpha_norm_method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alpha_weights": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/map"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "fee": {
+              "const": 0.0025
+            },
+            "slippage": {
+              "const": 0.001
+            },
+            "initial_capital_vnd": {
+              "const": 50000000.0
+            },
+            "price_multiplier": {
+              "const": 1000.0
+            },
+            "execution_mode": {
+              "enum": [
+                "research",
+                "offline_fixture"
+              ]
+            }
+          }
+        },
+        "bank": {
+          "$ref": "#/$defs/provenance_bank"
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider_mode",
+            "files",
+            "frozen_model"
+          ],
+          "properties": {
+            "provider_mode": {
+              "enum": [
+                "historical_prefix",
+                "fixed_train_oos"
+              ]
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+                  },
+                  "sha256": {
+                    "$ref": "#/$defs/sha"
+                  }
+                }
+              },
+              "minItems": 1
+            },
+            "frozen_model": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/map"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "models": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "agent_llm_model",
+            "graph_llm_model",
+            "agent_llm_temperature",
+            "graph_llm_temperature",
+            "agent_llm_max_tokens",
+            "graph_llm_max_tokens",
+            "backend",
+            "structured_output_schema_sha256"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "agent_llm_model": {
+              "type": "string",
+              "minLength": 1
+            },
+            "graph_llm_model": {
+              "type": "string",
+              "minLength": 1
+            },
+            "agent_llm_temperature": {
+              "type": "number"
+            },
+            "graph_llm_temperature": {
+              "type": "number"
+            },
+            "agent_llm_max_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "graph_llm_max_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "backend": {
+              "type": "string",
+              "minLength": 1
+            },
+            "structured_output_schema_sha256": {
+              "$ref": "#/$defs/sha"
+            }
+          }
+        },
+        "templates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "decision_template_sha256",
+            "brpp_template_sha256"
+          ],
+          "properties": {
+            "decision_template_sha256": {
+              "$ref": "#/$defs/sha"
+            },
+            "brpp_template_sha256": {
+              "$ref": "#/$defs/sha"
+            }
+          }
+        },
+        "code_sha256": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/sha"
+          }
+        },
+        "runtime": {
+          "$ref": "#/$defs/map"
+        },
+        "point_plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "point_id",
+              "context",
+              "source_sha256"
+            ],
+            "properties": {
+              "point_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "context": {
+                "$ref": "#/$defs/context"
+              },
+              "source_sha256": {
+                "$ref": "#/$defs/sha"
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "run_signature",
+        "document_type",
+        "identity",
+        "initialized",
+        "created_at"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "prior_research_checkpoint_v1"
+        },
+        "run_signature": {
+          "$ref": "#/$defs/sha"
+        },
+        "document_type": {
+          "const": "run_manifest"
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "initialized": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "$ref": "#/$defs/utc"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original",
+        "random",
+        "recent",
+        "similarity",
+        "bayesian"
+      ],
+      "properties": {
+        "original": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sample_count",
+            "correct_count",
+            "long_count",
+            "short_count",
+            "accuracy",
+            "account_metrics"
+          ],
+          "properties": {
+            "sample_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "correct_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "long_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "short_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "account_metrics": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "total_return_pct",
+                    "sharpe_ratio",
+                    "sortino_ratio",
+                    "max_drawdown_pct",
+                    "hit_rate_pct",
+                    "avg_trade_pct",
+                    "equity_curve",
+                    "period_returns",
+                    "initial_capital_vnd",
+                    "final_equity_vnd",
+                    "total_pnl_vnd",
+                    "final_cash_vnd",
+                    "final_shares",
+                    "equity_curve_vnd"
+                  ],
+                  "properties": {
+                    "total_return_pct": {
+                      "type": "number"
+                    },
+                    "sharpe_ratio": {
+                      "type": "number"
+                    },
+                    "sortino_ratio": {
+                      "type": "number"
+                    },
+                    "max_drawdown_pct": {
+                      "type": "number"
+                    },
+                    "hit_rate_pct": {
+                      "type": "number"
+                    },
+                    "avg_trade_pct": {
+                      "type": "number"
+                    },
+                    "equity_curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "period_returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "initial_capital_vnd": {
+                      "type": "number"
+                    },
+                    "final_equity_vnd": {
+                      "type": "number"
+                    },
+                    "total_pnl_vnd": {
+                      "type": "number"
+                    },
+                    "final_cash_vnd": {
+                      "type": "number"
+                    },
+                    "final_shares": {
+                      "type": "number"
+                    },
+                    "equity_curve_vnd": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "sample_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "accuracy": {
+                    "type": "null"
+                  },
+                  "account_metrics": {
+                    "type": "null"
+                  },
+                  "correct_count": {
+                    "const": 0
+                  },
+                  "long_count": {
+                    "const": 0
+                  },
+                  "short_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "account_metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "total_return_pct",
+                      "sharpe_ratio",
+                      "sortino_ratio",
+                      "max_drawdown_pct",
+                      "hit_rate_pct",
+                      "avg_trade_pct",
+                      "equity_curve",
+                      "period_returns",
+                      "initial_capital_vnd",
+                      "final_equity_vnd",
+                      "total_pnl_vnd",
+                      "final_cash_vnd",
+                      "final_shares",
+                      "equity_curve_vnd"
+                    ],
+                    "properties": {
+                      "total_return_pct": {
+                        "type": "number"
+                      },
+                      "sharpe_ratio": {
+                        "type": "number"
+                      },
+                      "sortino_ratio": {
+                        "type": "number"
+                      },
+                      "max_drawdown_pct": {
+                        "type": "number"
+                      },
+                      "hit_rate_pct": {
+                        "type": "number"
+                      },
+                      "avg_trade_pct": {
+                        "type": "number"
+                      },
+                      "equity_curve": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "period_returns": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "initial_capital_vnd": {
+                        "type": "number"
+                      },
+                      "final_equity_vnd": {
+                        "type": "number"
+                      },
+                      "total_pnl_vnd": {
+                        "type": "number"
+                      },
+                      "final_cash_vnd": {
+                        "type": "number"
+                      },
+                      "final_shares": {
+                        "type": "number"
+                      },
+                      "equity_curve_vnd": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "random": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sample_count",
+            "correct_count",
+            "long_count",
+            "short_count",
+            "accuracy",
+            "account_metrics"
+          ],
+          "properties": {
+            "sample_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "correct_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "long_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "short_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "account_metrics": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "total_return_pct",
+                    "sharpe_ratio",
+                    "sortino_ratio",
+                    "max_drawdown_pct",
+                    "hit_rate_pct",
+                    "avg_trade_pct",
+                    "equity_curve",
+                    "period_returns",
+                    "initial_capital_vnd",
+                    "final_equity_vnd",
+                    "total_pnl_vnd",
+                    "final_cash_vnd",
+                    "final_shares",
+                    "equity_curve_vnd"
+                  ],
+                  "properties": {
+                    "total_return_pct": {
+                      "type": "number"
+                    },
+                    "sharpe_ratio": {
+                      "type": "number"
+                    },
+                    "sortino_ratio": {
+                      "type": "number"
+                    },
+                    "max_drawdown_pct": {
+                      "type": "number"
+                    },
+                    "hit_rate_pct": {
+                      "type": "number"
+                    },
+                    "avg_trade_pct": {
+                      "type": "number"
+                    },
+                    "equity_curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "period_returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "initial_capital_vnd": {
+                      "type": "number"
+                    },
+                    "final_equity_vnd": {
+                      "type": "number"
+                    },
+                    "total_pnl_vnd": {
+                      "type": "number"
+                    },
+                    "final_cash_vnd": {
+                      "type": "number"
+                    },
+                    "final_shares": {
+                      "type": "number"
+                    },
+                    "equity_curve_vnd": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "sample_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "accuracy": {
+                    "type": "null"
+                  },
+                  "account_metrics": {
+                    "type": "null"
+                  },
+                  "correct_count": {
+                    "const": 0
+                  },
+                  "long_count": {
+                    "const": 0
+                  },
+                  "short_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "account_metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "total_return_pct",
+                      "sharpe_ratio",
+                      "sortino_ratio",
+                      "max_drawdown_pct",
+                      "hit_rate_pct",
+                      "avg_trade_pct",
+                      "equity_curve",
+                      "period_returns",
+                      "initial_capital_vnd",
+                      "final_equity_vnd",
+                      "total_pnl_vnd",
+                      "final_cash_vnd",
+                      "final_shares",
+                      "equity_curve_vnd"
+                    ],
+                    "properties": {
+                      "total_return_pct": {
+                        "type": "number"
+                      },
+                      "sharpe_ratio": {
+                        "type": "number"
+                      },
+                      "sortino_ratio": {
+                        "type": "number"
+                      },
+                      "max_drawdown_pct": {
+                        "type": "number"
+                      },
+                      "hit_rate_pct": {
+                        "type": "number"
+                      },
+                      "avg_trade_pct": {
+                        "type": "number"
+                      },
+                      "equity_curve": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "period_returns": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "initial_capital_vnd": {
+                        "type": "number"
+                      },
+                      "final_equity_vnd": {
+                        "type": "number"
+                      },
+                      "total_pnl_vnd": {
+                        "type": "number"
+                      },
+                      "final_cash_vnd": {
+                        "type": "number"
+                      },
+                      "final_shares": {
+                        "type": "number"
+                      },
+                      "equity_curve_vnd": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "recent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sample_count",
+            "correct_count",
+            "long_count",
+            "short_count",
+            "accuracy",
+            "account_metrics"
+          ],
+          "properties": {
+            "sample_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "correct_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "long_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "short_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "account_metrics": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "total_return_pct",
+                    "sharpe_ratio",
+                    "sortino_ratio",
+                    "max_drawdown_pct",
+                    "hit_rate_pct",
+                    "avg_trade_pct",
+                    "equity_curve",
+                    "period_returns",
+                    "initial_capital_vnd",
+                    "final_equity_vnd",
+                    "total_pnl_vnd",
+                    "final_cash_vnd",
+                    "final_shares",
+                    "equity_curve_vnd"
+                  ],
+                  "properties": {
+                    "total_return_pct": {
+                      "type": "number"
+                    },
+                    "sharpe_ratio": {
+                      "type": "number"
+                    },
+                    "sortino_ratio": {
+                      "type": "number"
+                    },
+                    "max_drawdown_pct": {
+                      "type": "number"
+                    },
+                    "hit_rate_pct": {
+                      "type": "number"
+                    },
+                    "avg_trade_pct": {
+                      "type": "number"
+                    },
+                    "equity_curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "period_returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "initial_capital_vnd": {
+                      "type": "number"
+                    },
+                    "final_equity_vnd": {
+                      "type": "number"
+                    },
+                    "total_pnl_vnd": {
+                      "type": "number"
+                    },
+                    "final_cash_vnd": {
+                      "type": "number"
+                    },
+                    "final_shares": {
+                      "type": "number"
+                    },
+                    "equity_curve_vnd": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "sample_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "accuracy": {
+                    "type": "null"
+                  },
+                  "account_metrics": {
+                    "type": "null"
+                  },
+                  "correct_count": {
+                    "const": 0
+                  },
+                  "long_count": {
+                    "const": 0
+                  },
+                  "short_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "account_metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "total_return_pct",
+                      "sharpe_ratio",
+                      "sortino_ratio",
+                      "max_drawdown_pct",
+                      "hit_rate_pct",
+                      "avg_trade_pct",
+                      "equity_curve",
+                      "period_returns",
+                      "initial_capital_vnd",
+                      "final_equity_vnd",
+                      "total_pnl_vnd",
+                      "final_cash_vnd",
+                      "final_shares",
+                      "equity_curve_vnd"
+                    ],
+                    "properties": {
+                      "total_return_pct": {
+                        "type": "number"
+                      },
+                      "sharpe_ratio": {
+                        "type": "number"
+                      },
+                      "sortino_ratio": {
+                        "type": "number"
+                      },
+                      "max_drawdown_pct": {
+                        "type": "number"
+                      },
+                      "hit_rate_pct": {
+                        "type": "number"
+                      },
+                      "avg_trade_pct": {
+                        "type": "number"
+                      },
+                      "equity_curve": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "period_returns": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "initial_capital_vnd": {
+                        "type": "number"
+                      },
+                      "final_equity_vnd": {
+                        "type": "number"
+                      },
+                      "total_pnl_vnd": {
+                        "type": "number"
+                      },
+                      "final_cash_vnd": {
+                        "type": "number"
+                      },
+                      "final_shares": {
+                        "type": "number"
+                      },
+                      "equity_curve_vnd": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "similarity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sample_count",
+            "correct_count",
+            "long_count",
+            "short_count",
+            "accuracy",
+            "account_metrics"
+          ],
+          "properties": {
+            "sample_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "correct_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "long_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "short_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "account_metrics": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "total_return_pct",
+                    "sharpe_ratio",
+                    "sortino_ratio",
+                    "max_drawdown_pct",
+                    "hit_rate_pct",
+                    "avg_trade_pct",
+                    "equity_curve",
+                    "period_returns",
+                    "initial_capital_vnd",
+                    "final_equity_vnd",
+                    "total_pnl_vnd",
+                    "final_cash_vnd",
+                    "final_shares",
+                    "equity_curve_vnd"
+                  ],
+                  "properties": {
+                    "total_return_pct": {
+                      "type": "number"
+                    },
+                    "sharpe_ratio": {
+                      "type": "number"
+                    },
+                    "sortino_ratio": {
+                      "type": "number"
+                    },
+                    "max_drawdown_pct": {
+                      "type": "number"
+                    },
+                    "hit_rate_pct": {
+                      "type": "number"
+                    },
+                    "avg_trade_pct": {
+                      "type": "number"
+                    },
+                    "equity_curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "period_returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "initial_capital_vnd": {
+                      "type": "number"
+                    },
+                    "final_equity_vnd": {
+                      "type": "number"
+                    },
+                    "total_pnl_vnd": {
+                      "type": "number"
+                    },
+                    "final_cash_vnd": {
+                      "type": "number"
+                    },
+                    "final_shares": {
+                      "type": "number"
+                    },
+                    "equity_curve_vnd": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "sample_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "accuracy": {
+                    "type": "null"
+                  },
+                  "account_metrics": {
+                    "type": "null"
+                  },
+                  "correct_count": {
+                    "const": 0
+                  },
+                  "long_count": {
+                    "const": 0
+                  },
+                  "short_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "account_metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "total_return_pct",
+                      "sharpe_ratio",
+                      "sortino_ratio",
+                      "max_drawdown_pct",
+                      "hit_rate_pct",
+                      "avg_trade_pct",
+                      "equity_curve",
+                      "period_returns",
+                      "initial_capital_vnd",
+                      "final_equity_vnd",
+                      "total_pnl_vnd",
+                      "final_cash_vnd",
+                      "final_shares",
+                      "equity_curve_vnd"
+                    ],
+                    "properties": {
+                      "total_return_pct": {
+                        "type": "number"
+                      },
+                      "sharpe_ratio": {
+                        "type": "number"
+                      },
+                      "sortino_ratio": {
+                        "type": "number"
+                      },
+                      "max_drawdown_pct": {
+                        "type": "number"
+                      },
+                      "hit_rate_pct": {
+                        "type": "number"
+                      },
+                      "avg_trade_pct": {
+                        "type": "number"
+                      },
+                      "equity_curve": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "period_returns": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "initial_capital_vnd": {
+                        "type": "number"
+                      },
+                      "final_equity_vnd": {
+                        "type": "number"
+                      },
+                      "total_pnl_vnd": {
+                        "type": "number"
+                      },
+                      "final_cash_vnd": {
+                        "type": "number"
+                      },
+                      "final_shares": {
+                        "type": "number"
+                      },
+                      "equity_curve_vnd": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "bayesian": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sample_count",
+            "correct_count",
+            "long_count",
+            "short_count",
+            "accuracy",
+            "account_metrics"
+          ],
+          "properties": {
+            "sample_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "correct_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "long_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "short_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "accuracy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "account_metrics": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "total_return_pct",
+                    "sharpe_ratio",
+                    "sortino_ratio",
+                    "max_drawdown_pct",
+                    "hit_rate_pct",
+                    "avg_trade_pct",
+                    "equity_curve",
+                    "period_returns",
+                    "initial_capital_vnd",
+                    "final_equity_vnd",
+                    "total_pnl_vnd",
+                    "final_cash_vnd",
+                    "final_shares",
+                    "equity_curve_vnd"
+                  ],
+                  "properties": {
+                    "total_return_pct": {
+                      "type": "number"
+                    },
+                    "sharpe_ratio": {
+                      "type": "number"
+                    },
+                    "sortino_ratio": {
+                      "type": "number"
+                    },
+                    "max_drawdown_pct": {
+                      "type": "number"
+                    },
+                    "hit_rate_pct": {
+                      "type": "number"
+                    },
+                    "avg_trade_pct": {
+                      "type": "number"
+                    },
+                    "equity_curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "period_returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "initial_capital_vnd": {
+                      "type": "number"
+                    },
+                    "final_equity_vnd": {
+                      "type": "number"
+                    },
+                    "total_pnl_vnd": {
+                      "type": "number"
+                    },
+                    "final_cash_vnd": {
+                      "type": "number"
+                    },
+                    "final_shares": {
+                      "type": "number"
+                    },
+                    "equity_curve_vnd": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "sample_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "accuracy": {
+                    "type": "null"
+                  },
+                  "account_metrics": {
+                    "type": "null"
+                  },
+                  "correct_count": {
+                    "const": 0
+                  },
+                  "long_count": {
+                    "const": 0
+                  },
+                  "short_count": {
+                    "const": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "account_metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "total_return_pct",
+                      "sharpe_ratio",
+                      "sortino_ratio",
+                      "max_drawdown_pct",
+                      "hit_rate_pct",
+                      "avg_trade_pct",
+                      "equity_curve",
+                      "period_returns",
+                      "initial_capital_vnd",
+                      "final_equity_vnd",
+                      "total_pnl_vnd",
+                      "final_cash_vnd",
+                      "final_shares",
+                      "equity_curve_vnd"
+                    ],
+                    "properties": {
+                      "total_return_pct": {
+                        "type": "number"
+                      },
+                      "sharpe_ratio": {
+                        "type": "number"
+                      },
+                      "sortino_ratio": {
+                        "type": "number"
+                      },
+                      "max_drawdown_pct": {
+                        "type": "number"
+                      },
+                      "hit_rate_pct": {
+                        "type": "number"
+                      },
+                      "avg_trade_pct": {
+                        "type": "number"
+                      },
+                      "equity_curve": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "period_returns": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "initial_capital_vnd": {
+                        "type": "number"
+                      },
+                      "final_equity_vnd": {
+                        "type": "number"
+                      },
+                      "total_pnl_vnd": {
+                        "type": "number"
+                      },
+                      "final_cash_vnd": {
+                        "type": "number"
+                      },
+                      "final_shares": {
+                        "type": "number"
+                      },
+                      "equity_curve_vnd": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "run_signature",
+        "document_type",
+        "status",
+        "planned_point_ids",
+        "completed_point_ids",
+        "point_files",
+        "summary"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "prior_research_checkpoint_v1"
+        },
+        "run_signature": {
+          "$ref": "#/$defs/sha"
+        },
+        "document_type": {
+          "const": "research_result"
+        },
+        "status": {
+          "enum": [
+            "partial",
+            "complete"
+          ]
+        },
+        "planned_point_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "completed_point_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "point_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "point_id",
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "point_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/]+(?:/[^/]+)*$"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha"
+              }
+            }
+          }
+        },
+        "summary": {
+          "$ref": "#/$defs/summary"
+        }
+      }
+    }
+  }
+}
