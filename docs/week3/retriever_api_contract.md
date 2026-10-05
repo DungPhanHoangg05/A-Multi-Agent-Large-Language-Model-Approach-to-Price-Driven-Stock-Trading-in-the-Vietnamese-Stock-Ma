@@ -270,5 +270,9 @@ Task giữ thứ tự, ngày quyết định và regime riêng; n là population
 Schema/nhãn/counts/ID sai hoặc prefix vượt 600 gây ValueError; không đọc giá/P&L.
 Chữ ký không có query cutoff, nên trách nhiệm PIT/provenance vẫn thuộc retriever/caller.
 V1 dùng câu S=thiếu tin cho kho đã phát hành; task sentiment ngoài NEUTRAL/alias
-cần phiên bản mới. [Receipt formatter](prefix_formatter_review.json) kiểm fixture,
-chưa thay suite/prompt ghép W3-11 hoặc smoke kho thật W3-12.
+cần phiên bản mới. [Receipt formatter](prefix_formatter_review.json) kiểm fixture;
+[receipt W3-11](prompt_budget_review.json) kiểm suite/prompt ghép offline. Cap báo
+cáo hiện tại tổng 4.500 cho prompt ghép bão hòa VI/EN 6.565/6.582, không đạt
+`<6500`. Cap bàn giao tổng 4.000 dự phòng BRPP đủ 600 cho prompt tối đa 6.289;
+W4 phải áp dụng cap đã kiểm và guard prompt cuối sau mọi hướng dẫn thêm vào.
+Runtime Decision chưa thay đổi; smoke kho thật W3-12 còn pending.

@@ -1,6 +1,6 @@
 # Tuần 3 — Bayesian Prior Retriever và BRPP
 
-**Trạng thái: Phase A/B hoàn thành, Gate A/B PASS; W3-10 hoàn thành. W3-11 đến W3-16 chưa thực hiện; Phase C đang triển khai, Gate C còn mở.**
+**Trạng thái: Phase A/B hoàn thành, Gate A/B PASS; W3-10/W3-11 hoàn thành. W3-12 đến W3-16 chưa thực hiện; Gate C còn mở. W3-11 PASS cho cấu hình ngân sách bàn giao offline; W4 phải áp dụng cap đã kiểm và guard prompt cuối cùng.**
 
 Kế hoạch chi tiết cho [W3 trong kế hoạch tổng](../plan/plan.md), tiếp nối
 [biên bản chốt W2](../week2/phase_d_week_close.md). Mỗi task xử lý một phần có thể
@@ -71,8 +71,8 @@ Chi tiết: [Phase C](phase_c_prefix_and_budget.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W3-10 | Định dạng BRPP compact | Formatter/schema/nhãn/mẫu số theo policy, guard ≤600, 13 test mới và [receipt mẫu](prefix_formatter_review.json) PASS; prompt ghép và smoke còn W3-11/W3-12 | W3-08, W3-09 | [x] |
-| W3-11 | Kiểm tra 600 ký tự và prompt ghép | Test K=0..3, dữ liệu dài, tiếng Việt, n=0; BRPP ≤600; prompt ghép thử <6.500; không sửa pipeline W4 | W3-10 | [ ] |
+| W3-10 | Định dạng BRPP compact | Formatter/schema/nhãn/mẫu số theo policy, guard ≤600, 13 test mới và [receipt mẫu](prefix_formatter_review.json) PASS; ngân sách đã kiểm ở W3-11, smoke còn W3-12 | W3-08, W3-09 | [x] |
+| W3-11 | Kiểm tra 600 ký tự và prompt ghép | Chín test mới; [receipt](prompt_budget_review.json) kiểm 1.024 ca VI/EN, biên BRPP đúng 600; prompt bàn giao tối đa 6.289. Cap cũ vượt trần khi ghép BRPP; phương án cap 4.000 và guard cuối cùng bàn giao W4, chưa sửa runtime ([Phase C](phase_c_prefix_and_budget.md)) | W3-10 | [x] |
 | W3-12 | Smoke offline trên kho thật | Biên bản bốn mode, IDs/stats/seed/hash/cutoff/độ dài; không fit HMM hoặc gọi LLM | W3-06..11 | [ ] |
 
 ## D. Leakage, hiệu năng và bàn giao
@@ -98,13 +98,29 @@ Chi tiết: [Phase D](phase_d_validation_and_handoff.md).
 - [x] Bốn chế độ dùng cùng pool hợp lệ trước bộ lọc/xếp hạng riêng của từng mode.
 - [x] Mọi prior và thống kê đều từ `exit_date < as_of_date`, không dùng nhãn query.
 - [x] K=3, seed/scope/metric được đóng băng, thiếu mẫu có metadata rõ ràng.
-- [ ] BRPP ≤600 ký tự; prompt ghép thử <6.500 ký tự.
+- [x] BRPP ≤600 ký tự; prompt ghép thử <6.500 với cấu hình bàn giao đã kiểm. Cap runtime cũ chưa đủ khi ghép BRPP; W4 phải áp dụng phương án và guard cuối cùng.
 - [ ] Retrieval p95 <30 ms từng mode theo phép đo đã chốt.
 - [ ] Unit tests, E2E và leakage PASS; API độc lập sẵn sàng cho W4.
 
 ## Nhật ký tiến độ
 
 ### 2026-10-05
+
+- **W3-11 hoàn thành — kiểm chứng và bàn giao ngân sách**: `tests/test_bayesian_prompt_budget.py`
+  có chín test mới PASS; `scripts/verify_prior_prompt_budget.py` dùng formatter,
+  `_distill_report`/`_cap_report` và builder compact VI/EN thật, không gọi LLM.
+  Kiểm K=0..3, bốn regime, số cực trị/nhiều chữ số, Unicode/NFC/ID dài, n=0,
+  không bullish, biên đúng 600 và overflow từ chối; input và cap runtime được bảo toàn.
+- [Receipt ngân sách](prompt_budget_review.json) ghi **PASS_WITH_REQUIRED_W4_HANDOFF**:
+  cap cũ tổng 4.500 cho prompt ghép 6.565 VI / 6.582 EN, không đạt trần. Phương án
+  cap tổng 4.000 kiểm 1.024 ca, lớn nhất 6.086; dự phòng đầy đủ BRPP 600 cho prompt
+  lớn nhất **6.289 ký tự**. Đây là fixture offline, chưa áp dụng vào Decision runtime.
+  W4 phải dùng cap đã kiểm và guard `<6500` sau mọi hướng dẫn được thêm.
+- **Gate tích hợp W3-11**: compileall PASS, 312/312 unit tests PASS (94,466 giây),
+  E2E xác định PASS (12,4 giây), 46/46 leakage tests PASS (5,660 giây).
+  Nhánh `test/prior-prefix-prompt-budget` tích hợp sau gate; hash receipt và
+  `git diff --check` được kiểm trước commit. **Gate C còn mở** vì W3-12 chưa smoke
+  retrieval/formatter trên kho thật; chưa có kết quả giao dịch OOS hoặc tích hợp W4.
 
 - **W3-10 hoàn thành**: hàm module `format_compact_prior_prefix` có template BRPP v1,
   header n/k, bốn rate với counts/N/A, code T/P/A/I, nhãn W/L của LONG sau phí,
