@@ -13,7 +13,7 @@ from typing import Any
 import unicodedata
 
 from core.bayesian_memory import (
-    HistoricalMemory, REGIMES, SYMBOLS, iso_date, read_json, validate_signals,
+    HistoricalMemory, REGIMES, SYMBOLS, is_bullish, iso_date, read_json, validate_signals,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +58,7 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
 
 
 class BayesianPriorRetriever:
-    """Nạp kho một lần; lọc PIT và chọn prior ở bốn mode, chưa tính stats."""
+    """Nạp kho một lần; chọn prior PIT ở bốn mode và tính tỷ lệ mẫu cùng regime."""
 
     def __init__(self, *, bank_path: str | Path, manifest_path: str | Path,
                  audit_path: str | Path) -> None:
@@ -220,7 +220,7 @@ class BayesianPriorRetriever:
                            current_signals: dict[str, str] | None = None,
                            mode: str = "bayesian_regime", k: int = 3, seed: int = 42,
                            scope: str = "same_symbol") -> dict[str, Any]:
-        """Trả task đã chọn/population/metadata; stats và result retrieve hoàn chỉnh chờ task sau."""
+        """Trả task đã chọn/population/metadata; retrieve bổ sung thống kê từ toàn population."""
         prepared = self.prepare_query(symbol=symbol, as_of_date=as_of_date,
                                       current_regime=current_regime, current_signals=current_signals,
                                       mode=mode, k=k, seed=seed, scope=scope)
@@ -257,16 +257,52 @@ class BayesianPriorRetriever:
         return {"tasks": copy.deepcopy(selected),
                 "regime_population": copy.deepcopy(prepared["regime_population"]), "metadata": metadata}
 
+    def _compute_statistics(self, population: list[dict[str, Any]], *, symbol: str,
+                            as_of_date: str, current_regime: str, scope: str) -> dict[str, Any]:
+        """Tính tỷ lệ mẫu trên toàn population PIT; không smoothing hoặc dùng K làm mẫu số."""
+        self._assert_pool(population, symbol=symbol, as_of_date=as_of_date,
+                          scope=scope, regime=current_regime)
+        wins = union_count = trap_count = trend_count = trend_fail = pattern_count = pattern_fail = 0
+        for record in population:
+            signals = normalize_signals(record["agent_signals"])
+            trend = is_bullish(signals["trend"])
+            pattern = is_bullish(signals["pattern"])
+            loss = record["outcome"]["result"] == "LOSS_IF_LONG"
+            trap = (trend or pattern) and loss
+            if record["outcome"]["was_bull_trap"] is not trap:
+                raise ValueError("Nhãn bull trap khác quan hệ bullish và LOSS trong population")
+            wins += int(record["outcome"]["result"] == "WIN_IF_LONG")
+            union_count += int(trend or pattern)
+            trap_count += int(trap)
+            trend_count += int(trend)
+            trend_fail += int(trend and loss)
+            pattern_count += int(pattern)
+            pattern_fail += int(pattern and loss)
+
+        def metric(numerator: int, denominator: int) -> dict[str, int | float | None]:
+            """Giữ counts gốc; mẫu số 0 có tỷ lệ không xác định để JSON lưu null."""
+            return {"numerator": numerator, "denominator": denominator,
+                    "rate": float(numerator / denominator) if denominator else None}
+
+        return {"regime": current_regime, "population_count": len(population), "metrics": {
+            "win_rate_long": metric(wins, len(population)),
+            "bull_trap_rate": metric(trap_count, union_count),
+            "trend_false_bullish_rate": metric(trend_fail, trend_count),
+            "pattern_false_bullish_rate": metric(pattern_fail, pattern_count),
+        }}
+
     def retrieve(self, *, symbol: str, as_of_date: str, current_regime: str,
                  current_signals: dict[str, str] | None = None, mode: str = "bayesian_regime",
                  k: int = 3, seed: int = 42, scope: str = "same_symbol") -> dict[str, Any]:
-        """Xử lý Original K=0; K>0 chờ tích hợp thống kê thì dừng tường minh."""
-        prepared = self.prepare_query(symbol=symbol, as_of_date=as_of_date,
-                                      current_regime=current_regime, current_signals=current_signals,
-                                      mode=mode, k=k, seed=seed, scope=scope)
+        """Trả tasks/stats/metadata; Original K=0 không tạo pool hoặc tính thống kê."""
+        selection = self.select_prior_tasks(symbol=symbol, as_of_date=as_of_date,
+                                            current_regime=current_regime, current_signals=current_signals,
+                                            mode=mode, k=k, seed=seed, scope=scope)
+        stats = None
         if k > 0:
-            raise NotImplementedError("Thống kê và result retrieve K>0 sẽ tích hợp ở W3-09")
-        metadata = prepared["metadata"]
-        metadata.update(effective_seed=None, selected_count=0, selected_ids=[], selected_scores=[],
-                        status="disabled", reason="k_zero")
-        return {"tasks": [], "stats": None, "metadata": metadata}
+            stats = self._compute_statistics(selection["regime_population"], symbol=symbol,
+                                             as_of_date=as_of_date, current_regime=current_regime, scope=scope)
+            count = selection["metadata"]["matched_regime_count"]
+            if type(count) is not int or stats["population_count"] != count:
+                raise ValueError("Population thống kê khác matched_regime_count")
+        return {"tasks": selection["tasks"], "stats": stats, "metadata": selection["metadata"]}

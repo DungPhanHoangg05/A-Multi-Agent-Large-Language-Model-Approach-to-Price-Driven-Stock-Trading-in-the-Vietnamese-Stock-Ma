@@ -2,7 +2,9 @@
 
 **W3-04 chốt ngày 04/10/2026; Phase A hoàn thành.**
 [Policy](statistics_prefix_policy.json) đóng băng công thức/template cho W3-09..11;
-không phải module retriever hoặc formatter runtime đã triển khai.
+Stats runtime và API retrieve đã triển khai ở W3-09; formatter runtime còn chờ W3-10/W3-11.
+Biên bản thiết kế W3-04 vẫn là snapshot tham chiếu, tách với
+[biên bản runtime Phase B](statistics_runtime_review.json).
 
 ## 1. Population và ý nghĩa nghiên cứu
 
@@ -76,7 +78,8 @@ n=4: win=2/4=0,5; trap=2/3; TrendFail=1/2=0,5; PatternFail=2/2=1.
 Chọn K=1/2/3 không thay các tỷ lệ này. Thêm một episode future ngoài cutoff không
 đổi stats; record L với cả Trend/Pattern không bullish không phải trap.
 Fixture không bullish vẫn có win-rate, ba mẫu số còn lại 0 → None.
-Các ca tính tay là tham chiếu cho W3-09/W3-13, chưa phải test module runtime.
+Các ca tính tay đã được đối chiếu runtime ở `tests/test_bayesian_statistics.py`
+trong W3-09; bộ hồi quy đầy đủ W3-13 còn chờ thực hiện.
 
 ## 4. Mẫu BRPP đã khóa
 
@@ -161,3 +164,16 @@ không cấu hình paired mặc định same_symbol và không là kết quả O
 W3-05 bắt đầu nạp kho, lọc PIT và bảo vệ dữ liệu theo các hợp đồng này. Bốn gate
 codebase trước merge là gate tích hợp tài liệu, không thay test retriever/prefix
 hoặc benchmark tốc độ W3-15 sau triển khai.
+
+## 7. Bàn giao W3-09 sang Phase C
+
+- `retrieve` trả đầy đủ tasks/stats/metadata cho cả bốn mode; formatter sẽ nhận
+  `result["tasks"]`, `result["stats"]`. Original K=0 vẫn là []/None.
+- Mọi tỷ lệ giữ nguyên numerator/denominator và float chưa làm tròn; mẫu số 0
+  là None. Không có smoothing, threshold hoặc posterior LLM suy từ tỷ lệ mẫu.
+- Thống kê runtime tái dùng nhãn kinh tế W2; không tính lại return hay thay đổi
+  corpus. Population có lỗi cutoff/scope/regime/ID/nhãn trap phải dừng.
+- [Biên bản runtime](statistics_runtime_review.json) kiểm bốn mode, hai scope,
+  bốn mã, bốn regime và K=1..3; đối chiếu đúng thống kê kho thật đã khóa ở Phase A.
+- W3-10/W3-11 tiếp tục kiểm schema/định dạng BRPP và trần ký tự; W3-12 sẽ kiểm
+  smoke cả retrieval lẫn formatter. Tốc độ p95 và bàn giao W4 thuộc Phase D.

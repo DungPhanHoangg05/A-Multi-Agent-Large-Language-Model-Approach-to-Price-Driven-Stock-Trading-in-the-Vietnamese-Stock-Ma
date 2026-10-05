@@ -116,8 +116,7 @@ class BayesianRetrieverFoundationTests(unittest.TestCase):
             "eligible_count", "matched_regime_count", "candidate_count", "effective_seed")))
         with self.assertRaises(ValueError):
             retriever.retrieve(**self.query(k=0, symbol="UNKNOWN"))
-        with self.assertRaises(NotImplementedError):
-            retriever.retrieve(**self.query())
+        self.assertEqual(retriever.retrieve(**self.query())["stats"]["population_count"], 1)
 
     def test_invalid_query_types_enums_and_required_signals(self):
         retriever = self.create()

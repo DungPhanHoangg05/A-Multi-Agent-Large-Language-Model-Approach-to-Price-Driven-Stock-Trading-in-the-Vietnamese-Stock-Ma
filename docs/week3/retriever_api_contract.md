@@ -1,8 +1,8 @@
 # Hợp đồng API Bayesian Prior Retriever — phiên bản 1
 
 **Chốt ngày 04/10/2026 cho W3-02.** Đây là đặc tả để triển khai từ W3-05,
-Module nền W3-05 và bốn bộ chọn W3-06..08 đã triển khai; `retrieve(k>0)` còn
-chờ stats W3-09. Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
+Module nền W3-05, bốn bộ chọn W3-06..08 và stats/retrieve W3-09 đã triển khai.
+Luật ranking/chuẩn hóa tín hiệu đã được chốt tại
 [W3-03](prior_selection_method.md) ngày 04/10/2026;
 công thức/schema metric và template BRPP đã chốt tại [W3-04](statistics_and_prefix_contract.md).
 
@@ -216,9 +216,9 @@ Không có stats/ranking/selected IDs trong kết quả chuẩn bị; không coi
 result retrieve hoàn chỉnh hoặc gửi trực tiếp vào formatter.
 
 K=0: prepare trả hai list rỗng và counts None; retrieve trả result disabled đúng
-hợp đồng. K>0: prepare hoạt động, retrieve ném NotImplementedError đến khi bộ chọn
-và stats được triển khai trong W3-06..09; lỗi này mô tả tính năng chưa có, không
-thay cho ValueError khi query/data sai. W3-05 chưa triển khai formatter hoặc tích hợp W4.
+hợp đồng. Tại thời điểm W3-05, retrieve K>0 dừng NotImplementedError để chờ bộ chọn
+và stats. Từ W3-09, retrieve K>0 đã hoạt động theo mục 10; query/data sai vẫn
+ValueError. Formatter và tích hợp W4 thuộc các task tiếp theo.
 
 ## 9. Phạm vi triển khai W3-06..08
 
@@ -240,4 +240,23 @@ không bù từ regime hoặc mã khác; thiếu K trả partial/insufficient_ca
 Pool chung rỗng trả empty/no_eligible_history; pool chung có record nhưng không
 có regime phù hợp trả empty/no_matching_regime. `candidate_count` bằng
 `matched_regime_count`, độc lập với K. Score không phải xác suất thắng; thống kê
-thực nghiệm và result retrieve K>0 còn chờ W3-09.
+thực nghiệm và result retrieve K>0 được tích hợp ở W3-09.
+
+## 10. Phạm vi triển khai W3-09 — API đầy đủ của Phase B
+
+`retrieve(...)` gọi bước chọn một lần, rồi tính stats trên toàn `regime_population`;
+không dựng lại pool, không đọc lại file/giá và không tính lại P&L. K>0 trả đúng ba
+trường `tasks`, `stats`, `metadata`; K=0 trả tasks rỗng/stats None và metadata disabled,
+không gọi eligible hoặc tính stats. `prepare_query` và `select_prior_tasks` vẫn là
+hai API trung gian riêng, không thay cho result retrieve.
+
+`_compute_statistics` kiểm lại population nguyên bản/PIT/scope/regime/ID trước
+aggregation, dùng nhãn WIN/LOSS đã xác minh và bullish chuẩn hóa theo policy/W2.
+Trap là union Trend/Pattern bullish và LOSS, kiểm đúng với was_bull_trap từng record.
+Count population phải bằng matched_regime_count; sai quan hệ ném ValueError.
+Stats giống nhau giữa bốn mode/K=1..3 nếu cùng query/cutoff/scope/regime, không smoothing.
+Pool rỗng hoặc regime không có mẫu vẫn trả stats object với 0/0/None cho bốn metric;
+nhánh đối chứng có thể có tasks khác regime trong khi population stats rỗng.
+
+[Receipt runtime](statistics_runtime_review.json) đối chiếu kho thật và counts/mẫu số;
+chưa là phép đo p95, formatter BRPP hoặc kết quả giao dịch OOS.
