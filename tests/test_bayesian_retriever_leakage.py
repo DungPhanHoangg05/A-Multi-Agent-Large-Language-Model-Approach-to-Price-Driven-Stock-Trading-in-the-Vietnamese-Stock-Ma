@@ -43,6 +43,18 @@ class BayesianRetrieverLeakageTests(unittest.TestCase):
         self.assertEqual(before["regime_population"], after["regime_population"])
         self.assertNotEqual(before["metadata"]["bank_sha256"], after["metadata"]["bank_sha256"])
 
+    def test_recent_random_selected_tasks_respect_equal_exit_and_earlier_query(self):
+        retriever = self.fixture.create()
+        for mode in ("recent", "random"):
+            for scope in ("same_symbol", "pooled"):
+                retriever.select_prior_tasks(**self.fixture.query(mode=mode, scope=scope))
+                selected = retriever.select_prior_tasks(**self.fixture.query(
+                    mode=mode, scope=scope, as_of_date="2020-01-07"))
+                self.assertTrue(all(r["exit_date"] < "2020-01-07" for r in selected["tasks"]))
+                equal = retriever.select_prior_tasks(**self.fixture.query(
+                    mode=mode, scope=scope, as_of_date=self.fixture.rows[0]["exit_date"]))
+                self.assertEqual(equal["tasks"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

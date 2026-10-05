@@ -1,6 +1,6 @@
 # Phase B — retriever và thống kê
 
-**Trạng thái: W3-05 hoàn thành; W3-06..09 chưa thực hiện.** File nền đã có:
+**Trạng thái: W3-05/W3-06 hoàn thành; W3-07..09 chưa thực hiện.** File nền đã có:
 `core/bayesian_retriever.py`, `tests/test_bayesian_retriever.py`,
 `tests/test_bayesian_statistics.py`.
 
@@ -21,11 +21,11 @@ Gate A đã PASS; dùng [API](retriever_api_contract.md),
 
 ## W3-06 — recent và random
 
-- [ ] Recent xếp ngày exit và ID theo quy tắc Gate A, không lấy theo thứ tự file.
-- [ ] Random RNG cục bộ, seed theo query cố định; lấy không hoàn lại từ pool ổn định.
-- [ ] Test lặp query, đảo thứ tự gọi/record, K vượt số mẫu, không trùng ID; seed khác
+- [x] Recent xếp ngày exit và ID theo quy tắc Gate A, không lấy theo thứ tự file.
+- [x] Random RNG cục bộ, seed theo query cố định; lấy không hoàn lại từ pool ổn định.
+- [x] Test lặp query, đảo thứ tự gọi/record, K vượt số mẫu, không trùng ID; seed khác
   không bắt buộc luôn khác kết quả khi pool quá nhỏ.
-- [ ] Metadata nêu số mẫu thật và lý do thiếu K; không bù từ ngoài scope/cutoff.
+- [x] Metadata nêu số mẫu thật và lý do thiếu K; không bù từ ngoài scope/cutoff.
 
 ## W3-07 — similarity
 
@@ -84,3 +84,31 @@ py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_retriever*.py' 
 
 Kết quả và gate tích hợp cuối cùng ghi tại README. **Gate B còn mở**; tiếp theo
 W3-06 Recent/Random, rồi Similarity/Bayesian và stats theo thứ tự đã chốt.
+
+### 05/10/2026 — W3-06 hoàn thành
+
+- `_select_recent()` dùng exit giảm dần, ID tăng dần để phá hòa; không phụ thuộc
+  thứ tự record trong file. `_select_random()` dùng payload/digest/RNG local chính
+  xác theo policy v1, sample không hoàn lại từ pool sắp ID, giữ thứ tự draw.
+- `select_prior_tasks(...)` có cùng chữ ký query, trả `tasks`, `regime_population`,
+  `metadata`. Recent/Random hoạt động với K=1..3; K=0 disabled, pool rỗng empty,
+  thiếu K partial. IDs/counts/score None/status/reason/effective_seed đúng hợp đồng.
+- Bộ chọn gọi chốt hậu điều kiện W3-05; tasks/population là bản sao độc lập,
+  không sửa input/kho và không đọc lại giá/JSON. Không tự đổi scope để đủ K.
+- Tám test mới (bảy Recent/Random + một leakage) PASS: tie-break, seed/draw tham chiếu,
+  thứ tự query/kho, global RNG, thêm lịch sử tương lai hợp lệ, empty/partial/K=0,
+  bản sao và bộ chọn bị giả lập trả prior vi phạm cutoff/ID.
+- [Receipt kho thật](recent_random_review.json): 16 query = bốn mã × hai scope ×
+  hai mode; lặp query, biên exit, empty/partial và chặn I/O đều PASS trên 852 record.
+  BULL là fixture context cho probe, không tuyên bố regime thực tế tại cutoff/OOS.
+- Stats chưa được tính trong task này. `select_prior_tasks` là kết quả của bước
+  chọn, **không phải** result retrieve hoàn chỉnh; `retrieve(K>0)` còn dừng tường minh
+  đến khi stats W3-09 được tích hợp. Similarity/Bayesian tiếp tục ở W3-07/W3-08.
+
+Lệnh kiểm tập trung:
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_bayesian_*.py' -v
+```
+
+22 test nền/chọn/leakage PASS. Gate tích hợp cuối ghi tại README; Gate B còn mở.

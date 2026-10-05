@@ -5,7 +5,9 @@ from __future__ import annotations
 import copy
 from collections import Counter
 import hashlib
+import json
 from pathlib import Path
+import random
 import re
 from typing import Any
 import unicodedata
@@ -56,7 +58,7 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
 
 
 class BayesianPriorRetriever:
-    """Nạp kho một lần; chuẩn bị pool PIT, chưa chọn prior hoặc tính stats."""
+    """Nạp kho một lần; lọc PIT và chọn Recent/Random, chưa tính stats."""
 
     def __init__(self, *, bank_path: str | Path, manifest_path: str | Path,
                  audit_path: str | Path) -> None:
@@ -178,6 +180,62 @@ class BayesianPriorRetriever:
                           regime=current_regime if mode == "bayesian_regime" else None)
         if len(selected) > k:
             raise ValueError("Bộ chọn trả quá K prior")
+
+    @staticmethod
+    def _select_recent(candidates: list[dict[str, Any]], k: int) -> list[dict[str, Any]]:
+        """Xếp exit giảm dần, phá hòa bằng ID tăng dần, không dùng thứ tự kho."""
+        ordered = sorted(candidates, key=lambda record: record["episode_id"])
+        return sorted(ordered, key=lambda record: record["exit_date"], reverse=True)[:k]
+
+    @staticmethod
+    def _select_random(candidates: list[dict[str, Any]], k: int,
+                       metadata: dict[str, Any]) -> tuple[list[dict[str, Any]], str]:
+        """Lấy không hoàn lại bằng RNG cục bộ và seed query, không phụ thuộc outcome/hash kho."""
+        payload = {key: metadata[key] for key in (
+            "sampling_version", "seed", "symbol", "as_of_date", "scope"
+        )}
+        encoded = json.dumps(payload, sort_keys=True, ensure_ascii=False,
+                             separators=(",", ":")).encode("utf-8")
+        digest = hashlib.sha256(encoded).digest()
+        generator = random.Random(int.from_bytes(digest, "big"))
+        ordered = sorted(candidates, key=lambda record: record["episode_id"])
+        return generator.sample(ordered, min(k, len(ordered))), digest.hex()
+
+    def select_prior_tasks(self, *, symbol: str, as_of_date: str, current_regime: str,
+                           current_signals: dict[str, str] | None = None,
+                           mode: str = "bayesian_regime", k: int = 3, seed: int = 42,
+                           scope: str = "same_symbol") -> dict[str, Any]:
+        """Trả task đã chọn/population/metadata; stats và result retrieve hoàn chỉnh chờ task sau."""
+        prepared = self.prepare_query(symbol=symbol, as_of_date=as_of_date,
+                                      current_regime=current_regime, current_signals=current_signals,
+                                      mode=mode, k=k, seed=seed, scope=scope)
+        metadata = prepared["metadata"]
+        effective_seed = None
+        if k == 0:
+            selected: list[dict[str, Any]] = []
+            status, reason = "disabled", "k_zero"
+        else:
+            candidates = prepared["eligible_tasks"]
+            if mode == "recent":
+                selected = self._select_recent(candidates, k)
+            elif mode == "random":
+                selected, effective_seed = self._select_random(candidates, k, metadata)
+            else:
+                raise NotImplementedError("Bộ chọn Similarity/Bayesian sẽ triển khai ở W3-07/W3-08")
+            self._validate_selection(selected, symbol=symbol, as_of_date=as_of_date,
+                                     current_regime=current_regime, scope=scope, mode=mode, k=k)
+            if not selected:
+                status, reason = "empty", "no_eligible_history"
+            elif len(selected) < k:
+                status, reason = "partial", "insufficient_candidates"
+            else:
+                status, reason = "complete", None
+        metadata.update(effective_seed=effective_seed, selected_count=len(selected),
+                        selected_ids=[r["episode_id"] for r in selected],
+                        selected_scores=[{"episode_id": r["episode_id"], "score": None} for r in selected],
+                        status=status, reason=reason)
+        return {"tasks": copy.deepcopy(selected),
+                "regime_population": copy.deepcopy(prepared["regime_population"]), "metadata": metadata}
 
     def retrieve(self, *, symbol: str, as_of_date: str, current_regime: str,
                  current_signals: dict[str, str] | None = None, mode: str = "bayesian_regime",
