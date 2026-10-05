@@ -294,7 +294,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ### 📅 TUẦN 4: Tích hợp LangGraph & Bộ Kiểm thử Chống Rò rỉ Dữ liệu
 - **Mục tiêu**: Ghép nối luồng tiên nghiệm vào LangGraph state và xây dựng chốt chặn kiểm thử tự động.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](week4/README.md), dựa trên bàn giao W3. **Đã lập kế hoạch ngày 05/10/2026, chưa triển khai (0/16)**. Phase A khóa hợp đồng; B tích hợp state/prompt/graph; C ghép PIT/paired/checkpoint; D kiểm chứng offline và bàn giao W5.
+- **Kế hoạch chi tiết**: [16 task trong bốn phase](week4/README.md), dựa trên bàn giao W3. **Phase A đang thực hiện, W4-01 hoàn thành ngày 05/10/2026 (1/16)**: [bản đồ đầu vào/runtime](week4/input_readiness.md), [receipt](week4/input_readiness.json), 852 record/QA/nhãn và archive PASS; replay 288 query + 288 lượt lặp; compileall/339 unit/E2E/56 leakage PASS. W4-02..16, Gate A, runtime budget và giá OOS còn mở. Phase A khóa hợp đồng; B tích hợp state/prompt/graph; C ghép PIT/paired/checkpoint; D kiểm chứng offline và bàn giao W5.
 - **Nhiệm vụ cụ thể**:
   - [ ] Chốt hợp đồng state/config, provenance regime/snapshot và schema kết quả/checkpoint (W4-01..04).
   - [ ] Cập nhật `agents/agent_state.py`: thêm các trường `market_regime`, `prior_tasks`, `bayesian_prior_context`, stats/metadata và validator (W4-05).
