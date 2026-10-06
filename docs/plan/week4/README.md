@@ -1,8 +1,8 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13 hoàn thành (1/4),
-tiến độ W4 13/16 ngày 06/10/2026.
+Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13..14 hoàn thành (2/4),
+tiến độ W4 14/16 ngày 06/10/2026.
 Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
@@ -12,7 +12,8 @@ với verifier/retriever fixture. [State/config](integration_contract.md),
 [adapter nguồn PIT](prior_context_review.json), [paired runtime](paired_prior_point_review.json).
 [walk-forward/kết quả](prior_backtest_review.json), [checkpoint/resume](paired_checkpoint_review.json).
 Gate C PASS offline, khóa kiểm native Windows. [Leakage toàn pipeline](pipeline_leakage_review.json)
-PASS. Tiếp theo W4-14; Gate D và giá OOS còn mở.**
+PASS. [Smoke tích hợp](prior_integration_smoke.md), [receipt](integration_smoke.json)
+PASS tổng hợp và replay nguồn thật với Decision giả. Tiếp theo W4-15; Gate D và giá OOS còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -115,7 +116,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W4-13 | Kiểm thử leakage toàn đường tích hợp | [Biên bản/coverage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json): 11 test mới trên hai provider/hai scope, nguồn/prior/checkpoint sai bị chặn; sửa verifier provider và bốn gate PASS | Gate C | [x] |
-| W4-14 | Smoke E2E offline và tương thích | Luồng thật + LLM giả định xác định; năm nhánh, flag off, budget/paired/resume và JSON PASS | W4-13 | [ ] |
+| W4-14 | Smoke E2E offline và tương thích | [Biên bản](prior_integration_smoke.md), [receipt](integration_smoke.json): 8 context tổng hợp bốn regime/VI-EN, 6 replay thật; chỉ mock vision/Decision, paired/resume/flag off/budget/JSON và bốn gate PASS | W4-13 | [x] |
 | W4-15 | Chạy bốn gate và kiểm phạm vi thay đổi | Compile/unit/E2E/leakage PASS; hash nguồn, receipt, ngân sách runtime và rủi ro hiệu năng đã rà | W4-14 | [ ] |
 | W4-16 | Chốt W4, bàn giao điều kiện pilot W5 | 16 task có bằng chứng; hướng dẫn config/resume; gate giá/quota W5 và giới hạn nghiên cứu rõ | W4-01..15 | [ ] |
 
@@ -142,6 +143,26 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-14 hoàn thành
+
+- Nhánh `test/prior-integration-smoke`, nền `1faeff1`; Conventional Commit
+  `test(prior): verify offline integration smoke and legacy compatibility`.
+- Thêm `scripts/verify_prior_integration.py` và bốn test; [biên bản/CLI](prior_integration_smoke.md),
+  [receipt](integration_smoke.json). Production và E2E legacy giữ nguyên.
+- 8 context tổng hợp × năm nhánh; bốn regime, VI/EN, K=0..3, empty/partial/complete.
+  Upstream/charts/chỉ báo/Alpha/PIT/graph/checkpoint thật; chỉ giả lập vision và Decision.
+  120 Decision continuous/đảo nhánh/resume và 64 Decision K=1/2; nhánh complete giữ field,
+  resume chỉ chạy ba Decision thiếu, resume complete giữ byte checkpoint/không API.
+- Flag off chạy bốn ablation và entry point cũ, không load bank/model. BRPP đúng 600,
+  prompt 6.499 nhận/6.500 chặn trước LLM; max prompt context tổng hợp 4193, BRPP 363.
+- Replay bổ sung 6 context thật, 30 nhánh/60 Decision giả; phủ bốn mã, BEAR 4 và
+  CONSOLIDATION 2. Thiếu archive → BLOCKED replay; proof sai → lỗi, không giả nguồn.
+- Chạy smoke riêng và bốn gate mới: compileall, **498 unit**, E2E legacy,
+  **93 leakage PASS**. 2423 file bảo vệ và bảy AST kinh tế/legacy giữ nguyên;
+  không đọc key, gọi API thật, fit, tải dữ liệu hoặc sinh lại bank.
+- **Phase D 2/4, W4 14/16**. Tiếp theo **W4-15** rà phạm vi/overhead/gate;
+  W4-16/Gate D và gate giá OOS/pilot còn mở.
 
 ### 2026-10-06 — W4-13 hoàn thành
 

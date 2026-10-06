@@ -26,7 +26,7 @@ W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/g
 runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
 [Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
 **Phase A W4 hoàn thành 4/4**, **Phase B 4/4 (W4-05..08)**,
-**Phase C 4/4 (W4-09..12)**, **Phase D 1/4 (W4-13)**, tiến độ W4 **13/16**;
+**Phase C 4/4 (W4-09..12)**, **Phase D 2/4 (W4-13..14)**, tiến độ W4 **14/16**;
 Gate A PASS đặc tả với
 [hợp đồng kết quả/checkpoint](docs/plan/week4/checkpoint_contract.md) và
 [receipt](docs/plan/week4/checkpoint_review.json). State/config runtime đã có tám field
@@ -56,7 +56,11 @@ semantic verifier và OS lock kiểm native Windows:
 đối chiếu proof provider với artifact/prefix thật:
 [coverage/biên bản](docs/plan/week4/pipeline_leakage_validation.md),
 [receipt](docs/plan/week4/pipeline_leakage_review.json), **494 unit/E2E/93 leakage PASS**.
-Tiếp theo W4-14 smoke E2E riêng; Gate D và giá ngoài mẫu còn mở.
+W4-14 smoke E2E riêng đã PASS: 8 context tổng hợp bốn regime/VI-EN, năm nhánh,
+resume/flag off/budget và 6 replay context thật (Decision giả):
+[biên bản](docs/plan/week4/prior_integration_smoke.md),
+[receipt](docs/plan/week4/integration_smoke.json), **498 unit/E2E/93 leakage PASS**.
+Tiếp theo W4-15 rà gate/phạm vi/hiệu năng; W4-16, Gate D và giá ngoài mẫu còn mở.
 
 ## Requirements
 
