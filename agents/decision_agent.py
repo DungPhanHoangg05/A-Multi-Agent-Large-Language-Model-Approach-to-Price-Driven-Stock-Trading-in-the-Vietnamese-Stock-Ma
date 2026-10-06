@@ -4,7 +4,7 @@ import time
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from core.decision_prior import PriorSourceValidator, prepare_decision_prior
+from core.decision_prior import DecisionPriorPreparer, PriorSourceValidator, prepare_decision_prior
 from core.prior_config import PRIOR_STATE_FIELDS, copy_prior_json
 
 
@@ -552,12 +552,19 @@ def _insert_prior_context(prompt: str, prefix: str, lang: str) -> str:
     return head + prefix + "\n" + _PRIOR_REASONING[lang] + "\n" + marker + tail
 
 
-def create_final_trade_decider(llm, *, prior_source_validator: PriorSourceValidator | None = None):
+def create_final_trade_decider(
+    llm, *, prior_source_validator: PriorSourceValidator | None = None,
+    _prior_preparer: DecisionPriorPreparer | None = None,
+):
     """
     Decision Agent v3 — Pure LLM reasoning.
     Đọc 3–5 báo cáo theo cấu hình ablation và tự ra quyết định.
+    Hook _prior_preparer chỉ dùng nội bộ graph có node kiểm nguồn/format liền trước;
+    không phải field cấu hình JSON hoặc cơ chế tự xác nhận nguồn của caller.
     """
 
+    if _prior_preparer is not None and (not callable(_prior_preparer) or prior_source_validator is not None):
+        raise ValueError("Hook nội bộ graph phải callable và không đi cùng verifier Decision")
     structured_llm = None
     if hasattr(llm, "with_structured_output"):
         try:
@@ -570,7 +577,11 @@ def create_final_trade_decider(llm, *, prior_source_validator: PriorSourceValida
             print(f"[DecisionAgent] Structured Output không khả dụng: {exc}")
 
     def trade_decision_node(state) -> dict:
-        state, prior_prefix = prepare_decision_prior(state, source_validator=prior_source_validator)
+        if _prior_preparer is None:
+            state, prior_prefix = prepare_decision_prior(state, source_validator=prior_source_validator)
+        else:
+            # Chỉ graph có node chuẩn bị ngay trước Decision được gắn hook nội bộ này.
+            state, prior_prefix = _prior_preparer(state)
         # ── i18n ──────────────────────────────────────────────────────────────
         from utils.i18n import lang_of, get_horizon, t as _t
         lang  = lang_of(state)

@@ -1,6 +1,7 @@
 # Phase B — State, ngân sách prompt và graph
 
-**Trạng thái: W4-05..07 hoàn thành, Phase B 3/4; W4-08 còn mở.** [Checklist W4](README.md).
+**Trạng thái: W4-05..08 hoàn thành, Phase B 4/4 ngày 06/10/2026;
+Gate B PASS offline graph/prompt với verifier/retriever fixture.** [Checklist W4](README.md).
 Đầu vào: Gate A và các policy W3. Test mới dưới đây là tên dự kiến;
 tái sử dụng test ablation/paired/token hiện có khi phù hợp.
 
@@ -92,30 +93,38 @@ chứng minh source PIT. Graph vẫn chặn enabled; W4-08/09 tiếp tục nối
 
 **Phụ thuộc:** W4-05, W4-07. **File chính:** `utils/graph_setup.py`.
 
-- [ ] Truyền prior config/state qua graph; kiểm đủ key sau compile/invoke.
-- [ ] Tạo ranh giới chuẩn bị Full (Alpha/Sentiment) và Decision riêng để caller
+- [x] Truyền prior config/state qua graph; kiểm đủ key sau compile/invoke.
+- [x] Tạo ranh giới chuẩn bị Full (Alpha/Sentiment) và Decision riêng để caller
   W4-10 có thể dùng chung reports mà không kích hoạt Alpha mỗi nhánh. Giữ
   `compile_upstream()` cho Indicator → Pattern → Trend.
-- [ ] Chốt node chuẩn bị prior sau khi đủ tín hiệu; chỉ một nơi chịu trách nhiệm
+- [x] Chốt node chuẩn bị prior sau khi đủ tín hiệu; chỉ một nơi chịu trách nhiệm
   retrieve/format để không gọi hai lần ở graph và engine. Caller xác minh PIT.
-- [ ] Giữ `compile_decision()`/`set_graph()` và tham số cũ có hành vi hợp lệ khi
+- [x] Giữ `compile_decision()`/`set_graph()` và tham số cũ có hành vi hợp lệ khi
   prior disabled; cấu hình nghiên cứu Full không đổi `ABLATION_CONFIGS`.
-- [ ] Tổ hợp chưa được đặc tả bị từ chối rõ, không lặng lẽ bỏ prior hoặc bật
+- [x] Tổ hợp chưa được đặc tả bị từ chối rõ, không lặng lẽ bỏ prior hoặc bật
   Alpha/Sentiment mà người dùng đã tắt.
-- [ ] Test topology/thứ tự và số lần gọi node bằng mock, đủ bốn ablation cũ;
+- [x] Test topology/thứ tự và số lần gọi node bằng mock, đủ bốn ablation cũ;
   nhánh mới vào Decision nhận đúng Full reports và prior metadata.
 
 **Nghiệm thu:** node không chạy ngoài thứ tự, prior không mất khỏi state,
 đường cũ PASS E2E xác định, API graph mới dùng được từ W4-10.
 
+**Nghiệm thu 06/10/2026:** [biên bản/API](graph_prior_integration.md),
+[receipt](graph_prior_integration_review.json): **13 test mới**, **128 ca graph thật**,
+Full/upstream một lần cho năm Decision fixture; retrieve/format một lần mỗi nhánh,
+verifier trước query và sau result. Max prompt **6.264**, BRPP 600 + reasoning
+**6.467**; compileall/**399 unit**/E2E/**56 leakage** PASS.
+`invoke`/async/stream kiểm state thô, các channel/report/metadata và deep copy PASS.
+Adapter nguồn PIT thật và điều phối engine/checkpoint thuộc W4-09..12.
+
 ## Gate B và cập nhật tiến độ
 
-- [ ] W4-05..08 PASS state/config, Decision runtime budget và graph compatibility.
+- [x] W4-05..08 PASS state/config, Decision runtime budget và graph compatibility.
 - [x] Prefix đúng vị trí/một lần; Original rỗng; tất cả API đi qua retry wrapper.
 - [x] Guard thực thi trước LLM, không chỉ kiểm prompt ghép thử bên ngoài runtime.
 
-Hai điều kiện trên PASS ở node Decision thật bằng verifier/LLM fixture;
-Gate B tổng còn W4-08 topology/compatibility, chưa mở gate nguồn W4-09.
+Ba điều kiện PASS trên node/graph thật bằng verifier/retriever/LLM fixture;
+**Gate B PASS_OFFLINE_GRAPH_PROMPT_FIXTURES**, chưa mở gate nguồn W4-09.
 
 Ghi nhật ký từng task: ngày, nhánh/commit, file, lệnh/test, kết quả và giới hạn;
 cập nhật [README](README.md). Gate B chưa đồng nghĩa tích hợp backtest/resume đã PASS.

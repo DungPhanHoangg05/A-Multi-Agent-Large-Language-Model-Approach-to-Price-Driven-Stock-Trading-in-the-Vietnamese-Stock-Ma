@@ -12,12 +12,18 @@ from core.prior_config import (
 )
 
 PriorSourceValidator = Callable[[dict[str, Any]], None]
+DecisionPriorPreparer = Callable[[dict[str, Any]], tuple[dict[str, Any], str]]
 
 
 def prepare_decision_prior(
     state: dict[str, Any], *, source_validator: PriorSourceValidator | None = None,
+    build_prefix: bool = False,
 ) -> tuple[dict[str, Any], str]:
-    """Kiểm config/query/result, xác minh nguồn qua callback rồi gọi formatter W3."""
+    """Kiểm config/query/result, xác minh nguồn rồi gọi formatter W3 một lần.
+
+    Node độc lập kiểm prefix đã cung cấp; node chuẩn bị graph dùng build_prefix
+    để tạo prefix từ result mới, chỉ nhận sentinel rỗng ở đầu vào.
+    """
     if type(state) is not dict:
         raise ValueError("State Decision phải là dict Python gốc")
     config = normalize_prior_config(state.get("prior_config"))
@@ -135,6 +141,8 @@ def prepare_decision_prior(
             raise ValueError("Mode không phải Random phải có effective seed None")
     if type(prior["bayesian_prior_context"]) is not str:
         raise ValueError("Prefix prior phải là str")
+    if build_prefix and prior["bayesian_prior_context"] != "":
+        raise ValueError("Bước chuẩn bị graph chỉ nhận prefix rỗng, không nhận prefix có sẵn")
     if not callable(source_validator):
         raise ValueError("Decision enabled chưa có hàm xác minh nguồn PIT")
     projection = {**prior, **query, "time_frame": timeframe, "is_backtest": True,
@@ -146,7 +154,8 @@ def prepare_decision_prior(
     if result is not None:
         raise ValueError("Hàm xác minh nguồn phải trả None hoặc ném ngoại lệ")
     prefix = format_compact_prior_prefix(tasks, stats)
-    if len(prefix) > 600 or prefix != prior["bayesian_prior_context"]:
+    if len(prefix) > 600 or (not build_prefix and prefix != prior["bayesian_prior_context"]):
         raise ValueError("Prefix không khớp formatter W3 hoặc vượt 600 ký tự")
+    prior["bayesian_prior_context"] = prefix
     prepared = {**state, **prior, "time_frame": timeframe, "ablation_config": ablation}
     return prepared, prefix
