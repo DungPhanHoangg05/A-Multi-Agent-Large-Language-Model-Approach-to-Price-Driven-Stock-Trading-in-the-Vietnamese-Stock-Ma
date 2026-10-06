@@ -305,6 +305,30 @@ class PriorContextAdapter:
         self._base_paths = set(self._files.hashes)
         self._files.verify(self._base_paths)
 
+    @property
+    def prior_config(self) -> dict[str, Any]:
+        """Cấu hình kho đã khóa; không cho caller sửa adapter."""
+        return deepcopy(self._config)
+
+    @property
+    def signal_config(self) -> dict[str, Any]:
+        """Cấu hình tạo Full mới; journal replay không thay cho cấu hình này."""
+        if self._signal_config is None:
+            raise ValueError("Backtest mới cần cấu hình Full đã khóa")
+        return deepcopy(self._signal_config)
+
+    def verify_sources(self) -> None:
+        """Kiểm byte toàn bộ nguồn/artifact đã ghim, không nạp lại JSON/kho."""
+        self._files.verify(set(self._files.hashes))
+
+    def execution_data(self, symbol: str) -> tuple[pd.DataFrame, list[dict[str, Any]]]:
+        """Bản sao giá thực thi và sự kiện trên RAM chỉ cấp cho lớp đánh giá."""
+        self.verify_sources()
+        if type(symbol) is not str or symbol not in SYMBOLS:
+            raise ValueError("Symbol thực thi chưa hỗ trợ")
+        frame, events = self._prices[symbol]
+        return frame.copy(deep=True), deepcopy(events)
+
     def prepare(self, symbol: str, as_of_date: str, *, time_frame: str = "1d",
                 point_in_time_df: pd.DataFrame | None = None,
                 vnindex_prefix: pd.DataFrame | None = None) -> PriorPointContext:

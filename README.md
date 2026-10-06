@@ -26,7 +26,7 @@ W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/g
 runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
 [Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
 **Phase A W4 hoàn thành 4/4**, **Phase B 4/4 (W4-05..08)**,
-**Phase C 2/4 (W4-09/10)**, tiến độ W4 **10/16**;
+**Phase C 3/4 (W4-09..11)**, tiến độ W4 **11/16**;
 Gate A PASS đặc tả với
 [hợp đồng kết quả/checkpoint](docs/plan/week4/checkpoint_contract.md) và
 [receipt](docs/plan/week4/checkpoint_review.json). State/config runtime đã có tám field
@@ -45,7 +45,10 @@ nguồn thật, hai provider PIT và seal Full signals; **430 unit/E2E/71 leakag
 upstream/Full một lần và năm Decision tuần tự, kiểm mutation/đảo thứ tự:
 [API/biên bản](docs/plan/week4/paired_prior_point.md),
 [receipt](docs/plan/week4/paired_prior_point_review.json), **445 unit/E2E/74 leakage PASS**.
-Tiếp theo W4-11 kết quả kinh tế; checkpoint, Gate C/D và giá ngoài mẫu còn mở.
+W4-11 đã có vòng walk-forward năm nhánh, schema kết quả và P&L từ engine hiện có:
+[biên bản/API](docs/plan/week4/prior_backtest_integration.md),
+[receipt](docs/plan/week4/prior_backtest_review.json), **461 unit/E2E/77 leakage PASS**.
+Tiếp theo W4-12 checkpoint/resume từng nhánh; Gate C/D và giá ngoài mẫu còn mở.
 
 ## Requirements
 

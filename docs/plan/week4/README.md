@@ -1,7 +1,7 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-Phase C hoàn thành W4-09/10 (2/4), tiến độ W4 10/16 ngày 06/10/2026.
+Phase C hoàn thành W4-09..11 (3/4), tiến độ W4 11/16 ngày 06/10/2026.
 Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
@@ -9,7 +9,8 @@ với verifier/retriever fixture. [State/config](integration_contract.md),
 [cap/guard runtime](runtime_prompt_budget_review.json), [BRPP tại Decision](decision_prior_integration_review.json).
 [graph/Full reports](graph_prior_integration_review.json),
 [adapter nguồn PIT](prior_context_review.json), [paired runtime](paired_prior_point_review.json).
-Tiếp theo W4-11; Gate C/D, vòng backtest/kết quả/checkpoint và giá OOS còn mở.**
+[walk-forward/kết quả](prior_backtest_review.json).
+Tiếp theo W4-12; Gate C/D, checkpoint/resume từng nhánh và giá OOS còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -102,7 +103,7 @@ Chi tiết: [Phase C](phase_c_pit_paired_checkpoint.md).
 | --- | --- | --- | --- | --- |
 | W4-09 | Cài adapter context/regime PIT | [API/biên bản](prior_context_adapter.md), [receipt](prior_context_review.json): hai provider, seal Full/proof, 31 test mới/128 ca graph, 6 replay thật và bốn gate PASS | Gate A, W4-05 | [x] |
 | W4-10 | Tạo báo cáo chung cho năm nhánh | [API/biên bản](paired_prior_point.md), [receipt](paired_prior_point_review.json): engine chạy upstream/Full một lần, năm Decision tuần tự; mutation/đảo thứ tự, 15 test mới và bốn gate PASS | Gate B, W4-09 | [x] |
-| W4-11 | Ghép retriever vào backtest | Nạp kho một lần; năm kết quả có metadata/prefix; giữ kinh tế và output cũ | W4-09, W4-10 | [ ] |
+| W4-11 | Ghép retriever vào backtest | [API/biên bản](prior_backtest_integration.md), [receipt](prior_backtest_review.json): walk-forward/schema năm nhánh, nguồn dùng một lần, P&L engine cũ; 16 test mới và bốn gate PASS | W4-09, W4-10 | [x] |
 | W4-12 | Lưu và phục hồi tiến trình từng nhánh | Ghi atomic; crash/quota/interrupt không mất báo cáo/nhánh đã xong; đổi hash/config bị chặn | W4-04, W4-11 | [ ] |
 
 ## D. Nghiệm thu tích hợp và bàn giao
@@ -139,6 +140,30 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-11 hoàn thành
+
+- Nhánh `feat/prior-walk-forward-results`, baseline `a58d5d8`; thêm
+  `core/prior_backtest.py` và API `BacktestEngine.run_prior_backtest()`.
+  Adapter cấp config/giá/events bản sao từ RAM, giữ một kho/retriever mỗi run.
+- Kiểm daily, 600 nến, entry/exit/volume/quyền, step≥3 và mọi artifact
+  trong plan trước API đầu. Dùng W4-10 mỗi cutoff, giữ một upstream/Full,
+  năm Decision tuần tự; giá tương lai chỉ dùng để đánh giá sau năm Decision.
+- Ghi identity/point/result strict theo schema W4-04, atomic/hash; giữ raw
+  text/tool_calls và response chuẩn hóa, UTC/UUID attempt, full metadata/
+  stats/prefix và shared/query/prompt/source hashes. LONG dùng hàm round-trip,
+  SHORT CASH; năm tài khoản dùng engine P&L cũ và common support complete.
+- **16 test mới**, gồm **3 leakage** PASS: lịch prefix/fixed, lãi/lỗ/return
+  đúng 0/CASH/lãi kép, schema/JSON/metadata, stop/callback, quota/output sai,
+  artifact sai trong plan và kho đổi giữa hai điểm. Hai cutoff: upstream/
+  Full mỗi loại hai lần, **10 retrieve/10 Decision**; không nạp/chấm lại kho.
+- Bốn gate: compileall/**461 unit**/E2E/**77 leakage** PASS;
+  [biên bản/API](prior_backtest_integration.md), [receipt](prior_backtest_review.json).
+  **2.407 file bảo vệ** giữ hash; kho/archive/receipt trước và AST kinh tế/
+  các entry point legacy được kiểm. Kiểm chứng fixture, chưa chạy API/OOS.
+- **Phase C 3/4, W4 11/16**. Tiếp theo **W4-12**: persist shared/nhánh trước
+  crash, OS lock và resume. W4-11 giữ file của điểm hoàn tất; chưa phục hồi
+  nhánh đang dở. Gate C/D và giá thực thi OOS còn mở.
 
 ### 2026-10-06 — W4-10 hoàn thành
 

@@ -1,9 +1,10 @@
 # Phase C — Context PIT, năm nhánh ghép cặp và resume
 
-**Trạng thái: W4-09/10 hoàn thành, Phase C 2/4 ngày 06/10/2026.**
+**Trạng thái: W4-09..11 hoàn thành, Phase C 3/4 ngày 06/10/2026.**
 [Biên bản/API adapter](prior_context_adapter.md), [receipt](prior_context_review.json),
 [paired runtime](paired_prior_point.md), [receipt](paired_prior_point_review.json),
-[checklist W4](README.md). Gate C còn W4-11/12.
+[walk-forward/kết quả](prior_backtest_integration.md), [receipt](prior_backtest_review.json),
+[checklist W4](README.md). Gate C còn W4-12.
 Đầu vào: hợp đồng Phase A và graph/Decision Phase B. W4 cài adapter/runtime;
 CLI điều phối pilot `scripts/run_bayesian_ablation.py` thuộc W5.
 
@@ -55,25 +56,30 @@ nhau; stats bốn prior giống nhau, Original None/rỗng; call-count và mutat
 ## W4-11 — Backtest adapter và kết quả kinh tế
 
 **Phụ thuộc:** W4-09, W4-10. **File chính:** `core/backtest_engine.py`;
-helper điều phối riêng nếu cần, test dự kiến `tests/test_prior_backtest_integration.py`.
+`core/prior_backtest.py`, `core/prior_context.py` và các test integration/leakage.
 
-- [ ] Constructor/lifecycle nạp một retriever theo bank/config mỗi tiến trình;
+- [x] Constructor/lifecycle nạp một retriever theo bank/config mỗi tiến trình;
   không đọc kho/giá hoặc tính lại nhãn kho trong từng query.
-- [ ] Gọi adapter trước Decision tại từng cutoff, dùng runtime năm nhánh từ W4-10.
+- [x] Gọi adapter trước Decision tại từng cutoff, dùng runtime năm nhánh từ W4-10.
   Bảo đảm outcome tương lai nằm ngoài state/prompt/query dù engine có toàn df
   để tính nhãn đánh giá sau đó.
-- [ ] Lưu cấu trúc kết quả nghiên cứu theo W4-04, toàn metadata/stats/prefix,
+- [x] Lưu cấu trúc kết quả nghiên cứu theo W4-04, toàn metadata/stats/prefix,
   hash reports chung và nguồn quyết định; không ghi nhánh lỗi thành SHORT thành công.
-- [ ] Dùng `compute_round_trip_net_return` và hợp đồng kinh tế hiện có:
+- [x] Dùng `compute_round_trip_net_return` và hợp đồng kinh tế hiện có:
   LONG Open(t+1)→Close(t+3), SHORT cash, fee=0,0025/slippage=0,001 hai chiều.
   Không dùng Close-to-Close hoặc tự thêm engine P&L khác cho prior variants.
-- [ ] Kiểm lịch phiên/boundary đủ entry/exit; adapter nghiên cứu daily horizon=3.
+- [x] Kiểm lịch phiên/boundary đủ entry/exit; adapter nghiên cứu daily horizon=3.
   Giữ tham số/return/callback/summary của đường Full/No-Alpha cũ tương thích.
-- [ ] Test điểm lời/lỗ/zero-return, SHORT cash, thiếu phiên, flag off và JSON
+- [x] Test điểm lời/lỗ/zero-return, SHORT cash, thiếu phiên, flag off và JSON
   serialization bằng OHLCV tổng hợp có nhãn tính từ engine thật.
 
 **Nghiệm thu:** mock pipeline tạo đủ năm kết quả đúng schema; entry/exit/chi
 phí và output cũ PASS, invalid source/output dừng điểm với chẩn đoán.
+
+**Kết quả 06/10/2026:** [biên bản/API](prior_backtest_integration.md),
+[receipt](prior_backtest_review.json); 16 test mới, compileall/461 unit/
+E2E/77 leakage PASS. Lưu các điểm complete và summary partial;
+checkpoint shared/nhánh đang dở và resume tiếp tục ở W4-12.
 
 ## W4-12 — Checkpoint và resume theo nhánh
 

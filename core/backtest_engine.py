@@ -4,7 +4,9 @@ import time
 import threading
 from copy import deepcopy
 from dataclasses import dataclass, asdict, field
-from datetime import datetime
+from datetime import datetime, timezone
+from uuid import uuid4
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 import numpy as np
@@ -18,7 +20,7 @@ from utils.statistical_tests import calculate_metrics_with_significance
 from utils.graph_setup import ABLATION_CONFIGS
 
 if TYPE_CHECKING:
-    from core.prior_context import PriorPointContext
+    from core.prior_context import PriorContextAdapter, PriorPointContext
     from utils.graph_setup import SetGraph
 
 PRIOR_BRANCH_MODES = {
@@ -558,9 +560,10 @@ class BacktestEngine:
         self._stop_event     = threading.Event()
         self._started_at     = ""
         self._sentiment_store = None
-        self._use_historical_sentiment = config.get("use_historical_sentiment", True)
+        self._use_historical_sentiment = self.config.get("use_historical_sentiment", True)
         self._prior_point_attempts: set[tuple[str, str]] = set()
         self._prior_point_lock = threading.Lock()
+        self._prior_run_lock = threading.Lock()
 
     def _init_sentiment_store(self, symbol: str, force_recrawl: bool = False):
         """
@@ -966,7 +969,9 @@ class BacktestEngine:
                     prior_source_validator=point.verify_source,
                 )
                 branch_started = time.monotonic()
+                attempt_started = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
                 result = graph.invoke(state)
+                attempt_finished = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
                 # Messages/ảnh/DataFrame là dữ liệu runtime, không xuất sang JSON.
                 output = copy_prior_json({field: result.get(field) for field in
                     (*shared, "final_trade_decision", "decision_prompt")})
@@ -983,8 +988,18 @@ class BacktestEngine:
                     if population_hash is not None and current != population_hash:
                         raise ValueError("Bốn prior modes phải có stats cùng population")
                     population_hash = current
+                responses = result.get("messages", [])
+                response = responses[-1] if responses else None
+                raw_response = getattr(response, "content", None)
+                tool_calls = getattr(response, "tool_calls", None)
+                if not raw_response and tool_calls:
+                    raw_response = json.dumps(native_json({"content": raw_response, "tool_calls": tool_calls}),
+                                              ensure_ascii=False, allow_nan=False)
                 branches[branch_id] = {"state": output,
-                    "elapsed_seconds": float(time.monotonic() - branch_started)}
+                    "elapsed_seconds": float(time.monotonic() - branch_started),
+                    "raw_response": native_json(raw_response),
+                    "attempt_id": str(uuid4()), "started_at": attempt_started,
+                    "finished_at": attempt_finished}
                 if index < len(branch_order) - 1:
                     if self._stop_event.wait(self.DELAY_BETWEEN_VARIANTS):
                         raise InterruptedError("Đã yêu cầu dừng giữa các Decision")
@@ -992,6 +1007,24 @@ class BacktestEngine:
                                     "shared_seconds": shared_seconds, "branches": branches})
         finally:
             self._prior_point_lock.release()
+
+    def run_prior_backtest(
+        self, symbol: str, *, adapter: "PriorContextAdapter", graph_builder: "SetGraph",
+        output_dir: "Path", time_frame: str = "1d", n_tests: int = 15,
+        step: int = 3, cutoffs: tuple[str, ...] | None = None,
+        execution_mode: str = "research", callback: Callable[[dict[str, Any]], None] | None = None,
+    ) -> dict[str, Any]:
+        """Walk-forward năm nhánh; schema nghiên cứu riêng, không resume ở bước này."""
+        from core.prior_backtest import PriorBacktestRunner
+
+        if not self._prior_run_lock.acquire(blocking=False):
+            raise RuntimeError("Engine đang chạy backtest nghiên cứu khác")
+        try:
+            runner = PriorBacktestRunner(self, adapter, graph_builder, execution_mode=execution_mode)
+            return runner.run(symbol, output_dir=output_dir, time_frame=time_frame,
+                              n_tests=n_tests, step=step, cutoffs=cutoffs, callback=callback)
+        finally:
+            self._prior_run_lock.release()
 
     # ── Metrics helpers ────────────────────────────────────────────────────────
 
