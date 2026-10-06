@@ -141,10 +141,20 @@ _REPORT_CHAR_LIMITS = {
     "sentiment": 600,
 }
 
+# Cap riêng cho backtest, giữ ngân sách live và các phép đo bàn giao W3.
+_BACKTEST_REPORT_CHAR_LIMITS = {
+    "trend": 800, "pattern": 800, "indicator": 800,
+    "alpha": 1_100, "sentiment": 500,
+}
+BACKTEST_PROMPT_CHAR_LIMIT_EXCLUSIVE = 6_500
 
-def _cap_report(text: str, report_type: str, lang: str) -> str:
+
+def _cap_report(
+    text: str, report_type: str, lang: str, *, report_limits: dict[str, int] | None = None,
+) -> str:
     """Giữ đầu và kết luận cuối báo cáo trong một ngân sách cố định."""
-    limit = _REPORT_CHAR_LIMITS.get(report_type, 900)
+    limits = _REPORT_CHAR_LIMITS if report_limits is None else report_limits
+    limit = limits.get(report_type, 900)
     if len(text) <= limit:
         return text
     marker = "\n...[truncated]...\n" if lang == "en" else "\n...[đã rút gọn]...\n"
@@ -153,7 +163,10 @@ def _cap_report(text: str, report_type: str, lang: str) -> str:
     return text[:head_size].rstrip() + marker + text[-tail_size:].lstrip()
 
 
-def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
+def _distill_report(
+    report_type: str, text: str, lang: str = "vi", *,
+    report_limits: dict[str, int] | None = None,
+) -> str:
     """
     Rút gọn báo cáo để tiết kiệm token khi gửi cho Decision Agent.
     Giữ lại các bảng tóm tắt và kết luận, loại bỏ các chi tiết tính toán dài dòng.
@@ -197,7 +210,24 @@ def _distill_report(report_type: str, text: str, lang: str = "vi") -> str:
                 distilled = f"**{heading}**\n{summary_part}"
                 break
 
-    return _cap_report(distilled, report_type, lang)
+    return _cap_report(distilled, report_type, lang, report_limits=report_limits)
+
+
+def _guard_backtest_prompt(
+    prompt: str, *, lang: str, time_frame: str, report_lengths: dict[str, int],
+    prefix_length: int = 0,
+) -> None:
+    """Kiểm prompt cuối trước API; lỗi ngân sách không đi vào retry output."""
+    length = len(prompt)
+    details = (f"lang={lang}, khung={time_frame}, cap={_BACKTEST_REPORT_CHAR_LIMITS}, "
+               f"report={report_lengths}, prefix={prefix_length}, prompt={length}")
+    if length >= BACKTEST_PROMPT_CHAR_LIMIT_EXCLUSIVE:
+        raise ValueError(
+            f"Prompt Decision backtest vượt ngân sách: {details}; "
+            f"yêu cầu <{BACKTEST_PROMPT_CHAR_LIMIT_EXCLUSIVE} ký tự"
+        )
+    print(f"[DecisionAgent] Ngân sách backtest: {details}; "
+          f"giới hạn <{BACKTEST_PROMPT_CHAR_LIMIT_EXCLUSIVE} ký tự.")
 
 
 # ── Prompt builders ────────────────────────────────────────────────────────────
@@ -524,6 +554,8 @@ def create_final_trade_decider(llm):
         is_en = lang == "en"
 
         no_data = _t("no_data", lang)
+        is_backtest = bool(state.get("is_backtest", False))
+        limits = _BACKTEST_REPORT_CHAR_LIMITS if is_backtest else _REPORT_CHAR_LIMITS
 
         indicator_raw = state.get("indicator_report", no_data)
         pattern_raw   = state.get("pattern_report",   no_data)
@@ -533,11 +565,11 @@ def create_final_trade_decider(llm):
 
         # Rút gọn mọi báo cáo theo ngân sách cứng để tránh cạn quota Groq ở
         # cuối benchmark 20 điểm.
-        indicator_report = _distill_report("indicator", indicator_raw, lang)
-        alpha_report     = _distill_report("alpha",     alpha_raw,     lang)
-        sentiment_report = _distill_report("sentiment", sentiment_raw, lang)
-        pattern_report   = _distill_report("pattern",   pattern_raw,   lang)
-        trend_report     = _distill_report("trend",     trend_raw,     lang)
+        indicator_report = _distill_report("indicator", indicator_raw, lang, report_limits=limits)
+        alpha_report     = _distill_report("alpha",     alpha_raw,     lang, report_limits=limits)
+        sentiment_report = _distill_report("sentiment", sentiment_raw, lang, report_limits=limits)
+        pattern_report   = _distill_report("pattern",   pattern_raw,   lang, report_limits=limits)
+        trend_report     = _distill_report("trend",     trend_raw,     lang, report_limits=limits)
 
         def has_report(value) -> bool:
             return bool(
@@ -562,7 +594,6 @@ def create_final_trade_decider(llm):
 
         print(f"[DecisionAgent] Tổng hợp {count} báo cáo (condensed, horizon={h_val}, lang={lang})...")
 
-        is_backtest = bool(state.get("is_backtest", False))
         if is_backtest:
             build = _build_compact_prompt_en if is_en else _build_compact_prompt_vi
         else:
@@ -574,9 +605,14 @@ def create_final_trade_decider(llm):
             alpha_report, sentiment_report,
         )
         if is_backtest:
-            print(
-                f"[DecisionAgent] Prompt compact: {len(prompt)} ký tự "
-                f"(giới hạn 7500)."
+            report_lengths = {
+                "trend": len(trend_report or ""), "pattern": len(pattern_report or ""),
+                "indicator": len(indicator_report or ""),
+                "alpha": len(alpha_report or "") if has_alpha else 0,
+                "sentiment": len(sentiment_report or "") if has_sentiment else 0,
+            }
+            _guard_backtest_prompt(
+                prompt, lang=lang, time_frame=time_frame, report_lengths=report_lengths,
             )
         response = None
         last_format_error = None

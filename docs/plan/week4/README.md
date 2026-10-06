@@ -1,10 +1,11 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05 (1/4),
-tiến độ W4 5/16 ngày 05/10/2026. Gate A PASS đặc tả. [State/config](integration_contract.md),
+**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..06 (2/4),
+tiến độ W4 6/16 ngày 06/10/2026. Gate A PASS đặc tả. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
 [receipt/Gate A](checkpoint_review.json), [state/config runtime](state_config_runtime_review.json).
-Tiếp theo W4-06; Gate B/C/D và tích hợp prior/PIT/checkpoint còn mở.**
+[cap/guard runtime](runtime_prompt_budget_review.json). Tiếp theo W4-07;
+Gate B/C/D và tích hợp BRPP/PIT/checkpoint còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -85,7 +86,7 @@ Chi tiết: [Phase B](phase_b_state_prompt_graph.md).
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W4-05 | Cài state/config và validator | [Biên bản](state_config_runtime.md), [receipt](state_config_runtime_review.json): tám field optional, parser strict, JSON/context, guard off/enabled, 28 test mới và bốn gate PASS | Gate A | [x] |
-| W4-06 | Áp dụng cap và guard prompt runtime | Cap 800/800/800/1.100/500; guard sau mọi hướng dẫn và trước API, VI/EN/boundary PASS | W4-05 | [ ] |
+| W4-06 | Áp dụng cap và guard prompt runtime | [Biên bản](runtime_prompt_budget.md), [receipt](runtime_prompt_budget_review.json): cap backtest 4.000; guard cuối <6.500, 192 ca + dự phòng 600, text/structured boundary và bốn gate PASS | W4-05 | [x] |
 | W4-07 | Chèn BRPP và hướng dẫn reasoning | Prefix ≤600, đúng một lần trước báo cáo; Original rỗng, lỗi không bị nuốt | W4-06 | [ ] |
 | W4-08 | Ghép graph với ranh giới chuẩn bị báo cáo | Hỗ trợ prior config; chuẩn bị Full dùng chung rồi Decision riêng, bảo toàn graph cũ | W4-05, W4-07 | [ ] |
 
@@ -134,6 +135,29 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-06 hoàn thành
+
+- Nhánh `feat/decision-runtime-prompt-budget`, baseline `c0ab80a`; cap riêng
+  backtest trend/pattern/indicator 800, alpha 1.100, sentiment 500 (tổng 4.000).
+  Giữ cap live 4.500, chữ ký helper cũ và logic distill đầu/cuối/heading.
+- Guard prompt cuối **<6.500** sau builder/hướng dẫn/schema chuỗi, trước retry
+  wrapper và vòng format retry. Overflow ném `ValueError`, không gọi LLM hoặc
+  trả quyết định thay lỗi. Log ghi cap/report/prefix/prompt và đúng ngưỡng.
+- **11 test ngân sách PASS (8 mới)**: node thật trên **192 ca** VI/EN/daily/
+  bốn mã/tổ hợp báo cáo; giữ hợp đồng kinh tế/conflict, đầu/cuối và input.
+  Builder thật tại 6.499/6.500 xác minh text và structured output; retry giữ
+  prompt đã kiểm, live giữ cap cũ, báo cáo thiếu và tên mã dài được kiểm.
+- Prompt lớn nhất ma trận **5.688**; bốn fixture mở rộng builder với BRPP thật
+  **600 ký tự** có max **6.289**, còn 211 đến ngưỡng bị chặn. Chèn/reasoning
+  production vẫn chờ W4-07, phải đo lại sau khi thay template.
+- Bốn gate PASS: compileall; **375 unit** (103,910 giây), **E2E**
+  (15,5 giây pipeline), **56 leakage** (9,035 giây). **2.388 file bảo vệ giữ hash**;
+  kho 852 episode, receipts W3/Phase A/W4-05 nguyên byte.
+- [Biên bản](runtime_prompt_budget.md), [receipt](runtime_prompt_budget_review.json)
+  ghi hash/lệnh/log/ma trận/phạm vi. **Phase B 2/4, W4 6/16**; Gate B và gate
+  budget toàn luồng prior còn mở. Tiếp theo **W4-07** chèn BRPP/reasoning;
+  graph/PIT/paired/checkpoint/pilot và giá OOS còn các task/gate riêng.
 
 ### 2026-10-05 — W4-05 hoàn thành
 
