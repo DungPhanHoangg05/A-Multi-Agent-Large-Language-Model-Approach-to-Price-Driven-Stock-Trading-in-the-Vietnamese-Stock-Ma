@@ -1,6 +1,6 @@
 # Phase B — State, ngân sách prompt và graph
 
-**Trạng thái: W4-05..06 hoàn thành, Phase B 2/4; W4-07..08 còn mở.** [Checklist W4](README.md).
+**Trạng thái: W4-05..07 hoàn thành, Phase B 3/4; W4-08 còn mở.** [Checklist W4](README.md).
 Đầu vào: Gate A và các policy W3. Test mới dưới đây là tên dự kiến;
 tái sử dụng test ablation/paired/token hiện có khi phù hợp.
 
@@ -65,21 +65,28 @@ Receipt W3/Phase A/W4-05 giữ nguyên; Gate B và budget toàn luồng prior c�
 **Phụ thuộc:** W4-06. **File chính:** `agents/decision_agent.py`;
 test dự kiến `tests/test_decision_prior_integration.py`.
 
-- [ ] Dùng `format_compact_prior_prefix(tasks, stats)` từ module W3; không tự
+- [x] Dùng `format_compact_prior_prefix(tasks, stats)` từ module W3; không tự
   tính lại thống kê hoặc xây template khác trong Decision Agent.
-- [ ] Chèn BRPP trước báo cáo đầu tiên (`### [1]`), đúng một lần. Khi disabled/
+- [x] Chèn BRPP trước báo cáo đầu tiên (`### [1]`), đúng một lần. Khi disabled/
   Original prefix rỗng, không để marker, stats hoặc instructions prior còn sót.
-- [ ] Hướng dẫn dùng regime/stats như bối cảnh rồi đọc tín hiệu hiện tại; prior
+- [x] Hướng dẫn dùng regime/stats như bối cảnh rồi đọc tín hiệu hiện tại; prior
   không là quyết định thay agent, không là posterior LLM đã hiệu chuẩn.
-- [ ] Giữ counts/mẫu số/None và tình trạng thiếu tin; không biến missing thành 0%,
+- [x] Giữ counts/mẫu số/None và tình trạng thiếu tin; không biến missing thành 0%,
   thêm smoothing hoặc diễn giải WIN/LOSS lịch sử thành nhãn của query.
-- [ ] Empty/partial hợp lệ giữ nguyên metadata; input/schema/provenance lỗi phải
+- [x] Empty/partial hợp lệ giữ nguyên metadata; input/schema/provenance lỗi phải
   dừng. Guard BRPP ≤600 và guard tổng prompt vẫn chạy trên prompt cuối.
-- [ ] Kiểm cả structured output và đường text hiện có: đều qua `_invoke_with_retry`;
+- [x] Kiểm cả structured output và đường text hiện có: đều qua `_invoke_with_retry`;
   schema LONG/SHORT và format retry không đổi, lỗi API/output không bị nuốt.
 
-**Nghiệm thu:** mock capture prompt ở node thật cho năm nhánh, VI/EN, K=0..3,
-empty/partial và overflow; kiểm vị trí/đếm prefix, input không đổi và guard trước API.
+**Nghiệm thu 06/10/2026:** [biên bản](decision_prior_integration.md),
+[receipt](decision_prior_integration_review.json): **11 test mới**, năm nhánh,
+VI/EN, K=0..3, text/structured, empty/partial/overflow PASS; **128 ca đo runtime**
+max 6.264, prefix đúng 600 + reasoning max 6.467. Compileall/**386 unit**/
+E2E/**56 leakage** PASS, giữ kho và các receipt trước.
+
+Factory thêm hook verifier nguồn tin cậy; thiếu verifier hoặc source lỗi dừng
+trước formatter/API. Verifier fixture chỉ nghiệm thu node/JSON/prompt, không
+chứng minh source PIT. Graph vẫn chặn enabled; W4-08/09 tiếp tục nối graph/adapter.
 
 ## W4-08 — Ranh giới graph và tương thích
 
@@ -104,8 +111,11 @@ empty/partial và overflow; kiểm vị trí/đếm prefix, input không đổi 
 ## Gate B và cập nhật tiến độ
 
 - [ ] W4-05..08 PASS state/config, Decision runtime budget và graph compatibility.
-- [ ] Prefix đúng vị trí/một lần; Original rỗng; tất cả API đi qua retry wrapper.
-- [ ] Guard thực thi trước LLM, không chỉ kiểm prompt ghép thử bên ngoài runtime.
+- [x] Prefix đúng vị trí/một lần; Original rỗng; tất cả API đi qua retry wrapper.
+- [x] Guard thực thi trước LLM, không chỉ kiểm prompt ghép thử bên ngoài runtime.
+
+Hai điều kiện trên PASS ở node Decision thật bằng verifier/LLM fixture;
+Gate B tổng còn W4-08 topology/compatibility, chưa mở gate nguồn W4-09.
 
 Ghi nhật ký từng task: ngày, nhánh/commit, file, lệnh/test, kết quả và giới hạn;
 cập nhật [README](README.md). Gate B chưa đồng nghĩa tích hợp backtest/resume đã PASS.

@@ -1,10 +1,11 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..06 (2/4),
-tiến độ W4 6/16 ngày 06/10/2026. Gate A PASS đặc tả. [State/config](integration_contract.md),
+**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..07 (3/4),
+tiến độ W4 7/16 ngày 06/10/2026. Gate A PASS đặc tả. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
 [receipt/Gate A](checkpoint_review.json), [state/config runtime](state_config_runtime_review.json).
-[cap/guard runtime](runtime_prompt_budget_review.json). Tiếp theo W4-07;
+[cap/guard runtime](runtime_prompt_budget_review.json), [BRPP tại Decision](decision_prior_integration_review.json).
+Tiếp theo W4-08;
 Gate B/C/D và tích hợp BRPP/PIT/checkpoint còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
@@ -87,7 +88,7 @@ Chi tiết: [Phase B](phase_b_state_prompt_graph.md).
 | --- | --- | --- | --- | --- |
 | W4-05 | Cài state/config và validator | [Biên bản](state_config_runtime.md), [receipt](state_config_runtime_review.json): tám field optional, parser strict, JSON/context, guard off/enabled, 28 test mới và bốn gate PASS | Gate A | [x] |
 | W4-06 | Áp dụng cap và guard prompt runtime | [Biên bản](runtime_prompt_budget.md), [receipt](runtime_prompt_budget_review.json): cap backtest 4.000; guard cuối <6.500, 192 ca + dự phòng 600, text/structured boundary và bốn gate PASS | W4-05 | [x] |
-| W4-07 | Chèn BRPP và hướng dẫn reasoning | Prefix ≤600, đúng một lần trước báo cáo; Original rỗng, lỗi không bị nuốt | W4-06 | [ ] |
+| W4-07 | Chèn BRPP và hướng dẫn reasoning | [Biên bản](decision_prior_integration.md), [receipt](decision_prior_integration_review.json): formatter W3, prefix một lần + reasoning, Original rỗng, empty/partial, node offline và bốn gate PASS | W4-06 | [x] |
 | W4-08 | Ghép graph với ranh giới chuẩn bị báo cáo | Hỗ trợ prior config; chuẩn bị Full dùng chung rồi Decision riêng, bảo toàn graph cũ | W4-05, W4-07 | [ ] |
 
 ## C. PIT, ghép cặp và checkpoint
@@ -135,6 +136,31 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-07 hoàn thành
+
+- Nhánh `feat/decision-prior-prefix`, baseline `75584b2`; thêm
+  `core/decision_prior.py`, hook verifier nguồn tại factory Decision và
+  `tests/test_decision_prior_integration.py`. Chữ ký cũ/ablation/live giữ tương thích.
+- Kiểm config/query/Full reports, JSON, context/bank proof, tasks PIT/scope và
+  metadata/counts/scores/stats; source verifier thành công trước formatter W3.
+  Prefix phải đúng formatter, ≤600; một lần trước `### [1]`, reasoning VI/EN 181 ký tự.
+- Original enabled K=0 vẫn kiểm nguồn/context/metadata; prompt bằng disabled
+  khi cùng báo cáo/daily, không prefix/reasoning/stats. Empty/partial giữ None,
+  mẫu số, status/reason; output và projection verifier có bản sao riêng.
+- **11 test mới PASS**, capture text/structured cho năm nhánh và K=0..3;
+  lỗi nguồn/API/output không bị nuốt, input sai không gọi LLM, overflow không
+  truncate hoặc chuyển cash. Guard `<6500` sau toàn bộ BRPP/hướng dẫn.
+- Receipt đo **128 ca node thật** với verifier/LLM fixture, max **6.264**;
+  BRPP đúng **600** + reasoning có max **6.467**, còn 33 đến ngưỡng bị chặn.
+  Alias daily canonical=`1d`; fixture không là bằng chứng source/model PIT.
+- Bốn gate PASS: compileall; **386 unit** (97,298 giây), **E2E**
+  (15,4 giây pipeline), **56 leakage** (9,010 giây). **2.391 file bảo vệ giữ hash**;
+  kho 852 episode và receipt/spec W3/Phase A/W4-05/06 nguyên byte.
+- [Biên bản](decision_prior_integration.md), [receipt](decision_prior_integration_review.json).
+  **Phase B 3/4, W4 7/16**; Gate B còn W4-08 graph. Default/graph vẫn chặn
+  enabled chưa có verifier nguồn thật W4-09; retrieve/paired/checkpoint và
+  pilot/OOS chưa nghiệm thu. Tiếp theo **W4-08** ranh giới chuẩn bị Full và Decision.
 
 ### 2026-10-06 — W4-06 hoàn thành
 
