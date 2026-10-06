@@ -1,0 +1,201 @@
+{
+  "format_version": 1,
+  "task": "W4-13",
+  "status": "PASS_INTEGRATED_PIT_LEAKAGE_OFFLINE",
+  "date": "2026-10-06",
+  "scope": "INTEGRATED_PIT_LEAKAGE_OFFLINE_SYNTHETIC",
+  "base_commit": "af8c8ca40a48449f85969f40c65803214a06ef7e",
+  "branch": "test/prior-pipeline-leakage",
+  "python": "3.13.5",
+  "started_at_utc": "2026-10-06T09:48:16.427199+00:00",
+  "gates": {
+    "compileall": {
+      "command": "py -3.13 -m compileall agents core data_manager scripts tests utils",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 0.194,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\compileall.log",
+      "log_sha256": "7bee366dad15b373051dca61a9ec53fd5c17cb6ce49eae833dc5969ba5e05eec"
+    },
+    "unit": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 443.534,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\unit.log",
+      "log_sha256": "36d3b06907817628970779130080f7cde9606c30516687a89f213724bdd0883e",
+      "test_count": 494,
+      "suite_seconds": 429.397
+    },
+    "e2e": {
+      "command": "py -3.13 scripts/run_end_to_end_test.py",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 28.137,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\e2e.log",
+      "log_sha256": "d295f7723c0cfa6f8a6434bcc2909adfd9f4eadd20a46730684e9da983e6a71d"
+    },
+    "leakage": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -p test_*leakage.py -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 154.42,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\leakage.log",
+      "log_sha256": "ca7127de769482dae6b66d44865da4059a7d5a6b7387c97a2b3de3b905e76fe7",
+      "test_count": 93,
+      "suite_seconds": 139.511
+    }
+  },
+  "unchanged_economic_and_legacy_ast_sha256": {
+    "compute_round_trip_net_return": "8c85859ab6a5e2b99d61c220610ae163e5c3833e66fad7d8902ed20556a88745",
+    "compute_account_metrics": "c75b7b5b1bc5ac676e9bbc2205d7bb82c6c3909a732859b9f57d55f2caf25eee",
+    "_get_actual_direction": "0b16fb50b323ddf94b85f8f6f35f77359bd649d65d98b132cdfd8238619c8a9f",
+    "_parse_prediction": "a9ab931d6e62dfdca9785cea3fc8bdfd2066f647cbb12e436c348878da06d1e2",
+    "_run_ablation_variants": "d218d930250681162d434514063fc0f3a18ad68f50b26ca88da467f7fb36f828",
+    "_run_paired_point": "a7904709a42965849a7679bd756c321912c2a9a3070ce567565edeffbbc6894f",
+    "run": "6b80224df556c15445b57eb93f8f51811d59543d96788518a64f9501f8ff4ad6"
+  },
+  "coverage": [
+    {
+      "test": "test_public_run_checks_snapshot_and_feature_prefix_before_upstream",
+      "description_vi": "Giá/snapshot/VNINDEX future, stale và sai prefix trước upstream/retrieve/LLM",
+      "passed": true
+    },
+    {
+      "test": "test_every_pipeline_boundary_only_receives_pit_query_inputs",
+      "description_vi": "Snapshot/chart/Alpha/query/Decision/point/evaluation, năm nhánh và hai provider",
+      "passed": true
+    },
+    {
+      "test": "test_news_filter_coverage_and_sparse_neutral_survive_all_five_prompts",
+      "description_vi": "Tin future/undated/ngoài cửa sổ, coverage trước display, sparse NEUTRAL",
+      "passed": true
+    },
+    {
+      "test": "test_future_or_invalid_model_components_stop_public_run_before_agents",
+      "description_vi": "Train future/scaler/calibration/hash artifact băm lại, hai provider",
+      "passed": true
+    },
+    {
+      "test": "test_injected_provider_wrong_dates_hash_and_training_proof_stop_before_agents",
+      "description_vi": "Provider bị can thiệp trả state/feature/metadata/hash sai",
+      "passed": true
+    },
+    {
+      "test": "test_equal_exit_straddling_future_excluded_in_graph_tasks_ranking_stats_prefix",
+      "description_vi": "Hai provider × hai scope × năm nhánh, exit < cutoff, ranking/stats/BRPP",
+      "passed": true
+    },
+    {
+      "test": "test_unclosed_history_append_and_mutation_leave_old_graph_evidence_unchanged",
+      "description_vi": "Thêm/sửa future signals/regime/nhãn, IDs/scores/stats/seed/BRPP không đổi",
+      "passed": true
+    },
+    {
+      "test": "test_later_then_earlier_graph_queries_do_not_reuse_future_evidence",
+      "description_vi": "Hai provider, thứ tự ngày ngược trên cùng adapter/retriever",
+      "passed": true
+    },
+    {
+      "test": "test_injected_pool_selectors_and_population_stop_before_formatter_or_llm",
+      "description_vi": "Pool/selector/population future, bốn mode × hai scope, không skip/fallback",
+      "passed": true
+    },
+    {
+      "test": "test_future_execution_outcome_changes_evaluation_without_changing_decisions",
+      "description_vi": "Đổi giá sau cutoff, nhãn future dùng engine; prompt/Decision giữ nguyên",
+      "passed": true
+    },
+    {
+      "test": "test_rehashed_checkpoint_future_sources_cannot_resume_either_provider",
+      "description_vi": "Resume hai provider, mọi component model/news/price/cutoff trước API",
+      "passed": true
+    }
+  ],
+  "provider_regression": {
+    "baseline_prepare_sha256": "b74e263d2cdf3e18daf8b81e1ec5ece4d48d56052ebd2f9c50527a3d249e12d3",
+    "baseline_invalid_proof_accepted": true,
+    "baseline_decision_fixture_calls": 5,
+    "fixed_invalid_proof_rejected": true,
+    "fixed_upstream_calls": 0,
+    "fixed_decision_fixture_calls": 0,
+    "mode": "offline_fixture",
+    "real_llm_api_called": false,
+    "source_files_modified": false,
+    "probe_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\regression_probe.json",
+    "probe_sha256": "3248e2be03f715ad417fbbc5af7cda55bce07a8aed62ce98d2b3cc043ff0abb3",
+    "mutation_vi": "Hash train do provider trả khác artifact đã ghim."
+  },
+  "protected_files": {
+    "count": 2419,
+    "unchanged": true,
+    "changed_paths": [],
+    "snapshot_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\protected_before.json",
+    "snapshot_sha256": "d74e0661a453c1c2eebe097f80da4f02bba9db711eb101b7e1c08328467dac92"
+  },
+  "source_text_sha256": {
+    "core/prior_context.py": "c965509187bc2519d3c919d86575d72f829c62f7dc6f5535b337dd90e4aca391",
+    "tests/test_prior_pipeline_leakage.py": "98d7eb3141ef39e804f181e62b50676aaf9c9142077f7c98ee4b6c6508d8f666"
+  },
+  "finished_at_utc": "2026-10-06T09:58:57.856105+00:00",
+  "new_unit_test_count": 11,
+  "new_leakage_test_count": 11,
+  "phase_d_completed_tasks": 1,
+  "week_completed_tasks": 13,
+  "phase_d_gate_passed": false,
+  "real_llm_api_called": false,
+  "new_oos_trading_backtest": false,
+  "synthetic_labels_use_compute_round_trip_net_return": true,
+  "providers": [
+    "historical_prefix",
+    "fixed_train_oos"
+  ],
+  "graph_scopes": [
+    "same_symbol",
+    "pooled"
+  ],
+  "public_research_matrix_scope": "same_symbol",
+  "branch_matrix": [
+    "original",
+    "random",
+    "recent",
+    "similarity",
+    "bayesian"
+  ],
+  "observed_boundary_graph_calls": 40,
+  "observed_later_then_earlier_graph_calls": 60,
+  "model_component_mutations": 8,
+  "injected_provider_proof_mutations": 6,
+  "injected_pool_selector_population_cases": 24,
+  "rehashed_checkpoint_future_source_cases": 12,
+  "all_invalid_sources_stop_before_upstream_or_retrieve_or_formatter_or_decision_as_documented": true,
+  "inference_mocks": [
+    "Báo cáo Indicator/Pattern/Trend",
+    "Ảnh biểu đồ",
+    "Phép tính factor Alpha",
+    "Phản hồi Decision LLM"
+  ],
+  "real_runtime_modules": [
+    "Loader/validator giá, model và bank",
+    "Adapter PIT và sentiment snapshot",
+    "Graph và orchestration Alpha",
+    "Retriever, ranking và statistics",
+    "Formatter và prompt builder",
+    "Checkpoint/OS lock/resume",
+    "Đánh giá kinh tế"
+  ],
+  "provider_guard_cache_key": [
+    "artifact_sha256",
+    "as_of_date",
+    "inference_prefix_sha256"
+  ],
+  "performance_scope": "Thêm một lần load/suy luận kiểm độc lập ở endpoint replay chưa có cache; không đổi retrieval/ranking. Rà overhead và benchmark theo điều kiện W4-15.",
+  "verification_helper": {
+    "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\verify.py",
+    "sha256": "e19427fb6e3df81d7fe8229d7f1c19b6f3b85f243683d8660b06363b4af16479"
+  },
+  "receipt_finalizer": {
+    "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-pipeline-leakage-20261006\\finalize_receipt.py",
+    "sha256": "8209b58fa7b7badd2c435f0afe95e7567f31abbce0e46b262bc2809513b730e3"
+  }
+}

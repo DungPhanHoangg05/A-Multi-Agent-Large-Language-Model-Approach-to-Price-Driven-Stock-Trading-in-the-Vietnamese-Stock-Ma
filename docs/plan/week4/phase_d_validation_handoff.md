@@ -1,33 +1,42 @@
 # Phase D — Kiểm chứng tích hợp và bàn giao W5
 
-**Trạng thái: chưa thực hiện.** [Checklist W4](README.md).
+**Trạng thái: W4-13 hoàn thành ngày 06/10/2026; Phase D 1/4.**
+[Biên bản leakage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json),
+[checklist W4](README.md). Tiếp theo W4-14; Gate D còn mở.
 Đầu vào: Gate C. Nghiệm thu trên đường state → PIT adapter → retriever →
 formatter → graph → Decision → checkpoint thực tế; chỉ thay inference bên
 ngoài bằng LLM giả định xác định.
 
 ## W4-13 — Leakage trên toàn đường tích hợp
 
-**Phụ thuộc:** Gate C. **Test dự kiến:** `tests/test_prior_pipeline_leakage.py`.
+**Phụ thuộc:** Gate C. **Test:** `tests/test_prior_pipeline_leakage.py`.
 Tái sử dụng `test_regime_leakage.py`, `test_bayesian_retriever_leakage.py`,
 sentiment/alpha/execution-price/historical leakage đã có; không viết lại detector.
 
-- [ ] Giá/feature sau cutoff và snapshot sai ngày gây lỗi trước agent/retrieval;
+- [x] Giá/feature sau cutoff và snapshot sai ngày gây lỗi trước agent/retrieval;
   outcome query không xuất hiện trong signals/state/prompt.
-- [ ] Tin tương lai không được dùng, tin không ngày bị loại; kiểm metadata
+- [x] Tin tương lai không được dùng, tin không ngày bị loại; kiểm metadata
   coverage và NEUTRAL không bị chuyển thành bằng chứng tích cực.
-- [ ] HMM/scaler/calibration train tương lai, state/feature/source/hash sai gây
+- [x] HMM/scaler/calibration train tương lai, state/feature/source/hash sai gây
   lỗi trước query; kiểm cả provider replay và model train cố định.
-- [ ] Prior exit bằng cutoff, chu kỳ vắt ngang và exit tương lai không nằm trong
+- [x] Prior exit bằng cutoff, chu kỳ vắt ngang và exit tương lai không nằm trong
   tasks, ranking, stats hoặc BRPP của bất kỳ mode/scope nào.
-- [ ] Thêm/sửa lịch sử chưa đóng không đổi IDs/scores/stats/prefix của query cũ;
+- [x] Thêm/sửa lịch sử chưa đóng không đổi IDs/scores/stats/prefix của query cũ;
   truy vấn ngày sau rồi ngày trước không tái dùng cache chứa lịch sử tương lai.
-- [ ] Nếu selector/provider bị can thiệp trả dữ liệu sai, validator phải ném
+- [x] Nếu selector/provider bị can thiệp trả dữ liệu sai, validator phải ném
   ValueError/AssertionError; không silently skip, nới regime/scope hoặc trả empty.
-- [ ] Checkpoint giả/sửa cutoff/nguồn/model future không thể resume; kiểm spy
+- [x] Checkpoint giả/sửa cutoff/nguồn/model future không thể resume; kiểm spy
   chứng minh không có LLM call khi provenance/cutoff thất bại.
 
 **Nghiệm thu:** bảng coverage ghi từng ca, mode và đường chạy; fixture nhãn
-từ engine thật. Receipt dự kiến `pipeline_leakage_review.json` và suite PASS.
+từ engine thật. [Receipt](pipeline_leakage_review.json) và suite PASS.
+
+**Kết quả 06/10/2026:** 11 test mới; 40 graph ca biên hai provider/hai scope,
+24 injection pool/selector/population, 12 mutation checkpoint băm lại. Provider
+replay được đối chiếu độc lập với artifact/prefix; probe baseline nhận hash
+train sai, bản sửa chặn trước upstream. Compileall/494 unit/E2E/93 leakage
+PASS; [biên bản và coverage](pipeline_leakage_validation.md). Inference là
+fixture, không mở gate OOS. W4-14..16 và Gate D còn mở.
 
 ## W4-14 — Smoke E2E offline và tương thích
 
@@ -112,4 +121,5 @@ trạng thái gate giá/OOS/pilot ghi theo kiểm chứng thực tế, không t�
 - [ ] W5 có danh sách điều kiện mở pilot và giới hạn nghiên cứu rõ ràng.
 
 Ghi nhật ký từng task tại đây và [README](README.md): ngày, commit, lệnh,
-kết quả, receipt và phần còn mở. Chưa có kết quả Phase D ở bước lập kế hoạch.
+kết quả, receipt và phần còn mở. W4-13 đã có receipt riêng; các task còn lại
+chỉ chốt sau kiểm chứng tương ứng.

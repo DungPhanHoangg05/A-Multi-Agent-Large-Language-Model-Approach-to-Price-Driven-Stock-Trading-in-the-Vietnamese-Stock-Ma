@@ -1,7 +1,8 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-Phase C hoàn thành W4-09..12 (4/4), tiến độ W4 12/16 ngày 06/10/2026.
+Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13 hoàn thành (1/4),
+tiến độ W4 13/16 ngày 06/10/2026.
 Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
@@ -10,7 +11,8 @@ với verifier/retriever fixture. [State/config](integration_contract.md),
 [graph/Full reports](graph_prior_integration_review.json),
 [adapter nguồn PIT](prior_context_review.json), [paired runtime](paired_prior_point_review.json).
 [walk-forward/kết quả](prior_backtest_review.json), [checkpoint/resume](paired_checkpoint_review.json).
-Gate C PASS offline, khóa kiểm native Windows. Tiếp theo W4-13; Gate D và giá OOS còn mở.**
+Gate C PASS offline, khóa kiểm native Windows. [Leakage toàn pipeline](pipeline_leakage_review.json)
+PASS. Tiếp theo W4-14; Gate D và giá OOS còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -112,7 +114,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W4-13 | Kiểm thử leakage toàn đường tích hợp | Giá/tin/model/prior/ranking/stats/prefix/checkpoint không lọt tương lai, lỗi trước API | Gate C | [ ] |
+| W4-13 | Kiểm thử leakage toàn đường tích hợp | [Biên bản/coverage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json): 11 test mới trên hai provider/hai scope, nguồn/prior/checkpoint sai bị chặn; sửa verifier provider và bốn gate PASS | Gate C | [x] |
 | W4-14 | Smoke E2E offline và tương thích | Luồng thật + LLM giả định xác định; năm nhánh, flag off, budget/paired/resume và JSON PASS | W4-13 | [ ] |
 | W4-15 | Chạy bốn gate và kiểm phạm vi thay đổi | Compile/unit/E2E/leakage PASS; hash nguồn, receipt, ngân sách runtime và rủi ro hiệu năng đã rà | W4-14 | [ ] |
 | W4-16 | Chốt W4, bàn giao điều kiện pilot W5 | 16 task có bằng chứng; hướng dẫn config/resume; gate giá/quota W5 và giới hạn nghiên cứu rõ | W4-01..15 | [ ] |
@@ -140,6 +142,28 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-13 hoàn thành
+
+- Nhánh `test/prior-pipeline-leakage`, baseline `af8c8ca`; thêm suite
+  `tests/test_prior_pipeline_leakage.py` với **11 test mới**, tái sử dụng
+  fixture nguồn/nhãn engine và các suite leakage hiện có.
+- Kiểm public runner và graph thật trên hai provider PIT, hai scope, năm nhánh:
+  40 ca graph equal/straddling/future; 60 call ngày sau→ngày trước;
+  24 injection pool/selector/population và 12 mutation checkpoint băm lại.
+  Giá query future làm đổi evaluation nhưng giữ prompt/Decision; sparse tin
+  giữ NEUTRAL/coverage/lý do audit, không lọt sentinel future/undated.
+- Phát hiện provider replay có thể trả hash train sai; bổ sung đối chiếu
+  độc lập metadata/state với artifact và prefix, cache đủ hash/cutoff/prefix.
+  Probe logic baseline nhận proof sai và gọi 5 Decision giả, bản sửa chặn với
+  0 upstream/Decision mới. Giữ lifecycle fixed model và retrieval trên RAM.
+- Bốn gate: compileall/**494 unit**/E2E/**93 leakage** PASS;
+  [biên bản/coverage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json).
+  **2.419 file bảo vệ** và bảy AST kinh tế/legacy giữ nguyên hash so baseline.
+  Suite mới chặn socket/LLM SDK/fit/crawl, inference fixture; chưa gọi API/OOS.
+- **Phase D 1/4, W4 13/16**. Tiếp theo **W4-14** smoke E2E riêng và
+  tương thích; W4-14..16/Gate D và giá OOS còn mở. Overhead kiểm độc lập
+  endpoint replay mới được ghi rõ để rà theo điều kiện W4-15.
 
 ### 2026-10-06 — W4-12 và Phase C hoàn thành
 
