@@ -4,6 +4,8 @@ import time
 from typing import Literal
 
 from pydantic import BaseModel, Field
+from core.decision_prior import PriorSourceValidator, prepare_decision_prior
+from core.prior_config import PRIOR_STATE_FIELDS, copy_prior_json
 
 
 class TradeDecisionOutput(BaseModel):
@@ -530,7 +532,27 @@ Return one valid JSON object only; no Markdown or text outside JSON:
 
 # ── Main agent factory ─────────────────────────────────────────────────────────
 
-def create_final_trade_decider(llm):
+_PRIOR_REASONING = {
+    "vi": ("PRIOR: Đọc regime/tỷ lệ mẫu rồi tín hiệu hiện tại. Chỉ là bối cảnh, không quyết định "
+           "hay posterior LLM hiệu chuẩn. Giữ n/N và N/A; không smoothing. W/L là lịch sử, không nhãn query."),
+    "en": ("PRIOR: Read regime/sample rates, then current signals. Context, not a decision or calibrated LLM "
+           "posterior. Keep n/N and N/A; no smoothing. W/L labels closed history, not the query."),
+}
+
+
+def _insert_prior_context(prompt: str, prefix: str, lang: str) -> str:
+    """Chèn prefix nguyên vẹn một lần trước report; Original giữ prompt nguyên byte."""
+    if not prefix:
+        return prompt
+    if len(prefix) > 600:
+        raise ValueError("BRPP vượt 600 ký tự")
+    head, marker, tail = prompt.partition("### [1]")
+    if not marker or "[BRPP v1]" in prompt:
+        raise ValueError("Prompt thiếu điểm chèn hoặc đã chứa BRPP")
+    return head + prefix + "\n" + _PRIOR_REASONING[lang] + "\n" + marker + tail
+
+
+def create_final_trade_decider(llm, *, prior_source_validator: PriorSourceValidator | None = None):
     """
     Decision Agent v3 — Pure LLM reasoning.
     Đọc 3–5 báo cáo theo cấu hình ablation và tự ra quyết định.
@@ -548,6 +570,7 @@ def create_final_trade_decider(llm):
             print(f"[DecisionAgent] Structured Output không khả dụng: {exc}")
 
     def trade_decision_node(state) -> dict:
+        state, prior_prefix = prepare_decision_prior(state, source_validator=prior_source_validator)
         # ── i18n ──────────────────────────────────────────────────────────────
         from utils.i18n import lang_of, get_horizon, t as _t
         lang  = lang_of(state)
@@ -604,6 +627,7 @@ def create_final_trade_decider(llm):
             trend_report, pattern_report, indicator_report,
             alpha_report, sentiment_report,
         )
+        prompt = _insert_prior_context(prompt, prior_prefix, lang)
         if is_backtest:
             report_lengths = {
                 "trend": len(trend_report or ""), "pattern": len(pattern_report or ""),
@@ -613,6 +637,7 @@ def create_final_trade_decider(llm):
             }
             _guard_backtest_prompt(
                 prompt, lang=lang, time_frame=time_frame, report_lengths=report_lengths,
+                prefix_length=len(prior_prefix),
             )
         response = None
         last_format_error = None
@@ -647,6 +672,7 @@ def create_final_trade_decider(llm):
             "final_trade_decision": normalized,
             "messages": [response] if response is not None else [],
             "decision_prompt": prompt,
+            **{field: copy_prior_json(state[field]) for field in PRIOR_STATE_FIELDS if field in state},
         }
 
     return trade_decision_node
