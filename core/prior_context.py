@@ -304,6 +304,7 @@ class PriorContextAdapter:
                 raise ValueError("Model được khai đóng băng trước khi train kết thúc")
         self._base_paths = set(self._files.hashes)
         self._files.verify(self._base_paths)
+        self._regime_checks: dict[tuple[str, str, str], dict[str, Any]] = {}
 
     @property
     def prior_config(self) -> dict[str, Any]:
@@ -387,6 +388,15 @@ class PriorContextAdapter:
             HistoricalMemoryRunner._validate_regime(verified, cutoff)
             if verified["artifact_sha256"] != artifact_hash:
                 raise ValueError("Artifact thay đổi trong lúc provider nạp")
+            # Provider không được tự khai metadata/state khác artifact đã ghim.
+            # Cache gắn đủ artifact/cutoff/prefix; không dùng endpoint ngày sau cho ngày trước.
+            check_key = (artifact_hash, cutoff, training_data_hash(prefix))
+            if check_key not in self._regime_checks:
+                detector = MarketRegimeDetector.load(self._files.path(artifact), expected_training_hash=check_key[2])
+                self._regime_checks[check_key] = copy_prior_json({"metadata": detector.metadata,
+                    "state": detector.classify_regime(prefix, cutoff), "artifact_sha256": artifact_hash})
+            if digest(copy_prior_json(verified)) != digest(self._regime_checks[check_key]):
+                raise ValueError("Provider trả regime/metadata khác artifact và prefix PIT đã xác minh")
             state, metadata = verified["state"], verified["metadata"]
             frozen = None
         else:
