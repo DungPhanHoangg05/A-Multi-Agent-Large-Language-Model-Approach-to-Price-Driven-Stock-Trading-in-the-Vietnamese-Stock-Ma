@@ -1,13 +1,15 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-tiến độ W4 8/16 ngày 06/10/2026. Gate A PASS đặc tả, Gate B PASS offline graph/prompt
+Phase C hoàn thành W4-09 (1/4), tiến độ W4 9/16 ngày 06/10/2026.
+Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
 [receipt/Gate A](checkpoint_review.json), [state/config runtime](state_config_runtime_review.json).
 [cap/guard runtime](runtime_prompt_budget_review.json), [BRPP tại Decision](decision_prior_integration_review.json).
-[graph/Full reports](graph_prior_integration_review.json). Tiếp theo W4-09;
-Gate C/D, nguồn PIT thật, engine năm nhánh/checkpoint và giá OOS còn mở.**
+[graph/Full reports](graph_prior_integration_review.json),
+[adapter nguồn PIT](prior_context_review.json). Tiếp theo W4-10;
+Gate C/D, engine năm nhánh/checkpoint và giá OOS còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -98,7 +100,7 @@ Chi tiết: [Phase C](phase_c_pit_paired_checkpoint.md).
 
 | Mã | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W4-09 | Cài adapter context/regime PIT | Chứng minh nguồn trước retrieve; đúng cutoff, model và snapshot; không nhãn query | Gate A, W4-05 | [ ] |
+| W4-09 | Cài adapter context/regime PIT | [API/biên bản](prior_context_adapter.md), [receipt](prior_context_review.json): hai provider, seal Full/proof, 31 test mới/128 ca graph, 6 replay thật và bốn gate PASS | Gate A, W4-05 | [x] |
 | W4-10 | Tạo báo cáo chung cho năm nhánh | Ba agent upstream một lần/điểm; Full Alpha/Sentiment dùng chung, deep copy và call-count PASS | Gate B, W4-09 | [ ] |
 | W4-11 | Ghép retriever vào backtest | Nạp kho một lần; năm kết quả có metadata/prefix; giữ kinh tế và output cũ | W4-09, W4-10 | [ ] |
 | W4-12 | Lưu và phục hồi tiến trình từng nhánh | Ghi atomic; crash/quota/interrupt không mất báo cáo/nhánh đã xong; đổi hash/config bị chặn | W4-04, W4-11 | [ ] |
@@ -137,6 +139,26 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-09 hoàn thành
+
+- Nhánh `feat/prior-point-in-time-context`, baseline `5530eba`; thêm
+  `core/prior_context.py`, helper fixture và hai suite adapter/leakage.
+- Nạp retriever/kho/QA một lần, kiểm byte manifest/CSV/evidence/events/tin/
+  VNINDEX trước upstream; replay prefix verify-only hoặc model fixed train
+  end ≤ freeze < cutoff. Model/scaler/calibration và full prefix được kiểm,
+  không fit/crawl/API hoặc tự đổi provider.
+- Seal năm Full reports và tín hiệu với source proof; Alpha bảng/đồng thuận,
+  sparse sentiment và coverage trước cap hiển thị. Graph dùng callback kiểm
+  nguồn trước retrieve và result trước formatter; deep copy, không outcome query.
+- Journal COMPLETE giữ identity gốc, chữ ký input W2, episode/regime/hash;
+  parser Trend viết tắt chỉ nhận report có biên bản đóng băng, không chạy mã cũ.
+- **31 test mới, 128 ca hai provider/VI/EN/mode/K/text/structured**, và
+  **6 replay nguồn/checkpoint thật** với Decision giả PASS. Bốn gate mới:
+  compileall/**430 unit**/E2E/**71 leakage** PASS; [receipt](prior_context_review.json)
+  ghi log/hash; **2.399 file bảo vệ** gồm kho/archive/receipt trước giữ nguyên byte.
+- **Phase C 1/4, W4 9/16**. Tiếp theo **W4-10** dùng chung Full và năm
+  Decision trong engine; W4-11/12, Gate C/D và giá OOS còn mở.
 
 ### 2026-10-06 — W4-08 hoàn thành
 

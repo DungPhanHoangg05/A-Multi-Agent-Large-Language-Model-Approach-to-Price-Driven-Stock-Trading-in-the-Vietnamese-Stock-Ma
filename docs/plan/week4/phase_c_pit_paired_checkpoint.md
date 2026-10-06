@@ -1,6 +1,8 @@
 # Phase C — Context PIT, năm nhánh ghép cặp và resume
 
-**Trạng thái: chưa thực hiện.** [Checklist W4](README.md).
+**Trạng thái: W4-09 hoàn thành, Phase C 1/4 ngày 06/10/2026.**
+[Biên bản/API adapter](prior_context_adapter.md), [receipt](prior_context_review.json),
+[checklist W4](README.md). Gate C còn W4-10..12.
 Đầu vào: hợp đồng Phase A và graph/Decision Phase B. W4 cài adapter/runtime;
 CLI điều phối pilot `scripts/run_bayesian_ablation.py` thuộc W5.
 
@@ -8,20 +10,20 @@ CLI điều phối pilot `scripts/run_bayesian_ablation.py` thuộc W5.
 
 **Phụ thuộc:** Gate A, W4-05. **File khảo sát/tái sử dụng:**
 `core/regime_detector.py`, `core/historical_runner.py`, `core/historical_signals.py`,
-`core/backtest_engine.py`; adapter mới dự kiến `core/prior_context.py`.
+`core/backtest_engine.py`; adapter đã cài `core/prior_context.py`.
 
-- [ ] Nhận snapshot đúng symbol/cutoff/timeframe và proof giá/tin/regime từ provider;
+- [x] Nhận snapshot đúng symbol/cutoff/timeframe và proof giá/tin/regime từ provider;
   validate state/date/source/hash trước xây query. Không coi enum BULL/BEAR là proof.
-- [ ] Cài hai đường đã khóa: replay prefix đúng ngày và artifact train đóng băng
+- [x] Cài hai đường đã khóa: replay prefix đúng ngày và artifact train đóng băng
   trước query OOS. Tái sử dụng validator phù hợp, kiểm HMM/scaler/calibration và
   feature end. Không fit/tải dữ liệu trong retrieval hoặc tự đổi provider khi thiếu.
-- [ ] Chốt provenance thực tế đủ để xác minh model/source; file/hash/date tự khai
+- [x] Chốt provenance thực tế đủ để xác minh model/source; file/hash/date tự khai
   không đối chiếu artifact thật phải bị từ chối ở chế độ nghiên cứu.
-- [ ] Xây `current_signals` từ báo cáo đã hoàn thành tại cutoff theo normalizer
+- [x] Xây `current_signals` từ báo cáo đã hoàn thành tại cutoff theo normalizer
   đã có; xử lý report thiếu/mẫu hướng theo hợp đồng, không dùng actual direction.
-- [ ] Cắt giá/feature và kiểm tin PIT trước khi agent dùng; bỏ tin không ngày,
+- [x] Cắt giá/feature và kiểm tin PIT trước khi agent dùng; bỏ tin không ngày,
   giữ coverage/lý do NEUTRAL. Mọi input tương lai đã lọt vào context gây lỗi.
-- [ ] Kiểm fixture model train tương lai, cutoff lệch, hash sai, feature/news
+- [x] Kiểm fixture model train tương lai, cutoff lệch, hash sai, feature/news
   tương lai; ca model train end <cutoff hợp lệ và prefix lịch sử đúng ngày.
 
 **Nghiệm thu:** adapter trả context/signals/provenance JSON hợp lệ; input lỗi
