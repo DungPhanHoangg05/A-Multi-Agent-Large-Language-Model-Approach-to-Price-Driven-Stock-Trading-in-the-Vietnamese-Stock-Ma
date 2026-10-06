@@ -496,6 +496,36 @@ class PriorPointContext:
         return self._seal({field: full_state.get(field) for field in REPORT_FIELDS}, data.get("alpha_results"),
                           self._adapter._signal_config, self._adapter._fresh_identity, "shared_full")
 
+    def restore_full_bundle(self, bundle: dict[str, Any]) -> dict[str, Any]:
+        """Tái dựng Full từ snapshot PIT rồi so seal, không gọi lại Alpha/vision."""
+        bundle = copy_prior_json(bundle)
+        if set(bundle) != {"reports", "current_signals", "market_regime", "prior_provenance", "alpha_factors", "sentiment_data"}:
+            raise ValueError("Full bundle phục hồi thiếu field hoặc chứa outcome query")
+        data = bundle["sentiment_data"]
+        if type(data) is not dict or set(data).difference({*self._sentiment.data, "alpha_results", "sentiment_norm", "related_norm", "tech_vars"}):
+            raise ValueError("Sentiment bundle chứa field ngoài projection Full")
+        def reject_outcome(value: Any) -> None:
+            if type(value) is dict:
+                if {"outcome", "evaluation", "actual_direction", "entry_open", "exit_close", "net_return_long"}.intersection(value):
+                    raise ValueError("Full bundle chứa outcome query")
+                for child in value.values():
+                    reject_outcome(child)
+            elif type(value) is list:
+                for child in value:
+                    reject_outcome(child)
+        reject_outcome(bundle)
+        if digest(data.get("alpha_results")) != digest(bundle["alpha_factors"]):
+            raise ValueError("Alpha factors khác bundle phục hồi")
+        state = self.agent_state()
+        state.update(bundle["reports"], sentiment_data=data)
+        shared = self.bind_full(state)
+        expected = {"reports": {field: shared[field] for field in REPORT_FIELDS},
+            **{field: shared[field] for field in ("current_signals", "market_regime", "prior_provenance")},
+            "alpha_factors": bundle["alpha_factors"], "sentiment_data": data}
+        if digest(bundle) != digest(expected):
+            raise ValueError("Full bundle/hash/tín hiệu/provenance khác nguồn PIT hiện tại")
+        return shared
+
     def load_shared_checkpoint(self, run_dir: str) -> dict[str, Any]:
         """Đọc journal COMPLETE và episode/run đã ràng buộc, không invoke extractor."""
         if self._proof["context"]["provider_mode"] != "historical_prefix":

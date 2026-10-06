@@ -1,7 +1,7 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-Phase C hoàn thành W4-09..11 (3/4), tiến độ W4 11/16 ngày 06/10/2026.
+Phase C hoàn thành W4-09..12 (4/4), tiến độ W4 12/16 ngày 06/10/2026.
 Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
@@ -9,8 +9,8 @@ với verifier/retriever fixture. [State/config](integration_contract.md),
 [cap/guard runtime](runtime_prompt_budget_review.json), [BRPP tại Decision](decision_prior_integration_review.json).
 [graph/Full reports](graph_prior_integration_review.json),
 [adapter nguồn PIT](prior_context_review.json), [paired runtime](paired_prior_point_review.json).
-[walk-forward/kết quả](prior_backtest_review.json).
-Tiếp theo W4-12; Gate C/D, checkpoint/resume từng nhánh và giá OOS còn mở.**
+[walk-forward/kết quả](prior_backtest_review.json), [checkpoint/resume](paired_checkpoint_review.json).
+Gate C PASS offline, khóa kiểm native Windows. Tiếp theo W4-13; Gate D và giá OOS còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -104,7 +104,7 @@ Chi tiết: [Phase C](phase_c_pit_paired_checkpoint.md).
 | W4-09 | Cài adapter context/regime PIT | [API/biên bản](prior_context_adapter.md), [receipt](prior_context_review.json): hai provider, seal Full/proof, 31 test mới/128 ca graph, 6 replay thật và bốn gate PASS | Gate A, W4-05 | [x] |
 | W4-10 | Tạo báo cáo chung cho năm nhánh | [API/biên bản](paired_prior_point.md), [receipt](paired_prior_point_review.json): engine chạy upstream/Full một lần, năm Decision tuần tự; mutation/đảo thứ tự, 15 test mới và bốn gate PASS | Gate B, W4-09 | [x] |
 | W4-11 | Ghép retriever vào backtest | [API/biên bản](prior_backtest_integration.md), [receipt](prior_backtest_review.json): walk-forward/schema năm nhánh, nguồn dùng một lần, P&L engine cũ; 16 test mới và bốn gate PASS | W4-09, W4-10 | [x] |
-| W4-12 | Lưu và phục hồi tiến trình từng nhánh | Ghi atomic; crash/quota/interrupt không mất báo cáo/nhánh đã xong; đổi hash/config bị chặn | W4-04, W4-11 | [ ] |
+| W4-12 | Lưu và phục hồi tiến trình từng nhánh | [API/biên bản](prior_checkpoint_resume.md), [receipt](paired_checkpoint_review.json): manifest/shared/attempt/nhánh atomic trước API, verifier semantic, OS lock Windows; 22 test mới, 15 ranh giới crash và bốn gate PASS | W4-04, W4-11 | [x] |
 
 ## D. Nghiệm thu tích hợp và bàn giao
 
@@ -121,7 +121,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 
 1. W4-01 → 02 → 03 → 04: **Gate A PASS đặc tả**; đủ hợp đồng trước khi sửa runtime.
 2. W4-05 → 06 → 07 → 08: **Gate B PASS** state/Decision/graph offline với verifier/retriever fixture.
-3. W4-09 → 10 → 11 → 12: **Gate C** PIT, dùng chung báo cáo và resume PASS.
+3. W4-09 → 10 → 11 → 12: **Gate C PASS offline** PIT, dùng chung báo cáo và resume; khóa native Windows.
 4. W4-13 → 14 → 15 → 16: **Gate D** đủ bốn gate và biên bản bàn giao.
 
 Nếu task cần chia nhỏ khi triển khai, bổ sung mục con trong phase; giữ mã task
@@ -140,6 +140,30 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-12 và Phase C hoàn thành
+
+- Nhánh `feat/prior-branch-checkpoint-resume`, baseline `8e947d1`; thêm
+  `core/prior_checkpoint.py`, `core/prior_run_lock.py` và `resume=True`
+  tại API `run_prior_backtest()`. Giữ ma trận năm nhánh, P&L và đường legacy.
+- Manifest và toàn plan durable trước API; shared Full durable trước Decision;
+  input/prompt/attempt running durable trước transport, persist ngay nhánh valid.
+  Resume seal lại nguồn PIT/replay retrieve/formatter/prompt offline, chỉ gọi
+  Decision còn thiếu. Đổi key không đổi signature; config/nguồn/code/schema đổi bị chặn.
+- OS handle lock Windows, owner UUID/host/boot/PID/start và recovery audit;
+  khóa stale còn file không tự chặn. Finally đóng handle cả khi release lỗi.
+  Dọn temp writer đã biết dưới run-dir khi giữ khóa, giữ file khác và archive.
+- **22 test mới**, gồm **5 leakage**, **15 ranh giới crash** PASS; quota sau
+  hai nhánh có upstream/Full mỗi loại một lần, 5 Decision valid + 1 lỗi,
+  không gọi lại nhánh complete. Mất ghi response có thể lặp Decision còn thiếu.
+  Upstream/Full mới có intent nhưng thiếu output durable phải dừng ambiguous.
+- Bốn gate: compileall/**483 unit**/E2E/**82 leakage** PASS;
+  [API/biên bản](prior_checkpoint_resume.md), [receipt](paired_checkpoint_review.json).
+  **2.408 file bảo vệ** và bảy AST kinh tế/legacy giữ nguyên; kho 852,
+  archive và receipt/spec cũ không đổi. Khóa kiểm native Windows; POSIX chỉ
+  mock chọn backend. Chưa gọi API thật hoặc chạy kết quả OOS.
+- **Phase C 4/4, W4 12/16, Gate C PASS offline**. Tiếp theo **W4-13** kiểm
+  leakage toàn đường tích hợp; W4-13..16/Gate D và giá OOS còn mở.
 
 ### 2026-10-06 — W4-11 hoàn thành
 

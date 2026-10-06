@@ -1,7 +1,7 @@
 import json
 import re
 import time
-from typing import Literal
+from typing import Any, Callable, Literal
 
 from pydantic import BaseModel, Field
 from core.decision_prior import DecisionPriorPreparer, PriorSourceValidator, prepare_decision_prior
@@ -47,12 +47,12 @@ def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
             return call_fn(*args)
         except Exception as e:
             last_err = e
-            print(f"[DecisionAgent] Lỗi lần {attempt + 1}/{retries}: {e}")
+            print(f"[DecisionAgent] Lời gọi thất bại lần {attempt + 1}/{retries}; không ghi request/key vào log")
             if attempt < retries - 1:
                 delay = _retry_delay(e, wait_sec, attempt)
                 print(f"[DecisionAgent] Chờ {delay:.1f}s trước khi retry...")
                 time.sleep(delay)
-    raise RuntimeError(f"[DecisionAgent] Thất bại sau {retries} lần thử. Lỗi: {last_err}")
+    raise RuntimeError(f"[DecisionAgent] Thất bại sau {retries} lần thử; kiểm trạng thái retry/checkpoint") from last_err
 
 
 # ── Parse + strict validation ─────────────────────────────────────────────────
@@ -555,6 +555,7 @@ def _insert_prior_context(prompt: str, prefix: str, lang: str) -> str:
 def create_final_trade_decider(
     llm, *, prior_source_validator: PriorSourceValidator | None = None,
     _prior_preparer: DecisionPriorPreparer | None = None,
+    _before_invoke: Callable[[dict[str, Any], str], None] | None = None,
 ):
     """
     Decision Agent v3 — Pure LLM reasoning.
@@ -565,6 +566,8 @@ def create_final_trade_decider(
 
     if _prior_preparer is not None and (not callable(_prior_preparer) or prior_source_validator is not None):
         raise ValueError("Hook nội bộ graph phải callable và không đi cùng verifier Decision")
+    if _before_invoke is not None and not callable(_before_invoke):
+        raise ValueError("Hook persist Decision phải callable")
     structured_llm = None
     if hasattr(llm, "with_structured_output"):
         try:
@@ -650,6 +653,9 @@ def create_final_trade_decider(
                 prompt, lang=lang, time_frame=time_frame, report_lengths=report_lengths,
                 prefix_length=len(prior_prefix),
             )
+        if _before_invoke is not None:
+            if _before_invoke(copy_prior_json(state), prompt) is not None:
+                raise ValueError("Hook persist Decision phải trả None")
         response = None
         last_format_error = None
         normalized = ""
