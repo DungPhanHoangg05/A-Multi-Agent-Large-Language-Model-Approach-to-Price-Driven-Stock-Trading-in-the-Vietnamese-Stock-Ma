@@ -1,9 +1,11 @@
 # Phase D — Kiểm chứng tích hợp và bàn giao W5
 
-**Trạng thái: W4-13..14 hoàn thành ngày 06/10/2026; Phase D 2/4.**
+**Trạng thái: W4-13..15 hoàn thành ngày 06/10/2026; Phase D 3/4.**
 [Biên bản leakage](pipeline_leakage_validation.md), [receipt leakage](pipeline_leakage_review.json),
 [biên bản smoke](prior_integration_smoke.md), [receipt smoke](integration_smoke.json),
-[checklist W4](README.md). Tiếp theo W4-15; Gate D còn mở.
+[biên bản gate](integration_gate_validation.md), [receipt gate](integration_gate_review.json),
+[hiệu năng](integration_performance_review.json), [checklist W4](README.md).
+Tiếp theo W4-16; Gate D còn mở.
 Đầu vào: Gate C. Nghiệm thu trên đường state → PIT adapter → retriever →
 formatter → graph → Decision → checkpoint thực tế; chỉ thay inference bên
 ngoài bằng LLM giả định xác định.
@@ -79,20 +81,30 @@ py -3.13 scripts/run_end_to_end_test.py
 py -3.13 -X utf8 -m unittest discover -s tests -p 'test_*leakage.py' -v
 ```
 
-- [ ] Bốn gate PASS trên cùng phiên bản chuẩn bị merge; nếu fail sửa nguyên nhân
+- [x] Bốn gate PASS trên cùng phiên bản chuẩn bị merge; nếu fail sửa nguyên nhân
   và chạy lại gate liên quan. Không merge khi còn lỗi hoặc chưa có bằng chứng.
-- [ ] Kiểm hash kho/manifest/QA/model/receipt đóng băng trước/sau; `git diff --check`,
+- [x] Kiểm hash kho/manifest/QA/model/receipt đóng băng trước/sau; `git diff --check`,
   liên kết tài liệu và scope thay đổi sạch, không key/output tạm lọt vào commit.
-- [ ] Kiểm cap/guard runtime đã PASS bằng receipt W4, không chỉ monkeypatch builder
+- [x] Kiểm cap/guard runtime đã PASS bằng receipt W4, không chỉ monkeypatch builder
   như W3. Lưu version/template và prompt max thực tế từ kiểm tích hợp.
-- [ ] Rà constructor/load một lần, retrieval trên RAM và overhead adapter/format
+- [x] Rà constructor/load một lần, retrieval trên RAM và overhead adapter/format
   riêng. Nếu thay retriever/copy/cache gây rủi ro hiệu năng, chạy lại benchmark
   W3 với cùng phương pháp, output receipt W4 mới và ngưỡng p95 retrieval <30 ms.
-- [ ] Không đặt thời gian thật trong unit assertions; cold load/format/orchestration
+- [x] Không đặt thời gian thật trong unit assertions; cold load/format/orchestration
   không gộp thành số retrieval. Không mở tối ưu ngoài phạm vi khi gate đã đủ.
 
-**Nghiệm thu:** `integration_gate_review.json` dự kiến ghi commit/hash, lệnh,
+**Nghiệm thu:** [receipt](integration_gate_review.json) ghi commit/hash, lệnh,
 log/hash, số test thực chạy, PASS và giới hạn; merge theo AGENTS.md.
+
+**Kết quả 06/10/2026:** compileall/498 unit/E2E/93 leakage PASS mới; 2427 file giữ hash, bảy AST legacy
+không đổi, default prior vẫn tắt. [Biên bản](integration_gate_validation.md),
+[receipt hiệu năng](integration_performance_review.json): benchmark bổ sung **FAIL p95 <30 ms**;
+cold load/verifier/adapter/formatter/graph đo riêng. Runtime budget PASS kỹ thuật
+với cap/prefix/prompt và template/version hiện tại. Giữ cả hai lượt FAIL.
+Retriever/memory/copy/benchmark không đổi; điều kiện phải nghiệm thu lại hiệu năng
+khi sửa các phần này không kích hoạt. Task hoàn tất rà rủi ro; cảnh báo p95
+cần kiểm lại khi giảm tải hoặc đổi môi trường trước công bố số đo/pilot.
+Phase D 3/4, W4 15/16; W4-16/Gate D và giá OOS/pilot còn mở.
 
 ## W4-16 — Đóng tuần và bàn giao pilot
 

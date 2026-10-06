@@ -1,8 +1,8 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13..14 hoàn thành (2/4),
-tiến độ W4 14/16 ngày 06/10/2026.
+Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13..15 hoàn thành (3/4),
+tiến độ W4 15/16 ngày 06/10/2026.
 Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
@@ -13,7 +13,10 @@ với verifier/retriever fixture. [State/config](integration_contract.md),
 [walk-forward/kết quả](prior_backtest_review.json), [checkpoint/resume](paired_checkpoint_review.json).
 Gate C PASS offline, khóa kiểm native Windows. [Leakage toàn pipeline](pipeline_leakage_review.json)
 PASS. [Smoke tích hợp](prior_integration_smoke.md), [receipt](integration_smoke.json)
-PASS tổng hợp và replay nguồn thật với Decision giả. Tiếp theo W4-15; Gate D và giá OOS còn mở.**
+PASS tổng hợp và replay nguồn thật với Decision giả. [Gate/phạm vi](integration_gate_review.json),
+[hiệu năng](integration_performance_review.json) ghi benchmark FAIL p95 dưới tải máy;
+runtime budget đã nghiệm thu, rủi ro hiệu năng được bàn giao.
+Tiếp theo W4-16; Gate D và giá OOS/pilot còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -117,7 +120,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 | --- | --- | --- | --- | --- |
 | W4-13 | Kiểm thử leakage toàn đường tích hợp | [Biên bản/coverage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json): 11 test mới trên hai provider/hai scope, nguồn/prior/checkpoint sai bị chặn; sửa verifier provider và bốn gate PASS | Gate C | [x] |
 | W4-14 | Smoke E2E offline và tương thích | [Biên bản](prior_integration_smoke.md), [receipt](integration_smoke.json): 8 context tổng hợp bốn regime/VI-EN, 6 replay thật; chỉ mock vision/Decision, paired/resume/flag off/budget/JSON và bốn gate PASS | W4-13 | [x] |
-| W4-15 | Chạy bốn gate và kiểm phạm vi thay đổi | Compile/unit/E2E/leakage PASS; hash nguồn, receipt, ngân sách runtime và rủi ro hiệu năng đã rà | W4-14 | [ ] |
+| W4-15 | Chạy bốn gate và kiểm phạm vi thay đổi | [Biên bản](integration_gate_validation.md), [gate](integration_gate_review.json), [hiệu năng](integration_performance_review.json): bốn gate mới PASS, hash/scope/budget, overhead riêng; benchmark bổ sung FAIL p95, rủi ro đã rà/bàn giao, retriever không đổi | W4-14 | [x] |
 | W4-16 | Chốt W4, bàn giao điều kiện pilot W5 | 16 task có bằng chứng; hướng dẫn config/resume; gate giá/quota W5 và giới hạn nghiên cứu rõ | W4-01..15 | [ ] |
 
 ## Thứ tự và gate chuyển phase
@@ -143,6 +146,33 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-15 hoàn thành
+
+- Nhánh `test/prior-integration-gate-review`, baseline `23a3246`; bổ sung công cụ
+  đo/receipt và tài liệu, không sửa production, retriever, memory hoặc bank.
+- Bốn gate mới PASS: compileall; **498 unit**
+  (519.119 giây suite), **E2E** (31.784 giây),
+  **93 leakage** (151.326 giây suite).
+  **2427 file bảo vệ giữ hash**, bảy AST kinh tế/entry point legacy không đổi.
+- Benchmark giữ nguyên phương pháp W3 (100 warm-up/1.000 mẫu mỗi mode/bước,
+  bốn mode/hai scope, nearest-rank, không loại ngoại lai): **FAIL p95 retrieval <30 ms**.
+  bayesian_regime 35.550 ms, random 30.915 ms, recent 31.740 ms, similarity 40.643 ms.
+  Lần đầu Similarity 32,215 ms FAIL được giữ log/hash; lượt đầy đủ mới chạy
+  tuần tự sau gate vẫn FAIL, lưu nguyên mẫu. Không nới ngưỡng hay thay thuật toán.
+- Điều kiện phải nghiệm thu lại hiệu năng khi sửa retriever/copy/cache không
+  kích hoạt: mã retriever, memory/copy và benchmark vẫn nguyên từ W3. W4-15
+  hoàn tất rà rủi ro và bốn gate bắt buộc; không tuyên bố gate hiệu năng PASS.
+  Cần kiểm lại khi giảm tải/đổi môi trường trước công bố số hiệu năng hoặc pilot.
+- Sáu context replay nguồn thật: nạp bank/constructor retriever một lần;
+  đo riêng cold load, prepare, verifier/checksum, adapter, formatter và graph
+  Decision giả. Query nóng chặn nạp lại JSON/giá/model; vẫn giữ byte checksum.
+- `runtime_budget_gate_passed=true` trong receipt mới, cap 4.000, BRPP ≤600,
+  prompt <6.500; đóng băng hash template/version và bằng chứng runtime W4-14.
+  Receipt lịch sử giữ nguyên. [Biên bản/CLI](integration_gate_validation.md),
+  [receipt gate](integration_gate_review.json), [hiệu năng](integration_performance_review.json).
+- **Phase D 3/4, W4 15/16**; tiếp theo **W4-16** đóng tuần/bàn giao.
+  Gate D, giá OOS/pilot và hiệu quả đầu tư ngoài mẫu chưa nghiệm thu; không gọi LLM thật.
 
 ### 2026-10-06 — W4-14 hoàn thành
 
