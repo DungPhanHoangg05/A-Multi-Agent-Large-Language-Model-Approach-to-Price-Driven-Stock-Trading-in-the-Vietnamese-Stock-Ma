@@ -1,10 +1,11 @@
 # Phase C — Context PIT, năm nhánh ghép cặp và resume
 
-**Trạng thái: W4-09..11 hoàn thành, Phase C 3/4 ngày 06/10/2026.**
+**Trạng thái: W4-09..12 hoàn thành, Phase C 4/4 ngày 06/10/2026; Gate C PASS offline.**
 [Biên bản/API adapter](prior_context_adapter.md), [receipt](prior_context_review.json),
 [paired runtime](paired_prior_point.md), [receipt](paired_prior_point_review.json),
 [walk-forward/kết quả](prior_backtest_integration.md), [receipt](prior_backtest_review.json),
-[checklist W4](README.md). Gate C còn W4-12.
+[checkpoint/resume](prior_checkpoint_resume.md), [receipt](paired_checkpoint_review.json),
+[checklist W4](README.md). Tiếp theo W4-13 thuộc Phase D.
 Đầu vào: hợp đồng Phase A và graph/Decision Phase B. W4 cài adapter/runtime;
 CLI điều phối pilot `scripts/run_bayesian_ablation.py` thuộc W5.
 
@@ -84,33 +85,39 @@ checkpoint shared/nhánh đang dở và resume tiếp tục ở W4-12.
 ## W4-12 — Checkpoint và resume theo nhánh
 
 **Phụ thuộc:** W4-04, W4-11. **File chính:** adapter backtest;
-helper dự kiến `core/prior_checkpoint.py`, test `tests/test_prior_checkpoint.py`.
+`core/prior_checkpoint.py`, `core/prior_run_lock.py`, test checkpoint và leakage.
 
-- [ ] Lưu envelope schema/signature/hash theo contract; ghi atomic và kiểm
+- [x] Lưu envelope schema/signature/hash theo contract; ghi atomic và kiểm
   checksum/provenance khi đọc. Snapshot phục hồi không vượt cutoff.
-- [ ] Persist Full reports/signals/proof trước Decision đầu, persist ngay từng
+- [x] Persist Full reports/signals/proof trước Decision đầu, persist ngay từng
   nhánh valid; không cần đợi cả năm nhánh mới lưu tiến độ.
-- [ ] Resume xác minh context/config/bank/versions, dùng reports và nhánh đã lưu;
+- [x] Resume xác minh context/config/bank/versions, dùng reports và nhánh đã lưu;
   chỉ invoke Decision nhánh còn thiếu. Complete chỉ khi đủ năm nhánh hợp lệ.
-- [ ] Lỗi LLM/quota/format/interrupt lưu trạng thái đang dở, giải phóng khóa
+- [x] Lỗi LLM/quota/format/interrupt lưu trạng thái đang dở, giải phóng khóa
   sở hữu trong finally; không biến lỗi thành quyết định, không chạy lại upstream.
-- [ ] Test khóa tiến trình sống/khóa chết, file dở/atomic failure, crash sau mỗi
+- [x] Test khóa tiến trình sống/khóa chết, file dở/atomic failure, crash sau mỗi
   ranh giới và sau nhánh cuối trước complete; không ghi đè checkpoint hợp lệ cũ.
-- [ ] Đổi key được resume khi mọi dữ liệu/config khác giữ nguyên; key không ghi
+- [x] Đổi key được resume khi mọi dữ liệu/config khác giữ nguyên; key không ghi
   trong file. Đổi bank/hash/config/version/cutoff phải từ chối rõ.
-- [ ] Checkpoint legacy thiếu proof được đọc/giữ ở đường cũ theo contract;
+- [x] Checkpoint legacy thiếu proof được đọc/giữ ở đường cũ theo contract;
   không được nhập vào nghiên cứu mới bằng cách tự dựng provenance thiếu.
-- [ ] So sánh run liền và run ngắt/resume bằng LLM giả định xác định: IDs,
+- [x] So sánh run liền và run ngắt/resume bằng LLM giả định xác định: IDs,
   stats/prefix, reports, Decision và kết quả kinh tế tương đương; bỏ qua timestamp.
 
 **Nghiệm thu:** failpoint tests PASS, không trùng point/branch và không mất
 metadata. Chưa chạy API thật để thử quota; lỗi quota được mô phỏng.
 
+**Kết quả 06/10/2026:** [biên bản/API](prior_checkpoint_resume.md),
+[receipt](paired_checkpoint_review.json); 22 test mới, 15 ranh giới crash,
+compileall/483 unit/E2E/82 leakage PASS. OS lock kiểm native Windows, lỗi
+ambiguous upstream/Full dừng trước API; response remote chưa durable có thể
+lặp Decision còn thiếu. CLI điều phối/pilot LLM thật thuộc W5.
+
 ## Gate C và cập nhật tiến độ
 
-- [ ] W4-09..12 PASS PIT, call-count, kinh tế và resume.
-- [ ] Không tái gọi vision/Full preparation hoặc nhánh đã xong khi phục hồi.
-- [ ] Error/empty/partial/complete phân biệt, metadata đầy đủ và JSON strict.
+- [x] W4-09..12 PASS PIT, call-count, kinh tế và resume.
+- [x] Không tái gọi vision/Full preparation hoặc nhánh đã xong khi phục hồi.
+- [x] Error/empty/partial/complete phân biệt, metadata đầy đủ và JSON strict.
 
-Ghi nhật ký từng task và cập nhật [README](README.md); receipt dự kiến
+Ghi nhật ký từng task và cập nhật [README](README.md); receipt
 `paired_checkpoint_review.json` chứa ma trận ca kiểm, signature/hash và kết quả.

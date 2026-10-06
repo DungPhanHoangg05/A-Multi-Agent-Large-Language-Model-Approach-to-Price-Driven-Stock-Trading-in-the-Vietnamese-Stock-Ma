@@ -1,0 +1,136 @@
+{
+  "format_version": 1,
+  "task": "W4-12",
+  "status": "PASS_VERIFIED_DURABLE_BRANCH_CHECKPOINT_RESUME_OFFLINE",
+  "date": "2026-10-06",
+  "scope": "VERIFIED_DURABLE_BRANCH_CHECKPOINT_RESUME_OFFLINE_WINDOWS",
+  "base_commit": "8e947d15096843009da64124a458ee8c76782ced",
+  "branch": "feat/prior-branch-checkpoint-resume",
+  "python": "3.13.5",
+  "started_at_utc": "2026-10-06T09:00:44.501463+00:00",
+  "gates": {
+    "compileall": {
+      "command": "py -3.13 -m compileall agents core data_manager scripts tests utils",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 0.196,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-checkpoint-20261006\\compileall.log",
+      "log_sha256": "c40d4689c487a5b9a275c701b7abf48684977c526d354ffada84e8b031ecbb77"
+    },
+    "unit": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 414.386,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-checkpoint-20261006\\unit.log",
+      "log_sha256": "7941f5357032fd7b9af84407596073339ca2726035d99f375d7581395a22d690",
+      "test_count": 483,
+      "suite_seconds": 400.268
+    },
+    "e2e": {
+      "command": "py -3.13 scripts/run_end_to_end_test.py",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 28.357,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-checkpoint-20261006\\e2e.log",
+      "log_sha256": "065f963227deb056977c6ce02c697f54a6043f158bfe9125210467598a9476da"
+    },
+    "leakage": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -p test_*leakage.py -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 89.703,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-checkpoint-20261006\\leakage.log",
+      "log_sha256": "69cdc1769b1a2e0e70de1408c054427f15261c36ec3d008afcf4737909001966",
+      "test_count": 82,
+      "suite_seconds": 74.769
+    }
+  },
+  "unchanged_economic_and_legacy_ast_sha256": {
+    "compute_round_trip_net_return": "8c85859ab6a5e2b99d61c220610ae163e5c3833e66fad7d8902ed20556a88745",
+    "compute_account_metrics": "c75b7b5b1bc5ac676e9bbc2205d7bb82c6c3909a732859b9f57d55f2caf25eee",
+    "_get_actual_direction": "0b16fb50b323ddf94b85f8f6f35f77359bd649d65d98b132cdfd8238619c8a9f",
+    "_parse_prediction": "a9ab931d6e62dfdca9785cea3fc8bdfd2066f647cbb12e436c348878da06d1e2",
+    "_run_ablation_variants": "d218d930250681162d434514063fc0f3a18ad68f50b26ca88da467f7fb36f828",
+    "_run_paired_point": "a7904709a42965849a7679bd756c321912c2a9a3070ce567565edeffbbc6894f",
+    "run": "6b80224df556c15445b57eb93f8f51811d59543d96788518a64f9501f8ff4ad6"
+  },
+  "protected_files": {
+    "count": 2408,
+    "unchanged": true,
+    "changed_paths": [],
+    "snapshot_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-checkpoint-20261006\\protected_before.json",
+    "snapshot_sha256": "e9f319c34ff05938f612056c8a0217eab7b66c46933403eabbfd72d2b969db6c"
+  },
+  "source_text_sha256": {
+    "agents/decision_agent.py": "16fc5bba3912bc38721bf913d9d8f97f000a76d45d2f1b63b16b429aa6ff5bd3",
+    "utils/graph_setup.py": "b6526a6fe5c188c336e3eee8ba69a70fda947f3e064464725ec6fdfe67a9af69",
+    "core/backtest_engine.py": "2bf129059cfc8a57d7ad13864427e628eb42ee2ff7266d689355e115ded57649",
+    "core/prior_context.py": "b74e263d2cdf3e18daf8b81e1ec5ece4d48d56052ebd2f9c50527a3d249e12d3",
+    "core/prior_backtest.py": "2587835df4ec3d12983c77256f105ef01e2f6e93475508a52dde38064716a78a",
+    "core/prior_checkpoint.py": "229084692b5b9fb5679377cead79b94bae98d9cd331b81bb0bc54d3a3a3de2c9",
+    "core/prior_run_lock.py": "aa77dfee1041369e0c1adc15d99baf9921392cc7fbdde442e49d817a0a19df45",
+    "tests/test_prior_backtest_integration.py": "514aa572a1a223339896268eab88ce5c236eda7e93cbc4d805b35327dd69c924",
+    "tests/test_prior_checkpoint.py": "ece19aeefb032ecfc043671ceda747a80b717dcc2adbfc0d8a6f5cc3414074a0",
+    "tests/test_prior_checkpoint_leakage.py": "c20e190e4b217b75d0a6dc38c2c1792e89d48f035dc5af5b09674c4d8b3ba77e"
+  },
+  "finished_at_utc": "2026-10-06T09:09:38.872593+00:00",
+  "new_unit_test_count": 22,
+  "new_leakage_test_count": 5,
+  "phase_c_completed_tasks": 4,
+  "phase_c_gate_passed": true,
+  "runtime_checkpoint_implemented": true,
+  "real_llm_api_called": false,
+  "oos_trading_backtest": false,
+  "crash_boundaries_tested": 15,
+  "native_lock_platform": "Windows",
+  "posix_backend": "flock descriptor selection unit test only",
+  "observed_quota_resume_calls": {
+    "upstream": 1,
+    "full_preparation": 1,
+    "successful_decision_llm": 5,
+    "failed_decision_llm": 1,
+    "complete_branches_reinvoked": 0
+  },
+  "observed_atomic_response_loss_calls": {
+    "upstream": 1,
+    "full_preparation": 1,
+    "decision_llm": 6
+  },
+  "remote_exactly_once_guaranteed": false,
+  "ambiguous_upstream_full_auto_resume": false,
+  "checks": {
+    "all_planned_points_manifest_durable_before_api": true,
+    "shared_bundle_durable_before_decision": true,
+    "branch_input_prompt_attempt_running_durable_before_transport": true,
+    "valid_branch_committed_immediately": true,
+    "completed_branches_and_points_immutable": true,
+    "failed_or_unknown_attempts_retained_on_resume": true,
+    "shared_restore_verified_against_pit_source_and_full_signals": true,
+    "offline_retrieve_formatter_prompt_replay_before_api": true,
+    "strict_duplicate_keys_nonfinite_schema_checksum_reader": true,
+    "rehashed_semantic_mutations_rejected_before_api": true,
+    "no_query_outcomes_evaluation_errors_or_attempts_in_restored_agent_state": true,
+    "config_plan_model_source_code_schema_identity_changes_refused": true,
+    "credentials_not_part_of_identity_or_metadata": true,
+    "sanitized_persisted_errors_and_transport_logs": true,
+    "crash_atomic_quota_keyboard_interrupt_resume": true,
+    "ambiguous_upstream_or_full_intent_stops_without_recalling_vision": true,
+    "after_last_branch_seal_and_corrupt_results_rebuild_offline": true,
+    "initialized_missing_point_refused": true,
+    "uninitialized_planned_files_can_finish_before_first_api": true,
+    "os_handle_lock_blocks_live_process": true,
+    "dead_or_recycled_owner_recovery_with_audit": true,
+    "released_live_owner_reacquisition_allowed": true,
+    "unknown_liveness_cross_host_live_owner_without_handle_fail_closed": true,
+    "owner_uuid_checked_on_release_and_handle_closed_on_io_error": true,
+    "safe_run_paths_and_owned_orphan_temp_cleanup": true,
+    "legacy_output_not_imported_or_mutated": true,
+    "economic_and_legacy_ast_unchanged": true,
+    "protected_bank_archives_receipts_and_frozen_contracts_unchanged": true
+  },
+  "verification_helper": {
+    "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-checkpoint-20261006\\verify.py",
+    "sha256": "c2382483b5f0ce1561363872f9512dcb9c791823c78d51bdfa73ecabcea06677"
+  }
+}

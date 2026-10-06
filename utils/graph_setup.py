@@ -189,6 +189,7 @@ class SetGraph:
         self, *, prior_config: PriorConfig | dict[str, Any] | None = None,
         prior_retriever: PriorRetriever | None = None,
         prior_source_validator: PriorSourceValidator | None = None,
+        before_decision: Callable[[dict[str, Any], str], None] | None = None,
     ) -> ValidatedBacktestGraph:
         """Chạy Decision từ Full reports có sẵn, không gọi lại Alpha/upstream.
 
@@ -197,11 +198,13 @@ class SetGraph:
         W3, không format. Graph sở hữu retrieve và formatter duy nhất mỗi invoke.
         Disabled: không hook/đọc kho; Decision dùng guard legacy.
         """
+        if before_decision is not None and not callable(before_decision):
+            raise ValueError("Callback trước Decision phải callable")
         config = normalize_prior_config(prior_config)
         enabled = config["enable_bayesian_prior"]
         if enabled and (not callable(prior_retriever) or not callable(prior_source_validator)):
             raise ValueError("Graph prior enabled cần retriever và verifier nguồn PIT")
-        if not enabled and (prior_retriever is not None or prior_source_validator is not None):
+        if not enabled and (prior_retriever is not None or prior_source_validator is not None or before_decision is not None):
             raise ValueError("Graph prior disabled không nhận hook prior")
 
         def validate_input(state: dict[str, Any]) -> dict[str, Any]:
@@ -265,7 +268,8 @@ class SetGraph:
         graph = StateGraph(BacktestAgentState)
         if enabled:
             graph.add_node("Prior Preparation", prepare_prior)
-            decision = create_final_trade_decider(self.agent_llm, _prior_preparer=_consume_graph_prior)
+            hooks = {} if before_decision is None else {"_before_invoke": before_decision}
+            decision = create_final_trade_decider(self.agent_llm, _prior_preparer=_consume_graph_prior, **hooks)
             graph.add_edge(START, "Prior Preparation")
             graph.add_edge("Prior Preparation", "Decision Maker")
         else:

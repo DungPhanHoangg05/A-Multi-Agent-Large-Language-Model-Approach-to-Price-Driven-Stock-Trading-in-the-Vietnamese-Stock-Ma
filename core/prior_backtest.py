@@ -1,4 +1,4 @@
-"""Walk-forward nghiên cứu và kết quả kinh tế; chưa phục hồi checkpoint từng nhánh."""
+"""Walk-forward nghiên cứu, checkpoint từng nhánh và kết quả kinh tế."""
 
 from __future__ import annotations
 
@@ -186,7 +186,10 @@ class PriorBacktestRunner:
             "ablation": dict(graph_setup.ABLATION_CONFIGS["full"])} for name, (mode, k) in PRIOR_BRANCH_MODES.items()]
         config = self.config
         code_files = (*CODE_FILES, "core/backtest_engine.py", "core/prior_context.py", "core/prior_backtest.py",
-                      "core/prior_config.py", "core/decision_prior.py", "core/bayesian_retriever.py", "agents/decision_agent.py")
+                      "core/prior_config.py", "core/decision_prior.py", "core/bayesian_retriever.py", "agents/decision_agent.py",
+                      "core/prior_checkpoint.py", "core/prior_run_lock.py",
+                      "docs/plan/week4/research_checkpoint.schema.json", "docs/plan/week4/checkpoint_policy.json",
+                      "docs/plan/week1/historical_task_record.schema.json", "docs/plan/week1/market_regime_state.schema.json")
         identity = {"identity_version": "prior_run_identity_v1", "protocol": "five_way_full_shared_pit",
             "versions": {"state_contract": "prior_runtime_contract_v1", "provenance": "prior_provenance_v1",
                 "checkpoint": SCHEMA_VERSION, "hash_algorithm": "prior_checkpoint_canonical_json_v1",
@@ -214,6 +217,60 @@ class PriorBacktestRunner:
         self.schema.validate(identity, "identity")
         return identity
 
+    def branch_input(self, point: Any, shared: dict[str, Any], bundle_sha: str,
+                     name: str, state: dict[str, Any], prompt: str) -> dict[str, Any]:
+        """Projection input đúng ma trận/hash; dùng cả trước API và khi phục hồi."""
+        mode, k = PRIOR_BRANCH_MODES[name]
+        expected = normalize_prior_config({**self.adapter.prior_config, "mode": mode, "k": k})
+        if state.get("prior_config") != expected:
+            raise ValueError("Nhánh trả cấu hình khác ma trận nghiên cứu")
+        point.verify_source(state)
+        if type(prompt) is not str or not 0 < len(prompt) < 6500:
+            raise ValueError("Prompt nghiên cứu vượt hợp đồng ngân sách")
+        query = {"symbol": shared["stock_name"], "as_of_date": shared["as_of_date"],
+            "current_regime": shared["market_regime"]["regime_name"], "current_signals": shared["current_signals"],
+            **{key: state["prior_config"][key] for key in ("mode", "k", "seed", "scope")}}
+        return {"prior_config": state["prior_config"], "shared_sha256": bundle_sha, "query_sha256": canonical_hash(query),
+            **{key: state[key] for key in ("prior_tasks", "prior_stats", "prior_metadata", "bayesian_prior_context")},
+            "prompt": {"text": prompt, "char_count": len(prompt), "sha256": hashlib.sha256(prompt.encode()).hexdigest()}}
+
+    def branch_record(self, point: Any, shared: dict[str, Any], bundle_sha: str,
+                      name: str, branch: dict[str, Any]) -> dict[str, Any]:
+        """Kiểm response thật rồi serialize một nhánh, chưa chấm outcome query."""
+        state = branch["state"]
+        inputs = self.branch_input(point, shared, bundle_sha, name, state, state["decision_prompt"])
+        decision = decision_parser.parse_decision(state["final_trade_decision"], lang=self.config["language"])
+        if decision["decision"] not in ("LONG", "SHORT") or decision["decision_source"] not in (
+                "llm_json", "llm_structured", "llm_text_recovery"):
+            raise ValueError("Decision lỗi/fallback không được nhập vào kết quả nghiên cứu")
+        raw = branch.get("raw_response")
+        if type(raw) is list:
+            raw = json.dumps(copy_prior_json(raw), ensure_ascii=False, allow_nan=False)
+        if type(raw) is not str or not raw.strip():
+            raise ValueError("Thiếu response raw của Decision; không thay bằng response tự dựng")
+        candidates = [raw]
+        try:
+            response = json.loads(raw)
+        except (ValueError, TypeError):
+            response = None
+        if type(response) is dict and type(response.get("tool_calls")) is list:
+            candidates = [json.dumps(call["args"], ensure_ascii=False) for call in response["tool_calls"]
+                          if type(call) is dict and type(call.get("args")) is dict]
+        parsed_raw = [decision_parser.parse_decision(text, lang=self.config["language"])["decision"] for text in candidates]
+        actions = {action for action in parsed_raw if action in ("LONG", "SHORT")}
+        if actions and actions != {decision["decision"]}:
+            raise ValueError("Decision chuẩn hóa khác action trong response raw")
+        if not actions and self.mode == "research":
+            raise ValueError("Response raw chưa chứng minh được action LLM nghiên cứu")
+        return {"status": "complete", "input": inputs,
+            "attempts": [{"attempt_id": branch["attempt_id"], "started_at": branch["started_at"],
+                "finished_at": branch["finished_at"], "status": "complete", "error": None}],
+            "decision": {"action": decision["decision"], "confidence": decision["confidence"],
+                "risk_reward_ratio": decision["risk_reward_ratio"], "raw_response": raw,
+                "normalized_response": state["final_trade_decision"], "decision_source": decision["decision_source"],
+                "fallback_reason": decision["fallback_reason"], "provider_request_id": None,
+                "latency_seconds": branch["elapsed_seconds"]}, "error": None}
+
     def _completed_point(self, point: Any, paired: dict[str, Any], signature: str,
                          frame: pd.DataFrame, events: list[dict[str, Any]]) -> dict[str, Any]:
         """Đóng điểm sau đủ năm Decision, không biến lỗi thành nhánh complete."""
@@ -221,39 +278,7 @@ class PriorBacktestRunner:
         source = {key: point.source_provenance[key] for key in ("context", "prices", "news", "regime", "bank")}
         bundle_sha, branches = canonical_hash(bundle), {}
         for name in PRIOR_BRANCH_MODES:
-            branch = paired["branches"][name]
-            state = branch["state"]
-            mode, k = PRIOR_BRANCH_MODES[name]
-            expected_config = normalize_prior_config({**self.adapter.prior_config, "mode": mode, "k": k})
-            if state.get("prior_config") != expected_config:
-                raise ValueError("Nhánh trả cấu hình khác ma trận nghiên cứu")
-            point.verify_source(state)
-            decision = decision_parser.parse_decision(state["final_trade_decision"], lang=self.config["language"])
-            if decision["decision"] not in ("LONG", "SHORT") or decision["decision_source"] not in (
-                    "llm_json", "llm_structured", "llm_text_recovery"):
-                raise ValueError("Decision lỗi/fallback không được nhập vào kết quả nghiên cứu")
-            raw = branch.get("raw_response")
-            if type(raw) is list:
-                raw = json.dumps(copy_prior_json(raw), ensure_ascii=False, allow_nan=False)
-            if type(raw) is not str or not raw.strip():
-                raise ValueError("Thiếu response raw của Decision; không thay bằng response tự dựng")
-            query = {"symbol": shared["stock_name"], "as_of_date": shared["as_of_date"],
-                "current_regime": shared["market_regime"]["regime_name"], "current_signals": shared["current_signals"],
-                **{key: state["prior_config"][key] for key in ("mode", "k", "seed", "scope")}}
-            prompt = state["decision_prompt"]
-            if type(prompt) is not str or not 0 < len(prompt) < 6500:
-                raise ValueError("Prompt nghiên cứu vượt hợp đồng ngân sách")
-            branches[name] = {"status": "complete", "input": {"prior_config": state["prior_config"],
-                "shared_sha256": bundle_sha, "query_sha256": canonical_hash(query),
-                **{key: state[key] for key in ("prior_tasks", "prior_stats", "prior_metadata", "bayesian_prior_context")},
-                "prompt": {"text": prompt, "char_count": len(prompt), "sha256": hashlib.sha256(prompt.encode()).hexdigest()}},
-                "attempts": [{"attempt_id": branch["attempt_id"], "started_at": branch["started_at"],
-                    "finished_at": branch["finished_at"], "status": "complete", "error": None}],
-                "decision": {"action": decision["decision"], "confidence": decision["confidence"],
-                    "risk_reward_ratio": decision["risk_reward_ratio"], "raw_response": raw,
-                    "normalized_response": state["final_trade_decision"], "decision_source": decision["decision_source"],
-                    "fallback_reason": decision["fallback_reason"], "provider_request_id": None,
-                    "latency_seconds": branch["elapsed_seconds"]}, "error": None}
+            branches[name] = self.branch_record(point, shared, bundle_sha, name, paired["branches"][name])
         cutoff, symbol = shared["as_of_date"], shared["stock_name"]
         prices = source["prices"]
         document = {"schema_version": SCHEMA_VERSION, "run_signature": signature,
@@ -274,8 +299,10 @@ class PriorBacktestRunner:
 
     def run(self, symbol: str, *, output_dir: Path, time_frame: str = "1d", n_tests: int = 15,
             step: int = 3, cutoffs: tuple[str, ...] | None = None,
-            callback: Callable[[dict[str, Any]], None] | None = None) -> dict[str, Any]:
+            callback: Callable[[dict[str, Any]], None] | None = None, resume: bool = False) -> dict[str, Any]:
         """Kiểm toàn plan trước API, ghi từng điểm complete và summary common support."""
+        if type(resume) is not bool:
+            raise ValueError("resume phải bool Python gốc")
         validate_prior_execution(self.adapter.prior_config, is_backtest=True, time_frame=time_frame)
         if type(n_tests) is not int or n_tests < 1 or type(step) is not int or step < 3:
             raise ValueError("n_tests phải int dương; step ít nhất ba phiên")
@@ -297,38 +324,11 @@ class PriorBacktestRunner:
                 dates[position + 1].strftime("%Y-%m-%d"), dates[position + 3].strftime("%Y-%m-%d"))
         contexts = [self.adapter.prepare(symbol, cutoff, time_frame=time_frame) for cutoff in cutoffs]
         identity = self._identity(symbol, step, contexts)
-        signature = canonical_hash(identity)
         output_dir = Path(output_dir).resolve()
-        if output_dir.exists() and any(output_dir.iterdir()):
-            raise ValueError("Thư mục kết quả phải mới/rỗng; W4-11 chưa hỗ trợ resume/ghi đè")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        write_document(output_dir / "identity.json", identity, self.schema, "identity")
-        points, files = [], []
-        planned = [item["point_id"] for item in identity["point_plan"]]
-
-        def result_document() -> dict[str, Any]:
-            return {"schema_version": SCHEMA_VERSION, "run_signature": signature,
-                "document_type": "research_result", "status": "complete" if len(points) == len(planned) else "partial",
-                "planned_point_ids": planned, "completed_point_ids": [point["point_id"] for point in points],
-                "point_files": deepcopy(files), "summary": summarize_points(points)}
-
-        write_document(output_dir / "results.json", result_document(), self.schema, "result")
-        for index, point in enumerate(contexts):
-            if self.engine._stop_event.is_set():
-                break
-            self.adapter.verify_sources()
-            paired = self.engine.run_prior_point(point, graph_builder=self.builder)
-            self.adapter.verify_sources()
-            document = self._completed_point(point, paired, signature, frame, events)
-            relative = f"points/{document['point_id']}.json"
-            checksum = write_document(output_dir / relative, document, self.schema, "point")
-            points.append(document)
-            files.append({"point_id": document["point_id"], "path": relative, "sha256": checksum})
-            result = result_document()
-            write_document(output_dir / "results.json", result, self.schema, "result")
-            if callback is not None:
-                callback(copy_prior_json({"completed": len(points), "total": len(planned),
-                    "latest": document, "partial": result}))
-            if index < len(contexts) - 1 and self.engine._stop_event.wait(self.engine.DELAY_BETWEEN_TESTS):
-                break
-        return copy_prior_json(result_document())
+        if not resume and output_dir.exists() and any(output_dir.iterdir()):
+            raise ValueError("Thư mục đã có dữ liệu; dùng resume=True cho run đã khởi tạo")
+        if resume and not (output_dir / "run_manifest.json").is_file():
+            raise ValueError("Không có manifest nghiên cứu; không migrate output legacy/W4-11")
+        from core.prior_checkpoint import PriorCheckpointStore
+        store = PriorCheckpointStore(self, output_dir, identity, contexts, frame, events)
+        return store.execute(resume=resume, callback=callback)

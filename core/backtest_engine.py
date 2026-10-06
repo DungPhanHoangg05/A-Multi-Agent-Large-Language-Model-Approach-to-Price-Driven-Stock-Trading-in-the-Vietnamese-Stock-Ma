@@ -20,6 +20,7 @@ from utils.statistical_tests import calculate_metrics_with_significance
 from utils.graph_setup import ABLATION_CONFIGS
 
 if TYPE_CHECKING:
+    from core.prior_checkpoint import CheckpointSession
     from core.prior_context import PriorContextAdapter, PriorPointContext
     from utils.graph_setup import SetGraph
 
@@ -893,6 +894,7 @@ class BacktestEngine:
     def run_prior_point(
         self, point: "PriorPointContext", *, graph_builder: "SetGraph",
         branch_order: tuple[str, ...] = tuple(PRIOR_BRANCH_MODES),
+        checkpoint: "CheckpointSession | None" = None,
     ) -> dict[str, Any]:
         """Chạy Full chung và năm Decision tuần tự trên một điểm đã kiểm PIT.
 
@@ -921,52 +923,92 @@ class BacktestEngine:
                 raise InterruptedError("Đã yêu cầu dừng trước điểm nghiên cứu")
             initial = point.agent_state()  # Kiểm lại byte nguồn trước upstream.
             key = (initial["stock_name"], initial["as_of_date"])
-            if key in self._prior_point_attempts:
+            if checkpoint is not None:
+                from core.prior_checkpoint import CheckpointSession
+                if (not isinstance(checkpoint, CheckpointSession) or checkpoint.point is not point
+                        or checkpoint.store.lock.handle is None):
+                    raise ValueError("Checkpoint cần session đã kiểm và OS lock đang sở hữu")
+            if checkpoint is None and key in self._prior_point_attempts:
                 raise RuntimeError("Điểm đã bắt đầu; không tự gọi lại upstream/Full, cần rà soát checkpoint")
             self._prior_point_attempts.add(key)
             started = time.monotonic()
             print(f"[BacktestEngine] Chuẩn bị Full dùng chung: {key[0]} @ {key[1]}")
-            initial["pattern_image"] = static_util.generate_kline_image(
-                deepcopy(initial["kline_data"]), write_artifacts=False).get("pattern_image")
-            initial["trend_image"] = static_util.generate_trend_image(
-                deepcopy(initial["kline_data"]), write_artifacts=False).get("trend_image")
-            if any(type(initial[name]) is not str or not initial[name].strip()
-                   for name in ("pattern_image", "trend_image")):
-                raise ValueError("Nghiên cứu thiếu ảnh PIT cho Pattern/Trend")
-            upstream = graph_builder.compile_upstream().invoke(deepcopy(initial))
-            # Upstream không được đổi dữ liệu đã kiểm trước khi Alpha dùng chúng.
-            expected = point.agent_state()
-            for field in ("stock_name", "as_of_date", "time_frame", "is_backtest", "language",
-                          "window_end_date", "alpha_norm_method", "alpha_weights", "kline_data"):
-                if digest(upstream.get(field)) != digest(expected[field]):
-                    raise ValueError(f"Upstream thay input PIT: {field}")
-            frame = upstream.get("point_in_time_df")
-            if not isinstance(frame, pd.DataFrame) or not frame.equals(expected["point_in_time_df"]):
-                raise ValueError("Upstream thay snapshot giá PIT")
-            upstream["sentiment_store"] = expected["sentiment_store"]
-            if self._stop_event.is_set():
-                raise InterruptedError("Đã yêu cầu dừng sau upstream")
-            full = graph_builder.compile_full_preparation(strict_research_mode=True).invoke(deepcopy(upstream))
-            shared = point.bind_full(full)
-            full_bundle = copy_prior_json({
-                "reports": {field: shared[field] for field in REPORT_FIELDS},
-                **{field: shared[field] for field in ("current_signals", "market_regime", "prior_provenance")},
-                "alpha_factors": native_json(full["sentiment_data"]["alpha_results"]),
-                "sentiment_data": native_json(full["sentiment_data"]),
-            })
+            stage = "not_started" if checkpoint is None else checkpoint.stage
+            shared = None
+            if stage == "not_started":
+                if checkpoint is not None:
+                    checkpoint.mark_stage("upstream_started")
+                initial["pattern_image"] = static_util.generate_kline_image(
+                    deepcopy(initial["kline_data"]), write_artifacts=False).get("pattern_image")
+                initial["trend_image"] = static_util.generate_trend_image(
+                    deepcopy(initial["kline_data"]), write_artifacts=False).get("trend_image")
+                if any(type(initial[name]) is not str or not initial[name].strip()
+                       for name in ("pattern_image", "trend_image")):
+                    raise ValueError("Nghiên cứu thiếu ảnh PIT cho Pattern/Trend")
+                upstream = graph_builder.compile_upstream().invoke(deepcopy(initial))
+                # Upstream không được đổi dữ liệu đã kiểm trước khi Alpha dùng chúng.
+                expected = point.agent_state()
+                for field in ("stock_name", "as_of_date", "time_frame", "is_backtest", "language",
+                              "window_end_date", "alpha_norm_method", "alpha_weights", "kline_data"):
+                    if digest(upstream.get(field)) != digest(expected[field]):
+                        raise ValueError(f"Upstream thay input PIT: {field}")
+                frame = upstream.get("point_in_time_df")
+                if not isinstance(frame, pd.DataFrame) or not frame.equals(expected["point_in_time_df"]):
+                    raise ValueError("Upstream thay snapshot giá PIT")
+                upstream["sentiment_store"] = expected["sentiment_store"]
+                if checkpoint is not None:
+                    checkpoint.mark_stage("upstream_complete", reports={field: upstream[field] for field in REPORT_FIELDS[:3]})
+            elif stage == "upstream_complete":
+                upstream = point.agent_state()
+                upstream.update(deepcopy(checkpoint.document["shared"]["upstream_reports"]))
+            elif stage == "shared_complete":
+                shared = checkpoint.restore_shared()
+                full_bundle = deepcopy(checkpoint.document["shared"]["full_bundle"])
+            else:
+                raise ValueError("Checkpoint upstream/Full chưa có output durable; không tự gọi lại")
+            if shared is None:
+                if self._stop_event.is_set():
+                    raise InterruptedError("Đã yêu cầu dừng sau upstream")
+                if checkpoint is not None:
+                    checkpoint.mark_stage("full_started")
+                full = graph_builder.compile_full_preparation(strict_research_mode=True).invoke(deepcopy(upstream))
+                shared = point.bind_full(full)
+                full_bundle = copy_prior_json({
+                    "reports": {field: shared[field] for field in REPORT_FIELDS},
+                    **{field: shared[field] for field in ("current_signals", "market_regime", "prior_provenance")},
+                    "alpha_factors": native_json(full["sentiment_data"]["alpha_results"]),
+                    "sentiment_data": native_json(full["sentiment_data"]),
+                })
+                if checkpoint is not None:
+                    checkpoint.mark_stage("shared_complete", bundle=full_bundle)
             shared_seconds = float(time.monotonic() - started)
             branches: dict[str, Any] = {}
             population_hash = None
             for index, branch_id in enumerate(branch_order):
+                if checkpoint is not None and checkpoint.document["branches"][branch_id]["status"] == "complete":
+                    output = checkpoint.branch_output(branch_id, shared)
+                    point.verify_source(output["state"])
+                    branches[branch_id] = output
+                    if PRIOR_BRANCH_MODES[branch_id][1]:
+                        current = digest(output["state"]["prior_stats"])
+                        if population_hash is not None and current != population_hash:
+                            raise ValueError("Stats các nhánh đã lưu không cùng population")
+                        population_hash = current
+                    continue
                 if self._stop_event.is_set():
                     raise InterruptedError(f"Đã yêu cầu dừng trước Decision {branch_id}")
                 state = deepcopy(shared)
                 mode, k = PRIOR_BRANCH_MODES[branch_id]
                 state["prior_config"].update(mode=mode, k=k)
                 expected_config = deepcopy(state["prior_config"])
+                hooks = {}
+                if checkpoint is not None:
+                    checkpoint.active_branch = branch_id
+                    hooks["before_decision"] = lambda prepared, prompt, name=branch_id: checkpoint.before_decision(name, shared, prepared, prompt)
                 graph = graph_builder.compile_report_decision(
                     prior_config=expected_config, prior_retriever=point.retrieve,
                     prior_source_validator=point.verify_source,
+                    **hooks,
                 )
                 branch_started = time.monotonic()
                 attempt_started = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
@@ -1000,6 +1042,8 @@ class BacktestEngine:
                     "raw_response": native_json(raw_response),
                     "attempt_id": str(uuid4()), "started_at": attempt_started,
                     "finished_at": attempt_finished}
+                if checkpoint is not None:
+                    checkpoint.complete_branch(branch_id, shared, branches[branch_id])
                 if index < len(branch_order) - 1:
                     if self._stop_event.wait(self.DELAY_BETWEEN_VARIANTS):
                         raise InterruptedError("Đã yêu cầu dừng giữa các Decision")
@@ -1013,8 +1057,9 @@ class BacktestEngine:
         output_dir: "Path", time_frame: str = "1d", n_tests: int = 15,
         step: int = 3, cutoffs: tuple[str, ...] | None = None,
         execution_mode: str = "research", callback: Callable[[dict[str, Any]], None] | None = None,
+        resume: bool = False,
     ) -> dict[str, Any]:
-        """Walk-forward năm nhánh; schema nghiên cứu riêng, không resume ở bước này."""
+        """Walk-forward năm nhánh; resume chỉ phần còn thiếu với cùng identity."""
         from core.prior_backtest import PriorBacktestRunner
 
         if not self._prior_run_lock.acquire(blocking=False):
@@ -1022,7 +1067,7 @@ class BacktestEngine:
         try:
             runner = PriorBacktestRunner(self, adapter, graph_builder, execution_mode=execution_mode)
             return runner.run(symbol, output_dir=output_dir, time_frame=time_frame,
-                              n_tests=n_tests, step=step, cutoffs=cutoffs, callback=callback)
+                              n_tests=n_tests, step=step, cutoffs=cutoffs, callback=callback, resume=resume)
         finally:
             self._prior_run_lock.release()
 

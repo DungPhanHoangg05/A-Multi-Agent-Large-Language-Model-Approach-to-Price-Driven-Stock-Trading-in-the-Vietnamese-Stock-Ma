@@ -102,7 +102,9 @@ class PriorBacktestIntegrationTests(unittest.TestCase):
             self.run_fixture()
         result = self.read_payload(self.output / "results.json", "result")
         self.assertEqual((result["status"], len(result["completed_point_ids"])), ("partial", 1))
-        self.assertEqual(len(list((self.output / "points").glob("*.json"))), 1)
+        checkpoints = [self.read_payload(path, "point") for path in (self.output / "points").glob("*.json")]
+        self.assertEqual(len(checkpoints), 2)  # Toàn plan durable trước API ở W4-12.
+        self.assertEqual(sum(point["status"] == "complete" for point in checkpoints), 1)
         self.assertTrue(all(s["sample_count"] == 1 for s in result["summary"].values()))
         self.assertTrue(self.engine._prior_run_lock.acquire(False))
         self.engine._prior_run_lock.release()
