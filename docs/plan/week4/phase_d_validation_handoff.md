@@ -1,8 +1,9 @@
 # Phase D — Kiểm chứng tích hợp và bàn giao W5
 
-**Trạng thái: W4-13 hoàn thành ngày 06/10/2026; Phase D 1/4.**
-[Biên bản leakage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json),
-[checklist W4](README.md). Tiếp theo W4-14; Gate D còn mở.
+**Trạng thái: W4-13..14 hoàn thành ngày 06/10/2026; Phase D 2/4.**
+[Biên bản leakage](pipeline_leakage_validation.md), [receipt leakage](pipeline_leakage_review.json),
+[biên bản smoke](prior_integration_smoke.md), [receipt smoke](integration_smoke.json),
+[checklist W4](README.md). Tiếp theo W4-15; Gate D còn mở.
 Đầu vào: Gate C. Nghiệm thu trên đường state → PIT adapter → retriever →
 formatter → graph → Decision → checkpoint thực tế; chỉ thay inference bên
 ngoài bằng LLM giả định xác định.
@@ -41,25 +42,30 @@ fixture, không mở gate OOS. W4-14..16 và Gate D còn mở.
 ## W4-14 — Smoke E2E offline và tương thích
 
 **Phụ thuộc:** W4-13. **File chính:** `scripts/run_end_to_end_test.py`;
-script riêng dự kiến `scripts/verify_prior_integration.py`.
+script riêng `scripts/verify_prior_integration.py`.
 
-- [ ] Giữ E2E legacy hiện có, bổ sung smoke runtime mới với mock text/vision LLM;
+- [x] Giữ E2E legacy hiện có, bổ sung smoke runtime mới với mock text/vision LLM;
   PIT validation, retrieval, formatter, builder, graph và checkpoint chạy thật.
-- [ ] Smoke fixture tổng hợp tái lập từ Git: đủ bốn regime, năm nhánh, VI/EN,
+- [x] Smoke fixture tổng hợp tái lập từ Git: đủ bốn regime, năm nhánh, VI/EN,
   K=0..3, empty/partial, prefix/prompt boundary và điểm đủ ba phiên thực thi.
-- [ ] Replay kho thật nếu archive/proof local đầy đủ và đã xác minh: nhận bank/
+- [x] Replay kho thật nếu archive/proof local đầy đủ và đã xác minh: nhận bank/
   manifest/QA cố định, báo rõ số context/nhánh và độ phủ. Nếu thiếu archive,
   báo BLOCKED cho replay; không thay fixture thành quan sát thị trường thật.
-- [ ] Đối chiếu reports/IDs/stats/prefix giữa thứ tự nhánh và run/resume, call-count
+- [x] Đối chiếu reports/IDs/stats/prefix giữa thứ tự nhánh và run/resume, call-count
   upstream/Full preparation, output kinh tế, JSON strict, hash trước/sau kiểm.
-- [ ] Flag off chạy bốn ablation và các entry point cũ, không nạp bank/model;
+- [x] Flag off chạy bốn ablation và các entry point cũ, không nạp bank/model;
   không thay mã lỗi/output cũ để che regression.
-- [ ] Chặn network/LLM thật trong kiểm offline; receipt nêu rõ nguồn synthetic
+- [x] Chặn network/LLM thật trong kiểm offline; receipt nêu rõ nguồn synthetic
   hay observed, phạm vi mock, config/version/hash, budget và giới hạn kết luận.
 
-**Nghiệm thu:** receipt dự kiến `integration_smoke.json` PASS cho smoke bắt buộc
+**Nghiệm thu:** [receipt](integration_smoke.json) PASS cho smoke bắt buộc
 tái lập từ Git. Replay kho thật là bằng chứng bổ sung riêng; không hứa W4 PASS
 cho phần replay chưa đủ nguồn, không suy ra lợi nhuận OOS từ mock.
+
+**Kết quả 06/10/2026:** [Biên bản/CLI](prior_integration_smoke.md), 8 context
+tổng hợp và 6 replay context thật/30 nhánh/60 Decision giả; production và E2E cũ
+giữ nguyên. Bốn test mới; compileall/498 unit/E2E/93 leakage PASS.
+Phase D 2/4, W4 14/16; W4-15..16/Gate D và giá OOS/pilot còn mở.
 
 ## W4-15 — Bốn gate và phạm vi thay đổi
 
