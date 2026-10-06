@@ -1,6 +1,6 @@
 # Phase B — State, ngân sách prompt và graph
 
-**Trạng thái: W4-05 hoàn thành, Phase B 1/4; W4-06..08 còn mở.** [Checklist W4](README.md).
+**Trạng thái: W4-05..06 hoàn thành, Phase B 2/4; W4-07..08 còn mở.** [Checklist W4](README.md).
 Đầu vào: Gate A và các policy W3. Test mới dưới đây là tên dự kiến;
 tái sử dụng test ablation/paired/token hiện có khi phù hợp.
 
@@ -35,25 +35,30 @@ state thô trước bộ lọc channel của LangGraph; graph nghiên cứu ở 
 **Phụ thuộc:** W4-05. **File chính:** `agents/decision_agent.py`,
 `tests/test_backtest_token_budget.py`, `tests/test_bayesian_prompt_budget.py`.
 
-- [ ] Áp dụng cap bàn giao: trend/pattern/indicator 800 mỗi báo cáo, alpha 1.100,
+- [x] Áp dụng cap bàn giao: trend/pattern/indicator 800 mỗi báo cáo, alpha 1.100,
   sentiment 500 (tổng 4.000); giữ `_distill_report`, `_cap_report` và các trường
   tín hiệu/conflict gate/hợp đồng kinh tế được distill giữ lại.
-- [ ] Chốt phạm vi cap theo hợp đồng: ưu tiên cấu hình backtest phù hợp; rà tác
+- [x] Chốt phạm vi cap theo hợp đồng: ưu tiên cấu hình backtest phù hợp; rà tác
   động nếu hằng cap dùng chung với đường live. Không hứa prompt giữ nguyên byte
   khi report dài bị cap mới; ghi thay đổi và kiểm hồi quy nội dung bắt buộc.
-- [ ] Thêm guard `len(final_prompt) < 6500` ở đường backtest, sau BRPP và mọi
+- [x] Thêm guard `len(final_prompt) < 6500` ở đường backtest, sau BRPP và mọi
   hướng dẫn/schema được thêm vào chuỗi prompt, trước `_invoke_with_retry`.
-- [ ] Prompt vượt trần báo lỗi độ dài/cấu hình có chẩn đoán; không gọi API, không
+- [x] Prompt vượt trần báo lỗi độ dài/cấu hình có chẩn đoán; không gọi API, không
   truncate BRPP, xóa task hoặc trả quyết định cash để che lỗi.
-- [ ] Kiểm VI/EN, daily `1d`/`1 ngày`, đủ/thiếu report, report bão hòa, Unicode,
+- [x] Kiểm VI/EN, daily `1d`/`1 ngày`, đủ/thiếu report, report bão hòa, Unicode,
   stock name dài, reserve BRPP đủ 600; biên 6.499 được phép, 6.500 bị chặn.
-- [ ] Sửa log ngưỡng cũ 7.500 thành ngưỡng thực tế; ghi riêng cap report,
+- [x] Sửa log ngưỡng cũ 7.500 thành ngưỡng thực tế; ghi riêng cap report,
   prefix length và prompt length. Token/quota thực tế chưa được suy ra từ ký tự.
 
-**Nghiệm thu:** builder/runtime thật với LLM giả định xác nhận không có call
-trên input overflow; giữ fixture kinh tế/conflict, không chỉ sửa assertion cũ
-cho test xanh. Receipt dự kiến `runtime_prompt_budget_review.json` ghi config,
-matrix/hash và giá trị lớn nhất; không sửa receipt W3 thành runtime PASS.
+**Nghiệm thu 06/10/2026:** [biên bản](runtime_prompt_budget.md),
+[receipt runtime](runtime_prompt_budget_review.json) PASS: **11 test ngân sách**,
+**192 ca node thật**, max 5.688; dự phòng 600 max 6.289. Builder thật tại
+6.499/6.500, overflow trước wrapper/API ở text/structured, giữ hợp đồng kinh tế/
+conflict, cap live và input. Compileall/**375 unit**/E2E/**56 leakage** PASS.
+
+Guard nằm sau builder hoàn chỉnh; BRPP được kiểm bằng fixture mở rộng template
+ở bước này. Chèn BRPP/reasoning production thuộc W4-07 và phải đo lại budget.
+Receipt W3/Phase A/W4-05 giữ nguyên; Gate B và budget toàn luồng prior còn mở.
 
 ## W4-07 — BRPP và hướng dẫn reasoning
 
