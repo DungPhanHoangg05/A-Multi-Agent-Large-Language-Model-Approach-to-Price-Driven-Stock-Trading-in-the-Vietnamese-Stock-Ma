@@ -1,8 +1,8 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
 **Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
-Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13..15 hoàn thành (3/4),
-tiến độ W4 15/16 ngày 06/10/2026.
+Phase C hoàn thành W4-09..12 (4/4), Phase D W4-13..16 hoàn thành (4/4),
+tiến độ W4 16/16 ngày 06/10/2026.
 Gate A PASS đặc tả, Gate B PASS offline graph/prompt
 với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
@@ -16,7 +16,8 @@ PASS. [Smoke tích hợp](prior_integration_smoke.md), [receipt](integration_smo
 PASS tổng hợp và replay nguồn thật với Decision giả. [Gate/phạm vi](integration_gate_review.json),
 [hiệu năng](integration_performance_review.json) ghi benchmark FAIL p95 dưới tải máy;
 runtime budget đã nghiệm thu, rủi ro hiệu năng được bàn giao.
-Tiếp theo W4-16; Gate D và giá OOS/pilot còn mở.**
+[Chốt/bàn giao W5](week_close_and_handoff.md), [receipt cuối](week_close_review.json).
+Gate D PASS kỹ thuật offline có cảnh báo hiệu năng; giá/model/quota OOS và pilot còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -121,14 +122,14 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 | W4-13 | Kiểm thử leakage toàn đường tích hợp | [Biên bản/coverage](pipeline_leakage_validation.md), [receipt](pipeline_leakage_review.json): 11 test mới trên hai provider/hai scope, nguồn/prior/checkpoint sai bị chặn; sửa verifier provider và bốn gate PASS | Gate C | [x] |
 | W4-14 | Smoke E2E offline và tương thích | [Biên bản](prior_integration_smoke.md), [receipt](integration_smoke.json): 8 context tổng hợp bốn regime/VI-EN, 6 replay thật; chỉ mock vision/Decision, paired/resume/flag off/budget/JSON và bốn gate PASS | W4-13 | [x] |
 | W4-15 | Chạy bốn gate và kiểm phạm vi thay đổi | [Biên bản](integration_gate_validation.md), [gate](integration_gate_review.json), [hiệu năng](integration_performance_review.json): bốn gate mới PASS, hash/scope/budget, overhead riêng; benchmark bổ sung FAIL p95, rủi ro đã rà/bàn giao, retriever không đổi | W4-14 | [x] |
-| W4-16 | Chốt W4, bàn giao điều kiện pilot W5 | 16 task có bằng chứng; hướng dẫn config/resume; gate giá/quota W5 và giới hạn nghiên cứu rõ | W4-01..15 | [ ] |
+| W4-16 | Chốt W4, bàn giao điều kiện pilot W5 | [Biên bản](week_close_and_handoff.md), [receipt](week_close_review.json): 16 task, bốn gate cuối/hash/API/resume; checklist mở pilot và cảnh báo p95 rõ | W4-01..15 | [x] |
 
 ## Thứ tự và gate chuyển phase
 
 1. W4-01 → 02 → 03 → 04: **Gate A PASS đặc tả**; đủ hợp đồng trước khi sửa runtime.
 2. W4-05 → 06 → 07 → 08: **Gate B PASS** state/Decision/graph offline với verifier/retriever fixture.
 3. W4-09 → 10 → 11 → 12: **Gate C PASS offline** PIT, dùng chung báo cáo và resume; khóa native Windows.
-4. W4-13 → 14 → 15 → 16: **Gate D** đủ bốn gate và biên bản bàn giao.
+4. W4-13 → 14 → 15 → 16: **Gate D PASS kỹ thuật offline có cảnh báo hiệu năng**; đủ bốn gate và [biên bản bàn giao](week_close_and_handoff.md). Không mở gate pilot/OOS.
 
 Nếu task cần chia nhỏ khi triển khai, bổ sung mục con trong phase; giữ mã task
 cha và phụ thuộc. Gate thất bại phải sửa nguyên nhân, cập nhật biên bản và chạy
@@ -136,16 +137,32 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 
 ## Checklist chốt tuần
 
-- [ ] Flag tắt bảo toàn đường chạy cũ; cấu hình mới không thay nghĩa ablation cũ.
-- [ ] Mọi context được chứng minh PIT trước query; prior `exit_date < cutoff`.
-- [ ] Năm nhánh dùng cùng Full reports; không lặp upstream hoặc chia sẻ mutable state.
-- [ ] BRPP ≤600 và toàn prompt backtest <6.500 ở đường runtime thật.
-- [ ] Nhãn/P&L dùng engine thật: LONG Open(t+1)→Close(t+3), SHORT cash, phí hai chiều.
-- [ ] Checkpoint có provenance/metadata đầy đủ; resume chỉ chạy phần còn thiếu.
-- [ ] Compileall/unit/E2E/leakage PASS; smoke offline có receipt riêng.
-- [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
+- [x] Flag tắt bảo toàn đường chạy cũ; cấu hình mới không thay nghĩa ablation cũ.
+- [x] Mọi context được chứng minh PIT trước query; prior `exit_date < cutoff`.
+- [x] Năm nhánh dùng cùng Full reports; không lặp upstream hoặc chia sẻ mutable state.
+- [x] BRPP ≤600 và toàn prompt backtest <6.500 ở đường runtime thật.
+- [x] Nhãn/P&L dùng engine thật: LONG Open(t+1)→Close(t+3), SHORT cash, phí hai chiều.
+- [x] Checkpoint có provenance/metadata đầy đủ; resume chỉ chạy phần còn thiếu.
+- [x] Compileall/unit/E2E/leakage PASS; smoke offline có receipt riêng.
+- [x] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-16 hoàn thành, đóng W4
+
+- Nhánh `docs/prior-runtime-handoff`, baseline `a54a531`; chỉ tài liệu/receipt,
+  production, schema và bank không đổi. [Biên bản/API/bàn giao](week_close_and_handoff.md),
+  [receipt cuối tuần](week_close_review.json) đối chiếu đủ 16 task.
+- Compileall, **498 unit** (408.671 giây suite), **E2E** (28.010 giây), **93 leakage** (123.899 giây suite) PASS mới; **2431 file bảo vệ giữ hash**.
+  Đối chiếu nguồn code đã kiểm W4-15, bank 852 episode và receipts đóng băng.
+- Chốt hướng dẫn config/branch/provider, identity/schema/resume/đổi key/lock;
+  bàn giao gate giá VCI/KBS OOS, artifact/freeze PIT, plan 20 cutoff FPT,
+  quota/pacing/CLI/telemetry và điều kiện dừng W5. CLI nghiên cứu thuộc W5.
+- **Phase D 4/4, W4 16/16; Gate D PASS kỹ thuật offline với cảnh báo hiệu năng**.
+  `runtime_budget_gate_passed=true`, prior mặc định tắt. Benchmark W4-15 p95
+  vẫn FAIL, không đo lại chọn lượt PASS, không mở gate giá/model/quota/pilot/OOS.
+- Tiếp theo lập kế hoạch chi tiết W5 tại `docs/plan/week5/`, mở gate FPT+VNINDEX
+  trước pilot; không coi LLM giả là bằng chứng hiệu quả đầu tư ngoài mẫu.
 
 ### 2026-10-06 — W4-15 hoàn thành
 
