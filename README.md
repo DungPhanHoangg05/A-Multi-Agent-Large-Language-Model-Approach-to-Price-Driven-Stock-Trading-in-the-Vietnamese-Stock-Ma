@@ -25,7 +25,7 @@ thống kê regime, BRPP và kiểm chứng offline tại
 W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/guard prompt;
 runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
 [Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
-**Phase A W4 hoàn thành 4/4**, **Phase B 3/4 (W4-05..07)**, tiến độ W4 **7/16**;
+**Phase A W4 hoàn thành 4/4**, **Phase B 4/4 (W4-05..08)**, tiến độ W4 **8/16**;
 Gate A PASS đặc tả với
 [hợp đồng kết quả/checkpoint](docs/plan/week4/checkpoint_contract.md) và
 [receipt](docs/plan/week4/checkpoint_review.json). State/config runtime đã có tám field
@@ -35,8 +35,10 @@ prompt cuối `<6500` đã PASS **375 unit/E2E/56 leakage**:
 [biên bản ngân sách runtime](docs/plan/week4/runtime_prompt_budget.md).
 BRPP/reasoning tại node Decision đã PASS **386 unit/E2E/56 leakage**, kể cả
 prefix 600 + hướng dẫn (max 6.467): [biên bản](docs/plan/week4/decision_prior_integration.md).
-Tiếp theo W4-08 graph; verifier nguồn thật W4-09, paired/checkpoint/budget
-toàn luồng và gate giá ngoài mẫu chưa được nghiệm thu.
+Graph tách Full preparation và prior/Decision đã PASS **399 unit/E2E/56 leakage**,
+128 ca graph thật và hồi quy bốn ablation: [biên bản/API](docs/plan/week4/graph_prior_integration.md).
+**Gate B PASS offline với verifier/retriever fixture**. Tiếp theo W4-09 verifier
+nguồn thật; engine năm nhánh/checkpoint và gate giá ngoài mẫu chưa được nghiệm thu.
 
 ## Requirements
 

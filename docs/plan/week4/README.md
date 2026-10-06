@@ -1,12 +1,13 @@
 # Tuần 4 — Tích hợp prior vào LangGraph và backtest
 
-**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..07 (3/4),
-tiến độ W4 7/16 ngày 06/10/2026. Gate A PASS đặc tả. [State/config](integration_contract.md),
+**Trạng thái: Phase A hoàn thành 4/4 task; Phase B hoàn thành W4-05..08 (4/4),
+tiến độ W4 8/16 ngày 06/10/2026. Gate A PASS đặc tả, Gate B PASS offline graph/prompt
+với verifier/retriever fixture. [State/config](integration_contract.md),
 [provenance/PIT](provenance_contract.md), [kết quả/checkpoint](checkpoint_contract.md),
 [receipt/Gate A](checkpoint_review.json), [state/config runtime](state_config_runtime_review.json).
 [cap/guard runtime](runtime_prompt_budget_review.json), [BRPP tại Decision](decision_prior_integration_review.json).
-Tiếp theo W4-08;
-Gate B/C/D và tích hợp BRPP/PIT/checkpoint còn mở.**
+[graph/Full reports](graph_prior_integration_review.json). Tiếp theo W4-09;
+Gate C/D, nguồn PIT thật, engine năm nhánh/checkpoint và giá OOS còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -89,7 +90,7 @@ Chi tiết: [Phase B](phase_b_state_prompt_graph.md).
 | W4-05 | Cài state/config và validator | [Biên bản](state_config_runtime.md), [receipt](state_config_runtime_review.json): tám field optional, parser strict, JSON/context, guard off/enabled, 28 test mới và bốn gate PASS | Gate A | [x] |
 | W4-06 | Áp dụng cap và guard prompt runtime | [Biên bản](runtime_prompt_budget.md), [receipt](runtime_prompt_budget_review.json): cap backtest 4.000; guard cuối <6.500, 192 ca + dự phòng 600, text/structured boundary và bốn gate PASS | W4-05 | [x] |
 | W4-07 | Chèn BRPP và hướng dẫn reasoning | [Biên bản](decision_prior_integration.md), [receipt](decision_prior_integration_review.json): formatter W3, prefix một lần + reasoning, Original rỗng, empty/partial, node offline và bốn gate PASS | W4-06 | [x] |
-| W4-08 | Ghép graph với ranh giới chuẩn bị báo cáo | Hỗ trợ prior config; chuẩn bị Full dùng chung rồi Decision riêng, bảo toàn graph cũ | W4-05, W4-07 | [ ] |
+| W4-08 | Ghép graph với ranh giới chuẩn bị báo cáo | [Biên bản/API](graph_prior_integration.md), [receipt](graph_prior_integration_review.json): Full riêng, Prior Preparation → Decision; 128 ca graph, bốn ablation/async/stream và bốn gate PASS | W4-05, W4-07 | [x] |
 
 ## C. PIT, ghép cặp và checkpoint
 
@@ -116,7 +117,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 ## Thứ tự và gate chuyển phase
 
 1. W4-01 → 02 → 03 → 04: **Gate A PASS đặc tả**; đủ hợp đồng trước khi sửa runtime.
-2. W4-05 → 06 → 07 → 08: **Gate B** state/Decision/graph offline PASS.
+2. W4-05 → 06 → 07 → 08: **Gate B PASS** state/Decision/graph offline với verifier/retriever fixture.
 3. W4-09 → 10 → 11 → 12: **Gate C** PIT, dùng chung báo cáo và resume PASS.
 4. W4-13 → 14 → 15 → 16: **Gate D** đủ bốn gate và biên bản bàn giao.
 
@@ -136,6 +137,27 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [ ] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-06 — W4-08 hoàn thành
+
+- Nhánh `feat/shared-reports-prior-graph`, baseline `740031a`; thêm
+  `compile_full_preparation()` và `compile_report_decision()` trong `utils/graph_setup.py`.
+  Giữ `compile_upstream()`, hai builder cũ, `include_alpha` và bốn ablation.
+- Full chuẩn bị Alpha/Sentiment riêng; Prior Preparation sở hữu retrieve/format
+  một lần, Decision tiêu thụ output ngay sau đó. Config khóa lúc compile;
+  state thô lỗi/alias/outcome/stale result bị chặn trước lọc channel.
+- Verifier kiểm context trước query, result trước formatter; callback nhận
+  bản sao JSON riêng. Default enabled thiếu verifier vẫn dừng; không lưu cờ PASS.
+  API async/stream chuyển tiếp đúng config/kwargs; checkpoint chưa triển khai.
+- **13 test mới**, **128 ca graph thật** PASS; đủ tám channel, Original/empty/
+  partial, bốn ablation, deep copy, lỗi nguồn/API/overflow. Năm nhánh fixture:
+  upstream mỗi node một lần, Alpha/Sentiment một lần, Decision năm lần.
+- Max prompt **6.264**, BRPP đủ 600 + reasoning **6.467**. Compileall/**399 unit**/
+  E2E/**56 leakage** PASS; [receipt](graph_prior_integration_review.json) ghi log/hash
+  và kiểm byte các file bảo vệ. Kho/archive/receipt trước giữ nguyên.
+- **Phase B 4/4, W4 8/16, Gate B PASS offline graph/prompt với fixture**.
+  Tiếp theo **W4-09** adapter xác minh nguồn PIT thật. Điều phối năm nhánh trong
+  engine, checkpoint/resume, Gate C/D, pilot LLM và OOS còn mở.
 
 ### 2026-10-06 — W4-07 hoàn thành
 
