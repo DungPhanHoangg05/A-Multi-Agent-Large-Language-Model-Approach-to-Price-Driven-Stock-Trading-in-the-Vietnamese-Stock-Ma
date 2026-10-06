@@ -26,7 +26,7 @@ W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/g
 runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
 [Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
 **Phase A W4 hoàn thành 4/4**, **Phase B 4/4 (W4-05..08)**,
-**Phase C 4/4 (W4-09..12)**, **Phase D 3/4 (W4-13..15)**, tiến độ W4 **15/16**;
+**Phase C 4/4 (W4-09..12)**, **Phase D 4/4 (W4-13..16)**, tiến độ W4 **16/16**;
 Gate A PASS đặc tả với
 [hợp đồng kết quả/checkpoint](docs/plan/week4/checkpoint_contract.md) và
 [receipt](docs/plan/week4/checkpoint_review.json). State/config runtime đã có tám field
@@ -66,7 +66,10 @@ retriever/memory giữ nguyên, cảnh báo hiệu năng được bàn giao:
 [biên bản](docs/plan/week4/integration_gate_validation.md),
 [receipt gate](docs/plan/week4/integration_gate_review.json),
 [receipt hiệu năng](docs/plan/week4/integration_performance_review.json).
-Tiếp theo W4-16 chốt/bàn giao W5; Gate D và giá ngoài mẫu/pilot còn mở.
+W4-16 đã chốt [biên bản/API/bàn giao W5](docs/plan/week4/week_close_and_handoff.md),
+[receipt cuối tuần](docs/plan/week4/week_close_review.json) với bốn gate mới PASS.
+**W4 hoàn thành kỹ thuật offline; Gate D PASS có cảnh báo hiệu năng.**
+Tiếp theo lập kế hoạch W5, mở giá OOS/model/quota trước pilot FPT 20 điểm.
 
 ## Requirements
 

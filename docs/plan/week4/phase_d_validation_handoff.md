@@ -1,11 +1,12 @@
 # Phase D — Kiểm chứng tích hợp và bàn giao W5
 
-**Trạng thái: W4-13..15 hoàn thành ngày 06/10/2026; Phase D 3/4.**
+**Trạng thái: W4-13..16 hoàn thành ngày 06/10/2026; Phase D 4/4. Gate D PASS kỹ thuật offline, có cảnh báo hiệu năng.**
 [Biên bản leakage](pipeline_leakage_validation.md), [receipt leakage](pipeline_leakage_review.json),
 [biên bản smoke](prior_integration_smoke.md), [receipt smoke](integration_smoke.json),
 [biên bản gate](integration_gate_validation.md), [receipt gate](integration_gate_review.json),
 [hiệu năng](integration_performance_review.json), [checklist W4](README.md).
-Tiếp theo W4-16; Gate D còn mở.
+[Biên bản bàn giao](week_close_and_handoff.md), [receipt chốt](week_close_review.json).
+Tiếp theo lập kế hoạch W5; gate giá/model/quota và pilot/OOS còn mở.
 Đầu vào: Gate C. Nghiệm thu trên đường state → PIT adapter → retriever →
 formatter → graph → Decision → checkpoint thực tế; chỉ thay inference bên
 ngoài bằng LLM giả định xác định.
@@ -108,24 +109,26 @@ Phase D 3/4, W4 15/16; W4-16/Gate D và giá OOS/pilot còn mở.
 
 ## W4-16 — Đóng tuần và bàn giao pilot
 
-**Phụ thuộc:** W4-01..15. **Tài liệu dự kiến:** `week_close_and_handoff.md`.
+**Phụ thuộc:** W4-01..15. **Tài liệu:** [week_close_and_handoff.md](week_close_and_handoff.md).
 
-- [ ] Đối chiếu 16 task, contract, API/state/config, graph boundary, runtime caps,
+- [x] Đối chiếu 16 task, contract, API/state/config, graph boundary, runtime caps,
   PIT/paired/checkpoint tests và receipts. Liệt kê bằng chứng còn BLOCKED riêng.
-- [ ] Ghi hướng dẫn bật/tắt prior, năm nhánh, daily timeframe, paths kho/QA,
+- [x] Ghi hướng dẫn bật/tắt prior, năm nhánh, daily timeframe, paths kho/QA,
   provider model, schema result và cách resume/đổi key/chẩn đoán signature mismatch.
-- [ ] Cập nhật README tuần, kế hoạch tổng và tiến độ repo; phân biệt W4 kỹ thuật
+- [x] Cập nhật README tuần, kế hoạch tổng và tiến độ repo; phân biệt W4 kỹ thuật
   hoàn tất với gate dữ liệu/pilot chưa PASS. Không bật mặc định prior khi đóng tuần.
-- [ ] Bàn giao W5 công việc CLI/pilot FPT 20 điểm, token/quota/format-error/call-count,
+- [x] Bàn giao W5 công việc CLI/pilot FPT 20 điểm, token/quota/format-error/call-count,
   log/checkpoint và điều kiện dừng; chỉ chạy LLM thật ở task W5 được yêu cầu.
-- [ ] Lập checklist mở gate giá kiểm định: chỉ vnstock/VCI và vnstock/KBS; giá thô
+- [x] Lập checklist mở gate giá kiểm định: chỉ vnstock/VCI và vnstock/KBS; giá thô
   OHLCV FPT/VCB/VNM/MWG và VNINDEX, lịch phiên/warm-up/exit đủ, không thiếu/trùng,
   source/adjustment/provenance nhất quán, manifest/hash và audit PASS. FPT pilot
   cần bộ FPT+VNINDEX; benchmark W6 cần đủ bốn mã.
-- [ ] Chốt provider/artifact PIT, ngân sách quota/key và sample dates trước pilot.
+- [x] Bàn giao điều kiện chốt provider/artifact PIT, ngân sách quota/key và sample dates
+  trước pilot tại [biên bản W5](week_close_and_handoff.md#6-điều-kiện-mở-pilotoos--đang-blocked).
+  Artifact/quota/ngày cụ thể chưa được xác nhận cho pilot khi gate OOS còn BLOCKED.
   Gate giá chưa mở hoặc thiếu model proof phải chặn pilot/OOS rõ ràng; không lấy
   CSV điều chỉnh W1 để tính nhãn hoặc dùng synthetic làm dữ liệu kiểm định.
-- [ ] Ghi giới hạn: kho 2020–2022, sentiment NEUTRAL, tỷ lệ thực nghiệm, Original
+- [x] Ghi giới hạn: kho 2020–2022, sentiment NEUTRAL, tỷ lệ thực nghiệm, Original
   khác cả stats/ví dụ; W4 offline không chứng minh hiệu quả đầu tư của mô hình.
 
 **Nghiệm thu:** biên bản bàn giao liên kết đủ receipt và checklist 16/16.
@@ -134,10 +137,16 @@ trạng thái gate giá/OOS/pilot ghi theo kiểm chứng thực tế, không t�
 
 ## Gate D và cập nhật tiến độ
 
-- [ ] W4-13..16 hoàn thành, đủ bốn gate; deliverables runtime có hướng dẫn và bằng chứng.
-- [ ] Nhánh tích hợp local sau PASS; checkpoint/kho/key và file tạm không push kèm.
-- [ ] W5 có danh sách điều kiện mở pilot và giới hạn nghiên cứu rõ ràng.
+- [x] W4-13..16 hoàn thành, đủ bốn gate; deliverables runtime có hướng dẫn và bằng chứng.
+- [x] Nhánh tích hợp local sau PASS; checkpoint/kho/key và file tạm không push kèm.
+- [x] W5 có danh sách điều kiện mở pilot và giới hạn nghiên cứu rõ ràng.
 
 Ghi nhật ký từng task tại đây và [README](README.md): ngày, commit, lệnh,
 kết quả, receipt và phần còn mở. W4-13 đã có receipt riêng; các task còn lại
 chỉ chốt sau kiểm chứng tương ứng.
+
+
+**Kết quả W4-16 ngày 06/10/2026:** Compileall, **498 unit** (408.671 giây suite), **E2E** (28.010 giây), **93 leakage** (123.899 giây suite) PASS mới; **2431 file bảo vệ giữ hash**.
+[Receipt](week_close_review.json) và [bàn giao](week_close_and_handoff.md) chốt 16/16 task.
+Gate D PASS_OFFLINE_INTEGRATION_WITH_PERFORMANCE_WARNING; p95 vẫn FAIL,
+không chuyển giá OOS/model/quota/pilot thành PASS. Prior mặc định tắt.
