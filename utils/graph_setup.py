@@ -159,7 +159,7 @@ class SetGraph:
         self.graph_llm = graph_llm
         self.toolkit = toolkit
 
-    def compile_full_preparation(self) -> ValidatedBacktestGraph:
+    def compile_full_preparation(self, *, strict_research_mode: bool = False) -> ValidatedBacktestGraph:
         """Chuẩn bị Alpha/Sentiment một lần từ upstream, chưa chạy Decision/prior.
 
         Caller kiểm nguồn PIT trước upstream, rồi lưu/deep-copy Full output cho
@@ -177,7 +177,9 @@ class SetGraph:
             return {**prepared, "ablation_config": dict(ABLATION_CONFIGS["full"])}
 
         graph = StateGraph(BacktestAgentState)
-        graph.add_node("Full Preparation", _guard_prior_state(create_alpha_agent(self.agent_llm, True, True)))
+        alpha = (create_alpha_agent(self.agent_llm, True, True, strict_research_mode=True)
+                 if strict_research_mode else create_alpha_agent(self.agent_llm, True, True))
+        graph.add_node("Full Preparation", _guard_prior_state(alpha))
         graph.add_edge(START, "Full Preparation")
         graph.add_edge("Full Preparation", END)
         # Kiểm input thô trước khi TypedDict của LangGraph lọc channel.
