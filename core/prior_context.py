@@ -404,6 +404,11 @@ class PriorPointContext:
         self._results: dict[str, dict[str, Any]] = {}
 
     @property
+    def prior_config(self) -> dict[str, Any]:
+        """Trả cấu hình kho/query đã khóa để caller kiểm ma trận trước upstream."""
+        return deepcopy(self._adapter._config)
+
+    @property
     def source_provenance(self) -> dict[str, Any]:
         """Proof trước LLM chưa có nhóm signals; không nhập trực tiếp vào Decision."""
         return deepcopy(self._proof)

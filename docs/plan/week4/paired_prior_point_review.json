@@ -1,0 +1,129 @@
+{
+  "format_version": 1,
+  "task": "W4-10",
+  "status": "PASS_PAIRED_FIVE_BRANCH_POINT_OFFLINE",
+  "date": "2026-10-06",
+  "scope": "PAIRED_FIVE_BRANCH_POINT_EXECUTION_OFFLINE",
+  "base_commit": "7d44f448aefe7343137cca7bf21655c3ec2baf27",
+  "branch": "feat/paired-prior-decisions",
+  "python": "3.13.5",
+  "started_at_utc": "2026-10-06T07:39:24.194872+00:00",
+  "gates": {
+    "compileall": {
+      "command": "py -3.13 -m compileall agents core data_manager scripts tests utils",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 0.166,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\paired-prior-17pc14i5\\compileall.log",
+      "log_sha256": "76d6321a25de88af036594964a3d7dd1197cafb4381f8dc7b523ef257a04fc2a"
+    },
+    "unit": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 99.264,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\paired-prior-17pc14i5\\unit.log",
+      "log_sha256": "49a5fc3b335e59e68731b487b23f760e43d6c91ac3f2b1d6bb9f7b77fe47a709",
+      "test_count": 445,
+      "suite_seconds": 90.299
+    },
+    "e2e": {
+      "command": "py -3.13 scripts/run_end_to_end_test.py",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 15.039,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\paired-prior-17pc14i5\\e2e.log",
+      "log_sha256": "d465b1c97c0cc567e2e4e972d8ed31caea9f96a2a1920f7e2ab7ad8f9fbcd627"
+    },
+    "leakage": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -p test_*leakage.py -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 25.018,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\paired-prior-17pc14i5\\leakage.log",
+      "log_sha256": "bd01087b8a443116b19fc65c3706c66f1987c408b616bd20f81035b6b5f43fed",
+      "test_count": 74,
+      "suite_seconds": 16.534
+    }
+  },
+  "unchanged_economic_and_legacy_ast_sha256": {
+    "compute_round_trip_net_return": "8c85859ab6a5e2b99d61c220610ae163e5c3833e66fad7d8902ed20556a88745",
+    "compute_account_metrics": "c75b7b5b1bc5ac676e9bbc2205d7bb82c6c3909a732859b9f57d55f2caf25eee",
+    "_get_actual_direction": "0b16fb50b323ddf94b85f8f6f35f77359bd649d65d98b132cdfd8238619c8a9f",
+    "_parse_prediction": "a9ab931d6e62dfdca9785cea3fc8bdfd2066f647cbb12e436c348878da06d1e2",
+    "_run_ablation_variants": "d218d930250681162d434514063fc0f3a18ad68f50b26ca88da467f7fb36f828",
+    "_run_paired_point": "a7904709a42965849a7679bd756c321912c2a9a3070ce567565edeffbbc6894f",
+    "run": "6b80224df556c15445b57eb93f8f51811d59543d96788518a64f9501f8ff4ad6"
+  },
+  "protected_files": {
+    "count": 2402,
+    "unchanged": true,
+    "changed_paths": [],
+    "snapshot_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\paired-prior-17pc14i5\\protected_before.json",
+    "snapshot_sha256": "4e9a5aef13f9f279e4cd3c785b9fe0b73308de91bd68ad0becdecaa27d06959d"
+  },
+  "source_text_sha256": {
+    "core/backtest_engine.py": "fe6c2ed2003c51d897484d5e8ba69feb0ea1bc75e5f149bd501c99ad4c215818",
+    "core/prior_context.py": "9187761312920945343263f115fea145aa1a77e2a2d01f7867f0f85942fa14c8",
+    "utils/graph_setup.py": "f5c9321b48529bd80d43363d4500ae8ddb48059cec27cfc8e61b3b5d33fbf9cf",
+    "tests/test_prior_paired_protocol.py": "03ca7380b320fef35e9a5a6fcce96f24d61349eff5e392c81d1bd30a91540fcc",
+    "tests/test_prior_paired_protocol_leakage.py": "8d99104f76f2f9629e36b1d7ff0734c34b7cffdc81f9fd09f7601de5bd2725f4"
+  },
+  "finished_at_utc": "2026-10-06T07:41:44.028492+00:00",
+  "new_unit_test_count": 15,
+  "new_leakage_test_count": 3,
+  "fixture_matrix": {
+    "provider_modes": [
+      "historical_prefix",
+      "fixed_train_oos"
+    ],
+    "languages": [
+      "vi",
+      "en"
+    ],
+    "point_count": 4,
+    "decision_count": 20
+  },
+  "observed_calls_single_point": {
+    "indicator": 1,
+    "pattern": 1,
+    "trend": 1,
+    "alpha": 1,
+    "sentiment": 1,
+    "retrieve": 5,
+    "format": 5,
+    "decision_llm": 5,
+    "pacing_gaps": 4
+  },
+  "phase_c_completed_tasks": 2,
+  "phase_c_gate_passed": false,
+  "runtime_five_branch_point_implemented": true,
+  "runtime_five_branch_backtest_implemented": false,
+  "runtime_checkpoint_implemented": false,
+  "real_llm_api_called": false,
+  "oos_trading_backtest": false,
+  "checks": {
+    "actual_engine_graph_adapter_retriever_on_fixture_files": true,
+    "source_before_upstream": true,
+    "charts_once_no_artifact_writes": true,
+    "upstream_full_once": true,
+    "strict_full_sentiment_error_propagates": true,
+    "same_full_reports_signals_proof_for_five_decisions": true,
+    "full_bundle_factors_sentiment_preserved": true,
+    "seed_scope_and_matrix_frozen": true,
+    "four_prior_stats_same_population_original_empty": true,
+    "retrieve_once_formatter_once_per_branch": true,
+    "sequential_decisions_keep_pacing": true,
+    "mutation_and_reverse_order_invariance": true,
+    "native_json_output_without_runtime_objects": true,
+    "new_upstream_snapshot_kline_and_source_mutation_fail_before_full": true,
+    "llm_failure_and_stop_abort_no_fallback": true,
+    "no_repeat_started_point_or_parallel_same_engine": true,
+    "text_and_structured_decision_routes": true,
+    "legacy_four_ablations_and_economic_contract_unchanged": true
+  },
+  "verification_helper": {
+    "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\paired-prior-17pc14i5\\verify.py",
+    "sha256": "01cbff4d89b9d816a04a8b63246c756e227086deed2da9794c85d72216201446"
+  }
+}

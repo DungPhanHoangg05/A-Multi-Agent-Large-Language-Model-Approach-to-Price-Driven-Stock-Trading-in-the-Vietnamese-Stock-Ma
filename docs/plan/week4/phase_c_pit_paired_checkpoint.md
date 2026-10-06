@@ -1,8 +1,9 @@
 # Phase C — Context PIT, năm nhánh ghép cặp và resume
 
-**Trạng thái: W4-09 hoàn thành, Phase C 1/4 ngày 06/10/2026.**
+**Trạng thái: W4-09/10 hoàn thành, Phase C 2/4 ngày 06/10/2026.**
 [Biên bản/API adapter](prior_context_adapter.md), [receipt](prior_context_review.json),
-[checklist W4](README.md). Gate C còn W4-10..12.
+[paired runtime](paired_prior_point.md), [receipt](paired_prior_point_review.json),
+[checklist W4](README.md). Gate C còn W4-11/12.
 Đầu vào: hợp đồng Phase A và graph/Decision Phase B. W4 cài adapter/runtime;
 CLI điều phối pilot `scripts/run_bayesian_ablation.py` thuộc W5.
 
@@ -35,17 +36,17 @@ hoặc dựa vào archive local trong unit suite.
 **Phụ thuộc:** Gate B, W4-09. **File chính:** `core/backtest_engine.py`,
 `utils/graph_setup.py`, `tests/test_paired_protocol.py`.
 
-- [ ] Chạy Indicator → Pattern → Trend một lần cho mỗi test point; chuẩn bị
+- [x] Chạy Indicator → Pattern → Trend một lần cho mỗi test point; chuẩn bị
   Alpha/Sentiment Full một lần từ cùng snapshot/tin trước năm nhánh nghiên cứu.
-- [ ] Trích tín hiệu từ bộ Full cố định; gọi từng mode trên cùng query/cutoff,
+- [x] Trích tín hiệu từ bộ Full cố định; gọi từng mode trên cùng query/cutoff,
   K/scope/seed đã khóa. Original dùng K=0; bốn prior mode có stats cùng population.
-- [ ] Deep-copy reports/state/tasks/stats/metadata sang từng nhánh; không để
+- [x] Deep-copy reports/state/tasks/stats/metadata sang từng nhánh; không để
   `messages`, prefix hoặc output nhánh trước ảnh hưởng nhánh sau.
-- [ ] Chỉ Decision chạy riêng từng nhánh; giữ retry/pacing hiện có, không vượt
+- [x] Chỉ Decision chạy riêng từng nhánh; giữ retry/pacing hiện có, không vượt
   giới hạn TPM/RPM do bật song song. W4 không thay thuật toán rate guard/quota.
-- [ ] Giữ các nhánh Full/Baseline cũ đúng semantics Alpha/Sentiment của chúng;
+- [x] Giữ các nhánh Full/Baseline cũ đúng semantics Alpha/Sentiment của chúng;
   không ép Baseline nhận Full reports để tiện dùng chung.
-- [ ] Spy/counter kiểm một lần upstream và Full preparation, đúng năm Decision;
+- [x] Spy/counter kiểm một lần upstream và Full preparation, đúng năm Decision;
   cố ý sửa state một nhánh và đổi thứ tự nhánh để chứng minh các nhánh độc lập.
 
 **Nghiệm thu:** tất cả prior branches có checksum Full reports/signals giống

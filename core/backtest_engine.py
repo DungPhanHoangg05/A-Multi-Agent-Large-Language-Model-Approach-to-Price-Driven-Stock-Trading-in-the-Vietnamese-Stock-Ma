@@ -5,7 +5,7 @@ import threading
 from copy import deepcopy
 from dataclasses import dataclass, asdict, field
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
@@ -16,6 +16,16 @@ from default_config import DEFAULT_CONFIG
 from data_manager.sentiment_cache import BacktestSentimentStore
 from utils.statistical_tests import calculate_metrics_with_significance
 from utils.graph_setup import ABLATION_CONFIGS
+
+if TYPE_CHECKING:
+    from core.prior_context import PriorPointContext
+    from utils.graph_setup import SetGraph
+
+PRIOR_BRANCH_MODES = {
+    "original": ("bayesian_regime", 0), "random": ("random", 3),
+    "recent": ("recent", 3), "similarity": ("similarity", 3),
+    "bayesian": ("bayesian_regime", 3),
+}
 
 
 ALPHA_HISTORY_CANDLES = 600
@@ -549,6 +559,8 @@ class BacktestEngine:
         self._started_at     = ""
         self._sentiment_store = None
         self._use_historical_sentiment = config.get("use_historical_sentiment", True)
+        self._prior_point_attempts: set[tuple[str, str]] = set()
+        self._prior_point_lock = threading.Lock()
 
     def _init_sentiment_store(self, symbol: str, force_recrawl: bool = False):
         """
@@ -874,6 +886,112 @@ class BacktestEngine:
         no_alpha_state, no_alpha_sec = results["baseline"]
 
         return full_state, full_sec, no_alpha_state, no_alpha_sec
+
+    def run_prior_point(
+        self, point: "PriorPointContext", *, graph_builder: "SetGraph",
+        branch_order: tuple[str, ...] = tuple(PRIOR_BRANCH_MODES),
+    ) -> dict[str, Any]:
+        """Chạy Full chung và năm Decision tuần tự trên một điểm đã kiểm PIT.
+
+        Adapter/builder do caller khởi tạo một lần với cấu hình model đã khóa.
+        Chỉ trả báo cáo/Decision JSON; đánh giá kinh tế và checkpoint thuộc các
+        bước kế tiếp. Một engine không tự gọi lại điểm đã bắt đầu, kể cả khi lỗi.
+        """
+        from core.historical_signals import digest, native_json
+        from core.prior_config import copy_prior_json
+        from core.prior_context import PriorPointContext, REPORT_FIELDS
+        from utils.graph_setup import SetGraph
+
+        if not isinstance(point, PriorPointContext) or not isinstance(graph_builder, SetGraph):
+            raise ValueError("Nghiên cứu cần context PIT và builder đã khởi tạo")
+        if (type(branch_order) is not tuple or len(branch_order) != 5
+                or any(type(name) is not str for name in branch_order)
+                or set(branch_order) != set(PRIOR_BRANCH_MODES)):
+            raise ValueError("Thứ tự phải chứa đúng năm nhánh nghiên cứu, mỗi nhánh một lần")
+        config = point.prior_config
+        if config["seed"] != 42 or config["scope"] != "same_symbol":
+            raise ValueError("Ma trận năm nhánh khóa seed=42 và scope=same_symbol")
+        if not self._prior_point_lock.acquire(blocking=False):
+            raise RuntimeError("Engine đang chạy một điểm nghiên cứu; không chạy song song")
+        try:
+            if self._stop_event.is_set():
+                raise InterruptedError("Đã yêu cầu dừng trước điểm nghiên cứu")
+            initial = point.agent_state()  # Kiểm lại byte nguồn trước upstream.
+            key = (initial["stock_name"], initial["as_of_date"])
+            if key in self._prior_point_attempts:
+                raise RuntimeError("Điểm đã bắt đầu; không tự gọi lại upstream/Full, cần rà soát checkpoint")
+            self._prior_point_attempts.add(key)
+            started = time.monotonic()
+            print(f"[BacktestEngine] Chuẩn bị Full dùng chung: {key[0]} @ {key[1]}")
+            initial["pattern_image"] = static_util.generate_kline_image(
+                deepcopy(initial["kline_data"]), write_artifacts=False).get("pattern_image")
+            initial["trend_image"] = static_util.generate_trend_image(
+                deepcopy(initial["kline_data"]), write_artifacts=False).get("trend_image")
+            if any(type(initial[name]) is not str or not initial[name].strip()
+                   for name in ("pattern_image", "trend_image")):
+                raise ValueError("Nghiên cứu thiếu ảnh PIT cho Pattern/Trend")
+            upstream = graph_builder.compile_upstream().invoke(deepcopy(initial))
+            # Upstream không được đổi dữ liệu đã kiểm trước khi Alpha dùng chúng.
+            expected = point.agent_state()
+            for field in ("stock_name", "as_of_date", "time_frame", "is_backtest", "language",
+                          "window_end_date", "alpha_norm_method", "alpha_weights", "kline_data"):
+                if digest(upstream.get(field)) != digest(expected[field]):
+                    raise ValueError(f"Upstream thay input PIT: {field}")
+            frame = upstream.get("point_in_time_df")
+            if not isinstance(frame, pd.DataFrame) or not frame.equals(expected["point_in_time_df"]):
+                raise ValueError("Upstream thay snapshot giá PIT")
+            upstream["sentiment_store"] = expected["sentiment_store"]
+            if self._stop_event.is_set():
+                raise InterruptedError("Đã yêu cầu dừng sau upstream")
+            full = graph_builder.compile_full_preparation(strict_research_mode=True).invoke(deepcopy(upstream))
+            shared = point.bind_full(full)
+            full_bundle = copy_prior_json({
+                "reports": {field: shared[field] for field in REPORT_FIELDS},
+                **{field: shared[field] for field in ("current_signals", "market_regime", "prior_provenance")},
+                "alpha_factors": native_json(full["sentiment_data"]["alpha_results"]),
+                "sentiment_data": native_json(full["sentiment_data"]),
+            })
+            shared_seconds = float(time.monotonic() - started)
+            branches: dict[str, Any] = {}
+            population_hash = None
+            for index, branch_id in enumerate(branch_order):
+                if self._stop_event.is_set():
+                    raise InterruptedError(f"Đã yêu cầu dừng trước Decision {branch_id}")
+                state = deepcopy(shared)
+                mode, k = PRIOR_BRANCH_MODES[branch_id]
+                state["prior_config"].update(mode=mode, k=k)
+                expected_config = deepcopy(state["prior_config"])
+                graph = graph_builder.compile_report_decision(
+                    prior_config=expected_config, prior_retriever=point.retrieve,
+                    prior_source_validator=point.verify_source,
+                )
+                branch_started = time.monotonic()
+                result = graph.invoke(state)
+                # Messages/ảnh/DataFrame là dữ liệu runtime, không xuất sang JSON.
+                output = copy_prior_json({field: result.get(field) for field in
+                    (*shared, "final_trade_decision", "decision_prompt")})
+                if output["prior_config"] != expected_config:
+                    raise ValueError("Decision thay config nhánh nghiên cứu")
+                for field in (*REPORT_FIELDS, "current_signals", "market_regime", "prior_provenance",
+                              "stock_name", "as_of_date", "time_frame", "is_backtest", "language", "ablation_config"):
+                    if digest(output[field]) != digest(shared[field]):
+                        raise ValueError(f"Decision thay Full dùng chung: {field}")
+                point.verify_source(output)
+                self._parse_prediction(output)
+                if k:
+                    current = digest(output["prior_stats"])
+                    if population_hash is not None and current != population_hash:
+                        raise ValueError("Bốn prior modes phải có stats cùng population")
+                    population_hash = current
+                branches[branch_id] = {"state": output,
+                    "elapsed_seconds": float(time.monotonic() - branch_started)}
+                if index < len(branch_order) - 1:
+                    if self._stop_event.wait(self.DELAY_BETWEEN_VARIANTS):
+                        raise InterruptedError("Đã yêu cầu dừng giữa các Decision")
+            return copy_prior_json({"shared": shared, "full_bundle": full_bundle,
+                                    "shared_seconds": shared_seconds, "branches": branches})
+        finally:
+            self._prior_point_lock.release()
 
     # ── Metrics helpers ────────────────────────────────────────────────────────
 
