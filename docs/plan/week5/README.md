@@ -1,7 +1,7 @@
 # Tuần 5 — Hoàn thiện vận hành và khóa kế hoạch benchmark bốn mã
 
-**Trạng thái: đang thực hiện Phase A; 1/16 task hoàn thành — W5-01 DONE.**
-Ngày lập: **07/10/2026**. W5-01 kiểm offline; code nghiên cứu giữ nguyên, chưa gọi LLM mới.
+**Trạng thái: đang thực hiện Phase A; 2/16 task hoàn thành — W5-01 và W5-02 DONE.**
+Ngày lập: **07/10/2026**. W5-01/02 kiểm và tổng hợp offline; code nghiên cứu giữ nguyên, chưa gọi LLM mới.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
 [Hợp đồng API/checkpoint hiện hành](../week4/week_close_and_handoff.md)
 
@@ -128,6 +128,95 @@ nguồn/môi trường. Phiên bản W4 được giữ riêng; run W5 mới ký 
 Tồn tại file lock không đồng nghĩa runner đang chạy: owner/OS lock được
 validator kiểm, không cần xóa file lock thủ công.
 
+### Chất lượng và chỉ số pilot — W5-02
+
+Đối chiếu ngày **07/10/2026** bằng API `PriorBacktestRunner.run(...,
+verify_only=True)` và `summarize_points`: result dựng lại khớp toàn bộ payload
+đã lưu, summary tính từ 20 checkpoint khớp chính xác `results.json.summary`.
+API hiện có đủ đầu ra; không thêm script export hoặc receipt.
+
+**Cùng mẫu:** FPT, 20 cutoff 05/01–03/04/2023, exit 10/01–06/04/2023;
+19 điểm Q1 và một điểm Q2/2023. Nhãn kinh tế có **6 UP, 14 DOWN**;
+UP nghĩa là return LONG sau phí >0, DOWN là ≤0, theo engine hiện hành.
+Regime PIT: **BULL 6, CHOPPY 12, CONSOLIDATION 2**.
+
+| Nhánh | N | Đúng/N | Accuracy | LONG / SHORT | LONG có lãi / giao dịch | LONG hit-rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Original K=0 | 20 | 11/20 | 55,00% | 5 / 15 | 1/5 | 20,00% |
+| Random K=3 | 20 | 8/20 | 40,00% | 8 / 12 | 1/8 | 12,50% |
+| Recent K=3 | 20 | 9/20 | 45,00% | 7 / 13 | 1/7 | 14,29% |
+| Similarity K=3 | 20 | 10/20 | 50,00% | 6 / 14 | 1/6 | 16,67% |
+| Bayesian K=3 | 20 | 10/20 | 50,00% | 6 / 14 | 1/6 | 16,67% |
+
+Mỗi nhánh có tài khoản riêng **50.000.000 VND**. Một LONG là một vòng
+BUY_SELL Open(t+1) → Close(t+3); SHORT giữ CASH. Phí 0,25% và slippage
+0,10% mỗi chiều; nhãn/return dùng `compute_round_trip_net_return`, tài khoản
+dùng `compute_account_metrics`. Số giao dịch bằng LONG count; hit-rate
+có mẫu số là số LONG thực thi, accuracy có mẫu số là cả 20 điểm.
+
+| Nhánh | Equity cuối (VND) | P&L (VND) | Return sau phí | Max drawdown |
+| --- | ---: | ---: | ---: | ---: |
+| Original | 47.164.521 | -2.835.479 | -5,67% | 5,67% |
+| Random | 44.660.682 | -5.339.318 | -10,68% | 10,68% |
+| Recent | 45.838.189 | -4.161.811 | -8,32% | 8,32% |
+| Similarity | 45.952.943 | -4.047.057 | -8,09% | 8,09% |
+| Bayesian | 46.043.617 | -3.956.383 | -7,91% | 7,91% |
+
+VND làm tròn đến đồng, tỷ lệ đến hai chữ số; dữ liệu đầy đủ giữ nguyên trong
+checkpoint. MDD là mức giảm dương từ peak trên **21 mốc equity** gồm vốn
+đầu và 20 lần đóng chu kỳ; chưa phản ánh drawdown giữa các phiên trong vị thế.
+Cuối mỗi nhánh là CASH, final_shares=0.
+
+**Chất lượng dữ liệu/kết quả:** đủ 20/20 common support và 100/100 Decision
+`llm_structured`, mọi nhánh complete/error rỗng; không có điểm thiếu bị loại
+hoặc Decision lỗi được thay bằng CASH. Cả năm input mỗi điểm cùng shared hash.
+Fallback reason của cả 100 Decision là chuỗi rỗng. Lịch sử còn **100 attempt
+complete và một attempt failed đã phục hồi**; ngoại lệ upstream điểm 16
+vẫn giữ audit/reserve ở baseline W5-01.
+
+**Coverage sentiment:** cả 20 điểm có 0 bài hợp lệ trong cửa sổ 90 ngày,
+0/20 điểm reliable theo ngưỡng ba bài; tín hiệu đều NEUTRAL với lý do
+`INSUFFICIENT_DATED_HISTORY`. Snapshot FPT có input_count=0, không đủ tin
+để đánh giá đóng góp sentiment. Giá/entry/exit, schema, nguồn, PIT và prompt
+đã qua verifier; không có dữ liệu kinh tế bị điền mặc định để đủ mẫu.
+
+**Diễn giải:** cả năm nhánh lỗ trên pilot này. Bayesian thấp hơn Original
+5 điểm phần trăm accuracy và khoảng 2,24 điểm phần trăm return. Tỷ trọng
+nhãn DOWN là 70%, cần đọc accuracy cùng mất cân bằng nhãn và số giao dịch.
+Mẫu nhỏ, chỉ đầu 2023, thiếu tin và có replay được xác nhận; chưa chứng minh
+ưu thế đầu tư hoặc ý nghĩa thống kê. Giữ ma trận/config W6 đã định; không
+chọn nhánh tốt nhất để chỉnh giao thức theo kết quả pilot.
+
+W5-04 cần chốt cách báo cáo Sharpe/Sortino trước W6: engine hiện nhân
+`sqrt(252)` trên return theo chu kỳ, nên cần rà annualization cho lịch cách
+ba phiên. W5-02 giữ metric engine nguyên vẹn, chưa diễn giải hai tỷ số này
+như thước đo rủi ro năm hoặc thực hiện kiểm định W7.
+
+#### Tái lập bảng từ API hiện có
+
+Tại root repo đúng phiên bản/môi trường W4 đã kiểm ở trên:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only
+if ($LASTEXITCODE -ne 0) { throw "Verifier chưa PASS; dừng đối chiếu bảng" }
+@'
+import json
+from pathlib import Path
+from core.prior_backtest import canonical_hash, summarize_points
+base = Path("outputs/pilot_fpt_run")
+result = json.loads((base / "results.json").read_text(encoding="utf-8"))["payload"]
+points = [json.loads((base / entry["path"]).read_text(encoding="utf-8"))["payload"] for entry in result["point_files"]]
+summary = summarize_points(points)
+assert canonical_hash(summary) == canonical_hash(result["summary"])
+for name, item in summary.items():
+    metrics = item["account_metrics"]
+    print(name, item["sample_count"], item["correct_count"], item["accuracy"],
+          item["long_count"], item["short_count"], metrics["hit_rate_pct"],
+          metrics["final_equity_vnd"], metrics["total_pnl_vnd"],
+          metrics["total_return_pct"], metrics["max_drawdown_pct"])
+'@ | py -3.13 -X utf8 -
+```
+
 ## 2. Quy tắc xuyên suốt
 
 1. Giá chỉ từ **vnstock/VCI và vnstock/KBS**. LONG mua Open(t+1), bán
@@ -155,7 +244,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | A | W5-01 | Đối chiếu bàn giao và khóa bằng chứng pilot | W4 đã đóng | [x] |
-| A | W5-02 | Tổng hợp chất lượng và chỉ số pilot offline | 01 | [ ] |
+| A | W5-02 | Tổng hợp chất lượng và chỉ số pilot offline | 01 | [x] |
 | A | W5-03 | Chuẩn hóa báo cáo HTTP/token/thời gian | 01 | [ ] |
 | A | W5-04 | Chốt hợp đồng vận hành và đánh giá W6 | 02, 03 | [ ] |
 | B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [ ] |
@@ -393,3 +482,4 @@ Không merge khi gate bắt buộc FAIL.
 | 07/10/2026 | Lập kế hoạch W5 | PLAN_READY; 0/16 triển khai; kế thừa pilot W4 đã hoàn thành | Bắt đầu W5-01 |
 | 07/10/2026 | Kiểm thay đổi tài liệu | Compileall/E2E, 521 unit/93 leakage PASS; đủ 16 task và liên kết nội bộ hợp lệ; không API | Gate triển khai W5 vẫn chờ thực hiện từng task |
 | 07/10/2026 | W5-01 | DONE: verifier offline 20/20; 100 Decision; 31 code/12 source/runtime khớp W4; 15 point/75 Decision cũ, audit và reserve 5.535 nguyên vẹn; 97 file không đổi. Compileall/E2E, 521 unit/93 leakage PASS | W5-02; baseline và cách kiểm lại W4 ở mục 1 |
+| 07/10/2026 | W5-02 | DONE: result/summary dựng lại khớp payload đã lưu; bảng năm nhánh cùng 20 điểm, nhãn/coverage/Decision có mẫu số đầy đủ; 97 file bất biến không đổi. Compileall/E2E, 521 unit/93 leakage PASS; không LLM hoặc thay đổi công thức/ma trận | W5-03; rà annualization ở W5-04 |
