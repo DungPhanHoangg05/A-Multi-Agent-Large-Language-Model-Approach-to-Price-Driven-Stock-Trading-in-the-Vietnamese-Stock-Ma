@@ -14,10 +14,12 @@ với verifier/retriever fixture. [State/config](integration_contract.md),
 Gate C PASS offline, khóa kiểm native Windows. [Leakage toàn pipeline](pipeline_leakage_review.json)
 PASS. [Smoke tích hợp](prior_integration_smoke.md), [receipt](integration_smoke.json)
 PASS tổng hợp và replay nguồn thật với Decision giả. [Gate/phạm vi](integration_gate_review.json),
-[hiệu năng](integration_performance_review.json) ghi benchmark FAIL p95 dưới tải máy;
-runtime budget đã nghiệm thu, rủi ro hiệu năng được bàn giao.
+[hiệu năng W4-15](integration_performance_review.json) ghi FAIL lịch sử;
+[tối ưu ngày 07/10/2026](retrieval_performance_resolution.md),
+[receipt xử lý p95](retrieval_performance_resolution_review.json) đã PASS bốn mode <30 ms.
+Runtime budget và cảnh báo hiệu năng đã nghiệm thu.
 [Chốt/bàn giao W5](week_close_and_handoff.md), [receipt cuối](week_close_review.json).
-Gate D PASS kỹ thuật offline có cảnh báo hiệu năng; giá/model/quota OOS và pilot còn mở.**
+Gate D PASS kỹ thuật offline; cảnh báo p95 đã đóng trên bản tối ưu, giá/model/quota OOS và pilot còn mở.**
 Tài liệu này tiếp nối [bàn giao W3](../week3/week_close_and_handoff.md) và
 [kế hoạch tổng](../plan.md). Checklist bên dưới chỉ đánh dấu hoàn thành khi
 đầu ra và kiểm chứng của task đều đạt.
@@ -129,7 +131,7 @@ Chi tiết: [Phase D](phase_d_validation_handoff.md).
 1. W4-01 → 02 → 03 → 04: **Gate A PASS đặc tả**; đủ hợp đồng trước khi sửa runtime.
 2. W4-05 → 06 → 07 → 08: **Gate B PASS** state/Decision/graph offline với verifier/retriever fixture.
 3. W4-09 → 10 → 11 → 12: **Gate C PASS offline** PIT, dùng chung báo cáo và resume; khóa native Windows.
-4. W4-13 → 14 → 15 → 16: **Gate D PASS kỹ thuật offline có cảnh báo hiệu năng**; đủ bốn gate và [biên bản bàn giao](week_close_and_handoff.md). Không mở gate pilot/OOS.
+4. W4-13 → 14 → 15 → 16: **Gate D PASS kỹ thuật offline**; đủ bốn gate và [biên bản bàn giao](week_close_and_handoff.md). [Cảnh báo p95 đã xử lý](retrieval_performance_resolution_review.json); không mở gate pilot/OOS.
 
 Nếu task cần chia nhỏ khi triển khai, bổ sung mục con trong phase; giữ mã task
 cha và phụ thuộc. Gate thất bại phải sửa nguyên nhân, cập nhật biên bản và chạy
@@ -147,6 +149,22 @@ lại phần bị ảnh hưởng; không đánh dấu PASS từ receipt W3.
 - [x] Bàn giao W5 với gate giá thô VCI/KBS, model PIT và quota; không tuyên bố OOS từ mock.
 
 ## Nhật ký tiến độ
+
+### 2026-10-07 — Đóng cảnh báo hiệu năng retrieval
+
+- Nhánh `refactor/prior-retrieval-performance`, nền `2033af6`; chỉ sửa retriever,
+  thêm bốn test bảo vệ alias/type/ownership/order và receipts mới.
+- Baseline mới trước sửa FAIL; sau tối ưu bốn mode **p95 <30 ms**: Bayesian
+  11.559, Random 10.837, Recent 10.927, Similarity 13.235 ms.
+  Giữ phương pháp W3, 100 warm-up/1.000 mẫu, hai scope và mọi sample/oracle;
+  không loại ngoại lai/nới ngưỡng/chọn lại lượt PASS. Snapshot guard giữ số call;
+  copy tổng quát giảm 150→90 trong 30 query profile.
+- Smoke bản tối ưu PASS: 8 synthetic + 6 observed replay, paired/resume/budget;
+  compileall/502 unit/E2E/93 leakage PASS mới,
+  2432 file bảo vệ và bảy AST kinh tế/legacy nguyên vẹn.
+- [Biên bản](retrieval_performance_resolution.md), [receipt bổ sung](retrieval_performance_resolution_review.json)
+  đóng cảnh báo trên phiên bản/môi trường đã đo; receipt W4-15/W4-16 giữ nguyên.
+  W4 vẫn 16/16, prior mặc định tắt; dữ liệu/model/quota/CLI/pilot W5 chưa PASS.
 
 ### 2026-10-06 — W4-16 hoàn thành, đóng W4
 

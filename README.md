@@ -61,14 +61,17 @@ resume/flag off/budget và 6 replay context thật (Decision giả):
 [biên bản](docs/plan/week4/prior_integration_smoke.md),
 [receipt](docs/plan/week4/integration_smoke.json), **498 unit/E2E/93 leakage PASS**.
 W4-15 đã PASS bốn gate mới, hash/scope và ngân sách runtime; overhead adapter/formatter/graph
-được đo riêng. **Benchmark bổ sung FAIL ngưỡng p95 <30 ms dưới tải máy hiện tại**;
+được đo riêng. **Lượt benchmark W4-15 trước tối ưu FAIL ngưỡng p95 <30 ms**;
 retriever/memory giữ nguyên, cảnh báo hiệu năng được bàn giao:
 [biên bản](docs/plan/week4/integration_gate_validation.md),
 [receipt gate](docs/plan/week4/integration_gate_review.json),
 [receipt hiệu năng](docs/plan/week4/integration_performance_review.json).
 W4-16 đã chốt [biên bản/API/bàn giao W5](docs/plan/week4/week_close_and_handoff.md),
 [receipt cuối tuần](docs/plan/week4/week_close_review.json) với bốn gate mới PASS.
-**W4 hoàn thành kỹ thuật offline; Gate D PASS có cảnh báo hiệu năng.**
+**W4 hoàn thành kỹ thuật offline; Gate D PASS.** Cảnh báo p95 đã xử lý ngày 07/10/2026:
+bốn mode đạt 10,837–13,235 ms; [biên bản tối ưu](docs/plan/week4/retrieval_performance_resolution.md),
+[receipt bổ sung](docs/plan/week4/retrieval_performance_resolution_review.json),
+**502 unit/E2E/93 leakage PASS**. Các receipt FAIL trước đó giữ nguyên lịch sử.
 Tiếp theo lập kế hoạch W5, mở giá OOS/model/quota trước pilot FPT 20 điểm.
 
 ## Requirements

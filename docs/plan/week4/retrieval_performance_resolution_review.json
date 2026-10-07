@@ -1,0 +1,786 @@
+{
+  "format_version": 1,
+  "task": "post_handoff_retrieval_performance_resolution",
+  "date": "2026-10-07",
+  "status": "PASS_OFFLINE_RETRIEVAL_PERFORMANCE_RESOLUTION",
+  "base_commit": "2033af6741891a55181721d1b02bc3830b95b5ea",
+  "branch": "refactor/prior-retrieval-performance",
+  "python": "3.13.5",
+  "started_at_utc": "2026-10-07T02:31:39.492408+00:00",
+  "finished_at_utc": "2026-10-07T02:44:15.529366+00:00",
+  "gates": {
+    "compileall": {
+      "command": "py -3.13 -m compileall agents core data_manager scripts tests utils",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 0.154,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\compileall.log",
+      "log_sha256": "c40d4689c487a5b9a275c701b7abf48684977c526d354ffada84e8b031ecbb77"
+    },
+    "unit": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 444.291,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\unit.log",
+      "log_sha256": "77f136e7c68e2e88f54953203177c5efafd67f9f2f03270badbd29dd40e0c6f5",
+      "test_count": 502,
+      "suite_seconds": 434.801
+    },
+    "e2e": {
+      "command": "py -3.13 scripts/run_end_to_end_test.py",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 15.269,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\e2e.log",
+      "log_sha256": "3635c3830786d434afa62203538eae8811534c2488206b9b2462301c9fe0f63b"
+    },
+    "leakage": {
+      "command": "py -3.13 -X utf8 -m unittest discover -s tests -p test_*leakage.py -v",
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 109.204,
+      "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\leakage.log",
+      "log_sha256": "780240dcac770712e3a1179f3304c6a29cdb492d2ea5fc0e5cb34739ba934778",
+      "test_count": 93,
+      "suite_seconds": 99.993
+    }
+  },
+  "integration_smoke_execution": {
+    "command": "py -3.13 -X utf8 scripts/verify_prior_integration.py --output docs/plan/week4/integration_smoke_optimized_20261007.json",
+    "exit_code": 0,
+    "passed": true,
+    "elapsed_seconds": 161.028,
+    "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\integration_smoke.log",
+    "log_sha256": "43aae66bfb3ec76a5afe667327b20c4b758a5faba3036024c669c8901baf5bb1"
+  },
+  "runtime_budget_gate_passed": true,
+  "performance_warning_resolved": true,
+  "retrieval_performance_gate_passed": true,
+  "phase_d_gate_passed": true,
+  "week_completed_tasks": 16,
+  "phase_d_completed_tasks": 4,
+  "default_prior_enabled": false,
+  "baseline": {
+    "path": "docs/plan/week4/integration_performance_before_optimization_20261007.json",
+    "sha256": "3e1fdd0441269ff006a8b0436ea7fd05e58ef4f870bbe1d2f9c736c17e277bf5",
+    "status": "FAIL_RETRIEVAL_P95",
+    "code_sha256": "683f480728ecc915b1b5f4cdbd729fca26546fbb8e91d85b298fce892879f394",
+    "log_path": "C:/Users/Legion/AppData/Local/Temp/prior-retrieval-performance-before-20261007.log",
+    "log_sha256": "ab8c644a211f28643488ffe8a974fb79dc28ed1145cf94390ad1dc04a3ac3571"
+  },
+  "optimized": {
+    "path": "docs/plan/week4/integration_performance_optimized_20261007.json",
+    "sha256": "c27dc9ad251aa8a538c1056bc0b6908bed12e72cf926559346a14d13f88943fa",
+    "status": "PASS_OFFLINE_PERFORMANCE_REVIEW",
+    "log_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\after.log",
+    "log_sha256": "d90d95418e5b10d51a4cdc2544d93dbdde4dabbcafa5e48b0db705c59b5626a8"
+  },
+  "integration_smoke": {
+    "path": "docs/plan/week4/integration_smoke_optimized_20261007.json",
+    "sha256": "8e364c5c60d5335aec001877f4ee81b39d9441d5de98a90c76333539559284f1",
+    "status": "PASS_OFFLINE_SYNTHETIC",
+    "observed_status": "PASS",
+    "synthetic_context_count": 8,
+    "observed_context_count": 6
+  },
+  "performance_comparison": {
+    "bayesian_regime": {
+      "before_p95_ms": 34.839,
+      "after_p95_ms": 11.5587,
+      "reduction_percent": 66.822526478946,
+      "gate_passed": true
+    },
+    "random": {
+      "before_p95_ms": 30.0697,
+      "after_p95_ms": 10.8367,
+      "reduction_percent": 63.96139635580003,
+      "gate_passed": true
+    },
+    "recent": {
+      "before_p95_ms": 29.0155,
+      "after_p95_ms": 10.927,
+      "reduction_percent": 62.34081783874137,
+      "gate_passed": true
+    },
+    "similarity": {
+      "before_p95_ms": 37.2859,
+      "after_p95_ms": 13.2348,
+      "reduction_percent": 64.50454461337931,
+      "gate_passed": true
+    }
+  },
+  "benchmark_method": {
+    "clock": "perf_counter_ns",
+    "percentile": "nearest_rank_ceil_0.95_n",
+    "sequential": true,
+    "warmup_per_mode_per_stage": 100,
+    "samples_per_mode_per_stage": 1000,
+    "context_count": 16,
+    "queries_per_mode": 32,
+    "query_rotation": "sample_index % 32; reset after warmup",
+    "mode_order": [
+      "bayesian_regime",
+      "random",
+      "recent",
+      "similarity"
+    ],
+    "stage_order": [
+      "retrieval",
+      "formatter",
+      "retrieval_and_format"
+    ],
+    "k": 3,
+    "seed": 42,
+    "scopes": [
+      "pooled",
+      "same_symbol"
+    ],
+    "retrieval_gate_p95_ns_strictly_below": 30000000,
+    "cache": "Không cache kết quả query/ranking; kho và snapshot xác minh nạp một lần.",
+    "validation": "API công khai đầy đủ; oracle/đối chiếu smoke ngoài timer; không loại mẫu ngoại lai.",
+    "cold_includes": "Constructor: I/O kho/QA/manifest, kiểm schema/giá/P&L và snapshot; import/preflight ở ngoài.",
+    "formatter_input": "Kết quả thực đã xác minh, không tính retrieval vào formatter riêng."
+  },
+  "runtime_budget": {
+    "integration_smoke_path": "docs/plan/week4/integration_smoke.json",
+    "integration_smoke_sha256": "3ce665a40887ade3e5400ca674436980ec5cb68d56e9227e8e8327be33b08d92",
+    "backtest_report_caps": {
+      "trend": 800,
+      "pattern": 800,
+      "indicator": 800,
+      "alpha": 1100,
+      "sentiment": 500
+    },
+    "total_backtest_report_budget": 4000,
+    "synthetic_context_max_prompt": 4193,
+    "observed_context_max_prompt": 4423,
+    "boundary_cases": [
+      {
+        "language": "vi",
+        "prefix_length": 600,
+        "prompt_length": 6499,
+        "accepted": true,
+        "decision_calls": 1
+      },
+      {
+        "language": "vi",
+        "prefix_length": 600,
+        "prompt_length": 6500,
+        "accepted": false,
+        "decision_calls": 0
+      },
+      {
+        "language": "en",
+        "prefix_length": 600,
+        "prompt_length": 6499,
+        "accepted": true,
+        "decision_calls": 1
+      },
+      {
+        "language": "en",
+        "prefix_length": 600,
+        "prompt_length": 6500,
+        "accepted": false,
+        "decision_calls": 0
+      }
+    ],
+    "templates": {
+      "decision_template_sha256": "331ae4d6b87baf0ef22b73667dd28039b325d4757e9ea4318fe50ca137a56f54",
+      "brpp_template_sha256": "38bdb127386610b319625873fb560d4754a669ef309505012263ef117a96dd15"
+    },
+    "versions": {
+      "api_contract_version": 1,
+      "sampling_version": "prior_sampling_v1",
+      "metric_version": "signal_match_v1",
+      "statistics_version": "regime_empirical_stats_v1",
+      "prefix_version": "compact_brpp_v1"
+    },
+    "runtime_budget_gate_passed": true
+  },
+  "scope_review": {
+    "allowed_changed_paths": [
+      "core/bayesian_retriever.py",
+      "tests/test_bayesian_retrieval_optimization.py",
+      "docs/plan/week4/retrieval_performance_resolution.md",
+      "docs/plan/week4/integration_performance_before_optimization_20261007.json",
+      "docs/plan/week4/integration_performance_optimized_20261007.json",
+      "docs/plan/week4/integration_smoke_optimized_20261007.json",
+      "docs/plan/week4/retrieval_performance_resolution_review.json",
+      "README.md",
+      "docs/plan/plan.md",
+      "docs/plan/week4/README.md",
+      "docs/plan/week4/phase_d_validation_handoff.md"
+    ],
+    "production_changed_paths": [
+      "core/bayesian_retriever.py"
+    ],
+    "unchanged_economic_and_legacy_ast_sha256": {
+      "compute_round_trip_net_return": "8c85859ab6a5e2b99d61c220610ae163e5c3833e66fad7d8902ed20556a88745",
+      "compute_account_metrics": "c75b7b5b1bc5ac676e9bbc2205d7bb82c6c3909a732859b9f57d55f2caf25eee",
+      "_get_actual_direction": "0b16fb50b323ddf94b85f8f6f35f77359bd649d65d98b132cdfd8238619c8a9f",
+      "_parse_prediction": "a9ab931d6e62dfdca9785cea3fc8bdfd2066f647cbb12e436c348878da06d1e2",
+      "_run_ablation_variants": "d218d930250681162d434514063fc0f3a18ad68f50b26ca88da467f7fb36f828",
+      "_run_paired_point": "a7904709a42965849a7679bd756c321912c2a9a3070ce567565edeffbbc6894f",
+      "run": "6b80224df556c15445b57eb93f8f51811d59543d96788518a64f9501f8ff4ad6"
+    },
+    "memory_loader_unchanged": true,
+    "bank_changed": false,
+    "ranking_sampling_statistics_formatter_unchanged": true,
+    "query_result_cache_added": false
+  },
+  "source_text_sha256": {
+    "agents/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "agents/agent_state.py": "7b4fae60452d25b52ac895ffb6d217bf5cc1cf149a89339d906cb9646df303b2",
+    "agents/alpha_agent.py": "687cd5b9b1a4849496a9d91ee8dbbd023934fc735ffd29dd145be0d920567940",
+    "agents/decision_agent.py": "16fc5bba3912bc38721bf913d9d8f97f000a76d45d2f1b63b16b429aa6ff5bd3",
+    "agents/indicator_agent.py": "9e2e6981de2b2aa385ff644277f0d0b04bf05667f79b22b6a5db77278fa230e1",
+    "agents/pattern_agent.py": "5faa82b850ee3128a0a9f9e9203839303ef5c8659576eae38630af33f49bd5c4",
+    "agents/sentiment_agent.py": "b7017689afac4100c66e4459d13cecd565d9a7da4ad608cda3528562089bc1fa",
+    "agents/trend_agent.py": "510c1a989eebcfe6f62fe1be01f548a92ed0a082e5d8b3e53e50d9d2ed226b50",
+    "core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "core/alpha_compare.py": "567471d1b848b93ddad710ce363c155c12d55399ecc033090cc1fad500f5d549",
+    "core/backtest_engine.py": "2bf129059cfc8a57d7ad13864427e628eb42ee2ff7266d689355e115ded57649",
+    "core/bayesian_memory.py": "b8d47755d08b26610ff3baaf2c2fdd10b71f224cc085eb11c8d7ca0de6c957e2",
+    "core/bayesian_retriever.py": "2b084cd7f6a99577d3cee84e830ecb3e3052e1c69566bfe1b80d6f0e30ed5f18",
+    "core/decision_prior.py": "cd501484661a38cf2e9e4a174f9d6eaf1ef8b49f76825c778a54058cb5e23dde",
+    "core/execution_prices.py": "e0f45d292cd4cfc458adf65da90c3c787816404bff0b7e6bb58f34f07c4890f6",
+    "core/historical_outcomes.py": "7c9f1e32d9f88441dfe61714902b02a2e168e6d59659990557f0b94946a9ae86",
+    "core/historical_runner.py": "00cf68452e3ee43b5e04d738fe2c53c2f0a3098c4f14cad7e2dc078a545bb707",
+    "core/historical_signals.py": "58b0d84b6a746d003a44791db74b574a574ccba5ce2469dbbd71bf64c9908a01",
+    "core/prior_backtest.py": "2587835df4ec3d12983c77256f105ef01e2f6e93475508a52dde38064716a78a",
+    "core/prior_checkpoint.py": "229084692b5b9fb5679377cead79b94bae98d9cd331b81bb0bc54d3a3a3de2c9",
+    "core/prior_config.py": "6ae5d77687cc41d895256ccbba04c6918c3e6603dfca5f3f0a50d9e476bf5a3e",
+    "core/prior_context.py": "c965509187bc2519d3c919d86575d72f829c62f7dc6f5535b337dd90e4aca391",
+    "core/prior_run_lock.py": "aa77dfee1041369e0c1adc15d99baf9921392cc7fbdde442e49d817a0a19df45",
+    "core/realtime_loader.py": "7f434e3fd412dab218da34e1551e3e6e88bed95007318ae297d99a622ea54d2c",
+    "core/regime_detector.py": "0aa5d772e5808c20e0c853e3200cd881b7e59efb0e459eaea0d24b27bc6741ed",
+    "core/run_robustness.py": "17cc2aa97d1cf5570f631534f04b32c97b8d80a55f26d43335d042e51a3c6558",
+    "data_manager/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "data_manager/sentiment_cache.py": "20fa3ac2b26dab4c3aa697a9da214a8aec1110e51ccedf83db6d944e45c1eedd",
+    "scripts/analyze_sentiment_coverage.py": "b290dfca3376c1f723d32a5e5b3f9479e451ac169e43d9fba23dc4b00fc1d272",
+    "scripts/audit_historical_memory.py": "eb895f6d9505b7ea0a074851bcfa72a968e1654341328d1bd9afbb6038a85845",
+    "scripts/benchmark_bayesian_retriever.py": "5ef93c074f20233b9ecbc18929f7a38ae21440a496cb68849b979d3972d68a6a",
+    "scripts/plot_vnindex_regimes.py": "03b8b086d1073b0311d6ac898661bf0bb3920cab11d2c38f8579a89251a644ed",
+    "scripts/prepare_historical_data.py": "6d1a6341dedf2fc03a4863b41d1c97b6eba84ca1da1ee6fbe2a38a719e506fc1",
+    "scripts/publish_historical_memory.py": "1078f2ca4732811065855e83f3739c7f078f20381cbe7222771553d54cf19a67",
+    "scripts/resume_historical_memory.py": "941ef34aab300d0dcd3106e58e3adcd80415119997f8008423c8e6ee70597a93",
+    "scripts/review_prior_integration_performance.py": "47727afe7e422832fed14c8895d0e5d0a2c1e4a04744537193191cd7ade4cae3",
+    "scripts/run_ablation_matrix.py": "840c14704bcc4fe83785cb8598a8fcd5c3a949218859bb899b520bf3b4382cd1",
+    "scripts/run_end_to_end_test.py": "1818ff0037ed70a2442b21db00c4db439f2a3c67b72dbe6512c5f311a5aff128",
+    "scripts/run_historical_memory.py": "4e0b8460ffdb5167a71f6b6f92d5b828c7bf398c4cb0dedcea99e3c990686d46",
+    "scripts/run_paced_historical_memory.py": "3c8d4e960bcdc99bdb3cc40451886e355e02b88c1ac57213f2b4982d32d306b2",
+    "scripts/train_regime_detector.py": "5a968e11b9330336b1a2afe100e57828f4df45b890fcea647f647d2da080abac",
+    "scripts/verify_bayesian_inputs.py": "e4a4f2b52fb3b65c05b2622ee0fc7563e8ee80302c98d8dc006cf66d98fc3afc",
+    "scripts/verify_bayesian_prior.py": "118bf222e92cc5ab36996dca7b3e63c99afaa3f88c93bea5c59becba16796223",
+    "scripts/verify_execution_price_gate.py": "db6059389fd2984c467706b27a46dc377e7ba6381496493249907d734418547a",
+    "scripts/verify_latex_tables.py": "9638b7c9aef5f6c89376fe803f18d3a6c7af9f2d1f0e92d8937e370f6d8b6518",
+    "scripts/verify_prior_integration.py": "652971284d29d4f738b530617661d64ab2e5e8c4f77bbf632a4907f9ad7c83ca",
+    "scripts/verify_prior_prompt_budget.py": "85c13b04ee3f317486e102e297ff07378c5c955fe9f23ce9165d46aa6b740686",
+    "tests/bayesian_test_support.py": "7feaf14bf7202db47db00e3f037fd42b5c93a3c6f2951b81086c753b2d620c68",
+    "tests/prior_context_test_support.py": "ab8a4586165f4b80bafa0beba6e8118cb02512961692ede76c6dafbfa566170e",
+    "tests/test_4way_ablation.py": "69e282069aed07761e8bcf95d827eac861296046f5a676a4767fdc6be4828134",
+    "tests/test_ablation_matrix.py": "cec16c0132b2055d8ea3b6396cf95672548e151e237b1ce88255508cea5c3c17",
+    "tests/test_account_pnl.py": "6e1459c7313831f5dd411c708f050753f0dcbcd9fe4d0db76d3fe138f43dd598",
+    "tests/test_alpha_leakage.py": "fca3e624a465c593eef7cd66d2783d60ada51af6c3d7dbd11eb07863e1b2decf",
+    "tests/test_alpha_signal_integrity.py": "b9b51fa7d769e4d69212c902e990683f9d2bfb0a444b5ba1ebf3bc0f04671d69",
+    "tests/test_backtest_token_budget.py": "3bca88658de8c9afffa73338c0ee79ed414935ac950ef109eb8ca53112b003f9",
+    "tests/test_bayesian_prior_behavior.py": "9360cbef2539d473c8657c4060e0dfa182e08eaba07c7690cc27c8d1ce7556e2",
+    "tests/test_bayesian_prior_prefix.py": "6cbaa4d614526c7dbe4d4f0549f232618af0f2e9e5d533d554eea47531fb86c2",
+    "tests/test_bayesian_prior_smoke.py": "41ee5d0913d557bf91a9e50ce0b0102d1fb016b3dfc227ba749b03a1fb39c3bc",
+    "tests/test_bayesian_prompt_budget.py": "9a5783e59b393dcecb36f882ea84c4b70e750d1d25a0591e06fd70c9f0b9ac7c",
+    "tests/test_bayesian_recent_random.py": "d2aba00110e57180c282b7e2053d0537438515d9dfcfbf9edd630c6a912667a3",
+    "tests/test_bayesian_regime_selection.py": "2e106d24896cc3e4a34abc43916dee435f39dbfd69123e38d6ae798556c746b9",
+    "tests/test_bayesian_retriever.py": "0a19fb0071fc057da4360ca06dcc881e51ddc110e5c218bca1554d274c3c05a0",
+    "tests/test_bayesian_retriever_benchmark.py": "2ac99263aaa7e18213436110770f9ca802e417e6db94620ac6fc11d60f03fb02",
+    "tests/test_bayesian_retriever_leakage.py": "c760991f1375032c8c88b47c50ae43c63aebc2cd710a901ed9727e501ac6f238",
+    "tests/test_bayesian_similarity.py": "8254e89817eb7db91c0004a426ef884b6ba04d013fa8719c255151aaa9962d5f",
+    "tests/test_bayesian_statistics.py": "adf4c921dbf682ad72f195928cc71df622c1ba96b32fbea18dd547e3e6fa1ed7",
+    "tests/test_decision_prior_integration.py": "31e913e4995a73ba3a85a6f9dab5fe60f12f18ff183ca6da14521dee1bc000e3",
+    "tests/test_execution_price_leakage.py": "5f0dcd43e2517f71da151b7f694c9d3b575b0caacc662f627be48dfae3c7f185",
+    "tests/test_execution_prices.py": "c419cd6cc277a217c290b0efc343fda14d0ca99e71bf4f0ea4062384f8fc38f0",
+    "tests/test_historical_api.py": "c5f5bf7f25a35941abe7a57df512cddb2956746eccdcf306d1f157eb4a4f48cd",
+    "tests/test_historical_data_prep.py": "7a74cac3e2b1c08e98187cb8a966be5404de2ecf9544f61f4807271a3931c633",
+    "tests/test_historical_memory.py": "befa1929bb9754544f218f1ba59f2cfceba914bf684ab8440bf2768fdf4828f3",
+    "tests/test_historical_memory_audit.py": "9054cd787f265b4e125b83d7ba0632410ecdef6841f3d8875e40f169025f56cf",
+    "tests/test_historical_memory_key_resume.py": "e6cbdf349eea0edfc0dfbe1bb3ba76af0c2a67f8759be9e74fd5cd4acf56dd23",
+    "tests/test_historical_memory_leakage.py": "7a9add6a72a0745587b2c57d08786f7e947a487bdb08daea535ad70f58a18dd9",
+    "tests/test_historical_memory_pacing.py": "6987c06cdbec7a3ecd437c556d82920dbc9c17b33f5df2c2eae26288b58cc533",
+    "tests/test_historical_memory_publication.py": "60206438f38d5078dd7259d8987a730515cf30c9183007c5d8f11234a574b8d7",
+    "tests/test_historical_outcomes.py": "0a9c1b9e7a998369c7f6c0a6a8d131a99d10d04a3d0b2ba5608dc939c4eb6c2a",
+    "tests/test_historical_outcomes_leakage.py": "ee0a37d890ecd2e1a83d344c40d1c66c4a663028239251a962017202ac1c4dbc",
+    "tests/test_historical_report_compat.py": "09ff253a507e000275f05de1bf8006a3afbbe511b620761a2f5941e2d314417b",
+    "tests/test_historical_runner.py": "a606b26b252b0237fe23c9239ff6f75560745456a2177d9cc344582b943ce702",
+    "tests/test_historical_runner_leakage.py": "44200cf580834afa86374a9a3c722dc66073ecada58a173da6756de80fc83d13",
+    "tests/test_historical_signals.py": "53300791ab762a651c825d12f06adafc556aae22743dd19fc0ee2f7a5a6db84b",
+    "tests/test_historical_signals_leakage.py": "cb38f7ac2452b25317a07a0a053b7919101eba195c8bd13cc202fd4bd00ca405",
+    "tests/test_paired_protocol.py": "7827761e4bfe683297b8d85ed4219247f1a1c2a117e4eadc67465cafb7f44f58",
+    "tests/test_prior_backtest_integration.py": "514aa572a1a223339896268eab88ce5c236eda7e93cbc4d805b35327dd69c924",
+    "tests/test_prior_backtest_leakage.py": "ac674cc84dd0bf768d4f9955a301a64f8944aa5ec874d9f29094f2ba9afcd9f8",
+    "tests/test_prior_checkpoint.py": "ece19aeefb032ecfc043671ceda747a80b717dcc2adbfc0d8a6f5cc3414074a0",
+    "tests/test_prior_checkpoint_leakage.py": "c20e190e4b217b75d0a6dc38c2c1792e89d48f035dc5af5b09674c4d8b3ba77e",
+    "tests/test_prior_context.py": "3859c88bf55f44e5f5055172a2fda73dbd22aef20e6626aaff13f759b447764c",
+    "tests/test_prior_context_leakage.py": "54b1cab2a84bdcf12803b9e59f52e2376ba4a3de25e30e5b9e5bc8331adef31d",
+    "tests/test_prior_graph_integration.py": "ae0b6f4fc58ab50c1e63d91454b269358b6bfa877c515f2a4ec3b60b2525093c",
+    "tests/test_prior_integration_smoke.py": "67a87a5d0283904eaab5b93905579cf09890e75af38ae3e8248efe867851cecc",
+    "tests/test_prior_paired_protocol.py": "03ca7380b320fef35e9a5a6fcce96f24d61349eff5e392c81d1bd30a91540fcc",
+    "tests/test_prior_paired_protocol_leakage.py": "8d99104f76f2f9629e36b1d7ff0734c34b7cffdc81f9fd09f7601de5bd2725f4",
+    "tests/test_prior_pipeline_leakage.py": "98d7eb3141ef39e804f181e62b50676aaf9c9142077f7c98ee4b6c6508d8f666",
+    "tests/test_prior_runtime_config.py": "e8cc27cbe8c65cc2db73f6888ca11b55483101158d8a0ddae353c9cae4afd899",
+    "tests/test_realtime_sources.py": "77e3081c2205ff7027db8964966d8fa8307daf5741ec5402da5851710a818da4",
+    "tests/test_regime_api.py": "81a1bbec729b23cda71b5bd369aa6c03bb87d5fd911aa815e88403b4655d100d",
+    "tests/test_regime_features.py": "6561bbd665d89b5106f534198ab2bd806f1b6b6cfa938909d6da88ca4d9d62e5",
+    "tests/test_regime_leakage.py": "ca3f4a95f9e4b1f8ee6ad7f5328ae7dbb7f8ced517ef9522ca5a572401cbc2a7",
+    "tests/test_regime_mapping.py": "affcf2e4a7415b469ef0b3cbb571d549cebf64f7cf3080b3d0c71ef649b13e69",
+    "tests/test_regime_model.py": "c3ac2cd4b1b11d4694edc262032f52325e8ed3df294b89fc48b803245ec37951",
+    "tests/test_robustness_sweep.py": "c2f2e065a8e7a72bbcc579a90e9fe4ec92070d4ab5f1d179c3489be28aa8e149",
+    "tests/test_sentiment_coverage.py": "807ebe415f50dfcad47aee0044d876feb2d845c618df69ba4137622464e83916",
+    "tests/test_sentiment_leakage.py": "6fc01bb0abdfe3820a1d1176320db2189c0407d26d9e50000049a48d480d1c8e",
+    "tests/test_significance.py": "7eaa58774e1fbf0f8a68c799821f3d168223b7f68d4211e63a5233b654b118d8",
+    "tests/test_vision_verification.py": "72c51b8cbbc9b7b21bbd477cb0b4c133b304995b7dd9c8c74b427dd3de392ff2",
+    "tests/test_visobert_backend.py": "59ec522de14467f7ff044c1955cc832b230059dd1e554c08444a63a786f4eb45",
+    "tests/test_web_json_serialization.py": "6b690ef74c732780f3eee84a7e2113acc78b910f01c10ea48a84e2cdd1472a7e",
+    "utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "utils/aggregate_benchmarks.py": "384607980d9b39f1505fa5e55cf3e41aea93e15687f85af8c77a25fb7c88ab5c",
+    "utils/alpha_selector.py": "5a5766d4da3316dcd1374f944834a5c0d07b6cb86ac46fed7f963fcf51e84533",
+    "utils/color_style.py": "bb0c59b4f82ceec4b9aad54f924ce4476fe2475449e846740d13ba84bf07c758",
+    "utils/decision_parser.py": "e34ba5c41251338a31d81baa7e5574aee276fb1d0bae25ef773db2d9f4d26271",
+    "utils/graph_setup.py": "b6526a6fe5c188c336e3eee8ba69a70fda947f3e064464725ec6fdfe67a9af69",
+    "utils/graph_util.py": "08dc4931de1b114b3c1773ff58e547efb4c5bca4e7a604f40b1f928696e2e42d",
+    "utils/historical_api.py": "f1359ede6fc405f62ff19b43d25db8e42e28b37aad4936689a7dc4fcefddce81",
+    "utils/i18n.py": "705ac7ab2b661db147bff2cabc1a37c96d9e71493d05da6f31c92a8a4f90b444",
+    "utils/json_util.py": "5b9dbfc37fa9f4967c2d0aec7aa0afe9d9cdbc232c16f2788f56b36643c49950",
+    "utils/static_util.py": "d5f4b62ea02d291f85f1c1a3a3c56cc695dd26d78810b6c527e90cd156252b49",
+    "utils/statistical_tests.py": "5f797340538b39da1521abecb43f50bcdf999e04203ec2b23813dd6c7b79d525",
+    "utils/trading_graph.py": "c2b964d7ef8050a9228ae1033bed22d6195c67fb254502b038fc15fb756a86bd",
+    "tests/test_bayesian_retrieval_optimization.py": "ac6e382f513c318e8a332bb4d5a236ad64435f8b719a09cfb5c4f478a07a2a4d"
+  },
+  "protected_files": {
+    "count": 2432,
+    "unchanged": true,
+    "changed_paths": [],
+    "snapshot_path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\protected_before.json",
+    "snapshot_sha256": "6fda56556006b9550714949ca1e85f84979e50d36a4bcaf446055e0d3cf7b33c"
+  },
+  "supersedes_current_warning_from": [
+    "docs/plan/week4/integration_gate_review.json",
+    "docs/plan/week4/week_close_review.json"
+  ],
+  "frozen_warning_receipts_preserved": true,
+  "pilot_readiness": {
+    "status": "BLOCKED",
+    "oos_price_gate": "BLOCKED_MISSING_AUDITED_OOS_PRICES",
+    "model_proof": "NOT_VERIFIED_FOR_PILOT",
+    "quota_pacing": "NOT_VERIFIED_FOR_PILOT",
+    "sample_dates": "NOT_FROZEN",
+    "cli": "NOT_IMPLEMENTED",
+    "pilot": "NOT_RUN",
+    "oos_benchmark": "NOT_RUN",
+    "train_price_manifest": {
+      "path": "data/execution_prices/manifest.json",
+      "sha256": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+      "gate": "PASS",
+      "start": "2018-01-01",
+      "end": "2022-12-31"
+    },
+    "intended_provider": "fixed_train_oos",
+    "intended_symbol": "FPT",
+    "intended_points": 20,
+    "intended_branches": [
+      "original",
+      "random",
+      "recent",
+      "similarity",
+      "bayesian"
+    ],
+    "intended_decision_successes": 100,
+    "next_steps": [
+      "audit_fpt_vnindex_oos_sources",
+      "verify_frozen_model_and_point_plan",
+      "lock_config_quota_pacing_and_performance_review",
+      "implement_cli_and_offline_verification",
+      "run_authorized_pilot",
+      "review_before_full_benchmark"
+    ]
+  },
+  "profile_comparison": {
+    "scope": "profile_not_benchmark_gate",
+    "query": {
+      "symbol": "FPT",
+      "as_of_date": "2022-12-27",
+      "current_regime": "BEAR",
+      "current_signals": {
+        "trend": "BULLISH",
+        "pattern": "NEUTRAL",
+        "indicator_consensus": "BEARISH",
+        "alpha_consensus": "NEUTRAL",
+        "sentiment": "NEUTRAL"
+      },
+      "seed": 42,
+      "mode": "similarity",
+      "scope": "pooled",
+      "k": 3
+    },
+    "queries_per_profile": 30,
+    "before": {
+      "scope": "profile_not_benchmark_gate",
+      "query": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "similarity",
+        "scope": "pooled",
+        "k": 3
+      },
+      "rows": [
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 50,
+          "function": "_matches_snapshot",
+          "primitive_calls": 36390,
+          "total_calls": 109170,
+          "self_seconds": 0.7954157000000001,
+          "cumulative_seconds": 0.8682928000000001
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 28,
+          "function": "copy_historical_records",
+          "primitive_calls": 150,
+          "total_calls": 150,
+          "self_seconds": 0.49780890000000005,
+          "cumulative_seconds": 1.3035611
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 36,
+          "function": "normalize_signals",
+          "primitive_calls": 30870,
+          "total_calls": 30870,
+          "self_seconds": 0.3923128,
+          "cumulative_seconds": 0.8745713
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<built-in method builtins.all>",
+          "primitive_calls": 185130,
+          "total_calls": 185130,
+          "self_seconds": 0.31096490000000004,
+          "cumulative_seconds": 0.6822826000000001
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 41,
+          "function": "<genexpr>",
+          "primitive_calls": 431970,
+          "total_calls": 431970,
+          "self_seconds": 0.1667202,
+          "cumulative_seconds": 0.1667202
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 43,
+          "function": "<genexpr>",
+          "primitive_calls": 370260,
+          "total_calls": 370260,
+          "self_seconds": 0.1070418,
+          "cumulative_seconds": 0.1070418
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 73,
+          "function": "<genexpr>",
+          "primitive_calls": 185220,
+          "total_calls": 185220,
+          "self_seconds": 0.098484,
+          "cumulative_seconds": 0.13434590000000002
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 44,
+          "function": "<genexpr>",
+          "primitive_calls": 308550,
+          "total_calls": 308550,
+          "self_seconds": 0.09755570000000001,
+          "cumulative_seconds": 0.09755570000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'keys' of 'dict' objects>",
+          "primitive_calls": 403470,
+          "total_calls": 403470,
+          "self_seconds": 0.0960139,
+          "cumulative_seconds": 0.0960139
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'items' of 'dict' objects>",
+          "primitive_calls": 356100,
+          "total_calls": 356100,
+          "self_seconds": 0.0881239,
+          "cumulative_seconds": 0.0881239
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 264,
+          "function": "_assert_pool",
+          "primitive_calls": 120,
+          "total_calls": 120,
+          "self_seconds": 0.0767917,
+          "cumulative_seconds": 0.9811923
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'strip' of 'str' objects>",
+          "primitive_calls": 319680,
+          "total_calls": 319680,
+          "self_seconds": 0.07404240000000001,
+          "cumulative_seconds": 0.07404240000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<built-in method builtins.any>",
+          "primitive_calls": 30900,
+          "total_calls": 30900,
+          "self_seconds": 0.060155600000000004,
+          "cumulative_seconds": 0.1998511
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 70,
+          "function": "validate_signals",
+          "primitive_calls": 30870,
+          "total_calls": 30870,
+          "self_seconds": 0.050666600000000006,
+          "cumulative_seconds": 0.289047
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 334,
+          "function": "_select_similarity",
+          "primitive_calls": 30,
+          "total_calls": 30,
+          "self_seconds": 0.048531200000000004,
+          "cumulative_seconds": 0.8877978000000001
+        }
+      ]
+    },
+    "after": {
+      "scope": "profile_not_benchmark_gate",
+      "query": {
+        "symbol": "FPT",
+        "as_of_date": "2022-12-27",
+        "current_regime": "BEAR",
+        "current_signals": {
+          "trend": "BULLISH",
+          "pattern": "NEUTRAL",
+          "indicator_consensus": "BEARISH",
+          "alpha_consensus": "NEUTRAL",
+          "sentiment": "NEUTRAL"
+        },
+        "seed": 42,
+        "mode": "similarity",
+        "scope": "pooled",
+        "k": 3
+      },
+      "rows": [
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 65,
+          "function": "_matches_snapshot",
+          "primitive_calls": 36390,
+          "total_calls": 109170,
+          "self_seconds": 0.8188252,
+          "cumulative_seconds": 0.8959795
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 51,
+          "function": "normalize_signals",
+          "primitive_calls": 30870,
+          "total_calls": 30870,
+          "self_seconds": 0.3427577,
+          "cumulative_seconds": 0.8728225000000001
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 28,
+          "function": "copy_historical_records",
+          "primitive_calls": 90,
+          "total_calls": 90,
+          "self_seconds": 0.2995857,
+          "cumulative_seconds": 0.7765477000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<built-in method builtins.all>",
+          "primitive_calls": 92700,
+          "total_calls": 92700,
+          "self_seconds": 0.16859980000000002,
+          "cumulative_seconds": 0.4011179
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 73,
+          "function": "<genexpr>",
+          "primitive_calls": 185220,
+          "total_calls": 185220,
+          "self_seconds": 0.1352104,
+          "cumulative_seconds": 0.1720189
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 41,
+          "function": "<genexpr>",
+          "primitive_calls": 216300,
+          "total_calls": 216300,
+          "self_seconds": 0.11362680000000001,
+          "cumulative_seconds": 0.11362680000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'strip' of 'str' objects>",
+          "primitive_calls": 319680,
+          "total_calls": 319680,
+          "self_seconds": 0.09011680000000001,
+          "cumulative_seconds": 0.09011680000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'keys' of 'dict' objects>",
+          "primitive_calls": 311040,
+          "total_calls": 311040,
+          "self_seconds": 0.07965620000000001,
+          "cumulative_seconds": 0.07965620000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'get' of 'dict' objects>",
+          "primitive_calls": 227220,
+          "total_calls": 227220,
+          "self_seconds": 0.07637690000000001,
+          "cumulative_seconds": 0.07637690000000001
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 290,
+          "function": "_assert_pool",
+          "primitive_calls": 120,
+          "total_calls": 120,
+          "self_seconds": 0.07529730000000001,
+          "cumulative_seconds": 1.0226779000000001
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<built-in method builtins.any>",
+          "primitive_calls": 30900,
+          "total_calls": 30900,
+          "self_seconds": 0.0690186,
+          "cumulative_seconds": 0.2460649
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 43,
+          "function": "<genexpr>",
+          "primitive_calls": 185400,
+          "total_calls": 185400,
+          "self_seconds": 0.0682561,
+          "cumulative_seconds": 0.0682561
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_retriever.py",
+          "line": 360,
+          "function": "_select_similarity",
+          "primitive_calls": 30,
+          "total_calls": 30,
+          "self_seconds": 0.055759,
+          "cumulative_seconds": 0.9123033
+        },
+        {
+          "file": "C:\\Users\\Legion\\OneDrive\\Tài liệu\\GitHub\\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma\\core\\bayesian_memory.py",
+          "line": 70,
+          "function": "validate_signals",
+          "primitive_calls": 30870,
+          "total_calls": 30870,
+          "self_seconds": 0.055680400000000005,
+          "cumulative_seconds": 0.33887540000000005
+        },
+        {
+          "file": "~",
+          "line": 0,
+          "function": "<method 'items' of 'dict' objects>",
+          "primitive_calls": 170940,
+          "total_calls": 170940,
+          "self_seconds": 0.05158020000000001,
+          "cumulative_seconds": 0.05158020000000001
+        }
+      ]
+    },
+    "unchanged_snapshot_guard_calls": 109170,
+    "general_copy_calls_before": 150,
+    "general_copy_calls_after": 90
+  },
+  "checks": {
+    "frozen_contexts_and_query_evidence_equal_before_after": true,
+    "measured_outputs_equal_frozen_oracle": true,
+    "same_benchmark_method_and_no_outliers_removed": true,
+    "all_four_modes_strictly_below_30ms": true,
+    "unchanged_protected_evidence_and_economic_ast": true,
+    "source_version_same_for_benchmark_and_tests": true
+  },
+  "verification_helpers": [
+    {
+      "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\prepare.py",
+      "sha256": "6b57c45210aeccaef0837967ebe58f9947a21077a07ebd8ff7c5b961ce134f65"
+    },
+    {
+      "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\verify.py",
+      "sha256": "7b018aaee699249cd4b4539bc4ae48dd974df59d10a7a96eea36d4bd91076a90"
+    },
+    {
+      "path": "C:\\Users\\Legion\\AppData\\Local\\Temp\\prior-retrieval-performance-20261007\\finalize.py",
+      "sha256": "b0c3c11656d43f2adde04d651b5c83d33d8167bfdd7d39e71e451af5c8a58c08"
+    }
+  ],
+  "evidence_sha256": {
+    "core/bayesian_retriever.py": "77aaf25bb6491729ef3d76568f232e9a34844166e9b63d0b1d8e769a46be2ada",
+    "tests/test_bayesian_retrieval_optimization.py": "ac6e382f513c318e8a332bb4d5a236ad64435f8b719a09cfb5c4f478a07a2a4d",
+    "docs/plan/week4/retrieval_performance_resolution.md": "ae8d707fa0f014458e675feaf316d38ac00ffeb8e49a66e4a0b05cbb530d1b6e",
+    "docs/plan/week4/integration_performance_before_optimization_20261007.json": "3e1fdd0441269ff006a8b0436ea7fd05e58ef4f870bbe1d2f9c736c17e277bf5",
+    "docs/plan/week4/integration_performance_optimized_20261007.json": "c27dc9ad251aa8a538c1056bc0b6908bed12e72cf926559346a14d13f88943fa",
+    "docs/plan/week4/integration_smoke_optimized_20261007.json": "8e364c5c60d5335aec001877f4ee81b39d9441d5de98a90c76333539559284f1",
+    "README.md": "9cc99ca9aee77b7cf2be7e384cc1e39bd631a0d475638f8e12f56b69a465562e",
+    "docs/plan/plan.md": "b796f6a624c7f77aa46478f217c6770389c74da7913a36c684485542f0a0934c",
+    "docs/plan/week4/README.md": "7075d0bf120447d09b226cfc6c409c385a1e77984be219f1f4236013bd77849d",
+    "docs/plan/week4/phase_d_validation_handoff.md": "5f6f78498c3061b0e85d8d2366bcf0ed1d189ebdaba4c16a40c2c91388970fa2"
+  },
+  "real_llm_api_called": false,
+  "model_refit": false,
+  "new_data_downloaded": false,
+  "new_episode_generated": false,
+  "new_oos_trading_backtest": false,
+  "limits_vi": [
+    "PASS p95 chỉ áp dụng phiên bản/môi trường/phương pháp ghi trong receipt, không bảo đảm mọi request/máy <30 ms.",
+    "Mọi receipt FAIL cũ giữ nguyên, receipt này là bằng chứng bổ sung xử lý cảnh báo.",
+    "Adapter/checksum/graph/cold load được đo riêng, không áp ngưỡng API retrieval cho chúng.",
+    "Gate giá/model/quota/CLI/pilot W5 vẫn BLOCKED/chưa thực hiện; không là kết quả đầu tư OOS."
+  ]
+}

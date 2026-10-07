@@ -33,17 +33,32 @@ SENTIMENT_ALIASES = {"POSITIVE": ("POSITIVE", "TÍCH CỰC"),
                      "NEUTRAL": ("NEUTRAL", "TRUNG TÍNH", "TRUNG_TÍNH")}
 
 
+def _alias_lookup(aliases: dict[str, tuple[str, ...]]) -> dict[str, str]:
+    """Biên dịch bảng alias cố định, từ chối một nhãn thuộc nhiều hướng."""
+    lookup: dict[str, str] = {}
+    for direction, labels in aliases.items():
+        for label in labels:
+            if label in lookup and lookup[label] != direction:
+                raise ValueError("Bảng alias chứa hướng không duy nhất")
+            lookup[label] = direction
+    return lookup
+
+
+_TECHNICAL_LABELS = _alias_lookup(TECHNICAL_ALIASES)
+_SENTIMENT_LABELS = _alias_lookup(SENTIMENT_ALIASES)
+
+
 def normalize_signals(signals: dict[str, str]) -> dict[str, str]:
     """Kiểm đủ năm trường và nhận đúng alias; không suy hướng từ báo cáo."""
     validate_signals(signals)
     result: dict[str, str] = {}
     for field, value in signals.items():
         label = unicodedata.normalize("NFC", value).strip().upper()
-        aliases = SENTIMENT_ALIASES if field == "sentiment" else TECHNICAL_ALIASES
-        matches = [name for name, allowed in aliases.items() if label in allowed]
-        if len(matches) != 1:
+        lookup = _SENTIMENT_LABELS if field == "sentiment" else _TECHNICAL_LABELS
+        direction = lookup.get(label)
+        if direction is None:
             raise ValueError(f"Tín hiệu {field} không thuộc bảng alias đã khóa")
-        result[field] = matches[0]
+        result[field] = direction
     return result
 
 
@@ -64,10 +79,21 @@ def _matches_snapshot(actual: Any, expected: Any) -> bool:
             if type(value) is dict:
                 if not _matches_snapshot(candidate, value):
                     return False
-            elif not bool(candidate == value):
+            elif not candidate == value:
                 return False
         return True
     return bool(actual == expected)
+
+
+def _copy_verified_pool(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Sao chép ba dict sau khi pool đã khớp snapshot đầy đủ cả kiểu và giá trị.
+
+    Chỉ gọi ngay sau _assert_pool: snapshot đã xác minh chứa lá bất biến và
+    đúng hai dict con. Không lặp kiểm shape/type ở từng lá khi sao chép nữa;
+    mọi mức khả biến vẫn độc lập giữa kho, hai pool và caller.
+    """
+    return [{**record, "agent_signals": dict(record["agent_signals"]),
+             "outcome": dict(record["outcome"])} for record in records]
 
 
 PREFIX_METRICS = ("win_rate_long", "bull_trap_rate", "trend_false_bullish_rate", "pattern_false_bullish_rate")
@@ -299,8 +325,8 @@ class BayesianPriorRetriever:
                           scope=scope, regime=current_regime)
         metadata.update(eligible_count=len(eligible), matched_regime_count=len(population),
                         candidate_count=len(population) if mode == "bayesian_regime" else len(eligible))
-        return {"eligible_tasks": copy_historical_records(eligible),
-                "regime_population": copy_historical_records(population), "metadata": metadata}
+        return {"eligible_tasks": _copy_verified_pool(eligible),
+                "regime_population": _copy_verified_pool(population), "metadata": metadata}
 
     def _validate_selection(self, selected: list[dict[str, Any]], *, symbol: str,
                             as_of_date: str, current_regime: str, scope: str,
