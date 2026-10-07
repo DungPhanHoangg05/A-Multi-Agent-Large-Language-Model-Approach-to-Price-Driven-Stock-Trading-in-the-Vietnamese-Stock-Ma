@@ -260,7 +260,11 @@ tại README. Pilot FPT cần FPT+VNINDEX; benchmark W6 cần đủ FPT/VCB/VNM/
 - [x] Cảnh báo p95 đã xử lý trên bản tối ưu ngày 07/10/2026; giữ cả FAIL/PASS
   trong ZIP bằng chứng, không dùng kết quả này thay gate quota hoặc OOS.
 
-## 5. Thứ tự triển khai W5
+## 5. Bàn giao sau pilot sang W5
+
+Các bước 1–5 dưới đây đã hoàn thành khi chốt W4. Kế hoạch tiếp theo,
+task mới và tiến độ nằm tại [README W5](../week5/README.md); W5 tập trung
+vào vận hành dài, mẫu/ngân sách W6 và smoke giới hạn bốn mã.
 
 | Bước | Việc phải làm | Đầu ra / điều kiện chuyển bước |
 | --- | --- | --- |

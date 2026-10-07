@@ -234,7 +234,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 | Mã rào chắn | Tên rủi ro | Hậu quả nếu vi phạm | Giải pháp bắt buộc trong Code |
 | :---: | :--- | :--- | :--- |
-| **P0-1** | **Prior Lookahead Leakage** | Kết quả gian lận, mất tính học thuật do retriever nhìn thấy tương lai. | Kiểm tra cứng: `record.exit_date < current_test_point.entry_date`. Ném `ValueError` ngay lập tức nếu vi phạm. Viết unit test tự động dò quét. |
+| **P0-1** | **Prior Lookahead Leakage** | Kết quả gian lận, mất tính học thuật do retriever nhìn thấy tương lai. | Kiểm tra cứng: `record.exit_date < current_test_point.as_of_date`, lọc trước ranking/stats. Ném `ValueError` ngay lập tức nếu vi phạm. Viết unit test tự động dò quét. |
 | **P0-2** | **Horizon Mismatch** | Tiên nghiệm học sai phân phối, tính toán sai xác suất bẫy giá. | Mọi record lịch sử trong Memory Bank phải được gắn nhãn bằng đúng hàm `compute_round_trip_net_return` ($T+2.5$) của engine. |
 | **P0-3** | **Context Window / Quota Overrun** | Groq trả về HTTP 429, gián đoạn backtest, LLM bị "Lost in the middle". | Format BRPP dạng bảng tối đa 600 ký tự. Có cơ chế fallback về `_cap_report` nếu tổng prompt vượt 6,500 ký tự. |
 | **P0-4** | **Regime Detector Leakage** | Mô hình regime nhìn thấy biến động tương lai. | HMM chỉ được fit một lần duy nhất trên dữ liệu trước 2023. Trong pha walk-forward, chỉ dùng dữ liệu lịch sử tính toán online. |
@@ -246,8 +246,8 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 ```
         THÁNG THỨ NHẤT (Nền tảng & Tích hợp)            THÁNG THỨ HAI (Thực nghiệm & Luận văn)
    Tuần 1 ──────► Tuần 2 ──────► Tuần 3 ──────► Tuần 4 ──────► Tuần 5 ──────► Tuần 6 ──────► Tuần 7 ──────► Tuần 8
-  [Đặc tả &]   [Regime &]   [Retriever &]  [LangGraph &]  [Pilot FPT &]  [Benchmark]    [Ablation &]   [Hoàn thiện]
-  [Data Prep]  [Memory]     [Prefix]       [Unit Tests]   [Quota Tuning] [4 Mã]         [Thống kê]     [Luận văn]
+  [Đặc tả &]   [Regime &]   [Retriever &]  [LangGraph &]  [Vận hành &]   [Benchmark]    [Ablation &]   [Hoàn thiện]
+  [Data Prep]  [Memory]     [Prefix]       [Tests/Pilot]  [Plan/Quota]   [4 Mã]         [Thống kê]     [Luận văn]
 ```
 
 ### 📅 TUẦN 1: Đặc tả và dữ liệu — HOÀN THÀNH
@@ -305,19 +305,33 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Thử nghiệm Pilot trên FPT & Tối ưu Hạn ngạch Quota
-- **Mục tiêu**: Chạy thử nghiệm toàn diện trên 1 cổ phiếu thí điểm để kiểm tra tính ổn định, đo lường chi phí token và bắt lỗi runtime.
+### 📅 TUẦN 5: Hoàn thiện vận hành và khóa kế hoạch benchmark — ĐÃ LẬP KẾ HOẠCH, 0/16
+
+- [Checklist, task chi tiết và tiến độ](week5/README.md).
+- **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
+  cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
+  `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
+- **Mục tiêu mới**: hoàn thiện đường chạy dài và khóa mẫu/nguồn lực W6
+  dựa trên pilot đã thực hiện; không chạy lại pilot để tính tiến độ W5.
 - **Nhiệm vụ cụ thể**:
-  - [x] Viết script điều phối thử nghiệm `scripts/run_bayesian_ablation.py` (đã thực hiện theo yêu cầu chốt gate W4).
-  - [x] Chạy pilot 20 điểm kiểm định FPT cho cả 5 biến thể; verifier offline PASS (đã thực hiện khi chốt W4).
-  - [x] Thu HTTP/usage/latency/quota và theo dõi parse/format: 100 Decision structured, 0 HTTP 429; lỗi transport và lần đối soát có audit.
-  - [x] Kiểm nhu cầu tinh chỉnh distill: cap hiện tại PASS, BRPP tối đa 369, prompt 4.483; mọi cửa sổ quota trong giới hạn.
-- **Deliverables cuối tuần 5**:
-  - Kết quả/checkpoint `outputs/pilot_fpt_run/results.json`, `points/`; ledger/audit tại `outputs/oos_pilot/` (gitignore).
-  - Tổng hợp nghiệm thu và telemetry trong [README W4](week4/README.md); giữ phạm vi pilot và ngoại lệ đối soát, không tạo biên bản lặp.
+  - [ ] Phase A, W5-01–04: đối chiếu baseline, chỉ số pilot, HTTP/token/thời gian và hợp đồng W6.
+  - [ ] Phase B, W5-05–08: policy quota trước điểm, atomic I/O Windows, đối soát upstream và CLI plan bốn mã.
+  - [ ] Phase C, W5-09–12: coverage OOS, lịch mẫu tách pilot/smoke, ngân sách và manifest/dry-run đã khóa.
+  - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
+- **Deliverables cuối W5**: một đường CLI chính; plan bất biến cho bốn mã
+  năm 2023–2024 theo quy mô được chốt trước run; lịch quota khả thi;
+  checkpoint smoke riêng 4 điểm/20 Decision và verifier; bốn gate kỹ thuật PASS.
+- **Điều kiện chuyển W6**: tất cả gate W5 PASS. Nếu quota/thời hạn không đủ,
+  chốt nâng quota, gia hạn hoặc mẫu rút gọn theo lịch trước API; ghi rõ thay
+  đổi phạm vi. Không đổi model/K/key để né quota hay ép identity checkpoint cũ.
+- Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
+  không tạo receipt theo từng task.
 
 ### 📅 TUẦN 6: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
 - **Mục tiêu**: Hoàn thành toàn bộ các lượt chạy backtest chính thức trên 4 mã cổ phiếu và thu thập đầy đủ dữ liệu thực nghiệm.
+- **Đầu vào bắt buộc**: gate W5 PASS; dùng lịch/cỡ mẫu/config đã khóa tại
+  W5-12, ledger quota chung và CLI đã nghiệm thu. Tách pilot/smoke khỏi mẫu
+  đánh giá chính; không điều chỉnh lịch theo kết quả quan sát trong run.
 - **Nhiệm vụ cụ thể**:
   - [ ] Kích hoạt backtest trên 4 mã: `FPT`, `VNM`, `VCB`, `MWG` trên giai đoạn kiểm định 2023–2024.
   - [ ] Áp dụng cơ chế lưu checkpoint tự động sau mỗi test point để đảm bảo có thể khôi phục ngay nếu rớt mạng.
@@ -388,10 +402,11 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 
 | Tình huống rủi ro | Mức độ | Kế hoạch dự phòng (Plan B) |
 | :--- | :---: | :--- |
-| **Groq API bị quá tải hoặc chặn Rate Limit 429 liên tục** | Cao | 1. Runner đã có cơ chế backoff số mũ kèm thời gian chờ động.<br>2. Tích hợp fallback sang Ollama chạy local (mô hình Qwen 2.5 7B hoặc 14B) để hoàn thành các điểm test còn lại mà không phụ thuộc internet.<br>3. Giảm $K$ từ 3 xuống 2 để giảm 30% lượng token. |
-| **Mô hình Gaussian HMM không phân tách rõ các chế độ thị trường** | Trung bình | Kích hoạt bộ phân loại Chế độ Thị trường dựa trên Luật Đa yếu tố (Rule-based Multi-Factor Regime): dựa trên khoảng cách giữa MA20 và MA200 kèm ngưỡng phân vị của ATR và ADX. Phương pháp này hoàn toàn minh bạch và dễ giải thích trước hội đồng. |
-| **Thiếu dữ liệu tin tức CafeF cho các mã mới** | Thấp | Tập trung chặt chẽ vào 4 mã cốt lõi đã có cache đầy đủ (`FPT`, `VNM`, `VCB`, `MWG`). Không mở rộng sang các mã thiếu dữ liệu để tránh làm sai lệch kết quả thực nghiệm. |
-| **Thời gian chạy benchmark 4 mã kéo dài quá lâu** | Trung bình | Chia nhỏ tiến trình chạy độc lập cho từng mã bằng các script chạy song song (mỗi mã một terminal riêng với API key phụ nếu cần). Tận dụng file checkpoint để lưu tiến độ tức thì. |
+| **Groq API quá tải hoặc quota không đủ** | Cao | Guard tại HTTP, reserve input/output/unknown, backoff theo retry-after; dừng giữ checkpoint và resume sau cửa sổ quota. Đối chiếu giới hạn thực tế trước run. Đổi key cùng tổ chức không reset quota; đổi model hoặc K phải là thí nghiệm/run mới, không fallback giữa ma trận đã khóa. |
+| **Gaussian HMM không phân tách rõ chế độ** | Trung bình | Giữ artifact và giao thức đang kiểm định; ghi giới hạn/coverage. Rule-based regime chỉ được đưa vào thí nghiệm đối chứng riêng, chốt và hiệu chỉnh bằng train trước OOS, không thay detector dựa trên kết quả test. |
+| **Thiếu tin lịch sử có ngày hợp lệ** | Trung bình | Kiểm coverage từng mã/cutoff; giữ NEUTRAL kèm lý do khi thiếu bằng chứng, bỏ tin không ngày/tương lai. Pilot hiện toàn NEUTRAL; không giả định cache bốn mã đầy đủ hoặc dùng tin hiện tại bù quá khứ. |
+| **Benchmark bốn mã vượt thời hạn** | Cao | Tính cỡ mẫu/token/số ngày ở W5-11, khóa lịch ở W5-12; chạy tuần tự có checkpoint/ledger/khóa quota chung. Nếu không khả thi, gia hạn/nâng quota hoặc chốt mẫu rút gọn trước run và công bố phạm vi; không dùng nhiều terminal/key để vượt ngân sách tổ chức. |
+| **Upstream chưa rõ kết quả hoặc checkpoint lỗi Windows** | Cao | Dừng để kiểm stage/hash/owner; dùng response durable nếu có, giữ unknown reserve. Không tự replay upstream/Full AMBIGUOUS hoặc xóa lock sống; replay cần xác nhận cụ thể và audit. Retry atomic I/O có giới hạn, giữ bằng chứng cũ. |
 
 ---
 
