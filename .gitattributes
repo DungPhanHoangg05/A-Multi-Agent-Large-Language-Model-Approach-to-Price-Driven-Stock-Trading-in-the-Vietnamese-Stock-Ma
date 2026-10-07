@@ -3,6 +3,7 @@ ESWA/elsarticle.cls -whitespace
 ESWA/elsarticle-num.bst -whitespace
 
 # Giữ nguyên byte của artifact có checksum khi checkout trên các hệ điều hành.
+data/execution_prices_oos/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 data_manager/regime_memory_store*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 docs/plan/week2/memory_bank_audit.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 docs/plan/week3/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

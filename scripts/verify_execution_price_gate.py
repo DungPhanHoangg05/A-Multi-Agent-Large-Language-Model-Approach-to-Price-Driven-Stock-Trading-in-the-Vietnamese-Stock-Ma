@@ -51,7 +51,15 @@ def fetch_paginated(url: str, params: dict[str, Any]) -> tuple[list[dict[str, An
     page, expected_total, expected_pages, page_size = 0, None, None, None
     while True:
         request_params = {**params, "page": page, "size": page_size or 1000}
-        response = requests.get(url, params=request_params, headers=get_headers(data_source="VCI"), timeout=(10, 30))
+        for attempt in range(3):
+            try:
+                response = requests.get(url, params=request_params, headers=get_headers(data_source="VCI"), timeout=(20, 30))
+                break
+            except (requests.Timeout, requests.ConnectionError):
+                if attempt == 2:
+                    raise
+                print(f"Nguồn VCI tạm gián đoạn; thử lại trang {page} sau {2 ** attempt} giây", flush=True)
+                time.sleep(2 ** attempt)
         response.raise_for_status()
         payload = response.json()
         if payload.get("successful") is not True or payload.get("code") != 0:
@@ -87,9 +95,9 @@ def fetch_paginated(url: str, params: dict[str, Any]) -> tuple[list[dict[str, An
     return records, receipts
 
 
-def sample_event_dates(events: list[dict[str, Any]]) -> dict[str, str]:
+def sample_event_dates(events: list[dict[str, Any]], start: str = START, end: str = END) -> dict[str, str]:
     """Chọn một ngày chia cổ phiếu và một ngày cổ tức tiền mặt khác nhau."""
-    dated = [e for e in events if e.get("exrightDate") and START <= e["exrightDate"][:10] <= END]
+    dated = [e for e in events if e.get("exrightDate") and start <= e["exrightDate"][:10] <= end]
     stock = [e for e in dated if "cổ tức bằng cổ phiếu" in e.get("eventTitleVi", "").lower()
              or "cổ phiếu thưởng" in e.get("eventTitleVi", "").lower()]
     if not stock:
@@ -103,14 +111,15 @@ def sample_event_dates(events: list[dict[str, Any]]) -> dict[str, str]:
 
 
 def audit_event_samples(
-    symbol: str, records: list[dict[str, Any]], events: list[dict[str, Any]], frame: pd.DataFrame
+    symbol: str, records: list[dict[str, Any]], events: list[dict[str, Any]], frame: pd.DataFrame,
+    *, start: str = START, end: str = END,
 ) -> list[dict[str, Any]]:
     """Đối chiếu giá thô, giá điều chỉnh hai nguồn và công thức Reference ngày quyền."""
     from vnstock.api.quote import Quote
 
     audit: list[dict[str, Any]] = []
     by_date = {r["tradingDate"][:10]: r for r in records}
-    for event_type, date in sample_event_dates(events).items():
+    for event_type, date in sample_event_dates(events, start, end).items():
         position = pd.DatetimeIndex(frame["Datetime"]).get_loc(pd.Timestamp(date))
         previous = frame.iloc[position - 1]["Datetime"].strftime("%Y-%m-%d")
         same_day = [e for e in events if e.get("exrightDate", "")[:10] == date]
@@ -167,35 +176,45 @@ def file_receipt(path: Path) -> dict[str, str]:
     return {"file": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
-def download_bundle(output_dir: Path) -> None:
+def download_bundle(output_dir: Path, *, start: str = START, end: str = END, resume: bool = False) -> None:
     """Checkpoint từng mã; chỉ bật PASS sau kiểm toán đủ bốn mã."""
+    if not START <= start <= end <= "2024-12-31":
+        raise ValueError("Phạm vi giá phải trong 2018–2024")
+    if output_dir.exists() and any(output_dir.iterdir()) and not resume:
+        raise ValueError("Thư mục giá đã có dữ liệu; chọn thư mục mới, không ghi đè bằng chứng")
     historical = REPO_ROOT / "data/historical"
     verify_saved_data(historical)
     calendar = pd.read_csv(historical / "VNINDEX.csv", parse_dates=["Datetime"])
-    calendar = calendar.loc[calendar["Datetime"].between(START, END), "Datetime"].reset_index(drop=True)
+    calendar = calendar.loc[calendar["Datetime"].between(start, end), "Datetime"].reset_index(drop=True)
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest: dict[str, Any] = {
         "price_gate": "PENDING", "price_basis": "UNADJUSTED_EXECUTION", "price_unit": "thousand_VND",
         "primary_source": "VCI", "crosscheck_sources": ["VCI", "KBS"],
         "acquisition_method": "VCI_PUBLIC_PRICE_HISTORY_REST_WITH_VNSTOCK_HEADERS",
         "source_library": "vnstock", "source_library_version": importlib.metadata.version("vnstock"),
-        "requested_start": START, "requested_end": END, "raw_field_map": RAW_FIELD_MAP,
+        "requested_start": start, "requested_end": end, "raw_field_map": RAW_FIELD_MAP,
         "calendar_sha256": hashlib.sha256((historical / "VNINDEX.csv").read_bytes()).hexdigest(),
         "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
         "signal_price_basis": "UNADJUSTED_PREFIX_NO_RETROACTIVE_ADJUSTMENTS",
         "files": {},
     }
-    write_json(output_dir / "manifest.json", manifest)
+    if resume:
+        manifest = verify_bundle(output_dir, start=start, end=end, allow_partial=True)
+    else:
+        write_json(output_dir / "manifest.json", manifest)
     for symbol in STOCK_SYMBOLS:
+        if symbol in manifest["files"]:
+            print(f"{symbol}: dùng phần đã lưu và xác minh; không tải lại", flush=True)
+            continue
         records, pages = fetch_paginated(
             f"{BASE_URL}/company/{symbol}/price-history",
-            {"fromDate": START.replace("-", ""), "toDate": END.replace("-", "")},
+            {"fromDate": start.replace("-", ""), "toDate": end.replace("-", "")},
         )
         events, event_pages = fetch_paginated(
             f"{BASE_URL}/events", {"ticker": symbol, "fromDate": "20170101",
-                                   "toDate": "20231231", "eventCode": EVENT_CODES},
+                                   "toDate": f"{int(end[:4]) + 1}1231", "eventCode": EVENT_CODES},
         )
-        frame = normalise_vci_execution_prices(records, symbol, START, END)
+        frame = normalise_vci_execution_prices(records, symbol, start, end)
         if not frame["Datetime"].equals(calendar):
             raise ValueError(f"{symbol}: lịch giá thô không khớp VN-Index")
         event_path = output_dir / f"{symbol}.events.json"
@@ -207,7 +226,7 @@ def download_bundle(output_dir: Path) -> None:
         ).encode("utf-8"), mtime=0))
         csv_path = output_dir / f"{symbol}.csv"
         frame.to_csv(csv_path, index=False, date_format="%Y-%m-%d", float_format="%.8f")
-        samples = audit_event_samples(symbol, records, events, frame)
+        samples = audit_event_samples(symbol, records, events, frame, start=start, end=end)
         schedule = build_verified_cycle_schedule(frame, events)
         rejected = schedule.loc[~schedule["eligible"]].copy()
         for column in ("as_of_date", "entry_date", "exit_date"):
@@ -228,18 +247,24 @@ def download_bundle(output_dir: Path) -> None:
     manifest["verified_at_utc"] = datetime.now(timezone.utc).isoformat()
     write_json(output_dir / "manifest.json", manifest)
     try:
-        verify_bundle(output_dir)
+        verify_bundle(output_dir, start=start, end=end)
     except Exception:
         manifest["price_gate"] = "PENDING"
         write_json(output_dir / "manifest.json", manifest)
         raise
 
 
-def verify_bundle(output_dir: Path) -> dict[str, Any]:
+def verify_bundle(output_dir: Path, *, start: str = START, end: str = END,
+                  allow_partial: bool = False) -> dict[str, Any]:
     """Tái tính gate từ evidence, CSV, lịch, mẫu quyền và lịch ứng viên hoàn toàn offline."""
     manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
-    if (set(manifest["files"]) != set(STOCK_SYMBOLS) or manifest["requested_start"] != START
-            or manifest["requested_end"] != END or manifest["raw_field_map"] != RAW_FIELD_MAP
+    found = set(manifest["files"])
+    if (not START <= start <= end <= "2024-12-31" or not found <= set(STOCK_SYMBOLS)
+            or (not allow_partial and found != set(STOCK_SYMBOLS))
+            or manifest["price_gate"] not in (("PASS", "PENDING") if allow_partial else ("PASS",))
+            or manifest["price_basis"] != "UNADJUSTED_EXECUTION" or manifest["price_unit"] != "thousand_VND"
+            or manifest["primary_source"] != "VCI" or manifest["source_library"] != "vnstock"
+            or manifest["requested_start"] != start or manifest["requested_end"] != end or manifest["raw_field_map"] != RAW_FIELD_MAP
             or manifest["crosscheck_sources"] != ["VCI", "KBS"]
             or manifest["corporate_action_policy"] != "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT"):
         raise ValueError("Phạm vi hoặc cơ sở gate không hợp lệ")
@@ -247,13 +272,24 @@ def verify_bundle(output_dir: Path) -> dict[str, Any]:
     if hashlib.sha256(calendar_path.read_bytes()).hexdigest() != manifest["calendar_sha256"]:
         raise ValueError("Lịch tham chiếu của gate đã thay đổi")
     calendar = pd.read_csv(calendar_path, parse_dates=["Datetime"])
-    calendar = calendar.loc[calendar["Datetime"].between(START, END), "Datetime"].reset_index(drop=True)
+    calendar = calendar.loc[calendar["Datetime"].between(start, end), "Datetime"].reset_index(drop=True)
     for symbol in STOCK_SYMBOLS:
-        frame, events = load_verified_execution_data(output_dir, symbol)
+        if symbol not in found:
+            continue
         item = manifest["files"][symbol]
+        for kind in ("csv", "evidence", "events"):
+            receipt = item[kind]
+            if Path(receipt["file"]).name != receipt["file"] or file_receipt(output_dir / receipt["file"]) != receipt:
+                raise ValueError("Checksum hoặc đường dẫn giá đã lưu không hợp lệ")
+        frame = pd.read_csv(output_dir / item["csv"]["file"], parse_dates=["Datetime"])
+        events = json.loads((output_dir / item["events"]["file"]).read_text(encoding="utf-8"))["records"]
+        if not allow_partial:
+            frame, events = load_verified_execution_data(output_dir, symbol)
         evidence = json.loads(gzip.decompress((output_dir / item["evidence"]["file"]).read_bytes()))
-        reconstructed = normalise_vci_execution_prices(evidence["records"], symbol, START, END)
+        reconstructed = normalise_vci_execution_prices(evidence["records"], symbol, start, end)
         pd.testing.assert_frame_equal(frame, reconstructed, check_dtype=False)
+        if len(frame) != item["rows"]:
+            raise ValueError("Số nến không khớp bằng chứng")
         if not frame["Datetime"].equals(calendar):
             raise ValueError("Lịch CSV thực thi không khớp VN-Index")
         schedule = build_verified_cycle_schedule(frame, events)
@@ -296,15 +332,21 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Xác minh gate giá thực thi VCI/KBS")
     parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / "data/execution_prices")
     parser.add_argument("--download", action="store_true")
+    parser.add_argument("--resume", action="store_true", help="Tiếp tục tải sau xác minh phần đã lưu")
     parser.add_argument("--verify-only", action="store_true")
+    parser.add_argument("--start", default=START, help="Ngày đầu nguồn giá, gồm warm-up")
+    parser.add_argument("--end", default=END, help="Ngày cuối nguồn giá; OOS đến 2024-12-31")
     args = parser.parse_args()
     if args.download and args.verify_only:
         parser.error("Chọn tải mới hoặc xác minh offline")
+    if args.resume and not args.download:
+        parser.error("--resume cần đi cùng --download")
     if args.download:
-        download_bundle(args.output_dir)
-    manifest = verify_bundle(args.output_dir)
+        download_bundle(args.output_dir, start=args.start, end=args.end, resume=args.resume)
+    manifest = verify_bundle(args.output_dir, start=args.start, end=args.end)
     eligible = sum(item["eligible"] for item in manifest["files"].values())
-    print(f"Gate giá PASS: 4 mã, 8 mẫu quyền, {eligible}/868 chu kỳ đủ cơ sở giá; chưa sinh nhãn")
+    candidates = sum(item["candidates"] for item in manifest["files"].values())
+    print(f"Gate giá PASS: 4 mã, 8 mẫu quyền, {eligible}/{candidates} chu kỳ đủ cơ sở giá; chưa sinh nhãn")
 
 
 if __name__ == "__main__":
