@@ -3,7 +3,7 @@
 **Đã chốt W4: 16/16 task, bốn gate kỹ thuật và pilot FPT 20 điểm/100 Decision PASS.**
 Cảnh báo retrieval p95 đã xử lý ngày **07/10/2026**. Pilot hoàn thành sau ngoại lệ
 chạy lại upstream riêng điểm 16 được người dùng xác nhận và ghi audit. Prior mặc định tắt.
-[Kế hoạch tổng](../plan.md) · [Tuần 3](../week3/README.md)
+[Kế hoạch tổng](../plan.md) · [Tuần 3](../week3/README.md) · [Kế hoạch W5](../week5/README.md)
 
 ## Luồng chính và vận hành
 

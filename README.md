@@ -18,18 +18,21 @@ The forecast label and the economic simulation are intentionally separate. A `LO
 
 ## Tiến độ và tài liệu chính
 
-**W1–W4 đã hoàn thành kỹ thuật offline.** Kho prior có 852 episode; W4 đã
+**W1–W4 đã hoàn thành, gồm pilot thật FPT 20 điểm/100 Decision.** Kho prior có 852 episode; W4 đã
 tích hợp PIT/paired/checkpoint và xử lý cảnh báo p95: bốn mode 10,837–13,235 ms.
-Nghiệm thu 07/10/2026: compileall/E2E, **502 unit/93 leakage PASS**, smoke tích hợp PASS.
-Prior mặc định tắt; chưa có kết quả giao dịch OOS.
+Nghiệm thu 07/10/2026: compileall/E2E, **521 unit/93 leakage PASS**, verifier pilot PASS.
+Prior mặc định tắt; pilot có ngoại lệ upstream điểm 16 được xác nhận/audit;
+chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợi nhuận OOS.
 
 - [Kế hoạch tổng](docs/plan/plan.md) và tiến độ [W1](docs/plan/week1/README.md),
-  [W2](docs/plan/week2/README.md), [W3](docs/plan/week3/README.md), [W4](docs/plan/week4/README.md).
+  [W2](docs/plan/week2/README.md), [W3](docs/plan/week3/README.md), [W4](docs/plan/week4/README.md),
+  [W5](docs/plan/week5/README.md).
 - [Phương pháp nghiên cứu](docs/methodology_spec.md).
 - [Chạy/tiếp tục Memory Bank và QA](docs/plan/week2/phase_c_memory_generation.md).
 - [API prior, checkpoint/resume và bàn giao W5](docs/plan/week4/week_close_and_handoff.md).
-- Bước tiếp theo: gate giá/tin OOS, model/freeze, quota/pacing và CLI nghiên cứu,
-  rồi pilot FPT 20 điểm. Các điều kiện này còn mở.
+- Bước tiếp theo: W5 gồm 16 task về tổng hợp pilot, vận hành/resume,
+  lịch mẫu/quota bốn mã và smoke giới hạn để chuẩn bị benchmark W6.
+  W5 mới lập kế hoạch, chưa triển khai task.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
 được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).
