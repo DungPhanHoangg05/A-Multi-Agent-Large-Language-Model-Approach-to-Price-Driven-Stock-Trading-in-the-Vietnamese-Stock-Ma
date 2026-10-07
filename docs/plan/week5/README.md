@@ -1,7 +1,7 @@
 # Tuần 5 — Hoàn thiện vận hành và khóa kế hoạch benchmark bốn mã
 
-**Trạng thái: đã lập kế hoạch; 0/16 task triển khai hoàn thành.**
-Ngày lập: **07/10/2026**. Chưa triển khai code hoặc chạy API của W5.
+**Trạng thái: đang thực hiện Phase A; 1/16 task hoàn thành — W5-01 DONE.**
+Ngày lập: **07/10/2026**. W5-01 kiểm offline; code nghiên cứu giữ nguyên, chưa gọi LLM mới.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
 [Hợp đồng API/checkpoint hiện hành](../week4/week_close_and_handoff.md)
 
@@ -40,6 +40,94 @@ trước lượt chạy mới phải đối chiếu giới hạn tài khoản/mo
 - W5 chuẩn bị benchmark; W6 chạy ma trận chính thức; W7 làm kiểm định thống kê
   và sensitivity K. K=5 cần hợp đồng/phiên bản riêng vì hiện chỉ hỗ trợ K=0..3.
 
+### Baseline W4 đã đối chiếu tại W5-01
+
+Kiểm ngày **07/10/2026** bằng `--verify-only`: **complete, 20/20 điểm**.
+Code/schema đang dùng khớp cả **31/31 checksum** trong identity và nội dung
+commit W4 `27b5907` sau chuẩn hóa newline; **12/12 nguồn** khớp checksum byte.
+Python và bảy package trong runtime identity khớp hoàn toàn. Thay đổi tài
+liệu sau W4 không làm đổi code/config/source của pilot.
+
+| Đối tượng | SHA-256 đã đối chiếu |
+| --- | --- |
+| Run signature, khớp identity/manifest/result/audit | `52b6792b872bb8b8f35862d96c458b4234510ffc8c90174686697d8d96cfd33a` |
+| Payload plan đã khóa | `f9bf7d234b7c5fd56ea5d30d3fb1f72b5723a38899a1ea6fe0c44f4d1ef91025` |
+| Byte `outputs/pilot_fpt_run/results.json` | `e5ee99899bd7dbd3de5ec8292f7bb6b68c50ed30bb9a3bd627be016caa6ad5a0` |
+
+- Cả **20 checkpoint** `complete/shared_complete`, **100/100 nhánh complete**,
+  Decision có nguồn `llm_structured`; cùng năm nhánh/seed/scope đã khóa.
+  Verifier dựng lại prior/input/prompt/P&L từ nguồn để kiểm semantic, không
+  chỉ kiểm envelope hash. Chế độ này dùng MockTransport cấm HTTP và key giả
+  nội bộ. Lượt kiểm bổ sung có audit hook chặn mở `.env`/`.env.*`, DNS và
+  socket connect cũng PASS: **0 credential-open attempt, 0 network attempt**.
+  Kết quả này áp dụng snapshot pilot hiện tại; W5-08 cần kiểm thêm snapshot
+  đủ tin vì `sentiment_agent.py` có nạp dotenv khi được import ở đường sentiment.
+- Audit tại `outputs/oos_pilot/reconciliation/FPT-2023-03-16.json` có
+  envelope hợp lệ, action `USER_AUTHORIZED_REPLAY_OF_UNKNOWN_UPSTREAM_ONCE`,
+  status `APPLIED` và completion `VERIFIED_COMPLETE`. Signature/plan/hash
+  kết quả cuối khớp. Backup `FPT-2023-03-16.before-replay.json` còn nguyên
+  byte và payload hash, giữ stage `upstream_started` của lần chưa rõ kết quả.
+- **15 checkpoint trước điểm 16** khớp byte hash trong audit, bảo toàn
+  **75 Decision**. Bốn điểm sau replay đã chuyển từ planned sang complete;
+  không đòi chúng khớp hash của bản planned trước khi chạy.
+- Ledger vẫn có đúng record unknown được audit dẫn chiếu:
+  `4718a59f-5d2a-4a62-9ac1-ba21d22f9a54`, model `qwen/qwen3.8-27b`,
+  `transport_error`, reserve **5.535**, không có total_tokens/request ID.
+  Giữ nguyên ngoại lệ replay; không suy ra provider chưa xử lý request cũ.
+
+**Vị trí cần giữ:** `outputs/pilot_fpt_run/{identity.json,run_manifest.json,
+results.json,points/}` và `outputs/oos_pilot/{inputs/,api_usage.json,
+reconciliation/}`. Chúng là dữ liệu local gitignore; clone Git riêng không
+khôi phục được pilot. SHA nguồn/code/runtime chi tiết đã có trong identity,
+không tạo thêm JSON hoặc sao chép receipt vào thư mục kế hoạch.
+
+Sau kiểm verifier/audit và hồi quy, **97/97 file đã chụp checksum còn nguyên
+byte**: checkpoint/kết quả, input, audit/backup, ledger, nguồn train/OOS,
+code/schema/dependency và ZIP bằng chứng. Metadata `run.owner.json`,
+`run.recovery.json`, `run.lock` phục vụ khóa được verifier cập nhật theo
+quy trình hiện hành khi cần; chúng không là dữ liệu khoa học đóng băng.
+
+#### Kiểm lại pilot sau khi code W5 thay đổi
+
+Lượt W5-01 dùng môi trường hiện tại vì 31 file được ghim khớp W4. Khi chúng
+thay đổi, tạo checkout độc lập của W4 ở **thư mục mới** để kiểm lịch sử:
+
+```powershell
+$w4ReviewRoot = Join-Path (Split-Path (Get-Location) -Parent) "kltn-w4-review-27b5907"
+git worktree add --detach "$w4ReviewRoot" 27b5907
+```
+
+1. Giữ bản gốc; sao chép nguyên byte các input/ledger/audit và file nghiên
+   cứu của pilot nêu trên vào đúng đường dẫn tương đối trong worktree.
+   Không sao chép lock/owner/recovery; verifier tạo metadata khóa riêng.
+2. Đối chiếu 12 đường dẫn `identity.payload.sources.files`. File Git checkout
+   có thể khác newline với archive ban đầu; nếu khác hash, phục hồi **byte
+   nguồn gốc đã khóa** tại đúng path trong worktree rồi kiểm lại. Giữ cả bộ
+   `data/execution_prices_oos/` vì verifier kiểm manifest bốn mã.
+3. Dùng Python **3.13.5** và các version dưới đây. Nếu tạo venv mới, cài
+   requirements ở commit W4 rồi ghim các version đã ghi; requirements hiện
+   không phải lock đầy đủ mọi phụ thuộc. Chỉ coi môi trường phục hồi hợp lệ
+   khi verifier và các gate hồi quy PASS, không chỉ vì cài package thành công.
+
+| Nhóm | Version đã xác minh trên máy |
+| --- | --- |
+| Runtime identity khoa học | numpy 2.1.2; pandas 2.3.3; scipy 1.16.1; TA-Lib 0.6.8 |
+| Runtime identity graph/LLM | langgraph 1.0.10; langchain-core 1.2.17; langchain-groq 1.1.2 |
+| Model/nguồn | hmmlearn 0.3.3; scikit-learn 1.7.2; vnstock 4.0.9; vnai 2.6.2 |
+| Client/tokenizer và hỗ trợ | httpx 0.28.1; tiktoken 0.12.0; Pillow 11.0.0; groq 0.37.1; langchain 1.2.10; python-dotenv 1.2.2 |
+
+Chạy tại root worktree với interpreter đã xác minh:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only
+```
+
+Nếu dùng venv, thay `py -3.13` bằng interpreter của venv. Verifier phải trả
+`Pilot complete: 20/20 điểm`; identity mismatch thì dừng để phục hồi đúng
+nguồn/môi trường. Phiên bản W4 được giữ riêng; run W5 mới ký bằng code mới.
+Tồn tại file lock không đồng nghĩa runner đang chạy: owner/OS lock được
+validator kiểm, không cần xóa file lock thủ công.
+
 ## 2. Quy tắc xuyên suốt
 
 1. Giá chỉ từ **vnstock/VCI và vnstock/KBS**. LONG mua Open(t+1), bán
@@ -66,7 +154,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| A | W5-01 | Đối chiếu bàn giao và khóa bằng chứng pilot | W4 đã đóng | [ ] |
+| A | W5-01 | Đối chiếu bàn giao và khóa bằng chứng pilot | W4 đã đóng | [x] |
 | A | W5-02 | Tổng hợp chất lượng và chỉ số pilot offline | 01 | [ ] |
 | A | W5-03 | Chuẩn hóa báo cáo HTTP/token/thời gian | 01 | [ ] |
 | A | W5-04 | Chốt hợp đồng vận hành và đánh giá W6 | 02, 03 | [ ] |
@@ -304,3 +392,4 @@ Không merge khi gate bắt buộc FAIL.
 | --- | --- | --- | --- |
 | 07/10/2026 | Lập kế hoạch W5 | PLAN_READY; 0/16 triển khai; kế thừa pilot W4 đã hoàn thành | Bắt đầu W5-01 |
 | 07/10/2026 | Kiểm thay đổi tài liệu | Compileall/E2E, 521 unit/93 leakage PASS; đủ 16 task và liên kết nội bộ hợp lệ; không API | Gate triển khai W5 vẫn chờ thực hiện từng task |
+| 07/10/2026 | W5-01 | DONE: verifier offline 20/20; 100 Decision; 31 code/12 source/runtime khớp W4; 15 point/75 Decision cũ, audit và reserve 5.535 nguyên vẹn; 97 file không đổi. Compileall/E2E, 521 unit/93 leakage PASS | W5-02; baseline và cách kiểm lại W4 ở mục 1 |

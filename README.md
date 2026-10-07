@@ -32,7 +32,8 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
 - [API prior, checkpoint/resume và bàn giao W5](docs/plan/week4/week_close_and_handoff.md).
 - Bước tiếp theo: W5 gồm 16 task về tổng hợp pilot, vận hành/resume,
   lịch mẫu/quota bốn mã và smoke giới hạn để chuẩn bị benchmark W6.
-  W5 mới lập kế hoạch, chưa triển khai task.
+  W5 đang Phase A, **1/16 task hoàn thành**: W5-01 đã đối chiếu pilot/audit
+  offline, nguồn/code/runtime khớp W4. Tiếp theo W5-02 tổng hợp chỉ số pilot.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
 được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).
