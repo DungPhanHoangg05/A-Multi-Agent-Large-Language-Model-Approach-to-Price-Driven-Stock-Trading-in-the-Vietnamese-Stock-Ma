@@ -1,6 +1,7 @@
 # Phase D — Kiểm chứng tích hợp và bàn giao W5
 
-**Trạng thái: W4-13..16 hoàn thành ngày 06/10/2026; Phase D 4/4. Gate D PASS kỹ thuật offline, có cảnh báo hiệu năng.**
+**Trạng thái: W4-13..16 hoàn thành ngày 06/10/2026; Phase D 4/4. Gate D PASS kỹ thuật offline; cảnh báo p95 đã xử lý ngày 07/10/2026.**
+[Biên bản tối ưu](retrieval_performance_resolution.md), [receipt bổ sung](retrieval_performance_resolution_review.json).
 [Biên bản leakage](pipeline_leakage_validation.md), [receipt leakage](pipeline_leakage_review.json),
 [biên bản smoke](prior_integration_smoke.md), [receipt smoke](integration_smoke.json),
 [biên bản gate](integration_gate_validation.md), [receipt gate](integration_gate_review.json),
@@ -150,3 +151,6 @@ chỉ chốt sau kiểm chứng tương ứng.
 [Receipt](week_close_review.json) và [bàn giao](week_close_and_handoff.md) chốt 16/16 task.
 Gate D PASS_OFFLINE_INTEGRATION_WITH_PERFORMANCE_WARNING; p95 vẫn FAIL,
 không chuyển giá OOS/model/quota/pilot thành PASS. Prior mặc định tắt.
+
+
+**Bổ sung 07/10/2026:** tối ưu retriever giữ guard/PIT/ownership; bốn mode p95 <30 ms, smoke mới và compileall/502 unit/E2E/93 leakage PASS. Đóng cảnh báo cho phiên bản/môi trường đo; giữ receipt và kết quả FAIL lịch sử. Gate giá/model/quota/CLI/pilot vẫn chưa PASS.
