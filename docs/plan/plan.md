@@ -1,8 +1,8 @@
-# KẾ HOẠCH NGHIÊN CỨU & TRIỂN KHAI KHÓA LUẬN TỐT NGHIỆP (2 THÁNG)
+# KẾ HOẠCH NGHIÊN CỨU & TRIỂN KHAI KHÓA LUẬN TỐT NGHIỆP (10 TUẦN)
 
 **Đề tài**: *Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market*  
 **Dựa trên nền tảng**: Bài báo *Multi-Task Bayesian In-Context Learning* (Zhu, Oermann, Cho — ICML 2026) và Hệ thống Giao dịch Đa Agent LangGraph hiện có.  
-**Mục tiêu tài liệu**: Thiết lập kế hoạch chi tiết, khả thi, định hướng học thuật cho thời gian 8 tuần (2 tháng), tập trung tối đa vào tính liêm chính dữ liệu (zero leakage), tái lập thực nghiệm và tối ưu tài nguyên theo phạm vi KLTN.
+**Mục tiêu tài liệu**: Thiết lập kế hoạch chi tiết cho **10 tuần** (mở rộng từ 8 tuần ngày 07/10/2026), tập trung vào nâng cấp hệ thống thực tế, kiểm chứng hiệu quả, tính liêm chính dữ liệu và tối ưu tài nguyên theo phạm vi KLTN. Giữ kết quả W1–W4 và cấu trúc phase/task W5; thêm W6–W7 để cải thiện/validation, dời benchmark/thống kê/luận văn sang W8–W10.
 
 ---
 
@@ -13,7 +13,7 @@
 4. [Kiến trúc Hệ thống Đề xuất (Target Architecture)](#4-kiến-trúc-hệ-thống-đề-xuất-target-architecture)
 5. [Thiết kế Thực nghiệm Khoa học Chuẩn KLTN](#5-thiết-kế-thực-nghiệm-khoa-học-chuẩn-kltn)
 6. [Các Rào chắn P0 Bắt buộc (Safeguards & Zero-Leakage)](#6-các-rào-chắn-p0-bắt-buộc-safeguards--zero-leakage)
-7. [Kế hoạch Thực hiện Chi tiết 8 Tuần (Deliverables Matrix)](#7-kế-hoạch-thực-hiện-chi-tiết-8-tuần-deliverables-matrix)
+7. [Kế hoạch Thực hiện Chi tiết 10 Tuần (Deliverables Matrix)](#7-kế-hoạch-thực-hiện-chi-tiết-10-tuần-deliverables-matrix)
 8. [Danh mục Tệp tin Cần Thêm Mới & Chỉnh Sửa](#8-danh-mục-tệp-tin-cần-thêm-mới--chỉnh-sửa)
 9. [Kế hoạch Quản trị Rủi ro & Dự phòng (Contingency Plans)](#9-kế-hoạch-quản-trị-rủi-ro--dự-phòng-contingency-plans)
 
@@ -28,7 +28,11 @@
   $$\text{Chế độ thị trường vĩ mô (Market Regime)} \iff \text{Siêu tham số tiên nghiệm } \lambda$$
   $$\text{Các chu kỳ giao dịch lịch sử trong quá khứ} \iff \text{Các nhiệm vụ tiên nghiệm } D^{(k)}_{\text{prior}}$$
   $$\text{Cửa sổ giao dịch hiện tại} \iff \text{Nhiệm vụ mục tiêu } D_{\text{tgt}}$$
-  từ đó giúp Decision Agent tự động cập nhật phân phối niềm tin hậu nghiệm (Posterior Belief) về độ tin cậy của từng Agent trước khi ra quyết định kinh tế $T+2.5$.
+  nhằm kiểm chứng liệu thông tin lịch sử theo regime có giúp Decision Agent
+  ra quyết định kinh tế $T+2.5$ tốt hơn. Bản v1 hiện là ICL có lọc regime và
+  tỷ lệ mẫu; chưa chứng minh LLM thực hiện posterior Bayes phân cấp hay
+  confidence được hiệu chuẩn. W5–W7 bổ sung thống kê Bayes số học, kiểm
+  chất lượng prior và đo đóng góp từng thành phần trước khi kết luận.
 
 ### 1.2. Giới hạn phạm vi (Scope Boundary for KLTN)
 - **Không thương mại hóa**: Không xây dựng hệ thống đặt lệnh tự động thực tế (broker API gateway), không mô phỏng sổ lệnh khớp liên tục (order book L2/L3), không giao dịch phái sinh/bán khống.
@@ -187,7 +191,7 @@ flowchart TD
 ## 5. THIẾT KẾ THỰC NGHIỆM KHOA HỌC CHUẨN KLTN
 
 ### 5.1. Dữ liệu & Danh mục Cổ phiếu (Universe)
-Để đảm bảo tính khả thi trong 2 tháng mà vẫn đủ độ tin cậy thống kê cho hội đồng:
+Phạm vi dự kiến trong 10 tuần; cỡ mẫu phải được đối chiếu quota và độ bất định:
 - **Tập cổ phiếu (4 mã đại diện)**:
   1. `FPT`: Nhóm Công nghệ / Vốn hóa lớn / Nhạy cảm vừa.
   2. `VNM`: Nhóm Tiêu dùng phòng thủ / Thường xuyên dao động tích lũy mean-reverting.
@@ -195,17 +199,33 @@ flowchart TD
   4. `MWG`: Nhóm Bán lẻ / Nhạy cảm cao với chu kỳ kinh tế vĩ mô.
 - **Tập dữ liệu thời gian**:
   - Giai đoạn Huấn luyện HMM & Khởi tạo Memory Bank: `2018-01-01` $\rightarrow$ `2022-12-31`.
-  - Giai đoạn Kiểm định Walk-Forward ngoài mẫu (Out-of-Sample Test): `2023-01-01` $\rightarrow$ `2024-12-31`.
+  - Phạm vi ngoài train: `2023-01-01` $\rightarrow$ `2024-12-31`.
+    **2023 là development/thăm dò**, gồm pilot đã xem; **2024 là holdout xác nhận**.
+    Không dùng outcome/dự báo 2024 chọn ngưỡng, prompt, K hay ứng viên.
+    Mẫu holdout chọn theo lịch/eligibility, khóa ở W5; protocol cuối khóa W7.
+  - Validation cuốn chiếu trong 2020–2022 dùng model/scaler `historical_prefix`
+    fit trước query và purge chu kỳ vượt cutoff; không dùng artifact cuối 2022
+    cho query sớm hơn. Memory Bank 852 episode vẫn đóng băng, PIT lọc tại mỗi query.
 
 ### 5.2. Các Baseline Đối chứng (Ablation Matrix)
-Thực hiện so sánh ngang giữa 5 biến thể trên cùng một tập điểm kiểm định ghép cặp (Paired Samples):
+Giữ năm biến thể v1 của pilot để tái lập, so sánh trên cùng điểm ghép cặp:
+
+Bản v1 dùng `signal_match_v1` (bốn nhãn rời rạc), không phải KNN trên đặc
+trưng giá liên tục. W6 tích hợp nhánh **`bayesian_v2`** riêng: posterior
+thống kê, gate bằng chứng, retrieval/Decision có version. Phương án chính
+cho W8 là **sáu nhánh** (năm v1 +v2), upstream một lần dùng chung cả sáu.
+Runner/schema/identity v1 hiện khóa năm nhánh nên phải mở hợp đồng mới và
+kiểm thử ở W6; không chèn nhánh thứ sáu vào checkpoint W4. W5-11 dự toán
+8N HTTP tối thiểu; W7 chỉ khóa ma trận cuối khi quota/thời hạn khả thi.
+Nếu cần rút gọn, chốt trước API thành Original/v1/v2 cùng shared upstream,
+công bố thay đổi phạm vi; không bỏ đối chứng sau khi thấy kết quả.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ 1. Original / Zero-Shot (K=0)       : Hệ thống hiện tại trong Repo.         │
 │ 2. Random Prior (K=3)               : Lấy ngẫu nhiên 3 tasks lịch sử.       │
 │ 3. Recent Prior (K=3)               : Lấy 3 tasks diễn ra gần nhất.         │
-│ 4. Similarity-based Prior (K=3)     : Lấy 3 tasks gần nhất theo KNN kỹ thuật│
+│ 4. Similarity-based Prior (K=3)     : Khớp bốn tín hiệu rời rạc v1.        │
 │ 5. Proposed Bayesian ICL (K=3)      : Lấy 3 tasks theo Bayesian Macro-Regime│
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -218,13 +238,23 @@ Thực hiện so sánh ngang giữa 5 biến thể trên cùng một tập đi�
    - Lọc các test point mà sự đồng thuận giữa các agent $\le 60\%$ (các agent đánh nhau).
    - Đo lường sự thay đổi của phương sai dự báo và mức độ hồi phục độ chính xác khi có Prior Prefix hỗ trợ.
 3. **Experiment 3: Sensitivity to Prior Evidence (Ablation trên $K$)**
-   - Chạy biến thể đề xuất với $K \in \{0, 1, 3, 5\}$.
-   - Kiểm chứng giả thuyết suy giảm phương sai giữa các tiền tố (Shrinkage of PPD variability) tương tự như Bảng 7 và Bảng 9 trong bài báo gốc.
+   - Ưu tiên $K \in \{0, 1, 3\}$; K=5 chỉ là mở rộng nếu có contract mới,
+     BRPP ≤600, prompt <6.500 và đủ quota, không là gate bắt buộc.
+   - Tách stats-only, examples-only, full prior và gate bằng chứng trên tập
+     development. Kiểm giả thuyết giảm sai số/bất định; không mặc định LLM
+     có PPD hiệu chuẩn hoặc coi kết quả pilot là bằng chứng shrinkage.
 
 ### 5.4. Tiêu chí Đánh giá (Evaluation Metrics)
-- **Chỉ số Dự báo**: Directional Accuracy (%), Long Hit-rate (%), Brier Score / Confidence Calibration.
+- **Chỉ số Dự báo**: Accuracy, balanced accuracy, Long hit-rate, số LONG/CASH
+  và bất đồng paired. Brier/calibration chỉ tính khi có xác suất được định
+  nghĩa và kiểm ngoài thời gian; confidence dạng chữ không là xác suất.
 - **Chỉ số Kinh tế (Sau phí 0.25% & trượt giá 0.10%)**: Tỷ suất lợi nhuận kép (Cumulative Return %), Số dư cuối kỳ (VND từ 50,000,000 VND ban đầu), Tỷ lệ Sharpe, Tỷ lệ Sortino, Max Drawdown (MDD %).
 - **Kiểm định Ý nghĩa Thống kê**: McNemar Test $p$-value (so sánh tỷ lệ đúng/sai), Wilcoxon Signed-Rank Test (so sánh phân phối lợi nhuận), Block-Bootstrap 95% Confidence Interval.
+- **Tiêu chí chính**: chênh return ròng paired so Original trên holdout;
+  báo cáo MDD/số giao dịch và CASH làm tham chiếu. Kiểm annualization cho
+  return theo chu kỳ trước benchmark. CI/test xử lý phụ thuộc thời gian và
+  cùng ngày giữa mã; khai báo so sánh chính và điều chỉnh nhiều so sánh.
+  Gate kỹ thuật PASS không yêu cầu lợi nhuận dương hoặc Bayesian vượt Original.
 
 ---
 
@@ -241,13 +271,12 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ---
 
-## 7. KẾ HOẠCH THỰC HIỆN CHI TIẾT 8 TUẦN (DELIVERABLES MATRIX)
+## 7. KẾ HOẠCH THỰC HIỆN CHI TIẾT 10 TUẦN (DELIVERABLES MATRIX)
 
 ```
-        THÁNG THỨ NHẤT (Nền tảng & Tích hợp)            THÁNG THỨ HAI (Thực nghiệm & Luận văn)
-   Tuần 1 ──────► Tuần 2 ──────► Tuần 3 ──────► Tuần 4 ──────► Tuần 5 ──────► Tuần 6 ──────► Tuần 7 ──────► Tuần 8
-  [Đặc tả &]   [Regime &]   [Retriever &]  [LangGraph &]  [Vận hành &]   [Benchmark]    [Ablation &]   [Hoàn thiện]
-  [Data Prep]  [Memory]     [Prefix]       [Tests/Pilot]  [Plan/Quota]   [4 Mã]         [Thống kê]     [Luận văn]
+W1 Đặc tả → W2 Regime/Memory → W3 Retriever/Prefix → W4 Tích hợp/Pilot
+   → W5 Vận hành/Nền tảng v2 → W6 Thuật toán → W7 Validation/Khóa phiên bản
+   → W8 Benchmark → W9 Thống kê/Ablation → W10 Luận văn/Bảo vệ
 ```
 
 ### 📅 TUẦN 1: Đặc tả và dữ liệu — HOÀN THÀNH
@@ -298,14 +327,14 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
   offline complete PASS; toàn bộ gate W4 đã đóng. Điểm 16 có ngoại lệ upstream
   chạy lại một lần do người dùng xác nhận, có audit; 75 Decision cũ nguyên byte.
   0 HTTP 429; text 194.218 token, vision 102.034 tính cả reserve chưa rõ kết quả,
-  đều dưới 200.000 TPD/model. Chốt lịch/quota riêng trước benchmark W6.
+  đều dưới 200.000 TPD/model. Chốt lịch/quota riêng trước benchmark W8.
 
 Tiến độ chỉ cập nhật ở README từng tuần. Tài liệu độc lập giữ cho hướng dẫn
 vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặc test cần.
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và khóa kế hoạch benchmark — PHASE A, 2/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A, 2/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -315,61 +344,136 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - **W5-02 DONE, 07/10/2026**: đối chiếu summary từ 20 checkpoint; bảng
   accuracy/LONG/SHORT/hit-rate/tài khoản/MDD năm nhánh và coverage trong README.
   Cả năm nhánh lỗ; Original accuracy 55%, Bayesian 50%; mẫu đầu 2023, sentiment
-  toàn NEUTRAL. Giữ giao thức W6; rà annualization ở W5-04. Tiếp theo W5-03.
+  toàn NEUTRAL. Giữ pilot v1; rà annualization ở W5-04. Tiếp theo W5-03.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
-- **Mục tiêu mới**: hoàn thiện đường chạy dài và khóa mẫu/nguồn lực W6
-  dựa trên pilot đã thực hiện; không chạy lại pilot để tính tiến độ W5.
+- **Chẩn đoán 07/10/2026**: 19/20 action v1 giống Original; duy nhất FPT
+  20/02/2023 Original CASH nhưng v1 LONG, net −2,3766%. Prior có n=62,
+  win-rate 40,3%, ba ví dụ score=1 đều lỗ. Vì vậy cần kiểm cách dùng bằng
+  chứng, không chỉ tăng K/support; mẫu này chưa kết luận Bayes thất bại.
+- **Mục tiêu mới**: hoàn thiện đường chạy dài, triển khai nền tảng v2 và
+  phân hoạch train/2023-development/2024-holdout; không chạy lại pilot hoặc
+  sửa bank/model để tính tiến độ. Thay đổi plan chưa là task triển khai DONE.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Phase A, W5-01–04: đối chiếu baseline, chỉ số pilot, HTTP/token/thời gian và hợp đồng W6.
-  - [ ] Phase B, W5-05–08: policy quota trước điểm, atomic I/O Windows, đối soát upstream và CLI plan bốn mã.
-  - [ ] Phase C, W5-09–12: coverage OOS, lịch mẫu tách pilot/smoke, ngân sách và manifest/dry-run đã khóa.
+  - [ ] Phase A, W5-01–04: baseline, chỉ số/telemetry, audit bất đồng, hợp đồng v2 và metric/phân hoạch.
+  - [ ] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
+  - [ ] Phase C, W5-09–12: coverage, lịch cohort tách pilot/smoke/holdout, ngân sách v1/v2 và manifest/dry-run.
   - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
-- **Deliverables cuối W5**: một đường CLI chính; plan bất biến cho bốn mã
-  năm 2023–2024 theo quy mô được chốt trước run; lịch quota khả thi;
-  checkpoint smoke riêng 4 điểm/20 Decision và verifier; bốn gate kỹ thuật PASS.
+- **Deliverables cuối W5**: CLI/audit dùng lại được, code Beta–Binomial/gate
+  chất lượng/prefix có version và trace kiểm offline; lịch phân hoạch bốn mã,
+  nguồn/quota; checkpoint smoke v1 4 điểm/20 Decision và verifier;
+  bốn gate kỹ thuật PASS. Hiệu quả v2 còn chờ W6–W9.
 - **Điều kiện chuyển W6**: tất cả gate W5 PASS. Nếu quota/thời hạn không đủ,
   chốt nâng quota, gia hạn hoặc mẫu rút gọn theo lịch trước API; ghi rõ thay
   đổi phạm vi. Không đổi model/K/key để né quota hay ép identity checkpoint cũ.
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
-- **Mục tiêu**: Hoàn thành toàn bộ các lượt chạy backtest chính thức trên 4 mã cổ phiếu và thu thập đầy đủ dữ liệu thực nghiệm.
-- **Đầu vào bắt buộc**: gate W5 PASS; dùng lịch/cỡ mẫu/config đã khóa tại
-  W5-12, ledger quota chung và CLI đã nghiệm thu. Tách pilot/smoke khỏi mẫu
-  đánh giá chính; không điều chỉnh lịch theo kết quả quan sát trong run.
-- **Nhiệm vụ cụ thể**:
-  - [ ] Kích hoạt backtest trên 4 mã: `FPT`, `VNM`, `VCB`, `MWG` trên giai đoạn kiểm định 2023–2024.
-  - [ ] Áp dụng cơ chế lưu checkpoint tự động sau mỗi test point để đảm bảo có thể khôi phục ngay nếu rớt mạng.
-  - [ ] Kiểm tra tính toàn vẹn của file log và các chỉ số kinh tế sau khi hoàn thành từng mã.
-- **Deliverables cuối tuần 6**:
-  - Toàn bộ kết quả thực nghiệm thô được lưu trữ tại `outputs/bayesian_benchmark/`.
-  - Bảng tổng hợp trạng thái các lượt chạy không phát sinh lỗi.
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — MỚI, TODO
 
-### 📅 TUẦN 7: Phân tích Thống kê, Nghiên cứu Triệt tiêu (Ablation K) & Xuất Biểu đồ
-- **Mục tiêu**: Thực hiện các phép kiểm định thống kê chính quy, chạy thực nghiệm triệt tiêu $K$ và tạo các biểu đồ chuẩn học thuật.
+- **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
+  ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
+- **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
+  đã tách, quota cho validation được dự toán. Giới hạn danh sách ứng viên
+  trước chạy, không thử vô hạn đến khi thấy lời.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Chạy thực nghiệm triệt tiêu trên số lượng prior tasks: $K \in \{0, 1, 3, 5\}$.
-  - [ ] Tính toán các kiểm định thống kê: McNemar, Wilcoxon Signed-Rank, Block-Bootstrap 95% CI bằng `utils/statistical_tests.py`.
-  - [ ] Xuất bảng tổng hợp kết quả định dạng LaTeX bằng script tự động.
-  - [ ] Vẽ các biểu đồ học thuật: Đường cong vốn (Equity Curves), Max Drawdown, Phân bố lợi nhuận, Biểu đồ Radar tương thích theo Regime.
-- **Deliverables cuối tuần 7**:
-  - Thư mục hình ảnh `docs/figures/` chứa toàn bộ biểu đồ vector chất lượng cao (300 DPI).
-  - File bảng kết quả LaTeX `outputs/tables_summary.tex`.
-  - Báo cáo phân tích định lượng chi tiết.
+  - [ ] Thêm đặc trưng giá PIT gọn (biến động, khoảng cách MA, momentum)
+    và scaler train-only; lưu auxiliary index/hash riêng, không sửa 852 episode.
+    Chốt metric mới, so với signal_match_v1; outcome không tham gia ranking.
+  - [ ] Thử độ mới/đa dạng theo ngày, loại ví dụ quá giống nhau; tuổi tính
+    tại query. Không ưu tiên WIN/LOSS hoặc cố chọn ba bull trap.
+  - [ ] Tính thống kê điều kiện theo regime+tín hiệu với support/uncertainty,
+    shrink về population khi support ít theo luật đã khóa. Không coi K=3
+    là toàn bộ population hoặc bốn tín hiệu cùng cycle là bốn quan sát.
+  - [ ] Cải thiện contract Decision: đối chiếu tín hiệu hiện tại với bằng
+    chứng lịch sử, lưu evidence/source và khuyến nghị gốc. Thử stats-only,
+    examples-only, full prior; không thêm vòng LLM để ép đồng ý.
+  - [ ] Nếu thử policy số học chặn LONG, đặt thành ablation riêng với
+    `raw_action`, `executed_action`, lý do và policy hash; ngưỡng chọn bằng
+    train/2023. Không gán lợi ích của risk gate thành lợi ích riêng của ICL;
+    không ép SHORT theo ca 20/02 hoặc coi win-rate là expected net return.
+  - [ ] Mở protocol/schema/runner version mới cho v1+v2 cùng upstream;
+    giữ Original prompt và năm nhánh v1, kiểm resume/semantic/caps/p95.
+- **Deliverables cuối W6**: code v2 tích hợp trên đường CLI chính, trace
+  kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
+  compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 8: Hoàn thiện Báo cáo Luận văn KLTN & Slide Bảo vệ
-- **Mục tiêu**: Viết hoàn chỉnh các chương của Luận văn Tốt nghiệp, rà soát tính nhất quán và chuẩn bị slide bảo vệ.
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — MỚI, TODO
+
+- **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
+  thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Soạn thảo Chương 3 (Phương pháp đề xuất): Trình bày mạch lạc mô hình Bayes phân cấp, cơ chế ánh xạ và cấu trúc memory.
-  - [ ] Soạn thảo Chương 4 (Kết quả thực nghiệm & Thảo luận): Trình bày các bảng số liệu, biểu đồ và phân tích sâu các ca điển hình (case studies) bẫy giá.
-  - [ ] Viết phần Kết luận & Hướng phát triển tương lai.
-  - [ ] Thiết kế slide thuyết trình bảo vệ KLTN (khoảng 25–30 slides, tập trung vào tính mới, liêm chính học thuật và kết quả vượt trội).
-- **Deliverables cuối tuần 8**:
-  - File toàn văn Khóa luận Tốt nghiệp (Word / LaTeX / PDF).
-  - Bộ slide báo cáo bảo vệ trước hội đồng chấm KLTN.
+  - [ ] Validation cuốn chiếu 2020–2022 có purge/embargo phù hợp horizon,
+    model/scaler đúng prefix. Chạy cohort 2023 đã khóa, không mở outcome 2024
+    cho người/thuật toán lựa chọn phiên bản; upstream chỉ một lần/point.
+  - [ ] So v1/v2/Original và ablation đã định trên common support; đọc
+    net return, MDD, balanced accuracy, số giao dịch/CASH và các bất đồng.
+    Đánh giá ca LONG bất chấp cảnh báo trên nhiều điểm, không chỉ pilot FPT.
+  - [ ] Chốt một ứng viên, tham số/prompt/K/policy/model và mục tiêu kiểm định.
+    Nếu không có lợi ích ổn định, ghi rõ và dùng phiên bản đã đăng ký để đo
+    holdout; không coi validation thắng là bằng chứng hiệu quả cuối.
+  - [ ] Đối chiếu quota cho sáu nhánh; nếu không đủ, chốt phương án rút gọn
+    hoặc gia hạn trước API. Giữ ledger chung, unknown reserve và ngân sách
+    ablation/smoke/preflight riêng. Hai tuần bổ sung không tăng quota API.
+  - [ ] Khóa manifest sources/cohort 2024 từ W5 +code/schema/runtime/config
+    cuối, run mới; offline dry-run/verifier/fault và bốn gate kỹ thuật PASS.
+- **Deliverables cuối W7**: ứng viên/policy có version, ma trận/cỡ mẫu/lịch
+  quota cuối khả thi, lệnh thật chuẩn bị/run/verify/resume và gate mở W8.
+  Chưa khóa đủ thì BLOCKED; không đổi checkpoint cũ để tiếp tục cấu hình mới.
+
+### 📅 TUẦN 8: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
+
+- **Mục tiêu**: hoàn thành benchmark bốn mã bằng phiên bản/giao thức W7.
+  Giữ cấu trúc công việc benchmark của W6 cũ, dời lịch sang W8.
+- **Đầu vào bắt buộc**: gate W7 PASS; cohort 2024 holdout và ma trận đã khóa;
+  kết quả 2023 báo riêng là development, pilot/smoke không vào primary sample.
+- **Nhiệm vụ cụ thể**:
+  - [ ] Chạy `FPT`, `VNM`, `VCB`, `MWG` theo lịch, một upstream/point
+    deep-copy cho mọi nhánh; checkpoint/ledger/guard HTTP chung.
+  - [ ] Resume phần durable, đối soát unknown, kiểm source/PIT/identity và
+    P&L từng mã. Lỗi giữ trong plan, không thay bằng ngày dễ hơn hoặc CASH giả.
+  - [ ] Verifier semantic offline toàn run; báo common support, missing,
+    structured source và usage/cap thực tế. Không hiệu chỉnh ứng viên từ
+    kết quả 2024 rồi gọi lại đó là holdout chưa quan sát.
+- **Deliverables cuối W8**: kết quả tại `outputs/bayesian_benchmark/` theo
+  cohort/version, đủ common support hoặc ghi rõ thiếu và gate chưa đóng;
+  dữ liệu thực nghiệm gitignore, README tiến độ gọn không receipt trùng lặp.
+
+### 📅 TUẦN 9: Phân tích Thống kê, Ablation và Xuất Biểu đồ
+
+- **Mục tiêu**: giữ nhóm việc thống kê của W7 cũ; kết luận từ dữ liệu thực,
+  kể cả không cải thiện hoặc độ bất định lớn.
+- **Nhiệm vụ cụ thể**:
+  - [ ] Sensitivity K=0/1/3 và các ablation đã khóa; K=5 chỉ khi có
+    contract/cap/quota và đã đăng ký trước run. Thử thêm sau xem holdout
+    phải đánh dấu exploratory, không sửa claim kiểm định chính.
+  - [ ] McNemar, Wilcoxon và block-bootstrap CI; bootstrap theo thời gian
+    giữ ghép cặp/cụm cùng ngày giữa mã, xét phụ thuộc và nhiều so sánh.
+  - [ ] Bảng accuracy/balanced accuracy, kinh tế sau phí/MDD/CASH/participation,
+    theo mã/regime; calibration chỉ khi có xác suất định nghĩa hợp lệ.
+    Kiểm định không đủ lực thì báo inconclusive, không dùng p>0,05 để nói ngang nhau.
+  - [ ] Xuất bảng LaTeX, equity/drawdown và phân bố paired differences;
+    dùng vector cho hình khoa học, ≥300 DPI nếu cần raster.
+- **Deliverables cuối W9**: `docs/figures/`, `outputs/tables_summary.tex`,
+  báo cáo định lượng gắn cohort/config và giới hạn thực nghiệm; không chọn
+  chỉ mã/regime thắng để chứng minh giả thuyết.
+
+### 📅 TUẦN 10: Hoàn thiện Luận văn KLTN và Slide Bảo vệ
+
+- **Mục tiêu**: giữ nhóm việc luận văn của W8 cũ, trình bày đóng góp đã có.
+- **Nhiệm vụ cụ thể**:
+  - [ ] Chương 3: phân biệt Bayes phân cấp từ lý thuyết, ICL v1,
+    posterior thống kê v2, retrieval và policy riêng; không khẳng định
+    LLM tự thực hiện posterior hiệu chuẩn khi chưa đo được.
+  - [ ] Chương 4: bảng/biểu đồ 2024 xác nhận tách 2023 phát triển,
+    case studies, kiểm định/CI, chi phí quota và giới hạn tin/replay/proof.
+  - [ ] Kết luận, hướng phát triển, kiểm đường dẫn/checksum và khả năng
+    tái lập bằng code/data version đã ghim.
+  - [ ] 25–30 slide về vấn đề, phương pháp, triển khai, kết quả thực tế và
+    giới hạn; không đặt yêu cầu phải có kết quả vượt trội để bảo vệ.
+- **Deliverables cuối W10**: toàn văn Word/LaTeX/PDF và slide bảo vệ,
+  hướng dẫn chạy/verify; tài liệu tuần đặt tại `docs/plan/week<N>/`.
 
 ---
 
@@ -420,4 +524,8 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 
 ## 10. KẾT LUẬN
 
-Bản kế hoạch này cung cấp một lộ trình nghiên cứu học thuật chuẩn mực, khả thi và bám sát thực tế cho Khóa luận Tốt nghiệp trong 2 tháng. Bằng cách kế thừa nguyên vẹn nền tảng kiểm định kinh tế và cấu trúc LangGraph đã hoàn thiện của repository, đồng thời áp dụng chính xác nguyên lý *Multi-Task Bayesian In-Context Learning* từ hội nghị hàng đầu thế giới (ICML 2026), đề tài sẽ sở hữu cả **tính mới về mặt học thuật (Academic Novelty)** lẫn **tính liêm chính về mặt phương pháp (Methodological Rigor)**.
+Lộ trình **10 tuần** giữ nền tảng kinh tế/PIT/paired đã nghiệm thu và thêm
+thời gian triển khai, kiểm chứng v2 trước benchmark. Đóng góp được xác định
+qua code có thể tái lập và thực nghiệm có đối chứng; kết quả tốt, kém hoặc
+chưa đủ bằng chứng đều được báo cáo. Không dùng việc chốt tuần/gate kỹ thuật
+để thay cho chứng minh ưu thế đầu tư hoặc posterior LLM đã hiệu chuẩn.
