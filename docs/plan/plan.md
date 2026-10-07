@@ -334,7 +334,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A, 2/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A, 3/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -344,7 +344,13 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - **W5-02 DONE, 07/10/2026**: đối chiếu summary từ 20 checkpoint; bảng
   accuracy/LONG/SHORT/hit-rate/tài khoản/MDD năm nhánh và coverage trong README.
   Cả năm nhánh lỗ; Original accuracy 55%, Bayesian 50%; mẫu đầu 2023, sentiment
-  toàn NEUTRAL. Giữ pilot v1; rà annualization ở W5-04. Tiếp theo W5-03.
+  toàn NEUTRAL. Giữ pilot v1; rà annualization ở W5-04.
+- **W5-03 DONE, 07/10/2026**: CLI `scripts/analyze_prior_run.py` đọc
+  checkpoint/ledger/audit, đối soát 146 HTTP 200 +một unknown và charged
+  text 194.218/vision 102.034; giữ reserve 5.535. Trace 1/20 bất đồng,
+  chênh return −2,241809 điểm phần trăm; timer/role thiếu để null.
+  Verifier 20/20, 82 file bất biến; compileall/E2E, **536 unit/93 leakage PASS**.
+  Tiếp theo W5-04, Phase A chưa đóng.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).

@@ -1,7 +1,7 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: đang thực hiện Phase A; 2/16 task hoàn thành — W5-01 và W5-02 DONE.**
-Ngày lập: **07/10/2026**. W5-01/02 kiểm và tổng hợp offline; code nghiên cứu giữ nguyên, chưa gọi LLM mới.
+**Trạng thái: đang thực hiện Phase A; 3/16 task hoàn thành — W5-01, W5-02 và W5-03 DONE.**
+Ngày lập: **07/10/2026**. W5-01–03 kiểm/tổng hợp offline; đã thêm CLI audit, code pipeline W4 giữ nguyên, chưa gọi LLM mới.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
 [Hợp đồng API/checkpoint hiện hành](../week4/week_close_and_handoff.md)
 
@@ -12,7 +12,7 @@ hoàn thiện đường chạy chính thức, xử lý các điểm yếu vận 
 và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ trình
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
-16 mã task W5 được giữ; W5-01/02 vẫn DONE, các bổ sung bên dưới còn TODO.
+16 mã task W5 được giữ; W5-01–03 DONE, nền tảng v2 vẫn còn TODO.
 
 | Đầu vào đã hoàn thành ở W4 | Ý nghĩa đối với W5 |
 | --- | --- |
@@ -237,8 +237,9 @@ mô hình giao dịch hiện tại.
 
 #### Phạm vi code v2 bắt buộc trong W5
 
-1. **W5-03:** bổ sung phân tích action bất đồng và trace support/score/tuổi
-   prior/coverage từ checkpoint, tái lập được ca trên, không gọi LLM mới.
+1. **W5-03 — DONE:** đã thêm phân tích action bất đồng và trace
+   support/score/tuổi prior/coverage từ checkpoint, tái lập được ca trên;
+   kết quả/lệnh audit ở mục telemetry bên dưới.
 2. **W5-04:** khóa hợp đồng v2, tiêu chí đánh giá và phân hoạch: 2018–2022
    train/validation cuốn chiếu theo thời gian; 2023 phát triển/thăm dò;
    **2024 đánh giá xác nhận**, không dùng outcome/dự báo 2024 để chọn phiên bản.
@@ -280,6 +281,102 @@ for name, item in summary.items():
 '@ | py -3.13 -X utf8 -
 ```
 
+### Telemetry và audit paired — W5-03
+
+Triển khai một CLI phân tích dùng chung:
+[`scripts/analyze_prior_run.py`](../../../scripts/analyze_prior_run.py).
+API summary trước đây chỉ có metric tài khoản; CLI này bổ sung đối soát
+ledger/attempt/trace mà không sửa các file code đang được identity W4 ghim.
+Không tạo receipt JSON/Markdown, không ghi vào run hoặc thay khóa.
+
+```powershell
+py -3.13 -X utf8 scripts/analyze_prior_run.py --reconciliation-dir outputs/oos_pilot/reconciliation
+```
+
+API `analyze_run(output_dir, ledger_path, reconciliation_dir=...)` trả dữ
+liệu JSON native để dùng lại. Kiểm envelope/schema/hash của identity,
+manifest/result/point, toàn common support, shared pairing, nhãn/P&L qua
+engine và summary; kiểm backup/15 điểm cũ/reserve khi có audit replay.
+Đây là audit trên checkpoint đã lưu; verifier semantic phiên bản W4 vẫn
+cần dùng theo hướng dẫn mục baseline, không coi audit là thay thế verifier.
+
+#### HTTP và token đã đối soát
+
+| Model | HTTP attempt / 200 / unknown | Input đã báo | Output đã báo | Total đã báo | Reserve còn giữ | Charged v1 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `openai/gpt-oss-20b` | 103 / 103 / 0 | 178.591 | 15.627 | 194.218 | 0 | **194.218** |
+| `qwen/qwen3.8-27b` | 44 / 43 / 1 | 90.826 | 5.673 | 96.499 | **5.535** | **102.034** |
+
+- **147 attempt, 146 HTTP 200, 0 HTTP 429**, một `transport_error` không
+  có usage/request ID. Total vision chỉ là 43 response có usage; request
+  chưa rõ kết quả vẫn giữ reserve, không được tính như gọi miễn phí.
+- Tổng reserve đặt trước qua các request: text **440.256**, vision
+  **229.552** token. Đây không phải usage thực hoặc reserve đang chiếm quota:
+  response có total_tokens dương đã được thay bằng usage trong phép charged.
+  Audit tái lập policy v1 `total_tokens or reserved_tokens`; trường hợp
+  provider báo total=0 vẫn phân biệt actual=0 nhưng charged còn reserve,
+  không âm thầm thay cách tính của guard trong task này.
+- **100 HTTP** ghép chắc chắn vào cửa sổ attempt Decision; **hai request
+  preflight** có ID còn được ledger dẫn chiếu. **Bốn request trước manifest**
+  chưa có nhãn durable; **41 request trong run ngoài cửa sổ Decision** chưa
+  có role/point ID. Lịch sử W4 ghi sáu preflight, nhưng audit không tự gán
+  bốn request đầu bằng heuristic số token. Scope bảng là **toàn ledger
+  được cung cấp**, không tự coi mọi request là chi phí riêng của Decision.
+- Checkpoint giữ **100 attempt Decision complete +một failed**, 100 Decision
+  hợp lệ; failed trước HTTP có cửa sổ không gắn request. Không có HTTP thêm
+  trong cửa sổ Decision. Ledger chưa có counter riêng cho format retry,
+  nên field này là `null`, không tuyên bố mọi graph có zero format retry.
+- Có **20 shared point và 20 Full bundle durable**; invocation upstream/Full
+  chính xác không được ghi riêng. Kiểm được một audit replay upstream đã
+  áp dụng, không biến stage hoặc replay thành bảo đảm exactly-once provider.
+
+#### Thời gian: phân biệt số đo và phần chưa có
+
+| Số đo | N | Tổng (giây) | P95 (giây) | Phạm vi |
+| --- | ---: | ---: | ---: | --- |
+| HTTP text 200 | 103 | 122,358 | 2,093 | Cả preflight trong ledger |
+| HTTP vision 200 | 43 | 62,814 | 2,038 | Chỉ response thành công |
+| HTTP vision gồm unknown | 44 | 5.590,235 | 2,131 | Unknown có latency 5.527,421 giây; giữ riêng outlier |
+| Graph Decision hoàn tất | 100 | 4.047,129 | 52,017 | Gồm chuẩn bị/nghỉ/HTTP trong graph, không chỉ HTTP |
+| Cửa sổ attempt Decision | 101 | 4.041,266 | 51,960 | Timestamp start/finish gồm một failed |
+| Span Decision đầu →cuối từng điểm | 20 | 5.045,516 | 253,683 | Không là thời gian toàn điểm, thiếu đầu upstream |
+
+P95 nội suy tuyến tính; median graph Decision **50,767 giây**, median span
+**245,198 giây**. Span toàn ledger **14.249,359 giây** gồm khoảng ngắt/resume
+và request trước run; không là thời gian CPU hay pacing. Các tổng trên có
+phạm vi chồng nhau, **không cộng lại** làm tổng thời gian chạy.
+Latency HTTP là elapsed transport đã ghi, không là thời gian xử lý GPU;
+latency của unknown không chứng minh provider đã xử lý request bao lâu.
+
+**Pacing, retrieval và thời gian toàn điểm của pilot: chưa có timer riêng,
+trả `null`.** Không lấy graph−HTTP hoặc khoảng trống timestamp để khẳng
+định thời gian nghỉ quota. Receipt p95 retrieval W4 vẫn giữ nguyên ở mục
+đầu; đó là benchmark riêng, không là latency retrieval của từng pilot point.
+W5-04 cần chốt role/point/attempt/preflight và timer riêng cho run phiên
+bản mới; không thêm telemetry ngược vào checkpoint W4 đã đóng băng.
+
+#### Trace quyết định và kiểm tính bất biến
+
+Audit xuất metadata của **đủ 20 điểm**, không chỉ ca thua; CLI in gọn ca
+bất đồng duy nhất **FPT-2023-02-20, SHORT →LONG**, LONG ròng **−2,376584%**,
+chênh return tài khoản **−2,241809 điểm phần trăm**. Population=62,
+requested/selected K=3/3, ba score=1; tuổi từ ngày quyết định prior là
+**356/364/374 ngày**, tin 0, không reliable. Các metric lịch sử/query signals,
+ngày exit và tuổi exit cũng có trong API; tuổi tính theo ngày lịch tại query.
+
+Lý do structured được tham chiếu bằng field/độ dài/SHA-256 và vị trí
+`branches.<branch>.decision.normalized_response` trong checkpoint; không
+in prompt/raw response/nội dung tự do vào báo cáo. Không suy đoán suy luận
+ẩn hoặc dùng outcome query cho selection. Lỗi pairing, sai return/nhãn,
+exit_date ≥cutoff, thiếu checkpoint hoặc run dở đều dừng bằng lỗi.
+
+Kiểm CLI với audit hook cấm mở `.env`/`.env.*`, DNS/socket: **0 credential
+attempt, 0 network attempt**. Verifier semantic W4 kiểm lại riêng PASS,
+**20/20 điểm**; **82/82 file** bảo vệ code/schema/input/checkpoint/ledger/
+audit/backup/bank/model/ZIP khớp byte trước và sau. Metadata lock/owner/
+recovery của verifier không thuộc tập đóng băng. Nghiệm thu: **15 test mới**,
+compileall/E2E, **536 unit/93 leakage PASS**; không tạo receipt mới.
+
 ## 2. Quy tắc xuyên suốt
 
 1. Giá chỉ từ **vnstock/VCI và vnstock/KBS**. LONG mua Open(t+1), bán
@@ -311,7 +408,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | --- | --- | --- | --- | --- |
 | A | W5-01 | Đối chiếu bàn giao và khóa bằng chứng pilot | W4 đã đóng | [x] |
 | A | W5-02 | Tổng hợp chất lượng và chỉ số pilot offline | 01 | [x] |
-| A | W5-03 | Báo cáo HTTP/token/thời gian và bất đồng quyết định | 01, 02 | [ ] |
+| A | W5-03 | Báo cáo HTTP/token/thời gian và bất đồng quyết định | 01, 02 | [x] |
 | A | W5-04 | Chốt vận hành, hợp đồng v2 và phân hoạch đánh giá | 02, 03 | [ ] |
 | B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [ ] |
 | B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [ ] |
@@ -369,6 +466,9 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 - **Làm:** chốt retry/dừng/resume, quy tắc identity, schema báo cáo,
   metric chính/phụ và cách tổng hợp theo mã. Tách phân tích mô tả pilot
   khỏi đánh giá chính thức; định nghĩa common support và xử lý điểm dở.
+  Chốt contract telemetry cho run mới: role/point/attempt/preflight,
+  invocation counter và timer HTTP/pacing/retrieval/toàn điểm đo riêng;
+  giữ `null`/coverage cho số đo không có, không migrate dữ liệu v1 bằng ước đoán.
   Giữ tài khoản 50 triệu đồng cho từng mã; nếu báo cáo portfolio chung
   phải có quy tắc phân bổ riêng, không cộng equity để giả thành cùng một tài khoản.
 - **Bổ sung:** chốt fields/version cho posterior lịch sử, support, interval,
@@ -601,3 +701,4 @@ Không merge khi gate bắt buộc FAIL.
 | 07/10/2026 | W5-01 | DONE: verifier offline 20/20; 100 Decision; 31 code/12 source/runtime khớp W4; 15 point/75 Decision cũ, audit và reserve 5.535 nguyên vẹn; 97 file không đổi. Compileall/E2E, 521 unit/93 leakage PASS | W5-02; baseline và cách kiểm lại W4 ở mục 1 |
 | 07/10/2026 | W5-02 | DONE: result/summary dựng lại khớp payload đã lưu; bảng năm nhánh cùng 20 điểm, nhãn/coverage/Decision có mẫu số đầy đủ; 97 file bất biến không đổi. Compileall/E2E, 521 unit/93 leakage PASS; không LLM hoặc thay đổi công thức/ma trận | W5-03; rà annualization ở W5-04 |
 | 07/10/2026 | Điều chỉnh lộ trình theo pilot | PLAN_UPDATED: 1/20 action khác Original, ca FPT 20/02 giải thích chênh return; giữ bốn phase/16 task và 2 DONE, thêm code audit/posterior/gate/prefix vào task còn TODO. Lộ trình 10 tuần, tách 2023 development/2024 holdout; compileall/E2E, 521 unit/93 leakage PASS; không API hoặc sửa pilot | W5-03 rồi W5-04; W6–W7 cải thiện/validation, W8–W10 benchmark/thống kê/luận văn |
+| 07/10/2026 | W5-03 | DONE: CLI/API audit readonly; 146 HTTP 200 +một unknown; charged text 194.218/vision 102.034, reserve 5.535 giữ nguyên; 100 attempt complete +một failed; 1/20 bất đồng, chênh return −2,241809 điểm phần trăm. Timer v1 thiếu ghi null, không đoán pacing/role; verifier pilot 20/20, audit hook 0 credential/network, 82 file bất biến. 15 test mới; compileall/E2E, 536 unit/93 leakage PASS | W5-04: contract vận hành/v2, metric/phân hoạch và telemetry run mới |

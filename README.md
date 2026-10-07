@@ -34,8 +34,9 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ 16 task và bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đang Phase A, **2/16 task hoàn thành**: đã đối chiếu baseline/audit và
-  tổng hợp chỉ số năm nhánh pilot offline. Tiếp theo W5-03 telemetry/audit bất đồng.
+  W5 đang Phase A, **3/16 task hoàn thành**: baseline, metric pilot và CLI
+  telemetry/audit bất đồng offline. W5-03 nghiệm thu **536 unit/93 leakage**,
+  compileall/E2E PASS; pilot/checkpoint/ledger giữ nguyên. Tiếp theo W5-04.
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
