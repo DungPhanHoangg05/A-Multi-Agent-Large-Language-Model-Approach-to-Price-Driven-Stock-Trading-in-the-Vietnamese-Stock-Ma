@@ -30,10 +30,13 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
 - [Phương pháp nghiên cứu](docs/methodology_spec.md).
 - [Chạy/tiếp tục Memory Bank và QA](docs/plan/week2/phase_c_memory_generation.md).
 - [API prior, checkpoint/resume và bàn giao W5](docs/plan/week4/week_close_and_handoff.md).
-- Bước tiếp theo: W5 gồm 16 task về tổng hợp pilot, vận hành/resume,
-  lịch mẫu/quota bốn mã và smoke giới hạn để chuẩn bị benchmark W6.
+- Lộ trình đã mở rộng thành **10 tuần**: W5 vận hành/nền tảng Bayesian v2,
+  W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
+  W9 thống kê, W10 luận văn. Giữ 16 task và bốn phase W5; bổ sung đầu ra code
+  posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
   W5 đang Phase A, **2/16 task hoàn thành**: đã đối chiếu baseline/audit và
-  tổng hợp chỉ số năm nhánh pilot offline. Tiếp theo W5-03 tổng hợp telemetry.
+  tổng hợp chỉ số năm nhánh pilot offline. Tiếp theo W5-03 telemetry/audit bất đồng.
+  Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
 được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).
