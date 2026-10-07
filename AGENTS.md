@@ -120,6 +120,7 @@ Mọi thông điệp commit **BẮT BUỘC** phải tuân thủ chuẩn Conventi
 - **Runtime chuẩn**: Python **3.13.5** (đã ghim trong `.python-version`). Không sử dụng các tính năng không tương thích phiên bản này.
 - **Ngôn ngữ diễn giải**: Toàn bộ chú thích mã (comments), docstrings, nhật ký ghi log trên console và giải thích kỹ thuật phải viết bằng **tiếng Việt chuẩn mực, rõ ràng**. Tên hàm, tên biến, tên lớp và schema JSON giữ nguyên bằng tiếng Anh chuẩn.
 - **Thư mục kế hoạch theo tuần**: Đặt tài liệu, checklist và receipt của tuần tại `docs/plan/week<N>/`, cùng cây thư mục với `docs/plan/plan.md`. Các tuần tiếp theo tiếp tục dùng cấu trúc này theo thay đổi của người dùng; khi chuyển file phải cập nhật đường dẫn trong script, test và liên kết Markdown, giữ nguyên byte các bằng chứng đã đóng băng.
+- **Giữ tài liệu gọn**: README của từng tuần là nơi cập nhật checklist và tiến độ. Chỉ tách Markdown khi cần hướng dẫn vận hành hoặc phương pháp độc lập; không tạo thêm biên bản/receipt theo từng task nếu chỉ lặp lại kết quả đã ghi. Giữ schema, QA và fixture JSON mà code/test đọc; bằng chứng lịch sử dư thừa được đóng gói nguyên byte trong `docs/plan/implementation_evidence.zip`.
 
 ### 5.2. Tối ưu hóa Vector hóa (Vectorization First)
 - Cấm lặp `for` theo từng dòng trên Pandas DataFrame (`iterrows()`, `itertuples()` chậm chạp).

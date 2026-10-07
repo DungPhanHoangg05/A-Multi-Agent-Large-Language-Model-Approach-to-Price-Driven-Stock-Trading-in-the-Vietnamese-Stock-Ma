@@ -1,46 +1,12 @@
-# Chốt W4 và bàn giao pilot W5
+# Vận hành prior, checkpoint/resume và bàn giao W5
 
-**Chốt ngày 06/10/2026: W4 hoàn thành 16/16 task, Phase D 4/4; Gate D PASS kỹ thuật offline, có cảnh báo hiệu năng.**
-Nhánh `docs/prior-runtime-handoff`, nền `a54a531`.
-[Checklist W4](README.md), [Phase D](phase_d_validation_handoff.md),
-[kế hoạch tổng](../plan.md). Receipt cuối tuần: [week_close_review.json](week_close_review.json).
+**W4 đã hoàn thành 16/16; Gate D offline và retrieval p95 PASS.** Cập nhật
+07/10/2026; [tiến độ và kết quả nghiệm thu](README.md), [kế hoạch tổng](../plan.md).
+Các receipt và bản bàn giao cũ được lưu nguyên byte trong
+[ZIP bằng chứng](../implementation_evidence.zip). Prior mặc định tắt.
+Gate giá OOS/model/quota/CLI/pilot vẫn chưa PASS.
 
-## 1. Phạm vi đóng tuần
-
-W4 bàn giao runtime state/graph/Decision/backtest tích hợp prior, kiểm nguồn
-point-in-time, ghép cặp năm nhánh và checkpoint/resume từng nhánh. Nghiệm thu
-offline dùng engine, adapter, retriever, formatter và graph thật với LLM giả.
-Prior **mặc định tắt**; các entry point và bốn ablation cũ được bảo toàn.
-
-Việc đóng W4 không mở gate dữ liệu giá thô kiểm định 2023–2024, model OOS,
-quota hay pilot LLM thật. Benchmark bổ sung W4-15 vẫn **FAIL p95 <30 ms**;
-đây là rủi ro bàn giao, không dùng số PASS W3 thay thế hoặc coi đã khắc phục.
-
-## 2. Đối chiếu deliverables và 16 task
-
-| Task | Deliverable đã nghiệm thu | Receipt |
-| --- | --- | --- |
-| W4-01 | Đầu vào W3/kho và điểm nối runtime | [input_readiness.json](input_readiness.json) |
-| W4-02 | State/config, ownership, query/result | [state_config_review.json](state_config_review.json) |
-| W4-03 | Nguồn giá/tin/regime/signals và PIT proof | [provenance_review.json](provenance_review.json) |
-| W4-04 | Identity, schema, kết quả/checkpoint | [checkpoint_review.json](checkpoint_review.json) |
-| W4-05 | Parser/state optional/guard off-enabling | [state_config_runtime_review.json](state_config_runtime_review.json) |
-| W4-06 | Cap báo cáo và guard prompt runtime | [runtime_prompt_budget_review.json](runtime_prompt_budget_review.json) |
-| W4-07 | BRPP/reasoning tại Decision | [decision_prior_integration_review.json](decision_prior_integration_review.json) |
-| W4-08 | Full preparation và Prior Preparation → Decision | [graph_prior_integration_review.json](graph_prior_integration_review.json) |
-| W4-09 | Adapter thật, hai provider PIT và replay journal | [prior_context_review.json](prior_context_review.json) |
-| W4-10 | Một upstream/Full, năm Decision ghép cặp | [paired_prior_point_review.json](paired_prior_point_review.json) |
-| W4-11 | Walk-forward, metadata và kinh tế từ engine | [prior_backtest_review.json](prior_backtest_review.json) |
-| W4-12 | Durable intent/branch, semantic resume, OS lock | [paired_checkpoint_review.json](paired_checkpoint_review.json) |
-| W4-13 | Leakage toàn pipeline, kiểm độc lập artifact/prefix | [pipeline_leakage_review.json](pipeline_leakage_review.json) |
-| W4-14 | Smoke tổng hợp và replay quan sát thật, Decision giả | [integration_smoke.json](integration_smoke.json) |
-| W4-15 | Bốn gate, hash/scope/budget và rà rủi ro hiệu năng | [integration_gate_review.json](integration_gate_review.json) |
-| W4-16 | Hướng dẫn vận hành, điều kiện pilot và đóng tuần | [week_close_review.json](week_close_review.json) |
-
-Contract/spec của Phase A là đặc tả; bằng chứng triển khai ở Phase B/C/D.
-Không chỉnh trạng thái lịch sử trong receipts đã đóng băng.
-
-## 3. API, cấu hình và đường chạy
+## 1. API, cấu hình và đường chạy
 
 Các API nằm tại [prior_config.py](../../../core/prior_config.py),
 [prior_context.py](../../../core/prior_context.py),
@@ -146,14 +112,13 @@ result = engine.run_prior_backtest(
 
 Plan có 600 nến warm-up, horizon ba phiên, step ≥3 phiên. Runner kiểm toàn
 plan/context/entry/exit trước API đầu. Adapter/retriever được tạo một lần;
-checksum byte nguồn vẫn được kiểm tại ranh giới graph, không gọi toàn graph
-là đường chỉ dùng RAM. Chi tiết: [adapter](prior_context_adapter.md),
-[ghép cặp](paired_prior_point.md), [walk-forward](prior_backtest_integration.md).
+checksum byte nguồn vẫn được kiểm tại ranh giới graph; toàn graph có I/O
+kiểm nguồn, còn truy xuất trên pool đã nạp chạy trong RAM.
 
-## 4. Kết quả và resume
+## 2. Kết quả và resume
 
-[Schema v1](research_checkpoint.schema.json), [contract](checkpoint_contract.md),
-[triển khai/giới hạn](prior_checkpoint_resume.md).
+[Schema v1](research_checkpoint.schema.json) và [policy checkpoint](checkpoint_policy.json)
+quy định định dạng lưu và điều kiện phục hồi.
 
 | Artifact dưới run-dir | Vai trò |
 | --- | --- |
@@ -198,29 +163,23 @@ cùng API/output-dir với `resume=True`. Không dùng script resume Memory Bank
   cam kết exactly-once API từ xa. Attempt là một lần invoke graph, chưa là
   số request HTTP/retry; W5 phải đo riêng.
 
-## 5. Ngân sách runtime và cảnh báo hiệu năng
+## 3. Ngân sách runtime và hiệu năng
 
-[Budget/gate](integration_gate_review.json), [phương pháp/kết quả](integration_gate_validation.md),
-[mẫu thô hiệu năng](integration_performance_review.json).
+- Cap báo cáo 4.000 ký tự: trend/pattern/indicator 800 mỗi loại, Alpha 1.100,
+  sentiment 500. BRPP ≤600; prompt cuối gồm template/reasoning **<6.500**.
+- Guard kiểm trước API; không cắt BRPP để che lỗi. Smoke kiểm prefix 600,
+  prompt 6.499 nhận/6.500 chặn với runtime caps nguyên bản.
+- [Kết quả mới nhất](README.md): bốn mode retrieval p95 10,837–13,235 ms,
+  PASS <30 ms sau tối ưu lookup alias/copy pool. Kiểm snapshot/PIT/type/copy
+  và output/ranking/stats/oracle giữ nguyên. Lượt W4-15 và baseline trước sửa
+  FAIL vẫn được giữ nguyên byte trong [ZIP bằng chứng](../implementation_evidence.zip).
+- Phương pháp 100 warm-up/1.000 mẫu/bước/mode, bốn mode/hai scope, nearest-rank;
+  không bỏ ngoại lai, nới ngưỡng hoặc chọn lại lượt PASS. Formatter/adapter/
+  graph/cold load đo riêng, không áp ngưỡng retrieval cho chúng.
+- Sửa code retriever đổi fingerprint: không ép resume một run nghiên cứu
+  ký bằng bản code khác. Artifact Memory Bank W2 giữ identity bên tạo.
 
-- Cap report backtest tổng 4.000 ký tự: trend/pattern/indicator mỗi loại 800,
-  Alpha 1.100, sentiment 500. BRPP ≤600; prompt cuối gồm template/reasoning
-  phải **<6.500**, kiểm trước API và không cắt BRPP để che lỗi.
-- `runtime_budget_gate_passed=true` trong receipt W4-15 và receipt chốt mới;
-  các receipt lịch sử `false` giữ nguyên. Smoke runtime đã kiểm prefix 600,
-  prompt 6.499 nhận/6.500 chặn; max synthetic 4.193, observed 4.423.
-- W4-15: retrieval p95 Bayesian/Random/Recent/Similarity
-  **35,550 / 30,915 / 31,740 / 40,643 ms**, đều FAIL ngưỡng <30 ms.
-  Mã retriever/memory không đổi; chưa chứng minh nguyên nhân duy nhất là tải máy.
-  Giữ cả lượt đầu FAIL và lượt đầy đủ, không lọc ngoại lai/nới ngưỡng.
-- Đo riêng: formatter p95 0,141 ms; adapter retrieve 41,135 ms;
-  graph với Decision giả 107,029 ms; cold adapter 20.344,949 ms, bank load=1.
-  Không cộng/trừ p95 riêng để suy ra overhead hay độ trễ LLM thật.
-- Bàn giao kiểm lại trên môi trường giảm tải với đúng phương pháp 100 warm-up/
-  1.000 mẫu mỗi mode/bước, bốn mode/hai scope, receipt mới. Không chạy lại chỉ
-  để chọn lượt PASS; nếu vẫn FAIL, profile và đề xuất task tối ưu riêng, giữ guards/PIT/copy.
-
-## 6. Điều kiện mở pilot/OOS — đang BLOCKED
+## 4. Điều kiện mở pilot/OOS — đang BLOCKED
 
 Các mục dưới đây là công việc trước API pilot đầu tiên, **không được đánh dấu
 PASS từ việc đóng W4**. Pilot FPT cần FPT+VNINDEX; benchmark W6 cần đủ FPT/VCB/VNM/MWG.
@@ -259,16 +218,16 @@ PASS từ việc đóng W4**. Pilot FPT cần FPT+VNINDEX; benchmark W6 cần đ
   tôn trọng retry-after và dừng checkpoint khi hết quota. Nghỉ hiện có 10 giây
   giữa nhánh, 8 giây giữa điểm không bảo đảm không vượt TPM. Pacer W2 chưa được
   tự gắn vào CLI nghiên cứu; W5 cần nối và kiểm riêng.
-- [ ] Rà cảnh báo hiệu năng W4-15; lưu phép đo mới dưới điều kiện tải đã mô tả,
-  hoặc kế hoạch xử lý có bằng chứng. Không công bố p95 <30 ms từ lượt FAIL.
+- [x] Cảnh báo p95 đã xử lý trên bản tối ưu ngày 07/10/2026; giữ cả FAIL/PASS
+  trong ZIP bằng chứng, không dùng kết quả này thay gate quota hoặc OOS.
 
-## 7. Thứ tự triển khai W5
+## 5. Thứ tự triển khai W5
 
 | Bước | Việc phải làm | Đầu ra / điều kiện chuyển bước |
 | --- | --- | --- |
 | 1 | Mở gate giá/tin FPT+VNINDEX OOS, giữ train archive | Bộ nguồn riêng, manifest/evidence/audit/hash PASS |
 | 2 | Chốt artifact/freeze PIT và plan 20 cutoff | Model proof + plan/hash PASS trước mọi API |
-| 3 | Chốt config, quota/pacing và xử lý cảnh báo p95 | Cấu hình vận hành, giới hạn/dừng/retry, bằng chứng hiệu năng đúng trạng thái |
+| 3 | Chốt config, quota/pacing; đối chiếu p95 đã PASS | Cấu hình vận hành, giới hạn/dừng/retry và bằng chứng hiệu năng |
 | 4 | Viết `scripts/run_bayesian_ablation.py` gọi API W4 | CLI dry-run/preflight/verify/resume; mock offline có call-count, schema và checkpoint PASS |
 | 5 | Chạy pilot thật sau gates W5 | 20 common-support point, năm nhánh, 100 Decision hợp lệ; run-dir/checkpoint/log/telemetry |
 | 6 | Rà pilot và điều kiện mở benchmark W6 | Báo cáo lỗi/token/latency/quota/resume và dữ liệu đủ bốn mã; không tự mở W6 khi còn thiếu |
@@ -285,7 +244,7 @@ hợp lệ sau cơ chế retry hiện có, quota hết, nguồn đổi, lock/I/O
 stop. Giữ dữ liệu durable, không tiếp tục điểm sau để che điểm dở; chỉ đánh giá
 common support đủ năm nhánh. Resume xác minh trước API và bỏ nhánh complete.
 
-## 8. Giới hạn nghiên cứu và nội dung báo cáo giảng viên
+## 6. Giới hạn nghiên cứu và nội dung báo cáo giảng viên
 
 Kho hiện có **852 episode**, quyết định 2020–2022 do warm-up, không đại diện
 đủ 2018–2019. Sentiment toàn NEUTRAL vì thiếu tin lịch sử đáng tin cậy.
@@ -297,15 +256,5 @@ kiểm native Windows, chưa nghiệm thu native Linux/filesystem chia sẻ.
 Có thể báo cáo: đã tích hợp prior regime vào pipeline đa agent, bảo toàn kinh
 tế T+2.5, kiểm PIT/paired/budget/checkpoint và hồi quy offline. Bước tiếp theo
 là mở dữ liệu OOS, model proof, quota/CLI rồi pilot FPT 20 điểm; chưa có bằng
-chứng tăng lợi nhuận ngoài mẫu và chưa giải quyết cảnh báo hiệu năng p95.
-
-## 9. Kiểm chứng đóng tuần
-
-Compileall, **498 unit** (408.671 giây suite), **E2E** (28.010 giây), **93 leakage** (123.899 giây suite) PASS mới; **2431 file bảo vệ giữ hash**.
-
-[Receipt chốt](week_close_review.json) đối chiếu 16 task, nguồn/schema/template/code,
-liên kết và phạm vi docs-only; các receipt cũ, bank/archive nguyên byte.
-**Gate D PASS_OFFLINE_INTEGRATION_WITH_PERFORMANCE_WARNING**: kỹ thuật đủ
-bốn gate và bàn giao; `runtime_budget_gate_passed=true`, prior vẫn mặc định tắt.
-Benchmark p95 vẫn FAIL; gate giá OOS/model/quota và pilot chưa PASS.
-Bước tiếp theo là lập kế hoạch chi tiết W5 rồi mở các điều kiện trước pilot.
+chứng tăng lợi nhuận ngoài mẫu. Cảnh báo retrieval p95 đã xử lý; hiệu năng
+LLM/quota cần đo khi pilot.

@@ -1,7 +1,7 @@
 # Luật chọn prior và similarity — phiên bản 1
 
 **Chốt W3-03 ngày 04/10/2026.** Cấu hình đóng băng tại
-[prior_selection_policy.json](prior_selection_policy.json), tương thích
+[prior_selection_policy.json](../implementation_evidence.zip), tương thích
 [hợp đồng API v1](retriever_api_contract.md). Nền W3-05, Recent/Random W3-06 và
 Similarity W3-07, Bayesian W3-08 và stats/result retrieve K>0 W3-09 đã có.
 Không chọn tham số bằng kết quả kiểm định 2023–2024.
@@ -144,7 +144,7 @@ tasks = rng.sample(ordered_candidates, min(k, len(ordered_candidates)))
 ```
 
 Thuật toán này đã triển khai trong `_select_random()` ở W3-06; stats và result
-retrieve hoàn chỉnh còn chờ W3-09.
+retrieve hoàn chỉnh đã triển khai ở W3-09 và nghiệm thu khi chốt W3.
 Không đưa `bank_sha256`, outcome, signals, regime, mode hoặc K vào seed_payload:
 thêm/đổi record tương lai hợp lệ ngoài E không được đổi draw của query cũ.
 Hash kho vẫn lưu để kiểm toán; không dùng nó làm nguồn ngẫu nhiên cho query.
@@ -178,9 +178,4 @@ Khi triển khai, các ca cần PASS:
    đổi lựa chọn. Không đưa hash kho vào seed để gây đổi draw do record tương lai.
 6. Empty/K<3/K=0 đúng API; không tự mở scope/khác regime để bù mẫu.
 
-Kiểm chứng W3-03 là kiểm kê nhãn, rà soát cấu hình và tính ví dụ tham chiếu;
-Recent/Random W3-06, Similarity W3-07 và Bayesian W3-08 có kiểm thử runtime tại Phase B.
-Similarity dùng `_select_similarity()`: điểm bốn trường, phá hòa exit/ID, giữ score 0
-và bỏ qua outcome khi ranking. Bayesian W3-08 dùng cùng hàm này trên population
-cùng regime đã lọc PIT/scope; không tự đổi regime khi thiếu mẫu. Bộ hồi quy đầy đủ
-W3-13 còn chờ thực hiện; receipt từng task ghi snapshot mã tại thời điểm kiểm.
+Bốn mode đã triển khai và nghiệm thu; trạng thái hiện tại xem [README tuần](README.md).

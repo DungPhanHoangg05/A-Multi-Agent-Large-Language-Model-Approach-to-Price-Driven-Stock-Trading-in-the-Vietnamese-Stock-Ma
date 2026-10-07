@@ -16,63 +16,23 @@ The forecast label and the economic simulation are intentionally separate. A `LO
 - OHLCV consistency guards for chart-pattern and trend reports.
 - A deterministic offline end-to-end regression test that does not require API credentials.
 
-## Tiến độ nâng cấp nghiên cứu
+## Tiến độ và tài liệu chính
 
-Kế hoạch theo tuần đặt tại `docs/plan/week<N>/`; kế hoạch tổng ở
-[docs/plan/plan.md](docs/plan/plan.md). **W3 đã hoàn thành 16/16 task**, bàn giao API retriever độc lập,
-thống kê regime, BRPP và kiểm chứng offline tại
-[biên bản chốt/bàn giao W4](docs/plan/week3/week_close_and_handoff.md).
-W4 tiếp tục tích hợp state/graph/Decision/checkpoint và áp dụng cap/guard prompt;
-runtime tích hợp và kết quả giao dịch ngoài mẫu có gate riêng.
-[Kế hoạch W4](docs/plan/week4/README.md) đã chia 16 task trong bốn phase;
-**Phase A W4 hoàn thành 4/4**, **Phase B 4/4 (W4-05..08)**,
-**Phase C 4/4 (W4-09..12)**, **Phase D 4/4 (W4-13..16)**, tiến độ W4 **16/16**;
-Gate A PASS đặc tả với
-[hợp đồng kết quả/checkpoint](docs/plan/week4/checkpoint_contract.md) và
-[receipt](docs/plan/week4/checkpoint_review.json). State/config runtime đã có tám field
-optional, parser strict và guard off/enabled, **367 unit/E2E/56 leakage PASS**:
-[biên bản](docs/plan/week4/state_config_runtime.md). Cap backtest 4.000 và guard
-prompt cuối `<6500` đã PASS **375 unit/E2E/56 leakage**:
-[biên bản ngân sách runtime](docs/plan/week4/runtime_prompt_budget.md).
-BRPP/reasoning tại node Decision đã PASS **386 unit/E2E/56 leakage**, kể cả
-prefix 600 + hướng dẫn (max 6.467): [biên bản](docs/plan/week4/decision_prior_integration.md).
-Graph tách Full preparation và prior/Decision đã PASS **399 unit/E2E/56 leakage**,
-128 ca graph thật và hồi quy bốn ablation: [biên bản/API](docs/plan/week4/graph_prior_integration.md).
-**Gate B PASS offline với verifier/retriever fixture**. Adapter W4-09 đã kiểm
-nguồn thật, hai provider PIT và seal Full signals; **430 unit/E2E/71 leakage PASS**:
-[biên bản/API](docs/plan/week4/prior_context_adapter.md),
-[receipt](docs/plan/week4/prior_context_review.json). Engine W4-10 đã chạy
-upstream/Full một lần và năm Decision tuần tự, kiểm mutation/đảo thứ tự:
-[API/biên bản](docs/plan/week4/paired_prior_point.md),
-[receipt](docs/plan/week4/paired_prior_point_review.json), **445 unit/E2E/74 leakage PASS**.
-W4-11 đã có vòng walk-forward năm nhánh, schema kết quả và P&L từ engine hiện có:
-[biên bản/API](docs/plan/week4/prior_backtest_integration.md),
-[receipt](docs/plan/week4/prior_backtest_review.json), **461 unit/E2E/77 leakage PASS**.
-W4-12 đã có checkpoint/resume từng nhánh, manifest/shared/input durable trước API,
-semantic verifier và OS lock kiểm native Windows:
-[API/biên bản](docs/plan/week4/prior_checkpoint_resume.md),
-[receipt](docs/plan/week4/paired_checkpoint_review.json), **483 unit/E2E/82 leakage PASS**.
-**Gate C PASS offline**. W4-13 đã kiểm leakage toàn đường tích hợp và sửa
-đối chiếu proof provider với artifact/prefix thật:
-[coverage/biên bản](docs/plan/week4/pipeline_leakage_validation.md),
-[receipt](docs/plan/week4/pipeline_leakage_review.json), **494 unit/E2E/93 leakage PASS**.
-W4-14 smoke E2E riêng đã PASS: 8 context tổng hợp bốn regime/VI-EN, năm nhánh,
-resume/flag off/budget và 6 replay context thật (Decision giả):
-[biên bản](docs/plan/week4/prior_integration_smoke.md),
-[receipt](docs/plan/week4/integration_smoke.json), **498 unit/E2E/93 leakage PASS**.
-W4-15 đã PASS bốn gate mới, hash/scope và ngân sách runtime; overhead adapter/formatter/graph
-được đo riêng. **Lượt benchmark W4-15 trước tối ưu FAIL ngưỡng p95 <30 ms**;
-retriever/memory giữ nguyên, cảnh báo hiệu năng được bàn giao:
-[biên bản](docs/plan/week4/integration_gate_validation.md),
-[receipt gate](docs/plan/week4/integration_gate_review.json),
-[receipt hiệu năng](docs/plan/week4/integration_performance_review.json).
-W4-16 đã chốt [biên bản/API/bàn giao W5](docs/plan/week4/week_close_and_handoff.md),
-[receipt cuối tuần](docs/plan/week4/week_close_review.json) với bốn gate mới PASS.
-**W4 hoàn thành kỹ thuật offline; Gate D PASS.** Cảnh báo p95 đã xử lý ngày 07/10/2026:
-bốn mode đạt 10,837–13,235 ms; [biên bản tối ưu](docs/plan/week4/retrieval_performance_resolution.md),
-[receipt bổ sung](docs/plan/week4/retrieval_performance_resolution_review.json),
-**502 unit/E2E/93 leakage PASS**. Các receipt FAIL trước đó giữ nguyên lịch sử.
-Tiếp theo lập kế hoạch W5, mở giá OOS/model/quota trước pilot FPT 20 điểm.
+**W1–W4 đã hoàn thành kỹ thuật offline.** Kho prior có 852 episode; W4 đã
+tích hợp PIT/paired/checkpoint và xử lý cảnh báo p95: bốn mode 10,837–13,235 ms.
+Nghiệm thu 07/10/2026: compileall/E2E, **502 unit/93 leakage PASS**, smoke tích hợp PASS.
+Prior mặc định tắt; chưa có kết quả giao dịch OOS.
+
+- [Kế hoạch tổng](docs/plan/plan.md) và tiến độ [W1](docs/plan/week1/README.md),
+  [W2](docs/plan/week2/README.md), [W3](docs/plan/week3/README.md), [W4](docs/plan/week4/README.md).
+- [Phương pháp nghiên cứu](docs/methodology_spec.md).
+- [Chạy/tiếp tục Memory Bank và QA](docs/plan/week2/phase_c_memory_generation.md).
+- [API prior, checkpoint/resume và bàn giao W5](docs/plan/week4/week_close_and_handoff.md).
+- Bước tiếp theo: gate giá/tin OOS, model/freeze, quota/pacing và CLI nghiên cứu,
+  rồi pilot FPT 20 điểm. Các điều kiện này còn mở.
+
+Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
+được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).
 
 ## Requirements
 

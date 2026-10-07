@@ -2,8 +2,7 @@
 
 **Ngày chốt: 04/10/2026. W2-13 và W2-14 hoàn thành.** Toàn bộ 852 điểm hợp lệ
 đã được sinh bằng pipeline hiện có; bước phát hành và QA không gọi LLM, không
-fit lại HMM và không sinh thêm episode. W2-15 đến W2-17 đã được chốt trong
-[biên bản Phase D](phase_d_week_close.md).
+fit lại HMM và không sinh thêm episode. W2-15 đến W2-17 đã được chốt trong [README tuần](README.md).
 
 ## Đầu ra chính thức
 
@@ -115,5 +114,27 @@ có bản sao lưu độc lập. Lần chốt Phase C này chưa xóa file tạm
 - Phát hành dữ liệu thật: 852 hoàn thành, 0 còn lại; QA dữ liệu thật PASS.
 
 Phase D đã hoàn thành: biểu đồ, bốn gate và rà soát deliverables được ghi trong
-[biên bản chốt tuần](phase_d_week_close.md). Bước tiếp theo là W3: Bayesian Prior
+[biên bản chốt tuần](README.md). Bước tiếp theo là W3: Bayesian Prior
 Retriever và bộ định dạng tiền tố ngắn gọn.
+
+## Chạy và tiếp tục Memory Bank bằng terminal
+
+Kho chính thức đã hoàn tất 852/852; không cần sinh lại để chạy retriever.
+Các lệnh sau dùng khi cần kiểm journal hoặc tiếp tục một staging chưa hoàn tất:
+
+```powershell
+py -3.13 -X utf8 scripts/run_historical_memory.py --verify-only
+py -3.13 -X utf8 scripts/resume_historical_memory.py
+```
+
+Resume nạp key từ `.env`, bỏ episode đã hoàn thành, chạy đến khi đủ hoặc gặp
+điều kiện dừng. Sau quota, dừng tiến trình, đổi key, chạy lại cùng staging và
+cấu hình. Không xóa checkpoint hoặc sửa hash để ép tiếp tục. Pacing hạn chế
+TPM/RPM nhưng không bảo đảm quota tài khoản/model đã phục hồi. Không dùng
+script này để resume runner thí nghiệm năm nhánh W4/W5.
+
+Lịch cố định: 600 nến warm-up, quyết định tại t, entry Open(t+1), exit Close(t+3),
+bước ba phiên; nhãn dùng `compute_round_trip_net_return`. Signal extractor kiểm
+giá/tin/model tại cutoff, upstream một lần và lưu reports/signals/provenance.
+Journal nằm trong `outputs/historical_memory_run`, staging/archive giữ cục bộ
+qua `.gitignore`; bộ giá, bank và manifest chính thức được giữ trong Git.
