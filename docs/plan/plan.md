@@ -250,69 +250,53 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
   [Data Prep]  [Memory]     [Prefix]       [Unit Tests]   [Quota Tuning] [4 Mã]         [Thống kê]     [Luận văn]
 ```
 
-### 📅 TUẦN 1: Nghiên cứu, Đặc tả Kỹ thuật & Chuẩn bị Dữ liệu
-- **Mục tiêu**: Hoàn thành hồ sơ đặc tả toán học, làm sạch dữ liệu VN-Index và 4 mã cổ phiếu, thiết lập môi trường nghiên cứu.
-- **Nhiệm vụ cụ thể**:
-  - [x] Đọc và đối chiếu sâu bài báo ICML 2026 với repo hiện tại.
-  - [x] Thu thập và làm sạch dữ liệu Daily EOD của VN-Index và 4 mã (FPT, VNM, VCB, MWG) giai đoạn 2018–2025 ([biên bản và giới hạn sử dụng](week1/data_audit.md)).
-  - [x] Thiết kế JSON Schema chuẩn cho `HistoricalTaskRecord` và `MarketRegimeState` ([chi tiết tuần 1](week1/README.md)).
-  - [x] Soạn thảo tài liệu đặc tả phương pháp nghiên cứu `docs/methodology_spec.md`.
-- **Deliverables cuối tuần 1**:
-  - File dữ liệu sạch lưu tại `data/historical/` (đã kiểm tra không khuyết thiếu nến).
-  - Tài liệu đặc tả kỹ thuật `docs/methodology_spec.md`.
+### 📅 TUẦN 1: Đặc tả và dữ liệu — HOÀN THÀNH
 
-### 📅 TUẦN 2: Xây dựng Module Phân loại Chế độ Thị trường & Historical Memory Bank
-- **Mục tiêu**: Xây dựng module nhận diện chế độ thị trường và sinh cơ sở dữ liệu chu kỳ lịch sử cho giai đoạn 2018–2022.
-- **Nhiệm vụ cụ thể**:
-    - [x] Cài đặt `core/regime_detector.py` (Gaussian HMM 4 trạng thái, fit trên 2018–2022; [đặc tả, artifact và kiểm thử Phase B](week2/phase_b_regime_detector.md)).
-  - [x] Viết script offline trích xuất các chu kỳ giao dịch $T+2.5$ trong giai đoạn 2018–2022: `scripts/run_historical_memory.py`, regime prefix, tín hiệu 5 agent, nhãn ròng và journal tiếp tục ([W2-09 đến W2-12](week2/phase_c_historical_memory.md)); đã sinh đủ 852 điểm hợp lệ.
-  - [x] Lưu trữ và kiểm toán `data_manager/regime_memory_store.json`: 852 episode, manifest/checksum/biên bản bộ đọc và [QA Phase C](week2/phase_c_memory_generation.md) PASS ngày 04/10/2026. Do warm-up 600 phiên, episode phủ 2020–2022; không có tin lịch sử đủ độ tin cậy nên sentiment NEUTRAL. Đây là kho prior, chưa là kết quả benchmark.
-  - [x] Vẽ biểu đồ trực quan hóa các giai đoạn thị trường của VN-Index để đưa vào báo cáo KLTN: PNG 300 DPI/SVG, phân biệt nhãn hồi cứu toàn tập train và 217 ngày nhãn PIT trong kho ([Phase D](week2/phase_d_week_close.md)).
-- **Deliverables cuối tuần 2**:
-  - Module `core/regime_detector.py` hoạt động độc lập kèm test.
-  - File `data_manager/regime_memory_store.json` đạt chuẩn schema.
-  - Biểu đồ `outputs/vnindex_regimes_2018_2022.png`.
+- [Checklist/tiến độ](week1/README.md), [kiểm toán dữ liệu](week1/data_audit.md).
+- Daily EOD VNINDEX/FPT/VNM/VCB/MWG 2018–2025, nguồn VCI/KBS và manifest/checksum.
+- Schema HistoricalTaskRecord/MarketRegimeState; bảo toàn kinh tế T+2.5, PIT và paired.
+- CSV W1 là giá điều chỉnh, không dùng trực tiếp cho nhãn/P&L chính thức.
 
-**Trạng thái:** W2 hoàn thành ngày 04/10/2026; đủ ba deliverables, compileall/E2E PASS, 235 unit tests và 38 leakage tests PASS. [Biên bản chốt và giới hạn nghiên cứu](week2/phase_d_week_close.md). Bước tiếp theo là W3.
+### 📅 TUẦN 2: Regime và Memory Bank — HOÀN THÀNH 17/17
 
-### 📅 TUẦN 3: Xây dựng Bayesian Prior Retriever & Bộ Định dạng Tiền tố Ngắn gọn
-- **Mục tiêu**: Xây dựng module truy xuất tiên nghiệm Bayes point-in-time và tối ưu hóa ngân sách token.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](week3/README.md), tiếp nối kho 852 episode đã QA của W2. **W3 hoàn thành ngày 05/10/2026, 16/16 task và bốn phase PASS**; [biên bản chốt/API/example bàn giao W4](week3/week_close_and_handoff.md), [receipt cuối](week3/week_close_review.json).
-- **Kiểm chứng cuối**: compileall, 339 unit (104 Bayesian), E2E và 56 leakage PASS; smoke 288 query + 288 lượt lặp trên 32 context, BRPP max 373. Ngân sách fixture dự phòng đủ BRPP 600 cho prompt tối đa 6.289. [Benchmark trên cấu trúc mới](week3/retrieval_benchmark_week_close.json) p95 Bayesian/Random/Recent/Similarity 15,483 / 13,874 / 13,981 / 17,621 ms, đều <30 ms; giữ nguyên các receipt lịch sử và các lượt FAIL.
-- **Bàn giao tiếp theo**: W4 tích hợp state/graph/Decision/checkpoint/paired upstream; áp dụng cap báo cáo tổng 4.000 và guard toàn prompt `<6500`. Cap cũ tổng 4.500 chưa đủ khi ghép BRPP; runtime budget và giá kiểm định 2023–2024 còn gate riêng, chưa có kết quả giao dịch OOS. Tài liệu các tuần tiếp theo dùng `docs/plan/week<N>/` theo cấu trúc người dùng đã chuyển và quy ước AGENTS.md.
-- **Nhiệm vụ cụ thể**:
-  - [x] Cài đặt `core/bayesian_retriever.py` hỗ trợ 4 chế độ lấy mẫu: `bayesian_regime`, `random`, `recent`, `similarity`; `retrieve` trả tasks/stats/metadata đầy đủ, Original K=0 không nhận stats.
-  - [x] Xây dựng thuật toán tính toán thống kê thực nghiệm (Empirical Win-rate, Trap Probabilities) cho từng regime: population PIT/cùng scope, bốn metric có counts, mẫu số 0=None, không smoothing hoặc diễn giải thành xác suất đã hiệu chuẩn.
-  - [x] Hiện thực hóa hàm `format_compact_prior_prefix(tasks, stats)` với template BRPP v1 và guard $\le 600$ ký tự; không truncate. W3-11 PASS kiểm chứng ngân sách/prompt ghép với cấu hình bàn giao, [receipt](week3/prompt_budget_review.json); chưa là gate ngân sách runtime W4.
-  - [x] Viết benchmark đo lường thời gian thực thi: [receipt W3-14](week3/retrieval_benchmark.json) PASS p95 từng mode <30 ms, 32 query/mode × 1.000 mẫu, cold load/formatter/retrieval+format tách riêng; giữ baseline/profile và kiểm bản sao/zero-leakage sau tối ưu.
-  - [x] Chạy gate tích hợp W3-15 trên phiên bản sau tối ưu: [biên bản](week3/phase_d_validation_and_handoff.md), [receipt](week3/integration_gate_review.json) PASS; giữ giới hạn prompt runtime W4.
-  - [x] Chốt W3-16: [deliverables/API/example và kế hoạch tích hợp W4](week3/week_close_and_handoff.md), đồng bộ thư mục mới, [bốn gate cuối](week3/week_close_review.json) PASS.
-- **Deliverables cuối tuần 3**:
-  - Module `core/bayesian_retriever.py` hoàn chỉnh.
-  - Bộ unit/leakage kiểm schema/cutoff/hành vi và script benchmark p95 thực trên kho thật.
-  - Biên bản bàn giao W4, các receipt kiểm chứng và checklist 16/16 đã chốt tại `docs/plan/week3/`.
+- [Checklist/tiến độ](week2/README.md); đóng ngày 04/10/2026.
+- [Gate giá thô 2018–2022](week2/phase_a_price_gate.md), 868 ứng viên/852 hợp lệ.
+- [HMM và API PIT](week2/phase_b_regime_detector.md), artifact/prefix train-only.
+- [Memory Bank/phát hành/QA/hướng dẫn chạy](week2/phase_c_memory_generation.md):
+  852 episode, hash kho `09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949`.
+- Biểu đồ train/PIT tại `outputs/vnindex_regimes_2018_2022.png` và `.svg`.
+- Nghiệm thu W2: compileall/E2E, 235 unit/38 leakage PASS. Episode quyết định
+  2020–2022 vì warm-up; sentiment NEUTRAL vì thiếu tin; chưa mở giá OOS.
 
-### 📅 TUẦN 4: Tích hợp LangGraph & Bộ Kiểm thử Chống Rò rỉ Dữ liệu
-- **Mục tiêu**: Ghép nối luồng tiên nghiệm vào LangGraph state và xây dựng chốt chặn kiểm thử tự động.
-- **Kế hoạch chi tiết**: [16 task trong bốn phase](week4/README.md), dựa trên bàn giao W3. **Phase A hoàn thành W4-01..04; Phase B hoàn thành W4-05..08; Phase C hoàn thành W4-09..12; Phase D hoàn thành W4-13..16 ngày 06/10/2026 (16/16); Gate A PASS đặc tả, Gate B/C PASS offline**: [đầu vào](week4/input_readiness.md), [state/config](week4/integration_contract.md), [provenance/PIT](week4/provenance_contract.md), [schema/kết quả/checkpoint](week4/checkpoint_contract.md), [receipt Gate A](week4/checkpoint_review.json). State/config runtime có tám field optional, parser/JSON/query shape và guard off/enabled; [biên bản](week4/state_config_runtime.md). Cap backtest 4.000, guard prompt cuối <6.500 và BRPP/reasoning tại node Decision PASS: max 6.264, BRPP đúng 600 + reasoning max 6.467; [biên bản](week4/decision_prior_integration.md). Graph tách Full chuẩn bị và Prior Preparation → Decision, giữ builder/bốn ablation cũ và async/stream: [biên bản/API](week4/graph_prior_integration.md). Adapter nguồn thật kiểm giá/tin/kho/model, hai provider PIT và seal Full signals/proof; journal replay giữ identity lịch sử: [biên bản/API](week4/prior_context_adapter.md), [receipt](week4/prior_context_review.json), 128 ca graph hai provider và 6 replay checkpoint thật với Decision giả, compileall/430 unit/E2E/71 leakage PASS. W4-10 đã chạy upstream/Full một lần và năm Decision tuần tự trong engine: [biên bản/API](week4/paired_prior_point.md), [receipt](week4/paired_prior_point_review.json), compileall/445 unit/E2E/74 leakage PASS. W4-11 đã nối vòng walk-forward, schema identity/point/result, metadata/raw response và kinh tế từ engine hiện có: [biên bản/API](week4/prior_backtest_integration.md), [receipt](week4/prior_backtest_review.json), compileall/461 unit/E2E/77 leakage PASS. W4-12 đã cài checkpoint/resume từng nhánh, verifier semantic và OS lock native Windows: [biên bản/API](week4/prior_checkpoint_resume.md), [receipt](week4/paired_checkpoint_review.json), compileall/483 unit/E2E/82 leakage PASS. Phase C 4/4, Gate C PASS offline. W4-13 kiểm leakage toàn pipeline, hai provider/hai scope, và đối chiếu độc lập proof provider với artifact/prefix: [coverage/biên bản](week4/pipeline_leakage_validation.md), [receipt](week4/pipeline_leakage_review.json), compileall/494 unit/E2E/93 leakage PASS. W4-14 smoke E2E riêng đã PASS: 8 context tổng hợp/bốn regime/VI-EN, năm nhánh/K=0..3, continuous/đảo nhánh/resume, flag off/budget và 6 replay context thật (30 nhánh, 60 Decision giả): [biên bản](week4/prior_integration_smoke.md), [receipt](week4/integration_smoke.json), compileall/498 unit/E2E/93 leakage PASS. W4-15 đã PASS bốn gate mới, hash/scope, ngân sách runtime/template/version và benchmark W3 cùng phương pháp; benchmark bổ sung FAIL p95 <30 ms dưới tải máy, retriever/memory không đổi, rủi ro được bàn giao; overhead adapter/formatter/graph đo riêng: [biên bản](week4/integration_gate_validation.md), [receipt gate](week4/integration_gate_review.json), [hiệu năng](week4/integration_performance_review.json). W4-16 chốt [biên bản/API/bàn giao W5](week4/week_close_and_handoff.md), [receipt cuối tuần](week4/week_close_review.json), bốn gate mới PASS; Phase D 4/4, W4 16/16. Gate D PASS kỹ thuật offline; cảnh báo p95 đã xử lý ngày 07/10/2026: [biên bản tối ưu](week4/retrieval_performance_resolution.md), [receipt bổ sung](week4/retrieval_performance_resolution_review.json), bốn mode p95 10,837–13,235 ms và compileall/502 unit/E2E/93 leakage PASS mới. Các receipt FAIL cũ giữ nguyên; giá OOS/model/quota và pilot còn mở. Tiếp theo lập kế hoạch chi tiết W5 tại docs/plan/week5/.
-- **Nhiệm vụ cụ thể**:
-  - [x] Chốt hợp đồng state/config, provenance regime/snapshot và schema kết quả/checkpoint (W4-01..04); Gate A PASS đặc tả.
-  - [x] Cập nhật `agents/agent_state.py`: tám field optional, parser strict độc lập, JSON/query shape và guard state; flag off tương thích, enabled thiếu verifier nguồn PIT bị chặn (W4-05).
-  - [x] Cập nhật `agents/decision_agent.py`: cap backtest tổng 4.000 và guard prompt cuối `<6500` trước API; text/structured/boundary và hồi quy live PASS (W4-06).
-  - [x] Inject BRPP bằng formatter W3, hướng dẫn suy diễn regime/stats → tín hiệu; prefix một lần, Original rỗng, empty/partial và budget node thật PASS với verifier fixture (W4-07). Adapter nguồn PIT đã kiểm ở W4-09; vòng backtest/kết quả nghiên cứu đã cài ở W4-11.
-  - [x] Cập nhật `utils/graph_setup.py`: cấu hình prior độc lập với bốn ablation cũ, flag mặc định tắt; API chuẩn bị Full riêng rồi prior/Decision. Năm nhánh dùng Full một lần đã kiểm bằng fixture (W4-08); điều phối một điểm trong engine đã cài ở W4-10; vòng backtest/kết quả đã cài ở W4-11.
-  - [x] Cài `core/prior_context.py`: xác minh nguồn giá/tin/kho/model và hai provider PIT trước upstream; seal Full reports/signals/proof, callback kiểm nguồn/result cho graph, replay journal giữ identity W2 (W4-09). [Biên bản/API](week4/prior_context_adapter.md), [receipt](week4/prior_context_review.json): 31 test mới, 128 ca graph hai provider, 6 replay nguồn thật và compileall/430 unit/E2E/71 leakage PASS. Phase C 1/4, W4 9/16; chưa mở gate giá OOS.
-  - [x] Cài `BacktestEngine.run_prior_point()`: upstream/Full một lần, năm Decision tuần tự, shared/full bundle JSON, deep copy và guard lỗi/stop/chạy lại; giữ bốn ablation/kinh tế cũ (W4-10). [Biên bản/API](week4/paired_prior_point.md), [receipt](week4/paired_prior_point_review.json): 15 test mới, hai provider × VI/EN, mutation/đảo thứ tự và bốn gate PASS. Phase C 2/4, W4 10/16.
-  - [x] Ghép `run_prior_backtest()` và `core/prior_backtest.py`: adapter/retriever dùng một lần, kiểm plan trước API, năm kết quả giữ metadata/raw response và schema W4-04; đánh giá sau Decision bằng hàm kinh tế cũ, chỉ chấm common support complete (W4-11). [Biên bản/API](week4/prior_backtest_integration.md), [receipt](week4/prior_backtest_review.json): 16 test mới và compileall/461 unit/E2E/77 leakage PASS. Checkpoint/resume từng nhánh đã cài ở W4-12.
-  - [x] Lưu manifest/toàn plan/shared/input/attempt atomic trước API, ghi ngay nhánh valid; resume xác minh nguồn/config/code/schema và replay prior/prompt offline, không gọi lại nhánh complete. OS lock kiểm native Windows, lỗi ambiguous upstream/Full dừng; đổi key giữ identity (W4-12). [Biên bản/API](week4/prior_checkpoint_resume.md), [receipt](week4/paired_checkpoint_review.json): 22 test mới, 15 ranh giới crash, compileall/483 unit/E2E/82 leakage PASS. Phase C 4/4, W4 12/16, Gate C PASS offline; W4-13..16/Gate D và giá OOS còn mở.
-  - [x] Tái sử dụng các suite regime/Alpha/sentiment/giá/nhãn/memory/retriever/paired/checkpoint và thêm `tests/test_prior_pipeline_leakage.py` kiểm toàn pipeline (W4-13). Hai provider/hai scope, 40 graph ca biên, 24 injection selector/population và 12 mutation checkpoint; đối chiếu độc lập proof provider với artifact/prefix. [Biên bản/coverage](week4/pipeline_leakage_validation.md), [receipt](week4/pipeline_leakage_review.json): 11 test mới, compileall/494 unit/E2E/93 leakage PASS. Phase D 1/4, W4 13/16; Gate D và OOS còn mở.
-  - [x] Smoke E2E offline và tương thích (W4-14): tính chỉ báo/charts/Alpha/PIT/retrieval/graph/checkpoint thật, vision/Decision giả; 8 context tổng hợp và 6 replay nguồn thật, biên BRPP 600/prompt 6499-6500, compileall/498 unit/E2E/93 leakage PASS. [Biên bản](week4/prior_integration_smoke.md), [receipt](week4/integration_smoke.json).
-  - [x] Rà bốn gate/phạm vi/overhead (W4-15): compileall/498 unit/E2E/93 leakage PASS mới; hash/scope/budget/version/template và overhead riêng. Benchmark bổ sung FAIL p95; retriever/memory không đổi, rủi ro đã rà và bàn giao. [Biên bản](week4/integration_gate_validation.md), [receipt](week4/integration_gate_review.json).
-  - [x] Đóng W4-16: [biên bản/API/bàn giao](week4/week_close_and_handoff.md), [receipt cuối](week4/week_close_review.json), bốn gate mới và hash PASS; W4 16/16, Gate D kỹ thuật offline PASS. Bàn giao cảnh báo p95, gate giá/model/quota và CLI/pilot W5 chưa thực hiện.
-- **Deliverables cuối tuần 4**:
-  - Runtime state/graph/Decision/backtest tích hợp, prior mặc định tắt; cap/guard được kiểm ở runtime thật.
-  - PIT/paired/checkpoint và hồi quy cũ PASS; receipts và hướng dẫn bàn giao tại `docs/plan/week4/`.
-  - Gate giá thô vnstock/VCI hoặc vnstock/KBS 2023–2024 là điều kiện trước pilot/OOS; W4 kiểm chứng offline, chưa tạo kết quả giao dịch ngoài mẫu.
+### 📅 TUẦN 3: Retriever và BRPP — HOÀN THÀNH 16/16
+
+- [Checklist/tiến độ](week3/README.md); đóng ngày 05/10/2026.
+- [API/query/result](week3/retriever_api_contract.md),
+  [luật similarity/selection](week3/prior_selection_method.md),
+  [thống kê/BRPP](week3/statistics_and_prefix_contract.md).
+- Bốn mode, K=0..3/seed=42/same_symbol; lọc exit_date < as_of_date trước ranking.
+- Stats từ toàn population cùng regime/scope/cutoff, Original K=0 không BRPP/stats.
+- Nghiệm thu W3: compileall/E2E, 339 unit/56 leakage PASS; smoke 288 query +
+  288 lượt lặp/32 context. Tích hợp runtime và cap/guard hoàn tất ở W4.
+
+### 📅 TUẦN 4: Tích hợp và kiểm chứng — HOÀN THÀNH 16/16
+
+- [Checklist/tiến độ và p95](week4/README.md),
+  [API/vận hành/resume/bàn giao W5](week4/week_close_and_handoff.md).
+- State/config, graph/Decision, adapter PIT hai provider, paired năm nhánh,
+  walk-forward/checkpoint durable và verifier semantic đã tích hợp.
+- Cap báo cáo 4.000, BRPP ≤600, prompt <6.500; prior mặc định tắt.
+- Nghiệm thu sau tối ưu 07/10/2026: compileall/E2E, **502 unit/93 leakage PASS**,
+  smoke 8 synthetic + 6 observed replay với Decision giả PASS.
+- Retrieval p95 Bayesian/Random/Recent/Similarity: **11,559/10,837/10,927/13,235 ms**,
+  đều <30 ms trên phiên bản/máy đã đo. Receipt trước/sau giữ nguyên trong
+  [ZIP bằng chứng](implementation_evidence.zip); không suy ra hiệu quả đầu tư OOS.
+- Các gate giá/tin OOS, model/freeze, quota/pacing, CLI/pilot W5 còn mở.
+
+Tiến độ chỉ cập nhật ở README từng tuần. Tài liệu độc lập giữ cho hướng dẫn
+vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặc test cần.
+Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
+không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
 ### 📅 TUẦN 5: Thử nghiệm Pilot trên FPT & Tối ưu Hạn ngạch Quota
 - **Mục tiêu**: Chạy thử nghiệm toàn diện trên 1 cổ phiếu thí điểm để kiểm tra tính ổn định, đo lường chi phí token và bắt lỗi runtime.

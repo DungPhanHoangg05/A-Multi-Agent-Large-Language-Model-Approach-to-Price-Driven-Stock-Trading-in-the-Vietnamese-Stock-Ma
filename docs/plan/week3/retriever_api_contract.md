@@ -9,7 +9,7 @@ công thức/schema metric và template BRPP đã chốt tại [W3-04](statistic
 ## 1. Khởi tạo và chữ ký
 
 Chữ ký Python hiện tại, mọi tham số truy vấn truyền theo tên; ví dụ replay và
-bàn giao tích hợp xem [biên bản chốt W3](week_close_and_handoff.md):
+bàn giao tích hợp xem [biên bản chốt W3](README.md):
 
 ```python
 BayesianPriorRetriever(
@@ -195,88 +195,5 @@ Ví dụ **hợp đồng K=0**, không phải output của module đã triển k
 BULL ở ví dụ là giá trị minh họa, không khẳng định regime thực tế ngày 03/01/2023.
 Không thực hiện giao dịch hoặc vượt gate giá từ ví dụ query này.
 
-## 7. Ca nghiệm thu bàn giao cho W3-05..13
 
-- Query sai mã/ngày/enum, K=-1/4/True/3.0, seed=-1/True, dict thiếu/thừa/rỗng → lỗi.
-- K>0 similarity/Bayesian với signals=None → lỗi; recent/random với None → hợp lệ.
-- K=0 với query hợp lệ → disabled/None stats và counts None; query sai vẫn lỗi.
-- Scope same_symbol không lẫn mã; pooled vẫn chỉ chứa bốn mã; không tự mở rộng scope.
-- Biên `exit_date == as_of_date` không vào tasks/population; hậu điều kiện sai → lỗi.
-- Empty/partial/complete khớp bảng trên; score/IDs/counts khớp tasks, JSON native.
-- Sửa input/result không đổi kho/state/query khác; seed và cấu hình được ghi đúng.
-
-Các ca này là tiêu chí kiểm thử cho triển khai, chưa được báo PASS ở W3-02.
-
-## 8. Phạm vi triển khai W3-05
-
-Constructor và validation/cutoff/bản sao đã có. `prepare_query(...)` có cùng query
-signature như retrieve, là API chuẩn bị bổ sung cho Phase B, trả đúng ba trường:
-`eligible_tasks` (pool chung sau cutoff/scope), `regime_population` (cùng regime),
-`metadata` (query/hash/version và counts). Hai danh sách là bản sao độc lập.
-Không có stats/ranking/selected IDs trong kết quả chuẩn bị; không coi đây là
-result retrieve hoàn chỉnh hoặc gửi trực tiếp vào formatter.
-
-K=0: prepare trả hai list rỗng và counts None; retrieve trả result disabled đúng
-hợp đồng. Tại thời điểm W3-05, retrieve K>0 dừng NotImplementedError để chờ bộ chọn
-và stats. Từ W3-09, retrieve K>0 đã hoạt động theo mục 10; query/data sai vẫn
-ValueError. Formatter và tích hợp W4 thuộc các task tiếp theo.
-
-## 9. Phạm vi triển khai W3-06..08
-
-`select_prior_tasks(...)` có cùng query signature, trả đúng `tasks`,
-`regime_population`, `metadata`: task đã chọn, population PIT để tính stats sau,
-và metadata chọn đầy đủ. Cả bốn mode hoạt động với K>0;
-K=0 hoạt động với mọi mode sau validation.
-Không dùng kết quả chọn thay result retrieve vì chưa có trường stats đã tính.
-Recent/Random không phụ thuộc current_regime hoặc signals để ranking; population
-vẫn cùng regime query theo hợp đồng thống kê. Effective seed Random K>0 kể cả
-empty là hex digest đúng policy; Recent/Similarity/Bayesian/K=0 dùng None.
-Similarity trả score float theo `signal_match_v1` trong metadata, dùng toàn pool
-eligible cùng scope và không lọc regime. Giữ nguyên tín hiệu thô của task đã chọn;
-chỉ bản sao chuẩn hóa tham gia tính điểm. Sentiment vẫn được kiểm alias dù trọng số 0.
-
-Bayesian dùng `regime_population` đã lọc PIT/scope/cùng regime trước ranking,
-rồi gọi cùng `_select_similarity()` và chốt hậu điều kiện. Không có threshold,
-không bù từ regime hoặc mã khác; thiếu K trả partial/insufficient_candidates.
-Pool chung rỗng trả empty/no_eligible_history; pool chung có record nhưng không
-có regime phù hợp trả empty/no_matching_regime. `candidate_count` bằng
-`matched_regime_count`, độc lập với K. Score không phải xác suất thắng; thống kê
-thực nghiệm và result retrieve K>0 được tích hợp ở W3-09.
-
-## 10. Phạm vi triển khai W3-09 — API đầy đủ của Phase B
-
-`retrieve(...)` gọi bước chọn một lần, rồi tính stats trên toàn `regime_population`;
-không dựng lại pool, không đọc lại file/giá và không tính lại P&L. K>0 trả đúng ba
-trường `tasks`, `stats`, `metadata`; K=0 trả tasks rỗng/stats None và metadata disabled,
-không gọi eligible hoặc tính stats. `prepare_query` và `select_prior_tasks` vẫn là
-hai API trung gian riêng, không thay cho result retrieve.
-
-`_compute_statistics` kiểm lại population nguyên bản/PIT/scope/regime/ID trước
-aggregation, dùng nhãn WIN/LOSS đã xác minh và bullish chuẩn hóa theo policy/W2.
-Trap là union Trend/Pattern bullish và LOSS, kiểm đúng với was_bull_trap từng record.
-Count population phải bằng matched_regime_count; sai quan hệ ném ValueError.
-Stats giống nhau giữa bốn mode/K=1..3 nếu cùng query/cutoff/scope/regime, không smoothing.
-Pool rỗng hoặc regime không có mẫu vẫn trả stats object với 0/0/None cho bốn metric;
-nhánh đối chứng có thể có tasks khác regime trong khi population stats rỗng.
-
-[Receipt runtime](statistics_runtime_review.json) đối chiếu kho thật và counts/mẫu số;
-chưa là phép đo p95, formatter BRPP hoặc kết quả giao dịch OOS.
-
-## 11. Formatter W3-10
-
-Hàm module `format_compact_prior_prefix(tasks, stats) -> str` nhận hai trường của
-result retrieve, theo [hợp đồng BRPP](statistics_and_prefix_contract.md).
-[]/None trả rỗng; stats object luôn render khối thống kê, kể cả tasks rỗng/n=0.
-Task giữ thứ tự, ngày quyết định và regime riêng; n là population, k là số ví dụ.
-Schema/nhãn/counts/ID sai hoặc prefix vượt 600 gây ValueError; không đọc giá/P&L.
-Chữ ký không có query cutoff, nên trách nhiệm PIT/provenance vẫn thuộc retriever/caller.
-V1 dùng câu S=thiếu tin cho kho đã phát hành; task sentiment ngoài NEUTRAL/alias
-cần phiên bản mới. [Receipt formatter](prefix_formatter_review.json) kiểm fixture;
-[receipt W3-11](prompt_budget_review.json) kiểm suite/prompt ghép offline. Cap báo
-cáo hiện tại tổng 4.500 cho prompt ghép bão hòa VI/EN 6.565/6.582, không đạt
-`<6500`. Cap bàn giao tổng 4.000 dự phòng BRPP đủ 600 cho prompt tối đa 6.289;
-W4 phải áp dụng cap đã kiểm và guard prompt cuối sau mọi hướng dẫn thêm vào.
-Runtime Decision chưa thay đổi; [smoke kho thật W3-12](prior_smoke.json) PASS 288 query
-và 288 lượt lặp. 24 context lịch sử có prefix PIT đúng ngày; tám fixture biên dùng
-regime/tín hiệu cố định, không suy ra trạng thái thị trường. Gate C offline PASS;
-tốc độ p95 và bàn giao đầy đủ vẫn thuộc Phase D.
+Trạng thái triển khai và kiểm chứng hiện tại xem [README tuần](README.md).

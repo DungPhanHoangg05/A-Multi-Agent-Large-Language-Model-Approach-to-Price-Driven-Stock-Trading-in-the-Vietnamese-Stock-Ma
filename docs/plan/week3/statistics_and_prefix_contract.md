@@ -1,13 +1,13 @@
 # Thống kê regime và BRPP — phiên bản 1
 
 **W3-04 chốt ngày 04/10/2026; Phase A hoàn thành.**
-[Policy](statistics_prefix_policy.json) đóng băng công thức/template cho W3-09..11;
+[Policy](../implementation_evidence.zip) đóng băng công thức/template cho W3-09..11;
 Stats runtime và API retrieve đã triển khai ở W3-09; formatter runtime có ở W3-10,
 W3-11 đã kiểm ngân sách/prompt ghép offline và ghi phương án cap bắt buộc bàn giao
 W4; smoke kho thật W3-12 đã PASS, Phase C/Gate C offline hoàn thành.
 Cap runtime hiện tại không đạt khi ghép BRPP bão hòa.
 Biên bản thiết kế W3-04 vẫn là snapshot tham chiếu, tách với
-[biên bản runtime Phase B](statistics_runtime_review.json).
+[biên bản runtime Phase B](../implementation_evidence.zip).
 
 ## 1. Population và ý nghĩa nghiên cứu
 
@@ -82,7 +82,7 @@ Chọn K=1/2/3 không thay các tỷ lệ này. Thêm một episode future ngoà
 đổi stats; record L với cả Trend/Pattern không bullish không phải trap.
 Fixture không bullish vẫn có win-rate, ba mẫu số còn lại 0 → None.
 Các ca tính tay đã được đối chiếu runtime ở `tests/test_bayesian_statistics.py`
-trong W3-09; bộ hồi quy đầy đủ W3-13 còn chờ thực hiện.
+trong W3-09; bộ hồi quy đầy đủ W3-13 đã PASS khi chốt W3.
 
 ## 4. Mẫu BRPP đã khóa
 
@@ -143,7 +143,7 @@ không cam kết mọi số nguyên tùy ý đều render dưới 600.
 Độ dài các mẫu và thống kê kho thật được ghi tại
 [statistics_prefix_review.json](statistics_prefix_review.json). Đây là kiểm mẫu
 tham chiếu ở Phase A. Formatter/runtime và test lỗi cơ bản đã có ở W3-10 với
-[receipt riêng](prefix_formatter_review.json). [Receipt W3-11](prompt_budget_review.json)
+[receipt riêng](../implementation_evidence.zip). [Receipt W3-11](prompt_budget_review.json)
 kiểm ngân sách/prompt ghép với cap bàn giao tổng 4.000: 1.024 ca và dự phòng BRPP
 600 PASS, prompt lớn nhất 6.289. Cap runtime cũ tổng 4.500 cho prompt VI/EN
 6.565/6.582 khi ghép prefix 397; W4 phải áp dụng phương án đã kiểm và guard prompt
@@ -162,43 +162,5 @@ theo nhãn regime lịch sử: 344 WIN/852 và 338 trap đã đối chiếu QA W
 Đây là thống kê mô tả của prior đã đóng, không phải regime thực tế ngày cutoff,
 không cấu hình paired mặc định same_symbol và không là kết quả OOS.
 
-## 6. Gate A và bàn giao Phase B
 
-- W3-01: đầu vào/hash/QA/validator và API kho đã xác minh.
-- W3-02: query/result/K/seed/scope/lỗi/thiếu mẫu đã khóa.
-- W3-03: alias/score/bốn mode/tie-break/RNG và version đã khóa.
-- W3-04: population/công thức/schema metric/zero-denominator/no smoothing/template
-  và version đã khóa; không còn lựa chọn phương pháp mở trong Phase A.
-
-W3-05 bắt đầu nạp kho, lọc PIT và bảo vệ dữ liệu theo các hợp đồng này. Bốn gate
-codebase trước merge là gate tích hợp tài liệu, không thay test retriever/prefix
-hoặc benchmark tốc độ W3-15 sau triển khai.
-
-## 7. Bàn giao W3-09 sang Phase C
-
-- `retrieve` trả đầy đủ tasks/stats/metadata cho cả bốn mode; formatter sẽ nhận
-  `result["tasks"]`, `result["stats"]`. Original K=0 vẫn là []/None.
-- Mọi tỷ lệ giữ nguyên numerator/denominator và float chưa làm tròn; mẫu số 0
-  là None. Không có smoothing, threshold hoặc posterior LLM suy từ tỷ lệ mẫu.
-- Thống kê runtime tái dùng nhãn kinh tế W2; không tính lại return hay thay đổi
-  corpus. Population có lỗi cutoff/scope/regime/ID/nhãn trap phải dừng.
-- [Biên bản runtime](statistics_runtime_review.json) kiểm bốn mode, hai scope,
-  bốn mã, bốn regime và K=1..3; đối chiếu đúng thống kê kho thật đã khóa ở Phase A.
-- W3-10/W3-11 đã kiểm schema/định dạng BRPP và ngân sách ghép thử; W3-12 đã smoke
-  retrieval/formatter trên kho thật. Tốc độ p95 và bàn giao W4 thuộc Phase D.
-
-## 8. Bàn giao formatter W3-10
-
-```python
-from core.bayesian_retriever import format_compact_prior_prefix
-
-prefix = format_compact_prior_prefix(result["tasks"], result["stats"])
-```
-
-`result` phải đến từ query/PIT đã xác minh. Formatter kiểm cấu trúc/ngày/nhãn và
-quan hệ counts, không truy cập kho/CSV hoặc tính lại nhãn kinh tế. V1 kiểm sentiment
-task là NEUTRAL/alias để câu S=thiếu tin phù hợp kho đã chốt; dữ liệu tin thật khác
-cần prefix version mới trước sử dụng. Guard >600 ném ValueError, không tự truncate.
-W3-11 hoàn thành suite trần và prompt ghép với điều kiện bàn giao cap/guard W4
-tại [Phase C](phase_c_prefix_and_budget.md). Chưa áp dụng cap mới vào runtime.
-W3-12 đã smoke với nguồn query PIT; biên bản tại [Phase C](phase_c_prefix_and_budget.md).
+Trạng thái triển khai và kiểm chứng hiện tại xem [README tuần](README.md).
