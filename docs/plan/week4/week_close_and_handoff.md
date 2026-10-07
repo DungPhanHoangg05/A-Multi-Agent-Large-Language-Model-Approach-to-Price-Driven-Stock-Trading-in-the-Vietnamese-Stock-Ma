@@ -4,7 +4,10 @@
 07/10/2026; [tiến độ và kết quả nghiệm thu](README.md), [kế hoạch tổng](../plan.md).
 Các receipt và bản bàn giao cũ được lưu nguyên byte trong
 [ZIP bằng chứng](../implementation_evidence.zip). Prior mặc định tắt.
-Gate giá OOS/model/quota/CLI/pilot vẫn chưa PASS.
+Gate giá OOS và model train-only đã PASS; quota tài khoản đã được xác nhận.
+CLI/pacing và pilot thật 20 điểm/100 Decision đã PASS (xem README). Ngoại lệ chạy
+lại upstream point 16 có xác nhận người dùng và audit; không chứng nhận exactly-once
+API tại điểm này. Không còn gate W4 bị chặn trong phạm vi nghiệm thu nghiên cứu.
 
 ## 1. API, cấu hình và đường chạy
 
@@ -64,8 +67,10 @@ Năm nhánh dùng deep-copy cùng Full reports; upstream/Full không chạy lạ
 Nguồn mặc định: `execution_dir="data/execution_prices"`,
 `news_dir="outputs/historical_memory_run/inputs/news"`,
 `vnindex_manifest_path="data/historical/manifest.json"`.
-Đây là nguồn train/replay đã đóng băng, không tự coi phủ OOS. W5 dùng bộ nguồn
-OOS mới, repo-relative, audit/hash riêng và chỉ rõ đường dẫn cho adapter.
+Đây là nguồn train/replay đã đóng băng. Pilot dùng `data/execution_prices_oos`
+riêng (2018–2024 gồm warm-up), tin tại `outputs/oos_pilot/inputs/news`, VNINDEX
+W1 đã thực sự phủ OOS và còn nguyên checksum. Plan/model proof tại
+`outputs/oos_pilot/inputs/plan.json`; chỉ rõ các đường dẫn này cho adapter.
 Không ghi đè bank, nguồn hoặc archive train để mở gate OOS.
 
 `signal_config` phải có đúng `models`, `window_size`, `norm_method`,
@@ -74,9 +79,9 @@ max_tokens của `agent_llm` và `graph_llm`. Engine và các client của `SetG
 phải khớp cấu hình này. `execution_mode="research"` kiểm client ChatGroq thật;
 client giả chỉ dùng `offline_fixture`.
 
-### Mẫu gọi runner sau khi W5 mở gate
+### Mẫu gọi runner sau khi mở gate nguồn và quota
 
-Đây là đoạn nối API, không phải CLI có thể chạy ngay. Caller W5 phải chuẩn bị
+Đây là đoạn nối API. CLI bên dưới đã chuẩn bị
 `builder`, `signal_config`, bộ giá/tin/VNINDEX đã PASS, artifact/freeze đã kiểm
 và tuple 20 cutoff đã chốt; các biến bên dưới là đầu vào của caller đó.
 
@@ -134,7 +139,38 @@ nhãn và P&L dùng `compute_round_trip_net_return`, metrics dùng engine hiện
 
 Khi gián đoạn, khởi tạo client/engine/adapter cùng cấu hình và nguồn rồi gọi
 cùng API/output-dir với `resume=True`. Không dùng script resume Memory Bank W2
-để resume run năm nhánh. CLI `scripts/run_bayesian_ablation.py` **chưa có**, thuộc W5.
+để resume run năm nhánh. CLI `scripts/run_bayesian_ablation.py` dùng đúng runner này.
+
+### Lệnh terminal cho pilot
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_groq_tokenizer.py
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --prepare
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --dry-run
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --preflight
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume
+```
+
+`--prepare` chỉ tạo input một lần, lần sau kiểm checksum; mặc định CLI dry-run.
+`--verify-only` kiểm semantic checkpoint với transport cấm mạng, không đọc key.
+Run/resume giữ OS lock cho cả quota ledger và checkpoint; preflight text/vision
+phải PASS với cùng plan. Hai client dùng chung HTTP transport, bao gồm structured
+output và fallback, ghi usage/request ID/status/latency, không ghi prompt/key.
+Plan khóa reasoning GPT-OSS=`low`, Qwen=`none`, temperature=0, max_tokens=2048/1024,
+window=45, VI, zscore_tanh, weights mặc định, seed=42/same_symbol.
+
+Hạn mức chủ tài khoản xác nhận: mỗi model 30 RPM/1.000 RPD/8.000 TPM/200.000 TPD.
+Pacer giữ reserve input + toàn output, ảnh Qwen dự phòng 2.048 token/ảnh; TPM/RPM
+theo cửa sổ trượt 61 giây, daily theo 24 giờ, có dự phòng toàn điểm trước upstream.
+Token văn bản GPT-OSS dùng o200k khi cache đã kiểm SHA; thiếu cache dùng số byte
+UTF-8 bảo thủ, không tải tokenizer ngầm trong lời gọi API. Usage vượt reserve thì
+dừng để rà estimator. Quota ngày/429/cooldown dài/transport lỗi dừng có kiểm soát,
+giữ checkpoint và cooldown khi đổi key. `api_usage.json` không chứa key/hash key.
+Giới hạn theo tổ chức; request ở tiến trình khác vẫn có thể làm phát sinh 429.
+Xem [hạn mức Groq](https://console.groq.com/docs/rate-limits) và
+[token ảnh](https://console.groq.com/docs/vision).
 
 | Trạng thái durable | Hành động resume |
 | --- | --- |
@@ -179,45 +215,48 @@ cùng API/output-dir với `resume=True`. Không dùng script resume Memory Bank
 - Sửa code retriever đổi fingerprint: không ép resume một run nghiên cứu
   ký bằng bản code khác. Artifact Memory Bank W2 giữ identity bên tạo.
 
-## 4. Điều kiện mở pilot/OOS — đang BLOCKED
+## 4. Điều kiện mở pilot/OOS — tiến độ tại README
 
-Các mục dưới đây là công việc trước API pilot đầu tiên, **không được đánh dấu
-PASS từ việc đóng W4**. Pilot FPT cần FPT+VNINDEX; benchmark W6 cần đủ FPT/VCB/VNM/MWG.
+Các mục dưới đây được xác minh riêng trước API pilot đầu tiên; kết quả cập nhật
+tại README. Pilot FPT cần FPT+VNINDEX; benchmark W6 cần đủ FPT/VCB/VNM/MWG.
 
 ### Gate dữ liệu giá và tin
 
-- [ ] Thu thập chỉ qua **vnstock/VCI và vnstock/KBS**; ghi provider/library version,
+- [x] Thu thập chỉ qua **vnstock/VCI và vnstock/KBS**; ghi provider/library version,
   raw field map, đơn vị giá và thời điểm thu. Dùng VCI chính/KBS đối chiếu;
   không thêm nguồn ngoài hai provider được phép.
-- [ ] Bộ OHLCV thô `UNADJUSTED_EXECUTION` phủ cutoff OOS 2023–2024 cần chọn,
+- [x] Bộ OHLCV thô `UNADJUSTED_EXECUTION` phủ cutoff OOS 2023–2024 cần chọn,
   đủ lịch warm-up 600 phiên và entry/exit t+1/t+3; không thiếu/trùng phiên,
   ngày/volume/OHLC/schema hợp lệ, lịch FPT khớp VNINDEX.
-- [ ] Đối chiếu corporate actions/quyền/tham chiếu và chính sách loại chu kỳ;
+- [x] Đối chiếu corporate actions/quyền/tham chiếu và chính sách loại chu kỳ;
   source/adjustment/provenance nhất quán, không dùng CSV cổ phiếu W1 điều chỉnh
   để tính nhãn. Lưu evidence/events/calendar và checksum độc lập.
-- [ ] Manifest và audit giá OOS PASS, loader xác minh được toàn bộ nguồn;
+- [x] Manifest và audit giá OOS PASS, loader xác minh được toàn bộ nguồn;
   không chỉ kéo dài `requested_end` của manifest train. Giá train 2018–2022
   PASS vẫn giữ riêng, không ghi đè archive/bank.
-- [ ] Chốt snapshot tin có ngày ≤cutoff, cửa sổ/coverage/hash; thiếu ba bài hợp
+- [x] Chốt snapshot tin có ngày ≤cutoff, cửa sổ/coverage/hash; thiếu ba bài hợp
   lệ giữ NEUTRAL có lý do. Không lấy tin hôm nay để bù sentiment lịch sử.
 
 ### Gate model, sample plan và quota
 
-- [ ] Chọn `fixed_train_oos` cho pilot; artifact có train end ≤freeze<cutoff
+- [x] Chọn `fixed_train_oos` cho pilot; artifact có train end ≤freeze<cutoff
   sớm nhất, prefix VNINDEX và proof HMM/scaler/calibration đã kiểm, hash/freeze
-  cố định. Model full-train `RESEARCH_ONLY/UNVERIFIED` hiện có không tự đủ proof.
-- [ ] Chốt **20 cutoff FPT** trước run, trong bộ nguồn PASS, tăng dần và cách
+  cố định. Tái fit prefix chỉ để đối chiếu HMM/scaler/calibration khớp toàn bộ;
+  artifact không ghi lại và giữ metadata `RESEARCH_ONLY/UNVERIFIED`. Proof là
+  train-only hồi cứu, không chứng nhận thời điểm archive đã tồn tại trong quá khứ.
+- [x] Chốt **20 cutoff FPT** trước run, trong bộ nguồn PASS, tăng dần và cách
   ≥3 phiên, đủ warm-up/exit. Khóa file plan/hash; không chọn ngày theo outcome,
-  prior stats hay dự báo đã thấy. Ngày cụ thể chưa chốt vì gate OOS đang BLOCKED.
-- [ ] Chốt model IDs/temperature/max_tokens, VI/EN, window/norm/weights,
+  prior stats hay dự báo đã thấy. 20 ngày đầu hợp lệ: 05/01–03/04/2023.
+- [x] Chốt model IDs/temperature/max_tokens, VI/EN, window/norm/weights,
   seed=42/same_symbol và ma trận năm nhánh; cấu hình client khớp identity.
-- [ ] Xác minh quota thực tế của tài khoản/project/model và ngân sách input +
-  output tokens, RPM/TPM/daily limits trước chạy. Không lưu giá trị key/hash key.
-  20 điểm cần 100 Decision hợp lệ, chưa tính upstream/retry/format retry.
-- [ ] Cài/kiểm pacing chung cho mọi transport, dự phòng TPM kể cả vision/output,
-  tôn trọng retry-after và dừng checkpoint khi hết quota. Nghỉ hiện có 10 giây
-  giữa nhánh, 8 giây giữa điểm không bảo đảm không vượt TPM. Pacer W2 chưa được
-  tự gắn vào CLI nghiên cứu; W5 cần nối và kiểm riêng.
+- [x] Xác minh quota thực tế: chủ tài khoản cung cấp cả hai model cùng giới hạn
+  30 RPM/1.000 RPD/8.000 TPM/200.000 TPD; không cung cấp giới hạn ITPM/OTPM riêng.
+  Preflight text/vision thật PASS; header kiểm TPM/RPD. Không lưu key/hash key.
+  20 điểm cần 100 Decision hợp lệ, cộng upstream/retry/format retry.
+- [x] Cài/kiểm pacing chung tại ranh giới HTTP cho text/vision/structured/fallback,
+  reserve input + output và 2.048 token/ảnh. Guard nghỉ trước request theo
+  RPM/TPM, kiểm RPD/TPD, giữ retry-after khi resume và dừng khi daily không đủ.
+  Nghỉ 10 giây giữa nhánh, 8 giây giữa điểm vẫn giữ; guard HTTP mới bổ sung cho CLI.
 - [x] Cảnh báo p95 đã xử lý trên bản tối ưu ngày 07/10/2026; giữ cả FAIL/PASS
   trong ZIP bằng chứng, không dùng kết quả này thay gate quota hoặc OOS.
 
@@ -229,15 +268,19 @@ PASS từ việc đóng W4**. Pilot FPT cần FPT+VNINDEX; benchmark W6 cần đ
 | 2 | Chốt artifact/freeze PIT và plan 20 cutoff | Model proof + plan/hash PASS trước mọi API |
 | 3 | Chốt config, quota/pacing; đối chiếu p95 đã PASS | Cấu hình vận hành, giới hạn/dừng/retry và bằng chứng hiệu năng |
 | 4 | Viết `scripts/run_bayesian_ablation.py` gọi API W4 | CLI dry-run/preflight/verify/resume; mock offline có call-count, schema và checkpoint PASS |
-| 5 | Chạy pilot thật sau gates W5 | 20 common-support point, năm nhánh, 100 Decision hợp lệ; run-dir/checkpoint/log/telemetry |
-| 6 | Rà pilot và điều kiện mở benchmark W6 | Báo cáo lỗi/token/latency/quota/resume và dữ liệu đủ bốn mã; không tự mở W6 khi còn thiếu |
+| 5 | Chạy pilot thật sau gates nguồn/quota | Đã PASS 20 common-support point, năm nhánh, 100 Decision structured; verifier offline complete |
+| 6 | Rà pilot và điều kiện mở benchmark W6 | Telemetry đã tổng hợp tại README, giá đủ bốn mã; chốt kế hoạch mẫu và lịch/quota W6 trước benchmark |
 
-Telemetry W5 cần đo input/output/total tokens thực (ghi thiếu nếu provider
-không trả), thời gian từng request/điểm, call-count upstream/Full/Decision,
-HTTP retry, 429/quota, lỗi format/parse, số branch complete/unknown và resume.
-Provider request ID hiện chưa thu, không dựng ID giả; không dump credentials,
-headers hoặc raw exception chứa request. Thống kê run invocation và HTTP
-request riêng; nếu thêm telemetry ảnh hưởng code/schema thì version/run mới.
+Telemetry hiện thu input/output/total tokens thực (ghi thiếu nếu provider
+không trả), thời gian từng HTTP request, status, request ID thật và sáu quota
+header được phép tại `outputs/oos_pilot/api_usage.json`. Point checkpoint ghi
+upstream/Full/Decision invocation, format/parse, complete/unknown và resume.
+Không dựng ID giả hoặc dump credentials/prompt/raw exception chứa request.
+Thống kê graph invocation và HTTP request riêng; nếu thay code/schema đã ghim
+thì dùng run mới. Số liệu pilot đã đóng tại README; 146 HTTP 200, một transport_error
+chưa rõ kết quả được giữ reserve, không có HTTP 429. Point 16 chạy lại upstream
+theo xác nhận người dùng, lưu checkpoint cũ nguyên byte và audit riêng trong
+`outputs/oos_pilot/reconciliation/`; 15 point/75 Decision cũ không thay đổi.
 
 Dừng khi gate nguồn/model/identity/cutoff sai, prompt vượt cap, JSON/parse chưa
 hợp lệ sau cơ chế retry hiện có, quota hết, nguồn đổi, lock/I/O lỗi hoặc user
@@ -250,11 +293,14 @@ Kho hiện có **852 episode**, quyết định 2020–2022 do warm-up, không �
 đủ 2018–2019. Sentiment toàn NEUTRAL vì thiếu tin lịch sử đáng tin cậy.
 Stats là tỷ lệ thực nghiệm có mẫu số, không là xác suất posterior đã calibration.
 Smoke synthetic và replay sáu context quan sát với Decision giả không phải
-kết quả đầu tư OOS. Fixed model được kiểm kỹ thuật bằng fixture; OS lock được
+kết quả đầu tư OOS. Fixed model đã đối chiếu toàn prefix train-only thực;
+proof hồi cứu không chứng nhận archive đã tồn tại trong quá khứ. OS lock được
 kiểm native Windows, chưa nghiệm thu native Linux/filesystem chia sẻ.
 
 Có thể báo cáo: đã tích hợp prior regime vào pipeline đa agent, bảo toàn kinh
-tế T+2.5, kiểm PIT/paired/budget/checkpoint và hồi quy offline. Bước tiếp theo
-là mở dữ liệu OOS, model proof, quota/CLI rồi pilot FPT 20 điểm; chưa có bằng
-chứng tăng lợi nhuận ngoài mẫu. Cảnh báo retrieval p95 đã xử lý; hiệu năng
-LLM/quota cần đo khi pilot.
+tế T+2.5, kiểm PIT/paired/budget/checkpoint và hồi quy offline. Dữ liệu OOS,
+model proof, quota và CLI đã mở gate; pilot FPT 20 điểm/100 Decision đã được verifier
+nghiệm thu. Cảnh báo retrieval p95 đã xử lý; LLM/quota có telemetry thật. Pilot
+text dùng 194.218/200.000 token ngày, vision 102.034 tính cả unknown reserve; cần
+chốt lịch/quota phù hợp quy mô W6. Mẫu pilot chỉ 05/01–03/04/2023, sentiment toàn
+NEUTRAL, có ngoại lệ đối soát point 16; chưa có bằng chứng tăng lợi nhuận ngoài mẫu.

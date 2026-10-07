@@ -291,7 +291,14 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 - Retrieval p95 Bayesian/Random/Recent/Similarity: **11,559/10,837/10,927/13,235 ms**,
   đều <30 ms trên phiên bản/máy đã đo. Receipt trước/sau giữ nguyên trong
   [ZIP bằng chứng](implementation_evidence.zip); không suy ra hiệu quả đầu tư OOS.
-- Các gate giá/tin OOS, model/freeze, quota/pacing, CLI/pilot W5 còn mở.
+- Đã mở giá OOS riêng VCI/KBS cho bốn mã, kiểm model train-only từ prefix,
+  khóa 20 cutoff FPT và triển khai CLI/pacing/telemetry. Chủ tài khoản xác nhận
+  quota hai model; preflight text/vision thật PASS. Bản triển khai: compile/E2E,
+  521 unit/93 leakage PASS. Pilot **20/20 điểm, 100 Decision structured**, verifier
+  offline complete PASS; toàn bộ gate W4 đã đóng. Điểm 16 có ngoại lệ upstream
+  chạy lại một lần do người dùng xác nhận, có audit; 75 Decision cũ nguyên byte.
+  0 HTTP 429; text 194.218 token, vision 102.034 tính cả reserve chưa rõ kết quả,
+  đều dưới 200.000 TPD/model. Chốt lịch/quota riêng trước benchmark W6.
 
 Tiến độ chỉ cập nhật ở README từng tuần. Tài liệu độc lập giữ cho hướng dẫn
 vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặc test cần.
@@ -301,13 +308,13 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 ### 📅 TUẦN 5: Thử nghiệm Pilot trên FPT & Tối ưu Hạn ngạch Quota
 - **Mục tiêu**: Chạy thử nghiệm toàn diện trên 1 cổ phiếu thí điểm để kiểm tra tính ổn định, đo lường chi phí token và bắt lỗi runtime.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Viết script điều phối thử nghiệm `scripts/run_bayesian_ablation.py`.
-  - [ ] Chạy pilot 20 điểm kiểm định trên cổ phiếu `FPT` cho cả 5 biến thể (Original, Random, Recent, Similarity, Bayesian).
-  - [ ] Giám sát tỷ lệ lỗi parse JSON, thời gian phản hồi của Groq và hiện tượng chạm trần tốc độ.
-  - [ ] Tinh chỉnh độ dài prompt distill nếu phát hiện nguy cơ vượt quota.
+  - [x] Viết script điều phối thử nghiệm `scripts/run_bayesian_ablation.py` (đã thực hiện theo yêu cầu chốt gate W4).
+  - [x] Chạy pilot 20 điểm kiểm định FPT cho cả 5 biến thể; verifier offline PASS (đã thực hiện khi chốt W4).
+  - [x] Thu HTTP/usage/latency/quota và theo dõi parse/format: 100 Decision structured, 0 HTTP 429; lỗi transport và lần đối soát có audit.
+  - [x] Kiểm nhu cầu tinh chỉnh distill: cap hiện tại PASS, BRPP tối đa 369, prompt 4.483; mọi cửa sổ quota trong giới hạn.
 - **Deliverables cuối tuần 5**:
-  - File kết quả pilot `outputs/pilot_fpt_results.json`.
-  - Biên bản đánh giá hiệu năng: xác nhận hệ thống chạy ổn định và an toàn về quota.
+  - Kết quả/checkpoint `outputs/pilot_fpt_run/results.json`, `points/`; ledger/audit tại `outputs/oos_pilot/` (gitignore).
+  - Tổng hợp nghiệm thu và telemetry trong [README W4](week4/README.md); giữ phạm vi pilot và ngoại lệ đối soát, không tạo biên bản lặp.
 
 ### 📅 TUẦN 6: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
 - **Mục tiêu**: Hoàn thành toàn bộ các lượt chạy backtest chính thức trên 4 mã cổ phiếu và thu thập đầy đủ dữ liệu thực nghiệm.

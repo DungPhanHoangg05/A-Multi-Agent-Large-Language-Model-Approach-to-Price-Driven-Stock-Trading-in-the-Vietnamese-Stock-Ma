@@ -399,6 +399,8 @@ class PriorCheckpointStore:
                     continue
                 if self.runner.engine._stop_event.is_set():
                     break
+                if self.runner.before_point is not None:
+                    self.runner.before_point()
                 try:
                     self.runner.adapter.verify_sources()
                     paired = self.runner.engine.run_prior_point(session.point, graph_builder=self.runner.builder,
@@ -416,3 +418,10 @@ class PriorCheckpointStore:
                 if index < len(self.sessions) - 1 and self.runner.engine._stop_event.wait(self.runner.engine.DELAY_BETWEEN_TESTS):
                     break
             return self.write_result()
+
+    def verify(self) -> dict[str, Any]:
+        """Xác minh semantic mọi checkpoint và dựng kết quả, không gọi LLM."""
+        with self.lock:
+            self.initialize(resume=True)
+            self.runner.adapter.verify_sources()
+            return self.result()

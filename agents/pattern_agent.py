@@ -728,7 +728,7 @@ def _text_fallback_analysis(tool_llm, kline_data: dict, time_frame: str,
             "**Nến quan trọng:** Nến nổi bật nhất\n"
             "**Hàm ý giao dịch:** Kịch bản hành động ngắn gọn"
         )
-    response = tool_llm.invoke([HumanMessage(content=prompt)])
+    response = _invoke_with_retry(tool_llm.invoke, [HumanMessage(content=prompt)])
     return response.content
 
 

@@ -796,7 +796,7 @@ def _text_fallback_analysis(tool_llm, kline_data: dict, time_frame: str,
             "KHÔNG thuật lại quá trình suy nghĩ.\n\n"
             f"{language_directive(lang)}"
         )
-    response = tool_llm.invoke([HumanMessage(content=fallback_prompt)])
+    response = _invoke_with_retry(tool_llm.invoke, [HumanMessage(content=fallback_prompt)])
     return response.content
 
 

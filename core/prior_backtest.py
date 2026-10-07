@@ -139,7 +139,8 @@ class PriorBacktestRunner:
     """Điều phối nhiều cutoff; adapter/retriever được caller nạp một lần trước run."""
 
     def __init__(self, engine: BacktestEngine, adapter: PriorContextAdapter,
-                 builder: graph_setup.SetGraph, *, execution_mode: str = "research") -> None:
+                 builder: graph_setup.SetGraph, *, execution_mode: str = "research",
+                 extra_source_paths: tuple[str, ...] = (), before_point: Callable[[], None] | None = None) -> None:
         if not isinstance(adapter, PriorContextAdapter) or not isinstance(builder, graph_setup.SetGraph):
             raise ValueError("Backtest cần adapter đã xác minh và builder đúng loại")
         if execution_mode not in ("research", "offline_fixture"):
@@ -147,6 +148,8 @@ class PriorBacktestRunner:
         self.engine, self.adapter, self.builder = engine, adapter, builder
         self.config = adapter.signal_config
         self.mode, self.schema = execution_mode, ResearchSchema()
+        self.before_point = before_point
+        self.extra_sources = {path: adapter._files.pin(path) for path in extra_source_paths}
         if adapter.prior_config["seed"] != 42 or adapter.prior_config["scope"] != "same_symbol":
             raise ValueError("Ma trận nghiên cứu khóa seed=42 và scope=same_symbol")
         for key, expected in {**self.config["models"], "language": self.config["language"],
@@ -171,7 +174,7 @@ class PriorBacktestRunner:
     def _identity(self, symbol: str, step: int, contexts: list[Any]) -> dict[str, Any]:
         """Khóa cấu hình/nguồn/model/code; không đọc hoặc ghi credentials."""
         from agents import decision_agent
-        sources = {}
+        sources = dict(self.extra_sources)
         for point in contexts:
             proof = point.source_provenance
             for group in ("prices", "news", "regime", "bank"):
@@ -187,7 +190,8 @@ class PriorBacktestRunner:
         config = self.config
         code_files = (*CODE_FILES, "core/backtest_engine.py", "core/prior_context.py", "core/prior_backtest.py",
                       "core/prior_config.py", "core/decision_prior.py", "core/bayesian_retriever.py", "agents/decision_agent.py",
-                      "core/prior_checkpoint.py", "core/prior_run_lock.py",
+                      "core/prior_checkpoint.py", "core/prior_run_lock.py", "core/groq_pacing.py",
+                      "core/pilot_readiness.py", "scripts/run_bayesian_ablation.py",
                       "docs/plan/week4/research_checkpoint.schema.json", "docs/plan/week4/checkpoint_policy.json",
                       "docs/plan/week1/historical_task_record.schema.json", "docs/plan/week1/market_regime_state.schema.json")
         identity = {"identity_version": "prior_run_identity_v1", "protocol": "five_way_full_shared_pit",
@@ -299,9 +303,10 @@ class PriorBacktestRunner:
 
     def run(self, symbol: str, *, output_dir: Path, time_frame: str = "1d", n_tests: int = 15,
             step: int = 3, cutoffs: tuple[str, ...] | None = None,
-            callback: Callable[[dict[str, Any]], None] | None = None, resume: bool = False) -> dict[str, Any]:
+            callback: Callable[[dict[str, Any]], None] | None = None, resume: bool = False,
+            verify_only: bool = False) -> dict[str, Any]:
         """Kiểm toàn plan trước API, ghi từng điểm complete và summary common support."""
-        if type(resume) is not bool:
+        if type(resume) is not bool or type(verify_only) is not bool:
             raise ValueError("resume phải bool Python gốc")
         validate_prior_execution(self.adapter.prior_config, is_backtest=True, time_frame=time_frame)
         if type(n_tests) is not int or n_tests < 1 or type(step) is not int or step < 3:
@@ -325,10 +330,12 @@ class PriorBacktestRunner:
         contexts = [self.adapter.prepare(symbol, cutoff, time_frame=time_frame) for cutoff in cutoffs]
         identity = self._identity(symbol, step, contexts)
         output_dir = Path(output_dir).resolve()
-        if not resume and output_dir.exists() and any(output_dir.iterdir()):
+        if not resume and not verify_only and output_dir.exists() and any(output_dir.iterdir()):
             raise ValueError("Thư mục đã có dữ liệu; dùng resume=True cho run đã khởi tạo")
-        if resume and not (output_dir / "run_manifest.json").is_file():
+        if (resume or verify_only) and not (output_dir / "run_manifest.json").is_file():
             raise ValueError("Không có manifest nghiên cứu; không migrate output legacy/W4-11")
         from core.prior_checkpoint import PriorCheckpointStore
         store = PriorCheckpointStore(self, output_dir, identity, contexts, frame, events)
+        if verify_only:
+            return store.verify()
         return store.execute(resume=resume, callback=callback)

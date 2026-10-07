@@ -13,7 +13,8 @@ from uuid import uuid4
 
 from core.backtest_engine import BacktestEngine, PRIOR_BRANCH_MODES
 from core.bayesian_memory import atomic_write_json
-from core.prior_backtest import canonical_hash
+from core.prior_backtest import canonical_hash, PriorBacktestRunner
+from core.groq_pacing import PilotStop
 from core.prior_checkpoint import CheckpointSession, read_document, safe_error
 from core.prior_run_lock import PriorRunLock, lock_handle, process_start, safe_path
 import test_prior_backtest_integration as support
@@ -27,6 +28,30 @@ class PriorCheckpointTests(unittest.TestCase):
     setUp = support.PriorBacktestIntegrationTests.setUp
     run_fixture = support.PriorBacktestIntegrationTests.run_fixture
     read_payload = support.PriorBacktestIntegrationTests.read_payload
+
+    def test_verify_only_checks_semantics_without_llm_or_repeating_upstream(self) -> None:
+        self.run_fixture(cutoffs=(self.fx.cutoff,))
+        before = self.load_point()
+        calls, events = self.llm.calls, list(self.events)
+        runner = PriorBacktestRunner(self.engine, self.adapter, self.builder, execution_mode="offline_fixture")
+        result = runner.run("FPT", output_dir=self.output, cutoffs=(self.fx.cutoff,), verify_only=True)
+        self.assertEqual(result["status"], "complete")
+        self.assertEqual(self.llm.calls, calls)
+        self.assertEqual(self.events, events)
+        self.assertEqual(self.load_point(), before)
+
+    def test_daily_guard_before_point_preserves_not_started_and_can_resume(self) -> None:
+        def stop() -> None:
+            raise PilotStop("quota không đủ cho toàn điểm")
+        runner = PriorBacktestRunner(self.engine, self.adapter, self.builder, execution_mode="offline_fixture", before_point=stop)
+        with self.assertRaises(PilotStop):
+            runner.run("FPT", output_dir=self.output, cutoffs=(self.fx.cutoff,))
+        self.assertEqual(self.load_point()["shared"]["stage"], "not_started")
+        self.assertEqual(self.llm.calls, 0)
+        self.assertFalse(self.events)
+        self.fresh_engine()
+        result = self.run_fixture(cutoffs=(self.fx.cutoff,), resume=True)
+        self.assertEqual(result["status"], "complete")
 
     def fresh_engine(self) -> None:
         """Tạo engine mới như tiến trình resume; giữ adapter/bank/model đã khóa."""
