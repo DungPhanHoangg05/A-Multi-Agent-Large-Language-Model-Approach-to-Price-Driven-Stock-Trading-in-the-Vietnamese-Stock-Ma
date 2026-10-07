@@ -305,13 +305,17 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và khóa kế hoạch benchmark — PHASE A, 1/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và khóa kế hoạch benchmark — PHASE A, 2/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
   code/nguồn/runtime khớp W4, 15 điểm/75 Decision cũ nguyên byte, audit và
   reserve unknown 5.535 còn đầy đủ. Đã ghi baseline và cách kiểm lại W4;
-  compileall/E2E, 521 unit/93 leakage PASS. Tiếp theo W5-02.
+  compileall/E2E, 521 unit/93 leakage PASS.
+- **W5-02 DONE, 07/10/2026**: đối chiếu summary từ 20 checkpoint; bảng
+  accuracy/LONG/SHORT/hit-rate/tài khoản/MDD năm nhánh và coverage trong README.
+  Cả năm nhánh lỗ; Original accuracy 55%, Bayesian 50%; mẫu đầu 2023, sentiment
+  toàn NEUTRAL. Giữ giao thức W6; rà annualization ở W5-04. Tiếp theo W5-03.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
