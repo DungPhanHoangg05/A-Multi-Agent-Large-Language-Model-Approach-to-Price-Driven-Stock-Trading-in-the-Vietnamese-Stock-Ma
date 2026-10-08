@@ -34,10 +34,12 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ 16 task và bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đã đóng Phase A, **4/16 task hoàn thành**: baseline, metric pilot,
-  CLI audit và hợp đồng vận hành/v2/đánh giá. W5-04 ngày 08/10/2026:
-  **536 unit/93 leakage**, compileall/E2E PASS; runtime v2 còn chờ Phase B.
-  Tiếp theo W5-05 triển khai policy quota/pacing.
+  W5 đã đóng Phase A, **5/16 task hoàn thành**: baseline, metric pilot,
+  CLI audit, hợp đồng vận hành/v2/đánh giá và policy quota. W5-05 ngày
+  08/10/2026 thêm admission từng request, khóa policy trong identity,
+  kiểm cache/token/quota và đọc ledger sau khóa OS. **546 unit/93 leakage**,
+  compileall/E2E và dry-run PASS. Bayesian v2 và retry xuyên invocation còn
+  chờ các task Phase B tiếp theo. Tiếp theo W5-06: atomic I/O Windows/OneDrive.
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test

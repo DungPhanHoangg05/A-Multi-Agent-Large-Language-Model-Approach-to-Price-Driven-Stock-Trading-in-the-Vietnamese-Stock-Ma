@@ -21,7 +21,7 @@ from langchain_groq import ChatGroq
 from PIL import Image
 
 from core.backtest_engine import BacktestEngine
-from core.groq_pacing import GroqPacer, PacedGroqTransport, PilotStop
+from core.groq_pacing import GroqPacer, PacedGroqTransport, PilotStop, QUOTA_POLICIES, tokenizer_cached
 from core.pilot_readiness import INPUT_DIR, build_adapter, prepare_inputs, verify_inputs
 from core.prior_backtest import PriorBacktestRunner, canonical_hash
 from core.prior_run_lock import PriorRunLock
@@ -74,6 +74,8 @@ def main() -> None:
     parser.add_argument("--resume", action="store_true", help="Phục hồi run năm nhánh, không dùng runner Memory Bank")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs/pilot_fpt_run")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
+    parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
+                        help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
     if args.resume and not (args.run or args.verify_only):
         parser.error("--resume chỉ đi với --run hoặc --verify-only")
@@ -82,8 +84,12 @@ def main() -> None:
     contexts = [adapter.prepare("FPT", cutoff) for cutoff in plan["cutoffs"]]
     print(f"Input PASS: FPT {len(contexts)} cutoff, {plan['cutoffs'][0]} → {plan['cutoffs'][-1]}; "
           f"plan={canonical_hash(plan)}", flush=True)
+    cached = tokenizer_cached()
+    print(f"Quota policy: {args.quota_policy}; tokenizer cache: {'PASS' if cached else 'THIẾU/HỎNG'}", flush=True)
     if args.prepare or not (args.preflight or args.run or args.verify_only):
         return
+    if not args.verify_only and not cached:
+        raise ValueError("Cần chạy py -3.13 scripts/prepare_groq_tokenizer.py trước run; chưa gọi API")
     config = plan["signal_config"]
     # Chế độ verify-only dùng client có transport cấm mạng và không đọc key.
     key = "offline-verifier-no-network"
@@ -91,36 +97,44 @@ def main() -> None:
         key = dotenv_values(args.env_file).get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY", "")
         if not key:
             raise ValueError("Thiếu GROQ_API_KEY; đặt riêng trong .env")
-    pacer = GroqPacer(ROOT / "outputs/oos_pilot/api_usage.json")
     def reject_network(request: httpx.Request) -> httpx.Response:
         raise AssertionError("verify-only không được phép gọi API")
-    transport = httpx.MockTransport(reject_network) if args.verify_only else PacedGroqTransport(pacer)
     # Khóa cả quota ledger để không có hai run-dir dùng chung quota sai số.
-    with PriorRunLock(ROOT / "outputs/oos_pilot/runtime", canonical_hash(plan)), httpx.Client(transport=transport, timeout=90.) as client:
-        builder = make_builder(plan, key, client)
-        if args.preflight:
-            first = len(pacer.state["requests"])
-            preflight(builder)
-            pacer.state["preflight"] = {"status": "PASS", "plan_sha256": canonical_hash(plan),
-                "request_ids": [r["id"] for r in pacer.state["requests"][first:]]}
-            pacer.save()
-            return
-        if args.run:
-            proof = pacer.state.get("preflight", {})
-            successful = {r["model"] for r in pacer.state["requests"]
-                if r["id"] in proof.get("request_ids", []) and r["status"] == 200}
-            if (proof.get("status") != "PASS" or proof.get("plan_sha256") != canonical_hash(plan)
-                    or successful != set(plan["limits"])):
-                raise ValueError("Cần --preflight PASS cho cả text và vision trước pilot")
-        engine = BacktestEngine({**config["models"], "language": config["language"],
-            "alpha_norm_method": config["norm_method"], "alpha_weights": config["alpha_weights"]})
-        runner = PriorBacktestRunner(engine, adapter, builder, extra_source_paths=(f"{INPUT_DIR}/plan.json",),
-                                     before_point=pacer.before_point)
-        def progress(event: dict[str, Any]) -> None:
-            print(f"Pilot: {event['completed']}/{event['total']} điểm đủ năm nhánh", flush=True)
-        result = runner.run("FPT", output_dir=args.output_dir, cutoffs=tuple(plan["cutoffs"]), step=3,
-                            resume=args.resume, verify_only=args.verify_only, callback=progress)
-        print(f"Pilot {result['status']}: {len(result['completed_point_ids'])}/{len(result['planned_point_ids'])} điểm", flush=True)
+    with PriorRunLock(ROOT / "outputs/oos_pilot/runtime", canonical_hash(plan)):
+        # Nạp ledger SAU khi có khóa để không ghi đè usage của tiến trình trước.
+        pacer = GroqPacer(ROOT / "outputs/oos_pilot/api_usage.json", policy=args.quota_policy)
+        transport = httpx.MockTransport(reject_network) if args.verify_only else PacedGroqTransport(pacer)
+        with httpx.Client(transport=transport, timeout=90.) as client:
+            execute(args, plan, adapter, config, key, pacer, client)
+
+
+def execute(args: argparse.Namespace, plan: dict[str, Any], adapter: Any,
+            config: dict[str, Any], key: str, pacer: GroqPacer, client: httpx.Client) -> None:
+    """Thực thi trong khóa quota chung; policy thuộc identity của checkpoint."""
+    builder = make_builder(plan, key, client)
+    if args.preflight:
+        first = len(pacer.state["requests"])
+        preflight(builder)
+        pacer.state["preflight"] = {"status": "PASS", "plan_sha256": canonical_hash(plan),
+            "request_ids": [r["id"] for r in pacer.state["requests"][first:]]}
+        pacer.save()
+        return
+    if args.run:
+        proof = pacer.state.get("preflight", {})
+        successful = {r["model"] for r in pacer.state["requests"]
+            if r["id"] in proof.get("request_ids", []) and r["status"] == 200}
+        if (proof.get("status") != "PASS" or proof.get("plan_sha256") != canonical_hash(plan)
+                or successful != set(plan["limits"])):
+            raise ValueError("Cần --preflight PASS cho cả text và vision trước pilot")
+    engine = BacktestEngine({**config["models"], "language": config["language"],
+        "alpha_norm_method": config["norm_method"], "alpha_weights": config["alpha_weights"]})
+    runner = PriorBacktestRunner(engine, adapter, builder, extra_source_paths=(f"{INPUT_DIR}/plan.json",),
+                                 before_point=pacer.before_point, quota_policy=pacer.policy)
+    def progress(event: dict[str, Any]) -> None:
+        print(f"Pilot: {event['completed']}/{event['total']} điểm đủ năm nhánh", flush=True)
+    result = runner.run("FPT", output_dir=args.output_dir, cutoffs=tuple(plan["cutoffs"]), step=3,
+                        resume=args.resume, verify_only=args.verify_only, callback=progress)
+    print(f"Pilot {result['status']}: {len(result['completed_point_ids'])}/{len(result['planned_point_ids'])} điểm", flush=True)
 
 
 if __name__ == "__main__":
