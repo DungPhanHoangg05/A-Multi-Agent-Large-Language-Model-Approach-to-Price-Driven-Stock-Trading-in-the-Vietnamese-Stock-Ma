@@ -68,7 +68,8 @@ def safe_error(error: BaseException) -> dict[str, Any]:
         "FORMAT": "Decision không hợp lệ; nhánh chưa được chấm thành quyết định.",
         "SOURCE": "Nguồn hoặc quan hệ dữ liệu không hợp lệ; cần kiểm tra trước resume.",
         "INTERRUPT": "Tiến trình bị ngắt; các nhánh complete đã lưu được giữ nguyên.",
-        "PERSISTENCE": "Ghi/đọc dữ liệu thất bại; dừng API và kiểm checkpoint trên đĩa.",
+        "PERSISTENCE": "Ghi/đọc dữ liệu thất bại; dừng API, kiểm checkpoint, quyền/dung lượng và handle đang mở. "
+                       "Có thể dùng runtime local ngoài OneDrive; không xóa lock đang sống.",
         "AMBIGUOUS_UPSTREAM": "Upstream đã bắt đầu nhưng chưa có báo cáo durable; cần rà soát.",
         "AMBIGUOUS_FULL": "Full đã bắt đầu nhưng chưa có bundle durable; cần rà soát.",
         "RUNTIME": "Lời gọi thất bại; giữ checkpoint để kiểm tra hoặc resume Decision còn thiếu."}
