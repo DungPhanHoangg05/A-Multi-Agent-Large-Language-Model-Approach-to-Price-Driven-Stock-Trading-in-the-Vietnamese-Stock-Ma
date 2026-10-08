@@ -141,7 +141,10 @@ class PriorBacktestRunner:
     def __init__(self, engine: BacktestEngine, adapter: PriorContextAdapter,
                  builder: graph_setup.SetGraph, *, execution_mode: str = "research",
                  extra_source_paths: tuple[str, ...] = (), before_point: Callable[[], None] | None = None,
-                 quota_policy: str | None = None) -> None:
+                 quota_policy: str | None = None, durable_stages: bool = False) -> None:
+        if type(durable_stages) is not bool:
+            raise ValueError("durable_stages phải bool")
+        self.durable_stages = durable_stages
         from core.groq_pacing import QUOTA_POLICIES
         if quota_policy is not None and quota_policy not in QUOTA_POLICIES:
             raise ValueError("Policy quota không hợp lệ")
@@ -195,7 +198,7 @@ class PriorBacktestRunner:
         config = self.config
         code_files = (*CODE_FILES, "core/backtest_engine.py", "core/prior_context.py", "core/prior_backtest.py",
                       "core/prior_config.py", "core/decision_prior.py", "core/bayesian_retriever.py", "agents/decision_agent.py",
-                      "core/prior_checkpoint.py", "core/prior_run_lock.py", "core/groq_pacing.py",
+                      "core/prior_checkpoint.py", "core/prior_run_lock.py", "core/groq_pacing.py", "core/prior_stage_journal.py",
                       "core/pilot_readiness.py", "scripts/run_bayesian_ablation.py",
                       "docs/plan/week4/research_checkpoint.schema.json", "docs/plan/week4/checkpoint_policy.json",
                       "docs/plan/week1/historical_task_record.schema.json", "docs/plan/week1/market_regime_state.schema.json")
@@ -225,6 +228,8 @@ class PriorBacktestRunner:
                 for point in contexts]}
         if self.quota_policy is not None:
             identity["versions"]["quota_policy"] = self.quota_policy
+        if self.durable_stages:
+            identity["versions"]["stage_recovery"] = "agent_stage_journal_v1"
         self.schema.validate(identity, "identity")
         return identity
 
@@ -311,7 +316,8 @@ class PriorBacktestRunner:
     def run(self, symbol: str, *, output_dir: Path, time_frame: str = "1d", n_tests: int = 15,
             step: int = 3, cutoffs: tuple[str, ...] | None = None,
             callback: Callable[[dict[str, Any]], None] | None = None, resume: bool = False,
-            verify_only: bool = False) -> dict[str, Any]:
+            verify_only: bool = False, reconcile: bool = False,
+            authorize_replay: str | None = None, replay_reason: str | None = None) -> dict[str, Any]:
         """Kiểm toàn plan trước API, ghi từng điểm complete và summary common support."""
         if type(resume) is not bool or type(verify_only) is not bool:
             raise ValueError("resume phải bool Python gốc")
@@ -337,12 +343,16 @@ class PriorBacktestRunner:
         contexts = [self.adapter.prepare(symbol, cutoff, time_frame=time_frame) for cutoff in cutoffs]
         identity = self._identity(symbol, step, contexts)
         output_dir = Path(output_dir).resolve()
-        if not resume and not verify_only and output_dir.exists() and any(output_dir.iterdir()):
+        if not resume and not verify_only and not reconcile and output_dir.exists() and any(output_dir.iterdir()):
             raise ValueError("Thư mục đã có dữ liệu; dùng resume=True cho run đã khởi tạo")
-        if (resume or verify_only) and not (output_dir / "run_manifest.json").is_file():
+        if (resume or verify_only or reconcile) and not (output_dir / "run_manifest.json").is_file():
             raise ValueError("Không có manifest nghiên cứu; không migrate output legacy/W4-11")
         from core.prior_checkpoint import PriorCheckpointStore
         store = PriorCheckpointStore(self, output_dir, identity, contexts, frame, events)
+        if reconcile:
+            return store.reconcile(authorize_replay=authorize_replay, reason=replay_reason)
+        if authorize_replay is not None or replay_reason is not None:
+            raise ValueError("Xác nhận replay chỉ dùng cùng reconcile")
         if verify_only:
             return store.verify()
         return store.execute(resume=resume, callback=callback)
