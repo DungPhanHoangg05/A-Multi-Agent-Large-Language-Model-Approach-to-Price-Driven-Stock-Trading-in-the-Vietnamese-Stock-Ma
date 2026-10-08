@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A PASS; 5/16 task hoàn thành — W5-01–05 DONE. Tiếp theo W5-06, Phase B.**
+**Trạng thái: Phase A PASS; 6/16 task hoàn thành — W5-01–06 DONE. Tiếp theo W5-07, Phase B.**
 Ngày lập: **07/10/2026**; cập nhật **08/10/2026**. Đã kiểm/tổng hợp offline,
 thêm CLI audit và chốt hợp đồng v2; triển khai runtime v2 bắt đầu ở Phase B.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -638,7 +638,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | A | W5-03 | Báo cáo HTTP/token/thời gian và bất đồng quyết định | 01, 02 | [x] |
 | A | W5-04 | Chốt vận hành, hợp đồng v2 và phân hoạch đánh giá | 02, 03 | [x] |
 | B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [x] |
-| B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [ ] |
+| B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [x] |
 | B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [ ] |
 | B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [ ] |
 | C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [ ] |
@@ -713,7 +713,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 
 **Gate A: PASS (08/10/2026).** Baseline kiểm được, bảng pilot/telemetry đối
 soát được, hợp đồng v2/phân hoạch/metric/telemetry đã chốt tại mục 1. Runtime
-Bayesian v2 còn TODO; W5-05 đã hoàn thành, tiếp tục W5-06. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
+Bayesian v2 còn TODO; W5-05/06 đã hoàn thành, tiếp tục W5-07. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
 
 ### Phase B — Đường chạy dài và nền tảng v2 (khoảng 2–3 ngày)
 
@@ -798,6 +798,46 @@ SHA-256. Không gọi API LLM, không tạo thêm receipt. Tiếp theo W5-06.
   lỗi quyền/đĩa đầy, không ghi đè checkpoint complete hoặc xóa lock đang sống.
 - **Đạt khi:** fault test chứng minh file cũ hoặc file mới nguyên vẹn,
   không JSON nửa chừng; retry hết thì dừng giữ dữ liệu durable.
+
+**Triển khai 08/10/2026:** `atomic_write_json` serialize và ghi/fsync đúng
+một lần, đóng handle file tạm rồi mới thay thế checkpoint. Chỉ bước
+`os.replace` và dọn file tạm riêng của lần ghi được retry khi `winerror`
+là 5/32/33; tối đa 5 attempt, nghỉ 0,05 → 0,10 → 0,20 → 0,40 giây
+(0,75 giây cho mỗi thao tác). Không retry serialize, ghi nội dung, fsync,
+đĩa đầy hoặc lỗi quyền không có mã Windows được cho phép. WinError 5
+cũng có thể là lỗi quyền thật: hết số lần thử vẫn trả nguyên ngoại lệ,
+không đổi ACL, không xóa file đích để ép ghi. Mã lỗi đối chiếu
+[Microsoft Win32](https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-).
+
+- File đích giữ nguyên byte cho tới khi replace thành công; retry không
+  chạy lại agent. Lỗi dọn file tạm không che lỗi gốc; exception note cho
+  biết file còn sót. Không tự nâng file tạm thành checkpoint. Nếu tiến
+  trình chết hoặc thư mục đích vẫn bị khóa, giữ trạng thái durable cũ và
+  đối soát theo W5-07; không hứa khôi phục response chưa được lưu.
+- `read_json` dùng `Path.read_text`, đóng handle trước khi parse/trả về.
+  Test Windows thật mở reader không chia sẻ DELETE, tái hiện lỗi replace,
+  đóng reader trong backoff và xác minh JSON mới nguyên vẹn. Không giữ
+  reader mở xuyên suốt run; khóa OS của runner vẫn giữ đúng vòng đời cũ.
+- Thông báo `PERSISTENCE` hướng dẫn kiểm quyền, dung lượng và handle;
+  không xóa lock còn sống. Checkpoint complete vẫn bất biến khi resume.
+
+**Vận hành khi OneDrive liên tục khóa file:** dừng runner trước, kiểm
+checkpoint/owner; ưu tiên checkout toàn bộ workspace vào ổ local ngoài
+vùng đồng bộ (ví dụ `C:\KLTN\project`). Chuyển dữ liệu và runtime bằng
+bản sao đã đối chiếu checksum, bao gồm **ledger quota, preflight, checkpoint
+và audit**, giữ đúng code/config của run đang phục hồi. Không chạy đồng
+thời hai bản workspace hoặc tạo ledger trống để reset quota. Riêng
+`--output-dir` local chỉ chuyển checkpoint, ledger chung hiện vẫn ở
+`outputs/oos_pilot/` trong workspace; chưa làm toàn bộ runtime thoát OneDrive.
+Không sửa byte pilot W4 để hợp với code mới; run mới dùng thư mục mới.
+
+**Nghiệm thu DONE:** compileall/E2E, **555 unit test/93 test leakage PASS**.
+Thêm 9 test cho lỗi tạm thời/hết retry, đĩa đầy, ghi dở/fsync/serialize,
+cleanup không che lỗi gốc, handle Windows thật và retry checkpoint không
+lặp agent/không sửa complete khi resume. 49 artifact dữ liệu/bằng chứng
+giữ nguyên SHA-256. Fault test chạy trong thư mục tạm, không gọi API hoặc
+can thiệp tiến trình OneDrive thật. Khôi phục response từng stage và đối
+soát AMBIGUOUS tiếp tục thuộc W5-07.
 
 #### W5-07 — Hoàn thiện phục hồi và đối soát upstream
 
@@ -993,3 +1033,4 @@ Không merge khi gate bắt buộc FAIL.
 | 07/10/2026 | W5-03 | DONE: CLI/API audit readonly; 146 HTTP 200 +một unknown; charged text 194.218/vision 102.034, reserve 5.535 giữ nguyên; 100 attempt complete +một failed; 1/20 bất đồng, chênh return −2,241809 điểm phần trăm. Timer v1 thiếu ghi null, không đoán pacing/role; verifier pilot 20/20, audit hook 0 credential/network, 82 file bất biến. 15 test mới; compileall/E2E, 536 unit/93 leakage PASS | W5-04: contract vận hành/v2, metric/phân hoạch và telemetry run mới |
 | 08/10/2026 | W5-04 | DONE, Gate A PASS: chốt research_evaluation_contract_v2, retry/resume/identity, split train/2023/2024, primary theo mã và trung bình bốn mã, cycle-risk metric không annualize, evidence/gate/prefix và telemetry v2. Gắn yêu cầu với 05–08/13–15; code v2 vẫn TODO. Compileall/E2E, 536 unit/93 leakage PASS; 82 file khớp baseline, không API hoặc thêm receipt | W5-05: triển khai policy quota/pacing theo hợp đồng |
 | 08/10/2026 | W5-05 | DONE: request_admission_v2 qua CLI, khóa policy vào identity; guard HTTP giữ reserve, dừng/cooldown có reason và mốc resume; đo pacing, kiểm cache trước run, đọc ledger sau khóa OS. Compileall/E2E, 546 unit/93 leakage và dry-run 20 cutoff PASS; 49 artifact bất biến, không API. Retry xuyên invocation/format repair còn thuộc 07/08 | W5-06: atomic I/O trên Windows/OneDrive |
+| 08/10/2026 | W5-06 | DONE: retry replace/cleanup có giới hạn cho WinError 5/32/33, không ghi/fsync lại hoặc che lỗi gốc; hướng dẫn PERSISTENCE/runtime local. Test handle Windows thật và checkpoint retry không lặp agent/không sửa complete. Compileall/E2E, 555 unit/93 leakage PASS; 49 artifact bất biến, không API hoặc thêm receipt | W5-07: response durable và đối soát upstream |

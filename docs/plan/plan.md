@@ -341,7 +341,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A PASS, 5/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A PASS, 6/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -370,6 +370,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   Compileall/E2E, **546 unit/93 leakage PASS**, dry-run 20 cutoff PASS;
   49 artifact dữ liệu/bằng chứng bất biến. Retry/response durable còn
   triển khai ở 07/08. Tiếp theo W5-06: atomic I/O Windows/OneDrive.
+- **W5-06 DONE, 08/10/2026**: retry replace/cleanup tối đa 5 attempt cho
+  WinError 5/32/33; ghi/fsync một lần, giữ nguyên checkpoint cũ khi thất bại,
+  không che lỗi gốc bằng lỗi dọn file tạm. Test handle Windows thật và
+  retry checkpoint không lặp agent; complete giữ nguyên khi resume.
+  Compileall/E2E, **555 unit/93 leakage PASS**; 49 artifact bất biến.
+  Tiếp theo W5-07: response durable và đối soát upstream.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).

@@ -7,6 +7,7 @@ import json
 import math
 import os
 import tempfile
+import time
 from datetime import date
 from pathlib import Path
 from typing import Any, Callable
@@ -135,11 +136,31 @@ def read_json(path: Path) -> Any:
                       parse_constant=reject_constant)
 
 
+def _retry_windows_file_operation(operation: Callable[[], None]) -> None:
+    """Retry hữu hạn khi Windows chặn handle/quyền; không retry lỗi đĩa đầy.
+
+    WinError 5 có thể là ACL thật: thử ngắn rồi trả nguyên lỗi, không đổi quyền.
+    Không áp dụng vào ghi nội dung/fsync để tránh lặp thao tác không rõ kết quả.
+    """
+    delays = (0.05, 0.1, 0.2, 0.4)
+    for attempt in range(len(delays) + 1):
+        try:
+            operation()
+            return
+        except OSError as error:
+            if getattr(error, "winerror", None) not in (5, 32, 33) or attempt == len(delays):
+                error.add_note("I/O thất bại; giữ checkpoint đã lưu. Kiểm quyền/dung lượng và handle đang mở; "
+                               "cân nhắc runtime local ngoài OneDrive. Không xóa lock đang sống.")
+                raise
+            time.sleep(delays[attempt])
+
+
 def atomic_write_json(path: Path, payload: Any) -> None:
-    """Ghi cùng thư mục và thay thế nguyên tử sau khi flush/fsync thành công."""
+    """Ghi/fsync một lần; đóng handle trước replace, retry ngắn lỗi khóa Windows."""
     content = json.dumps(payload, ensure_ascii=False, allow_nan=False, indent=2) + "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary: str | None = None
+    failure: BaseException | None = None
     try:
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
                                          prefix=f".{path.name}.", suffix=".tmp", delete=False) as handle:
@@ -147,10 +168,20 @@ def atomic_write_json(path: Path, payload: Any) -> None:
             handle.write(content)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary, path)
+        _retry_windows_file_operation(lambda: os.replace(temporary, path))
+    except BaseException as error:
+        failure = error
+        raise
     finally:
         if temporary is not None and os.path.exists(temporary):
-            os.unlink(temporary)
+            try:
+                _retry_windows_file_operation(lambda: os.unlink(temporary))
+            except OSError as cleanup_error:
+                if failure is None:
+                    raise
+                failure.add_note(f"Không dọn được file tạm thuộc lần ghi này: {temporary}; "
+                                 f"winerror={getattr(cleanup_error, 'winerror', None)}. "
+                                 "Không dùng file tạm thay checkpoint chưa được xác minh.")
 
 
 class HistoricalMemory:

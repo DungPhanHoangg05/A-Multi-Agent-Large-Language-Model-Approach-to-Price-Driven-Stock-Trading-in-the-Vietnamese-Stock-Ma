@@ -229,6 +229,29 @@ class PriorCheckpointTests(unittest.TestCase):
         self.assertEqual(self.load_point()["branches"]["original"], saved)
         self.assertEqual(self.llm.calls, 6)  # Chưa durable có thể lặp remote; complete không lặp.
 
+    def test_transient_replace_retries_checkpoint_without_repeating_agents(self) -> None:
+        from test_atomic_checkpoint_io import windows_error
+        replace = os.replace
+        failures = []
+        def locked(source, target):
+            if Path(target).name == self.point_file().name:
+                doc = json.loads(Path(source).read_text("utf-8"))["payload"]
+                if doc["branches"]["original"]["status"] == "complete" and len(failures) < 2:
+                    failures.append(self.llm.calls)
+                    raise windows_error(32)
+            return replace(source, target)
+        with patch("core.bayesian_memory.os.replace", side_effect=locked), patch("core.bayesian_memory.time.sleep"):
+            result = self.run_fixture(cutoffs=(self.fx.cutoff,))
+        self.assertEqual(result["status"], "complete")
+        self.assertEqual(failures, [1, 1])
+        self.assertEqual(self.llm.calls, 5)
+        self.assertEqual(self.events, ["indicator", "pattern", "trend", "full"])
+        original = self.point_file().read_bytes()
+        self.fresh_engine()
+        self.run_fixture(cutoffs=(self.fx.cutoff,), resume=True)
+        self.assertEqual(self.point_file().read_bytes(), original)
+        self.assertEqual(self.llm.calls, 5)
+
     def test_atomic_failure_at_each_intent_prevents_following_api(self) -> None:
         replace = os.replace
         for stage in ("upstream_started", "full_started", "shared_complete", "decision_started"):
