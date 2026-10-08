@@ -255,6 +255,13 @@ công bố thay đổi phạm vi; không bỏ đối chứng sau khi thấy kế
   return theo chu kỳ trước benchmark. CI/test xử lý phụ thuộc thời gian và
   cùng ngày giữa mã; khai báo so sánh chính và điều chỉnh nhiều so sánh.
   Gate kỹ thuật PASS không yêu cầu lợi nhuận dương hoặc Bayesian vượt Original.
+- **Hợp đồng W5-04, 08/10/2026**: primary là ΔR v2–Original từng mã và
+  trung bình đều bốn mã (không là return portfolio). Mỗi mã ×nhánh dùng
+  tài khoản riêng 50 triệu; thiếu điểm/nhánh thì primary xác nhận chưa tính.
+  Report v2 dùng Sharpe/Sortino theo chu kỳ, annualized=null; không dùng
+  √252 trên return chu kỳ. Công thức, xử lý biên và version tại
+  [README W5](week5/README.md#hợp-đồng-vận-hành-và-đánh-giá--w5-04-chốt-08102026);
+  triển khai report/runtime v2 còn thuộc Phase B.
 
 ---
 
@@ -267,7 +274,7 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 | **P0-1** | **Prior Lookahead Leakage** | Kết quả gian lận, mất tính học thuật do retriever nhìn thấy tương lai. | Kiểm tra cứng: `record.exit_date < current_test_point.as_of_date`, lọc trước ranking/stats. Ném `ValueError` ngay lập tức nếu vi phạm. Viết unit test tự động dò quét. |
 | **P0-2** | **Horizon Mismatch** | Tiên nghiệm học sai phân phối, tính toán sai xác suất bẫy giá. | Mọi record lịch sử trong Memory Bank phải được gắn nhãn bằng đúng hàm `compute_round_trip_net_return` ($T+2.5$) của engine. |
 | **P0-3** | **Context Window / Quota Overrun** | Groq trả về HTTP 429, gián đoạn backtest, LLM bị "Lost in the middle". | Format BRPP dạng bảng tối đa 600 ký tự. Có cơ chế fallback về `_cap_report` nếu tổng prompt vượt 6,500 ký tự. |
-| **P0-4** | **Regime Detector Leakage** | Mô hình regime nhìn thấy biến động tương lai. | HMM chỉ được fit một lần duy nhất trên dữ liệu trước 2023. Trong pha walk-forward, chỉ dùng dữ liệu lịch sử tính toán online. |
+| **P0-4** | **Regime Detector Leakage** | Mô hình regime nhìn thấy biến động tương lai. | Train-validation dùng historical_prefix chỉ fit tới cutoff từng fold/query; model/scaler OOS đóng băng trên train kết thúc trước 2023. Không dùng artifact cuối 2022 cho query train sớm hơn, không refit bằng holdout. |
 
 ---
 
@@ -334,7 +341,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A, 3/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A PASS, 4/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -350,7 +357,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   text 194.218/vision 102.034; giữ reserve 5.535. Trace 1/20 bất đồng,
   chênh return −2,241809 điểm phần trăm; timer/role thiếu để null.
   Verifier 20/20, 82 file bất biến; compileall/E2E, **536 unit/93 leakage PASS**.
-  Tiếp theo W5-04, Phase A chưa đóng.
+- **W5-04 DONE, 08/10/2026; Gate A PASS**: chốt hợp đồng vận hành/v2,
+  split train/2023/2024, primary ΔR theo mã và trung bình đều bốn mã;
+  metric chu kỳ, annualized=null, evidence/gate và telemetry có version.
+  Requirements giao cho W5-05–08/13–15; runtime v2 chưa triển khai.
+  Compileall/E2E, 536 unit/93 leakage PASS; 82 file khớp baseline W5-03.
+  Tiếp theo W5-05 (Phase B).
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
@@ -362,7 +374,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   phân hoạch train/2023-development/2024-holdout; không chạy lại pilot hoặc
   sửa bank/model để tính tiến độ. Thay đổi plan chưa là task triển khai DONE.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Phase A, W5-01–04: baseline, chỉ số/telemetry, audit bất đồng, hợp đồng v2 và metric/phân hoạch.
+  - [x] Phase A, W5-01–04: baseline, chỉ số/telemetry, audit bất đồng, hợp đồng v2 và metric/phân hoạch.
   - [ ] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
   - [ ] Phase C, W5-09–12: coverage, lịch cohort tách pilot/smoke/holdout, ngân sách v1/v2 và manifest/dry-run.
   - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
