@@ -4,6 +4,7 @@ from pathlib import Path
 import tempfile
 import json
 import unittest
+from unittest.mock import patch, Mock
 
 import httpx
 
@@ -30,6 +31,131 @@ class GroqPacingTests(unittest.TestCase):
     def body(self, model: str | None = None) -> dict:
         return {"model": model or self.model, "messages": [{"role": "user", "content": "kiểm tra"}],
                 "max_tokens": 1024, "stream": False}
+
+    def daily_rows(self, count: int, tokens: int = 8000) -> None:
+        """Tạo usage hợp lệ đã qua cửa sổ phút nhưng còn trong ngày."""
+        self.pacer.state["requests"] = [{"model": self.model, "started_at": self.now - 100,
+            "reserved_tokens": tokens, "status": "unknown"} for _ in range(count)]
+
+    def test_request_policy_admits_at_8000_remaining_without_48000_reserve(self) -> None:
+        self.daily_rows(24)
+        with self.assertRaises(PilotStop):
+            self.pacer.before_point()
+        self.pacer.policy = "request_admission_v2"
+        self.pacer.before_point()
+        self.assertEqual(len(self.pacer.state["requests"]), 24)
+        self.pacer.reserve(self.model, 8000)
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+        self.assertEqual(self.pacer.state["last_stop"]["remaining_tokens"], 0)
+        self.assertIsNotNone(self.pacer.state["last_stop"]["resume_not_before_utc"])
+
+    def test_rpd_boundary_and_expiration_keep_unknown_history(self) -> None:
+        self.daily_rows(1000, 1)
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+        self.now += 86300
+        self.pacer.reserve(self.model, 1)
+        self.assertEqual(len(self.pacer.state["requests"]), 1001)
+
+    def test_120_seconds_total_wait_and_durable_measured_pacing(self) -> None:
+        first = self.pacer.reserve(self.model, 1)
+        first["retry_until"] = self.now + 120
+        record = self.pacer.reserve(self.model, 1)
+        self.assertEqual(record["pacing_seconds"], 120.)
+        self.assertEqual(self.pacer.state["pacing_seconds"], 120.)
+        self.assertEqual(self.sleeps, [30.] * 4)
+        first["retry_until"] = self.now + 121
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+        self.assertEqual(len(self.sleeps), 4)
+
+    def test_repeated_short_delays_cannot_reset_wait_budget(self) -> None:
+        first = self.pacer.reserve(self.model, 1)
+        first["retry_until"] = self.now + 60
+        def moving_cooldown(seconds: float) -> None:
+            self.now += seconds
+            first["retry_until"] = self.now + 60
+        self.pacer.sleep = moving_cooldown
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+        self.assertEqual(self.pacer.state["last_stop"]["pacing_seconds"], 90.)
+        self.assertEqual(len(self.pacer.state["requests"]), 1)
+
+    def test_long_cooldown_blocks_before_upstream(self) -> None:
+        first = self.pacer.reserve(self.model, 1)
+        first["retry_until"] = self.now + 554
+        with self.assertRaises(PilotStop):
+            self.pacer.before_point()
+        self.assertEqual(self.pacer.state["last_stop"]["reason"], "COOLDOWN_BEFORE_POINT")
+        self.assertFalse(self.sleeps)
+
+    def test_changed_limits_fail_closed_and_higher_limits_do_not_expand_budget(self) -> None:
+        first = self.pacer.reserve(self.model, 1)
+        first["rate_limits"] = {"x-ratelimit-limit-tokens": "4000"}
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+        first["rate_limits"] = {"x-ratelimit-limit-tokens": "16000"}
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 8001)
+        self.pacer.state["limits"] = {**MODEL_LIMITS, self.model: {"tpm": 4000}}
+        self.pacer.save()
+        with self.assertRaises(ValueError):
+            GroqPacer(self.path)
+
+    def test_provider_daily_reset_uses_header_and_bad_header_stops(self) -> None:
+        first = self.pacer.reserve(self.model, 1)
+        first["rate_limits"] = {"x-ratelimit-remaining-requests": "0", "x-ratelimit-reset-requests": "2m10s"}
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+        self.now += 131
+        self.pacer.reserve(self.model, 1)
+        self.pacer.state["requests"][-1]["rate_limits"] = {"x-ratelimit-remaining-tokens": "nan"}
+        with self.assertRaises(PilotStop):
+            self.pacer.reserve(self.model, 1)
+
+    def test_underestimate_returns_response_but_stops_next_http_even_after_resume(self) -> None:
+        seen = []
+        def respond(request):
+            seen.append(request)
+            return httpx.Response(200, json={"usage": {"total_tokens": 9000}, "choices": []})
+        with httpx.Client(transport=PacedGroqTransport(self.pacer, httpx.MockTransport(respond))) as client:
+            self.assertEqual(client.post("https://api.groq.com/openai/v1/chat/completions", json=self.body()).status_code, 200)
+            with self.assertRaises(PilotStop):
+                client.post("https://api.groq.com/openai/v1/chat/completions", json=self.body())
+        self.assertEqual(len(seen), 1)
+        restored = GroqPacer(self.path)
+        with self.assertRaises(PilotStop):
+            restored.before_point()
+
+    def test_cli_checks_cache_without_key_or_network_and_loads_ledger_under_lock(self) -> None:
+        from scripts import run_bayesian_ablation as cli
+        plan = {"cutoffs": ["2023-01-01"], "signal_config": {}}
+        held = []
+        class Lock:
+            """Khóa giả kiểm thứ tự nạp ledger; khóa OS thật có suite riêng."""
+            def __init__(self, *args):
+                pass
+            def __enter__(self):
+                held.append(True)
+            def __exit__(self, *args):
+                held.pop()
+        def pacer(*args, **kwargs):
+            self.assertTrue(held)
+            self.assertEqual(kwargs["policy"], "request_admission_v2")
+            return Mock()
+        with patch.object(cli, "verify_inputs", return_value=plan), patch.object(cli, "build_adapter"), \
+             patch.object(cli, "tokenizer_cached", return_value=False), patch.object(cli, "dotenv_values") as key, \
+             patch.object(cli, "GroqPacer", side_effect=pacer) as constructor, \
+             patch.object(cli, "PriorRunLock", Lock), patch.object(cli, "execute"):
+            with patch("sys.argv", ["runner", "--run"]), self.assertRaisesRegex(ValueError, "prepare_groq_tokenizer"):
+                cli.main()
+            key.assert_not_called()
+            constructor.assert_not_called()
+            with patch("sys.argv", ["runner", "--verify-only"]):
+                cli.main()
+            constructor.assert_called_once()
+            key.assert_not_called()
 
     def test_token_reservations_wait_before_http_and_survive_key_rotation(self) -> None:
         self.pacer.reserve(self.model, 5000)

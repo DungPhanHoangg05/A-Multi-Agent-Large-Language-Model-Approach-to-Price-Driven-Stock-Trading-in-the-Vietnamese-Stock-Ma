@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A PASS; 4/16 task hoàn thành — W5-01–04 DONE. Tiếp theo W5-05, Phase B.**
+**Trạng thái: Phase A PASS; 5/16 task hoàn thành — W5-01–05 DONE. Tiếp theo W5-06, Phase B.**
 Ngày lập: **07/10/2026**; cập nhật **08/10/2026**. Đã kiểm/tổng hợp offline,
 thêm CLI audit và chốt hợp đồng v2; triển khai runtime v2 bắt đầu ở Phase B.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -637,7 +637,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | A | W5-02 | Tổng hợp chất lượng và chỉ số pilot offline | 01 | [x] |
 | A | W5-03 | Báo cáo HTTP/token/thời gian và bất đồng quyết định | 01, 02 | [x] |
 | A | W5-04 | Chốt vận hành, hợp đồng v2 và phân hoạch đánh giá | 02, 03 | [x] |
-| B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [ ] |
+| B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [x] |
 | B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [ ] |
 | B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [ ] |
 | B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [ ] |
@@ -713,7 +713,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 
 **Gate A: PASS (08/10/2026).** Baseline kiểm được, bảng pilot/telemetry đối
 soát được, hợp đồng v2/phân hoạch/metric/telemetry đã chốt tại mục 1. Runtime
-v2 còn TODO; tiếp tục W5-05. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
+Bayesian v2 còn TODO; W5-05 đã hoàn thành, tiếp tục W5-06. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
 
 ### Phase B — Đường chạy dài và nền tảng v2 (khoảng 2–3 ngày)
 
@@ -727,6 +727,67 @@ v2 còn TODO; tiếp tục W5-05. Không yêu cầu pilot có lợi nhuận tố
   tokenizer trước run; ledger/OS lock dùng chung giữa các run cùng quota.
 - **Đạt khi:** policy không cần workaround gọi runner ngoài CLI; giả lập
   biên RPM/TPM/RPD/TPD, quota đổi và cooldown đều an toàn. Không hứa tránh mọi 429.
+
+**Triển khai 08/10/2026:** CLI `scripts/run_bayesian_ablation.py` nhận
+`--quota-policy`, mặc định `request_admission_v2`. Trước điểm, policy này
+kiểm còn ≥1 request và ≥8.000 token/ngày cho **từng model**, thay cho
+6 request/48.000 text và 2 request/16.000 vision của `whole_point_v1`.
+Đây là kiểm điều kiện bắt đầu, chưa trừ quota và **không bảo đảm đủ toàn
+điểm**. Mỗi HTTP vẫn reserve input + output cap trước gửi, giữ unknown,
+kiểm RPM/TPM/RPD/TPD; hết quota giữa điểm thì dừng giữ checkpoint. Không
+tự chạy lại upstream khi kết quả chưa rõ; đối soát/resume ở W5-07.
+
+- Cả hai lựa chọn đi qua CLI, cùng ledger `outputs/oos_pilot/api_usage.json`
+  và khóa OS `outputs/oos_pilot/runtime/`. Ledger chỉ được nạp **sau khi
+  có khóa**, tránh ghi đè usage mới bằng bản đọc trước khóa. Đổi key hoặc
+  output-dir không tạo quota mới. CLI hiện vẫn dùng plan pilot đã khóa;
+  CLI bốn mã/cohort mới thuộc W5-08.a.
+- Policy nằm trong `identity.versions.quota_policy`, do đó đổi policy
+  trên checkpoint hiện có bị từ chối trước LLM. Schema hiện hữu thêm field
+  tùy chọn có enum, vẫn đọc identity cũ không có field; không sửa manifest
+  hoặc bằng chứng W4. Run với code mới cần thư mục mới; không dùng policy
+  flag để vượt kiểm code hash của pilot cũ.
+- Cache `o200k_base` được kiểm checksum trước run/preflight, trước đọc key
+  và HTTP. Thiếu/hỏng thì dừng và hướng dẫn chạy
+  `py -3.13 scripts/prepare_groq_tokenizer.py`. Dry-run in trạng thái cache;
+  verify-only không cần key/cache và không gọi mạng.
+- Pacing nghỉ mỗi lượt ≤30 giây, tính lại quota sau mỗi lượt; tổng nghỉ
+  cho một lần reserve không quá 120 giây. Thời gian nghỉ thực đo bằng
+  monotonic, lưu `pacing_seconds` trên ledger và request; lượt dừng vẫn giữ
+  thời gian đã nghỉ. `last_stop` chứa reason/model/policy, remaining/budget
+  khi thiếu quota, `resume_not_before_utc` khi tính được. Quota ngày dùng
+  cửa sổ trượt 24 giờ, token/request phút dùng 61 giây.
+- HTTP429 vẫn **dừng có kiểm soát**, lưu reserve và cooldown trước khi
+  thoát; v2 cộng 1 giây vào retry-after, dùng giá trị lớn hơn giữa header
+  và message. Không tự gửi lại HTTP ở W5-05. Retry có ngân sách chung
+  ba attempt/120 giây xuyên format repair và response durable là W5-07/08;
+  không coi timer reserve hiện tại là toàn bộ telemetry invocation v2.
+- Header provider báo giới hạn thấp hơn cấu hình hoặc dữ liệu quota sai
+  thì dừng; giới hạn cao hơn không tự tăng ngân sách. RPD remaining=0
+  dùng reset header nếu hợp lệ, thiếu thì giữ mốc bảo thủ 24 giờ. Quota
+  durable khác `MODEL_LIMITS` cũng bị từ chối, cần rà cấu hình cho run mới.
+  Usage thực vượt reserve được ghi lại và response thành công vẫn về
+  caller để checkpoint; chặn HTTP kế tiếp kể cả sau resume để rà estimator.
+
+Quy ước header được đối chiếu với [Groq Rate Limits](https://console.groq.com/docs/rate-limits):
+`*-requests` là RPD, `*-tokens` là TPM, quota theo tổ chức. Bộ giới hạn
+30 RPM/1.000 RPD/8.000 TPM/200.000 TPD giữ đúng đầu vào đã chốt; không tự
+nới theo key mới. Nếu tài khoản có ITPM/OTPM riêng, phải bổ sung policy
+trước live run. W5-05 chỉ kiểm thử offline, không xác nhận quota tài khoản
+hiện tại hoặc chạy lại pilot.
+
+Kiểm tra cấu hình mới không gọi LLM:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --dry-run --quota-policy request_admission_v2
+```
+
+**Nghiệm thu DONE:** dry-run thực tế PASS 20 cutoff FPT và cache tokenizer;
+compileall, E2E, **546 unit test/93 test leakage PASS**. Có 10 test mới
+cho biên quota/cooldown, thời gian nghỉ, quota đổi, cache/khóa/CLI,
+usage vượt reserve và identity policy khi resume. 49 artifact
+dữ liệu/bank/model/checkpoint/ledger/audit/ZIP trong baseline giữ nguyên
+SHA-256. Không gọi API LLM, không tạo thêm receipt. Tiếp theo W5-06.
 
 #### W5-06 — Xử lý ghi checkpoint trên Windows/OneDrive
 
@@ -931,3 +992,4 @@ Không merge khi gate bắt buộc FAIL.
 | 07/10/2026 | Điều chỉnh lộ trình theo pilot | PLAN_UPDATED: 1/20 action khác Original, ca FPT 20/02 giải thích chênh return; giữ bốn phase/16 task và 2 DONE, thêm code audit/posterior/gate/prefix vào task còn TODO. Lộ trình 10 tuần, tách 2023 development/2024 holdout; compileall/E2E, 521 unit/93 leakage PASS; không API hoặc sửa pilot | W5-03 rồi W5-04; W6–W7 cải thiện/validation, W8–W10 benchmark/thống kê/luận văn |
 | 07/10/2026 | W5-03 | DONE: CLI/API audit readonly; 146 HTTP 200 +một unknown; charged text 194.218/vision 102.034, reserve 5.535 giữ nguyên; 100 attempt complete +một failed; 1/20 bất đồng, chênh return −2,241809 điểm phần trăm. Timer v1 thiếu ghi null, không đoán pacing/role; verifier pilot 20/20, audit hook 0 credential/network, 82 file bất biến. 15 test mới; compileall/E2E, 536 unit/93 leakage PASS | W5-04: contract vận hành/v2, metric/phân hoạch và telemetry run mới |
 | 08/10/2026 | W5-04 | DONE, Gate A PASS: chốt research_evaluation_contract_v2, retry/resume/identity, split train/2023/2024, primary theo mã và trung bình bốn mã, cycle-risk metric không annualize, evidence/gate/prefix và telemetry v2. Gắn yêu cầu với 05–08/13–15; code v2 vẫn TODO. Compileall/E2E, 536 unit/93 leakage PASS; 82 file khớp baseline, không API hoặc thêm receipt | W5-05: triển khai policy quota/pacing theo hợp đồng |
+| 08/10/2026 | W5-05 | DONE: request_admission_v2 qua CLI, khóa policy vào identity; guard HTTP giữ reserve, dừng/cooldown có reason và mốc resume; đo pacing, kiểm cache trước run, đọc ledger sau khóa OS. Compileall/E2E, 546 unit/93 leakage và dry-run 20 cutoff PASS; 49 artifact bất biến, không API. Retry xuyên invocation/format repair còn thuộc 07/08 | W5-06: atomic I/O trên Windows/OneDrive |

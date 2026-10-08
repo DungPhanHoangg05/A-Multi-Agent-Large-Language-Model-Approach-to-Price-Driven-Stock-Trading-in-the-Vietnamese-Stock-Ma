@@ -58,6 +58,19 @@ class PriorCheckpointTests(unittest.TestCase):
         self.engine = BacktestEngine(deepcopy(self.engine.config))
         self.engine.DELAY_BETWEEN_VARIANTS = self.engine.DELAY_BETWEEN_TESTS = 0.
 
+    def test_quota_policy_is_pinned_and_cannot_change_on_resume(self) -> None:
+        runner = PriorBacktestRunner(self.engine, self.adapter, self.builder, execution_mode="offline_fixture",
+                                     quota_policy="request_admission_v2")
+        runner.run("FPT", output_dir=self.output, cutoffs=(self.fx.cutoff,))
+        calls = self.llm.calls
+        changed = PriorBacktestRunner(self.engine, self.adapter, self.builder, execution_mode="offline_fixture",
+                                      quota_policy="whole_point_v1")
+        with self.assertRaises(ValueError):
+            changed.run("FPT", output_dir=self.output, cutoffs=(self.fx.cutoff,), resume=True)
+        self.assertEqual(self.llm.calls, calls)
+        result = runner.run("FPT", output_dir=self.output, cutoffs=(self.fx.cutoff,), verify_only=True)
+        self.assertEqual(result["status"], "complete")
+
     def point_file(self) -> Path:
         return self.output / f"points/FPT-{self.fx.cutoff}.json"
 

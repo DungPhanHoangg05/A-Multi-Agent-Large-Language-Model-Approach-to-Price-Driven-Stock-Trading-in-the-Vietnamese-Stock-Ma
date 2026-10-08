@@ -341,7 +341,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A PASS, 4/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A PASS, 5/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -362,7 +362,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   metric chu kỳ, annualized=null, evidence/gate và telemetry có version.
   Requirements giao cho W5-05–08/13–15; runtime v2 chưa triển khai.
   Compileall/E2E, 536 unit/93 leakage PASS; 82 file khớp baseline W5-03.
-  Tiếp theo W5-05 (Phase B).
+- **W5-05 DONE, 08/10/2026**: CLI có policy `request_admission_v2`, kiểm
+  một request/8.000 token mỗi model trước điểm, guard từng HTTP; có lựa chọn
+  `whole_point_v1`, khóa policy trong identity. Đọc ledger sau khóa OS,
+  kiểm tokenizer cache trước run, pacing tối đa 120 giây/lần reserve,
+  ghi remaining/budget/reason/resume và chặn quota giảm/usage vượt reserve.
+  Compileall/E2E, **546 unit/93 leakage PASS**, dry-run 20 cutoff PASS;
+  49 artifact dữ liệu/bằng chứng bất biến. Retry/response durable còn
+  triển khai ở 07/08. Tiếp theo W5-06: atomic I/O Windows/OneDrive.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).

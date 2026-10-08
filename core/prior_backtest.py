@@ -140,7 +140,12 @@ class PriorBacktestRunner:
 
     def __init__(self, engine: BacktestEngine, adapter: PriorContextAdapter,
                  builder: graph_setup.SetGraph, *, execution_mode: str = "research",
-                 extra_source_paths: tuple[str, ...] = (), before_point: Callable[[], None] | None = None) -> None:
+                 extra_source_paths: tuple[str, ...] = (), before_point: Callable[[], None] | None = None,
+                 quota_policy: str | None = None) -> None:
+        from core.groq_pacing import QUOTA_POLICIES
+        if quota_policy is not None and quota_policy not in QUOTA_POLICIES:
+            raise ValueError("Policy quota không hợp lệ")
+        self.quota_policy = quota_policy
         if not isinstance(adapter, PriorContextAdapter) or not isinstance(builder, graph_setup.SetGraph):
             raise ValueError("Backtest cần adapter đã xác minh và builder đúng loại")
         if execution_mode not in ("research", "offline_fixture"):
@@ -218,6 +223,8 @@ class PriorBacktestRunner:
                 "context": {"symbol": symbol, "as_of_date": point.source_provenance["context"]["as_of_date"], "time_frame": "1d"},
                 "source_sha256": canonical_hash({key: point.source_provenance[key] for key in ("context", "prices", "news", "regime", "bank")})}
                 for point in contexts]}
+        if self.quota_policy is not None:
+            identity["versions"]["quota_policy"] = self.quota_policy
         self.schema.validate(identity, "identity")
         return identity
 
