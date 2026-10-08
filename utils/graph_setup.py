@@ -159,7 +159,8 @@ class SetGraph:
         self.graph_llm = graph_llm
         self.toolkit = toolkit
 
-    def compile_full_preparation(self, *, strict_research_mode: bool = False) -> ValidatedBacktestGraph:
+    def compile_full_preparation(self, *, strict_research_mode: bool = False,
+                                 stage_checkpoint: Callable | None = None) -> ValidatedBacktestGraph:
         """Chuẩn bị Alpha/Sentiment một lần từ upstream, chưa chạy Decision/prior.
 
         Caller kiểm nguồn PIT trước upstream, rồi lưu/deep-copy Full output cho
@@ -179,7 +180,9 @@ class SetGraph:
         graph = StateGraph(BacktestAgentState)
         alpha = (create_alpha_agent(self.agent_llm, True, True, strict_research_mode=True)
                  if strict_research_mode else create_alpha_agent(self.agent_llm, True, True))
-        graph.add_node("Full Preparation", _guard_prior_state(alpha))
+        guarded = _guard_prior_state(alpha)
+        graph.add_node("Full Preparation", guarded if stage_checkpoint is None else
+                       lambda state: stage_checkpoint("full", guarded, state))
         graph.add_edge(START, "Full Preparation")
         graph.add_edge("Full Preparation", END)
         # Kiểm input thô trước khi TypedDict của LangGraph lọc channel.
@@ -279,20 +282,24 @@ class SetGraph:
         graph.add_edge("Decision Maker", END)
         return ValidatedBacktestGraph(graph.compile(), validate_input)
 
-    def compile_upstream(self):
+    def compile_upstream(self, *, stage_checkpoint: Callable | None = None):
         """Biên dịch pha Indicator → Pattern → Trend dùng chung cho backtest."""
         graph = StateGraph(BacktestAgentState)
+        def wrap(name: str, node: Callable[[dict[str, Any]], dict[str, Any]]) -> Callable:
+            """Bọc node bằng journal khi caller bật phục hồi stage."""
+            guarded = _guard_prior_state(node)
+            return guarded if stage_checkpoint is None else lambda state: stage_checkpoint(name, guarded, state)
         graph.add_node(
             "Indicator Agent",
-            _guard_prior_state(create_indicator_agent(self.agent_llm, self.toolkit)),
+            wrap("indicator", create_indicator_agent(self.agent_llm, self.toolkit)),
         )
         graph.add_node(
             "Pattern Agent",
-            _guard_prior_state(create_pattern_agent(self.agent_llm, self.graph_llm, self.toolkit)),
+            wrap("pattern", create_pattern_agent(self.agent_llm, self.graph_llm, self.toolkit)),
         )
         graph.add_node(
             "Trend Agent",
-            _guard_prior_state(create_trend_agent(self.agent_llm, self.graph_llm, self.toolkit)),
+            wrap("trend", create_trend_agent(self.agent_llm, self.graph_llm, self.toolkit)),
         )
         graph.add_edge(START, "Indicator Agent")
         graph.add_edge("Indicator Agent", "Pattern Agent")

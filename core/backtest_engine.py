@@ -934,9 +934,11 @@ class BacktestEngine:
             started = time.monotonic()
             print(f"[BacktestEngine] Chuẩn bị Full dùng chung: {key[0]} @ {key[1]}")
             stage = "not_started" if checkpoint is None else checkpoint.stage
+            durable = checkpoint is not None and checkpoint.journal is not None
+            stage_options = {"stage_checkpoint": checkpoint.journal.invoke} if durable else {}
             shared = None
-            if stage == "not_started":
-                if checkpoint is not None:
+            if stage == "not_started" or (durable and stage in ("upstream_started", "upstream_complete", "full_started")):
+                if checkpoint is not None and stage == "not_started":
                     checkpoint.mark_stage("upstream_started")
                 initial["pattern_image"] = static_util.generate_kline_image(
                     deepcopy(initial["kline_data"]), write_artifacts=False).get("pattern_image")
@@ -945,7 +947,7 @@ class BacktestEngine:
                 if any(type(initial[name]) is not str or not initial[name].strip()
                        for name in ("pattern_image", "trend_image")):
                     raise ValueError("Nghiên cứu thiếu ảnh PIT cho Pattern/Trend")
-                upstream = graph_builder.compile_upstream().invoke(deepcopy(initial))
+                upstream = graph_builder.compile_upstream(**stage_options).invoke(deepcopy(initial))
                 # Upstream không được đổi dữ liệu đã kiểm trước khi Alpha dùng chúng.
                 expected = point.agent_state()
                 for field in ("stock_name", "as_of_date", "time_frame", "is_backtest", "language",
@@ -956,7 +958,7 @@ class BacktestEngine:
                 if not isinstance(frame, pd.DataFrame) or not frame.equals(expected["point_in_time_df"]):
                     raise ValueError("Upstream thay snapshot giá PIT")
                 upstream["sentiment_store"] = expected["sentiment_store"]
-                if checkpoint is not None:
+                if checkpoint is not None and checkpoint.stage == "upstream_started":
                     checkpoint.mark_stage("upstream_complete", reports={field: upstream[field] for field in REPORT_FIELDS[:3]})
             elif stage == "upstream_complete":
                 upstream = point.agent_state()
@@ -969,9 +971,9 @@ class BacktestEngine:
             if shared is None:
                 if self._stop_event.is_set():
                     raise InterruptedError("Đã yêu cầu dừng sau upstream")
-                if checkpoint is not None:
+                if checkpoint is not None and checkpoint.stage == "upstream_complete":
                     checkpoint.mark_stage("full_started")
-                full = graph_builder.compile_full_preparation(strict_research_mode=True).invoke(deepcopy(upstream))
+                full = graph_builder.compile_full_preparation(strict_research_mode=True, **stage_options).invoke(deepcopy(upstream))
                 shared = point.bind_full(full)
                 full_bundle = copy_prior_json({
                     "reports": {field: shared[field] for field in REPORT_FIELDS},

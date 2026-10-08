@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A PASS; 6/16 task hoàn thành — W5-01–06 DONE. Tiếp theo W5-07, Phase B.**
+**Trạng thái: Phase A PASS; 7/16 task hoàn thành — W5-01–07 DONE. Tiếp theo W5-08, Phase B.**
 Ngày lập: **07/10/2026**; cập nhật **08/10/2026**. Đã kiểm/tổng hợp offline,
 thêm CLI audit và chốt hợp đồng v2; triển khai runtime v2 bắt đầu ở Phase B.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -639,7 +639,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | A | W5-04 | Chốt vận hành, hợp đồng v2 và phân hoạch đánh giá | 02, 03 | [x] |
 | B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [x] |
 | B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [x] |
-| B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [ ] |
+| B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [x] |
 | B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [ ] |
 | C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [ ] |
 | C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [ ] |
@@ -713,7 +713,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 
 **Gate A: PASS (08/10/2026).** Baseline kiểm được, bảng pilot/telemetry đối
 soát được, hợp đồng v2/phân hoạch/metric/telemetry đã chốt tại mục 1. Runtime
-Bayesian v2 còn TODO; W5-05/06 đã hoàn thành, tiếp tục W5-07. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
+Bayesian v2 còn TODO; W5-05–07 đã hoàn thành, tiếp tục W5-08. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
 
 ### Phase B — Đường chạy dài và nền tảng v2 (khoảng 2–3 ngày)
 
@@ -849,6 +849,59 @@ soát AMBIGUOUS tiếp tục thuộc W5-07.
 - **Đạt khi:** dùng lại response đã lưu không tạo HTTP mới; tình trạng
   AMBIGUOUS dừng, chỉ replay sau xác nhận cụ thể. Không cam kết exactly-once API từ xa.
 
+**Triển khai 08/10/2026:** run mới qua CLI bật
+`identity.versions.stage_recovery=agent_stage_journal_v1`. Mỗi point có
+một journal `responses/<point_id>.json` trong checkpoint, dùng envelope/hash,
+run signature, point ID và source hash; không ghi response vào quota ledger.
+Journal lưu output **node agent** Indicator/Pattern/Trend/Full, gồm báo cáo,
+message có kiểu và dữ liệu Full cần khôi phục, không pickle đối tượng runtime.
+Đây là consumer thực phục vụ resume, không phải receipt bổ sung theo task.
+
+- Trước node: ghi intent với UUID và input hash. Node chưa có intent là
+  chưa bắt đầu; intent chưa có output durable là **unknown** (kể cả có thể
+  chưa gửi HTTP). Chỉ chuyển complete sau khi output hợp lệ được ghi atomic.
+- Resume dựng lại graph từ source PIT đã kiểm, đối chiếu input hash rồi
+  trả output node complete từ journal. Node đó không gọi agent/HTTP lại;
+  chỉ node chưa bắt đầu mới thực thi. Sau Full, vẫn deep-copy shared bundle
+  sang năm nhánh theo giao thức cũ. Checkpoint complete và history không bị xóa.
+- Kiểm toàn journal và quan hệ stage/báo cáo với checkpoint trước agent;
+  thiếu file ở point đã bắt đầu, sai hash/source/identity, node sai thứ tự
+  hoặc khác input đều dừng. Run legacy không có version này giữ cách dừng
+  AMBIGUOUS cũ, không tự tạo output hoặc migrate bằng chứng W4.
+- Đối soát dùng khóa OS của run và kiểm identity/schema/hash/source hiện
+  hành; output console chỉ có node/attempt/status, không in báo cáo/message.
+  Xác nhận replay phải chọn UUID unknown cuối cùng và lý do. Audit ghi ngay
+  vào attempt đó; lúc chạy tiếp tạo UUID mới, giữ attempt unknown và chi phí
+  quota cũ. Không xác nhận lại complete, UUID sai, hoặc point đã complete.
+
+Ví dụ cho **run mới đã bật journal**, giữ nguyên code/config/quota policy:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --reconcile --output-dir outputs/research_new_run
+# Chỉ sau khi người vận hành đã đối soát và quyết định chấp nhận gọi lại node:
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --reconcile --output-dir outputs/research_new_run --authorize-replay UUID_ATTEMPT --replay-reason "Da doi soat va chap nhan replay node nay"
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --output-dir outputs/research_new_run
+```
+
+`--reconcile` không đọc key, không cần cache tokenizer và dùng transport cấm
+mạng. Nó không tự chạy agent; xác nhận replay và chạy tiếp là hai bước riêng.
+Không dùng lý do chứa API key hoặc thông tin tài khoản.
+
+**Giới hạn:** đây là journal tại biên output node, chưa phải WAL từng HTTP
+response. Nếu tiến trình chết sau HTTP nhưng trước output node durable,
+hoặc giữa các lời gọi nội bộ của Full, trạng thái vẫn unknown; không tự
+parse lại raw HTTP hay cam kết exactly-once. Replay được xác nhận có thể
+gọi lại các request nội bộ của node, nên phải tính thêm quota. Ngân sách
+retry chung với format repair và telemetry từng HTTP còn thuộc W5-08.a;
+W5-07 không bật retry transport mới hoặc nới giới hạn LLM.
+
+**Nghiệm thu DONE:** compileall/E2E, **562 unit test/93 test leakage PASS**.
+Bảy test mới bao phủ crash sau từng output node, unknown Pattern/Full,
+audit replay, sai hash/input/identity, thiếu journal, khóa OS đang sống,
+message round-trip và CLI cấm key/mạng. 49 artifact dữ liệu/bằng chứng
+giữ nguyên SHA-256. Các fault test dùng fixture offline; không replay pilot
+W4 hoặc xác nhận attempt thật thay người vận hành. Tiếp theo W5-08.
+
 #### W5-08 — CLI bốn mã và nền tảng evidence/prefix v2
 
 - **Làm:** tổng quát hóa CLI nghiên cứu hiện tại để đọc plan đã khóa,
@@ -863,7 +916,7 @@ soát AMBIGUOUS tiếp tục thuộc W5-07.
 
 | Bước | Triển khai và đầu ra | Tiêu chí đạt |
 | --- | --- | --- |
-| W5-08.a | CLI/identity/schema tách v1/v2, telemetry và report metric chu kỳ theo W5-04; giữ verifier W4 bằng checkout đã ghim | Dry-run/verify cấm key/mạng kể cả đủ tin; không resume sai identity; kiểm CASH/N<2/zero denominator/thiếu lớp/partial và timer missing/zero |
+| W5-08.a | CLI/identity/schema tách v1/v2, telemetry và report metric chu kỳ theo W5-04; ngân sách retry chung HTTP/format repair; giữ verifier W4 bằng checkout đã ghim | Dry-run/verify cấm key/mạng kể cả đủ tin; không resume sai identity; tối đa 3 attempt/120 giây chờ cho invocation gốc; kiểm CASH/N<2/zero denominator/thiếu lớp/partial và timer missing/zero |
 | W5-08.b | Thống kê Beta–Binomial tại retriever: với s LONG thắng trong n chu kỳ, posterior Beta(α+s, β+n−s), mean=(α+s)/(α+β+n); trả counts và interval 95% | Fixture có kết quả số biết trước; n=0 báo thiếu bằng chứng; α,β>0 version hóa, mặc định ứng viên 1,1, chỉ chọn bằng train/2023 |
 | W5-08.c | Kiểm chất lượng prior trước prefix: support, score, tuổi, coverage; metadata `requested_k`, `effective_k`, status/reason | Ngưỡng cố định theo config, không đọc outcome query; khi bằng chứng hợp lệ nhưng không đủ chất lượng thì K_eff=0/prefix rỗng, ghi lý do; leakage/schema hỏng vẫn ném lỗi |
 | W5-08.d | Formatter/builder v2 phân biệt tín hiệu query, thống kê lịch sử và ví dụ; thêm support/uncertainty/evidence hash vào checkpoint | BRPP ≤600, prompt <6.500; K_eff=0 tạo prompt như Original nhưng Decision attempt riêng; không thêm retry LLM để ép đồng thuận prior |
@@ -1034,3 +1087,4 @@ Không merge khi gate bắt buộc FAIL.
 | 08/10/2026 | W5-04 | DONE, Gate A PASS: chốt research_evaluation_contract_v2, retry/resume/identity, split train/2023/2024, primary theo mã và trung bình bốn mã, cycle-risk metric không annualize, evidence/gate/prefix và telemetry v2. Gắn yêu cầu với 05–08/13–15; code v2 vẫn TODO. Compileall/E2E, 536 unit/93 leakage PASS; 82 file khớp baseline, không API hoặc thêm receipt | W5-05: triển khai policy quota/pacing theo hợp đồng |
 | 08/10/2026 | W5-05 | DONE: request_admission_v2 qua CLI, khóa policy vào identity; guard HTTP giữ reserve, dừng/cooldown có reason và mốc resume; đo pacing, kiểm cache trước run, đọc ledger sau khóa OS. Compileall/E2E, 546 unit/93 leakage và dry-run 20 cutoff PASS; 49 artifact bất biến, không API. Retry xuyên invocation/format repair còn thuộc 07/08 | W5-06: atomic I/O trên Windows/OneDrive |
 | 08/10/2026 | W5-06 | DONE: retry replace/cleanup có giới hạn cho WinError 5/32/33, không ghi/fsync lại hoặc che lỗi gốc; hướng dẫn PERSISTENCE/runtime local. Test handle Windows thật và checkpoint retry không lặp agent/không sửa complete. Compileall/E2E, 555 unit/93 leakage PASS; 49 artifact bất biến, không API hoặc thêm receipt | W5-07: response durable và đối soát upstream |
+| 08/10/2026 | W5-07 | DONE: journal output Indicator/Pattern/Trend/Full gắn identity/input/source; phục hồi output durable không lặp node, unknown chặn trước agent. CLI reconcile offline và xác nhận UUID/lý do có audit, giữ unknown/chi phí cũ. Compileall/E2E, 562 unit/93 leakage PASS; 49 artifact bất biến. Journal ở biên node, không cam kết exactly-once HTTP | W5-08: CLI bốn mã, retry/telemetry và nền tảng Bayesian v2 |

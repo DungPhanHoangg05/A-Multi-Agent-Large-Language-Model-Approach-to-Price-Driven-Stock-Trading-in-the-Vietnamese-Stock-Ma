@@ -34,13 +34,12 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ 16 task và bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đã đóng Phase A, **6/16 task hoàn thành**: baseline, metric pilot,
-  CLI audit, hợp đồng vận hành/v2/đánh giá, policy quota và atomic I/O.
-  W5-06 ngày 08/10/2026 thêm retry ngắn cho lỗi khóa file Windows,
-  giữ checkpoint cũ khi thất bại và không lặp agent khi retry ghi.
-  **555 unit/93 leakage**, compileall/E2E PASS. Bayesian v2 và retry xuyên
-  invocation còn chờ các task Phase B tiếp theo. Tiếp theo W5-07:
-  response durable và đối soát upstream.
+  W5 đã đóng Phase A, **7/16 task hoàn thành**: baseline, metric pilot,
+  CLI audit, hợp đồng vận hành/v2/đánh giá, quota, atomic I/O và phục hồi stage.
+  W5-07 ngày 08/10/2026 thêm journal output từng node upstream/Full,
+  resume không lặp node đã lưu và CLI đối soát unknown có audit replay.
+  **562 unit/93 leakage**, compileall/E2E PASS. Tiếp theo W5-08:
+  CLI bốn mã, ngân sách retry/telemetry và nền tảng Bayesian v2.
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test

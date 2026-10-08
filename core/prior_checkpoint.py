@@ -109,6 +109,13 @@ class CheckpointSession:
     def __init__(self, store: PriorCheckpointStore, point: Any, document: dict[str, Any]) -> None:
         self.store, self.runner, self.point = store, store.runner, point
         self.document, self.active_branch = deepcopy(document), None
+        self.journal = None
+        if self.runner.durable_stages:
+            from core.prior_stage_journal import StageJournal
+            binding = {"run_signature": store.signature, "point_id": document["point_id"],
+                       "source_sha256": document["source_sha256"]}
+            self.journal = StageJournal(safe_path(store.root, f"responses/{document['point_id']}.json"),
+                                        binding, create=document["shared"]["stage"] == "not_started")
 
     @property
     def stage(self) -> str:
@@ -220,6 +227,7 @@ class PriorCheckpointStore:
         self.runner, self.root, self.identity = runner, root.resolve(), identity
         self.signature, self.contexts, self.frame, self.events = canonical_hash(identity), contexts, frame, events
         self.sessions: list[CheckpointSession] = []
+        self.reconciling = False
         self.lock = PriorRunLock(self.root, self.signature)
 
     def point_path(self, point_id: str) -> Path:
@@ -314,7 +322,31 @@ class PriorCheckpointStore:
         if type(doc["revision"]) is not int or doc["revision"] < 1:
             raise ValueError("Revision checkpoint phải int dương")
         stage = session.stage
-        if stage in ("upstream_started", "full_started"):
+        if session.journal is not None:
+            nodes = session.journal.document["nodes"]
+            expected_count = {"not_started": (0,), "upstream_started": (0, 1, 2, 3),
+                              "upstream_complete": (3,), "full_started": (3, 4), "shared_complete": (4,)}
+            if len(nodes) not in expected_count[stage]:
+                raise ValueError("Journal có node ngoài stage checkpoint")
+            if stage in ("upstream_complete", "full_started", "shared_complete"):
+                for name in ("indicator", "pattern", "trend"):
+                    attempts = nodes.get(name, {}).get("attempts", [])
+                    if not attempts or attempts[-1]["status"] != "complete":
+                        raise ValueError("Stage checkpoint khác journal upstream")
+                    if attempts[-1]["output"][f"{name}_report"] != doc["shared"]["upstream_reports"][f"{name}_report"]:
+                        raise ValueError("Báo cáo checkpoint khác journal")
+            if stage == "shared_complete":
+                attempts = nodes.get("full", {}).get("attempts", [])
+                if not attempts or attempts[-1]["status"] != "complete":
+                    raise ValueError("Thiếu Full durable trong journal")
+                for name in ("alpha_report", "sentiment_report"):
+                    if attempts[-1]["output"][name] != doc["shared"]["full_bundle"]["reports"][name]:
+                        raise ValueError("Full checkpoint khác journal")
+                if canonical_hash(attempts[-1]["output"]["sentiment_data"]) != canonical_hash(doc["shared"]["full_bundle"]["sentiment_data"]):
+                    raise ValueError("Dữ liệu sentiment Full khác journal")
+            if not self.reconciling:
+                session.journal.assert_resumable()
+        elif stage in ("upstream_started", "full_started"):
             raise ValueError("AMBIGUOUS_UPSTREAM" if stage == "upstream_started" else "AMBIGUOUS_FULL")
         if stage != "shared_complete" and (doc["evaluation"] is not None or any(
                 b != expected["branches"][name] for name, b in doc["branches"].items())):
@@ -388,6 +420,23 @@ class PriorCheckpointStore:
         result = self.result()
         write_document(safe_path(self.root, "results.json"), result, self.runner.schema, "result")
         return copy_prior_json(result)
+
+    def reconcile(self, *, authorize_replay: str | None, reason: str | None) -> dict[str, Any]:
+        """Đối soát offline sau kiểm owner/identity/schema/hash/source của toàn run."""
+        if not self.runner.durable_stages:
+            raise ValueError("Run không có journal; không tự migrate/replay bằng chứng cũ")
+        with self.lock:
+            self.reconciling = True
+            self.initialize(resume=True)
+            targets = [s for s in self.sessions if any(
+                a["attempt_id"] == authorize_replay for node in s.journal.document["nodes"].values() for a in node["attempts"])]
+            if authorize_replay is not None:
+                if len(targets) != 1 or targets[0].document["status"] == "complete":
+                    raise ValueError("Attempt không thuộc một point chưa complete")
+                targets[0].journal.reconcile(attempt_id=authorize_replay, reason=reason)
+            return {"run_signature": self.signature, "points": [
+                {"point_id": s.document["point_id"], "stage": s.stage, "nodes": s.journal.reconcile()}
+                for s in self.sessions]}
 
     def execute(self, *, resume: bool, callback: Any = None) -> dict[str, Any]:
         """Giữ OS lock, preflight toàn checkpoint rồi chạy phần còn thiếu."""

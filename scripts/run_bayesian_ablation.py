@@ -71,12 +71,17 @@ def main() -> None:
     mode.add_argument("--preflight", action="store_true", help="Kiểm text và vision thật qua transport có pacing")
     mode.add_argument("--run", action="store_true", help="Chạy pilot sau preflight thành công")
     mode.add_argument("--verify-only", action="store_true", help="Kiểm semantic checkpoint, không LLM")
+    mode.add_argument("--reconcile", action="store_true", help="Đối soát journal offline, không gọi LLM")
+    parser.add_argument("--authorize-replay", help="Xác nhận replay đúng UUID attempt unknown đã đối soát")
+    parser.add_argument("--replay-reason", help="Lý do xác nhận replay, không ghi thông tin xác thực")
     parser.add_argument("--resume", action="store_true", help="Phục hồi run năm nhánh, không dùng runner Memory Bank")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs/pilot_fpt_run")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    if (args.authorize_replay or args.replay_reason) and not (args.reconcile and args.authorize_replay and args.replay_reason):
+        parser.error("Xác nhận cần --reconcile --authorize-replay UUID --replay-reason LY_DO")
     if args.resume and not (args.run or args.verify_only):
         parser.error("--resume chỉ đi với --run hoặc --verify-only")
     plan = prepare_inputs() if args.prepare else verify_inputs()
@@ -86,14 +91,15 @@ def main() -> None:
           f"plan={canonical_hash(plan)}", flush=True)
     cached = tokenizer_cached()
     print(f"Quota policy: {args.quota_policy}; tokenizer cache: {'PASS' if cached else 'THIẾU/HỎNG'}", flush=True)
-    if args.prepare or not (args.preflight or args.run or args.verify_only):
+    if args.prepare or not (args.preflight or args.run or args.verify_only or args.reconcile):
         return
-    if not args.verify_only and not cached:
+    offline = args.verify_only or args.reconcile
+    if not offline and not cached:
         raise ValueError("Cần chạy py -3.13 scripts/prepare_groq_tokenizer.py trước run; chưa gọi API")
     config = plan["signal_config"]
     # Chế độ verify-only dùng client có transport cấm mạng và không đọc key.
     key = "offline-verifier-no-network"
-    if not args.verify_only:
+    if not offline:
         key = dotenv_values(args.env_file).get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY", "")
         if not key:
             raise ValueError("Thiếu GROQ_API_KEY; đặt riêng trong .env")
@@ -103,7 +109,7 @@ def main() -> None:
     with PriorRunLock(ROOT / "outputs/oos_pilot/runtime", canonical_hash(plan)):
         # Nạp ledger SAU khi có khóa để không ghi đè usage của tiến trình trước.
         pacer = GroqPacer(ROOT / "outputs/oos_pilot/api_usage.json", policy=args.quota_policy)
-        transport = httpx.MockTransport(reject_network) if args.verify_only else PacedGroqTransport(pacer)
+        transport = httpx.MockTransport(reject_network) if offline else PacedGroqTransport(pacer)
         with httpx.Client(transport=transport, timeout=90.) as client:
             execute(args, plan, adapter, config, key, pacer, client)
 
@@ -129,11 +135,15 @@ def execute(args: argparse.Namespace, plan: dict[str, Any], adapter: Any,
     engine = BacktestEngine({**config["models"], "language": config["language"],
         "alpha_norm_method": config["norm_method"], "alpha_weights": config["alpha_weights"]})
     runner = PriorBacktestRunner(engine, adapter, builder, extra_source_paths=(f"{INPUT_DIR}/plan.json",),
-                                 before_point=pacer.before_point, quota_policy=pacer.policy)
+                                 before_point=pacer.before_point, quota_policy=pacer.policy, durable_stages=True)
     def progress(event: dict[str, Any]) -> None:
         print(f"Pilot: {event['completed']}/{event['total']} điểm đủ năm nhánh", flush=True)
     result = runner.run("FPT", output_dir=args.output_dir, cutoffs=tuple(plan["cutoffs"]), step=3,
-                        resume=args.resume, verify_only=args.verify_only, callback=progress)
+                        resume=args.resume, verify_only=args.verify_only, callback=progress,
+                        reconcile=args.reconcile, authorize_replay=args.authorize_replay, replay_reason=args.replay_reason)
+    if args.reconcile:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
     print(f"Pilot {result['status']}: {len(result['completed_point_ids'])}/{len(result['planned_point_ids'])} điểm", flush=True)
 
 
