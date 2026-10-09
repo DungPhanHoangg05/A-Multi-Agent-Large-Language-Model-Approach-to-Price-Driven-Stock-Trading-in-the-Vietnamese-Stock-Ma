@@ -34,14 +34,16 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ 16 task và bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đã đóng Phase A/B, **10/16 task hoàn thành**. Nền tảng CLI cohort và
+  W5 đã đóng Phase A/B, **11/16 task hoàn thành**. Nền tảng CLI cohort và
   evidence/gate/prefix v2 đã có kiểm fixture. W5-09 xác minh 1.996 ngày OOS,
   1.944 ngày hợp lệ. W5-10 ngày 09/10/2026 thiết kế **124 điểm chính**
   (60 development/64 holdout) và **4 smoke riêng**, đã kiểm PIT/thực thi;
   FPT Q1/2023 thiếu mẫu do embargo pilot. Calendar runtime được gitignore,
-  còn chờ ngân sách/khóa input. BEAR=0, tin reliable=0 là giới hạn nguồn.
-  **600 unit/99 leakage**, compileall/E2E PASS; chưa chạy benchmark v2.
-  Tiếp theo **W5-11**: tính ngân sách/quota cho lịch mẫu.
+  W5-12 đã khóa input và plan smoke, dry-run **128/128 PASS**;
+  ngân sách còn pending. BEAR=0, tin reliable=0 là giới hạn nguồn.
+  **609 unit/101 leakage**, compileall/E2E PASS; chưa chạy benchmark v2.
+  **W5-11 tạm hoãn theo yêu cầu**; tiếp theo **W5-13**.
+  Ngân sách/quota chưa nghiệm thu, Gate C còn pending.
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
