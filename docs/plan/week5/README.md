@@ -1,8 +1,8 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A/B PASS; Phase C đang thực hiện; 9/16 task hoàn thành — W5-01–09 DONE. Tiếp theo W5-10.**
+**Trạng thái: Phase A/B PASS; Phase C đang thực hiện; 10/16 task hoàn thành — W5-01–10 DONE. Tiếp theo W5-11.**
 Ngày lập: **07/10/2026**; cập nhật **09/10/2026**. Đã kiểm/tổng hợp offline,
-triển khai CLI cohort/evidence/gate/prefix v2 và audit coverage OOS bốn mã.
+triển khai CLI cohort/evidence/gate/prefix v2, audit OOS và thiết kế lịch mẫu bốn mã.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
 [Hợp đồng API/checkpoint hiện hành](../week4/week_close_and_handoff.md)
 
@@ -13,7 +13,7 @@ hoàn thiện đường chạy chính thức, xử lý các điểm yếu vận 
 và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ trình
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
-16 mã task W5 được giữ; W5-01–09 DONE, nền tảng v2 đã có kiểm fixture;
+16 mã task W5 được giữ; W5-01–10 DONE, nền tảng v2 đã có kiểm fixture;
 hiệu quả v2 còn cần validation và benchmark.
 
 | Đầu vào đã hoàn thành ở W4 | Ý nghĩa đối với W5 |
@@ -643,7 +643,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [x] |
 | B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [x] |
 | C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [x] |
-| C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [ ] |
+| C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [x] |
 | C | W5-11 | Tính ngân sách và lịch chạy khả thi | 03, 05, 10 | [ ] |
 | C | W5-12 | Khóa input/plan và dry-run bốn mã | 08, 10, 11 | [ ] |
 | D | W5-13 | Kiểm lỗi có chủ đích và paired/resume | 08, 12 | [ ] |
@@ -1121,6 +1121,87 @@ W5-09 DONE; Gate C còn chờ W5-10–12 về lịch mẫu, ngân sách và khó
 - **Đạt khi:** không xem outcome/dự báo để chọn mẫu; không thay ngày lỗi
   bằng ngày dễ hơn. Mẫu rút gọn theo lịch là thay đổi phạm vi cần ghi rõ, không gọi toàn bộ OOS.
 
+**DONE (09/10/2026); lịch thực, PIT/thực thi và gate hồi quy PASS.**
+
+Bộ chọn `core/cohort_calendar.py` dùng coverage W5-09 đã ghim checksum,
+kiểm lại lịch/eligibility từ nguồn và inventory 20 checkpoint pilot. Chỉ băm
+byte checkpoint pilot để giữ provenance, không parse Decision/evaluation
+hoặc đọc kết quả chạy để chọn ngày. Lệnh tái lập offline:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --design-calendar
+```
+
+**Phương pháp khóa cho thiết kế:**
+
+1. Neo lưới ba phiên tại phiên VNINDEX đầu mỗi năm; không đổi phase sau khi
+   loại ngày quyền/thiếu volume hoặc qua ranh giới quý.
+2. Loại 20 cutoff FPT pilot và mọi chu kỳ cùng mã có phiên giữ lệnh giao nhau
+   với pilot. Với dữ liệu này, loại thêm **42 chu kỳ FPT 2023** do giao nhau.
+3. Chọn smoke đầu tiên còn hợp lệ trên lưới 2023 cho từng mã; tách cutoff
+   và các phiên giữ lệnh của smoke khỏi pool mẫu chính cùng mã.
+4. Mỗi mã/quý đặt mục tiêu 4 điểm, chọn thứ hạng ngày cách đều trên pool còn
+   hợp lệ, gồm hai đầu. Nếu chỉ chọn một điểm thì lấy giữa; thiếu mẫu giữ
+   shortfall, không bù từ quý khác. Không dùng regime/tin/outcome/forecast
+   để xếp hạng; coverage regime/tin chỉ thống kê sau chọn.
+5. Sau API, ngày lỗi giữ nguyên trong mẫu số planned để resume/đối soát,
+   không thay bằng ngày khác. Đổi mục tiêu vì ngân sách phải tạo thiết kế
+   mới trước API, ghi rõ phạm vi; `--points-per-quarter` chỉ thuộc chế độ thiết kế.
+
+**Phạm vi dự kiến: 124 điểm chính +4 smoke**, mục tiêu danh nghĩa 128 điểm
+chính. Development 2023 có **60** điểm (FPT 12, ba mã còn lại 16/mã),
+holdout 2024 có **64** điểm (16/mã). FPT Q1/2023 không còn ngày sau embargo
+pilot: shortfall **4**, không coi 20 điểm đã quan sát là mẫu chính hoặc lấp
+chỗ thiếu bằng quý khác. Đây là mẫu rút gọn theo lịch, không gọi toàn bộ OOS.
+
+| Quý | Mục tiêu/mã | FPT | VNM | VCB | MWG |
+| --- | --- | --- | --- | --- | --- |
+| 2023Q1 | 4 | 0 | 4 | 4 | 4 |
+| 2023Q2 | 4 | 4 | 4 | 4 | 4 |
+| 2023Q3 | 4 | 4 | 4 | 4 | 4 |
+| 2023Q4 | 4 | 4 | 4 | 4 | 4 |
+| 2024Q1 | 4 | 4 | 4 | 4 | 4 |
+| 2024Q2 | 4 | 4 | 4 | 4 | 4 |
+| 2024Q3 | 4 | 4 | 4 | 4 | 4 |
+| 2024Q4 | 4 | 4 | 4 | 4 | 4 |
+
+**Bốn smoke riêng — chỉ kiểm vận hành/thăm dò, không gộp mẫu đánh giá chính:**
+
+| Mã | Cutoff smoke | Entry | Exit |
+| --- | --- | --- | --- |
+| FPT | 2023-04-07 | 2023-04-10 | 2023-04-12 |
+| VNM | 2023-01-03 | 2023-01-04 | 2023-01-06 |
+| VCB | 2023-01-03 | 2023-01-04 | 2023-01-06 |
+| MWG | 2023-01-03 | 2023-01-04 | 2023-01-06 |
+
+Spacing ≥3 phiên được giữ xuyên quý; entry/exit cùng năm với cutoff. Tách
+exposure theo `(symbol, cutoff)` và các phiên thực thi cùng mã. Cả **128/128**
+điểm chính/smoke đã được adapter xác minh lại proof PIT và giá t+1/t+3,
+không sinh nhãn lợi nhuận query. Development luôn là thăm dò; ở bước này
+2024 chỉ kiểm lịch/eligibility, không đọc outcome/dự báo để chọn mẫu.
+
+**Coverage sau chọn:** 2023 có BULL 11 / CHOPPY 26 / CONSOLIDATION 23;
+2024 có BULL 20 / CHOPPY 6 / CONSOLIDATION 38. BEAR=0, tin reliable=0
+vẫn là giới hạn nguồn, không thêm ngày/đổi model để bù regime hoặc sentiment.
+
+**Đầu ra dùng tiếp:** `outputs/bayesian_benchmark/calendar.json` (gitignore),
+`cohort_calendar_v1`: lịch development/holdout/smoke, exposure pilot,
+target/available/selected/shortfall từng quý, exclusion counts, metadata
+entry/exit/proof và checksum **45 file nguồn**. Thiết kế có checksum producer
+riêng, ghi nguyên tử/không ghi đè identity khác; W5-09 coverage giữ nguyên byte.
+Trạng thái `DRAFT_PENDING_QUOTA_AND_INPUT_LOCK`, `is_execution_plan=false`:
+W5-11 còn kiểm ngân sách, W5-12 khóa input/plan, W7 khóa phiên bản/ma trận.
+
+**Kiểm lịch thật:** cấm credential, DNS/socket, LLM, refit và parse
+Decision/evaluation pilot; nguồn/calendar/proof/thực thi PASS. Test tập trung
+PASS cho spacing qua quý, shortfall/embargo, JSON/checksum đổi giữa đọc/ghi,
+CLI offline và ngày chọn bất biến khi đổi regime/tin/development eligibility.
+
+**Nghiệm thu:** compileall/E2E, **600 unit test** (10 test mới) và
+**99 test leakage PASS**; test tập trung sau cập nhật guard checksum PASS.
+**49 artifact đóng băng và coverage W5-09 nguyên byte**; không API/refit,
+không chọn theo outcome/dự báo. W5-10 DONE; Gate C còn chờ W5-11–12.
+
 #### W5-11 — Tính ngân sách và lịch chạy khả thi
 
 - **Làm:** với N điểm, dự kiến tối thiểu 5N Decision +2N vision =7N HTTP
@@ -1250,3 +1331,4 @@ Không merge khi gate bắt buộc FAIL.
 | 08/10/2026 | W5-07 | DONE: journal output Indicator/Pattern/Trend/Full gắn identity/input/source; phục hồi output durable không lặp node, unknown chặn trước agent. CLI reconcile offline và xác nhận UUID/lý do có audit, giữ unknown/chi phí cũ. Compileall/E2E, 562 unit/93 leakage PASS; 49 artifact bất biến. Journal ở biên node, không cam kết exactly-once HTTP | W5-08: CLI bốn mã, retry/telemetry và nền tảng Bayesian v2 |
 | 09/10/2026 | W5-08.a–d | DONE: CLI cohort bốn mã, identity/checkpoint/report v2; posterior Beta–Binomial, quality gate, prefix và Decision độc lập dùng chung Full; retry HTTP/format repair chung 3 lượt/120 giây, telemetry invocation. Compileall/E2E, 578 unit/93 leakage PASS; verifier W4 20/20, 49 artifact bất biến. Phase B PASS; không API/benchmark/holdout tuning | W5-09: coverage và lịch OOS |
 | 09/10/2026 | W5-09 | DONE: audit 1.996 ngày OOS, adapter PIT xác minh 1.996/1.996; 1.944 hợp lệ, 28 loại quyền +24 vượt năm. Lưới cũ 650/660, không dùng 1.510 toàn archive làm cỡ mẫu OOS. Runtime coverage gitignore, bảng năm/quý/regime/tin trong README; BEAR=0, tin reliable=0. Compileall/E2E, 590 unit/96 leakage PASS; 49 artifact bất biến, không API/refit/outcome query | W5-10: chọn lịch ≥3 phiên, tách pilot/smoke và development/holdout |
+| 09/10/2026 | W5-10 | DONE: lịch step3 neo đầu năm, mục tiêu 4 điểm/mã/quý; 124 chính (60 development/64 holdout) +4 smoke riêng, adapter xác minh 128/128. Loại 20 cutoff pilot và 42 chu kỳ FPT giao phiên giữ lệnh; FPT Q1 thiếu 4, không bù quý khác. Calendar draft gitignore, checksum 45 nguồn; không outcome/forecast/API/refit. Compileall/E2E, 600 unit/99 leakage PASS; guard checksum kiểm tập trung, 49 artifact và coverage bất biến | W5-11: tính ngân sách/quota cho lịch dự kiến; W5-12 khóa input/plan |

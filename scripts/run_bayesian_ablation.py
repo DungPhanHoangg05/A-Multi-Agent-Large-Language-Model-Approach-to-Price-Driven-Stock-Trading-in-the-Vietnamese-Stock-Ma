@@ -73,6 +73,10 @@ def main() -> None:
     mode.add_argument("--run", action="store_true", help="Chạy pilot sau preflight thành công")
     mode.add_argument("--verify-only", action="store_true", help="Kiểm semantic checkpoint, không LLM")
     mode.add_argument("--reconcile", action="store_true", help="Đối soát journal offline, không gọi LLM")
+    mode.add_argument("--design-calendar", action="store_true", help="Lập lịch mẫu/pilot/smoke offline, chưa tạo plan chạy")
+    parser.add_argument("--coverage", type=Path, default=ROOT / "outputs/bayesian_benchmark/coverage.json")
+    parser.add_argument("--calendar-output", type=Path, help="JSON lịch trong outputs/bayesian_benchmark")
+    parser.add_argument("--points-per-quarter", type=int, default=4, help="Mục tiêu mỗi mã/quý khi lập lịch")
     parser.add_argument("--authorize-replay", help="Xác nhận replay đúng UUID attempt unknown đã đối soát")
     parser.add_argument("--replay-reason", help="Lý do xác nhận replay, không ghi thông tin xác thực")
     parser.add_argument("--resume", action="store_true", help="Phục hồi run năm nhánh, không dùng runner Memory Bank")
@@ -86,6 +90,22 @@ def main() -> None:
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    if args.design_calendar:
+        if (args.plan or args.symbol or args.resume or args.authorize_replay or args.replay_reason
+                or args.output_dir != ROOT / "outputs/pilot_fpt_run"
+                or args.ledger != ROOT / "outputs/oos_pilot/api_usage.json"
+                or args.quota_policy != "request_admission_v2" or args.env_file != ROOT / ".env"):
+            parser.error("Lập lịch chỉ dùng --coverage/--calendar-output/--points-per-quarter, không dùng cờ execute")
+        from core.cohort_calendar import build_locked_calendar
+        destination = args.calendar_output or ROOT / "outputs/bayesian_benchmark/calendar.json"
+        payload = build_locked_calendar(args.coverage, destination, points_per_quarter=args.points_per_quarter)
+        counts = payload["summary"]
+        print(f"Lịch dự kiến: {counts['planned_main']}/{counts['target_main']} điểm chính, "
+              f"{counts['planned_smoke']} smoke riêng; còn chờ quota/khóa input. Lưu tại {destination}")
+        return
+    if (args.calendar_output is not None or args.coverage != ROOT / "outputs/bayesian_benchmark/coverage.json"
+            or args.points_per_quarter != 4):
+        parser.error("Các cờ lịch mẫu cần --design-calendar")
     if (args.authorize_replay or args.replay_reason) and not (args.reconcile and args.authorize_replay and args.replay_reason):
         parser.error("Xác nhận cần --reconcile --authorize-replay UUID --replay-reason LY_DO")
     if args.resume and not (args.run or args.verify_only):
