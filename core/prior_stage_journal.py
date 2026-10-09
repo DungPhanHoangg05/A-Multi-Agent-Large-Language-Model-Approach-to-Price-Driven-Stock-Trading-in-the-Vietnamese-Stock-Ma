@@ -147,7 +147,13 @@ class StageJournal:
         node["attempts"].append({"attempt_id": str(uuid4()), "started_at": utc_now(),
                                  "status": "unknown", "output": None, "authorization": None})
         self.save(candidate)
-        output = function(state)
+        from core.research_invocation import invocation_scope
+        with invocation_scope(name) as budget:
+            if budget is not None:
+                budget.checkpoint_attempt_id = node["attempts"][-1]["attempt_id"]
+                budget.point_id = self.document["binding"]["point_id"]
+                budget.run_signature = self.document["binding"]["run_signature"]
+            output = function(state)
         encoded = encode_output(output)
         self.check_output(name, encoded)
         candidate = deepcopy(self.document)

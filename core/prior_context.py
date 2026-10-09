@@ -677,3 +677,10 @@ class PriorPointContext:
         result = self._adapter._retriever.retrieve(**query)
         self._results[digest(query)] = copy_prior_json(result)
         return copy_prior_json(result)
+
+    def evidence_v2(self, projection: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
+        """Kiểm seal nguồn trước khi tạo evidence, không nhận outcome query."""
+        self.verify_source(projection)
+        return self._adapter._retriever.retrieve_evidence(symbol=projection["stock_name"],
+            as_of_date=projection["as_of_date"], current_regime=projection["market_regime"]["regime_name"],
+            current_signals=projection["current_signals"], config=config)

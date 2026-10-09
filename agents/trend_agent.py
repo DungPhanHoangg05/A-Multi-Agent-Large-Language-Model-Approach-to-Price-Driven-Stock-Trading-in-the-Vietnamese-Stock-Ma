@@ -704,6 +704,10 @@ def _fill_missing_fields(values: dict, kline_data: dict, lang: str) -> dict:
 
 
 def _invoke_with_retry(call_fn, *args, retries: int = 2, wait_sec: int = 3):
+    from core.research_invocation import CURRENT, invoke_once
+    if CURRENT.get() is not None:
+        return invoke_once(call_fn, *args)
+
     """Wrapper thử lại — giảm số lần thử để tránh treo lâu với model thị giác."""
     last_err = None
     for attempt in range(retries):

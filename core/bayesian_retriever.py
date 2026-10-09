@@ -145,7 +145,7 @@ def _format_net_return(net: float | int) -> str:
     return f"{net:+.2f}%" if 0.005 <= abs(net) < 10000 else f"{net:+.2e}%"
 
 
-def _prefix_task_line(task: dict[str, Any]) -> str:
+def _prefix_task_line(task: dict[str, Any], *, allow_sentiment: bool = False) -> str:
     """Kiểm task theo schema nội bộ; không đọc giá hoặc tự xác nhận cutoff/provenance."""
     exact_object(task, RECORD_KEYS)
     if type(task["episode_id"]) is not str or not task["episode_id"].strip():
@@ -157,7 +157,7 @@ def _prefix_task_line(task: dict[str, Any]) -> str:
     if not dates[0] < dates[1] < dates[2]:
         raise ValueError("Ngày quyết định/vào/thoát của task prefix không tăng")
     signals = normalize_signals(task["agent_signals"])
-    if signals["sentiment"] != "NEUTRAL":
+    if not allow_sentiment and signals["sentiment"] != "NEUTRAL":
         raise ValueError("BRPP v1 dành cho kho thiếu tin; tín hiệu tin khác cần phiên bản prefix mới")
     outcome = task["outcome"]
     exact_object(outcome, OUTCOME_KEYS)
@@ -214,6 +214,11 @@ def format_compact_prior_prefix(tasks: list[dict[str, Any]], stats: dict[str, An
 
 
 class BayesianPriorRetriever:
+    def retrieve_evidence(self, **query: Any) -> dict[str, Any]:
+        """API evidence v2 riêng; giữ nguyên kết quả và thống kê v1."""
+        from core.prior_evidence_v2 import retrieve_evidence
+        return retrieve_evidence(self, **query)
+
     """Nạp kho một lần; chọn prior PIT ở bốn mode và tính tỷ lệ mẫu cùng regime."""
 
     def __init__(self, *, bank_path: str | Path, manifest_path: str | Path,

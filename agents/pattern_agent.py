@@ -667,6 +667,10 @@ def _enforce_pattern_markdown_format(text: str, lang: str = "vi",
 
 
 def _invoke_with_retry(call_fn, *args, retries: int = 2, wait_sec: int = 3):
+    from core.research_invocation import CURRENT, invoke_once
+    if CURRENT.get() is not None:
+        return invoke_once(call_fn, *args)
+
     last_err = None
     for attempt in range(retries):
         try:

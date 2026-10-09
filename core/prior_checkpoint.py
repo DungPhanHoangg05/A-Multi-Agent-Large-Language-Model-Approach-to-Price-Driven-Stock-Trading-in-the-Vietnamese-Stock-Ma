@@ -170,6 +170,12 @@ class CheckpointSession:
             "finished_at": None, "status": "running", "error": None})
         doc.update(status="running", error=None)
         self.save(doc, f"decision_started:{name}")
+        from core.research_invocation import CURRENT
+        budget = CURRENT.get()
+        if budget is not None:
+            budget.checkpoint_attempt_id = branch["attempts"][-1]["attempt_id"]
+            budget.point_id, budget.branch_id = doc["point_id"], name
+            budget.run_signature = self.store.signature
 
     def complete_branch(self, name: str, shared: dict[str, Any], output: dict[str, Any]) -> None:
         """Ghi ngay output nhánh hợp lệ; giữ nguyên lịch sử attempt của lần resume."""

@@ -222,12 +222,22 @@ class GroqPacer:
             if minute and (len(minute) >= limits["rpm"] or sum(r["reserved_tokens"] for r in minute) + tokens > limits["tpm"]):
                 delay = max(delay, min(r["started_at"] for r in minute) + 61 - now)
             if delay > 0:
+                from core.research_invocation import CURRENT
+                invocation = CURRENT.get()
+                if invocation is not None:
+                    try:
+                        invocation.check_wait(delay)
+                    except PilotStop:
+                        self.stop("INVOCATION_WAIT_BUDGET_EXCEEDED", model, resume_at=now + delay,
+                                  pacing_seconds=invocation.wait_seconds)
                 if waited + delay > 120:
                     self.stop("WAIT_BUDGET_EXCEEDED", model, resume_at=now + delay, pacing_seconds=waited)
                 print(f"[Quota] Nghỉ chủ động {delay:.1f} giây trước request {model}", flush=True)
                 before = self.monotonic()
                 self.sleep(min(delay, 30.))
                 elapsed = max(0., self.monotonic() - before)
+                if invocation is not None:
+                    invocation.wait_seconds += elapsed
                 if elapsed <= 0:
                     self.stop("PACING_CLOCK_NOT_ADVANCING", model)
                 waited += elapsed
@@ -266,19 +276,59 @@ class PacedGroqTransport(httpx.BaseTransport):
         self.pacer, self.inner = pacer, inner or httpx.HTTPTransport(retries=0)
 
     def handle_request(self, request: httpx.Request) -> httpx.Response:
+        """Retry chỉ HTTP 429 đã từ chối, dùng chung budget với format repair."""
+        from core.research_invocation import CURRENT
+        budget = CURRENT.get()
+        while True:
+            if budget is not None:
+                budget.before_http()
+            response = self._handle_once(request)
+            if budget is None or response.status_code != 429:
+                return response
+            response.close()
+            if budget.attempts >= 3:
+                raise PilotStop("INVOCATION_ATTEMPT_BUDGET_EXCEEDED sau HTTP 429")
+
+    def _handle_once(self, request: httpx.Request) -> httpx.Response:
         """Chặn request không hỗ trợ và lưu usage/status/request ID an toàn."""
         if request.url.host != "api.groq.com":
             raise ValueError("Transport pilot chỉ cho phép Groq")
         if request.method != "POST" or request.url.path != "/openai/v1/chat/completions":
             return self.inner.handle_request(request)
         body = json.loads(request.content)
+        from core.research_invocation import CURRENT
+        invocation = CURRENT.get()
         with self.pacer._mutex:
+            if invocation is not None:
+                # Lưu invocation trước admission để giữ cả thời gian đã nghỉ nhưng chưa gửi HTTP.
+                def finish(budget: Any) -> None:
+                    """Đo riêng timer bao ngoài; không cộng nó lần nữa với timer HTTP."""
+                    item = self.pacer.state["invocations"][budget.invocation_id]
+                    item.update(status=budget.status, elapsed_seconds=budget.elapsed_seconds,
+                                wait_seconds=float(budget.wait_seconds))
+                    self.pacer.save()
+                invocation.on_finish = finish
+                self.pacer.state.setdefault("invocations", {}).setdefault(invocation.invocation_id, {
+                    "invocation_id": invocation.invocation_id, "run_signature": invocation.run_signature,
+                    "role": invocation.role, "point_id": invocation.point_id, "branch_id": invocation.branch_id,
+                    "checkpoint_attempt_id": invocation.checkpoint_attempt_id, "status": "unknown",
+                    "elapsed_seconds": None, "wait_seconds": None})
+                self.pacer.save()
             record = self.pacer.reserve(body["model"], request_budget(body))
+            if invocation is not None:
+                record.update(invocation_id=invocation.invocation_id, role=invocation.role,
+                              attempt_number=invocation.attempts, retry_policy="invocation_budget_v2",
+                              checkpoint_attempt_id=invocation.checkpoint_attempt_id, point_id=invocation.point_id,
+                              branch_id=invocation.branch_id, run_signature=invocation.run_signature)
+                self.pacer.save()
+            started = self.pacer.monotonic()
             try:
                 response = self.inner.handle_request(request)
                 response.read()
             except (httpx.HTTPError, OSError):
-                record.update(status="transport_error", latency_seconds=float(self.pacer.clock() - record["started_at"]))
+                elapsed = (self.pacer.monotonic() - started if invocation is not None
+                           else self.pacer.clock() - record["started_at"])
+                record.update(status="transport_error", latency_seconds=float(max(0., elapsed)))
                 self.pacer.save()
                 raise PilotStop("Transport gián đoạn; dừng và kiểm checkpoint") from None
             try:
@@ -289,6 +339,8 @@ class PacedGroqTransport(httpx.BaseTransport):
                 raise PilotStop("Provider trả nội dung không phải JSON; giữ checkpoint") from None
             record.update(status=int(response.status_code), completed_at=float(self.pacer.clock()), latency_seconds=float(self.pacer.clock() - record["started_at"]),
                           request_id=response.headers.get("x-request-id") or payload.get("id"))
+            if invocation is not None:
+                record["latency_seconds"] = float(max(0., self.pacer.monotonic() - started))
             usage = payload.get("usage") or {}
             for key in ("prompt_tokens", "completion_tokens", "total_tokens"):
                 if type(usage.get(key)) is int and usage[key] >= 0:
@@ -309,8 +361,12 @@ class PacedGroqTransport(httpx.BaseTransport):
                 if not math.isfinite(delay) or delay < 0:
                     delay = 86400.
                 record["retry_until"] = float(self.pacer.clock() + max(61., delay + (1 if self.pacer.policy == "request_admission_v2" else 0)))
+                if invocation is not None:
+                    record["retry_until"] = float(self.pacer.clock() + max(5. * 2 ** (invocation.attempts - 1), delay + 1.))
             self.pacer.save()
             if response.status_code >= 400:
+                if response.status_code == 429 and invocation is not None:
+                    return response
                 self.pacer.stop(f"HTTP_{response.status_code}", body["model"], resume_at=record.get("retry_until"))
             # Response thành công vẫn về caller để checkpoint; request sau sẽ dừng.
             return response

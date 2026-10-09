@@ -9,13 +9,8 @@ from urllib.parse import urlparse
 import requests
 from langchain_core.messages import HumanMessage, SystemMessage
 
-# Nạp .env để HF_TOKEN có mặt trong os.environ (không ghi đè biến môi trường thật)
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv(override=False)
-except ImportError:
-    pass
+# Entrypoint trực tuyến chịu trách nhiệm nạp credential. Import để tính sentiment
+# từ snapshot nghiên cứu không được mở .env hoặc phát sinh kết nối mạng.
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 

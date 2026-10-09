@@ -1,4 +1,4 @@
-"""CLI pilot FPT 20 điểm, năm nhánh; không gọi API ở chế độ kiểm tra offline."""
+"""CLI pilot v1 và cohort bốn mã v2; chế độ kiểm tra không đọc key hoặc gọi API."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ from langchain_groq import ChatGroq
 from PIL import Image
 
 from core.backtest_engine import BacktestEngine
-from core.groq_pacing import GroqPacer, PacedGroqTransport, PilotStop, QUOTA_POLICIES, tokenizer_cached
+from core.groq_pacing import GroqPacer, PacedGroqTransport, PilotStop, QUOTA_POLICIES, MODEL_LIMITS, tokenizer_cached
 from core.pilot_readiness import INPUT_DIR, build_adapter, prepare_inputs, verify_inputs
 from core.prior_backtest import PriorBacktestRunner, canonical_hash
 from core.prior_run_lock import PriorRunLock
@@ -77,6 +77,11 @@ def main() -> None:
     parser.add_argument("--resume", action="store_true", help="Phục hồi run năm nhánh, không dùng runner Memory Bank")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs/pilot_fpt_run")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
+    parser.add_argument("--plan", type=Path, help="Envelope plan research_cohort_plan_v2 đã khóa")
+    parser.add_argument("--symbol", action="append", choices=("FPT", "HPG", "MWG", "VCB"),
+                        help="Chọn mã chạy tuần tự; bỏ cờ để chạy đủ bốn mã")
+    parser.add_argument("--ledger", type=Path, default=ROOT / "outputs/oos_pilot/api_usage.json",
+                        help="Ledger chung của tài khoản; giữ cùng đường dẫn khi resume/đổi key")
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
@@ -84,6 +89,11 @@ def main() -> None:
         parser.error("Xác nhận cần --reconcile --authorize-replay UUID --replay-reason LY_DO")
     if args.resume and not (args.run or args.verify_only):
         parser.error("--resume chỉ đi với --run hoặc --verify-only")
+    if args.plan:
+        execute_cohort(args)
+        return
+    if args.symbol or args.ledger != ROOT / "outputs/oos_pilot/api_usage.json":
+        parser.error("--symbol/--ledger tùy chỉnh cần --plan")
     plan = prepare_inputs() if args.prepare else verify_inputs()
     adapter = build_adapter(plan)
     contexts = [adapter.prepare("FPT", cutoff) for cutoff in plan["cutoffs"]]
@@ -106,7 +116,8 @@ def main() -> None:
     def reject_network(request: httpx.Request) -> httpx.Response:
         raise AssertionError("verify-only không được phép gọi API")
     # Khóa cả quota ledger để không có hai run-dir dùng chung quota sai số.
-    with PriorRunLock(ROOT / "outputs/oos_pilot/runtime", canonical_hash(plan)):
+    with (PriorRunLock(args.ledger.resolve().parent / (args.ledger.name + ".lock"), "shared-account-ledger-v2"),
+          PriorRunLock(ROOT / "outputs/oos_pilot/runtime", canonical_hash(plan))):
         # Nạp ledger SAU khi có khóa để không ghi đè usage của tiến trình trước.
         pacer = GroqPacer(ROOT / "outputs/oos_pilot/api_usage.json", policy=args.quota_policy)
         transport = httpx.MockTransport(reject_network) if offline else PacedGroqTransport(pacer)
@@ -145,6 +156,85 @@ def execute(args: argparse.Namespace, plan: dict[str, Any], adapter: Any,
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return
     print(f"Pilot {result['status']}: {len(result['completed_point_ids'])}/{len(result['planned_point_ids'])} điểm", flush=True)
+
+
+def execute_cohort(args: argparse.Namespace) -> None:
+    """Một CLI cho cohort mới; dry-run/verify không mở env hoặc gọi mạng."""
+    from core.research_cohort import read_envelope, validate_plan
+    from core.research_invocation import ENABLED, invocation_scope
+    from core.pilot_readiness import sha_file
+    if args.prepare:
+        raise ValueError("Plan cohort phải được khóa trước; không tự chọn lịch hoặc ngưỡng")
+    if args.output_dir.resolve() == (ROOT / "outputs/pilot_fpt_run").resolve():
+        raise ValueError("Cohort mới cần --output-dir riêng khỏi pilot W4")
+    plan = read_envelope(args.plan)
+    inputs = plan["inputs"]
+    if inputs["limits"] != MODEL_LIMITS:
+        raise ValueError("Quota plan khác giới hạn đã khóa")
+    if inputs["model"]["freeze_as_of_date"] >= "2023-01-01":
+        raise ValueError("Cohort giữ model đóng băng trước 2023")
+    checks = {f"{inputs['execution_dir']}/manifest.json": inputs["execution_manifest_sha256"],
+              inputs["model"]["artifact_path"]: inputs["model"]["artifact_sha256"],
+              inputs["model"]["source_path"]: inputs["model"]["source_sha256"]}
+    checks.update({f"{inputs['news_dir']}/{s}.json": proof["snapshot_sha256"] for s, proof in inputs["news_sources"].items()})
+    if any(sha_file(ROOT / path) != expected for path, expected in checks.items()):
+        raise ValueError("Nguồn/model/tin khác plan đã khóa")
+    adapter = build_adapter(inputs)
+    validate_plan(plan, adapter)
+    print(f"Cohort {plan['cohort_id']}: plan/source/lịch PASS; {plan['matrix']}; {plan['split']}", flush=True)
+    if not (args.run or args.preflight or args.verify_only or args.reconcile):
+        return
+    offline = args.verify_only or args.reconcile
+    if not offline and plan["split"] == "fixture":
+        raise ValueError("Fixture chỉ kiểm offline, không cho gọi API thật")
+    if not offline and not tokenizer_cached():
+        raise ValueError("Thiếu tokenizer cache; chạy scripts/prepare_groq_tokenizer.py trước")
+    key = "offline-verifier-no-network"
+    if not offline:
+        key = dotenv_values(args.env_file).get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY", "")
+        if not key:
+            raise ValueError("Thiếu GROQ_API_KEY")
+    ledger = args.ledger.resolve()
+    def reject(request: httpx.Request) -> httpx.Response:
+        raise AssertionError("Chế độ offline không được gọi mạng")
+    with PriorRunLock(ledger.parent / (ledger.name + ".lock"), "shared-account-ledger-v2"):
+        pacer = GroqPacer(ledger, policy=args.quota_policy)
+        transport = httpx.MockTransport(reject) if offline else PacedGroqTransport(pacer)
+        with httpx.Client(transport=transport, timeout=90.) as client:
+            builder = make_builder(inputs, key, client)
+            if args.preflight:
+                token = ENABLED.set(True)
+                try:
+                    first = len(pacer.state["requests"])
+                    with invocation_scope("preflight"):
+                        preflight(builder)
+                    pacer.state["preflight"] = {"status": "PASS", "plan_sha256": canonical_hash(plan),
+                        "request_ids": [r["id"] for r in pacer.state["requests"][first:]]}
+                    pacer.save()
+                finally:
+                    ENABLED.reset(token)
+                return
+            if args.run:
+                proof = pacer.state.get("preflight", {})
+                successful = {r["model"] for r in pacer.state["requests"] if r["id"] in proof.get("request_ids", []) and r["status"] == 200}
+                if proof.get("plan_sha256") != canonical_hash(plan) or successful != set(inputs["limits"]):
+                    raise ValueError("Cần preflight text/vision PASS đúng plan trước run")
+            config = inputs["signal_config"]
+            engine = BacktestEngine({**config["models"], "language": config["language"],
+                "alpha_norm_method": config["norm_method"], "alpha_weights": config["alpha_weights"]})
+            runner = PriorBacktestRunner(engine, adapter, builder, before_point=pacer.before_point,
+                quota_policy=pacer.policy, durable_stages=True,
+                extra_source_paths=(args.plan.resolve().relative_to(ROOT).as_posix(),))
+            result = runner.run_cohort(plan, output_dir=args.output_dir, symbols=args.symbol, resume=args.resume,
+                verify_only=args.verify_only, reconcile=args.reconcile,
+                authorize_replay=args.authorize_replay, replay_reason=args.replay_reason, ledger_path=ledger)
+            if not args.reconcile:
+                from core.research_metrics import http_telemetry
+                from core.research_cohort import save_envelope
+                result["telemetry"] = http_telemetry(pacer.state["requests"], result["run_signatures"], pacer.state.get("invocations"))
+                if args.run:
+                    save_envelope(args.output_dir / "report.json", result)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
