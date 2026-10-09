@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A/B/C và nghiệm thu kỹ thuật W5-15 PASS; 14/15 task trong phạm vi hoàn thành — W5-01–10 và W5-12–15 DONE. Tiếp theo W5-16: chốt tuần và bàn giao W6. W5-11 đã bỏ theo yêu cầu.**
+**Trạng thái: W5 HOÀN THÀNH — 15/15 task trong phạm vi DONE, Phase A/B/C/D PASS (10/10/2026). Đã chốt vận hành và bàn giao W6; W5-11 đã bỏ theo yêu cầu.**
 Ngày lập: **07/10/2026**; cập nhật **10/10/2026**. Đã kiểm/tổng hợp offline,
 triển khai CLI cohort/evidence/gate/prefix v2, audit OOS, khóa input/lịch và dry-run bốn mã.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -14,7 +14,7 @@ và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ tr�
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
 15 task trong phạm vi W5; bỏ W5-11, giữ nguyên mã task còn lại để không
-làm sai tham chiếu. W5-01–10 và W5-12–15 DONE;
+làm sai tham chiếu. W5-01–10 và W5-12–16 DONE;
 nền tảng v2 đã có kiểm fixture;
 hiệu quả v2 còn cần validation và benchmark.
 
@@ -651,7 +651,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | D | W5-13 | Kiểm lỗi có chủ đích và paired/resume | 08, 12 | [x] |
 | D | W5-14 | Smoke vận hành thật giới hạn bốn mã | Gate A/B/C, 13 | [x] |
 | D | W5-15 | Nghiệm thu hồi quy và điều kiện mở W6 | 13, 14 | [x] |
-| D | W5-16 | Chốt W5, bàn giao lệnh và lịch W6 | 15 | [ ] |
+| D | W5-16 | Chốt W5, bàn giao vận hành và thứ tự triển khai W6 | 15 | [x] |
 
 W5-11 đã bỏ khỏi phạm vi ngày 09/10/2026 theo yêu cầu người dùng, không
 tính vào mẫu số tiến độ hoặc điều kiện chuyển phase. “Lịch mẫu/cohort” là
@@ -1568,10 +1568,10 @@ không đổi; lượt tiếp tục này chỉ đo lại p95 và sửa tài li�
 Các giới hạn BEAR OOS=0, tin reliable=0, FPT Q1 thiếu bốn mẫu và model proof
 train-only hồi cứu vẫn phải giữ khi bàn giao. V2 chưa có bằng chứng hiệu quả
 đầu tư; protocol ứng viên chờ W7, benchmark chờ W8. **Nghiệm thu kỹ thuật
-để mở W6 PASS**; còn **W5-16** chốt tuần và bàn giao trước khi chuyển W6.
+để mở W6 PASS**; đây là đầu vào cho phần chốt tuần và bàn giao W5-16 bên dưới.
 Không cần chạy thêm API để nghiệm thu W5-15.
 
-#### W5-16 — Chốt W5, bàn giao lệnh và lịch W6
+#### W5-16 — Chốt W5, bàn giao vận hành và thứ tự triển khai W6
 
 - **Làm:** cập nhật checklist, kế hoạch tổng và hướng dẫn lệnh thật cho
   prepare/dry-run/preflight/run/verify/resume từng mã để người dùng tự chạy;
@@ -1582,6 +1582,127 @@ Không cần chạy thêm API để nghiệm thu W5-15.
   chỉ khi cần. Không tạo 16 biên bản task hoặc đẩy toàn bộ output lên GitHub.
 - **Đạt khi:** 15/15 task trong phạm vi và các gate PASS, manifest mẫu bất biến,
   lệnh có thể chạy lại. Bất kỳ gate nào còn BLOCKED thì chưa chốt W5 hoàn thành.
+
+**DONE/PASS (10/10/2026), Gate D PASS.** Chốt **15/15 task**, cả bốn phase
+PASS. Lượt W5-16 chạy lại compileall, **624 unit test**, E2E và **105 test
+leakage**, tất cả PASS, không skip. Kiểm input **128/128**, CLI dry-run,
+verifier smoke **4/4 điểm, 20/20 Decision** và reconcile offline PASS;
+report dựng lại khớp bản lưu. **122/122 file bảo vệ nguyên byte**, gồm nguồn,
+manifest/plan, checkpoint, ledger/audit và code/schema/config đã khóa.
+Audit các lệnh input/smoke ghi **0 credential-open /0 network attempt**.
+Kế thừa phép đo p95 PASS ở W5-15 vì code/môi trường không đổi; task này chỉ
+sửa ba Markdown chính, không tạo receipt hoặc gọi API. W6 đủ điều kiện
+lập kế hoạch chi tiết và triển khai theo bàn giao dưới đây.
+
+##### Vận hành từ trạng thái đã hoàn thành
+
+Smoke hiện **complete: 4/4 điểm, 20/20 Decision v1**. Bây giờ chỉ cần kiểm
+offline khi đối soát hoặc phục hồi máy; không cần gọi API thêm để đóng W5.
+Chạy từ root repository với Python 3.13.5:
+
+```powershell
+$cohortPlan = "outputs/bayesian_benchmark/smoke_plan.json"
+$cohortOutput = "outputs/bayesian_benchmark/smoke_run"
+$sharedLedger = "outputs/oos_pilot/api_usage.json"
+py -3.13 -X utf8 scripts/prepare_research_inputs.py --verify
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --dry-run
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --verify-only
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --reconcile
+```
+
+Verifier phải trả complete, bốn điểm common support và năm nhánh mỗi điểm;
+reconcile không còn attempt cần xử lý. `primary_status=NOT_APPLICABLE` là đúng
+cho `smoke_v1`; đây chưa phải benchmark v2. Nếu muốn đối soát từng mã, thêm
+`--symbol FPT`, `--symbol MWG`, `--symbol VCB` hoặc `--symbol VNM` vào lệnh
+`--verify-only`; validator vẫn kiểm identity/nguồn của cả cohort.
+
+Các bước prepare/preflight/run/resume đã có ở
+[hướng dẫn terminal W5-14](#cách-tự-chạy-w5-14-bằng-terminal). Quy tắc dùng lại:
+
+| Bước | Khi nào dùng | Điều kiện |
+| --- | --- | --- |
+| `prepare_research_inputs.py --prepare` | Chuẩn bị lần đầu khi chưa có input lock/plan | Giữ nguyên calendar/nguồn đã khóa; máy phục hồi cần bản gốc, không dựng lại bằng nguồn mới |
+| `--dry-run` | Trước run hoặc sau phục hồi môi trường | Input/PIT/code/runtime PASS; hiện có 128 điểm đã khóa |
+| `--preflight` | Người dùng chuẩn bị một run cần API | Hai model HTTP 200, đúng plan hash; có dùng key/quota |
+| `--run --symbol FPT` | Chỉ lượt đầu của thư mục run mới, đúng plan/identity | Chưa có tiến độ; không áp dụng lại cho smoke hiện đã complete |
+| `--run --resume --symbol <mã>` | Tiếp tục mã còn thiếu trong cùng run | Giữ output/plan/ledger/policy; không gọi lại nhánh complete |
+| `--verify-only`, `--reconcile` | Sau dừng, trước resume, khi nghiệm thu | Offline; report lưu từ lần run trước có thể chưa phản ánh điểm vừa lỗi |
+
+Ví dụ **chỉ dành cho người dùng tự chạy khi run cùng identity còn thiếu**,
+sau preflight PASS và xử lý nguyên nhân dừng; hiện cả bốn mã đã xong:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --run --resume --symbol FPT
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --run --resume --symbol MWG
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --run --resume --symbol VCB
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortOutput --ledger $sharedLedger --run --resume --symbol VNM
+```
+
+Đổi code/model/config ở W6 cần **plan/identity/output mới**, chưa có lệnh
+benchmark dùng được từ smoke plan này. Giữ ledger chung cho cùng tài khoản;
+đổi key không mặc nhiên đặt lại quota tổ chức. Không có bước tính ngân sách
+hoặc dự toán lịch chạy API trong bàn giao.
+
+Mốc code W5 đã nghiệm thu: **`0286119`**; W5-16 chỉ sửa tài liệu. Sau khi code
+W6 thay đổi, kiểm smoke lịch sử bằng checkout độc lập của mốc này, phục hồi
+đúng nguồn/runtime từ identity theo cách đã hướng dẫn cho W4 ở mục baseline.
+Không sửa fingerprint của smoke để nhận code mới.
+
+##### Dữ liệu cần giữ và xử lý khi dừng
+
+| Vị trí | Nội dung / trách nhiệm bảo toàn |
+| --- | --- |
+| `outputs/bayesian_benchmark/{coverage.json,calendar.json,input_lock.json,smoke_plan.json}` | Lịch 124 điểm chính +4 smoke, source/code/runtime hash; giữ nguyên byte |
+| `outputs/bayesian_benchmark/smoke_run/` | `cohort.json`, `report.json`, `v1/<mã>/{identity.json,run_manifest.json,results.json,points/,responses/}`; journal/attempt là cơ sở resume |
+| `outputs/oos_pilot/{api_usage.json,reconciliation/,inputs/}` và `outputs/pilot_fpt_run/` | Ledger chung, audit/backup ngoại lệ W4, pilot 20 điểm/100 Decision; giữ unknown reserve 5.535 token |
+| `data_manager/`, `data/execution_prices_oos/` và các nguồn liệt kê trong input lock | Bank 852 episode, manifest/model/proof, QA, giá VCI/KBS, snapshot tin và train archive đúng checksum |
+| `docs/plan/implementation_evidence.zip` | Bằng chứng lịch sử đóng gói, không sửa byte |
+
+Runtime output được gitignore; clone Git riêng không đủ khôi phục nghiên cứu.
+Người dùng lưu bản sao an toàn của **toàn bộ nguồn được identity dẫn chiếu,
+plan/checkpoint/journal/ledger/audit** khi không có runner đang ghi. Khi chuyển
+máy, phục hồi runtime/dependency rồi verify; metadata lock/owner/recovery được
+quản lý bởi cơ chế khóa, không dùng bản sao owner đang chạy làm bằng chứng khóa.
+
+1. **Quota/cooldown:** giữ nguyên checkpoint/ledger, chờ mốc runner báo; người
+   dùng tự resume. Pacing chủ động khác với thời gian HTTP; không bỏ guard để
+   hết chờ. Không xóa usage/reserve hoặc đổi mẫu khi quota chặn.
+2. **Unknown/FAILED/malformed Decision:** chạy reconcile offline, đọc stage,
+   UUID và output durable. Chỉ tiếp tục tự động phần chưa gửi hoặc đã durable
+   hợp lệ. Replay attempt không rõ kết quả cần người dùng xác nhận đúng UUID
+   và lý do qua `--reconcile --authorize-replay ... --replay-reason ...` sau
+   đối soát; giữ audit và chi phí cũ. Không biến lỗi thành CASH.
+3. **Lock/PERSISTENCE/hash/runtime:** dừng, kiểm owner OS và lỗi ghi; sự tồn tại
+   file lock không chứng minh runner còn sống. Không xóa khóa/checkpoint hay
+   sửa hash để ép resume; khôi phục đúng nguồn/môi trường hoặc tạo run mới.
+4. **Phân công:** người dùng giữ key, tự preflight/run/resume và quyết định
+   replay; agent kiểm offline, chẩn đoán stage/identity, sửa code trên nhánh
+   riêng và chạy gate. Hỗ trợ Windows/OneDrive đã kiểm; chưa nghiệm thu khóa
+   trên Linux hoặc filesystem dùng chung.
+
+##### Bàn giao kỹ thuật W6
+
+| Nền tảng đã có và kiểm thử ở W5 | Việc W6 phải bổ sung/kiểm chứng |
+| --- | --- |
+| `core/bayesian_retriever.py`, `core/prior_evidence_v2.py`: retrieval tín hiệu, Beta–Binomial, quality gate, prefix v2 | Đặc trưng giá PIT +scaler train-only, auxiliary index/hash riêng; recency/diversity không chọn theo WIN/LOSS; so với `signal_match_v1` |
+| Evidence có population/support/uncertainty và ví dụ K≤3 riêng | Thống kê điều kiện regime+tín hiệu, shrink có luật; không coi K=3 hay bốn agent là bốn quan sát độc lập |
+| `core/research_cohort.py`: Decision v2 riêng, dùng chung Full/upstream với v1, fixture resume/semantic PASS | Contract Decision đối chiếu bằng chứng, trace và ứng viên stats-only/examples-only/full prior; protocol/schema/identity mới cho CLI thật |
+| `core/groq_pacing.py`, `core/research_invocation.py`, `core/prior_stage_journal.py`, `core/prior_checkpoint.py`, `core/prior_run_lock.py` | Kế thừa request admission/retry/durable/lock; kiểm hồi quy, paired/PIT/caps/p95 khi thêm ứng viên |
+
+Thứ tự triển khai: **chốt danh sách ứng viên nhỏ → đặc trưng/ranking → thống kê
+điều kiện → Decision/trace → tích hợp protocol và kiểm thử**. Nếu thêm risk
+gate số học, tách ablation và lưu `raw_action`/`executed_action`/reason/policy
+hash; không ghi công cải thiện của risk gate cho riêng ICL. Bank/model đã
+khóa và công thức Open(t+1)→Close(t+3), SHORT=CASH, phí hai chiều giữ nguyên.
+
+**Điều kiện bàn giao tiếp:** W6 có code CLI v2, fixture/validation train PIT,
+trace và bốn gate PASS; W7 dùng train 2020–2022/development 2023 để chọn và
+khóa ứng viên; **W8 mới benchmark xác nhận 2024** theo lịch đã khóa. Chưa mở
+holdout để chọn tham số hoặc chạy 124 điểm trong W5-16. BEAR OOS=0, tin
+reliable=0, FPT Q1 thiếu bốn mẫu và model proof train-only hồi cứu là giới
+hạn còn hiệu lực. Smoke v1 và fixture v2 chứng minh vận hành, chưa chứng minh
+Bayesian v2 cải thiện lợi nhuận. Chi tiết phạm vi tiếp theo ở
+[kế hoạch tổng, mục Tuần 6](../plan.md).
 
 ## 4. Gate kỹ thuật bắt buộc trước merge
 
@@ -1640,3 +1761,4 @@ cuối cùng và checklist mục 3 xác định tiến độ hiện hành.
 | 10/10/2026 | W5-15 | BLOCKED ở p95: compileall/E2E, 624 unit/105 leakage PASS; input 128/128, smoke 4/4 và 20 Decision xác minh lại. 122 file/47 code-schema-config nguyên byte; W4 31 code ở commit ghim/12 nguồn khớp. Benchmark v1 đủ mẫu khi TFT/League có tải cho p95 33,934–42,224 ms, FAIL <30; giữ toàn bộ mẫu. Evidence retrieval v2 p95 22,204 ms; không key/API hoặc sửa code/fingerprint. Giữ tiến độ 13/15 | Người dùng giảm tải máy, đo lại cùng protocol; chưa đánh DONE/mở W6 |
 
 | 10/10/2026 | W5-15 tiếp tục sau giảm tải | DONE/PASS: cùng code/mẫu/protocol/runtime, bốn mode v1 p95 10,566/9,831/9,642/12,127 ms đều <30; evidence v2 retrieval/prefix/kết hợp 5,0475/1,2018/6,3819 ms. Giữ cả mẫu FAIL/PASS ở TEMP, 122 file/47 code-schema-config nguyên byte; bốn gate của cùng task (624 unit/105 leakage, compileall/E2E) vẫn hợp lệ vì code không đổi. Không key/API hoặc thêm receipt vào Git; 14/15 task | W5-16: chốt W5 và bàn giao W6 |
+| 10/10/2026 | W5-16 | DONE, W5 CLOSED: 15/15 task, Phase A/B/C/D PASS. Bàn giao lệnh từng mã, dữ liệu/khôi phục/unknown và phạm vi W6 trong README này; cập nhật kế hoạch tổng/README gốc. Chạy lại compileall/E2E, 624 unit/105 leakage PASS; input 128/128, smoke 4/4–20 Decision, reconcile và report khớp; 122 file nguyên byte, audit offline 0 credential/network. Chỉ sửa ba Markdown, không API hoặc receipt mới | Lập plan chi tiết W6 trong `docs/plan/week6/`; cải thiện retrieval/Decision, W7 validation/khóa ứng viên, W8 benchmark |
