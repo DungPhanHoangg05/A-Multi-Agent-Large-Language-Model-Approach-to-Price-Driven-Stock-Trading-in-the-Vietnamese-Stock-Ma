@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A/B/C PASS; 13/15 task trong phạm vi hoàn thành — W5-01–10 và W5-12–14 DONE. W5-15: bốn gate hồi quy PASS, BLOCKED ở p95 đo khi máy có tải; W5-16 chưa thực hiện. W5-11 đã bỏ theo yêu cầu.**
+**Trạng thái: Phase A/B/C và nghiệm thu kỹ thuật W5-15 PASS; 14/15 task trong phạm vi hoàn thành — W5-01–10 và W5-12–15 DONE. Tiếp theo W5-16: chốt tuần và bàn giao W6. W5-11 đã bỏ theo yêu cầu.**
 Ngày lập: **07/10/2026**; cập nhật **10/10/2026**. Đã kiểm/tổng hợp offline,
 triển khai CLI cohort/evidence/gate/prefix v2, audit OOS, khóa input/lịch và dry-run bốn mã.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -14,7 +14,7 @@ và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ tr�
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
 15 task trong phạm vi W5; bỏ W5-11, giữ nguyên mã task còn lại để không
-làm sai tham chiếu. W5-01–10 và W5-12–14 DONE;
+làm sai tham chiếu. W5-01–10 và W5-12–15 DONE;
 nền tảng v2 đã có kiểm fixture;
 hiệu quả v2 còn cần validation và benchmark.
 
@@ -650,7 +650,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | C | W5-12 | Khóa input/plan và dry-run bốn mã (offline) | 08, 10 | [x] |
 | D | W5-13 | Kiểm lỗi có chủ đích và paired/resume | 08, 12 | [x] |
 | D | W5-14 | Smoke vận hành thật giới hạn bốn mã | Gate A/B/C, 13 | [x] |
-| D | W5-15 | Nghiệm thu hồi quy và điều kiện mở W6 | 13, 14 | [ ] BLOCKED: p95 |
+| D | W5-15 | Nghiệm thu hồi quy và điều kiện mở W6 | 13, 14 | [x] |
 | D | W5-16 | Chốt W5, bàn giao lệnh và lịch W6 | 15 | [ ] |
 
 W5-11 đã bỏ khỏi phạm vi ngày 09/10/2026 theo yêu cầu người dùng, không
@@ -1486,7 +1486,7 @@ vào Git. Run signature:
   đủ tiêu chí, không còn gate kỹ thuật chưa giải quyết. Không yêu cầu dự toán
   ngân sách/lịch chạy. Sẵn sàng vận hành không đồng nghĩa hiệu quả đầu tư đã chứng minh.
 
-##### Nghiệm thu W5-15 — BLOCKED ở p95, 10/10/2026
+##### Nghiệm thu W5-15 — DONE/PASS, 10/10/2026
 
 Bản code kiểm: `fd1fa66`, gồm test fault/evidence ở `f376eb1`.
 Task nghiệm thu chỉ cập nhật tài liệu; không sửa code/schema/config đã khóa.
@@ -1517,7 +1517,9 @@ Task nghiệm thu chỉ cập nhật tài liệu; không sửa code/schema/confi
   nguyên byte, gồm 47 code/schema/config đã khóa, nguồn, bank/model,
   lịch/input/plan, pilot/smoke/checkpoint/ledger/audit và ZIP bằng chứng.
 
-**Phép đo mới chưa pass gate retrieval <30 ms.** Đã chạy
+**Gate retrieval <30 ms PASS sau khi giảm tải máy.** Giữ cả lượt đầu FAIL
+và lượt đo lại sau khi người dùng tạm đóng tác vụ nặng. Hai lượt cùng code,
+method/context/query, nguồn và runtime; không chọn lại mẫu. Đã chạy
 `scripts.benchmark_bayesian_retriever.benchmark(warmup=100, samples=1000)`:
 16 context lịch sử PIT đã khóa, hai scope, 32 query/mode, luân phiên tuần tự;
 đồng hồ `perf_counter_ns`, p95 nearest-rank `ceil(.95*N)`. Đo retrieval,
@@ -1525,29 +1527,32 @@ formatter và chuỗi kết hợp riêng; giữ toàn bộ mẫu, validation/dee
 oracle ngoài timer, không cache kết quả hoặc loại outlier. Môi trường Python,
 OS/CPU và bốn dependency trong receipt khớp lượt đo W4.
 
-| Mode v1 | p95 retrieval tổng hợp (ms) | p95 same_symbol (ms) | Gate tổng hợp <30 ms |
-| --- | ---: | ---: | --- |
-| Bayesian | 35,252 | 12,274 | FAIL |
-| Random | 36,221 | 12,005 | FAIL |
-| Recent | 33,934 | 11,015 | FAIL |
-| Similarity | 42,224 | 13,943 | FAIL |
+| Mode v1 | p95 lượt có tải (ms), FAIL | p95 đo lại tổng hợp (ms) | p95 đo lại same_symbol (ms) | Gate đo lại <30 ms |
+| --- | ---: | ---: | ---: | --- |
+| Bayesian | 35,252 | 10,566 | 2,921 | PASS |
+| Random | 36,221 | 9,831 | 2,709 | PASS |
+| Recent | 33,934 | 9,642 | 2,598 | PASS |
+| Similarity | 42,224 | 12,127 | 3,289 | PASS |
 
 - Khi đo, TFT/League đang tiêu thụ nhiều CPU; hai snapshot cách nhau hai giây
   cho thấy riêng TFT dùng khoảng 8,5–9,3 CPU-giây. Chẩn đoán 100 query pooled
   ghi CPU/wall khoảng 0,751; một hot query không phát sinh audit event.
-  Đây là dấu hiệu ảnh hưởng tải/scheduling, chưa chứng minh có hồi quy thuật toán.
-  Không tự thoát ứng dụng, thay priority/affinity, hạ số mẫu/ngưỡng hoặc sửa
-  code/manifest để nhận PASS. Giữ lượt FAIL; cần đo lại khi tải máy giảm.
+  Số đo lại thấp hơn phù hợp với ảnh hưởng tải/scheduling. Ngưỡng và số mẫu
+  giữ nguyên, priority/affinity mặc định, đủ validation/deep-copy; code và
+  manifest nguyên byte. Gate PASS áp dụng máy/cấu hình/tải của lượt đo lại,
+  không bảo đảm p95 <30 ms khi máy đang chạy tác vụ nặng.
 - Đường evidence v2 được đo riêng bằng API công khai trên **20 context**
   (16 lịch sử đã khóa +4 shared query smoke, chỉ lấy symbol/cutoff/regime/signals),
   scope cùng mã/cùng regime/PIT, cùng 100 warm-up/1.000 mẫu mỗi giai đoạn.
-  p95 retrieval **22,204 ms**, prefix **7,708 ms**, chuỗi kết hợp **30,985 ms**.
+  Lượt đo lại: p95 retrieval **5,0475 ms**, prefix **1,2018 ms**, chuỗi kết hợp
+  **6,3819 ms**. Lượt có tải giữ nguyên: **22,204 / 7,708 / 30,985 ms** tương ứng.
   Đầu ra/selected IDs/counts/posterior/prefix khớp tham chiếu ở mọi lượt;
   query/expected không đổi, hot query bị chặn I/O và không gọi LLM.
   Ngưỡng 30 ms của bảng trên áp cho retrieval, không áp lại cho chuỗi kết hợp.
 - Mẫu chi tiết và log chỉ ở thư mục tạm `kltn-research-acceptance` của máy;
-  đã giữ bản `performance_v1_busy.json`/`performance_v2_busy.json`, không
-  thêm JSON vào Git. Audit input/smoke/performance không mở credential,
+  đã giữ bản `performance_v1_busy.json`/`performance_v2_busy.json` và
+  `performance_v1_idle.json`/`performance_v2_idle.json`, không thêm JSON
+  vào Git. Audit input/smoke/performance không mở credential,
   DNS hoặc socket connect. **122/122 file bảo vệ vẫn nguyên byte** sau đo.
 
 Để đo lại v1 offline từ root sau khi giảm tải, dùng API benchmark sẵn có,
@@ -1557,11 +1562,14 @@ chỉ in console, không tạo thêm receipt trong repository:
 py -3.13 -X utf8 -c "from scripts.benchmark_bayesian_retriever import benchmark; r=benchmark(warmup=100,samples=1000); print({m:v['retrieval']['summary']['p95_ms'] for m,v in r['modes'].items()}); raise SystemExit(0 if r['status']=='PASS' else 1)"
 ```
 
-Chỉ đánh DONE khi phép đo đủ mẫu PASS và nguồn/checkpoint còn nguyên vẹn.
+Phép đo lại đủ mẫu PASS, nguồn/checkpoint còn nguyên vẹn; **W5-15 DONE**.
+Bốn gate hồi quy của cùng task vẫn áp dụng: code/schema/config đã kiểm
+không đổi; lượt tiếp tục này chỉ đo lại p95 và sửa tài liệu.
 Các giới hạn BEAR OOS=0, tin reliable=0, FPT Q1 thiếu bốn mẫu và model proof
 train-only hồi cứu vẫn phải giữ khi bàn giao. V2 chưa có bằng chứng hiệu quả
-đầu tư; protocol ứng viên chờ W7, benchmark chờ W8. **Chưa mở W6:** còn
-nghiệm thu p95 W5-15 và bàn giao W5-16; không cần chạy thêm API cho bước này.
+đầu tư; protocol ứng viên chờ W7, benchmark chờ W8. **Nghiệm thu kỹ thuật
+để mở W6 PASS**; còn **W5-16** chốt tuần và bàn giao trước khi chuyển W6.
+Không cần chạy thêm API để nghiệm thu W5-15.
 
 #### W5-16 — Chốt W5, bàn giao lệnh và lịch W6
 
@@ -1630,3 +1638,5 @@ cuối cùng và checklist mục 3 xác định tiến độ hiện hành.
 | 10/10/2026 | W5-14 | DONE: người dùng chạy smoke thật 4/4 điểm, 20/20 Decision structured; verifier/reconcile offline PASS, report dựng lại khớp. Preflight đúng plan; smoke 28 HTTP 200, usage đủ 55.378 token, không attempt chưa rõ. Shared/PIT/economic PASS, prompt/prefix tối đa 4.438/370; checkpoint/ledger không đổi khi kiểm, không key/API từ agent; 13/15 task | W5-15: bốn gate hồi quy, rà nguồn/giới hạn và p95 |
 
 | 10/10/2026 | W5-15 | BLOCKED ở p95: compileall/E2E, 624 unit/105 leakage PASS; input 128/128, smoke 4/4 và 20 Decision xác minh lại. 122 file/47 code-schema-config nguyên byte; W4 31 code ở commit ghim/12 nguồn khớp. Benchmark v1 đủ mẫu khi TFT/League có tải cho p95 33,934–42,224 ms, FAIL <30; giữ toàn bộ mẫu. Evidence retrieval v2 p95 22,204 ms; không key/API hoặc sửa code/fingerprint. Giữ tiến độ 13/15 | Người dùng giảm tải máy, đo lại cùng protocol; chưa đánh DONE/mở W6 |
+
+| 10/10/2026 | W5-15 tiếp tục sau giảm tải | DONE/PASS: cùng code/mẫu/protocol/runtime, bốn mode v1 p95 10,566/9,831/9,642/12,127 ms đều <30; evidence v2 retrieval/prefix/kết hợp 5,0475/1,2018/6,3819 ms. Giữ cả mẫu FAIL/PASS ở TEMP, 122 file/47 code-schema-config nguyên byte; bốn gate của cùng task (624 unit/105 leakage, compileall/E2E) vẫn hợp lệ vì code không đổi. Không key/API hoặc thêm receipt vào Git; 14/15 task | W5-16: chốt W5 và bàn giao W6 |

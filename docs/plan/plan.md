@@ -349,7 +349,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B/C PASS, 13/15
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B/C VÀ NGHIỆM THU KỸ THUẬT PASS, 14/15
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -439,13 +439,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   20/20 Decision structured**, verifier/reconcile offline PASS, report dựng lại
   khớp kết quả. 28 HTTP 200, usage đầy đủ 55.378 token; shared/PIT/economic/cap
   PASS, không attempt chưa rõ trong smoke. Agent không dùng key/API.
-- **W5-15 BLOCKED ở p95, 10/10/2026**: đã chạy lại compileall/E2E,
+- **W5-15 DONE/PASS, 10/10/2026**: đã chạy lại compileall/E2E,
   **624 unit/105 leakage PASS**, input 128/128 và verifier smoke PASS.
   122 file bảo vệ/47 code-schema-config nguyên byte; rà W4 31 code ở commit
-  ghim/12 nguồn khớp. Đo v1 đủ mẫu khi TFT/League có tải: p95 **33,934–42,224 ms**,
-  chưa đạt <30; giữ toàn bộ mẫu FAIL. Evidence retrieval v2 p95 **22,204 ms**.
-  Cần đo lại cùng protocol khi tải máy giảm; không sửa code/manifest hoặc
-  dùng p95 cũ để đánh DONE. Còn W5-15 và W5-16, chưa mở W6.
+  ghim/12 nguồn khớp. Lượt đầu khi máy có tải p95 **33,934–42,224 ms** FAIL;
+  sau khi người dùng giảm tải, đo lại cùng code/mẫu/protocol/runtime:
+  bốn mode v1 **10,566/9,831/9,642/12,127 ms**, đều <30; evidence retrieval
+  v2 **5,0475 ms**, chuỗi evidence/prefix **6,3819 ms**. Giữ đủ mẫu cả hai lượt,
+  không sửa code/manifest; bốn gate trước đó vẫn áp dụng cho cùng code đã kiểm.
+  Đủ nghiệm thu kỹ thuật, còn **W5-16** chốt tuần/bàn giao trước khi chuyển W6.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
@@ -461,8 +463,8 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [x] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
   - [x] Phase C, W5-09, 10, 12: coverage, lịch cohort tách pilot/smoke/holdout và manifest/dry-run offline.
   - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
-    W5-13–14 DONE; W5-15 bốn gate hồi quy PASS nhưng còn chặn p95;
-    W5-16 chờ nghiệm thu/bàn giao. Tiến độ hiện tại 13/15.
+    W5-13–15 DONE, gồm bốn gate hồi quy và p95 PASS;
+    còn W5-16 chốt tuần/bàn giao. Tiến độ hiện tại 14/15.
 - **Deliverables cuối W5**: CLI/audit dùng lại được, code Beta–Binomial/gate
   chất lượng/prefix có version và trace kiểm offline; lịch phân hoạch bốn mã,
   manifest nguồn; checkpoint smoke v1 4 điểm/20 Decision và verifier;
