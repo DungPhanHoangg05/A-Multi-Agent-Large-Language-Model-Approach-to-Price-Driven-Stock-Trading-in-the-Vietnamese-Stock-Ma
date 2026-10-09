@@ -349,7 +349,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B/C VÀ NGHIỆM THU KỸ THUẬT PASS, 14/15
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — HOÀN THÀNH, 15/15, PHASE A/B/C/D PASS
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -447,7 +447,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   bốn mode v1 **10,566/9,831/9,642/12,127 ms**, đều <30; evidence retrieval
   v2 **5,0475 ms**, chuỗi evidence/prefix **6,3819 ms**. Giữ đủ mẫu cả hai lượt,
   không sửa code/manifest; bốn gate trước đó vẫn áp dụng cho cùng code đã kiểm.
-  Đủ nghiệm thu kỹ thuật, còn **W5-16** chốt tuần/bàn giao trước khi chuyển W6.
+  Đủ nghiệm thu kỹ thuật; phần chốt tuần/bàn giao đã hoàn thành ở W5-16.
+- **W5-16 DONE, W5 CLOSED, 10/10/2026**: **15/15 task** trong phạm vi,
+  Phase A/B/C/D PASS. [README W5](week5/README.md) bàn giao prepare/dry-run/
+  preflight/run/verify/resume từng mã, vị trí dữ liệu, khôi phục đúng identity,
+  xử lý unknown/khóa và trách nhiệm người dùng/agent. Chạy lại compileall/E2E,
+  **624 unit/105 leakage PASS**; input 128/128, verifier smoke/reconcile PASS,
+  report dựng lại khớp; 122 file bảo vệ nguyên byte. Chỉ sửa tài liệu, không
+  API hoặc receipt mới. W6 kế thừa code v2 đã kiểm fixture, cải thiện retrieval/
+  Decision; W7 chọn/khóa ứng viên, W8 mới benchmark xác nhận. Không thêm lại
+  bước dự toán ngân sách/lịch chạy; mọi lượt API do người dùng tự chạy.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
@@ -462,9 +471,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [x] Phase A, W5-01–04: baseline, chỉ số/telemetry, audit bất đồng, hợp đồng v2 và metric/phân hoạch.
   - [x] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
   - [x] Phase C, W5-09, 10, 12: coverage, lịch cohort tách pilot/smoke/holdout và manifest/dry-run offline.
-  - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
-    W5-13–15 DONE, gồm bốn gate hồi quy và p95 PASS;
-    còn W5-16 chốt tuần/bàn giao. Tiến độ hiện tại 14/15.
+  - [x] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
+    W5-13–16 DONE, gồm bốn gate hồi quy, p95 và bàn giao PASS;
+    tiến độ cuối W5 **15/15**, W5-11 đã bỏ khỏi phạm vi.
 - **Deliverables cuối W5**: CLI/audit dùng lại được, code Beta–Binomial/gate
   chất lượng/prefix có version và trace kiểm offline; lịch phân hoạch bốn mã,
   manifest nguồn; checkpoint smoke v1 4 điểm/20 Decision và verifier;
@@ -478,6 +487,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 
 ### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — MỚI, TODO
 
+- **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
+  vận hành trong [README W5, mục W5-16](week5/README.md). Bước kế tiếp là lập
+  plan chi tiết tại `docs/plan/week6/`, rồi triển khai; chưa chạy benchmark.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout

@@ -18,7 +18,8 @@ The forecast label and the economic simulation are intentionally separate. A `LO
 
 ## Tiến độ và tài liệu chính
 
-**W1–W4 đã hoàn thành, gồm pilot thật FPT 20 điểm/100 Decision.** Kho prior có 852 episode; W4 đã
+**W1–W5 đã hoàn thành, W5 chốt 15/15 task ngày 10/10/2026.** Pilot thật W4 có
+FPT 20 điểm/100 Decision; smoke W5 có bốn mã/20 Decision. Kho prior có 852 episode; W4 đã
 tích hợp PIT/paired/checkpoint và xử lý cảnh báo p95: bốn mode 10,837–13,235 ms.
 Nghiệm thu 07/10/2026: compileall/E2E, **521 unit/93 leakage PASS**, verifier pilot PASS.
 Prior mặc định tắt; pilot có ngoại lệ upstream điểm 16 được xác nhận/audit;
@@ -34,23 +35,19 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đã đóng Phase A/B/C, **14/15 task trong phạm vi hoàn thành**. Nền tảng CLI cohort và
-  evidence/gate/prefix v2 đã có kiểm fixture. W5-09 xác minh 1.996 ngày OOS,
-  1.944 ngày hợp lệ. W5-10 ngày 09/10/2026 thiết kế **124 điểm chính**
-  (60 development/64 holdout) và **4 smoke riêng**, đã kiểm PIT/thực thi;
-  FPT Q1/2023 thiếu mẫu do embargo pilot. Calendar runtime được gitignore,
-  W5-12 đã khóa input và plan smoke, dry-run **128/128 PASS**;
-  đây là bước kiểm tra offline, không cần gọi API. BEAR=0, tin reliable=0 là giới hạn nguồn.
-  W5-13 đã kiểm fault/resume bốn mã và biên evidence/leakage v2 offline;
-  W5-14 đã hoàn thành smoke thật **4/4 điểm, 20/20 Decision structured**;
-  verifier/reconcile offline PASS. W5-15 kiểm lại **624 unit/105 leakage**,
-  compileall/E2E PASS ngày 10/10/2026, input 128/128; chưa chạy benchmark v2.
-  W5-15 DONE sau khi người dùng giảm tải máy: đo lại cùng code/mẫu/protocol,
-  p95 bốn mode **10,566/9,831/9,642/12,127 ms**, đều <30; evidence v2
-  retrieval **5,0475 ms**. Giữ đủ mẫu lượt có tải FAIL và lượt đo lại PASS,
-  code/nguồn/manifest nguyên vẹn. Còn bước chốt tuần/bàn giao W5-16.
+  **W5 đã đóng Phase A/B/C/D, 15/15 task trong phạm vi DONE.** CLI cohort và
+  evidence/gate/prefix v2 đã kiểm fixture; input/lịch khóa **124 điểm chính**
+  (60 development/64 holdout) +**4 smoke riêng**, kiểm offline **128/128 PASS**.
+  Smoke thật **4/4 điểm, 20/20 Decision structured**, verifier/reconcile PASS;
+  W5-16 chạy lại **624 unit/105 leakage**, compileall/E2E PASS. 122 file bảo vệ
+  nguyên byte. p95 W5-15 bốn mode **10,566/9,831/9,642/12,127 ms**, đều <30;
+  evidence v2 **5,0475 ms** sau giảm tải, giữ cả lượt có tải FAIL để đối chiếu.
+  BEAR OOS=0, tin reliable=0 và FPT Q1 thiếu bốn mẫu vẫn là giới hạn nguồn.
+  Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
+  runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  Tiếp theo **W5-16**. Các lượt dùng API key do người dùng tự chạy theo
+  Tiếp theo **lập plan chi tiết W6 để cải thiện retrieval/Decision**.
+  Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
