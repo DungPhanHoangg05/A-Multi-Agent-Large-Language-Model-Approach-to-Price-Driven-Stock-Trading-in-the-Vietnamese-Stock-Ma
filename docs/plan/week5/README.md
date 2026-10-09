@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A/B PASS; Phase C còn pending ngân sách; 11/16 task hoàn thành — W5-01–10 và W5-12 offline DONE. W5-11 tạm hoãn theo yêu cầu; tiếp theo W5-13.**
+**Trạng thái: Phase A/B/C PASS; 11/15 task trong phạm vi hoàn thành — W5-01–10 và W5-12 DONE. W5-11 đã bỏ theo yêu cầu; tiếp theo W5-13.**
 Ngày lập: **07/10/2026**; cập nhật **09/10/2026**. Đã kiểm/tổng hợp offline,
 triển khai CLI cohort/evidence/gate/prefix v2, audit OOS, khóa input/lịch và dry-run bốn mã.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -13,7 +13,8 @@ hoàn thiện đường chạy chính thức, xử lý các điểm yếu vận 
 và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ trình
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
-16 mã task W5 được giữ; W5-01–10 và W5-12 offline DONE, W5-11 tạm hoãn;
+15 task trong phạm vi W5; bỏ W5-11, giữ nguyên mã task còn lại để không
+làm sai tham chiếu. W5-01–10 và W5-12 DONE;
 nền tảng v2 đã có kiểm fixture;
 hiệu quả v2 còn cần validation và benchmark.
 
@@ -25,14 +26,15 @@ hiệu quả v2 còn cần validation và benchmark.
 | Memory Bank 852 episode, quyết định 2020–2022 | Giữ bank/model/train nguyên vẹn; không bổ sung nhãn OOS vào prior |
 | Retrieval p95 bốn mode 10,837–13,235 ms, dưới 30 ms | Giữ bằng chứng đã đo; chỉ đo lại khi thay đường retrieval hoặc môi trường |
 | 146 HTTP 200, một transport_error chưa rõ kết quả, 0 HTTP 429 | Đối soát request/usage/reserve, giữ ngoại lệ upstream điểm 16 |
-| Text 194.218 token; vision 102.034 gồm reserve unknown | Tính khả thi theo từng model; không suy ra benchmark lớn chắc chắn đủ quota |
+| Text 194.218 token; vision 102.034 gồm reserve unknown | Giữ telemetry và reserve để guard từng request khi chạy thật |
 | BRPP tối đa 369; prompt tối đa 4.483 ký tự | Cap hiện tại đủ cho pilot; tiếp tục kiểm cứng ở mọi điểm mới |
 
 Giới hạn chủ tài khoản đã cung cấp cho **cả `openai/gpt-oss-20b` và
 `qwen/qwen3.8-27b`**: **30 RPM / 1.000 RPD / 8.000 TPM / 200.000 TPD**.
-ITPM/OTPM riêng chưa được cung cấp. Các con số này là đầu vào lập kế hoạch;
-trước lượt chạy mới phải đối chiếu giới hạn tài khoản/model còn hiệu lực.
-Đổi key trong cùng tổ chức không tạo ngân sách mới.
+ITPM/OTPM riêng chưa được cung cấp. Các con số này là cấu hình guard khi
+chạy thật; không còn bước dự toán ngân sách hoặc số ngày chạy trong plan.
+**Mọi thao tác dùng API key do người dùng tự chạy.** Agent chuẩn bị code,
+kiểm offline và cung cấp lệnh theo từng bước; đọc/kiểm kết quả offline sau run.
 
 ### Phạm vi đóng băng
 
@@ -45,7 +47,7 @@ trước lượt chạy mới phải đối chiếu giới hạn tài khoản/mo
   ép checkpoint cũ chạy với code W5.
 - Năm nhánh v1 của W4 được giữ nguyên để tái lập. Bayesian v2 phải có
   contract/config/identity mới; không đổi tên hoặc ghi đè nhánh Bayesian cũ.
-  W5 khóa phân hoạch dữ liệu và kế hoạch nguồn lực; W7 khóa cấu hình ứng viên
+  W5 khóa phân hoạch dữ liệu và input/guard; W7 khóa cấu hình ứng viên
   và ma trận cuối trước benchmark W8. K=5 chưa được hỗ trợ và không là gate W5.
 
 ### Baseline W4 đã đối chiếu tại W5-01
@@ -439,7 +441,7 @@ Giá trị quota chủ tài khoản đã cung cấp vẫn là đầu vào, phả
 - **2024:** holdout xác nhận. W5-09/10 kiểm lịch/eligibility/coverage; outcome
   chỉ evaluator được đọc sau Decision. Không dùng lợi nhuận, nhãn, dự báo
   hay thống kê thắng/thua 2024 để chọn mẫu/ứng viên. Cohort khóa ở W5-12;
-  phiên bản, giả thuyết, ma trận và ngân sách khóa ở W7 trước lượt chạy holdout.
+  phiên bản, giả thuyết và ma trận khóa ở W7 trước lượt chạy holdout.
 - Nếu phát hiện cohort đã được xem outcome để tuning, ghi nhận exposure,
   hạ claim thành exploratory và chốt lại thiết kế trước API; không tự gọi
   một tập đã dùng lựa chọn là holdout. Mọi giao dịch holdout phải có entry/exit
@@ -448,8 +450,8 @@ Giá trị quota chủ tài khoản đã cung cấp vẫn là đầu vào, phả
 Năm nhánh v1 tiếp tục dùng cho smoke W5. V2 là `bayesian_v2`, chỉ mở ma trận
 v1+v2 khi runner/schema mới được kiểm. Original giữ cùng reports/template;
 một upstream/Full bundle thành công cho mỗi point, deep-copy cho tất cả nhánh.
-Cỡ mẫu và ma trận cuối còn thuộc W5-10/11 và W7, chưa được chứng nhận khả thi
-chỉ vì Phase A PASS. Cùng lịch từng mã giữa các nhánh, cách cutoff ≥3 phiên.
+Cỡ mẫu/ngày kiểm định thuộc W5-10/12, ma trận cuối thuộc W7. Cùng lịch từng
+mã giữa các nhánh, cách cutoff ≥3 phiên. Bỏ dự toán không thay các guard API.
 
 #### Metric, common support và annualization
 
@@ -596,7 +598,7 @@ header/key/hash key vào telemetry; response durable chỉ ở checkpoint đư�
 | W5-06/07 | Atomic I/O, response durable/reconciliation và history ID; unknown không replay tự động, resume không đếm trùng |
 | W5-08.a | Identity/CLI/schema v2, telemetry và report metric cycle v2; CASH/N<2/zero denominator/thiếu lớp/partial có semantics đúng |
 | W5-08.b–d | Posterior, count/interval, gate/config/prefix/caps theo contract ở trên; lỗi PIT vẫn fail loud |
-| W5-09–12 | Coverage, cohort split/lịch/mẫu số và quota trước API; holdout/model-proof khóa đúng |
+| W5-09, 10, 12 | Coverage, cohort split/lịch/mẫu số và input/plan dry-run; holdout/model-proof khóa đúng |
 | W5-13–15 | Fault/paired/zero-leakage, timer/usage missing/zero/retry, 4 gate hồi quy và smoke v1 giới hạn |
 
 **Gate A PASS ngày 08/10/2026:** baseline, bảng pilot, ledger/audit và các
@@ -645,12 +647,16 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [x] |
 | C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [x] |
 | C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [x] |
-| C | W5-11 | Tính ngân sách và lịch chạy khả thi | 03, 05, 10 | [ ] Tạm hoãn |
-| C | W5-12 | Khóa input/plan và dry-run bốn mã | 08, 10; 11 hoãn | [x] Offline |
+| C | W5-12 | Khóa input/plan và dry-run bốn mã (offline) | 08, 10 | [x] |
 | D | W5-13 | Kiểm lỗi có chủ đích và paired/resume | 08, 12 | [ ] |
 | D | W5-14 | Smoke vận hành thật giới hạn bốn mã | Gate A/B/C, 13 | [ ] |
 | D | W5-15 | Nghiệm thu hồi quy và điều kiện mở W6 | 13, 14 | [ ] |
 | D | W5-16 | Chốt W5, bàn giao lệnh và lịch W6 | 15 | [ ] |
+
+W5-11 đã bỏ khỏi phạm vi ngày 09/10/2026 theo yêu cầu người dùng, không
+tính vào mẫu số tiến độ hoặc điều kiện chuyển phase. “Lịch mẫu/cohort” là
+ngày dữ liệu cần kiểm định, vẫn giữ để bảo đảm thiết kế nghiên cứu; “lịch
+chạy” là dự toán thời gian/ngày dùng API, đã bỏ.
 
 ### Phase A — Đọc đúng pilot và chốt yêu cầu (khoảng 1 ngày)
 
@@ -915,7 +921,7 @@ W4 hoặc xác nhận attempt thật thay người vận hành. Tiếp theo W5-0
 - **Đạt khi:** run mới tách pilot W4; complete không gọi lại; sai identity
   bị chặn; dry-run/verify không đọc `.env` hoặc gọi mạng, schema/JSON native hợp lệ.
 
-**W5-08.a–d: DONE (09/10/2026); không mở thêm mã task ngoài 16 task hiện tại:**
+**W5-08.a–d: DONE (09/10/2026); các hạng mục dưới đây nằm trong W5-08:**
 
 | Bước | Triển khai và đầu ra | Tiêu chí đạt |
 | --- | --- | --- |
@@ -980,18 +986,10 @@ Ngưỡng chất lượng không phải luật ra lệnh: không tự ép SHORT 
   trách nhiệm nạp credential. Fixture đủ ba bài tin kiểm đường dry-run
   không đọc key hoặc kết nối mạng.
 
-**Lệnh vận hành sau khi W5-12 khóa plan thật** (đường dẫn ví dụ, chưa phải
-artifact benchmark đã phát hành):
-
-```powershell
-$cohortPlan = "outputs/research_inputs/plan.json"
-$cohortRun = "outputs/research_cohort_run"
-py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --dry-run
-py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --preflight
-py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --run
-py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --verify-only
-py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --run --resume
-```
+**Lệnh vận hành smoke theo plan thật đã khóa ở W5-12:** xem
+[hướng dẫn từng bước W5-14](#cách-tự-chạy-w5-14-bằng-terminal). Các lệnh
+preflight/run/resume có gọi API do người dùng tự thực hiện sau W5-13.
+Plan benchmark development/holdout chỉ phát hành sau khi khóa protocol W7.
 
 Thêm `--symbol FPT` để chạy riêng một mã, vẫn giữ nguyên plan bốn mã và
 primary chưa hoàn tất. Ledger mặc định vẫn là
@@ -1016,7 +1014,7 @@ nguyên SHA-256**. Không gọi Groq, không chạy benchmark hoặc dùng holdo
 kiểm được bằng phiên bản đã ghim; 08.a–d PASS offline, có version/hash/trace.
 Prior mặc định vẫn tắt trong luồng thông thường; v2 chưa được chứng minh có lợi hơn.
 
-### Phase C — Phân hoạch dữ liệu và nguồn lực W6–W8 (khoảng 1 ngày)
+### Phase C — Phân hoạch dữ liệu và khóa input W6–W8 (khoảng 1 ngày)
 
 #### W5-09 — Kiểm coverage và lịch đủ điều kiện OOS
 
@@ -1103,7 +1101,7 @@ CLI từ HPG sang VNM, thống nhất FPT/VNM/VCB/MWG với dữ liệu thật.
 **Nghiệm thu:** compileall/E2E PASS; **590 unit test** (12 test mới),
 **96 test leakage PASS**; **49 artifact đóng băng nguyên SHA-256**.
 Không gọi API, không sinh outcome query, không refit/tải/ghi đè nguồn.
-W5-09 DONE; Gate C còn chờ W5-10–12 về lịch mẫu, ngân sách và khóa plan.
+W5-09 DONE; lịch mẫu và khóa plan được hoàn thành tiếp ở W5-10/12.
 
 #### W5-10 — Thiết kế lịch mẫu và tách pilot/smoke
 
@@ -1146,7 +1144,7 @@ py -3.13 -X utf8 scripts/run_bayesian_ablation.py --design-calendar
    shortfall, không bù từ quý khác. Không dùng regime/tin/outcome/forecast
    để xếp hạng; coverage regime/tin chỉ thống kê sau chọn.
 5. Sau API, ngày lỗi giữ nguyên trong mẫu số planned để resume/đối soát,
-   không thay bằng ngày khác. Đổi mục tiêu vì ngân sách phải tạo thiết kế
+   không thay bằng ngày khác. Đổi mục tiêu lấy mẫu phải tạo thiết kế
    mới trước API, ghi rõ phạm vi; `--points-per-quarter` chỉ thuộc chế độ thiết kế.
 
 **Phạm vi dự kiến: 124 điểm chính +4 smoke**, mục tiêu danh nghĩa 128 điểm
@@ -1190,8 +1188,10 @@ vẫn là giới hạn nguồn, không thêm ngày/đổi model để bù regime
 target/available/selected/shortfall từng quý, exclusion counts, metadata
 entry/exit/proof và checksum **45 file nguồn**. Thiết kế có checksum producer
 riêng, ghi nguyên tử/không ghi đè identity khác; W5-09 coverage giữ nguyên byte.
-Trạng thái `DRAFT_PENDING_QUOTA_AND_INPUT_LOCK`, `is_execution_plan=false`:
-W5-11 còn kiểm ngân sách, W5-12 khóa input/plan, W7 khóa phiên bản/ma trận.
+Trạng thái khi tạo là `DRAFT_PENDING_QUOTA_AND_INPUT_LOCK`,
+`is_execution_plan=false`. Giữ nguyên byte calendar lịch sử; W5-12 đã
+khóa input/plan, W7 sẽ khóa phiên bản/ma trận. Trạng thái tiến độ hiện hành
+theo README này; dự toán quota đã bỏ khỏi phạm vi.
 
 **Kiểm lịch thật:** cấm credential, DNS/socket, LLM, refit và parse
 Decision/evaluation pilot; nguồn/calendar/proof/thực thi PASS. Test tập trung
@@ -1201,49 +1201,15 @@ CLI offline và ngày chọn bất biến khi đổi regime/tin/development elig
 **Nghiệm thu:** compileall/E2E, **600 unit test** (10 test mới) và
 **99 test leakage PASS**; test tập trung sau cập nhật guard checksum PASS.
 **49 artifact đóng băng và coverage W5-09 nguyên byte**; không API/refit,
-không chọn theo outcome/dự báo. W5-10 DONE; Gate C còn chờ W5-11–12.
-
-#### W5-11 — Tính ngân sách và lịch chạy khả thi
-
-**TẠM HOÃN theo yêu cầu người dùng (09/10/2026).** Người dùng xác nhận
-dành quota còn lại cho KLTN, không có tác vụ khác, sau đó yêu cầu bỏ tạm
-bước dự toán vì có nhiều key. Chưa nghiệm thu ngân sách/thời hạn; không
-đánh DONE hoặc PASS quota. Mã dự toán đang viết dở đã được bỏ, không tạo
-budget runtime hoặc gọi API. Nhiều key cùng tổ chức vẫn dùng chung quota.
-
-Phần khóa nguồn/lịch và dry-run offline của W5-12 đã hoàn thành theo lịch
-W5-10. Phần ngân sách còn pending; chưa đóng Gate C hoặc xác nhận khả thi
-cho benchmark. Guard HTTP, ledger chung, cooldown và checkpoint vẫn áp dụng
-cho mọi lượt chạy thật.
-
-- **Làm:** với N điểm, dự kiến tối thiểu 5N Decision +2N vision =7N HTTP
-  trong cấu hình pilot, cộng preflight/retry/format/replay/dự phòng. Tính
-  token và giới hạn từng model theo telemetry; phân biệt chi phí kỳ vọng
-  với reserve an toàn. Ledger local hiện dùng cửa sổ 61 giây và 24 giờ.
-  Dự toán riêng candidate v2/validation: nếu W7 khóa ma trận sáu nhánh
-  (năm v1 +bayesian_v2), mức tối thiểu là **6N text +2N vision =8N HTTP**;
-  ablation/validation/preflight tính riêng, không lấy chi phí năm nhánh làm sáu.
-- **Đầu ra:** bảng cỡ mẫu → quota/ngày → số ngày/thời gian chạy; có
-  ngân sách còn lại sau tác vụ khác cùng tổ chức và lịch nghỉ/resume.
-- **Đạt khi:** phương án chọn đáp ứng quota/thời hạn W6–W8. Nếu không đủ,
-  báo BLOCKED kèm lựa chọn nâng quota/gia hạn/rút gọn mẫu trước khi khóa;
-  không đổi key/model/K giữa run hoặc tự ghi PASS khả thi.
-
-Để thấy quy mô: 194.218 token text/20 điểm pilot ≈9.711 token/điểm, gồm
-chi phí kiểm model của lượt đó. Với 200.000 TPD, khoảng 20 điểm/ngày chỉ
-là ước lượng trước dự phòng/tác vụ khác, không là cam kết năng lực.
-W5-11 phải tính lại từ ledger và policy thật; chưa ấn định số điểm benchmark
-hoặc coi hai tuần bổ sung tự động đủ quota.
+không chọn theo outcome/dự báo. W5-10 DONE; khóa input tiếp ở W5-12.
 
 #### W5-12 — Khóa input/plan và dry-run bốn mã
 
-- **Làm:** sau khi phương án 10–11 được chốt, khóa ngày theo thứ tự,
+- **Làm:** sau khi lịch mẫu W5-10 được chốt, khóa ngày theo thứ tự,
   sources/checksums, snapshot tin, model/proof, bank, config, seed, scope,
   phân hoạch/cohort smoke v1, code/schema/dependency và policy quota.
   Mẫu holdout 2024 khóa ở W5, bản cấu hình ứng viên/ma trận benchmark khóa
   riêng tại W7 sau validation; đổi identity thì tạo run mới, không chỉnh plan đã chạy.
-- **Điều chỉnh khi W5-11 tạm hoãn:** chỉ thực hiện phần offline theo lịch
-  W5-10; ghi ngân sách chưa xác minh trong bàn giao, chưa nghiệm thu Gate C.
 - **Đầu ra:** manifest/plan máy đọc phục vụ CLI trong output runtime mới,
   dự kiến `outputs/bayesian_benchmark/`; sơ đồ bố trí thật ghi lại tại README.
   Chỉ giữ JSON cần cho execute/verify, không thêm bản sao receipt.
@@ -1252,7 +1218,24 @@ hoặc coi hai tuần bổ sung tự động đủ quota.
   cáo thực và phải qua guard trước HTTP; không ghi PASS prompt chưa sinh.
   Plan không được thay sau khi đã thấy Decision của cohort đó.
 
-**DONE phần offline (09/10/2026); dry-run và gate hồi quy PASS.**
+**DONE/PASS (09/10/2026); đây là task offline, dry-run và gate hồi quy PASS.**
+
+“Offline” nghĩa là kiểm trên dữ liệu/model đã lưu tại máy, không đọc API
+key, gọi Groq, sinh upstream/Decision mới hoặc tính outcome query. Đây là
+toàn bộ phạm vi W5-12. Kiểm model/API thật và prompt từ báo cáo thật thuộc
+W5-14; không cần chạy 128 điểm qua LLM để nghiệm thu W5-12.
+
+| Điều kiện PASS W5-12 | Kết quả đã có |
+| --- | --- |
+| Lịch bốn mã tách pilot/smoke/development/holdout, có entry/exit đủ điều kiện | 4 smoke +60 development +64 holdout; shortfall đã công bố |
+| Nguồn, model/proof, bank, tin, code/schema/runtime và config được ghim; sai hash/identity bị chặn | Manifest và binding plan PASS |
+| Mọi ngày chọn qua adapter PIT, giữ hợp đồng Open(t+1)/Close(t+3), SHORT=CASH và phí/slippage | 128/128 PASS, không tạo nhãn query |
+| Cấu hình cap BRPP≤600, prompt<6.500; CLI nhận đúng plan, không dùng key/mạng | Cap cấu hình và smoke CLI dry-run PASS |
+| Compileall, unit, E2E, leakage và bảo toàn nguồn/bằng chứng | 609 unit/101 leakage, compileall/E2E PASS; 51 artifact bảo vệ nguyên byte |
+
+Sau khi bỏ W5-11, các điều kiện trên đủ để đóng W5-12 và Gate C. PASS ở
+đây xác nhận chuẩn bị dữ liệu/plan, chưa xác nhận lượt chạy API hoặc hiệu
+quả đầu tư. Các task W5-13–16 tiếp tục giữ tiêu chí riêng.
 
 Producer `core/research_input_lock.py` và CLI `scripts/prepare_research_inputs.py`
 tái lập selection từ coverage, đối chiếu nguyên byte calendar W5-10, rồi
@@ -1307,9 +1290,13 @@ chạy upstream; manifest ghi `NOT_GENERATED_NO_UPSTREAM`, không coi đây là
 nghiệm thu prompt/API/model hoặc hiệu quả Bayesian. Guard kiểm prefix/prompt
 thực trước từng HTTP khi chạy sau này.
 
-Trạng thái manifest là `LOCKED_OFFLINE_BUDGET_DEFERRED`,
-`budget_status=DEFERRED_BY_USER`, `gate_c=PENDING`. W5-11 vẫn tạm hoãn;
-phần offline W5-12 không xác nhận ngân sách/thời hạn và không mở benchmark.
+Manifest và dòng console của producer hiện giữ trạng thái tại thời điểm
+tạo: `LOCKED_OFFLINE_BUDGET_DEFERRED`, `budget_status=DEFERRED_BY_USER`,
+`gate_c=PENDING`. Đây là metadata lịch sử, không phải kết luận tiến độ
+hiện hành sau khi bỏ W5-11; không sửa byte/hash để đổi nhãn nghiệm thu.
+Validator dùng chúng kiểm identity, không yêu cầu bảng dự toán để chạy
+smoke. README này ghi quyết định thay đổi phạm vi: **W5-12 DONE, Gate C
+PASS**; benchmark cuối vẫn chờ protocol W7.
 
 **Nghiệm thu:** compileall/E2E, **609 unit test** (9 test mới) và
 **101 test leakage PASS**; test tập trung PASS sau bổ sung khóa dependency/
@@ -1317,11 +1304,12 @@ code suy luận và kiểm đường dẫn. Prepare/verify thực 128/128 và CL
 dry-run PASS, audit hook ghi **0 credential-open /0 DNS-connect attempt**;
 LLM/refit/evaluator query bị chặn. **51 artifact được bảo vệ nguyên byte**
 (49 artifact lịch sử +coverage/calendar); chỉ thêm hai JSON runtime cần
-cho luồng chính. Tiếp theo W5-13 kiểm lỗi/paired/resume; Gate C còn pending.
+cho luồng chính. Tiếp theo W5-13 kiểm lỗi/paired/resume.
 
-**Gate C:** đủ coverage bốn mã/hai năm theo phương án đã chọn; mẫu, nguồn,
-model, ngân sách và lịch cohort được khóa trước run; chỉ W7 chốt protocol
-ứng viên cuối. Quota không đủ thì giữ gate BLOCKED.
+**Gate C: PASS (09/10/2026, phạm vi đã bỏ W5-11).** Coverage và giới hạn
+nguồn đã công bố; lịch mẫu, nguồn/model/config/identity được khóa, dry-run
+toàn bộ điểm PASS. Không còn điều kiện dự toán ngân sách/lịch chạy. Chỉ
+W7 chốt protocol ứng viên cuối; smoke thật vẫn phải qua W5-14.
 
 ### Phase D — Kiểm chứng đường vận hành và bàn giao (khoảng 1 ngày)
 
@@ -1340,8 +1328,8 @@ model, ngân sách và lịch cohort được khóa trước run; chỉ W7 chố
 
 #### W5-14 — Smoke vận hành thật giới hạn bốn mã
 
-- **Làm:** khi người dùng yêu cầu triển khai task và các gate đủ, chạy
-  preflight text/vision rồi tối đa **4 điểm ×5 nhánh =20 Decision** trên
+- **Làm:** sau W5-13 và Gate A/B/C PASS, hướng dẫn người dùng tự chạy
+  preflight text/vision rồi **4 điểm ×5 nhánh =20 Decision** trên
   cohort smoke đã khóa ở 10–12. Giữ ledger/pacing/lock chung; dừng có kiểm soát khi hết quota.
 - **Đầu ra:** checkpoint smoke riêng và verifier offline; không chạy lại
   pilot 20 FPT hoặc kích hoạt toàn benchmark trong task này.
@@ -1349,28 +1337,97 @@ model, ngân sách và lịch cohort được khóa trước run; chỉ W7 chố
   PASS; usage/unknown có đối soát. Nếu chưa hoàn thành, ghi tiến độ/BLOCKED,
   không coi mock hoặc đổi model là thay thế nghiệm thu thật.
 
+##### Cách tự chạy W5-14 bằng terminal
+
+**Chỉ thực hiện bước gọi API sau khi W5-13 PASS.** Chạy từng bước từ thư
+mục gốc repository. Agent không chạy các lệnh dùng API key thay người dùng.
+
+1. Kiểm lại W5-12 offline; chỉ tiếp tục khi cả hai lệnh PASS:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/prepare_research_inputs.py --verify
+   py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --dry-run
+   ```
+
+   Dòng nhắc ngân sách/Gate C pending là metadata cũ đã giải thích ở W5-12;
+   kết quả kỹ thuật cần kiểm là input 128/128 và dry-run plan PASS. Lỗi hash,
+   nguồn, runtime hoặc PIT phải xử lý trước bước tiếp theo, không sửa hash
+   để ép chạy.
+
+2. Tự đặt `GROQ_API_KEY` trong `.env`, không gửi key trong chat. Chuẩn bị
+   tokenizer; lệnh này có thể tải cache công khai, không gọi Groq/dùng key:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/prepare_groq_tokenizer.py
+   ```
+
+3. **Có dùng API key/quota:** kiểm text và vision đúng plan. Chỉ chạy smoke
+   khi preflight PASS:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --preflight
+   ```
+
+4. **Có dùng API key/quota:** chạy bốn điểm smoke đã khóa. Đây là lần chạy
+   mới, không chạy lại pilot FPT và không chạy 124 điểm benchmark:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --run
+   ```
+
+   Nếu thư mục đã có tiến độ, dùng lệnh resume ở bước 5, không xóa checkpoint.
+   Có thể thêm `--symbol FPT` cho lượt đầu và `--symbol VNM`, `VCB`, `MWG`
+   cho các lượt `--run --resume` tiếp theo; vẫn dùng đúng plan/thư mục chung.
+
+5. Nếu bị quota/cooldown, giữ ledger/checkpoint và theo mốc nghỉ runner
+   thông báo. Khi đã đủ điều kiện tiếp tục, tự chạy **có API key/quota**:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --run --resume
+   ```
+
+   Nếu báo response `unknown`/`ambiguous`, đối soát offline trước:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --reconcile
+   ```
+
+   Không tự xóa ledger/lock/reserve hoặc cho phép replay unknown. Gửi log
+   đã che thông tin nhạy cảm để xác định stage cần xử lý.
+
+6. Sau khi smoke chạy xong, kiểm offline, không dùng key/gọi API:
+
+   ```powershell
+   py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --verify-only
+   ```
+
+   Chỉ đóng W5-14 khi verifier xác nhận **4/4 điểm, đủ 20 Decision hợp lệ**,
+   cùng shared upstream, cap/PIT/economic PASS và usage/unknown được đối soát.
+   Chạy dở hoặc preflight PASS riêng chưa đủ để đóng W5-14.
+
 #### W5-15 — Nghiệm thu hồi quy và điều kiện mở W6
 
 - **Làm:** chạy bốn gate AGENTS.md trên bản code chốt; rà checklist A/B/C,
-  smoke, nguồn/model/hash, lịch/quota, giới hạn nghiên cứu và cách verify W4.
+  smoke, nguồn/model/hash, lịch mẫu/guard, giới hạn nghiên cứu và cách verify W4.
   Nghiệm thu code v2 bằng offline fixtures/trace, không lấy smoke v1 làm
   bằng chứng hiệu quả v2. Đo p95 lại khi thay retrieval/statistics tại 08.
   Chỉ đo lại retrieval p95 nếu thay đường này/môi trường hoặc có hồi quy cụ thể.
 - **Đầu ra:** kết quả nghiệm thu gọn tại README, số test thực tế/commit/
   lệnh kiểm; không tái dùng số 521 để gắn PASS cho bản W5 chưa kiểm.
-- **Đạt khi:** compileall, toàn unit, E2E, toàn leakage PASS; không gate
-  nguồn lực chưa giải quyết. Sẵn sàng vận hành không đồng nghĩa hiệu quả đầu tư đã chứng minh.
+- **Đạt khi:** compileall, toàn unit, E2E, toàn leakage PASS; smoke W5-14
+  đủ tiêu chí, không còn gate kỹ thuật chưa giải quyết. Không yêu cầu dự toán
+  ngân sách/lịch chạy. Sẵn sàng vận hành không đồng nghĩa hiệu quả đầu tư đã chứng minh.
 
 #### W5-16 — Chốt W5, bàn giao lệnh và lịch W6
 
 - **Làm:** cập nhật checklist, kế hoạch tổng và hướng dẫn lệnh thật cho
-  prepare/dry-run/preflight/run/verify/resume từng mã; ghi lịch quota,
-  nơi lưu dữ liệu, xử lý dừng/unknown và trách nhiệm đối soát.
+  prepare/dry-run/preflight/run/verify/resume từng mã để người dùng tự chạy;
+  ghi nơi lưu dữ liệu, xử lý dừng/unknown và trách nhiệm đối soát.
   Bàn giao contract/implementation v2 cho W6; W7 chọn/khóa ứng viên,
   W8 mới chạy benchmark. Ghi rõ code đã có và ý tưởng còn chờ kiểm chứng.
 - **Đầu ra:** README này là sổ tiến độ chính; bổ sung hướng dẫn độc lập
   chỉ khi cần. Không tạo 16 biên bản task hoặc đẩy toàn bộ output lên GitHub.
-- **Đạt khi:** 16/16 task và các gate PASS, manifest mẫu bất biến,
+- **Đạt khi:** 15/15 task trong phạm vi và các gate PASS, manifest mẫu bất biến,
   lệnh có thể chạy lại. Bất kỳ gate nào còn BLOCKED thì chưa chốt W5 hoàn thành.
 
 ## 4. Gate kỹ thuật bắt buộc trước merge
@@ -1398,6 +1455,9 @@ Không merge khi gate bắt buộc FAIL.
 - Không tạo JSON chỉ để nhắc lại PASS. Không xóa checkpoint/audit/reserve
   chưa đối soát; dọn file tạm chỉ sau khi xác minh không có owner đang chạy.
 
+Nhật ký dưới đây giữ kết luận tại thời điểm ghi; dòng điều chỉnh phạm vi
+cuối cùng và checklist mục 3 xác định tiến độ hiện hành.
+
 | Ngày | Phạm vi | Trạng thái / kết quả | Bước tiếp theo |
 | --- | --- | --- | --- |
 | 07/10/2026 | Lập kế hoạch W5 | PLAN_READY; 0/16 triển khai; kế thừa pilot W4 đã hoàn thành | Bắt đầu W5-01 |
@@ -1417,3 +1477,5 @@ Không merge khi gate bắt buộc FAIL.
 | 09/10/2026 | W5-11 | TẠM HOÃN theo yêu cầu: chưa nghiệm thu ngân sách/thời hạn, không đánh DONE/PASS quota; bỏ mã dự toán dở, không API hoặc budget runtime. Giữ 10/16 task hoàn thành | W5-12: chỉ phần khóa nguồn/lịch và dry-run offline; Gate C còn pending |
 
 | 09/10/2026 | W5-12 | DONE phần offline: khóa input/lịch 4 smoke +60 development +64 holdout, prepare/verify thực 128/128 và CLI smoke dry-run PASS. Hai JSON runtime gitignore; 46 nguồn/46 code-schema-config/23 runtime, binding plan và policy/ledger chung. Compileall/E2E, 609 unit/101 leakage PASS; 51 artifact nguyên byte, audit 0 credential/DNS-connect. Prompt thực chưa sinh; W5-11 tạm hoãn, Gate C pending | W5-13: kiểm lỗi/paired/resume offline; protocol benchmark cuối chờ W7 |
+
+| 09/10/2026 | Điều chỉnh phạm vi và làm rõ W5-12 | PLAN_UPDATED: bỏ W5-11 và điều kiện dự toán/lịch chạy khỏi W5–W8; giữ ngày dữ liệu/cohort và guard runtime. W5-12 DONE toàn bộ phạm vi offline; Gate C PASS theo tiêu chí mới, 11/15 task. Các lượt dùng API key do người dùng tự chạy theo hướng dẫn W5-14. Kiểm lại 128/128 và CLI dry-run PASS, audit 0 credential/network; compileall/E2E, 609 unit/101 leakage PASS. 53 artifact gồm manifest/plan giữ nguyên byte; chỉ sửa ba Markdown | W5-13 offline; sau đó người dùng tự chạy preflight/smoke W5-14 |

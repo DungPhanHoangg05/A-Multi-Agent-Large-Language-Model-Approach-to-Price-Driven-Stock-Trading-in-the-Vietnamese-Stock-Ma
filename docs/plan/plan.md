@@ -4,6 +4,13 @@
 **Dựa trên nền tảng**: Bài báo *Multi-Task Bayesian In-Context Learning* (Zhu, Oermann, Cho — ICML 2026) và Hệ thống Giao dịch Đa Agent LangGraph hiện có.  
 **Mục tiêu tài liệu**: Thiết lập kế hoạch chi tiết cho **10 tuần** (mở rộng từ 8 tuần ngày 07/10/2026), tập trung vào nâng cấp hệ thống thực tế, kiểm chứng hiệu quả, tính liêm chính dữ liệu và tối ưu tài nguyên theo phạm vi KLTN. Giữ kết quả W1–W4 và cấu trúc phase/task W5; thêm W6–W7 để cải thiện/validation, dời benchmark/thống kê/luận văn sang W8–W10.
 
+**Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
+API. Ngày dữ liệu/cohort, cỡ mẫu và protocol nghiên cứu vẫn phải khóa trước
+run. Mọi thao tác dùng API key do người dùng tự chạy theo hướng dẫn từng
+bước; agent chuẩn bị code/plan, kiểm offline và đối chiếu kết quả được lưu.
+Các guard token/quota, cooldown, ledger, checkpoint và đối soát unknown
+tiếp tục áp dụng trong runtime.
+
 ---
 
 ## MỤC LỤC
@@ -191,7 +198,7 @@ flowchart TD
 ## 5. THIẾT KẾ THỰC NGHIỆM KHOA HỌC CHUẨN KLTN
 
 ### 5.1. Dữ liệu & Danh mục Cổ phiếu (Universe)
-Phạm vi dự kiến trong 10 tuần; cỡ mẫu phải được đối chiếu quota và độ bất định:
+Phạm vi dự kiến trong 10 tuần; cỡ mẫu và độ bất định phải được công bố rõ:
 - **Tập cổ phiếu (4 mã đại diện)**:
   1. `FPT`: Nhóm Công nghệ / Vốn hóa lớn / Nhạy cảm vừa.
   2. `VNM`: Nhóm Tiêu dùng phòng thủ / Thường xuyên dao động tích lũy mean-reverting.
@@ -215,8 +222,8 @@ trưng giá liên tục. W6 tích hợp nhánh **`bayesian_v2`** riêng: posteri
 thống kê, gate bằng chứng, retrieval/Decision có version. Phương án chính
 cho W8 là **sáu nhánh** (năm v1 +v2), upstream một lần dùng chung cả sáu.
 Runner/schema/identity v1 hiện khóa năm nhánh nên phải mở hợp đồng mới và
-kiểm thử ở W6; không chèn nhánh thứ sáu vào checkpoint W4. W5-11 dự toán
-8N HTTP tối thiểu; W7 chỉ khóa ma trận cuối khi quota/thời hạn khả thi.
+kiểm thử ở W6; không chèn nhánh thứ sáu vào checkpoint W4. W7 khóa ma trận
+cuối trước API; người dùng tự chạy theo hướng dẫn từng bước.
 Nếu cần rút gọn, chốt trước API thành Original/v1/v2 cùng shared upstream,
 công bố thay đổi phạm vi; không bỏ đối chứng sau khi thấy kết quả.
 
@@ -334,14 +341,15 @@ W1 Đặc tả → W2 Regime/Memory → W3 Retriever/Prefix → W4 Tích hợp/P
   offline complete PASS; toàn bộ gate W4 đã đóng. Điểm 16 có ngoại lệ upstream
   chạy lại một lần do người dùng xác nhận, có audit; 75 Decision cũ nguyên byte.
   0 HTTP 429; text 194.218 token, vision 102.034 tính cả reserve chưa rõ kết quả,
-  đều dưới 200.000 TPD/model. Chốt lịch/quota riêng trước benchmark W8.
+  đều dưới 200.000 TPD/model. Trước benchmark W8, khóa protocol và kiểm
+  preflight; các lượt gọi API do người dùng tự chạy.
 
 Tiến độ chỉ cập nhật ở README từng tuần. Tài liệu độc lập giữ cho hướng dẫn
 vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặc test cần.
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, PHASE C PENDING NGÂN SÁCH, 11/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B/C PASS, 11/15
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -402,18 +410,21 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   điểm/mã/quý; **124 điểm chính** (60 development 2023, 64 holdout 2024)
   và **4 smoke riêng**, adapter xác minh **128/128**. Loại 20 cutoff pilot
   và 42 chu kỳ FPT giao phiên giữ lệnh; FPT Q1/2023 thiếu 4, không bù quý khác.
-  Calendar runtime draft được gitignore, chờ ngân sách/khóa input; không chọn
+  Calendar runtime được gitignore, đã ghim vào input lock W5-12; không chọn
   theo outcome/regime/tin. Compileall/E2E, **600 unit/99 leakage PASS**;
   guard checksum kiểm tập trung, 49 artifact và coverage W5-09 nguyên byte.
-  **W5-11 tạm hoãn theo yêu cầu người dùng, 09/10/2026**; chưa nghiệm thu
-  ngân sách/quota hoặc đóng Gate C; guard HTTP/ledger/cooldown tiếp tục áp dụng khi chạy thật.
-- **W5-12 DONE phần offline, 09/10/2026**: khóa input/lịch 4 smoke +60
+- **Điều chỉnh phạm vi, 09/10/2026:** bỏ W5-11 (tính ngân sách/lịch chạy)
+  theo yêu cầu người dùng; giữ nguyên mã task còn lại, còn 15 task cần hoàn thành.
+  Mọi lượt dùng API key do người dùng tự chạy theo hướng dẫn từng bước;
+  guard HTTP/ledger/cooldown/checkpoint tiếp tục áp dụng khi chạy thật.
+- **W5-12 DONE/PASS, 09/10/2026**: khóa input/lịch 4 smoke +60
   development +64 holdout, prepare/verify thực **128/128 PASS**. Hai JSON
   runtime gitignore: `input_lock.json` và plan smoke năm nhánh có binding;
   ghim 46 nguồn, 46 code/schema/config, 23 runtime/dependency, seed/scope,
   model/proof/bank/tin, policy và đường ledger chung. Chặn đổi plan/config,
   không khóa hồi tố hoặc ghi đè identity khác. Prompt thực chưa sinh;
-  protocol benchmark chờ W7, quota tạm hoãn, Gate C pending. Compileall/E2E,
+  protocol benchmark chờ W7. W5-12 là task offline; kiểm model/API và prompt
+  thực thuộc smoke W5-14. Gate C PASS theo phạm vi đã bỏ W5-11. Compileall/E2E,
   **609 unit/101 leakage PASS**, 51 artifact nguyên byte; audit 0 credential/
   DNS-connect, không API/refit/outcome query. Tiếp theo **W5-13**.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
@@ -429,15 +440,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - **Nhiệm vụ cụ thể**:
   - [x] Phase A, W5-01–04: baseline, chỉ số/telemetry, audit bất đồng, hợp đồng v2 và metric/phân hoạch.
   - [x] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
-  - [ ] Phase C, W5-09–12: coverage, lịch cohort tách pilot/smoke/holdout, ngân sách v1/v2 và manifest/dry-run.
+  - [x] Phase C, W5-09, 10, 12: coverage, lịch cohort tách pilot/smoke/holdout và manifest/dry-run offline.
   - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
 - **Deliverables cuối W5**: CLI/audit dùng lại được, code Beta–Binomial/gate
   chất lượng/prefix có version và trace kiểm offline; lịch phân hoạch bốn mã,
-  nguồn/quota; checkpoint smoke v1 4 điểm/20 Decision và verifier;
+  manifest nguồn; checkpoint smoke v1 4 điểm/20 Decision và verifier;
   bốn gate kỹ thuật PASS. Hiệu quả v2 còn chờ W6–W9.
-- **Điều kiện chuyển W6**: tất cả gate W5 PASS. Nếu quota/thời hạn không đủ,
-  chốt nâng quota, gia hạn hoặc mẫu rút gọn theo lịch trước API; ghi rõ thay
-  đổi phạm vi. Không đổi model/K/key để né quota hay ép identity checkpoint cũ.
+- **Điều kiện chuyển W6**: tất cả gate W5 PASS, gồm smoke thật 4/4 và
+  20/20 Decision hợp lệ. Khi quota chặn, lưu checkpoint rồi người dùng
+  resume theo hướng dẫn; không bỏ điểm, đổi model/K hoặc ép identity cũ.
+  Không yêu cầu bảng dự toán ngân sách/số ngày chạy.
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
@@ -446,7 +458,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
-  đã tách, quota cho validation được dự toán. Giới hạn danh sách ứng viên
+  đã tách và có hướng dẫn tự chạy validation. Giới hạn danh sách ứng viên
   trước chạy, không thử vô hạn đến khi thấy lời.
 - **Nhiệm vụ cụ thể**:
   - [ ] Thêm đặc trưng giá PIT gọn (biến động, khoảng cách MA, momentum)
@@ -484,13 +496,13 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [ ] Chốt một ứng viên, tham số/prompt/K/policy/model và mục tiêu kiểm định.
     Nếu không có lợi ích ổn định, ghi rõ và dùng phiên bản đã đăng ký để đo
     holdout; không coi validation thắng là bằng chứng hiệu quả cuối.
-  - [ ] Đối chiếu quota cho sáu nhánh; nếu không đủ, chốt phương án rút gọn
-    hoặc gia hạn trước API. Giữ ledger chung, unknown reserve và ngân sách
-    ablation/smoke/preflight riêng. Hai tuần bổ sung không tăng quota API.
+  - [ ] Soạn hướng dẫn để người dùng tự chạy preflight/run/verify/resume
+    đúng ma trận đã khóa. Guard HTTP, ledger chung, unknown reserve và
+    checkpoint xử lý giới hạn thực tế; không yêu cầu dự toán/lịch chạy API.
   - [ ] Khóa manifest sources/cohort 2024 từ W5 +code/schema/runtime/config
     cuối, run mới; offline dry-run/verifier/fault và bốn gate kỹ thuật PASS.
-- **Deliverables cuối W7**: ứng viên/policy có version, ma trận/cỡ mẫu/lịch
-  quota cuối khả thi, lệnh thật chuẩn bị/run/verify/resume và gate mở W8.
+- **Deliverables cuối W7**: ứng viên/policy có version, ma trận/cỡ mẫu/ngày
+  kiểm định đã khóa, hướng dẫn người dùng tự chạy và gate mở W8.
   Chưa khóa đủ thì BLOCKED; không đổi checkpoint cũ để tiếp tục cấu hình mới.
 
 ### 📅 TUẦN 8: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
@@ -588,7 +600,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 | **Groq API quá tải hoặc quota không đủ** | Cao | Guard tại HTTP, reserve input/output/unknown, backoff theo retry-after; dừng giữ checkpoint và resume sau cửa sổ quota. Đối chiếu giới hạn thực tế trước run. Đổi key cùng tổ chức không reset quota; đổi model hoặc K phải là thí nghiệm/run mới, không fallback giữa ma trận đã khóa. |
 | **Gaussian HMM không phân tách rõ chế độ** | Trung bình | Giữ artifact và giao thức đang kiểm định; ghi giới hạn/coverage. Rule-based regime chỉ được đưa vào thí nghiệm đối chứng riêng, chốt và hiệu chỉnh bằng train trước OOS, không thay detector dựa trên kết quả test. |
 | **Thiếu tin lịch sử có ngày hợp lệ** | Trung bình | Kiểm coverage từng mã/cutoff; giữ NEUTRAL kèm lý do khi thiếu bằng chứng, bỏ tin không ngày/tương lai. Pilot hiện toàn NEUTRAL; không giả định cache bốn mã đầy đủ hoặc dùng tin hiện tại bù quá khứ. |
-| **Benchmark bốn mã vượt thời hạn** | Cao | Tính cỡ mẫu/token/số ngày ở W5-11, khóa lịch ở W5-12; chạy tuần tự có checkpoint/ledger/khóa quota chung. Nếu không khả thi, gia hạn/nâng quota hoặc chốt mẫu rút gọn trước run và công bố phạm vi; không dùng nhiều terminal/key để vượt ngân sách tổ chức. |
+| **Benchmark bốn mã bị gián đoạn** | Cao | Giữ mẫu/ngày kiểm định đã khóa ở W5-12 và protocol W7. Người dùng tự chạy tuần tự theo hướng dẫn; khi dừng, giữ checkpoint/ledger/unknown reserve và resume đúng identity. Công bố common support thực tế, không bỏ điểm lỗi hoặc đổi mẫu theo kết quả. |
 | **Upstream chưa rõ kết quả hoặc checkpoint lỗi Windows** | Cao | Dừng để kiểm stage/hash/owner; dùng response durable nếu có, giữ unknown reserve. Không tự replay upstream/Full AMBIGUOUS hoặc xóa lock sống; replay cần xác nhận cụ thể và audit. Retry atomic I/O có giới hạn, giữ bằng chứng cũ. |
 
 ---
