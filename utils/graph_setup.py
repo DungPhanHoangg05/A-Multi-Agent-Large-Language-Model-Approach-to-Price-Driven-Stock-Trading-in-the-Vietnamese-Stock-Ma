@@ -94,7 +94,9 @@ def _guard_prior_state(
     """Kiểm prior trước node và giữ field chuẩn hóa qua các channel của graph."""
     def guarded(state: dict[str, Any]) -> dict[str, Any]:
         prepared = normalize_prior_state(state)
-        result = node(prepared)
+        from core.research_invocation import invocation_scope
+        with invocation_scope(getattr(node, "__name__", type(node).__name__)):
+            result = node(prepared)
         checked = normalize_prior_state({**prepared, **result})
         return {**result, **{field: checked[field] for field in PRIOR_STATE_FIELDS if field in checked}}
 

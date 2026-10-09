@@ -12,6 +12,10 @@ from core import alpha_compare
 # ── Retry wrapper ──────────────────────────────────────────────────────────────
 
 def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
+    from core.research_invocation import CURRENT, invoke_once
+    if CURRENT.get() is not None:
+        return invoke_once(call_fn, *args)
+
     last_err = None
     for attempt in range(retries):
         try:

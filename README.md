@@ -34,12 +34,12 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ 16 task và bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đã đóng Phase A, **7/16 task hoàn thành**: baseline, metric pilot,
-  CLI audit, hợp đồng vận hành/v2/đánh giá, quota, atomic I/O và phục hồi stage.
-  W5-07 ngày 08/10/2026 thêm journal output từng node upstream/Full,
-  resume không lặp node đã lưu và CLI đối soát unknown có audit replay.
-  **562 unit/93 leakage**, compileall/E2E PASS. Tiếp theo W5-08:
-  CLI bốn mã, ngân sách retry/telemetry và nền tảng Bayesian v2.
+  W5 đã đóng Phase A/B, **8/16 task hoàn thành**. W5-08 ngày 09/10/2026
+  thêm CLI cohort bốn mã, evidence Beta–Binomial, quality gate và prefix v2;
+  dùng lại Full, checkpoint/đối soát replay, retry HTTP/format repair chung
+  và báo cáo metric chu kỳ. **578 unit/93 leakage**, compileall/E2E PASS;
+  pilot W4 vẫn kiểm được 20/20 bằng checkout ghim. Chưa chạy benchmark v2.
+  Tiếp theo W5-09: kiểm coverage và lịch đủ điều kiện OOS.
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test

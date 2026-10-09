@@ -9,6 +9,10 @@ from typing import Any, Callable
 
 def _invoke_with_retry(call_fn: Callable[..., Any], *args: Any, retries: int = 3,
                        wait_sec: float = 5.0, **kwargs: Any) -> Any:
+    from core.research_invocation import CURRENT, invoke_once
+    if CURRENT.get() is not None:
+        return invoke_once(call_fn, *args, **kwargs)
+
     """Không retry lỗi liêm chính; tôn trọng toàn bộ thời gian server yêu cầu chờ."""
     for attempt in range(retries):
         try:

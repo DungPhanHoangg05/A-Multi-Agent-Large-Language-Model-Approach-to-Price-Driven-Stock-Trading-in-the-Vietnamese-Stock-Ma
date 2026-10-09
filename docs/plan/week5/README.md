@@ -1,8 +1,8 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A PASS; 7/16 task hoàn thành — W5-01–07 DONE. Tiếp theo W5-08, Phase B.**
-Ngày lập: **07/10/2026**; cập nhật **08/10/2026**. Đã kiểm/tổng hợp offline,
-thêm CLI audit và chốt hợp đồng v2; triển khai runtime v2 bắt đầu ở Phase B.
+**Trạng thái: Phase A/B PASS; 8/16 task hoàn thành — W5-01–08 DONE. Tiếp theo W5-09, Phase C.**
+Ngày lập: **07/10/2026**; cập nhật **09/10/2026**. Đã kiểm/tổng hợp offline,
+triển khai CLI cohort và nền tảng evidence/gate/prefix v2, hoàn tất Phase B.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
 [Hợp đồng API/checkpoint hiện hành](../week4/week_close_and_handoff.md)
 
@@ -640,7 +640,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | B | W5-05 | Hoàn thiện chính sách dự phòng quota trước điểm | 04 | [x] |
 | B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [x] |
 | B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [x] |
-| B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [ ] |
+| B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [x] |
 | C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [ ] |
 | C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [ ] |
 | C | W5-11 | Tính ngân sách và lịch chạy khả thi | 03, 05, 10 | [ ] |
@@ -713,7 +713,8 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 
 **Gate A: PASS (08/10/2026).** Baseline kiểm được, bảng pilot/telemetry đối
 soát được, hợp đồng v2/phân hoạch/metric/telemetry đã chốt tại mục 1. Runtime
-Bayesian v2 còn TODO; W5-05–07 đã hoàn thành, tiếp tục W5-08. Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
+Bayesian v2 đã triển khai/kiểm fixture tại W5-08; W5-05–08 hoàn thành.
+Không yêu cầu pilot có lợi nhuận tốt hơn để PASS.
 
 ### Phase B — Đường chạy dài và nền tảng v2 (khoảng 2–3 ngày)
 
@@ -912,7 +913,7 @@ W4 hoặc xác nhận attempt thật thay người vận hành. Tiếp theo W5-0
 - **Đạt khi:** run mới tách pilot W4; complete không gọi lại; sai identity
   bị chặn; dry-run/verify không đọc `.env` hoặc gọi mạng, schema/JSON native hợp lệ.
 
-**Các bước nhỏ, đều TODO; không mở thêm mã task ngoài 16 task hiện tại:**
+**W5-08.a–d: DONE (09/10/2026); không mở thêm mã task ngoài 16 task hiện tại:**
 
 | Bước | Triển khai và đầu ra | Tiêu chí đạt |
 | --- | --- | --- |
@@ -928,7 +929,88 @@ mẫu độc lập. W6–W7 cần kiểm out-of-time và W9 kiểm độ nhạy 
 Ngưỡng chất lượng không phải luật ra lệnh: không tự ép SHORT khi win-rate
 <50%, và không tuyên bố gate sửa được ca n=62/score=1.
 
-**Gate B:** CLI tái lập được, quota/atomic I/O/resume có kiểm thử; W4 còn
+**Triển khai 08–09/10/2026 — nghiệm thu DONE:**
+
+- **08.a:** CLI hiện hữu nhận `--plan`, `--symbol` (lặp lại được) và
+  `--ledger`; bỏ `--symbol` để chạy tuần tự FPT/HPG/MWG/VCB. Plan envelope
+  `research_cohort_plan_v2` khóa `cohort_id`, `split` (`fixture`,
+  `development_2023`, `holdout_2024`), `matrix` (`smoke_v1` hoặc
+  `research_v2`), `symbol_cutoffs`, `evidence_config` đầy đủ và `inputs`
+  theo hợp đồng nguồn/model/limits của pilot. Không tự chọn ngày hoặc
+  ngưỡng trong CLI. Fixture không được gọi API thật; lịch benchmark sẽ
+  được khóa ở W5-09–12/W7, chưa tạo một plan benchmark giả cho W5-08.
+- Cùng `PriorBacktestRunner.run_cohort()` kiểm schema/hash/lịch toàn bộ
+  plan trước chạy. Root identity ghim code v2, plan, bốn identity v1 và
+  đường ledger. Năm nhánh v1 nằm tại `v1/<symbol>/`; nhánh thứ sáu
+  `bayesian_v2` dùng lại Full đã seal tại `v2/<point_id>.json`. Không gọi
+  lại upstream để thêm v2. Khởi tạo slot toàn plan; mất checkpoint,
+  sai source/config/code hoặc attempt unknown đều không tự chạy lại.
+  `--reconcile` trả UUID/metadata; replay cụ thể cần `--authorize-replay`
+  và `--replay-reason`, có lịch sử audit. Không dùng output-dir pilot W4.
+- Policy `invocation_budget_v2` dùng chung **tối đa 3 HTTP và 120 giây
+  nghỉ** cho node/Decision, kể cả format repair. SDK vẫn `max_retries=0`;
+  HTTP 429 đã từ chối mới có retry hữu hạn, timeout/5xx dừng. Ledger giữ
+  UUID invocation, UUID HTTP, checkpoint attempt, point/branch/role,
+  provider request ID, usage và pacing; không chứa request/prompt/key.
+  HTTP latency dùng monotonic; missing và zero tách biệt, p95 nội suy
+  tuyến tính. Timer invocation và tổng nghỉ được ghi cả khi dừng trước
+  admission HTTP; không cộng timer Decision lồng thêm vào HTTP/pacing.
+- `research_report_v2` tái dùng tài khoản/phí/P&L engine, tính rủi ro
+  `cycle_risk_metrics_v2` từ `period_returns` thật, không annualize.
+  Có CASH reference, balanced accuracy, participation, hit-rate và lý do
+  null. Primary là trung bình đều Δreturn v2−Original theo điểm phần trăm
+  của **đủ bốn tài khoản**, không là portfolio; thiếu mã/điểm trả
+  `INCOMPLETE`, smoke v1 trả `NOT_APPLICABLE`. Chỉ lấy điểm đủ mọi nhánh.
+- **08.b–c:** API `BayesianPriorRetriever.retrieve_evidence()` trả toàn
+  population cùng mã/regime/PIT, counts, Beta posterior/CrI95% và gate
+  version hóa. α=β=1; support≥20, score≥0,75, tuổi≤730 ngày, K≤3;
+  không dùng outcome query. n=0 trả null; support/quality thiếu trả
+  `INSUFFICIENT_EVIDENCE`, K_eff=0; K_eff=1/2 vẫn hợp lệ nếu đủ support.
+  Ranking giữ score↓, exit↓, ID↑. Schema/counts/hash/PIT sai ném lỗi.
+- **08.d:** prefix `compact_brpp_v2` giữ counts và bất định của lịch sử,
+  không gọi posterior là xác suất query. Builder vẫn distill/cap, BRPP
+  ≤600 ký tự và prompt <6.500. K_eff=0 tạo đúng prompt Original nhưng
+  gọi Decision riêng; không thêm lần gọi để ép đồng thuận. Evidence,
+  config/bank/shared hash, prompt và response nằm trong checkpoint v2.
+  Verify đối chiếu cả action trong response gốc; tính lại envelope hash
+  không làm một response mâu thuẫn trở thành checkpoint hợp lệ.
+- Import sentiment không còn tự nạp `.env`; entrypoint trực tuyến chịu
+  trách nhiệm nạp credential. Fixture đủ ba bài tin kiểm đường dry-run
+  không đọc key hoặc kết nối mạng.
+
+**Lệnh vận hành sau khi W5-12 khóa plan thật** (đường dẫn ví dụ, chưa phải
+artifact benchmark đã phát hành):
+
+```powershell
+$cohortPlan = "outputs/research_inputs/plan.json"
+$cohortRun = "outputs/research_cohort_run"
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --dry-run
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --preflight
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --run
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --verify-only
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan $cohortPlan --output-dir $cohortRun --run --resume
+```
+
+Thêm `--symbol FPT` để chạy riêng một mã, vẫn giữ nguyên plan bốn mã và
+primary chưa hoàn tất. Ledger mặc định vẫn là
+`outputs/oos_pilot/api_usage.json`; đổi key/output-dir không xóa quota.
+Nếu chuyển ledger sang ổ local, sao chép nguyên lịch sử và khóa đường đó
+ngay từ run mới; đổi đường ledger khi resume bị chặn bởi identity.
+Không chạy đồng thời checkout W4 cũ và runtime mới trên cùng tài khoản.
+Response đã durable được tái sử dụng; mất điện trước khi lưu response vẫn
+là unknown cần đối soát, không cam kết exactly-once phía provider.
+
+**Bằng chứng nghiệm thu:** compileall/E2E PASS; **578 unit test PASS**
+(16 test mới), **93 test leakage PASS**. Bao phủ bốn mã, common support,
+gate-off giữ prompt Original, posterior/gate/PIT/caps, UUID replay,
+mất checkpoint và sửa response dù tính lại hash, quota/retry/format repair,
+timer zero/missing và dry-run đủ tin cấm credential/mạng. Pilot W4 kiểm
+bằng checkout `27b5907`: **complete 20/20**, có audit hook chặn `.env`,
+DNS/socket; worktree tạm đã dọn sau kiểm. **49 artifact đóng băng giữ
+nguyên SHA-256**. Không gọi Groq, không chạy benchmark hoặc dùng holdout
+để chọn ngưỡng. Tiếp theo **W5-09: coverage và lịch đủ điều kiện OOS**.
+
+**Gate B: PASS (09/10/2026).** CLI tái lập được, quota/atomic I/O/resume có kiểm thử; W4 còn
 kiểm được bằng phiên bản đã ghim; 08.a–d PASS offline, có version/hash/trace.
 Prior mặc định vẫn tắt trong luồng thông thường; v2 chưa được chứng minh có lợi hơn.
 
@@ -1088,3 +1170,4 @@ Không merge khi gate bắt buộc FAIL.
 | 08/10/2026 | W5-05 | DONE: request_admission_v2 qua CLI, khóa policy vào identity; guard HTTP giữ reserve, dừng/cooldown có reason và mốc resume; đo pacing, kiểm cache trước run, đọc ledger sau khóa OS. Compileall/E2E, 546 unit/93 leakage và dry-run 20 cutoff PASS; 49 artifact bất biến, không API. Retry xuyên invocation/format repair còn thuộc 07/08 | W5-06: atomic I/O trên Windows/OneDrive |
 | 08/10/2026 | W5-06 | DONE: retry replace/cleanup có giới hạn cho WinError 5/32/33, không ghi/fsync lại hoặc che lỗi gốc; hướng dẫn PERSISTENCE/runtime local. Test handle Windows thật và checkpoint retry không lặp agent/không sửa complete. Compileall/E2E, 555 unit/93 leakage PASS; 49 artifact bất biến, không API hoặc thêm receipt | W5-07: response durable và đối soát upstream |
 | 08/10/2026 | W5-07 | DONE: journal output Indicator/Pattern/Trend/Full gắn identity/input/source; phục hồi output durable không lặp node, unknown chặn trước agent. CLI reconcile offline và xác nhận UUID/lý do có audit, giữ unknown/chi phí cũ. Compileall/E2E, 562 unit/93 leakage PASS; 49 artifact bất biến. Journal ở biên node, không cam kết exactly-once HTTP | W5-08: CLI bốn mã, retry/telemetry và nền tảng Bayesian v2 |
+| 09/10/2026 | W5-08.a–d | DONE: CLI cohort bốn mã, identity/checkpoint/report v2; posterior Beta–Binomial, quality gate, prefix và Decision độc lập dùng chung Full; retry HTTP/format repair chung 3 lượt/120 giây, telemetry invocation. Compileall/E2E, 578 unit/93 leakage PASS; verifier W4 20/20, 49 artifact bất biến. Phase B PASS; không API/benchmark/holdout tuning | W5-09: coverage và lịch OOS |

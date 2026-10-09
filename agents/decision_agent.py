@@ -41,6 +41,10 @@ def _retry_delay(error: Exception, wait_sec: float, attempt: int) -> float:
 
 
 def _invoke_with_retry(call_fn, *args, retries=3, wait_sec=5):
+    from core.research_invocation import CURRENT, invoke_once
+    if CURRENT.get() is not None:
+        return invoke_once(call_fn, *args)
+
     last_err = None
     for attempt in range(retries):
         try:
@@ -549,7 +553,13 @@ def _insert_prior_context(prompt: str, prefix: str, lang: str) -> str:
     head, marker, tail = prompt.partition("### [1]")
     if not marker or "[BRPP v1]" in prompt:
         raise ValueError("Prompt thiếu điểm chèn hoặc đã chứa BRPP")
-    return head + prefix + "\n" + _PRIOR_REASONING[lang] + "\n" + marker + tail
+    reasoning = _PRIOR_REASONING[lang]
+    if prefix.startswith("[BRPP v2]"):
+        reasoning = ("PRIOR v2: Counts và Beta mean/CrI95% mô tả lịch sử, không phải xác suất query. "
+                     "Ví dụ đã đóng khác tín hiệu hiện tại. Không ép quyết định theo prior; SHORT=CASH."
+                     if lang == "vi" else "PRIOR v2: Counts and Beta mean/CrI95% describe history, not query probabilities. "
+                     "Closed examples differ from current signals. Do not force agreement; SHORT=CASH.")
+    return head + prefix + "\n" + reasoning + "\n" + marker + tail
 
 
 def create_final_trade_decider(
@@ -692,4 +702,10 @@ def create_final_trade_decider(
             **{field: copy_prior_json(state[field]) for field in PRIOR_STATE_FIELDS if field in state},
         }
 
-    return trade_decision_node
+    def bounded_decision_node(state):
+        """Cùng budget cho HTTP retry và format repair khi run mới bật policy v2."""
+        from core.research_invocation import invocation_scope
+        with invocation_scope("decision"):
+            return trade_decision_node(state)
+
+    return bounded_decision_node

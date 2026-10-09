@@ -138,6 +138,11 @@ def summarize_points(points: list[dict[str, Any]]) -> dict[str, Any]:
 class PriorBacktestRunner:
     """Điều phối nhiều cutoff; adapter/retriever được caller nạp một lần trước run."""
 
+    def run_cohort(self, plan: dict[str, Any], *, output_dir: Path, **options: Any) -> dict[str, Any]:
+        """Cùng runner xử lý plan bốn mã, thêm evidence/Decision v2 có identity riêng."""
+        from core.research_cohort import run_cohort
+        return run_cohort(self, plan, output_dir, **options)
+
     def __init__(self, engine: BacktestEngine, adapter: PriorContextAdapter,
                  builder: graph_setup.SetGraph, *, execution_mode: str = "research",
                  extra_source_paths: tuple[str, ...] = (), before_point: Callable[[], None] | None = None,
