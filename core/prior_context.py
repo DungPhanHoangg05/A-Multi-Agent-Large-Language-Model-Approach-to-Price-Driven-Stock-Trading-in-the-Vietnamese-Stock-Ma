@@ -322,6 +322,12 @@ class PriorContextAdapter:
         """Kiểm byte toàn bộ nguồn/artifact đã ghim, không nạp lại JSON/kho."""
         self._files.verify(set(self._files.hashes))
 
+    @property
+    def source_hashes(self) -> dict[str, str]:
+        """Cấp bản sao checksum đã kiểm để khóa đầu vào audit/lịch mẫu."""
+        self.verify_sources()
+        return dict(self._files.hashes)
+
     def execution_data(self, symbol: str) -> tuple[pd.DataFrame, list[dict[str, Any]]]:
         """Bản sao giá thực thi và sự kiện trên RAM chỉ cấp cho lớp đánh giá."""
         self.verify_sources()
@@ -446,6 +452,12 @@ class PriorPointContext:
     def source_provenance(self) -> dict[str, Any]:
         """Proof trước LLM chưa có nhóm signals; không nhập trực tiếp vào Decision."""
         return deepcopy(self._proof)
+
+    @property
+    def market_regime(self) -> dict[str, Any]:
+        """Trả trạng thái PIT đã xác minh, độc lập với dữ liệu đánh giá kinh tế."""
+        self._adapter._files.verify(self._paths)
+        return deepcopy(self._regime)
 
     def agent_state(self) -> dict[str, Any]:
         """Input upstream/Full PIT; prior chưa bật, không có outcome query."""
