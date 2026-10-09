@@ -1,6 +1,6 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A/B/C PASS; 11/15 task trong phạm vi hoàn thành — W5-01–10 và W5-12 DONE. W5-11 đã bỏ theo yêu cầu; tiếp theo W5-13.**
+**Trạng thái: Phase A/B/C PASS; 12/15 task trong phạm vi hoàn thành — W5-01–10 và W5-12–13 DONE. W5-11 đã bỏ theo yêu cầu; tiếp theo W5-14 do người dùng tự chạy API.**
 Ngày lập: **07/10/2026**; cập nhật **09/10/2026**. Đã kiểm/tổng hợp offline,
 triển khai CLI cohort/evidence/gate/prefix v2, audit OOS, khóa input/lịch và dry-run bốn mã.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
@@ -14,7 +14,7 @@ và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ tr�
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
 15 task trong phạm vi W5; bỏ W5-11, giữ nguyên mã task còn lại để không
-làm sai tham chiếu. W5-01–10 và W5-12 DONE;
+làm sai tham chiếu. W5-01–10 và W5-12–13 DONE;
 nền tảng v2 đã có kiểm fixture;
 hiệu quả v2 còn cần validation và benchmark.
 
@@ -648,7 +648,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [x] |
 | C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [x] |
 | C | W5-12 | Khóa input/plan và dry-run bốn mã (offline) | 08, 10 | [x] |
-| D | W5-13 | Kiểm lỗi có chủ đích và paired/resume | 08, 12 | [ ] |
+| D | W5-13 | Kiểm lỗi có chủ đích và paired/resume | 08, 12 | [x] |
 | D | W5-14 | Smoke vận hành thật giới hạn bốn mã | Gate A/B/C, 13 | [ ] |
 | D | W5-15 | Nghiệm thu hồi quy và điều kiện mở W6 | 13, 14 | [ ] |
 | D | W5-16 | Chốt W5, bàn giao lệnh và lịch W6 | 15 | [ ] |
@@ -1326,6 +1326,38 @@ W7 chốt protocol ứng viên cuối; smoke thật vẫn phải qua W5-14.
 - **Đạt khi:** không gọi lại phần durable, năm nhánh cùng shared hash,
   lỗi dừng đúng stage, không bỏ điểm khỏi plan; toàn bộ mô phỏng offline PASS.
 
+**DONE/PASS offline (09/10/2026).** Bổ sung 15 test cho cohort/evidence
+trên fixture có nguồn giá, model/proof, bank/QA và checkpoint thật trong thư
+mục tạm. Các phép lọc PIT, ranking, posterior, builder prompt, validator và
+runner dùng code production; client LLM giả, cấm đọc key/kết nối mạng,
+không chạy smoke thật hoặc benchmark.
+
+| Rủi ro / điều kiện | Kiểm chứng |
+| --- | --- |
+| Quota ngày hết hoặc cooldown 1.000 giây ở mã thứ hai | `test_research_fault_recovery.py`: dừng trước upstream MWG; FPT complete nguyên byte, cả ba mã pending còn trong plan; đồng hồ giả qua cửa sổ rồi resume đủ 4/4, không xóa usage/unknown |
+| Crash sau từng node durable và sau ba nhánh MWG | Bốn biên Indicator/Pattern/Trend/Full; ba nhánh đã complete giữ nguyên input/prompt/attempt; tổng upstream đúng một lần/point, 20 Decision v1 |
+| Mất response trước durable; lỗi WinError 32 trước intent | Unknown chặn toàn cohort đến khi fixture xác nhận đúng UUID; giữ attempt/audit cũ. Atomic replace hết 5 retry không gửi Decision tương ứng, resume phần chưa gửi an toàn |
+| Decision sai format; checkpoint/nguồn của mã chưa chọn bị sửa | Không đổi lỗi thành CASH hoặc tính điểm dở vào common support; VNM sai vẫn chặn trước agent dù chỉ chọn MWG; không bỏ điểm khỏi plan |
+| Khóa OS active/released; response v2 durable trước crash | Active chặn, released tái dùng; v2 cùng shared hash v1, tổng 24 Decision fixture, resume/verify không lặp response complete |
+| Biên support/score/tuổi, K_eff=0/partial và mẫu số chu kỳ | `test_research_evidence_v2.py`: n=3 so với ngưỡng 3/4, score 0,75 và số float kế tiếp, tuổi 31/30 ngày; loại ví dụ không đổi population/posterior; một cycle Trend/Pattern bullish chỉ đếm một lần |
+| Exit bằng cutoff/future, pool bị chèn chu kỳ chưa đóng | `test_research_evidence_leakage.py`: loại trước stats/ranking; evidence sửa rồi băm lại vẫn bị từ chối |
+| Tin tương lai/không ngày, outcome query, model/freeze sai | Bốn mã ×6 Decision fixture chỉ dùng tin có ngày ≤cutoff; query evidence whitelist không có nhãn/evaluation; model học sau cutoff hoặc freeze ≥query dừng trước upstream |
+| HTTP 429/retry/format repair, lock stale và identity/cap/JSON | Tái chạy suite `test_research_invocation.py`, `test_groq_pacing.py`, `test_prior_stage_recovery.py`, `test_prior_checkpoint*.py`, cùng test CLI/input lock hiện có; mock transport/đồng hồ giả, không ngủ theo quota thật |
+
+Các guard mới được kiểm cả số lần bị gọi khi cleanup, để một ngoại lệ
+key/mạng bị nuốt cũng làm test FAIL. Test CLI dry-run đủ ba tin hợp lệ,
+posterior biết trước, tập lịch sử rỗng, K=0 và cap tiếp tục được giữ từ
+suite hiện có. Kết quả này là kiểm thử vận hành bằng fixture, chưa thay
+nghiệm thu API/model thật của W5-14.
+
+**Nghiệm thu:** compileall/E2E, **624 unit test** và **105 test leakage
+PASS**. Nhóm tập trung 20 test PASS (15 mới +5 evidence có sẵn). **53
+artifact** và **47 file code/schema/config đã khóa giữ nguyên SHA-256**;
+không sửa code chạy chính, bank/model/giá/tin hoặc manifest/plan W5-12.
+Mọi run fixture dùng thư mục tạm và được dọn bởi test; không tạo `smoke_run`
+thật hoặc receipt JSON/Markdown mới. Tiếp theo **W5-14**, người dùng tự
+thực hiện các bước terminal dưới đây; Phase D chưa đóng trước smoke thật.
+
 #### W5-14 — Smoke vận hành thật giới hạn bốn mã
 
 - **Làm:** sau W5-13 và Gate A/B/C PASS, hướng dẫn người dùng tự chạy
@@ -1386,14 +1418,17 @@ mục gốc repository. Agent không chạy các lệnh dùng API key thay ngư�
    py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --run --resume
    ```
 
-   Nếu báo response `unknown`/`ambiguous`, đối soát offline trước:
+   Nếu báo response `unknown`/`ambiguous` hoặc `Decision chưa rõ` (kể cả
+   attempt đã FAILED vì sai format), đối soát offline trước:
 
    ```powershell
    py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --reconcile
    ```
 
-   Không tự xóa ledger/lock/reserve hoặc cho phép replay unknown. Gửi log
-   đã che thông tin nhạy cảm để xác định stage cần xử lý.
+   Dừng quota trước khi tạo attempt có thể resume sau cooldown. Nếu đã
+   có attempt mà runner chặn replay, đổi key hoặc chạy lại lệnh không thay
+   bước đối soát. Không tự xóa ledger/lock/reserve hoặc cho phép replay
+   unknown/failed. Gửi log đã che thông tin nhạy cảm để xác định stage cần xử lý.
 
 6. Sau khi smoke chạy xong, kiểm offline, không dùng key/gọi API:
 
@@ -1479,3 +1514,5 @@ cuối cùng và checklist mục 3 xác định tiến độ hiện hành.
 | 09/10/2026 | W5-12 | DONE phần offline: khóa input/lịch 4 smoke +60 development +64 holdout, prepare/verify thực 128/128 và CLI smoke dry-run PASS. Hai JSON runtime gitignore; 46 nguồn/46 code-schema-config/23 runtime, binding plan và policy/ledger chung. Compileall/E2E, 609 unit/101 leakage PASS; 51 artifact nguyên byte, audit 0 credential/DNS-connect. Prompt thực chưa sinh; W5-11 tạm hoãn, Gate C pending | W5-13: kiểm lỗi/paired/resume offline; protocol benchmark cuối chờ W7 |
 
 | 09/10/2026 | Điều chỉnh phạm vi và làm rõ W5-12 | PLAN_UPDATED: bỏ W5-11 và điều kiện dự toán/lịch chạy khỏi W5–W8; giữ ngày dữ liệu/cohort và guard runtime. W5-12 DONE toàn bộ phạm vi offline; Gate C PASS theo tiêu chí mới, 11/15 task. Các lượt dùng API key do người dùng tự chạy theo hướng dẫn W5-14. Kiểm lại 128/128 và CLI dry-run PASS, audit 0 credential/network; compileall/E2E, 609 unit/101 leakage PASS. 53 artifact gồm manifest/plan giữ nguyên byte; chỉ sửa ba Markdown | W5-13 offline; sau đó người dùng tự chạy preflight/smoke W5-14 |
+
+| 09/10/2026 | W5-13 | DONE offline: thêm 15 test cho fault/resume cohort bốn mã, biên quality/posterior và leakage evidence v2; 20 test tập trung PASS. Compileall/E2E, 624 unit/105 leakage PASS. Giữ output/nhánh durable và shared hash; quota/cooldown, unknown, atomic intent, malformed Decision, lock và nguồn mã chưa chọn được kiểm. 53 artifact/47 code-schema-config đã khóa bất biến; không key/API hoặc sửa code chạy chính. Cập nhật hướng dẫn đối soát attempt FAILED; 12/15 task | W5-14: người dùng tự chạy preflight và smoke v1 4 điểm/20 Decision, rồi verifier offline |

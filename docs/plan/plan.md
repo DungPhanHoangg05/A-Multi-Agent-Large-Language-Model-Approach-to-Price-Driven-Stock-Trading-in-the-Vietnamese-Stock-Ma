@@ -349,7 +349,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B/C PASS, 11/15
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B/C PASS, 12/15
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -427,6 +427,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   thực thuộc smoke W5-14. Gate C PASS theo phạm vi đã bỏ W5-11. Compileall/E2E,
   **609 unit/101 leakage PASS**, 51 artifact nguyên byte; audit 0 credential/
   DNS-connect, không API/refit/outcome query. Tiếp theo **W5-13**.
+- **W5-13 DONE offline, 09/10/2026**: thêm 15 test cho fault/resume cohort
+  bốn mã và evidence v2; crash sau từng node/nhánh/response durable, quota/
+  cooldown, unknown/audit replay, atomic intent, malformed Decision, khóa và
+  nguồn mã chưa chọn. Kiểm biên support/score/tuổi, mẫu số chu kỳ, exit bằng
+  cutoff, tin future/undated và model/freeze sai. Compileall/E2E,
+  **624 unit/105 leakage PASS**; 53 artifact và 47 code/schema/config đã khóa
+  nguyên byte. Code chạy chính và plan smoke không đổi; không API/key.
+  Tiếp theo **W5-14 do người dùng tự chạy** preflight/smoke, rồi verify offline.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
@@ -442,6 +450,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [x] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
   - [x] Phase C, W5-09, 10, 12: coverage, lịch cohort tách pilot/smoke/holdout và manifest/dry-run offline.
   - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
+    W5-13 DONE; W5-14–16 còn chờ smoke thật và nghiệm thu/bàn giao.
 - **Deliverables cuối W5**: CLI/audit dùng lại được, code Beta–Binomial/gate
   chất lượng/prefix có version và trace kiểm offline; lịch phân hoạch bốn mã,
   manifest nguồn; checkpoint smoke v1 4 điểm/20 Decision và verifier;

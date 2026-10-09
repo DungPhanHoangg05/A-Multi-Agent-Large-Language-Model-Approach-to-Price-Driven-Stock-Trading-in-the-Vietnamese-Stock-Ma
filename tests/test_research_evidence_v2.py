@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 import json
+import math
 import unittest
 
 from core.prior_evidence_v2 import posterior_metric, retrieve_evidence, format_evidence_prefix, validate_evidence
@@ -76,6 +77,47 @@ class EvidenceV2Tests(unittest.TestCase):
         self.assertLessEqual(len(prefix), 600)
         from agents.decision_agent import _insert_prior_context
         self.assertNotIn("không smoothing", _insert_prior_context("### [1] report", prefix, "vi"))
+
+    def test_quality_boundaries_keep_population_separate_from_effective_k(self) -> None:
+        """Score/tuổi/support sát biên không được đổi mẫu số population."""
+        self.fx.rows = [self.fx.record("FPT", i, "BULL") for i in (0, 3, 6)] + [self.fx.record("MWG", 0, "BULL")]
+        self.fx.publish_fixture()
+        retriever = self.fx.create()
+        query = self.fx.query(as_of_date="2020-02-01")
+        query["current_signals"]["trend"] = "BEARISH"
+        config = {"min_population_count": 3, "min_similarity": .75, "max_prior_age_days": 31}
+        ready = retrieve_evidence(retriever, **query, config=config)
+        self.assertEqual((ready["status"], ready["population_count"], ready["effective_k"]), ("READY", 3, 3))
+        self.assertEqual(ready["selected_scores"], [.75] * 3)
+        self.assertEqual(max(a["age_days"] for a in ready["selected_ages"]), 31)
+        younger = retrieve_evidence(retriever, **query, config={**config, "max_prior_age_days": 30})
+        self.assertEqual((younger["population_count"], younger["effective_k"]), (3, 2))
+        self.assertEqual(younger["metrics"], ready["metrics"])
+        for changes, reason in (({"min_population_count": 4}, "LOW_SUPPORT"),
+                                ({"min_similarity": math.nextafter(.75, 1.)}, "NO_QUALITY_CANDIDATE"),
+                                ({"requested_k": 0}, "PRIOR_DISABLED")):
+            with self.subTest(changes=changes):
+                off = retrieve_evidence(retriever, **query, config={**config, **changes})
+                self.assertEqual(off["reason_codes"], [reason])
+                self.assertEqual(off["effective_k"], 0)
+                self.assertEqual(format_evidence_prefix(off), "")
+        json.dumps(ready, allow_nan=False)
+
+    def test_one_cycle_with_multiple_bullish_agents_is_one_observation(self) -> None:
+        """Trend/Pattern cùng bullish không nhân đôi support của một chu kỳ."""
+        self.fx.rows = [self.fx.record("FPT", i, "BULL") for i in (0, 3, 6)] + [self.fx.record("MWG", 0, "BULL")]
+        for row in self.fx.rows:
+            row["agent_signals"]["pattern"] = "BULLISH"
+        self.fx.publish_fixture()
+        query = self.fx.query(as_of_date="2020-02-01")
+        evidence = retrieve_evidence(self.fx.create(), **query, config={"min_population_count": 3})
+        self.assertEqual(evidence["population_count"], 3)
+        for metric in evidence["metrics"].values():
+            self.assertEqual(metric["support_count"], 3)
+        win = evidence["metrics"]["win_rate_long"]
+        self.assertEqual((win["posterior_alpha"], win["posterior_beta"], win["posterior_mean"]), (1., 4., .2))
+        self.assertEqual(evidence["metrics"]["bull_trap_rate"]["success_count"], 3)
+        self.assertLessEqual(len(format_evidence_prefix(evidence)), 600)
 
 
 if __name__ == "__main__":
