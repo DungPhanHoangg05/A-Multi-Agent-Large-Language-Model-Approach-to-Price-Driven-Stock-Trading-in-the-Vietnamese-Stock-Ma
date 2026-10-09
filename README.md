@@ -34,7 +34,7 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
   W9 thống kê, W10 luận văn. Giữ bốn phase W5; bổ sung đầu ra code
   posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  W5 đã đóng Phase A/B/C, **12/15 task trong phạm vi hoàn thành**. Nền tảng CLI cohort và
+  W5 đã đóng Phase A/B/C, **13/15 task trong phạm vi hoàn thành**. Nền tảng CLI cohort và
   evidence/gate/prefix v2 đã có kiểm fixture. W5-09 xác minh 1.996 ngày OOS,
   1.944 ngày hợp lệ. W5-10 ngày 09/10/2026 thiết kế **124 điểm chính**
   (60 development/64 holdout) và **4 smoke riêng**, đã kiểm PIT/thực thi;
@@ -42,9 +42,14 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   W5-12 đã khóa input và plan smoke, dry-run **128/128 PASS**;
   đây là bước kiểm tra offline, không cần gọi API. BEAR=0, tin reliable=0 là giới hạn nguồn.
   W5-13 đã kiểm fault/resume bốn mã và biên evidence/leakage v2 offline;
-  **624 unit/105 leakage**, compileall/E2E PASS; chưa chạy benchmark v2.
+  W5-14 đã hoàn thành smoke thật **4/4 điểm, 20/20 Decision structured**;
+  verifier/reconcile offline PASS. W5-15 kiểm lại **624 unit/105 leakage**,
+  compileall/E2E PASS ngày 10/10/2026, input 128/128; chưa chạy benchmark v2.
+  W5-15 còn chặn p95: lượt đo đủ mẫu khi máy chạy TFT/League đạt
+  **33,934–42,224 ms**, vượt gate 30 ms; cần đo lại khi tải máy giảm.
+  Giữ nguyên code/nguồn/manifest và mẫu FAIL; chưa chốt W5 hoặc mở W6.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  Tiếp theo **W5-14**. Các lượt dùng API key do người dùng tự chạy theo
+  Tiếp theo hoàn thiện **W5-15**, rồi bàn giao **W5-16**. Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
 
