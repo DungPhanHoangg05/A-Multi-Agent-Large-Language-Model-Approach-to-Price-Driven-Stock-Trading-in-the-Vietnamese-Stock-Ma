@@ -341,7 +341,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, PHASE C ĐANG THỰC HIỆN, 10/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, PHASE C PENDING NGÂN SÁCH, 11/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -405,7 +405,17 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   Calendar runtime draft được gitignore, chờ ngân sách/khóa input; không chọn
   theo outcome/regime/tin. Compileall/E2E, **600 unit/99 leakage PASS**;
   guard checksum kiểm tập trung, 49 artifact và coverage W5-09 nguyên byte.
-  Tiếp theo **W5-11**: ngân sách/quota; W5-12 mới khóa plan chạy.
+  **W5-11 tạm hoãn theo yêu cầu người dùng, 09/10/2026**; chưa nghiệm thu
+  ngân sách/quota hoặc đóng Gate C; guard HTTP/ledger/cooldown tiếp tục áp dụng khi chạy thật.
+- **W5-12 DONE phần offline, 09/10/2026**: khóa input/lịch 4 smoke +60
+  development +64 holdout, prepare/verify thực **128/128 PASS**. Hai JSON
+  runtime gitignore: `input_lock.json` và plan smoke năm nhánh có binding;
+  ghim 46 nguồn, 46 code/schema/config, 23 runtime/dependency, seed/scope,
+  model/proof/bank/tin, policy và đường ledger chung. Chặn đổi plan/config,
+  không khóa hồi tố hoặc ghi đè identity khác. Prompt thực chưa sinh;
+  protocol benchmark chờ W7, quota tạm hoãn, Gate C pending. Compileall/E2E,
+  **609 unit/101 leakage PASS**, 51 artifact nguyên byte; audit 0 credential/
+  DNS-connect, không API/refit/outcome query. Tiếp theo **W5-13**.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).

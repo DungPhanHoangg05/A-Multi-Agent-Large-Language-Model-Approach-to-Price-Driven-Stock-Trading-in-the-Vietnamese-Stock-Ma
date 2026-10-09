@@ -51,6 +51,9 @@ def validate_plan(plan: dict[str, Any], adapter: Any) -> None:
         raise ValueError("Plan phải ghi đầy đủ config evidence")
     if plan["inputs"]["signal_config"] != adapter.signal_config:
         raise ValueError("Input adapter khác config trong plan")
+    if "input_lock" in plan["inputs"]:
+        from core.research_input_lock import validate_bound_plan
+        validate_bound_plan(plan, adapter._files.root)
     for symbol, cutoffs in plan["symbol_cutoffs"].items():
         if type(cutoffs) is not list or not cutoffs or len(set(cutoffs)) != len(cutoffs):
             raise ValueError("Cutoff plan thiếu hoặc trùng")
@@ -182,6 +185,12 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                ledger_path: Path | None = None) -> dict[str, Any]:
     """Điều phối tuần tự bốn mã, reuse checkpoint/kiểm semantic v1 và bổ sung Decision v2."""
     validate_plan(plan, runner.adapter)
+    if "input_lock" in plan["inputs"]:
+        from core.research_input_lock import validate_bound_plan
+        lock = validate_bound_plan(plan, runner.adapter._files.root)
+        expected_ledger = (runner.adapter._files.root / lock["ledger_path"]).resolve()
+        if runner.quota_policy != lock["quota_policy"] or ledger_path is None or ledger_path.resolve() != expected_ledger:
+            raise ValueError("Runner khác policy hoặc ledger chung đã khóa")
     if authorize_replay is not None:
         UUID(authorize_replay)
         if not reconcile or type(replay_reason) is not str or not replay_reason.strip() or len(replay_reason) > 1000:
