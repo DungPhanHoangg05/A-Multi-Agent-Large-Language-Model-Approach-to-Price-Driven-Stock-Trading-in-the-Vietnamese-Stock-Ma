@@ -1,8 +1,8 @@
 # Tuần 5 — Hoàn thiện vận hành và nền tảng Bayesian v2
 
-**Trạng thái: Phase A/B PASS; 8/16 task hoàn thành — W5-01–08 DONE. Tiếp theo W5-09, Phase C.**
+**Trạng thái: Phase A/B PASS; Phase C đang thực hiện; 9/16 task hoàn thành — W5-01–09 DONE. Tiếp theo W5-10.**
 Ngày lập: **07/10/2026**; cập nhật **09/10/2026**. Đã kiểm/tổng hợp offline,
-triển khai CLI cohort và nền tảng evidence/gate/prefix v2, hoàn tất Phase B.
+triển khai CLI cohort/evidence/gate/prefix v2 và audit coverage OOS bốn mã.
 [Kế hoạch tổng](../plan.md) · [Kết quả W4](../week4/README.md) ·
 [Hợp đồng API/checkpoint hiện hành](../week4/week_close_and_handoff.md)
 
@@ -13,7 +13,8 @@ hoàn thiện đường chạy chính thức, xử lý các điểm yếu vận 
 và triển khai nền tảng Bayesian v2 trên **FPT, VNM, VCB, MWG**. Lộ trình
 được mở rộng thành **10 tuần**: W6 cải thiện thuật toán, W7 kiểm chứng và
 khóa phiên bản, W8 benchmark, W9 thống kê, W10 luận văn. Bốn phase và
-16 mã task W5 được giữ; W5-01–04 DONE, triển khai nền tảng v2 vẫn còn TODO.
+16 mã task W5 được giữ; W5-01–09 DONE, nền tảng v2 đã có kiểm fixture;
+hiệu quả v2 còn cần validation và benchmark.
 
 | Đầu vào đã hoàn thành ở W4 | Ý nghĩa đối với W5 |
 | --- | --- |
@@ -641,7 +642,7 @@ không gồm thời gian nghỉ quota. Điều chỉnh lịch theo gate thực t
 | B | W5-06 | Xử lý ghi checkpoint trên Windows/OneDrive | 04 | [x] |
 | B | W5-07 | Hoàn thiện phục hồi và đối soát upstream | 04, 06 | [x] |
 | B | W5-08 | CLI bốn mã và nền tảng evidence/prefix v2 | 05, 06, 07 | [x] |
-| C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [ ] |
+| C | W5-09 | Kiểm coverage và lịch đủ điều kiện OOS | 04 | [x] |
 | C | W5-10 | Thiết kế lịch mẫu và tách pilot/smoke | 09 | [ ] |
 | C | W5-11 | Tính ngân sách và lịch chạy khả thi | 03, 05, 10 | [ ] |
 | C | W5-12 | Khóa input/plan và dry-run bốn mã | 08, 10, 11 | [ ] |
@@ -932,7 +933,7 @@ Ngưỡng chất lượng không phải luật ra lệnh: không tự ép SHORT 
 **Triển khai 08–09/10/2026 — nghiệm thu DONE:**
 
 - **08.a:** CLI hiện hữu nhận `--plan`, `--symbol` (lặp lại được) và
-  `--ledger`; bỏ `--symbol` để chạy tuần tự FPT/HPG/MWG/VCB. Plan envelope
+  `--ledger`; bỏ `--symbol` để chạy tuần tự FPT/VNM/VCB/MWG. Plan envelope
   `research_cohort_plan_v2` khóa `cohort_id`, `split` (`fixture`,
   `development_2023`, `holdout_2024`), `matrix` (`smoke_v1` hoặc
   `research_v2`), `symbol_cutoffs`, `evidence_config` đầy đủ và `inputs`
@@ -1025,6 +1026,83 @@ Prior mặc định vẫn tắt trong luồng thông thường; v2 chưa đượ
   tái dùng audit hiện có, không tải lại/ghi đè nguồn đã khóa chỉ để tạo báo cáo.
 - **Đạt khi:** không dùng 1.510 chu kỳ hợp lệ của cả archive 2018–2024
   làm cỡ mẫu OOS; mọi ngày chọn đều được adapter xác minh và có exit hợp lệ.
+
+**DONE (09/10/2026); audit dữ liệu và các gate hồi quy PASS.**
+
+Triển khai `core/oos_coverage.py` và mở CLI audit hiện có. Lệnh tái lập offline:
+
+```powershell
+py -3.13 -X utf8 scripts/verify_execution_price_gate.py --oos-coverage
+```
+
+Đọc nguyên nguồn `data/execution_prices_oos/`, VNINDEX, model cố định đã
+khóa trước 2023, bank QA và snapshot tin trong `outputs/oos_pilot/inputs/`.
+Warm-up **600 nến cổ phiếu**, **200 nến VNINDEX** theo adapter; kiểm đúng
+Open(t+1)/Close(t+3), volume cả ba phiên và quyền trong `(entry, exit]`.
+Cutoff/entry/exit phải cùng năm như validator cohort. Mọi cutoff đủ warm-up,
+kể cả ngày bị loại vì thực thi, được `adapter.prepare` kiểm PIT/regime/tin.
+Lỗi nguồn/model/leakage dừng audit; không đổi thành ngày loại để bỏ qua.
+
+**1.996 ứng viên hằng ngày → 1.944 hợp lệ, 52 loại; 1.996/1.996 có proof PIT.**
+Nguyên nhân ưu tiên không đếm trùng: 28 ngày quyền, 24 ngày vượt ranh giới
+năm (ba cutoff cuối mỗi năm/mã). Không thiếu warm-up/lịch hoặc volume trong
+nguồn này. Các reason phụ được giữ riêng trong từng record.
+
+| Mã | 2023 hợp lệ /249 | 2024 hợp lệ /250 | Tổng hợp lệ /499 | Loại quyền | Loại vượt năm | Hợp lệ lưới cũ /165 |
+| --- | --- | --- | --- | --- | --- | --- |
+| FPT | 240 | 241 | 481 | 12 | 6 | 162 |
+| VNM | 242 | 241 | 483 | 10 | 6 | 163 |
+| VCB | 244 | 247 | 491 | 2 | 6 | 163 |
+| MWG | 244 | 245 | 489 | 4 | 6 | 162 |
+
+Các ô dưới đây là **số hợp lệ**; cột ứng viên là mẫu số cho từng mã/quý:
+
+| Quý | Ứng viên/mã | FPT | VNM | VCB | MWG |
+| --- | --- | --- | --- | --- | --- |
+| 2023Q1 | 59 | 59 | 59 | 59 | 59 |
+| 2023Q2 | 62 | 59 | 62 | 62 | 62 |
+| 2023Q3 | 63 | 60 | 61 | 61 | 61 |
+| 2023Q4 | 65 | 62 | 60 | 62 | 62 |
+| 2024Q1 | 59 | 59 | 57 | 59 | 59 |
+| 2024Q2 | 61 | 59 | 61 | 61 | 59 |
+| 2024Q3 | 64 | 64 | 62 | 64 | 64 |
+| 2024Q4 | 66 | 59 | 61 | 63 | 63 |
+
+Regime do model train-only suy luận từ prefix VNINDEX kết thúc đúng cutoff;
+các ô bốn mã là số hợp lệ, không dùng outcome/dự báo query để phân nhóm:
+
+| Regime PIT | Ứng viên/mã | FPT | VNM | VCB | MWG |
+| --- | --- | --- | --- | --- | --- |
+| BULL | 148 | 147 | 144 | 146 | 146 |
+| BEAR | 0 | 0 | 0 | 0 | 0 |
+| CHOPPY | 129 | 127 | 129 | 129 | 129 |
+| CONSOLIDATION | 222 | 207 | 210 | 216 | 214 |
+
+**Giới hạn coverage:** BEAR không xuất hiện trong giai đoạn/model này; không
+thêm ngày hoặc đổi model để tạo đủ bốn regime. Bốn snapshot tin đều rỗng:
+**0/1.944 ngày có tin đủ tin cậy**, 1.944 ngày dùng neutral strict PIT; đây
+là thiếu dữ liệu tin, không phải quan sát sentiment trung tính thực tế.
+
+**Artifact dùng tiếp:** `outputs/bayesian_benchmark/coverage.json`, envelope
+`oos_coverage_v1`, checksum 24 file nguồn, bảy file code và proof/state hash từng ngày,
+entry/exit, reason, coverage năm/quý/regime/tin. File runtime được gitignore;
+không tạo receipt Markdown/JSON theo task. Ghi nguyên tử, cùng nội dung
+không ghi lại; khác identity phải chọn đường dẫn mới trong thư mục runtime.
+
+**Phân biệt mẫu số:** lưới ba phiên cũ có **650/660** chu kỳ OOS đủ điều kiện
+sau kiểm cùng năm; **1.510** là số hợp lệ trên cả archive 2018–2024. Tập
+1.944 ngày ở đây có thể chồng lấn và gồm ngày pilot đã quan sát, **chưa là
+lịch benchmark**. W5-10 chọn lịch cách ≥3 phiên và tách pilot/smoke; 2023
+là development thăm dò, 2024 chỉ kiểm eligibility/lịch ở bước này.
+
+**Kiểm audit thật:** cấm đọc `.env`, DNS/socket, LLM và fit model bằng audit
+hook/mock; checksum nguồn/code và proof đầy đủ PASS. Đã sửa lựa chọn mã
+CLI từ HPG sang VNM, thống nhất FPT/VNM/VCB/MWG với dữ liệu thật.
+
+**Nghiệm thu:** compileall/E2E PASS; **590 unit test** (12 test mới),
+**96 test leakage PASS**; **49 artifact đóng băng nguyên SHA-256**.
+Không gọi API, không sinh outcome query, không refit/tải/ghi đè nguồn.
+W5-09 DONE; Gate C còn chờ W5-10–12 về lịch mẫu, ngân sách và khóa plan.
 
 #### W5-10 — Thiết kế lịch mẫu và tách pilot/smoke
 
@@ -1171,3 +1249,4 @@ Không merge khi gate bắt buộc FAIL.
 | 08/10/2026 | W5-06 | DONE: retry replace/cleanup có giới hạn cho WinError 5/32/33, không ghi/fsync lại hoặc che lỗi gốc; hướng dẫn PERSISTENCE/runtime local. Test handle Windows thật và checkpoint retry không lặp agent/không sửa complete. Compileall/E2E, 555 unit/93 leakage PASS; 49 artifact bất biến, không API hoặc thêm receipt | W5-07: response durable và đối soát upstream |
 | 08/10/2026 | W5-07 | DONE: journal output Indicator/Pattern/Trend/Full gắn identity/input/source; phục hồi output durable không lặp node, unknown chặn trước agent. CLI reconcile offline và xác nhận UUID/lý do có audit, giữ unknown/chi phí cũ. Compileall/E2E, 562 unit/93 leakage PASS; 49 artifact bất biến. Journal ở biên node, không cam kết exactly-once HTTP | W5-08: CLI bốn mã, retry/telemetry và nền tảng Bayesian v2 |
 | 09/10/2026 | W5-08.a–d | DONE: CLI cohort bốn mã, identity/checkpoint/report v2; posterior Beta–Binomial, quality gate, prefix và Decision độc lập dùng chung Full; retry HTTP/format repair chung 3 lượt/120 giây, telemetry invocation. Compileall/E2E, 578 unit/93 leakage PASS; verifier W4 20/20, 49 artifact bất biến. Phase B PASS; không API/benchmark/holdout tuning | W5-09: coverage và lịch OOS |
+| 09/10/2026 | W5-09 | DONE: audit 1.996 ngày OOS, adapter PIT xác minh 1.996/1.996; 1.944 hợp lệ, 28 loại quyền +24 vượt năm. Lưới cũ 650/660, không dùng 1.510 toàn archive làm cỡ mẫu OOS. Runtime coverage gitignore, bảng năm/quý/regime/tin trong README; BEAR=0, tin reliable=0. Compileall/E2E, 590 unit/96 leakage PASS; 49 artifact bất biến, không API/refit/outcome query | W5-10: chọn lịch ≥3 phiên, tách pilot/smoke và development/holdout |

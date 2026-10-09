@@ -341,7 +341,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, 8/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, PHASE C ĐANG THỰC HIỆN, 9/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -390,6 +390,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   Compileall/E2E, **578 unit/93 leakage PASS**; W4 verifier `27b5907` đạt
   **20/20**, 49 artifact giữ SHA-256. Kiểm fixture, không gọi API hoặc
   chọn ngưỡng bằng holdout. Tiếp theo **W5-09**, coverage/lịch OOS.
+- **W5-09 DONE, 09/10/2026**: audit mọi phiên OOS bốn mã 2023–2024;
+  adapter xác minh PIT **1.996/1.996** ứng viên, **1.944 hợp lệ**
+  (FPT 481, VNM 483, VCB 491, MWG 489). Loại 28 ngày quyền và 24
+  ngày vượt năm; lưới ba phiên cũ 650/660, không dùng 1.510 toàn archive
+  làm cỡ mẫu OOS. Coverage runtime được gitignore, giữ bảng năm/quý/regime/tin
+  trong README; BEAR=0 và tin reliable=0 là giới hạn dữ liệu hiện tại.
+  Compileall/E2E, **590 unit/96 leakage PASS**; 49 artifact nguyên byte;
+  không API/refit/outcome query. Tiếp theo **W5-10**: lịch mẫu và pilot/smoke.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
@@ -402,7 +410,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   sửa bank/model để tính tiến độ. Thay đổi plan chưa là task triển khai DONE.
 - **Nhiệm vụ cụ thể**:
   - [x] Phase A, W5-01–04: baseline, chỉ số/telemetry, audit bất đồng, hợp đồng v2 và metric/phân hoạch.
-  - [ ] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
+  - [x] Phase B, W5-05–08: quota, atomic I/O, đối soát upstream, CLI bốn mã và 08.a–d posterior/gate/prefix v2.
   - [ ] Phase C, W5-09–12: coverage, lịch cohort tách pilot/smoke/holdout, ngân sách v1/v2 và manifest/dry-run.
   - [ ] Phase D, W5-13–16: fault/resume/leakage tests, smoke thật giới hạn bốn điểm, nghiệm thu và bàn giao W6.
 - **Deliverables cuối W5**: CLI/audit dùng lại được, code Beta–Binomial/gate

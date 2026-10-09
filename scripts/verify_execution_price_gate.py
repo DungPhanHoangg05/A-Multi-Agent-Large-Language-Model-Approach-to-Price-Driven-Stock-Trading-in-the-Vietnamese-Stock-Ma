@@ -336,7 +336,22 @@ def main() -> None:
     parser.add_argument("--verify-only", action="store_true")
     parser.add_argument("--start", default=START, help="Ngày đầu nguồn giá, gồm warm-up")
     parser.add_argument("--end", default=END, help="Ngày cuối nguồn giá; OOS đến 2024-12-31")
+    parser.add_argument("--oos-coverage", action="store_true", help="Kiểm mọi ngày 2023–2024 cho bốn mã, không API")
+    parser.add_argument("--coverage-output", type=Path, help="JSON runtime trong outputs/bayesian_benchmark")
     args = parser.parse_args()
+    if args.oos_coverage:
+        if (args.download or args.resume or args.verify_only or args.start != START or args.end != END
+                or args.output_dir != REPO_ROOT / "data/execution_prices"):
+            parser.error("--oos-coverage dùng nguồn OOS đã khóa; không kết hợp cờ tải/kiểm gate giá cũ")
+        from core.oos_coverage import audit_locked_oos, save_coverage
+        payload = audit_locked_oos(progress=lambda message: print(message, flush=True))
+        destination = args.coverage_output or REPO_ROOT / "outputs/bayesian_benchmark/coverage.json"
+        save_coverage(payload, destination)
+        counts = payload["summary"]
+        print(f"Coverage OOS PASS: {counts['eligible']}/{counts['candidates']} ngày; lưu tại {destination}")
+        return
+    if args.coverage_output is not None:
+        parser.error("--coverage-output cần --oos-coverage")
     if args.download and args.verify_only:
         parser.error("Chọn tải mới hoặc xác minh offline")
     if args.resume and not args.download:

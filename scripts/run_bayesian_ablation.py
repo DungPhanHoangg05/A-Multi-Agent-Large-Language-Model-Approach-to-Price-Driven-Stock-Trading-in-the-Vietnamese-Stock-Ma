@@ -21,6 +21,7 @@ from langchain_groq import ChatGroq
 from PIL import Image
 
 from core.backtest_engine import BacktestEngine
+from core.execution_prices import STOCK_SYMBOLS
 from core.groq_pacing import GroqPacer, PacedGroqTransport, PilotStop, QUOTA_POLICIES, MODEL_LIMITS, tokenizer_cached
 from core.pilot_readiness import INPUT_DIR, build_adapter, prepare_inputs, verify_inputs
 from core.prior_backtest import PriorBacktestRunner, canonical_hash
@@ -78,7 +79,7 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs/pilot_fpt_run")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
     parser.add_argument("--plan", type=Path, help="Envelope plan research_cohort_plan_v2 đã khóa")
-    parser.add_argument("--symbol", action="append", choices=("FPT", "HPG", "MWG", "VCB"),
+    parser.add_argument("--symbol", action="append", choices=STOCK_SYMBOLS,
                         help="Chọn mã chạy tuần tự; bỏ cờ để chạy đủ bốn mã")
     parser.add_argument("--ledger", type=Path, default=ROOT / "outputs/oos_pilot/api_usage.json",
                         help="Ledger chung của tài khoản; giữ cùng đường dẫn khi resume/đổi key")
