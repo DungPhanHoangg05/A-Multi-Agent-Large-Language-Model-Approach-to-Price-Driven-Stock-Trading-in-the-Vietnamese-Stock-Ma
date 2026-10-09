@@ -341,7 +341,7 @@ vận hành/phương pháp; JSON còn rời là schema/QA/fixture mà code hoặ
 Receipt lịch sử và nhật ký task đã đóng gói nguyên byte trong ZIP bằng chứng,
 không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả.
 
-### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, PHASE C ĐANG THỰC HIỆN, 9/16
+### 📅 TUẦN 5: Hoàn thiện vận hành và nền tảng Bayesian v2 — PHASE A/B PASS, PHASE C ĐANG THỰC HIỆN, 10/16
 
 - [Checklist, task chi tiết và tiến độ](week5/README.md).
 - **W5-01 DONE, 07/10/2026**: verifier offline 20/20, 100 Decision;
@@ -398,6 +398,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   trong README; BEAR=0 và tin reliable=0 là giới hạn dữ liệu hiện tại.
   Compileall/E2E, **590 unit/96 leakage PASS**; 49 artifact nguyên byte;
   không API/refit/outcome query. Tiếp theo **W5-10**: lịch mẫu và pilot/smoke.
+- **W5-10 DONE, 09/10/2026**: lịch mẫu step3 neo đầu năm, mục tiêu 4
+  điểm/mã/quý; **124 điểm chính** (60 development 2023, 64 holdout 2024)
+  và **4 smoke riêng**, adapter xác minh **128/128**. Loại 20 cutoff pilot
+  và 42 chu kỳ FPT giao phiên giữ lệnh; FPT Q1/2023 thiếu 4, không bù quý khác.
+  Calendar runtime draft được gitignore, chờ ngân sách/khóa input; không chọn
+  theo outcome/regime/tin. Compileall/E2E, **600 unit/99 leakage PASS**;
+  guard checksum kiểm tập trung, 49 artifact và coverage W5-09 nguyên byte.
+  Tiếp theo **W5-11**: ngân sách/quota; W5-12 mới khóa plan chạy.
 - **Kế thừa W4**: CLI pilot, FPT 20 điểm/100 Decision, telemetry/quota và
   cap đã PASS. Kết quả giữ tại `outputs/pilot_fpt_run/`, ledger/audit tại
   `outputs/oos_pilot/`; tổng hợp ở [README W4](week4/README.md).
