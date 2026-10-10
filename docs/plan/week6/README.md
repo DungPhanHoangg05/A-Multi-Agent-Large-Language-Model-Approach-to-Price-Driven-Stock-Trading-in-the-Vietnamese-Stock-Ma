@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A IN_PROGRESS, W6-01–03 DONE, 3/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-04**.
+**Trạng thái: Phase A DONE, Gate A PASS, W6-01–04 DONE, 4/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-05** (Phase B).
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -54,7 +54,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | A | W6-01 | Xác minh bàn giao và xác định điểm tích hợp | W5 đóng | [x] |
 | A | W6-02 | Audit dữ liệu feature và tính nhân quả theo fold | 01 | [x] |
 | A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [x] |
-| A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [ ] |
+| A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [x] |
 | B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [ ] |
 | B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [ ] |
 | B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [ ] |
@@ -318,8 +318,9 @@ chờ 03–04 chốt chính sách quyền, phạm vi và đăng ký cấu hình.
 ##### Hợp đồng đã chốt — DONE, 11/10/2026
 
 Đây là đặc tả để triển khai ở 05–12, **chưa là code runtime hoặc validation
-hiệu quả**. C0 giữ nguyên công thức/version W5; ứng viên mới dùng các version
-dưới đây. W6-04 đăng ký cấu hình hữu hạn và ngưỡng chất lượng trước thực nghiệm;
+hiệu quả**. C0 giữ nguyên công thức/version W5; C1 thay retrieval với hồ sơ
+tương thích W5, C2/C3 dùng thống kê điều kiện/gate tách bên dưới. Bảng W6-04
+ghi bộ version chính xác cho từng ứng viên và ngưỡng trước thực nghiệm;
 không điều chỉnh công thức theo outcome development/holdout.
 
 **1. Feature `pit_price_features_v1` và chính sách `raw_segment_21_v1`.**
@@ -492,7 +493,8 @@ không có trong API feature/scaler/ranking/statistics/prompt.
 
 **5. Readiness, version và provenance.** Dùng evidence
 `prior_evidence_v3`, gate `split_quality_gate_v2`, prefix `compact_brpp_v3`
-cho đường mới; tên nhánh ứng viên vẫn `bayesian_v2`. C0 giữ evidence v2,
+cho C2/C3; C1 dùng hồ sơ tương thích ở 04. Tên nhánh ứng viên vẫn
+`bayesian_v2`. C0 giữ evidence v2,
 statistics `regime_beta_binomial_v2`, gate/prefix W5. Không đổi ý nghĩa
 artifact có version cũ. Ghi toàn bộ feature/price-policy/scaler/index/
 ranking/diversity/statistics/evidence/gate/prefix version ở trên, config
@@ -556,7 +558,7 @@ một luồng riêng trong tiến trình kiểm thử; chưa đo lại p95. **2.
 vệ nguyên byte**, code production/test không đổi. Không đọc outcome OOS,
 không gọi API, không thêm schema/config chưa có consumer; chỉ sửa ba Markdown
 chính, log/đối chiếu số học ở TEMP.
-Gate A vẫn **chưa nghiệm thu**, chờ 04 đăng ký ứng viên và ngưỡng.
+Trạng thái tại mốc 03: Gate A **chưa nghiệm thu**, chờ 04 đăng ký ứng viên và ngưỡng.
 
 #### W6-04 — Đăng ký ứng viên, ablation và tiêu chí đánh giá
 
@@ -575,13 +577,191 @@ Gate A vẫn **chưa nghiệm thu**, chờ 04 đăng ký ứng viên và ngưỡ
   chọn ứng viên và ngưỡng bằng development thuộc W7. Mở rộng danh sách phải
   ghi amendment trước chạy, không thử tiếp đến khi có kết quả thuận lợi.
 
-Giữ hợp đồng đánh giá W5: Δ net return v2–Original theo từng mã và trung bình
-đều bốn mã; báo kèm MDD, balanced accuracy, số giao dịch/CASH, bất đồng action
-và coverage. Không annualize Sharpe/Sortino chu kỳ hoặc gộp pilot/smoke vào
-mẫu chính. Kết quả validation W7 và holdout W8 được báo riêng.
+##### Registry đã đăng ký — DONE, 11/10/2026
 
-**Điều kiện Gate A (chưa nghiệm thu):** 01–04 DONE; dữ liệu/provenance đủ cho phạm vi đã đăng ký, công thức
-và phương pháp nhân quả có thể triển khai, chưa dùng outcome holdout.
+**`prior_candidate_registry_v1`**, đăng ký trước implementation/thực nghiệm
+mới. Bảng này là nguồn phương pháp; 12 mới xuất config runtime đầy đủ,
+validator và hash, không thêm JSON chưa có mã đọc ở task 04.
+
+| Candidate ID | Nội dung | So sánh kiểm soát / giả thuyết |
+| --- | --- | --- |
+| `C0` | Evidence/prefix/Decision W5, `full_prior` | C0–Original: mốc Bayesian v2 W5 với quality gate, giữ cả kết quả bất lợi |
+| `C1` | C0 + feature/scaler/ranking giá, recency và diversity của 03 | C1–C0: nhóm thay đổi retrieval có tạo ví dụ phù hợp hơn không; chưa tách tác động từng thành phần |
+| `C2` | Retrieval C1 + conditional shrink, split gate, prefix thống kê mới; reasoning Decision W5 | C2–C1: nhóm thay đổi statistics/gate/cách ghi counts có ích không; chưa quy riêng lợi ích cho shrink |
+| `C3` | C2 + contract Decision đối chiếu prior và trace sử dụng, `full_prior` | C3–C2: contract sử dụng prior có cải thiện quyết định không, gồm tác động schema/instruction mới |
+| `C3_stats_only` | C3, chỉ đưa stats ready vào prompt | C3–C3_stats_only: tác động thêm examples khi stats được giữ nguyên |
+| `C3_examples_only` | C3, chỉ đưa examples ready vào prompt | C3–C3_examples_only: tác động thêm stats khi examples được giữ nguyên |
+
+Đúng **6 cấu hình**, cùng family `bayesian_v2`, phân biệt bằng candidate ID
+và config hash. Năm nhánh v1 `original/random/recent/similarity/bayesian`
+giữ riêng, không tính vào sáu cấu hình hoặc coi `bayesian` v1 là C0.
+Thứ tự nhánh cố định: năm v1 theo thứ tự trên → C0 → C1 → C2 → C3 →
+C3_stats_only → C3_examples_only. Báo thứ tự/thời điểm gọi; không quy mọi
+khác biệt từ một lượt LLM thành hiệu ứng nhân quả riêng của thành phần.
+
+**Cấu hình đầy đủ về phương pháp.** Mọi trường dưới là giá trị bắt buộc,
+không cho `.env` hoặc CLI override riêng một nhánh sau khi khóa plan.
+`N/A` nghĩa là thành phần không được dùng, không tự nhận default mới.
+
+| Trường | C0 | C1 | C2, C3 và hai ablation |
+| --- | --- | --- | --- |
+| `enable_bayesian_prior / requested_k / seed / scope` | true / 3 / 42 / same_symbol | Như C0 | Như C0 |
+| Population | same_symbol, same_regime, exit<query | Như C0 | Như C0; C là tuple đúng cả bốn tín hiệu, B=P\C |
+| Feature / scaler / index | N/A | Bốn feature, 21 giá; scaler riêng mã/fold, fit≥2, ddof=0, zero-scale=1; theo 03 | Như C1 |
+| `w_signal / half_life_days / min_gap_sessions` | N/A / N/A / N/A | 0.5 / 365 / 5 | Như C1 |
+| `min_similarity` | 0.75 trên S của v1 | **0.625 trên base_score** | Như C1 |
+| `max_prior_age_days` | 730 ngày từ as_of_date | 730 | 730 |
+| Tie-break | S giảm, exit giảm, ID tăng | rank_score giảm, exit giảm, ID tăng; greedy diversity theo 03 | Như C1 |
+| `min_population_count` | 20 | 20 | 20 |
+| Statistics / prior | Toàn P; Beta(1,1) + counts P | Như C0 | Nhóm C; background B, `shrink_strength=4` theo 03 |
+| `min_conditional_count / max_interval_width` | N/A / N/A | N/A / N/A | **5 / 0.75** cho từng metric |
+| Interval | Equal-tailed Beta 95% | Như C0 | Equal-tailed Beta plug-in 95% theo 03 |
+| Gate | READY khi P≥20 và còn ví dụ quality; stats/examples bật cùng nhau | Như C0, quality theo retrieval mới | Stats và examples độc lập theo 03; so sánh ≥support, ≤width |
+| `content_mode` | full_prior | full_prior | C2/C3: full_prior; hai ablation đúng hậu tố ID |
+| Numeric action policy | Tắt; raw_action=executed_action theo ánh xạ SHORT=CASH | Như C0 | Như C0 |
+
+Ngưỡng 0.625 được chọn từ `0.5×0.75 + 0.5×(1/(1+1))`: khớp 3/4
+tín hiệu và RMS z-distance=1 nằm đúng biên nhận. Nó cũng có thể nhận mức
+khớp tín hiệu thấp hơn nếu giá rất gần; không diễn giải thành luật bắt buộc
+khớp ≥3/4. Support 5, width 0.75 và population 20 là mốc kỹ thuật hạn chế
+nhóm quá ít/không chắc chắn, **chưa được chứng minh tối ưu hoặc hiệu chuẩn**.
+Không sweep trọng số, cửa sổ, K, tuổi, diversity hoặc ngưỡng trong W6.
+
+**Version và cách giữ phép so sánh.** Tên version mới là hợp đồng sẽ được
+consumer triển khai, chưa là chứng nhận artifact/runtime đã tồn tại.
+
+| Hồ sơ | Evidence / statistics | Gate / prefix | Decision |
+| --- | --- | --- | --- |
+| C0 | `prior_evidence_v2` / `regime_beta_binomial_v2` | `prior_quality_gate_v1` / `compact_brpp_v2` | Hồ sơ W5 `decision_legacy_v1` |
+| C1 | `prior_evidence_v3` / `regime_beta_binomial_v2` | `population_coupled_gate_v1` / `compact_brpp_v2_compat` | Như C0 |
+| C2 | `prior_evidence_v3` / `conditional_disjoint_beta_v1` | `split_quality_gate_v2` / `compact_brpp_v3` | Như C0, reasoning prior v2 W5 |
+| C3 và hai ablation | Như C2 | Như C2; content_mode có hash riêng | `decision_prior_use_v1` khi có block prior hiển thị |
+
+C1 giữ nguyên công thức posterior toàn P, template prefix và reasoning W5:
+với cùng stats/tasks, chuỗi prefix phải bằng W5 nguyên byte. Evidence/score
+validator mới nhận retrieval mới bằng version riêng; không sửa nghĩa của
+schema W5 hoặc dán version cũ lên artifact mới. C2 đổi serializer để ghi
+đúng n_P/n_C, support từng metric và khoảng điều kiện, giữ reasoning W5;
+thay đổi layout cần thiết thuộc nhóm thay đổi C2. C3 chỉ thêm yêu cầu đối chiếu
+bằng chứng và trace tự báo cáo, không ép đồng ý prior hoặc gọi thêm vòng LLM.
+
+Ba cấu hình C3 tính **cùng base evidence**: population/counts/posterior,
+ranked/selected IDs và readiness không đổi theo content_mode. Dùng chung
+`base_evidence_sha256`; binding candidate/config/prompt/checkpoint có hash
+riêng. Trace tách `retrieved_k`/`visible_k`, `visible_metric_ids` và
+`visible_example_ids`; stats_only có visible_k=0 dù retrieved_k có thể>0.
+LLM chỉ được viện dẫn thành phần đã hiển thị; trace không tự chứng minh
+LLM thực sự dùng prior. Các metric không ready là N/A, không đưa posterior
+không đạt vào prompt. Ablation bỏ block khỏi prompt, không âm thầm đổi pool,
+K, gate hoặc bù bằng thành phần bị ẩn.
+
+K=0/tắt prior, hoặc content_mode không có block ready → prompt và schema
+Decision đúng Original; C3 không còn chỉ dẫn/field prior trong request đó.
+Sidecar ghi prior không hiển thị. Mỗi candidate vẫn có Decision attempt
+riêng như W5, dùng cùng Full; cùng prompt/temperature=0 chưa bảo đảm action
+trùng Original. Báo bất đồng action riêng ở tập prior-off. C0/C1 gate
+coupled là hồ sơ đối chứng; readiness ở mục 5 của 03 áp dụng C2/C3.
+
+**Các đầu vào/giao thức khóa chung.** Kế thừa byte nguồn, lịch, model options
+từ `outputs/bayesian_benchmark/input_lock.json` của W5, SHA-256 byte:
+`a92bc3025b1e307da4554ccd1de53957f436ff2b185f86c52371c8eae8fb767d`.
+Language=vi, timeframe=1d, window=45; Alpha 600 nến, zscore_tanh,
+alpha_weights=None theo 02. Text `openai/gpt-oss-20b`, temperature=0,
+max_tokens=2048; graph `qwen/qwen3.8-27b`, temperature=0, max_tokens=1024;
+client_options lấy đúng subtree đã khóa. Đây là cấu hình lịch sử đã kiểm,
+chưa kiểm khả dụng API tại ngày chạy W7. Đổi model/options phải amendment
+và run identity mới trước API, không trộn model giữa các candidate.
+
+Một upstream/Full mỗi điểm, deep-copy cho mọi nhánh; cùng báo cáo đã
+distill/cap, bank 852 episode, nguồn giá/tin và economic engine. LONG t+1→t+3,
+SHORT=CASH, phí/slippage hai chiều giữ nguyên. Giữ retry/pacer/ledger và
+budget invocation W5, BRPP≤600, tổng prompt<6.500; kiểm caps trước request.
+Identity mới ghim registry/config đã resolve, versions của 03/bảng trên,
+fold/fit IDs/index/scaler/proof, model/client/runtime/code và lịch. Chuẩn
+bị/verify không đọc key; API do người dùng tự chạy với lệnh thực ở 12/16.
+Không sửa input lock, bank, smoke/pilot checkpoint hoặc tạo executable
+plan holdout ở 04; C0 mới cũng không resume vào output W5 đã khóa.
+
+**Phân hoạch và tiêu chí nghiệm thu.**
+
+- **W6, Gate A:** 01–04 DONE, nguồn đủ cho phạm vi PIT hồi cứu; registry
+  hữu hạn, công thức/threshold/version/comparator đã chốt. Gate B/C/D và
+  lợi ích đầu tư chưa nghiệm thu. Bốn gate hồi quy phải PASS trước merge.
+- **W6-14, train offline:** fold 2021 có 197 fit trước lọc feature/329 query;
+  fold 2022 có 526 fit/322 query; fit feature hợp lệ 166/428 theo 03, giữ 651
+  query dự kiến. HMM expanding prefix đúng query, scaler freeze theo fold,
+  chỉ prior exit<query. Báo coverage feature, conditional support/width,
+  readiness, score/tuổi/diversity và counts theo mã/fold/regime/candidate.
+  Mock Decision chỉ kiểm luồng tích hợp, không xếp hạng return LLM. Zero coverage
+  ghi NO_EXPOSURE; thiếu nguồn/proof bắt buộc làm validation không khả thi
+  thì BLOCKED. Không thay ngưỡng để lấy PASS hoặc dùng full 2022 cho fold sớm.
+- **W7, development:** đúng 60 điểm năm 2023 đã khóa (FPT 12, VNM/VCB/MWG 16
+  mỗi mã), cùng embargo pilot/smoke của W5; không bù ngày thiếu/lỗi. W7
+  chọn trong registry và khóa protocol trước 2024. Mọi chỉnh ngưỡng/candidate
+  là amendment có lý do, comparator, phiên bản/config hash và thời điểm
+  trước lượt chạy mới; kết quả trước/sau giữ riêng, công bố số cấu hình đã
+  thử. Thêm ứng viên phải thay thế ID có ghi lịch sử để active registry≤6;
+  không tuyên bố giới hạn sáu cho tổng số thử nếu đã có amendment.
+- **W8, holdout:** 64 điểm 2024 (16/mã), dùng scaler/model cuối train và
+  candidate/protocol W7 đã khóa; không chọn/ngắt mẫu theo return, không
+  refit/tune bằng outcome 2024. Pilot 20 và smoke 4 chỉ là bằng chứng vận hành;
+  development luôn thăm dò. Khả năng PIT là hồi cứu, giữ giới hạn vintage/
+  kiến thức LLM đã ghi ở 02; không gọi đó là triển khai live trong quá khứ.
+
+**Paired support và thước đo.** Báo số planned, complete, pending, failed,
+unknown, prior-off, active-stats/examples của từng mã/candidate. Query thiếu
+feature/support vẫn trong planned, fallback hợp lệ là điểm complete; lỗi
+integrity/LLM không phải CASH. Báo global common support của toàn ma trận
+và support riêng cho từng cặp so sánh; không so Δ của hai tập ngày khác
+nhau, không bỏ điểm lỗi hoặc thay ngày. Primary chỉ COMPLETE khi đủ mọi
+điểm đã đăng ký ở cả bốn mã cho ma trận đánh giá; partial là provisional,
+không dùng để chọn/promote candidate. Report ở 12 phải tái dựng tài khoản trên
+chính tập paired theo thứ tự ngày và cùng 50 triệu/mã; không lấy hai return
+từ hai lịch khác nhau rồi trừ. Các ablation báo toàn cohort; phân tích chỉ
+đổi nội dung dùng tập **cả stats và examples ready** để giữ contract C3
+active ở cả ba nhánh. Ngoài tập đó, so sánh còn gồm tác động bật/tắt contract
+do fallback; không gọi là hiệu ứng riêng của examples/stats. Tập điều kiện
+sau chỉ là phân tích bổ sung, không thay primary toàn cohort.
+
+Primary `D(c)=mean_s(R_net(c,s)−R_net(Original,s))`, đơn vị điểm phần trăm,
+trung bình đều bốn mã, không giả portfolio. Báo kèm ΔR từng mã, MDD tại cuối
+chu kỳ và ΔMDD, balanced accuracy (thiếu lớp=null), LONG hit-rate (không LONG
+=null), số LONG/CASH, action disagreement, coverage và CASH reference.
+Sharpe/Sortino chu kỳ không annualize; không cộng bốn posterior thành score.
+
+**Quy tắc đề cử W7 đăng ký ban đầu:** chỉ xét candidate đủ gate kỹ thuật,
+đủ 60 paired points và prior thực hiển thị ở ≥10% planned (≥6/60, ít nhất
+một điểm mỗi mã). Đề cử cải thiện khi D>0, ΔR>0 ở≥3/4 mã và mean ΔMDD≤2
+điểm phần trăm, không mã nào ΔMDD>5 (dương là drawdown xấu hơn). Đây là
+ngưỡng lựa chọn phát triển, chưa là bằng chứng thống kê. Trong tập đạt,
+chọn D lớn nhất; các D cách D_max không quá 1e−9 điểm phần trăm thì chọn
+mean ΔMDD nhỏ hơn, sau
+đó thứ tự C0,C1,C2,C3,C3_stats_only,C3_examples_only. Nếu không ai đạt,
+giữ Original làm lựa chọn triển khai, báo kết quả bất lợi; W7 vẫn có thể
+khóa một ứng viên nghiên cứu để kiểm W8 từ tập đủ completion/exposure trên,
+xếp theo D/MDD/thứ tự ID như trên, gắn NOT_PROMOTED. Nếu tập đó rỗng thì
+báo chưa đủ khả thi, chưa khóa ứng viên cải thiện. Không gọi lựa chọn này
+là nâng cấp đã chứng minh. Không bắt buộc p-value
+nhỏ để đóng W6; kiểm định/sensitivity và ảnh hưởng chọn nhiều ứng viên
+thuộc W9, không dùng holdout để cứu kết quả development.
+Nếu C0 được chọn thì giữ cấu hình W5, không gán lợi ích cho module W6 mới.
+Ứng viên mới phải báo thêm Δ so với C0 và các cặp đã đăng ký để kết luận
+phần nâng cấp nào có tác dụng, ngoài primary so với Original.
+
+**Kiểm task 04:** đối chiếu C0 với defaults/formatter W5 và lock hiện có;
+registry **6/6**, defaults/version C0, ngưỡng/biên số học, lock/model options
+và checklist **4/16 PASS**. Compileall/E2E, **624 unit và 105 test leakage
+PASS**, không skip; BLAS/OpenMP/NumExpr một luồng riêng cho các tiến trình
+gate, chưa đo lại p95. **2.281 file bảo vệ nguyên byte**, production/test
+không đổi. Chỉ sửa ba Markdown chính, log/đối chiếu ở TEMP; không đọc outcome
+OOS, gọi API hoặc thêm schema/config chưa có consumer. Đây là kiểm đặc tả
+và hồi quy hiện hữu; hành vi các profile mới còn phải kiểm ở 05–15.
+
+**Gate A: PASS (11/10/2026), phạm vi thiết kế/PIT hồi cứu.** 01–04 DONE;
+nguồn/provenance đã audit, hợp đồng và sáu cấu hình có comparator/ngưỡng/
+version rõ ràng trước implementation. Chưa dùng outcome holdout để thiết kế;
+feature/index/scaler/gate/prompt/CLI mới còn phải nghiệm thu ở 05–12,
+validation và hồi quy/p95 ở 14–15. Không phải PASS lợi nhuận hoặc đóng W6.
 
 ### Phase B — Đặc trưng và truy xuất
 
@@ -774,3 +954,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 10/10/2026 | W6-01 | DONE; 1/16 task. Input 128/128, smoke 4/4–20 Decision, report dựng lại/reconcile PASS offline; lock 46 nguồn/46 code/23 runtime, bốn child identity và code commit `0286119` khớp. Ghi bản đồ caller/API hiện có, điểm cần version hóa và cách tái lập checkout W5. Compileall/E2E, 624 unit/105 leakage PASS; 122 file nguyên byte, audit input/smoke 0 credential/network. Chỉ sửa tài liệu chính, không API hoặc receipt mới; Gate A chưa nghiệm thu | W6-02: audit nguồn feature và tính nhân quả theo fold |
 | 11/10/2026 | W6-02 | DONE; 2/16 task. Bank audit mốc `f743b94` và replay production 852/852 PASS; 217 scaler prefix, 16 điểm Alpha tái tính và 4 ca sửa tương lai PASS offline. Ghi coverage giá/quyền, ma trận cutoff và giới hạn PIT hồi cứu. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte, audit 0 credential/network, không API hoặc receipt mới. Gate A chờ 03–04 | W6-03: chốt feature/ranking/thống kê và chính sách quyền |
 | 11/10/2026 | W6-03 | DONE; 3/16 task. Chốt feature 21 phiên và barrier quyền, scaler theo mã/fold, ranking tín hiệu+giá/recency/diversity, thống kê điều kiện có background P\C và readiness stats/examples độc lập. Coverage 699/852, fit166/428; 17 đối chiếu công thức PASS. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; Gate A chưa nghiệm thu | W6-04: đăng ký ứng viên, ablation và ngưỡng chất lượng |
+| 11/10/2026 | W6-04 | DONE; 4/16 task, Gate A PASS trong phạm vi thiết kế/PIT hồi cứu. Registry 6/6, C0/default/version, ngưỡng/biên số học, lock/model options và checklist PASS; chốt comparator, ablation, common support và tiêu chí đề cử W7. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; các gate triển khai còn TODO | W6-05: extractor feature giá PIT, mở Phase B |
