@@ -46,11 +46,13 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6: Phase A đang thực hiện, W6-01–02 DONE, 2/16 task hoàn thành**.
+  **W6: Phase A đang thực hiện, W6-01–03 DONE, 3/16 task hoàn thành**.
   Đã kiểm bàn giao W5, bản đồ tích hợp và provenance theo fold: bank/replay
   852/852, 217 scaler HMM prefix, 16 điểm Alpha và 4 ca sửa tương lai PASS
-  offline. Tiếp theo **W6-03**, chốt contract feature/ranking/thống kê và
-  xử lý quyền theo [kế hoạch W6](docs/plan/week6/README.md).
+  offline. Đã chốt feature 21 phiên/xử lý quyền, scaler theo fold, ranking
+  tín hiệu+giá/recency/diversity và shrink dùng background tách nhóm điều kiện.
+  Tiếp theo **W6-04**, đăng ký ứng viên/ngưỡng trước triển khai theo
+  [kế hoạch W6](docs/plan/week6/README.md).
   Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.

@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A IN_PROGRESS, 2/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A IN_PROGRESS, 3/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **2/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-03; chưa chạy benchmark.
+  4 phase/16 task, **3/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-04; chưa chạy benchmark.
   - [ ] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [ ] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -517,6 +517,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   vẫn thuộc task sau; Gate A chờ 03–04 chốt xử lý quyền và đăng ký cấu hình.
   Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file bảo vệ
   nguyên byte, không đổi code hoặc gọi API.
+- **W6-03 DONE, 11/10/2026:** chốt bốn feature giá với 21 phiên liên tiếp,
+  không vượt mốc quyền/tham chiếu; coverage train 699/852, fit hợp lệ theo
+  fold 166/428. Scaler riêng từng mã đóng băng theo fold; ranking kết hợp
+  tín hiệu/giá, recency và diversity xác định, không nhận outcome. Thống kê
+  điều kiện dùng background P\C để tránh đếm C hai lần; có counts/mẫu số,
+  khoảng Beta plug-in và giới hạn diễn giải. Readiness stats/examples tách
+  riêng, version/provenance và ví dụ tính tay tại README W6. Đây là đặc tả,
+  code thuộc 05–12; Gate A chờ 04 đăng ký ứng viên/ngưỡng, không dùng API.
+  17 đối chiếu công thức, compileall/E2E, 624 unit/105 leakage PASS, không
+  skip; 2.281 file bảo vệ nguyên byte, chỉ cập nhật ba Markdown chính.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
