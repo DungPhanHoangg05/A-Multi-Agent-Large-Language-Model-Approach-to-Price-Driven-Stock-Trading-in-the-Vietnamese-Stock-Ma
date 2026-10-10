@@ -27,7 +27,7 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
 
 - [Kế hoạch tổng](docs/plan/plan.md) và tiến độ [W1](docs/plan/week1/README.md),
   [W2](docs/plan/week2/README.md), [W3](docs/plan/week3/README.md), [W4](docs/plan/week4/README.md),
-  [W5](docs/plan/week5/README.md).
+  [W5](docs/plan/week5/README.md), [W6](docs/plan/week6/README.md).
 - [Phương pháp nghiên cứu](docs/methodology_spec.md).
 - [Chạy/tiếp tục Memory Bank và QA](docs/plan/week2/phase_c_memory_generation.md).
 - [API prior, checkpoint/resume và bàn giao W5](docs/plan/week4/week_close_and_handoff.md).
@@ -46,7 +46,8 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  Tiếp theo **lập plan chi tiết W6 để cải thiện retrieval/Decision**.
+  **W6 đã có plan chi tiết: 4 phase/16 task, 0/16 triển khai**;
+  tiếp theo **W6-01**, cải thiện retrieval/Decision theo [kế hoạch W6](docs/plan/week6/README.md).
   Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
