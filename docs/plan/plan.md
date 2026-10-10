@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PLAN_READY, 0/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A IN_PROGRESS, 1/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **0/16 triển khai**. Tiếp theo W6-01; chưa chạy benchmark.
+  4 phase/16 task, **1/16 hoàn thành**. Tiếp theo W6-02; chưa chạy benchmark.
   - [ ] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [ ] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -500,6 +500,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   riêng; không là điều kiện bắt buộc phải thêm luật giao dịch để đóng W6.
   Bank/model toàn train không tự đủ điều kiện cho fold sớm: phải audit và
   tái tạo đúng prefix khi cần, không gắn nhãn validation PIT cho replay bị rò rỉ.
+- **W6-01 DONE, 10/10/2026:** input 128/128, smoke 4/4–20 Decision,
+  verifier/reconcile/report PASS offline. Lock 46 nguồn/46 code/23 runtime,
+  bốn child identity và code mốc `0286119` khớp; phân biệt hash byte và hash
+  text LF. Bản đồ caller cho retriever/evidence/Decision/cohort/journal,
+  điểm cần version hóa và cách tái lập W5 ghi tại README W6. Compileall/E2E,
+  624 unit/105 leakage PASS; 122 file bảo vệ nguyên byte, audit 0 credential/
+  network trên lệnh input/smoke. Chỉ sửa tài liệu, không gọi API; Gate A còn
+  chờ 02–04, chưa nghiệm thu tính nhân quả theo fold.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
