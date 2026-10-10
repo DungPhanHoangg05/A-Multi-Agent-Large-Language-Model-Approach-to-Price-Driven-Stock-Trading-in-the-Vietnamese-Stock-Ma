@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: PLAN_READY, 0/16 task triển khai.** Ngày lập: **10/10/2026**.
+**Trạng thái: Phase A IN_PROGRESS, W6-01 DONE, 1/16 task hoàn thành.** Ngày lập/cập nhật: **10/10/2026**. Tiếp theo **W6-02**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -51,7 +51,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| A | W6-01 | Xác minh bàn giao và xác định điểm tích hợp | W5 đóng | [ ] |
+| A | W6-01 | Xác minh bàn giao và xác định điểm tích hợp | W5 đóng | [x] |
 | A | W6-02 | Audit dữ liệu feature và tính nhân quả theo fold | 01 | [ ] |
 | A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [ ] |
 | A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [ ] |
@@ -82,6 +82,78 @@ PASS. Quyết định phương pháp phải được ghi trước khi xem kết 
   dùng identity/checkpoint hiện hữu làm bằng chứng.
 - **Đạt khi:** input 128/128, smoke 4/4–20 Decision verify được offline;
   có mốc hồi quy và cách kiểm lại lịch sử sau khi code đổi, không API.
+
+##### Kết quả xác minh bàn giao — DONE/PASS, 10/10/2026
+
+Input verifier **128/128 PASS**: 4 smoke, 60 development 2023, 64 holdout
+2024. CLI dry-run, `--verify-only` và `--reconcile` PASS trên nguồn local
+hiện có. Smoke bốn mã complete, **20/20 Decision v1**; report dựng lại khớp
+bản lưu. Mỗi điểm có Indicator/Pattern/Trend/Full durable complete; không
+còn attempt cần xử lý trong smoke. `primary_status=NOT_APPLICABLE` đúng
+cho ma trận `smoke_v1`, chưa là nghiệm thu hiệu quả v2.
+
+| Phạm vi kiểm | Kết quả |
+| --- | --- |
+| Input lock | 46/46 nguồn, 46/46 file code/schema/config, 23/23 mục runtime khớp; Python 3.13.5 |
+| Identity smoke từng mã | 32/32 code, 12/12 nguồn, 8/8 mục runtime; hợp với binding cohort |
+| Hợp các nguồn/code của lock và smoke | 47 đường nguồn khớp byte hash; 46 đường code khớp nội dung commit `0286119` sau chuẩn hóa newline |
+| Cách đối chiếu checksum | Lock/cohort dùng byte SHA-256; `identity.code_sha256` con dùng UTF-8 text chuẩn hóa LF. Kiểm theo đúng phương pháp từng lớp, không ép hai loại hash bằng nhau |
+| Audit input/smoke | 0 lần mở credential, 0 DNS/socket connect; transport verifier cấm HTTP |
+| Gate hồi quy cho task | Compileall/E2E, 624 unit và 105 test leakage PASS, không skip; 122 file bảo vệ nguyên byte sau kiểm |
+
+Metadata `LOCKED_OFFLINE_BUDGET_DEFERRED`/`gate_c=PENDING` trong lock là
+trạng thái lúc tạo W5-12; quyết định bỏ W5-11 và nghiệm thu W5 ghi ở README
+W5. Giữ byte/hash manifest, không đổi metadata cũ thành nhãn PASS.
+
+##### Bản đồ caller và điểm mở rộng
+
+| Luồng/API hiện có | Hành vi đang được kiểm | Điểm nối cho task sau |
+| --- | --- | --- |
+| `scripts/run_bayesian_ablation.py:execute_cohort` → `PriorBacktestRunner.run_cohort` → `core/research_cohort.py:run_cohort` | Kiểm plan/source/identity cả bốn mã trước API, ledger chung và chế độ offline | W6-12: plan/registry ứng viên mới; chưa có CLI chạy sáu cấu hình C0–C3/ablation |
+| `PriorContextAdapter.prepare` → `PriorPointContext.agent_state` / `bind_full` / `restore_full_bundle` / `_query` trong `core/prior_context.py` | `agent_state()` cấp bản sao `point_in_time_df`; seal Full, whitelist query; source verifier ở adapter có kiểm file | W6-05/06/12: feature query/scaler/index, whitelist và provenance phiên bản riêng; không đưa `execution_data()`/evaluation vào query |
+| `SetGraph.compile_report_decision` → `PriorPointContext.retrieve` → `BayesianPriorRetriever.retrieve` | Luồng v1 trả `tasks/stats/metadata`; graph kiểm nguồn và format prefix trước Decision | W6-07/08: thêm metric/policy riêng, giữ API v1 và `signal_match_v1` tái lập được |
+| `research_cohort.v2_point` → `PriorPointContext.evidence_v2` → `BayesianPriorRetriever.retrieve_evidence` → `core/prior_evidence_v2.py` | Regime population, similarity tín hiệu, Beta–Binomial, quality gate, `format_evidence_prefix` | W6-07–10: feature/ranking, thống kê điều kiện/shrink và trạng thái stats/examples cần contract/version mới |
+| `agents/decision_agent.py:create_final_trade_decider` với `_prior_preparer` / `_before_invoke` | Distill/cap → compact prompt → chèn BRPP → wrapper retry/structured parse; v2 dùng deep-copy Full | W6-11: contract/trace và ba chế độ nội dung; giữ Original prompt, cap và guard. Chưa có chế độ stats-only/examples-only |
+| `research_input_lock.CODE_PATHS` / `validate_bound_plan`, `PriorBacktestRunner._identity`, cohort identity | Khóa code/config/runtime/source; child v1 và cohort có phiên bản riêng | W6-06/12: ghim module/index/scaler/fold/candidate mới; không sửa lock hay identity smoke đã chạy |
+| `PriorCheckpointStore` / `CheckpointSession` + `StageJournal.invoke`; `research_cohort.v2_point` | V1 có branch intent/output và journal node; v2 có slot/attempt/prompt/evidence riêng, complete không replay | W6-12/15: checkpoint từng candidate, verifier dựng lại semantic và fault/resume; v2 không tự đi qua journal node như upstream |
+| `core/research_metrics.py:research_report` / `branch_metrics` | Metric chu kỳ, common support và primary tham chiếu nhánh cố định `bayesian_v2` | W6-12.c: report theo candidate ID, giữ ΔR từng mã/trung bình bốn mã và pending ngoài mẫu chấm |
+| `PriorRunLock`, `GroqPacer`, `research_invocation.invocation_scope` | Khóa OS/ledger, pacing, HTTP/format retry chung, lưu unknown/reserve | W6-12/15: kế thừa guard cho mọi candidate; không tạo client/runner bỏ qua guard |
+
+Hot query của retriever khác bước kiểm nguồn ở adapter: benchmark retrieval
+phải giữ rõ ranh giới này và báo chi phí feature/transform khi thêm ở W6.
+Code hiện có chưa cung cấp feature giá/scaler/auxiliary index, trọng số
+recency/ràng buộc diversity cho ranking v2, conditional shrink hoặc registry
+nhiều ứng viên. Những phần đó thuộc
+05–12; kiểm bàn giao này chưa thay cho audit tính nhân quả từng fold ở 02.
+
+##### Lệnh kiểm và tái lập sau khi code đổi
+
+Từ root, kiểm offline hiện trạng (không dùng key):
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_research_inputs.py --verify
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --verify-only
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --plan outputs/bayesian_benchmark/smoke_plan.json --output-dir outputs/bayesian_benchmark/smoke_run --reconcile
+```
+
+Mốc đóng W5 là `99d6cb1`, mốc code của smoke là `0286119`; code khảo sát tại
+`333e0a0` vẫn khớp mốc smoke. Khi code/schema/config thay đổi, tạo checkout
+độc lập ở thư mục mới để kiểm lịch sử:
+
+```powershell
+$w5ReviewRoot = Join-Path (Split-Path (Get-Location) -Parent) "kltn-w5-review-0286119"
+git worktree add --detach "$w5ReviewRoot" 0286119
+```
+
+Giữ bản gốc, sao chép đúng byte các source được lock/identity dẫn chiếu và
+`outputs/bayesian_benchmark/{input_lock.json,smoke_plan.json,calendar.json,
+coverage.json,smoke_run/}`, cùng ledger/input/audit W4 và bank/model/QA.
+Giữ journal/attempt; không mang metadata lock/owner/recovery đang hoạt động
+sang máy/checkout khác. Phục hồi Python/dependency theo runtime identity,
+đối chiếu byte hash nguồn và loại hash code đã ghi rồi chạy các lệnh trên
+tại root checkout mới. Clone Git riêng không có runtime output đã gitignore.
+Run ứng viên W6 dùng identity/output mới; không sửa fingerprint smoke để
+nhận code mới. Quy trình chi tiết về quota/unknown nằm ở bàn giao W5.
 
 #### W6-02 — Audit dữ liệu feature và tính nhân quả theo fold
 
@@ -322,3 +394,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | Ngày | Phạm vi | Kết quả | Bước tiếp theo |
 | --- | --- | --- | --- |
 | 10/10/2026 | Lập kế hoạch W6 | PLAN_READY; 4 phase, 16 task, 0/16 triển khai. Kế thừa W5, thêm gate provenance theo fold và giới hạn danh sách ứng viên. Kiểm thay đổi tài liệu: compileall/E2E, 624 unit/105 leakage PASS; checklist/liên kết hợp lệ, 122 file bảo vệ nguyên byte. Không gọi API hoặc thay code/nguồn; các gate triển khai W6 chưa nghiệm thu | W6-01 |
+| 10/10/2026 | W6-01 | DONE; 1/16 task. Input 128/128, smoke 4/4–20 Decision, report dựng lại/reconcile PASS offline; lock 46 nguồn/46 code/23 runtime, bốn child identity và code commit `0286119` khớp. Ghi bản đồ caller/API hiện có, điểm cần version hóa và cách tái lập checkout W5. Compileall/E2E, 624 unit/105 leakage PASS; 122 file nguyên byte, audit input/smoke 0 credential/network. Chỉ sửa tài liệu chính, không API hoặc receipt mới; Gate A chưa nghiệm thu | W6-02: audit nguồn feature và tính nhân quả theo fold |
