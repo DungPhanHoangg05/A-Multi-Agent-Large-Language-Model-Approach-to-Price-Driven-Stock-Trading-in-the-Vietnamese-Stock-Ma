@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A IN_PROGRESS, W6-01–02 DONE, 2/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-03**.
+**Trạng thái: Phase A IN_PROGRESS, W6-01–03 DONE, 3/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-04**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -53,7 +53,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | --- | --- | --- | --- | --- |
 | A | W6-01 | Xác minh bàn giao và xác định điểm tích hợp | W5 đóng | [x] |
 | A | W6-02 | Audit dữ liệu feature và tính nhân quả theo fold | 01 | [x] |
-| A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [ ] |
+| A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [x] |
 | A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [ ] |
 | B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [ ] |
 | B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [ ] |
@@ -315,6 +315,249 @@ chờ 03–04 chốt chính sách quyền, phạm vi và đăng ký cấu hình.
   hyperprior và likelihood; nếu dùng empirical Bayes phải ghi cách ước lượng
   và giới hạn diễn giải khoảng bất định. Không gọi win-rate là expected return.
 
+##### Hợp đồng đã chốt — DONE, 11/10/2026
+
+Đây là đặc tả để triển khai ở 05–12, **chưa là code runtime hoặc validation
+hiệu quả**. C0 giữ nguyên công thức/version W5; ứng viên mới dùng các version
+dưới đây. W6-04 đăng ký cấu hình hữu hạn và ngưỡng chất lượng trước thực nghiệm;
+không điều chỉnh công thức theo outcome development/holdout.
+
+**1. Feature `pit_price_features_v1` và chính sách `raw_segment_21_v1`.**
+Mỗi episode dùng giá tại chính `as_of_date` của episode; query dùng cutoff
+query. Cắt nguồn đã xác minh xuống ≤cutoff **trước** rolling/kiểm quyền.
+Gọi `C_0,…,C_20` là 21 Close liên tiếp trên lịch VNINDEX, `C_20` đúng cutoff,
+`r_j = ln(C_j/C_(j−1))`, j=1…20. Thứ tự vector cố định:
+
+| Feature | Công thức | Đơn vị |
+| --- | --- | --- |
+| `momentum_5` | `C_20/C_15 − 1` | Tỷ lệ thập phân, 0,05 = 5% |
+| `momentum_20` | `C_20/C_0 − 1` | Tỷ lệ thập phân |
+| `volatility_20` | `sqrt(mean((r_j − mean(r))²))`, ddof=0 | Log-return mỗi phiên; không annualize |
+| `ma_distance_20` | `C_20/mean(C_1,…,C_20) − 1` | Tỷ lệ thập phân |
+
+Không MA200, giá tuyệt đối, volume, nhãn, P&L hoặc tin thiếu vào vector.
+Giá nghìn VND theo loader hiện hữu; đổi đồng loạt VND↔nghìn VND không đổi
+feature trong sai số tuyệt đối 1e−12. Không tự đoán/chia lại đơn vị khi nạp.
+Giữ nguyên phiên volume=0 và báo `zero_volume_count`; nó không tham gia
+công thức, không chứng nhận giá đó có thể khớp lệnh. Gate giá thực thi riêng
+vẫn giữ nguyên cho nhãn/evaluator.
+
+- Đủ **21 phiên liên tiếp**, không bỏ hàng rồi nối cửa sổ. Thiếu đầu lịch sử:
+  `INSUFFICIENT_HISTORY`; thiếu phiên/cutoff: `MISSING_SESSION`/`MISSING_CUTOFF`.
+  Không nội suy, forward-fill, bù bằng mã khác hoặc dùng một phần vector.
+- Dùng union mốc của `corporate_action_barriers` đã xảy ra ≤cutoff: ngày
+  ex-right và `abs(Reference[t]−Close[t−1]) > 0,00001` nghìn VND.
+  Có mốc trong **(ngày C_0, cutoff]** → `CORPORATE_ACTION_WINDOW` và vector
+  `null`. Mốc đúng C_0 được phép vì mọi giá dùng đều từ cơ sở sau mốc;
+  mốc đúng cutoff bị loại. Không dùng quyền tương lai hoặc điều chỉnh hồi tố.
+- Các trường hợp coverage trên trả `UNAVAILABLE`, vector `null`, reason và
+  khoảng ngày/số phiên thực có. Hash/đơn vị/nguồn sai, ngày trùng/đảo,
+  giá OHLC/Reference không hữu hạn hoặc không dương, NaN trong nguồn có hàng,
+  volume sai hay kết quả tính không hữu hạn → `ValueError`; không chuyển
+  lỗi nguồn thành coverage thấp. Mốc/số phiên phụ trợ không vào vector.
+
+Kiểm coverage bằng lịch/ngày và barrier trên train, không đọc lợi nhuận:
+
+| Mã | Feature hợp lệ / tổng episode | Thiếu do barrier | Fit hợp lệ fold 2021 / 2022 |
+| --- | ---: | ---: | ---: |
+| FPT | 160 / 211 | 51 | 41 / 101 |
+| MWG | 172 / 213 | 41 | 42 / 104 |
+| VCB | 201 / 215 | 14 | 47 / 123 |
+| VNM | 166 / 213 | 47 | 36 / 100 |
+
+Tổng **699/852** có feature, **153** thiếu do barrier; hai tập fit có
+**166/428** hàng hợp lệ. Khác audit cửa sổ 20 hàng ở 02 vì momentum/volatility
+20 lợi suất cần **21 giá**. Đây là coverage đầu vào, chưa là số ví dụ đủ
+regime/similarity/gate. Episode thiếu feature vẫn giữ trong bank và population
+thống kê nếu đủ PIT; không loại khỏi mẫu đánh giá để làm đẹp kết quả.
+
+**2. Scaler `symbol_fold_standard_v1`, index `episode_price_index_v1`.**
+Fit riêng từng mã, gộp mọi regime, trên feature hợp lệ của episode đã đóng
+`exit_date < first_query_date` của fold. Fold 2021 bắt đầu 04/01/2021,
+fold 2022 bắt đầu 06/01/2022; 2020 chỉ bootstrap. Mỗi mã cần ≥2 hàng fit;
+không đủ → `SCALER_UNAVAILABLE`, không mượn fold/mã khác. Với từng chiều,
+`mu=mean(x)`, `variance=mean((x−mu)²)`, `scale=sqrt(variance)` nếu variance>0,
+ngược lại scale=1 và ghi `zero_variance=true`; `z=(x−mu)/scale`. Giữ đủ bốn
+chiều, không clipping/refit vì query lệch phân phối. Giá cố định cho vector
+0, volatility=0 hợp lệ; chiều cố định lúc fit vẫn có thể khác ở query.
+
+Scaler đóng băng suốt fold; không thêm query hoặc episode mới đóng vào fit.
+OOS dùng scaler fit trên episode hợp lệ có exit≤30/12/2022, đóng băng
+31/12/2022, không refit bằng 2023/2024. HMM/scaler HMM giữ giao thức riêng:
+prefix expanding đúng cutoff trong train, model train đóng băng cho OOS.
+Thống kê ở mục 4 là expanding PIT theo công thức cố định, không gọi đó là
+hyperprior đã đóng băng đầu fold.
+
+Index phụ lưu vector **chưa scale** theo episode ID và cutoff của episode;
+cả query lẫn prior được transform bằng **cùng scaler của fold query**.
+Không sửa bank, không fit mỗi episode, không lấy vector của episode tại ngày
+query. Index có thể chứa các episode về sau, nhưng retrieval phải lọc
+exit<query trước ranking/statistics; fit scaler cũng chỉ nhận prefix hợp lệ.
+Nạp/kiểm hash/semantic nguồn một lần trước vòng query, cache theo identity;
+hot query không I/O/fit. Thiếu ID, ID trùng, sai vector/source hoặc dùng scaler
+sai fold ném lỗi; `UNAVAILABLE` có reason đã xác minh là trạng thái khác.
+`SCALER_UNAVAILABLE` phải có proof fit<2 hàng; thiếu artifact bắt buộc hoặc
+không kiểm được fit provenance là lỗi hệ thống, không là coverage thấp.
+
+**3. Ranking `signal_price_recency_v1`, diversity `session_gap_v1`.**
+Lọc same_symbol, cùng regime và exit<query trước tính score. Giữ chuẩn hóa
+bốn trường v1: trend, pattern, alpha_consensus, indicator_consensus. Sentiment
+không tham gia metric này; tin thiếu không được diễn giải là bằng chứng trung
+tính của thị trường. Trường thiếu/giá trị ngoài vocabulary là lỗi.
+Với query/prior đều có feature và scaler hợp lệ:
+
+```text
+S = số trường tín hiệu bằng nhau / 4
+d = sqrt(mean((z_prior − z_query)²))         # bốn chiều
+P = 1 / (1 + d)
+base_score = w_signal*S + (1 − w_signal)*P
+age_days = (query_date − prior.as_of_date).days
+exit_age_days = (query_date − prior.exit_date).days
+recency = 2 ** (−age_days / half_life_days)
+rank_score = base_score * recency
+```
+
+Mốc cấu hình phương pháp: `w_signal=0,5`, `half_life_days=365`,
+`max_prior_age_days=730`, `min_gap_sessions=5`, K≤3, seed=42. Tất cả là
+tham số có hash; 04 đăng ký chúng cùng ngưỡng `min_similarity` trước chạy,
+chưa là tối ưu thực nghiệm. Lọc tuổi `age_days≤max_prior_age_days` và
+`base_score≥min_similarity` (không áp ngưỡng lên score đã nhân recency).
+Tuổi tính bằng ngày lịch từ ngày ra tín hiệu, không từ ngày load/cache;
+exit_age chỉ chẩn đoán, luôn >0. Không làm tròn trước so sánh.
+
+Sắp `rank_score` giảm → `exit_date` giảm → `episode_id` tăng. Duyệt thứ tự
+này, giữ ứng viên nếu khoảng cách **chỉ số phiên trên cùng lịch VNINDEX**
+giữa ngày ra tín hiệu của nó và từng ví dụ đã giữ ≥5, đến khi đủ K hoặc hết
+tập. Equality ở ngưỡng được nhận, không thêm ngẫu nhiên để bù K; K_eff≤K.
+Trace gồm S/d/P/base/age/recency/rank, ID giữ/loại và reason. Filter feature,
+similarity, tuổi và diversity chỉ tác động examples; không đổi population
+thống kê. Hoán vị WIN/LOSS/net-return của prior không đổi scaler, score,
+thứ tự hoặc IDs; chỉ phần thống kê/nội dung nhãn sau chọn được thay đổi.
+
+**4. Thống kê `conditional_disjoint_beta_v1`.**
+Định nghĩa các tập bằng ID duy nhất, tính lại tại mỗi query từ lịch sử đã đóng:
+
+- **P:** toàn bộ same_symbol, same_regime, exit<query. Không lọc theo K,
+  feature, tuổi, khoảng cách, diversity hoặc outcome.
+- **C:** phần P có **đúng cả bốn tín hiệu** bằng query theo vocabulary v1.
+  Tín hiệu xung đột vẫn là một tuple hợp lệ; không gộp các tuple chỉ vì
+  chúng có cùng số trường khớp. **B=P\C**, C∩B=∅, |P|=|C|+|B|.
+- Với từng metric, áp mask mẫu số xuống P/C/B **trước** đếm success.
+  Một episode góp tối đa một quan sát cho từng metric; không cộng support
+  của bốn metric hoặc của hai agent thành cỡ mẫu mới.
+
+| Metric | Mask mẫu số | Success |
+| --- | --- | --- |
+| `win_rate_long` | Mọi episode trong tập | `WIN_IF_LONG` |
+| `bull_trap_rate` | Trend bullish **hoặc** Pattern bullish, union một lần | `LOSS_IF_LONG` |
+| `trend_false_bullish_rate` | Trend bullish | `LOSS_IF_LONG` |
+| `pattern_false_bullish_rate` | Pattern bullish | `LOSS_IF_LONG` |
+
+Dùng `is_bullish`/nhãn đã xác minh hiện hữu; không tái định nghĩa break-even
+hoặc bull trap. Ghi raw success/support/rate riêng cho P, C, B; mẫu số 0
+trả rate=null. Các tỷ lệ là lịch sử theo hợp đồng LONG có phí, không phải
+expected net return hoặc xác suất query/LLM đã được hiệu chuẩn.
+
+Với mỗi metric, gọi `(s_C,n_C)` và `(s_B,n_B)` là counts sau mask:
+
+```text
+p_background = (s_B + 1) / (n_B + 2)
+alpha_prior = shrink_strength * p_background
+beta_prior = shrink_strength * (1 − p_background)
+alpha_post = alpha_prior + s_C
+beta_post = beta_prior + n_C − s_C
+mean_post = alpha_post / (alpha_post + beta_post)
+CrI95 = [Beta.ppf(0.025, alpha_post, beta_post),
+         Beta.ppf(0.975, alpha_post, beta_post)]
+```
+
+`shrink_strength=4` là mốc phương pháp hữu hạn/dương, ghi vào config;
+04 đăng ký cùng các tham số trên. Background là phần bù của nhóm điều kiện,
+**không dùng counts của P rồi cộng C lần nữa**. Counts B ước lượng mean
+hyperprior, chuyển thành đúng bốn pseudo-observation, không cộng thêm n_B
+vào likelihood. n_B=0 → p_background=0,5, prior Beta(2,2),
+`FIXED_SYMMETRIC_PRIOR`; n_C=0 → `NO_CONDITIONAL_HISTORY`, posterior/interval
+đưa ra evidence=null, không coi pseudo-support là quan sát hoặc tự đổi C.
+Counts nguồn vẫn đủ để kiểm chứng. n_C=1 hoặc chỉ có một lớp vẫn tính nếu
+nguồn hợp lệ, readiness phải xét support/width đã đăng ký.
+
+Đây là **empirical Bayes với background PIT**, khoảng Beta là khoảng
+plug-in có điều kiện trên hyperprior đã ước lượng: không bao hàm sai số
+ước lượng background, phụ thuộc thời gian giữa cycle hoặc sai số regime.
+Không gọi nó là chứng nhận coverage tần suất 95%/khoảng dự báo lợi nhuận.
+Các metric được shrink riêng theo background sau mask; bốn posterior không
+là một phân phối chung để cộng/nhân thành xác suất hay điểm giao dịch.
+Outcome chỉ đọc sau lọc PIT để đếm thống kê/hiển thị ví dụ; query outcome
+không có trong API feature/scaler/ranking/statistics/prompt.
+
+**5. Readiness, version và provenance.** Dùng evidence
+`prior_evidence_v3`, gate `split_quality_gate_v2`, prefix `compact_brpp_v3`
+cho đường mới; tên nhánh ứng viên vẫn `bayesian_v2`. C0 giữ evidence v2,
+statistics `regime_beta_binomial_v2`, gate/prefix W5. Không đổi ý nghĩa
+artifact có version cũ. Ghi toàn bộ feature/price-policy/scaler/index/
+ranking/diversity/statistics/evidence/gate/prefix version ở trên, config
+hash và code/runtime identity; bank/manifest/CSV/events/calendar hash;
+query/episode cutoff; fold ID, sorted fit IDs/hash/count, max fit exit,
+mu/variance/scale/zero-mask và scaler/index hash; regime proof/model hash.
+Identity mới phải tách checkpoint/cache, không resume lẫn protocol.
+
+- `stats_ready` theo từng metric: support C≥`min_conditional_count` và
+  CrI width≤`max_interval_width`, đồng thời |P|≥`min_population_count`.
+  Stats block READY nếu có ít nhất một metric ready; metric thiếu/không
+  đạt ghi N/A/reason, không đưa posterior không đạt vào prompt như đã đạt.
+- `examples_ready`: |P|≥`min_population_count`, feature/scaler hợp lệ và
+  sau similarity/age/diversity còn ≥1 ví dụ. Không bắt buộc stats_ready.
+  Feature query `UNAVAILABLE` hoặc fit scaler<2 hàng có proof → examples
+  off có reason; stats vẫn xét counts độc lập. K_eff=0 do coverage không
+  tự tắt `stats_only`; artifact thiếu/sai luôn ném lỗi như mục2.
+- Prior disabled hoặc **K=0 là tắt toàn prior** theo giao thức hiện hữu;
+  `stats_only` dùng requested_K>0 nhưng bỏ examples khi dựng prefix.
+  `full_prior` dùng từng block ready, `examples_only` chỉ examples,
+  `stats_only` chỉ stats; không block nào phù hợp → prefix rỗng/Original.
+  Threshold fields trên phải có số cụ thể trong registry 04 trước code/run;
+  không lấy posterior_mean>0,5 làm gate hoặc tự đổi action. Lỗi integrity/
+  leakage luôn ném lỗi, không fallback Original như thiếu support.
+- Prefix≤600 ký tự và prompt<6.500: trình bày block theo template version,
+  ghi rõ support/mean/khoảng của tỷ lệ lịch sử; không lộ query outcome.
+  Kiểm trần trước gọi LLM, không âm thầm cắt counts/interval hoặc đổi K.
+  Template/trace/boundary gates phải được test ở 10–12; task này chưa
+  nghiệm thu khả năng tất cả block vừa trần hoặc JSON schema runtime.
+
+**6. Ví dụ tính tay và ca biên cho triển khai.**
+
+- 21 Close gồm 20 giá 100 và cuối 110: momentum5=momentum20=0,1;
+  r gồm 19 số 0 và ln(1,1), volatility=`ln(1,1)*sqrt(19)/20`
+  ≈0,0207723721; MA20=100,5, distance=19/201≈0,0945273632.
+  Giá cố định → cả bốn feature=0; nhân tất cả giá 1.000 giữ kết quả.
+- Scaler chiều có fit [1,3] → mu=2, variance=1, scale=1, query4→z=2.
+  Fit [2,2] → variance=0, scale=1, query3→z=1; không chia 0 hoặc bỏ chiều.
+- Khớp 3/4 tín hiệu và chênh z=[1,0,0,0] → S=0,75, d=0,5,
+  P=2/3, base=17/24. Tuổi365, half-life365 → rank=17/48≈0,3541667.
+  Tuổi730 nhận nếu đủ similarity;731 loại. Hai ngày cách4 phiên loại
+  khi xét diversity, cách5 nhận. Score bằng nhau dùng exit rồi ID.
+- Metric win: C có3 WIN/4, B có8 WIN/20 → p_background=9/22,
+  prior Beta(18/11,26/11), posterior Beta(51/11,37/11), mean=51/88
+  ≈0,579545; CrI95≈[0,249194;0,872546]. Raw C=0,75; raw P=11/24.
+  n_C+n_B=24, không dùng raw P làm background rồi cộng C. Query tuple
+  Trend bullish/Pattern bearish → pattern denominator C=0 và N/A;
+  Trend và Pattern cùng bullish vẫn chỉ một quan sát trong bull-trap union.
+- Thiếu1 phiên, thiếu cutoff, chưa đủ21, barrier ở C_0/cutoff, volume0,
+  NaN, giá sai đơn vị và scaler thiếu/sai fold xử lý đúng mục1–2.
+  exit=query bị loại; exit trướcquery nhận. Thêm/sửa giá, quyền, episode
+  **sau cutoff** không đổi kết quả PIT; outcome prior hoán vị chỉ đổi stats.
+  Không có P/C/B, chỉ1 prior, tuple xung đột, zero variance và đảo thứ tự
+  nguồn phải có oracle/boundary test ở các task triển khai tương ứng.
+
+**Kiểm chứng task:** đã đối chiếu coverage 699/852 và fit166/428 bằng
+nguồn train đã xác minh; **17 đối chiếu công thức PASS** bằng NumPy/SciPy
+độc lập, chưa là test implementation mới. Compileall/E2E, **624 unit và
+105 test leakage PASS**, không skip. Bốn gate giới hạn BLAS/OpenMP/NumExpr
+một luồng riêng trong tiến trình kiểm thử; chưa đo lại p95. **2.281 file bảo
+vệ nguyên byte**, code production/test không đổi. Không đọc outcome OOS,
+không gọi API, không thêm schema/config chưa có consumer; chỉ sửa ba Markdown
+chính, log/đối chiếu số học ở TEMP.
+Gate A vẫn **chưa nghiệm thu**, chờ 04 đăng ký ứng viên và ngưỡng.
+
 #### W6-04 — Đăng ký ứng viên, ablation và tiêu chí đánh giá
 
 - **Làm:** khóa danh sách hữu hạn trước thực nghiệm, cùng seed=42/K≤3/scope
@@ -530,3 +773,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 10/10/2026 | Lập kế hoạch W6 | PLAN_READY; 4 phase, 16 task, 0/16 triển khai. Kế thừa W5, thêm gate provenance theo fold và giới hạn danh sách ứng viên. Kiểm thay đổi tài liệu: compileall/E2E, 624 unit/105 leakage PASS; checklist/liên kết hợp lệ, 122 file bảo vệ nguyên byte. Không gọi API hoặc thay code/nguồn; các gate triển khai W6 chưa nghiệm thu | W6-01 |
 | 10/10/2026 | W6-01 | DONE; 1/16 task. Input 128/128, smoke 4/4–20 Decision, report dựng lại/reconcile PASS offline; lock 46 nguồn/46 code/23 runtime, bốn child identity và code commit `0286119` khớp. Ghi bản đồ caller/API hiện có, điểm cần version hóa và cách tái lập checkout W5. Compileall/E2E, 624 unit/105 leakage PASS; 122 file nguyên byte, audit input/smoke 0 credential/network. Chỉ sửa tài liệu chính, không API hoặc receipt mới; Gate A chưa nghiệm thu | W6-02: audit nguồn feature và tính nhân quả theo fold |
 | 11/10/2026 | W6-02 | DONE; 2/16 task. Bank audit mốc `f743b94` và replay production 852/852 PASS; 217 scaler prefix, 16 điểm Alpha tái tính và 4 ca sửa tương lai PASS offline. Ghi coverage giá/quyền, ma trận cutoff và giới hạn PIT hồi cứu. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte, audit 0 credential/network, không API hoặc receipt mới. Gate A chờ 03–04 | W6-03: chốt feature/ranking/thống kê và chính sách quyền |
+| 11/10/2026 | W6-03 | DONE; 3/16 task. Chốt feature 21 phiên và barrier quyền, scaler theo mã/fold, ranking tín hiệu+giá/recency/diversity, thống kê điều kiện có background P\C và readiness stats/examples độc lập. Coverage 699/852, fit166/428; 17 đối chiếu công thức PASS. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; Gate A chưa nghiệm thu | W6-04: đăng ký ứng viên, ablation và ngưỡng chất lượng |
