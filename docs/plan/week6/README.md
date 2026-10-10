@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A IN_PROGRESS, W6-01 DONE, 1/16 task hoàn thành.** Ngày lập/cập nhật: **10/10/2026**. Tiếp theo **W6-02**.
+**Trạng thái: Phase A IN_PROGRESS, W6-01–02 DONE, 2/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-03**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -52,7 +52,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | A | W6-01 | Xác minh bàn giao và xác định điểm tích hợp | W5 đóng | [x] |
-| A | W6-02 | Audit dữ liệu feature và tính nhân quả theo fold | 01 | [ ] |
+| A | W6-02 | Audit dữ liệu feature và tính nhân quả theo fold | 01 | [x] |
 | A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [ ] |
 | A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [ ] |
 | B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [ ] |
@@ -167,6 +167,140 @@ nhận code mới. Quy trình chi tiết về quota/unknown nằm ở bàn giao 
   không được coi hợp lệ cho query trước ngày fit. Nếu báo cáo cũ bị ảnh hưởng,
   không chỉ thay nhãn regime rồi coi đã sửa leakage; phải có đường tái tạo
   đúng fold. Thiếu nguồn/proof cần thiết thì Gate A BLOCKED, không sửa bank gốc.
+
+##### Kết quả audit — DONE, 11/10/2026
+
+**Nguồn giá đủ cho triển khai feature PIT hồi cứu.** Bốn bộ giá VCI thô
+`data/execution_prices/` đều có **1.251 phiên, 02/01/2018–30/12/2022**,
+khớp lịch VNINDEX; checksum CSV/evidence/events và phép dựng lại trường thô
+PASS. Prefix train của `data/execution_prices_oos/` bằng bộ train. Giá
+provider là VND, loader chia 1.000 đúng một lần; agent/feature dùng nghìn
+VND, volume là số cổ phiếu, VNINDEX là điểm. CSV cổ phiếu W1 trong
+`data/historical/` chưa xác minh cơ sở điều chỉnh, **không dùng thay nguồn
+feature/nhãn thô**. VNINDEX W1 vẫn là nguồn HMM riêng, có bốn sửa nến KBS
+được manifest ghi nhận; metadata model giữ `RESEARCH_ONLY/UNVERIFIED`.
+
+| Mã | Episode 2020 / 2021 / 2022 | Tổng | Lookback chứa mốc quyền/tham chiếu: 20 / 50 / 200 phiên |
+| --- | ---: | ---: | ---: |
+| FPT | 51 / 81 / 79 | 211 | 45 / 111 / 211 |
+| MWG | 50 / 82 / 81 | 213 | 39 / 99 / 213 |
+| VCB | 50 / 83 / 82 | 215 | 13 / 33 / 166 |
+| VNM | 50 / 83 / 80 | 213 | 45 / 115 / 213 |
+
+Các episode có ID/ngày nối đúng journal, snapshot dài **600–1.248 phiên**,
+đủ lookback 20/50/200/600 về số hàng; 45 phiên hiển thị và 600 phiên Alpha
+giữ nguyên. Không có episode 2018–2019; ngày quyết định
+01/06/2020–27/12/2022, tất toán cuối 30/12/2022. Mỗi mã có hai phiên volume
+0 (23–24/01/2018) trong warm-up; không đổi thành volume giả hoặc bỏ ngày.
+
+Đếm mốc bằng `corporate_action_barriers` trên **(đầu lookback, cutoff]**,
+gồm ex-right và chênh Reference/Close trước đó: đây là cảnh báo cơ sở giá,
+chưa là số feature bị loại. Gate nhãn chỉ loại quyền trong `(entry, exit]`
+và không bảo đảm lookback tín hiệu liên tục. **W6-03 phải chốt xử lý mốc đã
+xảy ra, coverage/reason và zero-volume trước extractor**; W6-05 kiểm cùng
+chính sách cho episode/query. Không dùng chuỗi điều chỉnh hồi tố hoặc quyền
+sau cutoff để sửa feature, không âm thầm nối lại cửa sổ sau khi bỏ phiên.
+
+##### Ma trận cutoff và provenance có thể tái sử dụng
+
+| Phạm vi | Nguồn hợp lệ | Điều kiện và phần còn cần chuẩn bị |
+| --- | --- | --- |
+| Warm-up 2018–05/2020 | OHLCV thô và VNINDEX prefix | Không có prior episode; chưa dùng làm validation hiệu quả |
+| Replay 852 query 2020–2022 | 852 signal checkpoint + 852 episode, 217 HMM prefix | HMM/scaler/mapping/calibration kết thúc đúng ngày query; giá/Alpha/tin ≤query. Chỉ prior có exit<query; không dùng model toàn 2022 |
+| Fold dự kiến 2021 | Prefix bank đã tất toán trước 04/01/2021; query 04/01–31/12/2021 | **197 fit / 329 query**, purge 4 cycle exit=04/01; exit cuối fit 29/12/2020. Fit theo mã FPT/MWG/VCB/VNM: 50/49/49/49 |
+| Fold dự kiến 2022 | Prefix bank đã tất toán trước 06/01/2022; query 06/01–27/12/2022 | **526 fit / 322 query**, purge 4 cycle exit=06/01; exit cuối fit 31/12/2021. Fit theo mã: 131/131/132/132 |
+| Development 2023 / holdout 2024 | Giá OOS đã khóa; HMM toàn train kết thúc 30/12/2022, freeze 31/12/2022 | Dùng proof train-only hồi cứu hiện có; scaler feature/index/config W6 cần phiên bản mới. Không đọc outcome OOS để chọn tham số tại task này |
+
+Hai fold theo năm là **phạm vi dự kiến để đăng ký ở 03–04**, không phải
+report validation đã chạy. 201 episode 2020 làm bootstrap, 651 query
+2021–2022 làm chẩn đoán train; không gọi 852 điểm replay là 852 mẫu validation
+độc lập. Purge theo ngày exit thực tế, equality bị loại; bốn cycle bị purge
+ở mỗi biên có thể vào prior sau khi đã exit<query, không loại vĩnh viễn.
+Số fit/query là trần coverage của lịch trước gate lookback/feature ở 03;
+không cam kết scaler sẽ nhận đủ số hàng đó sau khi xử lý quyền và NaN.
+Trước lọc regime/quality, số prior cùng mã ở fold 2021 là FPT 50–130,
+MWG 49–130, VCB 49–131, VNM 49–131; fold 2022 lần lượt 131–209,
+131–211, 132–213, 133–211. Đây chưa là support nhóm điều kiện.
+
+- **HMM hiện có:** `PrefixRegimeProvider.get(..., verify_only=True)` chỉ
+  nạp artifact đúng cutoff, kiểm train hash và phân loại cuối prefix. Có
+  thể giữ giao thức expanding PIT: HMM/scaler HMM/calibration dùng giá đến
+  query theo luật cố định; không coi đây là HMM đóng băng ở đầu năm. Nếu
+  đăng ký giao thức frozen-fold khác thì tạo artifact/proof riêng.
+- **Alpha hiện có:** cấu hình chung 852 checkpoint khớp run gốc: window=45,
+  `zscore_tanh`, `alpha_weights=None` → trọng số IC/accuracy/Sharpe
+  0,40/0,35/0,25; top 5 tuyển lại trên 600 nến ≤query, nhãn tuyển chọn ba
+  phiên cuối chưa đóng là NaN. Đây là adaptation theo prefix, không phải
+  danh sách Alpha đã fit hết 2022 rồi áp ngược về 2020. Normalization dùng
+  toàn cửa sổ hiện biết; metric tuyển chọn là diagnostic trong cửa sổ,
+  **không là hiệu quả walk-forward của Alpha**, không dùng làm feature PIT
+  cho từng hàng quá khứ. Chưa có kiểm barrier quyền trong metric Alpha;
+  giữ hạn chế đối chứng này, thay đổi selector cần protocol/bank mới.
+- **Báo cáo:** extractor cắt giá/tin trước upstream, không truyền regime
+  vào Indicator/Pattern/Trend/Alpha; báo cáo đã lưu không phụ thuộc HMM
+  toàn train. Đường `PriorContextAdapter.prepare` →
+  `load_shared_checkpoint` có thể kiểm/replay cùng cấu hình nguồn gốc.
+  Nếu đổi window, Alpha, giá, model/prompt hoặc thêm đầu vào regime thì
+  phải tạo report/episode mới với identity riêng; không chỉ đổi regime
+  trong bank rồi gọi đó là sửa leakage. Phần dùng API do người dùng chạy.
+- **Artifact còn thiếu, thuộc 05–06/12/14:** extractor feature, scaler
+  feature riêng từng fold fit từ prefix eligible, auxiliary index gắn ID,
+  fold/config/hyperprior provenance và harness. Không lấy scaler HMM năm
+  2022 làm scaler feature cho fold sớm. Với scaler/hyperprior cần nhãn,
+  fit chỉ dùng exit<first query; adaptation trong fold phải đăng ký rõ.
+
+##### Cách kiểm và giới hạn diễn giải
+
+Audit W2 nguyên bản tại commit **`f743b94`** (20/20 code hash khớp run)
+PASS **852/852**, lịch 868 ứng viên/16 loại, nhãn engine và provenance.
+Verifier W2 trên code hiện tại dừng đúng vì **8/20 file code đã đổi**;
+dữ liệu/lịch/config/runtime vẫn khớp, không sửa fingerprint để ép PASS.
+Tái lập bằng checkout mốc này, runtime đã ghim và staging/bank nguyên byte,
+theo cách checkout độc lập ở W6-01. Khi chạy CLI audit, truyền `--run-dir`
+và `--bank` đến bản gốc, `--output` đến thư mục tạm; không ghi đè QA W2.
+
+Artifact không ghi timestamp freeze từ năm 2020; cấu hình/code và LLM được
+đóng băng cho nghiên cứu hồi cứu năm 2026. Giá cũng tải hồi cứu, không có
+vintage mỗi ngày; không chứng nhận cấu hình đã tồn tại hay provider/LLM
+chưa biết tương lai vào năm giao dịch. Phạm vi có thể kiểm là **PIT theo
+dữ liệu cấp cho thuật toán**, chưa là backtest triển khai thực tại thời điểm
+lịch sử. 0/852 tin reliable vẫn là thiếu dữ liệu, không là sentiment thị
+trường trung tính. Không dùng fixture/mock để bù các hạn chế này.
+
+Replay qua adapter production **852/852 PASS**, không gọi lại upstream;
+15 file code và cấu hình/runtime tín hiệu đồng nhất trong toàn bộ checkpoint.
+**217/217** artifact prefix hợp lệ: 165 HMM, 52 fallback MULTI_FACTOR theo
+luật đã khóa. Mean/variance/scale tái tính bằng StandardScaler trên đúng
+feature prefix khớp cả 217 artifact (rtol/atol 1e-12), không refit HMM.
+Tái tính đủ năm Alpha tại **16 điểm** (đầu/cuối kho, đầu 2021/2022 của bốn
+mã) khớp giá trị/hướng/metric đã lưu; **4/4** ca sửa giá sau cutoff không
+đổi kết quả. Các audit có guard credential/network: **0 attempt**.
+
+Có thể kiểm lại đường replay hiện tại từ root, không tạo receipt:
+
+```powershell
+@'
+import json
+from pathlib import Path
+from core.prior_context import PriorContextAdapter
+adapter = PriorContextAdapter({"enable_bayesian_prior": True})
+records = json.loads(Path("data_manager/regime_memory_store.json").read_text("utf-8"))
+for record in records:
+    point = adapter.prepare(record["symbol"], record["as_of_date"])
+    shared = point.load_shared_checkpoint("outputs/historical_memory_run")
+    assert shared["current_signals"] == record["agent_signals"]
+    assert shared["market_regime"]["regime_name"] == record["regime"]
+print(f"Replay PASS: {len(records)} checkpoint")
+'@ | py -3.13 -X utf8 -
+```
+
+Compileall/E2E, **624 unit và 105 test leakage PASS**, không skip;
+**2.281 file bảo vệ nguyên byte**, code production/test không đổi. Chỉ
+cập nhật ba Markdown chính; kết quả audit/log tạm ở TEMP, không tạo receipt
+trong repo hoặc gọi API.
+**Kết luận:** nguồn/proof đủ cho phạm vi triển khai PIT hồi cứu; chưa
+nghiệm thu harness/validation hay feature scaler chưa viết. Gate A còn
+chờ 03–04 chốt chính sách quyền, phạm vi và đăng ký cấu hình.
 
 #### W6-03 — Chốt hợp đồng feature/ranking/thống kê
 
@@ -395,3 +529,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | --- | --- | --- | --- |
 | 10/10/2026 | Lập kế hoạch W6 | PLAN_READY; 4 phase, 16 task, 0/16 triển khai. Kế thừa W5, thêm gate provenance theo fold và giới hạn danh sách ứng viên. Kiểm thay đổi tài liệu: compileall/E2E, 624 unit/105 leakage PASS; checklist/liên kết hợp lệ, 122 file bảo vệ nguyên byte. Không gọi API hoặc thay code/nguồn; các gate triển khai W6 chưa nghiệm thu | W6-01 |
 | 10/10/2026 | W6-01 | DONE; 1/16 task. Input 128/128, smoke 4/4–20 Decision, report dựng lại/reconcile PASS offline; lock 46 nguồn/46 code/23 runtime, bốn child identity và code commit `0286119` khớp. Ghi bản đồ caller/API hiện có, điểm cần version hóa và cách tái lập checkout W5. Compileall/E2E, 624 unit/105 leakage PASS; 122 file nguyên byte, audit input/smoke 0 credential/network. Chỉ sửa tài liệu chính, không API hoặc receipt mới; Gate A chưa nghiệm thu | W6-02: audit nguồn feature và tính nhân quả theo fold |
+| 11/10/2026 | W6-02 | DONE; 2/16 task. Bank audit mốc `f743b94` và replay production 852/852 PASS; 217 scaler prefix, 16 điểm Alpha tái tính và 4 ca sửa tương lai PASS offline. Ghi coverage giá/quyền, ma trận cutoff và giới hạn PIT hồi cứu. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte, audit 0 credential/network, không API hoặc receipt mới. Gate A chờ 03–04 | W6-03: chốt feature/ranking/thống kê và chính sách quyền |

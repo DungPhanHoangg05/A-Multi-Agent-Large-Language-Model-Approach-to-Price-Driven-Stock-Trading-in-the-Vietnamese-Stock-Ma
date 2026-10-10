@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A IN_PROGRESS, 1/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A IN_PROGRESS, 2/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **1/16 hoàn thành**. Tiếp theo W6-02; chưa chạy benchmark.
+  4 phase/16 task, **2/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-03; chưa chạy benchmark.
   - [ ] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [ ] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -508,6 +508,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   624 unit/105 leakage PASS; 122 file bảo vệ nguyên byte, audit 0 credential/
   network trên lệnh input/smoke. Chỉ sửa tài liệu, không gọi API; Gate A còn
   chờ 02–04, chưa nghiệm thu tính nhân quả theo fold.
+- **W6-02 DONE, 11/10/2026:** audit bank bằng code W2 `f743b94` và replay
+  adapter hiện tại đều PASS 852/852; 217 HMM/scaler prefix, 16 điểm tái tính
+  Alpha và 4 ca sửa tương lai PASS offline. Bốn mã đủ OHLCV thô/warm-up;
+  đã ghi coverage quyền/tham chiếu và ma trận fold dự kiến 2021/2022
+  (197/526 fit, 329/322 query; purge 4 cycle mỗi biên). Cấu hình là hồi cứu
+  PIT, không chứng nhận vintage/live archive. Feature scaler/index/harness
+  vẫn thuộc task sau; Gate A chờ 03–04 chốt xử lý quyền và đăng ký cấu hình.
+  Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file bảo vệ
+  nguyên byte, không đổi code hoặc gọi API.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
