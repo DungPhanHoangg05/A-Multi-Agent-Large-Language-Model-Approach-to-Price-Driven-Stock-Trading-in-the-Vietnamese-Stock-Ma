@@ -809,6 +809,16 @@ class PriorPointContext:
             **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")},
             query_features=self.price_features(), config=settings)
 
+    def conditional_statistics(self, projection: dict[str, Any], *,
+                               config: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Đếm lịch sử đã đóng từ query Full đã seal; không phụ thuộc ví dụ/feature."""
+        self.verify_source(projection)
+        query = self._query(projection)
+        if query["scope"] != "same_symbol" or query["mode"] != "bayesian_regime":
+            raise ValueError("Thống kê điều kiện chỉ nhận nhánh Bayesian same_symbol")
+        return self._adapter._retriever.conditional_statistics(
+            **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")}, config=config)
+
     def evidence_v2(self, projection: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
         """Kiểm seal nguồn trước khi tạo evidence, không nhận outcome query."""
         self.verify_source(projection)

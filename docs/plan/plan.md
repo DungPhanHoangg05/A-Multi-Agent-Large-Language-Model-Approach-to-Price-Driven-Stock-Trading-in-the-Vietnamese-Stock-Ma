@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B DONE / GATE A/B PASS, 8/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B DONE / GATE A/B PASS, PHASE C IN_PROGRESS, 9/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **8/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-09; chưa chạy benchmark.
+  4 phase/16 task, **9/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-10; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -572,6 +572,17 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   không skip; 2.286 file bảo vệ nguyên byte. Artifact audit chỉ trong TEMP,
   không API/receipt mới. Phase B đóng, W6 đạt 8/16; thống kê/quality gate/
   Decision/CLI thuộc 09–12, chưa chứng nhận hiệu quả đầu tư C1.
+- **W6-09 DONE, 11/10/2026:** `conditional_disjoint_beta_v1` trên P/C/B
+  rời nhau, masks mẫu số hiện hữu; strength4 chuyển background thành prior,
+  chỉ C vào likelihood. Counts/rate/hyperprior/posterior/CrI plug-in và
+  validator tái tính từ nguồn; C rỗng trả null. API/callback Full đã seal
+  độc lập K/feature/quality, giữ v1/evidence W5. Audit **651/651 query train**
+  PASS, **263 query C rỗng**, counts P/C/B **24.448/1.335/23.113**; max CDF
+  error `2.11e-15`. 14 test mới gồm 5 leakage; compileall/E2E,
+  **713 unit/131 leakage PASS**, không skip; 2.289 file bảo vệ nguyên byte.
+  Lượt unit đầu timeout60s ở test khóa cũ; chạy riêng và chạy lại toàn bộ
+  nguyên code PASS, giữ log đầu TEMP. Không API/receipt mới. W6 đạt 9/16,
+  Phase C IN_PROGRESS; quality gate/prefix/Decision/CLI còn thuộc 10–12.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
@@ -583,7 +594,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     Chốt metric mới, so với signal_match_v1; outcome không tham gia ranking.
   - [x] Thử độ mới/đa dạng theo ngày, loại ví dụ quá giống nhau; tuổi tính
     tại query. Không ưu tiên WIN/LOSS hoặc cố chọn ba bull trap.
-  - [ ] Tính thống kê điều kiện theo regime+tín hiệu với support/uncertainty,
+  - [x] Tính thống kê điều kiện theo regime+tín hiệu với support/uncertainty,
     shrink về population khi support ít theo luật đã khóa. Không coi K=3
     là toàn bộ population hoặc bốn tín hiệu cùng cycle là bốn quan sát.
   - [ ] Cải thiện contract Decision: đối chiếu tín hiệu hiện tại với bằng
