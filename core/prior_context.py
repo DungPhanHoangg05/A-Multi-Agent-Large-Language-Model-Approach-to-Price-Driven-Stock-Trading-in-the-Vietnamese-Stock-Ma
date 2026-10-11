@@ -309,6 +309,7 @@ class PriorContextAdapter:
         self._files.verify(self._base_paths)
         self._regime_checks: dict[tuple[str, str, str], dict[str, Any]] = {}
         self._price_index_bindings: set[str] = set()
+        self._price_example_selectors: dict[str, Any] = {}
 
     @property
     def prior_config(self) -> dict[str, Any]:
@@ -787,6 +788,26 @@ class PriorPointContext:
         return self._adapter._retriever.rank_price_candidates(index=index,
             **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")},
             query_features=self.price_features(), w_signal=w_signal)
+
+    def select_price_examples(self, projection: dict[str, Any], index: PriceFeatureIndex, *,
+                              config: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Chọn ví dụ từ Full đã seal và lịch nguồn; không chạy lại upstream/evaluator."""
+        from core.prior_example_selection import PriceExampleSelector, selection_config
+        self.verify_source(projection)
+        query = self._query(projection)
+        if query["scope"] != "same_symbol" or query["mode"] != "bayesian_regime":
+            raise ValueError("Chọn ví dụ giá chỉ nhận nhánh Bayesian same_symbol")
+        self._adapter._bind_price_feature_index(index)
+        cache = self._adapter._price_example_selectors
+        if index.identity not in cache:
+            cache[index.identity] = PriceExampleSelector(index, pd.DatetimeIndex(self._adapter._vnindex["Datetime"]))
+        selection_config(config)
+        settings = {"requested_k": query["k"], "seed": query["seed"], **(config or {})}
+        if settings["requested_k"] != query["k"] or settings["seed"] != query["seed"]:
+            raise ValueError("K/seed chọn ví dụ khác cấu hình nhánh đã seal")
+        return self._adapter._retriever.select_price_examples(selector=cache[index.identity],
+            **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")},
+            query_features=self.price_features(), config=settings)
 
     def evidence_v2(self, projection: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
         """Kiểm seal nguồn trước khi tạo evidence, không nhận outcome query."""
