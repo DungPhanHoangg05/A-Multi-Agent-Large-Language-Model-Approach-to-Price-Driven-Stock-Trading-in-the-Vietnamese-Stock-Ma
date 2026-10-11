@@ -10,7 +10,7 @@ from importlib.metadata import version
 from pathlib import Path
 import platform
 import re
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import pandas as pd
 
@@ -24,6 +24,8 @@ from core.prior_config import PriorConfig, _relative_path, copy_prior_json, norm
 from core.regime_detector import FEATURE_COLUMNS, MarketRegimeDetector, build_regime_features, training_data_hash
 
 ROOT = Path(__file__).resolve().parents[1]
+if TYPE_CHECKING:
+    from core.price_feature_index import PriceFeatureIndex
 REPORT_FIELDS = ("indicator_report", "pattern_report", "trend_report", "alpha_report", "sentiment_report")
 _LABELS = {"trend": ("Hướng xu hướng", "Trend direction"),
            "pattern": ("Thiên lệch dự báo", "Directional bias"),
@@ -306,6 +308,7 @@ class PriorContextAdapter:
         self._base_paths = set(self._files.hashes)
         self._files.verify(self._base_paths)
         self._regime_checks: dict[tuple[str, str, str], dict[str, Any]] = {}
+        self._price_index_bindings: set[str] = set()
 
     @property
     def prior_config(self) -> dict[str, Any]:
@@ -353,6 +356,57 @@ class PriorContextAdapter:
                                        "calendar": deepcopy(self._vnindex_source)}
         self._files.verify(self._base_paths)
         return result
+
+    def _price_feature_index_inputs(self) -> dict[str, Any]:
+        """Cấp nguồn đã kiểm cho producer/loader một lần, không gọi evaluator."""
+        from core.pit_price_features import SOURCE_FIELDS
+        self._files.verify(self._base_paths)
+        result = {
+            "records": [{key: row[key] for key in ("episode_id", "symbol", "as_of_date", "exit_date")}
+                        for row in self._retriever._memory.records],
+            "prices": {symbol: (frame.copy(deep=True), deepcopy(events))
+                       for symbol, (frame, events) in self._prices.items()},
+            "calendar": pd.DatetimeIndex(self._vnindex["Datetime"]).copy(),
+            "source": {key: self._price_manifest[key] for key in SOURCE_FIELDS},
+            "provenance": {"bank": deepcopy(self._bank), "prices": deepcopy(self._price_sources),
+                           "calendar": deepcopy(self._vnindex_source)},
+        }
+        self._files.verify(self._base_paths)
+        return result
+
+    def build_price_feature_index(self, relative_path: str = "outputs/bayesian_benchmark/price_features/index.json") -> PriceFeatureIndex:
+        """Tạo artifact phụ ghi một lần; không ghi vào bank hoặc state v1."""
+        from core.price_feature_index import build_price_feature_index, save_price_feature_index
+        path = self._files.path(relative_path)
+        index = build_price_feature_index(**self._price_feature_index_inputs())
+        self._files.verify(self._base_paths)
+        save_price_feature_index(index, path)
+        self._price_index_bindings.add(index.identity)
+        return index
+
+    def load_price_feature_index(self, relative_path: str = "outputs/bayesian_benchmark/price_features/index.json", *,
+                                 expected_sha256: str | None = None) -> PriceFeatureIndex:
+        """Nạp/hash/tái kiểm semantic một lần trước vòng query; cache theo identity."""
+        from core.price_feature_index import load_price_feature_index
+        index = load_price_feature_index(self._files.path(relative_path), expected_sha256=expected_sha256,
+                                        **self._price_feature_index_inputs())
+        self._files.verify(self._base_paths)
+        self._price_index_bindings.add(index.identity)
+        return index
+
+    def scaled_price_features(self, index: PriceFeatureIndex, symbol: str, as_of_date: str) -> dict[str, Any]:
+        """Kiểm nguồn query rồi transform bằng cache; OOS phải giữ nguyên prefix train."""
+        from core.price_feature_index import PriceFeatureIndex
+        from core.pit_price_features import SOURCE_FIELDS
+        if not isinstance(index, PriceFeatureIndex):
+            raise ValueError("Cần cache index đã được producer/loader xác minh")
+        if index.identity not in self._price_index_bindings:
+            self._files.verify(self._base_paths)
+            index.verify_query_sources(prices=self._prices, calendar=pd.DatetimeIndex(self._vnindex["Datetime"]),
+                source={key: self._price_manifest[key] for key in SOURCE_FIELDS}, bank=self._bank)
+            self._files.verify(self._base_paths)
+            self._price_index_bindings.add(index.identity)
+        return index.transform_query(symbol, as_of_date, self.price_features(symbol, as_of_date))
 
     def prepare(self, symbol: str, as_of_date: str, *, time_frame: str = "1d",
                 point_in_time_df: pd.DataFrame | None = None,
@@ -481,6 +535,11 @@ class PriorPointContext:
         """Cùng extractor episode/query tại cutoff đã chuẩn bị, tách khỏi state W5."""
         context = self._proof["context"]
         return self._adapter.price_features(context["symbol"], context["as_of_date"])
+
+    def scaled_price_features(self, index: PriceFeatureIndex) -> dict[str, Any]:
+        """Feature của đúng điểm đã chuẩn bị, dùng scaler fold từ index riêng."""
+        context = self._proof["context"]
+        return self._adapter.scaled_price_features(index, context["symbol"], context["as_of_date"])
 
     def agent_state(self) -> dict[str, Any]:
         """Input upstream/Full PIT; prior chưa bật, không có outcome query."""

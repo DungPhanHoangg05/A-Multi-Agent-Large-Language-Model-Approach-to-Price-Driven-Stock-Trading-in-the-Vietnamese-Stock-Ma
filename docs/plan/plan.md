@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A DONE / GATE A PASS, PHASE B IN_PROGRESS, 5/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A DONE / GATE A PASS, PHASE B IN_PROGRESS, 6/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **5/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-06; chưa chạy benchmark.
+  4 phase/16 task, **6/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-07; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [ ] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -546,6 +546,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   lai bốn mã PASS. 28 test mới, compileall/E2E, **652 unit/111 leakage PASS**,
   không skip; 2.280 file bảo vệ nguyên byte, không API/artifact mới. Chưa
   thay state/prompt/ranking W5; scaler/index thuộc W6-06, Gate B chờ 06–08.
+- **W6-06 DONE, 11/10/2026:** producer/loader/validator/cache index phụ
+  đủ 852 episode, 699 vector/153 barrier; scaler riêng mã/fold fit 166/428,
+  OOS đóng băng cuối train với 699 hàng hợp lệ. Round-trip/hash/semantic,
+  tám query và prefix train/OOS bốn mã PASS offline; query/prior dùng cùng
+  scaler, hot cache không I/O/refit. Một index runtime đã gitignore, không
+  thêm Markdown/schema/receipt rời hoặc gọi API. 19 test mới gồm 5 leakage;
+  compileall/E2E, **671 unit/116 leakage PASS**, không skip; 2.280 file bảo vệ
+  nguyên byte. W6 đạt 6/16, Gate B chờ 07–08; CLI/identity mới thuộc 12.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout

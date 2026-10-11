@@ -46,7 +46,7 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–05 DONE, 5/16 task hoàn thành**.
+  **W6: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–06 DONE, 6/16 task hoàn thành**.
   Đã kiểm bàn giao W5, bản đồ tích hợp và provenance theo fold: bank/replay
   852/852, 217 scaler HMM prefix, 16 điểm Alpha và 4 ca sửa tương lai PASS
   offline. Đã chốt feature 21 phiên/xử lý quyền, scaler theo fold, ranking
@@ -54,9 +54,12 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Đã đăng ký sáu cấu hình C0–C3/ablation, ngưỡng chất lượng và tiêu chí đánh
   giá paired. Đã triển khai extractor bốn feature giá/21 phiên PIT và
   callback adapter; audit train 699/852 hợp lệ, 153 barrier, fit 166/428.
-  Compileall/E2E, 652 unit/111 leakage PASS. Tiếp theo **W6-06**: scaler theo
-  mã/fold và auxiliary index theo [kế hoạch W6](docs/plan/week6/README.md);
-  Gate B chờ 06–08.
+  Đã có producer/loader/cache index phụ 852 episode, scaler riêng mã/fold
+  fit 166/428 và OOS freeze 699 hàng train; round-trip/semantic/prefix OOS
+  PASS offline, hot cache không I/O/refit. Index runtime đã gitignore.
+  Compileall/E2E, 671 unit/116 leakage PASS. Tiếp theo **W6-07**: similarity
+  kết hợp tín hiệu và giá theo [kế hoạch W6](docs/plan/week6/README.md);
+  Gate B chờ 07–08.
   Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
   Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.

@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–05 DONE, 5/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-06**.
+**Trạng thái: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–06 DONE, 6/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-07**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -56,7 +56,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [x] |
 | A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [x] |
 | B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [x] DONE |
-| B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [ ] |
+| B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [x] DONE |
 | B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [ ] |
 | B | W6-08 | Recency, đa dạng ví dụ và trace lựa chọn | 07 | [ ] |
 | C | W6-09 | Thống kê điều kiện và shrink có kiểm chứng | Gate B | [ ] |
@@ -121,7 +121,7 @@ W5. Giữ byte/hash manifest, không đổi metadata cũ thành nhãn PASS.
 
 Hot query của retriever khác bước kiểm nguồn ở adapter: benchmark retrieval
 phải giữ rõ ranh giới này và báo chi phí feature/transform khi thêm ở W6.
-Code hiện có chưa cung cấp feature giá/scaler/auxiliary index, trọng số
+Tại mốc bàn giao W6-01, code chưa cung cấp feature giá/scaler/auxiliary index, trọng số
 recency/ràng buộc diversity cho ranking v2, conditional shrink hoặc registry
 nhiều ứng viên. Những phần đó thuộc
 05–12; kiểm bàn giao này chưa thay cho audit tính nhân quả từng fold ở 02.
@@ -824,6 +824,75 @@ validation và hồi quy/p95 ở 14–15. Không phải PASS lợi nhuận hoặ
   source sai hoặc dữ liệu không hữu hạn dừng rõ ràng. Round-trip JSON native,
   tái tạo cùng nguồn cho cùng hash; index không chứa query outcome.
 
+##### Triển khai và kiểm chứng — DONE, 11/10/2026
+
+- [core/price_feature_index.py](../../../core/price_feature_index.py) có
+  producer `build_price_feature_index`, writer `save_price_feature_index`,
+  loader/validator `load_price_feature_index` và cache `PriceFeatureIndex`.
+  Index `episode_price_index_v1` lưu vector **thô tại cutoff riêng của từng
+  episode**, coverage/reason cùng ID/mã/cutoff/exit; không nhận outcome,
+  entry/exit price hoặc tín hiệu LLM, không thêm cột vào bank.
+- Scaler `symbol_fold_standard_v1` fit riêng bốn mã, theo đúng biên 04/01/2021,
+  06/01/2022 và OOS cuối train tại mục W6-03. Artifact ghi danh sách ID fit,
+  count, min/max exit, cutoff/rule/freeze, mean/variance/scale/zero-mask;
+  mỗi scaler có hash riêng khi truy xuất. Chiều có variance=0 dùng scale=1;
+  fit<2 trả `SCALER_UNAVAILABLE` có proof, không mượn mã/fold khác.
+- Envelope khóa feature/price-policy/scaler/index/fold, runtime và hash code
+  text LF; provenance gồm byte hash bank/manifest/QA, CSV/evidence/events và
+  lịch VNINDEX. Loader kiểm envelope/byte hash nếu được cấp, **tái tính toàn
+  bộ vector và scaler từ nguồn đã xác minh**, đối chiếu chính xác trước khi
+  trả cache. Sửa vector/fit ID/count/source/code rồi băm lại vẫn bị từ chối.
+  Schema được kiểm trong producer/loader; không cần file schema rời chưa có
+  consumer. Writer ghi nguyên tử một lần; identity khác phải dùng path mới.
+- [PriorContextAdapter](../../../core/prior_context.py) cung cấp
+  `build_price_feature_index()` / `load_price_feature_index()` trước vòng
+  query và `scaled_price_features(index, symbol, as_of_date)` khi chuẩn bị
+  feature. `PriorPointContext.scaled_price_features(index)` dùng đúng cutoff
+  của điểm. Biên adapter kiểm checksum/extract nguồn như W6-05; **hot
+  retrieval** chỉ dùng `index.transform_query`, `index.prior_features` và
+  `index.closed_episode_ids` trên RAM, không I/O/fit/extract. Query/prior dùng
+  cùng scaler theo fold query. ID lạ/trùng, sai mã/fold hoặc exit≥query ném
+  `ValueError`; population vẫn giữ episode `UNAVAILABLE`.
+- OOS dùng cache đã build/load từ adapter train. Khi nối cache vào adapter
+  OOS, kiểm một lần bank/đơn vị và hash nội dung prefix train của bốn mã,
+  lịch cùng ngày quyền; không yêu cầu manifest archive OOS giống manifest
+  train. Giá từ 2023/2024 không vào fit. Ngày quyền ISO tại 00:00:00 và nhiều
+  sự kiện cùng phiên được giữ theo quy tắc extractor; không sửa nguồn.
+- Artifact local duy nhất tại
+  `outputs/bayesian_benchmark/price_features/index.json` (**đã gitignore**).
+  Nội dung hash `2ec70b4274cf7980c8193ec78d5a05b9be1602bbab163cff84b306dfb3241e07`;
+  byte SHA-256 `8a769b577bb4e11b9319f662791417407da7729e3aa895e4a89c2ba6945202a1`.
+  Có thể tái tạo bằng producer từ nguồn train đã kiểm; đổi code/runtime/
+  nguồn phải tạo artifact/path mới, không ghi đè hoặc sửa hash lịch sử.
+- Audit production offline build→save→load PASS **852/852**, hash tái tạo
+  khớp; tám query thực tế và prefix train/OOS bốn mã PASS, 0 kết nối mạng.
+  Các fit ID đều thỏa biên strict/inclusive; mean/variance được tái tính
+  độc lập. Coverage và count fit:
+
+| Mã | Episode | Có feature | Thiếu do quyền | Fit 2021 | Fit 2022 | Fit OOS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| FPT | 211 | 160 | 51 | 41 | 101 | 160 |
+| MWG | 213 | 172 | 41 | 42 | 104 | 172 |
+| VCB | 215 | 201 | 14 | 47 | 123 | 201 |
+| VNM | 213 | 166 | 47 | 36 | 100 | 166 |
+| **Tổng** | **852** | **699** | **153** | **166** | **428** | **699** |
+
+- Kiểm thử tại [test_price_feature_index.py](../../../tests/test_price_feature_index.py)
+  và [test_price_feature_index_leakage.py](../../../tests/test_price_feature_index_leakage.py):
+  **19 test mới PASS**, gồm **5 leakage**; tính tay ddof=0/zero-scale,
+  purge equality, freeze fold/OOS, cùng scaler cho query/prior, không clip,
+  thiếu feature/scaler có proof, JSON native, round-trip, write-once,
+  rehashed tamper, source lỗi và bảo toàn Full/v1. Sửa/thêm giá tương lai
+  không đổi feature cũ/tập fit sớm; không nhận outcome. Mock cấm đọc file,
+  extract/refit trong cache PASS; 100 lượt query+population trên dữ liệu
+  thật mất tổng 0,1848 giây, **không thay phép nghiệm thu p95 ở W6-15**.
+- Bốn gate toàn hệ thống **PASS**: compileall/E2E, **671 unit/116 leakage**,
+  không skip; code khớp bản chạy gate, **2.280 file** bảo vệ nguyên byte.
+  Không gọi API hoặc sửa bank/model/manifest/checkpoint/ledger cũ. Chỉ tạo
+  một artifact runtime đã gitignore, không thêm Markdown/receipt/schema
+  rời. Ranking/recency/diversity còn thuộc 07–08; CLI/identity mới thuộc 12.
+  **Gate B vẫn chờ 07–08**, chưa phải nghiệm thu ranking hay validation v2.
+
 #### W6-07 — Similarity kết hợp tín hiệu và giá
 
 - **Làm:** thêm metric có version, giữ `signal_match_v1`; lọc PIT/symbol/regime
@@ -966,8 +1035,9 @@ Module dự kiến kế thừa: `core/bayesian_retriever.py`, `core/prior_eviden
 `core/research_cohort.py`, `core/research_input_lock.py`, `core/research_metrics.py`,
 `core/prior_checkpoint.py`, `core/prior_stage_journal.py`, các builder Decision
 và `scripts/run_bayesian_ablation.py`. Feature được triển khai tại
-`core/pit_price_features.py`, kết nối `core/prior_context.py`; scaler/index
-thuộc W6-06. Không mở thêm runner độc lập nếu CLI hiện hữu có thể mở rộng rõ ràng.
+`core/pit_price_features.py` và scaler/index tại `core/price_feature_index.py`,
+kết nối `core/prior_context.py` qua W6-05–06. Không mở thêm runner độc lập
+nếu CLI hiện hữu có thể mở rộng rõ ràng.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
 nội dung kỹ thuật, không có ký hiệu tuần. Trước merge chạy:
@@ -996,3 +1066,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-03 | DONE; 3/16 task. Chốt feature 21 phiên và barrier quyền, scaler theo mã/fold, ranking tín hiệu+giá/recency/diversity, thống kê điều kiện có background P\C và readiness stats/examples độc lập. Coverage 699/852, fit166/428; 17 đối chiếu công thức PASS. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; Gate A chưa nghiệm thu | W6-04: đăng ký ứng viên, ablation và ngưỡng chất lượng |
 | 11/10/2026 | W6-04 | DONE; 4/16 task, Gate A PASS trong phạm vi thiết kế/PIT hồi cứu. Registry 6/6, C0/default/version, ngưỡng/biên số học, lock/model options và checklist PASS; chốt comparator, ablation, common support và tiêu chí đề cử W7. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; các gate triển khai còn TODO | W6-05: extractor feature giá PIT, mở Phase B |
 | 11/10/2026 | W6-05 | DONE; 5/16 task, Phase B IN_PROGRESS. Extractor bốn feature/21 phiên PIT dùng chung episode/query, callback adapter/point, coverage/reason và JSON gốc; 28 test mới PASS, gồm 6 leakage. Audit 852/852 khớp 699 hợp lệ/153 barrier, fit 166/428 và bất biến tương lai bốn mã. Compileall/E2E, 652 unit/111 leakage PASS, không skip; 2.280 file bảo vệ nguyên byte. Không API/artifact mới; Gate B chờ 06–08 | W6-06: scaler theo mã/fold và auxiliary index |
+| 11/10/2026 | W6-06 | DONE; 6/16 task. Producer/loader/cache index phụ đủ 852 episode, 699 vector hợp lệ/153 barrier; scaler riêng mã/fold fit 166/428, OOS freeze 699 hàng train. Round-trip/hash/semantic và prefix train/OOS bốn mã PASS; query/prior dùng cùng scaler, hot cache không I/O/refit. 19 test mới gồm 5 leakage; compileall/E2E, 671 unit/116 leakage PASS, không skip. 2.280 file bảo vệ nguyên byte; một index runtime gitignore, không API hoặc Markdown/schema/receipt mới. Gate B chờ 07–08 | W6-07: similarity kết hợp tín hiệu và giá |
