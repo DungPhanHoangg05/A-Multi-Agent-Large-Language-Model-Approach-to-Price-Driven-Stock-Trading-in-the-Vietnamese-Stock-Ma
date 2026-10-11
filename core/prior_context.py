@@ -819,6 +819,33 @@ class PriorPointContext:
         return self._adapter._retriever.conditional_statistics(
             **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")}, config=config)
 
+    def quality_evidence(self, projection: dict[str, Any], index: PriceFeatureIndex | None = None, *,
+                         gate_version: str = "split_quality_gate_v2") -> dict[str, Any]:
+        """Ghép gate trên Full đã seal; nhánh tắt prior không cần feature/index hay gọi LLM."""
+        from core.prior_example_selection import PriceExampleSelector
+        config, _, timeframe = validate_prior_execution(projection.get("prior_config"),
+            is_backtest=projection.get("is_backtest"), time_frame=projection.get("time_frame"),
+            ablation_config=projection.get("ablation_config"))
+        enabled = config["enable_bayesian_prior"]
+        # Chỉ dùng bản enabled để kiểm cùng seal/query; không sửa projection của caller.
+        checked = deepcopy(projection)
+        checked["prior_config"] = {**config, "enable_bayesian_prior": True}
+        self.verify_source(checked)
+        query = self._query(checked)
+        if timeframe != "1d" or query["scope"] != "same_symbol" or query["mode"] != "bayesian_regime":
+            raise ValueError("Quality gate chỉ nhận Bayesian daily same_symbol")
+        selector = features = None
+        if enabled and query["k"]:
+            self._adapter._bind_price_feature_index(index)
+            cache = self._adapter._price_example_selectors
+            if index.identity not in cache:
+                cache[index.identity] = PriceExampleSelector(index, pd.DatetimeIndex(self._adapter._vnindex["Datetime"]))
+            selector, features = cache[index.identity], self.price_features()
+        return self._adapter._retriever.quality_evidence(
+            **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")},
+            selector=selector, query_features=features, requested_k=query["k"],
+            enable_bayesian_prior=enabled, gate_version=gate_version)
+
     def evidence_v2(self, projection: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
         """Kiểm seal nguồn trước khi tạo evidence, không nhận outcome query."""
         self.verify_source(projection)

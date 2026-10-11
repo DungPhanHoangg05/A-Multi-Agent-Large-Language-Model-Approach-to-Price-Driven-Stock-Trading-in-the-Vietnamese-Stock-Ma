@@ -214,6 +214,15 @@ def format_compact_prior_prefix(tasks: list[dict[str, Any]], stats: dict[str, An
 
 
 class BayesianPriorRetriever:
+    def quality_evidence(self, **query: Any) -> dict[str, Any]:
+        """Evidence có gate tách stats/examples hoặc gate ghép cặp C1, không đổi v1/v2."""
+        from core.prior_quality_gate import retrieve_quality_evidence
+        required = {"symbol", "as_of_date", "current_regime", "current_signals"}
+        optional = {"selector", "query_features", "requested_k", "enable_bayesian_prior", "gate_version"}
+        if not required.issubset(query) or set(query) - required - optional:
+            raise ValueError("Query quality gate thiếu trường hoặc chứa dữ liệu ngoài whitelist")
+        return retrieve_quality_evidence(self, **query)
+
     def conditional_statistics(self, **query: Any) -> dict[str, Any]:
         """Thống kê điều kiện riêng, không nhận outcome query hoặc K ví dụ."""
         from core.prior_conditional_statistics import compute_conditional_statistics

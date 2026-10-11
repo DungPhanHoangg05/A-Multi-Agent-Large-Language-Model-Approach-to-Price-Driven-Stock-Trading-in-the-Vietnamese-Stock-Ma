@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A/B DONE, Gate A/B PASS; Phase C IN_PROGRESS, W6-01–09 DONE, 9/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-10**.
+**Trạng thái: Phase A/B DONE, Gate A/B PASS; Phase C IN_PROGRESS, W6-01–10 DONE, 10/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-11**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -60,7 +60,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [x] DONE |
 | B | W6-08 | Recency, đa dạng ví dụ và trace lựa chọn | 07 | [x] DONE |
 | C | W6-09 | Thống kê điều kiện và shrink có kiểm chứng | Gate B | [x] DONE |
-| C | W6-10 | Quality gate theo support/uncertainty | 09 | [ ] |
+| C | W6-10 | Quality gate theo support/uncertainty | 09 | [x] DONE |
 | C | W6-11 | Prompt/Decision contract và ablation nội dung | 10 | [ ] |
 | C | W6-12 | CLI, protocol, identity và checkpoint ứng viên | 08, 11 | [ ] |
 | D | W6-13 | Chốt phạm vi risk policy và cách quy kết tác động | Gate C | [ ] |
@@ -1112,6 +1112,35 @@ validation/p95 đầy đủ thuộc Phase D. Chưa chứng nhận hiệu quả �
   đúng contract, không biến lỗi hệ thống thành thiếu evidence. Quality gate
   không tự đổi LONG thành CASH; policy giao dịch được xét riêng ở 13.
 
+##### Kết quả triển khai — DONE/PASS, 11/10/2026
+
+- `core/prior_quality_gate.py` ghép statistics W6-09 và selection W6-08 qua
+  `BayesianPriorRetriever.quality_evidence(...)`;
+  `PriorPointContext.quality_evidence(projection, index, gate_version=...)`
+  kiểm Full đã seal và nguồn/index, không gọi lại upstream hay đọc outcome query.
+- `split_quality_gate_v2`: P≥20, support C từng metric≥5, CrI width≤0,75;
+  nhận dấu bằng, không làm tròn. Stats READY nếu ≥1 metric đạt; examples
+  READY nếu P≥20, feature/scaler hợp lệ và còn ≥1 ví dụ quality/diversity.
+  Thiếu examples không tắt stats. `population_coupled_gate_v1` của C1 giữ
+  Beta(1,1) trên P và tắt cả hai block khi thiếu examples; C0/v1/W5 giữ API cũ.
+- Evidence v3 giữ statistics/selection cùng proof, trạng thái
+  `READY/INSUFFICIENT_EVIDENCE/DISABLED`, reason từng metric/block và
+  `base_evidence_sha256`. Ba `content_views` ghi retrieved/visible K và IDs
+  trên cùng base, chỉ hiển thị metric ready; mode không có block ready ghi
+  fallback Original. K=0/prior off bỏ cả hai producer và không cần index/feature.
+  Posterior chưa đạt chỉ nằm ở sidecar; builder prompt thuộc W6-11.
+- Validator tái tính từ nguồn, chặn cả artifact tự băm lại. Thiếu/sai artifact,
+  pool thiếu/trùng/future hoặc nguồn bị đổi ném lỗi; không đổi thành thiếu support.
+  Gate không xét mean>0,5 hoặc sửa action. Không thêm config override ngưỡng,
+  CLI, risk policy, API run hay Markdown/JSON receipt theo task.
+- **16 test mới PASS**, gồm **4 leakage**: các phía biên 20/5/0,75,
+  metric masks/null, stats/examples độc lập, C1, visibility/fallback, disabled,
+  nguồn Full và corruption/PIT. Fixture đủ support dùng nhãn engine thật;
+  quyền chặn feature query vẫn giữ stats READY với K_eff=0. Đây là nghiệm thu
+  kỹ thuật, coverage train thuộc W6-14. **Bốn gate toàn hệ thống PASS:
+  compileall/E2E, 729 unit/135 leakage**, không skip. **2.292 file bảo vệ
+  nguyên byte**, code/test khớp byte đã kiểm. **Gate C còn chờ W6-11–12**.
+
 #### W6-11 — Prompt/Decision contract và ablation nội dung
 
 - **Làm:** builder trình bày bằng chứng gọn; Decision đối chiếu tín hiệu hiện
@@ -1214,7 +1243,9 @@ tại `core/prior_example_selection.py`, kết nối
 `core/prior_context.py` qua W6-05–08. Không mở thêm runner độc lập
 nếu CLI hiện hữu có thể mở rộng rõ ràng.
 Thống kê điều kiện W6-09 nằm tại `core/prior_conditional_statistics.py`,
-có API retriever và callback point riêng trước tích hợp gate/prefix/runner.
+có API retriever và callback point riêng; W6-10 ghép statistics/selection
+và quality gate tại `core/prior_quality_gate.py`. Prefix/Decision và CLI
+ứng viên vẫn thuộc W6-11–12.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
 nội dung kỹ thuật, không có ký hiệu tuần. Trước merge chạy:
@@ -1247,3 +1278,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-07 | DONE; 7/16 task. Base ranking tín hiệu+giá vector hóa, trace S/d/P/base, callback Full đã seal và source/index/scaler binding; giữ nguyên v1/evidence W5. Audit 651/651 query train, 16.061 cặp được chấm khớp oracle độc lập, max error 2.22e-16; label/future/cache và hot no-I/O/refit PASS. 15 test mới gồm 5 leakage; compileall/E2E, 686 unit/121 leakage PASS, không skip. 2.282 file bảo vệ nguyên byte; index audit chỉ trong TEMP, không API/receipt mới. Gate B chờ 08 | W6-08: recency, diversity và trace chọn ví dụ |
 | 11/10/2026 | W6-08 | DONE; 8/16 task, Phase B DONE / Gate B PASS. Policy recency/tuổi/base/gap phiên/K xác định, trace giữ/loại và callback Full đã seal; giữ population/scaler và v1. Audit 651/651 query train khớp oracle, 2.149 cặp qua quality/tuổi, 1.021 lượt ví dụ được chọn; K_eff=0/1/2/3: 221/86/97/247. 13 test mới gồm 5 leakage; compileall/E2E, 699 unit/126 leakage PASS, không skip. 2.286 file bảo vệ nguyên byte; artifact audit chỉ trong TEMP, không API/receipt mới. Thống kê/quality gate/CLI thuộc Phase C | W6-09: thống kê điều kiện và shrink có kiểm chứng |
 | 11/10/2026 | W6-09 | DONE; 9/16 task, Phase C IN_PROGRESS. Thống kê P/C/B rời nhau, masks hiện hữu, empirical Bayes strength4 và CrI plug-in; validator tái tính từ nguồn và callback Full đã seal. Audit 651/651 query train PASS, 263 query C rỗng giữ null; counts P/C/B=24.448/1.335/23.113, max CDF error2,11e-15. 14 test mới gồm 5 leakage; compileall/E2E, 713 unit/131 leakage PASS, không skip. Unit lượt đầu timeout60s ở test khóa cũ; chạy riêng và chạy lại toàn bộ nguyên code PASS, giữ log đầu TEMP. 2.289 file bảo vệ nguyên byte, không API/receipt mới. Gate C chờ 10–12 | W6-10: quality gate theo support/uncertainty |
+| 11/10/2026 | W6-10 | DONE; 10/16 task. Gate tách stats/examples đúng ngưỡng 20/5/0,75, C1 giữ population Beta và gate ghép cặp; evidence v3 có reason/visibility/fallback và validator tái tính nguồn. K=0/prior off bỏ producer, integrity/PIT ném lỗi, không sửa action. 16 test mới gồm 4 leakage; compileall/E2E, 729 unit/135 leakage PASS, không skip; 2.292 file bảo vệ nguyên byte. Không API/receipt mới; Gate C chờ 11–12 | W6-11: prefix/Decision contract và ablation nội dung |
