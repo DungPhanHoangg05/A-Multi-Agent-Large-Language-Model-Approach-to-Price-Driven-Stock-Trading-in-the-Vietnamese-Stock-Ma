@@ -3,7 +3,7 @@ import re
 import time
 from typing import Any, Callable, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from core.decision_prior import DecisionPriorPreparer, PriorSourceValidator, prepare_decision_prior
 from core.prior_config import PRIOR_STATE_FIELDS, copy_prior_json
 
@@ -20,6 +20,41 @@ class TradeDecisionOutput(BaseModel):
     evidence_for: str
     evidence_against: str
     justification: str
+
+
+class PriorUseOutput(BaseModel):
+    """Trace tự báo cáo; chỉ tham chiếu metric/ví dụ thực sự được hiển thị."""
+
+    model_config = ConfigDict(extra="forbid", strict=True)
+    metric_ids: list[Literal["win_rate_long", "bull_trap_rate", "trend_false_bullish_rate", "pattern_false_bullish_rate"]] = Field(
+        description="IDs metric có số liệu đã hiển thị; loại N/A.")
+    example_ids: list[str]
+    assessment: Literal["SUPPORTS", "CONFLICTS", "MIXED", "NOT_USED"]
+    reason: str = Field(min_length=1, max_length=800)
+
+
+class TradeDecisionPriorOutput(TradeDecisionOutput):
+    """Schema C3 khi có prior hiển thị; giữ schema Original cho prior-off."""
+
+    model_config = ConfigDict(extra="forbid", strict=True)
+    prior_use: PriorUseOutput
+
+
+def _normalize_prior_result(result: dict, lang: str, request: dict[str, Any]) -> tuple[str, object]:
+    """Kiểm schema/IDs trước khi lưu; không dùng agreement để sửa hoặc retry action."""
+    if type(result) is not dict or result.get("parsing_error") is not None or result.get("parsed") is None:
+        raise ValueError("Structured Output thiếu trace prior hợp lệ")
+    parsed = result["parsed"]
+    data = parsed.model_dump() if isinstance(parsed, BaseModel) else parsed
+    data = TradeDecisionPriorOutput.model_validate(copy_prior_json(data), strict=True).model_dump()
+    use, visible = data["prior_use"], request["trace"]
+    for field, allowed in (("metric_ids", visible["visible_metric_ids"]), ("example_ids", visible["visible_example_ids"])):
+        if len(use[field]) != len(set(use[field])) or not set(use[field]).issubset(allowed):
+            raise ValueError("Trace prior viện dẫn ID trùng, ẩn hoặc không có trong prompt")
+    cited = bool(use["metric_ids"] or use["example_ids"])
+    if not use["reason"].strip() or (use["assessment"] == "NOT_USED") == cited:
+        raise ValueError("Trace prior thiếu lý do hoặc assessment không khớp IDs")
+    return _normalize_structured_result({**result, "parsed": data}, lang)
 
 
 DECISION_FORMAT_ATTEMPTS = 2
@@ -551,10 +586,10 @@ def _insert_prior_context(prompt: str, prefix: str, lang: str) -> str:
     if len(prefix) > 600:
         raise ValueError("BRPP vượt 600 ký tự")
     head, marker, tail = prompt.partition("### [1]")
-    if not marker or "[BRPP v1]" in prompt:
+    if not marker or any(tag in prompt for tag in ("[BRPP v1]", "[BRPP v2]", "[BRPP v3]")):
         raise ValueError("Prompt thiếu điểm chèn hoặc đã chứa BRPP")
     reasoning = _PRIOR_REASONING[lang]
-    if prefix.startswith("[BRPP v2]"):
+    if prefix.startswith(("[BRPP v2]", "[BRPP v3]")):
         reasoning = ("PRIOR v2: Counts và Beta mean/CrI95% mô tả lịch sử, không phải xác suất query. "
                      "Ví dụ đã đóng khác tín hiệu hiện tại. Không ép quyết định theo prior; SHORT=CASH."
                      if lang == "vi" else "PRIOR v2: Counts and Beta mean/CrI95% describe history, not query probabilities. "
@@ -566,23 +601,29 @@ def create_final_trade_decider(
     llm, *, prior_source_validator: PriorSourceValidator | None = None,
     _prior_preparer: DecisionPriorPreparer | None = None,
     _before_invoke: Callable[[dict[str, Any], str], None] | None = None,
+    _prior_request: dict[str, Any] | None = None,
 ):
     """
     Decision Agent v3 — Pure LLM reasoning.
     Đọc 3–5 báo cáo theo cấu hình ablation và tự ra quyết định.
-    Hook _prior_preparer chỉ dùng nội bộ graph có node kiểm nguồn/format liền trước;
-    không phải field cấu hình JSON hoặc cơ chế tự xác nhận nguồn của caller.
+    Hook _prior_preparer chỉ dùng nội bộ graph/runner kiểm nguồn liền trước.
+    _prior_request phải do builder tạo; khi đọc artifact phải tái kiểm semantic.
+    Hai tham số không là field cấu hình JSON hoặc cơ chế tự xác nhận nguồn.
     """
 
     if _prior_preparer is not None and (not callable(_prior_preparer) or prior_source_validator is not None):
         raise ValueError("Hook nội bộ graph phải callable và không đi cùng verifier Decision")
     if _before_invoke is not None and not callable(_before_invoke):
         raise ValueError("Hook persist Decision phải callable")
+    request = copy_prior_json(_prior_request)
+    if request is not None and (type(request) is not dict or _prior_preparer is None):
+        raise ValueError("Request ứng viên cần hook nội bộ kiểm nguồn trước Decision")
+    use_contract = request is not None and request.get("decision_contract_version") == "decision_prior_use_v1"
     structured_llm = None
     if hasattr(llm, "with_structured_output"):
         try:
             structured_llm = llm.with_structured_output(
-                TradeDecisionOutput,
+                TradeDecisionPriorOutput if use_contract else TradeDecisionOutput,
                 method="json_schema",
                 include_raw=True,
             )
@@ -595,6 +636,9 @@ def create_final_trade_decider(
         else:
             # Chỉ graph có node chuẩn bị ngay trước Decision được gắn hook nội bộ này.
             state, prior_prefix = _prior_preparer(state)
+        if request is not None:
+            from core.prior_prompt import check_request_binding
+            check_request_binding(request, state, prior_prefix)
         # ── i18n ──────────────────────────────────────────────────────────────
         from utils.i18n import lang_of, get_horizon, t as _t
         lang  = lang_of(state)
@@ -652,6 +696,9 @@ def create_final_trade_decider(
             alpha_report, sentiment_report,
         )
         prompt = _insert_prior_context(prompt, prior_prefix, lang)
+        if request is not None:
+            from core.prior_prompt import add_prior_use_contract
+            prompt = add_prior_use_contract(prompt, request, lang)
         if is_backtest:
             report_lengths = {
                 "trend": len(trend_report or ""), "pattern": len(pattern_report or ""),
@@ -673,14 +720,18 @@ def create_final_trade_decider(
             try:
                 if structured_llm is not None:
                     structured_result = _invoke_with_retry(structured_llm.invoke, prompt)
-                    normalized, response = _normalize_structured_result(
-                        structured_result, lang
-                    )
+                    if use_contract:
+                        normalized, response = _normalize_prior_result(structured_result, lang, request)
+                    else:
+                        normalized, response = _normalize_structured_result(structured_result, lang)
                 else:
                     response = _invoke_with_retry(llm.invoke, prompt)
-                    normalized = _safe_parse_and_enrich(
-                        getattr(response, "content", ""), stock_name, lang=lang
-                    )
+                    if use_contract:
+                        normalized, response = _normalize_prior_result(
+                            {"parsed": json.loads(getattr(response, "content", "")), "raw": response}, lang, request)
+                    else:
+                        normalized = _safe_parse_and_enrich(
+                            getattr(response, "content", ""), stock_name, lang=lang)
                 break
             except ValueError as exc:
                 last_format_error = exc
@@ -700,6 +751,9 @@ def create_final_trade_decider(
             "messages": [response] if response is not None else [],
             "decision_prompt": prompt,
             **{field: copy_prior_json(state[field]) for field in PRIOR_STATE_FIELDS if field in state},
+            **({"prior_decision_trace": {"trace_version": "prior_decision_trace_v1", "request": copy_prior_json(request),
+                "raw_action": json.loads(normalized)["decision"], "prior_use": json.loads(normalized).get("prior_use")}}
+               if request is not None else {}),
         }
 
     def bounded_decision_node(state):
