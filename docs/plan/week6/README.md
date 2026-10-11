@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A/B DONE, Gate A/B PASS; W6-01–08 DONE, 8/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-09**.
+**Trạng thái: Phase A/B DONE, Gate A/B PASS; Phase C IN_PROGRESS, W6-01–09 DONE, 9/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-10**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -59,7 +59,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [x] DONE |
 | B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [x] DONE |
 | B | W6-08 | Recency, đa dạng ví dụ và trace lựa chọn | 07 | [x] DONE |
-| C | W6-09 | Thống kê điều kiện và shrink có kiểm chứng | Gate B | [ ] |
+| C | W6-09 | Thống kê điều kiện và shrink có kiểm chứng | Gate B | [x] DONE |
 | C | W6-10 | Quality gate theo support/uncertainty | 09 | [ ] |
 | C | W6-11 | Prompt/Decision contract và ablation nội dung | 10 | [ ] |
 | C | W6-12 | CLI, protocol, identity và checkpoint ứng viên | 08, 11 | [ ] |
@@ -1040,6 +1040,68 @@ validation/p95 đầy đủ thuộc Phase D. Chưa chứng nhận hiệu quả �
   nhóm hiếm và equality exit=cutoff đúng. Không phát sinh support giả hoặc
   khẳng định posterior tỷ lệ lịch sử là xác suất LLM được hiệu chuẩn.
 
+##### Triển khai và kiểm chứng — DONE, 11/10/2026
+
+- [core/prior_conditional_statistics.py](../../../core/prior_conditional_statistics.py)
+  triển khai `conditional_disjoint_beta_v1`. API
+  `BayesianPriorRetriever.conditional_statistics(symbol, as_of_date,
+  current_regime, current_signals, config=None)` chỉ nhận query đã whitelist;
+  config riêng chỉ có trường `shrink_strength`, mặc định 4; W6-12 khóa
+  cấu hình candidate trên CLI. Không nhận K, feature, tuổi,
+  quality/diversity hoặc outcome query; không đổi thống kê v1/evidence W5.
+- P là toàn bộ same_symbol/same_regime/exit<query từ bank đã kiểm. Kiểm
+  cả eligible/P đủ ID so với snapshot bank, không chỉ kiểm các record còn
+  lại. C khớp đúng bốn tín hiệu đã normalize; B=P\C. Sentiment không vào
+  tuple, tín hiệu xung đột vẫn giữ nguyên tuple. Canonical ID bảo đảm kết
+  quả xác định khi đảo thứ tự hoặc chạy query tương lai rồi quá khứ.
+- Tái dùng masks/nhãn kinh tế của `_compute_statistics` trên P/C/B;
+  raw success/support/rate của từng metric được ghi riêng. Union Trend OR
+  Pattern bullish chỉ đếm mỗi cycle một lần; kiểm counts P=C+B. Episode
+  thiếu feature hoặc không được chọn làm ví dụ vẫn tham gia statistics.
+- `conditional_metric` lấy mean background `(s_B+1)/(n_B+2)`, chuyển thành
+  đúng bốn pseudo-observation rồi cộng likelihood **chỉ từ C**. B rỗng dùng
+  `FIXED_SYMMETRIC_PRIOR`; C rỗng sau mask dùng `NO_CONDITIONAL_HISTORY`,
+  posterior/mean/interval=null, vẫn giữ đủ raw counts và hyperprior nguồn.
+  Cỡ mẫu một hoặc chỉ một lớp vẫn tính; không thêm support từ prior.
+- Result gắn `prior_evidence_v3`, stage `CONDITIONAL_STATISTICS`, groups/IDs/
+  counts, normalized query, bank/population/config/evidence hash, hyperprior
+  source, posterior và CrI95% plug-in có width. Đây là tỷ lệ lịch sử theo
+  hợp đồng LONG có phí, chưa là xác suất LLM/query được hiệu chuẩn hoặc
+  khoảng dự báo return. Quality/readiness/prefix thuộc W6-10–11; chưa là
+  full evidence C2 hoặc runner/identity mới của W6-12.
+- `validate_conditional_statistics(result, retriever)` tái dựng toàn bộ từ
+  nguồn PIT rồi so canonical digest; phát hiện counts/partition/mean/source/
+  config/type/field bị sửa kể cả khi caller băm lại artifact. Không tự nhận
+  nguồn hợp lệ chỉ nhờ hash do artifact khai. `PriorPointContext` có callback
+  kiểm Full đã seal, projection và file nguồn; không gọi lại upstream,
+  không đọc evaluator hoặc đòi feature/index để tính thống kê.
+- [14 test mới](../../../tests/test_prior_conditional_statistics.py), gồm
+  [5 test leakage](../../../tests/test_prior_conditional_statistics_leakage.py),
+  PASS: ví dụ C=3/4, B=8/20 → mean=51/88, posterior mass=8; khoảng Beta(3,2)
+  đối chiếu CDF đa thức độc lập; empty/one/class/masks/alias/conflict/rare,
+  zero denominator, finite/type, artifact tự băm lại và callback production.
+  Chặn equal/future exit, pool thiếu/trùng và outcome/K query; không đọc
+  outcome tương lai, K/quality/feature không đổi statistics. Hot query mock
+  cấm I/O/refit/example selection vẫn PASS; kết quả trả bản sao sở hữu.
+- Audit production **651/651 query train** (FPT160/MWG163/VCB165/VNM163)
+  PASS counts/partition/hyperprior/posterior và validator tái tính nguồn.
+  P/C/B có **24.448/1.335/23.113** cặp qua các query; không coi tổng cặp
+  lặp lịch sử này là cỡ mẫu hiệu quả. Có **263 query C rỗng**. Số query có
+  posterior quan sát Win/Trap/TrendFail/PatternFail lần lượt **388/255/193/248**;
+  các query còn lại giữ null theo mask, không tự mở rộng nhóm điều kiện.
+  Kiểm CDF độc lập của biên CrI có sai số tối đa **2,11e-15**; bốn query
+  cũ chạy lại sau tương lai vẫn khớp. 100 hot query tổng **0,7486 giây**
+  khi cấm I/O/example selection; không thay phép đo p95 W6-15.
+- Audit **0 kết nối mạng**, không API hoặc Markdown/schema/receipt/runtime
+  JSON mới trong repo; kết quả audit chỉ trong TEMP. Bốn gate toàn hệ thống
+  **PASS: compileall/E2E, 713 unit/131 leakage**, không skip; **2.289 file
+  bảo vệ nguyên byte**, code/test khớp byte đã kiểm. Lượt unit đầu chạy đủ
+  713 test, một lỗi
+  `test_dead_child_owner_recovered_without_deleting_lock_file`: subprocess
+  timeout60s. Chạy riêng ca này PASS trong 14,808s; chạy lại đầy đủ 713 test
+  **PASS trên nguyên code**, giữ log lượt đầu trong TEMP, không skip hoặc
+  đổi timeout. **Gate C còn chờ W6-10–12**.
+
 #### W6-10 — Quality gate theo support/uncertainty
 
 - **Làm:** gate chất lượng theo ngưỡng đăng ký, tách trạng thái stats và
@@ -1151,6 +1213,8 @@ và base similarity tại `core/prior_price_similarity.py`, policy tuổi/divers
 tại `core/prior_example_selection.py`, kết nối
 `core/prior_context.py` qua W6-05–08. Không mở thêm runner độc lập
 nếu CLI hiện hữu có thể mở rộng rõ ràng.
+Thống kê điều kiện W6-09 nằm tại `core/prior_conditional_statistics.py`,
+có API retriever và callback point riêng trước tích hợp gate/prefix/runner.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
 nội dung kỹ thuật, không có ký hiệu tuần. Trước merge chạy:
@@ -1182,3 +1246,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-06 | DONE; 6/16 task. Producer/loader/cache index phụ đủ 852 episode, 699 vector hợp lệ/153 barrier; scaler riêng mã/fold fit 166/428, OOS freeze 699 hàng train. Round-trip/hash/semantic và prefix train/OOS bốn mã PASS; query/prior dùng cùng scaler, hot cache không I/O/refit. 19 test mới gồm 5 leakage; compileall/E2E, 671 unit/116 leakage PASS, không skip. 2.280 file bảo vệ nguyên byte; một index runtime gitignore, không API hoặc Markdown/schema/receipt mới. Gate B chờ 07–08 | W6-07: similarity kết hợp tín hiệu và giá |
 | 11/10/2026 | W6-07 | DONE; 7/16 task. Base ranking tín hiệu+giá vector hóa, trace S/d/P/base, callback Full đã seal và source/index/scaler binding; giữ nguyên v1/evidence W5. Audit 651/651 query train, 16.061 cặp được chấm khớp oracle độc lập, max error 2.22e-16; label/future/cache và hot no-I/O/refit PASS. 15 test mới gồm 5 leakage; compileall/E2E, 686 unit/121 leakage PASS, không skip. 2.282 file bảo vệ nguyên byte; index audit chỉ trong TEMP, không API/receipt mới. Gate B chờ 08 | W6-08: recency, diversity và trace chọn ví dụ |
 | 11/10/2026 | W6-08 | DONE; 8/16 task, Phase B DONE / Gate B PASS. Policy recency/tuổi/base/gap phiên/K xác định, trace giữ/loại và callback Full đã seal; giữ population/scaler và v1. Audit 651/651 query train khớp oracle, 2.149 cặp qua quality/tuổi, 1.021 lượt ví dụ được chọn; K_eff=0/1/2/3: 221/86/97/247. 13 test mới gồm 5 leakage; compileall/E2E, 699 unit/126 leakage PASS, không skip. 2.286 file bảo vệ nguyên byte; artifact audit chỉ trong TEMP, không API/receipt mới. Thống kê/quality gate/CLI thuộc Phase C | W6-09: thống kê điều kiện và shrink có kiểm chứng |
+| 11/10/2026 | W6-09 | DONE; 9/16 task, Phase C IN_PROGRESS. Thống kê P/C/B rời nhau, masks hiện hữu, empirical Bayes strength4 và CrI plug-in; validator tái tính từ nguồn và callback Full đã seal. Audit 651/651 query train PASS, 263 query C rỗng giữ null; counts P/C/B=24.448/1.335/23.113, max CDF error2,11e-15. 14 test mới gồm 5 leakage; compileall/E2E, 713 unit/131 leakage PASS, không skip. Unit lượt đầu timeout60s ở test khóa cũ; chạy riêng và chạy lại toàn bộ nguyên code PASS, giữ log đầu TEMP. 2.289 file bảo vệ nguyên byte, không API/receipt mới. Gate C chờ 10–12 | W6-10: quality gate theo support/uncertainty |

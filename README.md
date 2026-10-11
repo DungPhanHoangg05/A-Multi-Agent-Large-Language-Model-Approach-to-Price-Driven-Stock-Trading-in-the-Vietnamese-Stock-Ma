@@ -46,7 +46,7 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6: Phase A/B DONE, Gate A/B PASS; W6-01–08 DONE, 8/16 task hoàn thành**.
+  **W6: Phase A/B DONE, Gate A/B PASS; Phase C IN_PROGRESS, W6-01–09 DONE, 9/16 task hoàn thành**.
   Đã kiểm bàn giao W5, bản đồ tích hợp và provenance theo fold: bank/replay
   852/852, 217 scaler HMM prefix, 16 điểm Alpha và 4 ca sửa tương lai PASS
   offline. Đã chốt feature 21 phiên/xử lý quyền, scaler theo fold, ranking
@@ -60,8 +60,11 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Đã triển khai base ranking tín hiệu+giá và trace S/d/P/base, giữ v1; audit
   651/651 query train khớp oracle độc lập. Policy recency/tuổi/similarity/gap
   phiên chọn K≤3 có trace giữ/loại, giữ population thống kê; 651/651 query
-  chọn đúng oracle, không bù K. Compileall/E2E, 699 unit/126 leakage PASS.
-  Tiếp theo **W6-09**: thống kê điều kiện/shrink theo
+  chọn đúng oracle, không bù K. Thống kê điều kiện P/C/B rời nhau và shrink
+  strength4 có validator tái tính nguồn; audit 651/651 query train PASS,
+  C rỗng giữ posterior=null. Compileall/E2E, 713 unit/131 leakage PASS
+  sau chạy lại đầy đủ gate unit do timeout ở test khóa cũ (chi tiết README W6).
+  Tiếp theo **W6-10**: quality gate support/uncertainty theo
   [kế hoạch W6](docs/plan/week6/README.md); CLI/identity ứng viên thuộc W6-12.
   Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).

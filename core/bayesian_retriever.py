@@ -214,6 +214,14 @@ def format_compact_prior_prefix(tasks: list[dict[str, Any]], stats: dict[str, An
 
 
 class BayesianPriorRetriever:
+    def conditional_statistics(self, **query: Any) -> dict[str, Any]:
+        """Thống kê điều kiện riêng, không nhận outcome query hoặc K ví dụ."""
+        from core.prior_conditional_statistics import compute_conditional_statistics
+        required = {"symbol", "as_of_date", "current_regime", "current_signals"}
+        if not required.issubset(query) or set(query) - required - {"config"}:
+            raise ValueError("Query thống kê thiếu trường hoặc chứa dữ liệu ngoài whitelist")
+        return compute_conditional_statistics(self, **query)
+
     def select_price_examples(self, **query: Any) -> dict[str, Any]:
         """Chọn ví dụ tín hiệu+giá/tuổi/diversity; giữ population thống kê độc lập."""
         from core.prior_example_selection import select_price_examples
