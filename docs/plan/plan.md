@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B DONE / GATE A/B PASS, PHASE C IN_PROGRESS, 9/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B DONE / GATE A/B PASS, PHASE C IN_PROGRESS, 10/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **9/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-10; chưa chạy benchmark.
+  4 phase/16 task, **10/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-11; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -583,6 +583,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   Lượt unit đầu timeout60s ở test khóa cũ; chạy riêng và chạy lại toàn bộ
   nguyên code PASS, giữ log đầu TEMP. Không API/receipt mới. W6 đạt 9/16,
   Phase C IN_PROGRESS; quality gate/prefix/Decision/CLI còn thuộc 10–12.
+- **W6-10 DONE, 11/10/2026:** quality gate tách stats/examples theo
+  P≥20, support C từng metric≥5, CrI width≤0,75; C1 giữ Beta toàn P và
+  gate ghép cặp. Evidence v3 có trạng thái/reason, base hash và ba content
+  views; K=0/prior off bỏ producer, mode không có block ready fallback
+  Original, integrity/PIT ném lỗi. Validator tái tính nguồn và callback
+  Full đã seal, không sửa action. 16 test mới gồm 4 leakage;
+  **compileall/E2E, 729 unit/135 leakage PASS**, không skip; **2.292 file
+  bảo vệ nguyên byte**. Không API/receipt mới. W6 đạt **10/16**;
+  Gate C còn chờ W6-11–12, tiếp theo prefix/Decision contract.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
