@@ -394,8 +394,8 @@ class PriorContextAdapter:
         self._price_index_bindings.add(index.identity)
         return index
 
-    def scaled_price_features(self, index: PriceFeatureIndex, symbol: str, as_of_date: str) -> dict[str, Any]:
-        """Kiểm nguồn query rồi transform bằng cache; OOS phải giữ nguyên prefix train."""
+    def _bind_price_feature_index(self, index: PriceFeatureIndex) -> None:
+        """Kiểm nguồn index một lần trước feature/ranking; OOS giữ prefix train."""
         from core.price_feature_index import PriceFeatureIndex
         from core.pit_price_features import SOURCE_FIELDS
         if not isinstance(index, PriceFeatureIndex):
@@ -406,6 +406,10 @@ class PriorContextAdapter:
                 source={key: self._price_manifest[key] for key in SOURCE_FIELDS}, bank=self._bank)
             self._files.verify(self._base_paths)
             self._price_index_bindings.add(index.identity)
+
+    def scaled_price_features(self, index: PriceFeatureIndex, symbol: str, as_of_date: str) -> dict[str, Any]:
+        """Kiểm nguồn query rồi transform bằng cache; OOS phải giữ nguyên prefix train."""
+        self._bind_price_feature_index(index)
         return index.transform_query(symbol, as_of_date, self.price_features(symbol, as_of_date))
 
     def prepare(self, symbol: str, as_of_date: str, *, time_frame: str = "1d",
@@ -771,6 +775,18 @@ class PriorPointContext:
         result = self._adapter._retriever.retrieve(**query)
         self._results[digest(query)] = copy_prior_json(result)
         return copy_prior_json(result)
+
+    def rank_price_candidates(self, projection: dict[str, Any], index: PriceFeatureIndex, *,
+                              w_signal: float = .5) -> dict[str, Any]:
+        """Nối Full đã seal và feature nguồn vào base similarity, không gọi lại upstream."""
+        self.verify_source(projection)
+        query = self._query(projection)
+        if query["scope"] != "same_symbol" or query["mode"] != "bayesian_regime":
+            raise ValueError("Ranking giá chỉ nhận nhánh Bayesian same_symbol")
+        self._adapter._bind_price_feature_index(index)
+        return self._adapter._retriever.rank_price_candidates(index=index,
+            **{key: query[key] for key in ("symbol", "as_of_date", "current_regime", "current_signals")},
+            query_features=self.price_features(), w_signal=w_signal)
 
     def evidence_v2(self, projection: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
         """Kiểm seal nguồn trước khi tạo evidence, không nhận outcome query."""

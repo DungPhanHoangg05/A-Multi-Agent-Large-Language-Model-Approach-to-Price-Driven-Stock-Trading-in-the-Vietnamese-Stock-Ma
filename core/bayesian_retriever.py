@@ -214,6 +214,14 @@ def format_compact_prior_prefix(tasks: list[dict[str, Any]], stats: dict[str, An
 
 
 class BayesianPriorRetriever:
+    def rank_price_candidates(self, **query: Any) -> dict[str, Any]:
+        """API base similarity tín hiệu+giá riêng; chưa áp policy chọn ví dụ."""
+        from core.prior_price_similarity import rank_price_candidates
+        required = {"index", "symbol", "as_of_date", "current_regime", "current_signals", "query_features"}
+        if not required.issubset(query) or set(query) - required - {"w_signal"}:
+            raise ValueError("Query ranking thiếu trường hoặc chứa dữ liệu ngoài whitelist")
+        return rank_price_candidates(self, **query)
+
     def retrieve_evidence(self, **query: Any) -> dict[str, Any]:
         """API evidence v2 riêng; giữ nguyên kết quả và thống kê v1."""
         from core.prior_evidence_v2 import retrieve_evidence
@@ -271,6 +279,7 @@ class BayesianPriorRetriever:
         self._memory = memory
         self._verified_by_id = {r["episode_id"]: r for r in snapshot}
         self._bank_sha256 = bank_hash
+        self._price_index_identities: set[str] = set()
 
     @staticmethod
     def _validate_query(*, symbol: str, as_of_date: str, current_regime: str,

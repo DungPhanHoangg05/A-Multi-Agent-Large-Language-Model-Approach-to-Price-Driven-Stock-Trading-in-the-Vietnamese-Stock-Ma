@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A DONE / GATE A PASS, PHASE B IN_PROGRESS, 6/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A DONE / GATE A PASS, PHASE B IN_PROGRESS, 7/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **6/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-07; chưa chạy benchmark.
+  4 phase/16 task, **7/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-08; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [ ] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -554,13 +554,21 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   thêm Markdown/schema/receipt rời hoặc gọi API. 19 test mới gồm 5 leakage;
   compileall/E2E, **671 unit/116 leakage PASS**, không skip; 2.280 file bảo vệ
   nguyên byte. W6 đạt 6/16, Gate B chờ 07–08; CLI/identity mới thuộc 12.
+- **W6-07 DONE, 11/10/2026:** base ranking vector hóa tín hiệu+giá, version
+  riêng và trace S/d/P/base; lọc PIT/mã/regime trước score, không dùng outcome
+  hoặc fallback khi thiếu feature. Callback từ Full đã seal, hot query không
+  I/O/refit; v1/evidence W5 giữ nguyên. Audit **651/651 query train** và
+  **16.061 cặp được chấm** khớp oracle độc lập, sai số tối đa `2.22e-16`;
+  index audit chỉ trong TEMP. 15 test mới gồm 5 leakage; compileall/E2E,
+  **686 unit/121 leakage PASS**, không skip; 2.282 file bảo vệ nguyên byte.
+  W6 đạt 7/16; Gate B chờ W6-08 recency/diversity, CLI/identity thuộc 12.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
   đã tách và có hướng dẫn tự chạy validation. Giới hạn danh sách ứng viên
   trước chạy, không thử vô hạn đến khi thấy lời.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Thêm đặc trưng giá PIT gọn (biến động, khoảng cách MA, momentum)
+  - [x] Thêm đặc trưng giá PIT gọn (biến động, khoảng cách MA, momentum)
     và scaler train-only; lưu auxiliary index/hash riêng, không sửa 852 episode.
     Chốt metric mới, so với signal_match_v1; outcome không tham gia ranking.
   - [ ] Thử độ mới/đa dạng theo ngày, loại ví dụ quá giống nhau; tuổi tính
