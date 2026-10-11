@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–06 DONE, 6/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-07**.
+**Trạng thái: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–07 DONE, 7/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-08**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -57,7 +57,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [x] |
 | B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [x] DONE |
 | B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [x] DONE |
-| B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [ ] |
+| B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [x] DONE |
 | B | W6-08 | Recency, đa dạng ví dụ và trace lựa chọn | 07 | [ ] |
 | C | W6-09 | Thống kê điều kiện và shrink có kiểm chứng | Gate B | [ ] |
 | C | W6-10 | Quality gate theo support/uncertainty | 09 | [ ] |
@@ -903,6 +903,62 @@ validation và hồi quy/p95 ở 14–15. Không phải PASS lợi nhuận hoặ
   lựa chọn, query tương lai không làm cache ảnh hưởng query quá khứ; không
   I/O hoặc fit scaler trong hot query. Không tự fallback khi lỗi provenance.
 
+##### Triển khai và kiểm chứng — DONE, 11/10/2026
+
+- [core/prior_price_similarity.py](../../../core/prior_price_similarity.py)
+  triển khai `signal_price_scores` bằng NumPy trên bốn chiều. Metric
+  `signal_price_similarity_v1`: `S=matches/4`, `d=sqrt(mean((z_prior-z_query)²))`,
+  `P=1/(1+d)`, `base=w_signal*S+(1-w_signal)*P`; mặc định `w_signal=0.5`.
+  Alias tín hiệu dùng đúng normalizer v1; sentiment không tham gia S.
+  Giá/query/prior đều phải có feature/scaler hợp lệ, kể cả khi w=0 hoặc 1.
+- API production mới `BayesianPriorRetriever.rank_price_candidates(index,
+  symbol, as_of_date, current_regime, current_signals, query_features,
+  w_signal=0.5)` lọc **same_symbol / same_regime / exit<query trước score**.
+  Xếp base giảm → exit giảm → ID tăng, version `base_similarity_ranking_v1`.
+  Kết quả trả `ranked_tasks`, toàn `regime_population`, `trace`, `metadata`;
+  đây là thứ tự nền **BASE_SIMILARITY / policy_complete=false**. Tuổi,
+  recency, ngưỡng similarity, diversity và K_eff thuộc W6-08; chưa phải
+  `signal_price_recency_v1` hoặc output evidence C1 hoàn chỉnh.
+- Cache index được đối chiếu bank hash và toàn bộ ID/mã/cutoff/exit một lần
+  theo identity. Mỗi query còn kiểm pool đúng PIT và đầy đủ so với index,
+  rồi transform query/prior bằng cùng scaler của fold query. Khoảng cách
+  chạy vector hóa, không I/O/fit/extract hoặc copy lại toàn index trong hot
+  ranking. Query feature phải đến từ extractor tin cậy; biên adapter kiểm
+  nguồn trước khi gọi API thuần, không dùng `execution_data()`.
+- `PriorPointContext.rank_price_candidates(projection, index, w_signal=...)`
+  kiểm Full đã seal, nguồn/projection và feature tại đúng cutoff, không gọi
+  lại upstream. Query whitelist không nhận outcome/giá thoát. Sai source,
+  thiếu ID, sai fold/cutoff, pool bị tiêm/sót record hoặc NaN/overflow ném
+  lỗi; không chuyển lỗi toàn vẹn thành thiếu coverage hoặc fallback v1.
+- Trace từng episode có S/d/P/base, cutoff/exit, status/reason và reason
+  feature. Query thiếu feature, prior thiếu feature hoặc scaler fit<2 có
+  proof thì score giá/base là `null`, không được xếp hạng; các episode đó
+  vẫn thuộc population thống kê. Metadata ghim metric/ranking/feature/
+  price-policy/scaler/index, bank/index/scaler hash, fold/fit/freeze cùng
+  config/hash. Kết quả trả bản sao sở hữu, không làm đổi cache hoặc Full.
+- [15 test mới](../../../tests/test_prior_price_similarity.py), gồm
+  [5 test leakage](../../../tests/test_prior_price_similarity_leakage.py),
+  PASS: oracle nhỏ S=3/4, d=1/2, P=2/3, base=17/24; zero distance, alias/
+  sentiment, trọng số biên, finite/type/shape, tie-break, population thiếu
+  feature/scaler, wrong bank/ID/source và callback Full. Tiêm hoán vị cả
+  WIN/LOSS/net-return trên snapshot RAM không đổi score/thứ tự; không xuất
+  bank sai kinh tế. Query tương lai rồi quá khứ và sửa giá tương lai không
+  đổi ranking cũ. Bốn mode v1 và evidence W5 tái lập nguyên kết quả.
+- Audit production offline trên **651/651 query train** (FPT160/MWG163/
+  VCB165/VNM163) PASS: **530** query có feature, **121** thiếu do quyền;
+  oracle độc lập khớp thứ tự và score của **16.061 cặp** được chấm trong
+  **24.448 cặp population**, sai số tối đa `2.22e-16`. Số cặp chỉ dùng
+  đối chiếu ranking, không dùng làm cỡ mẫu hiệu quả. Bốn query cũ chạy lại
+  sau query tương lai vẫn khớp; 100 hot query mất tổng **0,3719 giây** khi
+  mock cấm I/O/refit, không thay nghiệm thu p95 ở W6-15. **0 kết nối mạng**.
+- Audit tái tạo/round-trip index theo code adapter mới **chỉ trong TEMP**;
+  index W6-06, bank/model/manifest/checkpoint/ledger cũ giữ nguyên byte.
+  Index đã khóa bằng code cũ không được nạp với identity mới; run mới phải
+  build/load bằng path riêng qua API W6-06. W6-12 sẽ khóa module mới vào
+  identity/CLI. Không tạo thêm Markdown/schema/receipt/runtime JSON trong
+  repo. Compileall/E2E, **686 unit/121 leakage PASS**, không skip; 2.282
+  file bảo vệ nguyên byte, code/test khớp byte đã kiểm. **Gate B còn chờ W6-08**.
+
 #### W6-08 — Recency, đa dạng ví dụ và trace lựa chọn
 
 - **Làm:** áp dụng luật tuổi/đa dạng ngày đã đăng ký, loại ví dụ quá giống
@@ -1035,8 +1091,9 @@ Module dự kiến kế thừa: `core/bayesian_retriever.py`, `core/prior_eviden
 `core/research_cohort.py`, `core/research_input_lock.py`, `core/research_metrics.py`,
 `core/prior_checkpoint.py`, `core/prior_stage_journal.py`, các builder Decision
 và `scripts/run_bayesian_ablation.py`. Feature được triển khai tại
-`core/pit_price_features.py` và scaler/index tại `core/price_feature_index.py`,
-kết nối `core/prior_context.py` qua W6-05–06. Không mở thêm runner độc lập
+`core/pit_price_features.py`, scaler/index tại `core/price_feature_index.py`
+và base similarity tại `core/prior_price_similarity.py`, kết nối
+`core/prior_context.py` qua W6-05–07. Không mở thêm runner độc lập
 nếu CLI hiện hữu có thể mở rộng rõ ràng.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
@@ -1067,3 +1124,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-04 | DONE; 4/16 task, Gate A PASS trong phạm vi thiết kế/PIT hồi cứu. Registry 6/6, C0/default/version, ngưỡng/biên số học, lock/model options và checklist PASS; chốt comparator, ablation, common support và tiêu chí đề cử W7. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; các gate triển khai còn TODO | W6-05: extractor feature giá PIT, mở Phase B |
 | 11/10/2026 | W6-05 | DONE; 5/16 task, Phase B IN_PROGRESS. Extractor bốn feature/21 phiên PIT dùng chung episode/query, callback adapter/point, coverage/reason và JSON gốc; 28 test mới PASS, gồm 6 leakage. Audit 852/852 khớp 699 hợp lệ/153 barrier, fit 166/428 và bất biến tương lai bốn mã. Compileall/E2E, 652 unit/111 leakage PASS, không skip; 2.280 file bảo vệ nguyên byte. Không API/artifact mới; Gate B chờ 06–08 | W6-06: scaler theo mã/fold và auxiliary index |
 | 11/10/2026 | W6-06 | DONE; 6/16 task. Producer/loader/cache index phụ đủ 852 episode, 699 vector hợp lệ/153 barrier; scaler riêng mã/fold fit 166/428, OOS freeze 699 hàng train. Round-trip/hash/semantic và prefix train/OOS bốn mã PASS; query/prior dùng cùng scaler, hot cache không I/O/refit. 19 test mới gồm 5 leakage; compileall/E2E, 671 unit/116 leakage PASS, không skip. 2.280 file bảo vệ nguyên byte; một index runtime gitignore, không API hoặc Markdown/schema/receipt mới. Gate B chờ 07–08 | W6-07: similarity kết hợp tín hiệu và giá |
+| 11/10/2026 | W6-07 | DONE; 7/16 task. Base ranking tín hiệu+giá vector hóa, trace S/d/P/base, callback Full đã seal và source/index/scaler binding; giữ nguyên v1/evidence W5. Audit 651/651 query train, 16.061 cặp được chấm khớp oracle độc lập, max error 2.22e-16; label/future/cache và hot no-I/O/refit PASS. 15 test mới gồm 5 leakage; compileall/E2E, 686 unit/121 leakage PASS, không skip. 2.282 file bảo vệ nguyên byte; index audit chỉ trong TEMP, không API/receipt mới. Gate B chờ 08 | W6-08: recency, diversity và trace chọn ví dụ |
