@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A DONE, Gate A PASS, W6-01–04 DONE, 4/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-05** (Phase B).
+**Trạng thái: Phase A DONE, Gate A PASS; Phase B IN_PROGRESS, W6-01–05 DONE, 5/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-06**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -55,7 +55,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | A | W6-02 | Audit dữ liệu feature và tính nhân quả theo fold | 01 | [x] |
 | A | W6-03 | Chốt hợp đồng feature/ranking/thống kê | 02 | [x] |
 | A | W6-04 | Đăng ký ứng viên, ablation và tiêu chí đánh giá | 03 | [x] |
-| B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [ ] |
+| B | W6-05 | Bộ trích xuất đặc trưng giá PIT | Gate A | [x] DONE |
 | B | W6-06 | Scaler theo train/fold và auxiliary index | 05 | [ ] |
 | B | W6-07 | Similarity kết hợp tín hiệu và giá | 06 | [ ] |
 | B | W6-08 | Recency, đa dạng ví dụ và trace lựa chọn | 07 | [ ] |
@@ -317,8 +317,8 @@ chờ 03–04 chốt chính sách quyền, phạm vi và đăng ký cấu hình.
 
 ##### Hợp đồng đã chốt — DONE, 11/10/2026
 
-Đây là đặc tả để triển khai ở 05–12, **chưa là code runtime hoặc validation
-hiệu quả**. C0 giữ nguyên công thức/version W5; C1 thay retrieval với hồ sơ
+Đây là đặc tả đã chốt để triển khai ở 05–12; kết quả code/kiểm thử được ghi
+tại từng task, **chốt hợp đồng chưa là validation hiệu quả**. C0 giữ nguyên công thức/version W5; C1 thay retrieval với hồ sơ
 tương thích W5, C2/C3 dùng thống kê điều kiện/gate tách bên dưới. Bảng W6-04
 ghi bộ version chính xác cho từng ứng viên và ngưỡng trước thực nghiệm;
 không điều chỉnh công thức theo outcome development/holdout.
@@ -774,6 +774,45 @@ validation và hồi quy/p95 ở 14–15. Không phải PASS lợi nhuận hoặ
 - **Đạt khi:** query không cần evaluator/giá thoát lệnh; future data không
   đổi vector; thiếu dữ liệu được báo theo contract, không tự điền từ tương lai.
 
+##### Triển khai và kiểm chứng — DONE, 11/10/2026
+
+- Module [core/pit_price_features.py](../../../core/pit_price_features.py)
+  cung cấp `extract_pit_price_features(frame, events, trading_calendar,
+  as_of_date, source=...)`. Episode/query gọi cùng hàm tại cutoff riêng;
+  không có tham số nhãn, entry/exit hoặc evaluator. Bốn phép tính NumPy theo
+  thứ tự W6-03, 21 phiên trên lịch VNINDEX; không tự đổi đơn vị giá.
+- Kết quả JSON gốc có `feature_version`, `price_policy_version`,
+  `feature_columns`, `vector`, `feature_end_date`, `status`, `reasons` và
+  `coverage` (số phiên cần/thực có, ngày đầu/cuối, phiên thiếu, barrier,
+  zero-volume). `AVAILABLE` mới có vector; `UNAVAILABLE` trả `null` cùng
+  reason đã chốt. Ngày/nguồn/đơn vị/OHLCV/Reference hoặc phép tính lỗi ném
+  `ValueError`; không chuyển lỗi toàn vẹn thành thiếu coverage.
+- [PriorContextAdapter](../../../core/prior_context.py) có
+  `price_features(symbol, as_of_date)` kiểm checksum giá/evidence/events và
+  lịch đã ghim, trả thêm symbol/provenance nguồn. `PriorPointContext` gọi
+  `price_features()` tại cutoff của điểm. Feature không cần seal Full,
+  600 nến Alpha hay inference HMM; đủ 21 phiên là có thể tính. Hàm thuần
+  chỉ xét prefix, còn adapter vẫn bảo vệ byte toàn bộ nguồn đã khóa;
+  file nguồn bị sửa phải ném lỗi dù sửa ở phần tương lai.
+- Kiểm thử tại [test_pit_price_features.py](../../../tests/test_pit_price_features.py)
+  và [test_pit_price_features_leakage.py](../../../tests/test_pit_price_features_leakage.py):
+  **28 test mới PASS**, gồm sáu test leakage. Có ví dụ tính tay/giá cố định/
+  tăng hình học, đơn vị ×1.000, volume=0, phiên thiếu/cutoff, biên quyền và
+  Reference, nguồn lỗi, JSON, bất biến tương lai và callback adapter.
+- Audit offline trên bank train **852/852** khớp bảng W6-03: **699** có
+  feature, **153** `CORPORATE_ACTION_WINDOW`; tập fit hợp lệ **166/428**
+  theo hai fold. Bất biến tương lai PASS cả FPT/MWG/VCB/VNM; không gọi mạng.
+- Chưa đưa feature vào state/prompt/ranking hoặc thay version W5. Producer
+  scaler/index thuộc W6-06; W6-12 mới khóa identity CLI chứa module mới.
+  Không tạo artifact/receipt trong repo và không sửa bank/model/manifest.
+- Gate toàn hệ thống: compileall/E2E, **652 unit/111 leakage PASS**, không
+  skip. Lượt unit đầu có một timeout 60 giây ở test lock cũ; kiểm riêng
+  PASS trong 11 giây, sau đó chạy lại cả 652 test PASS, giữ nguyên test và
+  timeout. **2.280 file** bảo vệ nguyên byte; `core/prior_context.py` là
+  file tích hợp được sửa có chủ đích, kiểm bằng test hồi quy. Code được
+  đối chiếu checksum với đúng bản chạy bốn gate; API do người dùng tự chạy
+  ở các task sau, W6-05 hoàn toàn offline. **Gate B vẫn chờ 06–08**.
+
 #### W6-06 — Scaler theo train/fold và auxiliary index
 
 - **Làm:** fit scaler chỉ trên phần train hợp lệ trước query/fold; phục vụ
@@ -926,8 +965,9 @@ smoke v1, fixture v2 hoặc kết quả chọn ứng viên làm bằng chứng t
 Module dự kiến kế thừa: `core/bayesian_retriever.py`, `core/prior_evidence_v2.py`,
 `core/research_cohort.py`, `core/research_input_lock.py`, `core/research_metrics.py`,
 `core/prior_checkpoint.py`, `core/prior_stage_journal.py`, các builder Decision
-và `scripts/run_bayesian_ablation.py`. Tên module feature/index mới chốt ở
-01–03; không mở thêm runner độc lập nếu CLI hiện hữu có thể mở rộng rõ ràng.
+và `scripts/run_bayesian_ablation.py`. Feature được triển khai tại
+`core/pit_price_features.py`, kết nối `core/prior_context.py`; scaler/index
+thuộc W6-06. Không mở thêm runner độc lập nếu CLI hiện hữu có thể mở rộng rõ ràng.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
 nội dung kỹ thuật, không có ký hiệu tuần. Trước merge chạy:
@@ -955,3 +995,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-02 | DONE; 2/16 task. Bank audit mốc `f743b94` và replay production 852/852 PASS; 217 scaler prefix, 16 điểm Alpha tái tính và 4 ca sửa tương lai PASS offline. Ghi coverage giá/quyền, ma trận cutoff và giới hạn PIT hồi cứu. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte, audit 0 credential/network, không API hoặc receipt mới. Gate A chờ 03–04 | W6-03: chốt feature/ranking/thống kê và chính sách quyền |
 | 11/10/2026 | W6-03 | DONE; 3/16 task. Chốt feature 21 phiên và barrier quyền, scaler theo mã/fold, ranking tín hiệu+giá/recency/diversity, thống kê điều kiện có background P\C và readiness stats/examples độc lập. Coverage 699/852, fit166/428; 17 đối chiếu công thức PASS. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; Gate A chưa nghiệm thu | W6-04: đăng ký ứng viên, ablation và ngưỡng chất lượng |
 | 11/10/2026 | W6-04 | DONE; 4/16 task, Gate A PASS trong phạm vi thiết kế/PIT hồi cứu. Registry 6/6, C0/default/version, ngưỡng/biên số học, lock/model options và checklist PASS; chốt comparator, ablation, common support và tiêu chí đề cử W7. Compileall/E2E, 624 unit/105 leakage PASS, không skip; 2.281 file nguyên byte. Chỉ ba Markdown, không API/code/schema mới; các gate triển khai còn TODO | W6-05: extractor feature giá PIT, mở Phase B |
+| 11/10/2026 | W6-05 | DONE; 5/16 task, Phase B IN_PROGRESS. Extractor bốn feature/21 phiên PIT dùng chung episode/query, callback adapter/point, coverage/reason và JSON gốc; 28 test mới PASS, gồm 6 leakage. Audit 852/852 khớp 699 hợp lệ/153 barrier, fit 166/428 và bất biến tương lai bốn mã. Compileall/E2E, 652 unit/111 leakage PASS, không skip; 2.280 file bảo vệ nguyên byte. Không API/artifact mới; Gate B chờ 06–08 | W6-06: scaler theo mã/fold và auxiliary index |
