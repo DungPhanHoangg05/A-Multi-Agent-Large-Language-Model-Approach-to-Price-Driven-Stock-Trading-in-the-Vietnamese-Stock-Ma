@@ -17,6 +17,7 @@ import pandas as pd
 from core.bayesian_memory import SYMBOLS, exact_object, iso_date, read_json
 from core.bayesian_retriever import BayesianPriorRetriever, VERSIONS, normalize_signals
 from core.execution_prices import PRICE_COLUMNS, load_verified_execution_data, raw_point_in_time_snapshot, validate_raw_frame
+from core.pit_price_features import extract_pit_price_features
 from core.historical_runner import HistoricalMemoryRunner, PrefixRegimeProvider
 from core.historical_signals import CODE_FILES, MODEL_CONFIG_KEYS, FrozenSentimentSnapshot, digest, native_json, report_signal, snapshot_payload
 from core.prior_config import PriorConfig, _relative_path, copy_prior_json, normalize_prior_config, validate_prior_execution
@@ -336,6 +337,23 @@ class PriorContextAdapter:
         frame, events = self._prices[symbol]
         return frame.copy(deep=True), deepcopy(events)
 
+    def price_features(self, symbol: str, as_of_date: str) -> dict[str, Any]:
+        """Trích feature PIT từ nguồn đã kiểm; không cần Full, regime hay evaluator."""
+        cutoff = iso_date(as_of_date)
+        if type(symbol) is not str or symbol not in SYMBOLS:
+            raise ValueError("Symbol feature chưa được hỗ trợ")
+        if not iso_date(self._price_manifest["requested_start"]) <= cutoff <= iso_date(self._price_manifest["requested_end"]):
+            raise ValueError("Cutoff feature ngoài phạm vi gate giá thực thi")
+        self._files.verify(self._base_paths)
+        frame, events = self._prices[symbol]
+        result = extract_pit_price_features(frame, events, pd.DatetimeIndex(self._vnindex["Datetime"]),
+                                            cutoff, source=self._price_manifest)
+        result["symbol"] = symbol
+        result["source_provenance"] = {"prices": deepcopy(self._price_sources[symbol]),
+                                       "calendar": deepcopy(self._vnindex_source)}
+        self._files.verify(self._base_paths)
+        return result
+
     def prepare(self, symbol: str, as_of_date: str, *, time_frame: str = "1d",
                 point_in_time_df: pd.DataFrame | None = None,
                 vnindex_prefix: pd.DataFrame | None = None) -> PriorPointContext:
@@ -458,6 +476,11 @@ class PriorPointContext:
         """Trả trạng thái PIT đã xác minh, độc lập với dữ liệu đánh giá kinh tế."""
         self._adapter._files.verify(self._paths)
         return deepcopy(self._regime)
+
+    def price_features(self) -> dict[str, Any]:
+        """Cùng extractor episode/query tại cutoff đã chuẩn bị, tách khỏi state W5."""
+        context = self._proof["context"]
+        return self._adapter.price_features(context["symbol"], context["as_of_date"])
 
     def agent_state(self) -> dict[str, Any]:
         """Input upstream/Full PIT; prior chưa bật, không có outcome query."""
