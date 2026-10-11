@@ -214,6 +214,14 @@ def format_compact_prior_prefix(tasks: list[dict[str, Any]], stats: dict[str, An
 
 
 class BayesianPriorRetriever:
+    def select_price_examples(self, **query: Any) -> dict[str, Any]:
+        """Chọn ví dụ tín hiệu+giá/tuổi/diversity; giữ population thống kê độc lập."""
+        from core.prior_example_selection import select_price_examples
+        required = {"selector", "symbol", "as_of_date", "current_regime", "current_signals", "query_features"}
+        if not required.issubset(query) or set(query) - required - {"config"}:
+            raise ValueError("Query chọn ví dụ thiếu trường hoặc chứa dữ liệu ngoài whitelist")
+        return select_price_examples(self, **query)
+
     def rank_price_candidates(self, **query: Any) -> dict[str, Any]:
         """API base similarity tín hiệu+giá riêng; chưa áp policy chọn ví dụ."""
         from core.prior_price_similarity import rank_price_candidates

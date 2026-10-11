@@ -485,14 +485,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A DONE / GATE A PASS, PHASE B IN_PROGRESS, 7/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B DONE / GATE A/B PASS, 8/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **7/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-08; chưa chạy benchmark.
+  4 phase/16 task, **8/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-09; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
-  - [ ] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
+  - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
   - [ ] Phase D, W6-13–16: quyết định risk policy, validation train PIT, hồi quy/p95 và bàn giao W7.
   Đã đăng ký C0–C3 và hai ablation nội dung, đúng sáu cấu hình trước
@@ -562,6 +562,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   index audit chỉ trong TEMP. 15 test mới gồm 5 leakage; compileall/E2E,
   **686 unit/121 leakage PASS**, không skip; 2.282 file bảo vệ nguyên byte.
   W6 đạt 7/16; Gate B chờ W6-08 recency/diversity, CLI/identity thuộc 12.
+- **W6-08 DONE / Gate B PASS, 11/10/2026:** policy chọn ví dụ theo
+  `signal_price_recency_v1` / `session_gap_v1`, tuổi≤730, base≥0.625,
+  half-life365, gap≥5 phiên VNINDEX và K≤3; trace giữ/loại, không bù K.
+  Full/source/index/lịch được kiểm, population không đổi theo K/quality/tuổi/
+  diversity hoặc nhãn. Audit **651/651 query train** khớp oracle độc lập,
+  **1.021** lượt ví dụ được chọn; K_eff0/1/2/3 ở **221/86/97/247 query**.
+  13 test mới gồm 5 leakage; compileall/E2E, **699 unit/126 leakage PASS**,
+  không skip; 2.286 file bảo vệ nguyên byte. Artifact audit chỉ trong TEMP,
+  không API/receipt mới. Phase B đóng, W6 đạt 8/16; thống kê/quality gate/
+  Decision/CLI thuộc 09–12, chưa chứng nhận hiệu quả đầu tư C1.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
@@ -571,7 +581,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [x] Thêm đặc trưng giá PIT gọn (biến động, khoảng cách MA, momentum)
     và scaler train-only; lưu auxiliary index/hash riêng, không sửa 852 episode.
     Chốt metric mới, so với signal_match_v1; outcome không tham gia ranking.
-  - [ ] Thử độ mới/đa dạng theo ngày, loại ví dụ quá giống nhau; tuổi tính
+  - [x] Thử độ mới/đa dạng theo ngày, loại ví dụ quá giống nhau; tuổi tính
     tại query. Không ưu tiên WIN/LOSS hoặc cố chọn ba bull trap.
   - [ ] Tính thống kê điều kiện theo regime+tín hiệu với support/uncertainty,
     shrink về population khi support ít theo luật đã khóa. Không coi K=3
