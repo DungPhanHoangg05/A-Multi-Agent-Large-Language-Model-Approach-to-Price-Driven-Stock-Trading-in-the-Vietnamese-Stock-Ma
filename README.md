@@ -64,11 +64,12 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   verify/resume tại [W6-16 trong README W6](docs/plan/week6/README.md).
   Người dùng tự chạy API khi W7 mở validation/chọn ứng viên/khóa ma trận;
   W8 mới benchmark 2024. Chưa có kết luận hiệu quả LLM hoặc chọn theo holdout.
-  **W7 Phase A IN_PROGRESS: 3/16 task, 4 phase**, kế hoạch chi tiết tại
+  **W7 Phase A DONE / Gate A PASS: 4/16 task, 4 phase**, kế hoạch chi tiết tại
   [README W7](docs/plan/week7/README.md). W7-01 audit nguồn/identity,
   dry-run development và verifier hiệu năng PASS. W7-02 đã khóa protocol,
   cấu hình và amendment trước API. W7-03 đã khóa hợp đồng metric/lựa chọn
-  cùng oracle fixture. Tiếp theo **W7-04**; code/report/
+  cùng oracle fixture. W7-04 tái dựng 852 replay/651 query, report train v2
+  và 9 test train/PIT PASS, diagnostics không đổi. Tiếp theo **W7-05**; code/report/
   selector được khóa trước lượt API development, risk policy giữ OFF.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
