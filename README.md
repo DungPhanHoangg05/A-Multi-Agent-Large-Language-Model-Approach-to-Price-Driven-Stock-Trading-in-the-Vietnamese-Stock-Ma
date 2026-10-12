@@ -64,8 +64,9 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   verify/resume tại [W6-16 trong README W6](docs/plan/week6/README.md).
   Người dùng tự chạy API khi W7 mở validation/chọn ứng viên/khóa ma trận;
   W8 mới benchmark 2024. Chưa có kết luận hiệu quả LLM hoặc chọn theo holdout.
-  **W7 PLAN_READY: 0/16 task, 4 phase**, kế hoạch chi tiết tại
-  [README W7](docs/plan/week7/README.md). Tiếp theo **W7-01**; code/report/
+  **W7 Phase A IN_PROGRESS: 1/16 task, 4 phase**, kế hoạch chi tiết tại
+  [README W7](docs/plan/week7/README.md). W7-01 audit nguồn/identity,
+  dry-run development và verifier hiệu năng PASS. Tiếp theo **W7-02**; code/report/
   selector được khóa trước lượt API development, risk policy giữ OFF.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test

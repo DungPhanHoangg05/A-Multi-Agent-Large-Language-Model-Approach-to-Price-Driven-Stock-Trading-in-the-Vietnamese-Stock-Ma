@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: PLAN_READY; 0/16 task hoàn thành, Phase A/B/C/D TODO.**
-Ngày lập: **12/10/2026**. Tiếp theo **W7-01**.
+**Trạng thái: Phase A IN_PROGRESS; 1/16 task hoàn thành, Phase B/C/D TODO.**
+Ngày lập/cập nhật: **12/10/2026**. Tiếp theo **W7-02**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -32,6 +32,61 @@ và common support nhưng chưa phải bộ lựa chọn đầy đủ theo quy t
 CLI ứng viên hiện chỉ nhận fixture/development_2023; cần consumer/validator
 có version cho lựa chọn và manifest holdout. Không coi các tên artifact
 dự kiến dưới đây là schema hoặc chức năng đã tồn tại.
+
+### Khảo sát bàn giao W7-01
+
+**Identity/nguồn PASS, 12/10/2026:** Python **3.13.5** và dependency runtime
+khớp cả train report v2, performance report v2 và plan development v1.
+Envelope/checksum byte khớp bàn giao W6-16; registry sáu ứng viên/risk OFF
+khớp code hiện tại. So **55/57/54 mục code/schema/dependency** tương ứng
+train/performance/plan bằng hash text LF; **1.992 nguồn ghim** khớp byte,
+không có hash xung đột giữa các artifact. **2.317 file bằng chứng/artifact
+W6 nguyên byte**, W6 vẫn 16/16 và Gate A/B/C/D PASS.
+
+Report train giữ 852 replay, 651 query (329/322), bootstrap 201, 217 cutoff
+model/proof, feature AVAILABLE=530/UNAVAILABLE=121; `decision_calls=0`,
+`llm_performance=null`, `candidate_selection=null`. Đây là kiểm identity/
+nguồn và nội dung bàn giao; replay đầy đủ HMM/purge/fold thuộc **W7-04**.
+Plan development đúng lịch W5: FPT 12, MWG/VCB/VNM 16 mỗi mã; chưa có
+`development_candidate_run_v1/cohort.json`. Holdout chỉ kiểm metadata lịch
+64 điểm, không đọc bảng outcome/metric hoặc tạo manifest holdout mới.
+
+| Thành phần | Producer → consumer/verifier hiện hữu | Đã có và việc W7 cần làm |
+| --- | --- | --- |
+| Train PIT | `core/train_pit_validation.py:run_train_validation` → `read_envelope`, `build_train_diagnostics` khi verify | Report v1/v2 có nguồn/fold/proof và chẩn đoán; W7-04 verify đúng v2/index, không dùng mặc định v1 trên code hiện tại |
+| Feature/scaler/index | `core/pit_price_features.py`, `core/price_feature_index.py` → `PriorContextAdapter.load_price_feature_index`, retriever/quality gate | Producer/loader kiểm semantic và scaler theo fold đã có; giữ index lịch sử, chỉ sinh revision mới nếu identity thay đổi |
+| Registry và plan | `core/candidate_cohort.py:registry/prepare_candidate_plan` → `validate_candidate_plan`, `core/research_cohort.py:validate_plan` | Sáu ứng viên, plan/identity v3 và 11 nhánh đã có; dùng nguồn/lịch W5 nguyên byte và ghim code/runtime hiện tại |
+| Metric ghép cặp | `core/research_metrics.py:branch_metrics/candidate_report` → `run_cohort` tái dựng report từ checkpoint | Có common support đủ 11 nhánh theo mã, metric tài khoản, CASH, Δreturn từng mã và trung bình bốn mã; W7-03/05 bổ sung pairwise support, ΔMDD, exposure/coverage và tình trạng lỗi chi tiết |
+| Prior-use/attribution | `core/prior_prompt.py:build_prior_request`, Decision → `candidate_cohort.py:_checked_response`, `research_metrics.py:action_attribution` | Có visible/retrieved IDs, raw response/trace và risk OFF; W7-06 bổ sung tổng hợp 11 nhánh, prior-off và subgroup cả stats/examples ready |
+| Phân tích v1 | `scripts/analyze_prior_run.py:audit_points/analyze_run` | Có audit kinh tế/disagreement Original–Bayesian; không coi đây là phân tích sáu ứng viên hoặc selector W7, chỉ tái dùng phần phù hợp |
+| Durable checkpoint | `run_cohort/candidate_point`, `PriorCheckpointStore`, `StageJournal` → verify/reconcile/resume | Có intent/raw/semantic/UUID replay và Full dùng chung; verify/reconcile chỉ dùng sau khi run đã có `cohort.json`, dry-run chưa tạo run |
+| Hiệu năng | `core/prior_performance.py:benchmark` → `verify_report/run_performance` | Có raw samples, kiểm nguồn/semantic và guard hot I/O/refit; audit chỉ verify report v2, không đo lại hoặc sửa kết quả W6-15 |
+| Quyết định lựa chọn | Chưa có producer/loader/verifier cho nomination hoặc selection binding | D đã có trong report nhưng chưa đủ eligibility/ΔMDD/tie-break/NOT_PROMOTED; W7-07 mới triển khai, chưa có candidate được chọn |
+| Holdout ứng viên | CLI `--candidate-split` và `validate_candidate_plan` chỉ nhận fixture/development_2023 | Legacy plan v2 có holdout nhưng không thay được giao thức 11 nhánh có selection binding; W7-08 bổ sung phiên bản mới, không đổi v3 thành v2 để vượt guard |
+| API guard | CLI `execute_cohort` → retry, `GroqPacer`, ledger và run lock hiện hữu | Chỉ preflight/run đọc key; giữ `request_admission_v2`/ledger chung. Khả dụng model/API chưa được xác nhận; người dùng kiểm ở W7-10 |
+
+**Ràng buộc identity:** code/runtime W5 trong lock/checkpoint là lịch sử,
+không ép bằng code hiện tại. Kế thừa parent/lock bằng checksum và validator
+hiện hữu; report/plan mới ghim code mới. Sau sửa code ở Phase B, W7-09 phải
+khóa plan/output mới nếu identity đổi; không resume bằng cách sửa hash cũ.
+
+Kiểm thử hiện hữu để kế thừa gồm `test_candidate_cohort*`,
+`test_candidate_fault_matrix.py`, `test_research_*`,
+`test_train_pit_validation.py`, `test_train_pit_leakage.py` và
+`test_prior_performance.py`. Những test này chưa thay thế oracle/biên
+lựa chọn mới ở W7-03/07 hoặc chứng minh lợi ích đầu tư.
+
+**Kết quả W7-01: DONE.** Dry-run production trên đủ **60 điểm development**
+PASS; verifier performance v2 đối chiếu semantic toàn bộ **651 query**,
+mẫu timing thô và nguồn PASS. Chạy offline với guard chặn đọc `.env` và
+kết nối API; không tạo run, không đo lại hiệu năng hoặc sửa report lịch sử.
+Không có blocker nguồn/identity; các khoảng trống implementation được giao
+đúng task trong bảng trên. **Gate A chưa PASS**, còn W7-02–04.
+
+Thay đổi chỉ gồm ba Markdown; code/test giữ nguyên mốc W6-16 và runtime
+đã đối chiếu khớp. Kế thừa bốn gate của cùng mã nguồn: compileall/E2E,
+**784 unit/146 leakage PASS**, không chạy lại suite cho audit tài liệu.
+Checklist 1/16, liên kết, trạng thái ba tài liệu và `git diff --check` PASS.
 
 ## 2. Phạm vi và hợp đồng khóa trước chạy
 
@@ -105,7 +160,7 @@ dự toán ngân sách hoặc lịch chạy API; guard/quota thực tế vẫn b
 
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
-| A | W7-01 | Xác minh bàn giao và khoảng trống implementation | W6 đóng | [ ] TODO |
+| A | W7-01 | Xác minh bàn giao và khoảng trống implementation | W6 đóng | [x] DONE |
 | A | W7-02 | Khóa phạm vi train/development và protocol validation | 01 | [ ] TODO |
 | A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [ ] TODO |
 | A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [ ] TODO |
@@ -343,8 +398,9 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | Ngày | Mốc | Kết quả | Tiếp theo |
 | --- | --- | --- | --- |
 | 12/10/2026 | Lập kế hoạch | PLAN_READY; 4 phase/16 task, 0/16 DONE. Đối chiếu bàn giao W6 và CLI thực; giữ registry/quy tắc lựa chọn, risk OFF, API do người dùng chạy. Chưa triển khai task hoặc chạy validation W7 | W7-01 |
+| 12/10/2026 | W7-01 | DONE, 1/16; nguồn/runtime/registry/hash PASS, 1.992 nguồn và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm và verifier hiệu năng 651 query PASS offline; bản đồ module/khoảng trống ở mục 1. Gate A còn 02–04 | W7-02 |
 
-Kiểm tài liệu: checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
+Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
 kế thừa kết quả của cùng mã nguồn, không chạy lại suite cho thay đổi Markdown.
 Đối chiếu 2.317 file bằng chứng/artifact nguyên byte; chưa mở Gate A của W7.
