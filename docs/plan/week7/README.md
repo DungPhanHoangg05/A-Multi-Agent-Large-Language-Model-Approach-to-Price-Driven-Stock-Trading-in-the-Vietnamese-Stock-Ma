@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A IN_PROGRESS; 1/16 task hoàn thành, Phase B/C/D TODO.**
-Ngày lập/cập nhật: **12/10/2026**. Tiếp theo **W7-02**.
+**Trạng thái: Phase A IN_PROGRESS; 2/16 task hoàn thành, Phase B/C/D TODO.**
+Ngày lập/cập nhật: **12/10/2026**. Tiếp theo **W7-03**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -96,12 +96,18 @@ Checklist 1/16, liên kết, trạng thái ba tài liệu và `git diff --check`
   651 query của fold 2021 (329) và 2022 (322). Kiểm HMM đúng prefix, scaler
   freeze theo fold, purge theo entry/exit thực; fit feature hợp lệ 166/428.
   Đây là validation kỹ thuật PIT cuốn chiếu, không có return Decision mới.
+  Fit scaler nhận episode có exit trước đầu fold; purge chu kỳ vắt qua biên fold.
+  Embargo truy xuất là exit<query, không thêm phiên embargo ngoài protocol.
   W7 không tự thêm 651 điểm LLM trên train. Nếu cần kết luận hiệu quả
   LLM theo fold train, phải đăng ký protocol/runner/mẫu riêng trước API;
   không dùng mock hoặc Decision lịch sử khác identity để tạo kết luận đó.
 - **Development 2023:** chạy Decision thật trên đúng 60 điểm đã khóa,
-  đủ 11 nhánh mỗi điểm; dùng để phân tích và lựa chọn. Giữ embargo pilot/
-  smoke, không bù ngày thiếu hoặc đổi ngày lỗi. Không gộp train vào D.
+  FPT 12, VNM/VCB/MWG 16 mỗi mã, đủ 11 nhánh mỗi điểm; dùng để phân tích
+  và lựa chọn. Giữ embargo pilot/smoke, không bù ngày thiếu hoặc đổi ngày lỗi.
+  Không gộp train vào D.
+  Query thiếu feature/support vẫn trong lịch; fallback đúng contract là
+  complete, lỗi/unknown giữ nguyên trạng thái. Pilot 20 và smoke 4 chỉ là
+  kiểm vận hành; fixture/mock không vào mẫu hiệu quả hoặc tiêu chí lựa chọn.
 - **Holdout 2024:** 64 điểm đã khóa; trước lựa chọn chỉ được kiểm metadata,
   checksum và lịch nguồn. Không tính/đọc bảng outcome, metric hoặc Decision
   2024 để chọn cấu hình. Fixture holdout dùng dữ liệu tổng hợp; W7 chỉ
@@ -113,6 +119,59 @@ prior exit<cutoff; thiếu ngày tin bị loại, vi phạm integrity phải né
 Một upstream/Full mỗi điểm, deep-copy cho mọi nhánh; chỉ tái dùng checkpoint
 khi toàn bộ identity/provenance phù hợp. Original giữ prompt/schema gốc.
 BRPP≤600 ký tự, tổng prompt<6.500; mọi API qua retry/pacer/ledger hiện hữu.
+
+#### Cấu hình validation khóa tại W7-02
+
+Kế thừa `inputs` và lịch từ `input_lock.json` W5 qua plan development v1;
+không lấy default mới từ môi trường. Plan tham chiếu hiện tại có SHA-256 byte
+`0948f954a33d438370c7b2df59181b5df4d8a971b00b9acffc0347894ef2081c`.
+Registry `prior_candidates_v1` có `canonical_hash` theo
+`core/prior_backtest.py`:
+`f35bd8120ca0f716772b68f164c427978b35718be6b14f8280615110434cb15b`.
+Đây là mốc cấu hình; plan dùng chạy API được ghim lại code/runtime ở W7-09,
+không sửa byte plan bàn giao để nhận code mới.
+
+| Đầu vào | Giá trị cố định |
+| --- | --- |
+| Signal | `language=vi`, `time_frame=1d`, `window_size=45`; Alpha 600 nến, `norm_method=zscore_tanh`, `alpha_weights=null` |
+| Text/Decision | `openai/gpt-oss-20b`, `temperature=0`, `max_tokens=2048`; client `reasoning_effort=low`, `reasoning_format=hidden` |
+| Graph/vision | `qwen/qwen3.8-27b`, `temperature=0`, `max_tokens=1024`; client `reasoning_effort=none`, `reasoning_format=hidden` |
+| Prior adapter | `enable_bayesian_prior=true`, `mode=bayesian_regime`, K=3, seed=42, `scope=same_symbol`; bank/manifest/audit giữ đường dẫn và hash W5 |
+| Năm đối chứng v1 | Original K=0; random/recent/similarity/bayesian K=3, mode đúng ID; giữ prompt/schema/version v1 |
+| C0 | Evidence v2, Beta(1,1), population≥20, similarity tín hiệu≥0,75, tuổi≤730 ngày; gate/prefix/Decision W5 |
+| C1–C3 và hai ablation | Giữ profiles/version trong registry; `w_signal=0.5`, half-life=365 ngày, tuổi≤730 ngày, base similarity≥0,625, gap≥5 phiên; C1 giữ statistics/gate coupled, C2/C3 shrink=4 và split gate support≥5/width≤0,75 |
+| Risk và nguồn PIT | Risk OFF; population ứng viên cùng mã/regime và exit<query; HMM/scaler theo cutoff/fold đã khóa, OOS dùng model/scaler cuối train, không fit bằng 2023/2024 |
+
+Phiên bản feature/scaler/ranking, content mode và khác biệt reasoning giữ
+đúng registry và bảng phương pháp W6-04. Ba C3 dùng cùng base evidence;
+không đổi retrieval/readiness khi ẩn stats/examples. Prior không hiển thị
+thì dùng request Original, vẫn lưu Decision riêng và báo disagreement.
+Thứ tự 11 nhánh cố định ở mục 2.2; mỗi điểm chỉ một upstream/Full, deep-copy
+sang các nhánh. Không tái dùng Decision W5 thay cho lượt ứng viên mới.
+
+#### Quy tắc amendment và mở lượt chạy
+
+- **Trước API:** W7-03 khóa hợp đồng metric/selection; W7-09 hoàn thiện
+  implementation, bốn gate và plan/run identity mới. W7-10 do người dùng
+  preflight rồi chạy đúng plan. Chưa xác nhận khả dụng API/model; nếu không
+  khả dụng thì dừng, không tự thay model/options ở một nhánh hoặc một mã.
+- **Sửa code vận hành trước chạy:** giữ cùng lịch/cấu hình phương pháp,
+  kiểm hồi quy và ghi code/runtime/schema/index/config hash vào plan mới;
+  giữ nguyên parent/lock/artifact cũ. Chỉ resume khi mọi identity phù hợp.
+- **Đổi phương pháp/model/ngưỡng/mẫu:** ghi amendment ngay trong README
+  trước lượt API mới: thời điểm, lý do, giá trị cũ→mới, giả thuyết/comparator,
+  ảnh hưởng protocol và identity/output riêng. Giữ kết quả các lượt trước,
+  công bố tổng số cấu hình đã thử; không gộp lượt khác cấu hình thành primary
+  hoặc sửa hash checkpoint. Thay đổi sau xem development phải ghi rõ tính
+  thăm dò; không tự đổi lịch 60 điểm hay nới eligibility để lấy PASS.
+- **Giới hạn holdout:** outcome/metric/Decision 2024 không được dùng cho
+  amendment/lựa chọn. Chỉ sau W7-12 mới khóa protocol/manifest 64 điểm và
+  dry-run; W8 thực thi. Phát hiện lỗi nguồn phải dừng và ghi cách khôi phục,
+  không bỏ ngày lỗi hoặc đổi mẫu dựa trên return.
+
+**W7-02 DONE:** khóa phạm vi và cấu hình trên; chưa tạo schema runtime mới
+vì consumer bổ sung thuộc Phase B. Protocol không chứng nhận hiệu quả LLM;
+Gate A còn W7-03–04.
 
 ### 2.2. Ứng viên, thước đo và lựa chọn
 
@@ -161,7 +220,7 @@ dự toán ngân sách hoặc lịch chạy API; guard/quota thực tế vẫn b
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | A | W7-01 | Xác minh bàn giao và khoảng trống implementation | W6 đóng | [x] DONE |
-| A | W7-02 | Khóa phạm vi train/development và protocol validation | 01 | [ ] TODO |
+| A | W7-02 | Khóa phạm vi train/development và protocol validation | 01 | [x] DONE |
 | A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [ ] TODO |
 | A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [ ] TODO |
 | B | W7-05 | Hoàn thiện report common support và metric | Gate A | [ ] TODO |
@@ -399,6 +458,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | --- | --- | --- | --- |
 | 12/10/2026 | Lập kế hoạch | PLAN_READY; 4 phase/16 task, 0/16 DONE. Đối chiếu bàn giao W6 và CLI thực; giữ registry/quy tắc lựa chọn, risk OFF, API do người dùng chạy. Chưa triển khai task hoặc chạy validation W7 | W7-01 |
 | 12/10/2026 | W7-01 | DONE, 1/16; nguồn/runtime/registry/hash PASS, 1.992 nguồn và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm và verifier hiệu năng 651 query PASS offline; bản đồ module/khoảng trống ở mục 1. Gate A còn 02–04 | W7-02 |
+| 12/10/2026 | W7-02 | DONE, 2/16; protocol mục 2.1 khóa vai trò 651 query train/60 điểm development/64 holdout, model/client/registry và amendment trước API. Đối chiếu cấu hình nguồn/code, checklist/liên kết/hash PASS; chỉ ba Markdown, kế thừa bốn gate W6-16 của cùng code/runtime. Gate A còn 03–04 | W7-03 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
