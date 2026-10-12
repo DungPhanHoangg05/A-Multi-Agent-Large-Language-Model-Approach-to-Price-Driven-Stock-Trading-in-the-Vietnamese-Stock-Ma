@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A/B/C DONE, Gate A/B/C PASS; W6-01–12 DONE, 12/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **12/10/2026**. Tiếp theo **W6-13**.
+**Trạng thái: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–13 DONE, 13/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **12/10/2026**. Tiếp theo **W6-14**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -63,7 +63,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | C | W6-10 | Quality gate theo support/uncertainty | 09 | [x] DONE |
 | C | W6-11 | Prompt/Decision contract và ablation nội dung | 10 | [x] DONE |
 | C | W6-12 | CLI, protocol, identity và checkpoint ứng viên | 08, 11 | [x] DONE |
-| D | W6-13 | Chốt phạm vi risk policy và cách quy kết tác động | Gate C | [ ] |
+| D | W6-13 | Chốt phạm vi risk policy và cách quy kết tác động | Gate C | [x] DONE |
 | D | W6-14 | Validation train PIT offline và chẩn đoán ứng viên | 13 | [ ] |
 | D | W6-15 | Hồi quy, leakage, fault/resume và hiệu năng | 14 | [ ] |
 | D | W6-16 | Chốt W6 và bàn giao validation W7 | 15 | [ ] |
@@ -1292,6 +1292,83 @@ PASS; chưa chạy API/holdout. Validation train và hiệu năng còn thuộc P
   tế. Nếu hoãn thì ghi DEFERRED policy, task quyết định vẫn DONE; không coi
   policy chưa viết là tính năng đã triển khai. Không dùng ca pilot để ép luật.
 
+##### Quyết định phạm vi — numeric risk policy DEFERRED, 12/10/2026
+
+Giữ `candidate_registry.risk_policy="OFF"` cho toàn bộ sáu ứng viên và năm
+nhánh đối chứng. **Chưa triển khai numeric risk policy**: ngưỡng chất lượng
+prior chỉ quyết định bằng chứng nào được hiện trong prompt, không đủ để
+đặt ngưỡng chặn LONG. Posterior win-rate không phải expected net return;
+train PIT và validation hiệu quả development còn chờ W6-14/W7. Bật thêm
+luật lúc này sẽ làm thay đổi đồng thời retrieval/prompt và lớp hành động,
+khó quy kết chênh lệch. Không lấy smoke, pilot hoặc outcome holdout để ép luật.
+
+`core/research_metrics.py:candidate_report` bổ sung
+`stocks[SYMBOL].action_attribution` với subversion `action_attribution_v1`
+trong report v3. Mỗi điểm common support đủ 11 nhánh có các trường riêng:
+
+| Trường | Ý nghĩa và nguồn |
+| --- | --- |
+| `branches[ID].raw_action` | Action LONG/SHORT của model từ Decision đã kiểm raw/normalized ở verifier |
+| `branches[ID].executed_action` | Action LONG/SHORT sau lớp policy; bằng `raw_action` vì OFF |
+| `branches[ID].execution_action` | Ánh xạ kinh tế của evaluator: LONG→BUY_SELL, SHORT→CASH; giữ tiền không bán khống |
+| `branches[ID].policy_reason` | `RISK_POLICY_OFF`; không có lần override |
+| `economic_label` | `actual_direction`, `net_return_long`, ngày entry/exit; nhãn LONG giả định sau phí, độc lập action của model |
+| `policy_status` / `policy_hash` / `override_count` | `DEFERRED` / `null` / `0`; không gán hash cho policy chưa viết |
+
+Report đối soát net LONG bằng `compute_round_trip_net_return`, hướng UP khi
+net>0 và DOWN khi net≤0, return CASH=0 và correctness; lệch action/evaluation
+hoặc policy khác OFF ném `ValueError`. Báo cáo chỉ đọc và không sửa Decision,
+prompt, evidence, checkpoint hoặc công thức engine. `execution_action` mô
+tả chu kỳ theo tín hiệu; số cổ phiếu/lô và tiền khả dụng vẫn do engine tài
+khoản xử lý trong `account_metrics`. Không coi mỗi LONG là một lệnh tài
+khoản chắc chắn đã khớp. Report v2/smoke lịch sử giữ đường báo cáo cũ.
+
+**Quy kết tác động:** delta theo candidate ID/từng mã/common support tiếp
+tục so với Original và C0 theo protocol đã đăng ký. Vì policy OFF, không
+có cải thiện do numeric risk gate để báo cáo. Chênh lệch tương lai chỉ là
+kết quả của toàn cấu hình retrieval/evidence/prompt được so; các ablation
+mới giúp tách thành phần, trace tự báo cáo không chứng minh cơ chế Bayes
+nhân quả. Fixture/mock kiểm tính đúng của protocol, không chứng minh lời lỗ LLM.
+
+Nếu mở policy sau này, phải đăng ký **ablation riêng trước đo**: cùng model
+action/Full, thêm đúng một lớp policy, formula/ngưỡng từ train/development,
+policy hash và raw/executed/reason; báo riêng kết quả model và sau policy.
+Quyết định DEFERRED hoàn thành phạm vi task 13, không coi policy là tính
+năng đã triển khai hoặc mở Gate D trước 14–16.
+
+**Identity/run mới:** thay code báo cáo làm đổi code hash của plan v3.
+Giữ `candidate_plan_v1.json`/output W6-12 nguyên byte; không sửa hash để
+resume với code mới. Tạo plan mới với index đã khóa, rồi dry-run offline:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --prepare --plan outputs/bayesian_benchmark/smoke_plan.json --candidate-plan outputs/bayesian_benchmark/candidate_plan_v2.json --output-dir outputs/bayesian_benchmark/candidate_run_v2
+$candidatePlan = "outputs/bayesian_benchmark/candidate_plan_v2.json"
+$candidateRun = "outputs/bayesian_benchmark/candidate_run_v2"
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --dry-run --plan $candidatePlan --output-dir $candidateRun
+```
+
+Các lệnh trên không gọi LLM. W7 mới mở development với plan/output mới và
+`--candidate-split development_2023`; người dùng tự chạy phần API theo
+hướng dẫn CLI ở W6-12 sau khi chọn đúng plan/run.
+
+##### Kết quả kiểm chứng — DONE/PASS, 12/10/2026
+
+- **6 test mới PASS:** bảo toàn LONG thua lỗ/SHORT=CASH, nhãn giá ngang
+  sau phí, LONG có lời, phát hiện override/return/correctness bị sửa,
+  nhãn kinh tế giả và pending/policy chưa đăng ký. Kiểm không sửa input và
+  JSON nguyên bản; nhãn độc lập action. Ca production fixture bốn mã
+  **44 Decision, 4 upstream/Full** kiểm attribution đủ 11 nhánh mỗi điểm;
+  verify/resume trả cùng report, không gọi lại LLM đã complete.
+- **Bốn gate toàn hệ thống PASS:** compileall, **765 unit**, E2E,
+  **143 leakage**, không skip. **2.306 file bảo vệ nguyên byte**, gồm bank,
+  model, lock/index/plan và smoke lịch sử. Không thay công thức kinh tế,
+  prompt/schema Original, registry sáu ứng viên hoặc checkpoint cũ.
+- Prepare/dry-run plan mới **4/4 PASS** trên nguồn local khi chặn đọc key
+  và kết nối mạng; `candidate_plan_v2.json` runtime đã gitignore, index
+  hiện hữu được tái dùng nguyên byte. Không API/holdout hoặc receipt mới.
+  **Task quyết định DONE; numeric risk policy DEFERRED, chưa triển khai.**
+  Gate D còn chờ W6-14–16, chưa có kết luận hiệu quả LLM.
+
 #### W6-14 — Validation train PIT offline và chẩn đoán ứng viên
 
 - **Làm:** chạy harness fold đã audit, purge/embargo theo ngày vào/thoát
@@ -1391,3 +1468,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-10 | DONE; 10/16 task. Gate tách stats/examples đúng ngưỡng 20/5/0,75, C1 giữ population Beta và gate ghép cặp; evidence v3 có reason/visibility/fallback và validator tái tính nguồn. K=0/prior off bỏ producer, integrity/PIT ném lỗi, không sửa action. 16 test mới gồm 4 leakage; compileall/E2E, 729 unit/135 leakage PASS, không skip; 2.292 file bảo vệ nguyên byte. Không API/receipt mới; Gate C chờ 11–12 | W6-11: prefix/Decision contract và ablation nội dung |
 | 11/10/2026 | W6-11 | DONE; 11/16 task. Prefix/request có version, hash và validator nguồn; ba C3 chung base evidence, visibility đúng content mode. C1 tương thích byte template W5, C2 giữ reasoning W5; C3 thêm trace IDs/assessment/lý do, không ép action. Thiếu block/K=0/prior off giữ prompt/schema Original. 16 test mới gồm 4 leakage; caps 600/601 và 6.499/6.500 PASS; compileall/E2E, 745 unit/139 leakage PASS, không skip; 2.294 file bảo vệ nguyên byte. Không API/receipt mới; Gate C chờ 12 | W6-12: CLI/protocol/identity và checkpoint ứng viên |
 | 12/10/2026 | W6-12 | DONE; 12/16 task, Phase C DONE / Gate C PASS. CLI prepare/plan/identity v3 nối sáu ứng viên với năm v1, thứ tự 11 nhánh mỗi điểm và Full dùng chung. Fixture bốn mã 44 Decision, durable raw/trace, semantic verify, resume/unknown/replay và report theo candidate/common support PASS. Prepare/dry-run nguồn local 4/4 PASS; plan/index mới gitignore, không API/holdout. 14 test mới gồm 4 leakage; compileall/E2E, 759 unit/143 leakage PASS, không skip; 2.295 file bảo vệ nguyên byte. Hướng dẫn CLI trong README này | W6-13: chốt phạm vi risk policy và quy kết tác động |
+| 12/10/2026 | W6-13 | DONE; 13/16 task, Phase D IN_PROGRESS. Chốt numeric risk policy DEFERRED/OFF; report v3 thêm attribution tách raw/action sau policy/ánh xạ thực thi/nhãn kinh tế, đối soát bằng engine và không sửa action. 6 test mới PASS; fixture 44 Decision/4 upstream, verify/resume và prepare/dry-run local 4/4 khi chặn key/mạng PASS. Compileall/E2E, 765 unit/143 leakage PASS, không skip; 2.306 file bảo vệ nguyên byte. Plan mới gitignore, không API/holdout/receipt; Gate D còn chờ 14–16 | W6-14: validation train PIT offline và chẩn đoán ứng viên |

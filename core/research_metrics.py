@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any
 import numpy as np
 
-from core.backtest_engine import PRIOR_BRANCH_MODES
+from core.backtest_engine import PRIOR_BRANCH_MODES, compute_round_trip_net_return
 from core.prior_backtest import summarize_points
 from core.prior_config import copy_prior_json
 
@@ -120,8 +120,47 @@ def research_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]
                          "MDD theo equity cuối chu kỳ; không annualize Sharpe/Sortino; chưa chứng minh hiệu quả v2."]})
 
 
+def action_attribution(points: list[dict[str, Any]], matrix: list[str]) -> dict[str, Any]:
+    """Đối soát policy OFF ở lớp báo cáo; không sửa Decision hoặc nhãn kinh tế."""
+    rows = []
+    for point in points:
+        evaluation = point["evaluation"]
+        net = evaluation["net_return_long"]
+        expected = float(compute_round_trip_net_return(evaluation["entry_open"], evaluation["exit_close"]))
+        if type(net) not in (float, int) or not np.isfinite(net) or net != expected:
+            raise ValueError("Nhãn kinh tế khác hàm lợi nhuận T+2.5")
+        label = "UP" if net > 0 else "DOWN"
+        if evaluation["actual_direction"] != label:
+            raise ValueError("Hướng kinh tế khác dấu lợi nhuận LONG sau phí")
+        branches = {}
+        for name in matrix:
+            branch = point["branches"][name]
+            raw = branch["decision"]["action"]
+            result = evaluation["branches"][name]
+            execution = "BUY_SELL" if raw == "LONG" else "CASH"
+            cycle_return = result["cycle_net_return"]
+            correct = (raw == "LONG") == (label == "UP")
+            if (branch["status"] != "complete" or raw not in ("LONG", "SHORT")
+                    or result["executed_action"] != execution
+                    or type(cycle_return) not in (int, float) or not np.isfinite(cycle_return)
+                    or cycle_return != (net if raw == "LONG" else 0.)
+                    or type(result["correct"]) is not bool or result["correct"] != correct):
+                raise ValueError("Policy OFF không được thay action hoặc kết quả kinh tế")
+            branches[name] = {"raw_action": raw, "executed_action": raw,
+                "execution_action": execution, "policy_reason": "RISK_POLICY_OFF",
+                "cycle_net_return": float(cycle_return), "correct": correct}
+        rows.append({"as_of_date": point["context"]["as_of_date"],
+            "economic_label": {"actual_direction": label, "net_return_long": float(net),
+                "entry_date": evaluation["entry_date"], "exit_date": evaluation["exit_date"]},
+            "branches": branches})
+    return {"attribution_version": "action_attribution_v1", "risk_policy": "OFF",
+        "policy_status": "DEFERRED", "policy_hash": None, "override_count": 0, "points": rows}
+
+
 def candidate_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
     """Tách sáu candidate ID, cùng support đủ 11 nhánh; pending không thành CASH."""
+    if plan["candidate_registry"]["risk_policy"] != "OFF":
+        raise ValueError("Chưa đăng ký ablation cho numeric risk policy")
     names = plan["candidate_registry"]["order"]
     matrix = [*PRIOR_BRANCH_MODES, *names]
     stocks = {}
@@ -136,6 +175,7 @@ def candidate_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]
         done = {p["context"]["as_of_date"] for p in rows}
         pending = [day for day in cutoffs if day not in done]
         complete = complete and not pending
+        attribution = action_attribution(rows, matrix)
         metrics = {name: branch_metrics(rows, name) for name in matrix}
         cash = deepcopy(rows)
         for row in cash:
@@ -145,7 +185,8 @@ def candidate_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]
         deltas = {name: None if pending else float(metrics[name]["account_metrics"]["total_return_pct"] -
                   metrics["original"]["account_metrics"]["total_return_pct"]) for name in names}
         stocks[symbol] = {"completed": len(rows), "pending": pending, "common_support": sorted(done),
-            "metrics": metrics, "cash_reference": branch_metrics(cash, "original"), "candidate_delta_return_pp": deltas}
+            "metrics": metrics, "cash_reference": branch_metrics(cash, "original"),
+            "candidate_delta_return_pp": deltas, "action_attribution": attribution}
     status = "COMPLETE" if complete and len(stocks) == 4 else "INCOMPLETE"
     return copy_prior_json({"report_version": "research_report_v3", "metric_version": "cycle_risk_metrics_v2",
         "cohort_id": plan["cohort_id"], "split": plan["split"], "matrix": matrix, "stocks": stocks,

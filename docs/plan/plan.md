@@ -485,20 +485,20 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B/C DONE / GATE A/B/C PASS, 12/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B/C DONE / GATE A/B/C PASS, PHASE D IN_PROGRESS, 13/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **12/16 hoàn thành**, cập nhật 12/10/2026. Tiếp theo W6-13; chưa chạy benchmark.
+  4 phase/16 task, **13/16 hoàn thành**, cập nhật 12/10/2026. Tiếp theo W6-14; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [x] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
   - [ ] Phase D, W6-13–16: quyết định risk policy, validation train PIT, hồi quy/p95 và bàn giao W7.
   Đã đăng ký C0–C3 và hai ablation nội dung, đúng sáu cấu hình trước
-  implementation/thực nghiệm. Numeric risk policy mặc định chưa bật, có
-  quyết định phạm vi
-  riêng; không là điều kiện bắt buộc phải thêm luật giao dịch để đóng W6.
+  implementation/thực nghiệm. Numeric risk policy đã chốt **DEFERRED/OFF**
+  tại W6-13; task quyết định DONE, policy chưa triển khai. Không bắt buộc
+  thêm luật giao dịch để đóng W6.
   Bank/model toàn train không tự đủ điều kiện cho fold sớm: phải audit và
   tái tạo đúng prefix khi cần, không gắn nhãn validation PIT cho replay bị rò rỉ.
 - **W6-01 DONE, 10/10/2026:** input 128/128, smoke 4/4–20 Decision,
@@ -611,6 +611,17 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   gồm 4 leakage; **compileall/E2E, 759 unit/143 leakage PASS**, không skip;
   **2.295 file bảo vệ nguyên byte**. Không API/holdout/receipt rời.
   W6 đạt **12/16**, Phase A/B/C DONE; tiếp theo W6-13, validation/p95 ở Phase D.
+- **W6-13 DONE, 12/10/2026:** chốt numeric risk policy **DEFERRED/OFF**;
+  chưa đủ validation để đặt ngưỡng chặn LONG, tránh gộp tác động policy với
+  cấu hình ICL. Report v3 có `action_attribution_v1` tách model action,
+  action sau policy và nhãn kinh tế; raw=executed khi OFF, đối soát net bằng
+  `compute_round_trip_net_return`, lệch action/label/return ném lỗi.
+  **6 test mới PASS** và fixture bốn mã **44 Decision/4 upstream**, verify/
+  resume không gọi lại complete. Prepare/dry-run nguồn local **4/4 PASS**
+  khi chặn key/mạng, plan mới gitignore; giữ artifact W6-12 nguyên byte.
+  **Compileall/E2E, 765 unit/143 leakage PASS**, không skip; **2.306 file
+  bảo vệ nguyên byte**. Không API/holdout/receipt mới. W6 đạt **13/16**,
+  Phase D IN_PROGRESS; tiếp theo W6-14, Gate D còn chờ 14–16.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
@@ -628,7 +639,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [x] Cải thiện contract Decision: đối chiếu tín hiệu hiện tại với bằng
     chứng lịch sử, lưu evidence/source và khuyến nghị gốc. Thử stats-only,
     examples-only, full prior; không thêm vòng LLM để ép đồng ý.
-  - [ ] Nếu thử policy số học chặn LONG, đặt thành ablation riêng với
+  - [x] Chốt phạm vi numeric risk policy DEFERRED/OFF và báo cáo quy kết
+    model/policy/nhãn kinh tế; policy chưa triển khai, không sửa action.
+  - [ ] **DEFERRED:** nếu thử policy số học chặn LONG, đặt thành ablation riêng với
     `raw_action`, `executed_action`, lý do và policy hash; ngưỡng chọn bằng
     train/2023. Không gán lợi ích của risk gate thành lợi ích riêng của ICL;
     không ép SHORT theo ca 20/02 hoặc coi win-rate là expected net return.
