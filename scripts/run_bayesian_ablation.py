@@ -74,6 +74,10 @@ def main() -> None:
     mode.add_argument("--verify-only", action="store_true", help="Kiểm semantic checkpoint, không LLM")
     mode.add_argument("--reconcile", action="store_true", help="Đối soát journal offline, không gọi LLM")
     mode.add_argument("--design-calendar", action="store_true", help="Lập lịch mẫu/pilot/smoke offline, chưa tạo plan chạy")
+    mode.add_argument("--validate-train", action="store_true", help="Chẩn đoán train PIT offline, không Decision/API")
+    mode.add_argument("--verify-train", action="store_true", help="Dựng lại chẩn đoán train và đối chiếu report đã khóa")
+    parser.add_argument("--train-report", type=Path, help="Report train bất biến trong outputs/bayesian_benchmark")
+    parser.add_argument("--train-index", help="Index train; đường tương đối trong outputs/bayesian_benchmark/price_features")
     parser.add_argument("--coverage", type=Path, default=ROOT / "outputs/bayesian_benchmark/coverage.json")
     parser.add_argument("--calendar-output", type=Path, help="JSON lịch trong outputs/bayesian_benchmark")
     parser.add_argument("--points-per-quarter", type=int, default=4, help="Mục tiêu mỗi mã/quý khi lập lịch")
@@ -95,6 +99,19 @@ def main() -> None:
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    if args.validate_train or args.verify_train:
+        allowed = {"--validate-train", "--verify-train", "--train-report", "--train-index"}
+        if any(token.split("=", 1)[0] not in allowed for token in sys.argv[1:] if token.startswith("--")):
+            parser.error("Validation train chỉ dùng --train-report/--train-index, không dùng cờ execute")
+        from core.train_pit_validation import DEFAULT_INDEX, DEFAULT_REPORT, run_train_validation
+        destination = args.train_report or ROOT / DEFAULT_REPORT
+        report = run_train_validation(destination, index_path=args.train_index or DEFAULT_INDEX,
+                                      verify_only=args.verify_train)
+        print(f"Train PIT PASS: {report['replayed_count']} replay, {report['query_count']} query; "
+              f"Decision=0; report={destination}", flush=True)
+        return
+    if args.train_report is not None or args.train_index is not None:
+        parser.error("Cờ train cần --validate-train hoặc --verify-train")
     if (args.candidate_plan or args.candidate_split or args.price_index != "outputs/bayesian_benchmark/price_features/candidate_index_v1.json") and not (args.prepare and args.plan and args.candidate_plan):
         parser.error("Cờ ứng viên chỉ dùng --prepare --plan PARENT --candidate-plan NEW")
     if args.design_calendar:
