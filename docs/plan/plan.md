@@ -684,14 +684,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 2/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 3/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, 12/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 2/16 hoàn thành**; tiếp theo **W7-03**. Phase A IN_PROGRESS;
+  16 task, 3/16 hoàn thành**; tiếp theo **W7-04**. Phase A IN_PROGRESS;
   numeric risk policy giữ **DEFERRED/OFF**.
-  - [ ] Phase A, W7-01–04: W7-01–02 DONE; còn metric/lựa chọn và train PIT (03–04).
+  - [ ] Phase A, W7-01–04: W7-01–03 DONE; còn tái kiểm train PIT (04).
   - [ ] Phase B, W7-05–09: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API.
   - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
@@ -709,6 +709,10 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   holdout 2024 ngoài lựa chọn; ghim registry/model/client options, economic
   contract và amendment trước API. Chưa chạy API hoặc tạo schema mới;
   Gate A còn W7-03–04.
+- **W7-03, 12/10/2026:** khóa hợp đồng report tại mục 2.2 README W7:
+  global/pairwise support, đơn vị/null/coverage/visibility, cặp so sánh,
+  subgroup ready và nomination theo W6-04; 14 oracle số học cho Phase B.
+  Chưa triển khai selector hoặc đọc outcome holdout; Gate A còn W7-04.
 - **Nhiệm vụ cụ thể**:
   - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;

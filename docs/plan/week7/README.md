@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A IN_PROGRESS; 2/16 task hoàn thành, Phase B/C/D TODO.**
-Ngày lập/cập nhật: **12/10/2026**. Tiếp theo **W7-03**.
+**Trạng thái: Phase A IN_PROGRESS; 3/16 task hoàn thành, Phase B/C/D TODO.**
+Ngày lập/cập nhật: **12/10/2026**. Tiếp theo **W7-04**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -215,13 +215,129 @@ hình đã thử. Active registry≤6 không có nghĩa tổng số thử≤6. M
 khả dụng phải dừng, không âm thầm thay model ở một nhánh. Không có task
 dự toán ngân sách hoặc lịch chạy API; guard/quota thực tế vẫn bắt buộc.
 
+#### Hợp đồng report ghép cặp W7-03
+
+Đây là đặc tả cho producer/verifier **W7-05–07**; report v3 hiện hữu chưa
+có đủ các trường dưới. Khi triển khai phải tăng version, giữ reader của
+bằng chứng cũ; chưa tạo JSON/schema runtime không có consumer.
+
+Gọi P_s là lịch planned của mã s, C_b,s là các điểm của nhánh b có Decision,
+nguồn và evaluation đã verify complete. **G_s=∩_b C_b,s** trên đủ 11 nhánh;
+**S_a,b,s=C_a,s∩C_b,s** cho từng cặp. Lưu point ID/ngày theo thứ tự tăng và
+count cho cả hai support. Mỗi cặp tái dựng **cả hai tài khoản** trên cùng S,
+vốn 50 triệu/mã, giá/phí/lot theo engine; G dùng cho primary. Support rỗng
+trả null, không tạo return 0; nhóm theo regime cũng dựng lại trên tập ngày
+của nhóm, chỉ là mô tả, không cộng các return nhóm thành return toàn mã.
+
+| Nhóm trường bắt buộc | Đơn vị, mẫu số và quy tắc |
+| --- | --- |
+| Identity | Version report/metric, cohort/split/matrix, execution mode; checksum plan, registry, code/runtime, nguồn/index/model và checkpoint dùng tính. Chỉ `development_2023` với Decision thật đủ điều kiện lựa chọn thực; fixture ghi rõ kiểm protocol |
+| Completion | Theo mã/nhánh: `planned`, `complete`, `pending`, `failed`, `unknown` là count nguyên không âm; bốn trạng thái sau phân hoạch planned theo trạng thái durable hiện tại, không đếm lại các attempt lỗi đã phục hồi. `missing_result=planned−complete` là tổng thiếu kết quả, không cộng thêm lần nữa. Thiếu checkpoint/nguồn bắt buộc hoặc integrity sai phải ném lỗi, không đổi thành pending/CASH |
+| Support | `global_common_support`, `pairwise_support`, count và các point bị loại kèm lý do. Complete/fallback chỉ được tính sau verifier; lượt retry không tăng số point. Pairwise đầy đủ không cứu primary thiếu G |
+| Hiệu quả tài khoản | `total_return_pct=100×(E_final/50.000.000−1)`, `max_drawdown_pct=100×max(1−E_i/max_{j≤i}E_j)`; equity gồm vốn đầu và cuối mỗi chu kỳ, MDD≥0. Δreturn/ΔMDD là A−B, đơn vị điểm phần trăm; VND chỉ cho equity/P&L, không trộn với tỷ lệ |
+| Nhãn/return chu kỳ | Point ID, cutoff, entry/exit ngày phiên; `net_return_long`, `cycle_net_return` và `period_returns` là số thập phân (0,01=1%), không phải %. Nhãn LONG giả định qua `compute_round_trip_net_return`; account return vẫn do engine vốn/lot/phí tính, không lấy tổng hoặc mean nhãn |
+| Phân loại/action | LONG dự đoán UP, SHORT dự đoán DOWN/CASH; nhãn UP khi net LONG>0, bằng 0 là DOWN. Lưu confusion counts, `long_count`, `cash_count`; accuracy, balanced accuracy, LONG hit-rate, participation/cash rate đều [0,1]. Balanced accuracy=(recall_UP+recall_DOWN)/2; thiếu lớp=null/MISSING_CLASS, không LONG=null/NO_LONG; N=0: phân loại/tài khoản=null/NO_SUPPORT, risk giữ reason của version chu kỳ |
+| Coverage/exposure | Theo mã/regime/nhánh: planned, complete, feature AVAILABLE/UNAVAILABLE, stats/examples ready, visible/off và reason counts. Coverage completion/visibility chia planned, visibility trên complete báo thêm mẫu số riêng; planned=0 trả null/NO_PLANNED. Readiness cần evidence đã verify; chưa có evidence ghi unknown, không gán UNAVAILABLE hoặc ready=false |
+| Prior hiển thị | Đếm point complete có ít nhất một metric/example **thực xuất hiện trong prefix khớp Decision đã verify**, không dùng retrieved_k hoặc self-report `prior_use`; request chỉ dựng nhưng chưa có Decision không tăng exposure. Lưu retrieved/visible IDs, visible metric IDs, prefix/request/base evidence hash, fallback reason; C0 dùng evidence/prefix legacy đã kiểm. `prior_visible_count` mỗi point tối đa 1, stats_only vẫn có thể exposed dù visible_k=0 |
+| Rủi ro/CASH | Sharpe/Sortino chu kỳ giữ `cycle_risk_metrics_v2`, không annualize, ddof=1 và downside trên toàn N; N<2 trả null/N_LT_2, nếu N≥2 và mẫu số≤1e−12 trả null/ZERO_DENOMINATOR. CASH reference trên chính support: return/MDD=0 khi N>0, không giả LONG hit-rate |
+| Attribution | Raw action=executed action khi risk OFF; SHORT ánh xạ CASH. Giữ nhãn/return LONG giả định tách action; trace N/A khi contract không yêu cầu, thiếu trace bắt buộc là lỗi integrity. Không coi trace tự báo cáo là chứng cứ nhân quả |
+
+**Primary:** chỉ COMPLETE khi G_s=P_s ở cả bốn mã (12/16/16/16), đủ 60 điểm
+và đúng 11 nhánh. Mỗi candidate có ΔR_s và ΔMDD_s so Original trên G_s;
+D và mean ΔMDD là trung bình đều **bốn mã**, không trọng số 12/16 hoặc
+trung bình return từng cycle. Nếu thiếu bất kỳ điểm/nhánh: INCOMPLETE,
+D primary=null; metric trên support quan sát ghi provisional, không dùng
+chọn/promote. Giá trị dùng so ngưỡng/tie giữ độ chính xác đầy đủ, không làm
+tròn trước lựa chọn; null/NaN/Infinity không được thay 0 hoặc dùng xếp hạng.
+JSON chỉ dùng kiểu Python gốc/hữu hạn; point trùng/ngoài plan, count hoặc
+support không khớp checkpoint đều là lỗi integrity, không âm thầm bỏ dòng.
+
+**Các cặp khóa trước xem kết quả:** mười nhánh khác Original so Original;
+C1/C2/C3/hai ablation so C0; C2−C1, C3−C2 và C3−C3_stats_only,
+C3−C3_examples_only. Loại cặp trùng, giữ chiều A−B. Mỗi cặp báo ΔR/ΔMDD,
+confusion/action counts và disagreement=count(action_A≠action_B)/|S|;
+hai chiều LONG/CASH và CASH/LONG cộng bằng disagreement count. Cặp với
+Original có subgroup candidate prior-off; cặp còn lại có subgroup cả hai
+prior-off. Mỗi subgroup ghi support/mẫu số, không thay primary.
+
+**Ablation nội dung:** tập T_s là các điểm trên G_s mà base evidence C3 đã
+verify có **stats_ready AND examples_ready**, cùng base hash cho cả ba C3.
+So ba C3 trên toàn G và riêng T; kiểm contract active ở cả ba trên T.
+T rỗng → NO_SUPPORT, không bù từ tập chỉ một block ready. Coverage theo
+regime lấy regime PIT ở ngày query, giữ nhóm không có mẫu/null và giới hạn
+BEAR=0; không gán regime từ outcome hoặc dựng portfolio của các nhóm.
+
+**Ca LONG khi bằng chứng bất lợi:** cờ mô tả cho từng metric đã hiển thị:
+`Win.posterior_mean<0.5` hoặc một trong
+`Trap/TrendFail/PatternFail.posterior_mean>0.5`; đúng 0.5 là trung tính.
+Dùng mean đầy đủ từ evidence đã verify, chỉ metric visible và ready mới
+được xét; metric ẩn/null là N/A. Win/Trap/TrendFail/PatternFail ánh xạ
+`win_rate_long`, `bull_trap_rate`, `trend_false_bullish_rate`,
+`pattern_false_bullish_rate`.
+Báo point ID, metric/mean/support/interval, action, economic outcome và
+count LONG trên tập có cờ, kèm mẫu số theo mã/candidate. Đây là ngưỡng mô tả
+đăng ký trước phân tích, không thêm quality
+gate, policy override hay yêu cầu model tuân theo prior.
+
+#### Hợp đồng quyết định lựa chọn
+
+W7-07 phải bind artifact quyết định với report/checkpoint/plan/registry/
+source/code/runtime hash và version quy tắc này; verifier tái tính support,
+metrics, eligibility và thứ tự, không chỉ nhận checksum tự khai. Không nhận
+holdout hoặc fixture như bằng chứng nomination thực.
+
+Eligibility cần gate kỹ thuật PASS, primary COMPLETE, đủ 60 paired points,
+return/MDD dùng lựa chọn hữu hạn và visibility≥6/60 với ≥1 ở **mỗi mã**.
+Balanced accuracy/LONG hit-rate null hợp lệ không làm candidate bị loại.
+Báo từng điều kiện và reason; trên primary COMPLETE, visibility=0 ghi
+NO_EXPOSURE, dưới ngưỡng hoặc thiếu mã ghi INSUFFICIENT_EXPOSURE.
+D/ΔMDD không là điều kiện exposure. Trong tập eligible,
+tập promote còn cần D>0, ΔR_s>0 ở≥3 mã, mean ΔMDD≤2 và max ΔMDD_s≤5.
+Chọn D_max trong tập đang xét; **chỉ** các D_max−D≤1e−9 mới vào tie, sau đó
+mean ΔMDD nhỏ nhất, rồi thứ tự ID đã khóa. Không nối chuỗi các tie lân cận;
+không thêm tolerance MDD hoặc làm tròn D để tạo hòa.
+
+| `nomination_status` | `research_candidate` | `deployment_choice` và gate |
+| --- | --- | --- |
+| PROMOTED | ID đứng đầu tập promote | Cùng ID; đây là đề cử development, chưa chứng minh lợi ích holdout |
+| NOT_PROMOTED | ID đứng đầu tập eligible theo D/MDD/ID | Original; giữ kết quả bất lợi và ứng viên nghiên cứu để kiểm W8 |
+| BLOCKED | null | Original chỉ là mặc định giữ nguyên; chưa mở Gate C/manifest holdout. Dùng khi primary thiếu, gate kỹ thuật chưa PASS hoặc eligible rỗng; ghi reason cụ thể |
+
+#### Oracle số học cho fixture W7-05/07
+
+Đây là kỳ vọng độc lập cho kiểm thử sau, **chưa là selector đã triển khai**.
+Trừ dòng nêu khác, giả định gate PASS, đủ 60 điểm/11 nhánh, visibility theo
+FPT/VNM/VCB/MWG là (1,1,2,2), ΔR=(4,2,1,−1) pp và ΔMDD=(5,1,1,1) pp;
+chỉ một candidate được xét. Các vector giữ cùng thứ tự bốn mã.
+
+| Ca | Đầu vào/thay đổi | Kỳ vọng |
+| --- | --- | --- |
+| O01 — Tài khoản | Equity cuối chu kỳ A=(50,55,44,52.8), B=(50,50,50,50), triệu VND, gồm vốn đầu | R_A=5,6%, MDD_A=20%; R_B=MDD_B=0; ΔR=5,6 pp, ΔMDD=20 pp. Không lấy mean return chu kỳ làm account return |
+| O02 — Biên đạt | ΔR=(4,2,1,−1), ΔMDD=(5,1,1,1), visible=6 | D=1,5 pp, 3 mã dương, mean ΔMDD=2 pp, max=5; PROMOTED, nhận đúng biên 6/60, 2 và 5 |
+| O03 — D=0 | ΔR=(1,1,1,−3) | D=0 dù 3 mã dương; NOT_PROMOTED, deployment Original |
+| O04 — Thiếu mã dương | ΔR=(4,2,0,−1) | D=1,25 nhưng chỉ 2 mã dương; NOT_PROMOTED |
+| O05 — Mean MDD vượt | ΔMDD=(5,1,1,1.0004) | Mean=2,0001; NOT_PROMOTED, không làm tròn thành 2 |
+| O06 — Một mã MDD vượt | ΔMDD=(5.0004,0,0,0) | Mean=1,2501 nhưng max>5; NOT_PROMOTED |
+| O07 — Exposure | Visible=(1,1,1,2), hoặc (0,2,2,2); trường hợp mọi point chỉ retrieved nhưng prefix rỗng | Hai trường hợp đầu INSUFFICIENT_EXPOSURE dù trường hợp hai đủ 6; trường hợp cuối NO_EXPOSURE. Nếu không còn eligible: BLOCKED, research_candidate=null |
+| O08 — Unknown/missing | Một nhánh random unknown ở một point, các nhánh còn lại complete; hoặc thiếu checkpoint bắt buộc | G=59, cặp C0−Original có thể đủ 60 nhưng primary INCOMPLETE/D=null, BLOCKED; không đổi unknown thành CASH. Thiếu checkpoint bắt buộc phải ném lỗi |
+| O09 — Thiếu lớp | Hai nhãn UP,UP; action LONG,SHORT | Accuracy=0,5; balanced accuracy=null/MISSING_CLASS; LONG hit-rate=1; participation=cash rate=0,5 |
+| O10 — CASH/rỗng | Hai nhãn UP,DOWN, đều SHORT; hoặc N=0 | CASH: R=MDD=0, accuracy=balanced accuracy=0,5, hit-rate=null/NO_LONG, Sharpe/Sortino=null/ZERO_DENOMINATOR; null này không tự loại candidate đủ completion/exposure. N=0: phân loại/tài khoản=null/NO_SUPPORT, risk=null/N_LT_2 |
+| O11 — Tie D/MDD/ID | C0: D=1.5/MDD=2; C1: D=1.5000000005/MDD=1; riêng hai ablation cùng D=1.5/MDD=1 | Trường hợp đầu chọn C1 trong tie quanh D_max; trường hợp hai chọn C3_stats_only theo ID |
+| O12 — Không nối tie | C0/C1/C2 có D=1.5/1.5000000005/1.500000002; mean MDD=0/0/2, đều đạt | Chỉ C2 trong khoảng 1e−9 của D_max; chọn C2 dù MDD cao hơn |
+| O13 — Không ai promote | Hai eligible C0/C1 có ΔR_s đều −0.1/−0.2 pp, MDD=0 | Research C0, NOT_PROMOTED, deployment Original; không đổi thành PROMOTED hoặc BLOCKED |
+| O14 — Ready/visible | Base C3 chỉ stats ready; hoặc cả hai ready nhưng stats_only có visible_k=0; visible Win mean=0.49 so với 0.5 | Trường hợp đầu không vào T; trường hợp hai vào T và stats_only vẫn exposed nhờ metric. Cờ bất lợi chỉ bật cho Win=0.49 đã hiển thị, 0.5 trung tính |
+
+**W7-03 DONE:** hợp đồng và oracle trên đã khóa cho Phase B. Kiểm số học,
+đối chiếu hàm metric/trace hiện hữu, checklist/liên kết/hash PASS; chưa viết
+selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
+
 ## 3. Checklist và phụ thuộc
 
 | Phase | Task | Công việc | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- | --- |
 | A | W7-01 | Xác minh bàn giao và khoảng trống implementation | W6 đóng | [x] DONE |
 | A | W7-02 | Khóa phạm vi train/development và protocol validation | 01 | [x] DONE |
-| A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [ ] TODO |
+| A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [x] DONE |
 | A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [ ] TODO |
 | B | W7-05 | Hoàn thiện report common support và metric | Gate A | [ ] TODO |
 | B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [ ] TODO |
@@ -459,6 +575,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 12/10/2026 | Lập kế hoạch | PLAN_READY; 4 phase/16 task, 0/16 DONE. Đối chiếu bàn giao W6 và CLI thực; giữ registry/quy tắc lựa chọn, risk OFF, API do người dùng chạy. Chưa triển khai task hoặc chạy validation W7 | W7-01 |
 | 12/10/2026 | W7-01 | DONE, 1/16; nguồn/runtime/registry/hash PASS, 1.992 nguồn và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm và verifier hiệu năng 651 query PASS offline; bản đồ module/khoảng trống ở mục 1. Gate A còn 02–04 | W7-02 |
 | 12/10/2026 | W7-02 | DONE, 2/16; protocol mục 2.1 khóa vai trò 651 query train/60 điểm development/64 holdout, model/client/registry và amendment trước API. Đối chiếu cấu hình nguồn/code, checklist/liên kết/hash PASS; chỉ ba Markdown, kế thừa bốn gate W6-16 của cùng code/runtime. Gate A còn 03–04 | W7-03 |
+| 12/10/2026 | W7-03 | DONE, 3/16; hợp đồng report/support/đơn vị/null, visibility, cặp/ablation/ca bất lợi và nomination tại mục 2.2; 14 oracle fixture kiểm số học/biên PASS. Chỉ ba Markdown; 2.317 file nguyên byte, cùng code/runtime kế thừa bốn gate W6-16. Gate A còn 04 | W7-04 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
