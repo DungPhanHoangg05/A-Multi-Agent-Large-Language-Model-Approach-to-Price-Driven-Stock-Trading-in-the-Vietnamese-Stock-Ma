@@ -108,6 +108,13 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
         for stock in result["stocks"].values():
             self.assertTrue(all(m["sample_count"] == 1 for m in stock["metrics"].values()))
             self.assertTrue(all(m["risk"]["annualization_factor"] is None for m in stock["metrics"].values()))
+            attribution = stock["action_attribution"]
+            self.assertEqual(attribution["policy_status"], "DEFERRED")
+            self.assertEqual(attribution["override_count"], 0)
+            self.assertEqual(len(attribution["points"]), 1)
+            self.assertEqual(set(attribution["points"][0]["branches"]), set(result["matrix"]))
+            self.assertTrue(all(b["raw_action"] == b["executed_action"] == "LONG"
+                for b in attribution["points"][0]["branches"].values()))
         with patch.object(self.llm, "invoke", side_effect=AssertionError("Không gọi lại complete")):
             self.assertEqual(self.runner.run_cohort(self.plan, output_dir=self.output, verify_only=True), result)
             self.assertEqual(self.runner.run_cohort(self.plan, output_dir=self.output, resume=True), result)
