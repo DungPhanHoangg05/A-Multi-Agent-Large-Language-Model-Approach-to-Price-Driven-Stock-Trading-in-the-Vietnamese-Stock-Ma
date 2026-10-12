@@ -485,12 +485,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B/C DONE / GATE A/B/C PASS, PHASE D IN_PROGRESS, 14/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B/C DONE / GATE A/B/C PASS, PHASE D IN_PROGRESS, 15/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **14/16 hoàn thành**, cập nhật 12/10/2026. Tiếp theo W6-15; chưa chạy benchmark.
+  4 phase/16 task, **15/16 hoàn thành**, cập nhật 12/10/2026. Tiếp theo W6-16; chưa chạy benchmark OOS.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [x] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
@@ -634,6 +634,17 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   không skip; **2.310 file bảo vệ nguyên byte**. Artifact runtime gitignore,
   không API/holdout/receipt mới. W6 đạt **14/16**; tiếp theo W6-15,
   Gate D còn chờ 15–16, risk policy giữ DEFERRED/OFF.
+- **W6-15 DONE, 12/10/2026:** CLI benchmark/verify prior public offline,
+  100 warm-up/1.000 mẫu mỗi mode/stage; giữ v1 16 context/hai scope và thêm
+  cùng **651 query train** cho v1/sáu ứng viên. Sáu ứng viên p95 retrieval
+  **8,438–27,273 ms**, v1 cùng query **4,369 ms**; prefix/toàn đường feature RAM
+  và cold/fit báo riêng. Không hot I/O/refit/cache đáp án; evidence **651/651**
+  khớp train, report source/code/runtime/mẫu thô có verify semantic PASS.
+  Copy JSON một lượt giữ native/finite/deep-copy/alias; **10 test mới**, ma
+  trận 12 ranh giới crash, quota/cooldown/unknown và đổi nguồn giữa mã PASS.
+  **Compileall/E2E, 784 unit/146 leakage PASS**, không skip; **2.313 file
+  bảo vệ nguyên byte**. Giữ cả hai lượt đo, không API/holdout/receipt Markdown
+  mới. W6 đạt **15/16**; Gate D chờ **W6-16**, risk DEFERRED/OFF.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout

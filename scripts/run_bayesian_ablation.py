@@ -76,6 +76,9 @@ def main() -> None:
     mode.add_argument("--design-calendar", action="store_true", help="Lập lịch mẫu/pilot/smoke offline, chưa tạo plan chạy")
     mode.add_argument("--validate-train", action="store_true", help="Chẩn đoán train PIT offline, không Decision/API")
     mode.add_argument("--verify-train", action="store_true", help="Dựng lại chẩn đoán train và đối chiếu report đã khóa")
+    mode.add_argument("--benchmark-prior", action="store_true", help="Đo offline prior public, 100 warm-up/1.000 mẫu mỗi stage")
+    mode.add_argument("--verify-performance", action="store_true", help="Kiểm mẫu thô, nguồn/code và semantic report hiệu năng")
+    parser.add_argument("--performance-report", type=Path, help="Report hiệu năng bất biến trong outputs/bayesian_benchmark")
     parser.add_argument("--train-report", type=Path, help="Report train bất biến trong outputs/bayesian_benchmark")
     parser.add_argument("--train-index", help="Index train; đường tương đối trong outputs/bayesian_benchmark/price_features")
     parser.add_argument("--coverage", type=Path, default=ROOT / "outputs/bayesian_benchmark/coverage.json")
@@ -99,6 +102,19 @@ def main() -> None:
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    if args.benchmark_prior or args.verify_performance:
+        allowed = {"--benchmark-prior", "--verify-performance", "--performance-report"}
+        if any(token.split("=", 1)[0] not in allowed for token in sys.argv[1:] if token.startswith("--")):
+            parser.error("Đo hiệu năng chỉ dùng --performance-report, không dùng cờ execute")
+        from core.prior_performance import DEFAULT_REPORT, run_performance
+        destination = args.performance_report or ROOT / DEFAULT_REPORT
+        report = run_performance(destination, verify_only=args.verify_performance)
+        print(f"Hiệu năng prior: {report['status']}; report={destination}", flush=True)
+        if report["status"] != "PASS":
+            raise SystemExit(1)
+        return
+    if args.performance_report is not None:
+        parser.error("--performance-report cần --benchmark-prior hoặc --verify-performance")
     if args.validate_train or args.verify_train:
         allowed = {"--validate-train", "--verify-train", "--train-report", "--train-index"}
         if any(token.split("=", 1)[0] not in allowed for token in sys.argv[1:] if token.startswith("--")):

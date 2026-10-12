@@ -46,7 +46,7 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–14 DONE, 14/16 task hoàn thành**, cập nhật 12/10/2026.
+  **W6: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–15 DONE, 15/16 task hoàn thành**, cập nhật 12/10/2026.
   Đã kiểm bàn giao W5, bản đồ tích hợp và provenance theo fold: bank/replay
   852/852, 217 scaler HMM prefix, 16 điểm Alpha và 4 ca sửa tương lai PASS
   offline. Đã chốt feature 21 phiên/xử lý quyền, scaler theo fold, ranking
@@ -80,8 +80,11 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   **651 query** hai fold; **530** đủ feature, **121** barrier vẫn giữ mẫu số.
   HMM prefix/scaler/calibration và report verify PASS offline; C3 stats có
   ở **95/651**, examples **358/651**. Không gọi Decision hoặc xếp hạng hiệu quả.
-  Compileall/E2E, **774 unit/146 leakage PASS**, 2.310 file bảo vệ nguyên byte.
-  Tiếp theo **W6-15**: hồi quy, leakage, fault/resume và hiệu năng theo
+  CLI benchmark/verify prior public offline đã PASS; sáu ứng viên trên cùng
+  651 query có p95 retrieval **8,438–27,273 ms**, chi phí prefix/feature/cold
+  báo riêng. Fault/resume, hot I/O/refit guard và parity nguồn PASS; không API.
+  Compileall/E2E, **784 unit/146 leakage PASS**, 2.313 file bảo vệ nguyên byte.
+  Tiếp theo **W6-16**: chốt W6 và bàn giao validation W7 theo
   [kế hoạch W6](docs/plan/week6/README.md).
   Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
