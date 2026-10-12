@@ -54,7 +54,7 @@ def cycle_risk(returns: list[float]) -> dict[str, Any]:
 def branch_metrics(points: list[dict[str, Any]], name: str) -> dict[str, Any]:
     """Tái dùng engine tài khoản/lot/phí; chỉ thay metric rủi ro sai annualization v1."""
     projected = deepcopy(points)
-    if name == "bayesian_v2":
+    if name not in PRIOR_BRANCH_MODES:
         for point in projected:
             point["branches"] = {key: deepcopy(point["branches"][name]) for key in PRIOR_BRANCH_MODES}
             point["evaluation"]["branches"] = {key: deepcopy(point["evaluation"]["branches"][name]) for key in PRIOR_BRANCH_MODES}
@@ -87,6 +87,8 @@ def branch_metrics(points: list[dict[str, Any]], name: str) -> dict[str, Any]:
 
 def research_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
     """Chỉ lấy common support; chỉ primary khi đủ bốn mã của cohort đã khóa."""
+    if plan["matrix"] == "research_candidates_v1":
+        return candidate_report(plan, points)
     matrix = list(PRIOR_BRANCH_MODES) + (["bayesian_v2"] if plan["matrix"] == "research_v2" else [])
     stocks, complete = {}, True
     for symbol, cutoffs in plan["symbol_cutoffs"].items():
@@ -116,3 +118,40 @@ def research_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]
         "primary_status": status, "primary_delta_return_pp": float(np.mean([s["delta_return_pp"] for s in stocks.values()])) if status == "COMPLETE" else None,
         "limitations": ["Bốn tài khoản 50 triệu độc lập; trung bình đều không phải portfolio.",
                          "MDD theo equity cuối chu kỳ; không annualize Sharpe/Sortino; chưa chứng minh hiệu quả v2."]})
+
+
+def candidate_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+    """Tách sáu candidate ID, cùng support đủ 11 nhánh; pending không thành CASH."""
+    names = plan["candidate_registry"]["order"]
+    matrix = [*PRIOR_BRANCH_MODES, *names]
+    stocks = {}
+    complete = True
+    for symbol, cutoffs in plan["symbol_cutoffs"].items():
+        supplied = points.get(symbol, [])
+        dates = [p["context"]["as_of_date"] for p in supplied]
+        if len(set(dates)) != len(dates) or not set(dates) <= set(cutoffs):
+            raise ValueError("Report ứng viên có điểm trùng hoặc ngoài plan")
+        rows = sorted([p for p in supplied if all(p["branches"].get(name, {}).get("status") == "complete"
+            and name in p["evaluation"]["branches"] for name in matrix)], key=lambda p:p["context"]["as_of_date"])
+        done = {p["context"]["as_of_date"] for p in rows}
+        pending = [day for day in cutoffs if day not in done]
+        complete = complete and not pending
+        metrics = {name: branch_metrics(rows, name) for name in matrix}
+        cash = deepcopy(rows)
+        for row in cash:
+            row["branches"]["original"]["decision"]["action"] = "SHORT"
+            row["evaluation"]["branches"]["original"] = {"correct": row["evaluation"]["actual_direction"] == "DOWN",
+                "executed_action": "CASH", "cycle_net_return": 0.}
+        deltas = {name: None if pending else float(metrics[name]["account_metrics"]["total_return_pct"] -
+                  metrics["original"]["account_metrics"]["total_return_pct"]) for name in names}
+        stocks[symbol] = {"completed": len(rows), "pending": pending, "common_support": sorted(done),
+            "metrics": metrics, "cash_reference": branch_metrics(cash, "original"), "candidate_delta_return_pp": deltas}
+    status = "COMPLETE" if complete and len(stocks) == 4 else "INCOMPLETE"
+    return copy_prior_json({"report_version": "research_report_v3", "metric_version": "cycle_risk_metrics_v2",
+        "cohort_id": plan["cohort_id"], "split": plan["split"], "matrix": matrix, "stocks": stocks,
+        "primary_status": status, "candidate_status": {name: status for name in names},
+        "candidate_delta_return_pp": {name: float(np.mean([s["candidate_delta_return_pp"][name] for s in stocks.values()]))
+            if status == "COMPLETE" else None for name in names},
+        "limitations": ["Fixture/mock chỉ kiểm protocol, không là hiệu quả đầu tư LLM.",
+            "Bốn tài khoản độc lập; trung bình đều theo candidate không phải portfolio.",
+            "Common support đủ 11 nhánh; không annualize Sharpe/Sortino; risk policy tắt."]})

@@ -67,7 +67,7 @@ def main() -> None:
     """Mặc định dry-run; chỉ --run/--preflight mới tạo lời gọi LLM có quota."""
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--prepare", action="store_true", help="Khóa nguồn/model/20 cutoff một lần, không LLM")
+    mode.add_argument("--prepare", action="store_true", help="Khóa input pilot hoặc plan ứng viên kế thừa --plan, không LLM")
     mode.add_argument("--dry-run", action="store_true", help="Xác minh toàn input/plan, không LLM")
     mode.add_argument("--preflight", action="store_true", help="Kiểm text và vision thật qua transport có pacing")
     mode.add_argument("--run", action="store_true", help="Chạy pilot sau preflight thành công")
@@ -82,7 +82,12 @@ def main() -> None:
     parser.add_argument("--resume", action="store_true", help="Phục hồi run năm nhánh, không dùng runner Memory Bank")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs/pilot_fpt_run")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
-    parser.add_argument("--plan", type=Path, help="Envelope plan research_cohort_plan_v2 đã khóa")
+    parser.add_argument("--plan", type=Path, help="Envelope plan cohort v2/v3 đã khóa; parent khi prepare ứng viên")
+    parser.add_argument("--candidate-plan", type=Path, help="Đường plan v3 mới khi --prepare --plan PARENT")
+    parser.add_argument("--price-index", default="outputs/bayesian_benchmark/price_features/candidate_index_v1.json",
+                        help="Index phụ cho prepare ứng viên; đường tương đối workspace")
+    parser.add_argument("--candidate-split", choices=("fixture", "development_2023"),
+                        help="Kế thừa lịch development đã khóa; bỏ cờ để giữ lịch parent")
     parser.add_argument("--symbol", action="append", choices=STOCK_SYMBOLS,
                         help="Chọn mã chạy tuần tự; bỏ cờ để chạy đủ bốn mã")
     parser.add_argument("--ledger", type=Path, default=ROOT / "outputs/oos_pilot/api_usage.json",
@@ -90,6 +95,8 @@ def main() -> None:
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    if (args.candidate_plan or args.candidate_split or args.price_index != "outputs/bayesian_benchmark/price_features/candidate_index_v1.json") and not (args.prepare and args.plan and args.candidate_plan):
+        parser.error("Cờ ứng viên chỉ dùng --prepare --plan PARENT --candidate-plan NEW")
     if args.design_calendar:
         if (args.plan or args.symbol or args.resume or args.authorize_replay or args.replay_reason
                 or args.output_dir != ROOT / "outputs/pilot_fpt_run"
@@ -184,7 +191,7 @@ def execute_cohort(args: argparse.Namespace) -> None:
     from core.research_cohort import read_envelope, validate_plan
     from core.research_invocation import ENABLED, invocation_scope
     from core.pilot_readiness import sha_file
-    if args.prepare:
+    if args.prepare and not args.candidate_plan:
         raise ValueError("Plan cohort phải được khóa trước; không tự chọn lịch hoặc ngưỡng")
     if args.output_dir.resolve() == (ROOT / "outputs/pilot_fpt_run").resolve():
         raise ValueError("Cohort mới cần --output-dir riêng khỏi pilot W4")
@@ -201,6 +208,12 @@ def execute_cohort(args: argparse.Namespace) -> None:
     if any(sha_file(ROOT / path) != expected for path, expected in checks.items()):
         raise ValueError("Nguồn/model/tin khác plan đã khóa")
     adapter = build_adapter(inputs)
+    if args.prepare:
+        from core.candidate_cohort import prepare_candidate_plan
+        plan = prepare_candidate_plan(args.plan, args.candidate_plan, adapter,
+            index_path=args.price_index, split=args.candidate_split)
+        print(f"Plan sáu ứng viên đã khóa tại {args.candidate_plan}; chưa gọi API", flush=True)
+        return
     validate_plan(plan, adapter)
     print(f"Cohort {plan['cohort_id']}: plan/source/lịch PASS; {plan['matrix']}; {plan['split']}", flush=True)
     if not (args.run or args.preflight or args.verify_only or args.reconcile):

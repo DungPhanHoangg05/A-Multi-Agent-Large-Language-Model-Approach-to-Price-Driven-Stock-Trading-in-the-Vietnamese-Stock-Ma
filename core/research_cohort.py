@@ -37,9 +37,15 @@ def save_envelope(path: Path, payload: dict[str, Any]) -> None:
     atomic_write_json(path, {"payload": payload, "sha256": canonical_hash(payload)})
 
 
-def validate_plan(plan: dict[str, Any], adapter: Any) -> None:
+def validate_plan(plan: dict[str, Any], adapter: Any) -> Any:
     """Schema plan mới; kiểm lịch/entry/exit trước API, không đưa nhãn vào query."""
     copy_prior_json(plan)
+    if plan.get("plan_version") == "research_cohort_plan_v3":
+        from core.candidate_cohort import validate_candidate_plan
+        index = validate_candidate_plan(plan, adapter)
+        base = {key: plan[key] for key in ("cohort_id", "split", "symbol_cutoffs", "evidence_config", "inputs")}
+        validate_plan({**base, "plan_version": "research_cohort_plan_v2", "matrix": "research_v2"}, adapter)
+        return index
     if set(plan) != {"plan_version", "cohort_id", "split", "matrix", "symbol_cutoffs", "evidence_config", "inputs"}:
         raise ValueError("Schema plan cohort không hợp lệ")
     if (plan["plan_version"] != "research_cohort_plan_v2" or plan["matrix"] not in ("smoke_v1", "research_v2")
@@ -184,7 +190,26 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                authorize_replay: str | None = None, replay_reason: str | None = None,
                ledger_path: Path | None = None) -> dict[str, Any]:
     """Điều phối tuần tự bốn mã, reuse checkpoint/kiểm semantic v1 và bổ sung Decision v2."""
-    validate_plan(plan, runner.adapter)
+    index = validate_plan(plan, runner.adapter)
+    candidate_mode = plan["plan_version"] == "research_cohort_plan_v3"
+    if candidate_mode:
+        if not runner.durable_stages:
+            raise ValueError("Ứng viên cần durable stage journal")
+        if runner.mode != "offline_fixture":
+            expected_ledger = (runner.adapter._files.root / "outputs/oos_pilot/api_usage.json").resolve()
+            if runner.quota_policy != "request_admission_v2" or ledger_path is None or ledger_path.resolve() != expected_ledger:
+                raise ValueError("Ứng viên cần policy request và ledger tài khoản chung đã khóa")
+            if plan["split"] == "fixture" and not (verify_only or reconcile):
+                raise ValueError("Fixture ứng viên chỉ chạy với execution_mode offline_fixture")
+    from core.candidate_cohort import CANDIDATES, candidate_point, candidate_slot
+    extra_names = list(CANDIDATES) if candidate_mode else ["bayesian_v2"] if plan["matrix"] == "research_v2" else []
+    def branch_path(root: Path, point_id: str, name: str) -> Path:
+        return safe_path(root, f"candidates/{name}/{point_id}.json" if candidate_mode else f"v2/{point_id}.json")
+    def extra_point(doc: dict[str, Any], root: Path, name: str, signature: str, **options: Any) -> dict[str, Any] | None:
+        path = branch_path(root, doc["point_id"], name)
+        if candidate_mode:
+            return candidate_point(runner, doc, plan, index, name, path, signature, **options)
+        return v2_point(runner, doc, plan["evidence_config"], path, signature, **options)
     if "input_lock" in plan["inputs"]:
         from core.research_input_lock import validate_bound_plan
         lock = validate_bound_plan(plan, runner.adapter._files.root)
@@ -206,6 +231,9 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                 "children": {s: canonical_hash(value) for s, value in child_identities.items()},
                 "code_sha256": {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in (
                     "core/research_cohort.py", "core/research_metrics.py", "core/prior_evidence_v2.py", "core/research_invocation.py")}}
+    if candidate_mode:
+        identity.update(identity_version="research_cohort_identity_v3", versions=plan["candidate_registry"],
+                        code_sha256=plan["code_sha256"], runtime=plan["runtime"])
     signature = canonical_hash(identity)
     root = Path(output_dir).resolve()
     manifest = safe_path(root, "cohort.json")
@@ -225,12 +253,14 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                     child_identities[symbol], points, frame, events)
                 with store.lock:
                     store.initialize(resume=False)
-            if plan["matrix"] == "research_v2":
+            if extra_names:
                 for symbol, cutoffs in plan["symbol_cutoffs"].items():
                     for cutoff in cutoffs:
                         pid = f"{symbol}-{cutoff}"
-                        save_envelope(safe_path(root, f"v2/{pid}.json"), {
-                            "checkpoint_version": "research_decision_slot_v2", "run_signature": signature, "point_id": pid})
+                        for name in extra_names:
+                            slot = candidate_slot(signature, pid, name) if candidate_mode else {
+                                "checkpoint_version": "research_decision_slot_v2", "run_signature": signature, "point_id": pid}
+                            save_envelope(branch_path(root, pid, name), slot)
             save_envelope(manifest, identity)
         records: dict[str, list[dict[str, Any]]] = {}
         token = ENABLED.set(True)
@@ -243,9 +273,11 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                     raise ValueError("Mất manifest mã đã khởi tạo; không tự chạy lại")
                 reconciled[symbol] = runner.run(symbol, output_dir=child,
                     cutoffs=tuple(plan["symbol_cutoffs"][symbol]), reconcile=True)
-            if plan["matrix"] == "research_v2":
-                expected = {f"{s}-{c}.json" for s, dates in plan["symbol_cutoffs"].items() for c in dates}
-                if {p.name for p in safe_path(root, "v2").glob("*.json")} != expected:
+            if extra_names:
+                expected = {branch_path(root, f"{s}-{c}", name) for s, dates in plan["symbol_cutoffs"].items()
+                            for c in dates for name in extra_names}
+                directory = safe_path(root, "candidates" if candidate_mode else "v2")
+                if set(directory.rglob("*.json")) != expected:
                     raise ValueError("Slot checkpoint v2 khác plan")
             reconciliation = {"run_signature": signature, "upstream": reconciled, "decisions": []}
             authorizations_path = safe_path(root, "replay_authorizations.json")
@@ -273,20 +305,26 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                                 approvals["attempts"][attempt] = {"at": utc_now(), "reason": replay_reason}
                             if not verify_only and not reconcile and attempt not in approvals["attempts"]:
                                 raise ValueError(f"Decision chưa rõ {attempt}; cần --reconcile và xác nhận replay")
-                    if doc["status"] == "complete" and plan["matrix"] == "research_v2":
-                        vpath = safe_path(root, f"v2/{doc['point_id']}.json")
+                    for name in extra_names:
+                        vpath = branch_path(root, doc["point_id"], name)
                         vdoc = read_envelope(vpath)
+                        if doc["status"] != "complete":
+                            slot = candidate_slot(signature, doc["point_id"], name) if candidate_mode else {
+                                "checkpoint_version": "research_decision_slot_v2", "run_signature": signature, "point_id": doc["point_id"]}
+                            if vdoc != slot:
+                                raise ValueError("Decision bổ sung đã chạy trước Full/v1 complete")
+                            continue
                         attempts = vdoc.get("attempts", [])
                         if attempts:
                             last = attempts[-1]
-                            reconciliation["decisions"].append({"point_id": doc["point_id"], "branch": "bayesian_v2", "attempt_id": last["attempt_id"], "status": last["status"]})
+                            reconciliation["decisions"].append({"point_id": doc["point_id"], "branch": name, "attempt_id": last["attempt_id"], "status": last["status"]})
                             if authorize_replay == last["attempt_id"]:
                                 if last["status"] != "unknown" or last["authorization"] is not None:
                                     raise ValueError("Chỉ xác nhận attempt v2 unknown cuối chưa được xác nhận")
                                 matched = True
                             if not verify_only and not reconcile and last["status"] != "complete" and last["authorization"] is None:
                                 raise ValueError(f"Decision v2 unknown {last['attempt_id']}; cần reconcile")
-                        v2_point(runner, doc, plan["evidence_config"], vpath, signature, verify_only=True,
+                        extra_point(doc, root, name, signature, verify_only=True,
                             reconcile=reconcile, authorize_replay=authorize_replay, replay_reason=replay_reason)
             if authorize_replay:
                 if not reconcile or not replay_reason or not replay_reason.strip() or not matched:
@@ -300,16 +338,30 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                 selected = symbol in symbols and not verify_only and not reconcile
                 if not selected and not exists:
                     continue
+                callback = None
+                if selected and candidate_mode:
+                    def complete_candidates(doc: dict[str, Any]) -> None:
+                        for name in extra_names:
+                            doc = extra_point(doc, root, name, signature, verify_only=False)
+                    # Điểm v1 đã complete trước crash phải xong candidate trước điểm kế.
+                    for path in sorted((child / "points").glob("*.json")):
+                        doc = read_document(path, runner.schema, "point")
+                        if doc["status"] == "complete":
+                            complete_candidates(doc)
+                    callback = lambda event: complete_candidates(event["latest"])
                 result = runner.run(symbol, output_dir=child, cutoffs=tuple(plan["symbol_cutoffs"][symbol]),
                     resume=exists, verify_only=not selected, reconcile=reconcile,
-                    authorize_replay=None, replay_reason=None)
+                    authorize_replay=None, replay_reason=None, **({"callback": callback} if callback else {}))
                 for item in result["point_files"]:
                     document = read_document(safe_path(child, item["path"]), runner.schema, "point")
-                    if plan["matrix"] == "research_v2":
-                        document = v2_point(runner, document, plan["evidence_config"],
-                            safe_path(root, f"v2/{document['point_id']}.json"), signature,
-                            verify_only=not selected, reconcile=reconcile,
+                    for name in extra_names:
+                        extended = extra_point(document, root, name, signature,
+                            verify_only=not selected or candidate_mode, reconcile=reconcile,
                             authorize_replay=authorize_replay, replay_reason=replay_reason)
+                        if extended is None:
+                            document = None
+                            break
+                        document = extended
                     if document is not None:
                         records.setdefault(symbol, []).append(document)
             report = research_report(plan, records)
