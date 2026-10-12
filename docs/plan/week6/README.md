@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–13 DONE, 13/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **12/10/2026**. Tiếp theo **W6-14**.
+**Trạng thái: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–14 DONE, 14/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **12/10/2026**. Tiếp theo **W6-15**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -64,7 +64,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | C | W6-11 | Prompt/Decision contract và ablation nội dung | 10 | [x] DONE |
 | C | W6-12 | CLI, protocol, identity và checkpoint ứng viên | 08, 11 | [x] DONE |
 | D | W6-13 | Chốt phạm vi risk policy và cách quy kết tác động | Gate C | [x] DONE |
-| D | W6-14 | Validation train PIT offline và chẩn đoán ứng viên | 13 | [ ] |
+| D | W6-14 | Validation train PIT offline và chẩn đoán ứng viên | 13 | [x] DONE |
 | D | W6-15 | Hồi quy, leakage, fault/resume và hiệu năng | 14 | [ ] |
 | D | W6-16 | Chốt W6 và bàn giao validation W7 | 15 | [ ] |
 
@@ -1383,6 +1383,87 @@ hướng dẫn CLI ở W6-12 sau khi chọn đúng plan/run.
   không dùng model toàn 2022 cho fold sớm để lấy PASS. W7 mới chọn ứng viên
   bằng validation hiệu quả, gồm development 2023 và các lượt API cần thiết.
 
+**CLI offline và artifact.** `core/train_pit_validation.py` dùng adapter
+production để replay toàn bank, kiểm cùng cấu hình/code/runtime tín hiệu
+lịch sử và HMM đúng từng cutoff. Scaler/calibration HMM được tính lại từ
+prefix số học; model prefix đã có được kiểm checksum/provenance trước nạp,
+không refit bằng dữ liệu cuối 2022. Scaler giá đóng băng riêng mã/fold;
+purge dựa entry t+1/exit t+3 thực và chỉ nhận prior exit<query. Không thêm
+embargo ngoài quy tắc đã đăng ký hoặc sweep hyperparameter.
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --validate-train
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-train
+```
+
+Report mặc định `outputs/bayesian_benchmark/train_validation_v1.json`,
+version `train_pit_diagnostics_v1`; index riêng
+`outputs/bayesian_benchmark/price_features/train_validation_index_v1.json`.
+Hai file runtime được gitignore. Có thể chỉ định `--train-report` và
+`--train-index` cho run mới; không ghép cờ execute/API. Report ghi registry,
+code/runtime/source hashes, fold/fit/purge/query IDs, scaler, proof HMM và
+chẩn đoán theo mã/fold/regime/candidate. Verify dựng lại toàn bộ nội dung
+trước đối chiếu, không chỉ kiểm hash envelope; không tạo artifact thiếu
+hoặc ghi lại report. Đổi code/nguồn cần đường report mới, giữ bản cũ.
+
+Query thiếu feature/support vẫn trong mẫu số, giữ fallback/null; nhóm
+không có query ghi `NO_EXPOSURE`. Thiếu provenance bắt buộc chặn report
+COMPLETE thay vì âm thầm loại điểm. Khoảng cách/tuổi/gap phiên và Jaccard
+dùng tập chọn riêng của từng candidate; Jaccard đo query liên tiếp trong
+cùng mã/fold/regime. Readiness là block thực sự nhìn thấy sau content mode,
+không suy ra hành động giao dịch. Không gọi Decision hoặc mock Decision,
+không sinh bảng return/xếp hạng ứng viên; validation hiệu quả/API thuộc W7.
+
+**Observed trên nguồn local, 12/10/2026.** Replay **852/852** checkpoint,
+**217** HMM prefix (165 HMM, 52 MULTI_FACTOR fallback), không thiếu provenance.
+**201** episode bootstrap; mẫu validation là **651** query, không phải 852.
+Fit trước lọc feature **197/526**; mỗi fold purge **4** cycle có exit bằng
+query đầu, tương ứng một cycle/mã. Fit feature **166/428**; **530/651** query
+đủ feature, **121** thiếu do `CORPORATE_ACTION_WINDOW`, vẫn giữ mẫu số.
+
+| Mã | Fit feature 2021 / 2022 | Query 2021 / 2022 | Query đủ feature 2021 / 2022 |
+| --- | ---: | ---: | ---: |
+| FPT | 41 / 101 | 81 / 79 | 60 / 58 |
+| MWG | 42 / 104 | 82 / 81 | 62 / 67 |
+| VCB | 47 / 123 | 83 / 82 | 76 / 78 |
+| VNM | 36 / 100 | 83 / 80 | 64 / 65 |
+| Tổng | 166 / 428 | 329 / 322 | 262 / 268 |
+
+| Candidate | Stats nhìn thấy / 651 | Examples nhìn thấy / 651 | Fallback / 651 |
+| --- | ---: | ---: | ---: |
+| C0 | 491 | 491 | 160 |
+| C1 | 358 | 358 | 293 |
+| C2 | 95 | 358 | 274 |
+| C3 | 95 | 358 | 274 |
+| C3_stats_only | 95 | 0 | 556 |
+| C3_examples_only | 0 | 358 | 293 |
+
+**263/651** query không có lịch sử điều kiện, giữ posterior/CrI null.
+C1–C3 dùng cùng tập chọn giá: K_eff=0/1/2/3 là **221/86/97/247**,
+tổng **1.021** lượt ví dụ; tuổi 8–730 ngày, mean 182,29; khoảng cách giá
+0,0363–2,9912, mean 0,8502. Gap nhỏ nhất **6 phiên** (ngưỡng đăng ký 3).
+Jaccard C3 mean **0,1146** trên **491** cặp có union không rỗng; **128**
+cặp cả hai rỗng giữ null, tổng **619** cặp trong cùng mã/fold/regime.
+Report có **192** nhóm mã/fold/regime/candidate, tất cả có query; support,
+width, khoảng cách/scoring, exclusion và stability giữ chi tiết từng nhóm.
+Tin reliable **0/651**, giới hạn nguồn chưa được khắc phục. Readiness thấp
+của stats điều kiện và fallback là kết quả được giữ lại, không đổi ngưỡng.
+
+Report SHA-256: `5fbabffcc8673144e24d72fb67e986bfd99e1b22e4449acc52e6a398c37e0df0`.
+Index identity: `789aa86f98302446c1a4721a4715fa2b0c265a5e862de5bba863c4c52c974ae6`.
+Không gọi API/key/Decision; số liệu trên là chẩn đoán bằng chứng hồi cứu,
+không phải hiệu quả giao dịch hoặc bằng chứng chọn ứng viên cho W7.
+
+**Nghiệm thu DONE.** Validate và verify trên nguồn thực **PASS** khi chặn
+kết nối mạng và đọc key; report nguyên byte sau verify. **9 test mới PASS**,
+gồm **3 leakage**: purge/timing/index, prefix/frozen model, sửa tương lai,
+scaler/calibration số học, visibility/support/null/Jaccard, report bị sửa
+dù đã tính lại hash, CLI offline và thiếu provenance không tạo report PASS.
+Bốn gate toàn hệ thống **PASS: compileall, 774 unit, E2E, 146 leakage**,
+không skip; **2.310 file bảo vệ nguyên byte**. Không sửa nguồn/bank/model,
+checkpoint hoặc công thức kinh tế; không API/holdout/receipt mới. Gate D
+còn chờ **W6-15–16**; numeric risk policy giữ **DEFERRED/OFF**.
+
 #### W6-15 — Hồi quy, leakage, fault/resume và hiệu năng
 
 - **Làm:** kiểm thay đổi feature/scaler/source giữa run, corrupted evidence,
@@ -1469,3 +1550,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-11 | DONE; 11/16 task. Prefix/request có version, hash và validator nguồn; ba C3 chung base evidence, visibility đúng content mode. C1 tương thích byte template W5, C2 giữ reasoning W5; C3 thêm trace IDs/assessment/lý do, không ép action. Thiếu block/K=0/prior off giữ prompt/schema Original. 16 test mới gồm 4 leakage; caps 600/601 và 6.499/6.500 PASS; compileall/E2E, 745 unit/139 leakage PASS, không skip; 2.294 file bảo vệ nguyên byte. Không API/receipt mới; Gate C chờ 12 | W6-12: CLI/protocol/identity và checkpoint ứng viên |
 | 12/10/2026 | W6-12 | DONE; 12/16 task, Phase C DONE / Gate C PASS. CLI prepare/plan/identity v3 nối sáu ứng viên với năm v1, thứ tự 11 nhánh mỗi điểm và Full dùng chung. Fixture bốn mã 44 Decision, durable raw/trace, semantic verify, resume/unknown/replay và report theo candidate/common support PASS. Prepare/dry-run nguồn local 4/4 PASS; plan/index mới gitignore, không API/holdout. 14 test mới gồm 4 leakage; compileall/E2E, 759 unit/143 leakage PASS, không skip; 2.295 file bảo vệ nguyên byte. Hướng dẫn CLI trong README này | W6-13: chốt phạm vi risk policy và quy kết tác động |
 | 12/10/2026 | W6-13 | DONE; 13/16 task, Phase D IN_PROGRESS. Chốt numeric risk policy DEFERRED/OFF; report v3 thêm attribution tách raw/action sau policy/ánh xạ thực thi/nhãn kinh tế, đối soát bằng engine và không sửa action. 6 test mới PASS; fixture 44 Decision/4 upstream, verify/resume và prepare/dry-run local 4/4 khi chặn key/mạng PASS. Compileall/E2E, 765 unit/143 leakage PASS, không skip; 2.306 file bảo vệ nguyên byte. Plan mới gitignore, không API/holdout/receipt; Gate D còn chờ 14–16 | W6-14: validation train PIT offline và chẩn đoán ứng viên |
+| 12/10/2026 | W6-14 | DONE; 14/16 task, Phase D IN_PROGRESS. CLI train PIT validation/verify replay 852 checkpoint, chẩn đoán 651 query hai fold; HMM prefix/scaler/calibration và purge thực PASS. 530 query đủ feature, 121 barrier giữ mẫu số; C3 stats 95/examples 358, 263 lịch sử điều kiện rỗng giữ null. Report tái lập khi chặn key/mạng, không Decision/mock hoặc xếp hạng return LLM. 9 test mới gồm 3 leakage; compileall/E2E, 774 unit/146 leakage PASS, không skip; 2.310 file bảo vệ nguyên byte. Artifact gitignore, không API/holdout/receipt mới; Gate D còn chờ 15–16 | W6-15: hồi quy, leakage, fault/resume và hiệu năng |
