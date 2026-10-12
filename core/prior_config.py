@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from copy import deepcopy
 import math
 from pathlib import Path
 from typing import Any, TypedDict
@@ -138,26 +137,43 @@ def validate_prior_execution(
 
 
 def copy_prior_json(value: Any) -> JSONValue:
-    """Kiểm scalar JSON gốc/finite và sao chép sâu; không coercion dữ liệu lỗi."""
-    def check(item: Any) -> None:
-        if type(item) is dict:
-            if any(type(key) is not str for key in item):
-                raise ValueError("JSON prior phải dùng key str Python gốc")
-            for child in item.values():
-                check(child)
-        elif type(item) is list:
-            for child in item:
-                check(child)
-        elif item is None or type(item) in (bool, int, str):
-            return
-        elif type(item) is float:
+    """Kiểm scalar gốc/finite và deep-copy trong một lượt, giữ alias nội bộ."""
+    memo: dict[int, Any] = {}
+    active: set[int] = set()
+
+    def clone(item: Any) -> Any:
+        kind = type(item)
+        if item is None or kind in (bool, int, str):
+            return item
+        if kind is float:
             if not math.isfinite(item):
                 raise ValueError("JSON prior chứa NaN hoặc Infinity")
-        else:
+            return item
+        if kind not in (dict, list):
             raise ValueError("JSON prior chứa kiểu runtime hoặc scalar không phải Python gốc")
+        identity = id(item)
+        if identity in active:
+            raise ValueError("JSON prior chứa tham chiếu vòng")
+        if identity in memo:
+            return memo[identity]
+        active.add(identity)
+        if kind is dict:
+            result = {}
+            for key, child in item.items():
+                if type(key) is not str:
+                    raise ValueError("JSON prior phải dùng key str Python gốc")
+                result[key] = clone(child)
+        else:
+            result = [clone(child) for child in item]
+        active.remove(identity)
+        memo[identity] = result
+        return result
 
-    check(value)
-    return deepcopy(value)
+    try:
+        return clone(value)
+    finally:
+        # Phá vòng closure để memo/bản sao không bị giữ đến kỳ thu gom rác.
+        del clone
 
 
 def normalize_prior_query_context(state: dict[str, Any]) -> dict[str, JSONValue]:
