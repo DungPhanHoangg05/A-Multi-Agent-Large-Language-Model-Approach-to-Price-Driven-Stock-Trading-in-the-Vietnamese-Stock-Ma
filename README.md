@@ -46,49 +46,24 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–15 DONE, 15/16 task hoàn thành**, cập nhật 12/10/2026.
-  Đã kiểm bàn giao W5, bản đồ tích hợp và provenance theo fold: bank/replay
-  852/852, 217 scaler HMM prefix, 16 điểm Alpha và 4 ca sửa tương lai PASS
-  offline. Đã chốt feature 21 phiên/xử lý quyền, scaler theo fold, ranking
-  tín hiệu+giá/recency/diversity và shrink dùng background tách nhóm điều kiện.
-  Đã đăng ký sáu cấu hình C0–C3/ablation, ngưỡng chất lượng và tiêu chí đánh
-  giá paired. Đã triển khai extractor bốn feature giá/21 phiên PIT và
-  callback adapter; audit train 699/852 hợp lệ, 153 barrier, fit 166/428.
-  Đã có producer/loader/cache index phụ 852 episode, scaler riêng mã/fold
-  fit 166/428 và OOS freeze 699 hàng train; round-trip/semantic/prefix OOS
-  PASS offline, hot cache không I/O/refit. Index runtime đã gitignore.
-  Đã triển khai base ranking tín hiệu+giá và trace S/d/P/base, giữ v1; audit
-  651/651 query train khớp oracle độc lập. Policy recency/tuổi/similarity/gap
-  phiên chọn K≤3 có trace giữ/loại, giữ population thống kê; 651/651 query
-  chọn đúng oracle, không bù K. Thống kê điều kiện P/C/B rời nhau và shrink
-  strength4 có validator tái tính nguồn; audit 651/651 query train PASS,
-  C rỗng giữ posterior=null. Đã có quality gate tách stats/examples theo
-  support/CrI, gate ghép cặp C1, reason/visibility/fallback và validator
-  tái tính nguồn; K=0/prior off tắt toàn prior, không sửa action.
-  Đã có prefix/request có version/hash, ba chế độ nội dung C3 dùng chung
-  base evidence và trace IDs/assessment/lý do; không ép action. C1 giữ
-  template W5, C2 giữ reasoning W5; prior off giữ prompt/schema Original.
-  BRPP≤600, prompt<6.500. CLI plan/identity v3 đã nối sáu ứng viên với năm
-  v1; fixture bốn mã **44 Decision**, durable raw/trace, semantic verify,
-  paired/resume/unknown và report theo candidate/common support PASS.
-  Prepare/dry-run nguồn local **4/4 PASS**, chưa gọi API/holdout.
-  Numeric risk policy đã chốt **DEFERRED/OFF**, chưa triển khai. Report v3
-  tách raw/action sau policy/ánh xạ thực thi/nhãn kinh tế; OFF giữ raw=executed,
-  đối soát nhãn và return bằng engine, không ép LONG/SHORT. Sáu test mới và
-  verify/resume trên fixture PASS; prepare/dry-run plan mới giữ nguồn cũ.
-  CLI validation train PIT đã replay **852/852** checkpoint, chẩn đoán
-  **651 query** hai fold; **530** đủ feature, **121** barrier vẫn giữ mẫu số.
-  HMM prefix/scaler/calibration và report verify PASS offline; C3 stats có
-  ở **95/651**, examples **358/651**. Không gọi Decision hoặc xếp hạng hiệu quả.
-  CLI benchmark/verify prior public offline đã PASS; sáu ứng viên trên cùng
-  651 query có p95 retrieval **8,438–27,273 ms**, chi phí prefix/feature/cold
-  báo riêng. Fault/resume, hot I/O/refit guard và parity nguồn PASS; không API.
-  Compileall/E2E, **784 unit/146 leakage PASS**, 2.313 file bảo vệ nguyên byte.
-  Tiếp theo **W6-16**: chốt W6 và bàn giao validation W7 theo
-  [kế hoạch W6](docs/plan/week6/README.md).
-  Các lượt dùng API key do người dùng tự chạy theo
-  [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).
-  Năm 2023 là tập phát triển; năm 2024 giữ cho đánh giá xác nhận.
+  **W6 DONE: 16/16 task, Phase A/B/C/D DONE, Gate A/B/C/D PASS**, chốt 12/10/2026.
+  Đã tích hợp feature giá PIT/scaler/index theo fold, ranking tín hiệu+giá,
+  recency/diversity, thống kê điều kiện/shrink và quality gate. Decision có
+  trace và ba chế độ nội dung; CLI plan/identity v3 giữ sáu ứng viên cùng năm
+  đối chứng v1, một upstream/Full mỗi điểm, BRPP≤600 và prompt<6.500 ký tự.
+  Risk policy **DEFERRED/OFF**. Train PIT replay **852/852**, chẩn đoán
+  **651 query** hai fold: 530 đủ feature, 121 barrier giữ mẫu số; C3 stats
+  **95/651**, examples **358/651**. Report train v2 trên code hiện tại đã
+  verify, chỉ hash code khác bản v1; nguồn/fold/chẩn đoán nguyên vẹn.
+  Hiệu năng W6-15 có p95 retrieval **8,438–27,273 ms** cho sáu ứng viên;
+  prefix/feature/cold báo riêng, verifier hiện tại PASS. Plan development
+  mới khóa **60 điểm 2023**, prepare/dry-run bốn mã PASS offline.
+  Compileall/E2E, **784 unit/146 leakage PASS**, không skip; **2.315 file cũ
+  và hai artifact bàn giao nguyên byte** sau kiểm thử.
+  Bàn giao module/config/artifact và lệnh prepare/dry-run/preflight/run/
+  verify/resume tại [W6-16 trong README W6](docs/plan/week6/README.md).
+  Người dùng tự chạy API khi W7 mở validation/chọn ứng viên/khóa ma trận;
+  W8 mới benchmark 2024. Chưa có kết luận hiệu quả LLM hoặc chọn theo holdout.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
 được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).

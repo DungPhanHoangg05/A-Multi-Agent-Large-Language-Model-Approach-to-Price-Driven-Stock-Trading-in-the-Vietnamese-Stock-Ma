@@ -485,16 +485,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B/C DONE / GATE A/B/C PASS, PHASE D IN_PROGRESS, 15/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — DONE 16/16, GATE A/B/C/D PASS
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **15/16 hoàn thành**, cập nhật 12/10/2026. Tiếp theo W6-16; chưa chạy benchmark OOS.
+  4 phase/16 task, **16/16 hoàn thành**, chốt 12/10/2026. Tiếp theo W7 validation/chọn ứng viên/khóa ma trận; chưa chạy benchmark OOS.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
   - [x] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
-  - [ ] Phase D, W6-13–16: quyết định risk policy, validation train PIT, hồi quy/p95 và bàn giao W7.
+  - [x] Phase D, W6-13–16: quyết định risk policy, validation train PIT, hồi quy/p95 và bàn giao W7.
   Đã đăng ký C0–C3 và hai ablation nội dung, đúng sáu cấu hình trước
   implementation/thực nghiệm. Numeric risk policy đã chốt **DEFERRED/OFF**
   tại W6-13; task quyết định DONE, policy chưa triển khai. Không bắt buộc
@@ -645,6 +645,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   **Compileall/E2E, 784 unit/146 leakage PASS**, không skip; **2.313 file
   bảo vệ nguyên byte**. Giữ cả hai lượt đo, không API/holdout/receipt Markdown
   mới. W6 đạt **15/16**; Gate D chờ **W6-16**, risk DEFERRED/OFF.
+- **W6-16 DONE, chốt 12/10/2026:** **16/16, Phase A/B/C/D DONE và Gate
+  A/B/C/D PASS**. Bàn giao module/config/artifact và CLI từng mã tại README
+  W6. Train report v2 tạo/verify **852 replay/651 query**, chỉ hash code
+  khác bản v1; verifier hiệu năng PASS. Plan mới khóa **60 điểm development
+  2023**, prepare/dry-run **4/4 mã PASS** khi chặn key/API. **Compileall/E2E,
+  784 unit/146 leakage PASS**, không skip; **2.315 file cũ/hai artifact mới
+  nguyên byte**. Chỉ ba Markdown, risk DEFERRED/OFF, chưa chọn winner hoặc
+  chạy holdout. W7 tiếp nhận validation hiệu quả/chọn ứng viên/khóa protocol;
+  W8 mới benchmark, các giới hạn dữ liệu và kết quả bất lợi được giữ nguyên.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout

@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A/B/C DONE, Gate A/B/C PASS; Phase D IN_PROGRESS; W6-01–15 DONE, 15/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **12/10/2026**. Tiếp theo **W6-16**.
+**Trạng thái: W6 DONE, 16/16 task; Phase A/B/C/D DONE, Gate A/B/C/D PASS.** Ngày lập: **10/10/2026**; chốt: **12/10/2026**. Tiếp theo **W7: validation, chọn ứng viên và khóa ma trận**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -66,7 +66,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | D | W6-13 | Chốt phạm vi risk policy và cách quy kết tác động | Gate C | [x] DONE |
 | D | W6-14 | Validation train PIT offline và chẩn đoán ứng viên | 13 | [x] DONE |
 | D | W6-15 | Hồi quy, leakage, fault/resume và hiệu năng | 14 | [x] DONE |
-| D | W6-16 | Chốt W6 và bàn giao validation W7 | 15 | [ ] |
+| D | W6-16 | Chốt W6 và bàn giao validation W7 | 15 | [x] DONE |
 
 Các task triển khai lần lượt theo phụ thuộc; chỉ mở phase sau khi gate trước
 PASS. Quyết định phương pháp phải được ghi trước khi xem kết quả so sánh.
@@ -113,7 +113,7 @@ W5. Giữ byte/hash manifest, không đổi metadata cũ thành nhãn PASS.
 | `PriorContextAdapter.prepare` → `PriorPointContext.agent_state` / `bind_full` / `restore_full_bundle` / `_query` trong `core/prior_context.py` | `agent_state()` cấp bản sao `point_in_time_df`; seal Full, whitelist query; source verifier ở adapter có kiểm file | W6-05/06/12: feature query/scaler/index, whitelist và provenance phiên bản riêng; không đưa `execution_data()`/evaluation vào query |
 | `SetGraph.compile_report_decision` → `PriorPointContext.retrieve` → `BayesianPriorRetriever.retrieve` | Luồng v1 trả `tasks/stats/metadata`; graph kiểm nguồn và format prefix trước Decision | W6-07/08: thêm metric/policy riêng, giữ API v1 và `signal_match_v1` tái lập được |
 | `research_cohort.v2_point` → `PriorPointContext.evidence_v2` → `BayesianPriorRetriever.retrieve_evidence` → `core/prior_evidence_v2.py` | Regime population, similarity tín hiệu, Beta–Binomial, quality gate, `format_evidence_prefix` | W6-07–10: feature/ranking, thống kê điều kiện/shrink và trạng thái stats/examples cần contract/version mới |
-| `agents/decision_agent.py:create_final_trade_decider` với `_prior_preparer` / `_before_invoke` | Distill/cap → compact prompt → chèn BRPP → wrapper retry/structured parse; v2 dùng deep-copy Full | W6-11: contract/trace và ba chế độ nội dung; giữ Original prompt, cap và guard. Chưa có chế độ stats-only/examples-only |
+| `agents/decision_agent.py:create_final_trade_decider` với `_prior_preparer` / `_before_invoke` | Distill/cap → compact prompt → chèn BRPP → wrapper retry/structured parse; v2 dùng deep-copy Full | W6-11 đã có contract/trace và full_prior/stats_only/examples_only; giữ Original prompt, cap và guard |
 | `research_input_lock.CODE_PATHS` / `validate_bound_plan`, `PriorBacktestRunner._identity`, cohort identity | Khóa code/config/runtime/source; child v1 và cohort có phiên bản riêng | W6-06/12: ghim module/index/scaler/fold/candidate mới; không sửa lock hay identity smoke đã chạy |
 | `PriorCheckpointStore` / `CheckpointSession` + `StageJournal.invoke`; `research_cohort.v2_point` | V1 có branch intent/output và journal node; v2 có slot/attempt/prompt/evidence riêng, complete không replay | W6-12/15: checkpoint từng candidate, verifier dựng lại semantic và fault/resume; v2 không tự đi qua journal node như upstream |
 | `core/research_metrics.py:research_report` / `branch_metrics` | Metric chu kỳ, common support và primary tham chiếu nhánh cố định `bayesian_v2` | W6-12.c: report theo candidate ID, giữ ΔR từng mã/trung bình bốn mã và pending ngoài mẫu chấm |
@@ -1571,12 +1571,103 @@ gọi API/holdout. W6 đạt **15/16**; Gate D chờ **W6-16**, risk DEFERRED/OF
   Đánh DONE task 16 để đóng **16/16 và Gate D**. W7 tiếp nhận validation/chọn
   ứng viên/khóa ma trận; W8 mới benchmark.
 
-**Điều kiện Gate D (chưa nghiệm thu):** 13–16 DONE; đủ bằng chứng kỹ thuật và dữ liệu cho W7. Không dùng
+**Gate D PASS, 12/10/2026:** 13–16 DONE; đủ bằng chứng kỹ thuật và dữ liệu cho W7. Không dùng
 smoke v1, fixture v2 hoặc kết quả chọn ứng viên làm bằng chứng thắng OOS.
+
+##### Bàn giao W7 — phiên bản code sau W6-15
+
+**Phạm vi đã có:** registry `prior_candidates_v1` gồm C0, C1, C2, C3,
+C3_stats_only, C3_examples_only; plan `research_cohort_plan_v3` giữ thêm
+năm đối chứng v1, một upstream/Full mỗi điểm. Cấu hình/ngưỡng ở bảng W6-04
+và `core/candidate_cohort.py:registry`, risk **DEFERRED/OFF**. Module triển
+khai và lệnh bốn gate ở mục 4; CLI chính là `scripts/run_bayesian_ablation.py`.
+
+| Artifact runtime bàn giao | Vai trò và cách kiểm |
+| --- | --- |
+| `outputs/bayesian_benchmark/input_lock.json`, `smoke_plan.json` | Nguồn/lịch W5 nguyên byte; parent kế thừa đúng 60 điểm development 2023, không dùng bốn ngày smoke làm validation |
+| `outputs/bayesian_benchmark/train_validation_v2.json` | Report `train_pit_diagnostics_v1` trên code hiện tại; 852 replay/651 query, fold 2021/2022; chỉ `code_sha256` khác bản v1, mọi chẩn đoán/nguồn/fold giữ nguyên |
+| `outputs/bayesian_benchmark/price_features/train_validation_index_v1.json` | Index train giữ nguyên; fit riêng mã/fold 166/428, purge 4 cycle mỗi fold theo exit thực; không fit bằng query |
+| `outputs/bayesian_benchmark/prior_performance_v2.json` | Lượt đo chính W6-15, contract `prior_performance_v1`; verify nguồn/semantic/mẫu thô, không đo lại hoặc sửa receipt |
+| `outputs/bayesian_benchmark/development_candidate_plan_v1.json` | Plan mới khóa code hiện tại, registry sáu ứng viên và 60 điểm: FPT 12, MWG/VCB/VNM 16 mỗi mã; chưa chạy Decision/API |
+| `outputs/bayesian_benchmark/price_features/candidate_index_v1.json` | Index phụ kế thừa nguyên byte, plan khóa checksum/identity; output API riêng `outputs/bayesian_benchmark/development_candidate_run_v1/` |
+
+SHA-256 byte report train v2:
+`b5ba8fd70de3882451b27f0eaaccc8a76301f40ccc0967dfd8424c568e1d233b`;
+plan development v1:
+`0948f954a33d438370c7b2df59181b5df4d8a971b00b9acffc0347894ef2081c`.
+
+Các file trên gitignore; giữ cùng nguồn local đã khóa để tái lập. Bản train
+v1 và candidate_plan_v1/v2 là bằng chứng lịch sử: code đã đổi nên không dùng
+lệnh mặc định `--verify-train` hoặc resume plan cũ với checkout hiện tại.
+Không sửa hash để vượt verifier. Kiểm bản train hiện tại và hiệu năng:
+
+```powershell
+$trainReport = "outputs/bayesian_benchmark/train_validation_v2.json"
+$trainIndex = "outputs/bayesian_benchmark/price_features/train_validation_index_v1.json"
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-train --train-report $trainReport --train-index $trainIndex
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-performance --performance-report outputs/bayesian_benchmark/prior_performance_v2.json
+```
+
+Nếu thiếu report v2, tạo bằng `--validate-train` thay `--verify-train` với
+cùng hai đường dẫn. Đổi code/nguồn cần tên report/plan/output mới; giữ mọi
+bản cũ, không ghi đè. Đo lại hiệu năng chỉ khi thay API/nguồn/điều kiện đo,
+dùng `--benchmark-prior --performance-report` với tên file chưa tồn tại.
+
+**Chuẩn bị/dry-run development offline** (đã có plan thì bắt đầu ở dry-run):
+
+```powershell
+$candidatePlan = "outputs/bayesian_benchmark/development_candidate_plan_v1.json"
+$candidateRun = "outputs/bayesian_benchmark/development_candidate_run_v1"
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --prepare --plan outputs/bayesian_benchmark/smoke_plan.json --candidate-plan $candidatePlan --candidate-split development_2023 --price-index outputs/bayesian_benchmark/price_features/candidate_index_v1.json --output-dir $candidateRun
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --dry-run --plan $candidatePlan --output-dir $candidateRun
+```
+
+**Người dùng tự chạy API khi W7 mở validation.** Preflight dùng hai request
+text/vision qua pacer; cần tokenizer cache và key riêng trong `.env`. Giữ
+ledger mặc định `outputs/oos_pilot/api_usage.json`, policy
+`request_admission_v2`. Chỉ chạy bước sau khi bước trước thành công:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --preflight --plan $candidatePlan --output-dir $candidateRun
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --plan $candidatePlan --output-dir $candidateRun --symbol FPT
+# Sau khi cohort.json đã khởi tạo, mọi lượt chạy tiếp đều cần --resume.
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --plan $candidatePlan --output-dir $candidateRun --symbol MWG
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --plan $candidatePlan --output-dir $candidateRun --symbol VCB
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --plan $candidatePlan --output-dir $candidateRun --symbol VNM
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only --plan $candidatePlan --output-dir $candidateRun
+```
+
+Nếu dừng/unknown: `--verify-only`, rồi `--reconcile` với cùng plan/output;
+hai chế độ offline cần `cohort.json` đã khởi tạo. Chỉ sau đối soát attempt
+thực mới thêm `--authorize-replay UUID --replay-reason "Lý do đã đối soát"`
+vào lệnh reconcile, rồi `--run --resume --symbol MA` (MA là FPT/MWG/VCB/VNM).
+Không xóa ledger/lock/attempt hoặc thay ngày để tiếp tục. Verifier kiểm toàn
+cohort, kể cả mã chưa được chọn; complete không gọi lại, pending giữ mẫu số.
+Cooldown/quota dừng có kiểm soát; nguồn/code/model đổi phải dùng run mới.
+
+**Việc W7 còn phải làm:** validation hiệu quả và common support, chọn ứng
+viên theo tiêu chí W6-04, khóa ma trận/protocol cuối trước W8. Hiện chưa chọn
+winner, chưa có return LLM cho sáu ứng viên hoặc chạy holdout 2024. CLI ứng
+viên hiện chỉ nhận fixture/development_2023; nếu W7 cần lượt LLM trên fold
+train hoặc mở manifest holdout thì phải bổ sung protocol/plan có version
+và kiểm gate trước API. Report train hiện tại là chẩn đoán kỹ thuật. Train có
+121/651 query thiếu feature do sự kiện quyền, C3 stats chỉ 95/651 và examples
+358/651; giữ fallback/null và kết quả bất lợi. Tin reliable=0, BEAR OOS=0,
+FPT Q1 thiếu bốn mẫu; PIT hồi cứu không chứng nhận vintage provider/kiến
+thức LLM. Numeric risk policy vẫn hoãn; gate W6 không bảo đảm hiệu quả OOS.
+
+**Nghiệm thu W6-16 — DONE, 12/10/2026:** bốn gate toàn hệ thống PASS:
+compileall, **784 unit**, E2E và **146 leakage**, không skip. Report train
+v2 tạo/verify toàn bộ và parity với v1 PASS; verifier hiệu năng W6-15 PASS.
+Prepare/dry-run plan development **4/4 mã PASS** khi chặn credential/API;
+chưa tạo `cohort.json` hoặc gọi API thật. **2.315 file cũ và hai artifact mới
+nguyên byte** sau kiểm thử. Chỉ cập nhật ba Markdown, không thêm receipt
+hoặc sửa code/registry/nguồn. **W6 đóng 16/16, Gate A/B/C/D PASS**; W7 tiếp
+nhận validation hiệu quả/chọn ứng viên/khóa protocol, W8 mới benchmark.
 
 ## 4. Quản lý thay đổi và kiểm thử
 
-Module dự kiến kế thừa: `core/bayesian_retriever.py`, `core/prior_evidence_v2.py`,
+Module kế thừa: `core/bayesian_retriever.py`, `core/prior_evidence_v2.py`,
 `core/research_cohort.py`, `core/research_input_lock.py`, `core/research_metrics.py`,
 `core/prior_checkpoint.py`, `core/prior_stage_journal.py`, các builder Decision
 và `scripts/run_bayesian_ablation.py`. Feature được triển khai tại
@@ -1592,7 +1683,9 @@ tại `core/prior_prompt.py`, schema/trace tại `agents/decision_agent.py`.
 W6-12 nối registry/plan/checkpoint tại `core/candidate_cohort.py` vào
 `core/research_cohort.py`, report theo candidate tại `core/research_metrics.py`
 và CLI `scripts/run_bayesian_ablation.py`. Phase D đã chốt risk OFF, validation
-train và hồi quy/hiệu năng; còn bàn giao W7 tại W6-16.
+train tại `core/train_pit_validation.py`, nghiệm thu hiệu năng tại
+`core/prior_performance.py` và fault/resume tại
+`tests/test_candidate_fault_matrix.py`. Bàn giao W7 ở mục W6-16.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
 nội dung kỹ thuật, không có ký hiệu tuần. Trước merge chạy:
@@ -1631,3 +1724,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 12/10/2026 | W6-13 | DONE; 13/16 task, Phase D IN_PROGRESS. Chốt numeric risk policy DEFERRED/OFF; report v3 thêm attribution tách raw/action sau policy/ánh xạ thực thi/nhãn kinh tế, đối soát bằng engine và không sửa action. 6 test mới PASS; fixture 44 Decision/4 upstream, verify/resume và prepare/dry-run local 4/4 khi chặn key/mạng PASS. Compileall/E2E, 765 unit/143 leakage PASS, không skip; 2.306 file bảo vệ nguyên byte. Plan mới gitignore, không API/holdout/receipt; Gate D còn chờ 14–16 | W6-14: validation train PIT offline và chẩn đoán ứng viên |
 | 12/10/2026 | W6-14 | DONE; 14/16 task, Phase D IN_PROGRESS. CLI train PIT validation/verify replay 852 checkpoint, chẩn đoán 651 query hai fold; HMM prefix/scaler/calibration và purge thực PASS. 530 query đủ feature, 121 barrier giữ mẫu số; C3 stats 95/examples 358, 263 lịch sử điều kiện rỗng giữ null. Report tái lập khi chặn key/mạng, không Decision/mock hoặc xếp hạng return LLM. 9 test mới gồm 3 leakage; compileall/E2E, 774 unit/146 leakage PASS, không skip; 2.310 file bảo vệ nguyên byte. Artifact gitignore, không API/holdout/receipt mới; Gate D còn chờ 15–16 | W6-15: hồi quy, leakage, fault/resume và hiệu năng |
 | 12/10/2026 | W6-15 | DONE; 15/16 task, Phase D IN_PROGRESS. CLI đo/verify prior public offline, 100 warm-up/1.000 mẫu mỗi mode/stage; sáu ứng viên p95 retrieval 8,438–27,273 ms, v1 cùng 651 query 4,369 ms. Prefix/full path và cold/fit báo riêng, không hot I/O/refit/cache đáp án; evidence 651/651 khớp train. Giữ hai lượt đo nguyên byte; verify nguồn/semantic/mẫu thô PASS. Copy JSON một lượt giữ validation/alias; 10 test mới, ma trận 12 ranh giới crash cùng quota/source PASS. Compileall/E2E, 784 unit/146 leakage PASS, không skip; 2.313 file bảo vệ nguyên byte. Không API/holdout; Gate D chờ 16, risk OFF | W6-16: chốt W6 và bàn giao validation W7 |
+| 12/10/2026 | W6-16 | DONE; 16/16, Phase A/B/C/D DONE, Gate A/B/C/D PASS. Bàn giao module/config/artifact và CLI từng mã; train v2 tạo/verify 852 replay/651 query, chỉ hash code khác v1. Verifier hiệu năng và prepare/dry-run 60 điểm development bốn mã PASS khi chặn key/API. Compileall/E2E, 784 unit/146 leakage PASS, không skip; 2.315 file cũ/hai artifact mới nguyên byte. Chỉ ba Markdown; risk DEFERRED/OFF, chưa chọn winner/chạy holdout | W7: validation hiệu quả, chọn ứng viên và khóa ma trận; W8 benchmark |
