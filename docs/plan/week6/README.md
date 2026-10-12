@@ -1,6 +1,6 @@
 # Tuần 6 — Cải thiện retrieval và cách Decision sử dụng bằng chứng
 
-**Trạng thái: Phase A/B DONE, Gate A/B PASS; Phase C IN_PROGRESS, W6-01–11 DONE, 11/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **11/10/2026**. Tiếp theo **W6-12**.
+**Trạng thái: Phase A/B/C DONE, Gate A/B/C PASS; W6-01–12 DONE, 12/16 task hoàn thành.** Ngày lập: **10/10/2026**; cập nhật: **12/10/2026**. Tiếp theo **W6-13**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W5](../week5/README.md)
 
 ## 1. Mục tiêu và phạm vi
@@ -62,7 +62,7 @@ quota, cooldown, ledger chung và đối soát attempt chưa rõ kết quả.
 | C | W6-09 | Thống kê điều kiện và shrink có kiểm chứng | Gate B | [x] DONE |
 | C | W6-10 | Quality gate theo support/uncertainty | 09 | [x] DONE |
 | C | W6-11 | Prompt/Decision contract và ablation nội dung | 10 | [x] DONE |
-| C | W6-12 | CLI, protocol, identity và checkpoint ứng viên | 08, 11 | [ ] |
+| C | W6-12 | CLI, protocol, identity và checkpoint ứng viên | 08, 11 | [x] DONE |
 | D | W6-13 | Chốt phạm vi risk policy và cách quy kết tác động | Gate C | [ ] |
 | D | W6-14 | Validation train PIT offline và chẩn đoán ứng viên | 13 | [ ] |
 | D | W6-15 | Hồi quy, leakage, fault/resume và hiệu năng | 14 | [ ] |
@@ -493,8 +493,8 @@ không có trong API feature/scaler/ranking/statistics/prompt.
 
 **5. Readiness, version và provenance.** Dùng evidence
 `prior_evidence_v3`, gate `split_quality_gate_v2`, prefix `compact_brpp_v3`
-cho C2/C3; C1 dùng hồ sơ tương thích ở 04. Tên nhánh ứng viên vẫn
-`bayesian_v2`. C0 giữ evidence v2,
+cho C2/C3; C1 dùng hồ sơ tương thích ở 04. Plan v2 giữ nhánh
+`bayesian_v2`; protocol v3 ở W6-12 tách nhánh bằng candidate ID. C0 giữ evidence v2,
 statistics `regime_beta_binomial_v2`, gate/prefix W5. Không đổi ý nghĩa
 artifact có version cũ. Ghi toàn bộ feature/price-policy/scaler/index/
 ranking/diversity/statistics/evidence/gate/prefix version ở trên, config
@@ -1207,8 +1207,76 @@ validation/p95 đầy đủ thuộc Phase D. Chưa chứng nhận hiệu quả �
   hoặc gọi mạng; journal/ledger/unknown được kế thừa. Không đổi fingerprint
   của smoke cũ. Chưa tạo executable plan holdout hoặc chạy API ở task này.
 
-**Điều kiện Gate C (chưa nghiệm thu):** 09–12 DONE; đường CLI production chạy đủ cấu hình đã đăng ký trên
-fixture, posterior/gate/prompt/trace/identity/paired/resume PASS.
+##### Kết quả triển khai — DONE/PASS, 12/10/2026
+
+- `core/candidate_cohort.py` đăng ký đúng sáu cấu hình, nối producer plan
+  `research_cohort_plan_v3` và validator với CLI hiện hữu. Plan kế thừa
+  parent/lịch/nguồn W5, khóa registry, code/runtime và index riêng; loader
+  tái dựng feature/scaler/fit provenance. Tái kiểm byte nguồn lịch sử,
+  giữ lock/code W5 gốc; code/runtime mới thuộc plan v3, không sửa lock cũ.
+  Chỉ mở fixture/development 2023, chưa tạo executable plan holdout.
+- Cohort identity v3 giữ năm nhánh v1, thêm C0/C1/C2/C3/C3_stats_only/
+  C3_examples_only theo đúng thứ tự mỗi điểm, cùng Full đã seal. C0 dùng
+  evidence/prefix W5; ba C3 chung base evidence/hash. Dùng stage journal,
+  OS lock, invocation budget, pacing và ledger tài khoản hiện hữu.
+- Slot từng nhánh được tạo trước API. Response raw text/tool args và trace
+  được ghi durable trước evaluation. Verify dựng lại evidence/score/count/
+  prefix/prompt từ nguồn, tái chuẩn hóa raw và đối soát action/self-report.
+  Resume dùng lại complete; unknown chặn mọi mã, chỉ replay UUID cuối sau
+  reconcile có lý do. Index/parent bị đổi bị chặn trước request kế tiếp.
+- `research_report_v3` có metric và delta riêng từng candidate ID/từng mã,
+  common support đủ 11 nhánh; pending không tính thành CASH. Giữ engine
+  tài khoản/phí và Sharpe/Sortino chu kỳ không annualize; không gộp sáu
+  ứng viên thành một kết quả hoặc suy hiệu quả LLM từ Decision fixture.
+- Ca production graph/adapter bốn mã đã PASS **44 Decision, 4 upstream/
+  Full**, verify/resume không gọi lại complete. Kiểm thêm thứ tự hai điểm,
+  raw tool-call, crash trước/sau durable, malformed, unknown/replay,
+  missing slot, nguồn/model/registry/index/fold, artifact tự băm lại và
+  CLI offline. **14 test mới PASS**, gồm **4 leakage**. **Bốn gate toàn hệ
+  thống PASS: compileall/E2E, 759 unit/143 leakage**, không skip; **2.295
+  file bảo vệ nguyên byte**, sáu file code/test khớp byte đã kiểm.
+- Prepare và dry-run CLI trên nguồn local đã khóa **4/4 PASS**; tạo
+  `outputs/bayesian_benchmark/candidate_plan_v1.json` và
+  `price_features/candidate_index_v1.json` trong cùng thư mục runtime đã
+  gitignore. Chưa chạy Decision/API trên bốn ngày này; 44 Decision ở trên
+  thuộc fixture kỹ thuật, không là lượt chạy trên dữ liệu smoke thật.
+
+##### CLI ứng viên và cách tự chạy
+
+Chuẩn bị kế thừa bốn ngày smoke W5, không gọi LLM (index mới để giữ index cũ):
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --prepare --plan outputs/bayesian_benchmark/smoke_plan.json --candidate-plan outputs/bayesian_benchmark/candidate_plan_v1.json --output-dir outputs/bayesian_benchmark/candidate_run_v1
+$candidatePlan = "outputs/bayesian_benchmark/candidate_plan_v1.json"
+$candidateRun = "outputs/bayesian_benchmark/candidate_run_v1"
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --dry-run --plan $candidatePlan --output-dir $candidateRun
+```
+
+Plan này chỉ kế thừa smoke vận hành, không là validation hiệu quả. Khi W7
+cho chạy development, chuẩn bị **plan/output mới** bằng cùng lệnh prepare,
+thêm `--candidate-split development_2023`; kế thừa đúng 60 điểm đã khóa.
+Không đổi split/registry/model/index trong plan đã chạy. Sau khi tự chọn
+đúng plan/run cho lượt API được mở, người dùng chạy từng bước:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --preflight --plan $candidatePlan --output-dir $candidateRun
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --plan $candidatePlan --output-dir $candidateRun --symbol FPT
+# Sau khi run đã khởi tạo: kiểm/đối soát offline, rồi tiếp tục phần còn thiếu.
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only --plan $candidatePlan --output-dir $candidateRun
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --reconcile --plan $candidatePlan --output-dir $candidateRun
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --plan $candidatePlan --output-dir $candidateRun --symbol FPT
+```
+
+Lặp `--run --resume` với MWG, VCB, VNM; bỏ `--symbol` để chạy tuần tự đủ bốn
+mã. Nếu reconcile báo unknown, chỉ xác nhận UUID đã kiểm bằng
+`--reconcile --authorize-replay UUID --replay-reason "Lý do đã đối soát"`,
+rồi resume. Giữ ledger mặc định `outputs/oos_pilot/api_usage.json`, không
+xóa attempt/lock để chạy lại. Prepare/dry-run không mở key; preflight/run
+mới dùng `.env`. Verify/reconcile cần manifest run đã khởi tạo.
+
+**Gate C PASS, 12/10/2026:** 09–12 DONE; đường CLI production chạy đủ cấu hình đã đăng ký trên
+fixture, posterior/gate/prompt/trace/identity/paired/resume PASS. Prepare/dry-run nguồn local
+PASS; chưa chạy API/holdout. Validation train và hiệu năng còn thuộc Phase D.
 
 ### Phase D — Kiểm chứng và bàn giao
 
@@ -1284,7 +1352,10 @@ Thống kê điều kiện W6-09 nằm tại `core/prior_conditional_statistics.
 có API retriever và callback point riêng; W6-10 ghép statistics/selection
 và quality gate tại `core/prior_quality_gate.py`. W6-11 có prefix/request
 tại `core/prior_prompt.py`, schema/trace tại `agents/decision_agent.py`.
-CLI/protocol/identity và checkpoint ứng viên còn thuộc W6-12.
+W6-12 nối registry/plan/checkpoint tại `core/candidate_cohort.py` vào
+`core/research_cohort.py`, report theo candidate tại `core/research_metrics.py`
+và CLI `scripts/run_bayesian_ablation.py`. Phase D còn quyết định risk policy,
+validation train, fault/hiệu năng và bàn giao W7.
 
 Mỗi task dùng nhánh riêng từ `develop`; commit Conventional Commits theo
 nội dung kỹ thuật, không có ký hiệu tuần. Trước merge chạy:
@@ -1319,3 +1390,4 @@ Dùng TODO, IN_PROGRESS, BLOCKED, DONE; PLAN_READY chưa phải triển khai DON
 | 11/10/2026 | W6-09 | DONE; 9/16 task, Phase C IN_PROGRESS. Thống kê P/C/B rời nhau, masks hiện hữu, empirical Bayes strength4 và CrI plug-in; validator tái tính từ nguồn và callback Full đã seal. Audit 651/651 query train PASS, 263 query C rỗng giữ null; counts P/C/B=24.448/1.335/23.113, max CDF error2,11e-15. 14 test mới gồm 5 leakage; compileall/E2E, 713 unit/131 leakage PASS, không skip. Unit lượt đầu timeout60s ở test khóa cũ; chạy riêng và chạy lại toàn bộ nguyên code PASS, giữ log đầu TEMP. 2.289 file bảo vệ nguyên byte, không API/receipt mới. Gate C chờ 10–12 | W6-10: quality gate theo support/uncertainty |
 | 11/10/2026 | W6-10 | DONE; 10/16 task. Gate tách stats/examples đúng ngưỡng 20/5/0,75, C1 giữ population Beta và gate ghép cặp; evidence v3 có reason/visibility/fallback và validator tái tính nguồn. K=0/prior off bỏ producer, integrity/PIT ném lỗi, không sửa action. 16 test mới gồm 4 leakage; compileall/E2E, 729 unit/135 leakage PASS, không skip; 2.292 file bảo vệ nguyên byte. Không API/receipt mới; Gate C chờ 11–12 | W6-11: prefix/Decision contract và ablation nội dung |
 | 11/10/2026 | W6-11 | DONE; 11/16 task. Prefix/request có version, hash và validator nguồn; ba C3 chung base evidence, visibility đúng content mode. C1 tương thích byte template W5, C2 giữ reasoning W5; C3 thêm trace IDs/assessment/lý do, không ép action. Thiếu block/K=0/prior off giữ prompt/schema Original. 16 test mới gồm 4 leakage; caps 600/601 và 6.499/6.500 PASS; compileall/E2E, 745 unit/139 leakage PASS, không skip; 2.294 file bảo vệ nguyên byte. Không API/receipt mới; Gate C chờ 12 | W6-12: CLI/protocol/identity và checkpoint ứng viên |
+| 12/10/2026 | W6-12 | DONE; 12/16 task, Phase C DONE / Gate C PASS. CLI prepare/plan/identity v3 nối sáu ứng viên với năm v1, thứ tự 11 nhánh mỗi điểm và Full dùng chung. Fixture bốn mã 44 Decision, durable raw/trace, semantic verify, resume/unknown/replay và report theo candidate/common support PASS. Prepare/dry-run nguồn local 4/4 PASS; plan/index mới gitignore, không API/holdout. 14 test mới gồm 4 leakage; compileall/E2E, 759 unit/143 leakage PASS, không skip; 2.295 file bảo vệ nguyên byte. Hướng dẫn CLI trong README này | W6-13: chốt phạm vi risk policy và quy kết tác động |

@@ -46,7 +46,7 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
   runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
   **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6: Phase A/B DONE, Gate A/B PASS; Phase C IN_PROGRESS, W6-01–11 DONE, 11/16 task hoàn thành**.
+  **W6: Phase A/B/C DONE, Gate A/B/C PASS; W6-01–12 DONE, 12/16 task hoàn thành**, cập nhật 12/10/2026.
   Đã kiểm bàn giao W5, bản đồ tích hợp và provenance theo fold: bank/replay
   852/852, 217 scaler HMM prefix, 16 điểm Alpha và 4 ca sửa tương lai PASS
   offline. Đã chốt feature 21 phiên/xử lý quyền, scaler theo fold, ranking
@@ -68,8 +68,12 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   Đã có prefix/request có version/hash, ba chế độ nội dung C3 dùng chung
   base evidence và trace IDs/assessment/lý do; không ép action. C1 giữ
   template W5, C2 giữ reasoning W5; prior off giữ prompt/schema Original.
-  BRPP≤600, prompt<6.500; compileall/E2E, **745 unit/139 leakage PASS**.
-  Tiếp theo **W6-12**: CLI/protocol/identity và checkpoint ứng viên theo
+  BRPP≤600, prompt<6.500. CLI plan/identity v3 đã nối sáu ứng viên với năm
+  v1; fixture bốn mã **44 Decision**, durable raw/trace, semantic verify,
+  paired/resume/unknown và report theo candidate/common support PASS.
+  Prepare/dry-run nguồn local **4/4 PASS**, chưa gọi API/holdout;
+  compileall/E2E, **759 unit/143 leakage PASS**, 2.295 file bảo vệ nguyên byte.
+  Tiếp theo **W6-13**: chốt phạm vi risk policy và quy kết tác động theo
   [kế hoạch W6](docs/plan/week6/README.md).
   Các lượt dùng API key do người dùng tự chạy theo
   [hướng dẫn W5-14](docs/plan/week5/README.md#cách-tự-chạy-w5-14-bằng-terminal).

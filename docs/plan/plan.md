@@ -485,15 +485,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - Chỉ thêm `week5/README.md` làm sổ tiến độ; output runtime gitignore,
   không tạo receipt theo từng task.
 
-### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B DONE / GATE A/B PASS, PHASE C IN_PROGRESS, 11/16
+### 📅 TUẦN 6: Cải thiện retrieval và cách Decision sử dụng bằng chứng — PHASE A/B/C DONE / GATE A/B/C PASS, 12/16
 
 - **Đầu vào đã sẵn sàng, 10/10/2026:** W5 đóng đủ gate; bàn giao kỹ thuật/
   vận hành trong [README W5, mục W5-16](week5/README.md).
 - **Kế hoạch chi tiết đã lập, 10/10/2026:** [README W6](week6/README.md),
-  4 phase/16 task, **11/16 hoàn thành**, cập nhật 11/10/2026. Tiếp theo W6-12; chưa chạy benchmark.
+  4 phase/16 task, **12/16 hoàn thành**, cập nhật 12/10/2026. Tiếp theo W6-13; chưa chạy benchmark.
   - [x] Phase A, W6-01–04: bàn giao, nguồn/provenance theo fold, contract và đăng ký ứng viên.
   - [x] Phase B, W6-05–08: feature PIT, scaler/index, similarity, recency/diversity.
-  - [ ] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
+  - [x] Phase C, W6-09–12: thống kê điều kiện, quality gate, Decision/ablation, CLI/identity.
   - [ ] Phase D, W6-13–16: quyết định risk policy, validation train PIT, hồi quy/p95 và bàn giao W7.
   Đã đăng ký C0–C3 và hai ablation nội dung, đúng sáu cấu hình trước
   implementation/thực nghiệm. Numeric risk policy mặc định chưa bật, có
@@ -601,6 +601,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   **Compileall/E2E, 745 unit/139 leakage PASS**, không skip; **2.294 file
   bảo vệ nguyên byte**. Không API/receipt mới. W6 đạt **11/16**;
   Gate C còn chờ W6-12: CLI/protocol/identity và checkpoint ứng viên.
+- **W6-12 DONE / Gate C PASS, 12/10/2026:** CLI prepare/plan/identity v3
+  nối registry→index→evidence→prompt cho sáu ứng viên, giữ năm nhánh v1
+  và một Full mỗi điểm. Fixture bốn mã **44 Decision**, thứ tự 11 nhánh,
+  durable raw/trace, semantic verify và resume/unknown/replay PASS.
+  Report v3 tách candidate ID/từng mã trên common support, không annualize
+  hoặc tính pending thành CASH. Prepare/dry-run nguồn local **4/4 PASS**,
+  index/plan mới gitignore; giữ byte nguồn/lock/smoke cũ. **14 test mới**
+  gồm 4 leakage; **compileall/E2E, 759 unit/143 leakage PASS**, không skip;
+  **2.295 file bảo vệ nguyên byte**. Không API/holdout/receipt rời.
+  W6 đạt **12/16**, Phase A/B/C DONE; tiếp theo W6-13, validation/p95 ở Phase D.
 - **Mục tiêu**: triển khai ứng viên v2 có thể đo được, kế thừa code W5;
   ưu tiên hạn chế đã quan sát thay vì tăng số ví dụ hoặc đổi model tùy ý.
 - **Đầu vào bắt buộc**: gate W5 PASS; contract v2 và train/development/holdout
@@ -622,8 +632,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     `raw_action`, `executed_action`, lý do và policy hash; ngưỡng chọn bằng
     train/2023. Không gán lợi ích của risk gate thành lợi ích riêng của ICL;
     không ép SHORT theo ca 20/02 hoặc coi win-rate là expected net return.
-  - [ ] Mở protocol/schema/runner version mới cho v1+v2 cùng upstream;
-    giữ Original prompt và năm nhánh v1, kiểm resume/semantic/caps/p95.
+  - [x] Mở protocol/schema/runner version mới cho v1+v2 cùng upstream;
+    giữ Original prompt và năm nhánh v1, kiểm resume/semantic/caps.
+    Hiệu năng p95 nghiệm thu riêng tại W6-15.
 - **Deliverables cuối W6**: code v2 tích hợp trên đường CLI chính, trace
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
