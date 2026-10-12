@@ -684,20 +684,35 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — MỚI, TODO
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — PLAN_READY, 0/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
+- **Kế hoạch chi tiết, 12/10/2026:** [README W7](week7/README.md), **4 phase/
+  16 task, 0/16 hoàn thành**; tiếp theo **W7-01**. PLAN_READY chưa phải
+  validation DONE; numeric risk policy giữ **DEFERRED/OFF**.
+  - [ ] Phase A, W7-01–04: bàn giao, protocol, metric/lựa chọn và train PIT.
+  - [ ] Phase B, W7-05–09: report/ablation, selector, consumer holdout,
+    hồi quy và khóa code/run development trước API.
+  - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
+    quyết định ứng viên bằng tiêu chí W6-04.
+  - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
+    nghiệm thu và bàn giao W8.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Validation cuốn chiếu 2020–2022 có purge/embargo phù hợp horizon,
-    model/scaler đúng prefix. Chạy cohort 2023 đã khóa, không mở outcome 2024
-    cho người/thuật toán lựa chọn phiên bản; upstream chỉ một lần/point.
+  - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
+    651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
+    không diễn giải diagnostics thành hiệu quả LLM. Chạy Decision thật trên
+    60 điểm development 2023 đã khóa. Lượt LLM theo fold train, nếu cần,
+    phải có protocol riêng trước API. Giữ outcome 2024 ngoài lựa chọn;
+    upstream chỉ một lần/point.
   - [ ] So v1/v2/Original và ablation đã định trên common support; đọc
     net return, MDD, balanced accuracy, số giao dịch/CASH và các bất đồng.
     Đánh giá ca LONG bất chấp cảnh báo trên nhiều điểm, không chỉ pilot FPT.
   - [ ] Chốt một ứng viên, tham số/prompt/K/policy/model và mục tiêu kiểm định.
-    Nếu không có lợi ích ổn định, ghi rõ và dùng phiên bản đã đăng ký để đo
-    holdout; không coi validation thắng là bằng chứng hiệu quả cuối.
+    Giữ eligibility/D/ΔMDD/tie-break W6-04; nếu không ai được promote,
+    Original vẫn là lựa chọn triển khai và ứng viên nghiên cứu đủ điều kiện
+    mang nhãn NOT_PROMOTED. Tập đủ điều kiện rỗng thì Gate C BLOCKED;
+    không coi validation thắng là bằng chứng hiệu quả cuối.
   - [ ] Soạn hướng dẫn để người dùng tự chạy preflight/run/verify/resume
     đúng ma trận đã khóa. Guard HTTP, ledger chung, unknown reserve và
     checkpoint xử lý giới hạn thực tế; không yêu cầu dự toán/lịch chạy API.
@@ -706,6 +721,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 - **Deliverables cuối W7**: ứng viên/policy có version, ma trận/cỡ mẫu/ngày
   kiểm định đã khóa, hướng dẫn người dùng tự chạy và gate mở W8.
   Chưa khóa đủ thì BLOCKED; không đổi checkpoint cũ để tiếp tục cấu hình mới.
+  Hoàn thành 16/16 và Gate A/B/C/D mới đóng W7; W7 chưa chạy benchmark 2024.
 
 ### 📅 TUẦN 8: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
 
