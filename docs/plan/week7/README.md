@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A IN_PROGRESS; 3/16 task hoàn thành, Phase B/C/D TODO.**
-Ngày lập/cập nhật: **12/10/2026**. Tiếp theo **W7-04**.
+**Trạng thái: Phase A DONE / Gate A PASS; 4/16 task hoàn thành, Phase B/C/D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-05**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -338,7 +338,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | A | W7-01 | Xác minh bàn giao và khoảng trống implementation | W6 đóng | [x] DONE |
 | A | W7-02 | Khóa phạm vi train/development và protocol validation | 01 | [x] DONE |
 | A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [x] DONE |
-| A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [ ] TODO |
+| A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [x] DONE |
 | B | W7-05 | Hoàn thiện report common support và metric | Gate A | [ ] TODO |
 | B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [ ] TODO |
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [ ] TODO |
@@ -390,8 +390,54 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 - **Đạt khi:** 852 replay/651 query đủ provenance; giữ 121 query barrier,
   C rỗng/null và nhóm không phơi nhiễm. Không dùng model cuối 2022 cho fold sớm.
 
-**Gate A:** 01–04 DONE, protocol/metric/selection đã khóa, train PIT PASS;
-chưa mở lượt API development.
+##### Tái kiểm nguồn thật, 13/10/2026
+
+**Verifier production PASS:** dựng lại **852/852 replay**, **651 query**,
+**201** bootstrap và so bằng toàn bộ report v2 trên index W6 đã khóa.
+Không dùng mặc định report v1 có code identity lịch sử:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-train --train-report outputs/bayesian_benchmark/train_validation_v2.json --train-index outputs/bayesian_benchmark/price_features/train_validation_index_v1.json
+```
+
+Code/runtime và **1.947 nguồn ghim** khớp report. **217** model/proof đúng
+cutoff gồm 165 HMM và 52 MULTI_FACTOR fallback; verifier nạp artifact prefix
+và tái tính scaler/calibration số học, không fit lại HMM hoặc dùng model
+cuối 2022 thay cho các prefix sớm.
+
+Audit độc lập trên report/bank xác nhận fit/purge theo exit thật: hai fold
+2021/2022 có **197/526** episode fit trước lọc feature, **166/428** sau lọc,
+**329/322** query. Mỗi fold purge **4** cycle (một/mã) có exit bằng ngày đầu
+fold; mọi episode fit có exit<đầu fold. **6.515 lượt ID được chọn** qua sáu
+candidate đều cùng mã/regime và exit<query; đây là lượt lặp giữa candidate,
+không phải số episode độc lập. Tái đếm độc lập eligible/population từ bank
+khớp cả 651 query × 6 candidate; verifier còn tái dựng evidence từ nguồn.
+
+Diagnostics giữ nguyên bàn giao W6: feature **530/651**, **121** barrier
+`CORPORATE_ACTION_WINDOW`; **263** query C rỗng giữ posterior/CrI null.
+C3 stats/examples hiển thị **95/358**, cùng ready **76/651**; các count
+candidate/fallback chi tiết giữ như W6-14, không đổi ngưỡng để tăng coverage.
+Đây là readiness theo content mode trong diagnostics, chưa phải exposure
+Decision thật dùng xét eligibility ở W7-03.
+Giữ đủ **192** nhóm mã/fold/regime/candidate, tất cả có query; **92** nhóm
+không hiển thị stats và **92** không hiển thị examples (gồm ablation),
+không loại nhóm này khỏi báo cáo. Tin reliable **0/651** vẫn là giới hạn.
+
+**9 kiểm thử train/PIT PASS** (gồm 3 leakage): entry/exit/index, model tương
+lai/frozen, sửa nến tương lai, scaler/calibration, purge/nhóm rỗng/null,
+report tự băm lại, thiếu provenance và CLI offline. Không có Decision hoặc
+kết luận lợi ích LLM; nhóm NO_EXPOSURE tổng hợp vẫn được giữ trong fixture.
+
+**W7-04 DONE:** không có thay đổi diagnostics hoặc identity cần revision;
+giữ report v2/index, **2.317 file bằng chứng nguyên byte**. Verify chạy với
+guard chặn `.env`/API; không sinh Decision, return LLM, selection hoặc đọc
+outcome holdout. Chỉ ba Markdown thay đổi; code/test/runtime khớp W6-16,
+kế thừa compileall/E2E, **784 unit/146 leakage PASS** của cùng mã nguồn,
+không chạy lại toàn suite. Kiểm mới là verifier nguồn thật và 9 test nêu trên.
+
+**Gate A PASS, 13/10/2026:** 01–04 DONE; đặc tả protocol/metric/quy tắc lựa
+chọn đã khóa, train PIT PASS. Mở Phase B với **W7-05**; selector/report mới
+còn chờ 05–09, chưa có candidate được chọn hoặc mở lượt API development.
 
 ### Phase B — Hoàn thiện công cụ và đóng băng code trước API
 
@@ -576,6 +622,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 12/10/2026 | W7-01 | DONE, 1/16; nguồn/runtime/registry/hash PASS, 1.992 nguồn và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm và verifier hiệu năng 651 query PASS offline; bản đồ module/khoảng trống ở mục 1. Gate A còn 02–04 | W7-02 |
 | 12/10/2026 | W7-02 | DONE, 2/16; protocol mục 2.1 khóa vai trò 651 query train/60 điểm development/64 holdout, model/client/registry và amendment trước API. Đối chiếu cấu hình nguồn/code, checklist/liên kết/hash PASS; chỉ ba Markdown, kế thừa bốn gate W6-16 của cùng code/runtime. Gate A còn 03–04 | W7-03 |
 | 12/10/2026 | W7-03 | DONE, 3/16; hợp đồng report/support/đơn vị/null, visibility, cặp/ablation/ca bất lợi và nomination tại mục 2.2; 14 oracle fixture kiểm số học/biên PASS. Chỉ ba Markdown; 2.317 file nguyên byte, cùng code/runtime kế thừa bốn gate W6-16. Gate A còn 04 | W7-04 |
+| 13/10/2026 | W7-04 | DONE, 4/16; Phase A DONE / Gate A PASS. Verifier production dựng lại 852 replay/651 query, report v2 khớp đầy đủ; purge/mature/scaler/prefix và 9 test train/PIT (3 leakage) PASS. Diagnostics không đổi, 2.317 file nguyên byte; readiness chưa là exposure Decision, không API/holdout | W7-05 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

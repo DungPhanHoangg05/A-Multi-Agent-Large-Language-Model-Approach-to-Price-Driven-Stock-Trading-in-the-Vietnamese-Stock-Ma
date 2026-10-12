@@ -684,14 +684,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 3/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 4/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
-- **Kế hoạch chi tiết, 12/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 3/16 hoàn thành**; tiếp theo **W7-04**. Phase A IN_PROGRESS;
+- **Kế hoạch chi tiết, cập nhật 13/10/2026:** [README W7](week7/README.md), **4 phase/
+  16 task, 4/16 hoàn thành**; tiếp theo **W7-05**. Phase A DONE / Gate A PASS;
   numeric risk policy giữ **DEFERRED/OFF**.
-  - [ ] Phase A, W7-01–04: W7-01–03 DONE; còn tái kiểm train PIT (04).
+  - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [ ] Phase B, W7-05–09: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API.
   - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
@@ -713,6 +713,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   global/pairwise support, đơn vị/null/coverage/visibility, cặp so sánh,
   subgroup ready và nomination theo W6-04; 14 oracle số học cho Phase B.
   Chưa triển khai selector hoặc đọc outcome holdout; Gate A còn W7-04.
+- **W7-04, 13/10/2026:** verifier production dựng lại **852 replay/651 query**,
+  so bằng toàn bộ report train v2; model prefix/scaler, purge/mature và
+  **9 test train/PIT (3 leakage) PASS**. Diagnostics không đổi: giữ 121
+  barrier, 263 C rỗng/null, readiness và nhóm không phơi nhiễm; không API
+  hoặc chọn candidate. 2.317 file bằng chứng nguyên byte; code/runtime khớp
+  mốc bốn gate W6-16. **Gate A PASS**, tiếp theo W7-05, Phase B còn TODO.
 - **Nhiệm vụ cụ thể**:
   - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
