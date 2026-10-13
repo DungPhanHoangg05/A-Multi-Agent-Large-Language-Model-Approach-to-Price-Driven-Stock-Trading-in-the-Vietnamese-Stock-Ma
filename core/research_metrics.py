@@ -85,9 +85,13 @@ def branch_metrics(points: list[dict[str, Any]], name: str) -> dict[str, Any]:
             "risk": cycle_risk(account["period_returns"] if account is not None else [])}
 
 
-def research_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+def research_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]], *,
+                    binding: dict[str, Any] | None = None) -> dict[str, Any]:
     """Chỉ lấy common support; chỉ primary khi đủ bốn mã của cohort đã khóa."""
     if plan["matrix"] == "research_candidates_v1":
+        if binding is not None:
+            from core.paired_candidate_report import paired_candidate_report
+            return paired_candidate_report(plan, points, binding)
         return candidate_report(plan, points)
     matrix = list(PRIOR_BRANCH_MODES) + (["bayesian_v2"] if plan["matrix"] == "research_v2" else [])
     stocks, complete = {}, True

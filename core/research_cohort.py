@@ -12,6 +12,7 @@ from uuid import uuid4, UUID
 import pandas as pd
 
 from agents.decision_agent import create_final_trade_decider
+from core.backtest_engine import PRIOR_BRANCH_MODES
 from core.bayesian_memory import atomic_write_json, read_json, SYMBOLS
 from core.execution_prices import execution_prices_for_cycle
 from core.prior_backtest import canonical_hash, evaluate_point, ROOT
@@ -185,6 +186,99 @@ def v2_point(runner: Any, document: dict[str, Any], config: dict[str, Any], path
     return result
 
 
+def _report_prior(inputs: dict[str, Any] | None = None, *,
+                  saved: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Chiếu dữ liệu đã verify sang coverage; không suy readiness từ action của LLM."""
+    from core.bayesian_retriever import PREFIX_METRICS
+    result = {"stats_ready": None, "examples_ready": None, "fallback": None,
+        "retrieved_ids": [], "visible_example_ids": [], "visible_metric_ids": [],
+        "reason_codes": [], "prefix_sha256": None, "request_sha256": None, "base_evidence_sha256": None}
+    if saved is not None and "evidence" in saved:
+        evidence, request = saved["evidence"], saved["request"]
+        if request is not None:
+            view = request["trace"]
+            result.update(stats_ready=evidence["gate"]["stats_ready"], examples_ready=evidence["gate"]["examples_ready"],
+                fallback=view["fallback_to_original"], retrieved_ids=evidence["selection"]["metadata"]["selected_ids"],
+                visible_example_ids=view["visible_example_ids"], visible_metric_ids=view["visible_metric_ids"],
+                reason_codes=view["reason_codes"], request_sha256=request["request_sha256"],
+                base_evidence_sha256=request["base_evidence_sha256"])
+            prefix = request["prefix"]
+        else:
+            prefix = format_evidence_prefix(evidence)
+            result.update(stats_ready=evidence["status"] == "READY", examples_ready=evidence["status"] == "READY",
+                fallback=not bool(prefix), retrieved_ids=evidence["selected_ids"],
+                visible_example_ids=evidence["selected_ids"] if prefix else [],
+                visible_metric_ids=[key for key in PREFIX_METRICS if prefix and evidence["metrics"][key]["posterior_mean"] is not None],
+                reason_codes=evidence["reason_codes"], base_evidence_sha256=evidence["evidence_sha256"])
+    elif inputs is not None:
+        prefix, stats = inputs["bayesian_prior_context"], inputs["prior_stats"]
+        ids = [r["episode_id"] for r in inputs["prior_tasks"]]
+        metrics = [key for key in PREFIX_METRICS if prefix and stats is not None and stats["metrics"][key]["denominator"] > 0]
+        reason = inputs["prior_metadata"].get("reason")
+        result.update(stats_ready=bool(metrics), examples_ready=bool(ids),
+            fallback=not bool(prefix) and inputs["prior_config"]["k"] > 0, retrieved_ids=ids,
+            visible_example_ids=ids if prefix else [], visible_metric_ids=metrics,
+            reason_codes=[reason] if reason else [])
+    else:
+        return result
+    result["prefix_sha256"] = hashlib.sha256(prefix.encode("utf-8")).hexdigest()
+    return copy_prior_json(result)
+
+
+def _candidate_report_inputs(runner: Any, plan: dict[str, Any], root: Path,
+                             signature: str, extra_point: Any) -> tuple[dict[str, list[dict[str, Any]]], dict[str, Any]]:
+    """Nạp mọi slot đã được runner verify, kể cả partial; chấm từng nhánh complete riêng."""
+    records, hashes = {}, {}
+    names = plan["candidate_registry"]["order"]
+    def pin(path: Path) -> None:
+        hashes[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+    pin(safe_path(root, "cohort.json"))
+    for symbol, days in plan["symbol_cutoffs"].items():
+        child = safe_path(root, f"v1/{symbol}")
+        pin(child / "run_manifest.json")
+        frame, events = runner.adapter.execution_data(symbol)
+        records[symbol] = []
+        for day in days:
+            pid = f"{symbol}-{day}"
+            path = safe_path(child, f"points/{pid}.json")
+            base = read_document(path, runner.schema, "point")
+            pin(path)
+            journal = safe_path(child, f"responses/{pid}.json")
+            if journal.exists():
+                pin(journal)
+            point = runner.adapter.prepare(symbol, day)
+            features = point.price_features()
+            doc = deepcopy(base)
+            views = {name:_report_prior(branch["input"]) for name,branch in base["branches"].items()}
+            for name in names:
+                cpath = safe_path(root, f"candidates/{name}/{pid}.json")
+                saved = read_envelope(cpath)
+                pin(cpath)
+                extended = extra_point(base, root, name, signature, verify_only=True) if base["status"] == "complete" else None
+                if extended is not None:
+                    doc["branches"][name] = extended["branches"][name]
+                    doc["evaluation"]["branches"][name] = extended["evaluation"]["branches"][name]
+                else:
+                    attempts = saved.get("attempts", [])
+                    doc["branches"][name] = {"status": "unknown" if attempts else "planned", "decision": None, "error": None}
+                views[name] = _report_prior(saved=saved)
+            # Point v1 chưa seal vẫn có thể có các Decision complete đã verify.
+            for name, branch in doc["branches"].items():
+                if branch["status"] != "complete":
+                    continue
+                evaluation = evaluate_point(frame, events, day, {key:branch for key in PRIOR_BRANCH_MODES})
+                if doc["evaluation"] is None:
+                    doc["evaluation"] = {**evaluation, "branches": {}}
+                doc["evaluation"]["branches"][name] = evaluation["branches"]["original"]
+            doc["report_context"] = {"regime": point.market_regime["regime_name"],
+                "feature_status": features["status"], "feature_reasons": features["reasons"], "prior": views}
+            records[symbol].append(doc)
+    return records, {"run_signature": signature, "execution_mode": runner.mode,
+        "plan_sha256": canonical_hash(plan), "registry_sha256": canonical_hash(plan["candidate_registry"]),
+        "code_sha256": plan["code_sha256"], "runtime": plan["runtime"], "sources": runner.adapter.source_hashes,
+        "price_index": plan["price_index"], "model": plan["inputs"].get("model"), "checkpoint_sha256": hashes}
+
+
 def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: list[str] | None = None,
                resume: bool = False, verify_only: bool = False, reconcile: bool = False,
                authorize_replay: str | None = None, replay_reason: str | None = None,
@@ -352,6 +446,8 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                 result = runner.run(symbol, output_dir=child, cutoffs=tuple(plan["symbol_cutoffs"][symbol]),
                     resume=exists, verify_only=not selected, reconcile=reconcile,
                     authorize_replay=None, replay_reason=None, **({"callback": callback} if callback else {}))
+                if candidate_mode:
+                    continue
                 for item in result["point_files"]:
                     document = read_document(safe_path(child, item["path"]), runner.schema, "point")
                     for name in extra_names:
@@ -364,7 +460,10 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                         document = extended
                     if document is not None:
                         records.setdefault(symbol, []).append(document)
-            report = research_report(plan, records)
+            binding = None
+            if candidate_mode:
+                records, binding = _candidate_report_inputs(runner, plan, root, signature, extra_point)
+            report = research_report(plan, records, binding=binding)
             report["run_signatures"] = [signature, *identity["children"].values()]
             if not verify_only and not reconcile:
                 save_envelope(safe_path(root, "report.json"), report)
