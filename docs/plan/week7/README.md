@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A DONE / Gate A PASS; 4/16 task hoàn thành, Phase B/C/D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-05**.
+**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 5/16 task hoàn thành; Phase C/D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-06**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -27,8 +27,9 @@ Các artifact bắt đầu nằm trong `outputs/bayesian_benchmark/`:
 ở mục W6-16 của README W6. Artifact runtime gitignore; cần giữ nguồn local
 đã khóa để tái lập. Không sao chép receipt sang tài liệu mới.
 
-**Khoảng trống cần triển khai:** báo cáo hiện tại có metric theo candidate
-và common support nhưng chưa phải bộ lựa chọn đầy đủ theo quy tắc W6-04.
+**Khoảng trống cần triển khai:** W7-05 đã có report v4 global/pairwise,
+metric/coverage theo mã/regime và verifier; phân tích W7-06 và bộ lựa chọn
+đầy đủ theo W6-04 còn chờ triển khai.
 CLI ứng viên hiện chỉ nhận fixture/development_2023; cần consumer/validator
 có version cho lựa chọn và manifest holdout. Không coi các tên artifact
 dự kiến dưới đây là schema hoặc chức năng đã tồn tại.
@@ -339,7 +340,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | A | W7-02 | Khóa phạm vi train/development và protocol validation | 01 | [x] DONE |
 | A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [x] DONE |
 | A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [x] DONE |
-| B | W7-05 | Hoàn thiện report common support và metric | Gate A | [ ] TODO |
+| B | W7-05 | Hoàn thiện report common support và metric | Gate A | [x] DONE |
 | B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [ ] TODO |
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [ ] TODO |
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [ ] TODO |
@@ -449,6 +450,44 @@ còn chờ 05–09, chưa có candidate được chọn hoặc mở lượt API 
 - **Đầu ra:** report có version và verifier tái tính từ checkpoint gốc.
 - **Đạt khi:** oracle số học độc lập PASS; sửa outcome, support hoặc thứ tự
   ngày bị phát hiện; JSON native/finite, nhóm thiếu dữ liệu giữ null/reason.
+
+##### Implementation report v4, 13/10/2026
+
+**W7-05 DONE.** `research_cohort` nạp mọi slot đã verify, kể cả point
+v1 chưa seal hoặc candidate chưa xong; đánh giá riêng từng Decision complete
+bằng cùng economic engine. `research_metrics.research_report` nối sang
+`core/paired_candidate_report.py`, giữ producer/reader legacy v2/v3.
+
+- Report `research_report_v4` có G đủ 11 nhánh, S của **19 cặp** đã khóa,
+  excluded point/reason, metrics và CASH reference trên cùng support theo
+  mã/regime. Return/MDD và delta giữ đơn vị/độ chính xác W7-03; primary là
+  trung bình đều bốn mã, partial giữ null/provisional.
+- Count complete/pending/failed/unknown phân hoạch planned; retry đã phục
+  hồi không đếm lại. Coverage tách readiness, visible/off, feature và lỗi;
+  chưa có evidence giữ unknown, request chưa complete không tăng exposure.
+  Readiness dùng gate của base evidence, visibility dùng content mode thực;
+  stats_only vẫn exposed khi có metric visible dù không có example.
+- Binding khóa plan/registry/code/runtime/model/index/nguồn và hash các
+  checkpoint/journal dùng tính. Loader/verifier dựng lại từ checkpoint đã
+  kiểm, so cả support/metric/thứ tự ngày; artifact tự băm lại không đủ.
+  CLI mới `--verify-report --plan PLAN --output-dir RUN` kiểm cả report đã
+  lưu và telemetry, offline không key/API. `--verify-only` vẫn dựng lại
+  report từ checkpoint; report thiếu/stale cần đối soát, không tự ghi đè.
+- Giữ nguyên artifact W6. Code identity đã đổi: plan/train/performance cũ
+  thuộc checkout `a87091d`; không sửa hash để nhận code mới. W7-09 khóa
+  plan/run và bằng chứng theo code cuối trước API; chưa tạo plan thật mới.
+
+Disagreement/prior-use/ablation chi tiết thuộc W7-06, selector thuộc W7-07;
+report v4 chưa phải quyết định lựa chọn hoặc bằng chứng hiệu quả LLM.
+
+**Nghiệm thu:** compileall/E2E, **795 unit/148 leakage PASS**, không skip;
+**14 test trọng tâm PASS**, gồm 11 test mới (2 leakage). Oracle xác nhận
+equity 50→55→44→52,8 triệu: return 5,6%/MDD 20%; khi mất chu kỳ −20%,
+G trả 32% còn cặp đủ S vẫn 5,6%, primary thiếu giữ null. Kiểm cả trung bình
+đều mã, CASH/nhóm rỗng/null, stats_only, pending/failed/unknown, report tự
+băm lại và CLI offline; 44 Decision/4 upstream, verify/resume không gọi lại
+complete. **2.317 file bằng chứng nguyên byte**, chưa chạy API hoặc tạo
+plan/run dữ liệu thật mới. **Gate B còn W7-06–09**, tiếp theo W7-06.
 
 #### W7-06 — Phân tích disagreement, prior-use và ablation
 
@@ -623,6 +662,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 12/10/2026 | W7-02 | DONE, 2/16; protocol mục 2.1 khóa vai trò 651 query train/60 điểm development/64 holdout, model/client/registry và amendment trước API. Đối chiếu cấu hình nguồn/code, checklist/liên kết/hash PASS; chỉ ba Markdown, kế thừa bốn gate W6-16 của cùng code/runtime. Gate A còn 03–04 | W7-03 |
 | 12/10/2026 | W7-03 | DONE, 3/16; hợp đồng report/support/đơn vị/null, visibility, cặp/ablation/ca bất lợi và nomination tại mục 2.2; 14 oracle fixture kiểm số học/biên PASS. Chỉ ba Markdown; 2.317 file nguyên byte, cùng code/runtime kế thừa bốn gate W6-16. Gate A còn 04 | W7-04 |
 | 13/10/2026 | W7-04 | DONE, 4/16; Phase A DONE / Gate A PASS. Verifier production dựng lại 852 replay/651 query, report v2 khớp đầy đủ; purge/mature/scaler/prefix và 9 test train/PIT (3 leakage) PASS. Diagnostics không đổi, 2.317 file nguyên byte; readiness chưa là exposure Decision, không API/holdout | W7-05 |
+| 13/10/2026 | W7-05 | DONE, 5/16; Phase B IN_PROGRESS. Report v4 nối checkpoint partial, G/19 cặp S, metric/coverage theo mã/regime, binding và CLI verifier; giữ legacy v2/v3. Compileall/E2E, 795 unit/148 leakage PASS, không skip; 11 test mới, 14 trọng tâm PASS. 2.317 file nguyên byte; identity mới khóa ở 09 trước API, Gate B còn 06–09 | W7-06 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

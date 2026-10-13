@@ -72,6 +72,7 @@ def main() -> None:
     mode.add_argument("--preflight", action="store_true", help="Kiểm text và vision thật qua transport có pacing")
     mode.add_argument("--run", action="store_true", help="Chạy pilot sau preflight thành công")
     mode.add_argument("--verify-only", action="store_true", help="Kiểm semantic checkpoint, không LLM")
+    mode.add_argument("--verify-report", action="store_true", help="Tái dựng checkpoint và đối chiếu toàn report cohort, không LLM")
     mode.add_argument("--reconcile", action="store_true", help="Đối soát journal offline, không gọi LLM")
     mode.add_argument("--design-calendar", action="store_true", help="Lập lịch mẫu/pilot/smoke offline, chưa tạo plan chạy")
     mode.add_argument("--validate-train", action="store_true", help="Chẩn đoán train PIT offline, không Decision/API")
@@ -102,6 +103,10 @@ def main() -> None:
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    if args.verify_report:
+        if args.plan is None:
+            parser.error("--verify-report cần --plan cohort và report.json đã lưu")
+        args.verify_only = True
     if args.benchmark_prior or args.verify_performance:
         allowed = {"--benchmark-prior", "--verify-performance", "--performance-report"}
         if any(token.split("=", 1)[0] not in allowed for token in sys.argv[1:] if token.startswith("--")):
@@ -299,6 +304,9 @@ def execute_cohort(args: argparse.Namespace) -> None:
                 from core.research_metrics import http_telemetry
                 from core.research_cohort import save_envelope
                 result["telemetry"] = http_telemetry(pacer.state["requests"], result["run_signatures"], pacer.state.get("invocations"))
+                if getattr(args, "verify_report", False):
+                    from core.paired_candidate_report import read_report
+                    read_report(args.output_dir / "report.json", result)
                 if args.run:
                     save_envelope(args.output_dir / "report.json", result)
             print(json.dumps(result, ensure_ascii=False, indent=2))

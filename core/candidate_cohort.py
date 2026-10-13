@@ -28,7 +28,8 @@ PLAN_VERSION = "research_cohort_plan_v3"
 CANDIDATES = ("C0", *CANDIDATE_PROFILES)
 CODE_FILES = tuple(sorted(set((*CODE_PATHS, "core/candidate_cohort.py", "core/prior_prompt.py",
     "core/pit_price_features.py", "core/price_feature_index.py", "core/prior_price_similarity.py",
-    "core/prior_example_selection.py", "core/prior_conditional_statistics.py", "core/prior_quality_gate.py"))))
+    "core/prior_example_selection.py", "core/prior_conditional_statistics.py", "core/prior_quality_gate.py",
+    "core/paired_candidate_report.py"))))
 
 
 def registry() -> dict[str, Any]:

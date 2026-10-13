@@ -140,8 +140,14 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
         calls, events = self.llm.calls, list(self.events)
         self.assertEqual(calls, 8)
         verified = self.runner.run_cohort(self.plan, output_dir=self.output, verify_only=True)
+        self.assertEqual(verified["report_version"], "research_report_v4")
         self.assertEqual(verified["stocks"]["FPT"]["completed"], 0)
         self.assertTrue(all(m["sample_count"] == 0 for m in verified["stocks"]["FPT"]["metrics"].values()))
+        stock = verified["stocks"]["FPT"]
+        self.assertEqual(stock["pairwise_support"]["C0__original"]["count"], 1)
+        self.assertEqual(stock["coverage"]["C2"]["complete"], 1)
+        self.assertEqual(stock["coverage"]["C3"]["pending"], 1)
+        self.assertEqual(stock["coverage"]["C3"]["readiness_unknown"], 1)
         self.runner.run_cohort(self.plan, output_dir=self.output, symbols=["FPT"], resume=True)
         self.assertEqual(self.llm.calls, calls + 3)
         self.assertEqual(self.events, events)
@@ -163,6 +169,9 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
         self.assertEqual(len(unknown), 1)
         self.assertEqual(unknown[0]["branch"], "C2")
         self.assertEqual(self.llm.calls, calls)
+        verified = self.runner.run_cohort(self.plan, output_dir=self.output, verify_only=True)
+        self.assertEqual(verified["stocks"]["FPT"]["coverage"]["C2"]["unknown"], 1)
+        self.assertEqual(verified["stocks"]["FPT"]["coverage"]["C2"]["prior_visible_count"], 0)
         self.runner.run_cohort(self.plan, output_dir=self.output, reconcile=True,
             authorize_replay=unknown[0]["attempt_id"], replay_reason="Đối soát fixture; cho replay đúng UUID")
         self.runner.run_cohort(self.plan, output_dir=self.output, resume=True, symbols=["FPT"])
@@ -260,14 +269,22 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
         self.refresh_adapter()
         plan = prepare_candidate_plan(self.parent, path, self.adapter, index_path="index.json")
         ledger = self.fx.root / "ledger.json"
-        self.runner.run_cohort(plan, output_dir=self.output, symbols=["FPT"], ledger_path=ledger)
+        result = self.runner.run_cohort(plan, output_dir=self.output, symbols=["FPT"], ledger_path=ledger)
+        from core.research_metrics import http_telemetry
+        result["telemetry"] = http_telemetry([], result["run_signatures"], {})
+        save_envelope(self.output / "report.json", result)
         calls = self.llm.calls
         with patch.object(cli, "ROOT", self.fx.root), patch.object(cli, "build_adapter", return_value=self.adapter), \
              patch("core.pilot_readiness.sha_file", return_value="a"), patch.object(cli, "make_builder", return_value=self.builder), \
              patch.object(cli, "PriorBacktestRunner", return_value=self.runner), \
              patch.object(cli, "dotenv_values", side_effect=AssertionError("Cấm key")), \
              patch("socket.socket.connect", side_effect=AssertionError("Cấm HTTP")):
-            for mode in ("--verify-only", "--reconcile"):
+            for mode in ("--verify-only", "--reconcile", "--verify-report"):
                 with patch("sys.argv", ["runner", mode, "--plan", str(path), "--output-dir", str(self.output), "--ledger", str(ledger)]):
                     cli.main()
+            changed = deepcopy(result)
+            changed["stocks"]["FPT"]["global_common_support"]["count"] = 999
+            save_envelope(self.output / "report.json", changed)
+            with patch("sys.argv", ["runner", "--verify-report", "--plan", str(path), "--output-dir", str(self.output), "--ledger", str(ledger)]), self.assertRaisesRegex(ValueError, "Report khác"):
+                cli.main()
         self.assertEqual(self.llm.calls, calls)

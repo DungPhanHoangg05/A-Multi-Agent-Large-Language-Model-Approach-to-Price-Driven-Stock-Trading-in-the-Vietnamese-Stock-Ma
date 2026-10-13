@@ -684,16 +684,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 4/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 5/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 13/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 4/16 hoàn thành**; tiếp theo **W7-05**. Phase A DONE / Gate A PASS;
+  16 task, 5/16 hoàn thành**; tiếp theo **W7-06**. Gate A PASS, Phase B IN_PROGRESS;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [ ] Phase B, W7-05–09: report/ablation, selector, consumer holdout,
-    hồi quy và khóa code/run development trước API.
+    hồi quy và khóa code/run development trước API; 05 DONE, còn 06–09.
   - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
     quyết định ứng viên bằng tiêu chí W6-04.
   - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
@@ -719,6 +719,13 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   barrier, 263 C rỗng/null, readiness và nhóm không phơi nhiễm; không API
   hoặc chọn candidate. 2.317 file bằng chứng nguyên byte; code/runtime khớp
   mốc bốn gate W6-16. **Gate A PASS**, tiếp theo W7-05, Phase B còn TODO.
+- **W7-05, 13/10/2026:** report v4 từ checkpoint đã verify (kể cả partial),
+  G đủ 11 nhánh/S của 19 cặp, return/MDD/common support và coverage theo
+  mã/regime; binding/loader/CLI `--verify-report`, giữ legacy v2/v3.
+  Compileall/E2E, **795 unit/148 leakage PASS**, không skip; 14 test trọng
+  tâm PASS, 2.317 file nguyên byte. Chưa API/holdout/selector; plan/train/
+  performance cũ giữ identity checkout trước thay đổi, W7-09 khóa bản mới.
+  **5/16 DONE**, Gate B còn 06–09; tiếp theo W7-06.
 - **Nhiệm vụ cụ thể**:
   - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
