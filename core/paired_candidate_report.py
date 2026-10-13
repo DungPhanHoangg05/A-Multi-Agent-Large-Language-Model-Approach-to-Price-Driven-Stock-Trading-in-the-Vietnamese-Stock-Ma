@@ -95,12 +95,18 @@ def _metric(rows: list[dict[str, Any]], name: str) -> dict[str, Any]:
 
 def paired_candidate_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]],
                             binding: dict[str, Any]) -> dict[str, Any]:
+    """Consumer development v5; holdout phải đi qua protocol/consumer riêng."""
+    return _paired_candidate_report(plan, points, binding, splits=("fixture", "development_2023"))
+
+
+def _paired_candidate_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]],
+                             binding: dict[str, Any], *, splits: tuple[str, ...]) -> dict[str, Any]:
     """Tái dựng tài khoản trên G/S và nhóm regime; chỉ nhận snapshot đã verify."""
     from core.research_metrics import action_attribution
     plan, points, binding = (copy_prior_json(value) for value in (plan, points, binding))
     names = plan["candidate_registry"]["order"]
     matrix = [*PRIOR_BRANCH_MODES, *names]
-    if plan["split"] not in ("fixture", "development_2023"):
+    if plan["split"] not in splits:
         raise ValueError("Report ứng viên chưa mở holdout; cần protocol có selection binding")
     if (set(binding) != {"run_signature", "execution_mode", "plan_sha256", "registry_sha256", "code_sha256",
                         "runtime", "sources", "price_index", "model", "checkpoint_sha256"}
@@ -203,7 +209,7 @@ def paired_candidate_report(plan: dict[str, Any], points: dict[str, list[dict[st
 
 def verify_report(report: dict[str, Any], expected: dict[str, Any]) -> None:
     """So toàn semantic với bản dựng lại từ checkpoint đã verify, kể cả thứ tự list."""
-    if report.get("report_version") not in ("research_report_v2", "research_report_v3", "research_report_v4", VERSION):
+    if report.get("report_version") not in ("research_report_v2", "research_report_v3", "research_report_v4", VERSION, "research_report_v6"):
         raise ValueError("Version report nghiên cứu không được hỗ trợ")
     if canonical_hash(copy_prior_json(report)) != canonical_hash(copy_prior_json(expected)):
         raise ValueError("Report khác checkpoint/nguồn, support, metric hoặc thứ tự ngày tái dựng")

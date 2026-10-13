@@ -94,8 +94,10 @@ def main() -> None:
     parser.add_argument("--resume", action="store_true", help="Phục hồi run năm nhánh, không dùng runner Memory Bank")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs/pilot_fpt_run")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
-    parser.add_argument("--plan", type=Path, help="Envelope plan cohort v2/v3 đã khóa; parent khi prepare ứng viên")
+    parser.add_argument("--plan", type=Path, help="Envelope plan cohort v2/v3/v4 đã khóa; nguồn khi prepare")
     parser.add_argument("--candidate-plan", type=Path, help="Đường plan v3 mới khi --prepare --plan PARENT")
+    parser.add_argument("--holdout-plan", type=Path, help="Đường plan v4 mới khi prepare từ plan development đã verify")
+    parser.add_argument("--development-run", type=Path, help="Run development chứa report và selection đã khóa")
     parser.add_argument("--price-index", default="outputs/bayesian_benchmark/price_features/candidate_index_v1.json",
                         help="Index phụ cho prepare ứng viên; đường tương đối workspace")
     parser.add_argument("--candidate-split", choices=("fixture", "development_2023"),
@@ -108,7 +110,11 @@ def main() -> None:
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
     selection_mode = args.select_candidate or args.verify_selection
-    if (args.technical_gates is not None or args.selection_output != "candidate_selection_v1.json") and not selection_mode:
+    holdout_prepare = args.prepare and args.plan is not None and args.holdout_plan is not None
+    if args.holdout_plan is not None or args.development_run is not None:
+        if not holdout_prepare or args.development_run is None or args.candidate_plan or args.candidate_split:
+            parser.error("Holdout cần --prepare --plan DEVELOPMENT --holdout-plan NEW --development-run RUN")
+    if (args.technical_gates is not None or args.selection_output != "candidate_selection_v1.json") and not (selection_mode or holdout_prepare):
         parser.error("Cờ quyết định chỉ dùng với --select-candidate hoặc --verify-selection")
     if selection_mode:
         if not args.plan or args.symbol or args.resume or args.authorize_replay or args.replay_reason:
@@ -240,7 +246,7 @@ def execute_cohort(args: argparse.Namespace) -> None:
     from core.research_cohort import read_envelope, validate_plan
     from core.research_invocation import ENABLED, invocation_scope
     from core.pilot_readiness import sha_file
-    if args.prepare and not args.candidate_plan:
+    if args.prepare and not args.candidate_plan and not getattr(args, "holdout_plan", None):
         raise ValueError("Plan cohort phải được khóa trước; không tự chọn lịch hoặc ngưỡng")
     if args.output_dir.resolve() == (ROOT / "outputs/pilot_fpt_run").resolve():
         raise ValueError("Cohort mới cần --output-dir riêng khỏi pilot W4")
@@ -258,6 +264,14 @@ def execute_cohort(args: argparse.Namespace) -> None:
         raise ValueError("Nguồn/model/tin khác plan đã khóa")
     adapter = build_adapter(inputs)
     if args.prepare:
+        if getattr(args, "holdout_plan", None):
+            from core.holdout_protocol import prepare_holdout_plan, selection_binding
+            from core.prior_run_lock import safe_path
+            binding = selection_binding(ROOT, args.plan, args.development_run,
+                safe_path(args.development_run, args.selection_output), args.technical_gates, args.ledger)
+            prepare_holdout_plan(args.holdout_plan, adapter, binding)
+            print(f"Plan holdout v4 đã khóa tại {args.holdout_plan}; chưa tạo manifest hoặc gọi API", flush=True)
+            return
         from core.candidate_cohort import prepare_candidate_plan
         plan = prepare_candidate_plan(args.plan, args.candidate_plan, adapter,
             index_path=args.price_index, split=args.candidate_split)

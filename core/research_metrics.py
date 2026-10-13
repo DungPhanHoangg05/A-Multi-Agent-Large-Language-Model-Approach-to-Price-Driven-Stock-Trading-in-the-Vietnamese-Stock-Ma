@@ -88,6 +88,11 @@ def branch_metrics(points: list[dict[str, Any]], name: str) -> dict[str, Any]:
 def research_report(plan: dict[str, Any], points: dict[str, list[dict[str, Any]]], *,
                     binding: dict[str, Any] | None = None) -> dict[str, Any]:
     """Chỉ lấy common support; chỉ primary khi đủ bốn mã của cohort đã khóa."""
+    if plan["matrix"] == "selection_bound_holdout_v1":
+        if binding is None:
+            raise ValueError("Report holdout cần binding checkpoint đã verify")
+        from core.holdout_protocol import holdout_report
+        return holdout_report(plan, points, binding)
     if plan["matrix"] == "research_candidates_v1":
         if binding is not None:
             from core.paired_candidate_report import paired_candidate_report

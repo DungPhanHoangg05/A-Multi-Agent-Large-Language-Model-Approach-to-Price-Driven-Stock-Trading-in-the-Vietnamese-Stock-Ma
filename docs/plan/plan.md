@@ -684,16 +684,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 7/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 8/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 13/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 7/16 hoàn thành**; tiếp theo **W7-08**. Gate A PASS, Phase B IN_PROGRESS;
+  16 task, 8/16 hoàn thành**; tiếp theo **W7-09**. Gate A PASS, Phase B IN_PROGRESS;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [ ] Phase B, W7-05–09: report/ablation, selector, consumer holdout,
-    hồi quy và khóa code/run development trước API; 05–07 DONE, còn 08–09.
+    hồi quy và khóa code/run development trước API; 05–08 DONE, còn 09.
   - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
     quyết định ứng viên bằng tiêu chí W6-04.
   - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
@@ -743,6 +743,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   tâm, gồm 22 test mới (4 leakage). **2.317 file nguyên byte**; chưa API/
   nomination development thật hoặc mở holdout. **7/16 DONE**, Gate B còn
   08–09; tiếp theo W7-08.
+- **W7-08, 13/10/2026:** protocol/CLI holdout v4 xác minh lại development
+  checkpoint/report/selection/gate trước API; lịch 64 điểm kế thừa checksum
+  W5, registry/model/economic contract giữ nguyên. Checkpoint/identity riêng,
+  11 nhánh, report v6 gắn primary cố định/control/ablation và cấm chọn lại
+  bằng holdout. **837 unit/156 leakage, compileall/E2E PASS**, không skip;
+  10 fixture mới (4 leakage), 9 hồi quy report PASS. **200 file Python đúng
+  bản kiểm thử, 2.317 file bằng chứng nguyên byte**; chưa API/nomination/
+  manifest holdout thật. **8/16 DONE**, Gate B còn 09; tiếp theo W7-09.
 - **Nhiệm vụ cụ thể**:
   - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;

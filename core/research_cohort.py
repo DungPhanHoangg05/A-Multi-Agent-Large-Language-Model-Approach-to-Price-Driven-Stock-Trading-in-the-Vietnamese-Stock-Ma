@@ -38,9 +38,12 @@ def save_envelope(path: Path, payload: dict[str, Any]) -> None:
     atomic_write_json(path, {"payload": payload, "sha256": canonical_hash(payload)})
 
 
-def validate_plan(plan: dict[str, Any], adapter: Any) -> Any:
+def validate_plan(plan: dict[str, Any], adapter: Any, *, development_runner: Any = None) -> Any:
     """Schema plan mới; kiểm lịch/entry/exit trước API, không đưa nhãn vào query."""
     copy_prior_json(plan)
+    if plan.get("plan_version") == "research_cohort_plan_v4":
+        from core.holdout_protocol import validate_holdout_plan
+        return validate_holdout_plan(plan, adapter, development_runner=development_runner)
     if plan.get("plan_version") == "research_cohort_plan_v3":
         from core.candidate_cohort import validate_candidate_plan
         index = validate_candidate_plan(plan, adapter)
@@ -294,10 +297,18 @@ def _candidate_report_inputs(runner: Any, plan: dict[str, Any], root: Path,
 def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: list[str] | None = None,
                resume: bool = False, verify_only: bool = False, reconcile: bool = False,
                authorize_replay: str | None = None, replay_reason: str | None = None,
-               ledger_path: Path | None = None) -> dict[str, Any]:
+               ledger_path: Path | None = None, development_runner: Any = None) -> dict[str, Any]:
     """Điều phối tuần tự bốn mã, reuse checkpoint/kiểm semantic v1 và bổ sung Decision v2."""
-    index = validate_plan(plan, runner.adapter)
-    candidate_mode = plan["plan_version"] == "research_cohort_plan_v3"
+    holdout = plan["plan_version"] == "research_cohort_plan_v4"
+    if holdout and plan.get("split") == "fixture" and runner.mode != "offline_fixture":
+        raise ValueError("Fixture holdout không được dùng runner/API thật")
+    index = validate_plan(plan, runner.adapter, development_runner=development_runner)
+    if holdout:
+        development_run = safe_path(runner.adapter._files.root, plan["selection_binding"]["development_run"])
+        output = Path(output_dir).resolve()
+        if output.is_relative_to(development_run) or development_run.is_relative_to(output):
+            raise ValueError("Holdout cần output riêng khỏi development")
+    candidate_mode = plan["plan_version"] in ("research_cohort_plan_v3", "research_cohort_plan_v4")
     if candidate_mode:
         if not runner.durable_stages:
             raise ValueError("Ứng viên cần durable stage journal")
@@ -340,6 +351,8 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
     if candidate_mode:
         identity.update(identity_version="research_cohort_identity_v3", versions=plan["candidate_registry"],
                         code_sha256=plan["code_sha256"], runtime=plan["runtime"])
+        if holdout:
+            identity["identity_version"] = "research_cohort_identity_v4"
     signature = canonical_hash(identity)
     root = Path(output_dir).resolve()
     manifest = safe_path(root, "cohort.json")
@@ -364,7 +377,7 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                     for cutoff in cutoffs:
                         pid = f"{symbol}-{cutoff}"
                         for name in extra_names:
-                            slot = candidate_slot(signature, pid, name) if candidate_mode else {
+                            slot = candidate_slot(signature, pid, name, holdout=holdout) if candidate_mode else {
                                 "checkpoint_version": "research_decision_slot_v2", "run_signature": signature, "point_id": pid}
                             save_envelope(branch_path(root, pid, name), slot)
             save_envelope(manifest, identity)
@@ -415,7 +428,7 @@ def run_cohort(runner: Any, plan: dict[str, Any], output_dir: Path, *, symbols: 
                         vpath = branch_path(root, doc["point_id"], name)
                         vdoc = read_envelope(vpath)
                         if doc["status"] != "complete":
-                            slot = candidate_slot(signature, doc["point_id"], name) if candidate_mode else {
+                            slot = candidate_slot(signature, doc["point_id"], name, holdout=holdout) if candidate_mode else {
                                 "checkpoint_version": "research_decision_slot_v2", "run_signature": signature, "point_id": doc["point_id"]}
                             if vdoc != slot:
                                 raise ValueError("Decision bổ sung đã chạy trước Full/v1 complete")
