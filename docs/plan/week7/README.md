@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 5/16 task hoàn thành; Phase C/D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-06**.
+**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 6/16 task hoàn thành; Phase C/D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-07**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -341,7 +341,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | A | W7-03 | Đặc tả report ghép cặp và quy tắc lựa chọn | 02 | [x] DONE |
 | A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [x] DONE |
 | B | W7-05 | Hoàn thiện report common support và metric | Gate A | [x] DONE |
-| B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [ ] TODO |
+| B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [x] DONE |
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [ ] TODO |
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [ ] TODO |
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [ ] TODO |
@@ -498,6 +498,40 @@ plan/run dữ liệu thật mới. **Gate B còn W7-06–09**, tiếp theo W7-06
   để kiểm lại, gồm cả kết quả thuận lợi/bất lợi trên nhiều mã/ngày.
 - **Đạt khi:** không chọn riêng ca FPT 20/02; không ép model theo prior,
   không thêm LLM judge hoặc suy ra nhân quả từ trace tự báo cáo.
+
+##### Implementation phân tích prior, 13/10/2026
+
+Report `research_report_v5` bổ sung `prior_disagreement_analysis_v1` từ
+checkpoint đã verify, theo toàn cohort, từng mã và từng regime PIT:
+
+- **19 cặp** có bảng action 2×2 và disagreement/mẫu số. Subgroup prior-off
+  dùng nhánh A khi so Original, cả A/B ở các cặp khác; retrieved riêng lẻ
+  không là exposure, unknown/pending không được coi CASH. Tài khoản và
+  Δreturn/ΔMDD của subgroup được dựng lại trên cùng support từng mã.
+- Ba C3 được so trên G và T **stats_ready AND examples_ready**; kiểm cùng
+  base hash/readiness và contract active trên T. T rỗng giữ NO_SUPPORT/null;
+  cohort chỉ gộp count, không ghép tài khoản của các mã thành portfolio.
+- Giữ mọi ca complete với point ID/ngày/mã/regime, raw action, economic
+  outcome, retrieved/visible IDs, hash và trace. Cờ bất lợi xét mean đầy đủ
+  của metric visible/ready theo ngưỡng 03; ghi support/CrI và LONG trên tập
+  có cờ. Metric ẩn/null và tỷ lệ v1 không có posterior giữ N/A.
+- Trace bắt buộc thiếu/sai IDs là lỗi integrity; contract legacy giữ N/A.
+  NOT_USED hợp lệ và được giữ nguyên, không ép hướng hoặc thêm LLM judge.
+  Trace hợp lệ chỉ xác nhận schema/IDs, không chứng minh model dùng prior.
+- `--verify-report` tái dựng cả phân tích, phát hiện sửa count, support,
+  metric hoặc trace rồi tự băm lại; reader giữ version v2/v3/v4. Module mới
+  được ghim vào code identity; artifact W6 và plan cũ giữ nguyên.
+
+**W7-06 DONE:** compileall/E2E, **805 unit/148 leakage PASS**, không skip;
+**20 kiểm thử trọng tâm PASS**, toàn suite gồm **10 test mới** về phân tích.
+Oracle kiểm disagreement hai chiều, prior-off/unknown, ngưỡng 0,5 đầy đủ,
+metric ẩn/N/A, support điều kiện và trace thiếu/sai. Tài khoản ba chu kỳ
+return 5,6% được dựng lại thành 32% trên T bỏ chu kỳ −20%; giữ ca thuận/bất
+lợi ở cả bốn mã/ba ngày, không chỉ một pilot. Checkpoint/CLI verify và
+resume không gọi lại Decision complete; report tự băm lại vẫn bị chặn khi
+sửa phân tích. **2.317 file bằng chứng nguyên byte**, chưa chạy API/
+development thật, chọn ứng viên hoặc đọc outcome holdout.
+**W7 đạt 6/16; Gate B còn W7-07–09**, tiếp theo W7-07.
 
 #### W7-07 — Bộ chọn ứng viên và artifact quyết định có verifier
 
