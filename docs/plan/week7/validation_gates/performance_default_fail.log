@@ -1,0 +1,41 @@
+Đã kiểm nguồn PIT và hash bằng chứng; bắt đầu cold load.
+bayesian_regime: p95 retrieval=24.865 ms; gate=PASS
+random: p95 retrieval=23.315 ms; gate=PASS
+recent: p95 retrieval=24.006 ms; gate=PASS
+similarity: p95 retrieval=29.419 ms; gate=PASS
+v1_train_same_symbol/retrieval: p95=5.372 ms
+v1_train_same_symbol/prefix: p95=0.156 ms
+v1_train_same_symbol/retrieval_and_prefix: p95=5.765 ms
+v1_train_same_symbol/feature_retrieval_and_prefix: p95=5.781 ms
+v1_train_same_symbol: p95 retrieval=5.372 ms; gate=PASS
+C0/retrieval: p95=11.340 ms
+C0/prefix: p95=3.323 ms
+C0/retrieval_and_prefix: p95=14.931 ms
+C0/feature_retrieval_and_prefix: p95=15.098 ms
+C0: p95 retrieval=11.340 ms; gate=PASS
+C1/retrieval: p95=33.898 ms
+C1/prefix: p95=39.301 ms
+C1/retrieval_and_prefix: p95=68.941 ms
+C1/feature_retrieval_and_prefix: p95=136.012 ms
+C1: p95 retrieval=33.898 ms; gate=FAIL
+C2/retrieval: p95=30.683 ms
+C2/prefix: p95=42.437 ms
+C2/retrieval_and_prefix: p95=71.639 ms
+C2/feature_retrieval_and_prefix: p95=139.281 ms
+C2: p95 retrieval=30.683 ms; gate=FAIL
+C3/retrieval: p95=31.625 ms
+C3/prefix: p95=46.262 ms
+C3/retrieval_and_prefix: p95=80.238 ms
+C3/feature_retrieval_and_prefix: p95=144.377 ms
+C3: p95 retrieval=31.625 ms; gate=FAIL
+C3_stats_only/retrieval: p95=33.124 ms
+C3_stats_only/prefix: p95=45.674 ms
+C3_stats_only/retrieval_and_prefix: p95=77.880 ms
+C3_stats_only/feature_retrieval_and_prefix: p95=131.640 ms
+C3_stats_only: p95 retrieval=33.124 ms; gate=FAIL
+C3_examples_only/retrieval: p95=31.880 ms
+C3_examples_only/prefix: p95=51.014 ms
+C3_examples_only/retrieval_and_prefix: p95=75.156 ms
+C3_examples_only/feature_retrieval_and_prefix: p95=143.489 ms
+C3_examples_only: p95 retrieval=31.880 ms; gate=FAIL
+Hiệu năng prior: FAIL; report=outputs\bayesian_benchmark\prior_performance_v3.json
