@@ -29,7 +29,8 @@ CANDIDATES = ("C0", *CANDIDATE_PROFILES)
 CODE_FILES = tuple(sorted(set((*CODE_PATHS, "core/candidate_cohort.py", "core/prior_prompt.py",
     "core/pit_price_features.py", "core/price_feature_index.py", "core/prior_price_similarity.py",
     "core/prior_example_selection.py", "core/prior_conditional_statistics.py", "core/prior_quality_gate.py",
-    "core/paired_candidate_report.py", "core/prior_disagreement_analysis.py", "core/candidate_selection.py"))))
+    "core/paired_candidate_report.py", "core/prior_disagreement_analysis.py", "core/candidate_selection.py",
+    "core/holdout_protocol.py"))))
 
 
 def registry() -> dict[str, Any]:
@@ -155,9 +156,9 @@ def validate_candidate_plan(plan: dict[str, Any], adapter: Any) -> Any:
     return index
 
 
-def candidate_slot(signature: str, point_id: str, name: str) -> dict[str, str]:
+def candidate_slot(signature: str, point_id: str, name: str, *, holdout: bool = False) -> dict[str, str]:
     """Slot từng nhánh phải tồn tại trước bất kỳ request của cohort."""
-    return {"checkpoint_version": "candidate_decision_slot_v1", "run_signature": signature,
+    return {"checkpoint_version": "holdout_candidate_slot_v1" if holdout else "candidate_decision_slot_v1", "run_signature": signature,
             "point_id": point_id, "candidate_id": name}
 
 
@@ -216,11 +217,12 @@ def candidate_point(runner: Any, document: dict[str, Any], plan: dict[str, Any],
         request = build_prior_request(evidence, name, runner.adapter._retriever,
             selector=runner.adapter._price_example_selectors[index.identity], query_features=point.price_features())
         prefix = request["prefix"]
-    binding = {"checkpoint_version": "candidate_decision_v1", "run_signature": signature,
+    holdout = plan["plan_version"] == "research_cohort_plan_v4"
+    binding = {"checkpoint_version": "holdout_candidate_decision_v1" if holdout else "candidate_decision_v1", "run_signature": signature,
         "point_id": document["point_id"], "candidate_id": name,
         "shared_sha256": document["shared"]["shared_sha256"], "evidence": evidence, "request": request}
     saved = read_envelope(path)
-    if saved == candidate_slot(signature, document["point_id"], name):
+    if saved == candidate_slot(signature, document["point_id"], name, holdout=holdout):
         saved = {**binding, "prompt": None, "attempts": []}
     elif (set(saved) != {*binding, "prompt", "attempts"}
             or any(digest(saved[k]) != digest(v) for k, v in binding.items())):

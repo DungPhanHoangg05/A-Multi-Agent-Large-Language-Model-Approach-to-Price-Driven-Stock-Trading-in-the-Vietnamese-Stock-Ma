@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 7/16 task hoàn thành; Phase C/D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-08**.
+**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 8/16 task hoàn thành; Phase C/D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-09**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -62,8 +62,8 @@ Plan development đúng lịch W5: FPT 12, MWG/VCB/VNM 16 mỗi mã; chưa có
 | Phân tích v1 | `scripts/analyze_prior_run.py:audit_points/analyze_run` | Có audit kinh tế/disagreement Original–Bayesian; không coi đây là phân tích sáu ứng viên hoặc selector W7, chỉ tái dùng phần phù hợp |
 | Durable checkpoint | `run_cohort/candidate_point`, `PriorCheckpointStore`, `StageJournal` → verify/reconcile/resume | Có intent/raw/semantic/UUID replay và Full dùng chung; verify/reconcile chỉ dùng sau khi run đã có `cohort.json`, dry-run chưa tạo run |
 | Hiệu năng | `core/prior_performance.py:benchmark` → `verify_report/run_performance` | Có raw samples, kiểm nguồn/semantic và guard hot I/O/refit; audit chỉ verify report v2, không đo lại hoặc sửa kết quả W6-15 |
-| Quyết định lựa chọn | Chưa có producer/loader/verifier cho nomination hoặc selection binding | D đã có trong report nhưng chưa đủ eligibility/ΔMDD/tie-break/NOT_PROMOTED; W7-07 mới triển khai, chưa có candidate được chọn |
-| Holdout ứng viên | CLI `--candidate-split` và `validate_candidate_plan` chỉ nhận fixture/development_2023 | Legacy plan v2 có holdout nhưng không thay được giao thức 11 nhánh có selection binding; W7-08 bổ sung phiên bản mới, không đổi v3 thành v2 để vượt guard |
+| Quyết định lựa chọn | `candidate_selection_v1` có producer/loader/verifier, bind report/checkpoint/nguồn/gate | Chưa có nomination development thật; fixture luôn BLOCKED / NOT_APPLICABLE |
+| Holdout ứng viên | Protocol v4 có selection binding, checkpoint riêng và report v6; v3 vẫn chỉ fixture/development | Chưa tạo manifest holdout thật; chỉ chuẩn bị sau Gate C ở W7-14 |
 | API guard | CLI `execute_cohort` → retry, `GroqPacer`, ledger và run lock hiện hữu | Chỉ preflight/run đọc key; giữ `request_admission_v2`/ledger chung. Khả dụng model/API chưa được xác nhận; người dùng kiểm ở W7-10 |
 
 **Ràng buộc identity:** code/runtime W5 trong lock/checkpoint là lịch sử,
@@ -344,7 +344,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | B | W7-05 | Hoàn thiện report common support và metric | Gate A | [x] DONE |
 | B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [x] DONE |
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [x] DONE |
-| B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [ ] TODO |
+| B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [x] DONE |
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [ ] TODO |
 | C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [ ] TODO |
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [ ] TODO |
@@ -599,6 +599,39 @@ holdout. **W7 đạt 7/16; Gate B còn W7-08–09**, tiếp theo W7-08.
   resume và source tampering PASS; không có selection hợp lệ thì chặn trước
   API. Chưa tạo/chạy manifest holdout nguồn thật hoặc xem outcome 2024.
 
+**Consumer:** `core/holdout_protocol.py` khóa schema `research_cohort_plan_v4`,
+matrix `selection_bound_holdout_v1` và identity v4. Selection binding gồm
+plan/run development, selection và receipt gate theo checksum, cùng ledger.
+Verifier dựng lại development v3 từ checkpoint bằng transport cấm mạng,
+đối chiếu toàn report/selection/gate trước API. Plan giữ registry/model/index,
+hợp đồng kinh tế và lịch holdout **64 điểm W5** nguyên checksum; validator
+v3 vẫn chỉ nhận fixture/development. Thiếu selection, BLOCKED hoặc identity/
+nguồn khác đều chặn holdout thật. NOT_PROMOTED giữ research candidate làm
+primary nghiên cứu, deployment vẫn Original.
+
+CLI prepare dùng `--prepare --plan DEVELOPMENT --holdout-plan NEW
+--development-run RUN --technical-gates RECEIPT --output-dir HOLDOUT_RUN`, đọc selection đã khóa
+trong RUN (tên mặc định `candidate_selection_v1.json`; đổi bằng
+`--selection-output`). Các chế độ dry-run/preflight/run/verify-report/
+reconcile/resume tiếp tục dùng `--plan` v4 và output riêng. Prepare chỉ
+ghi plan, không tạo manifest; **chỉ chuẩn bị plan thật ở W7-14 sau Gate C**.
+
+Checkpoint candidate có version `holdout_candidate_slot_v1` /
+`holdout_candidate_decision_v1`, vẫn tái dùng journal upstream đã kiểm.
+Report v6 công bố selection binding, primary cố định, control/ablation và
+`HOLDOUT_NOT_FOR_SELECTION`; selector development không nhận v6. Fixture
+chỉ dùng C3 cố định để kiểm protocol, giữ nomination BLOCKED /
+`NOT_APPLICABLE`, không thay thế selection thật và không đổi thành 2024.
+
+**W7-08 DONE:** compileall/E2E, **837 unit/156 leakage PASS**, không skip.
+**10 fixture mới (4 leakage)** và 9 hồi quy report PASS: bốn mã/44 Decision,
+một Full/point, cap, crash sau durable, unknown/replay đúng UUID, source/
+selection/report tự băm lại và CLI không key/HTTP. Kiểm byte checkpoint/
+report/selection loại riêng audit owner/phục hồi khóa OS vốn thay đổi sau
+mỗi lần verify. **200 file Python khớp bản kiểm thử; 2.317 file bằng chứng
+nguyên byte**. Chưa chạy API, đề cử development thật, tạo manifest hoặc xem
+outcome holdout thật. **W7 đạt 8/16; Gate B còn W7-09**, tiếp theo W7-09.
+
 #### W7-09 — Hồi quy trước API và khóa run development
 
 - **Làm:** hoàn tất code từ 05–08, chạy bốn gate kỹ thuật và fault matrix;
@@ -742,6 +775,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 12/10/2026 | W7-03 | DONE, 3/16; hợp đồng report/support/đơn vị/null, visibility, cặp/ablation/ca bất lợi và nomination tại mục 2.2; 14 oracle fixture kiểm số học/biên PASS. Chỉ ba Markdown; 2.317 file nguyên byte, cùng code/runtime kế thừa bốn gate W6-16. Gate A còn 04 | W7-04 |
 | 13/10/2026 | W7-04 | DONE, 4/16; Phase A DONE / Gate A PASS. Verifier production dựng lại 852 replay/651 query, report v2 khớp đầy đủ; purge/mature/scaler/prefix và 9 test train/PIT (3 leakage) PASS. Diagnostics không đổi, 2.317 file nguyên byte; readiness chưa là exposure Decision, không API/holdout | W7-05 |
 | 13/10/2026 | W7-05 | DONE, 5/16; Phase B IN_PROGRESS. Report v4 nối checkpoint partial, G/19 cặp S, metric/coverage theo mã/regime, binding và CLI verifier; giữ legacy v2/v3. Compileall/E2E, 795 unit/148 leakage PASS, không skip; 11 test mới, 14 trọng tâm PASS. 2.317 file nguyên byte; identity mới khóa ở 09 trước API, Gate B còn 06–09 | W7-06 |
+| 13/10/2026 | W7-08 | DONE, 8/16; protocol v4 bắt buộc selection đã verify, lịch W5 giữ checksum, 11 nhánh và report v6 gắn primary/control/ablation. Compileall/E2E, 837 unit/156 leakage PASS; 200 file Python đúng bản kiểm thử, 2.317 file bằng chứng nguyên byte. Chỉ fixture, chưa manifest holdout thật; Gate B còn 09 | W7-09 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
