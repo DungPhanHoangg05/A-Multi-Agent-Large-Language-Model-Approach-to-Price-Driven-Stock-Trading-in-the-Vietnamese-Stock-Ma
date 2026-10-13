@@ -289,9 +289,19 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
              patch.object(cli, "PriorBacktestRunner", return_value=self.runner), \
              patch.object(cli, "dotenv_values", side_effect=AssertionError("Cấm key")), \
              patch("socket.socket.connect", side_effect=AssertionError("Cấm HTTP")):
-            for mode in ("--verify-only", "--reconcile", "--verify-report"):
+            for mode in ("--verify-only", "--reconcile", "--verify-report", "--select-candidate", "--verify-selection"):
                 with patch("sys.argv", ["runner", mode, "--plan", str(path), "--output-dir", str(self.output), "--ledger", str(ledger)]):
                     cli.main()
+            selection_path = self.output / "candidate_selection_v1.json"
+            selection = read_envelope(selection_path)
+            self.assertEqual(selection["nomination_status"],"BLOCKED")
+            self.assertIsNone(selection["research_candidate"])
+            self.assertEqual(selection["binding"]["technical_gates"]["status"],"NOT_VERIFIED")
+            changed_selection = deepcopy(selection)
+            changed_selection.update(nomination_status="PROMOTED",research_candidate="C0")
+            save_envelope(selection_path,changed_selection)
+            with patch("sys.argv", ["runner", "--verify-selection", "--plan", str(path), "--output-dir", str(self.output), "--ledger", str(ledger)]), self.assertRaisesRegex(ValueError, "Quyết định khác"):
+                cli.main()
             changed = deepcopy(result)
             changed["stocks"]["FPT"]["global_common_support"]["count"] = 999
             save_envelope(self.output / "report.json", changed)
