@@ -64,11 +64,11 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   verify/resume tại [W6-16 trong README W6](docs/plan/week6/README.md).
   Người dùng tự chạy API khi W7 mở validation/chọn ứng viên/khóa ma trận;
   W8 mới benchmark 2024. Chưa có kết luận hiệu quả LLM hoặc chọn theo holdout.
-  **W7 Gate A PASS, Phase B IN_PROGRESS: 6/16 task**, chi tiết tại
-  [README W7](docs/plan/week7/README.md). W7-06 có report v5: disagreement
-  19 cặp, prior-off, ca bất lợi/trace và ablation G/T theo mã/regime;
-  compileall/E2E, **805 unit/148 leakage PASS**, bằng chứng W6 nguyên byte.
-  Tiếp theo **W7-07**; khóa code/plan mới ở 09 trước API development,
+  **W7 Gate A PASS, Phase B IN_PROGRESS: 7/16 task**, chi tiết tại
+  [README W7](docs/plan/week7/README.md). W7-07 có bộ chọn/verifier v1:
+  eligibility, D/MDD/tie và NOT_PROMOTED/BLOCKED; CLI select/verify offline,
+  fixture không đề cử thật. Compileall/E2E, **827 unit/152 leakage PASS**,
+  bằng chứng W6 nguyên byte. Tiếp theo **W7-08**; khóa code/plan mới ở 09 trước API development,
   risk policy giữ OFF, chưa có candidate được chọn.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test

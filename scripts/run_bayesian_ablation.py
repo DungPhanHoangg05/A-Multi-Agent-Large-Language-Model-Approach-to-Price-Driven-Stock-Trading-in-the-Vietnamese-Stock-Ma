@@ -73,6 +73,8 @@ def main() -> None:
     mode.add_argument("--run", action="store_true", help="Chạy pilot sau preflight thành công")
     mode.add_argument("--verify-only", action="store_true", help="Kiểm semantic checkpoint, không LLM")
     mode.add_argument("--verify-report", action="store_true", help="Tái dựng checkpoint và đối chiếu toàn report cohort, không LLM")
+    mode.add_argument("--select-candidate", action="store_true", help="Đề cử development từ checkpoint/report đã verify, không LLM")
+    mode.add_argument("--verify-selection", action="store_true", help="Tái tính và kiểm quyết định ứng viên bất biến, không LLM")
     mode.add_argument("--reconcile", action="store_true", help="Đối soát journal offline, không gọi LLM")
     mode.add_argument("--design-calendar", action="store_true", help="Lập lịch mẫu/pilot/smoke offline, chưa tạo plan chạy")
     mode.add_argument("--validate-train", action="store_true", help="Chẩn đoán train PIT offline, không Decision/API")
@@ -80,6 +82,8 @@ def main() -> None:
     mode.add_argument("--benchmark-prior", action="store_true", help="Đo offline prior public, 100 warm-up/1.000 mẫu mỗi stage")
     mode.add_argument("--verify-performance", action="store_true", help="Kiểm mẫu thô, nguồn/code và semantic report hiệu năng")
     parser.add_argument("--performance-report", type=Path, help="Report hiệu năng bất biến trong outputs/bayesian_benchmark")
+    parser.add_argument("--technical-gates", type=Path, help="Receipt bốn gate đúng code/runtime, kèm log đã khóa")
+    parser.add_argument("--selection-output", default="candidate_selection_v1.json", help="Đường tương đối mới trong output-dir cho quyết định")
     parser.add_argument("--train-report", type=Path, help="Report train bất biến trong outputs/bayesian_benchmark")
     parser.add_argument("--train-index", help="Index train; đường tương đối trong outputs/bayesian_benchmark/price_features")
     parser.add_argument("--coverage", type=Path, default=ROOT / "outputs/bayesian_benchmark/coverage.json")
@@ -103,6 +107,13 @@ def main() -> None:
     parser.add_argument("--quota-policy", choices=QUOTA_POLICIES, default="request_admission_v2",
                         help="Khóa policy cho run mới; v2 kiểm từng request, có thể dừng giữa điểm")
     args = parser.parse_args()
+    selection_mode = args.select_candidate or args.verify_selection
+    if (args.technical_gates is not None or args.selection_output != "candidate_selection_v1.json") and not selection_mode:
+        parser.error("Cờ quyết định chỉ dùng với --select-candidate hoặc --verify-selection")
+    if selection_mode:
+        if not args.plan or args.symbol or args.resume or args.authorize_replay or args.replay_reason:
+            parser.error("Lựa chọn cần --plan toàn cohort, không dùng cờ execute/replay")
+        args.verify_report = True
     if args.verify_report:
         if args.plan is None:
             parser.error("--verify-report cần --plan cohort và report.json đã lưu")
@@ -307,6 +318,12 @@ def execute_cohort(args: argparse.Namespace) -> None:
                 if getattr(args, "verify_report", False):
                     from core.paired_candidate_report import read_report
                     read_report(args.output_dir / "report.json", result)
+                if getattr(args, "select_candidate", False) or getattr(args, "verify_selection", False):
+                    from core.candidate_selection import read_selection, write_selection
+                    from core.prior_run_lock import safe_path
+                    destination = safe_path(args.output_dir, args.selection_output)
+                    operation = read_selection if args.verify_selection else write_selection
+                    result = operation(destination, args.output_dir / "report.json", result, gates_path=args.technical_gates)
                 if args.run:
                     save_envelope(args.output_dir / "report.json", result)
             print(json.dumps(result, ensure_ascii=False, indent=2))

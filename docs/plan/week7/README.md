@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 6/16 task hoàn thành; Phase C/D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-07**.
+**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 7/16 task hoàn thành; Phase C/D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-08**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -306,7 +306,8 @@ không thêm tolerance MDD hoặc làm tròn D để tạo hòa.
 
 #### Oracle số học cho fixture W7-05/07
 
-Đây là kỳ vọng độc lập cho kiểm thử sau, **chưa là selector đã triển khai**.
+Đây là kỳ vọng độc lập đã khóa ở W7-03, dùng kiểm report/bộ chọn W7-05/07;
+không là kết quả nomination bằng dữ liệu thật.
 Trừ dòng nêu khác, giả định gate PASS, đủ 60 điểm/11 nhánh, visibility theo
 FPT/VNM/VCB/MWG là (1,1,2,2), ΔR=(4,2,1,−1) pp và ΔMDD=(5,1,1,1) pp;
 chỉ một candidate được xét. Các vector giữ cùng thứ tự bốn mã.
@@ -342,7 +343,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | A | W7-04 | Tái kiểm train PIT trên phiên bản bàn giao | 03 | [x] DONE |
 | B | W7-05 | Hoàn thiện report common support và metric | Gate A | [x] DONE |
 | B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [x] DONE |
-| B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [ ] TODO |
+| B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [x] DONE |
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [ ] TODO |
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [ ] TODO |
 | C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [ ] TODO |
@@ -542,6 +543,50 @@ development thật, chọn ứng viên hoặc đọc outcome holdout.
 - **Đạt khi:** selector không nhận dữ liệu 2024; fixture kiểm các biên 6/60,
   đủ bốn mã, 60 paired, D=0, ΔMDD=2/5, tie 1e−9, NOT_PROMOTED và tập rỗng;
   tự băm lại quyết định giả không vượt được verifier semantic.
+
+##### Implementation bộ chọn, 13/10/2026
+
+`core/candidate_selection.py` tạo `candidate_selection_v1` theo
+`development_nomination_rules_v1`, giữ nguyên ngưỡng tại mục 2.2:
+
+- Tái đếm G từ trạng thái đủ 11 nhánh, kiểm lịch 12/16/16/16 và exposure
+  từ prefix/visible IDs của Decision complete. D/ΔMDD lấy từ hai tài khoản
+  từng mã, trung bình đều bốn mã; không dùng cached D hoặc retrieved count.
+  Mỗi candidate có conditions/reasons riêng; null phân loại/risk hợp lệ
+  không làm candidate mất eligibility.
+- Xếp riêng tập eligible/promote; tie chỉ quanh D_max, sau đó MDD/ID.
+  NOT_PROMOTED vẫn giữ research candidate, deployment Original; BLOCKED
+  giữ null/Original. Fixture/mock chỉ có `fixture_protocol_result`, artifact
+  cấp trên luôn BLOCKED/NOT_APPLICABLE, không dùng đề cử thật.
+- Binding gồm rule/report/file/checkpoint/plan/registry/code/runtime/
+  source/index/model/gate hashes. CLI dựng lại report từ nguồn/checkpoint,
+  kiểm semantic report rồi tái tính toàn quyết định; tự băm lại artifact
+  sửa eligibility, status, ngưỡng hoặc binding vẫn bị chặn.
+- Hai chế độ offline `--select-candidate` / `--verify-selection` dùng
+  `--plan PLAN --output-dir RUN`, tùy chọn `--technical-gates GATES` và
+  `--selection-output candidate_selection_v1.json`. Output tương đối trong
+  RUN, bất biến/idempotent, không ghi đè quyết định khác. Nếu report/gate
+  thay đổi, dùng đường quyết định mới; không sửa hash để nhận run cũ.
+- Receipt gate có payload `gate_version=research_technical_gates_v1`, `code_sha256`,
+  `runtime`, `checks` đủ compileall/unit/e2e/leakage. Mỗi check có status,
+  exit_code và log path/hash; path tương đối với receipt. PASS cần exit 0,
+  log thành công (unit/leakage không skip), đúng code/runtime của report.
+  Thiếu receipt → NOT_VERIFIED/BLOCKED; gate FAIL/NOT_RUN → BLOCKED;
+  log/hash/identity sai là lỗi integrity. W7-09 khóa receipt theo code cuối,
+  không gán PASS từ log thuộc checkout khác.
+
+**23 kiểm thử trọng tâm PASS**, gồm 22 test mới (4 leakage): các biên lựa
+chọn, tie không nối chuỗi, NOT_PROMOTED, thiếu lớp/không LONG, nguồn thiếu/
+unknown, holdout cutoff/entry/exit, giả mạo artifact và CLI không key/HTTP.
+**W7-07 DONE:** compileall/E2E, **827 unit/152 leakage PASS**, không skip.
+Oracle nhận đúng biên 6/60, D=1,5/mean ΔMDD=2/max=5; D=0, MDD vượt biên,
+thiếu mã dương giữ NOT_PROMOTED; no-exposure/thiếu gate/primary giữ BLOCKED.
+Kiểm cả tie 1e−9 không nối chuỗi, null hợp lệ và NOT_PROMOTED giữ ứng viên
+nghiên cứu/Original deployment. CLI verify tái dựng nguồn và phát hiện
+quyết định/report tự băm lại; các chế độ select/verify không key/HTTP,
+không gọi lại Decision complete. **2.317 file bằng chứng nguyên byte**.
+Chưa đề cử candidate bằng development thật, chạy API hoặc mở manifest
+holdout. **W7 đạt 7/16; Gate B còn W7-08–09**, tiếp theo W7-08.
 
 #### W7-08 — Protocol/CLI holdout có ràng buộc lựa chọn
 

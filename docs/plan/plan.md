@@ -684,16 +684,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 6/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 7/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 13/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 6/16 hoàn thành**; tiếp theo **W7-07**. Gate A PASS, Phase B IN_PROGRESS;
+  16 task, 7/16 hoàn thành**; tiếp theo **W7-08**. Gate A PASS, Phase B IN_PROGRESS;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [ ] Phase B, W7-05–09: report/ablation, selector, consumer holdout,
-    hồi quy và khóa code/run development trước API; 05–06 DONE, còn 07–09.
+    hồi quy và khóa code/run development trước API; 05–07 DONE, còn 08–09.
   - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
     quyết định ứng viên bằng tiêu chí W6-04.
   - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
@@ -734,6 +734,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   **805 unit/148 leakage, compileall/E2E PASS**, không skip, 10 test mới,
   20 test trọng tâm PASS. **2.317 file nguyên byte**; chưa API/holdout/
   selector. **6/16 DONE**, Gate B còn 07–09; tiếp theo W7-07.
+- **W7-07, 13/10/2026:** bộ chọn/loader/verifier `candidate_selection_v1`
+  tái tính support/exposure/D/MDD, eligibility và tie quanh D_max; giữ
+  PROMOTED/NOT_PROMOTED/BLOCKED, research candidate tách deployment.
+  Binding rule/report/checkpoint/plan/registry/code/runtime/source/gate;
+  CLI select/verify offline, output bất biến, fixture không đề cử thật.
+  **827 unit/152 leakage, compileall/E2E PASS**, không skip; 23 test trọng
+  tâm, gồm 22 test mới (4 leakage). **2.317 file nguyên byte**; chưa API/
+  nomination development thật hoặc mở holdout. **7/16 DONE**, Gate B còn
+  08–09; tiếp theo W7-08.
 - **Nhiệm vụ cụ thể**:
   - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
