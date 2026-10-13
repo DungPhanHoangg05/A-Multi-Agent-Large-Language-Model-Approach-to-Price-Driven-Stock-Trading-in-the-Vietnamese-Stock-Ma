@@ -1,0 +1,42 @@
+{"benchmark_condition": "P_CORE_AFFINITY", "original_mask": "0xffffff", "worker_mask": "0xffff", "efficiency_class": 1, "logical_processors": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}
+Đã kiểm nguồn PIT và hash bằng chứng; bắt đầu cold load.
+bayesian_regime: p95 retrieval=14.630 ms; gate=PASS
+random: p95 retrieval=15.436 ms; gate=PASS
+recent: p95 retrieval=14.844 ms; gate=PASS
+similarity: p95 retrieval=18.207 ms; gate=PASS
+v1_train_same_symbol/retrieval: p95=3.463 ms
+v1_train_same_symbol/prefix: p95=0.064 ms
+v1_train_same_symbol/retrieval_and_prefix: p95=3.144 ms
+v1_train_same_symbol/feature_retrieval_and_prefix: p95=3.393 ms
+v1_train_same_symbol: p95 retrieval=3.463 ms; gate=PASS
+C0/retrieval: p95=6.328 ms
+C0/prefix: p95=1.777 ms
+C0/retrieval_and_prefix: p95=7.838 ms
+C0/feature_retrieval_and_prefix: p95=6.934 ms
+C0: p95 retrieval=6.328 ms; gate=PASS
+C1/retrieval: p95=21.039 ms
+C1/prefix: p95=30.692 ms
+C1/retrieval_and_prefix: p95=49.798 ms
+C1/feature_retrieval_and_prefix: p95=89.645 ms
+C1: p95 retrieval=21.039 ms; gate=PASS
+C2/retrieval: p95=21.674 ms
+C2/prefix: p95=29.451 ms
+C2/retrieval_and_prefix: p95=45.154 ms
+C2/feature_retrieval_and_prefix: p95=69.261 ms
+C2: p95 retrieval=21.674 ms; gate=PASS
+C3/retrieval: p95=14.593 ms
+C3/prefix: p95=21.297 ms
+C3/retrieval_and_prefix: p95=40.951 ms
+C3/feature_retrieval_and_prefix: p95=85.128 ms
+C3: p95 retrieval=14.593 ms; gate=PASS
+C3_stats_only/retrieval: p95=21.073 ms
+C3_stats_only/prefix: p95=28.683 ms
+C3_stats_only/retrieval_and_prefix: p95=43.740 ms
+C3_stats_only/feature_retrieval_and_prefix: p95=85.215 ms
+C3_stats_only: p95 retrieval=21.073 ms; gate=PASS
+C3_examples_only/retrieval: p95=17.808 ms
+C3_examples_only/prefix: p95=23.982 ms
+C3_examples_only/retrieval_and_prefix: p95=41.566 ms
+C3_examples_only/feature_retrieval_and_prefix: p95=78.660 ms
+C3_examples_only: p95 retrieval=17.808 ms; gate=PASS
+Hiệu năng prior: PASS; report=outputs\bayesian_benchmark\prior_performance_v4.json

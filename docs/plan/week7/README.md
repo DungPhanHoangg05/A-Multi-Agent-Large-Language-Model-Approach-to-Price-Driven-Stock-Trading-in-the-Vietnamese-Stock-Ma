@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A DONE / Gate A PASS; Phase B IN_PROGRESS, 8/16 task hoàn thành; Phase C/D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-09**.
+**Trạng thái: Phase A/B DONE / Gate A/B PASS, 9/16 task hoàn thành; Phase C/D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-10**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -345,7 +345,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | B | W7-06 | Phân tích disagreement, prior-use và ablation | 05 | [x] DONE |
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [x] DONE |
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [x] DONE |
-| B | W7-09 | Hồi quy trước API và khóa run development | 08 | [ ] TODO |
+| B | W7-09 | Hồi quy trước API và khóa run development | 08 | [x] DONE |
 | C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [ ] TODO |
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [ ] TODO |
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [ ] TODO |
@@ -644,6 +644,152 @@ outcome holdout thật. **W7 đạt 8/16; Gate B còn W7-09**, tiếp theo W7-09
   retrieval p95<30 ms theo protocol W6-15; prefix/feature/cold báo riêng.
   Đo lại khi phiên bản/điều kiện đo không còn phù hợp, giữ cả lượt FAIL.
 
+##### Artifact và điều kiện nghiệm thu
+
+Production/test giữ nguyên từ commit `5bd4cfc`, Python **3.13.5**; không
+đổi registry/K=3/seed=42/model/client/economic contract. Train v3 tạo và
+verify đủ **852 replay/651 query**; so với v2 chỉ khác `code_sha256`, giữ
+nguyên nguồn, fold/scaler, 121 barrier, 263 C rỗng/null và các nhóm không
+phơi nhiễm. Readiness chưa phải exposure hoặc hiệu quả Decision thật.
+
+Plan development v2 prepare/dry-run **4/4 mã PASS**, giữ **60 điểm/11 nhánh**:
+FPT 12, MWG/VCB/VNM 16 mỗi mã. Sáu ca tự băm lại plan sai code/runtime/
+registry/model/lịch/nguồn đều chặn trước key/API; tokenizer cache hợp lệ.
+Output mới trống, chưa khởi tạo `cohort.json` hoặc chạy Decision.
+
+**Hiệu năng:** giữ cả lượt v3 mặc định **FAIL** và lượt v4 **PASS trên
+worker P-core**. Trên i7-14650HX này, CPU Sets cho class 1 ở logical 0–15;
+worker v4 ghim mask `0xFFFF`, thay cho mask mặc định `0xFFFFFF`. Chỉ affinity
+của worker thay đổi, không đổi power plan toàn máy, priority, code/dữ liệu,
+warm-up/mẫu/ngưỡng, không bỏ outlier hoặc cache đáp án. Đây là điều kiện
+đo được kiểm soát, không phải cải tiến thuật toán hoặc chứng nhận p95 ở
+mọi cấu hình máy. Cách diễn giải CPU class/affinity theo
+[Microsoft CPU Sets](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-system_cpu_set_information)
+và [process affinity](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask).
+Giữ [log mặc định FAIL](validation_gates/performance_default_fail.log) và
+[log v4 có mask worker](validation_gates/performance_controlled.log) để
+đối chiếu điều kiện đo; report JSON giữ nguyên schema producer hiện hữu.
+
+Cùng **651 query**, same_symbol, **100 warm-up/1.000 mẫu** mỗi mode/stage;
+p95 nearest-rank. Ngưỡng **<30 ms chỉ áp dụng retrieval**. Producer và
+verifier v4 **PASS**, kiểm toàn nguồn/semantic/percentile từ mẫu thô;
+verifier không đo lại hoặc ghi report. Bốn gate mới **PASS**, không skip:
+compileall, **837 unit/156 leakage**, E2E. [Receipt kỹ thuật](validation_gates/technical_gates_v1.json)
+được consumer kiểm theo code/runtime và SHA-256 của cả bốn log; SHA byte
+receipt `7515ec6b195a2557f218e00028c169fb70d865ad68d2ce7f9a178df4cc3766a4`.
+Audit sau kiểm thử: **200 file Python** đúng bản đã chạy, **2.317 file cũ**
+và **bốn artifact mới** nguyên byte. **W7-09 DONE / Gate B PASS; W7 đạt 9/16.**
+Chưa gọi API, chạy Decision, đề cử ứng viên hoặc tạo manifest holdout thật.
+
+| Cấu hình | Retrieval v3 mặc định ms | Retrieval v4 P-core ms | Prefix v4 ms | Retrieval+prefix v4 ms | Feature RAM+retrieval+prefix v4 ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Bayesian v1 | 5,372 | 3,463 | 0,064 | 3,145 | 3,393 |
+| C0 | 11,340 | 6,328 | 1,777 | 7,838 | 6,934 |
+| C1 | 33,898 | 21,039 | 30,692 | 49,798 | 89,646 |
+| C2 | 30,683 | 21,675 | 29,451 | 45,155 | 69,261 |
+| C3 | 31,625 | 14,593 | 21,297 | 40,951 | 85,128 |
+| C3_stats_only | 33,124 | 21,074 | 28,683 | 43,740 | 85,215 |
+| C3_examples_only | 31,880 | 17,808 | 23,982 | 41,566 | 78,660 |
+
+Baseline legacy 16 context/hai scope có p95 retrieval v3 **23,315–29,419 ms**,
+v4 **14,630–18,207 ms**, đều PASS; không gộp với v1 cùng 651 query trong
+bảng. Feature extractor RAM v4 p95 **47,525 ms**. Cold tách riêng: adapter
+**10,459 s**, index load/semantic rebuild **27,940 s**, tái tạo/fit index
+độc lập **27,164 s**, chuẩn bị nguồn tổng **67,491 s**, parity trước timer
+**63,063 s**. Không I/O/refit/LLM trong hot query; Decision=0.
+
+Các artifact runtime dưới `outputs/bayesian_benchmark/` thuộc gitignore;
+giữ cùng nguồn local. SHA-256 byte đã khóa:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `train_validation_v3.json` | `233d41ab74bbb2b60bef9ec60ec5b13cf3eaac38d6d0f158d75e6751431dee62` |
+| `development_candidate_plan_v2.json` | `e0c32d272d93bd7b3fa87c08c6a70b4851d2cdcbd620675976b4e9c8f7e95960` |
+| `prior_performance_v3.json` — FAIL mặc định | `32f328e06d907fdc404f6c9afb8cc475fbbd64eb4ecf79692b9ed954842b9c08` |
+| `prior_performance_v4.json` — PASS P-core | `e80560da6d8af18cfd63ba849de73b4c40b035095c033380d601a8be7f33e801` |
+
+Khi cần tái đo, dùng tên mới và không chạy unit/gate đồng thời. Lệnh sau
+chỉ tái lập điều kiện **máy này** (P-core 0–15); máy khác cần kiểm CPU Sets
+trước, không mặc định dùng cùng mask. `start /b /wait /affinity` áp mask
+cho worker, không mở cửa sổ mới ([Microsoft start](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/start)).
+
+```powershell
+cmd /d /c 'start "" /b /wait /affinity FFFF py -3.13 -X utf8 scripts/run_bayesian_ablation.py --benchmark-prior --performance-report outputs/bayesian_benchmark/prior_performance_v5.json'
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-performance --performance-report outputs/bayesian_benchmark/prior_performance_v5.json
+```
+
+##### Lệnh development theo bản đóng băng
+
+Chạy từ gốc repository. Dùng tên artifact mới; các bản W6/v1/v2 lịch sử
+giữ nguyên byte. Đổi code/nguồn/model cần khóa lại plan/output và gate;
+không sửa checksum để tiếp tục run cũ. API/model chỉ được người dùng xác
+nhận bằng preflight ở W7-10. Risk policy giữ OFF.
+
+```powershell
+$trainReport = "outputs/bayesian_benchmark/train_validation_v3.json"
+$trainIndex = "outputs/bayesian_benchmark/price_features/train_validation_index_v1.json"
+$performanceReport = "outputs/bayesian_benchmark/prior_performance_v4.json"
+$candidatePlan = "outputs/bayesian_benchmark/development_candidate_plan_v2.json"
+$candidateRun = "outputs/bayesian_benchmark/development_candidate_run_v2"
+$priceIndex = "outputs/bayesian_benchmark/price_features/candidate_index_v1.json"
+$technicalGates = "docs/plan/week7/validation_gates/technical_gates_v1.json"
+$ledger = "outputs/oos_pilot/api_usage.json"
+
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-train --train-report $trainReport --train-index $trainIndex
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-performance --performance-report $performanceReport
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --prepare --plan outputs/bayesian_benchmark/smoke_plan.json --candidate-plan $candidatePlan --candidate-split development_2023 --price-index $priceIndex --output-dir $candidateRun
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --dry-run --plan $candidatePlan --output-dir $candidateRun
+$cohortArgs = @("--plan", $candidatePlan, "--output-dir", $candidateRun, "--ledger", $ledger, "--quota-policy", "request_admission_v2")
+```
+
+Các lệnh trên offline. Prepare chỉ tạo/đối chiếu plan; không tạo cohort
+manifest hoặc gọi Decision. Receipt `$technicalGates` được selector đọc
+ở W7-12; chưa chạy selector khi development chưa đủ 60 điểm thật.
+
+**Người dùng thực hiện ở W7-10 sau Gate B PASS.** Cần tokenizer cache đúng
+checksum và key riêng trong `.env`; nếu thiếu cache, chạy
+`py -3.13 scripts/prepare_groq_tokenizer.py` trước. Giữ ledger chung khi
+đổi key. Chạy từng lệnh, chỉ sang mã tiếp theo sau exit code 0:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --preflight @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "Preflight chưa PASS; chưa chạy development." }
+
+# Chỉ lượt đầu khi chưa có cohort.json dùng lệnh không --resume.
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --symbol FPT @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "FPT dừng; kiểm verify/reconcile rồi resume FPT." }
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol MWG @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "MWG dừng; kiểm verify/reconcile rồi resume MWG." }
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol VCB @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "VCB dừng; kiểm verify/reconcile rồi resume VCB." }
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol VNM @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "VNM dừng; kiểm verify/reconcile rồi resume VNM." }
+
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only @cohortArgs
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-report @cohortArgs
+```
+
+Khi đã có `cohort.json`, mọi lượt chạy tiếp cần `--resume`. Verify và
+reconcile không gọi API, kiểm toàn cohort kể cả mã không được chọn.
+Nếu dừng trước khi ghi report cuối, dùng verify-only/reconcile trước;
+verify-report chỉ PASS khi report đã lưu khớp checkpoint hiện tại.
+
+```powershell
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --verify-only @cohortArgs
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --reconcile @cohortArgs
+# Chỉ thay UUID sau khi đã đối soát attempt thực và quyết định cho replay.
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --reconcile --authorize-replay "UUID_DA_DOI_SOAT" --replay-reason "Lý do đối soát attempt thực" @cohortArgs
+# Sau đối soát, chỉ chạy lệnh resume của mã cần hoàn tất.
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol FPT @cohortArgs
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol MWG @cohortArgs
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol VCB @cohortArgs
+py -3.13 -X utf8 scripts/run_bayesian_ablation.py --run --resume --symbol VNM @cohortArgs
+```
+
+Unknown giữ reserve, không tự replay. Chờ hết quota/cooldown, giữ ledger,
+lock và lịch gốc; response complete được tái dùng. Không đổi plan/code
+sau API nếu chưa có amendment và lượt kiểm lại phù hợp.
+
 **Gate B:** 05–09 DONE, bốn gate PASS, công cụ phân tích/lựa chọn/holdout đã
 có consumer và fixture; plan development hiện tại dry-run PASS. Chốt code
 trước API để tránh kết quả development mất khả năng verify sau đổi code.
@@ -776,6 +922,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 13/10/2026 | W7-04 | DONE, 4/16; Phase A DONE / Gate A PASS. Verifier production dựng lại 852 replay/651 query, report v2 khớp đầy đủ; purge/mature/scaler/prefix và 9 test train/PIT (3 leakage) PASS. Diagnostics không đổi, 2.317 file nguyên byte; readiness chưa là exposure Decision, không API/holdout | W7-05 |
 | 13/10/2026 | W7-05 | DONE, 5/16; Phase B IN_PROGRESS. Report v4 nối checkpoint partial, G/19 cặp S, metric/coverage theo mã/regime, binding và CLI verifier; giữ legacy v2/v3. Compileall/E2E, 795 unit/148 leakage PASS, không skip; 11 test mới, 14 trọng tâm PASS. 2.317 file nguyên byte; identity mới khóa ở 09 trước API, Gate B còn 06–09 | W7-06 |
 | 13/10/2026 | W7-08 | DONE, 8/16; protocol v4 bắt buộc selection đã verify, lịch W5 giữ checksum, 11 nhánh và report v6 gắn primary/control/ablation. Compileall/E2E, 837 unit/156 leakage PASS; 200 file Python đúng bản kiểm thử, 2.317 file bằng chứng nguyên byte. Chỉ fixture, chưa manifest holdout thật; Gate B còn 09 | W7-09 |
+| 13/10/2026 | W7-09 | DONE, 9/16; Gate B PASS. Train v3 852 replay/651 query, plan development v2 60 điểm/11 nhánh và dry-run bốn mã PASS; sáu ca integrity chặn trước API. Retrieval v4 P-core p95 6,328–21,675 ms PASS, giữ v3 mặc định FAIL. Bốn gate mới PASS (837 unit/156 leakage), receipt/log đúng code/runtime; 200 Python, 2.317 bằng chứng cũ và bốn artifact mới nguyên byte. Chưa API/Decision/selection/manifest holdout thật | W7-10 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

@@ -64,13 +64,16 @@ chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợ
   verify/resume tại [W6-16 trong README W6](docs/plan/week6/README.md).
   Người dùng tự chạy API khi W7 mở validation/chọn ứng viên/khóa ma trận;
   W8 mới benchmark 2024. Chưa có kết luận hiệu quả LLM hoặc chọn theo holdout.
-  **W7 Gate A PASS, Phase B IN_PROGRESS: 8/16 task**, chi tiết tại
-  [README W7](docs/plan/week7/README.md). W7-08 có protocol/CLI holdout v4:
-  bắt buộc selection development đã verify, kế thừa lịch W5, giữ 11 nhánh
-  và report v6 với primary/control/ablation. Compileall/E2E,
-  **837 unit/156 leakage PASS**, bằng chứng W6 nguyên byte; chưa tạo manifest
-  holdout thật. Tiếp theo **W7-09**; khóa code/plan mới trước API development,
-  risk policy giữ OFF, chưa có candidate được chọn.
+  **W7 Gate A/B PASS, Phase A/B DONE: 9/16 task**, chi tiết tại
+  [README W7](docs/plan/week7/README.md). W7-09 khóa train v3
+  **852 replay/651 query**, plan development v2 **60 điểm/11 nhánh**,
+  prepare/dry-run bốn mã PASS. Retrieval v4 **P-core p95 6,328–21,675 ms PASS**;
+  giữ lượt v3 mặc định FAIL và ghi rõ điều kiện đo. Bốn gate mới PASS:
+  compileall/E2E, **837 unit/156 leakage**, receipt/log đúng code/runtime.
+  200 file Python đúng bản kiểm thử; 2.317 file cũ và bốn artifact mới
+  nguyên byte. Tiếp theo **W7-10: người dùng chạy API development** theo
+  lệnh đã chuẩn bị. Chưa API/Decision/selection/manifest holdout thật;
+  risk policy giữ OFF.
 
 Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
 được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).
