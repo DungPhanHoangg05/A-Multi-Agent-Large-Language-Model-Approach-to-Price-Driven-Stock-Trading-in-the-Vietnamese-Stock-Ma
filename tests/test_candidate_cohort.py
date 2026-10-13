@@ -106,6 +106,16 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
         self.assertTrue(all(len(d["prompt"]) < 6500 for d in docs))
         self.assertEqual(docs[0]["request"], None)
         for stock in result["stocks"].values():
+            analysis = stock["prior_analysis"]
+            view = stock["points"][0]["prior"]["C3"]
+            both_ready = view["stats_ready"] is True and view["examples_ready"] is True
+            active = view["decision_contract_version"] == "decision_prior_use_v1"
+            self.assertEqual(analysis["ablation"]["stats_examples_ready"]["count"], int(both_ready))
+            self.assertEqual(analysis["branches"]["C3"]["trace_required_count"], int(active))
+            self.assertEqual(analysis["branches"]["C3"]["assessment_counts"], {"NOT_USED":1} if active else {})
+            self.assertEqual(analysis["branches"]["original"]["trace_not_applicable_count"], 1)
+            self.assertEqual(analysis["pairs"]["C3__original"]["disagreement"]["value"], 0.)
+            self.assertFalse(analysis["branches"]["C3_examples_only"]["cases"][0]["visible_metric_ids"])
             self.assertTrue(all(m["sample_count"] == 1 for m in stock["metrics"].values()))
             self.assertTrue(all(m["risk"]["annualization_factor"] is None for m in stock["metrics"].values()))
             attribution = stock["action_attribution"]
@@ -140,7 +150,7 @@ class CandidateCohortTests(CandidateSetup, unittest.TestCase):
         calls, events = self.llm.calls, list(self.events)
         self.assertEqual(calls, 8)
         verified = self.runner.run_cohort(self.plan, output_dir=self.output, verify_only=True)
-        self.assertEqual(verified["report_version"], "research_report_v4")
+        self.assertEqual(verified["report_version"], "research_report_v5")
         self.assertEqual(verified["stocks"]["FPT"]["completed"], 0)
         self.assertTrue(all(m["sample_count"] == 0 for m in verified["stocks"]["FPT"]["metrics"].values()))
         stock = verified["stocks"]["FPT"]

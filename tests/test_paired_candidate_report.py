@@ -37,7 +37,13 @@ def report_fixture() -> tuple[dict, dict, dict]:
                     "executed_action": "BUY_SELL" if action == "LONG" else "CASH", "cycle_net_return": net if action == "LONG" else 0.}
                 views[name] = {"stats_ready": True, "examples_ready": True, "fallback": False,
                     "retrieved_ids": ["prior-1"], "visible_example_ids": ["prior-1"],
-                    "visible_metric_ids": ["win_rate_long"], "reason_codes": []}
+                    "visible_metric_ids": ["win_rate_long"], "reason_codes": [],
+                    "base_evidence_sha256": "a"*64, "request_sha256": "b"*64, "prefix_sha256": "c"*64,
+                    "metric_details": {"win_rate_long": {"ready": True, "posterior_mean": .5,
+                        "support_count": 20, "credible_interval": {"lower": .3, "upper": .7}}},
+                    "decision_contract_version": "decision_prior_use_v1" if name.startswith("C3") else "decision_legacy_v1",
+                    "prior_use": {"metric_ids": [], "example_ids": [], "assessment": "NOT_USED", "reason": "Fixture."}
+                        if name.startswith("C3") else None}
             rows.append({"point_id": f"{symbol}-{day}", "status": "complete",
                 "context": {"symbol": symbol, "as_of_date": day},
                 "source_proof": {"prices": {"snapshot_start_date": "2022-11-01"}},
@@ -147,7 +153,10 @@ class PairedCandidateReportTests(unittest.TestCase):
             view = point["report_context"]["prior"]["C3_stats_only"]
             view["visible_example_ids"] = []
             view = point["report_context"]["prior"]["C3_examples_only"]
-            view.update(visible_example_ids=[], visible_metric_ids=[], fallback=True)
+            view.update(visible_example_ids=[], visible_metric_ids=[], fallback=True,
+                decision_contract_version="decision_legacy_v1", prior_use=None)
+            for name in ("C3", "C3_stats_only", "C3_examples_only"):
+                point["report_context"]["prior"][name]["examples_ready"] = False
         views = paired_candidate_report(plan, points, binding)["stocks"]["FPT"]["coverage"]
         self.assertEqual(views["C3_stats_only"]["prior_visible_count"], 3)
         self.assertEqual(views["C3_examples_only"]["prior_visible_count"], 0)

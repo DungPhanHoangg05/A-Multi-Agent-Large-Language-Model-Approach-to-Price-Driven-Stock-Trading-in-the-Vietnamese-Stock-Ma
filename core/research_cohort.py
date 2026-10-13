@@ -192,24 +192,36 @@ def _report_prior(inputs: dict[str, Any] | None = None, *,
     from core.bayesian_retriever import PREFIX_METRICS
     result = {"stats_ready": None, "examples_ready": None, "fallback": None,
         "retrieved_ids": [], "visible_example_ids": [], "visible_metric_ids": [],
-        "reason_codes": [], "prefix_sha256": None, "request_sha256": None, "base_evidence_sha256": None}
+        "reason_codes": [], "prefix_sha256": None, "request_sha256": None, "base_evidence_sha256": None,
+        "metric_details": {}, "decision_contract_version": "decision_legacy_v1", "prior_use": None}
     if saved is not None and "evidence" in saved:
         evidence, request = saved["evidence"], saved["request"]
         if request is not None:
             view = request["trace"]
             result.update(stats_ready=evidence["gate"]["stats_ready"], examples_ready=evidence["gate"]["examples_ready"],
-                fallback=view["fallback_to_original"], retrieved_ids=evidence["selection"]["metadata"]["selected_ids"],
+                fallback=view["fallback_to_original"], retrieved_ids=(evidence["selection"]["metadata"]["selected_ids"]
+                    if evidence["selection"] is not None else []),
                 visible_example_ids=view["visible_example_ids"], visible_metric_ids=view["visible_metric_ids"],
                 reason_codes=view["reason_codes"], request_sha256=request["request_sha256"],
-                base_evidence_sha256=request["base_evidence_sha256"])
+                base_evidence_sha256=request["base_evidence_sha256"],
+                decision_contract_version=request["decision_contract_version"])
             prefix = request["prefix"]
+            stats = evidence["statistics"]
+            result["metric_details"] = {key: {**stats["metrics"][key],
+                "ready": evidence["gate"]["metrics"][key]["status"] == "READY"}
+                for key in PREFIX_METRICS} if stats is not None else {}
+            attempts = saved.get("attempts", [])
+            if attempts and attempts[-1]["status"] == "complete":
+                result["prior_use"] = attempts[-1]["output"]["prior_decision_trace"]["prior_use"]
         else:
             prefix = format_evidence_prefix(evidence)
             result.update(stats_ready=evidence["status"] == "READY", examples_ready=evidence["status"] == "READY",
                 fallback=not bool(prefix), retrieved_ids=evidence["selected_ids"],
                 visible_example_ids=evidence["selected_ids"] if prefix else [],
                 visible_metric_ids=[key for key in PREFIX_METRICS if prefix and evidence["metrics"][key]["posterior_mean"] is not None],
-                reason_codes=evidence["reason_codes"], base_evidence_sha256=evidence["evidence_sha256"])
+                reason_codes=evidence["reason_codes"], base_evidence_sha256=evidence["evidence_sha256"],
+                metric_details={key: {**item, "ready": evidence["status"] == "READY"}
+                    for key,item in evidence["metrics"].items()})
     elif inputs is not None:
         prefix, stats = inputs["bayesian_prior_context"], inputs["prior_stats"]
         ids = [r["episode_id"] for r in inputs["prior_tasks"]]

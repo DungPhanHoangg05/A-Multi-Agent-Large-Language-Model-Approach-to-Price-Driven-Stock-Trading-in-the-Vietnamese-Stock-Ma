@@ -9,8 +9,9 @@ from core.backtest_engine import PRIOR_BRANCH_MODES
 from core.bayesian_memory import REGIMES
 from core.prior_backtest import canonical_hash
 from core.prior_config import copy_prior_json
+from core.prior_disagreement_analysis import prior_analysis
 
-VERSION = "research_report_v4"
+VERSION = "research_report_v5"
 
 
 def comparison_pairs(names: list[str]) -> list[tuple[str, str]]:
@@ -163,6 +164,7 @@ def paired_candidate_report(plan: dict[str, Any], points: dict[str, list[dict[st
                 result["pairwise_support"][f"{a}__{b}"] = {**paired, "a": a, "b": b,
                     "metrics_a": am, "metrics_b": bm, "delta_return_pp": delta_r, "delta_mdd_pp": delta_m,
                     "status": "COMPLETE" if len(observed) == len(subset) and observed else "PROVISIONAL" if observed else "NO_SUPPORT"}
+            result["prior_analysis"] = prior_analysis(subset, matrix, pairs, metrics=metrics)
             return result
         global_group = group(rows)
         common = global_group["global_common_support"]
@@ -192,21 +194,23 @@ def paired_candidate_report(plan: dict[str, Any], points: dict[str, list[dict[st
         "candidate_delta_return_pp": {name:float(sum(s["candidate_delta_return_pp"][name] for s in stocks.values())/4) if complete else None for name in names},
         "candidate_delta_mdd_pp": {name:float(sum(s["candidate_delta_mdd_pp"][name] for s in stocks.values())/4) if complete else None for name in names},
         "selection_evidence_status": "DEVELOPMENT" if plan["split"] == "development_2023" and binding["execution_mode"] == "research" else "NOT_APPLICABLE",
-        "stocks": stocks, "limitations": ["Bốn tài khoản độc lập, trung bình đều không phải portfolio.",
+        "stocks": stocks, "prior_analysis": prior_analysis(
+            [p for symbol in sorted(points) for p in sorted(points[symbol], key=lambda p:p["context"]["as_of_date"])],
+            matrix, pairs), "limitations": ["Bốn tài khoản độc lập, trung bình đều không phải portfolio.",
             "Pairwise/regime partial chỉ provisional; primary cần đủ toàn ma trận.",
             "Fixture/mock chỉ kiểm protocol; risk OFF, không annualize Sharpe/Sortino."]})
 
 
 def verify_report(report: dict[str, Any], expected: dict[str, Any]) -> None:
     """So toàn semantic với bản dựng lại từ checkpoint đã verify, kể cả thứ tự list."""
-    if report.get("report_version") not in ("research_report_v2", "research_report_v3", VERSION):
+    if report.get("report_version") not in ("research_report_v2", "research_report_v3", "research_report_v4", VERSION):
         raise ValueError("Version report nghiên cứu không được hỗ trợ")
     if canonical_hash(copy_prior_json(report)) != canonical_hash(copy_prior_json(expected)):
         raise ValueError("Report khác checkpoint/nguồn, support, metric hoặc thứ tự ngày tái dựng")
 
 
 def read_report(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
-    """Loader legacy/v4 chỉ trả artifact sau khi đối chiếu semantic, không ghi lại."""
+    """Loader legacy/v5 chỉ trả artifact sau khi đối chiếu semantic, không ghi lại."""
     from core.research_cohort import read_envelope
     report = read_envelope(path)
     verify_report(report, expected)
