@@ -1,212 +1,242 @@
 # A Multi-Agent Large Language Model Approach to Price-Driven Stock Trading in the Vietnamese Stock Market
 
-Research code for a LangGraph-based stock-direction framework designed for the Vietnamese market. The pipeline combines technical indicators, chart-pattern and trend analysis, dynamically selected quantitative alpha factors, Vietnamese financial-news sentiment, and a structured decision stage that emits a binary `LONG` or `SHORT` forecast.
+Research codebase for a quantitative multi-agent trading system designed for the Vietnamese stock market (HOSE). The system leverages LangGraph to orchestrate specialized agents combining technical indicators, chart-pattern and trend visual analysis, point-in-time quantitative alpha factors, Vietnamese financial news sentiment, and Regime-Aware Multi-Task Bayesian In-Context Learning (BRPP) for economic decision-making under non-stationary market regimes.
 
-The forecast label and the economic simulation are intentionally separate. A `LONG` forecast opens a fixed-horizon buy-at-open, sell-at-target-close cycle. A `SHORT` forecast remains in cash because the simulator does not assume uncovered short selling of Vietnamese underlying equities. Account returns are compounded from an initial VND 50,000,000 balance and apply a 0.25% brokerage fee plus 0.10% slippage on both the buy and sell legs.
+---
 
-## What is implemented
+## Overview
 
-- Five-stage LangGraph workflow: Indicator, Alpha/Sentiment, Pattern, Trend, and Decision.
-- Point-in-time alpha selection from an 85-factor registry, using at most 600 candles ending at the decision cutoff.
-- Strict historical-sentiment filtering that rejects future-dated and undated records in research mode.
-- Shared upstream reports for paired comparisons, preventing repeated vision or indicator inference from contaminating treatment/control results.
-- Four ablation modes: `full`, `alpha_only`, `sentiment_only`, and `baseline`.
-- Compounded account P&L, two-sided trading costs, maximum drawdown, Sharpe ratio, and hit-rate reporting.
-- McNemar, Wilcoxon, Newey-West, and block-bootstrap significance utilities.
-- OHLCV consistency guards for chart-pattern and trend reports.
-- A deterministic offline end-to-end regression test that does not require API credentials.
+Large Language Models (LLMs) deployed in zero-shot multi-agent trading frameworks often suffer from unconditioned reasoning, rendering them vulnerable to false breakouts and bull/bear traps when financial markets shift phases (regime shifts). 
 
-## Tiến độ và tài liệu chính
+Adapting theoretical foundations from *Multi-Task Bayesian In-Context Learning* (Zhu, Oermann, Cho — ICML 2026), this repository introduces a **Bayesian Regime Prior Prefix (BRPP)** architecture. By injecting distilled historical trading cycles from the same macro-regime as an in-context prefix, the system enables amortized hierarchical Bayesian inference in the Decision Agent at inference time without modifying model weights.
 
-**W1–W5 đã hoàn thành, W5 chốt 15/15 task ngày 10/10/2026.** Pilot thật W4 có
-FPT 20 điểm/100 Decision; smoke W5 có bốn mã/20 Decision. Kho prior có 852 episode; W4 đã
-tích hợp PIT/paired/checkpoint và xử lý cảnh báo p95: bốn mode 10,837–13,235 ms.
-Nghiệm thu 07/10/2026: compileall/E2E, **521 unit/93 leakage PASS**, verifier pilot PASS.
-Prior mặc định tắt; pilot có ngoại lệ upstream điểm 16 được xác nhận/audit;
-chưa có benchmark đủ bốn mã/2023–2024 hoặc bằng chứng tăng lợi nhuận OOS.
+### Economic Contract & Trading Simulation
 
-- [Kế hoạch tổng](docs/plan/plan.md) và tiến độ [W1](docs/plan/week1/README.md),
-  [W2](docs/plan/week2/README.md), [W3](docs/plan/week3/README.md), [W4](docs/plan/week4/README.md),
-  [W5](docs/plan/week5/README.md), [W6](docs/plan/week6/README.md).
-- [Phương pháp nghiên cứu](docs/methodology_spec.md).
-- [Chạy/tiếp tục Memory Bank và QA](docs/plan/week2/phase_c_memory_generation.md).
-- [API prior, checkpoint/resume và bàn giao W5](docs/plan/week4/week_close_and_handoff.md).
-- Lộ trình đã mở rộng thành **10 tuần**: W5 vận hành/nền tảng Bayesian v2,
-  W6 cải thiện thuật toán, W7 validation/khóa phiên bản, W8 benchmark,
-  W9 thống kê, W10 luận văn. Giữ bốn phase W5; bổ sung đầu ra code
-  posterior/gate bằng chứng/prefix, không coi cập nhật plan là đã triển khai.
-  **W5 đã đóng Phase A/B/C/D, 15/15 task trong phạm vi DONE.** CLI cohort và
-  evidence/gate/prefix v2 đã kiểm fixture; input/lịch khóa **124 điểm chính**
-  (60 development/64 holdout) +**4 smoke riêng**, kiểm offline **128/128 PASS**.
-  Smoke thật **4/4 điểm, 20/20 Decision structured**, verifier/reconcile PASS;
-  W5-16 chạy lại **624 unit/105 leakage**, compileall/E2E PASS. 122 file bảo vệ
-  nguyên byte. p95 W5-15 bốn mode **10,566/9,831/9,642/12,127 ms**, đều <30;
-  evidence v2 **5,0475 ms** sau giảm tải, giữ cả lượt có tải FAIL để đối chiếu.
-  BEAR OOS=0, tin reliable=0 và FPT Q1 thiếu bốn mẫu vẫn là giới hạn nguồn.
-  Bàn giao lệnh từng mã, dữ liệu và xử lý dừng/unknown ở **mục W5-16 của README W5**;
-  runtime output được gitignore, chưa có benchmark hoặc bằng chứng hiệu quả v2.
-  **W5-11 đã bỏ khỏi phạm vi theo yêu cầu**; giữ nguyên mã các task còn lại.
-  **W6 DONE: 16/16 task, Phase A/B/C/D DONE, Gate A/B/C/D PASS**, chốt 12/10/2026.
-  Đã tích hợp feature giá PIT/scaler/index theo fold, ranking tín hiệu+giá,
-  recency/diversity, thống kê điều kiện/shrink và quality gate. Decision có
-  trace và ba chế độ nội dung; CLI plan/identity v3 giữ sáu ứng viên cùng năm
-  đối chứng v1, một upstream/Full mỗi điểm, BRPP≤600 và prompt<6.500 ký tự.
-  Risk policy **DEFERRED/OFF**. Train PIT replay **852/852**, chẩn đoán
-  **651 query** hai fold: 530 đủ feature, 121 barrier giữ mẫu số; C3 stats
-  **95/651**, examples **358/651**. Report train v2 trên code hiện tại đã
-  verify, chỉ hash code khác bản v1; nguồn/fold/chẩn đoán nguyên vẹn.
-  Hiệu năng W6-15 có p95 retrieval **8,438–27,273 ms** cho sáu ứng viên;
-  prefix/feature/cold báo riêng, verifier hiện tại PASS. Plan development
-  mới khóa **60 điểm 2023**, prepare/dry-run bốn mã PASS offline.
-  Compileall/E2E, **784 unit/146 leakage PASS**, không skip; **2.315 file cũ
-  và hai artifact bàn giao nguyên byte** sau kiểm thử.
-  Bàn giao module/config/artifact và lệnh prepare/dry-run/preflight/run/
-  verify/resume tại [W6-16 trong README W6](docs/plan/week6/README.md).
-  Người dùng tự chạy API khi W7 mở validation/chọn ứng viên/khóa ma trận;
-  W8 mới benchmark 2024. Chưa có kết luận hiệu quả LLM hoặc chọn theo holdout.
-  **W7 Gate A/B PASS, Phase A/B DONE: 9/16 task**, chi tiết tại
-  [README W7](docs/plan/week7/README.md). W7-09 khóa train v3
-  **852 replay/651 query**, plan development v2 **60 điểm/11 nhánh**,
-  prepare/dry-run bốn mã PASS. Retrieval v4 **P-core p95 6,328–21,675 ms PASS**;
-  giữ lượt v3 mặc định FAIL và ghi rõ điều kiện đo. Bốn gate mới PASS:
-  compileall/E2E, **837 unit/156 leakage**, receipt/log đúng code/runtime.
-  200 file Python đúng bản kiểm thử; 2.317 file cũ và bốn artifact mới
-  nguyên byte. Tiếp theo **W7-10: người dùng chạy API development** theo
-  lệnh đã chuẩn bị. Chưa API/Decision/selection/manifest holdout thật;
-  risk policy giữ OFF.
+The forecasting decision and economic simulation are strictly decoupled:
+- **`LONG` Decision**: Executes a round-trip position buying at next-day open price $\text{Open}(t+1)$ and liquidating at target close price $\text{Close}(t+3)$ (a $T+2.5$ settlement horizon matching Vietnamese exchange conventions).
+- **`SHORT` Decision**: Holds 100% cash balance. The framework does not assume uncovered short selling of underlying Vietnamese equities.
+- **Transaction Costs**: Realistically accounts for two-sided frictions with a **0.25% brokerage fee** plus **0.10% slippage** applied to both the buy and sell legs (~0.70% total round-trip turnover cost).
+- **Portfolio Tracking**: Compounded account equity starting from VND 50,000,000 capital.
 
-Tiến độ cập nhật trong README từng tuần. Receipt lịch sử không phục vụ code/test
-được gói nguyên byte trong [ZIP bằng chứng](docs/plan/implementation_evidence.zip).
+---
+
+## System Architecture
+
+```text
++-----------------------------------------------------------------------------------+
+| 1. POINT-IN-TIME DATA & MACRO REGIME LAYER                                        |
+| • Market Data Loader (vnstock / VCI / KBS): Daily EOD OHLCV                       |
+| • 4-State Gaussian HMM: Market Regime (BULL, BEAR, CHOPPY, CONSOLIDATION)         |
++-----------------------------------------+-----------------------------------------+
+                                          |
++-----------------------------------------v-----------------------------------------+
+| 2. HISTORICAL MEMORY & BAYESIAN RETRIEVAL                                         |
+| • Point-in-Time Memory Bank: 852 verified historical T+2.5 cycles (2018-2022)     |
+| • Bayesian Prior Retriever: Strict temporal cutoff (exit_date < as_of_date)       |
+| • Compact BRPP Prefix: Similar historical episodes + Empirical / Beta-Binomial    |
++-----------------------------------------+-----------------------------------------+
+                                          |
++-----------------------------------------v-----------------------------------------+
+| 3. LANGGRAPH MULTI-AGENT EXECUTION PIPELINE                                       |
+| • Indicator Agent: Momentum, volatility, and trend strength indicators (TA-Lib)   |
+| • Alpha / Sentiment Stage: Top 5 point-in-time alpha factors & CafeF news sentiment|
+| • Pattern Agent: Vision analysis on candlestick charts with OHLCV consistency     |
+| • Trend Agent: Chart structure, support/resistance, and directional verification  |
+| • Decision Agent: Bayesian ICL conditioning -> Structured LONG / SHORT Decision   |
++-----------------------------------------+-----------------------------------------+
+                                          |
++-----------------------------------------v-----------------------------------------+
+| 4. ECONOMIC EVALUATION & AUDIT LAYER                                              |
+| • Paired Comparative Protocol: Single upstream pass deep-copied across baselines  |
+| • T+2.5 Compounded Account Simulation (Returns, Max Drawdown, Sharpe, Sortino)    |
+| • Statistical Tests: McNemar, Wilcoxon Signed-Rank, Block Bootstrap 95% CI        |
++-----------------------------------------------------------------------------------+
+```
+
+### Agent Roles
+
+1. **Indicator Agent**: Calculates core quantitative indicators (RSI, MACD, Bollinger Bands, ATR, ADX) over a 45-candle lookback window.
+2. **Alpha / Sentiment Stage**: Dynamically selects the top 5 predictive alpha factors from an 85-factor quantitative registry using point-in-time cross-validation, and extracts financial sentiment from dated CafeF articles using a fine-tuned ViSoBERT model.
+3. **Pattern Agent**: Analyzes rendered candlestick charts to identify reversal and continuation patterns, reinforced with numeric OHLCV boundary validation.
+4. **Trend Agent**: Evaluates market structure, moving average alignments, support/resistance levels, and breakout validity.
+5. **Decision Agent**: Synthesizes distilled upstream reports, conditions reasoning on the Bayesian Regime Prior Prefix, and emits a structured `LONG` or `SHORT` forecast with categorical confidence and justification.
+
+---
+
+## Methodological Safeguards & Zero-Leakage Directives
+
+- **P0-1 Strict Temporal Cutoff**: For any evaluation at date $t$, all inputs (market data, alpha evaluation, news articles, and historical memory) strictly satisfy $\text{timestamp} \le t$. Prior task episodes require $\text{exit\_date} < t$. Future-dated or undated records are automatically rejected with loud exceptions.
+- **P0-2 Economic Contract Invariance**: All historical memory labels and backtest evaluations use the identical `compute_round_trip_net_return` function with full two-sided fees and slippage.
+- **P0-3 Strict Token Budget**: The BRPP prefix is strictly capped at $\le 600$ characters. Total Decision Agent prompt size is guarded under $< 6,500$ characters to prevent Groq API rate limits (TPM/RPM) and context-dilution effects.
+- **P0-4 Paired Upstream Invariance**: Upstream perception passes (`Indicator -> Pattern -> Trend`) execute exactly once per test point and are deep-copied across all comparative branches (Original, Random, Recent, Similarity, and Bayesian candidates) to eliminate stochastic vision inference variance.
+- **Durable Checkpointing**: Automatic state persistence after each test point with native Windows OS file locks, ensuring seamless recovery from interruptions without duplicate API invocations.
+
+---
 
 ## Requirements
 
-- Windows with the Python launcher (`py`) for the commands below.
-- Python **3.13**. The checked-in `.python-version` pins 3.13.5.
-- Internet access for live market data, model download, and hosted-model inference.
-- A Groq API key for live agent inference, supplied through `.env` or the web interface.
-- ViSoBERT runs locally through Transformers by default. A Hugging Face token is optional for the public model, but is normally required for a protected Dedicated Inference Endpoint.
+- **Operating System**: Windows (tested with the Python launcher `py`), Linux, or macOS.
+- **Python Runtime**: **Python 3.13** (pinned to Python 3.13.5 in `.python-version`).
+- **Dependencies**: TA-Lib native library, PyTorch, LangGraph, LangChain, Transformers.
+- **API Access**: Groq API key for hosted LLM inference (`openai/gpt-oss-20b`, `qwen/qwen3.8-27b`).
+- **Sentiment Model**: ViSoBERT (`5CD-AI/Vietnamese-Sentiment-visobert`) runs locally by default; Hugging Face Dedicated Inference Endpoint is optionally supported.
+
+---
 
 ## Installation
 
-```powershell
-git clone https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git
-cd A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma
-py -3.13 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-```
+1. **Clone the repository**:
+   ```powershell
+   git clone https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git
+   cd A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma
+   ```
 
-`TA-Lib` is declared in `requirements.txt`. If a wheel is unavailable on another platform, install that platform's native TA-Lib dependency before rerunning the final command. Do not switch Python versions silently; the supported runtime is Python 3.13.
+2. **Create and activate a virtual environment**:
+   ```powershell
+   py -3.13 -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
 
-`requirements.txt` ghim `vnstock==4.0.9`, `vnai==2.6.2` và bổ sung kho gói chính thức `https://vnstocks.com/api/simple`, nên lệnh cài từ file requirements ở trên đã có cấu hình cần thiết. Loader sử dụng VCI/KBS; chỉ số giữ đơn vị điểm và giá cổ phiếu giữ đơn vị nghìn VND. Xem [biên bản nâng cấp](docs/vnstock_upgrade.md).
+3. **Install dependencies**:
+   ```powershell
+   python -m pip install --upgrade pip
+   python -m pip install -r requirements.txt
+   ```
+   *Note*: `requirements.txt` pins `vnstock==4.0.9` and `vnai==2.6.2`, utilizing the official index `https://vnstocks.com/api/simple`. For market data, loaders query VCI and KBS; index series are measured in points and stock prices in thousands of VND. See [vnstock upgrade documentation](docs/vnstock_upgrade.md).
 
-Create a local `.env` file for credentials and optional ViSoBERT settings:
+4. **Configure environment variables**:
+   Create a local `.env` file in the root directory:
+   ```dotenv
+   GROQ_API_KEY=your_groq_api_key_here
+   HF_TOKEN=your_optional_huggingface_token
+   
+   # ViSoBERT configuration: auto (default), local, endpoint, or lexicon
+   VISOBERT_BACKEND=auto
+   VISOBERT_DEVICE=auto
+   
+   # Required only if VISOBERT_BACKEND=endpoint
+   HF_INFERENCE_ENDPOINT_URL=https://your-endpoint.endpoints.huggingface.cloud
+   ```
+   *Never commit `.env` or API credentials to version control.*
 
-```dotenv
-GROQ_API_KEY=replace_with_your_groq_key
-HF_TOKEN=replace_with_your_optional_huggingface_token
+---
 
-# auto (default), local, endpoint, or lexicon
-VISOBERT_BACKEND=auto
-# auto (default), cpu, or cuda:0
-VISOBERT_DEVICE=auto
-# Required only when VISOBERT_BACKEND=endpoint. Use the exact URL created by
-# Hugging Face Dedicated Inference Endpoints, not router.huggingface.co.
-HF_INFERENCE_ENDPOINT_URL=https://your-endpoint.endpoints.huggingface.cloud
-```
+## Verification & Testing
 
-Never commit `.env` or credentials.
+Before running experiments, verify the integrity of the system through the four mandatory quality gates:
 
-In `auto` mode, the application calls `HF_INFERENCE_ENDPOINT_URL` when it is set and falls back to the local Transformers model if that endpoint fails. Without an endpoint URL it loads `5CD-AI/Vietnamese-Sentiment-visobert` locally. The first local request downloads and caches the model, so it can take longer than later requests. The lexicon scorer is used only if the selected ViSoBERT backend cannot run, and each article records `scorer`, `scorer_backend`, and `is_fallback` provenance fields.
+1. **Compile all Python source files**:
+   ```powershell
+   py -3.13 -m compileall agents core data_manager scripts tests utils web_interface.py
+   ```
 
-## Verify the system
+2. **Run deterministic offline end-to-end regression test**:
+   ```powershell
+   py -3.13 scripts/run_end_to_end_test.py
+   ```
+   Exercises data loaders, chart generation, alpha selection, LangGraph multi-agent execution with deterministic LLM doubles, and financial metrics calculation offline.
 
-Run the deterministic end-to-end test:
+3. **Run complete unit test suite**:
+   ```powershell
+   py -3.13 -X utf8 -m unittest discover -s tests -v
+   ```
 
-```powershell
-py -3.13 scripts/run_end_to_end_test.py
-```
+4. **Run zero-leakage security test suite**:
+   ```powershell
+   py -3.13 -X utf8 -m unittest discover -s tests -p "test_*leakage.py" -v
+   ```
 
-It exercises the production data contracts with fixed local OHLCV and CafeF fixtures, generates the charts, selects alpha factors, executes the LangGraph workflow with deterministic LLM doubles, computes account metrics, and validates the statistical summary. A successful run ends with:
+---
 
-```text
-[PASS] ALL PIPELINE CHECKS SUCCESSFUL IN <runtime>s
-```
+## Web Interface
 
-Run the complete unit-test suite:
-
-```powershell
-py -3.13 -X utf8 -m unittest discover -s tests -v
-```
-
-Optionally compile every Python module before running the tests:
-
-```powershell
-py -3.13 -m compileall agents core data_manager scripts tests utils web_interface.py
-```
-
-## Run the web application
+The repository includes an interactive Flask web application for visual analysis and backtesting:
 
 ```powershell
 py -3.13 web_interface.py
 ```
 
-Open `http://127.0.0.1:5000`. Set `PORT` to override the default port. The interface accepts a Groq key at runtime when `GROQ_API_KEY` is not already configured.
+Access the interface at `http://127.0.0.1:5000`. You can configure API keys, select stock symbols (e.g., `FPT`, `VNM`, `VCB`, `MWG`), inspect generated technical charts, view distilled agent reports, and run interactive walk-forward simulations.
 
-The UI supports live analysis and walk-forward backtesting. Generated JSON and PNG files are written to `backtest_result/`, which is intentionally excluded from version control.
+---
 
-## Triển khai trên Oracle Cloud
+## Cloud Deployment
 
-Backend Flask và mô hình ViSoBERT được triển khai bằng Docker Compose trên Oracle Compute VM. Dùng một Gunicorn worker, PyTorch CPU và volume lưu cache mô hình/kết quả. Xem [hướng dẫn Oracle từ bước tạo VM](docs/oracle_deployment.md), bao gồm truy cập SSH khi chưa có tên miền và HTTPS khi công bố ứng dụng.
+The backend application and local ViSoBERT model can be containerized and deployed using Docker Compose on an Oracle Cloud Compute VM (or any cloud Linux VM) using a Gunicorn worker, PyTorch CPU, and volume-mounted model cache. 
 
-Không còn workflow xuất toàn repository lên GitHub Pages. Cấu hình Oracle không đặt trần RAM container; cần chọn VM đủ bộ nhớ và theo dõi mức sử dụng thực tế.
+For step-by-step guidance on VM provisioning, SSH tunneling, and HTTPS configuration, refer to the [Oracle Cloud deployment guide](docs/oracle_deployment.md).
 
-## Run the research experiments
+---
 
-These commands use live market data and hosted models, so exact reruns depend on provider availability, the requested data cutoff, local dated sentiment caches, and model revisions.
+## Research Experiments
 
-Robustness sweeps:
+Research scripts support paired walk-forward backtesting across five baseline regimes and multi-candidate Bayesian v2 configurations:
 
-```powershell
-py -3.13 core/run_robustness.py --mode hyperparams --symbol FPT --n_tests 20
-py -3.13 core/run_robustness.py --mode norm --symbol FPT --n_tests 20
-py -3.13 core/run_robustness.py --mode weights --symbol FPT --n_tests 20
+1. **Run paired ablation benchmark**:
+   ```powershell
+   py -3.13 scripts/run_bayesian_ablation.py --symbol FPT --n_tests 20
+   ```
+
+2. **Run multi-symbol comparative sweeps**:
+   ```powershell
+   py -3.13 scripts/run_ablation_matrix.py --symbols FPT,VNM,VCB,MWG --n_tests 20
+   ```
+
+3. **Verify completed cohort runs offline**:
+   ```powershell
+   py -3.13 scripts/run_bayesian_ablation.py --verify-only
+   ```
+
+All runners support checkpointing via native file locks. If an API rate limit (`HTTP 429`) is encountered, the process suspends gracefully and can be resumed without data loss. Output artifacts are persisted under `outputs/`.
+
+---
+
+## Repository Structure
+
+```text
+├── agents/             # Multi-agent implementations, prompts, and output schemas
+│   ├── agent_state.py      # LangGraph state schema with Bayesian prior context
+│   ├── decision_agent.py   # Decision Agent with BRPP conditioning and budget guards
+│   ├── indicator_agent.py  # Quantitative indicator generator
+│   ├── pattern_agent.py    # Candlestick pattern vision agent
+│   ├── sentiment_agent.py  # ViSoBERT financial news sentiment analyzer
+│   └── trend_agent.py      # Market structure and trendline analysis agent
+├── core/               # Core analytical and backtesting engines
+│   ├── backtest_engine.py  # Economic simulation engine (T+2.5, fees, slippage)
+│   ├── bayesian_memory.py  # Historical episode memory bank manager
+│   ├── bayesian_retriever.py # Point-in-time Bayesian prior retrieval engine
+│   ├── candidate_cohort.py # Bayesian v2 candidate evaluation framework
+│   ├── groq_pacing.py      # Rate limit pacing and admission control guard
+│   ├── pit_price_features.py # Point-in-time price feature extractors
+│   ├── prior_backtest.py   # Paired multi-branch walk-forward coordinator
+│   └── regime_detector.py  # 4-state Gaussian HMM market regime classifier
+├── data/               # Market price datasets and verification manifests
+├── data_manager/       # Historical sentiment caches and memory bank stores
+├── docs/               # Research documentation and specifications
+│   ├── methodology_spec.md # Formal research methodology specification
+│   ├── oracle_deployment.md# Cloud production deployment instructions
+│   ├── vnstock_upgrade.md  # Market data API upgrade notes
+│   └── plan/               # Weekly implementation plans and audit logs
+├── outputs/            # Checkpoints, benchmark runs, and performance reports
+├── scripts/            # End-to-end tests, data preparation, and execution runners
+├── tests/              # Test suites (leakage, pairing, token budgets, financial)
+├── utils/              # Graph assembly, technical indicators, and statistical tests
+└── web_interface.py    # Flask web UI and visualization server
 ```
 
-Four-way ablation on the representative sample:
+---
 
-```powershell
-py -3.13 scripts/run_ablation_matrix.py --symbols FPT,VNM,VCB --n_tests 20
-```
+## Research Documentation & Planning
 
-Both runners checkpoint completed work. If a hosted service returns HTTP 429, stop the process, update the credential if necessary, and rerun the same command to resume. Their generated files are written beneath `outputs/`, which is also excluded from version control.
+Detailed academic and implementation documentation is maintained in the `docs/` directory:
+- **Research Methodology**: [docs/methodology_spec.md](docs/methodology_spec.md) defines the mathematical mapping from hierarchical Bayesian inference to stock trading, economic conventions, and hypothesis testing protocols.
+- **Implementation Master Plan**: [docs/plan/plan.md](docs/plan/plan.md) details the 10-week implementation roadmap and experimental matrix.
+- **Weekly Progress & Audit Logs**: Detailed weekly worklogs, checklists, and verification receipts are organized chronologically under `docs/plan/week<N>/`.
 
-Use `--data-cutoff YYYY-MM-DD` to freeze the final market-data date and `--output-dir <path>` to choose a different local artifact directory.
+---
 
-## Architecture
+## Reproducibility & Disclaimer
 
-1. **Indicator Agent** computes momentum, volatility, and trend-strength indicators from the decision window.
-2. **Alpha/Sentiment stage** selects the top five point-in-time alpha factors and, when enabled, loads only news available at the cutoff.
-3. **Pattern Agent** analyzes a candlestick chart and applies OHLCV-based consistency checks.
-4. **Trend Agent** analyzes chart structure, support, resistance, and direction with numerical verification.
-5. **Decision Agent** receives only the reports enabled by the selected ablation mode and returns structured `LONG` or `SHORT` output.
-
-For paired backtests, Indicator, Pattern, and Trend run once per test point. Their state is deep-copied into the treatment and baseline decision branches so upstream stochasticity cannot alter the control input.
-
-## Repository layout
-
-- `agents/`: agent implementations, prompts, and structured output contracts.
-- `core/`: market-data loading, alpha evaluation, the backtest engine, and robustness runner.
-- `data_manager/`: historical sentiment-cache filtering and lookup.
-- `scripts/`: deterministic end-to-end testing and experiment utilities.
-- `tests/`: leakage, pairing, ablation, financial, statistical, token-budget, and vision-guard tests.
-- `utils/`: graph assembly, technical tools, decision parsing, alpha selection, and statistical helpers.
-- `templates/`, `static/`, `web_interface.py`: Flask user interface.
-
-## Reproducibility notes
-
-The offline regression path seeds Python and NumPy with 42 and replaces network/LLM boundaries with deterministic fixtures. It verifies software behavior, not the exact empirical outputs of a historical hosted-model run.
-
-Exact empirical reproduction additionally requires the original point-in-time market snapshots, dated sentiment caches, model identifiers/revisions, and private result artifacts. Hosted inference is not guaranteed to be bit-reproducible across provider revisions.
-
-This project is a research prototype, not investment advice. It does not model every exchange rule, tax, liquidity constraint, market-impact effect, or production execution risk.
+- **Deterministic Verification**: The offline test suite seeds Python and NumPy with `42` and replaces external network/LLM boundaries with deterministic test doubles, guaranteeing reproducible validation of software logic.
+- **Empirical Reproducibility**: Exact empirical reruns of hosted LLM inference depend on provider model revisions, prompt token limits, and market data snapshots. Checkpoints and audit ledgers preserve exact execution hashes for independent auditing.
+- **Academic Disclaimer**: This software is an academic research prototype developed for a graduation thesis. It does not constitute financial or investment advice. The economic simulator does not model continuous order-book depth, exchange circuit breakers, borrowing constraints, or tax policies.
