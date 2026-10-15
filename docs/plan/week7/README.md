@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A/B DONE / Gate A/B PASS, 9/16 task hoàn thành; Phase C/D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **13/10/2026**. Tiếp theo **W7-10**.
+**Trạng thái: Phase A/B DONE / Gate A/B PASS, 9/16 task hoàn thành; Phase C IN_PROGRESS, Phase D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **15/10/2026**. Đang thực hiện **W7-10**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -346,7 +346,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [x] DONE |
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [x] DONE |
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [x] DONE |
-| C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [ ] TODO |
+| C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [ ] IN_PROGRESS |
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [ ] TODO |
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [ ] TODO |
 | D | W7-13 | Khóa ma trận và mục tiêu kiểm định W8 | Gate C | [ ] TODO |
@@ -806,6 +806,103 @@ trước API để tránh kết quả development mất khả năng verify sau �
   unknown chỉ replay sau đối soát UUID/lý do. API chưa chạy thì task chờ
   người dùng, không đánh DONE bằng fixture hoặc bỏ điểm thiếu để đủ tỷ lệ.
 
+##### Amendment vận hành 15/10/2026 — quota ngày do provider quyết định
+
+**Yêu cầu người dùng:** bỏ admission ngày tự tính trong ledger; khi key hết
+quota thì đổi key và resume cùng lượt. Thay đổi này thay thế đề xuất phân
+quota theo organization trước đó. Mốc kiểm tra trước cutover: **FPT 9/12,
+9/60 điểm đủ 11 nhánh, 99/660 Decision**, chưa có report cuối. Không dùng
+return/holdout để chọn thay đổi; **W7-10 vẫn IN_PROGRESS**, không tăng số task DONE.
+
+- `core/provider_quota.py` và `scripts/run_provider_validation.py` là phần
+  mở rộng vận hành riêng. **200 file Python cũ giữ nguyên**, gồm CLI/pacer/
+  validator nghiên cứu; không đổi checksum plan/identity/checkpoint để né
+  verifier. Entrypoint mới thay riêng factory quota một cách tường minh và
+  kiểm amendment trước khi đọc key; runner/graph/prompt vẫn là bản đã khóa.
+- Policy `provider_daily_quota_v1` không phát `DAILY_QUOTA` từ ngân sách
+  RPD/TPD local. Ledger tổng vẫn giữ toàn usage; số dư local chỉ tham khảo.
+  Groq quyết định quota thực qua header/HTTP, vẫn có quyền từ chối request.
+  Các key cùng organization vẫn chia sẻ giới hạn phía
+  [Groq](https://console.groq.com/docs/rate-limits); không cam kết key mới
+  luôn có quota. Không tự đổi model/limits hoặc xoay key trong tiến trình.
+- Cooldown và pacing phút theo fingerprint SHA-256 có domain riêng của key;
+  không lưu key thô. Giữ trần token/request, ba HTTP/120 giây nghỉ chung,
+  backoff/429, khóa ledger/run, checkpoint, PIT, kinh tế và paired protocol.
+  Key mới tự preflight text/vision đúng plan; cùng key dùng lại proof PASS.
+- Ledger cũ không ghi organization/key; không gán lại hay giả lập lịch sử.
+  Request mới thêm `credential_scope`, `daily_policy` và
+  `operational_amendment_sha256`. Toàn bộ request trước cutover được băm,
+  checkpoint/response complete cũ được giữ nguyên byte. Request sau cutover
+  thiếu audit hoặc sửa/xóa usage cũ làm verifier amendment dừng.
+- Replay có audit đúng UUID chỉ tự thực hiện khi mọi HTTP của attempt là
+  **429 đã từ chối**, khớp run/point, hoặc có stop trước HTTP được chứng minh
+  là `PROVIDER_DAILY_QUOTA`. Chỉ dùng đường reconcile gốc; không tự replay
+  `transport_error`, response 200 bị mất hoặc lỗi chưa rõ kết quả.
+- `provider_quota_amendment.json` trong run-dir khóa plan/cohort/ledger,
+  nguồn mở rộng, runtime, receipt bốn gate mới và bằng chứng trước cutover.
+  Mã phương pháp/model/lịch/registry/K/seed/metric/risk OFF không đổi;
+  không chạy lại upstream hoặc Decision complete. Holdout chưa được mở.
+
+**Kiểm thử mở rộng:** 22 test trọng tâm, **859 unit/163 leakage**, compileall
+và E2E **PASS**, không skip. 205 file Python đúng bản đã kiểm; 200 file gốc
+và 493 file runtime trước thay đổi nguyên byte. 2.314 bằng chứng lịch sử tĩnh
+nguyên byte; ledger/metadata khóa đã thay đổi hợp lệ sau các lượt API của
+người dùng. Receipt SHA-256 `1b1bf0196305dbb96b7a1ce63cc15e79da9ea35a97296c0371d31f6036f6cac4`.
+Receipt dùng riêng
+[`technical_gates_provider_v1.json`](validation_gates/technical_gates_provider_v1.json);
+receipt W7-09 giữ nguyên. Nguồn mở rộng có hash riêng trong amendment,
+không được giả là đã nằm trong code map nghiên cứu cũ.
+Amendment cục bộ đã tạo và verify offline, khóa **72 file complete**
+và **309 request lịch sử**; không gọi API thật.
+Plan/cohort/checkpoint cũ giữ nguyên hash, không replay upstream hoặc Decision complete.
+
+**Lệnh thay thế cho lượt đang chạy:** dùng duy nhất entrypoint mới kể từ
+cutover, kể cả verify/reconcile/report/selection. Không dùng lại lệnh run
+cũ vì policy cũ vẫn tính quota ngày local. Chạy từ gốc repo:
+
+```powershell
+$cliPath = "scripts/run_provider_validation.py"
+$runDir = "outputs/bayesian_benchmark/development_candidate_run_v2"
+$cohortArgs = @(
+    "--plan", "outputs/bayesian_benchmark/development_candidate_plan_v2.json",
+    "--output-dir", $runDir,
+    "--ledger", "outputs/oos_pilot/api_usage.json",
+    "--quota-policy", "request_admission_v2"
+)
+
+# Chỉ tạo một lần sau bốn gate PASS; chạy lại chỉ đối chiếu amendment đã khóa.
+py -3.13 -X utf8 $cliPath --prepare-amendment @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "Amendment chưa hợp lệ; chưa chạy API." }
+
+py -3.13 -X utf8 $cliPath --verify-only @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "Checkpoint/amendment chưa hợp lệ." }
+
+# Key mới được đọc từ .env và tự preflight trước khi chạy tiếp bốn mã.
+py -3.13 -X utf8 $cliPath --run --resume @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "Run đã dừng; đọc nguyên nhân trước khi tiếp tục." }
+```
+
+Khi Groq báo hết quota: đợi tiến trình thoát, đổi `GROQ_API_KEY` trong `.env`,
+rồi chạy lại **cùng lệnh `--run --resume`**; không xóa ledger/checkpoint và
+không prepare plan mới. Nếu lỗi truyền tải/unknown chưa rõ kết quả, chạy
+`--verify-only`, `--reconcile`, đối soát attempt và dùng
+`--reconcile --authorize-replay UUID --replay-reason LY_DO` trước resume.
+Không dùng vòng lặp authorize mọi unknown. Sai integrity/runtime/source,
+model không khả dụng hoặc header limit thay đổi thì dừng để kiểm tra.
+
+Sau khi đủ bốn mã:
+
+```powershell
+py -3.13 -X utf8 $cliPath --verify-only @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "Checkpoint/amendment chưa hợp lệ." }
+py -3.13 -X utf8 $cliPath --verify-report @cohortArgs
+if ($LASTEXITCODE -ne 0) { throw "Report chưa hợp lệ." }
+```
+
+Chỉ chốt 10 khi report `primary_status=COMPLETE`, đủ FPT 12 và MWG/VCB/VNM
+16 điểm mỗi mã, không còn missing/failed/unknown. Receipt kỹ thuật mới
+được dùng cho selector ở 12; không lấy report partial để promote.
+
 #### W7-11 — Đối soát và phân tích kết quả development
 
 - **Làm:** verifier semantic toàn run; tái tính report 05/06 và kiểm nguồn,
@@ -923,6 +1020,8 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 13/10/2026 | W7-05 | DONE, 5/16; Phase B IN_PROGRESS. Report v4 nối checkpoint partial, G/19 cặp S, metric/coverage theo mã/regime, binding và CLI verifier; giữ legacy v2/v3. Compileall/E2E, 795 unit/148 leakage PASS, không skip; 11 test mới, 14 trọng tâm PASS. 2.317 file nguyên byte; identity mới khóa ở 09 trước API, Gate B còn 06–09 | W7-06 |
 | 13/10/2026 | W7-08 | DONE, 8/16; protocol v4 bắt buộc selection đã verify, lịch W5 giữ checksum, 11 nhánh và report v6 gắn primary/control/ablation. Compileall/E2E, 837 unit/156 leakage PASS; 200 file Python đúng bản kiểm thử, 2.317 file bằng chứng nguyên byte. Chỉ fixture, chưa manifest holdout thật; Gate B còn 09 | W7-09 |
 | 13/10/2026 | W7-09 | DONE, 9/16; Gate B PASS. Train v3 852 replay/651 query, plan development v2 60 điểm/11 nhánh và dry-run bốn mã PASS; sáu ca integrity chặn trước API. Retrieval v4 P-core p95 6,328–21,675 ms PASS, giữ v3 mặc định FAIL. Bốn gate mới PASS (837 unit/156 leakage), receipt/log đúng code/runtime; 200 Python, 2.317 bằng chứng cũ và bốn artifact mới nguyên byte. Chưa API/Decision/selection/manifest holdout thật | W7-10 |
+
+| 15/10/2026 | W7-10 | IN_PROGRESS, 9/16 task DONE; amendment provider_daily_quota_v1 bỏ admission ngày local, giữ ledger tổng và 99 Decision trước cutover. Key mới tự preflight; cooldown theo fingerprint, quota thực do Groq; replay quota bị từ chối qua audit UUID, transport_error vẫn thủ công. 859 unit/163 leakage, compileall/E2E PASS; 205 Python đúng bản kiểm, 200 Python gốc và 493 runtime cũ nguyên byte. Amendment đã verify offline; chưa chạy thêm API | Tiếp tục API development |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
