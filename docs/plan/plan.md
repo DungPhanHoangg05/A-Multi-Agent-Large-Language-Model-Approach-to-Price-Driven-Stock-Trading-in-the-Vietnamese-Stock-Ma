@@ -688,13 +688,13 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
-- **Kế hoạch chi tiết, cập nhật 13/10/2026:** [README W7](week7/README.md), **4 phase/
+- **Kế hoạch chi tiết, cập nhật 15/10/2026:** [README W7](week7/README.md), **4 phase/
   16 task, 9/16 hoàn thành**; tiếp theo **W7-10**. Gate A/B PASS, Phase A/B DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API; Gate B PASS.
-  - [ ] Phase C, W7-10–12: người dùng chạy development, đối soát/phân tích,
+  - [ ] Phase C, W7-10–12 IN_PROGRESS: người dùng chạy development, đối soát/phân tích,
     quyết định ứng viên bằng tiêu chí W6-04.
   - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
     nghiệm thu và bàn giao W8.
@@ -759,6 +759,17 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   **200 file Python, 2.317 file cũ và bốn artifact mới** đúng bản đóng băng;
   output development trống, chưa API/Decision/selection/manifest holdout.
   **9/16 DONE / Gate B PASS**; tiếp theo W7-10 do người dùng chạy API.
+- **Amendment vận hành 15/10/2026:** theo yêu cầu người dùng, quota ngày
+  do Groq quyết định, ledger chỉ ghi usage; đổi key rồi resume cùng run.
+  Entrypoint `run_provider_validation.py` và pacer mở rộng có hash/amendment
+  riêng, giữ nguyên 200 file Python cũ và checkpoint đã complete. Không đổi
+  phương pháp/model/lịch/K/seed/kinh tế/PIT/paired protocol; không mở holdout.
+  Key mới tự preflight, giữ pacing phút/retry/khóa, chỉ replay quota đã từ chối
+  qua audit UUID; mất response chưa rõ kết quả vẫn đối soát thủ công.
+  Mốc trước cutover 9/60 điểm, 99/660 Decision; W7-10 còn IN_PROGRESS,
+  **859 unit/163 leakage, compileall/E2E PASS**, 205 file Python đúng bản
+  kiểm; amendment cục bộ đã verify offline, chưa gọi thêm API. Lệnh và bằng
+  chứng ở [README W7](week7/README.md).
 - **Nhiệm vụ cụ thể**:
   - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
