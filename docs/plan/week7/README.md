@@ -1,13 +1,13 @@
 # Tuần 7 — Validation, chọn ứng viên và bàn giao cải tiến Bayesian ICL
 
-**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 12/16 task hoàn thành; Phase D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-13**.
+**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 13/16 task hoàn thành; Phase D IN_PROGRESS.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-14**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## Điều chỉnh kế hoạch ngày 16/10/2026
 
 Theo yêu cầu tiếp tục cải thiện Bayesian ICL, **Phase D chưa thực hiện được
-thay thế** bằng chẩn đoán và bàn giao W8. Giữ nguyên 12/16 DONE, Gate A/B/C
+thay thế** bằng chẩn đoán và bàn giao W8. Giữ nguyên nghiệm thu W7-01–12, Gate A/B/C
 PASS, C2 NOT_PROMOTED và Original triển khai; không sửa selection cũ.
 Giữ **10 tuần**: W8 cải tiến/validation và khóa cấu hình; W9 benchmark
 kết hợp thống kê; W10 luận văn/bảo vệ. Mọi mô tả khóa holdout tại W7-14 hoặc benchmark W8 bên dưới thuộc
@@ -360,7 +360,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [x] DONE |
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [x] DONE |
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [x] DONE |
-| D | W7-13 | Chẩn đoán nút thắt và kiểm attribution | Gate C | [ ] TODO |
+| D | W7-13 | Chẩn đoán nút thắt và kiểm attribution | Gate C | [x] DONE |
 | D | W7-14 | Khóa protocol vòng cải tiến | 13 | [ ] TODO |
 | D | W7-15 | Kiểm nguồn và khả năng tái lập | 14 | [ ] TODO |
 | D | W7-16 | Bàn giao triển khai cải tiến W8 | 15 | [ ] TODO |
@@ -1204,7 +1204,7 @@ kế thừa bốn gate W7-11 (**859 unit/163 leakage, compileall/E2E PASS**, kh�
 skip), kiểm receipt/log/code/runtime đúng identity và **801 file nguồn/bằng
 chứng nguyên byte**. Chỉ thêm selection, không ghi lại report/checkpoint/ledger.
 Không gọi API hoặc dùng outcome 2024. **W7 đạt 12/16**, Phase C DONE;
-tiếp theo **W7-13** khóa mục tiêu kiểm định/protocol trước manifest holdout.
+tiếp theo **W7-13** chẩn đoán coverage/attribution theo Phase D điều chỉnh.
 
 **Gate C PASS (16/10/2026):** 10–12 DONE; đủ development thật, selection kiểm được. Không cần
 ứng viên thắng để thông qua nếu khóa được ứng viên nghiên cứu NOT_PROMOTED
@@ -1221,6 +1221,161 @@ tiếp theo **W7-13** khóa mục tiêu kiểm định/protocol trước manifes
   bằng chứng đã thấy với nguyên nhân chưa kiểm. Không gọi thêm API.
 - **Đạt khi:** giải thích được mẫu 8/60, các ca prior-off bất đồng và trace
   NOT_USED mà không suy trace thành bằng chứng nhân quả; chưa đọc holdout.
+
+##### Chẩn đoán development và kiểm attribution, 16/10/2026
+
+**W7-13 DONE.** Đối chiếu report v5 đã verify với 360 checkpoint ứng viên
+và 60 point v1; chỉ phân tích development 2023. Giữ nguyên report/selection,
+registry, ngưỡng và runtime. Nguồn là
+[`report.json`](../../../outputs/bayesian_benchmark/development_candidate_run_v2/report.json),
+SHA-256 `57026e012e3fa6032ad81bbe6100af580fd0a59900f3d1f9370fdb32941ed1c8`;
+`binding.checkpoint_sha256` chứa hash đầy đủ của từng checkpoint bên dưới.
+Không tạo artifact phân tích trùng report hoặc mở outcome holdout 2024.
+
+**Funnel C2/C3 theo mã/regime.** P là số cycle PIT cùng mã/regime;
+C là cycle khớp đồng thời T/P/A/I, khác số ví dụ K. `P≥20` và `C≥5`
+đếm **query** đạt ngưỡng, không cộng cycle lặp lại qua các query.
+S/E là số query stats/examples ready; T=S∩E; V=S∪E là query có prior
+thực hiển thị. Hai đường stats/examples tách độc lập, không phải mọi ví dụ
+đều phải qua C≥5. C2 và ba C3 có cùng base evidence ở đủ 60/60 điểm.
+Các cột LONG đếm action trên **V**, CASH=V−LONG; không phải số action thay
+đổi do prior hoặc toàn bộ LONG trên 60 điểm.
+
+| Mã / regime | N | P mỗi query | C min–max | P≥20 | C≥5 / S | E | T | V | LONG C2 / C3 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FPT / BULL | 2 | 83 | 6–20 | 2 | 2 / 2 | 1 | 1 | 2 | 2 / 2 |
+| FPT / CHOPPY | 5 | 62 | 0–4 | 5 | 0 / 0 | 3 | 0 | 3 | 0 / 1 |
+| FPT / CONSOLIDATION | 5 | 19 | 0–1 | 0 | 0 / 0 | 0 | 0 | 0 | 0 / 0 |
+| MWG / BULL | 3 | 84 | 0–10 | 3 | 1 / 1 | 2 | 1 | 2 | 1 / 0 |
+| MWG / CHOPPY | 7 | 62 | 0–8 | 7 | 1 / 1 | 5 | 1 | 5 | 0 / 1 |
+| MWG / CONSOLIDATION | 6 | 19 | 0–4 | 0 | 0 / 0 | 0 | 0 | 0 | 0 / 0 |
+| VCB / BULL | 3 | 85 | 0–2 | 3 | 0 / 0 | 1 | 0 | 1 | 0 / 0 |
+| VCB / CHOPPY | 7 | 63 | 1–5 | 7 | 2 / 2 | 7 | 2 | 7 | 0 / 2 |
+| VCB / CONSOLIDATION | 6 | 19 | 0–1 | 0 | 0 / 0 | 0 | 0 | 0 | 0 / 0 |
+| VNM / BULL | 3 | 85 | 1–15 | 3 | 1 / 1 | 1 | 0 | 2 | 0 / 2 |
+| VNM / CHOPPY | 7 | 61 | 0–10 | 7 | 4 / 4 | 6 | 3 | 7 | 1 / 1 |
+| VNM / CONSOLIDATION | 6 | 19 | 0–1 | 0 | 0 / 0 | 0 | 0 | 0 | 0 / 0 |
+| **Tổng** | **60** | **19–85** | **0–20** | **37** | **11 / 11** | **26** | **8** | **29** | **4 / 9** |
+
+BEAR không có query, giữ N=0/metric=null. Theo FPT/MWG/VCB/VNM,
+S=2/2/2/5, E=4/7/8/7, T=1/2/2/3 và V=5/7/8/9, khớp W7-11.
+Trong 60 điểm có **8 cả hai, 3 chỉ stats, 18 chỉ examples, 31 không có block**.
+T gồm đúng tám point đã liệt kê ở W7-11; 3 điểm chỉ stats là
+FPT-2023-07-31, VNM-2023-01-06 và VNM-2023-08-29: cả ba thiếu query
+feature do `CORPORATE_ACTION_WINDOW`. Vì thế T=8 không phải chỉ có tám
+Decision nhận prior, cũng không phải tám ví dụ trong một prompt; K vẫn bằng 3.
+
+**Nút thắt đã quan sát.** Cả 23 query CONSOLIDATION có P=19 nên bị chặn
+population; 37 query còn lại đủ P nhưng chỉ 11 đủ conditional support.
+26 query đủ P mà stats chưa ready đều có C từ 0 đến 4. Trên **240 ô metric**
+(60×4), 31 READY, 209 thiếu conditional support; trong các ô thiếu support
+có 131 không có conditional history, 92 cũng thiếu population và 8 có
+CrI rộng >0,75. Các reason chồng lấp, không cộng thành số query. Không có
+ô bị loại **chỉ** vì khoảng rộng, không có ô support≥5 bị khoảng rộng chặn.
+
+Examples: 60/60 scaler AVAILABLE; query feature AVAILABLE 50/60,
+10/60 UNAVAILABLE đều do corporate action window. Trong 37 query đủ P,
+26 examples ready; 11 còn lại gồm **7 thiếu query feature + 4 có feature
+nhưng không còn ví dụ đạt điều kiện**. Bốn ca sau là FPT-2023-10-30,
+MWG-2023-10-30/2023-11-23 và VCB-2023-01-06; trace giữ các lý do
+`PRIOR_FEATURE_UNAVAILABLE`, `PRIOR_TOO_OLD`, `BELOW_MIN_SIMILARITY`.
+Ba query thiếu feature còn lại đã nằm trong 23 query P<20; không đếm hai lần.
+Trên 60 query, trace ghi 539 lượt candidate thiếu feature, 934 quá tuổi,
+1.599 dưới similarity, 68 `K_LIMIT`, 15 `SESSION_GAP_TOO_SMALL`;
+đây là lượt episode-query với reason có thể chồng lấp, không phải episode
+độc lập. K/diversity giới hạn số ví dụ, không giải thích ca không còn ví dụ
+đạt điều kiện. C0 hiển thị 37/60; C1 ghép gate với examples nên 26/60;
+C2/C3 tách block phục hồi 3 query chỉ stats thành V=29/60.
+
+**Cap không gây mất block trong run này.** Prefix dài nhất C2/C3=486≤600,
+prompt dài nhất toàn run=4.534<6.500. Builder v3 ném lỗi khi prefix vượt
+trần, không âm thầm cắt K/metric; không thấy lỗi cap trong 660 Decision
+complete. Report hiện tại vẫn được distill/cap trước ghép prompt; chưa có
+đối chứng để kết luận phần report bị rút gọn không ảnh hưởng suy luận.
+
+**Kiểm request prior-off.** So UTF-8 của `candidates/<id>/<point>.json:prompt`
+với `v1/<symbol>/points/<point>.json:branches.original.input.prompt.text`:
+
+| Nhánh | Prior-off | Prompt trùng byte Original | Cùng đường structured legacy | Bất đồng action |
+| --- | ---: | ---: | ---: | ---: |
+| C0 | 23 | 23 | 23 | 0 |
+| C1 | 34 | 34 | 34 | 1 |
+| C2 | 31 | 31 | 31 | 1 |
+| C3 | 31 | 31 | 31 | 0 |
+| C3_stats_only | 49 | 49 | 49 | 1 |
+| C3_examples_only | 34 | 34 | 34 | 0 |
+| **Tổng lượt so** | **202** | **202** | **202** | **3** |
+
+Ở cả 202 lượt, output ghi `llm_structured`. Code đã khóa chọn
+`TradeDecisionOutput`, `method=json_schema`, `include_raw=True`; C1–C3
+prior-off có prefix rỗng và `decision_contract_version=decision_legacy_v1`.
+Schema có 7 field cũ, không thêm `prior_use`. Factory dùng cùng agent LLM:
+`openai/gpt-oss-20b`, temperature=0, max_tokens=2048, reasoning_effort=low,
+reasoning_format=hidden, max_retries=0; không đăng ký seed Decision.
+Đối chiếu nguồn tại `agents/decision_agent.py:create_final_trade_decider`,
+`core/prior_prompt.py:build_prior_request` và
+`scripts/run_bayesian_ablation.py:make_builder`, cùng plan/runtime đã verify.
+Internal request hash vẫn khác vì candidate/content/source binding khác;
+những field này không tự động thành nội dung HTTP gửi model.
+
+Ba bất đồng tập trung ở **hai point**: C1/C2 LONG còn Original SHORT tại
+MWG-2023-07-05; stats_only LONG còn Original SHORT tại VCB-2023-08-29.
+Hash prompt lần lượt là
+`cf501d8e78e4823138fd959fa4326f5006766ad96194124276a53f015e86ed73` và
+`5913366288cffe0d1fed66283427459a40e232cf354fd9ee4e71a3affb32510e`.
+MWG C1/C2 cùng 1.602 prompt tokens nhưng response fingerprint lần lượt
+`fp_ef00694abe` / `fp_a8c584dda7`; VCB stats_only có 1.634 prompt tokens,
+fingerprint `fp_d3e146e1a5`. Đây là metadata response đã lưu, không phải
+bằng chứng fingerprint gây đổi action. Checkpoint Original không lưu đủ
+metadata response này và không lưu nguyên HTTP request body/header.
+**Kết luận audit:** prompt trùng byte, schema/model/options phía client
+cùng cấu hình; chưa thể chứng nhận toàn HTTP request nguyên byte hoặc
+xác định nguyên nhân phía provider. 3/202 là mô tả các lượt so phụ thuộc,
+không phải ước lượng nhiễu nền độc lập. Cần phép lặp cùng request đã đăng ký
+ở W7-14/W8 trước quy kết hiệu ứng prior; không gán lợi ích prior cho ba ca này.
+
+**Trace NOT_USED.** C3=29/29, examples_only=26/26 NOT_USED;
+stats_only=9/11 NOT_USED và 2/11 SUPPORTS. C3 có 11/29 ca metric visible
+mà vẫn NOT_USED; stats_only có 9 ca tương tự. FPT-2023-07-31 có cả bốn
+metric visible/ready, nhưng reason tự khai là “Không có dữ liệu metric phù
+hợp để áp dụng”; MWG-2023-06-30 cũng có stats/examples ready mà tự báo
+không có prior phù hợp. Schema chỉ kiểm enum/IDs/visibility, không kiểm
+được trung thực của reason hay quá trình suy luận. NOT_USED có thể là
+bác bằng chứng, hiểu sai hoặc self-report không đáng tin; chưa phân biệt
+được các khả năng này. Giữ raw response và mọi action, không sửa trace,
+ép dùng prior hoặc coi NOT_USED là bằng chứng nhân quả model bỏ qua prefix.
+
+**Case kiểm lại.** Liên kết trỏ file bất biến; cột hash là 12 ký tự đầu
+SHA-256, hash đầy đủ đã đối chiếu với binding của report.
+
+| Case / checkpoint | SHA-256 đầu | Quan sát phục vụ chẩn đoán |
+| --- | --- | --- |
+| [C1 MWG-2023-07-05](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidates/C1/MWG-2023-07-05.json) | `66b1bb8a186a` | Prior-off, prompt trùng Original nhưng action khác |
+| [C2 MWG-2023-07-05](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidates/C2/MWG-2023-07-05.json) | `f8b83df3ec5c` | P=19, C=1, retrieved=2 nhưng visible=0 |
+| [stats_only VCB-2023-08-29](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidates/C3_stats_only/VCB-2023-08-29.json) | `cf9a051d5bab` | C=1 nên stats tắt, schema legacy; action khác Original |
+| [C3 FPT-2023-06-27](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidates/C3/FPT-2023-06-27.json) | `e9f024d50e74` | P=83, C=6, cả hai ready; NOT_USED |
+| [C3 FPT-2023-07-31](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidates/C3/FPT-2023-07-31.json) | `1710afae846e` | Stats ready, feature thiếu; reason phủ nhận metric visible |
+| [C2 MWG-2023-11-23](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidates/C2/MWG-2023-11-23.json) | `4405892c89f9` | Feature query có, không còn ví dụ đạt điều kiện |
+
+**Giả thuyết bàn giao cho W7-14, chưa phải kết luận nguyên nhân.**
+
+| Giả thuyết | Bằng chứng đã thấy | Phần chưa kiểm / phép kiểm cần khóa |
+| --- | --- | --- |
+| Biến thiên Decision/provider lẫn hiệu ứng prior | 3 bất đồng prior-off trên 202 lượt prompt giống nhau; contract tắt về legacy | Lặp cùng request, thứ tự nhánh/seed định trước; so phân phối action trước quy kết hiệu ứng |
+| Support điều kiện thưa do khớp cứng T/P/A/I | 37 đủ P nhưng 11 stats ready; toàn CONSOLIDATION P=19 | Partial pooling/độ ổn định xác suất ngoài thời gian; chưa chứng minh lọc cứng gây giảm return, không hạ gate sau xem kết quả |
+| Feature/age/similarity hạn chế examples | 7 query đủ P thiếu feature và 4 query không còn ví dụ đạt điều kiện | Kiểm retrieval/feature PIT và ablation giữ posterior/prompt chung; không bỏ corporate-action guard để tăng coverage |
+| Truyền đạt/ngữ nghĩa prior hoặc self-report chưa hiệu quả | Metric visible nhưng NOT_USED, reason đôi khi không khớp prefix | Cùng schema và bằng chứng khi ablation prompt; trace chỉ phụ trợ, action/metric ghép cặp mới đánh giá tác động |
+| Khoảng tin cậy/cap là nút thắt chính | 8 ô CrI rộng đều thiếu support; không lỗi cap | Chưa thấy bằng chứng đây là bottleneck độc lập; không ưu tiên nới interval/token để giải thích run cũ |
+
+**Kiểm tra theo phạm vi:** thay đổi chỉ `AGENTS.md` và tài liệu kế hoạch;
+không đổi code/test/runtime/schema/dữ liệu. Chạy verifier report production
+offline, đối chiếu số đếm/funnel/prompt và hash nguồn; `git diff --check`
+và liên kết nội bộ PASS. Không chạy lại compileall/unit/E2E/leakage suite
+theo mục 1.2 AGENTS.md mới; gate W7-11 là bằng chứng lịch sử của cùng
+code/runtime, không báo thành test vừa chạy. Đối chiếu 597 file thuộc
+code/source/checkpoint binding cùng report/selection/amendment/ledger
+nguyên byte trong phiên phân tích. **W7 đạt 13/16**; tiếp theo **W7-14**
+khóa protocol một vòng cải tiến, chưa tạo manifest hoặc chạy holdout.
 
 #### W7-14 — Khóa protocol vòng cải tiến
 
@@ -1250,7 +1405,7 @@ tiếp theo **W7-13** khóa mục tiêu kiểm định/protocol trước manifes
   chỉ vì đã soạn kế hoạch; mọi kết quả mới phải có artifact thật.
 
 **Gate D mới:** 13–16 DONE mở W8 cải tiến; không cấp phép chạy holdout.
-Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện vẫn **12/16**.
+Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **13/16**.
 
 ## 4. Tổ chức implementation và kiểm thử
 
@@ -1262,7 +1417,9 @@ Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện vẫn **12/16
   mỗi schema/JSON mới phải có producer, loader, verifier và test consumer.
   README giữ checklist/phương pháp/kết quả; chưa tạo sẵn receipt/JSON rỗng.
 - Mỗi task dùng branch riêng từ `develop`, commit Conventional Commits
-  mô tả kỹ thuật, không có ký hiệu tuần. Merge sau bốn gate theo AGENTS.md:
+  mô tả kỹ thuật, không có ký hiệu tuần. Kiểm tra theo phạm vi tại mục 1.2
+  AGENTS.md; task thuần tài liệu không cần chạy suite. Các mốc W7-15/16
+  vẫn yêu cầu đủ bốn gate kỹ thuật theo tiêu chí nghiệm thu đã định:
 
 ```powershell
 py -3.13 -m compileall agents core data_manager scripts tests utils
@@ -1301,6 +1458,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 16/10/2026 | W7-11 | DONE, 11/16; tái dựng semantic toàn run và report v5 PASS, G/S đủ 60 trên 11 nhánh/19 cặp. Bảng D/ΔR/ΔMDD/exposure/phân loại theo mã/regime, prior-off, T=8 và mọi ca LONG bất lợi đã đối chiếu; giữ trace NOT_USED và giới hạn quy kết. Compileall/E2E, 859 unit/163 leakage PASS, không skip; 801 file nguồn/bằng chứng nguyên byte. Chưa selection hoặc mở holdout | W7-12 |
 | 16/10/2026 | W7-12 | DONE, 12/16; Phase C DONE / Gate C PASS. Selection production và verifier offline khóa C2 NOT_PROMOTED, triển khai Original, risk OFF; 6 eligible/0 promote, C2 chỉ 2/4 mã dương. Oracle độc lập khớp metric/ranking/reason, giữ toàn bộ model/client/prompt/K/ngưỡng/versions. Kế thừa bốn gate cùng code/runtime W7-11; 801 hash cũ và artifact lựa chọn nguyên byte | W7-13 |
 | 16/10/2026 | Điều chỉnh kế hoạch | Giữ 12/16; thay Phase D chưa chạy bằng chẩn đoán/bàn giao cải tiến; giữ 10 tuần, cải tiến/khóa W8, benchmark/thống kê W9; selection cũ nguyên trạng | W7-13 |
+| 16/10/2026 | W7-13 | DONE, 13/16; funnel development theo mã/regime: P đủ 37, stats 11/examples 26/cả hai 8/visible 29. Audit 202 prior-off prompt trùng byte/schema legacy/model/options client, giữ 3 bất đồng trên 2 point và giới hạn HTTP/trace. Verifier report, số đếm/hash/liên kết/diff PASS; chỉ tài liệu, không chạy lại suite theo AGENTS.md mới. Giữ C2 NOT_PROMOTED/Original/risk OFF, không API hoặc outcome holdout | W7-14 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

@@ -277,7 +277,8 @@ một upstream/point; không chèn cấu hình mới vào checkpoint cũ.
 nhưng ΔR>0 chỉ 2/4 mã, 0/6 ứng viên được promote. W7-11 có 8/60 điểm
 cả stats/examples ready, bất đồng cả khi prior-off và trace NOT_USED.
 Đây là dấu hiệu cần chẩn đoán, chưa chứng minh nguyên nhân. Xem
-[phân tích W7](week7/README.md#kết-quả-đối-soát-và-phân-tích-16102026).
+[phân tích W7](week7/README.md#kết-quả-đối-soát-và-phân-tích-16102026) và
+[chẩn đoán W7-13](week7/README.md#chẩn-đoán-development-và-kiểm-attribution-16102026).
 
 | Ưu tiên | Giả thuyết cần kiểm | Can thiệp có giới hạn | Bằng chứng cần có |
 | --- | --- | --- | --- |
@@ -739,19 +740,19 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 12/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 13/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 16/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 12/16 hoàn thành**; tiếp theo **W7-13**. Gate A/B/C PASS, Phase A/B/C DONE;
+  16 task, 13/16 hoàn thành**; tiếp theo **W7-14**. Gate A/B/C PASS, Phase A/B/C DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API; Gate B PASS.
   - [x] Phase C, W7-10–12 DONE: development đã verify, khóa C2 NOT_PROMOTED
     theo tiêu chí W6-04, triển khai Original, risk OFF; Gate C PASS.
-  - [ ] Phase D, W7-13–16: chẩn đoán nguyên nhân, khóa vòng cải tiến,
+  - [ ] Phase D IN_PROGRESS, W7-13 DONE / W7-14–16 TODO: chẩn đoán nguyên nhân, khóa vòng cải tiến,
     nghiệm thu bàn giao W8; hoãn manifest holdout sang cuối W8.
 - **W7-01, 12/10/2026:** audit code/runtime/registry/nguồn PASS; 1.992 nguồn
   và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm development và
@@ -853,6 +854,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   compileall/E2E PASS); 801 hash cũ nguyên byte, chỉ thêm selection.
   **12/16 DONE / Phase C DONE / Gate C PASS**; tiếp theo W7-13, chưa dùng
   outcome holdout 2024 để chọn cấu hình.
+- **W7-13, 16/10/2026:** đối chiếu report đã verify và checkpoint development;
+  funnel C2/C3 có 37/60 query đủ P, stats ready 11, examples ready 26,
+  cả hai ready 8 và visible 29. Toàn bộ 23 CONSOLIDATION có P=19;
+  26 query đủ P nhưng C<5, thiếu feature và lọc examples được tách riêng.
+  Audit 202 prior-off có prompt trùng byte Original và schema/model/options
+  client cùng cấu hình; 3 bất đồng nằm ở 2 point, chưa đủ bằng chứng nguyên
+  HTTP request hoặc nguyên nhân provider. Giữ trace NOT_USED là self-report,
+  bảng giả thuyết/case/hash tại README W7. Chỉ tài liệu; verifier/hash/số đếm/
+  liên kết/diff PASS, không chạy lại suite theo AGENTS.md mục 1.2.
+  **13/16 DONE**, tiếp theo W7-14; chưa API hoặc mở outcome holdout.
 - **Nhiệm vụ cụ thể**:
   - [x] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
@@ -868,7 +879,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     Original vẫn là lựa chọn triển khai và ứng viên nghiên cứu đủ điều kiện
     mang nhãn NOT_PROMOTED. Tập đủ điều kiện rỗng thì Gate C BLOCKED;
     không coi validation thắng là bằng chứng hiệu quả cuối.
-  - [ ] W7-13–16: chẩn đoán coverage/attribution, khóa tối đa hai cấu hình
+  - [x] W7-13: chẩn đoán coverage/attribution từ development đã verify,
+    phân biệt bằng chứng và giả thuyết; kiểm request prior-off và trace.
+  - [ ] W7-14–16: khóa tối đa hai cấu hình
     và một vòng cải tiến; bàn giao W8 theo README W7 đã điều chỉnh.
 - **Deliverables cuối W7**: giữ C2 NOT_PROMOTED; hồ sơ nguyên nhân,
   protocol phát triển và hướng dẫn offline/API. Gate D mới mở W8 cải tiến,
