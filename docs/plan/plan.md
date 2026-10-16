@@ -684,12 +684,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 10/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 11/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 16/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 10/16 hoàn thành**; tiếp theo **W7-11**. Gate A/B PASS, Phase A/B DONE;
+  16 task, 11/16 hoàn thành**; tiếp theo **W7-12**. Gate A/B PASS, Phase A/B DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
@@ -778,6 +778,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   upstream chỉ một lần/point, risk OFF. Report/checkpoint/ledger nguyên byte,
   không thêm API hoặc mở holdout. **10/16 DONE**, tiếp theo W7-11; Gate C
   còn phân tích và quyết định ứng viên.
+- **W7-11, 16/10/2026:** verifier semantic toàn run và report v5 PASS offline,
+  common support đủ 60 điểm trên 11 nhánh và 19 cặp. Đã tổng hợp toàn bộ
+  ứng viên theo mã/regime, D/ΔR/ΔMDD/exposure/phân loại, prior-off và ablation
+  cả stats/examples ready (8/60). C2 D=+1,7428 điểm phần trăm nhưng ΔR>0
+  chỉ ở 2/4 mã; giữ đối chứng v1, các ca bất lợi, trace NOT_USED và giới hạn
+  quy kết từ chênh lệch prior-off. **859 unit/163 leakage, compileall/E2E PASS**,
+  không skip; cùng code/config/runtime, 801 file nguồn/bằng chứng nguyên byte.
+  Report đã verify giữ nguyên hash, chưa selector/holdout. **11/16 DONE**,
+  tiếp theo W7-12; Gate C còn quyết định ứng viên.
 - **Nhiệm vụ cụ thể**:
   - [x] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
@@ -785,7 +794,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     60 điểm development 2023 đã khóa. Lượt LLM theo fold train, nếu cần,
     phải có protocol riêng trước API. Giữ outcome 2024 ngoài lựa chọn;
     upstream chỉ một lần/point.
-  - [ ] So v1/v2/Original và ablation đã định trên common support; đọc
+  - [x] So v1/v2/Original và ablation đã định trên common support; đọc
     net return, MDD, balanced accuracy, số giao dịch/CASH và các bất đồng.
     Đánh giá ca LONG bất chấp cảnh báo trên nhiều điểm, không chỉ pilot FPT.
   - [ ] Chốt một ứng viên, tham số/prompt/K/policy/model và mục tiêu kiểm định.
