@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và bàn giao cải tiến Bayesian ICL
 
-**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 13/16 task hoàn thành; Phase D IN_PROGRESS.**
-Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-14**.
+**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 14/16 task hoàn thành; Phase D IN_PROGRESS.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-15**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## Điều chỉnh kế hoạch ngày 16/10/2026
@@ -361,7 +361,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [x] DONE |
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [x] DONE |
 | D | W7-13 | Chẩn đoán nút thắt và kiểm attribution | Gate C | [x] DONE |
-| D | W7-14 | Khóa protocol vòng cải tiến | 13 | [ ] TODO |
+| D | W7-14 | Khóa protocol vòng cải tiến | 13 | [x] DONE |
 | D | W7-15 | Kiểm nguồn và khả năng tái lập | 14 | [ ] TODO |
 | D | W7-16 | Bàn giao triển khai cải tiến W8 | 15 | [ ] TODO |
 
@@ -1390,6 +1390,34 @@ khóa protocol một vòng cải tiến, chưa tạo manifest hoặc chạy hold
 - **Đạt khi:** mỗi thay đổi gắn giả thuyết/ablation; 2023 được ghi exploratory;
   không nới promotion hoặc mở outcome 2024. Chưa tạo manifest holdout.
 
+##### Protocol cải tiến đã khóa, 16/10/2026
+
+**W7-14 DONE.** `improvement_protocol_v1` được đặc tả tại
+[README W8](../week8/README.md#protocol-cải-tiến-đã-khóa-tại-w7-14) và
+[README W9](../week9/README.md#protocol-thống-kê-đã-khóa-tại-w7-14).
+Hai cấu hình mới dành trước: `A_tp_pool` chỉ mở conditional từ T/P/A/I
+sang T/P với background rời nhau/strength=4; `B_semantic` giữ evidence C2
+và đổi ngữ nghĩa/bố cục prefix. Không ghép A+B, không hạ P≥20/C≥5/CrI≤0,75,
+không sửa retrieval/K/model/options, schema Decision legacy hoặc promotion.
+
+Đã khóa ma trận 11 nhánh với ablation C2/A/B, nomination full-prior
+C2/A/B và tie-break; giữ 60 điểm development exploratory/64 holdout W5.
+Mẫu lặp 12 point chọn bằng ngày/readiness C2, ba lượt bổ sung, có Original
+duplicate cùng request; thứ tự xoay nhánh định trước. Lượt lặp tách khỏi
+primary và selection. W9 khóa một primary selected−Original, bootstrap
+cụm ngày L=4/10.000 draw/PCG64 seed=20261016/CI95%, family secondary có
+Bonferroni và quy tắc missing/invalid. Dừng một vòng/hai cấu hình hoặc hết
+W8; không tune lại theo return hoặc outcome 2024.
+
+**Phạm vi nghiệm thu:** đây là task khóa đặc tả, chưa hiện thực schema,
+registry, producer/loader/verifier hoặc tạo manifest mới; W8 vẫn 0/8,
+W9 vẫn 0/6. Rà nguồn implementation, tái dựng 12 point/rank/pool bằng
+metadata readiness (không đọc nhãn để chọn), kiểm xoay nhánh và token bản
+nháp B trên evidence cũ. Số liệu/liên kết/diff và 597 hash nguồn/bằng chứng
+PASS. Không gọi API/đọc outcome holdout, không chạy lại compileall/unit/E2E/
+leakage suite cho thay đổi Markdown theo AGENTS.md mục 1.2. Gate D vẫn chờ
+15–16; **W7 đạt 14/16**, tiếp theo **W7-15** kiểm nguồn/khả năng tái lập.
+
 #### W7-15 — Kiểm nguồn và khả năng tái lập
 
 - **Làm:** đối chiếu hash report/selection/checkpoint/runtime cũ; xác định
@@ -1408,7 +1436,7 @@ khóa protocol một vòng cải tiến, chưa tạo manifest hoặc chạy hold
   chỉ vì đã soạn kế hoạch; mọi kết quả mới phải có artifact thật.
 
 **Gate D mới:** 13–16 DONE mở W8 cải tiến; không cấp phép chạy holdout.
-Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **13/16**.
+Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **14/16**.
 
 ## 4. Tổ chức implementation và kiểm thử
 
@@ -1462,6 +1490,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 16/10/2026 | W7-12 | DONE, 12/16; Phase C DONE / Gate C PASS. Selection production và verifier offline khóa C2 NOT_PROMOTED, triển khai Original, risk OFF; 6 eligible/0 promote, C2 chỉ 2/4 mã dương. Oracle độc lập khớp metric/ranking/reason, giữ toàn bộ model/client/prompt/K/ngưỡng/versions. Kế thừa bốn gate cùng code/runtime W7-11; 801 hash cũ và artifact lựa chọn nguyên byte | W7-13 |
 | 16/10/2026 | Điều chỉnh kế hoạch | Giữ 12/16; thay Phase D chưa chạy bằng chẩn đoán/bàn giao cải tiến; giữ 10 tuần, cải tiến/khóa W8, benchmark/thống kê W9; selection cũ nguyên trạng | W7-13 |
 | 16/10/2026 | W7-13 | DONE, 13/16; funnel development theo mã/regime: P đủ 37, stats 11/examples 26/cả hai 8/visible 29. Audit 202 prior-off prompt trùng byte/schema legacy/model/options client, giữ 3 bất đồng trên 2 point và giới hạn HTTP/trace. Verifier report, số đếm/hash/liên kết/diff PASS; chỉ tài liệu, không chạy lại suite theo AGENTS.md mới. Giữ C2 NOT_PROMOTED/Original/risk OFF, không API hoặc outcome holdout | W7-14 |
+| 16/10/2026 | W7-14 | DONE, 14/16; đặc tả improvement_protocol_v1 tại W8/W9 khóa A_tp_pool/B_semantic, ma trận/ablation, 12 point×3 lượt bổ sung, thứ tự/seed, metric/eligibility/CI và điểm dừng. Ngưỡng kinh tế/PIT/quality/promotion giữ nguyên; chỉ Markdown, QA tài liệu/hash PASS, không chạy lại suite/API hoặc tạo manifest holdout | W7-15 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

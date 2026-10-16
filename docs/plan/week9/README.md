@@ -8,8 +8,76 @@
 Gate W8 PASS, selection/protocol/manifest mới đã khóa; cohort 2024 gồm
 64 điểm, 16 điểm mỗi mã FPT/VNM/VCB/MWG. Không mở holdout trước khóa.
 Dành khoảng 60% tuần cho chạy/đối soát và 40% cho thống kê/hình/bảng;
-công cụ thống kê đã chuẩn bị bằng fixture ở W8. Không phát triển ứng viên
+công cụ thống kê phải được chuẩn bị bằng fixture ở W8. Không phát triển ứng viên
 mới trong tuần này; người dùng tự thực hiện preflight/API theo CLI đã kiểm.
+
+## Protocol thống kê đã khóa tại W7-14
+
+Áp dụng `improvement_protocol_v1` từ
+[W8](../week8/README.md#protocol-cải-tiến-đã-khóa-tại-w7-14), hiệu lực
+16/10/2026; đây là đặc tả, chưa có manifest holdout hoặc công cụ mới.
+Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
+Ma trận xác nhận gồm `original, bayesian, C2, selected_full,
+selected_stats_only, selected_examples_only`; ánh xạ selected bằng selection
+W8 rồi gộp ID trùng trước API. Chỉ ứng viên đã chọn được xem outcome; không
+chạy cả A/B để chọn lại. Ablation dùng evidence/schema của chính selected,
+không thay C2 bằng C3. Nếu thiếu consumer/verifier thì gate BLOCKED.
+
+Primary mỗi point/nhánh **một Decision**, repeat_id=0. Xếp point theo
+(as_of_date, thứ tự mã FPT/MWG/VCB/VNM), j từ 0; xoay trái danh sách ID
+đã gộp j mod M bước, M là số nhánh. Giữ model/options, retrieval seed=42,
+risk OFF và upstream một lần/point như W8. Không lặp holdout để lấy lượt
+thuận lợi. Selection/registry/protocol và danh sách ID/thứ tự thực tế phải
+bind vào manifest trước preflight/API; W8-07 mới tạo manifest này.
+
+**Estimand chính:** D=(1/4)Σ_s(R_selected,s−R_original,s), đơn vị điểm
+phần trăm, R là return tài khoản từ vốn đầu 50 triệu trên lịch của từng mã,
+giữ engine lot/phí và T+2.5. Không lấy mean cycle return thay D, không gọi D
+là return portfolio. Hướng mong đợi D>0; báo ΔR và ΔMDD từng mã/mean/max,
+ΔMDD>0 là rủi ro tăng. Common support G chỉ COMPLETE khi đủ 64 điểm ở
+mọi nhánh đã khóa; thiếu nhánh/unknown thì primary INCOMPLETE, không loại
+điểm lỗi hoặc điền CASH. Pairwise phần có được chỉ là mô tả, không thay G.
+
+**CI chính:** circular moving-block bootstrap trên chuỗi ngày cutoff duy
+nhất tăng dần trong G, **L=4 ngày cutoff liên tiếp**, không phải bốn phiên
+thị trường. Mỗi cụm giữ mọi mã có point ngày đó và mọi nhánh; không tạo
+point cho mã vắng. Dùng NumPy `Generator(PCG64(20261016))`, **10.000 lần**:
+lấy ceil(n_dates/4) điểm bắt đầu uniform có hoàn lại trong [0,n_dates−1],
+mỗi điểm lấy bốn cụm liên tiếp modulo n_dates, nối rồi cắt còn n_dates.
+Cùng chuỗi index cho mọi nhánh và mọi contrast. Dựng lại tài khoản từng mã
+từ vốn đầu theo thứ tự mẫu tổng hợp, cùng lot/giá entry-exit/phí engine;
+không cộng R/MDD đã tính sẵn hoặc sắp mẫu lại theo ngày lịch gốc. Số cycle
+mỗi mã có thể đổi khi resample cụm; phải báo phân phối count từng mã.
+
+CI percentile hai phía 95% lấy quantile 0,025/0,975, `method=linear`, của
+D hữu hạn. Draw thiếu mã hoặc metric không hữu hạn là INVALID, ghi lý do;
+không sinh thêm draw để thay. Cần ≥9.500/10.000 draw hợp lệ, nếu thiếu thì
+CI=BLOCKED/insufficient, giữ point estimate nhưng không claim xác nhận.
+CI hoàn toàn >0 hỗ trợ hiệu ứng dương trên cohort/protocol này; CI chạm
+hoặc qua 0 là inconclusive, không kết luận tương đương. CI điều kiện trên
+method/Decision đã lưu; không bao gồm bất định training, provider hoặc
+kiến thức LLM lịch sử. L=4 chọn trước outcome để giữ phụ thuộc cục bộ trong
+lịch rút gọn; không khẳng định là block tối ưu. Kiểm L=2/8 với cùng seed,
+10.000 draw mỗi L, chỉ độ nhạy mô tả, không đổi CI chính hoặc chọn CI đẹp nhất.
+
+**Secondary cố định:** selected−C2, selected−Bayesian v1,
+selected_full−selected_stats_only và selected_full−selected_examples_only.
+Contrast trùng/đồng nhất ID bị gộp trước API (selected=C2 thì bỏ contrast
+tự so); số contrast m được ghi vào manifest. Dùng cùng bootstrap, CI
+percentile Bonferroni mức 1−0,05/m cho từng D, quantile 0,05/(2m) và
+1−0,05/(2m). Đây là family secondary riêng, không thêm phép so sau outcome.
+MDD, accuracy, LONG/CASH, exposure, bảng action 2×2, Q1–Q4/H1–H2,
+leave-one-symbol-out và subgroup prior-off/ready là mô tả; có mẫu số/null.
+Không dùng McNemar/Wilcoxon làm kiểm định xác nhận trong protocol này vì
+không bảo đảm các cycle độc lập. Không lấy p-value danh nghĩa để bỏ qua
+phụ thuộc hoặc thay primary. Sharpe/Sortino giữ quy ước chu kỳ đã có.
+
+Full/stats/examples phải cùng base evidence và schema, khác content mode;
+G mô tả hiệu ứng gồm cả visibility/fallback, T cùng ready mới xem thành
+phần trên bằng chứng chung. Trace không xác nhận cơ chế suy luận. Calibration
+chỉ dùng xác suất sự kiện hợp lệ theo diagnostics W8, confidence văn bản
+không là p. Không chọn/promote lại theo holdout, kể cả secondary hoặc subgroup
+đẹp hơn; kết quả âm và thiếu lực kiểm định vẫn là kết quả phải công bố.
 
 ## Checklist
 
@@ -39,7 +107,7 @@ run mới; nếu đã xem outcome, kết quả sau sửa là exploratory.
 
 Báo ΔR từng mã và trung bình đều bốn mã (không gọi là return portfolio),
 MDD, LONG/CASH, exposure, balanced accuracy, common support và uncertainty.
-CI bootstrap theo block/cụm ngày và các kiểm phụ dùng tham số đã khóa W8;
+CI bootstrap theo block/cụm ngày và các kiểm phụ dùng đặc tả W7-14 đã bind ở W8;
 không chọn block/kiểm định vì p-value đẹp. Sharpe/Sortino giữ quy ước chu kỳ,
 không tự annualize bằng √252. Phân tích calibration chỉ khi có xác suất
 sự kiện hợp lệ. Không đủ lực kiểm định thì báo inconclusive.
