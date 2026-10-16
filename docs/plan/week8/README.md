@@ -1,6 +1,7 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: TODO, 0/8.** Kế hoạch điều chỉnh 16/10/2026; giữ deadline 10 tuần.
+**Trạng thái: IN_PROGRESS, 1/8; W8-01 DONE, tiếp theo W8-02.**
+Kế hoạch điều chỉnh 16/10/2026; cập nhật 17/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
 ## Mục tiêu và giới hạn
@@ -79,7 +80,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 
 | Task | Công việc và đầu ra | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W8-01 | Ánh xạ protocol W7-14 vào registry/version; kiểm khả năng thực thi, identity và audit byte prior-off | W7 Gate D | [ ] TODO |
+| W8-01 | Ánh xạ protocol W7-14 vào registry/version; kiểm khả năng thực thi, identity và audit byte prior-off | W7 Gate D | [x] DONE |
 | W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [ ] TODO |
 | W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [ ] TODO |
 | W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [ ] TODO |
@@ -87,6 +88,118 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [ ] TODO |
 | W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [ ] TODO |
 | W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [ ] TODO |
+
+### W8-01 — Ánh xạ registry, capability và identity, 17/10/2026
+
+**DONE, chỉ kiểm toán và ánh xạ.** Đầu vào [Gate D W7 PASS](../week7/README.md#bàn-giao-và-nghiệm-thu-16102026)
+đã đối chiếu với code và artifact local. Không đổi đặc tả W7-14 ở trên hoặc
+protocol W9. A/B vẫn **NOT_RUN**; các version dành trước dưới đây chưa là
+schema/runtime được chấp nhận. Chưa mở gate API W8 hoặc holdout.
+
+**Registry đích:** `improvement_candidates_v1`, tách khỏi
+`prior_candidates_v1` sáu hồ sơ W7. Thứ tự primary giữ đúng 11 ID trong
+protocol bên dưới; tập nomination chỉ `C2, A_tp_pool, B_semantic`.
+
+| Hồ sơ đích | Base evidence / statistics | Gate / prefix | Decision / content mode |
+| --- | --- | --- | --- |
+| `original`, `bayesian` | Đường Original và Bayesian v1 hiện có, cùng shared bundle | Giữ request contract từng đường làm đối chứng | `decision_legacy_v1`, không thêm prior-use |
+| `C2` | `prior_evidence_v3` / `conditional_disjoint_beta_v1`, khớp T/P/A/I | `split_quality_gate_v2` / `compact_brpp_v3` | `decision_legacy_v1` / `full_prior` |
+| `A_tp_pool` | `improvement_prior_evidence_v1` / `conditional_tp_disjoint_beta_v1`, chỉ đổi partition C/B sang T/P | Cùng ngưỡng `split_quality_gate_v2` / `compact_brpp_v3_tp_v1` | `decision_legacy_v1` / `full_prior` |
+| `B_semantic` | Nguyên base evidence/hash/statistics C2; không dựng nhóm mới | Cùng gate/visible IDs C2 / `compact_brpp_semantic_v1` | `decision_legacy_v1` / `full_prior` |
+| `{C2,A_tp_pool,B_semantic}_stats_only`, `{C2,A_tp_pool,B_semantic}_examples_only` | Cùng base/hash với full tương ứng; sáu ID riêng | Cùng renderer/version của base, chỉ ẩn block theo content mode | `decision_legacy_v1` / `stats_only` hoặc `examples_only` |
+
+`original_duplicate` chỉ là alias request Original trong repeat, không thuộc
+11 ID primary hoặc tập nomination. Không mượn C3 cho ablation C2: C3 visible
+dùng `decision_prior_use_v1`. Evidence A phải có discriminator/version riêng
+và được tái dựng từ bank; không đổi nghĩa `prior_evidence_v3`/statistics C2.
+Request revision `improvement_prior_request_v1` bind ID/base evidence,
+content mode, visible IDs, prefix/version và query/source; hash base chung
+không thay hash request riêng. C2/B giữ base evidence v3 nguyên vẹn trong
+revision mới; parser/validator phải phân biệt evidence A với C2/B.
+
+**Biên cần giữ khi làm A:** không sửa `SIGNAL_FIELDS` toàn cục thành T/P,
+vì `core/prior_price_similarity.py` cũng dùng bốn field đó để chấm retrieval.
+Chỉ chọn trường khớp partition tại producer thống kê A; selection/query
+features/index/scaler và examples phải giống C2 trên cùng query. B giữ cả
+statistics và selection C2; các mode chỉ đổi visibility/prefix theo đặc tả.
+
+**Capability thực và biên cần triển khai:**
+
+| Biên hiện tại | Khoảng trống đã đối chiếu | Revision / producer → loader/verifier đích |
+| --- | --- | --- |
+| `core/prior_conditional_statistics.py`, `core/prior_quality_gate.py` | Conditional chỉ khớp toàn bộ `SIGNAL_FIELDS`; config không có method selector. Quality producer luôn gọi statistics hiện tại | W8-02: producer A cùng masks/counts/hyperprior, version riêng; validator rebuild P/C_A/B_A và posterior, giữ C2. Tái dùng logic readiness, không đổi ngưỡng |
+| `core/prior_prompt.py`, `agents/decision_agent.py` | Whitelist request chỉ C1/C2/C3 và ablation C3; renderer chỉ compat/v3; binding hard-code request v1/evidence v3 | W8-02: builder/validator/binding request revision, renderer A/B và ablation C2 legacy; kiểm B cùng base/visible IDs C2, prior-off prefix rỗng/schema legacy/prompt Original nguyên byte |
+| `core/candidate_cohort.py`, `core/research_cohort.py` | Registry/plan v3 cố định sáu hồ sơ, thứ tự chạy theo mã; slot `(signature, point, candidate)` không có repeat ID | W8-02: prepare/validate `improvement_cohort_plan_v1`, registry mới; scheduler theo ngày/xoay nhánh, `improvement_run_identity_v1`, `improvement_decision_checkpoint_v1`; kiểm slot/order/resume và shared bundle |
+| `core/prior_stage_journal.py`, `core/research_invocation.py`, `core/groq_pacing.py` | Durable/UUID có sẵn; ledger chưa lưu canonical body/schema hash, repeat ID hoặc request fingerprint để so lặp | W8-02: bind slot `(run, point, branch, repeat_id)` và transport audit vào attempt; `improvement_repeat_plan_v1` nối shared/request primary. Verify đủ ba lượt và duplicate, không replay upstream/complete; giữ retry/pacer/unknown |
+| `core/paired_candidate_report.py`, `core/prior_disagreement_analysis.py`, `core/candidate_selection.py` | Report v5/matrix và ORDER sáu hồ sơ cố định; chưa có repeat/subgroup mới hoặc selector ba full-prior | W8-02: producer/read/verify `improvement_report_v1`, `improvement_repeat_report_v1`, `improvement_selection_v1`; `improvement_nomination_rules_v1` bind thứ tự C2/A/B, giữ nguyên ngưỡng và tie tolerance; report repeat không vào D primary |
+| `core/train_pit_validation.py` | Replay PIT 852 episode/651 query có sẵn; summary cũ chưa có giao A/C2, Brier/log loss hoặc mean lãi/lỗ | W8-02: build/read/verify `improvement_train_diagnostics_v1`; dựng prior trước đọc nhãn query để scoring, báo giao/missing và raw/ready; không gọi Decision/LLM train |
+| `scripts/run_bayesian_ablation.py`, `scripts/run_provider_validation.py`, `core/provider_quota.py` | Dispatch chỉ plan/identity cũ; provider entrypoint kiểm amendment gắn plan/code/gate W7 | W8-02–03: dispatch revision mới, producer/loader/verifier và policy/extension binding mới; dry-run, verify, lệnh vận hành thật sau gate. Không ép A/B vào CLI hay amendment cũ |
+| `core/holdout_protocol.py`, `core/research_metrics.py`, `utils/statistical_tests.py` | Holdout v4 bind selection v1; bootstrap accuracy hiện có không dựng lại tài khoản bằng circular cụm ngày | W8-07: prepare/validate `improvement_bound_holdout_v1`, producer/loader/verifier thống kê `improvement_bootstrap_v1` và fixture W9. Chỉ sau selection W8; không dùng utility accuracy thay CI D |
+
+Đường dẫn artifact theo [namespace W7-15](../week7/README.md#kiểm-nguồn-và-bản-đồ-tái-lập-16102026),
+dưới `outputs/bayesian_benchmark/improvement_v1/`; chưa tạo namespace hoặc
+JSON rỗng. Mỗi revision cần producer, loader semantic và verifier consumer;
+`read_envelope` chỉ kiểm envelope/hash. W8-02 dùng [bản đồ test W7-15](../week7/README.md#kiểm-nguồn-và-bản-đồ-tái-lập-16102026)
+để bổ sung ca thật; W8-03 phải có bốn gate mới trước API.
+
+**Identity mới phải khóa:**
+
+- Protocol/version và canonical hash của đối tượng đặc tả phương pháp đã
+  ánh xạ từ W8/W9; không hash toàn bộ README có checklist thay đổi. Registry,
+  matrix/content modes/schema, nomination rules, lịch 60 point và thứ tự
+  xoay, mẫu repeat 12 point/ba lượt/duplicate, quy tắc report primary/repeat
+  đều phải nằm trong binding; thay đổi phải tạo identity mới.
+- Bank/index/scaler/model/fold/calendar/source hashes đã khóa; code phương
+  pháp mới chuẩn hóa LF, extension provider/transport và runtime/dependencies
+  có binding kiểm được. Giữ model/options, max_retries=0, kinh tế/PIT/risk OFF,
+  token và ledger tài khoản chung; không reset ledger để tạo run mới.
+- Primary repeat_id=0, repeat_id=1/2/3 tách namespace; shared bundle/projection
+  và request contract phải nối được giữa các lượt. Lưu SHA-256 prompt UTF-8,
+  canonical HTTP body gồm messages/response_format/model/options tại transport
+  không kèm credential/header; lưu response fingerprint/thời điểm/attempt.
+  Canonical JSON hash không được mô tả là hash byte HTTP thô.
+- Tái dùng upstream W7 chỉ sau verifier tương thích source/model/options/
+  projection. Chưa có verifier đó, vì vậy chưa phê chuẩn reuse; nếu không
+  chứng minh được thì tạo upstream mới một lần/point cho toàn bộ nhánh.
+  Mọi Decision primary chạy mới; không chép action W7. Khi code đã bind đổi,
+  tái lập W7 bằng checkout/runtime cũ và ledger đúng đường dẫn, không vá hash.
+
+**Audit prior-off từ bằng chứng thật:** đọc lại 60 point và 360 checkpoint
+ứng viên được bind trong report W7; 202/202 prompt prior-off trùng byte UTF-8
+Original cùng point/shared. Các đường này đều ghi `llm_structured`, không có
+prior-use; request có prefix rỗng dùng `decision_legacy_v1`. Đối chiếu node
+Decision hiện tại chọn `TradeDecisionOutput` bảy field cho contract legacy,
+và builder dùng cùng model/options đã khóa; đây là kiểm contract theo code,
+không thay bằng chứng HTTP body lịch sử chưa được lưu.
+
+| Nhánh W7 | Prior-off / prompt trùng byte Original |
+| --- | --- |
+| C0 | 23/23 |
+| C1 | 34/34 |
+| C2 | 31/31 |
+| C3 | 31/31 |
+| C3_stats_only | 49/49 |
+| C3_examples_only | 34/34 |
+| Tổng | 202/202 |
+
+Giữ cả ba bất đồng action: C1 và C2 tại `MWG-2023-07-05`,
+C3_stats_only tại `VCB-2023-08-29`; không quy kết nguyên nhân provider hoặc
+coi request cùng byte là bảo đảm response xác định. Revision W8 phải kiểm
+lại off/disabled/K=0 và mode ẩn hết block bằng producer mới; kết quả W7 không
+chứng nhận hành vi A/B chưa triển khai. Mẫu 12 point tính lại từ ngày/readiness
+C2 khớp bảng đã khóa; phép xoay repeat cho mỗi vị trí bắt đầu đúng ba lần,
+không dùng action/return để chọn mẫu.
+
+**Nghiệm thu W8-01:** code/runtime/registry/amendment và hash nguồn/checkpoint
+khớp plan/report W7; C2 vẫn NOT_PROMOTED, Original triển khai, risk OFF.
+770 file nguồn/bằng chứng giữ nguyên byte, gồm 205 Python, 485 checkpoint
+đã bind, plan/report/selection/ledger, README W7/W9 và log gate W7.
+QA mapping/version, mẫu/thứ tự, checklist/liên kết/diff và byte prior-off PASS.
+Chỉ sửa README W8 và kế hoạch tổng; không đổi code/test/runtime/schema/dữ liệu,
+không gọi API hoặc mở outcome holdout. Không chạy compileall/unit/E2E/leakage
+theo AGENTS.md mục 1.2; bốn gate W7-15 là bằng chứng cùng code/runtime
+(859 unit/163 leakage, compileall/E2E PASS), không ghi là chạy lại W8-01.
+Tiếp theo **W8-02** triển khai revision; W8 đạt **1/8**, Gate W8 chưa mở.
 
 ## Protocol development và tiêu chí chọn
 
