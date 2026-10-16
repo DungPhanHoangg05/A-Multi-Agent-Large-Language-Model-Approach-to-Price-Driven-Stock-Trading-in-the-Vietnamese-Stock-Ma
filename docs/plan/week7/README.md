@@ -961,7 +961,8 @@ missing thành CASH. Mỗi tài khoản dùng đúng ngày/support, vốn 50 tri
 lot/phí engine và `compute_round_trip_net_return`; SHORT giữ CASH, risk OFF.
 Report giữ nguyên SHA-256 đã ghi ở W7-10; không cần sửa code hay tạo thêm
 artifact phân tích trùng với report đã có consumer/verifier. Prompt dài nhất
-trong 660 Decision là **4.534 ký tự**, prefix v2 dài nhất **486 ký tự**;
+trong 660 Decision là **4.581 ký tự** (đính chính tại W7-13: 4.534 là mức
+tối đa của sáu ứng viên), prefix dài nhất **486 ký tự** (v3 của C2/C3);
 đều dưới trần <6.500 và ≤600, giữ nguyên distill/cap.
 
 **Hiệu quả toàn ma trận.** ΔR/D/mean ΔMDD bên dưới là điểm phần trăm so
@@ -1288,7 +1289,9 @@ Trên 60 query, trace ghi 539 lượt candidate thiếu feature, 934 quá tuổi
 C2/C3 tách block phục hồi 3 query chỉ stats thành V=29/60.
 
 **Cap không gây mất block trong run này.** Prefix dài nhất C2/C3=486≤600,
-prompt dài nhất toàn run=4.534<6.500. Builder v3 ném lỗi khi prefix vượt
+prompt dài nhất toàn run=4.581<6.500 (Bayesian v1, VNM-2023-07-05);
+4.534 là mức tối đa của sáu ứng viên, đính chính phạm vi số liệu W7-11.
+Builder v3 ném lỗi khi prefix vượt
 trần, không âm thầm cắt K/metric; không thấy lỗi cap trong 660 Decision
 complete. Report hiện tại vẫn được distill/cap trước ghép prompt; chưa có
 đối chứng để kết luận phần report bị rút gọn không ảnh hưởng suy luận.
