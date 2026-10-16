@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A/B DONE / Gate A/B PASS, 10/16 task hoàn thành; Phase C IN_PROGRESS, Phase D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-11**.
+**Trạng thái: Phase A/B DONE / Gate A/B PASS, 11/16 task hoàn thành; Phase C IN_PROGRESS, Phase D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-12**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -347,7 +347,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [x] DONE |
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [x] DONE |
 | C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [x] DONE |
-| C | W7-11 | Đối soát và phân tích kết quả development | 10 | [ ] TODO |
+| C | W7-11 | Đối soát và phân tích kết quả development | 10 | [x] DONE |
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [ ] TODO |
 | D | W7-13 | Khóa ma trận và mục tiêu kiểm định W8 | Gate C | [ ] TODO |
 | D | W7-14 | Khóa manifest holdout và dry-run offline | 13 | [ ] TODO |
@@ -939,6 +939,171 @@ Gate C còn đối soát/phân tích và quyết định W7-12.
   vốn/phí; không missing bị đổi thành CASH. Partial giữ provisional và
   quay lại 10 xử lý, chưa dùng selector để promote.
 
+##### Kết quả đối soát và phân tích, 16/10/2026
+
+**W7-11 DONE.** `--verify-only` và `--verify-report` qua entrypoint provider
+**PASS offline**; verifier dựng lại nguồn/PIT, shared upstream, evidence,
+prefix/prompt, raw response/action, execution và nhãn kinh tế rồi so toàn
+report v5, kể cả phân tích v1 của W7-06 và telemetry. Common support G đủ
+**60 điểm/11 nhánh**; toàn bộ **19 cặp** có S=60, không loại điểm hoặc đổi
+missing thành CASH. Mỗi tài khoản dùng đúng ngày/support, vốn 50 triệu,
+lot/phí engine và `compute_round_trip_net_return`; SHORT giữ CASH, risk OFF.
+Report giữ nguyên SHA-256 đã ghi ở W7-10; không cần sửa code hay tạo thêm
+artifact phân tích trùng với report đã có consumer/verifier. Prompt dài nhất
+trong 660 Decision là **4.534 ký tự**, prefix v2 dài nhất **486 ký tự**;
+đều dưới trần <6.500 và ≤600, giữ nguyên distill/cap.
+
+**Hiệu quả toàn ma trận.** ΔR/D/mean ΔMDD bên dưới là điểm phần trăm so
+Original; D và mean ΔMDD là trung bình đều bốn tài khoản, không phải portfolio.
+Visible đếm Decision có metric/example thực hiển thị, mẫu số 60; LONG/CASH
+là count trên 60 điểm. Số hiển thị làm tròn bốn chữ số; report giữ đủ độ chính xác.
+
+| Nhánh | ΔR FPT | ΔR MWG | ΔR VCB | ΔR VNM | D | Mean ΔMDD | Visible/60 | LONG/CASH |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| original | +0.0000 | +0.0000 | +0.0000 | +0.0000 | +0.0000 | +0.0000 | 0/60 | 14/46 |
+| random | +0.0000 | +11.5627 | -1.0392 | +0.0000 | +2.6309 | -0.1958 | 60/60 | 16/44 |
+| recent | +0.0000 | +10.4158 | -1.0392 | +0.0000 | +2.3441 | +0.2461 | 60/60 | 18/42 |
+| similarity | +0.0000 | +11.5627 | -1.0392 | +0.0000 | +2.6309 | -0.1958 | 60/60 | 16/44 |
+| bayesian | +0.0000 | +8.8874 | +0.0731 | -2.5619 | +1.5997 | +1.1943 | 60/60 | 21/39 |
+| C0 | +0.0000 | +0.8188 | -3.8816 | +1.3625 | -0.4251 | -0.0837 | 37/60 | 15/45 |
+| C1 | +0.0000 | +10.4158 | -3.8816 | +0.0000 | +1.6336 | +0.2461 | 26/60 | 17/43 |
+| C2 | +0.0000 | +8.4803 | -2.8715 | +1.3625 | +1.7428 | -0.3297 | 29/60 | 14/46 |
+| C3 | -0.3743 | +1.7880 | -1.0392 | -2.5619 | -0.5468 | +0.8661 | 29/60 | 18/42 |
+| C3_stats_only | +0.0000 | +0.8188 | +1.1237 | +0.0000 | +0.4856 | +0.0000 | 11/60 | 17/43 |
+| C3_examples_only | -0.3743 | -0.9527 | -3.8816 | -2.5619 | -1.9426 | +0.8661 | 26/60 | 17/43 |
+
+Original có R_net/MDD (%) theo FPT, MWG, VCB, VNM lần lượt
+**1,3082/5,1235; 2,8698/2,6936; 2,3668/3,0379; 1,9378/1,3190**.
+CASH reference R/MDD=0 trên cùng support; LONG hit-rate=null/NO_LONG.
+C2 có D lớn nhất trong sáu ứng viên, nhưng ΔR>0 chỉ ở MWG/VNM (2/4);
+C1 tăng chủ yếu ở MWG (1/4). C3 âm ở 3/4 mã. Không đổi ngưỡng, loại kết quả
+bất lợi hoặc kết luận hiệu quả xác nhận từ development; selection thuộc W7-12.
+
+**Drawdown/exposure từng mã.** Mỗi ô ghi ΔMDD (điểm phần trăm); visible/planned.
+
+| Ứng viên | FPT | MWG | VCB | VNM |
+| --- | ---: | ---: | ---: | ---: |
+| C0 | +0.0000; 7/12 | +0.0000; 10/16 | +0.9843; 10/16 | -1.3190; 10/16 |
+| C1 | +0.0000; 4/12 | +0.0000; 7/16 | +0.9843; 8/16 | +0.0000; 7/16 |
+| C2 | +0.0000; 5/12 | +0.0000; 7/16 | +0.0000; 8/16 | -1.3190; 9/16 |
+| C3 | +0.0000; 5/12 | +0.0000; 7/16 | +0.9843; 8/16 | +2.4801; 9/16 |
+| C3_stats_only | +0.0000; 2/12 | +0.0000; 2/16 | +0.0000; 2/16 | +0.0000; 5/16 |
+| C3_examples_only | +0.0000; 4/12 | +0.0000; 7/16 | +0.9843; 8/16 | +2.4801; 7/16 |
+
+**Phân loại.** Mỗi ô ghi balanced accuracy / LONG hit-rate, thang [0,1].
+Các mẫu số/confusion counts, participation và reason/null giữ trong `stocks` của report.
+
+| Nhánh | FPT | MWG | VCB | VNM |
+| --- | ---: | ---: | ---: | ---: |
+| original | 0.5833 / 0.6000 | 0.6545 / 0.6667 | 0.5317 / 0.5000 | 0.5333 / 0.5000 |
+| random | 0.5833 / 0.6000 | 0.7545 / 0.7500 | 0.4762 / 0.4000 | 0.5333 / 0.5000 |
+| recent | 0.5833 / 0.6000 | 0.8091 / 0.6667 | 0.4762 / 0.4000 | 0.5333 / 0.5000 |
+| similarity | 0.5833 / 0.6000 | 0.7545 / 0.7500 | 0.4762 / 0.4000 | 0.5333 / 0.5000 |
+| bayesian | 0.5833 / 0.6000 | 0.7636 / 0.5714 | 0.5476 / 0.5000 | 0.4833 / 0.3333 |
+| C0 | 0.5833 / 0.6000 | 0.7091 / 0.6000 | 0.4048 / 0.2500 | 0.5833 / 1.0000 |
+| C1 | 0.5833 / 0.6000 | 0.8091 / 0.6667 | 0.4048 / 0.2500 | 0.5333 / 0.5000 |
+| C2 | 0.5833 / 0.6000 | 0.7091 / 0.6000 | 0.4603 / 0.3333 | 0.5833 / 1.0000 |
+| C3 | 0.5000 / 0.5000 | 0.7545 / 0.7500 | 0.4762 / 0.4000 | 0.4833 / 0.3333 |
+| C3_stats_only | 0.5833 / 0.6000 | 0.7091 / 0.6000 | 0.6032 / 0.6000 | 0.5333 / 0.5000 |
+| C3_examples_only | 0.5000 / 0.5000 | 0.6091 / 0.5000 | 0.4048 / 0.2500 | 0.4833 / 0.3333 |
+
+**Regime PIT.** BULL có 11 điểm (2/3/3/3 theo FPT/MWG/VCB/VNM),
+CHOPPY 26 (5/7/7/7), CONSOLIDATION 23 (5/6/6/6); BEAR=0, metric
+null/NO_SUPPORT ở mọi nhánh. Bảng ghi trung bình đều ΔR trên tài khoản
+dựng lại riêng cho từng regime, kèm visible/N. Không cộng return các regime
+để suy ra return toàn cohort. Chi tiết ΔMDD/action/coverage từng mã/regime
+ở `stocks.<symbol>.regimes` trong report đã verify.
+
+| Nhánh | BULL: ΔR; visible/11 | CHOPPY: ΔR; visible/26 | CONSOLIDATION: ΔR; visible/23 |
+| --- | ---: | ---: | ---: |
+| original | +0.0000; 0/11 | +0.0000; 0/26 | +0.0000; 0/23 |
+| random | -0.2315; 11/11 | -0.2611; 26/26 | +3.1581; 23/23 |
+| recent | -0.2315; 11/11 | +0.1734; 26/26 | +2.3803; 23/23 |
+| similarity | -0.2315; 11/11 | -0.2611; 26/26 | +3.1581; 23/23 |
+| bayesian | -0.8515; 11/11 | +0.4529; 26/26 | +2.0012; 23/23 |
+| C0 | +0.0982; 11/11 | -0.5408; 26/26 | +0.0000; 0/23 |
+| C1 | -0.2315; 5/11 | -0.5408; 21/26 | +2.3803; 0/23 |
+| C2 | +0.0982; 7/11 | -0.7215; 22/26 | +2.3803; 0/23 |
+| C3 | -0.6200; 7/11 | +0.0782; 22/26 | +0.0000; 0/23 |
+| C3_stats_only | -0.2315; 4/11 | +0.7169; 7/26 | +0.0000; 0/23 |
+| C3_examples_only | -0.8515; 5/11 | -1.0706; 21/26 | +0.0000; 0/23 |
+
+**Cặp thành phần và prior-off.** ΔR/ΔMDD là trung bình đều bốn mã
+của A−B trên S; hai cột cuối là count bất đồng/mẫu số. Khi so Original,
+prior-off xét nhánh A; các cặp còn lại xét cả A/B. Mười cặp so Original đã
+có ΔR/ΔMDD ở bảng đầu; disagreement lần lượt theo thứ tự nhánh (bỏ Original)
+là **4,4,4,7,5,5,4,4,3,5 trên 60**. Prior-off tương ứng là
+**0/0,0/0,0/0,0/0,0/23,1/34,1/31,0/31,1/49,0/34**;
+0/0 giữ null/NO_SUPPORT.
+
+| A−B | Mean ΔR | Mean ΔMDD | Bất đồng/S | Bất đồng/prior-off |
+| --- | ---: | ---: | ---: | ---: |
+| C1−C0 | +2.0586 | +0.3297 | 2/60 | 1/23 |
+| C2−C0 | +2.1679 | -0.2461 | 3/60 | 1/23 |
+| C3−C0 | -0.1218 | +0.9498 | 5/60 | 0/23 |
+| C3_stats_only−C0 | +0.9107 | +0.0837 | 4/60 | 0/23 |
+| C3_examples_only−C0 | -1.5176 | +0.9498 | 4/60 | 0/23 |
+| C2−C1 | +0.1093 | -0.5758 | 3/60 | 0/31 |
+| C3−C2 | -2.2897 | +1.1958 | 8/60 | 1/31 |
+| C3−C3_stats_only | -1.0325 | +0.8661 | 5/60 | 0/31 |
+| C3−C3_examples_only | +1.3958 | +0.0000 | 3/60 | 0/31 |
+
+C1/C2 khác Original tại **MWG-2023-07-05** dù prior-off; tài khoản
+subgroup MWG dựng lại cho ΔR **+9,5212 điểm phần trăm**. C3_stats_only khác
+Original khi prior-off tại **VCB-2023-08-29**, ΔR subgroup VCB **+1,1237**.
+Không gán những chênh lệch này cho nội dung prior; prompt/contract và biến
+thiên LLM còn là giới hạn. Các subgroup không thay primary hoặc chứng minh nhân quả.
+
+**Ablation readiness.** Cả ba C3 cùng base evidence hash; T có
+**8/60 điểm: FPT 1, MWG 2, VCB 2, VNM 3** và contract active ở cả ba.
+T gồm FPT-2023-06-27; MWG-2023-06-30/2023-08-29;
+VCB-2023-03-06/2023-09-29; VNM-2023-02-08/2023-09-29/2023-11-23.
+T là subgroup mô tả PROVISIONAL, không phải primary thiếu dữ liệu.
+Trên G, C3−stats_only bất đồng **5/60**, C3−examples_only **3/60**;
+riêng T lần lượt **1/8**, **2/8**. Tài khoản T được dựng lại từ vốn đầu:
+
+| Mã (N_T) | R C3 / stats_only / examples_only (%) | ΔR C3−stats / C3−examples | ΔMDD C3−stats / C3−examples |
+| --- | ---: | ---: | ---: |
+| FPT (1) | -2.2882 / -2.2882 / -2.2882 | +0.0000 / +0.0000 | +0.0000 / +0.0000 |
+| MWG (2) | +1.7382 / +0.7960 / -0.9261 | +0.9422 / +2.6643 | -0.9261 / -0.9261 |
+| VCB (2) | +0.0000 / +0.0000 / +0.0000 | +0.0000 / +0.0000 | +0.0000 / +0.0000 |
+| VNM (3) | +0.0000 / +0.0000 / +0.0000 | +0.0000 / +0.0000 | +0.0000 / +0.0000 |
+
+Ngoài T, khác biệt bao gồm cả bật/tắt contract, không cô lập riêng
+stats/examples. T nhỏ và hiệu ứng trong T tập trung ở MWG; chưa suy ra lợi ích tổng quát.
+
+**Ca bất lợi và trace.** LONG trên tập có metric visible/ready bị cờ bất lợi
+(mean đầy đủ, ngưỡng 0,5 đã khóa) lần lượt: C0 **7/34**, C1 **3/24**,
+C2 **1/8**, C3 **3/8**, stats_only **3/8**; examples_only **0/0, null**
+vì không hiển thị posterior metric. Các nhánh v1 cũng N/A, không gán cờ từ tỷ lệ v1.
+Danh sách dưới giữ mọi point có LONG bất lợi ở sáu ứng viên; net LONG là nhãn
+kinh tế thập phân đổi sang %, khác return tài khoản có lot:
+
+| Point ID | Nhánh LONG khi có cờ | Net LONG (%) |
+| --- | --- | ---: |
+| FPT-2023-06-27 | C0, C1 | -2.2882 |
+| FPT-2023-07-31 | C0, C2, C3, C3_stats_only | -2.9017 |
+| FPT-2023-08-29 | C0 | +3.1382 |
+| MWG-2023-08-29 | C0, C1, C3, C3_stats_only | +1.7382 |
+| VCB-2023-01-06 | C0 | -1.5077 |
+| VCB-2023-02-08 | C0, C1 | -1.0152 |
+| VNM-2023-01-06 | C3, C3_stats_only | -1.3190 |
+| VNM-2023-08-29 | C0 | +3.3003 |
+
+Report giữ cả ca thuận lợi/CASH, metric/mean/support/CrI, retrieved/visible IDs,
+request/prefix/base hash và outcome tại `prior_analysis.branches.<id>.cases`.
+Trace bắt buộc hợp lệ **C3 29/29**, stats_only **11/11**, examples_only
+**26/26**; C3 và examples_only đều tự báo NOT_USED, stats_only có
+**9 NOT_USED/2 SUPPORTS**. Một số ca NOT_USED nói không có metric dù prefix
+đã hiển thị: giữ nguyên raw response, không diễn giải trace thành bằng chứng
+model đã dùng prior hoặc sửa prompt sau xem kết quả.
+
+**Nghiệm thu:** compileall/E2E và **859 unit/163 leakage PASS**, không skip.
+Không đổi code/config/runtime; report/checkpoint/ledger và bằng chứng nguồn
+được đối chiếu hash nguyên byte. Các giới hạn FPT thiếu bốn điểm Q1,
+BEAR=0, tin reliable=0 và PIT hồi cứu tiếp tục áp dụng. **W7 đạt 11/16**;
+tiếp theo **W7-12**, chưa chạy selector/promote hoặc mở holdout 2024.
+
 #### W7-12 — Quyết định ứng viên, cấu hình và risk OFF
 
 - **Làm:** chạy selector 07 trên report 11; ghi quyết định/promoted hoặc
@@ -1049,6 +1214,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 
 | 15/10/2026 | W7-10 | IN_PROGRESS, 9/16 task DONE; amendment provider_daily_quota_v1 bỏ admission ngày local, giữ ledger tổng và 99 Decision trước cutover. Key mới tự preflight; cooldown theo fingerprint, quota thực do Groq; replay quota bị từ chối qua audit UUID, transport_error vẫn thủ công. 859 unit/163 leakage, compileall/E2E PASS; 205 Python đúng bản kiểm, 200 Python gốc và 493 runtime cũ nguyên byte. Amendment đã verify offline; chưa chạy thêm API | Tiếp tục API development |
 | 16/10/2026 | W7-10 | DONE, 10/16; người dùng hoàn tất 60/60 điểm, 660/660 Decision thật trên 11 nhánh. Verifier provider/checkpoint/report PASS offline; không missing/pending/failed/unknown. Giữ 793 HTTP attempt lịch sử, report hash và 485 checkpoint binding; không thêm API/holdout. Compileall/E2E, 859 unit/163 leakage PASS | W7-11 |
+| 16/10/2026 | W7-11 | DONE, 11/16; tái dựng semantic toàn run và report v5 PASS, G/S đủ 60 trên 11 nhánh/19 cặp. Bảng D/ΔR/ΔMDD/exposure/phân loại theo mã/regime, prior-off, T=8 và mọi ca LONG bất lợi đã đối chiếu; giữ trace NOT_USED và giới hạn quy kết. Compileall/E2E, 859 unit/163 leakage PASS, không skip; 801 file nguồn/bằng chứng nguyên byte. Chưa selection hoặc mở holdout | W7-12 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
