@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A/B DONE / Gate A/B PASS, 11/16 task hoàn thành; Phase C IN_PROGRESS, Phase D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-12**.
+**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 12/16 task hoàn thành; Phase D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-13**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -348,7 +348,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [x] DONE |
 | C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [x] DONE |
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [x] DONE |
-| C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [ ] TODO |
+| C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [x] DONE |
 | D | W7-13 | Khóa ma trận và mục tiêu kiểm định W8 | Gate C | [ ] TODO |
 | D | W7-14 | Khóa manifest holdout và dry-run offline | 13 | [ ] TODO |
 | D | W7-15 | Nghiệm thu code/config/source cuối | 14 | [ ] TODO |
@@ -1114,7 +1114,88 @@ tiếp theo **W7-12**, chưa chạy selector/promote hoặc mở holdout 2024.
   sau xem kết quả để lấy ứng viên thắng. Nếu C0 được chọn, không gán lợi ích
   cho module retrieval/contract mới. Tập khả thi rỗng thì Gate C BLOCKED.
 
-**Gate C:** 10–12 DONE; đủ development thật, selection kiểm được. Không cần
+##### Quyết định development đã khóa, 16/10/2026
+
+**W7-12 DONE / Gate C PASS.** Selector production qua entrypoint provider
+đã tái dựng và kiểm report/checkpoint/nguồn/gate, tạo artifact
+`candidate_selection_v1` theo `development_nomination_rules_v1`; reader
+`--verify-selection` tái lập toàn bộ eligibility, metric, ranking và binding
+**PASS offline**. Giữ nguyên registry/ngưỡng/model/lịch, không tune sau kết quả.
+
+- **Ứng viên nghiên cứu: C2, NOT_PROMOTED.** D=**+1,742822012197792** điểm
+  phần trăm, mean ΔMDD=**−0,32974346212500116**, max ΔMDD=**0**; chỉ
+  MWG/VNM cải thiện (**2/4 mã**), không đạt yêu cầu ≥3/4 để promote.
+- **Lựa chọn triển khai: Original** (`deployment_choice=original`);
+  numeric risk tiếp tục **DEFERRED/OFF**, `risk_policy=OFF`.
+- Sáu ứng viên đều đủ gate/completion/60 paired/metric hữu hạn và exposure
+  ≥6/60, ≥1 ở mỗi mã; **tập promote rỗng**. Khóa C2 từ tập eligible theo D
+  lớn nhất, không gọi đây là ứng viên được promote hoặc bằng chứng hiệu quả holdout.
+
+Đơn vị D/ΔMDD là điểm phần trăm; bảng làm tròn, artifact giữ đủ độ chính xác.
+
+| Ứng viên | Visible/60 | D | Mã ΔR>0/4 | Mean / max ΔMDD | Eligible | Lý do không promote |
+| --- | ---: | ---: | ---: | ---: | --- | --- |
+| C0 | 37/60 | −0,4251 | 2/4 | −0,0837 / +0,9843 | Có | D≤0; thiếu 3 mã dương |
+| C1 | 26/60 | +1,6336 | 1/4 | +0,2461 / +0,9843 | Có | Thiếu 3 mã dương |
+| C2 | 29/60 | +1,7428 | 2/4 | −0,3297 / 0 | Có | Thiếu 3 mã dương |
+| C3 | 29/60 | −0,5468 | 1/4 | +0,8661 / +2,4801 | Có | D≤0; thiếu 3 mã dương |
+| C3_stats_only | 11/60 | +0,4856 | 2/4 | 0 / 0 | Có | Thiếu 3 mã dương |
+| C3_examples_only | 26/60 | −1,9426 | 0/4 | +0,8661 / +2,4801 | Có | D≤0; thiếu 3 mã dương |
+
+Thứ tự eligible: **C2 → C1 → C3_stats_only → C0 → C3 → C3_examples_only**.
+Sáu D khác nhau quá 1e−9 nên không cần phân xử tie; quy tắc quanh D_max,
+sau đó mean ΔMDD/ID vẫn giữ nguyên. Mọi ứng viên đều đạt hai giới hạn MDD.
+Ngưỡng đề cử tiếp tục là D>0, ≥3 mã ΔR>0, mean ΔMDD≤2, max ΔMDD≤5;
+không làm tròn metric trước xét ngưỡng hoặc dùng đối chứng v1 thay registry.
+
+**Cấu hình đã ghim cho C2.** Toàn bộ giá trị nằm trong plan development v2,
+registry và code/runtime/source hashes đã bind vào selection; mục 2.1 giữ
+cấu hình chung. Các giá trị chính:
+
+| Thành phần | Giá trị đã khóa |
+| --- | --- |
+| Text/Decision | `openai/gpt-oss-20b`; temperature=0, max_tokens=2048; `reasoning_effort=low`, `reasoning_format=hidden` |
+| Graph/vision | `qwen/qwen3.8-27b`; temperature=0, max_tokens=1024; `reasoning_effort=none`, `reasoning_format=hidden` |
+| Signal/prior | `vi`, `1d`, 45 nến; `zscore_tanh`, alpha_weights=null; K=3, seed=42, scope=`same_symbol` |
+| Profile C2 | `prior_evidence_v3` / `conditional_disjoint_beta_v1` / `split_quality_gate_v2` / `compact_brpp_v3` / `decision_legacy_v1`; content=`full_prior` |
+| Retrieval | w_signal=0,5; half-life=365 ngày; max_age=730 ngày; min_similarity=0,625; min_gap=5 phiên |
+| Statistics/quality | shrink_strength=4; population≥20, conditional≥5, interval_width≤0,75 |
+| Feature/index/scaler | `pit_price_features_v1`, `raw_segment_21_v1`, `episode_price_index_v1`, `symbol_fold_standard_v1` |
+| Ranking/diversity | `signal_price_recency_v1`, `session_gap_v1` |
+| Prompt/kinh tế/risk | BRPP≤600, tổng prompt<6.500, giữ distill/cap; LONG Open(t+1)→Close(t+3), SHORT=CASH, phí/trượt giá hai chiều; risk OFF |
+
+Artifact bất biến tại
+[`candidate_selection_v1.json`](../../../outputs/bayesian_benchmark/development_candidate_run_v2/candidate_selection_v1.json),
+SHA-256 file **82f5926ac44f1d9263ac49d0bc2cbb2f11066db11a9e842f009bfca4588592a4**. Selection bind rules/report/file/
+485 checkpoint/plan/registry/code/runtime/source/index/model và receipt gate;
+report giữ SHA-256 `57026e012e3fa6032ad81bbe6100af580fd0a59900f3d1f9370fdb32941ed1c8`.
+Receipt provider đã khóa ở W7-10 giữ hash
+`1b1bf0196305dbb96b7a1ce63cc15e79da9ea35a97296c0371d31f6036f6cac4`.
+
+Kiểm lại artifact từ gốc repo, dùng đúng entrypoint sau amendment:
+
+```powershell
+$selectionArgs = @(
+    "--plan", "outputs/bayesian_benchmark/development_candidate_plan_v2.json",
+    "--output-dir", "outputs/bayesian_benchmark/development_candidate_run_v2",
+    "--ledger", "outputs/oos_pilot/api_usage.json",
+    "--quota-policy", "request_admission_v2",
+    "--technical-gates", "docs/plan/week7/validation_gates/technical_gates_provider_v1.json",
+    "--selection-output", "candidate_selection_v1.json"
+)
+py -3.13 -X utf8 scripts/run_provider_validation.py --verify-selection @selectionArgs
+if ($LASTEXITCODE -ne 0) { throw "Selection chưa hợp lệ; dừng trước holdout." }
+```
+
+**Kiểm chứng:** selector/reader semantic PASS và oracle số học độc lập khớp
+6/6 eligible, 0/6 promote, toàn thứ tự và reason. Code/test/runtime không đổi;
+kế thừa bốn gate W7-11 (**859 unit/163 leakage, compileall/E2E PASS**, không
+skip), kiểm receipt/log/code/runtime đúng identity và **801 file nguồn/bằng
+chứng nguyên byte**. Chỉ thêm selection, không ghi lại report/checkpoint/ledger.
+Không gọi API hoặc dùng outcome 2024. **W7 đạt 12/16**, Phase C DONE;
+tiếp theo **W7-13** khóa mục tiêu kiểm định/protocol trước manifest holdout.
+
+**Gate C PASS (16/10/2026):** 10–12 DONE; đủ development thật, selection kiểm được. Không cần
 ứng viên thắng để thông qua nếu khóa được ứng viên nghiên cứu NOT_PROMOTED
 đúng quy tắc; không gọi kết quả development là bằng chứng xác nhận cuối.
 
@@ -1215,6 +1296,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 15/10/2026 | W7-10 | IN_PROGRESS, 9/16 task DONE; amendment provider_daily_quota_v1 bỏ admission ngày local, giữ ledger tổng và 99 Decision trước cutover. Key mới tự preflight; cooldown theo fingerprint, quota thực do Groq; replay quota bị từ chối qua audit UUID, transport_error vẫn thủ công. 859 unit/163 leakage, compileall/E2E PASS; 205 Python đúng bản kiểm, 200 Python gốc và 493 runtime cũ nguyên byte. Amendment đã verify offline; chưa chạy thêm API | Tiếp tục API development |
 | 16/10/2026 | W7-10 | DONE, 10/16; người dùng hoàn tất 60/60 điểm, 660/660 Decision thật trên 11 nhánh. Verifier provider/checkpoint/report PASS offline; không missing/pending/failed/unknown. Giữ 793 HTTP attempt lịch sử, report hash và 485 checkpoint binding; không thêm API/holdout. Compileall/E2E, 859 unit/163 leakage PASS | W7-11 |
 | 16/10/2026 | W7-11 | DONE, 11/16; tái dựng semantic toàn run và report v5 PASS, G/S đủ 60 trên 11 nhánh/19 cặp. Bảng D/ΔR/ΔMDD/exposure/phân loại theo mã/regime, prior-off, T=8 và mọi ca LONG bất lợi đã đối chiếu; giữ trace NOT_USED và giới hạn quy kết. Compileall/E2E, 859 unit/163 leakage PASS, không skip; 801 file nguồn/bằng chứng nguyên byte. Chưa selection hoặc mở holdout | W7-12 |
+| 16/10/2026 | W7-12 | DONE, 12/16; Phase C DONE / Gate C PASS. Selection production và verifier offline khóa C2 NOT_PROMOTED, triển khai Original, risk OFF; 6 eligible/0 promote, C2 chỉ 2/4 mã dương. Oracle độc lập khớp metric/ranking/reason, giữ toàn bộ model/client/prompt/K/ngưỡng/versions. Kế thừa bốn gate cùng code/runtime W7-11; 801 hash cũ và artifact lựa chọn nguyên byte | W7-13 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

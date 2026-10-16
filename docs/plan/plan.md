@@ -684,18 +684,18 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 11/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 12/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 16/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 11/16 hoàn thành**; tiếp theo **W7-12**. Gate A/B PASS, Phase A/B DONE;
+  16 task, 12/16 hoàn thành**; tiếp theo **W7-13**. Gate A/B/C PASS, Phase A/B/C DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API; Gate B PASS.
-  - [ ] Phase C, W7-10–12 IN_PROGRESS: người dùng chạy development, đối soát/phân tích,
-    quyết định ứng viên bằng tiêu chí W6-04.
+  - [x] Phase C, W7-10–12 DONE: development đã verify, khóa C2 NOT_PROMOTED
+    theo tiêu chí W6-04, triển khai Original, risk OFF; Gate C PASS.
   - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
     nghiệm thu và bàn giao W8.
 - **W7-01, 12/10/2026:** audit code/runtime/registry/nguồn PASS; 1.992 nguồn
@@ -787,6 +787,17 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   không skip; cùng code/config/runtime, 801 file nguồn/bằng chứng nguyên byte.
   Report đã verify giữ nguyên hash, chưa selector/holdout. **11/16 DONE**,
   tiếp theo W7-12; Gate C còn quyết định ứng viên.
+- **W7-12, 16/10/2026:** selector production và verifier toàn run/report/
+  selection PASS offline. Khóa **C2, NOT_PROMOTED** cho nghiên cứu, giữ
+  **Original** cho triển khai và **risk OFF**; 6/6 eligible, 0/6 promote.
+  C2 có D lớn nhất (+1,742822012197792 điểm phần trăm), chỉ 2/4 mã ΔR>0,
+  chưa đạt ≥3/4; thứ tự/reason khớp oracle độc lập, không đổi ngưỡng/model/
+  prompt/K/seed/versions. Artifact `candidate_selection_v1.json` bất biến
+  trong run development v2, bind report/checkpoint/nguồn/code/runtime/gate.
+  Kế thừa bốn gate W7-11 của cùng code/runtime (859 unit/163 leakage,
+  compileall/E2E PASS); 801 hash cũ nguyên byte, chỉ thêm selection.
+  **12/16 DONE / Phase C DONE / Gate C PASS**; tiếp theo W7-13, chưa dùng
+  outcome holdout 2024 để chọn cấu hình.
 - **Nhiệm vụ cụ thể**:
   - [x] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
@@ -797,11 +808,13 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   - [x] So v1/v2/Original và ablation đã định trên common support; đọc
     net return, MDD, balanced accuracy, số giao dịch/CASH và các bất đồng.
     Đánh giá ca LONG bất chấp cảnh báo trên nhiều điểm, không chỉ pilot FPT.
-  - [ ] Chốt một ứng viên, tham số/prompt/K/policy/model và mục tiêu kiểm định.
+  - [x] Chốt một ứng viên, tham số/prompt/K/policy/model.
     Giữ eligibility/D/ΔMDD/tie-break W6-04; nếu không ai được promote,
     Original vẫn là lựa chọn triển khai và ứng viên nghiên cứu đủ điều kiện
     mang nhãn NOT_PROMOTED. Tập đủ điều kiện rỗng thì Gate C BLOCKED;
     không coi validation thắng là bằng chứng hiệu quả cuối.
+  - [ ] Khóa mục tiêu kiểm định và protocol đánh giá xác nhận ở W7-13;
+    ứng viên nghiên cứu/config đã chốt tại W7-12, không chọn lại bằng 2024.
   - [ ] Soạn hướng dẫn để người dùng tự chạy preflight/run/verify/resume
     đúng ma trận đã khóa. Guard HTTP, ledger chung, unknown reserve và
     checkpoint xử lý giới hạn thực tế; không yêu cầu dự toán/lịch chạy API.
