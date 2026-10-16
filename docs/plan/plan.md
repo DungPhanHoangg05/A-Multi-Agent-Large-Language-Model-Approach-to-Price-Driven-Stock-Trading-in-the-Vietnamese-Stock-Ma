@@ -257,7 +257,7 @@ một upstream/point; không chèn cấu hình mới vào checkpoint cũ.
   và bất đồng paired. Brier/calibration chỉ tính khi có xác suất được định
   nghĩa và kiểm ngoài thời gian; confidence dạng chữ không là xác suất.
 - **Chỉ số Kinh tế (Sau phí 0.25% & trượt giá 0.10%)**: Tỷ suất lợi nhuận kép (Cumulative Return %), Số dư cuối kỳ (VND từ 50,000,000 VND ban đầu), Tỷ lệ Sharpe, Tỷ lệ Sortino, Max Drawdown (MDD %).
-- **Kiểm định Ý nghĩa Thống kê**: McNemar Test $p$-value (so sánh tỷ lệ đúng/sai), Wilcoxon Signed-Rank Test (so sánh phân phối lợi nhuận), Block-Bootstrap 95% Confidence Interval.
+- **Kiểm định Ý nghĩa Thống kê**: protocol hiện hành W7-14 dùng block-bootstrap CI 95% cho primary và Bonferroni cho family secondary; McNemar/Wilcoxon từng dự kiến nhưng không dùng làm kiểm định xác nhận do phụ thuộc cycle. Xem [đặc tả W9](week9/README.md#protocol-thống-kê-đã-khóa-tại-w7-14).
 - **Tiêu chí chính**: chênh return ròng paired so Original trên holdout;
   báo cáo MDD/số giao dịch và CASH làm tham chiếu. Kiểm annualization cho
   return theo chu kỳ trước benchmark. CI/test xử lý phụ thuộc thời gian và
@@ -297,11 +297,24 @@ mở thêm vòng tối ưu theo return. W7-14 khóa giả thuyết/danh sách tr
 Diagnostics train hiện có không chứng minh hiệu quả LLM nếu chưa có Decision
 thật theo protocol riêng. Không mở rộng replay LLM train trong lịch 10 tuần.
 
+**Protocol W7-14 đã khóa:** `improvement_protocol_v1` tại
+[README W8](week8/README.md#protocol-cải-tiến-đã-khóa-tại-w7-14) và
+[README W9](week9/README.md#protocol-thống-kê-đã-khóa-tại-w7-14).
+`A_tp_pool` chỉ đổi conditional từ T/P/A/I sang T/P với background rời nhau,
+strength=4; `B_semantic` giữ evidence C2, chỉ đổi prefix. Không đổi quality
+gate/retrieval/model/options/schema legacy; không ghép A+B. Ma trận development
+11 nhánh gồm đối chứng và ablation C2/A/B; nomination full-prior xét C2/A/B
+trên cùng run mới. Mẫu lặp 12 point theo ngày/readiness, ba lượt bổ sung và
+Original duplicate; không lấy action/return để chọn mẫu hoặc lượt tốt nhất.
+Giữ 60 development exploratory/64 holdout, thứ tự xoay nhánh định trước;
+CI primary L=4/10.000 draw/PCG64 seed=20261016, secondary Bonferroni.
+W8 ánh xạ đặc tả thành code/schema/manifest đã kiểm; chưa có artifact runtime mới.
+
 **Cách chọn:** kế thừa D là trung bình đều ΔR tài khoản bốn mã, đầy đủ
 common support, eligibility/exposure và tie-break W6-04. Promotion yêu cầu
 D>0, ít nhất 3/4 mã ΔR>0, trung bình ΔMDD≤2 và tối đa ΔMDD≤5 điểm phần trăm.
-Không nới ngưỡng; W8 đăng ký kiểm độ ổn định theo thời gian,
-leave-one-symbol-out và prior-off trước chạy. Kiểm phụ không thay primary.
+Không nới ngưỡng; kiểm theo thời gian, leave-one-symbol-out và prior-off
+đã định tại W7-14, W8 bind vào plan trước chạy. Kiểm phụ không thay primary.
 Coverage tăng không đồng nghĩa hiệu quả kinh tế; giữ risk OFF để tách ICL
 khỏi policy chặn LONG.
 
@@ -740,19 +753,19 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 13/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 14/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 16/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 13/16 hoàn thành**; tiếp theo **W7-14**. Gate A/B/C PASS, Phase A/B/C DONE;
+  16 task, 14/16 hoàn thành**; tiếp theo **W7-15**. Gate A/B/C PASS, Phase A/B/C DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API; Gate B PASS.
   - [x] Phase C, W7-10–12 DONE: development đã verify, khóa C2 NOT_PROMOTED
     theo tiêu chí W6-04, triển khai Original, risk OFF; Gate C PASS.
-  - [ ] Phase D IN_PROGRESS, W7-13 DONE / W7-14–16 TODO: chẩn đoán nguyên nhân, khóa vòng cải tiến,
+  - [ ] Phase D IN_PROGRESS, W7-13–14 DONE / W7-15–16 TODO: chẩn đoán nguyên nhân, khóa vòng cải tiến,
     nghiệm thu bàn giao W8; hoãn manifest holdout sang cuối W8.
 - **W7-01, 12/10/2026:** audit code/runtime/registry/nguồn PASS; 1.992 nguồn
   và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm development và
@@ -864,6 +877,14 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   bảng giả thuyết/case/hash tại README W7. Chỉ tài liệu; verifier/hash/số đếm/
   liên kết/diff PASS, không chạy lại suite theo AGENTS.md mục 1.2.
   **13/16 DONE**, tiếp theo W7-14; chưa API hoặc mở outcome holdout.
+- **W7-14, 16/10/2026:** khóa improvement_protocol_v1 trong README W8/W9:
+  A_tp_pool/B_semantic, ma trận 11 nhánh/ablation, nomination C2/A/B;
+  12 point lặp theo ngày/readiness, ba lượt bổ sung và Original duplicate.
+  Chốt metric/thứ tự/seed, CI cụm ngày L=4/10.000 draw và secondary
+  Bonferroni; giữ eligibility/promotion, quality gate và một vòng cải tiến.
+  QA số liệu/mẫu/lịch/thứ tự/liên kết/diff và 597 hash PASS; chỉ Markdown,
+  không chạy lại suite/API, không tạo manifest hoặc mở outcome 2024.
+  **14/16 DONE**, tiếp theo W7-15; W8/W9 chưa triển khai.
 - **Nhiệm vụ cụ thể**:
   - [x] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
@@ -881,8 +902,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     không coi validation thắng là bằng chứng hiệu quả cuối.
   - [x] W7-13: chẩn đoán coverage/attribution từ development đã verify,
     phân biệt bằng chứng và giả thuyết; kiểm request prior-off và trace.
-  - [ ] W7-14–16: khóa tối đa hai cấu hình
-    và một vòng cải tiến; bàn giao W8 theo README W7 đã điều chỉnh.
+  - [x] W7-14: khóa hai cấu hình, đối chứng/ablation/mẫu lặp/metric/điểm dừng;
+    giữ 2023 exploratory, chưa tạo manifest holdout.
+  - [ ] W7-15–16: kiểm nguồn/khả năng tái lập và bàn giao W8 theo README W7.
 - **Deliverables cuối W7**: giữ C2 NOT_PROMOTED; hồ sơ nguyên nhân,
   protocol phát triển và hướng dẫn offline/API. Gate D mới mở W8 cải tiến,
   không mở holdout; sửa kế hoạch không đồng nghĩa hoàn thành task mới.
