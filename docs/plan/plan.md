@@ -684,12 +684,12 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 9/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 10/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
-- **Kế hoạch chi tiết, cập nhật 15/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 9/16 hoàn thành**; tiếp theo **W7-10**. Gate A/B PASS, Phase A/B DONE;
+- **Kế hoạch chi tiết, cập nhật 16/10/2026:** [README W7](week7/README.md), **4 phase/
+  16 task, 10/16 hoàn thành**; tiếp theo **W7-11**. Gate A/B PASS, Phase A/B DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
@@ -770,8 +770,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   **859 unit/163 leakage, compileall/E2E PASS**, 205 file Python đúng bản
   kiểm; amendment cục bộ đã verify offline, chưa gọi thêm API. Lệnh và bằng
   chứng ở [README W7](week7/README.md).
+- **W7-10, 16/10/2026:** người dùng chạy xong development 2023; verifier
+  offline provider kiểm amendment/nguồn/runtime/checkpoint và report v5 PASS.
+  Primary COMPLETE, **60/60 điểm, 660/660 Decision**, FPT 12 và MWG/VCB/VNM
+  16 mỗi mã; không missing/pending/failed/unknown. Giữ toàn bộ 793 HTTP
+  attempt lịch sử, trong đó 7 lần 429 và 6 transport_error đã phục hồi;
+  upstream chỉ một lần/point, risk OFF. Report/checkpoint/ledger nguyên byte,
+  không thêm API hoặc mở holdout. **10/16 DONE**, tiếp theo W7-11; Gate C
+  còn phân tích và quyết định ứng viên.
 - **Nhiệm vụ cụ thể**:
-  - [ ] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
+  - [x] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
     không diễn giải diagnostics thành hiệu quả LLM. Chạy Decision thật trên
     60 điểm development 2023 đã khóa. Lượt LLM theo fold train, nếu cần,
