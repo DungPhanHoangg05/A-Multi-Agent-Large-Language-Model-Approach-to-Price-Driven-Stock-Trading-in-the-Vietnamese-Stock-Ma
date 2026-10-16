@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và bàn giao cải tiến Bayesian ICL
 
-**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 14/16 task hoàn thành; Phase D IN_PROGRESS.**
-Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-15**.
+**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 15/16 task hoàn thành; Phase D IN_PROGRESS.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-16**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## Điều chỉnh kế hoạch ngày 16/10/2026
@@ -362,7 +362,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [x] DONE |
 | D | W7-13 | Chẩn đoán nút thắt và kiểm attribution | Gate C | [x] DONE |
 | D | W7-14 | Khóa protocol vòng cải tiến | 13 | [x] DONE |
-| D | W7-15 | Kiểm nguồn và khả năng tái lập | 14 | [ ] TODO |
+| D | W7-15 | Kiểm nguồn và khả năng tái lập | 14 | [x] DONE |
 | D | W7-16 | Bàn giao triển khai cải tiến W8 | 15 | [ ] TODO |
 
 ### Phase A — Khóa thiết kế validation
@@ -1427,6 +1427,110 @@ leakage suite cho thay đổi Markdown theo AGENTS.md mục 1.2. Gate D vẫn ch
   schema dự kiến với producer/loader/verifier hiện có. Không nhận dữ liệu
   mock hoặc diagnostics train làm bằng chứng hiệu quả Decision.
 
+##### Kiểm nguồn và bản đồ tái lập, 16/10/2026
+
+**W7-15 DONE. Nguồn kiểm toán:** checkout trước task `d36892580d665b68fd5599d8753cee063aecb849`;
+runtime Python 3.13.5 và dependencies khớp plan development v2. Identity
+phương pháp có 58 file, mở rộng provider có hai hash riêng trong amendment;
+registry giữ `prior_candidates_v1`, SHA-256
+`f35bd8120ca0f716772b68f164c427978b35718be6b14f8280615110434cb15b`.
+Hash code trong identity được tính từ text chuẩn hóa LF theo `_code()`;
+hash file bằng chứng/JSON/log là byte thực. Kiểm thêm byte thực của toàn bộ
+205 file Python, không đồng nhất hai loại hash hoặc sửa hash để nhận code mới.
+
+Mốc tái lập là **C2 NOT_PROMOTED**, triển khai **Original**, risk **OFF**,
+không phải kết quả xác nhận holdout. Report/selection có full hash ở W7-11/12;
+485 checkpoint được bind vào report, gồm cohort/manifests/point/journal và
+360 checkpoint ứng viên. Verifier selection production phải dựng lại
+nguồn/PIT/shared upstream/evidence/prompt/raw response/action/P&L/report,
+rồi tái tính eligibility/ranking/binding; checksum JSON đơn lẻ không thay
+được semantic verification. Dùng lại lệnh `--verify-selection` đã ghi tại
+W7-12 với receipt provider cũ, chế độ offline dùng transport từ chối mạng.
+Không chạy `--select-candidate`, `--run`, `--preflight` hoặc ghi lại artifact cũ.
+
+**Producer/loader/verifier hiện có và khoảng trống W8.** Các tên/version
+trong cột cuối là phần cần triển khai, chưa được runtime chấp nhận.
+
+| Phạm vi / nguồn hiện có | Hợp đồng hiện đã có | Phần phải mở rộng theo protocol W7-14 |
+| --- | --- | --- |
+| `core/prior_conditional_statistics.py`, `core/prior_quality_gate.py` | `compute_conditional_statistics` / `validate_conditional_statistics`; `retrieve_quality_evidence` / `validate_quality_evidence`; C2 khớp T/P/A/I, gate tách block | A khớp T/P, C_A/B_A rời nhau, counts/masks/hyperprior tái dựng; version mới, giữ nhánh C2 và mọi ngưỡng |
+| `core/prior_prompt.py`, `agents/decision_agent.py` | `build_prior_request` / `validate_prior_request` / `check_request_binding`; v3 và schema legacy/C3 đã định | Renderer A/B và C2 stats/examples legacy, tag BRPP v4/binding mới; B cùng base/visible IDs C2, fallback giữ Original nguyên byte |
+| `core/candidate_cohort.py`, `core/research_cohort.py` | `prepare_candidate_plan` / `validate_candidate_plan`; registry sáu ứng viên cũ, cohort chạy theo mã và thứ tự cũ | Registry/plan/identity mới cho ma trận 11 ID W8, lịch toàn cohort theo ngày và xoay nhánh; verifier cũ không tự nhận A/B |
+| `core/prior_backtest.py`, `core/prior_checkpoint.py`, `core/prior_stage_journal.py`, `core/candidate_cohort.py` | `ResearchSchema`, `read_document`, `StageJournal`, `candidate_point` kiểm durable response và shared binding; slot cũ gắn point/candidate | Repeat ID=0/1/2/3, Original duplicate, request hash và thứ tự có binding; namespace riêng, resume đúng slot, không chạy lại upstream hoặc trộn repeat vào primary |
+| `core/groq_pacing.py`, `core/research_invocation.py`, `core/provider_quota.py` | Transport đọc body để admission/usage; budget/retry/cooldown/unknown đã kiểm; amendment bảo vệ code/ledger/checkpoint cũ | Audit canonical body/schema/model/options và response fingerprint gắn repeat; không lưu key/header; không nhận usage hiện có như bằng chứng byte HTTP cũ |
+| `core/paired_candidate_report.py`, `core/prior_disagreement_analysis.py`, `core/candidate_selection.py` | `paired_candidate_report`, `read_report` / `verify_report`; `selection_artifact` / `read_selection`; ma trận/ORDER cũ cố định | Report primary/repeat tách nhau, A/B/ablation và subgroup mới; selector full-prior C2/A/B, cùng eligibility/promotion, tie order mới; không đổi selection W7 |
+| `core/train_pit_validation.py` | `build_train_diagnostics` / `run_train_validation(verify_only=True)` replay 852 episode/651 query; không Decision LLM | Diagnostics A/C2 về xác suất sự kiện/loss/coverage và mean lãi/lỗ theo fold; outcome chỉ vào scoring sau dựng prior PIT; không gọi diagnostics là hiệu quả Decision |
+| `core/research_metrics.py`, `utils/statistical_tests.py` | Metric tài khoản/chu kỳ hiện có; utility bootstrap accuracy/lift dùng block không vòng tròn | CI D tài khoản giữ cụm ngày/bốn mã, circular block, dựng lại vốn/lot/phí, invalid draw và Bonferroni theo W9; bootstrap accuracy cũ không đáp ứng protocol mới |
+| `core/holdout_protocol.py`, `scripts/run_bayesian_ablation.py`, `scripts/run_provider_validation.py` | Holdout plan v4/report v6 và development CLI đều kiểm version/registry/binding cũ; provider entrypoint chỉ nối development | Consumer/CLI revision mới bind selection/protocol/ma trận đã gộp ID; không dùng CLI hiện tại để giả tạo manifest A/B hoặc chạy holdout trước W8 |
+
+**Test phải theo sang W8.** Suite hiện tại bảo vệ hành vi cũ; PASS không có
+nghĩa A/B, repeat hoặc bootstrap mới đã được kiểm. Mở rộng các test dưới
+đây hoặc thêm test revision tương ứng khi có producer/loader/verifier thật,
+không tạo test/JSON rỗng ở task này.
+
+| Hợp đồng | Test hiện có làm mốc | Ca bổ sung bắt buộc cho revision mới |
+| --- | --- | --- |
+| PIT/statistics/scaler | `tests/test_prior_conditional_statistics_leakage.py`, `tests/test_train_pit_leakage.py`, `tests/test_candidate_cohort_leakage.py` | exit=cutoff/future bị loại trước đọc nhãn; P=C_A+B_A, không đếm hai lần; đảo thứ tự bank; query outcome chỉ dùng scoring; fit/model/scaler đúng prefix |
+| Paired/scheduler | `tests/test_prior_paired_protocol.py`, `tests/test_candidate_cohort.py`, `tests/test_candidate_fault_matrix.py` | Một upstream/point cho 11 primary và repeat/duplicate; deep-copy; lịch/ngày/rotation đúng W7-14; đổi nhánh không sửa shared; không trộn identity cũ/mới |
+| Fallback/content/schema/token | `tests/test_prior_quality_gate.py`, `tests/test_prior_prompt_contract.py`, `tests/test_prior_prompt_leakage.py` | P 19/20, C 4/5, width biên; missing feature giữ stats; B/C2 cùng evidence; K=0/off/không block giữ prompt/schema Original; 600/601 và 6.499/6.500 |
+| Durable/retry/audit | `tests/test_prior_stage_recovery.py`, `tests/test_research_invocation.py`, `tests/test_provider_quota_leakage.py` | Crash trước intent/sau response ở từng repeat; unknown cần đúng UUID; format/429 chung budget; repeat khác HTTP retry; canonical body không chứa key, duplicate cùng payload |
+| Report/selection/holdout | `tests/test_paired_candidate_report.py`, `tests/test_candidate_selection_leakage.py`, `tests/test_holdout_protocol_leakage.py` | G=60/64 đúng matrix, repeat không vào D; zero exposure/null/partial; tie quanh D_max và thứ tự C2/A/B; rehash sai vẫn bị chặn; chưa selection hợp lệ không mở holdout |
+| CI và diagnostics | `tests/test_significance.py`, `tests/test_train_pit_validation.py` | Oracle nhỏ có lot/phí khác mean cycle; cụm ngày ragged/duplicate/block wrap; PCG64/quantile/Bonferroni; draw thiếu mã không bù; raw/ready/common probability support và loss null |
+
+**Namespace dành trước, chưa tạo artifact.** Mọi đường dẫn dưới đây nằm
+trong `outputs/bayesian_benchmark/improvement_v1/`, tách khỏi development v2
+và input lock W5; việc đặt tên không cấp phép chạy API/holdout.
+
+| Đường dẫn dự kiến | Version dành trước / điều kiện tạo |
+| --- | --- |
+| `train/diagnostics.json` | `improvement_train_diagnostics_v1`; producer/loader/verifier PIT và scoring đã kiểm |
+| `development/plan.json`, `development/run/` | `improvement_cohort_plan_v1`, `improvement_run_identity_v1`, `improvement_decision_checkpoint_v1`, `improvement_report_v1`; bind protocol/registry/lịch/code/runtime/nguồn và gate mới trước API |
+| `repeats/plan.json`, `repeats/run/` | `improvement_repeat_plan_v1`, `improvement_repeat_report_v1`; bind primary/shared/request/sample/rotation/repeat ID, không lấy primary action làm response mới |
+| `development/run/selection.json` | `improvement_selection_v1`; report mới đã verify, cùng ngưỡng, binding riêng; không ghi đè `candidate_selection_v1.json` |
+| `holdout/plan.json`, `holdout/run/` | `improvement_bound_holdout_v1`; chỉ W8-07 sau selection/consumer/gate mới, kế thừa đúng 64 ngày W5 |
+
+W8-01 ánh xạ các tên dành trước thành schema/producer/loader/verifier và
+test consumer. `read_envelope` chỉ kiểm envelope/hash, không chứng nhận
+ngữ nghĩa version mới. Giữ các nguồn bank/index/scaler có hash đã khóa;
+bind code mới vào identity mới, không vá `_code`, receipt hoặc manifest cũ.
+Nếu code W8 thay đổi file đã bind, tái lập lịch sử cần checkout đúng mã cũ
+và runtime tương thích, cùng đường dẫn ledger đã khóa tuyệt đối; không sửa
+binding để né lỗi khi chuyển workspace. Ngay cả upstream muốn tái dùng cũng
+cần verifier tương thích chứng minh source/model/options/projection; không
+chép checkpoint Decision cũ vào primary W8.
+
+**Bốn gate chạy mới trong phiên W7-15:** compileall, **859 unit / 163
+leakage** và E2E PASS, không skip. Log nguyên byte được giữ riêng, không
+thay receipt/log provider đã bind vào selection cũ. Các hash dưới đây là
+SHA-256 file thực; đã dùng consumer `read_technical_gates` hiện có kiểm đủ
+bốn log với code/runtime của plan development v2. Không tạo receipt JSON
+trùng lặp với kết quả đã ghi trong README.
+
+| Gate | Log phiên này | SHA-256 |
+| --- | --- | --- |
+| compileall | [compileall.log](validation_gates/reproducibility_v1/compileall.log) | `c40d4689c487a5b9a275c701b7abf48684977c526d354ffada84e8b031ecbb77` |
+| unit | [unit.log](validation_gates/reproducibility_v1/unit.log) | `ea54ea1d24252501b37e2ee5801e54711c54fe84d4f0bb613022485507f41564` |
+| E2E | [e2e.log](validation_gates/reproducibility_v1/e2e.log) | `b12eca2814cd70cbc9c1ddb8a8884233fb7da48555540a59ca10c73e19f8b55f` |
+| leakage | [leakage.log](validation_gates/reproducibility_v1/leakage.log) | `9a8651ea00bc44c987b32e4aac9517616958297b3f89a9851e29fc1154c3e694` |
+
+**Tái lập C2 PASS offline.** Entrypoint provider `--verify-selection`
+đã dựng lại toàn run/report và khớp toàn bộ artifact lựa chọn: 60/60 paired,
+11 nhánh/660 Decision lịch sử, 6 eligible/0 promote; C2 visible=29/60,
+D=+1,742822012197792 điểm phần trăm, mean ΔMDD=−0,32974346212500116,
+max ΔMDD=0, ΔR>0 ở 2/4 mã. Oracle số học độc lập từ metric tài khoản
+report khớp D/mean/max ΔMDD/số mã dương của cả 6 ứng viên. Không đổi nhãn
+C2 NOT_PROMOTED, Original triển khai hoặc risk OFF; không gọi thêm API.
+
+Sau nghiệm thu, **767 file nguồn/bằng chứng giữ nguyên byte**, gồm 205
+Python, 485 checkpoint trong binding, report/selection/plan/ledger, log/
+receipt cũ và protocol W8/W9. Không đổi code/test/runtime/schema/dữ liệu;
+chỉ thêm bản đồ audit trong tài liệu và bốn log gate thật. Liên kết/số liệu/
+hash/diff PASS. Fixture của gate chỉ kiểm tính đúng/hồi quy; diagnostics
+train không có Decision mới và không được nhận là bằng chứng hiệu quả A/B.
+Namespace mới vẫn chưa được tạo; W8=0/8, W9=0/6, không mở outcome holdout.
+Các gate này chứng nhận mã hiện tại, không thay gate W8 sau khi code mới
+được triển khai. **W7 đạt 15/16**, tiếp theo **W7-16**; Gate D còn chờ bàn giao.
+
 #### W7-16 — Bàn giao triển khai cải tiến W8
 
 - **Làm:** chốt phạm vi, phụ thuộc, checklist và hướng dẫn người dùng chạy
@@ -1436,7 +1540,7 @@ leakage suite cho thay đổi Markdown theo AGENTS.md mục 1.2. Gate D vẫn ch
   chỉ vì đã soạn kế hoạch; mọi kết quả mới phải có artifact thật.
 
 **Gate D mới:** 13–16 DONE mở W8 cải tiến; không cấp phép chạy holdout.
-Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **14/16**.
+Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **15/16**.
 
 ## 4. Tổ chức implementation và kiểm thử
 
@@ -1491,6 +1595,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 16/10/2026 | Điều chỉnh kế hoạch | Giữ 12/16; thay Phase D chưa chạy bằng chẩn đoán/bàn giao cải tiến; giữ 10 tuần, cải tiến/khóa W8, benchmark/thống kê W9; selection cũ nguyên trạng | W7-13 |
 | 16/10/2026 | W7-13 | DONE, 13/16; funnel development theo mã/regime: P đủ 37, stats 11/examples 26/cả hai 8/visible 29. Audit 202 prior-off prompt trùng byte/schema legacy/model/options client, giữ 3 bất đồng trên 2 point và giới hạn HTTP/trace. Verifier report, số đếm/hash/liên kết/diff PASS; chỉ tài liệu, không chạy lại suite theo AGENTS.md mới. Giữ C2 NOT_PROMOTED/Original/risk OFF, không API hoặc outcome holdout | W7-14 |
 | 16/10/2026 | W7-14 | DONE, 14/16; đặc tả improvement_protocol_v1 tại W8/W9 khóa A_tp_pool/B_semantic, ma trận/ablation, 12 point×3 lượt bổ sung, thứ tự/seed, metric/eligibility/CI và điểm dừng. Ngưỡng kinh tế/PIT/quality/promotion giữ nguyên; chỉ Markdown, QA tài liệu/hash PASS, không chạy lại suite/API hoặc tạo manifest holdout | W7-15 |
+| 16/10/2026 | W7-15 | DONE, 15/16; verifier selection production và oracle số học tái lập C2 NOT_PROMOTED, 60 paired/6 eligible/0 promote. Bốn gate chạy mới PASS: compileall/E2E, 859 unit/163 leakage, không skip; bốn log riêng, 767 file nguồn/bằng chứng nguyên byte. Có bản đồ module/test và namespace improvement_v1 dành trước; phân biệt consumer hiện có với version chưa triển khai, không API hoặc outcome holdout | W7-16 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);

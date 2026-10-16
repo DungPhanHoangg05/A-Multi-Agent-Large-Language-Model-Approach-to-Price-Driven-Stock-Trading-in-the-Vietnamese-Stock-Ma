@@ -753,19 +753,19 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   kiểm được, danh sách ứng viên nhỏ và fixture/validation train PIT;
   compileall/unit/E2E/leakage PASS. Không sửa pilot hoặc chạy holdout 2024.
 
-### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 14/16
+### 📅 TUẦN 7: Validation và khóa ứng viên/giao thức benchmark — IN_PROGRESS, 15/16
 
 - **Mục tiêu**: chọn phiên bản bằng train/development, phân biệt cải thiện
   thuật toán, prompt và chính sách giao dịch; khóa trước đánh giá cuối.
 - **Kế hoạch chi tiết, cập nhật 16/10/2026:** [README W7](week7/README.md), **4 phase/
-  16 task, 14/16 hoàn thành**; tiếp theo **W7-15**. Gate A/B/C PASS, Phase A/B/C DONE;
+  16 task, 15/16 hoàn thành**; tiếp theo **W7-16**. Gate A/B/C PASS, Phase A/B/C DONE;
   numeric risk policy giữ **DEFERRED/OFF**.
   - [x] Phase A, W7-01–04 DONE: bàn giao/protocol/hợp đồng metric/lựa chọn và train PIT PASS.
   - [x] Phase B, W7-05–09 DONE: report/ablation, selector, consumer holdout,
     hồi quy và khóa code/run development trước API; Gate B PASS.
   - [x] Phase C, W7-10–12 DONE: development đã verify, khóa C2 NOT_PROMOTED
     theo tiêu chí W6-04, triển khai Original, risk OFF; Gate C PASS.
-  - [ ] Phase D IN_PROGRESS, W7-13–14 DONE / W7-15–16 TODO: chẩn đoán nguyên nhân, khóa vòng cải tiến,
+  - [ ] Phase D IN_PROGRESS, W7-13–15 DONE / W7-16 TODO: chẩn đoán nguyên nhân, khóa vòng cải tiến,
     nghiệm thu bàn giao W8; hoãn manifest holdout sang cuối W8.
 - **W7-01, 12/10/2026:** audit code/runtime/registry/nguồn PASS; 1.992 nguồn
   và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm development và
@@ -885,6 +885,16 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   QA số liệu/mẫu/lịch/thứ tự/liên kết/diff và 597 hash PASS; chỉ Markdown,
   không chạy lại suite/API, không tạo manifest hoặc mở outcome 2024.
   **14/16 DONE**, tiếp theo W7-15; W8/W9 chưa triển khai.
+- **W7-15, 16/10/2026:** verifier production offline tái dựng toàn run/report/
+  selection, tái lập C2 NOT_PROMOTED; 60 paired, 6 eligible/0 promote,
+  D=+1,742822 điểm phần trăm, chỉ 2/4 mã dương. Oracle số học khớp 6/6;
+  runtime/registry/amendment đúng identity, 767 file nguồn/bằng chứng nguyên
+  byte, gồm 205 Python/485 checkpoint. Bốn gate chạy mới PASS: compileall/
+  E2E, 859 unit/163 leakage, không skip; log riêng tại README W7.
+  [Bản đồ tái lập](week7/README.md#kiểm-nguồn-và-bản-đồ-tái-lập-16102026)
+  xác định module/test cần mở rộng và namespace improvement_v1, chưa tạo
+  schema/producer/loader/verifier hoặc manifest mới. Không API, không mở
+  outcome holdout; **15/16 DONE**, tiếp theo W7-16, Gate D chưa đóng.
 - **Nhiệm vụ cụ thể**:
   - [x] Validation kỹ thuật PIT cuốn chiếu 2020–2022: bootstrap 2020,
     651 query hai fold 2021/2022, purge/embargo và model/scaler đúng prefix;
@@ -904,7 +914,9 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     phân biệt bằng chứng và giả thuyết; kiểm request prior-off và trace.
   - [x] W7-14: khóa hai cấu hình, đối chứng/ablation/mẫu lặp/metric/điểm dừng;
     giữ 2023 exploratory, chưa tạo manifest holdout.
-  - [ ] W7-15–16: kiểm nguồn/khả năng tái lập và bàn giao W8 theo README W7.
+  - [x] W7-15: tái lập C2, kiểm hash/runtime/bốn gate và bản đồ module/test;
+    chuẩn bị namespace riêng, không sửa binding cũ để nhận code mới.
+  - [ ] W7-16: bàn giao W8 theo README W7, chưa cấp phép chạy holdout.
 - **Deliverables cuối W7**: giữ C2 NOT_PROMOTED; hồ sơ nguyên nhân,
   protocol phát triển và hướng dẫn offline/API. Gate D mới mở W8 cải tiến,
   không mở holdout; sửa kế hoạch không đồng nghĩa hoàn thành task mới.
