@@ -2,7 +2,9 @@
 
 **Đề tài**: *Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market*  
 **Dựa trên nền tảng**: Bài báo *Multi-Task Bayesian In-Context Learning* (Zhu, Oermann, Cho — ICML 2026) và Hệ thống Giao dịch Đa Agent LangGraph hiện có.  
-**Mục tiêu tài liệu**: Thiết lập kế hoạch chi tiết cho **10 tuần** (mở rộng từ 8 tuần ngày 07/10/2026), tập trung vào nâng cấp hệ thống thực tế, kiểm chứng hiệu quả, tính liêm chính dữ liệu và tối ưu tài nguyên theo phạm vi KLTN. Giữ kết quả W1–W4 và cấu trúc phase/task W5; thêm W6–W7 để cải thiện/validation, dời benchmark/thống kê/luận văn sang W8–W10.
+**Mục tiêu tài liệu**: Giữ deadline **10 tuần**, điều chỉnh ngày **16/10/2026** sau kết quả development chưa đủ tốt. Giữ W1–W6 và W7-01–12; dùng phần còn lại W7 để chẩn đoán/khóa phạm vi, W8 cải tiến Bayesian ICL và validation, W9 benchmark kết hợp thống kê, W10 luận văn và bảo vệ. Không kéo dài lịch; thu hẹp số thử nghiệm, không giảm các gate liêm chính dữ liệu.
+
+**Quy tắc đọc bản điều chỉnh:** mục 5.5, Phase D mới của W7 và README W8–W10 là kế hoạch đang hiệu lực. Các đoạn nghiệm thu W1–W7-12 giữ như lịch sử; tham chiếu benchmark W8 trong các đoạn đó là lịch cũ. Không sửa bằng chứng, registry, selection hoặc checkpoint đã khóa.
 
 **Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
 API. Ngày dữ liệu/cohort, cỡ mẫu và protocol nghiên cứu vẫn phải khóa trước
@@ -209,7 +211,7 @@ Phạm vi dự kiến trong 10 tuần; cỡ mẫu và độ bất định phải
   - Phạm vi ngoài train: `2023-01-01` $\rightarrow$ `2024-12-31`.
     **2023 là development/thăm dò**, gồm pilot đã xem; **2024 là holdout xác nhận**.
     Không dùng outcome/dự báo 2024 chọn ngưỡng, prompt, K hay ứng viên.
-    Mẫu holdout chọn theo lịch/eligibility, khóa ở W5; protocol cuối khóa W7.
+    Mẫu holdout chọn theo lịch/eligibility, khóa ở W5; protocol cuối khóa W8.
   - Validation cuốn chiếu trong 2020–2022 dùng model/scaler `historical_prefix`
     fit trước query và purge chu kỳ vượt cutoff; không dùng artifact cuối 2022
     cho query sớm hơn. Memory Bank 852 episode vẫn đóng băng, PIT lọc tại mỗi query.
@@ -217,15 +219,14 @@ Phạm vi dự kiến trong 10 tuần; cỡ mẫu và độ bất định phải
 ### 5.2. Các Baseline Đối chứng (Ablation Matrix)
 Giữ năm biến thể v1 của pilot để tái lập, so sánh trên cùng điểm ghép cặp:
 
-Bản v1 dùng `signal_match_v1` (bốn nhãn rời rạc), không phải KNN trên đặc
-trưng giá liên tục. W6 tích hợp nhánh **`bayesian_v2`** riêng: posterior
-thống kê, gate bằng chứng, retrieval/Decision có version. Phương án chính
-cho W8 là **sáu nhánh** (năm v1 +v2), upstream một lần dùng chung cả sáu.
-Runner/schema/identity v1 hiện khóa năm nhánh nên phải mở hợp đồng mới và
-kiểm thử ở W6; không chèn nhánh thứ sáu vào checkpoint W4. W7 khóa ma trận
-cuối trước API; người dùng tự chạy theo hướng dẫn từng bước.
-Nếu cần rút gọn, chốt trước API thành Original/v1/v2 cùng shared upstream,
-công bố thay đổi phạm vi; không bỏ đối chứng sau khi thấy kết quả.
+Bản v1 dùng `signal_match_v1`; W7 đã chạy đủ **11 nhánh/60 điểm**,
+chọn C2 **NOT_PROMOTED**. Giữ ma trận và selection đó làm đối chứng lịch sử.
+W8 triển khai ứng viên cải tiến có version mới và khóa ma trận xác nhận
+sau validation. Ma trận tối thiểu dự kiến gồm Original, Bayesian v1, C2
+đóng băng, ứng viên mới, stats-only và examples-only của ứng viên mới.
+Gộp nhánh trùng identity trước chạy; random/recent/similarity và K=0/1/3
+là đối chứng development hoặc secondary đăng ký trước. Mọi nhánh cùng
+một upstream/point; không chèn cấu hình mới vào checkpoint cũ.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -270,6 +271,59 @@ công bố thay đổi phạm vi; không bỏ đối chứng sau khi thấy kế
   [README W5](week5/README.md#hợp-đồng-vận-hành-và-đánh-giá--w5-04-chốt-08102026);
   triển khai report/runtime v2 còn thuộc Phase B.
 
+### 5.5. Vòng cải tiến Bayesian ICL — hiệu lực 16/10/2026
+
+**Bằng chứng khởi điểm:** W7-12 chọn C2 với D=+1,742822 điểm phần trăm,
+nhưng ΔR>0 chỉ 2/4 mã, 0/6 ứng viên được promote. W7-11 có 8/60 điểm
+cả stats/examples ready, bất đồng cả khi prior-off và trace NOT_USED.
+Đây là dấu hiệu cần chẩn đoán, chưa chứng minh nguyên nhân. Xem
+[phân tích W7](week7/README.md#kết-quả-đối-soát-và-phân-tích-16102026).
+
+| Ưu tiên | Giả thuyết cần kiểm | Can thiệp có giới hạn | Bằng chứng cần có |
+| --- | --- | --- | --- |
+| P0 | Hiệu ứng prior lẫn biến thiên Decision/contract | Kiểm byte request prior-off, chạy lặp ghép cặp trên mẫu development định trước | Độ bất đồng nền và độ ổn định hiệu ứng prior |
+| P1 | Prior thưa, mẫu tương quan, lọc quá cứng | Audit từng bước lọc; partial pooling cùng mã; regime mềm chỉ khi có xác suất PIT | Support, effective sample size, độ rộng khoảng và calibration ngoài thời gian |
+| P1 | Tỷ lệ thắng chưa phản ánh độ lớn lãi/lỗ | Định nghĩa posterior sự kiện LONG ròng>0 và ước lượng return riêng | Brier/log loss cho xác suất hợp lệ; ΔR/MDD cho quyết định |
+| P1 | Decision không hiểu hoặc không dùng prior | Prefix rõ ngữ nghĩa, cùng schema; ablation giữ evidence chung | Action thay đổi có đối chứng, không chỉ trace tự khai |
+| P2 | Ví dụ ít liên quan hoặc trùng lặp | K=3, đặc trưng PIT và đa dạng thời gian | Ablation retrieval tách khỏi posterior/prompt; không chọn ví dụ theo nhãn thắng |
+
+**Giới hạn tìm kiếm theo deadline:** một vòng cải tiến chính trong W8,
+tối đa **hai cấu hình phương pháp mới**, không tính đối chứng/ablation đã
+đăng ký. Ưu tiên một thay đổi posterior/retrieval và một thay đổi cách truyền
+bằng chứng; không quét tổ hợp. Chỉ sửa lỗi kỹ thuật sau vòng chính, không
+mở thêm vòng tối ưu theo return. W7-14 khóa giả thuyết/danh sách trước API.
+2023 đã được xem nên cải tiến là thăm dò, không gọi là validation độc lập.
+Diagnostics train hiện có không chứng minh hiệu quả LLM nếu chưa có Decision
+thật theo protocol riêng. Không mở rộng replay LLM train trong lịch 10 tuần.
+
+**Cách chọn:** kế thừa D là trung bình đều ΔR tài khoản bốn mã, đầy đủ
+common support, eligibility/exposure và tie-break W6-04. Promotion yêu cầu
+D>0, ít nhất 3/4 mã ΔR>0, trung bình ΔMDD≤2 và tối đa ΔMDD≤5 điểm phần trăm.
+Không nới ngưỡng; W8 đăng ký kiểm độ ổn định theo thời gian,
+leave-one-symbol-out và prior-off trước chạy. Kiểm phụ không thay primary.
+Coverage tăng không đồng nghĩa hiệu quả kinh tế; giữ risk OFF để tách ICL
+khỏi policy chặn LONG.
+
+**Điểm dừng:** hết W8 hoặc hoàn tất hai cấu hình (mốc nào đến trước) thì khóa ứng viên eligible tốt nhất để nghiên
+cứu, kể cả NOT_PROMOTED; giữ Original cho triển khai nếu chưa đạt tiêu chí.
+Nếu không có ứng viên mới eligible, chặn benchmark ứng viên mới và dùng
+C2 lịch sử làm ứng viên nghiên cứu sau khi khóa protocol tương ứng.
+Không lặp tối ưu trên holdout.
+
+**Dữ liệu:** giữ 852 episode và artifact cũ. Bank/feature mới nếu cần phải
+có revision/provenance riêng, chỉ dữ liệu hợp lệ trước cutoff. Fit
+hyperparameter/scaler/pooling bằng train của từng fold, purge chu kỳ vượt
+biên, không dùng nhãn query để ước lượng prior. Holdout 2024 vẫn 64 điểm,
+16/mã; chỉ mở ở W9 sau khóa W8. Nếu outcome đã bị xem ngoài quy trình,
+khai báo nhiễm và thiết lập tập xác nhận chưa xem trước claim xác nhận mới.
+
+**Bất biến:** LONG Open(t+1)→Close(t+3), SHORT=CASH, phí 0,25% và trượt
+giá 0,10% mỗi chiều; nhãn qua `compute_round_trip_net_return`.
+Giá/tin≤cutoff, prior exit<cutoff; integrity sai ném lỗi. Một upstream/point,
+deep-copy; BRPP≤600, prompt<6.500 ký tự; giữ distill/cap, retry/backoff và
+checkpoint. Người dùng tự chạy mọi API; agent chuẩn bị và kiểm offline.
+
+
 ---
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
@@ -290,7 +344,8 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 ```
 W1 Đặc tả → W2 Regime/Memory → W3 Retriever/Prefix → W4 Tích hợp/Pilot
    → W5 Vận hành/Nền tảng v2 → W6 Thuật toán → W7 Validation/Khóa phiên bản
-   → W8 Benchmark → W9 Thống kê/Ablation → W10 Luận văn/Bảo vệ
+   → W8 Cải tiến ICL/Validation/khóa → W9 Benchmark/Thống kê
+   → W10 Luận văn/Bảo vệ
 ```
 
 ### 📅 TUẦN 1: Đặc tả và dữ liệu — HOÀN THÀNH
@@ -696,8 +751,8 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     hồi quy và khóa code/run development trước API; Gate B PASS.
   - [x] Phase C, W7-10–12 DONE: development đã verify, khóa C2 NOT_PROMOTED
     theo tiêu chí W6-04, triển khai Original, risk OFF; Gate C PASS.
-  - [ ] Phase D, W7-13–16: ma trận/mục tiêu kiểm định, manifest holdout,
-    nghiệm thu và bàn giao W8.
+  - [ ] Phase D, W7-13–16: chẩn đoán nguyên nhân, khóa vòng cải tiến,
+    nghiệm thu bàn giao W8; hoãn manifest holdout sang cuối W8.
 - **W7-01, 12/10/2026:** audit code/runtime/registry/nguồn PASS; 1.992 nguồn
   và 2.317 file bằng chứng nguyên byte. Dry-run 60 điểm development và
   verifier hiệu năng 651 query PASS offline, không đọc key/chạy API hoặc
@@ -813,70 +868,29 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
     Original vẫn là lựa chọn triển khai và ứng viên nghiên cứu đủ điều kiện
     mang nhãn NOT_PROMOTED. Tập đủ điều kiện rỗng thì Gate C BLOCKED;
     không coi validation thắng là bằng chứng hiệu quả cuối.
-  - [ ] Khóa mục tiêu kiểm định và protocol đánh giá xác nhận ở W7-13;
-    ứng viên nghiên cứu/config đã chốt tại W7-12, không chọn lại bằng 2024.
-  - [ ] Soạn hướng dẫn để người dùng tự chạy preflight/run/verify/resume
-    đúng ma trận đã khóa. Guard HTTP, ledger chung, unknown reserve và
-    checkpoint xử lý giới hạn thực tế; không yêu cầu dự toán/lịch chạy API.
-  - [ ] Khóa manifest sources/cohort 2024 từ W5 +code/schema/runtime/config
-    cuối, run mới; offline dry-run/verifier/fault và bốn gate kỹ thuật PASS.
-- **Deliverables cuối W7**: ứng viên/policy có version, ma trận/cỡ mẫu/ngày
-  kiểm định đã khóa, hướng dẫn người dùng tự chạy và gate mở W8.
-  Chưa khóa đủ thì BLOCKED; không đổi checkpoint cũ để tiếp tục cấu hình mới.
-  Hoàn thành 16/16 và Gate A/B/C/D mới đóng W7; W7 chưa chạy benchmark 2024.
+  - [ ] W7-13–16: chẩn đoán coverage/attribution, khóa tối đa hai cấu hình
+    và một vòng cải tiến; bàn giao W8 theo README W7 đã điều chỉnh.
+- **Deliverables cuối W7**: giữ C2 NOT_PROMOTED; hồ sơ nguyên nhân,
+  protocol phát triển và hướng dẫn offline/API. Gate D mới mở W8 cải tiến,
+  không mở holdout; sửa kế hoạch không đồng nghĩa hoàn thành task mới.
 
-### 📅 TUẦN 8: Thực thi Ma trận Đánh giá Toàn diện (Full Benchmark Execution)
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình
+[Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
+Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
+60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
+NOT_PROMOTED. Dành phần cuối tuần cho kiểm thử và bàn giao, không mở vòng
+tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê bằng fixture.
 
-- **Mục tiêu**: hoàn thành benchmark bốn mã bằng phiên bản/giao thức W7.
-  Giữ cấu trúc công việc benchmark của W6 cũ, dời lịch sang W8.
-- **Đầu vào bắt buộc**: gate W7 PASS; cohort 2024 holdout và ma trận đã khóa;
-  kết quả 2023 báo riêng là development, pilot/smoke không vào primary sample.
-- **Nhiệm vụ cụ thể**:
-  - [ ] Chạy `FPT`, `VNM`, `VCB`, `MWG` theo lịch, một upstream/point
-    deep-copy cho mọi nhánh; checkpoint/ledger/guard HTTP chung.
-  - [ ] Resume phần durable, đối soát unknown, kiểm source/PIT/identity và
-    P&L từng mã. Lỗi giữ trong plan, không thay bằng ngày dễ hơn hoặc CASH giả.
-  - [ ] Verifier semantic offline toàn run; báo common support, missing,
-    structured source và usage/cap thực tế. Không hiệu chỉnh ứng viên từ
-    kết quả 2024 rồi gọi lại đó là holdout chưa quan sát.
-- **Deliverables cuối W8**: kết quả tại `outputs/bayesian_benchmark/` theo
-  cohort/version, đủ common support hoặc ghi rõ thiếu và gate chưa đóng;
-  dữ liệu thực nghiệm gitignore, README tiến độ gọn không receipt trùng lặp.
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
+[Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
+đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
+protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
+chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bảng luận văn.
 
-### 📅 TUẦN 9: Phân tích Thống kê, Ablation và Xuất Biểu đồ
-
-- **Mục tiêu**: giữ nhóm việc thống kê của W7 cũ; kết luận từ dữ liệu thực,
-  kể cả không cải thiện hoặc độ bất định lớn.
-- **Nhiệm vụ cụ thể**:
-  - [ ] Sensitivity K=0/1/3 và các ablation đã khóa; K=5 chỉ khi có
-    contract/cap/quota và đã đăng ký trước run. Thử thêm sau xem holdout
-    phải đánh dấu exploratory, không sửa claim kiểm định chính.
-  - [ ] McNemar, Wilcoxon và block-bootstrap CI; bootstrap theo thời gian
-    giữ ghép cặp/cụm cùng ngày giữa mã, xét phụ thuộc và nhiều so sánh.
-  - [ ] Bảng accuracy/balanced accuracy, kinh tế sau phí/MDD/CASH/participation,
-    theo mã/regime; calibration chỉ khi có xác suất định nghĩa hợp lệ.
-    Kiểm định không đủ lực thì báo inconclusive, không dùng p>0,05 để nói ngang nhau.
-  - [ ] Xuất bảng LaTeX, equity/drawdown và phân bố paired differences;
-    dùng vector cho hình khoa học, ≥300 DPI nếu cần raster.
-- **Deliverables cuối W9**: `docs/figures/`, `outputs/tables_summary.tex`,
-  báo cáo định lượng gắn cohort/config và giới hạn thực nghiệm; không chọn
-  chỉ mã/regime thắng để chứng minh giả thuyết.
-
-### 📅 TUẦN 10: Hoàn thiện Luận văn KLTN và Slide Bảo vệ
-
-- **Mục tiêu**: giữ nhóm việc luận văn của W8 cũ, trình bày đóng góp đã có.
-- **Nhiệm vụ cụ thể**:
-  - [ ] Chương 3: phân biệt Bayes phân cấp từ lý thuyết, ICL v1,
-    posterior thống kê v2, retrieval và policy riêng; không khẳng định
-    LLM tự thực hiện posterior hiệu chuẩn khi chưa đo được.
-  - [ ] Chương 4: bảng/biểu đồ 2024 xác nhận tách 2023 phát triển,
-    case studies, kiểm định/CI, chi phí quota và giới hạn tin/replay/proof.
-  - [ ] Kết luận, hướng phát triển, kiểm đường dẫn/checksum và khả năng
-    tái lập bằng code/data version đã ghim.
-  - [ ] 25–30 slide về vấn đề, phương pháp, triển khai, kết quả thực tế và
-    giới hạn; không đặt yêu cầu phải có kết quả vượt trội để bảo vệ.
-- **Deliverables cuối W10**: toàn văn Word/LaTeX/PDF và slide bảo vệ,
-  hướng dẫn chạy/verify; tài liệu tuần đặt tại `docs/plan/week<N>/`.
+### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
+[Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
+phân biệt Bayes số học và ICL; trình bày kết quả bất lợi/giới hạn, kiểm tái
+lập và chuẩn bị 25–30 slide. Không dành tuần này để mở thêm thử nghiệm.
 
 ---
 
@@ -920,15 +934,15 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
 | **Groq API quá tải hoặc quota không đủ** | Cao | Guard tại HTTP, reserve input/output/unknown, backoff theo retry-after; dừng giữ checkpoint và resume sau cửa sổ quota. Đối chiếu giới hạn thực tế trước run. Đổi key cùng tổ chức không reset quota; đổi model hoặc K phải là thí nghiệm/run mới, không fallback giữa ma trận đã khóa. |
 | **Gaussian HMM không phân tách rõ chế độ** | Trung bình | Giữ artifact và giao thức đang kiểm định; ghi giới hạn/coverage. Rule-based regime chỉ được đưa vào thí nghiệm đối chứng riêng, chốt và hiệu chỉnh bằng train trước OOS, không thay detector dựa trên kết quả test. |
 | **Thiếu tin lịch sử có ngày hợp lệ** | Trung bình | Kiểm coverage từng mã/cutoff; giữ NEUTRAL kèm lý do khi thiếu bằng chứng, bỏ tin không ngày/tương lai. Pilot hiện toàn NEUTRAL; không giả định cache bốn mã đầy đủ hoặc dùng tin hiện tại bù quá khứ. |
-| **Benchmark bốn mã bị gián đoạn** | Cao | Giữ mẫu/ngày kiểm định đã khóa ở W5-12 và protocol W7. Người dùng tự chạy tuần tự theo hướng dẫn; khi dừng, giữ checkpoint/ledger/unknown reserve và resume đúng identity. Công bố common support thực tế, không bỏ điểm lỗi hoặc đổi mẫu theo kết quả. |
+| **Benchmark bốn mã bị gián đoạn** | Cao | Giữ mẫu/ngày kiểm định đã khóa ở W5-12 và protocol cuối W8. Người dùng tự chạy tuần tự theo hướng dẫn; khi dừng, giữ checkpoint/ledger/unknown reserve và resume đúng identity. Công bố common support thực tế, không bỏ điểm lỗi hoặc đổi mẫu theo kết quả. |
 | **Upstream chưa rõ kết quả hoặc checkpoint lỗi Windows** | Cao | Dừng để kiểm stage/hash/owner; dùng response durable nếu có, giữ unknown reserve. Không tự replay upstream/Full AMBIGUOUS hoặc xóa lock sống; replay cần xác nhận cụ thể và audit. Retry atomic I/O có giới hạn, giữ bằng chứng cũ. |
 
 ---
 
 ## 10. KẾT LUẬN
 
-Lộ trình **10 tuần** giữ nền tảng kinh tế/PIT/paired đã nghiệm thu và thêm
-thời gian triển khai, kiểm chứng v2 trước benchmark. Đóng góp được xác định
+Lộ trình **10 tuần** giữ nền tảng kinh tế/PIT/paired đã nghiệm thu và ưu tiên
+cải tiến Bayesian ICL trong W8 trước benchmark W9, giữ deadline W10. Đóng góp được xác định
 qua code có thể tái lập và thực nghiệm có đối chứng; kết quả tốt, kém hoặc
 chưa đủ bằng chứng đều được báo cáo. Không dùng việc chốt tuần/gate kỹ thuật
 để thay cho chứng minh ưu thế đầu tư hoặc posterior LLM đã hiệu chuẩn.
