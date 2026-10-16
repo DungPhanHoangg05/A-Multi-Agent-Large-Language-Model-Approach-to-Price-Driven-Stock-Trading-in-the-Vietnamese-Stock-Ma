@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và khóa giao thức benchmark
 
-**Trạng thái: Phase A/B DONE / Gate A/B PASS, 9/16 task hoàn thành; Phase C IN_PROGRESS, Phase D TODO.**
-Ngày lập: **12/10/2026**; cập nhật: **15/10/2026**. Đang thực hiện **W7-10**.
+**Trạng thái: Phase A/B DONE / Gate A/B PASS, 10/16 task hoàn thành; Phase C IN_PROGRESS, Phase D TODO.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-11**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## 1. Mục tiêu và đầu vào
@@ -346,7 +346,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | B | W7-07 | Bộ chọn ứng viên và artifact quyết định có verifier | 06 | [x] DONE |
 | B | W7-08 | Protocol/CLI holdout có ràng buộc lựa chọn | 07 | [x] DONE |
 | B | W7-09 | Hồi quy trước API và khóa run development | 08 | [x] DONE |
-| C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [ ] IN_PROGRESS |
+| C | W7-10 | Người dùng chạy validation development bốn mã | Gate B | [x] DONE |
 | C | W7-11 | Đối soát và phân tích kết quả development | 10 | [ ] TODO |
 | C | W7-12 | Quyết định ứng viên, cấu hình và risk OFF | 11 | [ ] TODO |
 | D | W7-13 | Khóa ma trận và mục tiêu kiểm định W8 | Gate C | [ ] TODO |
@@ -812,7 +812,8 @@ trước API để tránh kết quả development mất khả năng verify sau �
 quota thì đổi key và resume cùng lượt. Thay đổi này thay thế đề xuất phân
 quota theo organization trước đó. Mốc kiểm tra trước cutover: **FPT 9/12,
 9/60 điểm đủ 11 nhánh, 99/660 Decision**, chưa có report cuối. Không dùng
-return/holdout để chọn thay đổi; **W7-10 vẫn IN_PROGRESS**, không tăng số task DONE.
+return/holdout để chọn thay đổi; **tại thời điểm amendment, W7-10 giữ IN_PROGRESS**,
+không tăng số task DONE. Kết quả hoàn tất ngày 16/10 được ghi bên dưới.
 
 - `core/provider_quota.py` và `scripts/run_provider_validation.py` là phần
   mở rộng vận hành riêng. **200 file Python cũ giữ nguyên**, gồm CLI/pacer/
@@ -902,6 +903,31 @@ if ($LASTEXITCODE -ne 0) { throw "Report chưa hợp lệ." }
 Chỉ chốt 10 khi report `primary_status=COMPLETE`, đủ FPT 12 và MWG/VCB/VNM
 16 điểm mỗi mã, không còn missing/failed/unknown. Receipt kỹ thuật mới
 được dùng cho selector ở 12; không lấy report partial để promote.
+
+##### Kết quả validation development, 16/10/2026
+
+**W7-10 DONE.** Người dùng đã hoàn tất run
+`outputs/bayesian_benchmark/development_candidate_run_v2`. Verifier offline
+qua entrypoint provider kiểm amendment/nguồn/runtime/checkpoint và tái dựng
+report **PASS**: `research_report_v5`, `primary_status=COMPLETE`, execution
+mode `research`, đúng **60/60 điểm, 660/660 Decision** trên đủ 11 nhánh.
+FPT **12/12**, MWG/VCB/VNM **16/16** mỗi mã; mọi nhánh có pending/failed/
+unknown/missing_result **0**. Fallback hợp lệ vẫn complete, không thay lỗi
+thành CASH. Upstream Pattern/Trend có đúng **60 response 200 mỗi agent**;
+Decision có **660 response 200**, giữ giao thức paired và risk OFF.
+
+Lịch sử HTTP của run vẫn giữ **793 attempt: 780 response 200, 7 HTTP 429,
+6 transport_error**; không xóa attempt đã phục hồi hoặc gọi chúng là lỗi
+checkpoint hiện tại. Telemetry ghi **1.533.468 token** trên 780 response có
+usage; 13 attempt còn lại thiếu usage, không coi là 0. Agent chỉ kiểm
+offline, không đọc `.env` hoặc gọi thêm API. Holdout 2024 chưa mở.
+
+Report đã lưu tại
+[`report.json`](../../../outputs/bayesian_benchmark/development_candidate_run_v2/report.json),
+SHA-256 file `57026e012e3fa6032ad81bbe6100af580fd0a59900f3d1f9370fdb32941ed1c8`;
+binding khóa **485 file checkpoint**. Giữ nguyên report/plan/cohort/ledger/
+amendment và bằng chứng đã complete. **W7 đạt 10/16**, tiếp theo W7-11;
+Gate C còn đối soát/phân tích và quyết định W7-12.
 
 #### W7-11 — Đối soát và phân tích kết quả development
 
@@ -1022,6 +1048,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 13/10/2026 | W7-09 | DONE, 9/16; Gate B PASS. Train v3 852 replay/651 query, plan development v2 60 điểm/11 nhánh và dry-run bốn mã PASS; sáu ca integrity chặn trước API. Retrieval v4 P-core p95 6,328–21,675 ms PASS, giữ v3 mặc định FAIL. Bốn gate mới PASS (837 unit/156 leakage), receipt/log đúng code/runtime; 200 Python, 2.317 bằng chứng cũ và bốn artifact mới nguyên byte. Chưa API/Decision/selection/manifest holdout thật | W7-10 |
 
 | 15/10/2026 | W7-10 | IN_PROGRESS, 9/16 task DONE; amendment provider_daily_quota_v1 bỏ admission ngày local, giữ ledger tổng và 99 Decision trước cutover. Key mới tự preflight; cooldown theo fingerprint, quota thực do Groq; replay quota bị từ chối qua audit UUID, transport_error vẫn thủ công. 859 unit/163 leakage, compileall/E2E PASS; 205 Python đúng bản kiểm, 200 Python gốc và 493 runtime cũ nguyên byte. Amendment đã verify offline; chưa chạy thêm API | Tiếp tục API development |
+| 16/10/2026 | W7-10 | DONE, 10/16; người dùng hoàn tất 60/60 điểm, 660/660 Decision thật trên 11 nhánh. Verifier provider/checkpoint/report PASS offline; không missing/pending/failed/unknown. Giữ 793 HTTP attempt lịch sử, report hash và 485 checkpoint binding; không thêm API/holdout. Compileall/E2E, 859 unit/163 leakage PASS | W7-11 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
