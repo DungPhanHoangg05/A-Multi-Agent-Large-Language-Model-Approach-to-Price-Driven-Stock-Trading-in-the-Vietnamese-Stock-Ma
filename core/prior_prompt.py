@@ -112,6 +112,10 @@ def check_request_binding(request: dict[str, Any], state: dict[str, Any], prefix
     Caller tạo request bằng builder và kiểm nguồn tại hook prior trước mỗi
     invocation; khi đọc artifact phải dùng validate_prior_request ở trên.
     """
+    if type(request) is dict and request.get("request_version") == "improvement_prior_request_v1":
+        from core.improvement_prior import check_binding
+        check_binding(request, state, prefix)
+        return
     from core.bayesian_retriever import normalize_signals
     request = copy_prior_json(request)
     keys = {"request_version", "candidate_id", "evidence_contract_version", "prefix_version",

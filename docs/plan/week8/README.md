@@ -1,6 +1,6 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 1/8; W8-01 DONE, tiếp theo W8-02.**
+**Trạng thái: IN_PROGRESS, 2/8; W8-01–02 DONE, tiếp theo W8-03.**
 Kế hoạch điều chỉnh 16/10/2026; cập nhật 17/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
@@ -81,7 +81,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | Task | Công việc và đầu ra | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
 | W8-01 | Ánh xạ protocol W7-14 vào registry/version; kiểm khả năng thực thi, identity và audit byte prior-off | W7 Gate D | [x] DONE |
-| W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [ ] TODO |
+| W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [x] DONE |
 | W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [ ] TODO |
 | W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [ ] TODO |
 | W8-05 | Verify toàn primary và đủ mẫu lặp; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [ ] TODO |
@@ -200,6 +200,57 @@ không gọi API hoặc mở outcome holdout. Không chạy compileall/unit/E2E/
 theo AGENTS.md mục 1.2; bốn gate W7-15 là bằng chứng cùng code/runtime
 (859 unit/163 leakage, compileall/E2E PASS), không ghi là chạy lại W8-01.
 Tiếp theo **W8-02** triển khai revision; W8 đạt **1/8**, Gate W8 chưa mở.
+
+### W8-02 — Triển khai producer/loader/verifier cải tiến, 17/10/2026
+
+**DONE.** Bản triển khai dựa trên checkout
+`7d6761f`, giữ registry và artifact W7; chỉ thêm dispatch request revision
+trong `core/prior_prompt.py` ở đường legacy. Các module mới:
+
+| Module | Hành vi / consumer |
+| --- | --- |
+| `core/improvement_prior.py` | A khớp partition T/P với background rời nhau, giữ masks/strength/retrieval C2; B giữ base evidence C2 và render ngữ nghĩa. Producer/validator evidence và request revision; cả chín profile dùng schema legacy, fallback nguyên prompt Original |
+| `core/improvement_protocol.py` | Registry 11 ID, rules ba full-prior, protocol canonical, plan producer/loader/validator; lịch xoay toàn cohort và mẫu repeat cố định. Pin plan development W7 nguyên byte, kiểm code/runtime/nguồn/index/calendar, warm-up/entry/exit trước API; tự băm lại parent không tạo provenance mới |
+| `core/improvement_runtime.py` | Graph upstream/Full và journal hiện có, một bundle/point deep-copy; Decision primary mới, slot repeat_id=0/1/2/3, duplicate, intent/raw durable, resume phần thiếu và đối soát UUID. Repeat phải khớp request primary trước invocation |
+| `core/improvement_transport.py` | Tái dùng pacer/retry provider; audit hash canonical body/schema/model/options trước HTTP, fingerprint nối response với raw message durable; không lưu credential/header, không gọi hash canonical là byte HTTP thô |
+| `core/improvement_reports.py` | Report primary/repeat tách nhau, G/pairwise/null/coverage, subgroup/ablation/prior-off, tài khoản từng mã và mean ba repeat. Selector C2/A/B giữ ngưỡng/tie, fixture luôn BLOCKED; loader so toàn artifact với bản tái dựng |
+| `core/improvement_diagnostics.py` | Replay train PIT rồi mới scoring nhãn kinh tế; giao posterior A/C2, Brier/log loss/raw-ready/missing và mean lãi/lỗ riêng. Producer/loader/verifier không gọi Decision, mean return có đơn vị fraction |
+| `scripts/run_improvement.py` | CLI riêng, offline mặc định; prepare/dry-run/verify/report/selection/train/reconcile và primary/repeat. Chặn fixture online; source/identity/gate/tokenizer hợp lệ trước đọc key, giữ ledger chung và policy provider |
+
+Không tái dùng upstream W7 ở revision này: tạo mới một lần cho primary,
+repeat chỉ đọc bundle primary đã verify. Không chép action W7. Body audit
+dùng serializer SDK đã ghim và được kiểm qua HTTP mock; retry/format repair
+không tăng repeat_id. Bốn gate mới đã PASS; W8-03 vẫn phải kiểm/khóa plan
+và hướng dẫn trên nguồn development thật. Client khóa cả defaults/kwargs
+SDK, không nhận seed/stop hoặc tùy chọn sampling ngoài protocol.
+
+Sáu module test mới kiểm công thức/masks/partition và cô lập A/B, null/PIT,
+schema/token/fallback, scheduler/shared, missing/tamper/unknown/resume,
+repeat/duplicate, SDK transport/429/fingerprint, selector và CLI không đọc
+key khi offline. Fixture chỉ kiểm tính đúng, không là kết quả hiệu quả A/B.
+**Nghiệm thu:** 26 test mới PASS trong toàn suite; fixture primary bốn point
+có 44 Decision, ba lượt repeat có 144 Decision mới, verify/resume không gọi
+lại upstream hoặc Decision complete. Đây không là Decision API hoặc bằng
+chứng hiệu quả A/B trên development. Compileall, **885 unit**, E2E và
+**167 leakage PASS**, không skip; 218 Python nguyên byte trong lượt gate.
+Receipt [technical_gates.json](validation_gates/implementation_v1/technical_gates.json)
+bind 68 file code/schema/config và runtime mới, đã qua consumer
+`read_technical_gates`; SHA-256 byte:
+`30bfecfebe80a1b7170760b0cd7f41a411f9b857dff78d993787acbecc14eb42`.
+Log [compileall](validation_gates/implementation_v1/compileall.log),
+[unit](validation_gates/implementation_v1/unit.log),
+[E2E](validation_gates/implementation_v1/e2e.log),
+[leakage](validation_gates/implementation_v1/leakage.log) giữ nguyên byte,
+hash từng log nằm trong receipt được consumer kiểm thực.
+
+769 file của mốc W8-01 giữ nguyên byte, gồm bằng chứng W7, ledger,
+README W7/W9 và 204 Python cũ; chỉ `prior_prompt.py` thêm dispatch cho
+request revision, không đổi registry/nhánh legacy. Đặc tả phương pháp,
+development/repeat và W9 giữ nguyên; không vá binding hoặc receipt W7 để
+nhận code mới. QA diff/liên kết/checklist/hash PASS. Chưa tạo namespace,
+plan, diagnostics hoặc Decision development mới; A/B thực vẫn NOT_RUN,
+C2 NOT_PROMOTED/Original/risk OFF giữ nguyên. Holdout/CI thuộc W8-07,
+chưa triển khai ở task này. **W8 đạt 2/8**, tiếp theo **W8-03**; Gate W8 chưa mở.
 
 ## Protocol development và tiêu chí chọn
 
