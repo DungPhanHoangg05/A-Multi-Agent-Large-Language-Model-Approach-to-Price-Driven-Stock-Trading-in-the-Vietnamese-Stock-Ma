@@ -25,7 +25,13 @@ Mục tiêu cốt lõi: **Nâng cấp tính năng mới mà tuyệt đối KHÔN
   - `docs/<tên-tài-liệu>`: Cập nhật tài liệu kỹ thuật (ví dụ: `docs/methodology-spec`).
 
 ### 1.2. Điều kiện Tiên quyết để Hợp nhất (Merge Criteria vào `develop`)
-Chỉ được phép hợp nhất nhánh tính năng vào `develop` khi và chỉ khi vượt qua **toàn bộ 4 cổng kiểm soát (Gates)**:
+Trước khi hợp nhất vào `develop`, phải chọn kiểm tra theo phạm vi ảnh hưởng của task; **không bắt buộc chạy kiểm thử cho mọi task**:
+- **Chỉ sửa tài liệu, checklist hoặc phân tích bằng chứng có sẵn**, không đổi code, test, cấu hình runtime, schema hay dữ liệu đầu vào: không cần chạy compileall, unit test, E2E hoặc leakage suite. Kiểm tra diff, liên kết, số liệu và hash nguồn liên quan; ghi rõ lý do không chạy suite trong README tuần hoặc báo cáo hoàn thành.
+- **Thay đổi code hoặc hành vi chạy**: chạy kiểm thử trọng tâm cho module và hợp đồng bị ảnh hưởng; biên dịch các file Python thay đổi. Không tự động chạy toàn suite nếu phạm vi hẹp và đã có kiểm tra phù hợp.
+- **Thay đổi liên module hoặc các hợp đồng P0** (kinh tế, PIT/leakage, paired protocol, prompt/token, retry/checkpoint), dependency/runtime dùng chung, hoặc mốc nghiệm thu có yêu cầu rõ: bắt buộc chạy đủ bốn gate bên dưới. Test leakage bắt buộc khi thay đổi đường dữ liệu/PIT/retrieval, kể cả phạm vi hẹp.
+- Chỉ merge khi mọi kiểm tra áp dụng đều PASS; không dùng kết quả cũ để thay cho kiểm tra hành vi đã đổi. Task thuần tài liệu có thể viện dẫn gate cũ nếu code/runtime giữ nguyên, nhưng không ghi là đã chạy lại.
+
+**Bốn gate dành cho task cần hồi quy đầy đủ:**
 1. **Gate 1 - Biên dịch toàn bộ codebase không lỗi**:
    ```powershell
    py -3.13 -m compileall agents core data_manager scripts tests utils
@@ -139,15 +145,12 @@ Khi nhận bất kỳ yêu cầu phát triển nào, Coding Agent phải thực 
 
 ```text
 [Bước 1: Khảo sát] ──► [Bước 2: Tạo Branch] ──► [Bước 3: Lập trình] ──► [Bước 4: Kiểm thử] ──► [Bước 5: Commit & Merge]
-  Đọc plan.md &          git checkout -b          Tuân thủ Clean          compileall,             Conventional Commit
-  code liên quan          feat/<task-name>         Code & P0 rules         unittest, E2E           Merge vào develop
+  Đọc plan.md &          git checkout -b          Tuân thủ Clean          Kiểm tra                Conventional Commit
+  code liên quan          feat/<task-name>         Code & P0 rules         theo phạm vi            Merge vào develop
 ```
 
 1. **Bước 1 - Khảo sát**: Đọc kỹ [docs/plan/plan.md](docs/plan/plan.md), kiểm tra các file mã nguồn liên quan và xác định phạm vi ảnh hưởng.
 2. **Bước 2 - Tạo Branch**: Tạo nhánh mới từ `develop` theo quy ước `feat/...`, `fix/...`, `test/...`.
 3. **Bước 3 - Lập trình**: Viết mã tối giản, module hóa cao, có đầy đủ type annotations và docstrings tiếng Việt.
-4. **Bước 4 - Kiểm thử**: 
-   - Chạy `py -3.13 -m compileall agents core data_manager scripts tests utils`.
-   - Chạy `py -3.13 -X utf8 -m unittest discover -s tests -v`.
-   - Chạy `py -3.13 scripts/run_end_to_end_test.py`.
-5. **Bước 5 - Commit & Merge**: Commit với Conventional Commits (tuyệt đối không có `W1D1`), chuyển về `develop` và merge nhánh sau khi toàn bộ bài test đã pass.
+4. **Bước 4 - Kiểm tra theo phạm vi**: Áp dụng mục 1.2; chọn kiểm thử cần thiết và ghi phạm vi/kết quả hoặc lý do không chạy. Task thuần tài liệu không cần chạy suite; task cần hồi quy đầy đủ phải vượt cả bốn gate.
+5. **Bước 5 - Commit & Merge**: Commit với Conventional Commits (tuyệt đối không có `W1D1`), chuyển về `develop` và merge nhánh sau khi mọi kiểm tra áp dụng đã PASS.
