@@ -1,7 +1,7 @@
 # Tuần 7 — Validation, chọn ứng viên và bàn giao cải tiến Bayesian ICL
 
-**Trạng thái: Phase A/B/C DONE / Gate A/B/C PASS, 15/16 task hoàn thành; Phase D IN_PROGRESS.**
-Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W7-16**.
+**Trạng thái: Phase A/B/C/D DONE / Gate A/B/C/D PASS, 16/16 task hoàn thành.**
+Ngày lập: **12/10/2026**; cập nhật: **16/10/2026**. Tiếp theo **W8-01**.
 [Kế hoạch tổng](../plan.md) · [Bàn giao W6](../week6/README.md)
 
 ## Điều chỉnh kế hoạch ngày 16/10/2026
@@ -363,7 +363,7 @@ selector hoặc đọc kết quả holdout. Gate A còn **W7-04**.
 | D | W7-13 | Chẩn đoán nút thắt và kiểm attribution | Gate C | [x] DONE |
 | D | W7-14 | Khóa protocol vòng cải tiến | 13 | [x] DONE |
 | D | W7-15 | Kiểm nguồn và khả năng tái lập | 14 | [x] DONE |
-| D | W7-16 | Bàn giao triển khai cải tiến W8 | 15 | [ ] TODO |
+| D | W7-16 | Bàn giao triển khai cải tiến W8 | 15 | [x] DONE |
 
 ### Phase A — Khóa thiết kế validation
 
@@ -1540,7 +1540,80 @@ Các gate này chứng nhận mã hiện tại, không thay gate W8 sau khi code
   chỉ vì đã soạn kế hoạch; mọi kết quả mới phải có artifact thật.
 
 **Gate D mới:** 13–16 DONE mở W8 cải tiến; không cấp phép chạy holdout.
-Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **15/16**.
+Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 đã **16/16**, Gate D **PASS**.
+
+##### Bàn giao và nghiệm thu, 16/10/2026
+
+W7 đóng trên kết quả thật đã kiểm, không coi đặc tả W8 là tính năng đã chạy.
+Các mốc trước giữ nguyên bằng chứng; bảng sau là trạng thái chốt:
+
+| Điều kiện | Bằng chứng và kết luận |
+| --- | --- |
+| Gate A PASS | W7-01–04 DONE; train PIT đã replay 852 chu kỳ/651 query, purge/maturity/scaler/prefix đã kiểm. `outputs/bayesian_benchmark/train_validation_v3.json` tại W7-09 giữ nguyên hash |
+| Gate B PASS | W7-05–09 DONE; producer/loader/verifier report, selection và consumer holdout hiện có đã kiểm; plan development v2 và `prior_performance_v4.json` P-core giữ nguyên hash. PASS hiệu năng chỉ trong điều kiện đo W7-09, không chuyển FAIL v3 thành PASS |
+| Gate C PASS | W7-10–12 DONE; development 60/60 điểm, 660/660 Decision trên 11 nhánh, không pending/failed/unknown; selection production chọn C2 NOT_PROMOTED, triển khai Original, risk OFF |
+| W7-13–15 DONE | Chẩn đoán coverage/attribution, đặc tả improvement_protocol_v1 và tái lập selection có nguồn/checkpoint/hash; C2 D=+1,742822 điểm phần trăm nhưng chỉ 2/4 mã dương, không đạt điều kiện ≥3/4 |
+| Bốn gate kỹ thuật PASS | Kế thừa lần chạy mới W7-15: compileall, 859 unit, E2E và 163 leakage, không skip; log và SHA-256 tại [bản đồ tái lập](#kiểm-nguồn-và-bản-đồ-tái-lập-16102026). Consumer gate hiện có kiểm lại đủ bốn log; code/runtime/registry/amendment khớp identity |
+| Gate D PASS | 13–16 DONE; phạm vi, phụ thuộc, điều kiện dừng và trình tự vận hành W8 bên dưới đã đối chiếu đặc tả W8/W9. Chỉ mở triển khai W8-01; W8 vẫn 0/8, W9 vẫn 0/6 |
+
+**Đầu vào bàn giao:** [chẩn đoán W7-13](#chẩn-đoán-development-và-kiểm-attribution-16102026),
+[đặc tả/checklist W8](../week8/README.md), [protocol W9](../week9/README.md),
+[bản đồ module/test/namespace W7-15](#kiểm-nguồn-và-bản-đồ-tái-lập-16102026).
+Plan `outputs/bayesian_benchmark/development_candidate_plan_v2.json`, report
+`outputs/bayesian_benchmark/development_candidate_run_v2/report.json` và selection
+`candidate_selection_v1.json` cùng thư mục run giữ nguyên hash đã ghi ở W7-09/12/15.
+Đây là bằng chứng local thuộc gitignore; cần giữ cả nguồn, checkpoint và ledger
+đã bind khi tái lập, không chỉ sao chép Markdown hoặc report đơn lẻ.
+
+**Phạm vi và điểm dừng:** giữ nguyên `improvement_protocol_v1` tại W8/W9.
+`A_tp_pool` kiểm giả thuyết conditional pool T/P giúp tăng support so với
+T/P/A/I của C2; `B_semantic` kiểm giả thuyết cách diễn đạt prefix giúp Decision
+sử dụng cùng bằng chứng C2. Đây là giả thuyết, chưa có kết quả A/B mới.
+Không ghép A+B; tối đa hai cấu hình mới, một vòng development, dừng tối ưu
+cuối W8 và khóa cả kết quả bất lợi/NOT_PROMOTED. Không nới eligibility,
+quality gate hoặc promotion theo return; giữ kinh tế T+2.5, PIT, paired
+upstream, model/options, risk OFF, distill/cap và giới hạn token.
+Development 2023 vẫn exploratory; 12 point lặp × ba lượt bổ sung và Original
+duplicate chỉ đo độ ổn định, không nhập primary 60 hoặc nomination.
+
+**Thứ tự triển khai và trách nhiệm:**
+
+1. **W8-01 → W8-02, coding agent:** ánh xạ đặc tả sang registry/version,
+   audit capability/identity, triển khai producer/loader/verifier và các biên
+   trong bản đồ test W7-15. CLI hiện tại chỉ hỗ trợ profile C0–C3; chưa có
+   A/B, repeat hoặc công cụ thống kê mới để người dùng chạy.
+2. **W8-03, coding agent:** chạy đủ bốn gate trên code mới; khóa plan/output
+   riêng dưới `outputs/bayesian_benchmark/improvement_v1/` theo bản đồ W7-15.
+   Bàn giao lệnh PowerShell thực đã dry-run/verify, model/options, identity,
+   đường dẫn ledger, preflight/run/resume và điều kiện dừng. Không thay binding
+   hay ghi đè plan/report/selection/checkpoint W7 để nhận code mới.
+3. **W8-04, người dùng chạy API:** chỉ sau W8-03 PASS, kiểm key qua preflight,
+   chạy primary và repeat bằng lệnh đã bàn giao. Giữ nguyên identity và output
+   khi resume; checkpoint phải bền vững sau mỗi point. Gặp nguồn/identity sai,
+   leakage, gate FAIL hoặc unknown request thì dừng và đối soát bằng UUID;
+   không xóa ledger hoặc tự replay request chưa rõ kết quả. Quota/retry theo
+   wrapper và amendment đã kiểm, không suy ra quota từ ngày local.
+4. **W8-05 → W8-06, coding agent offline:** verify đầy đủ checkpoint/report
+   primary và repeat, phân tích theo protocol rồi khóa selection C2/A/B;
+   giữ Original nếu không đủ điều kiện promote, BLOCKED nếu không có ứng viên
+   eligible. Không dùng kết quả repeat để chọn cấu hình hoặc thay ngưỡng.
+5. **W8-07 → W8-08, coding agent offline:** sau selection đã verify, khóa
+   manifest 64 điểm/bốn mã, kiểm công cụ CI bằng fixture, chạy gate và kiểm
+   hash/bàn giao W9. API holdout chỉ thuộc W9 theo protocol đã khóa.
+
+**Giới hạn chuyển tiếp:** BEAR OOS=0, tin reliable=0, FPT Q1 thiếu bốn mẫu,
+121/651 query train bị feature barrier và C3 cả hai thành phần ready chỉ
+95/358 query; PIT hồi cứu không chứng nhận vintage provider/kiến thức LLM.
+Trace NOT_USED vẫn là self-report; bất đồng prior-off chưa chứng minh nguyên
+nhân provider. Các giới hạn này phải xuất hiện trong phân tích W8/W9.
+
+**Kiểm tra W7-16:** chỉ sửa README tuần và kế hoạch tổng; đối chiếu checklist,
+liên kết, số liệu, hash artifact/log và identity code/runtime/registry/amendment
+PASS; 767 file nguồn/bằng chứng W7-15 giữ nguyên byte, bốn log mới nguyên hash.
+Không chạy lại compileall/unit/E2E/leakage vì không đổi code, test, cấu hình
+runtime, schema hay dữ liệu đầu vào (AGENTS.md mục 1.2). Kết quả gate ở đây
+được kế thừa, không ghi nhận là lần chạy W7-16; W8 đổi code phải chạy gate mới.
+Không gọi API, không tạo namespace/manifest mới hoặc mở outcome holdout.
 
 ## 4. Tổ chức implementation và kiểm thử
 
@@ -1554,7 +1627,9 @@ Gate khóa manifest/xác nhận chuyển sang cuối W8. W7 hiện **15/16**.
 - Mỗi task dùng branch riêng từ `develop`, commit Conventional Commits
   mô tả kỹ thuật, không có ký hiệu tuần. Kiểm tra theo phạm vi tại mục 1.2
   AGENTS.md; task thuần tài liệu không cần chạy suite. Các mốc W7-15/16
-  vẫn yêu cầu đủ bốn gate kỹ thuật theo tiêu chí nghiệm thu đã định:
+  vẫn yêu cầu đủ bốn gate kỹ thuật theo tiêu chí nghiệm thu đã định. W7-15
+  đã chạy mới; W7-16 thuần tài liệu kế thừa khi code/runtime giữ nguyên
+  theo AGENTS.md mục 1.2, như ghi trong phần nghiệm thu bên trên:
 
 ```powershell
 py -3.13 -m compileall agents core data_manager scripts tests utils
@@ -1596,6 +1671,7 @@ PLAN_READY là kế hoạch; chỉ đánh DONE task sau khi đủ tiêu chí c�
 | 16/10/2026 | W7-13 | DONE, 13/16; funnel development theo mã/regime: P đủ 37, stats 11/examples 26/cả hai 8/visible 29. Audit 202 prior-off prompt trùng byte/schema legacy/model/options client, giữ 3 bất đồng trên 2 point và giới hạn HTTP/trace. Verifier report, số đếm/hash/liên kết/diff PASS; chỉ tài liệu, không chạy lại suite theo AGENTS.md mới. Giữ C2 NOT_PROMOTED/Original/risk OFF, không API hoặc outcome holdout | W7-14 |
 | 16/10/2026 | W7-14 | DONE, 14/16; đặc tả improvement_protocol_v1 tại W8/W9 khóa A_tp_pool/B_semantic, ma trận/ablation, 12 point×3 lượt bổ sung, thứ tự/seed, metric/eligibility/CI và điểm dừng. Ngưỡng kinh tế/PIT/quality/promotion giữ nguyên; chỉ Markdown, QA tài liệu/hash PASS, không chạy lại suite/API hoặc tạo manifest holdout | W7-15 |
 | 16/10/2026 | W7-15 | DONE, 15/16; verifier selection production và oracle số học tái lập C2 NOT_PROMOTED, 60 paired/6 eligible/0 promote. Bốn gate chạy mới PASS: compileall/E2E, 859 unit/163 leakage, không skip; bốn log riêng, 767 file nguồn/bằng chứng nguyên byte. Có bản đồ module/test và namespace improvement_v1 dành trước; phân biệt consumer hiện có với version chưa triển khai, không API hoặc outcome holdout | W7-16 |
+| 16/10/2026 | W7-16 | DONE, 16/16; Phase A/B/C/D DONE, Gate A/B/C/D PASS. Bàn giao phạm vi/phụ thuộc/điểm dừng/trách nhiệm và điều kiện API W8; giữ C2 NOT_PROMOTED/Original/risk OFF. Chỉ hai Markdown; QA liên kết/checklist/số liệu/hash và consumer gate PASS, kế thừa bốn gate W7-15 cùng code/runtime, không chạy lại suite. 767 file và bốn log nguyên hash; W8=0/8, W9=0/6, chưa API hoặc manifest/outcome holdout | W8-01 |
 
 Kiểm khi lập kế hoạch (12/10/2026): checklist/đánh số/phụ thuộc/liên kết và `git diff --check`.
 Code/test không đổi so với mốc W6-16 đã qua bốn gate (784 unit/146 leakage);
