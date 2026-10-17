@@ -122,6 +122,9 @@ class StageJournal:
 
     def assert_resumable(self) -> None:
         """Unknown chưa được người vận hành xác nhận phải dừng trước agent."""
+        from core.research_invocation import RECOVERY
+        if RECOVERY.get():
+            return
         for name, node in self.document["nodes"].items():
             last = node["attempts"][-1]
             if last["status"] == "unknown" and last["authorization"] is None:
@@ -144,8 +147,12 @@ class StageJournal:
             raise ValueError("Node journal không đúng thứ tự")
         candidate = deepcopy(self.document)
         node = candidate["nodes"].setdefault(name, {"input_sha256": checksum, "attempts": []})
-        node["attempts"].append({"attempt_id": str(uuid4()), "started_at": utc_now(),
-                                 "status": "unknown", "output": None, "authorization": None})
+        from core.research_invocation import RECOVERY
+        recovering = (RECOVERY.get() and node['attempts'] and node['attempts'][-1]['status'] == 'unknown'
+                      and node['attempts'][-1]['authorization'] is None)
+        if not recovering:
+            node["attempts"].append({"attempt_id": str(uuid4()), "started_at": utc_now(),
+                                     "status": "unknown", "output": None, "authorization": None})
         self.save(candidate)
         from core.research_invocation import invocation_scope
         with invocation_scope(name) as budget:

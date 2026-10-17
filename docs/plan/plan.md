@@ -972,6 +972,21 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   **3/8 DONE**, tiếp theo **W8-04** người dùng chạy API; A/B thực NOT_RUN,
   chưa selection/manifest/outcome holdout, giữ C2 NOT_PROMOTED/Original/risk OFF.
 
+- **W8-04 IN_PROGRESS, reset theo yêu cầu 17/10/2026:** xóa sạch 786 file
+  development cũ, không lưu bản sao; giữ nguồn/bằng chứng W7, diagnostics cũ
+  và ledger usage. Amendment vận hành `improvement_protocol_v2` /
+  `resilient_invocation_v1`: tự retry transport/HTTP tạm thời, chờ TPM/RPM,
+  lưu response durable và tự resume unknown cùng UUID; quota ngày dừng giữ
+  checkpoint, đổi key rồi chạy lại cùng lệnh sẽ preflight/tiếp tục. Giữ nguyên
+  phương pháp, lịch, ma trận, paired/PIT/kinh tế/model/token/nomination;
+  development mới vẫn exploratory, **0/660 primary, 0/432 repeat**, chưa API.
+  Prepare/dry-run và diagnostics 852 replay/651 query đã verify offline;
+  kết quả số giữ nguyên, chỉ đổi binding. **Bốn gate mới PASS: compileall/E2E,
+  896 unit/167 leakage**, không skip; receipt bind 69 code/schema/config,
+  220 Python nguyên byte trong lượt gate; QA nguồn/namespace và 773 file bảo vệ PASS.
+  [Hướng dẫn revision mới](week8/README.md#w8-04--reset-và-sửa-phục-hồi-vận-hành-17102026).
+  **3/8 DONE**; W8-04 chưa hoàn tất, chưa selection/manifest/outcome holdout.
+
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
@@ -1026,7 +1041,7 @@ lập và chuẩn bị 25–30 slide. Không dành tuần này để mở thêm 
 | **Gaussian HMM không phân tách rõ chế độ** | Trung bình | Giữ artifact và giao thức đang kiểm định; ghi giới hạn/coverage. Rule-based regime chỉ được đưa vào thí nghiệm đối chứng riêng, chốt và hiệu chỉnh bằng train trước OOS, không thay detector dựa trên kết quả test. |
 | **Thiếu tin lịch sử có ngày hợp lệ** | Trung bình | Kiểm coverage từng mã/cutoff; giữ NEUTRAL kèm lý do khi thiếu bằng chứng, bỏ tin không ngày/tương lai. Pilot hiện toàn NEUTRAL; không giả định cache bốn mã đầy đủ hoặc dùng tin hiện tại bù quá khứ. |
 | **Benchmark bốn mã bị gián đoạn** | Cao | Giữ mẫu/ngày kiểm định đã khóa ở W5-12 và protocol cuối W8. Người dùng tự chạy tuần tự theo hướng dẫn; khi dừng, giữ checkpoint/ledger/unknown reserve và resume đúng identity. Công bố common support thực tế, không bỏ điểm lỗi hoặc đổi mẫu theo kết quả. |
-| **Upstream chưa rõ kết quả hoặc checkpoint lỗi Windows** | Cao | Dừng để kiểm stage/hash/owner; dùng response durable nếu có, giữ unknown reserve. Không tự replay upstream/Full AMBIGUOUS hoặc xóa lock sống; replay cần xác nhận cụ thể và audit. Retry atomic I/O có giới hạn, giữ bằng chứng cũ. |
+| **Upstream chưa rõ kết quả hoặc checkpoint lỗi Windows** | Cao | Kiểm stage/hash/owner, dùng response durable nếu có, giữ unknown reserve. Revision W8-04 mới đã được người dùng cho phép tự retry unknown cùng UUID và audit; luồng legacy vẫn cần xác nhận cụ thể. Không xóa lock sống; lỗi integrity vẫn dừng. Retry atomic I/O có giới hạn. |
 
 ---
 

@@ -24,10 +24,10 @@ from core.prior_run_lock import PriorRunLock, safe_path, utc_now
 from core.prior_stage_journal import StageJournal, encode_output
 from core.research_cohort import read_envelope, save_envelope, _report_prior
 from core.research_input_lock import _write_once
-from core.research_invocation import ENABLED, invocation_scope
+from core.research_invocation import ENABLED, RECOVERY, invocation_scope
 from utils import static_util
 
-IDENTITY_VERSION = 'improvement_run_identity_v1'
+IDENTITY_VERSION = 'improvement_run_identity_v2'
 CHECKPOINT_VERSION = 'improvement_decision_checkpoint_v1'
 
 
@@ -202,11 +202,14 @@ def decision(runner: Any, point: Any, shared: dict[str, Any], index: Any, path: 
     if last is None or last['status'] != 'complete':
         if verify_only:
             return saved
-        if last is not None and last['authorization'] is None:
+        if last is not None and last['authorization'] is None and not RECOVERY.get():
             raise ValueError(f"Decision {name} unknown {last['attempt_id']}; cần reconcile UUID")
-        attempt = {'attempt_id': str(uuid4()), 'started_at': utc_now(), 'status': 'unknown',
-                   'output': None, 'latency_seconds': None, 'authorization': None}
-        attempts.append(attempt)
+        if last is not None and RECOVERY.get() and last['authorization'] is None:
+            attempt = last
+        else:
+            attempt = {'attempt_id': str(uuid4()), 'started_at': utc_now(), 'status': 'unknown',
+                       'output': None, 'latency_seconds': None, 'authorization': None}
+            attempts.append(attempt)
         save_envelope(path, saved)
         started = time.monotonic()
         from core.improvement_transport import SLOT

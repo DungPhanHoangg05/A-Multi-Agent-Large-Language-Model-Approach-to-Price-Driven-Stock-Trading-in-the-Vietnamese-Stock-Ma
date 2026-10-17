@@ -1,6 +1,6 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 3/8; W8-01–03 DONE, tiếp theo W8-04.**
+**Trạng thái: IN_PROGRESS, 3/8; W8-01–03 DONE, W8-04 khởi động lại từ đầu.**
 Kế hoạch điều chỉnh 16/10/2026; cập nhật 17/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
@@ -83,7 +83,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-01 | Ánh xạ protocol W7-14 vào registry/version; kiểm khả năng thực thi, identity và audit byte prior-off | W7 Gate D | [x] DONE |
 | W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [x] DONE |
 | W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [x] DONE |
-| W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [ ] TODO |
+| W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [ ] IN_PROGRESS — reset theo yêu cầu, revision mới chưa gọi API |
 | W8-05 | Verify toàn primary và đủ mẫu lặp; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [ ] TODO |
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [ ] TODO |
 | W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [ ] TODO |
@@ -254,6 +254,9 @@ chưa triển khai ở task này. **W8 đạt 2/8**, tiếp theo **W8-03**; Gate
 
 ### W8-03 — Kiểm hợp đồng và khóa development, 17/10/2026
 
+Các hash và gate trong mục này ghi nhận mốc W8-03 trước lần reset bên dưới;
+plan tại cùng đường dẫn đã được producer tạo mới theo revision W8-04.
+
 **DONE.** Plan mới được producer `scripts/run_improvement.py --prepare`
 tạo offline tại `outputs/bayesian_benchmark/improvement_v1/development/plan.json`.
 Loader kiểm parent W7 nguyên byte, registry/protocol, 68 file code/schema/config,
@@ -344,17 +347,86 @@ development/repeat và protocol W9 giữ nguyên. **W8 đạt 3/8**, tiếp theo
 A/B thực vẫn **NOT_RUN**, giữ C2 NOT_PROMOTED/Original/risk OFF; chưa selection
 W8, manifest hoặc outcome holdout. Gate W8 chưa mở.
 
+### W8-04 — Reset và sửa phục hồi vận hành, 17/10/2026
+
+Theo yêu cầu người dùng, đã **xóa toàn bộ 786 file development cũ**, gồm
+plan/run, point, slot, journal, manifest và response/checkpoint đã chạy;
+không lưu bản sao hoặc tái sử dụng Decision/upstream cũ. Namespace repeat
+cũ không tồn tại. Nguồn và bằng chứng W7, diagnostics train đã khóa và ledger
+tài khoản chung được giữ nguyên. Xóa output không đặt lại quota phía provider.
+Revision mới bắt đầu **0/660 primary, 0/432 repeat**, chưa có API, selection
+hoặc holdout; W8-04 chưa DONE và W8 vẫn **3/8**.
+
+Đây là amendment vận hành theo yêu cầu sau khi đã chạy một phần development:
+`improvement_protocol_v2`, `improvement_cohort_plan_v2`,
+`improvement_run_identity_v2`, retry `resilient_invocation_v1`. Kết quả mới
+vẫn là exploratory, không thay bản đã khóa hoặc chọn giữ điểm cũ thuận lợi.
+Chỉ đổi cách chờ/retry/phục hồi; giữ A/B/C2, lịch 60 điểm, ma trận 11 nhánh,
+mẫu repeat/ba lượt/duplicate, model/schema/options, retrieval, prompt/token,
+PIT, T+2.5, risk OFF và nomination. Receipt cũ không thay cho gate code mới.
+
+Lỗi kết nối/timeout, HTTP 408/425/500/502/503/504 được tự thử lại cùng UUID/body,
+backoff 2–60 giây; TPM/RPM chờ theo retry-after rồi tiếp tục. Không còn dừng
+do trần ba HTTP hoặc 120 giây chờ của revision cũ. Từng HTTP thực vẫn lưu
+audit/usage riêng; retry không tăng repeat_id. Nếu request trước chưa rõ kết
+quả và chưa có response durable, revision này cho phép gửi lại tự động theo
+ủy quyền mới của người dùng; provider có thể đã xử lý/ghi quota request trước.
+Mạng mất kéo dài sẽ tiếp tục chờ; có thể dùng Ctrl+C để dừng và giữ checkpoint.
+
+HTTP 200 được lưu response/hash vào `run/http_cache/` trước khi trả về SDK.
+Sau gián đoạn, dùng response đúng UUID/body đã lưu, hoàn tất checkpoint còn
+thiếu và bỏ qua node/Decision complete. Không tự gọi lại upstream complete
+cho nhánh so sánh. Mất/sai cache đã xác nhận, sai nguồn/checkpoint/schema,
+key không hợp lệ hoặc cấu hình lỗi vẫn phải dừng; lỗi toàn vẹn không được
+biến thành retry vô hạn hay kết quả giả.
+
+Hết quota ngày do provider báo thì dừng giữ checkpoint. Đổi `GROQ_API_KEY`
+trong `.env` rồi chạy lại cùng lệnh; CLI tự kiểm preflight theo key/plan và
+tiếp tục, không cần authorize từng UUID. Key mới cùng tài khoản/tổ chức có
+thể vẫn chung quota. Nếu quota dừng ngay preflight trước khi tạo cohort,
+`--run --resume` cũng tự khởi tạo run mới sau khi preflight PASS.
+
+Plan mới được prepare/dry-run offline, bind **51 nguồn và 69 code/schema/config**;
+SHA-256 byte
+`f9745d946d81cb008e0a747f8367fe0c85a5fbd989e7148bde997227d651831e`.
+Protocol canonical SHA-256
+`62050a5b3e895b842fb4693bb87780652c59365184009b9fa78cbbd6750a067c`.
+Đối chiếu protocol cũ xác nhận chỉ version/retry/recovery đổi; 773 file đã
+bảo vệ nguyên byte, gồm nguồn/bằng chứng W7, ledger, AGENTS/root README và
+receipt lịch sử. Diagnostics revision mới đặt riêng tại
+`outputs/bayesian_benchmark/improvement_v1/train/diagnostics_resilient_v1.json`,
+không ghi đè `diagnostics.json` của W8-03; SHA-256 byte
+`c32993c726888f2fee3f9650f307db9afcb67145b4af40242bb49659bdbb23c9`.
+Producer và verifier toàn artifact từ nguồn đều **PASS offline**, 852 replay/
+651 query, Decision=0. So với report W8-03 chỉ đổi `code_sha256` và
+`protocol_sha256`; posterior, coverage, loss, fold/mã và mọi dữ liệu còn lại
+giữ nguyên.
+
+**Bốn gate mới PASS:** compileall, **896 unit**, E2E và **167 leakage**,
+không skip; gồm 10 test HTTP mock phục hồi và một test tích hợp resume mới.
+Receipt [technical_gates.json](validation_gates/resilient_restart_v1/technical_gates.json)
+bind 69 code/schema/config và runtime, đã qua consumer `read_technical_gates`;
+SHA-256 byte
+`1537a3986f9d24547f226e8c2ffeb98d4d43ac0583a83d719a053326d674638c`.
+Log [compileall](validation_gates/resilient_restart_v1/compileall.log),
+[unit](validation_gates/resilient_restart_v1/unit.log),
+[E2E](validation_gates/resilient_restart_v1/e2e.log),
+[leakage](validation_gates/resilient_restart_v1/leakage.log) giữ nguyên byte.
+220 Python nguyên byte trong suốt lượt gate; QA cuối kiểm đủ 773 file bảo vệ,
+plan/protocol/gate, diagnostics, liên kết và namespace mới sạch đều PASS.
+Không gọi API thật hoặc tạo điểm chạy giả; tiếp theo người dùng chạy W8-04.
+
 #### Lệnh vận hành W8-04 và kiểm offline sau run
 
 Chạy từ root repository bằng Python 3.13.5. Các đường dẫn dưới đây dành cho
 revision này; giữ nguyên file plan, receipt, code/runtime và ledger chung khi
-resume. `.env` chứa `GROQ_API_KEY` do người dùng quản lý. **Người dùng tự chạy
-hai lệnh preflight/run có API; agent chỉ chạy các chế độ offline.**
+resume. `.env` chứa `GROQ_API_KEY` do người dùng quản lý và được ưu tiên hơn
+biến môi trường. **Người dùng tự chạy API; agent chỉ chạy các chế độ offline.**
 
 ```powershell
 $taskPlan = "outputs/bayesian_benchmark/improvement_v1/development/plan.json"
 $taskRun = "outputs/bayesian_benchmark/improvement_v1/development/run"
-$taskGates = "docs/plan/week8/validation_gates/development_lock_v1/technical_gates.json"
+$taskGates = "docs/plan/week8/validation_gates/resilient_restart_v1/technical_gates.json"
 $taskLedger = "outputs/oos_pilot/api_usage.json"
 $taskRepeatPlan = "outputs/bayesian_benchmark/improvement_v1/repeats/plan.json"
 $taskRepeatRun = "outputs/bayesian_benchmark/improvement_v1/repeats/run"
@@ -362,13 +434,11 @@ $taskRepeatRun = "outputs/bayesian_benchmark/improvement_v1/repeats/run"
 # Offline: dựng lại binding nguồn/PIT, không đọc key hoặc gọi mạng.
 py -3.13 -X utf8 scripts/run_improvement.py --dry-run --plan $taskPlan
 
-# API: người dùng kiểm hai model/options/schema với key đang dùng.
-py -3.13 -X utf8 scripts/run_improvement.py --preflight --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
-
-# API: primary 60 điểm, 11 nhánh, upstream mới một lần/điểm.
+# API: tự preflight khi cần; primary 60 điểm, 11 nhánh, upstream một lần/điểm.
 py -3.13 -X utf8 scripts/run_improvement.py --run --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
 
-# API: chỉ dùng khi tiếp tục output đã khởi tạo; không chạy lại slot complete.
+# API: sau quota, đổi key trong .env rồi chạy lệnh này; tự resume cả unknown.
+# Có thể dùng lại nguyên lệnh --run phía trên; CLI tự nhận output đã khởi tạo.
 py -3.13 -X utf8 scripts/run_improvement.py --run --resume --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
 
 # Offline: kiểm checkpoint, raw response, request/body audit và report.
@@ -391,15 +461,11 @@ py -3.13 -X utf8 scripts/run_improvement.py --verify-report --plan $taskRepeatPl
 
 `--verify-only` có thể trả report INCOMPLETE hợp lệ; chỉ nhận hoàn tất khi
 primary đủ 660 Decision complete, không pending/unknown, và repeat đủ 432
-Decision complete. Khi bị ngắt, giữ cả checkpoint/journal/ledger. Với attempt
-unknown, chạy `--reconcile` offline cùng plan/output/gates/ledger tương ứng để
-xem UUID/trạng thái attempt, rồi đối chiếu HTTP audit trong ledger. Chỉ sau
-đối soát cụ thể mới dùng
-`--authorize-replay <UUID> --replay-reason "<lý do đối soát>"` cùng
-`--reconcile`; lệnh này ghi authorization, không gọi API. Sau đó người dùng
-chạy `--run --resume`. Không xóa lock của tiến trình còn sống, xóa slot, reset
-ledger hoặc tự đổi model/key để bỏ cooldown. Thay key tự kích hoạt preflight
-theo credential scope; preflight/retry/format repair không tăng repeat_id.
+Decision complete. Khi bị ngắt, giữ cả checkpoint/journal/ledger/http_cache
+và chạy lại `--run --resume`; revision mới tự xử lý unknown theo policy đã
+khóa, không cần reconcile/authorize UUID thủ công. Không xóa lock của tiến
+trình còn sống, slot hoặc ledger. Thay key tự kích hoạt preflight theo
+credential scope; preflight/retry/format repair không tăng repeat_id.
 
 Nếu clone chưa có artifact local, chuẩn bị lại plan từ parent W7 đã khóa bằng
 lệnh dưới; producer chỉ chấp nhận đúng nguồn/code/runtime và không ghi đè
@@ -408,8 +474,8 @@ cần key. Cả hai output nằm ngoài Git; hash nghiệm thu được ghi tạ
 
 ```powershell
 py -3.13 -X utf8 scripts/run_improvement.py --prepare --parent outputs/bayesian_benchmark/development_candidate_plan_v2.json --plan $taskPlan
-py -3.13 -X utf8 scripts/run_improvement.py --train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics.json
-py -3.13 -X utf8 scripts/run_improvement.py --verify-train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics.json
+py -3.13 -X utf8 scripts/run_improvement.py --train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics_resilient_v1.json
+py -3.13 -X utf8 scripts/run_improvement.py --verify-train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics_resilient_v1.json
 ```
 
 ## Protocol development và tiêu chí chọn

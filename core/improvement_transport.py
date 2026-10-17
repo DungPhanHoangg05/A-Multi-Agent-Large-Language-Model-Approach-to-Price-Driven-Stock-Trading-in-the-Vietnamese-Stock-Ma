@@ -86,6 +86,8 @@ class _AuditInner(httpx.BaseTransport):
         if slot is not None and CURRENT.get() is None:
             raise ValueError('Decision audit thiếu invocation budget')
         record['improvement_audit'] = {'audit_version': VERSION, 'slot': slot, 'request': contract, 'response': None}
+        if record.get('recovery_policy') == 'resilient_invocation_v1':
+            record['dispatch_phase'] = 'audited'
         self.pacer.save()
         response = self.inner.handle_request(request)
         response.read()
@@ -98,6 +100,8 @@ class _AuditInner(httpx.BaseTransport):
             'message_sha256': message_fingerprint(payload),
             'system_fingerprint': payload.get('system_fingerprint') if type(payload) is dict else None}
         self.pacer.save()
+        if record.get('recovery_policy') == 'resilient_invocation_v1':
+            response.extensions['improvement_request_id'] = record['id']
         return response
 
     def close(self) -> None:
@@ -118,19 +122,27 @@ class ImprovementTransport(PacedGroqTransport):
 
 def verify_attempt_audit(ledger: dict[str, Any], slot: dict[str, Any], *, expected: dict[str, Any],
                          raw_message: dict[str, Any]) -> list[dict[str, Any]]:
-    """Ghép HTTP bằng UUID/slot; so contract đầu và response thành công đã lưu."""
+    """Ghép HTTP bằng UUID/slot; so từng contract và response thành công đã lưu."""
     records = [row for row in ledger['requests'] if row.get('checkpoint_attempt_id') == slot['checkpoint_attempt_id']]
     if not records or not any(row['status'] == 200 for row in records):
         raise ValueError('Decision thật thiếu HTTP thành công cùng UUID')
+    audited = []
     for row in records:
         audit = row.get('improvement_audit')
-        if (type(audit) is not dict or audit.get('audit_version') != VERSION or audit['slot'] != slot
-                or row.get('run_signature') != slot['run_signature'] or row.get('point_id') != slot['point_id']
-                or row.get('branch_id') != slot['branch_id'] or audit['response'] is None):
+        recovering = row.get('recovery_policy') == 'resilient_invocation_v1'
+        if (row.get('run_signature') != slot['run_signature'] or row.get('point_id') != slot['point_id']
+                or row.get('branch_id') != slot['branch_id']):
             raise ValueError('HTTP audit khác slot/UUID hoặc thiếu fingerprint')
-    if records[0]['improvement_audit']['request'] != expected:
-        raise ValueError('HTTP body/schema/model/options khác request tái dựng offline')
-    successful = [row for row in records if row['status'] == 200]
+        if recovering and row['status'] == 'unknown' and row.get('dispatch_phase') == 'reserved' and audit is None:
+            # Intent bị ngắt trước audit/HTTP vẫn giữ reserve; không nhận là response thành công.
+            continue
+        if (type(audit) is not dict or audit.get('audit_version') != VERSION or audit['slot'] != slot
+                or audit['response'] is None and not (recovering and row['status'] in ('transport_error', 'unknown'))):
+            raise ValueError('HTTP audit khác slot/UUID hoặc thiếu fingerprint')
+        audited.append(row)
+        if audit['request'] != expected:
+            raise ValueError('HTTP body/schema/model/options khác request tái dựng offline')
+    successful = [row for row in audited if row['status'] == 200]
     fingerprint = digest({'content': raw_message.get('content') or '', 'tool_calls': raw_message.get('tool_calls') or []})
     if successful[-1]['improvement_audit']['response']['message_sha256'] != fingerprint:
         raise ValueError('Response HTTP khác raw message durable')

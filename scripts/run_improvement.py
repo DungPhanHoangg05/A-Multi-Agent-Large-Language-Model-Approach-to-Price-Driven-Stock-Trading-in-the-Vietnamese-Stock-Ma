@@ -22,6 +22,7 @@ from core.improvement_protocol import prepare_plan, validate_plan
 from core.improvement_runtime import run_primary, run_repeats, prepare_repeat_plan, reconcile
 from core.improvement_reports import read_report, read_selection, selection_artifact
 from core.improvement_transport import ImprovementTransport, validate_client
+from core.improvement_recovery import ResilientPacer, ResilientTransport, recovery_scope
 from core.pilot_readiness import build_adapter
 from core.prior_backtest import PriorBacktestRunner
 from core.prior_run_lock import PriorRunLock
@@ -120,9 +121,9 @@ def main() -> None:
         key = 'offline-verifier-no-network'
     def reject(request: httpx.Request) -> httpx.Response:
         raise AssertionError('Verifier cải tiến không được gọi mạng')
-    with PriorRunLock(ledger.parent/(ledger.name+'.lock'), 'shared-account-ledger-v2'):
-        pacer = ProviderQuotaPacer(ledger, credential=key, amendment_sha256=plan['protocol_sha256'], policy='request_admission_v2') if online else None
-        transport = ImprovementTransport(pacer) if online else httpx.MockTransport(reject)
+    with recovery_scope(online), PriorRunLock(ledger.parent/(ledger.name+'.lock'), 'shared-account-ledger-v2'):
+        pacer = ResilientPacer(ledger, credential=key, amendment_sha256=plan['protocol_sha256'], policy='request_admission_v2') if online else None
+        transport = ResilientTransport(pacer, args.output_dir/'http_cache') if online else httpx.MockTransport(reject)
         with httpx.Client(transport=transport, timeout=90.) as client:
             builder = make_builder(plan['inputs'], key, client)
             for role, llm in (('agent', builder.agent_llm), ('graph', builder.graph_llm)):
@@ -162,7 +163,9 @@ def main() -> None:
                                    reason=args.replay_reason, **options)
             else:
                 execute = run_repeats if repeat else run_primary
-                result = execute(runner, supplied, args.output_dir, resume=args.resume, verify_only=not args.run, **options)
+                # Cùng lệnh sau đổi key: tiếp tục run đã có, hoặc khởi tạo nếu quota dừng ngay preflight.
+                resume = (args.output_dir/'cohort.json').exists()
+                result = execute(runner, supplied, args.output_dir, resume=resume, verify_only=not args.run, **options)
                 if args.verify_report or args.select or args.verify_selection:
                     read_report(args.output_dir/'report.json', result)
                 if args.select or args.verify_selection:
