@@ -1,0 +1,153 @@
+[PASS] Environment: Python 3.13.5 and required packages
+[PASS] CafeF crawling/parser contract
+[PASS] Data load contract: 603 ordered OHLCV rows
+[SetGraph] Upstream graph compiled: Indicator -> Pattern -> Trend
+[SetGraph] Decision graph compiled: full
+[SetGraph] Decision graph compiled: alpha_only
+[SetGraph] Decision graph compiled: sentiment_only
+[SetGraph] Decision graph compiled: baseline
+
+==============================================================
+  [BacktestEngine] FPT | 1 tests | window=45 | step=3
+  Horizon: T+2.5 (lookahead=3 nến)
+  Dữ liệu: 2023-01-02 → 2025-04-23
+==============================================================
+
+[SentimentCache] Load FPT: 8 bài (saved 2026-09-20T00:00:00)
+[SentimentCache] FPT: Load từ đĩa — 8 bài ✓
+
+── Test 1/1 (end_idx=600) ──────────────────────────────
+  Cửa sổ : 2025-02-17 → 2025-04-18
+  Nhãn net O→C: DOWN  86.25 → 86.26  (-0.69% sau phí)
+  Thực thi O→C: 86.25 → 86.26  (+0.01% trước phí; decision close=86.44)
+  ▶ Shared upstream + paired decisions đang chạy...
+[IndicatorAgent] Đang tính toán 5 chỉ báo...
+[IndicatorAgent] Đang phân loại tín hiệu bằng Python...
+[IndicatorAgent] Python classify xong: TĂNG=0, GIẢM=4, TRUNG_TÍNH=1, Đồng thuận=GIẢM (Cao).
+[IndicatorAgent] Backtest dùng báo cáo Python xác định (3696 ký tự), không gọi LLM diễn giải.
+[PatternAgent] Dùng ảnh từ state.
+[PatternAgent] Phân tích thị giác hoàn thành.
+[PatternAgent] Hoàn thành (246 ký tự).
+[TrendAgent] Dùng ảnh xu hướng đã tính sẵn từ state.
+[TrendAgent] Phân tích thị giác hoàn thành.
+[TrendAgent] Hoàn thành (389 ký tự).
+[AlphaAgent] Backtest historical sentiment — FPT @ 2025-04-18
+[SentimentCache] FPT @ 2025-04-18: 8 bài (window=90d)
+[AlphaAgent] Chuẩn hóa sentiment và tính biến kỹ thuật...
+[AlphaAgent] Tính 5 alpha factor (T+2.5 (3 sessions))...
+[AlphaSelector] Starting alpha selection for FPT (1d)...
+
+[AlphaCompare] Tính features trên 600 nến...
+  [01/85] CURRENT_1_FDM                ... IC=+0.767  Acc=0.461  LongAcc=0.043  Sharpe=+1.94  Sortino=+6.20  MDD=19.32%
+  [02/85] CURRENT_2_SFA                ... IC=+0.752  Acc=0.452  LongAcc=0.042  Sharpe=+1.52  Sortino=+4.65  MDD=18.45%
+  [03/85] CURRENT_3_LVR                ... IC=-0.706  Acc=0.520  LongAcc=0.047  Sharpe=+2.58  Sortino=+7.24  MDD=13.87%
+  [04/85] CURRENT_4_BFE                ... IC=+0.025  Acc=0.486  LongAcc=0.026  Sharpe=-0.15  Sortino=-0.34  MDD=34.38%
+  [05/85] CURRENT_5_OFE                ... IC=+0.014  Acc=0.461  LongAcc=0.039  Sharpe=-0.93  Sortino=-1.85  MDD=48.84%
+  [06/85] WQ01_ArgMaxRank              ... IC=-0.027  Acc=0.409  LongAcc=0.021  Sharpe=-1.52  Sortino=-3.55  MDD=82.54%
+  [07/85] WQ02_PriceVolDiv             ... IC=+0.213  Acc=0.524  LongAcc=0.041  Sharpe=+6.49  Sortino=+11.74  MDD=7.20%
+  [08/85] WQ03_OpenVolCorr             ... IC=+0.079  Acc=0.523  LongAcc=0.024  Sharpe=+5.41  Sortino=+9.28  MDD=14.61%
+  [09/85] WQ04_LowRankRev              ... IC=-0.284  Acc=0.709  LongAcc=0.036  Sharpe=+4.70  Sortino=+11.57  MDD=12.00%
+  [10/85] WQ05_OpenVwapBody            ... IC=-0.625  Acc=0.649  LongAcc=0.065  Sharpe=+4.43  Sortino=+12.01  MDD=13.68%
+  [11/85] WQ06_OpenVol                 ... IC=-0.011  Acc=0.479  LongAcc=0.032  Sharpe=-0.79  Sortino=-1.75  MDD=57.10%
+  [12/85] WQ07_VolSurgeMom             ... IC=-0.266  Acc=0.384  LongAcc=0.037  Sharpe=-1.22  Sortino=-2.77  MDD=89.89%
+  [13/85] WQ08_OpenRetMom              ... IC=-0.423  Acc=0.526  LongAcc=0.049  Sharpe=+2.04  Sortino=+5.19  MDD=12.61%
+  [14/85] WQ09_MomContRev              ... IC=+0.734  Acc=0.500  LongAcc=0.046  Sharpe=+2.10  Sortino=+5.62  MDD=17.44%
+  [15/85] WQ10_MomRank4                ... IC=+0.651  Acc=0.505  LongAcc=0.045  Sharpe=+2.04  Sortino=+5.58  MDD=14.75%
+  [16/85] WQ11_VwapCloseVol            ... IC=-0.148  Acc=0.429  LongAcc=0.030  Sharpe=-0.58  Sortino=-1.30  MDD=35.58%
+  [17/85] WQ12_VolPriceSign            ... IC=+0.005  Acc=0.481  LongAcc=0.024  Sharpe=-0.32  Sortino=-0.71  MDD=63.53%
+  [18/85] WQ13_CovReverse              ... IC=+0.119  Acc=0.136  LongAcc=0.021  Sharpe=-7.70  Sortino=-13.39  MDD=257.52%
+  [19/85] WQ14_RetDeltaCorr            ... IC=-0.027  Acc=0.605  LongAcc=0.035  Sharpe=+1.55  Sortino=+3.18  MDD=37.11%
+  [20/85] WQ15_HighVolSumCorr          ... IC=-0.000  Acc=0.633  LongAcc=0.000  Sharpe=+2.41  Sortino=+4.88  MDD=30.75%
+  [21/85] WQ16_HighVolCov              ... IC=+0.035  Acc=0.168  LongAcc=0.022  Sharpe=-7.07  Sortino=-12.81  MDD=245.09%
+  [22/85] WQ17_TripleRank              ... IC=-0.171  Acc=0.869  LongAcc=0.043  Sharpe=+9.57  Sortino=+17.68  MDD=6.32%
+  [23/85] WQ18_StdBodyCorr             ... IC=-0.373  Acc=0.539  LongAcc=0.048  Sharpe=+1.74  Sortino=+4.16  MDD=9.44%
+  [24/85] WQ19_LongShortMom            ... IC=-0.518  Acc=0.365  LongAcc=0.036  Sharpe=-0.50  Sortino=-1.35  MDD=40.37%
+  [25/85] WQ20_GapAnalysis             ... IC=-0.085  Acc=0.648  LongAcc=0.015  Sharpe=+3.25  Sortino=+7.18  MDD=10.20%
+  [26/85] WQ21_SmaCondition            ... IC=-0.621  Acc=0.358  LongAcc=0.035  Sharpe=-0.23  Sortino=-0.69  MDD=44.03%
+  [27/85] WQ22_CorrDeltaStd            ... IC=+0.008  Acc=0.490  LongAcc=0.032  Sharpe=+3.05  Sortino=+6.38  MDD=17.19%
+  [28/85] WQ23_HighSmaBreak            ... IC=-0.669  Acc=0.593  LongAcc=0.055  Sharpe=+3.77  Sortino=+10.99  MDD=17.56%
+  [29/85] WQ24_TrendSlope              ... IC=-0.552  Acc=0.703  LongAcc=0.029  Sharpe=+4.70  Sortino=+9.69  MDD=48.59%
+  [30/85] WQ25_RetVolHeight            ... IC=-0.340  Acc=0.513  LongAcc=0.025  Sharpe=+1.20  Sortino=+3.00  MDD=12.68%
+  [31/85] WQ26_TsMaxCorrVol            ... IC=+0.131  Acc=0.112  LongAcc=0.026  Sharpe=-8.83  Sortino=-14.71  MDD=275.03%
+  [32/85] WQ27_CorrRankCond            ... IC=+0.089  Acc=0.168  LongAcc=0.027  Sharpe=-6.92  Sortino=-12.84  MDD=244.65%
+  [33/85] WQ28_CorrLowClose            ... IC=-0.056  Acc=0.504  LongAcc=0.017  Sharpe=+0.08  Sortino=+0.17  MDD=60.16%
+  [34/85] WQ29_NestedRankLog           ... IC=-0.507  Acc=0.521  LongAcc=0.047  Sharpe=+2.29  Sortino=+6.40  MDD=10.54%
+  [35/85] WQ30_SignStreakVol           ... IC=-0.251  Acc=0.534  LongAcc=0.042  Sharpe=+1.24  Sortino=+3.04  MDD=22.77%
+  [36/85] WQ31_DecayDeltaCorr          ... IC=-0.339  Acc=0.474  LongAcc=0.017  Sharpe=+0.15  Sortino=+0.35  MDD=45.36%
+  [37/85] WQ32_ScaleCorr230            ... IC=-0.480  Acc=0.786  LongAcc=0.000  Sharpe=+5.77  Sortino=+8.95  MDD=70.32%
+  [38/85] WQ33_BodyDirection           ... IC=-0.356  Acc=0.516  LongAcc=0.046  Sharpe=+1.31  Sortino=+3.28  MDD=9.56%
+  [39/85] WQ34_VolRatioRev             ... IC=-0.323  Acc=0.564  LongAcc=0.052  Sharpe=+1.45  Sortino=+3.51  MDD=10.95%
+  [40/85] WQ35_TripleTsRank            ... IC=-0.543  Acc=0.272  LongAcc=0.032  Sharpe=-2.35  Sortino=-5.60  MDD=118.59%
+  [41/85] WQ36_WeightedCombo           ... IC=-0.111  Acc=0.497  LongAcc=0.031  Sharpe=+0.34  Sortino=+0.77  MDD=23.43%
+  [42/85] WQ37_DelayOcCorr             ... IC=-0.257  Acc=0.483  LongAcc=0.033  Sharpe=+0.17  Sortino=+0.38  MDD=59.77%
+  [43/85] WQ38_TsRankBody              ... IC=-0.703  Acc=0.383  LongAcc=0.037  Sharpe=-0.09  Sortino=-0.24  MDD=29.85%
+  [44/85] WQ39_DeltaDecayRet           ... IC=-0.475  Acc=0.573  LongAcc=0.043  Sharpe=+2.85  Sortino=+7.12  MDD=13.95%
+  [45/85] WQ40_HighVolatVol            ... IC=+0.015  Acc=0.290  LongAcc=0.005  Sharpe=-3.54  Sortino=-7.67  MDD=158.41%
+  [46/85] WQ41_GeoMeanVwap             ... IC=-0.324  Acc=0.522  LongAcc=0.042  Sharpe=+1.32  Sortino=+3.21  MDD=15.67%
+  [47/85] WQ42_VwapCloseRatio          ... IC=-0.521  Acc=0.166  LongAcc=0.027  Sharpe=-5.76  Sortino=-11.43  MDD=210.96%
+  [48/85] WQ43_VolSurgeRev7            ... IC=-0.396  Acc=0.378  LongAcc=0.037  Sharpe=-0.90  Sortino=-2.19  MDD=42.99%
+  [49/85] WQ44_HighVolCorr             ... IC=+0.053  Acc=0.492  LongAcc=0.054  Sharpe=+6.13  Sortino=+11.78  MDD=9.01%
+  [50/85] WQ45_DelayCloseCorr          ... IC=-0.011  Acc=0.616  LongAcc=0.023  Sharpe=+1.31  Sortino=+2.80  MDD=22.81%
+  [51/85] WQ46_SlopeCond025            ... IC=-0.639  Acc=0.514  LongAcc=0.046  Sharpe=+2.01  Sortino=+5.60  MDD=13.15%
+  [52/85] WQ47_CloseMomentum           ... IC=-0.748  Acc=0.500  LongAcc=0.046  Sharpe=+2.29  Sortino=+6.72  MDD=13.93%
+  [53/85] WQ49_SlopeCond01             ... IC=-0.821  Acc=0.238  LongAcc=0.030  Sharpe=-2.80  Sortino=-7.30  MDD=117.02%
+  [54/85] WQ50_TsMaxCorrRank           ... IC=+0.056  Acc=0.414  LongAcc=0.029  Sharpe=-1.27  Sortino=-3.02  MDD=56.89%
+  [55/85] WQ51_SlopeCond005            ... IC=-0.781  Acc=0.340  LongAcc=0.034  Sharpe=-0.69  Sortino=-1.96  MDD=37.45%
+  [56/85] WQ52_TsMinRetVol             ... IC=-0.287  Acc=0.761  LongAcc=0.062  Sharpe=+5.78  Sortino=+12.47  MDD=14.04%
+  [57/85] WQ53_BarPosChange            ... IC=-0.361  Acc=0.523  LongAcc=0.045  Sharpe=+1.69  Sortino=+4.17  MDD=9.60%
+  [58/85] WQ54_BarAsymm                ... IC=-0.322  Acc=0.521  LongAcc=0.042  Sharpe=+1.32  Sortino=+3.22  MDD=14.83%
+  [59/85] WQ55_StochVolCorr            ... IC=+0.036  Acc=0.446  LongAcc=0.000  Sharpe=+7.76  Sortino=+13.85  MDD=4.99%
+  [60/85] WQ57_VwapArgmax              ... IC=-0.339  Acc=0.375  LongAcc=0.037  Sharpe=-0.68  Sortino=-1.69  MDD=45.54%
+  [61/85] WQ60_BodyScaleArgmax         ... IC=-0.227  Acc=0.500  LongAcc=0.037  Sharpe=+1.18  Sortino=+2.78  MDD=16.60%
+  [62/85] WQ61_VwapMinCorr             ... IC=-0.308  Acc=0.390  LongAcc=0.037  Sharpe=-0.86  Sortino=-2.16  MDD=51.57%
+  [63/85] WQ62_CorrOpenRank            ... IC=+0.022  Acc=0.121  LongAcc=0.024  Sharpe=-9.15  Sortino=-14.57  MDD=280.13%
+  [64/85] WQ65_WeightedCorrMin         ... IC=-0.451  Acc=0.559  LongAcc=0.051  Sharpe=+2.57  Sortino=+6.72  MDD=15.85%
+  [65/85] WQ66_DecayVwapLow            ... IC=-0.534  Acc=0.509  LongAcc=0.036  Sharpe=+0.50  Sortino=+1.24  MDD=27.26%
+  [66/85] WQ71_MaxTsRankDecay          ... IC=-0.332  Acc=0.541  LongAcc=0.033  Sharpe=+1.96  Sortino=+4.78  MDD=12.50%
+  [67/85] WQ72_DecayRatio              ... IC=+0.022  Acc=0.711  LongAcc=0.000  Sharpe=+3.98  Sortino=+7.60  MDD=19.91%
+  [68/85] WQ73_MaxDecayDelta           ... IC=-0.002  Acc=0.427  LongAcc=0.040  Sharpe=-1.76  Sortino=-3.47  MDD=87.88%
+  [69/85] WQ74_CorrCloseAdv30          ... IC=+0.049  Acc=0.335  LongAcc=0.020  Sharpe=-2.58  Sortino=-6.00  MDD=107.17%
+  [70/85] WQ75_CorrVwapAdv50           ... IC=-0.018  Acc=0.258  LongAcc=0.014  Sharpe=-4.29  Sortino=-8.94  MDD=183.04%
+  [71/85] WQ77_MinDecayHL              ... IC=+0.007  Acc=0.590  LongAcc=0.040  Sharpe=+1.49  Sortino=+3.41  MDD=28.46%
+  [72/85] WQ78_CorrRankPow             ... IC=+0.021  Acc=0.346  LongAcc=0.018  Sharpe=-2.58  Sortino=-5.62  MDD=122.47%
+  [73/85] WQ83_HLRatioVol              ... IC=-0.096  Acc=0.260  LongAcc=0.029  Sharpe=-4.38  Sortino=-8.97  MDD=170.91%
+  [74/85] WQ84_SignedPowerArgmax       ... IC=+0.279  Acc=0.564  LongAcc=0.027  Sharpe=+2.25  Sortino=+6.42  MDD=20.17%
+  [75/85] WQ85_CorrPow                 ... IC=+0.084  Acc=0.328  LongAcc=0.034  Sharpe=-3.21  Sortino=-7.07  MDD=137.08%
+  [76/85] WQ86_CorrCloseAdv20          ... IC=-0.043  Acc=0.489  LongAcc=0.017  Sharpe=+0.11  Sortino=+0.24  MDD=36.03%
+  [77/85] WQ88_MinDecayOpen            ... IC=-0.096  Acc=0.142  LongAcc=0.027  Sharpe=-7.81  Sortino=-13.38  MDD=267.03%
+  [78/85] WQ89_DecayLowVwap            ... IC=-0.324  Acc=0.499  LongAcc=0.004  Sharpe=+3.03  Sortino=+7.31  MDD=13.02%
+  [79/85] WQ92_MinCondDecay            ... IC=+0.000  Acc=0.500  LongAcc=0.500  Sharpe=+0.00  Sortino=+0.00  MDD=0.00%
+  [80/85] WQ94_VwapMinPow              ... IC=-0.604  Acc=0.367  LongAcc=0.036  Sharpe=-0.26  Sortino=-0.73  MDD=22.07%
+  [81/85] WQ95_OpenMinCorr             ... IC=-0.125  Acc=0.352  LongAcc=0.035  Sharpe=-2.41  Sortino=-5.11  MDD=105.82%
+  [82/85] WQ96_MaxDecayCorr            ... IC=+0.223  Acc=0.418  LongAcc=0.034  Sharpe=-0.84  Sortino=-2.03  MDD=43.49%
+  [83/85] WQ98_DecayDiff               ... IC=+0.118  Acc=0.543  LongAcc=0.038  Sharpe=+0.40  Sortino=+0.94  MDD=26.64%
+  [84/85] WQ99_CorrHLAdv60             ... IC=-0.039  Acc=0.529  LongAcc=0.025  Sharpe=+0.60  Sortino=+1.40  MDD=29.19%
+  [85/85] WQ101_IntradayBody           ... IC=+0.380  Acc=0.525  LongAcc=0.045  Sharpe=+1.59  Sortino=+3.91  MDD=9.44%
+[AlphaSelector] [OK] Selected Top 5 alphas for FPT: ['WQ32_ScaleCorr230', 'WQ05_OpenVwapBody', 'WQ24_TrendSlope', 'WQ23_HighSmaBreak', 'WQ47_CloseMomentum']
+[AlphaAgent] Sử dụng 5 dynamic alphas cho FPT
+[AlphaAgent] TĂNG=0 GIẢM=4 TRUNG TÍNH=1
+[AlphaAgent] Hoàn thành (3437 ký tự).
+[DecisionAgent] Tổng hợp 5 báo cáo (condensed, horizon=T+2.5, lang=en)...
+[DecisionAgent] Ngân sách backtest: lang=en, khung=1d, cap={'trend': 800, 'pattern': 800, 'indicator': 800, 'alpha': 1100, 'sentiment': 500}, report={'trend': 389, 'pattern': 246, 'indicator': 800, 'alpha': 133, 'sentiment': 500}, prefix=0, prompt=3752; giới hạn <6500 ký tự.
+[DecisionAgent] Tổng hợp 3 báo cáo (condensed, horizon=T+2.5, lang=en)...
+[DecisionAgent] Ngân sách backtest: lang=en, khung=1d, cap={'trend': 800, 'pattern': 800, 'indicator': 800, 'alpha': 1100, 'sentiment': 500}, report={'trend': 389, 'pattern': 246, 'indicator': 800, 'alpha': 0, 'sentiment': 0}, prefix=0, prompt=3048; giới hạn <6500 ký tự.
+  ✔ Full: LONG  →  ❌ Sai  (9s)
+  ✔ No-Alpha: LONG  →  ❌ Sai  (4s)
+  [BacktestEngine] 🖼 Đã lưu biểu đồ tại: C:\Users\Legion\AppData\Local\Temp\quantagent_e2e_f0ktoi3s\end_to_end_result.png
+
+==============================================================
+  [BacktestEngine] ✅ HOÀN THÀNH
+  Độ chính xác Full : 0.0%
+  Độ chính xác No-α : 0.0%
+  Alpha Lift        : +0.0%
+  Tài khoản Full    : 49,657,021 VND (-0.69%)
+  Tài khoản No-Alpha: 49,657,021 VND (-0.69%)
+  McNemar p-value   : 1.000000
+  Alpha Lift CI 95% : [+0.00, +0.00]
+==============================================================
+
+[PASS] Five-agent graph and Decision/Alpha/Sentiment formats
+[PASS] Compounded P&L, costs, statistics, and JSON integrity
+[PASS] Chart generation artifacts
+[PASS] Runtime and memory: 12.0s, 5.9 MiB peak traced
+[PASS] ALL PIPELINE CHECKS SUCCESSFUL IN 12.0s

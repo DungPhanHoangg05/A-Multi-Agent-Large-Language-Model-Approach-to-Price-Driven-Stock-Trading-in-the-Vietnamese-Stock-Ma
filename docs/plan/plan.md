@@ -931,7 +931,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   protocol phát triển và hướng dẫn offline/API. Gate D PASS mở W8 cải tiến,
   không mở holdout; W8/W9 chưa triển khai, không nhận kế hoạch là kết quả mới.
 
-### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 2/8
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 3/8
 [Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
 Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
 60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
@@ -959,6 +959,18 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   giữ nguyên byte trong lượt gate, 769 file cũ nguyên byte; QA tài liệu/hash PASS.
   **2/8 DONE**, tiếp theo **W8-03** khóa/kiểm nguồn và plan thật; A/B thực
   NOT_RUN, chưa API/namespace/manifest/outcome holdout; giữ C2 NOT_PROMOTED/Original.
+
+- **W8-03 DONE, 17/10/2026:** [kiểm hợp đồng và khóa development](week8/README.md#w8-03--kiểm-hợp-đồng-và-khóa-development-17102026)
+  prepare/dry-run plan thật 60 điểm/11 nhánh, bind 51 nguồn và 68 code/schema/config;
+  output riêng, upstream primary chạy mới, repeat dùng shared/request primary.
+  QA 60 bundle W7: counts/posterior/PIT/selection PASS, 312 fallback prompt trùng
+  byte Original, BRPP tối đa 494/prompt 4.671. Diagnostics 852 replay/651 query
+  và verifier toàn artifact PASS offline, giao A/C2 388 query; giữ cả nhóm loss
+  A bất lợi. **Bốn gate mới PASS: compileall/E2E, 885 unit/167 leakage**, không
+  skip; consumer receipt PASS, 218 Python nguyên byte trong lượt gate, 776 file
+  đã bảo vệ nguyên byte. Hướng dẫn API/verify/resume/reconcile đã sẵn sàng.
+  **3/8 DONE**, tiếp theo **W8-04** người dùng chạy API; A/B thực NOT_RUN,
+  chưa selection/manifest/outcome holdout, giữ C2 NOT_PROMOTED/Original/risk OFF.
 
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
