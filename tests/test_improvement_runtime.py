@@ -102,6 +102,29 @@ class ImprovementRuntimeTests(CandidateSetup, unittest.TestCase):
         self.assertEqual(len(self.events), 16)
         self.assertEqual(self.llm.calls, 44)
 
+    def test_recovery_policy_resumes_unknown_same_uuid_without_repeating_shared(self) -> None:
+        from core.improvement_recovery import recovery_scope
+        original = self.llm.structured_call
+        def fail(prompt, schema):
+            if self.llm.calls == 2:
+                raise RuntimeError('Fixture mất kết nối trước response durable')
+            return original(prompt, schema)
+        with recovery_scope(), patch.object(self.llm, 'structured_call', side_effect=fail):
+            with self.assertRaises(PilotStop):
+                self.execute()
+        pid = calendar(self.new_plan)[0]['point_id']
+        path = decision_path(self.output, pid, branch_order(0)[2])
+        attempt = read_envelope(path)['attempts'][-1]['attempt_id']
+        with recovery_scope():
+            self.assertEqual(self.execute(resume=True)['primary_status'], 'COMPLETE')
+        saved = read_envelope(path)['attempts']
+        self.assertEqual(len(saved), 1)
+        self.assertEqual(saved[0]['attempt_id'], attempt)
+        self.assertEqual(saved[0]['status'], 'complete')
+        self.assertEqual(self.events, ['indicator', 'pattern', 'trend', 'full']*4)
+        self.assertEqual(self.llm.calls, 44)
+        self.assertEqual(self.execute(verify_only=True)['primary_status'], 'COMPLETE')
+
     def test_rehashed_request_raw_response_registry_missing_slot_and_repeat_tamper(self) -> None:
         report = self.execute()
         calls = self.llm.calls

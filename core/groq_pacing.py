@@ -195,7 +195,7 @@ class GroqPacer:
             self.stop("REQUEST_EXCEEDS_TPM", model, budget_tokens=tokens, remaining_tokens=limits["tpm"])
         waited = 0.
         while True:
-            if waited > 120:
+            if waited > 120 and not getattr(self, 'resilient', False):
                 self.stop("WAIT_BUDGET_EXCEEDED", model, pacing_seconds=waited)
             self.check_provider(model)
             self.daily_budget(model, 1, tokens)
@@ -230,7 +230,7 @@ class GroqPacer:
                     except PilotStop:
                         self.stop("INVOCATION_WAIT_BUDGET_EXCEEDED", model, resume_at=now + delay,
                                   pacing_seconds=invocation.wait_seconds)
-                if waited + delay > 120:
+                if waited + delay > 120 and not getattr(self, 'resilient', False):
                     self.stop("WAIT_BUDGET_EXCEEDED", model, resume_at=now + delay, pacing_seconds=waited)
                 print(f"[Quota] Nghỉ chủ động {delay:.1f} giây trước request {model}", flush=True)
                 before = self.monotonic()
@@ -264,7 +264,7 @@ class GroqPacer:
                 requests = 1
             budget = self.daily_budget(model, requests, requests * MODEL_LIMITS[model]["tpm"])
             until = max((r.get("retry_until", 0) for r in self.state["requests"] if r["model"] == model), default=0)
-            if until - now > 120:
+            if until - now > 120 and not getattr(self, 'resilient', False):
                 self.stop("COOLDOWN_BEFORE_POINT", model, resume_at=until, **budget)
             print(f"[Quota] {self.policy} {model}: {json.dumps(budget)}", flush=True)
 
@@ -330,13 +330,17 @@ class PacedGroqTransport(httpx.BaseTransport):
                            else self.pacer.clock() - record["started_at"])
                 record.update(status="transport_error", latency_seconds=float(max(0., elapsed)))
                 self.pacer.save()
-                raise PilotStop("Transport gián đoạn; dừng và kiểm checkpoint") from None
+                stopped = PilotStop("Transport gián đoạn; dừng và kiểm checkpoint")
+                stopped.request_record_id = record['id']
+                raise stopped from None
             try:
                 payload = response.json()
             except ValueError:
                 record.update(status=int(response.status_code), error="NON_JSON_RESPONSE")
                 self.pacer.save()
-                raise PilotStop("Provider trả nội dung không phải JSON; giữ checkpoint") from None
+                stopped = PilotStop("Provider trả nội dung không phải JSON; giữ checkpoint")
+                stopped.request_record_id = record['id']
+                raise stopped from None
             record.update(status=int(response.status_code), completed_at=float(self.pacer.clock()), latency_seconds=float(self.pacer.clock() - record["started_at"]),
                           request_id=response.headers.get("x-request-id") or payload.get("id"))
             if invocation is not None:
@@ -362,12 +366,18 @@ class PacedGroqTransport(httpx.BaseTransport):
                     delay = 86400.
                 record["retry_until"] = float(self.pacer.clock() + max(61., delay + (1 if self.pacer.policy == "request_admission_v2" else 0)))
                 if invocation is not None:
-                    record["retry_until"] = float(self.pacer.clock() + max(5. * 2 ** (invocation.attempts - 1), delay + 1.))
+                    backoff = (min(60., 5. * 2 ** min(invocation.attempts - 1, 4))
+                               if invocation.recovery_enabled else 5. * 2 ** (invocation.attempts - 1))
+                    record["retry_until"] = float(self.pacer.clock() + max(backoff, delay + 1.))
             self.pacer.save()
             if response.status_code >= 400:
                 if response.status_code == 429 and invocation is not None:
                     return response
-                self.pacer.stop(f"HTTP_{response.status_code}", body["model"], resume_at=record.get("retry_until"))
+                try:
+                    self.pacer.stop(f"HTTP_{response.status_code}", body["model"], resume_at=record.get("retry_until"))
+                except PilotStop as stopped:
+                    stopped.request_record_id = record['id']
+                    raise
             # Response thành công vẫn về caller để checkpoint; request sau sẽ dừng.
             return response
 

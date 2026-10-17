@@ -9,11 +9,12 @@ from uuid import uuid4
 
 ENABLED: ContextVar[bool] = ContextVar("research_budget_enabled", default=False)
 CURRENT: ContextVar[Any] = ContextVar("research_invocation", default=None)
+RECOVERY: ContextVar[bool] = ContextVar("resilient_improvement_recovery", default=False)
 
 
 @dataclass
 class InvocationBudget:
-    """Ba HTTP và tối đa 120 giây nghỉ cộng dồn cho một invocation gốc."""
+    """Ghi HTTP/timer; policy legacy giới hạn ba HTTP/120 giây, revision mới cho phục hồi."""
 
     role: str
     invocation_id: str = field(default_factory=lambda: str(uuid4()))
@@ -27,16 +28,17 @@ class InvocationBudget:
     started: float = field(default_factory=time.monotonic)
     elapsed_seconds: float | None = None
     status: str = "unknown"
+    recovery_enabled: bool = field(default_factory=RECOVERY.get)
 
     def check_wait(self, delay: float) -> None:
-        """Dừng trước khi vượt trần; không tạo một budget mới để tiếp tục."""
-        if self.wait_seconds + delay > 120:
+        """Áp dụng trần chờ legacy; policy phục hồi vẫn giữ timer cộng dồn."""
+        if not self.recovery_enabled and self.wait_seconds + delay > 120:
             from core.groq_pacing import PilotStop
             raise PilotStop("INVOCATION_WAIT_BUDGET_EXCEEDED; giữ checkpoint để đối soát")
 
     def before_http(self) -> None:
         """Mỗi HTTP thực, kể cả format repair, tiêu một lượt."""
-        if self.attempts >= 3:
+        if not self.recovery_enabled and self.attempts >= 3:
             from core.groq_pacing import PilotStop
             raise PilotStop("INVOCATION_ATTEMPT_BUDGET_EXCEEDED; giữ checkpoint")
         self.attempts += 1

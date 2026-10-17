@@ -11,12 +11,13 @@ from core.candidate_cohort import CODE_FILES, inherited_plan, registry as legacy
 from core.candidate_selection import RULES
 from core.historical_signals import digest
 from core.improvement_prior import BASES, PROFILES, PREFIXES, EVIDENCE_VERSION, STATISTICS_VERSION
+from core.improvement_recovery import POLICY as RECOVERY_POLICY
 from core.prior_config import copy_prior_json
 from core.prior_run_lock import safe_path
 from core.research_cohort import read_envelope
 from core.research_input_lock import runtime_identity, _write_once
 
-PLAN_VERSION = 'improvement_cohort_plan_v1'
+PLAN_VERSION = 'improvement_cohort_plan_v2'
 REGISTRY_VERSION = 'improvement_candidates_v1'
 MATRIX = ('original', 'bayesian', *BASES, 'C2_stats_only', 'C2_examples_only',
           'A_tp_pool_stats_only', 'A_tp_pool_examples_only', 'B_semantic_stats_only', 'B_semantic_examples_only')
@@ -29,7 +30,8 @@ CLIENT_OPTIONS = {'agent': {'reasoning_effort': 'low', 'reasoning_format': 'hidd
                   'graph': {'reasoning_effort': 'none', 'reasoning_format': 'hidden'}}
 NEW_CODE = ('core/improvement_prior.py', 'core/improvement_protocol.py', 'core/improvement_runtime.py',
             'core/improvement_reports.py', 'core/improvement_diagnostics.py', 'core/improvement_transport.py',
-            'scripts/run_improvement.py', 'core/provider_quota.py', 'scripts/run_provider_validation.py')
+            'scripts/run_improvement.py', 'core/provider_quota.py', 'scripts/run_provider_validation.py',
+            'core/improvement_recovery.py')
 
 
 def registry() -> dict[str, Any]:
@@ -54,13 +56,13 @@ def nomination_rules() -> dict[str, Any]:
 
 def protocol() -> dict[str, Any]:
     """Đối tượng phương pháp bất biến, độc lập tiến độ và nội dung README."""
-    return {'protocol_version': 'improvement_protocol_v1', 'registry': registry(), 'rules': nomination_rules(),
+    return {'protocol_version': 'improvement_protocol_v2', 'registry': registry(), 'rules': nomination_rules(),
         'symbol_order': list(SYMBOL_ORDER), 'primary_repeat_id': 0, 'rotation': 'left_j_mod_M',
         'repeat_ids': list(REPEAT_IDS), 'repeat_count': 3, 'repeat_rotation': 'left_(3j+r-1)_mod_(M+1)',
         'repeat_duplicate': 'original_duplicate', 'repeat_selection': 'C2_readiness_S_first_E_ONLY_lower_median_OFF_last',
         'repeat_in_primary': False, 'prior_chars': 600, 'prompt_chars_exclusive': 6500,
         'client_options': deepcopy(CLIENT_OPTIONS), 'client_max_retries': 0, 'client_service_tier': 'on_demand',
-        'retry': 'invocation_budget_v2', 'quota': 'provider_daily_quota_v1',
+        'retry': 'resilient_invocation_v1', 'recovery': deepcopy(RECOVERY_POLICY), 'quota': 'provider_daily_quota_v1',
         'train': {'queries': 651, 'folds': [2021, 2022], 'bootstrap': 2020, 'llm_calls': 0,
                   'probability': 'win_rate_long', 'loss_clip': [1e-6, 1-1e-6], 'support': 'finite_A_intersect_C2'},
         'subgroups': ['Q1', 'Q2', 'Q3', 'Q4', 'H1', 'H2', 'leave_one_symbol_out', 'prior_off', 'both_off', 'both_ready'],
@@ -134,7 +136,7 @@ def prepare_plan(parent_path: Path, destination: Path, adapter: Any) -> dict[str
             (root/'outputs/bayesian_benchmark/improvement_v1').resolve()):
         raise ValueError('Plan thật cần namespace cải tiến riêng')
     index = old['price_index']
-    plan = {'plan_version': PLAN_VERSION, 'cohort_id': old['cohort_id'] + '-improvement-v1',
+    plan = {'plan_version': PLAN_VERSION, 'cohort_id': old['cohort_id'] + '-improvement-v2',
         'split': old['split'], 'symbol_cutoffs': deepcopy(old['symbol_cutoffs']), 'inputs': deepcopy(old['inputs']),
         'registry': registry(), 'protocol': protocol(), 'protocol_sha256': digest(protocol()),
         'price_index': deepcopy(index), 'parent': {'path': parent_path.resolve().relative_to(root).as_posix(), 'sources': sources},
@@ -157,7 +159,7 @@ def validate_plan(plan: dict[str, Any], adapter: Any) -> Any:
     old, sources = _parent(safe_path(adapter._files.root, plan['parent']['path']), adapter)
     if (plan['parent']['sources'] != sources or plan['inputs'] != old['inputs'] or plan['split'] != old['split']
             or plan['symbol_cutoffs'] != old['symbol_cutoffs'] or plan['price_index'] != old['price_index']
-            or plan['cohort_id'] != old['cohort_id']+'-improvement-v1' or adapter.signal_config != plan['inputs']['signal_config']):
+            or plan['cohort_id'] != old['cohort_id']+'-improvement-v2' or adapter.signal_config != plan['inputs']['signal_config']):
         raise ValueError('Plan cải tiến khác parent/signal config')
     if any(adapter.prior_config[k] != v for k, v in
            {'enable_bayesian_prior': True, 'mode': 'bayesian_regime', 'k': 3, 'seed': 42, 'scope': 'same_symbol'}.items()):
