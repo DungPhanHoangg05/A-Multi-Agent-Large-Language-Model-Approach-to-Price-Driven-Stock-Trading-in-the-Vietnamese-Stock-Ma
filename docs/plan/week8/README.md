@@ -1,6 +1,6 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 2/8; W8-01–02 DONE, tiếp theo W8-03.**
+**Trạng thái: IN_PROGRESS, 3/8; W8-01–03 DONE, tiếp theo W8-04.**
 Kế hoạch điều chỉnh 16/10/2026; cập nhật 17/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
@@ -82,7 +82,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | --- | --- | --- | --- |
 | W8-01 | Ánh xạ protocol W7-14 vào registry/version; kiểm khả năng thực thi, identity và audit byte prior-off | W7 Gate D | [x] DONE |
 | W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [x] DONE |
-| W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [ ] TODO |
+| W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [x] DONE |
 | W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [ ] TODO |
 | W8-05 | Verify toàn primary và đủ mẫu lặp; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [ ] TODO |
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [ ] TODO |
@@ -251,6 +251,166 @@ nhận code mới. QA diff/liên kết/checklist/hash PASS. Chưa tạo namespac
 plan, diagnostics hoặc Decision development mới; A/B thực vẫn NOT_RUN,
 C2 NOT_PROMOTED/Original/risk OFF giữ nguyên. Holdout/CI thuộc W8-07,
 chưa triển khai ở task này. **W8 đạt 2/8**, tiếp theo **W8-03**; Gate W8 chưa mở.
+
+### W8-03 — Kiểm hợp đồng và khóa development, 17/10/2026
+
+**DONE.** Plan mới được producer `scripts/run_improvement.py --prepare`
+tạo offline tại `outputs/bayesian_benchmark/improvement_v1/development/plan.json`.
+Loader kiểm parent W7 nguyên byte, registry/protocol, 68 file code/schema/config,
+runtime, nguồn/index/scaler và lịch 60 điểm (FPT 12, MWG/VCB/VNM mỗi mã 16).
+Warm-up, cycle không chồng lấn, giá Open(t+1)/Close(t+3) và corporate-action
+guard được kiểm trước API. Ma trận giữ 11 nhánh, risk OFF, nomination chỉ C2/A/B.
+
+Plan bind 51 nguồn; SHA-256 byte
+`87aba5ead1e8dc5d764821b523d218a9d2a14bb7f10dac192eb9da640b177900`.
+Protocol canonical SHA-256
+`3d282df4038c9a57d1a04c5e73c13a6a21d150953ab806a58cb1b7c44310d831`;
+index giữ `outputs/bayesian_benchmark/price_features/candidate_index_v1.json`.
+Prepare và dry-run nguồn/PIT trên plan thật đã PASS, không đọc key/gọi API.
+
+Output primary dành riêng tại
+`outputs/bayesian_benchmark/improvement_v1/development/run/`; repeat tại
+`outputs/bayesian_benchmark/improvement_v1/repeats/run/`. Chưa tạo manifest,
+slot hoặc report giả cho run thật. Runtime khởi tạo toàn bộ slot trước request
+đầu tiên; không chuyển checkpoint/action W7 sang output mới. Plan repeat chỉ
+được producer tạo sau khi primary COMPLETE và report khớp verifier; mẫu 12
+điểm/ba lượt/thứ tự đã nằm trong protocol của plan primary từ trước API.
+Holdout/CI và selection chưa mở ở W8-03.
+
+**QA nguồn thật:** tái dựng cả 60 bundle Full W7 đã seal bằng adapter hiện tại,
+chỉ dùng chúng làm đầu vào kiểm offline, không chuyển vào run W8. Cả bốn
+metric A/C2 được đếm độc lập từ episode/mask/sự kiện kinh tế: P=C+B, C/B rời
+nhau, đúng mã/regime và exit<cutoff; partition A chỉ khớp T/P, C2 khớp T/P/A/I.
+Posterior mean khớp công thức strength=4, C rỗng giữ null. A giữ selection
+C2; B giữ nguyên evidence/hash C2; renderer C2 giữ nguyên. Request semantic
+validator và hook Decision kiểm cả chín profile, schema legacy bảy field,
+không thay shared projection và không invoke LLM. **312/312 fallback prompt
+trùng byte UTF-8 Original**, bao gồm các mode ẩn hết block. BRPP dài nhất
+**494** ký tự, prompt dài nhất **4.671**, đều dưới trần đã khóa.
+
+| Base trên bundle W7 dùng cho QA | Stats visible | Examples visible | Full visible | Max BRPP / prompt full |
+| --- | ---: | ---: | ---: | ---: |
+| C2 | 11/60 | 26/60 | 29/60 | 486 / 4.504 |
+| A_tp_pool | 34/60 | 26/60 | 36/60 | 494 / 4.671 |
+| B_semantic | 11/60 | 26/60 | 29/60 | 453 / 4.492 |
+
+Các số trên chỉ chứng nhận producer/rendering với nguồn lịch sử, không là
+coverage của primary W8 chưa chạy hoặc bằng chứng A tốt hơn C2. Mẫu repeat
+12 điểm khớp lịch đã khóa; phép xoay 36 block cho mỗi nhánh bắt đầu đúng ba
+lần. Kiểm paired/upstream một lần, deep-copy, resume complete không gọi lại,
+disabled/K=0, null, tamper và future-outcome poisoning thuộc suite kỹ thuật.
+
+**Diagnostics train:** producer offline tạo
+`outputs/bayesian_benchmark/improvement_v1/train/diagnostics.json`,
+replay 852 chu kỳ và scoring 651 query 2021–2022 sau khi dựng prior theo fold
+PIT/bootstrap 2020; Decision/LLM=0. SHA-256 byte
+`9c912f3b783237ff8a50de75d3eedc84c9c21388b61cb722b97ea9779b62722c`.
+Verifier `--verify-train` đã tái dựng toàn artifact từ nguồn và **PASS**, file
+diagnostics giữ nguyên byte. Giao hữu hạn gồm 388 query;
+loss dưới đây dùng đúng cùng giao, không điền xác suất cho C rỗng, chỉ clip
+khi tính log loss. Raw/ready là riêng metric `win_rate_long`, không là số
+Decision thực đã thấy prior.
+
+| Base | Posterior raw / ready trên 651 query | Missing | Brier trên giao 388 | Log loss trên giao 388 |
+| --- | ---: | ---: | ---: | ---: |
+| C2 | 388 / 95 | 263 | 0,2559820151274865 | 0,7078615982760118 |
+| A_tp_pool | 598 / 355 | 53 | 0,2536196029464497 | 0,702105267513154 |
+
+Artifact giữ tám nhóm fold/mã, IDs giao/missing, support và loss đầy đủ.
+A có cả Brier/log loss cao hơn C2 tại MWG 2021, MWG 2022 và VCB 2022; không
+đổi cấu hình theo loss tổng hoặc nhóm thuận lợi. Nhãn LONG ròng có 254 chu kỳ
+lãi, mean **0,0254886434693516**, và 397 chu kỳ lỗ, mean
+**−0,02512957748148189**; zero=0, đơn vị fraction, đã tính phí/trượt giá hai
+chiều. Đây là mô tả nhãn lịch sử, không là expected-return policy hoặc
+calibration xác suất LLM. B giữ posterior C2, không có gain số học độc lập.
+
+**Gate kỹ thuật:** compileall, **885 unit**, E2E và **167 leakage PASS**,
+không skip. Log mới tại
+[compileall](validation_gates/development_lock_v1/compileall.log),
+[unit](validation_gates/development_lock_v1/unit.log),
+[E2E](validation_gates/development_lock_v1/e2e.log),
+[leakage](validation_gates/development_lock_v1/leakage.log).
+Đây là lượt chạy mới theo yêu cầu W8-03, không dùng receipt W8-02 thay kết quả.
+
+Receipt [technical_gates.json](validation_gates/development_lock_v1/technical_gates.json)
+bind 68 file code/schema/config và runtime, đã qua `read_technical_gates`;
+SHA-256 byte
+`bc33ec1ae43e6d220255ff7d089ee51d60f40bdf4bbdf6f09a04cd6ef58227d8`.
+218 Python giữ nguyên byte trong suốt lượt gate; 776 file đã bảo vệ, gồm
+nguồn/bằng chứng W7, ledger, README W7/W9, AGENTS/root README và receipt
+W8-02, nguyên byte. QA diff/liên kết/checklist/hash PASS; đặc tả phương pháp,
+development/repeat và protocol W9 giữ nguyên. **W8 đạt 3/8**, tiếp theo
+**W8-04** do người dùng preflight/run/resume primary và repeat theo hướng dẫn.
+A/B thực vẫn **NOT_RUN**, giữ C2 NOT_PROMOTED/Original/risk OFF; chưa selection
+W8, manifest hoặc outcome holdout. Gate W8 chưa mở.
+
+#### Lệnh vận hành W8-04 và kiểm offline sau run
+
+Chạy từ root repository bằng Python 3.13.5. Các đường dẫn dưới đây dành cho
+revision này; giữ nguyên file plan, receipt, code/runtime và ledger chung khi
+resume. `.env` chứa `GROQ_API_KEY` do người dùng quản lý. **Người dùng tự chạy
+hai lệnh preflight/run có API; agent chỉ chạy các chế độ offline.**
+
+```powershell
+$taskPlan = "outputs/bayesian_benchmark/improvement_v1/development/plan.json"
+$taskRun = "outputs/bayesian_benchmark/improvement_v1/development/run"
+$taskGates = "docs/plan/week8/validation_gates/development_lock_v1/technical_gates.json"
+$taskLedger = "outputs/oos_pilot/api_usage.json"
+$taskRepeatPlan = "outputs/bayesian_benchmark/improvement_v1/repeats/plan.json"
+$taskRepeatRun = "outputs/bayesian_benchmark/improvement_v1/repeats/run"
+
+# Offline: dựng lại binding nguồn/PIT, không đọc key hoặc gọi mạng.
+py -3.13 -X utf8 scripts/run_improvement.py --dry-run --plan $taskPlan
+
+# API: người dùng kiểm hai model/options/schema với key đang dùng.
+py -3.13 -X utf8 scripts/run_improvement.py --preflight --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
+
+# API: primary 60 điểm, 11 nhánh, upstream mới một lần/điểm.
+py -3.13 -X utf8 scripts/run_improvement.py --run --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
+
+# API: chỉ dùng khi tiếp tục output đã khởi tạo; không chạy lại slot complete.
+py -3.13 -X utf8 scripts/run_improvement.py --run --resume --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
+
+# Offline: kiểm checkpoint, raw response, request/body audit và report.
+py -3.13 -X utf8 scripts/run_improvement.py --verify-only --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
+py -3.13 -X utf8 scripts/run_improvement.py --verify-report --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
+
+# Offline, chỉ sau primary COMPLETE và report hợp lệ.
+py -3.13 -X utf8 scripts/run_improvement.py --prepare-repeat --plan $taskPlan --output-dir $taskRun --repeat-plan $taskRepeatPlan --technical-gates $taskGates --ledger $taskLedger
+
+# API: người dùng chạy ba lượt bổ sung, mỗi lượt 12 điểm x 12 nhánh;
+# dùng nguyên shared/request primary, không gọi lại upstream.
+py -3.13 -X utf8 scripts/run_improvement.py --run --plan $taskRepeatPlan --output-dir $taskRepeatRun --technical-gates $taskGates --ledger $taskLedger
+
+# API: tiếp tục repeat bị ngắt; không mở lượt khoa học thứ tư.
+py -3.13 -X utf8 scripts/run_improvement.py --run --resume --plan $taskRepeatPlan --output-dir $taskRepeatRun --technical-gates $taskGates --ledger $taskLedger
+
+# Offline: nghiệm thu repeat trước phân tích W8-05/selection W8-06.
+py -3.13 -X utf8 scripts/run_improvement.py --verify-report --plan $taskRepeatPlan --output-dir $taskRepeatRun --technical-gates $taskGates --ledger $taskLedger
+```
+
+`--verify-only` có thể trả report INCOMPLETE hợp lệ; chỉ nhận hoàn tất khi
+primary đủ 660 Decision complete, không pending/unknown, và repeat đủ 432
+Decision complete. Khi bị ngắt, giữ cả checkpoint/journal/ledger. Với attempt
+unknown, chạy `--reconcile` offline cùng plan/output/gates/ledger tương ứng để
+xem UUID/trạng thái attempt, rồi đối chiếu HTTP audit trong ledger. Chỉ sau
+đối soát cụ thể mới dùng
+`--authorize-replay <UUID> --replay-reason "<lý do đối soát>"` cùng
+`--reconcile`; lệnh này ghi authorization, không gọi API. Sau đó người dùng
+chạy `--run --resume`. Không xóa lock của tiến trình còn sống, xóa slot, reset
+ledger hoặc tự đổi model/key để bỏ cooldown. Thay key tự kích hoạt preflight
+theo credential scope; preflight/retry/format repair không tăng repeat_id.
+
+Nếu clone chưa có artifact local, chuẩn bị lại plan từ parent W7 đã khóa bằng
+lệnh dưới; producer chỉ chấp nhận đúng nguồn/code/runtime và không ghi đè
+artifact khác nội dung. Diagnostics train có producer/verifier riêng, không
+cần key. Cả hai output nằm ngoài Git; hash nghiệm thu được ghi tại mục này.
+
+```powershell
+py -3.13 -X utf8 scripts/run_improvement.py --prepare --parent outputs/bayesian_benchmark/development_candidate_plan_v2.json --plan $taskPlan
+py -3.13 -X utf8 scripts/run_improvement.py --train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics.json
+py -3.13 -X utf8 scripts/run_improvement.py --verify-train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics.json
+```
 
 ## Protocol development và tiêu chí chọn
 
