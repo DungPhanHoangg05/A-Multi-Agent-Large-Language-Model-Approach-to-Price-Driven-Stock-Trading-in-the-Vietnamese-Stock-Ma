@@ -1,7 +1,7 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 3/8; W8-01–03 DONE, W8-04 khởi động lại từ đầu.**
-Kế hoạch điều chỉnh 16/10/2026; cập nhật 17/10/2026; giữ deadline 10 tuần.
+**Trạng thái: IN_PROGRESS, 4/8; W8-01–04 DONE, tiếp theo W8-05.**
+Kế hoạch điều chỉnh 16/10/2026; cập nhật 19/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
 ## Mục tiêu và giới hạn
@@ -83,8 +83,8 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-01 | Ánh xạ protocol W7-14 vào registry/version; kiểm khả năng thực thi, identity và audit byte prior-off | W7 Gate D | [x] DONE |
 | W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [x] DONE |
 | W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [x] DONE |
-| W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [ ] IN_PROGRESS — reset theo yêu cầu, revision mới chưa gọi API |
-| W8-05 | Verify toàn primary và đủ mẫu lặp; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [ ] TODO |
+| W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [x] DONE — 660/660 primary, verifier report PASS |
+| W8-05 | Chạy/verify đủ mẫu lặp nối primary đã nghiệm thu; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [ ] TODO |
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [ ] TODO |
 | W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [ ] TODO |
 | W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [ ] TODO |
@@ -349,13 +349,16 @@ W8, manifest hoặc outcome holdout. Gate W8 chưa mở.
 
 ### W8-04 — Reset và sửa phục hồi vận hành, 17/10/2026
 
+Mục này ghi nhận trạng thái tại mốc reset 17/10/2026; kết quả nghiệm thu
+primary sau lượt chạy thật được cập nhật riêng bên dưới.
+
 Theo yêu cầu người dùng, đã **xóa toàn bộ 786 file development cũ**, gồm
 plan/run, point, slot, journal, manifest và response/checkpoint đã chạy;
 không lưu bản sao hoặc tái sử dụng Decision/upstream cũ. Namespace repeat
 cũ không tồn tại. Nguồn và bằng chứng W7, diagnostics train đã khóa và ledger
 tài khoản chung được giữ nguyên. Xóa output không đặt lại quota phía provider.
-Revision mới bắt đầu **0/660 primary, 0/432 repeat**, chưa có API, selection
-hoặc holdout; W8-04 chưa DONE và W8 vẫn **3/8**.
+Tại mốc reset, revision mới bắt đầu **0/660 primary, 0/432 repeat**, chưa có
+API, selection hoặc holdout; lúc đó W8-04 chưa DONE và W8 đạt **3/8**.
 
 Đây là amendment vận hành theo yêu cầu sau khi đã chạy một phần development:
 `improvement_protocol_v2`, `improvement_cohort_plan_v2`,
@@ -414,9 +417,57 @@ Log [compileall](validation_gates/resilient_restart_v1/compileall.log),
 [leakage](validation_gates/resilient_restart_v1/leakage.log) giữ nguyên byte.
 220 Python nguyên byte trong suốt lượt gate; QA cuối kiểm đủ 773 file bảo vệ,
 plan/protocol/gate, diagnostics, liên kết và namespace mới sạch đều PASS.
-Không gọi API thật hoặc tạo điểm chạy giả; tiếp theo người dùng chạy W8-04.
+Ở mốc sửa phục hồi 17/10, agent không gọi API thật hoặc tạo điểm chạy giả;
+người dùng tiếp tục chạy W8-04 bằng CLI đã khóa.
 
-#### Lệnh vận hành W8-04 và kiểm offline sau run
+### W8-04 — Nghiệm thu primary development, 19/10/2026
+
+**DONE.** Người dùng đã chạy đủ **660/660 Decision trên 60/60 điểm**, 11
+nhánh/điểm; FPT 12 điểm/132 Decision, MWG/VCB/VNM mỗi mã 16 điểm/176 Decision.
+Không còn planned/unknown. Mỗi slot có đúng một attempt khoa học complete,
+không có authorization replay thủ công. Bốn stage indicator/pattern/trend/full
+đều complete 60/60, mỗi stage/điểm có một attempt; các nhánh dùng chung
+upstream theo paired protocol. Decision cuối lưu lúc **15:09:07, 19/10/2026**
+(Asia/Saigon).
+
+`scripts/run_improvement.py --verify-report` đã **PASS offline**: tái dựng
+nguồn/PIT, shared/evidence/request/prompt, hợp đồng HTTP/schema/model/options,
+raw response và toàn bộ report từ checkpoint; không gọi API mới. Report
+`outputs/bayesian_benchmark/improvement_v1/development/run/report.json`
+giữ `primary_status=COMPLETE`, `selection_evidence_status=DEVELOPMENT`;
+gắn 52 nguồn, 69 file code/schema/config và 1.452 mục checkpoint/HTTP audit.
+SHA-256 byte report:
+`80f707e0f4ee62c384724085249f748e2e82cf6517ccf892ccb97b1603317314`.
+Run signature:
+`9e23b5896fc4ee129c6f9d9b7018a1703987958745bfbdcddb7737a2dfeb544a`.
+
+Prompt tối đa **4.671** ký tự, BRPP tối đa **494**, giữ trần <6.500/≤600.
+Ledger của run giữ 780 HTTP 200, 4 transport_error, 15 HTTP 429 và 1 HTTP 523;
+các lỗi lịch sử còn nguyên audit, mọi slot cuối cùng đều complete. HTTP retry
+được ghi nhận là phục hồi kỹ thuật trong cùng attempt khoa học.
+
+**Bàn giao W8-05:** producer `--prepare-repeat` đã PASS offline và tạo
+`outputs/bayesian_benchmark/improvement_v1/repeats/plan.json`; SHA-256 byte
+`bb429128c4f13297635778cf044d5a3a89639d4a7b1e6d2c2e507fba190d9b1b`.
+Plan nối đúng primary signature/report, giữ mẫu 12 điểm đã đăng ký, ba điểm/mã,
+4 S/4 E_ONLY/4 OFF, ba lượt 1/2/3 và 12 nhánh gồm `original_duplicate`:
+**432 Decision repeat**, tách khỏi primary. Chưa tạo run repeat hoặc gọi API
+repeat. Plan đã sẵn sàng local; bước tiếp theo là lệnh API dùng `$taskRepeatPlan`
+trong hướng dẫn bên dưới, sau đó verify repeat và phân tích ở W8-05.
+
+QA cuối kiểm toàn bộ 660 slot, shared/journal, 1.452 binding checkpoint/HTTP,
+hash nguồn/code, plan repeat, checklist/liên kết và **1.994 file bảo vệ nguyên
+byte** đều PASS; report primary, ledger, bằng chứng W7 và gate cũ giữ nguyên.
+
+Không chạy lại compileall/unit/E2E/leakage: task không đổi code/test/schema,
+runtime, cấu hình hoặc nguồn nghiên cứu; chỉ nghiệm thu report, chuẩn bị plan
+repeat bằng producer đã khóa và cập nhật hai Markdown. Receipt bốn gate
+`resilient_restart_v1` (896 unit/167 leakage, compileall/E2E PASS) được consumer
+kiểm đúng code/runtime hiện tại, không ghi nhận là đã chạy lại. Phân tích hiệu
+quả/độ ổn định thuộc W8-05; selection W8-06 chưa tạo, holdout W9 chưa mở.
+Giữ C2 NOT_PROMOTED/Original là trạng thái đã khóa từ W7, risk OFF.
+
+#### Lệnh vận hành primary và bàn giao repeat
 
 Chạy từ root repository bằng Python 3.13.5. Các đường dẫn dưới đây dành cho
 revision này; giữ nguyên file plan, receipt, code/runtime và ledger chung khi
@@ -445,7 +496,7 @@ py -3.13 -X utf8 scripts/run_improvement.py --run --resume --plan $taskPlan --ou
 py -3.13 -X utf8 scripts/run_improvement.py --verify-only --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
 py -3.13 -X utf8 scripts/run_improvement.py --verify-report --plan $taskPlan --output-dir $taskRun --technical-gates $taskGates --ledger $taskLedger
 
-# Offline, chỉ sau primary COMPLETE và report hợp lệ.
+# Offline: chuẩn bị khi chưa có plan repeat, sau primary COMPLETE và report hợp lệ.
 py -3.13 -X utf8 scripts/run_improvement.py --prepare-repeat --plan $taskPlan --output-dir $taskRun --repeat-plan $taskRepeatPlan --technical-gates $taskGates --ledger $taskLedger
 
 # API: người dùng chạy ba lượt bổ sung, mỗi lượt 12 điểm x 12 nhánh;
@@ -459,9 +510,11 @@ py -3.13 -X utf8 scripts/run_improvement.py --run --resume --plan $taskRepeatPla
 py -3.13 -X utf8 scripts/run_improvement.py --verify-report --plan $taskRepeatPlan --output-dir $taskRepeatRun --technical-gates $taskGates --ledger $taskLedger
 ```
 
-`--verify-only` có thể trả report INCOMPLETE hợp lệ; chỉ nhận hoàn tất khi
-primary đủ 660 Decision complete, không pending/unknown, và repeat đủ 432
-Decision complete. Khi bị ngắt, giữ cả checkpoint/journal/ledger/http_cache
+`--verify-only` có thể trả report INCOMPLETE hợp lệ. W8-04 nghiệm thu primary
+khi đủ 660 Decision complete, không pending/unknown và report qua verifier.
+W8-05 cần thêm đủ 432 Decision repeat complete cùng phân tích; thiếu repeat
+vẫn chặn nghiệm thu W8-05 và selection W8-06, không giảm yêu cầu protocol.
+Khi bị ngắt, giữ cả checkpoint/journal/ledger/http_cache
 và chạy lại `--run --resume`; revision mới tự xử lý unknown theo policy đã
 khóa, không cần reconcile/authorize UUID thủ công. Không xóa lock của tiến
 trình còn sống, slot hoặc ledger. Thay key tự kích hoạt preflight theo
