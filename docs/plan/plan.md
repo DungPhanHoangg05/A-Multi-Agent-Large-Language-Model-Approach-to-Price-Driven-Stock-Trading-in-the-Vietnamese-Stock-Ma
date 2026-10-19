@@ -931,7 +931,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   protocol phát triển và hướng dẫn offline/API. Gate D PASS mở W8 cải tiến,
   không mở holdout; W8/W9 chưa triển khai, không nhận kế hoạch là kết quả mới.
 
-### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 3/8
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 4/8
 [Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
 Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
 60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
@@ -972,20 +972,35 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   **3/8 DONE**, tiếp theo **W8-04** người dùng chạy API; A/B thực NOT_RUN,
   chưa selection/manifest/outcome holdout, giữ C2 NOT_PROMOTED/Original/risk OFF.
 
-- **W8-04 IN_PROGRESS, reset theo yêu cầu 17/10/2026:** xóa sạch 786 file
+- **Mốc reset/phục hồi W8-04, 17/10/2026:** xóa sạch 786 file
   development cũ, không lưu bản sao; giữ nguồn/bằng chứng W7, diagnostics cũ
   và ledger usage. Amendment vận hành `improvement_protocol_v2` /
   `resilient_invocation_v1`: tự retry transport/HTTP tạm thời, chờ TPM/RPM,
   lưu response durable và tự resume unknown cùng UUID; quota ngày dừng giữ
   checkpoint, đổi key rồi chạy lại cùng lệnh sẽ preflight/tiếp tục. Giữ nguyên
   phương pháp, lịch, ma trận, paired/PIT/kinh tế/model/token/nomination;
-  development mới vẫn exploratory, **0/660 primary, 0/432 repeat**, chưa API.
+  development mới vẫn exploratory; tại mốc reset **0/660 primary, 0/432 repeat**,
+  chưa API.
   Prepare/dry-run và diagnostics 852 replay/651 query đã verify offline;
   kết quả số giữ nguyên, chỉ đổi binding. **Bốn gate mới PASS: compileall/E2E,
   896 unit/167 leakage**, không skip; receipt bind 69 code/schema/config,
   220 Python nguyên byte trong lượt gate; QA nguồn/namespace và 773 file bảo vệ PASS.
   [Hướng dẫn revision mới](week8/README.md#w8-04--reset-và-sửa-phục-hồi-vận-hành-17102026).
-  **3/8 DONE**; W8-04 chưa hoàn tất, chưa selection/manifest/outcome holdout.
+  Lúc reset **3/8 DONE**; W8-04 chưa hoàn tất, chưa selection/manifest/outcome holdout.
+
+- **W8-04 DONE, 19/10/2026:** [nghiệm thu primary development](week8/README.md#w8-04--nghiệm-thu-primary-development-19102026)
+  đủ **660/660 Decision, 60/60 điểm, 11 nhánh/điểm**, không planned/unknown;
+  bốn stage upstream complete 60/60, mỗi node/slot một attempt khoa học.
+  CLI `--verify-report` tái dựng nguồn/PIT/shared/request/HTTP audit và toàn report
+  **PASS offline**, report COMPLETE, gắn 52 nguồn/69 code/schema/config và
+  1.452 mục checkpoint/audit. Prompt tối đa 4.671/BRPP 494 ký tự; không gọi
+  API mới, không đổi phương pháp/code/runtime hoặc nguồn. Không chạy lại suite
+  theo phạm vi AGENTS.md 1.2; consumer kiểm receipt bốn gate hiện hành PASS.
+  Producer plan repeat PASS offline: mẫu 12 điểm/ba lượt/12 nhánh đã khóa,
+  432 Decision để người dùng chạy ở W8-05, chưa tạo run repeat. QA binding,
+  checklist/liên kết và 1.994 file bảo vệ nguyên byte PASS; report/ledger giữ nguyên.
+  **4/8 DONE**, tiếp theo **W8-05** chạy/verify repeat và phân tích; chưa
+  selection W8 hoặc manifest/outcome holdout, giữ C2 NOT_PROMOTED/Original/risk OFF.
 
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
