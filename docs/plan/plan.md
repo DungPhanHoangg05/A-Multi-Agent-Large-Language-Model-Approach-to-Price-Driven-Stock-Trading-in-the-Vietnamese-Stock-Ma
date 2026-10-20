@@ -931,7 +931,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   protocol phát triển và hướng dẫn offline/API. Gate D PASS mở W8 cải tiến,
   không mở holdout; W8/W9 chưa triển khai, không nhận kế hoạch là kết quả mới.
 
-### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 4/8
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 5/8
 [Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
 Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
 60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
@@ -1001,6 +1001,21 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   checklist/liên kết và 1.994 file bảo vệ nguyên byte PASS; report/ledger giữ nguyên.
   **4/8 DONE**, tiếp theo **W8-05** chạy/verify repeat và phân tích; chưa
   selection W8 hoặc manifest/outcome holdout, giữ C2 NOT_PROMOTED/Original/risk OFF.
+
+- **W8-05 DONE, 20/10/2026:** [nghiệm thu repeat và phân tích development](week8/README.md#w8-05--nghiệm-thu-repeat-và-phân-tích-development-20102026)
+  đủ **432/432 repeat**, 144 mỗi lượt 1/2/3 trên mẫu 12 điểm/12 nhánh đã khóa.
+  CLI verifier tái dựng primary 660 và repeat 432 **PASS offline**; request
+  repeat khớp primary, giữ shared và report primary nguyên byte, không gọi API mới.
+  Phân tích đủ ΔR/MDD, coverage, G/T ablation, Q/H/LOSO, prior-off và repeat:
+  D primary C2/A/B lần lượt −0,433/+3,066/+1,455 điểm phần trăm; A stats ready
+  34/60 so C2 11/60. Có 16/312 cặp prior-off bất đồng với cùng prompt/body
+  canonical và 2/36 cặp Original−duplicate bất đồng; A−Original repeat mean
+  −0,169, chưa chứng minh gain primary do prior hoặc hiệu ứng thành phần.
+  QA số liệu, binding/hash/checklist/link và 2.862 file bảo vệ nguyên byte PASS.
+  Chỉ hai Markdown, không đổi code/schema/runtime/nguồn; không chạy lại suite
+  theo AGENTS.md 1.2, consumer kiểm gate hiện hành đúng binding. **5/8 DONE**,
+  tiếp theo **W8-06** khóa selection; chưa selection W8/manifest/outcome holdout,
+  giữ trạng thái triển khai Original/C2 NOT_PROMOTED từ W7, risk OFF.
 
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
