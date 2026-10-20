@@ -931,7 +931,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   protocol phát triển và hướng dẫn offline/API. Gate D PASS mở W8 cải tiến,
   không mở holdout; W8/W9 chưa triển khai, không nhận kế hoạch là kết quả mới.
 
-### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 5/8
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 6/8
 [Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
 Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
 60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
@@ -1016,6 +1016,22 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   theo AGENTS.md 1.2, consumer kiểm gate hiện hành đúng binding. **5/8 DONE**,
   tiếp theo **W8-06** khóa selection; chưa selection W8/manifest/outcome holdout,
   giữ trạng thái triển khai Original/C2 NOT_PROMOTED từ W7, risk OFF.
+
+- **W8-06 DONE, 20/10/2026:** [khóa selection development](week8/README.md#w8-06--khóa-selection-development-20102026)
+  producer `--select` và consumer `read_selection` PASS offline, tái dựng
+  primary 660/repeat 432 và source/PIT/shared/request/HTTP audit; oracle độc lập
+  khớp eligibility/metric/ranking/lý do. Khóa **A_tp_pool PROMOTED**, risk OFF,
+  theo ngưỡng W6-04; 3 eligible/1 promotable, D=+3,065755 điểm phần trăm,
+  ΔR>0 ở 3/4 mã, mean/max ΔMDD=−0,679482/0. C2 không đạt D/số mã dương,
+  B không đạt số mã dương; không chọn ablation hoặc chỉnh ngưỡng theo repeat.
+  Artifact `improvement_selection_v1` mới bind report/gate/code/runtime;
+  selection W7 giữ nguyên. PROMOTED chỉ ở development, chưa chứng minh hiệu
+  quả holdout/attribution; giữ repeat A−Original −0,169020 và mọi hạn chế W8-05.
+  QA hash/số liệu/link/diff PASS, 2.862 file cũ và ledger nguyên byte; chỉ hai
+  Markdown cùng selection local, không đổi code/schema/runtime/nguồn hoặc gọi
+  API. Không chạy lại suite theo AGENTS.md 1.2; consumer kiểm gate hiện hành
+  PASS đúng binding. **6/8 DONE**, tiếp theo **W8-07** ma trận/thống kê/manifest;
+  chưa manifest/run/outcome holdout, Gate W8/W9 chưa mở.
 
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
