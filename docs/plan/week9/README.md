@@ -1,6 +1,6 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
-**Trạng thái: TODO, 0/6.** Giữ deadline 10 tuần; cập nhật 20/10/2026.
+**Trạng thái: TODO, 0/6; sẵn sàng W9-01, Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 20/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
 ## Phạm vi và đầu vào
@@ -18,7 +18,9 @@ mới trong tuần này; người dùng tự thực hiện preflight/API theo CL
 16/10/2026; amendment vận hành `improvement_protocol_v2` giữ phương pháp này.
 [W8-07](../week8/README.md#w8-07--khóa-manifest-và-công-cụ-xác-nhận-holdout-20102026)
 đã khóa manifest `improvement_bound_holdout_v1`, consumer bootstrap/fixture và
-bốn gate kỹ thuật; còn nghiệm thu/bàn giao W8-08 trước release/preflight/API.
+bốn gate kỹ thuật. [W8-08](../week8/README.md#w8-08--nghiệm-thu-và-bàn-giao-holdout-20102026)
+đã nghiệm thu và khóa release; hướng dẫn preflight/run/resume/verify/bootstrap
+ở liên kết này. Chưa chạy preflight/API hoặc tạo run holdout, W9 vẫn 0/6.
 Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
 Ma trận xác nhận gồm `original, bayesian, C2, selected_full,
 selected_stats_only, selected_examples_only`; ánh xạ selected bằng selection
@@ -33,7 +35,8 @@ risk OFF và upstream một lần/point như W8. Không lặp holdout để lấ
 thuận lợi. Selection/registry/protocol và danh sách ID/thứ tự thực tế phải
 bind vào manifest trước preflight/API; manifest W8-07 đã lưu đủ các binding.
 CLI `scripts/run_improvement_holdout.py` chặn online khi chưa có receipt
-`improvement_holdout_release_v1` hợp lệ từ bàn giao W8-08; chưa mở W9.
+`improvement_holdout_release_v1` hợp lệ từ bàn giao W8-08. Release đã khóa,
+Gate W8 PASS; người dùng có thể bắt đầu W9-01 theo hướng dẫn đã bàn giao.
 
 **Estimand chính:** D=(1/4)Σ_s(R_selected,s−R_original,s), đơn vị điểm
 phần trăm, R là return tài khoản từ vốn đầu 50 triệu trên lịch của từng mã,

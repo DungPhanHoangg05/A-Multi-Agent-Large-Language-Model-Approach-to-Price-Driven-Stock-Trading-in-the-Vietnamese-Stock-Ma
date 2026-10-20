@@ -1,6 +1,6 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 7/8; W8-01–07 DONE, tiếp theo W8-08.**
+**Trạng thái: COMPLETE, 8/8; W8-01–08 DONE, Gate W8 PASS; tiếp theo W9-01.**
 Kế hoạch điều chỉnh 16/10/2026; cập nhật 20/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
@@ -88,7 +88,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-05 | Chạy/verify đủ mẫu lặp nối primary đã nghiệm thu; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [x] DONE — 432/432 repeat, verifier và phân tích PASS |
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [x] DONE — A_tp_pool PROMOTED, selector/verifier PASS |
 | W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [x] DONE — 64 điểm/6 nhánh, manifest/dry-run/fixture và bốn gate PASS |
-| W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [ ] TODO |
+| W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [x] DONE — release/hash/gate/hướng dẫn W9 PASS |
 
 ### W8-01 — Ánh xạ registry, capability và identity, 17/10/2026
 
@@ -924,6 +924,103 @@ Giữ ledger `outputs/oos_pilot/api_usage.json`; đổi key trong `.env` rồi d
 lại `--run --resume` cùng plan/output/gate, không reset hoặc chạy lại điểm complete.
 Chưa có release hợp lệ thì CLI chặn online trước đọc key, kể cả đã có manifest.
 W8 đạt **7/8 DONE**, tiếp theo **W8-08**; Gate W8 và W9 chưa mở.
+
+### W8-08 — Nghiệm thu và bàn giao holdout, 20/10/2026
+
+**DONE — W8 hoàn tất 8/8, Gate W8 PASS.** Đã đối chiếu selection development,
+manifest, nguồn, code/runtime và receipt bốn gate hiện hành. Producer
+`--release` kiểm lại lịch/PIT/scaler của 64 điểm rồi khóa receipt bàn giao
+`improvement_holdout_release_v1`; chưa preflight, gọi API, tạo run hoặc tính
+P&L/CI holdout. W9 sẵn sàng bắt đầu W9-01, vẫn **0/6 task hoàn tất**.
+
+Manifest giữ **64 điểm năm 2024, 16/mã, sáu nhánh và 384 Decision dự kiến**:
+`original, bayesian, C2, A_tp_pool, A_tp_pool_stats_only,
+A_tp_pool_examples_only`. Thứ tự xoay, một upstream/point, repeat_id=0,
+primary A−Original và bốn secondary giữ đúng bản khóa W8-07. Không chọn lại
+ứng viên, tune tham số hoặc thêm lượt lặp theo outcome holdout. A PROMOTED
+chỉ là selection development; chưa kết luận hiệu quả xác nhận hay attribution.
+
+**Bằng chứng nghiệm thu:** consumer kiểm receipt và byte/hash cả bốn log
+**PASS**: compileall, **909 unit**, E2E, **168 leakage**, không skip; đây là
+kết quả đã chạy ở W8-07 trên cùng 74 dependency/schema/fixture và runtime.
+Không chạy lại suite/compileall ở W8-08 theo AGENTS.md mục 1.2 vì chỉ đổi ba
+Markdown và tạo receipt từ producer hiện hữu; code/test/schema/runtime và
+đầu vào giữ nguyên. QA đối chiếu nguồn/selection/report/checkpoint/HTTP audit,
+69 dependency development, 64 ngày W5/thứ tự nhánh, chữ ký release, log/hash,
+liên kết, cú pháp PowerShell và diff **PASS**. **3.380 file được bảo vệ
+nguyên byte**, gồm plan, receipt/log gate và ledger; giữ toàn bộ các run cũ.
+
+| Artifact local | SHA-256 byte |
+| --- | --- |
+| [Manifest](../../../outputs/bayesian_benchmark/improvement_v1/holdout/plan.json) | `6b6760768fe98731e64e1e518ffbc351db29a41397f46bfad0d3a19d96956944` |
+| [Receipt bốn gate](validation_gates/bound_holdout_v1/technical_gates.json) | `1be5eb3490e2c31d1a04e5a38bf7ffa732ef22d4a891fdf5b9ba26a08292b012` |
+| [Release bàn giao](../../../outputs/bayesian_benchmark/improvement_v1/holdout/release.json) | `b61ebdbf46f0d65b10e7fa8cdec207fa201a1e18eeee454679d512c8c3380f9e` |
+
+Release bind cả SHA byte manifest, digest payload
+`037b7e3088e1803e5e52261417e4313e996f41c8a28e0661d7acc5a02cbc09ff`,
+SHA receipt gate, code/runtime và risk OFF. Plan/release/output là artifact
+local trong thư mục ignored, cần giữ cùng workspace. Nếu di chuyển máy,
+phải mang đủ nguồn/bằng chứng/cache và đúng runtime; chỉ checkout Git chưa
+đủ. CLI kiểm nguồn/identity trước key; có sai khác thì dừng để đối soát.
+
+**Lệnh W9 từ root repository (PowerShell).** Chạy khối khai báo này mỗi khi
+mở terminal mới; các lệnh tiếp theo dùng chung đúng identity/path:
+
+```powershell
+$holdoutArgs = @(
+    '--plan', 'outputs/bayesian_benchmark/improvement_v1/holdout/plan.json',
+    '--output-dir', 'outputs/bayesian_benchmark/improvement_v1/holdout/run',
+    '--technical-gates', 'docs/plan/week8/validation_gates/bound_holdout_v1/technical_gates.json',
+    '--handoff', 'outputs/bayesian_benchmark/improvement_v1/holdout/release.json',
+    '--ledger', 'outputs/oos_pilot/api_usage.json',
+    '--env-file', '.env'
+)
+```
+
+W9-01: người dùng đặt `GROQ_API_KEY` trong `.env`, chạy dry-run offline rồi
+preflight thật. Chỉ chuyển sang run khi lệnh trước kết thúc thành công:
+
+```powershell
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --dry-run @holdoutArgs
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --preflight @holdoutArgs
+```
+
+W9-02: chạy primary; có thể dùng `--resume` ngay từ đầu:
+
+```powershell
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --run --resume @holdoutArgs
+```
+
+TPM/RPM và lỗi transport/HTTP tạm thời thuộc policy đã khóa được tự chờ/retry;
+quota ngày dừng giữ checkpoint. Khi đổi key, sửa `.env` rồi chạy lại **chính
+lệnh run/resume trên**; CLI ưu tiên key trong file, tự preflight key mới và
+phục hồi cùng UUID/request, tái dùng response durable nếu có. Giữ nguyên
+plan/output/gate/release/ledger; không xóa checkpoint, reset hoặc phát lại
+điểm complete. Không chạy đồng thời hai runner dùng ledger chung. Lỗi
+integrity/schema/key không hợp lệ cần xử lý đúng nguyên nhân trước resume.
+
+W9-03: sau run hoàn tất, kiểm offline toàn checkpoint và report (không gọi
+API). Cần **primary_status=COMPLETE, G=64, đủ 384 Decision**, không thiếu
+nhánh/unknown; `--verify-only` khi đang dở chỉ phục vụ kiểm phần có được:
+
+```powershell
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --verify-only @holdoutArgs
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --verify-report @holdoutArgs
+```
+
+W9-04: chỉ khi report đủ mẫu và verify PASS mới khóa/kiểm bootstrap offline:
+
+```powershell
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --bootstrap @holdoutArgs
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --verify-bootstrap @holdoutArgs
+```
+
+Các file `run/report.json` và `run/bootstrap.json` write-once, được consumer
+đối chiếu với kết quả tái dựng. Bootstrap giữ L=4, độ nhạy 2/8, 10.000 draw,
+PCG64 seed=20261016; CI cần ít nhất 9.500 draw hợp lệ, thiếu thì BLOCKED,
+không sinh bù. W9-05/06 mới phân tích, vẽ hình và đóng băng kết quả theo
+[checklist W9](../week9/README.md#checklist); không dùng fixture hoặc
+selection development thay dữ liệu xác nhận thật.
 
 ## Protocol development và tiêu chí chọn
 
