@@ -1060,11 +1060,20 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
   không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
-### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 0/6
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
 protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
 chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bảng luận văn.
+
+- **W9-01 IN_PROGRESS, 20/10/2026:** [kiểm điều kiện preflight](week9/README.md#w9-01--kiểm-điều-kiện-preflight-20102026)
+  kiểm offline manifest/release/gate, 64 cutoff/PIT/scaler, 51 nguồn,
+  74 dependency/runtime và client text/vision đúng model/options PASS;
+  tokenizer cache đúng hash, tính digest run dự kiến theo runtime hiện hành.
+  Chưa có proof preflight đúng plan holdout trong ledger; người dùng cần chạy
+  lệnh API đã ghi ở README W9. Chưa tạo run/slot/Decision hoặc tính P&L/CI.
+  Chỉ tài liệu, không chạy lại suite theo AGENTS.md 1.2; consumer kiểm bốn gate
+  W8-07 đúng code/runtime PASS. **W9 0/6 DONE**, chưa chuyển W9-02.
 
 ### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
 [Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
