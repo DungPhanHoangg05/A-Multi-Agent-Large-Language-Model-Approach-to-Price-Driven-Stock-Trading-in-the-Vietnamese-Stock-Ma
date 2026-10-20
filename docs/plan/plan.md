@@ -931,7 +931,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   protocol phát triển và hướng dẫn offline/API. Gate D PASS mở W8 cải tiến,
   không mở holdout; W8/W9 chưa triển khai, không nhận kế hoạch là kết quả mới.
 
-### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 7/8
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — COMPLETE, 8/8; Gate W8 PASS
 [Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
 Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
 60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
@@ -1047,6 +1047,18 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   QA hash/nguồn/lịch/link/diff và 3.366 file cũ nguyên byte PASS; giữ selection,
   primary/repeat/ledger, không sửa phương pháp/ngưỡng hoặc tính kết quả holdout.
   **7/8 DONE**, tiếp theo **W8-08** kiểm/bàn giao; chưa release/API, Gate W8/W9 chưa mở.
+
+- **W8-08 DONE, 20/10/2026:** [nghiệm thu và bàn giao holdout](week8/README.md#w8-08--nghiệm-thu-và-bàn-giao-holdout-20102026)
+  consumer kiểm receipt/log bốn gate W8-07 PASS đúng code/runtime: compileall/E2E,
+  909 unit/168 leakage, không chạy lại suite vì chỉ tài liệu và release offline.
+  Producer kiểm nguồn/PIT/scaler đủ 64 điểm rồi khóa release bind manifest,
+  receipt gate, 74 dependency và risk OFF; sáu nhánh/384 Decision đã đăng ký.
+  QA hash/binding/64 ngày W5/selection/checkpoint/HTTP audit/link/cú pháp lệnh/diff
+  PASS; 3.380 file đã bảo vệ cùng ledger nguyên byte, không API hoặc run holdout.
+  Hướng dẫn preflight/run/đổi key/resume/verify/bootstrap W9 đã sẵn sàng.
+  **W8 COMPLETE 8/8, Gate W8 PASS**; tiếp theo **W9-01**, W9 vẫn 0/6.
+  Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
+  không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
