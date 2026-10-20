@@ -1,7 +1,7 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 4/8; W8-01–04 DONE, tiếp theo W8-05.**
-Kế hoạch điều chỉnh 16/10/2026; cập nhật 19/10/2026; giữ deadline 10 tuần.
+**Trạng thái: IN_PROGRESS, 5/8; W8-01–05 DONE, tiếp theo W8-06.**
+Kế hoạch điều chỉnh 16/10/2026; cập nhật 20/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
 ## Mục tiêu và giới hạn
@@ -84,7 +84,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-02 | Triển khai thay đổi tối thiểu, producer/loader/verifier và version mới; không sửa artifact cũ | 01 | [x] DONE |
 | W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [x] DONE |
 | W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [x] DONE — 660/660 primary, verifier report PASS |
-| W8-05 | Chạy/verify đủ mẫu lặp nối primary đã nghiệm thu; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [ ] TODO |
+| W8-05 | Chạy/verify đủ mẫu lặp nối primary đã nghiệm thu; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [x] DONE — 432/432 repeat, verifier và phân tích PASS |
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [ ] TODO |
 | W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [ ] TODO |
 | W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [ ] TODO |
@@ -451,9 +451,9 @@ các lỗi lịch sử còn nguyên audit, mọi slot cuối cùng đều comple
 `bb429128c4f13297635778cf044d5a3a89639d4a7b1e6d2c2e507fba190d9b1b`.
 Plan nối đúng primary signature/report, giữ mẫu 12 điểm đã đăng ký, ba điểm/mã,
 4 S/4 E_ONLY/4 OFF, ba lượt 1/2/3 và 12 nhánh gồm `original_duplicate`:
-**432 Decision repeat**, tách khỏi primary. Chưa tạo run repeat hoặc gọi API
-repeat. Plan đã sẵn sàng local; bước tiếp theo là lệnh API dùng `$taskRepeatPlan`
-trong hướng dẫn bên dưới, sau đó verify repeat và phân tích ở W8-05.
+**432 Decision repeat**, tách khỏi primary. Tại mốc bàn giao 19/10 chưa tạo
+run repeat hoặc gọi API repeat. Kết quả nghiệm thu và phân tích sau lượt chạy
+thật ngày 20/10 được ghi tại mục W8-05 bên dưới.
 
 QA cuối kiểm toàn bộ 660 slot, shared/journal, 1.452 binding checkpoint/HTTP,
 hash nguồn/code, plan repeat, checklist/liên kết và **1.994 file bảo vệ nguyên
@@ -466,6 +466,193 @@ repeat bằng producer đã khóa và cập nhật hai Markdown. Receipt bốn g
 kiểm đúng code/runtime hiện tại, không ghi nhận là đã chạy lại. Phân tích hiệu
 quả/độ ổn định thuộc W8-05; selection W8-06 chưa tạo, holdout W9 chưa mở.
 Giữ C2 NOT_PROMOTED/Original là trạng thái đã khóa từ W7, risk OFF.
+
+### W8-05 — Nghiệm thu repeat và phân tích development, 20/10/2026
+
+**DONE.** Đủ **432/432 Decision repeat**, 144 mỗi lượt 1/2/3, 36 block
+point/lượt trên mẫu cố định 12 điểm × 12 nhánh; không planned/unknown. Decision
+cuối lưu lúc **11:47:14, 20/10/2026** (Asia/Saigon). CLI `--verify-report`
+repeat đã **PASS offline**, gồm tái kiểm primary 660 Decision, nguồn/PIT,
+shared/request/model/schema/options, raw response và report repeat. Report
+`outputs/bayesian_benchmark/improvement_v1/repeats/run/report.json` có
+`status=COMPLETE`, `in_primary=false`, gắn 896 mục checkpoint/HTTP audit;
+SHA-256 byte:
+`db08fbb381d3837614b0cf6f00e6078c179d13f4a01d49fafb818562cf5cf9e2`.
+Run signature:
+`f248864ee3366d1e8728331b7a7488702110c907f4df4a108e2dc72adf2c4437`.
+
+432 request repeat khớp prompt UTF-8, hash body canonical và contract primary;
+`original_duplicate` khớp Original. Mỗi slot có một attempt khoa học complete;
+repeat dùng shared primary, không có thư mục points/responses hoặc gọi upstream
+mới. Ledger repeat giữ 432 HTTP 200, 4 HTTP 429 và 2 transport_error.
+Primary report giữ nguyên SHA-256 đã nghiệm thu ở W8-04. QA đối chiếu lại tài
+khoản từ action/return đã seal, coverage, cặp action và contrast với report;
+**2.862 file bảo vệ nguyên byte**, ledger và bằng chứng W7 giữ nguyên.
+
+**Primary 60 điểm.** Bảng dưới là ΔR và ΔMDD so Original, đơn vị điểm phần
+trăm; D là mean đều ΔR của bốn tài khoản độc lập, không phải return portfolio.
+Làm tròn ba chữ số chỉ để hiển thị; report giữ số gốc. Return Original lần
+lượt FPT/MWG/VCB/VNM là 1,308% / 1,917% / 1,328% / 0,147%. MDD Original là
+5,124% / 2,694% / 4,022% / 3,053%; LONG 17/60, SHORT giữ CASH.
+
+| Nhánh | ΔR FPT | ΔR MWG | ΔR VCB | ΔR VNM | D | Mean ΔMDD | LONG/60 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| original | +0.000 | +0.000 | +0.000 | +0.000 | +0.000 | +0.000 | 17 |
+| bayesian | +0.000 | +7.931 | +0.000 | -0.771 | +1.790 | +0.515 | 19 |
+| C2 | -2.042 | +0.000 | -2.842 | +3.153 | -0.433 | -0.763 | 13 |
+| A_tp_pool | +0.000 | +9.433 | +1.039 | +1.791 | +3.066 | -0.679 | 16 |
+| B_semantic | +0.000 | +9.433 | -2.842 | -0.771 | +1.455 | +0.187 | 17 |
+| C2_stats_only | +0.000 | +0.000 | +0.000 | +1.791 | +0.448 | -0.433 | 16 |
+| C2_examples_only | +0.000 | +1.771 | -2.842 | +1.791 | +0.180 | -0.433 | 16 |
+| A_tp_pool_stats_only | +0.000 | +1.771 | +0.000 | +1.791 | +0.891 | -0.433 | 17 |
+| A_tp_pool_examples_only | -2.042 | +11.368 | +0.000 | +1.791 | +2.779 | -0.433 | 17 |
+| B_semantic_stats_only | -0.374 | +11.368 | +0.000 | +1.791 | +3.196 | -0.433 | 19 |
+| B_semantic_examples_only | +0.000 | +11.368 | -2.842 | +0.000 | +2.132 | +0.000 | 18 |
+
+A có ΔR dương tại MWG/VCB/VNM, FPT bằng 0; mean ΔMDD −0,679, max ΔMDD 0.
+B chịu ΔR âm ở VCB/VNM và mean ΔMDD +0,187; C2 có D âm. Báo cả sáu ablation;
+chúng không thuộc tập nomination C2/A/B, kể cả khi D của ablation cao hơn full.
+
+**Coverage và ablation.** Stats/examples/both đếm điểm có readiness tương ứng;
+visible đếm Decision thấy ít nhất một block. F/M/V/N là FPT/MWG/VCB/VNM.
+
+| Base | Stats/60 | Examples/60 | Both/60 | Visible/60 | Off/60 | Visible F/M/V/N |
+| --- | --- | --- | --- | --- | --- | --- |
+| C2 | 11 | 26 | 8 | 29 | 31 | 5 / 7 / 8 / 9 |
+| A_tp_pool | 34 | 26 | 24 | 36 | 24 | 7 / 10 / 9 / 10 |
+| B_semantic | 11 | 26 | 8 | 29 | 31 | 5 / 7 / 8 / 9 |
+
+A tăng stats ready 11→34 và both ready 8→24; examples giữ 26. Visible chỉ
+tăng 29→36 vì nhiều điểm đã có examples. Đây là coverage của evidence, không
+là xác suất LLM hiệu chuẩn hoặc bằng chứng model đã làm theo prior.
+G là đủ 60 điểm; T là tập stats và examples cùng ready của từng base. Mỗi
+tài khoản nhóm dựng lại từ vốn đầu; T của các base khác nhau, không so chúng
+như cùng mẫu. Bảng giữ cả nhóm bất lợi và số điểm theo mã.
+
+| Full−ablation | G: mean ΔR | T: n F/M/V/N | T: ΔR F/M/V/N |
+| --- | --- | --- | --- |
+| C2−stats | -0.881 | 1 / 2 / 2 / 3 | +0.000 / +0.000 / +0.000 / +0.000 |
+| C2−examples | -0.613 | 1 / 2 / 2 / 3 | +0.000 / -1.722 / +0.000 / +0.000 |
+| A_tp_pool−stats | +2.175 | 4 / 7 / 6 / 7 | +0.000 / -1.722 / +1.015 / +0.000 |
+| A_tp_pool−examples | +0.286 | 4 / 7 / 6 / 7 | +0.000 / -1.722 / +1.015 / +0.000 |
+| B_semantic−stats | -1.741 | 1 / 2 / 2 / 3 | +0.000 / -1.722 / +0.000 / +0.000 |
+| B_semantic−examples | -0.677 | 1 / 2 / 2 / 3 | +0.000 / -1.722 / +0.000 / +0.000 |
+
+Trên T, A full−stats và full−examples cùng có mean đều bốn mã **−0,177**;
+gain G không được quy riêng cho stats/examples ngoài common support. C2/B
+full−examples trên T đều âm tại MWG, ba mã còn lại bằng 0.
+
+**Nhóm thời gian và leave-one-symbol-out.** Các ô Q/H là mean đều ΔR của
+bốn tài khoản nhóm so Original, không ghép return các nhóm. LOSO giữ nguyên
+nhánh rồi bỏ một mã, không chọn lại ứng viên.
+
+| Base | Q1 | Q2 | Q3 | Q4 | H1 | H2 | LOSO bỏ F/M/V/N |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| C2 | — | -0.510 | +0.000 | -0.722 | +0.253 | -0.722 | +0.104 / -0.577 / +0.370 / -1.628 |
+| A_tp_pool | — | +0.000 | +2.314 | +0.000 | +0.686 | +2.325 | +4.088 / +0.943 / +3.741 / +3.491 |
+| B_semantic | — | -0.628 | +2.314 | -0.722 | -0.187 | +1.603 | +1.940 / -1.204 / +2.887 / +2.197 |
+
+Q1 mean giữ null vì FPT không có điểm; ΔR Q1 theo F/M/V/N là C2:
+null/0/0/+3,053; A: null/0/+0,984/+1,734; B: null/0/0/+1,734. A tập trung
+gain tại MWG trong Q3/H2; khi bỏ MWG, D còn +0,943. B chuyển âm khi bỏ MWG.
+Không dùng subgroup thuận lợi để đổi primary hoặc cấu hình.
+
+**Prior-off và giới hạn attribution.** Ô là số action bất đồng/số cặp so
+Original trên điểm không có block prior visible. Bayesian có 0/0 (null).
+
+| Nhánh−Original | Primary | Repeat 1 | Repeat 2 | Repeat 3 |
+| --- | --- | --- | --- | --- |
+| bayesian | 0/0 (null) | 0/0 (null) | 0/0 (null) | 0/0 (null) |
+| C2 | 2/31 | 0/4 | 0/4 | 0/4 |
+| A_tp_pool | 2/24 | 0/4 | 0/4 | 0/4 |
+| B_semantic | 2/31 | 0/4 | 0/4 | 0/4 |
+| C2_stats_only | 1/49 | 0/8 | 0/8 | 0/8 |
+| C2_examples_only | 1/34 | 0/5 | 0/5 | 0/5 |
+| A_tp_pool_stats_only | 1/26 | 0/5 | 0/5 | 1/5 |
+| A_tp_pool_examples_only | 3/34 | 0/5 | 0/5 | 0/5 |
+| B_semantic_stats_only | 3/49 | 1/8 | 0/8 | 1/8 |
+| B_semantic_examples_only | 1/34 | 0/5 | 0/5 | 0/5 |
+
+Primary có **16/312 cặp prior-off bất đồng** dù prompt trùng byte UTF-8 và
+contract/hash body canonical trùng Original; không khẳng định byte HTTP wire
+khi chưa lưu request thô. Khi cả hai prior cùng off, A−C2 bất đồng 2/24,
+B−C2 2/31. Các cặp dùng chung point/Original nên không là quan sát độc lập.
+
+Trong ba điểm A khác Original, MWG-2023-07-05 (LONG thay CASH) và
+VNM-2023-03-30 (CASH thay LONG) đều prior-off; chỉ VCB-2023-02-08 (CASH
+thay LONG) có prior visible. Vì thế không quy toàn bộ D +3,066 cho Bayesian
+prior. B cũng có hai thay đổi prior-off và hai thay đổi prior-on; hai thay
+đổi prior-on bỏ một LONG có lãi tại VCB-2023-10-30 và thêm một LONG lỗ tại
+VNM-2023-06-30. Kết quả thuận lợi/bất lợi đều giữ trong report cases.
+
+**Độ ổn định trên 12 điểm repeat.** Mỗi request có 36 cặp lượt (1,2)/(1,3)/
+(2,3), 12 cặp trong mỗi stratum S/E_ONLY/OFF đã chọn từ readiness W7; không
+đổi strata theo A/B mới. Đây là các cặp phụ thuộc, không tính như 36 mẫu độc lập.
+
+| Nhánh | Cặp lượt/36 | S/12 | E_ONLY/12 | OFF/12 |
+| --- | --- | --- | --- | --- |
+| original | 4/36 | 2/12 | 2/12 | 0/12 |
+| bayesian | 0/36 | 0/12 | 0/12 | 0/12 |
+| C2 | 2/36 | 2/12 | 0/12 | 0/12 |
+| A_tp_pool | 0/36 | 0/12 | 0/12 | 0/12 |
+| B_semantic | 2/36 | 0/12 | 2/12 | 0/12 |
+| C2_stats_only | 6/36 | 4/12 | 2/12 | 0/12 |
+| C2_examples_only | 0/36 | 0/12 | 0/12 | 0/12 |
+| A_tp_pool_stats_only | 0/36 | 0/12 | 0/12 | 0/12 |
+| A_tp_pool_examples_only | 0/36 | 0/12 | 0/12 | 0/12 |
+| B_semantic_stats_only | 2/36 | 0/12 | 2/12 | 0/12 |
+| B_semantic_examples_only | 0/36 | 0/12 | 0/12 | 0/12 |
+| original_duplicate | 0/36 | 0/12 | 0/12 | 0/12 |
+
+Original−duplicate cùng lượt bất đồng **0/12, 0/12, 2/12**; tổng 2/36.
+Hai cặp ở lượt 3: MWG-2023-06-30 (S, CASH/LONG) và VCB-2023-08-29
+(E_ONLY, LONG/CASH). A giữ action qua ba lượt (0/36); C2_stats_only có 6/36.
+Quan sát biến thiên ngay ở request giống nhau giới hạn diễn giải attribution;
+không suy nguyên nhân từ model fingerprint, thời điểm hoặc key.
+
+**Contrast repeat.** Mỗi lượt dựng lại bốn tài khoản ba điểm/mã từ vốn đầu;
+các ô là mean ΔR bốn mã, cột cuối mean ba lượt. Mẫu 12 điểm và repeat giữ
+riêng, không nhập vào D primary, không chọn lượt tốt nhất.
+
+| Cặp | Lượt 1 | Lượt 2 | Lượt 3 | Mean 3 lượt |
+| --- | --- | --- | --- | --- |
+| bayesian−original | -0.620 | -0.620 | -1.127 | -0.789 |
+| C2−original | -0.299 | -0.620 | -0.806 | -0.575 |
+| A_tp_pool−original | +0.000 | +0.000 | -0.507 | -0.169 |
+| B_semantic−original | -0.620 | -0.620 | -0.507 | -0.582 |
+| C2_stats_only−original | +0.562 | +0.330 | -0.233 | +0.220 |
+| C2_examples_only−original | +0.000 | +0.000 | -0.507 | -0.169 |
+| A_tp_pool_stats_only−original | +0.000 | +0.000 | -0.507 | -0.169 |
+| A_tp_pool_examples_only−original | +0.000 | +0.000 | -0.507 | -0.169 |
+| B_semantic_stats_only−original | +0.274 | +0.000 | -0.507 | -0.078 |
+| B_semantic_examples_only−original | +0.000 | +0.000 | -0.507 | -0.169 |
+| A_tp_pool−C2 | +0.299 | +0.620 | +0.299 | +0.406 |
+| B_semantic−C2 | -0.321 | +0.000 | +0.299 | -0.008 |
+| C2−C2_stats_only | -0.861 | -0.950 | -0.573 | -0.795 |
+| C2−C2_examples_only | -0.299 | -0.620 | -0.299 | -0.406 |
+| A_tp_pool−A_tp_pool_stats_only | +0.000 | +0.000 | +0.000 | +0.000 |
+| A_tp_pool−A_tp_pool_examples_only | +0.000 | +0.000 | +0.000 | +0.000 |
+| B_semantic−B_semantic_stats_only | -0.894 | -0.620 | +0.000 | -0.505 |
+| B_semantic−B_semantic_examples_only | -0.620 | -0.620 | +0.000 | -0.413 |
+
+A−C2 dương cả ba lượt, mean +0,406; B−C2 đổi dấu, mean −0,008. Tuy vậy
+A−Original mean −0,169 và A full−stats/full−examples đều 0 cả ba lượt.
+Repeat chưa chứng minh A vượt Original hoặc tách được hiệu ứng thành phần.
+Không đặt thêm ngưỡng thắng cho trace, chạy lượt thứ tư hoặc tune A/B.
+
+Diagnostics train đã verify ở W8-03/revision phục hồi vẫn giữ nguyên: giao
+388/651 query, Brier C2/A là 0,255982/0,253620, log loss 0,707862/0,702105;
+A vẫn bất lợi tại MWG 2021/2022 và VCB 2022. Đây là xác suất sự kiện lịch sử,
+không là calibration LLM hoặc mô hình expected return.
+
+**Bàn giao W8-06.** Đủ primary/repeat và phân tích đã khóa; còn chạy selector
+theo rule/eligibility cố định và ghi lý do. Chưa tạo selection W8, chưa mở
+holdout hoặc CI xác nhận; giữ Original triển khai/C2 NOT_PROMOTED từ W7,
+risk OFF. Không thay phương pháp/registry/schema/model/token/kinh tế/PIT.
+Task chỉ phân tích bằng chứng và sửa hai Markdown, không chạy lại compileall,
+unit, E2E hoặc leakage suite theo AGENTS.md 1.2. Verifier mới và QA số liệu/
+hash/link PASS; receipt 896 unit/167 leakage cùng code/runtime được consumer
+kiểm, không ghi là đã chạy lại. W8 đạt **5/8 DONE**, tiếp theo **W8-06**.
 
 #### Lệnh vận hành primary và bàn giao repeat
 
