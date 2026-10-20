@@ -1,6 +1,6 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
-**Trạng thái: IN_PROGRESS, 0/6; W9-01 kiểm offline PASS, chờ preflight API; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 20/10/2026.
+**Trạng thái: IN_PROGRESS, 1/6; W9-01 DONE, tiếp theo W9-02; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 20/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
 ## Phạm vi và đầu vào
@@ -20,8 +20,8 @@ mới trong tuần này; người dùng tự thực hiện preflight/API theo CL
 đã khóa manifest `improvement_bound_holdout_v1`, consumer bootstrap/fixture và
 bốn gate kỹ thuật. [W8-08](../week8/README.md#w8-08--nghiệm-thu-và-bàn-giao-holdout-20102026)
 đã nghiệm thu và khóa release; hướng dẫn preflight/run/resume/verify/bootstrap
-ở liên kết này. W9-01 đã kiểm offline PASS; chờ người dùng preflight/API,
-chưa tạo run holdout, W9 vẫn 0/6.
+ở liên kết này. W9-01 đã kiểm offline và nghiệm thu preflight thật PASS;
+chưa tạo run holdout, W9 hiện 1/6 DONE, tiếp theo W9-02.
 Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
 Ma trận xác nhận gồm `original, bayesian, C2, selected_full,
 selected_stats_only, selected_examples_only`; ánh xạ selected bằng selection
@@ -92,7 +92,7 @@ không là p. Không chọn/promote lại theo holdout, kể cả secondary ho�
 
 | Task | Công việc và điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W9-01 | Kiểm manifest, môi trường và nguồn; preflight đúng model/options; khóa run identity | W8 PASS | [ ] IN_PROGRESS — offline PASS, chờ preflight API |
+| W9-01 | Kiểm manifest, môi trường và nguồn; preflight đúng model/options; khóa run identity | W8 PASS | [x] DONE — offline/identity và preflight text/vision PASS |
 | W9-02 | Chạy bốn mã/ma trận đã khóa; checkpoint, ledger, retry; một upstream/point deep-copy mọi nhánh | 01 | [ ] TODO |
 | W9-03 | Verify semantic toàn run, PIT, P&L, common support, missing/unknown và checksum | 02 | [ ] TODO |
 | W9-04 | Tính primary ΔR/MDD và CI theo protocol; secondary/ablation và kiểm nhiều so sánh | 03 | [ ] TODO |
@@ -101,7 +101,7 @@ không là p. Không chọn/promote lại theo holdout, kể cả secondary ho�
 
 ## W9-01 — Kiểm điều kiện preflight, 20/10/2026
 
-**IN_PROGRESS — kiểm offline PASS, chờ người dùng preflight API.** Manifest,
+**DONE — kiểm offline và preflight thật PASS.** Manifest,
 release và receipt bốn gate khớp; kiểm toàn bộ 64 cutoff/PIT/scaler, 51 nguồn,
 74 dependency/schema/fixture và runtime Python 3.13.5 PASS.
 Tokenizer cache đúng hash; `.env` tồn tại, chưa đọc hoặc xác thực key trong
@@ -119,27 +119,42 @@ Digest run dự kiến: `45e0637eb572921932179147103e0bf3ef94d74a1d9428cf97b7e8f
 Chưa tạo `run/cohort.json`, slot hoặc thực hiện Decision; runtime sẽ khóa và
 kiểm identity này khi bắt đầu W9-02. Plan/release/risk OFF giữ nguyên bản W8.
 
-Ledger hiện chưa có preflight PASS gắn digest plan holdout
-`037b7e3088e1803e5e52261417e4313e996f41c8a28e0661d7acc5a02cbc09ff`; proof development không thay thế proof holdout.
-Theo phân công API ở trên, người dùng chạy từ root (PowerShell):
+Người dùng đã chạy preflight thật thành công. Ledger có proof **PASS** gắn
+đúng digest plan holdout `037b7e3088e1803e5e52261417e4313e996f41c8a28e0661d7acc5a02cbc09ff`;
+audit request được đối chiếu offline với serializer text/ảnh đỏ 64×64 và
+model/options đã khóa. Cả hai response HTTP 200 có fingerprint, usage hợp lệ,
+cùng credential scope và amendment; không dùng proof development thay thế.
+
+| Vai trò | Request ID | HTTP | Tổng token |
+| --- | --- | --- | --- |
+| Text | `3e8781d6-54d1-4a9d-a5db-2a85a915a4da` | 200 | 106 |
+| Vision | `9688bc07-7c2f-4815-b4be-0685c7d60bc3` | 200 | 1316 |
+
+Ledger có **2.502 request**, tăng đúng hai so với mốc kiểm offline; hash byte
+ở thời điểm nghiệm thu: `a33e1a66ff067e7479f47bd637dbeefad895a197a54d729dc0648d9135f52b49`.
+Digest proof preflight: `ae64a19a251ba3f294bee32183187a4d9d379ac3cb3780ee195697c116ca4f87`.
+Kiểm lại các binding HTTP primary/repeat cũ và selection PASS; không có request
+mới do bước nghiệm thu. Ledger sẽ tiếp tục được nối khi chạy W9-02, không reset.
+
+**W9 đạt 1/6 DONE; tiếp theo W9-02** chạy đủ 64 điểm/sáu nhánh, 384 Decision.
+Từ root (PowerShell), dùng đúng namespace/ledger đã khóa:
 
 ```powershell
-py -3.13 -X utf8 scripts/run_improvement_holdout.py --preflight --technical-gates docs/plan/week8/validation_gates/bound_holdout_v1/technical_gates.json
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --run --resume --technical-gates docs/plan/week8/validation_gates/bound_holdout_v1/technical_gates.json
 ```
 
-CLI dùng mặc định plan/release/output holdout, `.env` và ledger chung đã khóa.
-Preflight gửi hai request nhỏ text/ảnh đỏ để kiểm model/options thực, chưa gọi
-upstream của cutoff. Điều kiện chốt W9-01: lệnh kết thúc exit 0, console
-`Preflight text/vision PASS`, ledger lưu proof PASS đúng plan với hai request
-HTTP 200 và credential scope tương ứng. Sau đó mới chuyển W9-02; không ghi
-hoàn tất từ kiểm client offline hoặc proof plan khác.
+CLI dùng mặc định plan/release/output holdout, `.env` và ledger chung. Khi
+đổi key, sửa `.env` rồi chạy lại chính lệnh trên; giữ plan/output/checkpoint,
+CLI tự preflight key mới và phục hồi theo policy đã khóa. Tham khảo đầy đủ
+[các lệnh verify/bootstrap và điều kiện hoàn tất](../week8/README.md#w8-08--nghiệm-thu-và-bàn-giao-holdout-20102026).
+Chưa chạy Decision hoặc tính P&L/CI holdout trong W9-01.
 
 Chỉ cập nhật README tuần/kế hoạch; không đổi code/test/schema/runtime/đầu vào,
 không chạy lại compileall/unit/E2E/leakage theo AGENTS.md mục 1.2. Consumer
 receipt W8-07 PASS đúng bản: compileall/E2E, 909 unit/168 leakage, không skip;
 đây là kết quả đã chạy trước, không phải chạy lại W9. QA hash/link/diff và
-3.381 file đã bảo vệ nguyên byte; kiểm tra offline không thay ledger,
-không gọi API hoặc tính kết quả holdout.
+3.382 file đã bảo vệ nguyên byte, gồm ledger sau preflight; nghiệm thu không
+gọi thêm API hoặc thay dữ liệu khoa học.
 
 ## Quy tắc thực thi và kết luận
 
