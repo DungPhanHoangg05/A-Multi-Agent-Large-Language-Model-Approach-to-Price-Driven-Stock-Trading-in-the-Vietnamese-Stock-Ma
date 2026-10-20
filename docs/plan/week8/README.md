@@ -1,6 +1,6 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 6/8; W8-01–06 DONE, tiếp theo W8-07.**
+**Trạng thái: IN_PROGRESS, 7/8; W8-01–07 DONE, tiếp theo W8-08.**
 Kế hoạch điều chỉnh 16/10/2026; cập nhật 20/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
@@ -87,7 +87,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [x] DONE — 660/660 primary, verifier report PASS |
 | W8-05 | Chạy/verify đủ mẫu lặp nối primary đã nghiệm thu; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [x] DONE — 432/432 repeat, verifier và phân tích PASS |
 | W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [x] DONE — A_tp_pool PROMOTED, selector/verifier PASS |
-| W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [ ] TODO |
+| W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [x] DONE — 64 điểm/6 nhánh, manifest/dry-run/fixture và bốn gate PASS |
 | W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [ ] TODO |
 
 ### W8-01 — Ánh xạ registry, capability và identity, 17/10/2026
@@ -826,6 +826,104 @@ W8 đạt **6/8 DONE**, tiếp theo **W8-07**: ánh xạ selection A vào ma tr�
 triển khai/kiểm consumer thống kê bằng fixture và khóa manifest 64 điểm.
 Đây mới là đầu vào bàn giao; chưa tạo manifest/run hoặc đọc outcome holdout,
 chưa mở Gate W8/W9. W8-08 còn nghiệm thu bốn gate và hướng dẫn vận hành.
+
+### W8-07 — Khóa manifest và công cụ xác nhận holdout, 20/10/2026
+
+**DONE.** Manifest `improvement_bound_holdout_v1` đã khóa đủ **64 điểm
+2024, 16/mã**, lấy nguyên lịch W5; sáu nhánh, **384 Decision dự kiến**,
+repeat_id=0. CLI mới `--prepare` và `--dry-run` **PASS offline**, kiểm
+nguồn/PIT/scaler/warm-up/horizon và lịch không chồng lấn. Chưa tạo run,
+Decision, P&L hoặc CI thật của holdout; không gọi API hoặc đọc key.
+
+| Nhánh đã khóa | Vai trò |
+| --- | --- |
+| `original` | Đối chứng chính |
+| `bayesian` | Bayesian v1 |
+| `C2` | Đối chứng phương pháp |
+| `A_tp_pool` | Primary kế thừa selection W8-06 |
+| `A_tp_pool_stats_only` | Ablation chỉ thống kê của A |
+| `A_tp_pool_examples_only` | Ablation chỉ ví dụ của A |
+
+Giữ thứ tự trên, xoay trái j mod 6 theo lịch (cutoff, FPT/MWG/VCB/VNM),
+không thêm B hoặc chọn lại sau outcome. Primary A−Original; bốn secondary
+cố định là A−C2, A−Bayesian v1, A−A_stats_only và A−A_examples_only.
+Manifest lưu đủ ID/ngày, thứ tự từng point, ma trận, contrast/m=4, protocol,
+registry, index/scaler, model/options, nguồn, code/runtime và selection.
+
+**Consumer mới, giữ nguyên 69 dependency development.** Thêm bốn file:
+
+- `core/improvement_holdout.py`: producer/loader manifest, kiểm seal byte
+  selection/primary/repeat đã nghiệm thu, mọi checkpoint/HTTP audit và
+  nguồn/gate; tái tính eligibility/ranking từ report đã seal. Không coi hash
+  tự khai là provenance và không replay prompt/API development đã nghiệm thu.
+- `core/improvement_holdout_runtime.py`: journal/Decision/transport hiện có,
+  upstream một lần/point và deep-copy, resume cùng slot/UUID. Report
+  `improvement_holdout_report_v1` giữ G/S, missing/unknown, metric tài khoản,
+  CASH reference, Q/H/regime/LOSO, prior-off, T cùng ready và case cho bootstrap;
+  incomplete không được điền CASH hoặc nhận primary COMPLETE.
+- `core/improvement_bootstrap.py`: producer/loader/verifier
+  `improvement_bootstrap_v1`, tái dựng tài khoản theo thứ tự mẫu tổng hợp.
+- `scripts/run_improvement_holdout.py`: CLI riêng, offline mặc định;
+  online kiểm nguồn/code/runtime/bốn gate và receipt bàn giao trước đọc key.
+  Không sửa CLI, checkpoint, report hoặc selection W7/development/repeat.
+
+**Thống kê giữ đúng đặc tả trước outcome.** Bootstrap circular trên cụm
+ngày cutoff duy nhất, cùng mẫu cho mọi mã/nhánh/contrast; block chính L=4,
+độ nhạy L=2/8, PCG64(20261016), **10.000 draw mỗi L**. Giữ mọi mã hiện diện
+trong cụm, không tạo point cho mã vắng hoặc sắp lại ngày gốc. Mỗi draw dựng
+bốn tài khoản từ 50 triệu, dùng đúng phép tính cổ phiếu lẻ/toàn vốn, giá và
+phí hai chiều của engine; không lấy mean cycle return thay return tài khoản.
+Thiếu bất kỳ mã hoặc metric nhánh không hữu hạn thì draw INVALID, có lý do
+và phân phối số cycle/mã, không sinh draw thay thế. Cần ≥9.500 draw hợp lệ;
+thiếu thì CI BLOCKED/null. CI chính percentile 95%, `method=linear`;
+secondary Bonferroni 98,75% với m=4. Độ nhạy không thay CI chính; CI chạm
+hoặc qua 0 là inconclusive, không chứng minh tương đương hoặc chọn lại A/B.
+
+**Fixture và kiểm thử.**
+[`improvement_bootstrap_v1.json`](fixtures/improvement_bootstrap_v1.json)
+giữ 12 point/ba cụm ngày đồng thời bốn mã, oracle tích net-return độc lập,
+RNG theo từng draw và CI ba L. Kiểm tái dựng trên chính `compute_account_metrics`
+với thứ tự tổng hợp/cycle lặp, LONG/CASH và cổ phiếu lẻ; kiểm dedup C2/m=3,
+mẫu thiếu mã, biên 9.499/9.500, CI zero, nhãn giả, cycle vượt split và CI tự
+băm lại. Fixture chỉ kiểm protocol, không là hiệu quả LLM/CI holdout thật.
+**13 test mới PASS**, gồm bootstrap, manifest/runtime/CLI và một test leakage.
+Ca tích hợp xác nhận sáu nhánh, một upstream, token/schema legacy, resume
+complete không gọi thêm LLM, gián đoạn dùng lại UUID và sửa artifact bị chặn.
+
+**Bốn gate mới PASS**, không skip: compileall, **909 unit**, E2E,
+**168 leakage**. Receipt
+[`technical_gates.json`](validation_gates/bound_holdout_v1/technical_gates.json)
+bind **74 dependency/schema/fixture** (69 cũ + bốn module/CLI mới + fixture);
+**227 file Python giữ nguyên byte trong lượt gate**. Consumer receipt PASS,
+không dùng receipt 896 unit cũ thay cho code mới. SHA-256 byte receipt:
+`1be5eb3490e2c31d1a04e5a38bf7ffa732ef22d4a891fdf5b9ba26a08292b012`.
+Manifest local bất biến
+[`holdout/plan.json`](../../../outputs/bayesian_benchmark/improvement_v1/holdout/plan.json),
+SHA-256 byte:
+`6b6760768fe98731e64e1e518ffbc351db29a41397f46bfad0d3a19d96956944`.
+Selection vẫn `cd46ad855ccda8f95a7694e21c34e08c993f6ea110ddc38bab9db4018857b387`;
+primary/repeat, ledger và **3.366 file có trước giữ nguyên byte**.
+QA nguồn/hash/lịch/số liệu/liên kết/diff PASS; không đổi phương pháp/ngưỡng,
+kinh tế/PIT/paired, BRPP≤600/prompt<6.500 hoặc risk OFF.
+
+Các lệnh offline tái lập manifest và fixture từ root:
+
+```powershell
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --prepare
+py -3.13 -X utf8 scripts/run_improvement_holdout.py --dry-run
+py -3.13 -X utf8 -m unittest discover -s tests -p "test_improvement_bootstrap.py" -v
+py -3.13 -X utf8 -m unittest discover -s tests -p "test_improvement_holdout*.py" -v
+```
+
+**Bàn giao W8-08:** đối chiếu receipt/code/runtime/hash, hoàn thiện hướng dẫn
+preflight/run/verify/resume W9 và tạo receipt `improvement_holdout_release_v1`
+ở `holdout/release.json` sau nghiệm thu. CLI có sẵn `--release`, `--preflight`,
+`--run --resume`, `--verify-only`, `--verify-report`, `--bootstrap` và
+`--verify-bootstrap`; **chưa chạy release/preflight/API ở task này**.
+Giữ ledger `outputs/oos_pilot/api_usage.json`; đổi key trong `.env` rồi dùng
+lại `--run --resume` cùng plan/output/gate, không reset hoặc chạy lại điểm complete.
+Chưa có release hợp lệ thì CLI chặn online trước đọc key, kể cả đã có manifest.
+W8 đạt **7/8 DONE**, tiếp theo **W8-08**; Gate W8 và W9 chưa mở.
 
 ## Protocol development và tiêu chí chọn
 

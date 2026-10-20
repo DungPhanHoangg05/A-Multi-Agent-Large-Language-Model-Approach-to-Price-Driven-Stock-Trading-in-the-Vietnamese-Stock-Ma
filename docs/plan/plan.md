@@ -931,7 +931,7 @@ không tạo thêm file kiểm chứng chỉ để lặp lại cùng kết quả
   protocol phát triển và hướng dẫn offline/API. Gate D PASS mở W8 cải tiến,
   không mở holdout; W8/W9 chưa triển khai, không nhận kế hoạch là kết quả mới.
 
-### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 6/8
+### 📅 TUẦN 8: Cải tiến Bayesian ICL, validation và khóa cấu hình — IN_PROGRESS, 7/8
 [Checklist W8](week8/README.md). Tập trung posterior/retrieval và cách
 Decision sử dụng bằng chứng; tối đa hai cấu hình, một vòng development
 60 điểm có đối chứng. Khóa selection/protocol/manifest cuối tuần, kể cả
@@ -1032,6 +1032,21 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   API. Không chạy lại suite theo AGENTS.md 1.2; consumer kiểm gate hiện hành
   PASS đúng binding. **6/8 DONE**, tiếp theo **W8-07** ma trận/thống kê/manifest;
   chưa manifest/run/outcome holdout, Gate W8/W9 chưa mở.
+
+- **W8-07 DONE, 20/10/2026:** [manifest và công cụ xác nhận holdout](week8/README.md#w8-07--khóa-manifest-và-công-cụ-xác-nhận-holdout-20102026)
+  khóa đủ 64 ngày W5, 16/mã, sáu nhánh theo selection A, 384 Decision dự kiến;
+  bốn secondary, protocol/matrix/statistics/code/runtime/source/selection bind
+  trong `improvement_bound_holdout_v1`. Producer/dry-run PASS offline, không
+  tạo run hoặc gọi API. Consumer mới giữ nguyên 69 dependency development;
+  runtime dùng journal/checkpoint/HTTP audit/recovery hiện hữu, report tách
+  khỏi development, missing không thành CASH. `improvement_bootstrap_v1`
+  dùng block ngày 4, độ nhạy 2/8, 10.000 draw/PCG64/seed cố định, dựng lại tài
+  khoản, CI95%/Bonferroni và tối thiểu 9.500 draw; fixture oracle/engine PASS.
+  **Bốn gate mới PASS: compileall/E2E, 909 unit/168 leakage**, không skip;
+  13 test mới, 74 dependency/schema/fixture và 227 Python đúng bản kiểm thử.
+  QA hash/nguồn/lịch/link/diff và 3.366 file cũ nguyên byte PASS; giữ selection,
+  primary/repeat/ledger, không sửa phương pháp/ngưỡng hoặc tính kết quả holdout.
+  **7/8 DONE**, tiếp theo **W8-08** kiểm/bàn giao; chưa release/API, Gate W8/W9 chưa mở.
 
 ### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
