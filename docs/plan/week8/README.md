@@ -1,14 +1,15 @@
 # Tuần 8 — Cải tiến Bayesian ICL, validation và khóa xác nhận
 
-**Trạng thái: IN_PROGRESS, 5/8; W8-01–05 DONE, tiếp theo W8-06.**
+**Trạng thái: IN_PROGRESS, 6/8; W8-01–06 DONE, tiếp theo W8-07.**
 Kế hoạch điều chỉnh 16/10/2026; cập nhật 20/10/2026; giữ deadline 10 tuần.
 [Kế hoạch tổng](../plan.md) · [W7](../week7/README.md) · [W9](../week9/README.md)
 
 ## Mục tiêu và giới hạn
 
 Cải thiện Bayesian ICL bằng một vòng có đối chứng, tối đa **hai cấu hình
-phương pháp mới**. C2 NOT_PROMOTED là mốc nghiên cứu; Original vẫn là lựa
-chọn triển khai. Không thay selection/report/checkpoint W7. Đầu vào là Gate D
+phương pháp mới**. C2 NOT_PROMOTED/Original là mốc selection W7; selection
+development W8 đã khóa A_tp_pool PROMOTED tại W8-06, chờ xác nhận holdout.
+Không thay selection/report/checkpoint W7. Đầu vào là Gate D
 mới của W7, report 60 điểm/11 nhánh và hồ sơ nguyên nhân W7-13.
 
 Phân bổ dự kiến: 40% thời gian triển khai/kiểm offline, 35% validation và
@@ -85,7 +86,7 @@ Original, giữ query trong mẫu. Mọi cấu hình thử đều được báo,
 | W8-03 | Kiểm posterior/PIT/fallback/token/paired; bốn gate kỹ thuật; khóa plan/output development mới | 02 | [x] DONE |
 | W8-04 | Người dùng preflight/run/resume theo hướng dẫn; Decision thật trên 60 điểm, mọi nhánh chung upstream | 03 | [x] DONE — 660/660 primary, verifier report PASS |
 | W8-05 | Chạy/verify đủ mẫu lặp nối primary đã nghiệm thu; phân tích ΔR/MDD/coverage/ablation/prior-off và độ ổn định | 04 | [x] DONE — 432/432 repeat, verifier và phân tích PASS |
-| W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [ ] TODO |
+| W8-06 | Khóa selection mới và lý do; giữ ngưỡng W6-04, báo mọi cấu hình đã thử | 05 | [x] DONE — A_tp_pool PROMOTED, selector/verifier PASS |
 | W8-07 | Khóa ma trận, thống kê, manifest holdout 64 điểm; dry-run và kiểm công cụ phân tích bằng fixture | 06 | [ ] TODO |
 | W8-08 | Nghiệm thu bốn gate, hash nguồn/runtime và hướng dẫn chạy/verify/resume W9 | 07 | [ ] TODO |
 
@@ -717,6 +718,114 @@ py -3.13 -X utf8 scripts/run_improvement.py --prepare --parent outputs/bayesian_
 py -3.13 -X utf8 scripts/run_improvement.py --train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics_resilient_v1.json
 py -3.13 -X utf8 scripts/run_improvement.py --verify-train --train-report outputs/bayesian_benchmark/improvement_v1/train/diagnostics_resilient_v1.json
 ```
+
+### W8-06 — Khóa selection development, 20/10/2026
+
+**DONE.** Producer CLI `--select` đã **PASS offline**, tái dựng primary
+660/660 Decision và repeat 432/432 Decision cùng nguồn/PIT/shared/request/HTTP
+audit và report. Consumer production `read_selection` đã đọc lại artifact,
+tái tính expected bằng `selection_artifact` trên report/gate vừa được verify
+và so toàn bộ nội dung **PASS**.
+Đối chiếu số học độc lập từ metric tài khoản, common support và visibility
+khớp toàn bộ eligibility, ΔR/ΔMDD, promotion, ranking và lý do của ba ứng viên.
+Không gọi API mới; repeat chỉ là điều kiện nghiệm thu và chẩn đoán, không
+tham gia D/ranking primary.
+
+**Quyết định đã khóa:** `research_candidate=A_tp_pool`,
+`nomination_status=PROMOTED`, `deployment_choice=A_tp_pool`,
+`selection_evidence_status=DEVELOPMENT`, `risk_policy=OFF`.
+PROMOTED là đạt quy tắc đề cử development đã đăng ký, chưa phải bằng chứng
+xác nhận holdout hoặc thay cấu hình mặc định của ứng dụng. Selection W7
+vẫn giữ C2 NOT_PROMOTED/Original nguyên byte; lựa chọn W8 là artifact riêng.
+
+Đơn vị các Δ là điểm phần trăm; số dưới đây làm tròn sáu chữ số để hiển thị,
+selector dùng số gốc. D là mean đều bốn tài khoản, không là return portfolio.
+
+| Full-prior | D | Mean ΔMDD | Max ΔMDD | ΔR>0 | Visible | Eligible | Promotable |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| C2 | -0.432833 | -0.763146 | +0.000000 | 1/4 | 29/60 | Có | Không |
+| A_tp_pool | +3.065755 | -0.679482 | +0.000000 | 3/4 | 36/60 | Có | Có |
+| B_semantic | +1.454881 | +0.186613 | +0.746453 | 1/4 | 29/60 | Có | Không |
+
+Cả ba đủ 60 paired points (FPT/MWG/VCB/VNM: 12/16/16/16), metric hữu hạn,
+bốn gate kỹ thuật PASS đúng code/runtime; visible đều ≥6 và ít nhất một
+điểm mỗi mã. Visible theo FPT/MWG/VCB/VNM của C2/B là 5/7/8/9, A là 7/10/9/10.
+A đạt đủ D>0, ΔR>0 ở ≥3/4 mã, mean ΔMDD≤2 và max ΔMDD≤5. ΔR của A theo
+bốn mã là +0,000000 / +9,433012 / +1,039182 / +1,790826; FPT bằng 0 không
+được tính là mã cải thiện. C2 không đạt `POSITIVE_MEAN_RETURN` và
+`POSITIVE_AT_LEAST_3_SYMBOLS`; B không đạt `POSITIVE_AT_LEAST_3_SYMBOLS`.
+
+Giữ nguyên ngưỡng W6-04; `improvement_nomination_rules_v1` chỉ đổi version
+và tập ứng viên sang C2/A/B. Tập eligible xếp `A_tp_pool, B_semantic, C2`;
+tập promotable chỉ có `A_tp_pool`, được ưu tiên khi chọn. Tie xét trong
+1e−9 điểm phần trăm quanh D_max, rồi mean ΔMDD nhỏ hơn, rồi thứ tự cố định
+C2/A/B; lần này không có tie. Không nới ngưỡng hoặc mở vòng tối ưu thứ hai.
+Toàn bộ 11 nhánh đã thử và kết quả âm, gồm Original, Bayesian v1, ba full-prior
+và sáu ablation, vẫn báo tại [W8-05](#w8-05--nghiệm-thu-repeat-và-phân-tích-development-20102026).
+Sáu ablation không tham gia nomination, kể cả B_semantic_stats_only có D cao hơn A.
+
+**Giới hạn được giữ cùng quyết định.** Development 2023 vẫn exploratory;
+A−Original trên mẫu repeat có mean −0,169020 điểm phần trăm, A−C2 +0,405712,
+và A full−stats/full−examples đều 0 trên ba lượt. Có 16/312 cặp prior-off
+bất đồng dù cùng prompt/body canonical, cùng 2/36 cặp Original−duplicate
+bất đồng. Hai điểm A khác Original khi prior-off, MWG-2023-07-05 và
+VNM-2023-03-30, góp phần lớn vào gain primary. Vì vậy không quy toàn bộ
+D của A cho prior hoặc gọi đó là hiệu ứng thành phần đã cô lập. Giữ đầy đủ
+Q/H/LOSO, ablation T và loss train bất lợi tại W8-05; không dùng chẩn đoán
+để sửa nomination, đổi mẫu, thêm lượt lặp hoặc chọn lại theo subgroup.
+
+Artifact local bất biến:
+[`development/run/selection.json`](../../../outputs/bayesian_benchmark/improvement_v1/development/run/selection.json),
+schema `improvement_selection_v1`, namespace riêng khỏi W7. SHA-256 byte:
+`cd46ad855ccda8f95a7694e21c34e08c993f6ea110ddc38bab9db4018857b387`.
+Envelope tự kiểm hash payload; consumer tái dựng report và so toàn bộ selection,
+không tin ranking/hash tự khai. Binding kế thừa primary run signature,
+plan/protocol/registry/model/options/runtime, 52 nguồn, 69 code/schema/config,
+1.452 mục checkpoint/HTTP audit, report canonical/file và receipt bốn gate.
+Primary report giữ SHA-256
+`80f707e0f4ee62c384724085249f748e2e82cf6517ccf892ccb97b1603317314`;
+repeat report đã verify trước selection giữ SHA-256
+`db08fbb381d3837614b0cf6f00e6078c179d13f4a01d49fafb818562cf5cf9e2`.
+Selection không tự thêm binding repeat; CLI bắt buộc nối đúng primary plan/run
+và verify repeat COMPLETE. Các hash ở đây ghi nhận cả điều kiện nghiệm thu đó.
+
+Task này nghiệm thu bằng một lượt producer đầy đủ, consumer artifact và
+oracle độc lập. Vòng CLI `--verify-selection` thứ hai đã chủ động dừng vì
+lặp lại kiểm toán nguồn; không ghi là vòng đó PASS, không có lỗi integrity
+hoặc gọi API. Hash của mọi bằng chứng có trước và selection vẫn giữ nguyên.
+
+Tái lập toàn bộ từ root khi cần, không cần key hoặc gọi mạng; `--select` chỉ
+tạo mới hoặc chấp nhận lại đúng nội dung, không ghi đè quyết định khác.
+`--verify-selection` là đường CLI kiểm lại cả nguồn/report trước consumer:
+
+```powershell
+$selectionArgs = @(
+  "--plan", "outputs/bayesian_benchmark/improvement_v1/development/plan.json",
+  "--output-dir", "outputs/bayesian_benchmark/improvement_v1/development/run",
+  "--repeat-plan", "outputs/bayesian_benchmark/improvement_v1/repeats/plan.json",
+  "--repeat-dir", "outputs/bayesian_benchmark/improvement_v1/repeats/run",
+  "--technical-gates", "docs/plan/week8/validation_gates/resilient_restart_v1/technical_gates.json",
+  "--ledger", "outputs/oos_pilot/api_usage.json"
+)
+py -3.13 -X utf8 scripts/run_improvement.py --select @selectionArgs
+if ($LASTEXITCODE -ne 0) { throw "Chưa khóa được selection; dừng trước holdout." }
+py -3.13 -X utf8 scripts/run_improvement.py --verify-selection @selectionArgs
+if ($LASTEXITCODE -ne 0) { throw "Selection chưa hợp lệ; dừng trước holdout." }
+```
+
+**Kiểm tra và bàn giao.** QA hash/nguồn/số liệu/checklist/liên kết và diff PASS;
+2.862 file có trước được bảo vệ nguyên byte, gồm primary/repeat, W7, train,
+code/runtime, gate/log và ledger. Chỉ thêm selection local cùng hai Markdown;
+không đổi code/test/schema/cấu hình runtime hoặc dữ liệu đầu vào. Không chạy
+lại compileall/unit/E2E/leakage theo AGENTS.md 1.2; consumer đã kiểm receipt
+hiện hành 896 unit/167 leakage cùng compileall/E2E PASS đúng binding, không
+ghi là đã chạy lại suite. Các hợp đồng kinh tế/PIT/paired/token giữ nguyên.
+
+W8 đạt **6/8 DONE**, tiếp theo **W8-07**: ánh xạ selection A vào ma trận
+`original, bayesian, C2, A_tp_pool, A_tp_pool_stats_only, A_tp_pool_examples_only`,
+triển khai/kiểm consumer thống kê bằng fixture và khóa manifest 64 điểm.
+Đây mới là đầu vào bàn giao; chưa tạo manifest/run hoặc đọc outcome holdout,
+chưa mở Gate W8/W9. W8-08 còn nghiệm thu bốn gate và hướng dẫn vận hành.
 
 ## Protocol development và tiêu chí chọn
 
