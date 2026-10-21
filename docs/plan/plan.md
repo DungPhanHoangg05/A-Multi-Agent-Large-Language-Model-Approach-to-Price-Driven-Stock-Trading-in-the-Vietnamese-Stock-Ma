@@ -1060,7 +1060,7 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
   không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
-### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 2/6
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 3/6
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
 protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
@@ -1091,6 +1091,19 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   1.2, consumer kiểm receipt bốn gate W8-07 đúng code/runtime PASS.
   **W9 2/6 DONE**, tiếp theo **W9-03** kiểm toán semantic/PIT/P&L/support;
   chưa bootstrap/CI hoặc kết luận hiệu quả holdout, không chọn lại ứng viên.
+
+- **W9-03 DONE, 21/10/2026:** [kiểm toán semantic và consumer holdout](week9/README.md#w9-03--kiểm-toán-semantic-và-consumer-holdout-21102026)
+  CLI offline riêng sửa tương thích version report, so toàn payload với runtime
+  tái dựng; verify-report thật exit 0, receipt mới bind consumer/report/nguồn.
+  Giữ nguyên 74 dependency, plan/release/run identity và 384 Decision; 4.409
+  file khoa học/code cũ cùng ledger nguyên byte, không gọi API. G=64, không
+  missing/unknown; đối chiếu 64 chu kỳ Open(t+1)/Close(t+3), 24 tài khoản engine,
+  bốn CASH reference, 64 cutoff và 56 tham chiếu/11 prior có nhãn kinh tế đúng.
+  BRPP/prompt tối đa 441/4.511. Biên dịch hai file mới, 44 test trọng tâm PASS
+  (gồm 11 leakage), không skip; không chạy lại suite/E2E vì chỉ consumer offline,
+  không đổi runtime/P0/nguồn. Receipt bốn gate W8-07 đúng code/runtime PASS;
+  QA hash/link/diff PASS. **W9 3/6 DONE**, tiếp theo **W9-04** bootstrap/CI;
+  verify/bootstrap từ đây dùng CLI offline mới, chưa chạy CI hoặc chọn lại ứng viên.
 
 ### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
 [Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
