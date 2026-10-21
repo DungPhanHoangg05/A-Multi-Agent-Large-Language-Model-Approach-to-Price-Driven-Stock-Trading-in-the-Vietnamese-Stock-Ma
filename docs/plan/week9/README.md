@@ -1,6 +1,6 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
-**Trạng thái: IN_PROGRESS, 4/6; W9-01–04 DONE, tiếp theo W9-05; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
+**Trạng thái: IN_PROGRESS, 5/6; W9-01–05 DONE, tiếp theo W9-06; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
 ## Phạm vi và đầu vào
@@ -22,7 +22,8 @@ bốn gate kỹ thuật. [W8-08](../week8/README.md#w8-08--nghiệm-thu-và-bàn
 đã nghiệm thu và khóa release; hướng dẫn preflight/run/resume/verify/bootstrap
 ở liên kết này. W9-01 preflight PASS; W9-02 đã chạy đủ 384 Decision
 trên 64 điểm. W9-03 đã kiểm toán semantic và consumer holdout offline PASS;
-W9-04 đã khóa và verify bootstrap thật; W9 hiện 4/6 DONE, tiếp theo W9-05.
+W9-04 đã khóa và verify bootstrap thật; W9-05 đã xuất bảng/hình và phân tích
+giới hạn; W9 hiện 5/6 DONE, tiếp theo W9-06.
 Các lệnh verify/bootstrap hiện hành ở
 [phần W9-03](#w9-03--kiểm-toán-semantic-và-consumer-holdout-21102026).
 Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
@@ -99,7 +100,7 @@ không là p. Không chọn/promote lại theo holdout, kể cả secondary ho�
 | W9-02 | Chạy bốn mã/ma trận đã khóa; checkpoint, ledger, retry; một upstream/point deep-copy mọi nhánh | 01 | [x] DONE — 384/384 Decision, 64/64 điểm; snapshot/report khớp |
 | W9-03 | Verify semantic toàn run, PIT, P&L, common support, missing/unknown và checksum | 02 | [x] DONE — consumer CLI, PIT/P&L/support/checksum PASS |
 | W9-04 | Tính primary ΔR/MDD và CI theo protocol; secondary/ablation và kiểm nhiều so sánh | 03 | [x] DONE — bootstrap/verifier/oracle PASS; primary CI dương, secondary inconclusive |
-| W9-05 | Xuất bảng/biểu đồ, phân tích thất bại/coverage/prior-off và giới hạn | 04 | [ ] TODO |
+| W9-05 | Xuất bảng/biểu đồ, phân tích thất bại/coverage/prior-off và giới hạn | 04 | [x] DONE — 5 hình SVG/PNG, 12 bảng LaTeX; coverage/failure/prior-off và giới hạn đã đối soát |
 | W9-06 | Khóa dữ liệu kết quả, kiểm tái lập và bàn giao chương kết quả W10 | 05 | [ ] TODO |
 
 ## W9-01 — Kiểm điều kiện preflight, 20/10/2026
@@ -367,6 +368,127 @@ py -3.13 -X utf8 scripts/verify_improvement_holdout.py --verify-bootstrap
 và các giới hạn; W9-06 mới đóng băng bàn giao. CI điều kiện trên method và
 Decision đã lưu, không bao gồm bất định training/provider/LLM. Giữ nguyên
 kết quả âm/inconclusive và trạng thái triển khai; không chọn/promote lại bằng holdout.
+
+## W9-05 — Bảng, hình và phân tích giới hạn, 21/10/2026
+
+**DONE — xuất và kiểm lại offline PASS; W9 đạt 5/6.**
+[`export_improvement_holdout.py`](../../../scripts/export_improvement_holdout.py)
+đọc report/bootstrap/receipt đã nghiệm thu, đối chiếu nguồn, runtime, 74 dependency
+và 908 binding checkpoint/HTTP audit trước khi xuất. Không gọi API, đọc key,
+thay Decision, phép tính kinh tế, bootstrap hoặc protocol. Đủ sáu nhánh/64 điểm
+được giữ trong dữ liệu phân tích, gồm mọi ca bất lợi và nhóm không có mẫu.
+
+**Bộ tài liệu** tại [`docs/figures/holdout_v1`](../../figures/holdout_v1/):
+
+| Nội dung | Hình vector / PNG 300 DPI | Bảng LaTeX |
+| --- | --- | --- |
+| Return/MDD đủ 24 tài khoản mã × nhánh | [SVG](../../figures/holdout_v1/performance.svg) / [PNG](../../figures/holdout_v1/performance.png) | [performance.tex](../../figures/holdout_v1/performance.tex), 1 bảng |
+| Primary và bốn secondary cùng CI đã khóa | [SVG](../../figures/holdout_v1/inference.svg) / [PNG](../../figures/holdout_v1/inference.png) | [inference.tex](../../figures/holdout_v1/inference.tex), 1 bảng |
+| Readiness và visibility thực tế | [SVG](../../figures/holdout_v1/coverage.svg) / [PNG](../../figures/holdout_v1/coverage.png) | [coverage.tex](../../figures/holdout_v1/coverage.tex), 2 bảng |
+| Equity tại exit từng chu kỳ, đủ sáu nhánh/bốn mã | [SVG](../../figures/holdout_v1/equity.svg) / [PNG](../../figures/holdout_v1/equity.png) | Số liệu gốc trong analysis.json; không là mark-to-market hằng ngày |
+| Q/H, regime, leave-one-symbol-out | [SVG](../../figures/holdout_v1/diagnostics.svg) / [PNG](../../figures/holdout_v1/diagnostics.png) | [subgroups.tex](../../figures/holdout_v1/subgroups.tex), 3 bảng |
+| Prior-off, action ghép cặp, tài khoản tập con và T cùng ready | — | [attribution.tex](../../figures/holdout_v1/attribution.tex), 4 bảng |
+| Đủ bảy điểm A khác action Original | — | [disagreements.tex](../../figures/holdout_v1/disagreements.tex), 1 bảng |
+
+Sáu file `.tex` chứa **12 bảng**; dùng `booktabs`, `graphicx` và XeLaTeX
+với font Unicode có tiếng Việt. Bảng tự thu nhỏ khi vượt chiều ngang trang,
+giữ null `-- (n=0)` khác return 0. Hình equity dùng bậc thang tại ngày exit;
+các nhóm Q/H/regime tái khởi tạo tài khoản riêng, không cộng thành D toàn kỳ.
+[`analysis.json`](../../figures/holdout_v1/analysis.json) giữ số liệu chưa làm tròn,
+point/action, mẫu số, reason counts, prior-off audit và toàn bootstrap.
+[`manifest.json`](../../figures/holdout_v1/manifest.json) bind bảy nguồn, exporter
+và checksum của 18 file; `.gitattributes` cục bộ giữ nguyên byte khi checkout Git.
+Digest phân tích: `6f3a3e9854c6145f8cbc09eb97a5f6a2c78826b372ee04d70e851d1ebedfb287`.
+SHA-256 byte manifest: `ce9dafcfa038bbff12bfe1b966ea5b2e519dd0e2d67adcea56ef00dc09d1cb48`.
+
+Lệnh xuất/kiểm từ root, hoàn toàn offline:
+
+```powershell
+py -3.13 -X utf8 scripts/export_improvement_holdout.py
+py -3.13 -X utf8 scripts/export_improvement_holdout.py --check
+```
+
+Lần đầu chỉ ghi vào thư mục mới/trống. Khi bundle đã có, cả hai lệnh tái dựng
+vào thư mục tạm và đối chiếu toàn bộ byte hình/bảng/JSON, không ghi đè;
+nguồn, exporter hoặc asset đổi sẽ bị từ chối. Không xóa bản đã xuất để nhận
+thay đổi khoa học; thay đổi phương pháp cần protocol/run/version riêng.
+
+**Coverage: A tăng support nhưng phần lớn điểm vẫn prior-off.**
+
+| Nhánh (n=64) | Stats ready | Examples ready | Prior visible | Prior off | Fallback |
+| --- | --- | --- | --- | --- | --- |
+| Original | 0 | 0 | 0 | 64 | 0 |
+| Bayesian v1 | 64 | 64 | 64 | 0 | 0 |
+| C2 | 6 | 13 | 16 | 48 | 48 |
+| A full | 22 | 13 | 25 | 39 | 39 |
+| A stats | 22 | 13 | 22 | 42 | 42 |
+| A examples | 22 | 13 | 13 | 51 | 51 |
+
+A stats-ready **34,375%** so với C2 **9,375%**; visible **39,0625%** so với
+**25%**, examples-ready cùng 13/64. Readiness là base support; ablation giữ
+support đó nhưng chỉ render content mode tương ứng. Bayesian v1 dùng hợp
+đồng khác, visibility cao không tự chứng minh chất lượng. A có 10 điểm cả
+hai ready (T=10, FPT/MWG/VCB/VNM=3/3/1/3); trên T, full−stats ΔR=0 ở cả bốn
+mã, full−examples chỉ FPT=-0,189847 đpt, các mã khác 0. Đây là mô tả mẫu nhỏ;
+secondary trên toàn G vẫn INCONCLUSIVE, không xác nhận hiệu quả thành phần.
+
+A có LOW_POPULATION_SUPPORT=38, NO_QUALIFIED_EXAMPLES=35,
+NO_READY_METRICS=39, NO_VISIBLE_PRIOR_BLOCK=39, QUERY_FEATURE_UNAVAILABLE=9.
+Các reason chồng lấp, không cộng làm nhóm loại trừ nhau. Regime gồm BULL=20,
+CHOPPY=6, CONSOLIDATION=38, **BEAR=0**; A visible ở 20 BULL và 5 CHOPPY,
+không visible ở CONSOLIDATION. Không kết luận tác dụng trên BEAR từ mẫu rỗng.
+
+**Prior-off và giới hạn quy kết cơ chế:** A/Original có **39/39** cặp prior-off
+cùng hash UTF-8 prompt, cùng multiset hash JSON canonical của các HTTP 200 đã
+bind và chung upstream. Tuy vậy **2/39 cặp khác action**: MWG-2024-07-30
+(A CASH/Original LONG) và VNM-2024-01-02 (A LONG/Original CASH).
+Phép so này không khẳng định raw transport byte/header giống nhau. C2 có
+2/48, A stats 2/42, A examples 3/51 bất đồng dù request bằng; tổng **9/180**
+cặp trên bốn nhánh áp dụng. Bayesian v1 không có điểm off, mẫu số 0 là
+NO_PRIOR_OFF_SUPPORT, không là bằng chứng đồng nhất hoàn hảo.
+Temperature=0 không bảo đảm response tái lập; không suy mọi khác biệt action
+hoặc phần tăng return là do nội dung prior. Không gọi lại để chọn response.
+
+**Các ca thành công/thất bại được giữ đầy đủ:** A/Original có bảng action
+LONG/LONG=18, LONG/CASH=3, CASH/LONG=4, CASH/CASH=39. Cả bảy điểm bất đồng
+đều có net LONG âm: A tránh bốn lệnh lỗ nhưng thêm ba lệnh lỗ. Năm ca visible
+là MWG-2024-01-26, VCB-2024-02-28, FPT-2024-03-28, FPT-2024-04-02 và
+FPT-2024-08-28; hai ca còn lại là off nêu trên. MWG tránh lỗ ngay khi prior
+off là bằng chứng cụ thể cần giữ trong diễn giải. Không cộng Δcycle thành D
+do tài khoản ghép lãi/lot không tuyến tính.
+
+VNM vẫn lỗ **-6,581366%**, kém Original -6,472087%; ΔR=-0,109279 đpt và
+ΔMDD=+0,109279 đpt. Accuracy A=59,375%, Original=57,8125% chỉ mô tả, không
+có kiểm định xác nhận mới. Leave-one-symbol-out ΔR đều dương, từ 1,605169
+đến 2,736860 đpt; Q4 có ΔR=0 ở cả bốn mã. Giữ cả Q1 bất lợi FPT/MWG/VNM;
+không chọn khoảng thời gian/regime hoặc chuyển sang examples-only vì return
+đẹp hơn. Mọi secondary vẫn giữ kết luận W9-04.
+
+**Phạm vi kết luận:** primary D=+2,025325 đpt, CI95% [0,135027; 4,211864]
+hỗ trợ kết quả dương trên cohort/protocol và Decision đã lưu. CI không bao
+gồm biến thiên response/provider vừa quan sát; chưa chứng minh nhân quả của
+prior hay cơ chế Bayes trong LLM. Chỉ có bốn mã × 16 chu kỳ, 20 ngày cutoff,
+39/64 điểm A off và không BEAR nên khả năng khái quát còn hạn chế.
+Tin lịch sử reliable=**0/64** theo strict cache; không backfill tin hiện tại.
+Trace legacy **NOT_APPLICABLE=384/384**, `prior_use=null`, không chuyển thành
+NOT_USED hoặc tỷ lệ LLM dùng prior. PIT nguồn không loại trừ tri thức sau
+cutoff trong trọng số LLM; đây là backtest hồi cứu, chưa là bằng chứng live
+prospective. Giữ risk OFF, deployment mặc định và selection development;
+không chọn/promote lại theo holdout.
+
+**Kiểm tra theo AGENTS.md 1.2:** thêm exporter trình bày độc lập và test riêng;
+không sửa runtime/P0/PIT/retrieval/bootstrap/schema đã khóa. Biên dịch hai
+file mới và **7 test trọng tâm PASS, không skip**; kiểm exporter trên nguồn
+thật và tái dựng byte toàn 18 file PASS. Kiểm hình, độ phân giải và biên dịch
+12 bảng thành bản QA 7 trang, kiểm hiển thị PASS. QA số liệu/link/diff/hash;
+diff code/Markdown sạch, SVG Matplotlib giữ whitespace/newline gốc theo checksum.
+**4.413 file cũ, gồm ledger, report/bootstrap và 74 dependency, nguyên byte**.
+Không chạy lại toàn unit/E2E/compileall/leakage vì không thay đường chạy hoặc
+đường dữ liệu; receipt bốn gate W8-07 và kiểm consumer W9-03 là bằng chứng cũ
+đúng binding, không ghi thành lượt chạy mới. Không phát sinh request API.
+
+**Tiếp theo W9-06:** khóa bộ kết quả, kiểm tái lập và bàn giao W10. Chưa chốt
+Gate W9 hoặc viết chương W10 trong task này.
 
 ## Quy tắc thực thi và kết luận
 

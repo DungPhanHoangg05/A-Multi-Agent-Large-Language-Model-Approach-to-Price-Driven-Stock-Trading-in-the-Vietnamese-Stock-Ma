@@ -1060,7 +1060,7 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
   không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
-### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 4/6
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 5/6
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
 protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
@@ -1118,6 +1118,20 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   QA source/gate binding/link/diff PASS, không API. **W9 4/6 DONE**,
   tiếp theo **W9-05** bảng/hình/coverage/prior-off/giới hạn, chưa chốt W9/W10
   hoặc chọn/promote lại bằng holdout; CI điều kiện trên method/Decision đã lưu.
+
+- **W9-05 DONE, 21/10/2026:** xuất bộ versioned
+  [`docs/figures/holdout_v1`](../figures/holdout_v1/) bằng exporter offline;
+  5 hình SVG/PNG 300 DPI, 6 file LaTeX/12 bảng, analysis và manifest bind
+  nguồn/exporter/checksum, tái dựng byte PASS. Giữ đủ sáu nhánh/64 điểm,
+  primary CI dương và secondary inconclusive. A visible 25/64, stats ready
+  22/64 so với C2 16/64 và 6/64; T cùng ready chỉ 10 điểm. A có 2/39 cặp
+  prior-off cùng prompt/canonical HTTP request nhưng action khác; không quy
+  toàn bộ hiệu quả cho prior hoặc khẳng định cơ chế Bayes. Giữ đủ bảy ca
+  bất đồng, VNM bất lợi, BEAR n=0, tin reliable 0/64 và trace N/A.
+  Biên dịch hai file/7 test trọng tâm, export/check thật và QA hình/LaTeX PASS;
+  không chạy lại toàn suite theo AGENTS.md 1.2, runtime/P0 không đổi.
+  4.413 file cũ cùng ledger nguyên byte, không API. **W9 5/6 DONE**, tiếp theo
+  **W9-06** khóa/tái lập/bàn giao W10; chưa chốt Gate W9 hoặc chọn lại bằng holdout.
 
 ### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
 [Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,

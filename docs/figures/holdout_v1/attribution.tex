@@ -1,0 +1,68 @@
+\begin{table}[htbp]
+\centering
+\caption{Kiểm request prior-off với Original}
+\label{tab:holdout_prior_off}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{lrrrr}
+\toprule
+Nhánh & Off & Prompt bằng & Body bằng & Action khác dù request bằng \\
+\midrule
+Bayesian v1 & 0 & 0 & 0 & 0 \\
+C2 & 48 & 48 & 48 & 2 \\
+A (full) & 39 & 39 & 39 & 2 \\
+A (stats) & 42 & 42 & 42 & 2 \\
+A (examples) & 51 & 51 & 51 & 3 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize So UTF-8 prompt và multiset hash JSON canonical của HTTP200 thuộc attempt đã bind; không khẳng định raw byte/header. Không suy causal attribution.}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Bảng action ghép cặp: A / Original}
+\label{tab:holdout_paired}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{lrrrrr}
+\toprule
+Nhóm & n & LONG/LONG & LONG/CASH & CASH/LONG & CASH/CASH \\
+\midrule
+ALL & 64 & 18 & 3 & 4 & 39 \\
+VISIBLE & 25 & 7 & 2 & 3 & 13 \\
+OFF & 39 & 11 & 1 & 1 & 26 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize Hai ô chéo là bất đồng action. ALL=64, VISIBLE và OFF được xác định từ prefix A, không chọn theo return.}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Tài khoản mô tả trên riêng prior-off}
+\label{tab:holdout_off_accounts}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{lrrr}
+\toprule
+Mã & n off & ΔR (đpt) & ΔMDD (đpt) \\
+\midrule
+FPT & 9 & 0.000 & 0.000 \\
+MWG & 10 & 2.226 & -2.168 \\
+VCB & 10 & 0.000 & 0.000 \\
+VNM & 10 & -0.113 & 0.113 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize Tái khởi tạo vốn trong tập con; không cộng subgroup return thành primary D.}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Ablation mô tả trên T cùng stats/examples ready}
+\label{tab:holdout_both_ready}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{lrrr}
+\toprule
+Mã & n cả hai ready & Full - stats (đpt) & Full - examples (đpt) \\
+\midrule
+FPT & 3 & 0.000 & -0.190 \\
+MWG & 3 & 0.000 & 0.000 \\
+VCB & 1 & 0.000 & 0.000 \\
+VNM & 3 & 0.000 & 0.000 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize T nhỏ, không là kiểm định xác nhận mới. G đầy đủ đã dùng CI secondary theo protocol.}
+\end{table}

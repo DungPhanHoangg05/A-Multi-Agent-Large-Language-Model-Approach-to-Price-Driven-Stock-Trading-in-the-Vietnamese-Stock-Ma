@@ -1,0 +1,40 @@
+\begin{table}[htbp]
+\centering
+\caption{Coverage và readiness trên toàn G}
+\label{tab:holdout_coverage}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{lrrrrrr}
+\toprule
+Nhánh & n & Stats ready & Examples ready & Visible & Off & Fallback \\
+\midrule
+Original & 64 & 0 & 0 & 0 & 64 & 0 \\
+Bayesian v1 & 64 & 64 & 64 & 64 & 0 & 0 \\
+C2 & 64 & 6 & 13 & 16 & 48 & 48 \\
+A (full) & 64 & 22 & 13 & 25 & 39 & 39 \\
+A (stats) & 64 & 22 & 13 & 22 & 42 & 42 \\
+A (examples) & 64 & 22 & 13 & 13 & 51 & 51 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize n=64/nhánh. Ready là trạng thái support; visible là nội dung thực sự được render. Không xem visibility là prior-use.}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Đối chiếu support C2 và A trên từng mã}
+\label{tab:holdout_stock_coverage}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{llrrrr}
+\toprule
+Mã & Nhánh & Stats ready & Examples ready & Visible & Off \\
+\midrule
+FPT & C2 & 3 & 4 & 4 & 12 \\
+FPT & A (full) & 6 & 4 & 7 & 9 \\
+MWG & C2 & 3 & 3 & 6 & 10 \\
+MWG & A (full) & 6 & 3 & 6 & 10 \\
+VCB & C2 & 0 & 2 & 2 & 14 \\
+VCB & A (full) & 5 & 2 & 6 & 10 \\
+VNM & C2 & 0 & 4 & 4 & 12 \\
+VNM & A (full) & 5 & 4 & 6 & 10 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize Mẫu số 16 điểm/mã, giữ cả fallback.}
+\end{table}
