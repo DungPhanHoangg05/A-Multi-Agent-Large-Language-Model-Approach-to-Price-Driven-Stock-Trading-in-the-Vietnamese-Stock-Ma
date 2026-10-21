@@ -1,5 +1,12 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
+> **Điều chỉnh lộ trình ngày 21/10/2026:** W9 và mọi bằng chứng bên dưới giữ
+> nguyên. Theo yêu cầu mới, deadline mở lên 12 tuần: [W10](../week10/README.md)
+> triển khai revision, [W11](../week11/README.md) development/khóa xác nhận,
+> [W12](../week12/README.md) xác nhận/luận văn/bảo vệ. Các câu lịch 10 tuần
+> và task luận văn W10 bên dưới là bàn giao lịch sử; mapping mới ở W12.
+> 2024 đã xem, không dùng làm tập xác nhận revision mới.
+
 **Trạng thái: COMPLETE, 6/6 DONE; Gate W9 PASS, bàn giao W10-01.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
