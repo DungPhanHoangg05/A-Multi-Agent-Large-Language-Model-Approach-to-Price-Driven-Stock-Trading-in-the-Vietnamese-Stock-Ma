@@ -1225,19 +1225,22 @@ Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạ
 theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
 
 - **W10-01 DONE, 21/10/2026:** [audit exposure, giá và mẫu xác nhận](week10/README.md#w10-01--audit-exposure-giá-và-mẫu-xác-nhận-21102026).
-  Hoàn tất audit; **gate xác nhận 2025 BLOCKED**: exposure người tham gia/
-  ngoài workspace UNVERIFIED, giá thô/evidence/quyền được verify chỉ đến
-  2024. Archive kỹ thuật có 249 phiên 2025, lưới step3 83/mã và 79 cycle/mã
-  hoàn tất trong quý trước kiểm giá/quyền; không coi là eligible hoặc khóa
-  128 ngày. Kiểm metadata 6.028 JSON outputs và nguồn/code/lịch; chưa thấy
-  query backtest tại cutoff 2025, không suy thành chưa xem/tune. Dành namespace
-  `bic_icl_v2`, giữ 2023 development, 2024 đã xem và nguồn memory revision;
-  2025 chỉ xác nhận khi đủ gate, nếu không dùng forward sau lock hoặc giữ
-  exploratory. Archive W9 đủ 4.432 entry khớp byte, 6.636 file nguồn/bằng
-  chứng và ledger nguyên hash; QA link/diff/hash PASS, không API hoặc đổi
-  code/runtime/schema/đầu vào. Chỉ hai Markdown, không chạy lại suite theo
-  AGENTS.md 1.2. **W10 1/8 DONE**, tiếp theo **W10-02**, chưa có gate kỹ thuật
-  revision mới hoặc manifest xác nhận.
+  Audit ban đầu tại `65fa4ca`; bổ sung công cụ sau yêu cầu người dùng:
+  `scripts/audit_bic_icl_inputs.py` tải/verify giá thô công khai, nối prefix
+  2018–2024 nguyên byte vào snapshot mới, thêm 249 nến 2025/mã. File quyền
+  cũ đã chứa 2025; giữ nguyên byte, đối chiếu tám mẫu VCI/KBS và Reference.
+  **Giá/lịch PASS**, đủ 128 điểm mã–ngày/41 cutoff, tám/mã/quý theo rule đã đăng ký, không đọc
+  payoff để chọn. Audit `bic_icl_v2_input_audit_v1` bind nguồn/code/lịch và
+  khai báo exposure, CLI build/verify riêng, không sửa namespace/runtime W9.
+  **Xác nhận 2025 vẫn BLOCKED do exposure**: người dùng trả lời không chắc/
+  không thể xác minh; quyền thực hiện không chứng minh chưa xem/tune.
+  Giữ 2023 development, 2024 đã xem và nguồn memory revision; 2025 chỉ xác
+  nhận khi đủ gate, nếu không dùng forward sau lock hoặc giữ exploratory.
+  Compileall/E2E, **937 unit/180 leakage PASS**, không skip; multiset ID của
+  hai suite khớp discovery, gồm 12 test mới. CLI verify thật, oracle lịch/rank,
+  hash/link/diff PASS; 6.636 file cũ, archive W9 4.432 entry và ledger nguyên
+  byte. Không gọi LLM hoặc tính nhãn. **W10 1/8 DONE**,
+  tiếp theo **W10-02**, chưa có runtime Decision hoặc release xác nhận mới.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
