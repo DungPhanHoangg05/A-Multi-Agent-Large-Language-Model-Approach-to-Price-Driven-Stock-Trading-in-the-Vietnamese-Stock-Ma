@@ -1,6 +1,6 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
-**Trạng thái: IN_PROGRESS, 5/6; W9-01–05 DONE, tiếp theo W9-06; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
+**Trạng thái: COMPLETE, 6/6 DONE; Gate W9 PASS, bàn giao W10-01.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
 ## Phạm vi và đầu vào
@@ -23,7 +23,8 @@ bốn gate kỹ thuật. [W8-08](../week8/README.md#w8-08--nghiệm-thu-và-bàn
 ở liên kết này. W9-01 preflight PASS; W9-02 đã chạy đủ 384 Decision
 trên 64 điểm. W9-03 đã kiểm toán semantic và consumer holdout offline PASS;
 W9-04 đã khóa và verify bootstrap thật; W9-05 đã xuất bảng/hình và phân tích
-giới hạn; W9 hiện 5/6 DONE, tiếp theo W9-06.
+giới hạn; W9-06 đã khóa bản lưu trữ và kiểm tái lập. W9 COMPLETE 6/6,
+Gate W9 PASS; W10 nhận bàn giao, vẫn 0/5 TODO.
 Các lệnh verify/bootstrap hiện hành ở
 [phần W9-03](#w9-03--kiểm-toán-semantic-và-consumer-holdout-21102026).
 Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
@@ -41,7 +42,8 @@ thuận lợi. Selection/registry/protocol và danh sách ID/thứ tự thực t
 bind vào manifest trước preflight/API; manifest W8-07 đã lưu đủ các binding.
 CLI `scripts/run_improvement_holdout.py` chặn online khi chưa có receipt
 `improvement_holdout_release_v1` hợp lệ từ bàn giao W8-08. Release đã khóa,
-Gate W8 PASS; người dùng có thể bắt đầu W9-01 theo hướng dẫn đã bàn giao.
+Gate W8 PASS; chuỗi preflight/run/verify W9 đã hoàn tất. Các lệnh online ở
+phần lịch sử phục vụ đối soát; bàn giao W10 chỉ dùng kiểm offline bên dưới.
 
 **Estimand chính:** D=(1/4)Σ_s(R_selected,s−R_original,s), đơn vị điểm
 phần trăm, R là return tài khoản từ vốn đầu 50 triệu trên lịch của từng mã,
@@ -101,7 +103,7 @@ không là p. Không chọn/promote lại theo holdout, kể cả secondary ho�
 | W9-03 | Verify semantic toàn run, PIT, P&L, common support, missing/unknown và checksum | 02 | [x] DONE — consumer CLI, PIT/P&L/support/checksum PASS |
 | W9-04 | Tính primary ΔR/MDD và CI theo protocol; secondary/ablation và kiểm nhiều so sánh | 03 | [x] DONE — bootstrap/verifier/oracle PASS; primary CI dương, secondary inconclusive |
 | W9-05 | Xuất bảng/biểu đồ, phân tích thất bại/coverage/prior-off và giới hạn | 04 | [x] DONE — 5 hình SVG/PNG, 12 bảng LaTeX; coverage/failure/prior-off và giới hạn đã đối soát |
-| W9-06 | Khóa dữ liệu kết quả, kiểm tái lập và bàn giao chương kết quả W10 | 05 | [ ] TODO |
+| W9-06 | Khóa dữ liệu kết quả, kiểm tái lập và bàn giao chương kết quả W10 | 05 | [x] DONE — bản đóng băng 4.432 file; report/bootstrap/publication tái kiểm PASS; bàn giao W10 |
 
 ## W9-01 — Kiểm điều kiện preflight, 20/10/2026
 
@@ -490,6 +492,95 @@ Không chạy lại toàn unit/E2E/compileall/leakage vì không thay đường 
 **Tiếp theo W9-06:** khóa bộ kết quả, kiểm tái lập và bàn giao W10. Chưa chốt
 Gate W9 hoặc viết chương W10 trong task này.
 
+## W9-06 — Khóa kết quả, tái lập và bàn giao, 21/10/2026
+
+**DONE — W9 COMPLETE 6/6, Gate W9 PASS.** Đủ common support G=64, 16/mã,
+sáu nhánh/384 Decision, không missing/unknown; report semantic/PIT/P&L,
+bootstrap đã đăng ký và toàn bộ bảng/hình được kiểm lại bằng CLI sản xuất.
+Không thêm lượt LLM, chọn cấu hình, đổi selection hoặc thay method sau outcome.
+
+**Bản đóng băng nguyên byte:**
+[`frozen_results_v1.zip`](../../../outputs/bayesian_benchmark/improvement_v1/holdout/frozen_results_v1.zip)
+giữ **4.432 file**, tổng gốc 396.706.885 byte, ZIP **64.258.053 byte**.
+SHA-256 byte: `1db2024a3a338cadcf72692287471f8a14feba49ce8a1b1a488b951896cfec70`.
+Đã đọc lại từng entry, đối chiếu SHA-256 với nguồn trước đóng gói, đủ tên và
+không trùng/thiếu; toàn bộ 4.432 file nguồn/bằng chứng cũng giữ nguyên byte
+sau kiểm tái lập. Archive tạo mới, không ghi đè hay di chuyển run gốc.
+
+Bản lưu trữ gồm nguồn/code/test/cấu hình đã có tại mốc Git **`cc16e7c`**,
+bằng chứng development/repeat và holdout, ledger 3.036 request, plan/release,
+receipt gate/verification, checkpoint/response/HTTP cache, bootstrap cùng
+19 file publication. Không chứa `.env*`, Git history hoặc metadata khóa OS/
+recovery tạm; ba README kế hoạch tổng/W9/W10 được quản lý tiếp bằng Git.
+Không tạo thêm receipt task lặp lại; checksum và danh mục bàn giao giữ tại đây.
+
+| Thành phần khóa | SHA-256 byte / nơi tra cứu |
+| --- | --- |
+| [Plan](../../../outputs/bayesian_benchmark/improvement_v1/holdout/plan.json) | `6b6760768fe98731e64e1e518ffbc351db29a41397f46bfad0d3a19d96956944` |
+| [Report](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/report.json) | `0a926be1e6da2803d56dd7a572a4d3eae7b8863cc3fcd02eea111df35cd7c23f` |
+| [Verification](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/verification.json) | `9bb0868740de59972e3183f2e3c449b3f7cd81d559f7598c910ed020681db498` |
+| [Bootstrap](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/bootstrap.json) | `78ae445037f68fa0f8cca4638dc7bc3e7c24efb2854539e078478e46db919e57` |
+| [Ledger](../../../outputs/oos_pilot/api_usage.json) | `a2eb11168a2a293a7b8f8db7dd12887792817605f4e74736efd76308b9907c35` |
+| [Publication manifest](../../figures/holdout_v1/manifest.json) | `ce9dafcfa038bbff12bfe1b966ea5b2e519dd0e2d67adcea56ef00dc09d1cb48` |
+
+Run signature giữ `45e0637eb572921932179147103e0bf3ef94d74a1d9428cf97b7e8f0aa59de6c`.
+Consumer verification LF hash `8143fd2f67818f41764c42a3078bfb6d7f280bbce59e5bfe0279c200a3353b57`;
+exporter LF hash `206b1a06abf723522d061500e48e272246511dafaa4e9ba0e5372de2f33f0fe4`.
+Plan/receipt tiếp tục khóa 74 dependency, Python **3.13.5** và 22 package
+đúng phiên bản; không cập nhật hash cũ để nhận môi trường khác.
+
+**Tái kiểm mới tại W9-06, cả ba lệnh exit 0:**
+
+1. `--verify-report`: tái dựng report từ nguồn/PIT/shared/checkpoint/HTTP audit,
+   engine và common support, đối chiếu toàn payload cùng receipt W9-03.
+2. `--verify-bootstrap`: tái dựng bootstrap L=4/2/8 từ report vừa kiểm, so toàn
+   artifact, RNG/mask/count hash và CI; mỗi L giữ 10.000 valid/0 invalid.
+3. Exporter `--check`: tái dựng analysis, 5 hình SVG/PNG và 12 bảng trong thư
+   mục tạm; khớp byte cả 18 file đã bind và identity nguồn/exporter.
+
+Đây là tái lập offline từ Decision đã lưu; không là tái lập response khi gọi
+lại nhà cung cấp. Report/bootstrap/publication manifest và ledger nguyên byte.
+Các log tạm của lượt kiểm không thay bằng chứng đã khóa hoặc thêm receipt tuần.
+
+**Lệnh kiểm bàn giao tại workspace hiện tại (PowerShell, không cần key):**
+
+```powershell
+$holdoutArchive = 'outputs/bayesian_benchmark/improvement_v1/holdout/frozen_results_v1.zip'
+$holdoutArchiveHash = (Get-FileHash -LiteralPath $holdoutArchive -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($holdoutArchiveHash -ne '1db2024a3a338cadcf72692287471f8a14feba49ce8a1b1a488b951896cfec70') { throw 'Bản đóng băng khác checksum bàn giao' }
+py -3.13 -X utf8 scripts/verify_improvement_holdout.py --verify-report
+py -3.13 -X utf8 scripts/verify_improvement_holdout.py --verify-bootstrap
+py -3.13 -X utf8 scripts/export_improvement_holdout.py --check
+```
+
+Archive và run/ledger thuộc thư mục **ignored**, cần giữ/sao lưu cùng workspace;
+chỉ clone Git không đủ. Publication nằm trong Git. Giữ đường dẫn ledger/run
+đã bind, nguồn và cache tokenizer cùng runtime; chuyển máy/đường dẫn phải
+đối soát identity, không sửa manifest để vượt kiểm tra. Không giải nén đè lên
+nguồn/code đang dùng; kiểm checksum trước khi phục hồi vào vùng riêng. Bản
+lưu trữ này chưa thay việc nghiệm thu cài đặt/tái lập mã bàn giao tại W10-03.
+
+**Bàn giao nội dung W10:**
+
+| Đầu vào | Phần W10 sử dụng | Ràng buộc khi viết |
+| --- | --- | --- |
+| [Protocol thống kê](#protocol-thống-kê-đã-khóa-tại-w7-14), [selection development](../week8/README.md#w8-06--khóa-selection-development-20102026) | W10-01 phương pháp; W10-02 tách development 2023 và holdout 2024 | Không dùng holdout chọn/promote lại hoặc gọi LLM thực hiện Bayes hiệu chuẩn |
+| [Kết quả và CI](#w9-04--bootstrap-và-kết-quả-thống-kê-holdout-21102026), [catalog bảng/hình](#w9-05--bảng-hình-và-phân-tích-giới-hạn-21102026) | W10-02 chương kết quả; W10-04 định dạng/slide | D=+2,025325 đpt, CI95% [0,135027; 4,211864]; cả bốn secondary inconclusive, VNM bất lợi |
+| Phân tích prior-off/coverage và giới hạn W9-05 | W10-02 thảo luận; W10-05 phản biện | 2/39 request prior-off giống nhưng action khác; BEAR=0, tin reliable=0/64, trace N/A; không suy nhân quả/cơ chế hoặc hiệu quả live |
+| Archive/checksum và ba lệnh offline ở trên | W10-03 tái lập | Giữ bằng chứng cũ, phân biệt verify saved Decision với chạy LLM mới; bốn gate mã bàn giao thuộc W10-03 |
+
+Theo AGENTS.md 1.2, W9-06 chỉ cập nhật ba Markdown và lưu nguyên byte bằng
+chứng hiện có, không sửa code/test/runtime/schema/đầu vào. Không chạy lại
+compileall/unit/E2E/leakage suite; kiểm source/hash/runtime, receipt bốn gate
+W8-07 đúng binding (909 unit/168 leakage, compileall/E2E) là bằng chứng cũ,
+không ghi thành gate vừa chạy. Consumer W9-03 và 7 test exporter W9-05 giữ
+nguyên; kiểm CLI/bundle thật, số liệu/liên kết/diff PASS. Gate W9 PASS xác nhận
+đủ dữ liệu/kiểm toán/phân tích/bàn giao, không xác nhận mọi secondary, causal
+attribution hoặc cho phép đổi deployment/risk OFF.
+
+**Tiếp theo W10-01; W10 vẫn TODO 0/5.** Người dùng không cần chạy thêm API
+để hoàn tất W9.
+
 ## Quy tắc thực thi và kết luận
 
 LONG Open(t+1)→Close(t+3), SHORT=CASH, phí 0,25% và trượt giá 0,10% mỗi
@@ -513,7 +604,8 @@ không tự annualize bằng √252. Phân tích calibration chỉ khi có xác 
 sự kiện hợp lệ. Không đủ lực kiểm định thì báo inconclusive.
 
 So sánh ứng viên với Original là primary; C2/v1 và ablation là secondary.
-Báo cả mã/regime bất lợi, prior-off, readiness và trace NOT_USED; không suy
+Báo cả mã/regime bất lợi, prior-off, readiness và trạng thái trace nguyên bản
+(holdout legacy là NOT_APPLICABLE, không gán NOT_USED); không suy
 trace thành cơ chế Bayes trong LLM. Giữ các giới hạn BEAR=0/tin reliable=0
 và FPT thiếu mẫu ở development nếu vẫn đúng; không giả định holdout có
 coverage tương tự trước khi đo. Nêu hạn chế PIT hồi cứu và kiến thức LLM.
