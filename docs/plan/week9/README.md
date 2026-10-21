@@ -1,6 +1,6 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
-**Trạng thái: IN_PROGRESS, 1/6; W9-01 DONE, tiếp theo W9-02; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 20/10/2026.
+**Trạng thái: IN_PROGRESS, 2/6; W9-01–02 DONE, tiếp theo W9-03; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
 ## Phạm vi và đầu vào
@@ -20,8 +20,8 @@ mới trong tuần này; người dùng tự thực hiện preflight/API theo CL
 đã khóa manifest `improvement_bound_holdout_v1`, consumer bootstrap/fixture và
 bốn gate kỹ thuật. [W8-08](../week8/README.md#w8-08--nghiệm-thu-và-bàn-giao-holdout-20102026)
 đã nghiệm thu và khóa release; hướng dẫn preflight/run/resume/verify/bootstrap
-ở liên kết này. W9-01 đã kiểm offline và nghiệm thu preflight thật PASS;
-chưa tạo run holdout, W9 hiện 1/6 DONE, tiếp theo W9-02.
+ở liên kết này. W9-01 preflight PASS; W9-02 đã chạy đủ 384 Decision
+trên 64 điểm và nghiệm thu report offline PASS. W9 hiện 2/6 DONE, tiếp theo W9-03.
 Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
 Ma trận xác nhận gồm `original, bayesian, C2, selected_full,
 selected_stats_only, selected_examples_only`; ánh xạ selected bằng selection
@@ -93,7 +93,7 @@ không là p. Không chọn/promote lại theo holdout, kể cả secondary ho�
 | Task | Công việc và điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
 | W9-01 | Kiểm manifest, môi trường và nguồn; preflight đúng model/options; khóa run identity | W8 PASS | [x] DONE — offline/identity và preflight text/vision PASS |
-| W9-02 | Chạy bốn mã/ma trận đã khóa; checkpoint, ledger, retry; một upstream/point deep-copy mọi nhánh | 01 | [ ] TODO |
+| W9-02 | Chạy bốn mã/ma trận đã khóa; checkpoint, ledger, retry; một upstream/point deep-copy mọi nhánh | 01 | [x] DONE — 384/384 Decision, 64/64 điểm; snapshot/report khớp |
 | W9-03 | Verify semantic toàn run, PIT, P&L, common support, missing/unknown và checksum | 02 | [ ] TODO |
 | W9-04 | Tính primary ΔR/MDD và CI theo protocol; secondary/ablation và kiểm nhiều so sánh | 03 | [ ] TODO |
 | W9-05 | Xuất bảng/biểu đồ, phân tích thất bại/coverage/prior-off và giới hạn | 04 | [ ] TODO |
@@ -155,6 +155,54 @@ receipt W8-07 PASS đúng bản: compileall/E2E, 909 unit/168 leakage, không sk
 đây là kết quả đã chạy trước, không phải chạy lại W9. QA hash/link/diff và
 3.382 file đã bảo vệ nguyên byte, gồm ledger sau preflight; nghiệm thu không
 gọi thêm API hoặc thay dữ liệu khoa học.
+
+## W9-02 — Nghiệm thu thực thi holdout, 21/10/2026
+
+**DONE — người dùng chạy đủ 384/384 Decision**, 64/64 điểm, sáu nhánh theo
+manifest; FPT/MWG/VCB/VNM mỗi mã 16 điểm × 6 nhánh = 96 Decision. Report
+`improvement_holdout_report_v1` có `primary_status=COMPLETE`, common support
+G=64, 16/mã, `repeat_id=0`; mọi slot đã complete, không còn planned/unknown.
+Ma trận giữ `original, bayesian, C2, A_tp_pool, A_tp_pool_stats_only,
+A_tp_pool_examples_only`, risk OFF; không phát sinh cấu hình hoặc lượt lặp mới.
+
+Journal có **64/64 complete** ở từng stage indicator, pattern, trend và full;
+mỗi stage/point và mỗi Decision/slot chỉ có **một attempt khoa học**. Upstream
+được dùng chung cho các nhánh qua cùng shared proof; HTTP retry/fallback thuộc
+attempt hiện hữu, không tính là lượt lặp nghiên cứu. Prompt Decision tối đa
+**4.511 ký tự**, dưới ngưỡng 6.500.
+
+Runtime đã khóa tái dựng toàn report từ source/PIT/scaler, shared,
+evidence/prompt/request, checkpoint/raw response và HTTP audit. Đối chiếu
+độc lập bằng `read_envelope` và digest toàn payload, nhận đúng version
+`improvement_holdout_report_v1`, **PASS offline** với transport chặn mạng;
+không chạy lại LLM. Report bind **51 nguồn,
+74 dependency/schema/fixture, runtime và 908 mục checkpoint/HTTP audit**.
+Run signature khớp digest dự kiến W9-01:
+`45e0637eb572921932179147103e0bf3ef94d74a1d9428cf97b7e8f0aa59de6c`.
+[Report local](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/report.json)
+SHA-256 byte: `0a926be1e6da2803d56dd7a572a4d3eae7b8863cc3fcd02eea111df35cd7c23f`.
+Digest payload khớp bản tái dựng: `5ba544abbd07b55f45dfd263d34687c41aac3d74c056e900f8d26d230f893aa4`.
+
+**Lỗi consumer CLI cần xử lý ở W9-03:** lệnh `--verify-report` nguyên bản
+exit 1 ở `core/improvement_reports.py:172`: whitelist chỉ nhận report
+development/repeat, chưa nhận version holdout. Không ghi lệnh này là PASS.
+Lượt đối chiếu độc lập dùng nguyên runtime đã khóa, thay đúng bước đọc cuối
+bằng kiểm envelope/version holdout và digest toàn payload; payload khớp bản
+tái dựng. Giữ nguyên code/manifest/release/run. Trước verify/bootstrap tiếp,
+W9-03 phải xử lý tương thích consumer và kiểm lại; không bỏ qua guard hoặc
+sửa checksum/report để ép PASS.
+
+QA số lượng/lịch/identity/hash/link/diff PASS; **4.409 file khoa học/nguồn/code
+được bảo vệ nguyên byte**, gồm report, checkpoint, ledger và bằng chứng cũ.
+Chỉ cập nhật hai Markdown; không đổi code/test/runtime/schema/đầu vào, không
+chạy lại compileall/unit/E2E/leakage theo AGENTS.md mục 1.2. Consumer receipt
+bốn gate W8-07 PASS đúng binding (compileall/E2E, 909 unit/168 leakage);
+đây là kết quả đã chạy ở W8-07, không phải chạy lại trong W9-02.
+
+**W9 đạt 2/6 DONE, tiếp theo W9-03** kiểm toán semantic/PIT/P&L/common support,
+missing và checksum. Chưa chốt W9-03 hoặc tạo bootstrap/CI W9-04, chưa kết luận
+hiệu quả hay chọn/promote lại bằng holdout. Người dùng không cần gọi API thêm
+để chốt W9-02; giữ nguyên toàn bộ run để đối soát/phân tích tiếp.
 
 ## Quy tắc thực thi và kết luận
 

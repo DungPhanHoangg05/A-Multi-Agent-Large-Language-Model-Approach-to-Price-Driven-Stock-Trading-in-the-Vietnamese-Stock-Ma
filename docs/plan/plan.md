@@ -1060,7 +1060,7 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
   không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
-### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 1/6
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 2/6
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
 protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
@@ -1076,6 +1076,21 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   chỉ tài liệu, không chạy lại suite theo AGENTS.md 1.2, consumer kiểm bốn
   gate W8-07 đúng code/runtime PASS. **W9 1/6 DONE**, tiếp theo **W9-02**
   chạy 64 điểm/sáu nhánh, 384 Decision; chưa tạo run hoặc tính kết quả holdout.
+
+- **W9-02 DONE, 21/10/2026:** [nghiệm thu thực thi holdout](week9/README.md#w9-02--nghiệm-thu-thực-thi-holdout-21102026)
+  đủ 384/384 Decision, 64/64 điểm, sáu nhánh, 16 điểm/96 Decision mỗi mã;
+  report COMPLETE, G=64, repeat_id=0, không planned/unknown. Bốn stage
+  upstream complete 64/64, một attempt khoa học mỗi stage/slot, dùng shared
+  chung mọi nhánh; prompt tối đa 4.511 ký tự. Runtime tái dựng snapshot offline;
+  consumer envelope/version holdout/digest độc lập khớp toàn payload report,
+  không gọi thêm API. CLI nguyên bản exit 1 do whitelist chỉ nhận version
+  development/repeat; W9-03 cần xử lý trước verify/bootstrap, không ghi CLI PASS.
+  Run signature khớp W9-01, report bind 51 nguồn/74 dependency,
+  runtime và 908 mục checkpoint/audit; 4.409 file được bảo vệ nguyên byte.
+  QA hash/link/diff PASS; chỉ hai Markdown, không chạy lại suite theo AGENTS.md
+  1.2, consumer kiểm receipt bốn gate W8-07 đúng code/runtime PASS.
+  **W9 2/6 DONE**, tiếp theo **W9-03** kiểm toán semantic/PIT/P&L/support;
+  chưa bootstrap/CI hoặc kết luận hiệu quả holdout, không chọn lại ứng viên.
 
 ### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
 [Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
