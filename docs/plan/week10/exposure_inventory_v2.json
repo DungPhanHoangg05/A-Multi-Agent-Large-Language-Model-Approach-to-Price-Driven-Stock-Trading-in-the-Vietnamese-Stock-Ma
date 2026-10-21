@@ -1,0 +1,20 @@
+{
+  "version": "bic_icl_v2_exposure_inventory_v2",
+  "date": "2026-10-21",
+  "status": "PASS",
+  "basis": "PARTICIPANT_DECLARATION_AND_LOCAL_INVENTORY",
+  "participant_declaration": "Xác nhận kết quả 2025 chưa được dùng để lựa chọn hoặc điều chỉnh phương pháp.",
+  "outcome_used_for_method_selection": false,
+  "outcome_used_for_method_adjustment": false,
+  "unseen_outcomes_proven": false,
+  "confirmation_allowed": false,
+  "previous_declaration": {
+    "path": "docs/plan/week10/exposure_inventory_v1.json",
+    "sha256": "dab0fb20fd00af00afd06527ca6f6b943424585565f4e0a99cba578fda16dd60"
+  },
+  "inventory_review": {
+    "path": "outputs/bayesian_benchmark/bic_icl_v2/exposure_review_v2.json",
+    "sha256": "233401b3cb7d1116197bd1480d48070d4da65581ac477836a8227f37454645aa"
+  },
+  "interpretation": "Làm rõ khai báo trước: người dùng xác nhận không dùng outcome 2025 để lựa chọn hoặc điều chỉnh phương pháp; snapshot 6.033 JSON local không có ngày query 2025. PASS trong phạm vi khai báo và inventory đã rà soát, không chứng minh outcome chưa từng được xem hoặc kiểm toán toàn bộ hoạt động ngoài workspace. Chạy xác nhận vẫn cần protocol, ứng viên đủ điều kiện và release."
+}
