@@ -1,6 +1,6 @@
 # Tuần 9 — Benchmark holdout và phân tích thống kê
 
-**Trạng thái: IN_PROGRESS, 3/6; W9-01–03 DONE, tiếp theo W9-04; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
+**Trạng thái: IN_PROGRESS, 4/6; W9-01–04 DONE, tiếp theo W9-05; Gate W8 PASS.** Giữ deadline 10 tuần; cập nhật 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W8](../week8/README.md) · [W10](../week10/README.md)
 
 ## Phạm vi và đầu vào
@@ -22,7 +22,8 @@ bốn gate kỹ thuật. [W8-08](../week8/README.md#w8-08--nghiệm-thu-và-bàn
 đã nghiệm thu và khóa release; hướng dẫn preflight/run/resume/verify/bootstrap
 ở liên kết này. W9-01 preflight PASS; W9-02 đã chạy đủ 384 Decision
 trên 64 điểm. W9-03 đã kiểm toán semantic và consumer holdout offline PASS;
-W9 hiện 3/6 DONE, tiếp theo W9-04. Các lệnh verify/bootstrap hiện hành ở
+W9-04 đã khóa và verify bootstrap thật; W9 hiện 4/6 DONE, tiếp theo W9-05.
+Các lệnh verify/bootstrap hiện hành ở
 [phần W9-03](#w9-03--kiểm-toán-semantic-và-consumer-holdout-21102026).
 Giữ đủ **64 point ID/ngày W5, 16/mã**, không chọn lại theo regime/outcome.
 Ma trận xác nhận gồm `original, bayesian, C2, selected_full,
@@ -97,7 +98,7 @@ không là p. Không chọn/promote lại theo holdout, kể cả secondary ho�
 | W9-01 | Kiểm manifest, môi trường và nguồn; preflight đúng model/options; khóa run identity | W8 PASS | [x] DONE — offline/identity và preflight text/vision PASS |
 | W9-02 | Chạy bốn mã/ma trận đã khóa; checkpoint, ledger, retry; một upstream/point deep-copy mọi nhánh | 01 | [x] DONE — 384/384 Decision, 64/64 điểm; snapshot/report khớp |
 | W9-03 | Verify semantic toàn run, PIT, P&L, common support, missing/unknown và checksum | 02 | [x] DONE — consumer CLI, PIT/P&L/support/checksum PASS |
-| W9-04 | Tính primary ΔR/MDD và CI theo protocol; secondary/ablation và kiểm nhiều so sánh | 03 | [ ] TODO |
+| W9-04 | Tính primary ΔR/MDD và CI theo protocol; secondary/ablation và kiểm nhiều so sánh | 03 | [x] DONE — bootstrap/verifier/oracle PASS; primary CI dương, secondary inconclusive |
 | W9-05 | Xuất bảng/biểu đồ, phân tích thất bại/coverage/prior-off và giới hạn | 04 | [ ] TODO |
 | W9-06 | Khóa dữ liệu kết quả, kiểm tái lập và bàn giao chương kết quả W10 | 05 | [ ] TODO |
 
@@ -273,6 +274,99 @@ py -3.13 -X utf8 scripts/verify_improvement_holdout.py --verify-bootstrap
 Hai lệnh sau chưa chạy trên holdout thật ở W9-03; fixture đã kiểm định tuyến
 và guard receipt. Chưa có bootstrap/CI hoặc kết luận hiệu quả holdout; không
 chọn/promote lại ứng viên. Không cần chạy thêm API hoặc phát lại Decision.
+
+## W9-04 — Bootstrap và kết quả thống kê holdout, 21/10/2026
+
+**DONE — W9 đạt 4/6.** CLI offline `--bootstrap` tạo artifact thật và
+`--verify-bootstrap` tái dựng/so toàn artifact **đều exit 0**. Status
+`COMPLETE`, evidence `HOLDOUT_NOT_FOR_SELECTION`; 64 điểm/6 nhánh, **20 cụm
+ngày cutoff**, không thay selection/model/ngưỡng/protocol hoặc phát lại LLM.
+
+**Protocol giữ nguyên:** circular moving-block bootstrap L=4, sensitivity
+L=2/8; PCG64 seed=20261016, 10.000 draw mỗi L, cùng chuỗi index cho mọi mã,
+nhánh và contrast. Tái dựng tài khoản 50 triệu theo thứ tự mẫu, cổ phiếu lẻ,
+phí/slippage hai chiều, SHORT=CASH. Percentile linear, primary CI95%; bốn
+secondary dùng CI Bonferroni **98,75% mỗi contrast**. Không dùng độ nhạy để
+chọn lại L; không đổi primary hoặc gộp các family sau outcome.
+
+**Primary A_tp_pool−Original:** D=**+2,025325 điểm phần trăm**,
+CI95% L=4 **[0,135027; 4,211864]**, **POSITIVE**. CI hoàn toàn >0 hỗ trợ
+hiệu ứng dương của cấu hình/Decision đã lưu trên cohort/protocol này. D là
+trung bình đều chênh return bốn tài khoản, không là return portfolio, không
+chứng minh cơ chế Bayes trong LLM hoặc bảo đảm kết quả triển khai tương lai.
+
+| Mã | R Original (%) | R A (%) | ΔR (đpt) | MDD Original (%) | MDD A (%) | ΔMDD (đpt) |
+| --- | --- | --- | --- | --- | --- | --- |
+| FPT | -0,428487 | 2,760508 | +3,188995 | 2,750320 | 1,067261 | -1,683060 |
+| MWG | 1,935669 | 3,671459 | +1,735789 | 5,896955 | 3,729338 | -2,167616 |
+| VCB | -1,176592 | 2,109204 | +3,285796 | 4,932028 | 1,771097 | -3,160931 |
+| VNM | -6,472087 | -6,581366 | -0,109279 | 6,472087 | 6,581366 | +0,109279 |
+
+ΔR dương ở 3/4 mã; **VNM vẫn bất lợi**. Mean ΔMDD=
+**-1,725582**, max ΔMDD=**+0,109279** điểm phần trăm;
+ΔMDD>0 là rủi ro tăng. MDD là mô tả theo protocol, không có CI MDD đăng ký.
+
+**Bốn secondary, L=4; mọi CI chạm/cắt 0 nên chưa có xác nhận sau hiệu chỉnh:**
+
+| Contrast | Point estimate (đpt) | CI98,75% Bonferroni (đpt) | Kết luận |
+| --- | --- | --- | --- |
+| A−C2 | +1,771525 | [-0,188367; 3,709173] | INCONCLUSIVE |
+| A−Bayesian v1 | +2,396920 | [-0,557630; 5,452664] | INCONCLUSIVE |
+| A full−stats-only | +0,895340 | [0,000000; 2,495990] | INCONCLUSIVE |
+| A full−examples-only | -0,113927 | [-1,571356; 0,971189] | INCONCLUSIVE |
+
+Không kết luận A vượt C2/v1 hoặc xác nhận riêng thành phần stats/examples;
+CI full−stats-only có cận dưới đúng 0. Không diễn giải inconclusive thành
+hai phương pháp tương đương hoặc không có hiệu ứng.
+
+**Số draw và độ nhạy:** cả ba L đủ **10.000/10.000 hợp lệ**, không thiếu mã,
+không metric nonfinite, không sinh bù draw; vượt yêu cầu tối thiểu 9.500.
+
+| L | Vai trò | Draw hợp lệ / invalid | CI95% A−Original (đpt) | Kết luận |
+| --- | --- | --- | --- | --- |
+| 4 | Primary | 10.000 / 0 | [0,135027; 4,211864] | POSITIVE |
+| 2 | Sensitivity | 10.000 / 0 | [0,244409; 4,007282] | POSITIVE |
+| 8 | Sensitivity | 10.000 / 0 | [0,509659; 3,523131] | POSITIVE |
+
+Số chu kỳ mỗi mã được giữ theo các cụm thực tế, không ép 16 hoặc tạo point
+cho mã vắng. Dưới đây là min–max (mean); histogram đầy đủ ở artifact:
+
+| L | FPT | MWG | VCB | VNM |
+| --- | --- | --- | --- | --- |
+| 4 | 11–20 (15,9683) | 10–20 (15,9884) | 11–20 (15,9785) | 11–20 (15,9957) |
+| 2 | 10–20 (16,0080) | 10–20 (16,0047) | 10–20 (16,0102) | 10–20 (16,0224) |
+| 8 | 12–20 (15,9821) | 12–20 (15,9823) | 12–20 (15,9807) | 12–20 (15,9917) |
+
+**QA thống kê PASS:** oracle độc lập tạo từng block/draw theo protocol,
+tính tài khoản bằng tích hệ số net LONG/CASH, kiểm đủ 30.000 draw. Index hash,
+valid-mask hash, min/max/mean/histogram count từng mã khớp chính xác; point
+estimate và mọi CI khớp, sai số cận CI tối đa **4.874e-14 đpt**.
+Consumer sản xuất tái dựng bitwise các hash RNG/draw/CI từ cùng report và
+đối chiếu toàn payload; file bootstrap nguyên byte qua lượt verify.
+
+Artifact local [`run/bootstrap.json`](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/bootstrap.json),
+version `improvement_bootstrap_v1`; SHA-256 byte:
+`78ae445037f68fa0f8cca4638dc7bc3e7c24efb2854539e078478e46db919e57`.
+Artifact bind plan/statistics, report digest/SHA byte, run signature,
+74 dependency và runtime. Receipt W9-03 bind consumer kiểm toán vẫn hợp lệ.
+**4.412 file đã có cùng ledger nguyên byte**; không API. Chỉ sửa hai Markdown
+và sinh bootstrap từ producer hiện hữu; không đổi code/test/schema/runtime/
+đầu vào. Theo AGENTS.md 1.2, không chạy lại compileall/unit/E2E/leakage;
+kiểm source/hash, receipt bốn gate W8-07 và consumer W9-03 đúng binding,
+CLI producer/verifier, oracle, số liệu/link/diff PASS. Không ghi gate/test cũ
+là đã chạy lại ở W9-04.
+
+Lệnh tái lập/kiểm từ root (offline, artifact write-once):
+
+```powershell
+py -3.13 -X utf8 scripts/verify_improvement_holdout.py --bootstrap
+py -3.13 -X utf8 scripts/verify_improvement_holdout.py --verify-bootstrap
+```
+
+**Tiếp theo W9-05:** xuất bảng/hình và phân tích coverage, prior-off, failure
+và các giới hạn; W9-06 mới đóng băng bàn giao. CI điều kiện trên method và
+Decision đã lưu, không bao gồm bất định training/provider/LLM. Giữ nguyên
+kết quả âm/inconclusive và trạng thái triển khai; không chọn/promote lại bằng holdout.
 
 ## Quy tắc thực thi và kết luận
 
