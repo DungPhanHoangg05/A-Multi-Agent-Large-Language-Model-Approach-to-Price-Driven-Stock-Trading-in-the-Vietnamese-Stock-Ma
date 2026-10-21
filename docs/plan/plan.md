@@ -1060,7 +1060,7 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
   không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
-### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 3/6
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 4/6
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
 protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
@@ -1104,6 +1104,20 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   không đổi runtime/P0/nguồn. Receipt bốn gate W8-07 đúng code/runtime PASS;
   QA hash/link/diff PASS. **W9 3/6 DONE**, tiếp theo **W9-04** bootstrap/CI;
   verify/bootstrap từ đây dùng CLI offline mới, chưa chạy CI hoặc chọn lại ứng viên.
+
+- **W9-04 DONE, 21/10/2026:** [bootstrap và kết quả thống kê holdout](week9/README.md#w9-04--bootstrap-và-kết-quả-thống-kê-holdout-21102026)
+  producer/verify-bootstrap thật exit 0, artifact COMPLETE; 64 điểm/20 cụm ngày,
+  L=4/2/8 đều đủ 10.000 draw hợp lệ, không invalid/sinh bù. Primary A−Original
+  D=+2,025325 đpt, CI95% [0,135027; 4,211864], POSITIVE theo cohort/protocol;
+  3/4 mã ΔR dương, VNM −0,109279; mean/max ΔMDD=−1,725582/+0,109279 đpt.
+  Bốn secondary CI98,75% Bonferroni đều inconclusive; không xác nhận A vượt
+  C2/v1 hoặc hiệu ứng thành phần. L=2/8 chỉ sensitivity, không chọn lại CI/L.
+  Oracle độc lập đủ 30.000 draw khớp RNG/mask/count histogram và mọi CI,
+  sai số tối đa 4,874e−14 đpt; artifact/report/ledger và 4.412 file cũ nguyên byte.
+  Chỉ tài liệu/producer đầu ra, không chạy lại suite theo AGENTS.md 1.2;
+  QA source/gate binding/link/diff PASS, không API. **W9 4/6 DONE**,
+  tiếp theo **W9-05** bảng/hình/coverage/prior-off/giới hạn, chưa chốt W9/W10
+  hoặc chọn/promote lại bằng holdout; CI điều kiện trên method/Decision đã lưu.
 
 ### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
 [Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
