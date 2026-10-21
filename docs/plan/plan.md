@@ -1,10 +1,15 @@
-# KẾ HOẠCH NGHIÊN CỨU & TRIỂN KHAI KHÓA LUẬN TỐT NGHIỆP (10 TUẦN)
+# KẾ HOẠCH NGHIÊN CỨU & TRIỂN KHAI KHÓA LUẬN TỐT NGHIỆP (12 TUẦN)
 
 **Đề tài**: *Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market*  
 **Dựa trên nền tảng**: Bài báo *Multi-Task Bayesian In-Context Learning* (Zhu, Oermann, Cho — ICML 2026) và Hệ thống Giao dịch Đa Agent LangGraph hiện có.  
-**Mục tiêu tài liệu**: Giữ deadline **10 tuần**, điều chỉnh ngày **16/10/2026** sau kết quả development chưa đủ tốt. Giữ W1–W6 và W7-01–12; dùng phần còn lại W7 để chẩn đoán/khóa phạm vi, W8 cải tiến Bayesian ICL và validation, W9 benchmark kết hợp thống kê, W10 luận văn và bảo vệ. Không kéo dài lịch; thu hẹp số thử nghiệm, không giảm các gate liêm chính dữ liệu.
+**Mục tiêu tài liệu**: Theo yêu cầu ngày **21/10/2026**, mở lộ trình lên **12 tuần**. Giữ nguyên W1–W9 đã nghiệm thu; W10 thiết kế/triển khai revision Bayesian ICL, W11 development và khóa xác nhận mới, W12 xác nhận/phân tích/luận văn/bảo vệ. Tối đa hai ứng viên, một vòng lựa chọn; không hạ gate hoặc bảo đảm lợi nhuận tăng. Viết luận văn bắt đầu song song từ W10.
 
-**Quy tắc đọc bản điều chỉnh:** mục 5.5, Phase D mới của W7 và README W8–W10 là kế hoạch đang hiệu lực. Các đoạn nghiệm thu W1–W7-12 giữ như lịch sử; tham chiếu benchmark W8 trong các đoạn đó là lịch cũ. Không sửa bằng chứng, registry, selection hoặc checkpoint đã khóa.
+**Quy tắc đọc bản điều chỉnh:** mục **5.6** và README **W10–W12** điều khiển công việc mới. Mục 5.5 và các nghiệm thu W1–W9 là lịch sử/protocol của phiên bản đã khóa; các câu deadline 10 tuần, W10 chỉ viết luận văn hoặc cấm mở vòng mới trong đó không áp dụng cho revision được người dùng yêu cầu lần này. Không sửa bằng chứng, registry, selection, checkpoint hoặc kết luận W9. Mốc tuần là thứ tự công việc, không suy ra ngày bắt đầu/kết thúc lịch khi chưa có lịch thực tế.
+
+**Kết quả hiện tại:** W9 COMPLETE, A−Original **+2,025325 đpt**, CI95%
+**[0,135027; 4,211864]** trên 64 điểm. Bốn secondary inconclusive và
+prior-off còn nhiễu; mục tiêu mới là củng cố đóng góp ICL và khả năng khái
+quát. 2024 đã xem, không dùng xác nhận revision mới. [Chi tiết nâng cấp](week10/README.md).
 
 **Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
 API. Ngày dữ liệu/cohort, cỡ mẫu và protocol nghiên cứu vẫn phải khóa trước
@@ -22,7 +27,7 @@ tiếp tục áp dụng trong runtime.
 4. [Kiến trúc Hệ thống Đề xuất (Target Architecture)](#4-kiến-trúc-hệ-thống-đề-xuất-target-architecture)
 5. [Thiết kế Thực nghiệm Khoa học Chuẩn KLTN](#5-thiết-kế-thực-nghiệm-khoa-học-chuẩn-kltn)
 6. [Các Rào chắn P0 Bắt buộc (Safeguards & Zero-Leakage)](#6-các-rào-chắn-p0-bắt-buộc-safeguards--zero-leakage)
-7. [Kế hoạch Thực hiện Chi tiết 10 Tuần (Deliverables Matrix)](#7-kế-hoạch-thực-hiện-chi-tiết-10-tuần-deliverables-matrix)
+7. [Kế hoạch Thực hiện Chi tiết 12 Tuần (Deliverables Matrix)](#7-kế-hoạch-thực-hiện-chi-tiết-12-tuần-deliverables-matrix)
 8. [Danh mục Tệp tin Cần Thêm Mới & Chỉnh Sửa](#8-danh-mục-tệp-tin-cần-thêm-mới--chỉnh-sửa)
 9. [Kế hoạch Quản trị Rủi ro & Dự phòng (Contingency Plans)](#9-kế-hoạch-quản-trị-rủi-ro--dự-phòng-contingency-plans)
 
@@ -200,7 +205,7 @@ flowchart TD
 ## 5. THIẾT KẾ THỰC NGHIỆM KHOA HỌC CHUẨN KLTN
 
 ### 5.1. Dữ liệu & Danh mục Cổ phiếu (Universe)
-Phạm vi dự kiến trong 10 tuần; cỡ mẫu và độ bất định phải được công bố rõ:
+Phạm vi ban đầu W1–W9; revision W10–W12 dùng mục 5.6. Cỡ mẫu và độ bất định phải được công bố rõ:
 - **Tập cổ phiếu (4 mã đại diện)**:
   1. `FPT`: Nhóm Công nghệ / Vốn hóa lớn / Nhạy cảm vừa.
   2. `VNM`: Nhóm Tiêu dùng phòng thủ / Thường xuyên dao động tích lũy mean-reverting.
@@ -273,6 +278,9 @@ một upstream/point; không chèn cấu hình mới vào checkpoint cũ.
 
 ### 5.5. Vòng cải tiến Bayesian ICL — hiệu lực 16/10/2026
 
+**Protocol lịch sử W7–W9, giữ nguyên cho bằng chứng đã khóa.** Công việc
+mới từ 21/10/2026 dùng mục 5.6; không sửa hồi tố protocol này.
+
 **Bằng chứng khởi điểm:** W7-12 chọn C2 với D=+1,742822 điểm phần trăm,
 nhưng ΔR>0 chỉ 2/4 mã, 0/6 ứng viên được promote. W7-11 có 8/60 điểm
 cả stats/examples ready, bất đồng cả khi prior-off và trace NOT_USED.
@@ -340,6 +348,67 @@ checkpoint. Người dùng tự chạy mọi API; agent chuẩn bị và kiểm 
 
 ---
 
+### 5.6. Nâng cấp Bayesian ICL trong lộ trình 12 tuần — hiệu lực 21/10/2026
+
+**Bằng chứng xuất phát:** W9 có primary dương đã xác nhận trên cohort,
+không còn là holdout chưa chạy. Tuy nhiên A chỉ visible 25/64, prior-off
+39/64 có 2 cặp action khác dù request giống, T cả hai block ready=10;
+bốn secondary đều inconclusive, BEAR=0 và tin reliable=0/64. Không quy
+toàn bộ chênh return cho prior hay tuyên bố LLM thực hiện Bayes phân cấp.
+
+| Ưu tiên | Nâng cấp có giới hạn | Đầu ra và tiêu chí |
+| --- | --- | --- |
+| P0 | Shared Original khi prior-off và request thật sự giống; duplicate chẩn đoán riêng | Không phát sinh action khác do gọi lại nhánh off; ledger/source reference/recovery đúng |
+| P1 | R_pool: empirical Bayes phân cấp cùng mã với C/B1/B2 rời nhau | Oracle/PIT, lambda chọn train, support/bất định/calibration theo fold; không hạ gate theo return |
+| P1 | R_task: posterior như R_pool, demonstrations nhiều task chứa hai cycle/task | X→y và task boundary rõ, chọn không dùng nhãn, ≤3 task/≤6 cycle trong BRPP≤600 |
+| P1 | Đối chứng Original/A, full/stats/examples và Numeric_only | Phân biệt đóng góp của posterior, demonstrations và LLM; không chọn ablation thắng làm ứng viên |
+| P0 | Tập xác nhận mới và protocol khóa trước outcome | 2025 chỉ khi audit exposure/giá PASS; nếu không thì exploratory/forward, không tái dùng 2024 xác nhận |
+
+Ánh xạ học thuật, công thức, module dự kiến, test và điểm dừng ở
+[W10](week10/README.md); matrix/selection/repeat/thống kê ở
+[W11](week11/README.md); giới hạn claim và bàn giao ở [W12](week12/README.md).
+LLM vẫn là Decision chính, không thay bằng rule rồi gọi đó là Bayesian ICL.
+[Paper gốc ICML 2026](https://proceedings.mlr.press/v306/zhu26aj.html) dùng
+transformer được huấn luyện cho prior/target tasks; đây là thích ứng miền
+trên LLM hosted, chưa tái hiện cơ chế học của paper.
+
+Giữ bank 852 nguyên byte và model train-only; tạo bank/index revision riêng
+từ tối đa 124 upstream lịch sử 2023/2024 đã có để tránh ví dụ quá tuổi 730
+ngày khi xác nhận 2025. PIT/dedup/provenance tương thích phải PASS, A/R dùng
+cùng nguồn; không dùng Decision làm feature hoặc gọi thêm LLM sinh bank.
+Lambda {2,4,8}
+chỉ chọn offline bằng loss train, tối đa hai ứng viên LLM và một vòng
+development 60 điểm 2023. 2024 giữ kết quả W9 và là nguồn memory mới theo
+rule tự động đã khai báo, không chọn hyperparameter hoặc xác nhận mới.
+2025 dự kiến 128 điểm (32/mã, 8/quý), chỉ khóa sau exposure/giá/eligibility
+và audit power; không đủ điều kiện thì BLOCKED, không hạ mẫu sau outcome.
+Không giả dữ liệu chưa xem chỉ vì chưa có report. Forward sau lock có thể
+không đủ mẫu trong W12; khi đó không có claim xác nhận mới.
+
+Chọn R trên development theo rule W11, gồm D>0, ≥3/4 mã dương, guard MDD
+và không kém A về D; đủ repeat/coverage/kỹ thuật. Nếu không đạt, dừng nâng
+cấp kinh tế và dùng W9 cho luận văn. Xác nhận chỉ một selected full, các
+ablation và đối chứng; primary selected−Original, secondary selected−A,
+full−stats, full−examples, full−Numeric_only. Bootstrap ngày L=4,
+10.000 draw/seed=20261021, CI95% primary/98,75% secondary; sensitivity L=2/8,
+repeat riêng, không tune theo CI. Chi tiết khóa ở W11 trước API.
+
+**Thành công có ba mức:** kỹ thuật (đúng hợp đồng/tái lập), phương pháp
+(Bayes và ICL thực sự đi vào pipeline, ablation đo được), kinh tế (CI hỗ
+trợ lợi thế trên cohort). PASS kỹ thuật không thay hai mức sau; inconclusive
+không là tương đương. W9 vẫn là kết quả xác nhận hợp lệ của bản cũ kể cả
+revision mới thất bại. Hoàn thành luận văn không yêu cầu tạo thắng bằng mọi giá.
+
+**Ngoài phạm vi:** tăng K/model search, ghép A+B, fine-tune, soft regime,
+cross-symbol pooling, risk overlay, thêm bank LLM quy mô lớn hoặc payoff
+policy chưa kiểm định. Các hướng này dành sau W12. Không sửa công thức
+kinh tế, distill/cap, retry/checkpoint; mọi API do người dùng chạy.
+
+**Mốc điều chỉnh tài liệu 21/10/2026:** kế hoạch được cập nhật, chưa thực
+hiện task W10–W12, chưa phát hành schema/CLI/manifest hay chạy API revision
+mới. Kiểm hash W9 và QA diff/liên kết/số liệu; không chạy suite theo phạm vi
+thuần tài liệu AGENTS.md 1.2. Receipt cũ không được ghi là test vừa chạy.
+
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
 Các rào chắn kỹ thuật này phải được khóa chặt bằng code và test trước khi chạy bất kỳ benchmark nào:
@@ -353,13 +422,14 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ---
 
-## 7. KẾ HOẠCH THỰC HIỆN CHI TIẾT 10 TUẦN (DELIVERABLES MATRIX)
+## 7. KẾ HOẠCH THỰC HIỆN CHI TIẾT 12 TUẦN (DELIVERABLES MATRIX)
 
 ```
 W1 Đặc tả → W2 Regime/Memory → W3 Retriever/Prefix → W4 Tích hợp/Pilot
    → W5 Vận hành/Nền tảng v2 → W6 Thuật toán → W7 Validation/Khóa phiên bản
    → W8 Cải tiến ICL/Validation/khóa → W9 Benchmark/Thống kê
-   → W10 Luận văn/Bảo vệ
+   → W10 Revision Bayes/ICL → W11 Development/Khóa xác nhận
+   → W12 Xác nhận/Phân tích/Luận văn/Bảo vệ
 ```
 
 ### 📅 TUẦN 1: Đặc tả và dữ liệu — HOÀN THÀNH
@@ -1148,16 +1218,30 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
-[Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
-phân biệt Bayes số học và ICL; trình bày kết quả bất lợi/giới hạn, kiểm tái
-lập và chuẩn bị 25–30 slide. Không dành tuần này để mở thêm thử nghiệm.
-**Đầu vào W9 đã nghiệm thu, Gate W9 PASS; W10 vẫn TODO 0/5**, bắt đầu W10-01
-theo [bàn giao](week10/README.md#đầu-vào-đã-nhận-từ-w9-21102026).
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — TODO 0/8
+[Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
+task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
+Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
+theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
+
+### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
+[Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
+loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
+và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
+
+### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
+[Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,
+bootstrap/freeze; hoàn thiện luận văn/tái lập/25–30 slide/bảo vệ. Nếu thiếu
+tập độc lập hoặc không có ứng viên đạt, báo trạng thái và dùng bằng chứng W9.
+Năm task luận văn W10 cũ chuyển sang W12-04–07, không mất nội dung bàn giao.
 
 ---
 
 ## 8. DANH MỤC TỆP TIN CẦN THÊM MỚI & CHỈNH SỬA
+
+Danh mục 8.1–8.2 dưới đây là kiến trúc lịch sử đã triển khai, không phải
+task tạo lại module. Revision W10–W12 dùng bảng module dự kiến tại
+[W10](week10/README.md#module-và-kiểm-thử-dự-kiến), schema/namespace riêng.
 
 ### 8.1. Các tệp tin thêm mới hoàn toàn
 1. **`core/regime_detector.py`**:
@@ -1204,8 +1288,10 @@ theo [bàn giao](week10/README.md#đầu-vào-đã-nhận-từ-w9-21102026).
 
 ## 10. KẾT LUẬN
 
-Lộ trình **10 tuần** giữ nền tảng kinh tế/PIT/paired đã nghiệm thu và ưu tiên
-cải tiến Bayesian ICL trong W8 trước benchmark W9, giữ deadline W10. Đóng góp được xác định
-qua code có thể tái lập và thực nghiệm có đối chứng; kết quả tốt, kém hoặc
-chưa đủ bằng chứng đều được báo cáo. Không dùng việc chốt tuần/gate kỹ thuật
-để thay cho chứng minh ưu thế đầu tư hoặc posterior LLM đã hiệu chuẩn.
+Lộ trình **12 tuần** giữ nguyên kết quả W1–W9, bổ sung revision Bayesian
+ICL có giới hạn trong W10–W11 và xác nhận/bàn giao W12. Đóng góp được xác
+định qua code tái lập, posterior minh bạch, context lịch sử và thí nghiệm
+đối chứng; kết quả tốt, kém hoặc chưa đủ bằng chứng đều báo cáo. Không dùng
+gate kỹ thuật thay cho ưu thế kinh tế hoặc cơ chế Bayes trong LLM; không
+dùng 2024 đã xem làm xác nhận mới. Đích đến là luận văn hoàn chỉnh với
+bằng chứng trung thực, không tối ưu không giới hạn để tạo kết quả thắng.
