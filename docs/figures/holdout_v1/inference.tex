@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering
+\caption{Inference đã đăng ký: primary và bốn secondary}
+\label{tab:holdout_inference}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{lrrrl}
+\toprule
+Contrast & D (đpt) & Mức CI (\%) & CI (đpt) & Kết luận \\
+\midrule
+A (full) - Original & 2.025 & 95.00 & [0.135; 4.212] & POSITIVE \\
+A (full) - C2 & 1.772 & 98.75 & [-0.188; 3.709] & INCONCLUSIVE \\
+A (full) - Bayesian v1 & 2.397 & 98.75 & [-0.558; 5.453] & INCONCLUSIVE \\
+A (full) - A (stats) & 0.895 & 98.75 & [0.000; 2.496] & INCONCLUSIVE \\
+A (full) - A (examples) & -0.114 & 98.75 & [-1.571; 0.971] & INCONCLUSIVE \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize Block cutoff L=4, 10.000 draw; primary CI95\%, secondary CI98,75\% Bonferroni. CI điều kiện trên method/Decision đã lưu.}
+\end{table}

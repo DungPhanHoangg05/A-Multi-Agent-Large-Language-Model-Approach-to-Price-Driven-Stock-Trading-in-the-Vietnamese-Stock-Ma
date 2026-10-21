@@ -1,0 +1,37 @@
+\begin{table}[htbp]
+\centering
+\caption{Hiệu quả của đủ sáu nhánh trên từng mã}
+\label{tab:holdout_performance}
+\begingroup\small\setlength{\tabcolsep}{6pt}\sbox0{\begin{tabular}{llrrrrrrr}
+\toprule
+Mã & Nhánh & n & R (\%) & MDD (\%) & LONG & CASH & Đúng (\%) & BA (\%) \\
+\midrule
+FPT & Original & 16 & -0.428 & 2.750 & 5 & 11 & 56.250 & 51.667 \\
+FPT & Bayesian v1 & 16 & 2.703 & 2.268 & 6 & 10 & 62.500 & 60.000 \\
+FPT & C2 & 16 & 0.957 & 2.803 & 6 & 10 & 50.000 & 46.667 \\
+FPT & A (full) & 16 & 2.761 & 1.067 & 4 & 12 & 62.500 & 56.667 \\
+FPT & A (stats) & 16 & 1.513 & 2.268 & 5 & 11 & 56.250 & 51.667 \\
+FPT & A (examples) & 16 & 2.387 & 1.609 & 4 & 12 & 62.500 & 56.667 \\
+MWG & Original & 16 & 1.936 & 5.897 & 9 & 7 & 50.000 & 52.727 \\
+MWG & Bayesian v1 & 16 & -5.036 & 10.723 & 11 & 5 & 37.500 & 43.636 \\
+MWG & C2 & 16 & 1.936 & 5.897 & 9 & 7 & 50.000 & 52.727 \\
+MWG & A (full) & 16 & 3.671 & 3.729 & 9 & 7 & 50.000 & 52.727 \\
+MWG & A (stats) & 16 & 1.337 & 5.897 & 10 & 6 & 43.750 & 48.182 \\
+MWG & A (examples) & 16 & 7.677 & 2.011 & 8 & 8 & 68.750 & 71.818 \\
+VCB & Original & 16 & -1.177 & 4.932 & 5 & 11 & 68.750 & 65.000 \\
+VCB & Bayesian v1 & 16 & 1.177 & 1.771 & 3 & 13 & 68.750 & 61.667 \\
+VCB & C2 & 16 & -1.547 & 5.288 & 6 & 10 & 62.500 & 60.000 \\
+VCB & A (full) & 16 & 2.109 & 1.771 & 4 & 12 & 75.000 & 70.000 \\
+VCB & A (stats) & 16 & 2.109 & 1.771 & 4 & 12 & 75.000 & 70.000 \\
+VCB & A (examples) & 16 & -1.177 & 4.932 & 5 & 11 & 68.750 & 65.000 \\
+VNM & Original & 16 & -6.472 & 6.472 & 3 & 13 & 56.250 & 37.500 \\
+VNM & Bayesian v1 & 16 & -6.472 & 6.472 & 3 & 13 & 56.250 & 37.500 \\
+VNM & C2 & 16 & -6.472 & 6.472 & 3 & 13 & 56.250 & 37.500 \\
+VNM & A (full) & 16 & -6.581 & 6.581 & 4 & 12 & 50.000 & 33.333 \\
+VNM & A (stats) & 16 & -6.581 & 6.581 & 4 & 12 & 50.000 & 33.333 \\
+VNM & A (examples) & 16 & -6.472 & 6.472 & 3 & 13 & 56.250 & 37.500 \\
+\bottomrule
+\end{tabular}}
+\ifdim\wd0>\linewidth\relax\resizebox{\linewidth}{!}{\usebox0}\else\usebox0\fi\par\endgroup
+\par\smallskip{\footnotesize Mỗi mã 16 điểm; tài khoản riêng 50 triệu. SHORT=CASH; phí và slippage ở cả hai chiều. BA: balanced accuracy.}
+\end{table}
