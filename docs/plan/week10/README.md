@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 1/8. W10-01 DONE; giá/lịch PASS, xác nhận 2025 BLOCKED do exposure.**
+**Trạng thái: IN PROGRESS, 1/8. W10-01 DONE; giá/lịch/exposure PASS, chờ protocol và release xác nhận.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -190,7 +190,7 @@ và độ rộng CI dự kiến, không dùng payoff 2025 để chọn n.
 
 | Task | Công việc / đầu ra | Phụ thuộc | Nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W10-01 | Audit exposure/giá 2025, split/mẫu, namespace `bic_icl_v2` | W9 | Hash W9 nguyên; eligibility/exposure PASS hoặc BLOCKED rõ lý do | [x] DONE — giá/lịch 128 điểm PASS; exposure UNVERIFIED, xác nhận BLOCKED |
+| W10-01 | Audit exposure/giá 2025, split/mẫu, namespace `bic_icl_v2` | W9 | Hash W9 nguyên; eligibility/exposure PASS hoặc BLOCKED rõ lý do | [x] DONE — giá/lịch 128 điểm và exposure PASS theo khai báo + inventory; chờ protocol/release |
 | W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [ ] TODO |
 | W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [ ] TODO |
 | W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [ ] TODO |
@@ -230,8 +230,9 @@ runtime/schema/đầu vào; không chạy compileall/unit/E2E/leakage theo AGENT
 
 ## W10-01 — Audit exposure, giá và mẫu xác nhận, 21/10/2026
 
-**DONE; giá thô và lịch 128 điểm PASS, exposure UNVERIFIED nên gate xác nhận
-2025 vẫn BLOCKED.** Inventory ban đầu tại `76218e2`, merge audit tại
+**DONE; giá thô, lịch 128 điểm và exposure PASS.** Exposure được cập nhật bằng
+khai báo làm rõ của người dùng và snapshot inventory local; đây chưa là
+release cho phép chạy xác nhận. Inventory ban đầu tại `76218e2`, merge audit tại
 `65fa4ca`; sau yêu cầu bổ sung của người dùng, nhánh
 `feat/bic-icl-confirmation-input-audit` thêm công cụ tải/verify giá công khai
 và lịch khả thi trong namespace riêng. Không gọi LLM, tính payoff hoặc đọc
@@ -263,17 +264,25 @@ chứng minh được việc chưa xem bằng lượt kiểm kê này.
 | Backtest legacy, ablation, robustness | 9/4/18 JSON; các cửa sổ/phiên thực thi được lưu nằm trong 2026. `data_start`/`data_end` bao trùm 2025 | Không thấy điểm chạy 2025, nhưng phạm vi dữ liệu đã nạp không chứng minh 2025 chưa được xem |
 | News cache VNM trong historical run | Có `date_parsed` năm 2025; ngày tin khác ngày query; code PIT loại tin sau cutoff | Không dùng cache này làm bằng chứng chưa tiếp cận 2025 hoặc bổ sung tin cho xác nhận |
 | Ledger và `record.csv` | Chuỗi `2025` trong ledger là phần UUID; `record.csv` có 45 nến từ 30/07 đến 05/10/2026 | Không coi trùng chuỗi UUID là ngày thử nghiệm |
-| Người dùng / người tham gia, file ngoài repo và các bản sao không kiểm được | Người dùng trả lời ngày 21/10/2026: **“Không chắc hoặc không thể xác minh”**. Yêu cầu tiếp theo xác nhận đã đủ quyền thực hiện công việc | **UNVERIFIED** về exposure; quyền thực hiện không xác minh việc chưa xem outcome/tune |
+| Người dùng / người tham gia, file ngoài repo và các bản sao không kiểm được | Ban đầu trả lời **“Không chắc hoặc không thể xác minh”**; sau đó làm rõ: **“Xác nhận kết quả 2025 chưa được dùng để lựa chọn hoặc điều chỉnh phương pháp.”** | **PASS trong phạm vi khai báo không dùng outcome để chọn/tune và inventory local**; không chứng nhận chưa từng xem hoặc kiểm toán độc lập mọi hoạt động ngoài workspace |
 
-**Exposure tổng: UNVERIFIED → BLOCKED cho claim xác nhận 2025.** Xác nhận
-của người tham gia phải nêu phạm vi và việc đã dùng dữ liệu để ra quyết định
-thiết kế hay chưa; đối chiếu với inventory trên. Lời xác nhận bổ sung không
-tự xóa dấu vết exposure trái ngược. Nếu đã dùng outcome 2025 để tune/chọn
-ngày, giữ 2025 exploratory; không loại riêng các điểm đã xem để dựng lại
-holdout theo kết quả. Không có report không phải bằng chứng độc lập.
-Khai báo và quyền thực hiện được lưu riêng trong
-[`exposure_inventory_v1.json`](exposure_inventory_v1.json), là đầu vào công
-cụ audit đọc; không có câu hỏi quyền còn chờ xử lý.
+**Exposure hiện tại PASS**, basis `PARTICIPANT_DECLARATION_AND_LOCAL_INVENTORY`.
+Khai báo làm rõ tại [`exposure_inventory_v2.json`](exposure_inventory_v2.json)
+bind hash bản [`v1`](exposure_inventory_v1.json) và review, không xóa lịch sử
+UNVERIFIED. Snapshot mới rà **6.033 JSON**, gồm cả thư mục ignored và metadata
+nguồn giá mới, không phát hiện ngày query 2025 trong các trường cutoff/window/
+data_end. Các audit lịch/metadata có định danh riêng được tách khỏi query
+thực nghiệm. Không có report chỉ là một phần bằng chứng; quyết định PASS còn
+dựa vào xác nhận không dùng outcome để lựa chọn/điều chỉnh phương pháp.
+
+`unseen_outcomes_proven=false`: không suy lời xác nhận này thành chưa từng
+xem outcome. Hoạt động ngoài workspace được khai báo, chưa kiểm toán độc lập.
+Query 2025 trái ngược, nguồn đổi checksum, khai báo thiếu hoặc thừa nhận dùng
+outcome đều chặn PASS; chỉ sửa cờ trạng thái hoặc băm lại không đủ. Nếu sau này
+phát hiện đã dùng 2025 chọn/tune, giữ 2025 exploratory và chuyển sang forward
+sau lock hoặc báo không có xác nhận mới; không loại riêng điểm đã xem theo
+kết quả. Replay kiểm đúng snapshot tại thời điểm rà soát, không công bố rằng
+đã kiểm mọi file/hoạt động phát sinh về sau.
 
 ### Giá thực thi, quyền và lịch 2025
 
@@ -342,7 +351,7 @@ báo MDE/độ rộng CI từ train/dev và khóa protocol trước API LLM.
 | 2018–2022 / bank 2020–2022 | Train/diagnostics walk-forward, purge cycle vượt fold; giữ HMM/scaler và bank 852 | Nguồn cũ nguyên byte; chưa có gate mới cho thuật toán revision |
 | 2023, 60 upstream | Development exploratory; query chỉ thấy record có exit<cutoff | Không tạo lại lịch hoặc gọi LLM trong audit |
 | 2024, 64 upstream W9 | Kết quả xác nhận phiên bản cũ; nguồn memory revision theo rule tối đa 124 upstream 2023/2024 | Đã xem; không dùng chọn lambda/prompt theo return hoặc xác nhận revision |
-| 2025, 128 điểm | Lịch khả thi đã bind nguồn; chỉ xác nhận sau exposure và protocol/power lock | Giá/lịch **PASS**, xác nhận **BLOCKED do exposure**; không append cycle 2025 vào memory xác nhận |
+| 2025, 128 điểm | Lịch khả thi đã bind nguồn; exposure đủ điều kiện theo khai báo + inventory | Giá/lịch/exposure **PASS**, chờ protocol/power/candidate/release; không append cycle 2025 vào memory xác nhận |
 | Forward sau lock | Phương án khi 2025 không xác minh được tính độc lập | Chưa có cohort/ngày; không lấy các run 2026 có sẵn làm forward sau lock |
 
 Dành riêng namespace **`bic_icl_v2`**, gốc artifact dự kiến
@@ -355,9 +364,9 @@ hiện hữu giữ nguyên; namespace mới không được reset quota hoặc n
 attempt khi reuse. A/R/Numeric phải bind cùng snapshot nguồn của query;
 max source 31/12/2024 cho memory xác nhận, không refit scaler bằng 2025.
 
-**Điều kiện mở lại xác nhận:** giải quyết exposure bằng bằng chứng/phạm vi
-khai báo; giữ nguồn giá/lịch hiện tại qua verifier và khóa protocol/power
-trước API. Thiếu điều kiện nào tiếp tục BLOCKED. Nếu
+**Điều kiện phát hành xác nhận:** giữ nguồn giá/lịch/exposure hiện tại qua
+verifier, khóa protocol/power, có candidate đủ điều kiện và release trước
+API. Thiếu điều kiện nào chưa cho chạy xác nhận. Nếu
 exposure không sạch, dùng forward sau lock hoặc ghi không có xác nhận mới;
 revision giữ exploratory và luận văn vẫn dùng bằng chứng W9.
 
@@ -366,30 +375,60 @@ bằng chứng/nguồn cũ được băm trước và đối chiếu sau audit, 
 ledger. Chỉ sửa README tuần và kế hoạch tổng; không đổi code/test/runtime/
 schema/đầu vào. Theo AGENTS.md 1.2 không chạy compileall/unit/E2E/leakage;
 không ghi gate W8-07 thành gate revision mới. **W10 1/8 DONE**, tiếp theo
-**W10-02** thiết kế protocol với nhánh xác nhận BLOCKED nêu trên; không cần
+**W10-02** thiết kế protocol; ở lượt ban đầu exposure còn BLOCKED. Không cần
 chờ mở API để tiếp tục phần thiết kế offline.
 
 ### Công cụ và tái lập phần bổ sung
 
 [`scripts/audit_bic_icl_inputs.py`](../../../scripts/audit_bic_icl_inputs.py)
 dùng helper giá hiện hữu, không sửa 74 dependency đã khóa của W9. `--download`
-chỉ lấy giá công khai, checkpoint theo mã; `--build` lưu audit một lần;
+chỉ lấy giá công khai, checkpoint theo mã; `--review-exposure` đóng băng
+inventory cho khai báo; `--build` lưu audit v2 một lần;
 `--verify` tái dựng toàn payload và đối chiếu envelope/hash, hoàn toàn offline.
 Không ghi đè audit khi code/nguồn thay đổi; không đưa missing thành CASH.
 
 ```powershell
 # Chỉ dùng khi cần thu thập hoặc resume nguồn mới; không gọi LLM/API key.
 py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --download
-# Khóa lịch eligibility và nguồn; exposure vẫn là UNVERIFIED.
+# Đóng băng inventory rà soát; chạy lại chỉ chấp nhận cùng snapshot.
+py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --review-exposure
+# Khóa lịch, nguồn và khai báo exposure trong input_audit_v2.json.
 py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --build
 # Tái lập cả giá, quyền, lịch 128 điểm và gate exposure từ nguồn đã lưu.
 py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --verify
 ```
 
-Artifact local [input_audit.json](../../../outputs/bayesian_benchmark/bic_icl_v2/input_audit.json),
+Artifact lịch sử [input_audit.json](../../../outputs/bayesian_benchmark/bic_icl_v2/input_audit.json),
 version `bic_icl_v2_input_audit_v1`, bind 15 nguồn và năm file code;
 SHA-256 byte `2af54c962840645cc0b2b09c91a75346c8fcaaa17340228d6b3d108040229fe5`,
 digest payload `cabd2425edcc31ac713bdadf595d5afa95e5eb2e6bf00b23021e4906c611bda3`.
+Giữ nguyên byte v1 và khai báo v1; tái lập consumer v1 tại commit `8fd9156`.
+CLI hiện tại mặc định build/verify artifact v2, không ghi đè v1.
+
+Artifact mới [input_audit_v2.json](../../../outputs/bayesian_benchmark/bic_icl_v2/input_audit_v2.json),
+version `bic_icl_v2_input_audit_v2`, bind 18 nguồn và năm file code;
+SHA-256 byte `9f1c2fed3a8955107ecb63f83da7651fd3a3f17c6e9a964c4ab5092d2c4a75f8`,
+digest payload `a82e5403eaf8a59671554314f896ae5ac2a15e0178990db7eddb367f4d2c66cb`.
+`status=PASS`, `input_eligible=true`, `blocking_reasons=[]`;
+`confirmation_allowed=false`, `is_execution_plan=false`, còn
+`FROZEN_METHOD_AND_POWER_PROTOCOL` và `ELIGIBLE_CANDIDATE_AND_RELEASE`.
+Lịch/128 điểm giống nguyên payload v1, không chọn lại mẫu theo khai báo.
+
+Review [exposure_review_v2.json](../../../outputs/bayesian_benchmark/bic_icl_v2/exposure_review_v2.json)
+pin 6.033 JSON và trường ngày, SHA-256 byte
+`233401b3cb7d1116197bd1480d48070d4da65581ac477836a8227f37454645aa`.
+Archive [exposure_sources_v2.zip](../../../outputs/bayesian_benchmark/bic_icl_v2/exposure_sources_v2.zip)
+giữ nguyên byte đủ 6.033 JSON, 408.877.450 byte gốc/67.658.394 byte ZIP;
+SHA-256 `f142c8741f901fd02ad247e305f18444f58e371ed7a5a037e1aac5961ff3846b`.
+Loader kiểm SHA archive, tên/entry/hash từng nguồn và trích lại ngày query
+trước khi xét khai báo. Review chỉ lưu hash/ngày; archive giữ byte nguồn,
+không chấm action/return để chọn mẫu.
+
+Replay `--verify` dùng archive, nên ledger tăng hợp lệ sau lock vẫn tái lập
+được audit cũ. `--review-exposure` rà inventory live hiện tại và từ chối ghi
+đè nếu khác snapshot; khi cần rà thời điểm mới phải tạo phiên bản review mới.
+Archive complete nhưng chưa ghi receipt có thể phục hồi khi còn khớp nguồn;
+nguồn/archive hỏng không được nhận PASS hoặc âm thầm bỏ qua.
 Nguồn/raw/audit trong `outputs/bayesian_benchmark/bic_icl_v2/` là ignored,
 phải giữ cùng workspace; clone Git chỉ có công cụ, test và khai báo exposure.
 Không thay checksum W9 để nhận code mới. Không có lệnh chạy Decision hoặc
@@ -410,7 +449,7 @@ CSV 2018–2024 cũ. Các kiểm tra mới gồm horizon/biên quý/overlap, thi
 phiên, quyền tại entry/exit, Reference gap, payoff-blind ranking, future
 append invariance, JSON native, namespace containment, exposure và resume.
 
-**Nghiệm thu bổ sung PASS:** compileall toàn codebase, **937 unit/180
+**Nghiệm thu nguồn giá v1 tại `8fd9156` PASS:** compileall toàn codebase, **937 unit/180
 leakage**, E2E xác định; không lỗi hoặc skip. Inventory của cả hai suite
 khớp đầy đủ discovery trên đúng code cuối, gồm **12 test mới** tại
 [`test_bic_icl_input_audit_leakage.py`](../../../tests/test_bic_icl_input_audit_leakage.py).
@@ -418,6 +457,20 @@ CLI verify thật exit 0; oracle lịch/rank, liên kết, diff, checksum audit 
 source PASS. **6.636 file cũ**, trong đó archive W9 đủ 4.432 entry và ledger,
 giữ nguyên byte; snapshot giá mới cũng giữ nguyên byte prefix CSV cũ.
 Không có nhãn/Decision 2025 hoặc HTTP LLM mới. Đây là gate của công cụ audit
-input hiện tại; W10-07 phải nghiệm thu lại sau triển khai thuật toán/runtime.
-**W10 1/8 DONE**, tiếp theo **W10-02**, xác nhận mới vẫn chặn riêng bởi
-exposure UNVERIFIED theo khai báo người dùng.
+input v1; W10-07 phải nghiệm thu lại sau triển khai thuật toán/runtime.
+Đây là kết quả của v1, không ghi thành gate đã chạy cho consumer v2.
+
+**Đối soát exposure v2:** bổ sung chín ca, module hiện có **21 test trọng tâm
+PASS**. Kiểm khai báo thiếu/mâu thuẫn, cờ mở release, query 2025, sửa nguồn
+hoặc lịch sử, inventory rỗng, traversal, ledger tăng sau lock và khôi phục
+archive complete còn thiếu receipt. CLI `--build`/`--verify` thật exit 0;
+**6.651 file cũ nguyên byte**, lịch 128 điểm không đổi, 18 source/5 code hash
+khớp audit, liên kết/diff/checksum tài liệu PASS. Không gọi LLM hoặc sinh
+nhãn kinh tế 2025 trong lượt này.
+
+**Nghiệm thu consumer v2 PASS:** compileall toàn codebase, **946 unit/189
+leakage**, E2E xác định trên Python 3.13.5; không lỗi, skip hoặc expected
+failure. Multiset test ID của cả hai suite khớp đầy đủ discovery, gồm đủ
+21 ca module audit. Gate chạy trên đúng byte code/khai báo đã bind trong
+audit v2, có kiểm lại identity cuối lượt; không dùng gate v1 thay thế.
+**W10 1/8 DONE**, tiếp theo **W10-02** khóa protocol trước API.

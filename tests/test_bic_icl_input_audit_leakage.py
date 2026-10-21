@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import zipfile
 from unittest.mock import patch
 
 import numpy as np
@@ -14,8 +15,11 @@ import pandas as pd
 
 from core.execution_prices import STOCK_SYMBOLS, normalise_vci_execution_prices
 from scripts.audit_bic_icl_inputs import (
-    EXPOSURE, NAMESPACE, ROOT, design_calendar, download_prices, namespace_path, read_exposure, source_path, verify_samples,
+    DEPENDENCIES, EXPOSURE, EXPOSURE_ARCHIVE, EXPOSURE_REVIEW, EXPOSURE_V1, NAMESPACE, ROOT, build_audit, checksum,
+    design_calendar, download_prices, exposure_inventory, namespace_path, read_exposure, source_path, verify_samples,
+    write_exposure_review,
 )
+from core.historical_signals import digest
 
 
 class BicICLInputAuditTests(unittest.TestCase):
@@ -122,18 +126,18 @@ class BicICLInputAuditTests(unittest.TestCase):
 
     def test_exposure_cannot_be_promoted_by_execution_authorization(self) -> None:
         """Có quyền chạy không biến khai báo không chắc thành xác nhận chưa xem."""
-        value = read_exposure()
+        value = read_exposure(ROOT, EXPOSURE_V1)
         self.assertEqual(value["status"], "UNVERIFIED")
         self.assertFalse(value["confirmation_allowed"])
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            path = root / EXPOSURE
+            path = root / EXPOSURE_V1
             path.parent.mkdir(parents=True)
             for field, replacement in (("status", "PASS"), ("confirmation_allowed", True)):
                 changed = {**value, field: replacement}
                 path.write_text(json.dumps(changed), encoding="utf-8")
                 with self.assertRaises(ValueError):
-                    read_exposure(root)
+                    read_exposure(root, EXPOSURE_V1)
 
     def test_namespace_cannot_overwrite_legacy(self) -> None:
         """Cấm traversal sang nguồn W9 hoặc namespace cũ."""
@@ -187,6 +191,173 @@ class BicICLInputAuditTests(unittest.TestCase):
         changed[0]["cash_dividend_vnd"] = 2000.
         with self.assertRaises(ValueError):
             verify_samples("FPT", {"event_samples": changed}, records, frame, events)
+
+
+class ExposureReviewTests(unittest.TestCase):
+    """Khai báo được đối chiếu inventory; không mở release bằng cờ exposure."""
+
+    def setUp(self) -> None:
+        """Tạo snapshot local nhỏ, giữ nguyên lịch sử khai báo trong fixture."""
+        self.directory = tempfile.TemporaryDirectory()
+        self.root = Path(self.directory.name)
+        self.report = self.root / "outputs/backtest_result/fixture.json"
+        self.write(self.report, {"test_points": [{"window_end": "2024-02-01", "decision": "LONG"}]})
+        self.write(self.root / EXPOSURE_V1, json.loads((ROOT / EXPOSURE_V1).read_text(encoding="utf-8")))
+        self.value = {"version": "bic_icl_v2_exposure_inventory_v2", "date": "2026-10-21", "status": "PASS",
+            "basis": "PARTICIPANT_DECLARATION_AND_LOCAL_INVENTORY", "participant_declaration": "Không dùng outcome để tune.",
+            "outcome_used_for_method_selection": False, "outcome_used_for_method_adjustment": False,
+            "unseen_outcomes_proven": False, "confirmation_allowed": False, "interpretation": "Fixture theo phạm vi khai báo.",
+            "previous_declaration": {"path": EXPOSURE_V1, "sha256": checksum(self.root / EXPOSURE_V1)}}
+        self.refresh_review()
+
+    def tearDown(self) -> None:
+        """Dọn fixture, không sửa dữ liệu workspace."""
+        self.directory.cleanup()
+
+    def write(self, path: Path, value: object) -> None:
+        """Ghi JSON UTF-8 hữu hạn vào fixture."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value, ensure_ascii=False, allow_nan=False), encoding="utf-8")
+
+    def save_declaration(self) -> None:
+        """Ghi khai báo hiện tại mà không tự sửa nội dung review."""
+        self.write(self.root / EXPOSURE, self.value)
+
+    def refresh_review(self) -> None:
+        """Tái dựng inventory thật rồi bind checksum vào khai báo fixture."""
+        for relative in (EXPOSURE_REVIEW, EXPOSURE_ARCHIVE):
+            (self.root / relative).unlink(missing_ok=True)
+        write_exposure_review(self.root)
+        self.value["inventory_review"] = {"path": EXPOSURE_REVIEW, "sha256": checksum(self.root / EXPOSURE_REVIEW)}
+        self.save_declaration()
+
+    def test_declaration_and_inventory_pass_with_bounded_claim(self) -> None:
+        """Không dùng outcome và không có query trái ngược cho PASS, không chứng minh chưa xem."""
+        result = read_exposure(self.root)
+        self.assertEqual(result["status"], "PASS")
+        self.assertFalse(result["unseen_outcomes_proven"])
+        self.assertFalse(result["confirmation_allowed"])
+
+    def test_permission_only_cannot_resolve_unknown_use(self) -> None:
+        """Quyền thực hiện không thay các khai báo còn chưa xác minh."""
+        self.value.update(participant_declaration="Đã đủ quyền thực hiện.",
+                          outcome_used_for_method_selection=None, outcome_used_for_method_adjustment=None)
+        self.save_declaration()
+        with self.assertRaises(ValueError):
+            read_exposure(self.root)
+        self.value["status"] = "UNVERIFIED"
+        self.save_declaration()
+        self.assertEqual(read_exposure(self.root)["status"], "UNVERIFIED")
+
+    def test_exposed_and_false_independence_flags_reject_pass(self) -> None:
+        """Chặn khai báo dùng outcome, cờ mở release, bool giả và chứng nhận chưa xem."""
+        original = copy.deepcopy(self.value)
+        for field, value in (("outcome_used_for_method_selection", True), ("confirmation_allowed", True),
+                             ("unseen_outcomes_proven", True), ("outcome_used_for_method_adjustment", 0)):
+            with self.subTest(field=field):
+                self.value = {**original, field: value}
+                self.save_declaration()
+                with self.assertRaises(ValueError):
+                    read_exposure(self.root)
+        self.value = {**original, "outcome_used_for_method_selection": True, "status": "EXPOSED"}
+        self.save_declaration()
+        self.assertEqual(read_exposure(self.root)["status"], "EXPOSED")
+
+    def test_real_query_trace_blocks_even_after_rehash(self) -> None:
+        """Dấu vết query 2025 thật cần review thêm; băm lại không tự xóa mâu thuẫn."""
+        for field in ("window_end", "as_of_date", "data_end"):
+            self.value["status"] = "PASS"
+            self.write(self.report, {"test_points": [{field: "2025-02-01", "decision": "LONG"}]})
+            self.refresh_review()
+            with self.assertRaises(ValueError):
+                read_exposure(self.root)
+            self.value["status"] = "UNVERIFIED"
+            self.save_declaration()
+            self.assertEqual(read_exposure(self.root)["status"], "UNVERIFIED")
+
+    def test_mutated_source_and_empty_forged_inventory_fail(self) -> None:
+        """Chặn sửa snapshot bằng băm lại receipt hoặc thay bằng inventory rỗng."""
+        self.report.write_text("{}", encoding="utf-8")
+        self.assertEqual(read_exposure(self.root)["status"], "PASS")
+        with self.assertRaises(ValueError):
+            write_exposure_review(self.root)
+        path = self.root / EXPOSURE_REVIEW
+        forged = json.loads(path.read_text(encoding="utf-8"))["payload"]
+        archive = self.root / EXPOSURE_ARCHIVE
+        with zipfile.ZipFile(archive, "w") as snapshot:
+            snapshot.writestr(self.report.relative_to(self.root).as_posix(), b"{}")
+        forged["archive"]["sha256"] = checksum(archive)
+        self.write(path, {"payload": forged, "sha256": digest(forged)})
+        self.value["inventory_review"]["sha256"] = checksum(path)
+        self.save_declaration()
+        with self.assertRaises(ValueError):
+            read_exposure(self.root)
+        forged.update(files={}, file_count=0)
+        self.write(self.root / EXPOSURE_REVIEW, {"payload": forged, "sha256": digest(forged)})
+        self.value["inventory_review"]["sha256"] = checksum(self.root / EXPOSURE_REVIEW)
+        self.save_declaration()
+        with self.assertRaises(ValueError):
+            read_exposure(self.root)
+
+    def test_live_ledger_append_keeps_snapshot_and_orphan_archive_recovers(self) -> None:
+        """Ledger tăng sau lock vẫn replay được; archive complete trước receipt có thể phục hồi."""
+        ledger = self.root / "outputs/oos_pilot/api_usage.json"
+        self.write(ledger, {"invocations": []})
+        self.refresh_review()
+        original = checksum(self.root / EXPOSURE_ARCHIVE)
+        (self.root / EXPOSURE_REVIEW).unlink()
+        write_exposure_review(self.root)
+        self.assertEqual(checksum(self.root / EXPOSURE_ARCHIVE), original)
+        self.write(ledger, {"invocations": [{"window_end": "2026-11-02"}]})
+        self.assertEqual(read_exposure(self.root)["status"], "PASS")
+        with self.assertRaises(ValueError):
+            write_exposure_review(self.root)
+        archive = self.root / EXPOSURE_ARCHIVE
+        archive.write_bytes(archive.read_bytes() + b"tamper")
+        with self.assertRaises(ValueError):
+            read_exposure(self.root)
+
+    def test_previous_declaration_cannot_be_rewritten(self) -> None:
+        """Khai báo mới giữ hash lịch sử; sửa lịch sử và băm lại vẫn không hợp lệ."""
+        path = self.root / EXPOSURE_V1
+        previous = json.loads(path.read_text(encoding="utf-8"))
+        previous["status"] = "PASS"
+        self.write(path, previous)
+        self.value["previous_declaration"]["sha256"] = checksum(path)
+        self.save_declaration()
+        with self.assertRaises(ValueError):
+            read_exposure(self.root)
+
+    def test_metadata_and_post_lock_append_do_not_rewrite_snapshot(self) -> None:
+        """Metadata lịch không là query; replay giữ phạm vi snapshot trước các file mới."""
+        self.write(self.root / NAMESPACE / "input_audit.json", {"calendar": {"as_of_date": "2025-02-01"}})
+        self.assertEqual(read_exposure(self.root)["status"], "PASS")
+        self.write(self.root / "outputs/after_lock.json", {"window_end": "2026-11-02"})
+        self.assertEqual(read_exposure(self.root)["status"], "PASS")
+        self.assertEqual(exposure_inventory(self.root)["file_count"], 2)
+        with self.assertRaises(ValueError):
+            exposure_inventory(self.root, {"../escape.json": "0" * 64})
+
+    def test_input_pass_does_not_release_confirmation(self) -> None:
+        """Giá/lịch/exposure đủ chỉ mở gate đầu vào; thiếu lịch vẫn phải BLOCKED."""
+        index = self.root / "data/historical/VNINDEX.csv"
+        index.parent.mkdir(parents=True)
+        index.write_text("Datetime\n2025-01-02\n", encoding="utf-8")
+        prices = self.root / NAMESPACE / "inputs/execution_prices_2025"
+        self.write(prices / "manifest.json", {})
+        for relative in DEPENDENCIES:
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("# Dữ liệu giả\n", encoding="utf-8")
+        manifest = {"files": {}, "calendar_sha256": checksum(index)}
+        for calendar_status in ("PASS", "BLOCKED"):
+            with patch("scripts.audit_bic_icl_inputs.verify_prices", return_value=(manifest, {}, {})), \
+                    patch("scripts.audit_bic_icl_inputs.design_calendar", return_value={"status": calendar_status}):
+                result = build_audit(prices, self.root)
+            self.assertEqual(result["status"], calendar_status)
+            self.assertEqual(result["input_eligible"], calendar_status == "PASS")
+            self.assertFalse(result["confirmation_allowed"])
+            self.assertTrue(result["pending_requirements"])
 
 
 if __name__ == "__main__":

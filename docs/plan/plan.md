@@ -1230,16 +1230,21 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   2018–2024 nguyên byte vào snapshot mới, thêm 249 nến 2025/mã. File quyền
   cũ đã chứa 2025; giữ nguyên byte, đối chiếu tám mẫu VCI/KBS và Reference.
   **Giá/lịch PASS**, đủ 128 điểm mã–ngày/41 cutoff, tám/mã/quý theo rule đã đăng ký, không đọc
-  payoff để chọn. Audit `bic_icl_v2_input_audit_v1` bind nguồn/code/lịch và
+  payoff để chọn. Audit `bic_icl_v2_input_audit_v2` bind nguồn/code/lịch và
   khai báo exposure, CLI build/verify riêng, không sửa namespace/runtime W9.
-  **Xác nhận 2025 vẫn BLOCKED do exposure**: người dùng trả lời không chắc/
-  không thể xác minh; quyền thực hiện không chứng minh chưa xem/tune.
+  **Exposure PASS** sau khi người dùng làm rõ không dùng outcome 2025 để
+  lựa chọn/điều chỉnh phương pháp; snapshot 6.033 JSON local không có dấu
+  vết query 2025. Giữ nguyên khai báo/audit v1 UNVERIFIED; v2 link lịch sử
+  bằng checksum, không chứng nhận outcome chưa từng được xem. Gate đầu vào
+  PASS, `confirmation_allowed=false`, còn protocol/power/candidate/release.
   Giữ 2023 development, 2024 đã xem và nguồn memory revision; 2025 chỉ xác
   nhận khi đủ gate, nếu không dùng forward sau lock hoặc giữ exploratory.
-  Compileall/E2E, **937 unit/180 leakage PASS**, không skip; multiset ID của
-  hai suite khớp discovery, gồm 12 test mới. CLI verify thật, oracle lịch/rank,
-  hash/link/diff PASS; 6.636 file cũ, archive W9 4.432 entry và ledger nguyên
-  byte. Không gọi LLM hoặc tính nhãn. **W10 1/8 DONE**,
+  Nghiệm thu v2: compileall/E2E, **946 unit/189 leakage PASS**, không lỗi/skip;
+  multiset ID của hai suite khớp discovery trên đúng code cuối, module audit
+  đủ 21 ca (bổ sung chín ca exposure). Snapshot lưu nguyên byte 6.033 JSON,
+  replay không phụ thuộc ledger live. CLI build/verify thật, hash/link/diff
+  PASS; **6.651 file cũ**, archive W9 4.432 entry và ledger nguyên byte.
+  Không gọi LLM hoặc tính nhãn. **W10 1/8 DONE**,
   tiếp theo **W10-02**, chưa có runtime Decision hoặc release xác nhận mới.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8

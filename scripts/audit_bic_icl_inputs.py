@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from contextlib import nullcontext
 from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
 from pathlib import Path
 import sys
+import zipfile
 from typing import Any
 
 import numpy as np
@@ -29,8 +31,12 @@ from scripts.verify_execution_price_gate import (
 )
 
 NAMESPACE = "outputs/bayesian_benchmark/bic_icl_v2"
-EXPOSURE = "docs/plan/week10/exposure_inventory_v1.json"
-VERSION = "bic_icl_v2_input_audit_v1"
+EXPOSURE_V1 = "docs/plan/week10/exposure_inventory_v1.json"
+EXPOSURE = "docs/plan/week10/exposure_inventory_v2.json"
+EXPOSURE_REVIEW = f"{NAMESPACE}/exposure_review_v2.json"
+EXPOSURE_ARCHIVE = f"{NAMESPACE}/exposure_sources_v2.zip"
+AUDIT_NAME = "input_audit_v2.json"
+VERSION = "bic_icl_v2_input_audit_v2"
 DEPENDENCIES = ("scripts/audit_bic_icl_inputs.py", "scripts/verify_execution_price_gate.py",
     "core/execution_prices.py", "core/oos_coverage.py", "core/historical_signals.py")
 
@@ -57,15 +63,156 @@ def source_path(directory: Path, receipt: dict[str, str]) -> Path:
     return path
 
 
-def read_exposure(root: Path = ROOT) -> dict[str, Any]:
-    """Giữ khai báo không xác minh được tách biệt với quyền thực hiện công việc."""
-    value = json.loads((root / EXPOSURE).read_text(encoding="utf-8"))
-    if (value.get("version") != "bic_icl_v2_exposure_inventory_v1"
-            or value.get("status") != "UNVERIFIED" or value.get("confirmation_allowed") is not False
-            or value.get("reason") != "PARTICIPANT_CANNOT_VERIFY_PRIOR_EXPOSURE"
-            or not all(type(value.get(k)) is str and value[k] for k in
-                       ("date", "participant_declaration", "execution_authorization", "interpretation"))):
-        raise ValueError("Khai báo exposure không được tự chuyển thành bằng chứng chưa xem")
+def _query_dates(value: Any, path: str = "") -> list[dict[str, str]]:
+    """Chỉ trích ngày query; không đọc nhãn, action hoặc payoff để chấm mẫu."""
+    hits: list[dict[str, str]] = []
+    if type(value) is dict:
+        for key, item in value.items():
+            location = f"{path}/{key}"
+            if (key.lower() in {"as_of_date", "window_end", "cutoff", "cutoff_date", "signal_date", "data_end"}
+                    and type(item) is str and item.startswith("2025-")):
+                pd.Timestamp(item[:10])
+                hits.append({"field": location, "date": item[:10]})
+            hits.extend(_query_dates(item, location))
+    elif type(value) is list:
+        for index, item in enumerate(value):
+            hits.extend(_query_dates(item, f"{path}/{index}"))
+    return hits
+
+
+def exposure_inventory(root: Path = ROOT, files: dict[str, str] | None = None,
+                       source_archive: Path | None = None) -> dict[str, Any]:
+    """Đóng băng inventory local hoặc tái kiểm đúng snapshot đã được rà soát.
+
+    Audit input chỉ chứa lịch/metadata nên được tách khỏi query thực nghiệm.
+    Sau lock, replay dùng danh sách nguồn đóng băng, không suy lịch sử cá nhân
+    hoặc các file phát sinh sau đó thành bằng chứng trước thời điểm khai báo.
+    """
+    excluded = {f"{NAMESPACE}/input_audit.json", f"{NAMESPACE}/{AUDIT_NAME}", EXPOSURE_REVIEW}
+    def inventory_paths() -> list[str]:
+        """Liệt kê cả thư mục ignored, giữ thứ tự cố định và phạm vi công bố."""
+        return sorted(p.relative_to(root).as_posix() for p in (root / "outputs").rglob("*.json")
+                      if p.relative_to(root).as_posix() not in excluded)
+    names = inventory_paths() if files is None else sorted(files)
+    if not names:
+        raise ValueError("Inventory exposure không được rỗng")
+    checksums, hits = {}, []
+    try:
+        with (zipfile.ZipFile(source_archive) if source_archive is not None else nullcontext(None)) as archive:
+            if archive is not None and sorted(archive.namelist()) != names:
+                raise ValueError("Archive thiếu, trùng hoặc thừa nguồn inventory")
+            for name in names:
+                relative = Path(name)
+                path = root / relative
+                if (relative.is_absolute() or ".." in relative.parts or relative.parts[0] != "outputs"
+                        or relative.suffix != ".json" or name in excluded
+                        or (archive is None and not path.resolve().is_relative_to((root / "outputs").resolve()))):
+                    raise ValueError("Inventory exposure chỉ nhận JSON nguồn trong outputs")
+                raw = archive.read(name) if archive is not None else path.read_bytes()
+                sha = hashlib.sha256(raw).hexdigest()
+                if files is not None and sha != files[name]:
+                    raise ValueError("Nguồn inventory exposure đã thay đổi")
+                checksums[name] = sha
+                hits.extend({"file": name, **hit} for hit in _query_dates(json.loads(raw.decode("utf-8-sig"))))
+                if archive is None and checksum(path) != sha:
+                    raise ValueError("Nguồn đổi trong lúc rà soát exposure")
+    except (zipfile.BadZipFile, KeyError) as exc:
+        raise ValueError("Archive nguồn exposure bị lỗi") from exc
+    if files is None and names != inventory_paths():
+        raise ValueError("Inventory thay đổi trong lúc rà soát exposure")
+    return {"version": "bic_icl_v2_exposure_review_v2", "scope": "FROZEN_LOCAL_JSON_SNAPSHOT",
+        "excluded_metadata": sorted(excluded), "files": checksums, "file_count": len(checksums),
+        "query_2025_hits": hits, "private_activity_proven": False}
+
+
+def read_exposure_review(root: Path = ROOT) -> dict[str, Any]:
+    """Tái dựng bằng chứng từ byte đã đóng băng, không phụ thuộc ledger live."""
+    saved = json.loads((root / EXPOSURE_REVIEW).read_text(encoding="utf-8"))
+    if type(saved) is not dict or set(saved) != {"payload", "sha256"} or digest(saved["payload"]) != saved["sha256"]:
+        raise ValueError("Envelope review exposure không hợp lệ")
+    review = saved["payload"]
+    receipt = review.get("archive", {})
+    if receipt.get("path") != EXPOSURE_ARCHIVE:
+        raise ValueError("Archive exposure chưa được đăng ký")
+    archive = namespace_path(root / EXPOSURE_ARCHIVE, root)
+    if checksum(archive) != receipt.get("sha256"):
+        raise ValueError("Archive exposure thay đổi checksum")
+    expected = {**exposure_inventory(root, review["files"], archive), "archive": receipt}
+    if review != expected:
+        raise ValueError("Snapshot review không khớp inventory đã tái dựng")
+    return review
+
+
+def write_exposure_review(root: Path = ROOT) -> dict[str, Any]:
+    """Lưu byte nguồn một lần; ledger tăng sau lock không sửa bằng chứng cũ."""
+    review_path = namespace_path(root / EXPOSURE_REVIEW, root)
+    archive_path = namespace_path(root / EXPOSURE_ARCHIVE, root)
+    current = exposure_inventory(root)
+    if review_path.exists():
+        saved = read_exposure_review(root)
+        if {**current, "archive": saved["archive"]} != saved:
+            raise ValueError("Inventory live khác snapshot đã khóa; cần review phiên bản mới")
+        return saved
+    review_path.parent.mkdir(parents=True, exist_ok=True)
+    if archive_path.exists():
+        if exposure_inventory(root, current["files"], archive_path) != current:
+            raise ValueError("Archive chưa có receipt không khớp nguồn live")
+    else:
+        created = False
+        try:
+            with zipfile.ZipFile(archive_path, "x") as archive:
+                created = True
+                for name, expected in current["files"].items():
+                    raw = (root / name).read_bytes()
+                    if hashlib.sha256(raw).hexdigest() != expected:
+                        raise ValueError("Nguồn đổi trong lúc đóng băng archive exposure")
+                    entry = zipfile.ZipInfo(name)
+                    entry.compress_type = zipfile.ZIP_DEFLATED
+                    archive.writestr(entry, raw, compresslevel=6)
+            if exposure_inventory(root) != current:
+                raise ValueError("Inventory đổi trong lúc đóng băng archive exposure")
+        except Exception:
+            if created:
+                archive_path.unlink(missing_ok=True)
+            raise
+    current["archive"] = {"path": EXPOSURE_ARCHIVE, "sha256": checksum(archive_path)}
+    write_json(review_path, {"payload": current, "sha256": digest(current)})
+    return read_exposure_review(root)
+
+
+def read_exposure(root: Path = ROOT, relative: str = EXPOSURE) -> dict[str, Any]:
+    """Xét khai báo cùng snapshot đã kiểm; PASS không chứng minh chưa từng xem outcome."""
+    if relative not in (EXPOSURE, EXPOSURE_V1):
+        raise ValueError("Đường dẫn khai báo exposure chưa được đăng ký")
+    value = json.loads((root / relative).read_text(encoding="utf-8"))
+    if type(value) is not dict or value.get("confirmation_allowed") is not False:
+        raise ValueError("Exposure không được tự mở release xác nhận")
+    if relative == EXPOSURE_V1:
+        if (value.get("version") != "bic_icl_v2_exposure_inventory_v1" or value.get("status") != "UNVERIFIED"
+                or value.get("reason") != "PARTICIPANT_CANNOT_VERIFY_PRIOR_EXPOSURE"
+                or not all(type(value.get(k)) is str and value[k] for k in
+                           ("date", "participant_declaration", "execution_authorization", "interpretation"))):
+            raise ValueError("Khai báo cũ không được tự chuyển thành PASS")
+        return value
+    if (value.get("version") != "bic_icl_v2_exposure_inventory_v2"
+            or value.get("basis") != "PARTICIPANT_DECLARATION_AND_LOCAL_INVENTORY"
+            or value.get("unseen_outcomes_proven") is not False
+            or not all(type(value.get(k)) is str and value[k] for k in ("date", "participant_declaration", "interpretation"))):
+        raise ValueError("Khai báo exposure mới thiếu căn cứ hoặc vượt phạm vi chứng minh")
+    claims = [value.get(k) for k in ("outcome_used_for_method_selection", "outcome_used_for_method_adjustment")]
+    if any(item is not None and type(item) is not bool for item in claims):
+        raise ValueError("Khai báo sử dụng outcome phải là bool hoặc null")
+    for key, expected in (("previous_declaration", EXPOSURE_V1), ("inventory_review", EXPOSURE_REVIEW)):
+        receipt = value[key]
+        if receipt.get("path") != expected or checksum(root / expected) != receipt.get("sha256"):
+            raise ValueError("Liên kết lịch sử hoặc inventory exposure sai checksum")
+    read_exposure(root, EXPOSURE_V1)
+    review = read_exposure_review(root)
+    has_queries = bool(review["query_2025_hits"])
+    status = ("EXPOSED" if any(item is True for item in claims) else
+              "PASS" if all(item is False for item in claims) and not has_queries else "UNVERIFIED")
+    if value.get("status") != status:
+        raise ValueError("Trạng thái exposure không khớp khai báo và inventory")
     return value
 
 
@@ -264,13 +411,19 @@ def build_audit(directory: Path, root: Path = ROOT) -> dict[str, Any]:
         for kind in ("csv", "evidence", "events"):
             path = directory / item[kind]["file"]
             sources[path.relative_to(root).as_posix()] = item[kind]["sha256"]
-    return native_json({"version": VERSION, "namespace": "bic_icl_v2", "status": "BLOCKED",
-        "confirmation_allowed": False, "blocking_reasons": ["EXPOSURE_UNVERIFIED"] +
-            (["INSUFFICIENT_ELIGIBLE_CALENDAR"] if calendar["status"] != "PASS" else []),
+    blocking = ([] if exposure["status"] == "PASS" else [f"EXPOSURE_{exposure['status']}"]) + (
+        ["INSUFFICIENT_ELIGIBLE_CALENDAR"] if calendar["status"] != "PASS" else [])
+    for receipt in (exposure["previous_declaration"], exposure["inventory_review"]):
+        sources[receipt["path"]] = receipt["sha256"]
+    sources[EXPOSURE_ARCHIVE] = checksum(root / EXPOSURE_ARCHIVE)
+    return native_json({"version": VERSION, "namespace": "bic_icl_v2", "status": "BLOCKED" if blocking else "PASS",
+        "input_eligible": not blocking, "confirmation_allowed": False, "blocking_reasons": blocking,
+        "pending_requirements": ["FROZEN_METHOD_AND_POWER_PROTOCOL", "ELIGIBLE_CANDIDATE_AND_RELEASE"],
         "price_gate": "PASS", "exposure": exposure, "calendar": calendar, "sources": sources,
         "code_sha256": {name: checksum(root / name) for name in DEPENDENCIES},
         "split": {"train": "2018-2022", "development": "2023_EXPLORATORY",
-            "memory_refresh": "2023_2024_UPSTREAM_ONLY", "confirmation_2025": "BLOCKED",
+            "memory_refresh": "2023_2024_UPSTREAM_ONLY", "confirmation_2025": "BLOCKED" if blocking else
+                "ELIGIBLE_PENDING_PROTOCOL_AND_RELEASE",
             "fallback": "FORWARD_AFTER_LOCK_OR_NO_NEW_CONFIRMATION"},
         "is_execution_plan": False, "llm_calls": 0, "economic_labels_computed": False})
 
@@ -282,10 +435,17 @@ def main() -> None:
     mode.add_argument("--download", action="store_true", help="Lấy giá thô 2025 công khai, không dùng API key/LLM")
     mode.add_argument("--build", action="store_true", help="Khóa nguồn và lịch eligibility, giữ exposure riêng")
     mode.add_argument("--verify", action="store_true", help="Tái dựng audit và so toàn payload, không gọi mạng")
+    mode.add_argument("--review-exposure", action="store_true", help="Đóng băng inventory local cho rà soát khai báo")
     parser.add_argument("--output-dir", type=Path, default=ROOT / NAMESPACE)
     args = parser.parse_args()
     base = namespace_path(args.output_dir)
-    prices, audit_path = base / "inputs/execution_prices_2025", base / "input_audit.json"
+    prices, audit_path = base / "inputs/execution_prices_2025", base / AUDIT_NAME
+    if args.review_exposure:
+        if base != (ROOT / NAMESPACE).resolve():
+            parser.error("Review exposure dùng namespace đã ghim trong khai báo")
+        review = write_exposure_review()
+        print(f"Đã rà soát {review['file_count']} JSON, {len(review['query_2025_hits'])} dấu vết query 2025; chưa xét khai báo")
+        return
     if args.download:
         download_prices(prices)
         print("Gate giá revision PASS; chưa mở xác nhận hoặc sinh nhãn")
@@ -299,7 +459,8 @@ def main() -> None:
     else:
         write_json(audit_path, envelope)
     print(f"Đối soát audit PASS: giá {payload['price_gate']}, lịch {payload['calendar']['status']}, "
-          f"{payload['calendar']['selected_count']}/128 ngày; xác nhận {payload['status']} do exposure UNVERIFIED")
+          f"{payload['calendar']['selected_count']}/128 điểm; exposure {payload['exposure']['status']}, "
+          f"đầu vào {payload['status']}; chưa là release xác nhận")
 
 
 if __name__ == "__main__":
