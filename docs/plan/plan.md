@@ -1218,11 +1218,26 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — TODO 0/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 1/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
 theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
+
+- **W10-01 DONE, 21/10/2026:** [audit exposure, giá và mẫu xác nhận](week10/README.md#w10-01--audit-exposure-giá-và-mẫu-xác-nhận-21102026).
+  Hoàn tất audit; **gate xác nhận 2025 BLOCKED**: exposure người tham gia/
+  ngoài workspace UNVERIFIED, giá thô/evidence/quyền được verify chỉ đến
+  2024. Archive kỹ thuật có 249 phiên 2025, lưới step3 83/mã và 79 cycle/mã
+  hoàn tất trong quý trước kiểm giá/quyền; không coi là eligible hoặc khóa
+  128 ngày. Kiểm metadata 6.028 JSON outputs và nguồn/code/lịch; chưa thấy
+  query backtest tại cutoff 2025, không suy thành chưa xem/tune. Dành namespace
+  `bic_icl_v2`, giữ 2023 development, 2024 đã xem và nguồn memory revision;
+  2025 chỉ xác nhận khi đủ gate, nếu không dùng forward sau lock hoặc giữ
+  exploratory. Archive W9 đủ 4.432 entry khớp byte, 6.636 file nguồn/bằng
+  chứng và ledger nguyên hash; QA link/diff/hash PASS, không API hoặc đổi
+  code/runtime/schema/đầu vào. Chỉ hai Markdown, không chạy lại suite theo
+  AGENTS.md 1.2. **W10 1/8 DONE**, tiếp theo **W10-02**, chưa có gate kỹ thuật
+  revision mới hoặc manifest xác nhận.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
