@@ -1060,7 +1060,7 @@ tối ưu mới. Soạn sẵn phương pháp luận và công cụ thống kê b
   Selection A PROMOTED chỉ ở development; hiệu quả/CI xác nhận chờ W9,
   không tối ưu thêm theo holdout hoặc thay trạng thái triển khai mặc định.
 
-### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — IN_PROGRESS, 5/6
+### 📅 TUẦN 9: Benchmark holdout và phân tích thống kê — COMPLETE, 6/6; Gate W9 PASS
 [Checklist W9](week9/README.md). Người dùng chạy 64 điểm/bốn mã bằng cấu hình
 đã khóa; verify toàn run rồi tính primary/secondary, CI và biểu đồ theo
 protocol W8. Không tune theo outcome 2024; không đủ mẫu thì báo thiếu bằng
@@ -1133,10 +1133,27 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   4.413 file cũ cùng ledger nguyên byte, không API. **W9 5/6 DONE**, tiếp theo
   **W9-06** khóa/tái lập/bàn giao W10; chưa chốt Gate W9 hoặc chọn lại bằng holdout.
 
+- **W9-06 DONE, 21/10/2026:** [khóa và bàn giao kết quả](week9/README.md#w9-06--khóa-kết-quả-tái-lập-và-bàn-giao-21102026).
+  Bản local `holdout/frozen_results_v1.zip` giữ nguyên byte 4.432 file
+  nguồn/bằng chứng tại mốc `cc16e7c`, gồm development/repeat/holdout, ledger
+  và publication; đọc lại từng entry/hash PASS. SHA-256 archive
+  `1db2024a3a338cadcf72692287471f8a14feba49ce8a1b1a488b951896cfec70`.
+  Ba CLI offline verify-report/verify-bootstrap/export --check tái chạy PASS;
+  đủ 64 điểm/384 Decision, 30.000 draw hợp lệ, 18 file publication khớp byte.
+  Chỉ ba Markdown và bản sao bằng chứng, không chạy lại suite theo AGENTS.md 1.2;
+  4.432 file cũ, ledger/report/bootstrap/manifest nguyên byte; không API.
+  **W9 COMPLETE 6/6, Gate W9 PASS; tiếp theo W10-01, W10 vẫn TODO 0/5.**
+  Giữ primary CI dương có điều kiện, mọi secondary inconclusive và giới hạn
+  prior-off/coverage/LLM; không chọn lại, đổi deployment hoặc coi gate là
+  bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
+  bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
+
 ### 📅 TUẦN 10: Luận văn, tái lập và bảo vệ
 [Checklist W10](week10/README.md). Hoàn thiện chương kết quả từ bảng W9,
 phân biệt Bayes số học và ICL; trình bày kết quả bất lợi/giới hạn, kiểm tái
 lập và chuẩn bị 25–30 slide. Không dành tuần này để mở thêm thử nghiệm.
+**Đầu vào W9 đã nghiệm thu, Gate W9 PASS; W10 vẫn TODO 0/5**, bắt đầu W10-01
+theo [bàn giao](week10/README.md#đầu-vào-đã-nhận-từ-w9-21102026).
 
 ---
 
