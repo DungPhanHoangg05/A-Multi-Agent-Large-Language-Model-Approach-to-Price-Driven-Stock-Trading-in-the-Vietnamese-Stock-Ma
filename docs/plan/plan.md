@@ -1218,7 +1218,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 5/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 6/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
@@ -1296,6 +1296,21 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   có ≥2 task, FPT=0, chưa đủ rule đề cử ≥6 và ≥1/mã; không nới chuẩn.
   Chưa có CLI cohort/release, không API thật hoặc payoff 2025.
   **W10 5/8 DONE**, tiếp theo **W10-06**.
+
+- **W10-06 DONE, 22/10/2026:** [producer, loader, verifier và CLI cohort](week10/README.md#w10-06--producer-loader-verifier-và-cli-cohort-22102026).
+  Protocol/schema/plan riêng bind 85 dependency/runtime/nguồn; lịch 60 point
+  giữ nguyên. Policy cache hoặc fresh khóa cả cohort; journal upstream một
+  lần/point, khóa packet/request/matrix/repeat trước Decision, resume cùng
+  UUID/cache durable. Primary/repeat riêng, duplicate độc lập, alias không
+  giả HTTP; Numeric và report dùng cùng snapshot/engine T+2.5. Fixture bốn
+  đường LONG/CASH khớp oracle tiền/VND/vốn ghép/MDD, SDK VI/EN giữ schema/
+  horizon legacy. CLI prepare/dry-run/fixture thật PASS, thiếu release chặn
+  trước key/HTTP. Oracle 60 context/480 contract/117 prior-off/12 repeat
+  metadata PASS; plan giữ byte/timestamp. **27 test mới; compileall/E2E,
+  1.083 unit/235 leakage PASS**, đủ discovery, identity LF 271 file;
+  **6.699 tệp cũ nguyên byte**. Coverage R_task chưa đủ đề cử trên cache;
+  chưa release/API revision hoặc payoff 2025. **W10 6/8 DONE**, tiếp theo
+  **W10-07** source freeze/dry-run và receipt gate toàn revision.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
