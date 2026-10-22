@@ -1218,7 +1218,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 1/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 2/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
@@ -1246,6 +1246,18 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   PASS; **6.651 file cũ**, archive W9 4.432 entry và ledger nguyên byte.
   Không gọi LLM hoặc tính nhãn. **W10 1/8 DONE**,
   tiếp theo **W10-02**, chưa có runtime Decision hoặc release xác nhận mới.
+
+- **W10-02 DONE, 22/10/2026:** [protocol và power audit](week10/README.md#w10-02--khóa-protocol-và-power-audit-22102026).
+  Khóa `bic_icl_method_protocol_v1` độc lập tiến độ: giả thuyết Bayes/ICL/
+  policy, C/B1/B2/lambda train, task 20 phiên, shared-off/alias, matrix/repeat,
+  estimand tài khoản/CI/selection/điểm dừng. Giữ 128 điểm/41 cutoff 2025,
+  chưa có runtime/manifest/release. Mô phỏng 30 scenario từ năm proxy cũ,
+  không payoff 2025; L4/CI95% width 4,93–29,15, MDE80 4,08–19,03 đpt.
+  Đây là planning approximation có giới hạn donor/calibration, không chứng
+  nhận đủ power cho R. Replay bundle/oracle 30 scenario/576 tài khoản,
+  nhãn/nguồn/hash/link/diff PASS; **6.664 file cũ nguyên byte**. Chỉ đặc tả
+  và phân tích, không đổi runtime/schema/input; không chạy suite theo
+  AGENTS.md mục 1.2. **W10 2/8 DONE**, tiếp theo **W10-03**; không API/LLM.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
