@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 5/8. W10-01–05 DONE; task/context đạt nghiệm thu kỹ thuật offline, R_task chưa đủ coverage đề cử trên cache; chưa có CLI cohort/release xác nhận.**
+**Trạng thái: IN PROGRESS, 6/8. W10-01–06 DONE; đã có producer/loader/verifier/CLI cohort, nghiệm thu offline; R_task chưa đủ coverage đề cử trên cache, chưa có release/API revision.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -195,7 +195,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [x] DONE — 32 test mới, 978 unit/204 leakage và compileall/E2E PASS |
 | W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [x] DONE — memory 976, lambda=8; 38 test mới, 1.016 unit/215 leakage và compileall/E2E PASS |
 | W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [x] DONE — 40 test mới, 1.056 unit/227 leakage và compileall/E2E PASS; coverage cache chưa đủ đề cử |
-| W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [ ] TODO |
+| W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [x] DONE — 27 test mới, 1.083 unit/235 leakage và compileall/E2E PASS; CLI offline/oracle PASS |
 | W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [ ] TODO |
 | W10-08 | Hướng dẫn API/resume/verify và chương phương pháp | 07 | CLI thật, model pin/risk OFF; bàn giao W11 | [ ] TODO |
 
@@ -203,15 +203,15 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 
 | Phần | Tệp mới dự kiến / tái dùng | Kiểm tra |
 | --- | --- | --- |
-| Protocol | `core/bic_icl_protocol.py`, schema tại `docs/plan/week10/` | Version/hash/exposure lock; không sửa registry W8/W9 |
+| Protocol | `core/bic_icl_protocol.py`, `bic_icl_schema_v1.json` tại tuần 10 đã triển khai W10-06 | Plan/source/code/runtime/schema riêng; không sửa registry W8/W9 |
 | Shared Decision | `core/bic_icl_decisions.py` đã triển khai tại W10-03 | Canonical shared-off/stats alias, duplicate độc lập, raw/ledger/source receipt, resume cùng UUID |
 | Bayes | `core/bic_icl_statistics.py` đã nghiệm thu W10-04 | Counts/n=0/oracle/PIT, future append invariance, JSON native |
 | Memory revision | `core/bic_icl_memory.py` đã nghiệm thu W10-04 | Không dùng Decision làm feature; provenance/compatibility/dedup/source snapshot/cutoff |
 | Chuẩn bị offline | `core/bic_icl_diagnostics.py`, `scripts/prepare_bic_icl_memory.py` | Rebuild memory/index/train và verify bất biến; không là CLI cohort/Decision |
 | Task/context | `core/bic_icl_tasks.py`, `core/bic_icl_prompt.py` đã nghiệm thu W10-05; feature/scaler cũ | Label-blind, centroid/overlap, budget 3×2, schema/alias legacy |
 | Preflight context offline | `scripts/prepare_bic_icl_context.py`, fixture JSON tại tuần 10 | Verify snapshot W10-04; rebuild 60 context, hai template ngôn ngữ, không gọi Decision |
-| Runtime | `core/bic_icl_runtime.py`, `scripts/run_bic_icl.py`, retry/ledger/journal cũ | Crash/resume/unknown, shared-off, upstream một lần |
-| Report | `core/bic_icl_reports.py`, engine/metric/bootstrap hiện hữu có version | Support, alias không tạo mẫu mới, cluster/repeat, không đổi W9 |
+| Runtime | `core/bic_icl_runtime.py`, `scripts/run_bic_icl.py` đã triển khai W10-06; retry/ledger/journal cũ | Crash/resume/unknown, shared-off, upstream một lần |
+| Report | `core/bic_icl_reports.py` đã triển khai W10-06; engine/metric cũ | Common support, bốn tài khoản, primary/repeat riêng; selection/bootstrap thuộc W11 |
 
 P0/liên module phải đủ bốn gate AGENTS.md; retrieval/pooling/task phải có
 leakage suite. Không sửa hash W9 để nhận code mới: tái lập W9 bằng checkout/
@@ -820,3 +820,111 @@ fixture tổng hợp và hai artifact context mới. Không API/LLM thật hoặ
 payoff/action 2025; `confirmation_allowed=false`. W10-07 phải nghiệm thu
 lại toàn revision sau tích hợp runner; component gate này chưa là release.
 Tiếp theo **W10-06**: producer/loader/verifier/CLI cohort và fixture kinh tế.
+
+## W10-06 — Producer, loader, verifier và CLI cohort, 22/10/2026
+
+**DONE; W10 6/8.** Các module mới:
+[`bic_icl_protocol.py`](../../../core/bic_icl_protocol.py),
+[`bic_icl_runtime.py`](../../../core/bic_icl_runtime.py),
+[`bic_icl_reports.py`](../../../core/bic_icl_reports.py) và
+[`run_bic_icl.py`](../../../scripts/run_bic_icl.py). Schema riêng
+[`bic_icl_schema_v1.json`](bic_icl_schema_v1.json) cho plan/packet/request/
+report; định danh không ghi đè W8/W9. Chỉ mở producer development 2023;
+confirmation 2025 cần selection/manifest/release ở các task sau.
+
+**Plan/source:** `bic_icl_cohort_plan_v1` ánh xạ canonical protocol v1 đã
+khóa, giữ 60 point và cấu hình nguồn/model VI, risk OFF. Bind rõ dependency
+thực thi, schema/fixture và runtime; không hash checklist hoặc tự thêm mọi
+analyzer tương lai vào identity. Loader dựng lại plan từ nguồn đã verify,
+từ chối đổi lịch/method/model/code hoặc chỉ tự băm lại. A/R/Numeric nhận
+cùng memory 976/index revision và lambda=8, không refit hoặc tune lại.
+
+Chính sách upstream khóa cho cả cohort: `VERIFIED_CACHE` kiểm Full/source
+cho mọi point, hoặc `FRESH_SHARED` chạy một upstream mới/point với journal
+Indicator/Pattern/Trend/Full. Không trộn cache/fresh theo outcome. Chỉ khi
+đủ upstream mới khóa toàn packet/request, ma trận và repeat trước Decision.
+Một R_task vượt budget chặn cả ba ID trên toàn cohort, tính lại M trước
+rotation; không biến BLOCKED thành prior-off. Coverage metadata hiện giữ
+nguyên [W10-05](#w10-05--task-selector-và-context-22102026), vẫn chưa đủ đề cử.
+
+**Runtime/checkpoint:** Original đầu, các nhánh còn lại xoay j mod M; repeat
+xoay (3j+r−1) mod M và có duplicate độc lập. Toàn slot primary khởi tạo trước
+HTTP; mất marker/state đã bắt đầu phải dừng, không tự tạo lại để replay.
+Verifier kiểm cả snapshot, source, raw/schema, ledger và cache durable trước
+HTTP tiếp theo. Unknown phục hồi cùng UUID qua wrapper/recovery hiện hữu;
+complete không gọi lại. Alias shared-off/stats giữ nguồn durable và không
+tạo HTTP giả. Metadata OS lock có thể cập nhật; artifact khoa học không đổi.
+
+Mẫu repeat lấy earliest both-ready/one-block-ready/off của R_pool, ba điểm
+khác nhau/mã; stratum thiếu bù earliest chưa chọn và ghi reason. Khóa trước
+Decision, không dùng action/return. Trên cache thật đủ cả ba stratum/mã,
+**12 điểm, không fallback**; đây là metadata cho bước khóa upstream W11,
+chưa là release hoặc kết quả repeat thực nghiệm.
+
+**Kinh tế/report:** Numeric LONG khi stats ready và p>0,5, còn lại SHORT=CASH;
+posterior thiếu/không hữu hạn là lỗi, không điền CASH. Evaluation chỉ chạy
+sau đủ Decision hợp lệ của point, cùng Open(t+1)/Close(t+3) và engine cũ.
+Report giữ common support, danh sách thiếu và từng tài khoản; D chỉ có khi
+đủ cohort, bằng trung bình đều chênh return bốn tài khoản, không mean cycle.
+Repeat r=1/2/3 có report riêng, không Numeric mới, không nhập primary hoặc
+chọn lượt tốt nhất. Không đề cử và không tính bootstrap trong task này.
+
+[`economic_fixture_v1.json`](economic_fixture_v1.json) tổng hợp hai cycle
+qua cuối tuần, một lãi/một lỗ, bốn chuỗi LONG/CASH. Oracle tính tiền mua/bán
+VND và vốn ghép độc lập rồi so engine/nhãn/MDD: vốn 50 triệu/mã, hệ số giá
+1.000, cổ phiếu lẻ, phí 0,25% và slippage 0,10% mỗi chiều. Không trừ phí lần
+nữa. SDK HTTP mock kiểm schema legacy và horizon T+2.5 ở VI/EN; plan thật
+vẫn VI, không lấy báo cáo VI làm cohort tiếng Anh.
+
+**Lệnh offline từ root:**
+
+```powershell
+py -3.13 -X utf8 scripts/run_bic_icl.py --prepare
+py -3.13 -X utf8 scripts/run_bic_icl.py --dry-run
+py -3.13 -X utf8 scripts/run_bic_icl.py --economic-fixture
+```
+
+Plan mặc định `outputs/bayesian_benchmark/bic_icl_v2/development_plan_v1.json`;
+run dùng thư mục `development_run_v1` riêng ngay dưới namespace.
+`--verify-only`/`--verify-report` kiểm run/report đã có mà không đọc key
+hoặc gọi mạng. `--run --resume` và `--repeat-id 1/2/3` chỉ dùng sau release;
+consumer kiểm đúng plan/gate/code/runtime/context lock trước đọc credential,
+rồi preflight text/vision cùng plan/credential. Fresh có `--lock-upstream`
+để hoàn tất journal/context trước release Decision tương ứng. W10-06 không
+cấp release hoặc chạy upstream/Decision thật; các lệnh online chưa được mở.
+
+Ba lệnh offline thật exit 0; thử run thiếu release exit 1 đúng dự kiến,
+dừng trước credential/HTTP. Dry-run/fixture/guard giữ nguyên byte/timestamp
+plan. Identity có **85 dependency**; plan SHA-256 byte
+`c728af94811636cde5360c9b029602b1e1946af048db7ddfff3fd89802fac530`,
+digest payload
+`4b584d47cc8ab6a6a1da1b6ad86bfefd478bcc6ffe7a0572953ebaa100e17765`.
+Context lock dựng từ toàn 60 point có digest
+`19db9111bdea7865478f809c188b5903d89b1090edb93fdb941d4c9e48250ddd`.
+Oracle kiểm trực tiếp population C của A trên memory, đối chiếu 60 evidence/
+prefix/prompt R với artifact W10-05, 480 contract SDK, 117 prior-off canonical
+và 12 lựa chọn repeat. Trên cả A/R: BRPP tối đa **518 ký tự**, prompt **4.671**.
+Giới hạn budget 3×2 hai ngôn ngữ vẫn theo fixture W10-05.
+
+**Nghiệm thu trên Python 3.13.5:** đủ **27 test mới PASS**, gồm upstream fresh
+một lần, VI/EN SDK/schema/horizon, ba repeat/duplicate, shared-off/stats alias,
+source/plan/packet/cache bị sửa, mất marker, unknown sau HTTP durable và
+resume cùng UUID. **Bốn gate PASS: compileall toàn codebase, 1.083 unit,
+E2E xác định và 235 leakage**, không lỗi, skip hoặc expected failure.
+Hai suite chia nguyên module vào bốn process, giữ thứ tự trong module;
+đủ 137 module unit/38 module leakage, multiset ID khớp discovery, không
+bỏ bội số. Identity UTF-8/LF của **271 file** không đổi suốt gate;
+**6.699 tệp cũ nguyên byte**, gồm W9 và toàn bộ snapshot W10-01–05.
+Diff/hash/liên kết PASS; schema/fixture mới dùng cùng normalization LF
+khi binding code, artifact/bằng chứng vẫn kiểm theo byte gốc.
+
+Log/inventory/runtime, công cụ QA, plan, sidecar 60 packet/context lock và
+schema/fixture JSON được đóng nguyên byte trong
+[`validation_gates/cohort_runtime_v1.zip`](validation_gates/cohort_runtime_v1.zip):
+**211 entry / 3.123.212 byte**, SHA-256 byte
+`070a89688fc283bb4caa7e604662804a11b3b5fe9a067f8949ff831e2f322243`.
+Manifest đối soát từng entry; không dùng log bản nháp làm gate cuối.
+Không gọi API/LLM thật hoặc tạo payoff/action 2025. W10-07 còn nghiệm thu
+source freeze/dry-run và receipt gate toàn revision; W11 khóa upstream/
+request/repeat trước chạy development. Đây chưa là release xác nhận.
+Tiếp theo **W10-07**.

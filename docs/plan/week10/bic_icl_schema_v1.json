@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan_version", "split", "method_sha256", "protocol", "inputs", "schedule", "upstream_policy", "language", "code_sha256", "runtime", "source_hashes", "confirmation_allowed"],
+      "properties": {
+        "plan_version": {"const": "bic_icl_cohort_plan_v1"},
+        "split": {"const": "development_2023"},
+        "method_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "protocol": {"type": "object"}, "inputs": {"type": "object"},
+        "schedule": {"type": "array", "minItems": 60, "maxItems": 60, "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["point_id", "symbol", "as_of_date"], "properties": {"point_id": {"type": "string"}, "symbol": {"enum": ["FPT", "MWG", "VCB", "VNM"]}, "as_of_date": {"type": "string", "pattern": "^2023-[0-9]{2}-[0-9]{2}$"}}}},
+        "upstream_policy": {"enum": ["VERIFIED_CACHE", "FRESH_SHARED"]},
+        "language": {"const": "vi"}, "code_sha256": {"type": "object"},
+        "runtime": {"type": "object"}, "source_hashes": {"type": "object"},
+        "confirmation_allowed": {"const": false}
+      }
+    },
+    "request": {
+      "type": "object", "additionalProperties": false,
+      "required": ["branch_id", "prompt", "prefix", "base_evidence_sha256"],
+      "properties": {"branch_id": {"type": "string"}, "prompt": {"type": "string", "minLength": 1, "maxLength": 6499}, "prefix": {"type": "string", "maxLength": 600}, "base_evidence_sha256": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[a-f0-9]{64}$"}]}}
+    },
+    "report": {
+      "type": "object", "additionalProperties": false,
+      "required": ["report_version", "split", "repeat_id", "in_primary", "matrix", "status", "binding", "stocks", "delta_vs_original", "points", "coverage", "nomination_performed", "confirmation_allowed"],
+      "properties": {
+        "report_version": {"const": "bic_icl_cohort_report_v1"}, "split": {"enum": ["fixture", "development_2023"]},
+        "repeat_id": {"enum": [0, 1, 2, 3]}, "in_primary": {"type": "boolean"},
+        "matrix": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "status": {"enum": ["COMPLETE", "INCOMPLETE"]}, "binding": {"type": "object"},
+        "stocks": {"type": "object"}, "delta_vs_original": {"type": "object"},
+        "points": {"type": "array"}, "coverage": {"type": "object"},
+        "nomination_performed": {"const": false}, "confirmation_allowed": {"const": false}
+      }
+    },
+    "packet": {
+      "type": "object", "additionalProperties": false,
+      "required": ["packet_version", "point_id", "bundle", "source_proof", "evidence", "a_evidence", "a_request", "requests", "task_technical_available"],
+      "properties": {"packet_version": {"const": "bic_icl_point_packet_v1"}, "point_id": {"type": "string"}, "bundle": {"type": "object"}, "source_proof": {"type": "object"}, "evidence": {"type": "object"}, "a_evidence": {"type": "object"}, "a_request": {"type": "object"}, "requests": {"type": "object", "additionalProperties": {"$ref": "#/$defs/request"}}, "task_technical_available": {"type": "boolean"}}
+    }
+  }
+}
