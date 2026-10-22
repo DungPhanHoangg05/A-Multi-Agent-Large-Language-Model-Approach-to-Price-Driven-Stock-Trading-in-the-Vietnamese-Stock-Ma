@@ -1,0 +1,17 @@
+{
+  "fixture_version": "bic_icl_context_budget_fixture_v1",
+  "scope": "SYNTHETIC_RENDERER_ONLY_NO_MARKET_OBSERVATION",
+  "symbol": "VNM",
+  "regime": "CONSOLIDATION",
+  "examples_per_task": 2,
+  "k_tasks": 3,
+  "statistics_counts": {"C": {"s": 17, "n": 25}, "B1": {"s": 45, "n": 60}, "B2": {"s": 20, "n": 50}},
+  "examples": [
+    {"episode_id": "fixture-1", "trend": "BULLISH", "pattern": "BEARISH", "net_return_pct": 1000000.125, "label": "W", "return_text": "+1000000.12%"},
+    {"episode_id": "fixture-2", "trend": "BEARISH", "pattern": "BULLISH", "net_return_pct": -99.9999, "label": "L", "return_text": "-100.00%"},
+    {"episode_id": "fixture-3", "trend": "NEUTRAL", "pattern": "BULLISH", "net_return_pct": 0.0001, "label": "W", "return_text": "+0.00%"},
+    {"episode_id": "fixture-4", "trend": "BULLISH", "pattern": "NEUTRAL", "net_return_pct": -0.0001, "label": "L", "return_text": "-0.00%"},
+    {"episode_id": "fixture-5", "trend": "NEUTRAL", "pattern": "NEUTRAL", "net_return_pct": 0.0, "label": "L", "return_text": "+0.00%"},
+    {"episode_id": "fixture-6", "trend": "BEARISH", "pattern": "BEARISH", "net_return_pct": 14.125, "label": "W", "return_text": "+14.12%"}
+  ]
+}
