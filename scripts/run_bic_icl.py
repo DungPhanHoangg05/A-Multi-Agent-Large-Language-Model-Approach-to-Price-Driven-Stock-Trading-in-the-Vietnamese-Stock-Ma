@@ -60,7 +60,8 @@ def main(argv: list[str] | None = None) -> None:
     output = namespace_path(args.output_dir, 'run')
     if args.ledger.resolve() != ROOT/'outputs/oos_pilot/api_usage.json':
         raise ValueError('CLI cohort phải giữ ledger provider chung')
-    authorization = read_authorization(args.handoff, args.technical_gates, plan) if online else None
+    authorization = read_authorization(args.handoff, args.technical_gates, plan,
+        run_root=output, ledger_path=args.ledger) if online else None
     # Tất cả đường từ chối release ở trên chạy trước import/đọc credential.
     import httpx
     from core.improvement_recovery import ResilientPacer, ResilientTransport, recovery_scope

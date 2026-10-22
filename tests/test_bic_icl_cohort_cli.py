@@ -50,7 +50,7 @@ class CohortCliTests(unittest.TestCase):
             self.assertIn(name, identity)
         self.assertNotIn('docs/plan/week10/README.md', identity)
 
-    def test_release_consumer_detects_changed_gate_and_returns_copy(self):
+    def test_release_consumer_rejects_legacy_self_declared_payload_without_snapshot(self):
         from pathlib import Path
         import tempfile
         from core.bic_icl_protocol import read_authorization
@@ -63,15 +63,9 @@ class CohortCliTests(unittest.TestCase):
                 'code_sha256': plan['code_sha256'], 'runtime': plan['runtime'],
                 'decision_context_lock_sha256': 'c'*64, 'confirmation_allowed': False}
             save_envelope(path, payload)
-            with patch('core.candidate_selection.read_technical_gates', return_value={'status': 'PASS', 'sha256': 'b'*64}):
-                authorization = read_authorization(path, Path(directory)/'gates.json', plan)
-                copied = authorization.payload
-                copied['confirmation_allowed'] = True
-                self.assertFalse(authorization.payload['confirmation_allowed'])
-                authorization.verify(plan)
-            with patch('core.candidate_selection.read_technical_gates', return_value={'status': 'PASS', 'sha256': 'd'*64}):
+            with patch('core.bic_icl_release.read_technical_gates', return_value={'status': 'PASS', 'sha256': 'b'*64}):
                 with self.assertRaises(ValueError):
-                    authorization.verify(plan)
+                    read_authorization(path, Path(directory)/'gates.json', plan)
 
     def test_economic_mode_does_not_construct_source_or_read_environment(self):
         with patch('scripts.run_bic_icl.CohortSources', side_effect=AssertionError('Không đọc nguồn')), patch('builtins.print'):

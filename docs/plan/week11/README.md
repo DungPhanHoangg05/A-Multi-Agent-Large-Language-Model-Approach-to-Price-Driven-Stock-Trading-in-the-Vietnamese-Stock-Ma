@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: TODO, 0/8; đã nhận bàn giao W10 ngày 22/10/2026.**
+**Trạng thái: IN PROGRESS, 1/8; W11-01 DONE ngày 22/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -17,7 +17,8 @@ protocol, nguồn và release. Không kéo tối ưu sang W12.
 **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS.**
 [Hướng dẫn API/resume/verify](../week10/operations.md) và
 [bản thảo chương phương pháp](../week10/methodology_chapter.md) đã hoàn tất.
-W11 vẫn **0/8**, chưa chạy primary/repeat revision thật hoặc mở xác nhận 2025.
+Khi bàn giao, W11 **0/8**. [W11-01](#w11-01--khóa-development-và-release-22102026)
+đã hoàn tất; primary/repeat revision thật và xác nhận 2025 chưa chạy.
 
 | Đầu vào hiện có | Trạng thái dùng cho W11-01 |
 | --- | --- |
@@ -33,7 +34,7 @@ W11-01 cần kiểm lại nguồn/gate, khóa policy upstream cho cả cohort v�
 đủ 60 upstream và cấp release tham chiếu context lock. Nếu chọn fresh,
 tạo plan/run mới, cấp release upstream-only, preflight/lock-upstream,
 rồi verify và cấp release Decision có digest context lock. Consumer đã
-có; **producer/verifier phát hành release development còn thuộc W11-01**.
+có; **producer/verifier cache đã hoàn tất tại W11-01**. Phương án fresh chưa được phát hành.
 Không dùng JSON tự khai hoặc receipt gate thay các bằng chứng này.
 
 Plan/code/model/runtime/scaler/bank/schema/request/matrix/repeat và ledger
@@ -172,7 +173,7 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 
 | Task | Công việc | Phụ thuộc | Điều kiện hoàn thành | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W11-01 | Kiểm nguồn/gate, khóa development và repeat plan | W10 | Dry-run/identity/nguồn PASS, chưa API khi thiếu binding | [ ] TODO |
+| W11-01 | Kiểm nguồn/gate, khóa development và repeat plan | W10 | Dry-run/identity/nguồn PASS; release cache bind đủ snapshot/request/repeat/run/ledger | [x] DONE |
 | W11-02 | Người dùng chạy primary development | 01 | Đủ ma trận, shared upstream, checkpoint/ledger, không unknown | [ ] TODO |
 | W11-03 | Verify primary, chạy/verify ba repeat | 02 | Semantic/request/source PASS; không chọn response | [ ] TODO |
 | W11-04 | Phân tích economics/coverage/loss/T/G/repeat/failure | 03 | Đủ cả nhóm bất lợi và missing; không suy trace thành cơ chế | [ ] TODO |
@@ -184,3 +185,117 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 Nếu thiếu tập mới sạch hoặc không đạt selection, W11-06/07 ghi BLOCKED/
 NOT_APPLICABLE đúng lý do, không đánh PASS giả. W12 vẫn hoàn thành luận văn
 từ W9 và các kết quả exploratory mới, không kéo dài quá 12 tuần.
+
+## W11-01 — Khóa development và release, 22/10/2026
+
+**DONE; W11 1/8.** Chọn `VERIFIED_CACHE` cho toàn bộ 60 điểm development
+2023 trước Decision; kiểm nguồn/gate W10 và dựng lại đủ upstream Full,
+evidence A/R/Numeric, context, ma trận và mẫu repeat. Giữ HMM, model/options,
+VI, risk OFF, memory/index 976, scaler train-only và lambda=8. Oracle so
+trực tiếp population A và artifact W10-05: **60 evidence/prefix/prompt,
+480 contract SDK, 117 prior-off và mẫu repeat 12 điểm PASS**, không fallback.
+BRPP/prompt tối đa **518/4.671** ký tự, dưới trần 600/<6.500.
+
+Producer/verifier mới
+[`bic_icl_release.py`](../../../core/bic_icl_release.py) và
+[`prepare_bic_icl_release.py`](../../../scripts/prepare_bic_icl_release.py)
+hoàn toàn offline. Consumer kiểm snapshot thật và dựng lại semantic trước
+đọc key; runtime còn kiểm đúng run root/ledger trước upstream/Decision.
+Release chỉ được ghi sau bốn gate PASS, nguồn/code/runtime hiện tại khớp,
+chưa có Decision/report/cache hoặc intent/HTTP cùng signature trong ledger.
+Release đã có chỉ verify; file mất/sửa không được tạo lại để replay.
+Tự sửa JSON/hash, schema SDK, thứ tự, nguồn PIT hoặc ledger path đều bị chặn.
+
+| Artifact dùng từ W11-02 | Đường dẫn từ root |
+| --- | --- |
+| Plan theo mã đã tích hợp | `outputs/bayesian_benchmark/bic_icl_v2/development_plan_release_v2.json` |
+| Run đã khóa offline | `outputs/bayesian_benchmark/bic_icl_v2/development_run_release_v2` |
+| Release đã phát hành | [development_release_v1.json](development_release_v1.json) |
+| Receipt bốn gate mới | [technical_gates.json](validation_gates/development_v1/technical_gates.json) |
+| Bằng chứng/source/log/QA | [development_release_v1.zip](validation_gates/development_release_v1.zip) |
+
+So với plan bàn giao W10, **chỉ trường `code_sha256` đổi**, bind **87
+dependency** gồm producer/verifier mới; protocol/input/runtime/nguồn giữ
+nguyên. Không ghi đè plan W10. SHA-256 byte plan mới
+`d4b4a981e28e4d66934332bcd828d892db85845b8dcb31c9595570a84b1bf9f1`.
+Run có `cohort.json`, **60 packet**, `context_lock.json` và
+`request_manifest.json`: **63 artifact bất biến** được release kiểm byte.
+Context digest
+`39eb78b8da591fc4f6ef8cdc48e45869f89433e21c71471d720a85c48b25cf63`;
+request manifest digest
+`c8919cebb7311cc996e18ec5ead45c9270a0fefe06fa2b5c175327aa5c45ddbb`.
+Ledger path tuyệt đối được bind, nội dung ledger tiếp tục tăng khi người
+dùng chạy; producer không sửa ledger hoặc cấp ngân sách mới.
+
+Khóa **96 block / 804 slot logic**: primary 480, ba repeat mỗi lượt 108.
+Oracle độc lập kiểm rotation, canonical body/schema/model/options và alias
+của toàn bộ slot PASS. Có **503 invocation độc lập dự kiến**: primary 317,
+mỗi repeat 62 gồm 12 Original duplicate. Đây chưa là số HTTP thực;
+retry/repair/recovery vẫn được đếm bằng ledger. Numeric chỉ ở primary,
+repeat không nhập D. R_task vẫn available kỹ thuật nhưng chỉ **3 điểm có
+≥2 task, FPT=0**, `task_coverage_eligible=false`; không nới ngưỡng đề cử.
+
+**Nghiệm thu mã cuối trên Python 3.13.5:** compileall toàn codebase,
+**1.103 unit / 139 module**, E2E xác định và
+**249 leakage / 39 module PASS**; không lỗi,
+skip hoặc expected failure. Hai suite dùng bốn process, chia nguyên module;
+multiset ID khớp discovery, giữ bội số. Hash UTF-8/LF của **276 tệp** giữ
+nguyên suốt lượt gate cuối. **20 test mới** kiểm release/CLI, alias/duplicate,
+source/request sửa rồi tự băm lại, sai run/ledger, mất checkpoint và intent
+unknown còn trong ledger; fixture SDK chỉ dùng HTTP mock ngoài workspace.
+
+**Chín lệnh CLI thật PASS theo exit code dự kiến**: hai help, prepare,
+dry-run, fixture kinh tế, verify release, reissue và hai guard thiếu
+release/sai run root. Hai guard exit 1 trước credential/HTTP; bảy lệnh còn
+lại exit 0. Plan/release/63 snapshot giữ nguyên byte và timestamp sau
+verify/reissue; ledger giữ nguyên byte. Chưa tạo `primary_ready.json`,
+Decision block hoặc `report_0/1/2/3.json` thật. Không đọc key, không API/LLM
+thực nghiệm, không payoff/action 2025; `confirmation_allowed=false`.
+
+ZIP **567 entry / 6.686.880 byte**, SHA-256 byte
+`5e8d82637a831d3802a149068dec8d2d31c8b7d02a98b2909961328ed6e8a0c4`; manifest/hash từng entry và CRC PASS.
+**6.670 tệp cũ nguyên byte**, gồm W9,
+nguồn giá/tin/quyền, memory/train, ledger, plan/protocol và toàn bộ bằng chứng
+W10; root README giữ nguyên. Diff/liên kết/hash PASS. ZIP giữ source theo
+đúng byte đã chạy gate, plan và snapshot initial trước API để đối soát.
+
+### Lệnh dùng cho W11-02
+
+Chạy từ root bằng PowerShell, dùng đúng plan/run/release/gate dưới đây;
+các lệnh mặc định và đường dẫn gate W10 trong hướng dẫn bàn giao cũ không
+thay thế revision mới. Run đã có manifest/snapshot nên **lần Decision đầu
+cũng dùng `--resume`**. Verify release offline dùng được ngay:
+
+```powershell
+$planPath = 'outputs/bayesian_benchmark/bic_icl_v2/development_plan_release_v2.json'
+$runPath = 'outputs/bayesian_benchmark/bic_icl_v2/development_run_release_v2'
+$gatePath = 'docs/plan/week11/validation_gates/development_v1/technical_gates.json'
+$releasePath = 'docs/plan/week11/development_release_v1.json'
+
+py -3.13 -X utf8 scripts/prepare_bic_icl_release.py --verify-only --plan $planPath --output-dir $runPath --release $releasePath --technical-gates $gatePath
+```
+
+**Hai lệnh API sau do người dùng chạy ở W11-02, chưa thực hiện trong task này.**
+Cache tokenizer đã kiểm checksum offline; preflight text/vision phải PASS cùng credential và
+plan trước run. Giữ model/options và ledger chung; nếu provider không phục
+vụ model hoặc hết quota thì giữ checkpoint và xử lý theo
+[hướng dẫn phục hồi](../week10/operations.md#7-dừng-phục-hồi-và-xử-lý-lỗi).
+
+```powershell
+py -3.13 -X utf8 scripts/run_bic_icl.py --preflight --plan $planPath --output-dir $runPath --handoff $releasePath --technical-gates $gatePath
+py -3.13 -X utf8 scripts/run_bic_icl.py --run --resume --plan $planPath --output-dir $runPath --handoff $releasePath --technical-gates $gatePath
+```
+
+Sau primary, kiểm `status=COMPLETE`, đủ 60 point/common support và không
+unknown; W11-03 còn verify primary và ba repeat riêng:
+
+```powershell
+py -3.13 -X utf8 scripts/run_bic_icl.py --verify-only --plan $planPath --output-dir $runPath
+py -3.13 -X utf8 scripts/run_bic_icl.py --verify-report --plan $planPath --output-dir $runPath
+```
+
+Producer release hiện chỉ mở policy cache đã chọn. Không dùng các lệnh
+fresh có điều kiện trong W10 để đổi cohort; fresh cần plan/run/release và
+verifier tương ứng trước API. Plan và snapshot là ignored: giữ cùng
+workspace và nguồn W9/W10 đã khóa, không chỉ clone Git rồi chạy.
+**Tiếp theo W11-02; chưa selection hoặc mở xác nhận 2025.**

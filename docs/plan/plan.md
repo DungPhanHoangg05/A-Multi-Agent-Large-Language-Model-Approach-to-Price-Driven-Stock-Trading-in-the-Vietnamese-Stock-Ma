@@ -1338,10 +1338,21 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
   tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
-### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
+### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 1/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
 loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
 và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
+
+- **W11-01 DONE, 22/10/2026:** [khóa development và release](week11/README.md#w11-01--khóa-development-và-release-22102026).
+  Producer/verifier release cache bind 60 packet, context, 96 block/804
+  slot logic, repeat, body SDK và run/ledger; consumer dựng lại semantic
+  trước credential. Plan mới chỉ đổi identity mã, giữ protocol/model/risk
+  OFF và nguồn W10. Bốn gate mã cuối: compileall/**1.103 unit**/
+  E2E/**249 leakage PASS**; oracle nguồn/thứ tự/alias và chín
+  CLI offline/guard PASS. Đã phát hành release development, chưa gọi API
+  hoặc có report revision thật; R_task vẫn thiếu coverage đề cử.
+  **W11 1/8; tiếp theo W11-02 do người dùng chạy API** theo lệnh đã bàn
+  giao. Không mở selection hoặc xác nhận 2025.
 
 ### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
 [Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,
