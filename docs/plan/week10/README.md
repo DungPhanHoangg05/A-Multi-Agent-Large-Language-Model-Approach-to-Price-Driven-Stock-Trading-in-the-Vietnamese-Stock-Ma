@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 1/8. W10-01 DONE; giá/lịch/exposure PASS, chờ protocol và release xác nhận.**
+**Trạng thái: IN PROGRESS, 2/8. W10-01/02 DONE; đầu vào và đặc tả đã khóa, chưa có runtime/release xác nhận.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -183,15 +183,15 @@ Lịch 2025: 32 điểm/mã, tám/quý, 128 tổng; step3 neo phiên đầu năm
 hoàn tất trong quý, loại quyền/thiếu giá theo rule hiện hữu. Với pool N ngày
 hợp lệ mỗi mã/quý, lấy vị trí `floor(j*(N-1)/7), j=0..7`. N<8 thì BLOCKED,
 không hạ cỡ mẫu sau outcome. Khóa ngày/loại trừ/hash trước API. 128 là mục
-tiêu coverage, chưa bảo đảm power; W10-02 simulation trên train/dev báo MDE
-và độ rộng CI dự kiến, không dùng payoff 2025 để chọn n.
+tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-protocol-và-power-audit-22102026)
+đã báo MDE/độ rộng CI proxy trên train/dev, không dùng payoff 2025 để chọn n.
 
 ## Checklist
 
 | Task | Công việc / đầu ra | Phụ thuộc | Nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
 | W10-01 | Audit exposure/giá 2025, split/mẫu, namespace `bic_icl_v2` | W9 | Hash W9 nguyên; eligibility/exposure PASS hoặc BLOCKED rõ lý do | [x] DONE — giá/lịch 128 điểm và exposure PASS theo khai báo + inventory; chờ protocol/release |
-| W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [ ] TODO |
+| W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [x] DONE — protocol v1 và 30 scenario power planning; không chứng nhận đủ power |
 | W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [ ] TODO |
 | W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [ ] TODO |
 | W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [ ] TODO |
@@ -341,8 +341,9 @@ Giữ rule đã đăng ký: lọc eligibility trước, lấy vị trí
 không quý thiếu tám điểm. Không coi 128 điểm là 128 cụm ngày độc lập.
 Không neo lại step3 sau loại, giảm mẫu hoặc chọn ngày thay sau outcome/API
 lỗi. Lịch daily/selected, reason loại và hash nguồn được lưu trong audit;
-**is_execution_plan=false, confirmation_allowed=false**. W10-02 còn phải
-báo MDE/độ rộng CI từ train/dev và khóa protocol trước API LLM.
+**is_execution_plan=false, confirmation_allowed=false**. Đặc tả và MDE/
+độ rộng CI từ train/dev đã được khóa riêng tại W10-02 bên dưới; audit
+đầu vào không tự chuyển thành execution plan hoặc release API.
 
 ### Split, namespace và bàn giao
 
@@ -354,11 +355,11 @@ báo MDE/độ rộng CI từ train/dev và khóa protocol trước API LLM.
 | 2025, 128 điểm | Lịch khả thi đã bind nguồn; exposure đủ điều kiện theo khai báo + inventory | Giá/lịch/exposure **PASS**, chờ protocol/power/candidate/release; không append cycle 2025 vào memory xác nhận |
 | Forward sau lock | Phương án khi 2025 không xác minh được tính độc lập | Chưa có cohort/ngày; không lấy các run 2026 có sẵn làm forward sau lock |
 
-Dành riêng namespace **`bic_icl_v2`**, gốc artifact dự kiến
+Dành riêng namespace **`bic_icl_v2`**, gốc artifact
 `outputs/bayesian_benchmark/bic_icl_v2/` và version/identity riêng cho protocol,
 nguồn memory/index, development, repeat và xác nhận. Đã có CLI audit input
-riêng; chưa có runtime Decision/release xác nhận, W10-02/06 sẽ khóa schema
-và tên tương ứng. Không ghi vào namespace
+riêng và đặc tả v1; chưa có runtime Decision/release xác nhận, W10-06 sẽ
+ánh xạ đặc tả vào schema/consumer tương ứng. Không ghi vào namespace
 `improvement_v1`, registry/schema W8/W9 hoặc thay hash cũ. Ledger provider
 hiện hữu giữ nguyên; namespace mới không được reset quota hoặc nhân bản HTTP
 attempt khi reuse. A/R/Numeric phải bind cùng snapshot nguồn của query;
@@ -473,4 +474,80 @@ leakage**, E2E xác định trên Python 3.13.5; không lỗi, skip hoặc expec
 failure. Multiset test ID của cả hai suite khớp đầy đủ discovery, gồm đủ
 21 ca module audit. Gate chạy trên đúng byte code/khai báo đã bind trong
 audit v2, có kiểm lại identity cuối lượt; không dùng gate v1 thay thế.
-**W10 1/8 DONE**, tiếp theo **W10-02** khóa protocol trước API.
+W10-01 chốt gate đầu vào tại mốc **1/8**; không thay release xác nhận.
+
+## W10-02 — Khóa protocol và power audit, 22/10/2026
+
+**DONE, W10 2/8.** Đặc tả độc lập
+[`method_protocol_v1.md`](method_protocol_v1.md), version
+`bic_icl_method_protocol_v1`, đã khóa trước phép mô phỏng. Hash SHA-256
+UTF-8 sau chuẩn hóa LF:
+`e9c8410bed048733d1ad3faa296a200409c91bfd8be72557d98639ecd8e8313b`.
+Không hash README tiến độ làm phương pháp; thay ngữ nghĩa sau lock phải
+version mới. Module/schema/producer/runtime tương ứng vẫn thuộc các task
+triển khai tiếp theo, chưa có manifest cho phép API revision.
+
+Protocol khóa sự kiện LONG ròng>0, partition C/B1/B2 và posterior plug-in,
+lambda {2,4,8} chỉ chọn train, readiness độc lập hai block, task 20 phiên
+neo 02/01/2018, centroid/rank không đọc nhãn, 3×2/600 ký tự và fallback.
+Phân biệt Bayes số học, ICL trong context và Numeric heuristic; giữ schema,
+model/options/risk OFF, engine cổ phiếu lẻ hiện hữu. Khóa matrix/nomination,
+canonical shared-off/alias/duplicate, rotation/repeat, estimand tài khoản,
+bootstrap/family CI và điểm dừng. Không sửa registry hoặc phương pháp W9.
+
+**Power planning, không là chứng nhận power:** 10.000 draw/scenario,
+PCG64/seed 20261021, L=4 chính/L=2/8 sensitivity, mask 41 cutoff/128 điểm,
+32/mã nguyên audit v2. Giữ năm proxy đã đăng ký: C2/A/B−Original từ
+Decision 2023 và Numeric A−C2 trên mỗi fold train. Development chỉ có bảy
+ngày joint; train có 76/76 sau purge bốn cycle cuối 2021 đóng sang 2022.
+Không dùng payoff 2025, không chọn proxy variance nhỏ hoặc đổi N theo số.
+
+| Proxy | Ngày donor joint | Width CI95% dự kiến (đpt) | MDE80 (đpt) |
+| --- | ---: | ---: | ---: |
+| Decision 2023 C2−Original | 7 | 4,93 | 4,08 |
+| Decision 2023 A_tp_pool−Original | 7 | 26,21 | 17,27 |
+| Decision 2023 B_semantic−Original | 7 | 29,15 | 19,03 |
+| Numeric train 2021 A−C2 | 76 | 14,00 | 10,39 |
+| Numeric train 2022 A−C2 | 76 | 22,07 | 17,50 |
+
+Toàn bộ **30 scenario** (năm proxy×ba L×hai mức CI) được giữ trong bundle.
+CI98,75% tại L4 có width 5,67–37,38/MDE80 4,08–21,84 đpt; sensitivity
+CI95% L2 có MDE 4,06–22,52, L8 có 3,19–18,93. Không chọn L8 vì hẹp hơn;
+L8 vòng quanh chỉ bảy donor 2023 đặc biệt yếu. MDE là xấp xỉ location-shift
+ở cấp tài khoản, không là gain kỳ vọng của R hoặc power của kiểm định mới.
+Tỷ lệ interval dương tại δ=0 ở L4/CI95% dao động 0,21–7,45%: không dùng mô
+hình xấp xỉ này chứng nhận calibration/Type I error. MC SE chỉ mô tả sai số
+Monte Carlo, không gồm sai số donor/ngoại suy/provider. N=128 giữ nguyên;
+audit hoàn tất không đồng nghĩa đủ power, kết quả xác nhận có thể inconclusive.
+
+**Nguồn và tái lập:** report/plan development và diagnostics train khớp nguyên
+byte ba entry tương ứng trong archive W9. SHA byte nguồn lần lượt:
+`80f707e0f4ee62c384724085249f748e2e82cf6517ccf892ccb97b1603317314`,
+`f9745d946d81cb008e0a747f8367fe0c85a5fbd989e7148bde997227d651831e`,
+`c32993c726888f2fee3f9650f307db9afcb67145b4af40242bb49659bdbb23c9`.
+Audit đầu vào 2025 giữ byte/hash đã ghi ở W10-01.
+
+Bundle [power_audit_v1.zip](../../../outputs/bayesian_benchmark/bic_icl_v2/protocol_v1/power_audit_v1.zip)
+có bảy entry gồm script phân tích/oracle, pins và toàn bộ kết quả, SHA byte
+`4d87aa0c33a0729e05abfc67fb4196fe1c436cd3d58387c1db324fac8488c7e8`.
+Đây là bằng chứng phân tích ignored, cần giữ cùng workspace với nguồn;
+không là code ứng dụng/schema execution hoặc release. Từ root repo:
+
+```powershell
+$powerReplayDir = Join-Path $env:TEMP ('bic-icl-power-' + [guid]::NewGuid())
+Expand-Archive -LiteralPath outputs/bayesian_benchmark/bic_icl_v2/protocol_v1/power_audit_v1.zip -DestinationPath $powerReplayDir
+py -3.13 -X utf8 "$powerReplayDir/power_audit.py" . "$powerReplayDir/power_audit.json" --check
+py -3.13 -X utf8 "$powerReplayDir/power_oracle.py" .
+```
+
+**QA W10-02 PASS:** replay từ bundle khớp toàn payload; oracle độc lập kiểm
+30 scenario/576 tài khoản draw, nội suy quantile và power curve. Đối soát
+240 valuation development, 16 tài khoản source với report và 651 nhãn train
+qua hàm kinh tế chung. Sau purge còn 647 cycle train được xét metadata;
+608 cycle trên 152 ngày joint làm donor, không điền return thiếu.
+Hash/link/diff/source PASS, **6.664 file cũ nguyên byte**. Chỉ ba Markdown
+được quản lý trong Git và bằng chứng phân tích riêng; không đổi code/test/
+runtime/config/schema hoặc dữ liệu execution đầu vào. Theo AGENTS.md mục 1.2
+không chạy compileall/unit/E2E/leakage cho task thuần đặc tả/phân tích này,
+không ghi gate W10-01 như đã chạy lại. Không gọi API/LLM hoặc tạo payoff 2025.
+Tiếp theo **W10-03** triển khai shared-off/duplicate/checkpoint/recovery.
