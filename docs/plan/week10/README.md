@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 3/8. W10-01–03 DONE; shared Decision đã nghiệm thu, chưa có CLI/release xác nhận.**
+**Trạng thái: IN PROGRESS, 4/8. W10-01–04 DONE; memory/R_pool/lambda đã nghiệm thu offline, chưa có CLI cohort/release xác nhận.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -9,8 +9,8 @@ Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 W1–W9 giữ nguyên kết quả. W10 chuyển sang thiết kế/triển khai; W11 chạy
 development và khóa xác nhận; W12 xác nhận, phân tích và hoàn thiện luận văn.
 Năm task luận văn W10 cũ chưa thực hiện được chuyển sang W12-04–07;
-không đánh dấu DONE. Tên module/schema/CLI mới dưới đây là **dự kiến**, chưa
-phải công cụ đã triển khai. Không thay mặc định triển khai hoặc risk OFF.
+không đánh dấu DONE. Các phần chưa ghi rõ đã triển khai dưới đây vẫn là
+**dự kiến**. Chưa có CLI cohort revision. Không thay mặc định triển khai hoặc risk OFF.
 
 W9 đã xác nhận A−Original **+2,025325 đpt**, CI95% **[0,135027; 4,211864]**
 trên 64 điểm/384 Decision. Bốn secondary inconclusive; A prior-off 39/64,
@@ -193,7 +193,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | W10-01 | Audit exposure/giá 2025, split/mẫu, namespace `bic_icl_v2` | W9 | Hash W9 nguyên; eligibility/exposure PASS hoặc BLOCKED rõ lý do | [x] DONE — giá/lịch 128 điểm và exposure PASS theo khai báo + inventory; chờ protocol/release |
 | W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [x] DONE — protocol v1 và 30 scenario power planning; không chứng nhận đủ power |
 | W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [x] DONE — 32 test mới, 978 unit/204 leakage và compileall/E2E PASS |
-| W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [ ] TODO |
+| W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [x] DONE — memory 976, lambda=8; 38 test mới, 1.016 unit/215 leakage và compileall/E2E PASS |
 | W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [ ] TODO |
 | W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [ ] TODO |
 | W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [ ] TODO |
@@ -205,8 +205,9 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | --- | --- | --- |
 | Protocol | `core/bic_icl_protocol.py`, schema tại `docs/plan/week10/` | Version/hash/exposure lock; không sửa registry W8/W9 |
 | Shared Decision | `core/bic_icl_decisions.py` đã triển khai tại W10-03 | Canonical shared-off/stats alias, duplicate độc lập, raw/ledger/source receipt, resume cùng UUID |
-| Bayes | `core/bic_icl_statistics.py`, nhãn engine chung | Counts/n=0/oracle/PIT, future append invariance, JSON native |
-| Memory revision | `core/bic_icl_memory.py`, adapter upstream/checkpoint cũ | Không dùng Decision làm feature; provenance/compatibility/dedup/source snapshot/cutoff |
+| Bayes | `core/bic_icl_statistics.py` đã nghiệm thu W10-04 | Counts/n=0/oracle/PIT, future append invariance, JSON native |
+| Memory revision | `core/bic_icl_memory.py` đã nghiệm thu W10-04 | Không dùng Decision làm feature; provenance/compatibility/dedup/source snapshot/cutoff |
+| Chuẩn bị offline | `core/bic_icl_diagnostics.py`, `scripts/prepare_bic_icl_memory.py` | Rebuild memory/index/train và verify bất biến; không là CLI cohort/Decision |
 | Task/context | `core/bic_icl_tasks.py`, `core/bic_icl_prompt.py`, feature/scaler cũ | Đổi nhãn không đổi rank/ID, overlap, budget, schema |
 | Runtime | `core/bic_icl_runtime.py`, `scripts/run_bic_icl.py`, retry/ledger/journal cũ | Crash/resume/unknown, shared-off, upstream một lần |
 | Report | `core/bic_icl_reports.py`, engine/metric/bootstrap hiện hữu có version | Support, alias không tạo mẫu mới, cluster/repeat, không đổi W9 |
@@ -625,3 +626,103 @@ nghiệm thu lại toàn revision sau
 triển khai memory/posterior/task/runner; component gate không là release.
 Không gọi HTTP/LLM thật, tạo nhãn 2025 hoặc thay mặc định triển khai.
 Tiếp theo **W10-04**: adapter memory đã lưu, R_pool và diagnostics train.
+
+## W10-04 — Memory revision, R_pool và lambda train, 22/10/2026
+
+**DONE; W10 4/8.** Bốn module/công cụ mới:
+[`bic_icl_memory.py`](../../../core/bic_icl_memory.py),
+[`bic_icl_statistics.py`](../../../core/bic_icl_statistics.py),
+[`bic_icl_diagnostics.py`](../../../core/bic_icl_diagnostics.py),
+[`prepare_bic_icl_memory.py`](../../../scripts/prepare_bic_icl_memory.py).
+Đây là producer offline và component posterior/selector cho W10-05–06;
+chưa có renderer R_task hoặc CLI cohort gọi Decision revision.
+
+**Memory:** đối chiếu byte với archive W9 đã khóa, đọc đúng 60 point 2023 và
+64 point 2024; kiểm plan/model/options, source PIT, Full seal và bốn stage
+journal complete. Tín hiệu lấy từ upstream; nhãn do hàm kinh tế chung sinh
+sau seal. Không dùng action/confidence/justification Decision làm feature.
+Nhập **124/124**, loại 0, dedup 0; union có **976 episode**, giữ nguyên bank
+852. Metadata từng bản ghi giữ source/shared/journal hash và signal identity;
+thiếu nguồn là lỗi integrity, không chuyển thành prior-off.
+
+Index revision riêng kế thừa nguyên tham số ba fold scaler cũ. Fold
+`confirmation_2025` dùng đúng scaler OOS kết thúc 2022, không gọi fit mới,
+không đổi validator miền 2023/2024 legacy. **103/124** feature nhập thêm
+AVAILABLE; **21** cửa sổ có quyền giữ UNAVAILABLE, không điền vector để đủ
+demonstrations. Counts statistics vẫn giữ các cycle này sau lọc PIT.
+Không nhập cycle 2025; `exit_date < query` áp trước partition/rank, cả query
+tự nó và record năm sau đều bị loại. A/R dùng cùng bank/index/selector;
+Numeric sẽ nhận cùng posterior khi tích hợp runner.
+
+**R_pool:** phân hoạch rời C/B1/B2, cùng mã; C khớp T/P, B1 phần còn lại cùng
+regime, B2 khác regime. Giữ counts, IDs, tuổi, cụm tháng, prior weight và CrI
+plug-in; n=0 ghi rõ thiếu quan sát, không gọi raw n là effective sample size.
+Stats gate dùng nC≥5, n1+n2≥20 và width≤0,75 trước làm tròn. Examples gate
+riêng, population cùng regime≥20, feature/scaler sẵn có và có ví dụ hợp lệ;
+giữ selector K≤3, tuổi≤730, similarity≥0,625, gap≥5 phiên/không overlap.
+Full/stats/examples là các view cùng base, không chạy lại retrieval theo view.
+Verifier dựng lại evidence, không chỉ nhận artifact đã tự băm lại.
+
+**Lambda train khóa bằng loss:** replay **651 query**, hai fold đã purge và
+**166 cutoff HMM/scaler/calibration prefix** của các query; đối chiếu A với
+diagnostics cũ đã đóng băng. Cả ba lambda chấm trên cùng **598 query** có
+posterior hữu hạn với A, không lọc riêng theo readiness. 53 query thiếu A
+không được điền 0,5 để scoring. R có thể tính posterior số học khi nC=0,
+ghi `NO_CONDITIONAL_HISTORY` và stats off; đây không là conditional evidence
+đã quan sát. Loss clip [1e−6,1−1e−6], tie 1e−12, Brier rồi lambda nhỏ hơn.
+
+| Phương pháp | Log loss chung | Brier chung | Stats ready / 651 |
+| --- | ---: | ---: | ---: |
+| A reference | 0,69645620 | 0,25078170 | 355 |
+| R, lambda=2 | 0,70995949 | 0,25573325 | 399 |
+| R, lambda=4 | 0,69371112 | 0,24954020 | 399 |
+| **R, lambda=8 — chọn** | **0,68332577** | **0,24496989** | **399** |
+
+R2 bất lợi so A; VCB/train2021 với lambda=8 cũng bất lợi về log loss
+(0,63908462 so 0,63354190), không giấu subgroup. Report giữ đủ ba lambda,
+từng fold/mã/regime, năm reliability bin [0;.2;.4;.6;.8;1], raw/ready/missing,
+LONG lãi/lỗ/zero và leave-one-query-quarter-out để mô tả độ nhạy theo cụm.
+Không chọn lại lambda theo sensitivity hoặc return 2023/2024/2025. Chọn bằng
+toàn train có selection bias, không là lựa chọn online đã có tại query 2021
+hoặc chứng nhận calibration OOS/LLM. PIT hồi cứu không chứng nhận vintage
+provider/kiến thức LLM; chưa có kết quả kinh tế của Decision revision.
+
+**Tái lập offline từ root:**
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind memory --destination outputs/bayesian_benchmark/bic_icl_v2/memory_v1
+py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind memory --destination outputs/bayesian_benchmark/bic_icl_v2/memory_v1 --verify
+py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind train --destination outputs/bayesian_benchmark/bic_icl_v2/train_v1
+py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind train --destination outputs/bayesian_benchmark/bic_icl_v2/train_v1 --verify
+```
+
+Hai thư mục có receipt code/runtime/output hash riêng; build ghi một lần,
+verify dùng lại producer đầy đủ và không đổi byte/timestamp output. Cả bốn
+lệnh build/verify memory/train thật đều exit 0, không đổi artifact khi verify.
+**38 test mới PASS** trong bốn module `test_bic_icl_memory`,
+`test_bic_icl_memory_leakage`, `test_bic_icl_statistics`, `test_bic_icl_preparation`.
+Oracle độc lập PASS nhãn của 124 cycle, 103 vector mới, scaler cũ và
+**1.953 posterior**, Beta CDF sai số tối đa 3,109e−15; loss/support khớp report.
+Không API/LLM thật, payoff 2025 hoặc thay economic/risk/default runtime.
+
+Do thay đổi đường dữ liệu/retrieval/PIT P0, áp dụng đủ bốn gate AGENTS.md 1.2
+trên Python 3.13.5: **compileall toàn codebase, 1.016 unit test, E2E xác định
+và 215 leakage PASS**, không lỗi, skip hoặc expected failure. Hai suite chia
+nguyên module vào bốn process, giữ thứ tự trong module; đủ **129 module unit,
+36 module leakage**, đối chiếu multiset test ID khớp discovery, không bỏ bội số.
+Identity LF của **251 file** giữ nguyên suốt gate; **6.671 tệp cũ nguyên byte**,
+gồm bank 852, W9, protocol/power và input audit v2. Diff/hash/liên kết PASS.
+W10-07 vẫn phải nghiệm thu lại toàn revision sau task/renderer/runner;
+gate component này chưa là release. Tiếp theo **W10-05** R_task/renderer.
+
+Artifact mới và log/inventory/oracle/runtime/công cụ QA được đóng nguyên byte
+trong [`validation_gates/memory_pool_v1.zip`](validation_gates/memory_pool_v1.zip),
+**204 entry / 1.929.694 byte**, SHA-256 byte
+`0a92be91d26364762cd8b324676254500a5ba6f1e9067f085537360b87a00dc6`.
+Manifest trong ZIP kiểm từng entry. Hai receipt nguồn cho bước sau:
+`memory_v1/receipt.json` SHA byte
+`20fee102b8fb797f6eb3eb376fa25b5a892e31bf38dac7e690c39481b5cfbd19`;
+`train_v1/receipt.json` SHA byte
+`90c15847b3f052128d72e0308c5916ee095f4da0c91fff776015ca40249feede`.
+Các đường receipt ở dưới `outputs/bayesian_benchmark/bic_icl_v2/`; ZIP giữ
+cả memory/index/diagnostics và receipt ở đúng đường tương đối đó.
