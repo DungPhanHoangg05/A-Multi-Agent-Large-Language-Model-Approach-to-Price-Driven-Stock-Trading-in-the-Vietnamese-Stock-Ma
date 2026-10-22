@@ -144,7 +144,7 @@ def run_cohort(plan: dict[str, Any], sources: CohortSources, root: Path, llm: An
         if (not isinstance(authorization, ExecutionAuthorization)
                 or authorization.payload['plan_sha256'] != digest(plan)):
             raise ValueError('Runtime chưa có authorization đã kiểm; dừng trước upstream/Decision')
-        authorization.verify(plan)
+        authorization.verify(plan, run_root=root, ledger_path=llm.http_client._transport.pacer.path)
     from core.improvement_transport import validate_client
     validate_client(llm, 'agent', plan.get('inputs', {}).get('signal_config', {}).get('models',
         {'agent_llm_model': 'openai/gpt-oss-20b', 'agent_llm_temperature': 0., 'agent_llm_max_tokens': 2048}), online=True)

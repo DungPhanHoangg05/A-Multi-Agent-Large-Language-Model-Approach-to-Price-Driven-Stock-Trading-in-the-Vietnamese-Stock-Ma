@@ -1,0 +1,4 @@
+# Giữ nguyên byte release/receipt/log có checksum khi checkout.
+.gitattributes -text
+*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validation_gates/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

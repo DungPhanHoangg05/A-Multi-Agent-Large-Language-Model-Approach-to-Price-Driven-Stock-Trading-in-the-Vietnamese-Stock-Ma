@@ -46,7 +46,8 @@ class ExecutionAuthorization:
         """Caller chỉ nhận bản sao, không sửa release sau consumer."""
         return deepcopy(self._payload)
 
-    def verify(self, plan: dict[str, Any]) -> None:
+    def verify(self, plan: dict[str, Any], *, run_root: Path | None = None,
+               ledger_path: Path | None = None) -> None:
         """Gate/release còn nguyên trước API tiếp theo, không dùng cờ PASS cũ."""
         from core.candidate_selection import read_technical_gates
         gates = read_technical_gates(self.gates_path, plan)
@@ -54,26 +55,17 @@ class ExecutionAuthorization:
                 or gates['sha256'] != self._payload['technical_gates_sha256']
                 or self._payload['plan_sha256'] != digest(plan)):
             raise ValueError('Release/gate thay đổi sau khi cấp authorization')
+        from core.bic_icl_release import verify_snapshot
+        verify_snapshot(self._payload, plan, run_root=run_root, ledger_path=ledger_path)
 
 
-def read_authorization(path: Path | None, gates_path: Path | None, plan: dict[str, Any]) -> ExecutionAuthorization:
-    """Chặn trước credential; consumer release development, chưa có producer phát hành."""
-    from core.candidate_selection import read_technical_gates
+def read_authorization(path: Path | None, gates_path: Path | None, plan: dict[str, Any], *,
+                       run_root: Path | None = None, ledger_path: Path | None = None) -> ExecutionAuthorization:
+    """Chặn trước credential; kiểm release cùng snapshot semantic đã khóa trước Decision."""
     if path is None or gates_path is None or path.name.startswith('.env'):
         raise ValueError('Chưa có release development và receipt bốn gate đúng code/runtime')
-    gates = read_technical_gates(gates_path, plan)
-    payload = read_envelope(path)
-    keys = {'release_version', 'plan_sha256', 'technical_gates_sha256', 'upstream_policy',
-            'code_sha256', 'runtime', 'decision_context_lock_sha256', 'confirmation_allowed'}
-    context_hash = payload.get('decision_context_lock_sha256')
-    if (set(payload) != keys or gates['status'] != 'PASS'
-            or payload['release_version'] != 'bic_icl_development_release_v1'
-            or payload['plan_sha256'] != digest(plan) or payload['technical_gates_sha256'] != gates['sha256']
-            or payload['upstream_policy'] != plan['upstream_policy'] or payload['code_sha256'] != plan['code_sha256']
-            or payload['runtime'] != plan['runtime'] or payload['confirmation_allowed'] is not False
-            or context_hash is not None and (type(context_hash) is not str or len(context_hash) != 64
-                or any(c not in '0123456789abcdef' for c in context_hash))):
-        raise ValueError('Release development khác plan/nguồn/context/code/runtime/gates')
+    from core.bic_icl_release import verify_development_release
+    payload = verify_development_release(path, gates_path, plan, run_root=run_root, ledger_path=ledger_path)
     return ExecutionAuthorization(payload, verified=_AUTHORIZED, path=path, gates_path=gates_path)
 
 
@@ -97,6 +89,7 @@ def code_identity() -> dict[str, str]:
     """Bind dependency thực thi rõ tên; thêm analyzer độc lập không làm đổi plan cũ."""
     names = {*DEPENDENCIES, 'core/bic_icl_protocol.py', 'core/bic_icl_reports.py',
              'core/bic_icl_runtime.py', 'scripts/run_bic_icl.py', SCHEMA, ECONOMIC_FIXTURE,
+             'core/bic_icl_release.py', 'scripts/prepare_bic_icl_release.py',
              'docs/plan/week10/context_budget_fixture_v1.json',
              'docs/plan/week10/method_protocol_v1.md', '.python-version', 'requirements.txt'}
     return {**context_code_identity(),
