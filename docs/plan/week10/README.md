@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 4/8. W10-01–04 DONE; memory/R_pool/lambda đã nghiệm thu offline, chưa có CLI cohort/release xác nhận.**
+**Trạng thái: IN PROGRESS, 5/8. W10-01–05 DONE; task/context đạt nghiệm thu kỹ thuật offline, R_task chưa đủ coverage đề cử trên cache; chưa có CLI cohort/release xác nhận.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -194,7 +194,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [x] DONE — protocol v1 và 30 scenario power planning; không chứng nhận đủ power |
 | W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [x] DONE — 32 test mới, 978 unit/204 leakage và compileall/E2E PASS |
 | W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [x] DONE — memory 976, lambda=8; 38 test mới, 1.016 unit/215 leakage và compileall/E2E PASS |
-| W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [ ] TODO |
+| W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [x] DONE — 40 test mới, 1.056 unit/227 leakage và compileall/E2E PASS; coverage cache chưa đủ đề cử |
 | W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [ ] TODO |
 | W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [ ] TODO |
 | W10-08 | Hướng dẫn API/resume/verify và chương phương pháp | 07 | CLI thật, model pin/risk OFF; bàn giao W11 | [ ] TODO |
@@ -208,7 +208,8 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | Bayes | `core/bic_icl_statistics.py` đã nghiệm thu W10-04 | Counts/n=0/oracle/PIT, future append invariance, JSON native |
 | Memory revision | `core/bic_icl_memory.py` đã nghiệm thu W10-04 | Không dùng Decision làm feature; provenance/compatibility/dedup/source snapshot/cutoff |
 | Chuẩn bị offline | `core/bic_icl_diagnostics.py`, `scripts/prepare_bic_icl_memory.py` | Rebuild memory/index/train và verify bất biến; không là CLI cohort/Decision |
-| Task/context | `core/bic_icl_tasks.py`, `core/bic_icl_prompt.py`, feature/scaler cũ | Đổi nhãn không đổi rank/ID, overlap, budget, schema |
+| Task/context | `core/bic_icl_tasks.py`, `core/bic_icl_prompt.py` đã nghiệm thu W10-05; feature/scaler cũ | Label-blind, centroid/overlap, budget 3×2, schema/alias legacy |
+| Preflight context offline | `scripts/prepare_bic_icl_context.py`, fixture JSON tại tuần 10 | Verify snapshot W10-04; rebuild 60 context, hai template ngôn ngữ, không gọi Decision |
 | Runtime | `core/bic_icl_runtime.py`, `scripts/run_bic_icl.py`, retry/ledger/journal cũ | Crash/resume/unknown, shared-off, upstream một lần |
 | Report | `core/bic_icl_reports.py`, engine/metric/bootstrap hiện hữu có version | Support, alias không tạo mẫu mới, cluster/repeat, không đổi W9 |
 
@@ -726,3 +727,96 @@ Manifest trong ZIP kiểm từng entry. Hai receipt nguồn cho bước sau:
 `90c15847b3f052128d72e0308c5916ee095f4da0c91fff776015ca40249feede`.
 Các đường receipt ở dưới `outputs/bayesian_benchmark/bic_icl_v2/`; ZIP giữ
 cả memory/index/diagnostics và receipt ở đúng đường tương đối đó.
+
+## W10-05 — Task selector và context, 22/10/2026
+
+**DONE; W10 5/8.** Triển khai
+[`bic_icl_tasks.py`](../../../core/bic_icl_tasks.py),
+[`bic_icl_prompt.py`](../../../core/bic_icl_prompt.py) và preflight offline
+[`prepare_bic_icl_context.py`](../../../scripts/prepare_bic_icl_context.py).
+R_task đạt nghiệm thu grouping/renderer; coverage đề cử chưa đạt trên cache
+upstream hiện có. Chưa chọn candidate hoặc phát hành xác nhận.
+
+**Selector:** task `(symbol, regime, floor(session_index/20))`, index0
+VNINDEX **02/01/2018**, không neo lại theo query. Lọc exit<query, cùng mã/
+regime, tuổi≤730, similarity≥0,625 và feature/scaler AVAILABLE trước grouping.
+Centroid dùng toàn bộ vector đủ điều kiện trong nhóm, không đọc nhãn.
+Xếp nhóm theo RMS centroid–query, ngày mới nhất giảm, rồi ID tăng.
+Trong nhóm, lấy cặp cố định theo rank cycle legacy, gap≥5 phiên và không
+overlap entry–exit; khi cặp xung đột với demonstrations đã nhận, loại cả
+nhóm và tiếp tục nhóm kế. Tối đa **3 task × 2 cycle**, không thay cặp theo
+nhãn hoặc cân bằng thắng/thua. Sidecar giữ toàn bộ qualification, centroid,
+rank, pair, IDs và reason loại; API grouping thuần từ chối outcome/label.
+
+**Context:** posterior/counts/lambda=8 giữ nguyên R_pool W10-04, không cộng
+demonstrations lần nữa. Stats/examples gate độc lập; examples cần population
+cùng regime≥20 và ít nhất một cặp hợp lệ. Full/stats/examples là view của
+cùng evidence; hai stats-only giữ cùng prefix/prompt/base hash để wrapper
+W10-03 alias, prior-off giữ đúng canonical Original. Renderer giữ boundary
+G1/G2/G3, x=T/P và y=W/L theo dấu return gốc, return ròng % hai số thập phân.
+Zero là L/+0,00%; return dương/âm rất nhỏ vẫn giữ W/L trước làm tròn.
+Không đổi schema/model/template/distill/cap legacy. BRPP>600 chặn cả ba
+nhánh của candidate trước API; không cắt nhãn/nhóm để qua trần.
+
+[`context_budget_fixture_v1.json`](context_budget_fixture_v1.json) là dữ
+liệu tổng hợp kiểm renderer, không là quan sát thị trường. Fixture đủ 3×2,
+return lớn/nhỏ/zero và report dài: **VI 300 ký tự BRPP / 6.147 prompt**,
+**EN 297 / 6.162**, đều ≤600 và <6.500. Preflight nguồn thật khôi phục đúng
+**60 upstream 2023**, không sinh lại upstream/Decision: tối đa **256 ký tự
+BRPP / 4.432 prompt**, kiểm 720 prompt của hai method × ba view × hai
+template ngôn ngữ. EN dùng cùng báo cáo nguồn VI qua template EN để kiểm
+ngân sách, không là cohort tiếng Anh hoặc kết quả Decision tiếng Anh.
+
+**Coverage R_task trên cache, sau gate hiển thị:**
+
+| Mã | Query | Có prior | Examples ready | Có ≥2 task |
+| --- | ---: | ---: | ---: | ---: |
+| FPT | 12 | 9 | 3 | 0 |
+| MWG | 16 | 14 | 6 | 1 |
+| VCB | 16 | 10 | 3 | 1 |
+| VNM | 16 | 15 | 9 | 1 |
+| Tổng | 60 | 48 | 21 | 3 |
+
+Trạng thái **INSUFFICIENT_CACHED_UPSTREAM_COVERAGE**: rule đề cử cần ≥6 điểm
+có ≥2 task và ≥1/mã; hiện chỉ 3 và FPT=0. Raw selection được ghi riêng,
+không đếm nhóm bị gate ẩn. Đây là giới hạn metadata, chưa là đánh giá return
+hoặc nomination cuối; kiểm lại với upstream lock W11, không nới lọc, neo
+lại lịch, tune prompt theo return hay gọi thêm LLM để tạo bank.
+
+**Tái lập offline từ root**, cần snapshot memory/train W10-04 cùng workspace:
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_bic_icl_context.py --destination outputs/bayesian_benchmark/bic_icl_v2/context_v1
+py -3.13 -X utf8 scripts/prepare_bic_icl_context.py --destination outputs/bayesian_benchmark/bic_icl_v2/context_v1 --verify
+```
+
+Loader đối chiếu nguyên byte năm artifact với ZIP W10-04 đã pin độc lập,
+kiểm source/code/runtime/receipt; lambda không được chọn lại. Build ghi một
+lần, verify dựng lại semantic rồi so toàn evidence/prefix/prompt, không
+chấp nhận chỉ tự băm lại artifact. Hai lệnh thật exit 0, verify giữ nguyên
+byte/timestamp. Digest report
+`b94fa9a7c48e41f3bdd4653f3699ec06d1f5ccb1a0fd36e257ef83c87e4ad3fe`;
+receipt SHA-256 byte
+`50e579d7cae554ad1af0717a06f077b7029b272ae00d81aa55ad781c6387f0eb`.
+Artifact ở namespace ignored; ZIP nghiệm thu giữ cả preflight/receipt để
+tái lập, không ghi đè memory/train, W9 hoặc phương pháp đã khóa.
+
+**QA trên Python 3.13.5:** 40 test mới; oracle độc lập kiểm qualification,
+rank, **150 centroid, 26 cặp được chọn và 720 prompt** trên nguồn thật PASS.
+HTTP mock kiểm serializer/schema SDK, stats alias và shared-off không tạo
+attempt giả. Vì thay đổi retrieval/PIT/prompt P0, chạy đủ bốn gate:
+**compileall toàn codebase, 1.056 unit, E2E xác định và 227 leakage PASS**;
+không lỗi, skip hoặc expected failure. Hai suite chia nguyên module vào bốn
+process, giữ thứ tự trong module; đủ 134 module unit/37 module leakage,
+multiset ID khớp discovery, giữ cả bội số có sẵn. Identity UTF-8/LF của
+**261 file** không đổi; **6.686 tệp cũ nguyên byte**. Diff/hash/liên kết PASS.
+
+Bằng chứng cuối tại
+[`validation_gates/task_context_v1.zip`](validation_gates/task_context_v1.zip),
+**206 entry / 2.076.413 byte**, SHA-256 byte
+`08a8c943ddba8919eacb46fdb13426ffabe8c7d5d1ebd178ca0cfe2551dd8fd3`.
+Manifest kiểm hash từng entry, gồm gate/inventory/runtime, CLI, oracle,
+fixture tổng hợp và hai artifact context mới. Không API/LLM thật hoặc
+payoff/action 2025; `confirmation_allowed=false`. W10-07 phải nghiệm thu
+lại toàn revision sau tích hợp runner; component gate này chưa là release.
+Tiếp theo **W10-06**: producer/loader/verifier/CLI cohort và fixture kinh tế.

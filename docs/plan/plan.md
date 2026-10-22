@@ -1218,7 +1218,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 4/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 5/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
@@ -1283,6 +1283,19 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   215 leakage PASS**, không lỗi/skip; đủ discovery, identity LF 251 file.
   **6.671 tệp cũ nguyên byte**; chưa có CLI cohort/release, không API thật hoặc
   payoff 2025. **W10 4/8 DONE**, tiếp theo **W10-05**.
+
+- **W10-05 DONE, 22/10/2026:** [task selector và context](week10/README.md#w10-05--task-selector-và-context-22102026).
+  Grouping 20 phiên neo 02/01/2018, centroid label-blind, cặp cố định/gap/
+  overlap toàn demonstrations; tối đa 3×2. Posterior/lambda=8 giữ W10-04,
+  view chung evidence, stats alias và schema/prompt legacy. Fixture tổng hợp
+  VI/EN đủ sáu nhãn: BRPP 300/297, prompt 6.147/6.162; quá trần chặn toàn
+  candidate trước API. CLI offline build/verify 60 upstream thật exit 0,
+  oracle 150 centroid/26 cặp/720 prompt PASS. **40 test mới; compileall/E2E,
+  1.056 unit/227 leakage PASS**, đủ discovery, identity LF 261 file;
+  **6.686 tệp cũ nguyên byte**. R_task đạt kỹ thuật nhưng cache chỉ 3 điểm
+  có ≥2 task, FPT=0, chưa đủ rule đề cử ≥6 và ≥1/mã; không nới chuẩn.
+  Chưa có CLI cohort/release, không API thật hoặc payoff 2025.
+  **W10 5/8 DONE**, tiếp theo **W10-06**.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
