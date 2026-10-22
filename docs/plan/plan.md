@@ -1218,7 +1218,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 3/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 4/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
@@ -1270,6 +1270,19 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   log/inventory/runtime đóng ZIP tuần10, hash/link/diff/source PASS.
   Chưa có producer memory/ICL/cohort CLI hoặc release xác nhận; không API
   thật/nhãn 2025. **W10 3/8 DONE**, tiếp theo **W10-04**.
+
+- **W10-04 DONE, 22/10/2026:** [memory revision, R_pool và lambda train](week10/README.md#w10-04--memory-revision-r_pool-và-lambda-train-22102026).
+  Adapter kiểm byte/source/Full/journal, nhập đủ 124 upstream 2023/2024,
+  union 976 episode; giữ bank 852 và scaler cũ, thêm miền 2025 riêng.
+  103 vector nhập thêm AVAILABLE, 21 cửa sổ quyền không điền feature.
+  Partition C/B1/B2 rời nhau, gate tách block, selector label-blind/PIT.
+  Replay 651 query/166 cutoff prefix; chọn **lambda=8** trên giao 598 với A,
+  công bố cả R2 và VCB/train2021 bất lợi, raw/ready/bins/cluster sensitivity.
+  Oracle 1.953 posterior/124 nhãn/103 vector PASS; bốn CLI offline build/verify
+  exit 0, verify giữ byte/timestamp. **38 test mới; compileall/E2E, 1.016 unit/
+  215 leakage PASS**, không lỗi/skip; đủ discovery, identity LF 251 file.
+  **6.671 tệp cũ nguyên byte**; chưa có CLI cohort/release, không API thật hoặc
+  payoff 2025. **W10 4/8 DONE**, tiếp theo **W10-05**.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
