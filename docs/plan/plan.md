@@ -1218,7 +1218,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 6/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 7/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
@@ -1311,6 +1311,19 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.699 tệp cũ nguyên byte**. Coverage R_task chưa đủ đề cử trên cache;
   chưa release/API revision hoặc payoff 2025. **W10 6/8 DONE**, tiếp theo
   **W10-07** source freeze/dry-run và receipt gate toàn revision.
+
+- **W10-07 DONE, 22/10/2026:** [nghiệm thu toàn revision và source freeze](week10/README.md#w10-07--nghiệm-thu-toàn-revision-và-source-freeze-22102026).
+  Khóa 85 dependency/271 tệp gate/1.773 hash nguồn và runtime; giữ plan v1
+  nguyên byte/timestamp. Chạy mới **compileall/E2E, 1.083 unit/235 leakage
+  PASS**, không lỗi/skip, đủ discovery/multiset. Receipt bốn gate được
+  consumer đọc PASS; log/receipt giữ byte qua Git, source/runtime sai bị chặn.
+  Dry-run 60 primary + 12×3 repeat kiểm 804 contract; fixture SDK mock 12
+  primary/ba repeat PASS, duplicate độc lập, resume/verify không thêm HTTP,
+  primary/upstream nguyên byte và Numeric chỉ primary. ZIP nguồn/gate/QA
+  có manifest/hash/CRC; **6.711 tệp cũ nguyên byte**. R_task coverage cache
+  vẫn chưa đủ đề cử; chưa release/API revision hoặc payoff 2025 mới.
+  Task nghiệm thu không sửa code/test/runtime/schema/input; bốn gate chạy
+  lại theo yêu cầu mốc W10-07. **W10 7/8 DONE**, tiếp theo **W10-08**.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích

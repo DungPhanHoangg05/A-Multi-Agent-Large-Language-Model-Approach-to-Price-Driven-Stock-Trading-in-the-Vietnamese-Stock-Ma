@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 6/8. W10-01–06 DONE; đã có producer/loader/verifier/CLI cohort, nghiệm thu offline; R_task chưa đủ coverage đề cử trên cache, chưa có release/API revision.**
+**Trạng thái: IN PROGRESS, 7/8. W10-01–07 DONE; bốn gate toàn revision, source freeze và dry-run development/repeat PASS; R_task chưa đủ coverage đề cử trên cache, chưa có release/API revision.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -10,7 +10,7 @@ W1–W9 giữ nguyên kết quả. W10 chuyển sang thiết kế/triển khai; 
 development và khóa xác nhận; W12 xác nhận, phân tích và hoàn thiện luận văn.
 Năm task luận văn W10 cũ chưa thực hiện được chuyển sang W12-04–07;
 không đánh dấu DONE. Các phần chưa ghi rõ đã triển khai dưới đây vẫn là
-**dự kiến**. Chưa có CLI cohort revision. Không thay mặc định triển khai hoặc risk OFF.
+**dự kiến**. CLI cohort đã triển khai tại W10-06. Không thay mặc định triển khai hoặc risk OFF.
 
 W9 đã xác nhận A−Original **+2,025325 đpt**, CI95% **[0,135027; 4,211864]**
 trên 64 điểm/384 Decision. Bốn secondary inconclusive; A prior-off 39/64,
@@ -196,7 +196,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [x] DONE — memory 976, lambda=8; 38 test mới, 1.016 unit/215 leakage và compileall/E2E PASS |
 | W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [x] DONE — 40 test mới, 1.056 unit/227 leakage và compileall/E2E PASS; coverage cache chưa đủ đề cử |
 | W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [x] DONE — 27 test mới, 1.083 unit/235 leakage và compileall/E2E PASS; CLI offline/oracle PASS |
-| W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [ ] TODO |
+| W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [x] DONE — 1.083 unit/235 leakage, compileall/E2E PASS; receipt consumer và dry-run/repeat PASS |
 | W10-08 | Hướng dẫn API/resume/verify và chương phương pháp | 07 | CLI thật, model pin/risk OFF; bàn giao W11 | [ ] TODO |
 
 ## Module và kiểm thử dự kiến
@@ -212,6 +212,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | Preflight context offline | `scripts/prepare_bic_icl_context.py`, fixture JSON tại tuần 10 | Verify snapshot W10-04; rebuild 60 context, hai template ngôn ngữ, không gọi Decision |
 | Runtime | `core/bic_icl_runtime.py`, `scripts/run_bic_icl.py` đã triển khai W10-06; retry/ledger/journal cũ | Crash/resume/unknown, shared-off, upstream một lần |
 | Report | `core/bic_icl_reports.py` đã triển khai W10-06; engine/metric cũ | Common support, bốn tài khoản, primary/repeat riêng; selection/bootstrap thuộc W11 |
+| Nghiệm thu revision | `validation_gates/revision_v1/`, `revision_acceptance_v1.zip` tại tuần 10, W10-07 | Source/runtime freeze, receipt bốn gate đọc được bởi consumer, dry-run 60 điểm và repeat SDK mock |
 
 P0/liên module phải đủ bốn gate AGENTS.md; retrieval/pooling/task phải có
 leakage suite. Không sửa hash W9 để nhận code mới: tái lập W9 bằng checkout/
@@ -223,8 +224,9 @@ verifier vào nâng cấp thuật toán nếu chưa profiling và test tương �
 Hết W10, R_task chưa đạt thì loại trước API; R_pool cũng chưa đạt thì dừng
 nâng cấp và hoàn thiện luận văn bằng W9. Không mở ứng viên thứ ba hoặc hạ
 gate. Viết chương phương pháp trong W10, khung bảng/hình trong W11 để giữ W12.
-Chưa có runtime Decision revision mới; bốn gate cho công cụ audit W10-01
-không thay nghiệm thu W10-07 sau triển khai thuật toán.
+Runtime revision đã triển khai W10-06; nghiệm thu toàn revision W10-07
+PASS với source/runtime đã khóa. Hướng dẫn vận hành và chương phương pháp
+còn W10-08; release và execution development thuộc W11.
 
 QA kế hoạch ban đầu ngày 21/10/2026: đối chiếu hash report/bootstrap/verification/archive W9,
 số liệu publication và diff/liên kết. Đây là tài liệu, không đổi code/test/
@@ -928,3 +930,92 @@ Không gọi API/LLM thật hoặc tạo payoff/action 2025. W10-07 còn nghiệ
 source freeze/dry-run và receipt gate toàn revision; W11 khóa upstream/
 request/repeat trước chạy development. Đây chưa là release xác nhận.
 Tiếp theo **W10-07**.
+
+## W10-07 — Nghiệm thu toàn revision và source freeze, 22/10/2026
+
+**DONE; W10 7/8.** Task thêm receipt/log, gói bằng chứng và cập nhật tiến độ;
+code, test, runtime, schema, phương pháp và nguồn đầu vào giữ nguyên.
+Theo yêu cầu mốc nghiệm thu, chạy lại đủ bốn gate trên Python **3.13.5**
+sau tích hợp W10-03–06. Không dùng lượt gate component thay lượt này.
+
+**Source freeze:** [`revision_v1/source_freeze.json`](validation_gates/revision_v1/source_freeze.json)
+khóa mã tại commit `279dcbf`, **85 dependency thực thi**, **271 tệp trong
+phạm vi gate**, **1.773 hash nguồn** và phiên bản dependency runtime.
+Code dùng UTF-8/LF; artifact/log kiểm byte gốc. Plan development v1 giữ SHA
+`c728af94811636cde5360c9b029602b1e1946af048db7ddfff3fd89802fac530`,
+digest payload và timestamp W10-06. Source freeze SHA-256 byte
+`498bc75c681d6a11f75fb3ed774c93a3856e981db288007a52d72d8dacf508f9`.
+
+| Gate chạy mới | Kết quả |
+| --- | --- |
+| Compileall `agents core data_manager scripts tests utils` | PASS, exit 0 |
+| Unit discovery `test*.py` | **1.083 test / 137 module PASS** |
+| E2E xác định `scripts/run_end_to_end_test.py` | PASS, marker toàn pipeline |
+| Leakage discovery `test_*leakage.py` | **235 test / 38 module PASS** |
+
+Hai suite chạy bốn process, chia nguyên module và giữ thứ tự nội bộ;
+multiset ID khớp discovery, gồm bội số có sẵn. Không lỗi, skip, expected
+failure hoặc unexpected success. Hash 271 tệp giữ nguyên suốt bốn gate.
+Log tổng hợp nêu rõ cách chạy và từng module; log worker/inventory gốc
+được giữ trong ZIP. Không bổ sung hoặc sửa mã test trong task này.
+
+[`revision_v1/technical_gates.json`](validation_gates/revision_v1/technical_gates.json)
+dùng envelope `research_technical_gates_v1`, bind đúng 85 dependency/runtime
+của plan, bốn exit code và hash từng log đi kèm. Consumer hiện hữu
+`read_technical_gates` đọc lại **PASS**; binding sai code/runtime bị từ chối.
+SHA-256 receipt byte
+`d6953b466dd70cb0e528ea9a4d2fec5bfd10ecfa15d06bc0530947bfcdb834b9`.
+`.gitattributes` tại thư mục bằng chứng giữ byte receipt/log khi checkout.
+
+**Dry-run development/repeat:**
+[`revision_v1/dry_run.json`](validation_gates/revision_v1/dry_run.json), SHA-256 byte
+`5ca708f5a67f8196450d65132ffd2a2cb6d8856650e505e7ca0f6d91e90f7efe`. CLI prepare/dry-run/economic fixture exit 0;
+thử run thiếu release exit 1 trước credential/HTTP. Oracle tái đối soát
+60 population A/context với nguồn W10-05, 480 contract SDK, 117 prior-off
+canonical và mẫu 12 điểm repeat không fallback. Prefix/prompt lớn nhất
+518/4.671 ký tự, dưới trần 600/6.500. Context lock vẫn có digest
+`19db9111bdea7865478f809c188b5903d89b1090edb93fdb941d4c9e48250ddd`.
+
+Trên metadata thật: kiểm **60 primary + 12×3 repeat**, **96 thứ tự block /
+804 contract SDK**, cùng request/upstream và rotation đã khóa, không invoke
+Decision. Đây là dry-run, chưa có action/return development revision thật.
+
+Trên nguồn tổng hợp ngoài workspace, SDK/transport thật dùng HTTP mock:
+**12 primary + ba lượt 12 điểm**, tổng **156 HTTP giả lập**, mỗi repeat 42.
+Mỗi lượt có 12 duplicate độc lập; restart SDK rồi resume/verify không thêm
+HTTP, primary/packet/upstream giữ nguyên byte. Numeric chỉ tính ở primary;
+repeat tách report, không nhập D hoặc chọn lượt tốt nhất. Report mang
+`split=fixture`; checkpoint/ledger/cache mock được giữ trong ZIP, không
+dùng làm kết quả khoa học. Fixture kinh tế vẫn kiểm đủ bốn đường LONG/CASH.
+
+R_task đạt kỹ thuật nhưng cache chỉ **3 điểm có ≥2 task, FPT=0**;
+`task_coverage_eligible=false`. Giữ ngưỡng đề cử ≥6 và ≥1/mã. Gate kỹ thuật
+không cấp release: consumer authorization vẫn từ chối khi thiếu release,
+`api_release_issued=false`, `confirmation_allowed=false`. Không có API/LLM
+thật hoặc payoff/action 2025 mới; deployment/risk OFF giữ nguyên.
+
+**Gói bằng chứng:**
+[`validation_gates/revision_acceptance_v1.zip`](validation_gates/revision_acceptance_v1.zip),
+**828 entry / 5,302,967 byte**, SHA-256 byte
+`7770c149f8f0f72387fb7759072e7e01de96720aafc39345a9c3f21015f82cec`.
+Manifest/hash từng entry/CRC PASS; gồm source của 271 tệp, plan, source
+freeze, receipt/log/inventory bốn gate, CLI/oracle/metadata 60 điểm, fixture
+primary/repeat và công cụ QA. **6.711 tệp cũ nguyên byte**, gồm W9, ledger,
+snapshot W10-01–06 và plan; root README giữ nguyên. Diff/liên kết PASS.
+
+Đọc lại gate offline từ root, đồng thời kiểm source/runtime hiện tại:
+
+```powershell
+@'
+from pathlib import Path
+from core.bic_icl_protocol import CohortSources
+from core.candidate_selection import read_technical_gates
+from core.research_cohort import read_envelope
+plan = read_envelope(Path("outputs/bayesian_benchmark/bic_icl_v2/development_plan_v1.json"))
+CohortSources().validate(plan)
+print(read_technical_gates(Path("docs/plan/week10/validation_gates/revision_v1/technical_gates.json"), plan)["status"])
+'@ | py -3.13 -X utf8 -
+```
+
+Tiếp theo **W10-08**: hướng dẫn API/resume/verify và chương phương pháp;
+W11-01 còn khóa upstream/request/repeat và release development trước API.
