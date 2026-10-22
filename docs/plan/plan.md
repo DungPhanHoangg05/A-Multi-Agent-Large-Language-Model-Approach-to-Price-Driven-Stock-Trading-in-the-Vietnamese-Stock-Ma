@@ -1218,7 +1218,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 2/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 3/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
 Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
@@ -1258,6 +1258,18 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   nhãn/nguồn/hash/link/diff PASS; **6.664 file cũ nguyên byte**. Chỉ đặc tả
   và phân tích, không đổi runtime/schema/input; không chạy suite theo
   AGENTS.md mục 1.2. **W10 2/8 DONE**, tiếp theo **W10-03**; không API/LLM.
+
+- **W10-03 DONE, 22/10/2026:** [shared Decision và phục hồi](week10/README.md#w10-03--shared-decision-và-phục-hồi-22102026).
+  `core/bic_icl_decisions.py` khóa canonical body SDK, shared-off đúng
+  Original, stats alias cùng base và duplicate độc lập; checkpoint có nguồn
+  branch/hash, không giả HTTP attempt. Repeat pin primary durable cùng
+  request/base/shared; resume cùng UUID và cache response, kiểm integrity
+  trước SDK. Journal upstream một lần/point, giữ code W9 nguyên byte.
+  **32 test mới; compileall/E2E, 978 unit/204 leakage PASS**, không lỗi/skip;
+  đủ discovery/multiset, identity LF 242 file. **6.666 file cũ nguyên byte**;
+  log/inventory/runtime đóng ZIP tuần10, hash/link/diff/source PASS.
+  Chưa có producer memory/ICL/cohort CLI hoặc release xác nhận; không API
+  thật/nhãn 2025. **W10 3/8 DONE**, tiếp theo **W10-04**.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích

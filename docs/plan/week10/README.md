@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 2/8. W10-01/02 DONE; đầu vào và đặc tả đã khóa, chưa có runtime/release xác nhận.**
+**Trạng thái: IN PROGRESS, 3/8. W10-01–03 DONE; shared Decision đã nghiệm thu, chưa có CLI/release xác nhận.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -192,7 +192,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | --- | --- | --- | --- | --- |
 | W10-01 | Audit exposure/giá 2025, split/mẫu, namespace `bic_icl_v2` | W9 | Hash W9 nguyên; eligibility/exposure PASS hoặc BLOCKED rõ lý do | [x] DONE — giá/lịch 128 điểm và exposure PASS theo khai báo + inventory; chờ protocol/release |
 | W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [x] DONE — protocol v1 và 30 scenario power planning; không chứng nhận đủ power |
-| W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [ ] TODO |
+| W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [x] DONE — 32 test mới, 978 unit/204 leakage và compileall/E2E PASS |
 | W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [ ] TODO |
 | W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [ ] TODO |
 | W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [ ] TODO |
@@ -204,6 +204,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | Phần | Tệp mới dự kiến / tái dùng | Kiểm tra |
 | --- | --- | --- |
 | Protocol | `core/bic_icl_protocol.py`, schema tại `docs/plan/week10/` | Version/hash/exposure lock; không sửa registry W8/W9 |
+| Shared Decision | `core/bic_icl_decisions.py` đã triển khai tại W10-03 | Canonical shared-off/stats alias, duplicate độc lập, raw/ledger/source receipt, resume cùng UUID |
 | Bayes | `core/bic_icl_statistics.py`, nhãn engine chung | Counts/n=0/oracle/PIT, future append invariance, JSON native |
 | Memory revision | `core/bic_icl_memory.py`, adapter upstream/checkpoint cũ | Không dùng Decision làm feature; provenance/compatibility/dedup/source snapshot/cutoff |
 | Task/context | `core/bic_icl_tasks.py`, `core/bic_icl_prompt.py`, feature/scaler cũ | Đổi nhãn không đổi rank/ID, overlap, budget, schema |
@@ -551,3 +552,76 @@ runtime/config/schema hoặc dữ liệu execution đầu vào. Theo AGENTS.md m
 không chạy compileall/unit/E2E/leakage cho task thuần đặc tả/phân tích này,
 không ghi gate W10-01 như đã chạy lại. Không gọi API/LLM hoặc tạo payoff 2025.
 Tiếp theo **W10-03** triển khai shared-off/duplicate/checkpoint/recovery.
+
+## W10-03 — Shared Decision và phục hồi, 22/10/2026
+
+**DONE; W10 3/8.** Module mới
+[`core/bic_icl_decisions.py`](../../../core/bic_icl_decisions.py) cung cấp
+`DecisionBlock`, `branch_order` và `shared_stage_scope`; giữ code/runtime
+W9 nguyên byte. Đây là component cho runner W10-06, chưa có producer
+memory/R_pool/R_task hoặc CLI/release chạy cohort thật.
+
+| Biên | Hành vi đã triển khai |
+| --- | --- |
+| Request | Khóa toàn danh sách trước HTTP; tái dựng canonical body bằng serializer SDK thật, gồm messages/model/options/schema/tools; so prompt<6.500 và prefix≤600 |
+| Shared-off | Original đầu block, response durable trước nhánh khác; prefix rỗng và toàn contract giống mới reuse; `decision_origin=shared_original`, source branch/hash, không tạo attempt/HTTP giả |
+| Stats alias | Chỉ cặp R_pool/R_task stats-only cùng canonical request và cùng base evidence; giữ ID logic nhưng một source response. Full không alias vì tình cờ giống prompt |
+| Duplicate/repeat | Duplicate luôn invocation/UUID riêng; mỗi repeat có Original mới. Receipt pin byte state primary đã verify, cùng matrix/request/prefix/base/shared; chỉ xoay thứ tự theo protocol, không lấy response primary làm repeat |
+| Upstream | Một journal/point dùng chung primary/repeat; callback vào graph/journal hiện hữu, deep-copy state/output. Node complete được dùng lại, mất journal/marker sau bắt đầu phải dừng |
+| Durable | Identity/state/ready riêng; intent atomic trước SDK, raw/normalized trước evaluation. Alias chỉ trỏ nguồn complete cùng point/repeat; mất state sau lock không được tạo lại bằng `create=True` |
+| Recovery | Dùng ResilientTransport/pacer/retry wrapper hiện hữu; cùng UUID khi retry/format repair/resume. Cache response durable dùng lại sau restart, kiểm hash/header/body trước SDK. Quota ngày giữ unknown, không điền CASH |
+| Verifier | Tái kiểm toàn block và ledger disk trước HTTP tiếp theo, kể cả source alias; tự băm lại checkpoint không thay body/response thực. Thay cutoff, source, code, client options hoặc primary receipt đều bị chặn |
+
+`DecisionBlock.run` nhận shared bundle JSON đã seal, danh sách request
+đã render (`branch_id`, `prompt`, `prefix`, `base_evidence_sha256`) theo
+thứ tự đã khóa, cùng callback `verify_sources`. Renderer/evidence semantic,
+manifest/code/runtime toàn cohort và release sẽ do W10-04–07/W11 cấp;
+component không coi hash tự khai là đủ bằng chứng retrieval/PIT. Missing/
+unknown không là quyết định CASH. Fixture chỉ dùng HTTP mock ngoài workspace;
+run thật chỉ nhận thư mục con namespace `bic_icl_v2`, không ghi vào W9.
+
+Checkpoint nằm tại `decision_blocks/<repeat>/<point>/identity.json`,
+`state.json`, `ready.json`; journal tại `shared_stages/<point>/journal.json`.
+`verify_only=True` tái lập/so trạng thái, không gọi Decision mới. Source
+reference và HTTP audit dùng để phân biệt slot logic, Decision vật lý và
+HTTP retry; alias không là quan sát độc lập. Hai nhánh sau alias vẫn nhận
+bản sao output riêng, không cùng một đối tượng state có thể bị sửa chéo.
+
+**Kiểm thử trọng tâm:**
+[`test_bic_icl_decisions.py`](../../../tests/test_bic_icl_decisions.py) và
+[`test_bic_icl_decisions_leakage.py`](../../../tests/test_bic_icl_decisions_leakage.py),
+fixture SDK/HTTP mock tại [`bic_icl_fixture.py`](../../../tests/bic_icl_fixture.py).
+**32 ca PASS**: prior-off giống/khác request; stats alias/base; duplicate;
+khác point/lượt; repeat sai primary; ledger append; 429/format repair/quota;
+crash trước HTTP, sau durable response và trước persist alias; init orphan;
+khóa OS; cache hỏng sau restart; rehash state/identity/marker/raw; mất ledger/
+checkpoint; query outcome/future feature; horizon và JSON native.
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p "test_bic_icl_decisions*.py" -v
+```
+
+Do thay đổi paired protocol/retry/checkpoint P0, áp dụng đủ bốn gate
+AGENTS.md mục 1.2. Hai suite chạy trên bốn process, phân công động theo
+nguyên module và giữ thứ tự trong module; đối chiếu multiset test ID với
+`unittest discover`, không bỏ bội số/test hoặc skip. Identity UTF-8/LF của
+code/test/phương pháp giữ nguyên trong lượt gate và sau checkout; checksum
+nguồn/bằng chứng cũ vẫn đối chiếu theo byte gốc.
+
+**Nghiệm thu PASS trên Python 3.13.5:** compileall toàn codebase, **978 unit
+test/204 leakage**, E2E xác định; không lỗi, skip hoặc expected failure.
+Đủ 125 module unit/35 module leakage, hai multiset ID khớp discovery. Có
+**32 test mới** (17 ca wrapper/recovery, 15 ca integrity), toàn bộ SDK qua
+HTTP mock; không dùng gate W10-01 thay lượt này. Identity LF **242 file**
+giữ nguyên suốt gate; **6.666 file cũ nguyên byte**, gồm ledger, archive W9,
+input audit v2 và method protocol v1. Diff/liên kết/hash/source PASS.
+
+Log, inventory, runtime và công cụ chạy gate được đóng trong
+[`validation_gates/shared_decisions_v1.zip`](validation_gates/shared_decisions_v1.zip),
+184 entry/554.629 byte; SHA-256 byte
+`0c5d09604443fcf3d5f2a12115f7df38f4bcfcaa18c6383015b8de50b43c8a8b`.
+ZIP lưu log/inventory của bản code đã nghiệm thu. W10-07 vẫn phải
+nghiệm thu lại toàn revision sau
+triển khai memory/posterior/task/runner; component gate không là release.
+Không gọi HTTP/LLM thật, tạo nhãn 2025 hoặc thay mặc định triển khai.
+Tiếp theo **W10-04**: adapter memory đã lưu, R_pool và diagnostics train.
