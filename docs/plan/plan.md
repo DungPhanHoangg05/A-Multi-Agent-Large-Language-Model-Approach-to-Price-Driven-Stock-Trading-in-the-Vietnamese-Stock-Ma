@@ -1218,10 +1218,11 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — IN PROGRESS 7/8
+### 📅 TUẦN 10: Thiết kế và triển khai revision Bayesian ICL — COMPLETE 8/8
 [Checklist W10](week10/README.md): audit exposure/giá 2025, khóa mô hình và
 task semantics, shared-off, R_pool/R_task, producer/verifier và bốn gate.
-Chuẩn bị chương phương pháp. Không sửa W9; hết tuần không đạt thì thu hẹp
+Đã có bản thảo chương phương pháp và hướng dẫn vận hành bàn giao W11.
+Không sửa W9; hết tuần không đạt thì thu hẹp
 theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
 
 - **W10-01 DONE, 21/10/2026:** [audit exposure, giá và mẫu xác nhận](week10/README.md#w10-01--audit-exposure-giá-và-mẫu-xác-nhận-21102026).
@@ -1324,6 +1325,18 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   vẫn chưa đủ đề cử; chưa release/API revision hoặc payoff 2025 mới.
   Task nghiệm thu không sửa code/test/runtime/schema/input; bốn gate chạy
   lại theo yêu cầu mốc W10-07. **W10 7/8 DONE**, tiếp theo **W10-08**.
+
+- **W10-08 DONE, 22/10/2026:** [hướng dẫn, chương phương pháp và bàn giao](week10/README.md#w10-08--hướng-dẫn-vận-hành-chương-phương-pháp-và-bàn-giao-22102026).
+  Hoàn thiện [vận hành CLI](week10/operations.md) và [bản thảo phương pháp](week10/methodology_chapter.md),
+  model/options/risk OFF, source/ledger, cache/fresh, primary/repeat,
+  resume/verify, kinh tế/posterior/task/estimand/ablation và giới hạn claim.
+  Bảy kiểm tra CLI thật offline/guard PASS; plan giữ byte/timestamp, thiếu
+  release dừng trước key/HTTP. W11 đã nhận đầu vào; producer/verifier release
+  development còn W11-01, primary/repeat thật chưa chạy; R_task coverage
+  chưa đủ đề cử. Chỉ năm Markdown, không chạy lại suite theo AGENTS.md 1.2;
+  consumer source/runtime/gate W10-07, số liệu/link/anchor/diff/hash PASS,
+  **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
+  tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
 ### 📅 TUẦN 11: Development và khóa xác nhận mới — TODO 0/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích

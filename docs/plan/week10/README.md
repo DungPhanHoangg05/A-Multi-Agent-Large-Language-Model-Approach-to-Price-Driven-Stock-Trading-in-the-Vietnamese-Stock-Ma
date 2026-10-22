@@ -1,6 +1,6 @@
 # Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
 
-**Trạng thái: IN PROGRESS, 7/8. W10-01–07 DONE; bốn gate toàn revision, source freeze và dry-run development/repeat PASS; R_task chưa đủ coverage đề cử trên cache, chưa có release/API revision.**
+**Trạng thái: COMPLETE, 8/8. Gate kỹ thuật W10 PASS; đã bàn giao hướng dẫn vận hành và bản thảo chương phương pháp. R_task chưa đủ coverage đề cử trên cache; release và execution development thuộc W11.**
 Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
 [Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -197,7 +197,7 @@ tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-pr
 | W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [x] DONE — 40 test mới, 1.056 unit/227 leakage và compileall/E2E PASS; coverage cache chưa đủ đề cử |
 | W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [x] DONE — 27 test mới, 1.083 unit/235 leakage và compileall/E2E PASS; CLI offline/oracle PASS |
 | W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [x] DONE — 1.083 unit/235 leakage, compileall/E2E PASS; receipt consumer và dry-run/repeat PASS |
-| W10-08 | Hướng dẫn API/resume/verify và chương phương pháp | 07 | CLI thật, model pin/risk OFF; bàn giao W11 | [ ] TODO |
+| W10-08 | Hướng dẫn API/resume/verify và chương phương pháp | 07 | CLI thật, model pin/risk OFF; bàn giao W11 | [x] DONE — hướng dẫn/chương phương pháp, bảy kiểm tra CLI offline/guard PASS; W11 đã nhận bàn giao |
 
 ## Module và kiểm thử dự kiến
 
@@ -225,8 +225,8 @@ Hết W10, R_task chưa đạt thì loại trước API; R_pool cũng chưa đ�
 nâng cấp và hoàn thiện luận văn bằng W9. Không mở ứng viên thứ ba hoặc hạ
 gate. Viết chương phương pháp trong W10, khung bảng/hình trong W11 để giữ W12.
 Runtime revision đã triển khai W10-06; nghiệm thu toàn revision W10-07
-PASS với source/runtime đã khóa. Hướng dẫn vận hành và chương phương pháp
-còn W10-08; release và execution development thuộc W11.
+PASS với source/runtime đã khóa. Hướng dẫn vận hành và bản thảo chương
+phương pháp hoàn tất W10-08; release và execution development thuộc W11.
 
 QA kế hoạch ban đầu ngày 21/10/2026: đối chiếu hash report/bootstrap/verification/archive W9,
 số liệu publication và diff/liên kết. Đây là tài liệu, không đổi code/test/
@@ -1019,3 +1019,58 @@ print(read_technical_gates(Path("docs/plan/week10/validation_gates/revision_v1/t
 
 Tiếp theo **W10-08**: hướng dẫn API/resume/verify và chương phương pháp;
 W11-01 còn khóa upstream/request/repeat và release development trước API.
+
+## W10-08 — Hướng dẫn vận hành, chương phương pháp và bàn giao, 22/10/2026
+
+**DONE; W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS.**
+[Hướng dẫn vận hành](operations.md) đối chiếu trực tiếp CLI hiện hữu:
+prepare/dry-run/fixture, policy cache/fresh, preflight, primary/repeat,
+resume/verify và xử lý Ctrl+C/quota/unknown. Ghi rõ model/options pin,
+VI/risk OFF, ledger chung, các artifact ignored cần giữ cùng workspace
+và điều kiện source/runtime/request trước API. Flag `--upstream` chỉ
+chọn policy khi prepare; cả ba repeat dùng cùng run root, report riêng.
+
+[Bản thảo chương phương pháp](methodology_chapter.md) có nội dung hoàn
+chỉnh về câu hỏi nghiên cứu, split/exposure, nhãn T+2.5, estimand tài
+khoản, posterior C/B1/B2, lambda train, demonstrations/task/centroid,
+gate/budget, paired/shared-off/alias/duplicate, ablation/repeat,
+selection/STOP và thiết kế bootstrap/power. Phân biệt thành phần Bayes
+tính ngoài LLM, ICL trong context và policy Numeric. Có ánh xạ code/bằng
+chứng; không sửa đặc tả legacy hoặc protocol v1 đã khóa. Đã đối chiếu
+thông tin thư mục và định vị học thuật với nguồn PMLR chính thức của
+[Zhu, Oermann và Cho (2026)](https://proceedings.mlr.press/v306/zhu26aj.html).
+
+**QA CLI thật:** `--help`, `--prepare`, `--dry-run`, `--economic-fixture`
+đều exit 0. Ba lệnh `--preflight`, `--lock-upstream`, `--run` có receipt
+gate nhưng thiếu release đều exit 1 đúng dự kiến, dừng trước credential/
+HTTP dù trỏ env-file không tồn tại. Plan giữ nguyên byte/timestamp;
+dry-run đủ 60 điểm/mẫu repeat 12, fixture kinh tế đủ bốn đường LONG/CASH.
+Không tạo run development hoặc gọi API/LLM thật.
+
+Đối soát lệnh trong hướng dẫn với help/argparse: không dùng mode tạo
+release hoặc flag replay của runner legacy. Các lệnh online và phương
+án fresh được đánh dấu **có điều kiện sau W11-01**, chưa thực hiện trong
+task này. Verify run/repeat/resume dựa trên code và bằng chứng fixture
+W10-07; chưa có run thật để ghi là đã verify primary/repeat thực nghiệm.
+
+**Bàn giao W11:** [đầu vào và việc còn lại](../week11/README.md#đầu-vào-đã-bàn-giao-từ-w10).
+W11-01 còn kiểm nguồn/gate, khóa policy/packet/request/context/repeat và
+producer/verifier release development. W11-02/03 người dùng chạy API;
+selection, bootstrap và manifest/release xác nhận 2025 thuộc W11-05–07.
+Consumer release đã có, chưa có producer phát hành ở W10. Receipt gate
+và metadata dry-run không tự mở run. Coverage R_task vẫn chỉ ba điểm có
+≥2 task, FPT=0, chưa đủ đề cử; giữ nguyên ngưỡng và mọi kết luận missing.
+
+Theo **AGENTS.md 1.2**, task chỉ sửa **năm Markdown**: hai tài liệu độc
+lập mới, README W10/W11 và kế hoạch tổng; không đổi code/test/runtime/
+schema/input. **Không chạy lại compileall/unit/E2E/leakage**. Viện dẫn
+đúng lượt W10-07: 1.083 unit/235 leakage và compileall/E2E PASS; đọc lại
+receipt/source/runtime bằng consumer hiện tại PASS, không ghi thành suite
+mới. Đối chiếu CLI, số liệu power/coverage, link/anchor/diff/hash PASS;
+**6.719 tệp nguồn/bằng chứng cũ nguyên byte**, gồm W9, ledger, plan,
+protocol, receipt và archive W10-07. Root README giữ nguyên.
+
+Gate W10 xác nhận đủ triển khai/nghiệm thu kỹ thuật và tài liệu bàn giao;
+hiệu quả kinh tế revision chưa được đo. **Tiếp theo W11-01; W11 vẫn TODO
+0/8.** Giữ `confirmation_allowed=false`, chưa phát hành hoặc chạy xác
+nhận 2025, không đổi deployment/risk OFF.

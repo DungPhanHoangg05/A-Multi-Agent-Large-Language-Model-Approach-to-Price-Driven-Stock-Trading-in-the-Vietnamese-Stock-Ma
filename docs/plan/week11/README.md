@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: TODO, 0/8; cập nhật 21/10/2026.**
+**Trạng thái: TODO, 0/8; đã nhận bàn giao W10 ngày 22/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -11,6 +11,42 @@ người dùng tự chạy API bằng CLI sẽ được bàn giao, agent chuẩn
 offline. Không chạy lại W9 hoặc mở outcome xác nhận mới trong development.
 Đầu W11 chạy/đối soát; giữa W11 repeat/analysis; cuối W11 khóa selection,
 protocol, nguồn và release. Không kéo tối ưu sang W12.
+
+## Đầu vào đã bàn giao từ W10
+
+**W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS.**
+[Hướng dẫn API/resume/verify](../week10/operations.md) và
+[bản thảo chương phương pháp](../week10/methodology_chapter.md) đã hoàn tất.
+W11 vẫn **0/8**, chưa chạy primary/repeat revision thật hoặc mở xác nhận 2025.
+
+| Đầu vào hiện có | Trạng thái dùng cho W11-01 |
+| --- | --- |
+| [Protocol v1](../week10/method_protocol_v1.md), schema/fixture riêng | Giữ ngữ nghĩa đã khóa; không đổi method bằng cập nhật README |
+| Plan `bic_icl_v2/development_plan_v1.json` trong outputs | 60 point 2023, `VERIFIED_CACHE`, VI; SHA byte `c728af94811636cde5360c9b029602b1e1946af048db7ddfff3fd89802fac530` |
+| Memory/index 976, lambda=8, context preflight | A/R/Numeric cùng nguồn; query chỉ thấy exit<cutoff; giữ scaler/model train-only |
+| [Source freeze](../week10/validation_gates/revision_v1/source_freeze.json) và [receipt gate](../week10/validation_gates/revision_v1/technical_gates.json) | 85 dependency/runtime, 271 tệp gate; compileall/1.083 unit/E2E/235 leakage PASS tại W10-07, chưa chạy lại ở W10-08 |
+| Dry-run 60 point, sample 12 point/ba repeat | Context digest `19db9111bdea7865478f809c188b5903d89b1090edb93fdb941d4c9e48250ddd`; metadata chưa là run/release đã đóng băng |
+| Coverage R_task trên cache | Kỹ thuật available; chỉ 3 điểm có ≥2 task, FPT=0; chưa đủ eligibility đề cử, không nới ngưỡng |
+
+W11-01 cần kiểm lại nguồn/gate, khóa policy upstream cho cả cohort và
+đóng băng packet/request/context/repeat trước Decision. Với cache, kiểm
+đủ 60 upstream và cấp release tham chiếu context lock. Nếu chọn fresh,
+tạo plan/run mới, cấp release upstream-only, preflight/lock-upstream,
+rồi verify và cấp release Decision có digest context lock. Consumer đã
+có; **producer/verifier phát hành release development còn thuộc W11-01**.
+Không dùng JSON tự khai hoặc receipt gate thay các bằng chứng này.
+
+Plan/code/model/runtime/scaler/bank/schema/request/matrix/repeat và ledger
+path phải bind đúng trước API. Giữ model/options/risk OFF; tokenizer cache
+và preflight text/vision phải PASS cùng credential/plan trước run. Run thật
+giữ `report_0.json` primary và `report_1/2/3.json` repeat riêng trong cùng
+run root; xác minh complete/common support trước phân tích và selection.
+Không lấy fixture HTTP mock hoặc report W9 làm Decision revision mới.
+
+Chỉ clone Git không có đủ artifact ignored; giữ cùng workspace, archive
+W9, model/scaler/index, nguồn giá/quyền/tin, ledger và response cache.
+Các lệnh có điều kiện và xử lý Ctrl+C/quota/unknown nằm trong hướng dẫn;
+mọi API thực nghiệm do người dùng chạy theo W11-02/03.
 
 ## Diagnostics train trước LLM
 
