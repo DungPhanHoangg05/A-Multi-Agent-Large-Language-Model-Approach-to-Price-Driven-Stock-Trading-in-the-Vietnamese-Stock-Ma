@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: IN PROGRESS, 2/8; W11-02 DONE ngày 23/10/2026.**
+**Trạng thái: IN PROGRESS, 2/8; W11-03 đã chuẩn bị offline, chờ người dùng chạy repeat.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -176,7 +176,7 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 | --- | --- | --- | --- | --- |
 | W11-01 | Kiểm nguồn/gate, khóa development và repeat plan | W10 | Dry-run/identity/nguồn PASS; release cache bind đủ snapshot/request/repeat/run/ledger | [x] DONE |
 | W11-02 | Người dùng chạy primary development | 01 | Primary COMPLETE, 60/60 common support, 480 slot LLM complete; report/source/raw/ledger PASS | [x] DONE |
-| W11-03 | Verify primary, chạy/verify ba repeat | 02 | Semantic/request/source PASS; không chọn response | [ ] TODO |
+| W11-03 | Verify primary, chạy/verify ba repeat | 02 | Semantic/request/source PASS; không chọn response | [ ] IN PROGRESS — chờ API |
 | W11-04 | Phân tích economics/coverage/loss/T/G/repeat/failure | 03 | Đủ cả nhóm bất lợi và missing; không suy trace thành cơ chế | [ ] TODO |
 | W11-05 | Khóa selection hoặc STOP_NO_IMPROVEMENT | 04 | Rule và oracle độc lập khớp; không chọn ablation | [ ] TODO |
 | W11-06 | Kiểm nguồn mới, công cụ report/bootstrap và bốn gate | 05 | Fixture oracle/PIT/canonical/reuse PASS đúng revision | [ ] TODO |
@@ -358,3 +358,55 @@ primary ở đây là điều kiện chốt W11-02, chưa thay ba repeat bắt b
 W11-04 còn phân tích economics/coverage/ablation/failure; chưa nomination,
 bootstrap hoặc mở xác nhận 2025, `confirmation_allowed=false`.
 **Tiếp theo W11-03: người dùng chạy ba repeat riêng theo mẫu đã khóa.**
+
+## W11-03 — Bàn giao ba repeat, 23/10/2026
+
+**Đã chuẩn bị offline; chưa DONE, W11 vẫn 2/8.** Primary đã được verify tại
+W11-02. Trước bàn giao repeat, đối soát lại **564 artifact primary/plan/
+release** với gói đóng băng: không đổi byte, gồm `report_0.json` với SHA
+`00771c113b0d4cc3ffbf370af789da3cee773e477d7aff2105c8c3cb95f9d4b2`.
+328 HTTP record primary vẫn khớp binding report. Source/runtime, 1.773
+hash nguồn, 276 tệp source gate và receipt W11-01 khớp; preflight trong
+ledger PASS cùng plan. Đây là đối soát hash/binding của lượt primary đã
+verify, không ghi là chạy lại CLI semantic hoặc các suite.
+
+Cả ba repeat chưa khởi tạo. Manifest đã khóa **12 điểm/mỗi lượt, không
+fallback; 108 slot logic và 62 invocation độc lập/mỗi lượt**, gồm 12
+Original duplicate độc lập. Đã đối soát đủ 324 slot: sample, rotation
+`(3j+r−1) mod M` và canonical contract đều khớp primary; Numeric_only
+không có trong repeat. Giữ upstream, ma trận, request, model/options và
+risk OFF. Không thêm sample, thay response hoặc đổi pacing giữa run.
+
+Người dùng chạy đoạn PowerShell sau từ root repository. Vòng lặp chạy
+tuần tự r=1,2,3 và dừng nếu một lệnh lỗi. Nếu bị ngắt, giữ mọi artifact,
+chạy lại đoạn này; `--resume` dùng lại lượt đã complete và tiếp tục phần
+còn thiếu theo UUID, không mở một lượt khoa học mới.
+
+```powershell
+$planPath = 'outputs/bayesian_benchmark/bic_icl_v2/development_plan_release_v2.json'
+$runPath = 'outputs/bayesian_benchmark/bic_icl_v2/development_run_release_v2'
+$gatePath = 'docs/plan/week11/validation_gates/development_v1/technical_gates.json'
+$releasePath = 'docs/plan/week11/development_release_v1.json'
+
+foreach ($repeatId in 1, 2, 3) {
+    py -3.13 -X utf8 scripts/run_bic_icl.py --run --resume --repeat-id $repeatId --plan $planPath --output-dir $runPath --handoff $releasePath --technical-gates $gatePath
+    if ($LASTEXITCODE -ne 0) { throw "Repeat $repeatId lỗi; giữ checkpoint và xử lý trước khi tiếp tục." }
+}
+```
+
+Nếu đổi credential, người dùng chạy lại preflight theo W11-02 với đúng
+plan/run/release/gate trước repeat; CLI vẫn kiểm fingerprint credential.
+Mỗi lượt kết thúc cần `status=COMPLETE`, tạo riêng `report_1.json`,
+`report_2.json`, `report_3.json` trong cùng run root.
+
+Khi đủ ba report, agent dùng CLI `--verify-report --repeat-id 1/2/3`
+offline để dựng lại từng report; kiểm đủ 12 point/common support, schema/
+request/source/ledger/raw/cache, duplicate độc lập, Numeric chỉ primary
+và primary nguyên byte trước khi chốt W11-03. Không nhập repeat vào D
+primary, chọn lượt tốt nhất, phân tích hoặc selection ở bước chuẩn bị này.
+
+Chỉ cập nhật hai Markdown; không đổi code/test/runtime/schema/input hoặc
+tạo request/API. Theo AGENTS.md 1.2, không chạy lại compileall/unit/E2E/
+leakage; viện dẫn đúng gate W11-01 trên source/runtime không đổi. Chưa có
+report repeat thật nên chưa đánh PASS phần thực nghiệm hoặc tăng checklist
+lên 3/8. Giữ `confirmation_allowed=false`.
