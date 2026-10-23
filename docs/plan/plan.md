@@ -1338,7 +1338,7 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
   tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
-### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 1/8
+### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 2/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
 loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
 và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
@@ -1353,6 +1353,16 @@ và release, chuẩn bị khung bảng/chương. Không xem outcome mới để 
   hoặc có report revision thật; R_task vẫn thiếu coverage đề cử.
   **W11 1/8; tiếp theo W11-02 do người dùng chạy API** theo lệnh đã bàn
   giao. Không mở selection hoặc xác nhận 2025.
+
+- **W11-02 DONE, 23/10/2026:** [chốt primary development thật](week11/README.md#w11-02--chốt-primary-development-23102026).
+  CLI verify-report offline PASS: 60/60 common support trên chín nhánh,
+  480 slot LLM complete, 317 invocation khoa học và 60 Numeric offline.
+  Ledger giữ 328 HTTP: 317 thành công, 2 lần 429 và 9 lỗi kết nối đã phục
+  hồi cùng UUID; không còn unknown/error. Đóng băng report/checkpoint/raw/
+  ledger nguyên byte; không đổi code/runtime hoặc chạy lại suite theo
+  AGENTS.md 1.2. Gate W11-01/source/runtime đọc lại PASS, không là lượt gate
+  mới. **W11 2/8; tiếp theo W11-03**, chưa chạy ba repeat, phân tích,
+  selection hoặc xác nhận 2025; giữ ngưỡng coverage R_task.
 
 ### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
 [Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,
