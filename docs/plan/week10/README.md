@@ -1,6 +1,6 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: 1/10 task DONE, cập nhật 24/10/2026; U10-01 đã kiểm toán nguồn/exposure.**
+**Trạng thái: 2/10 task DONE, cập nhật 24/10/2026; đã audit nguồn và khóa protocol U-BICL v1.**
 Chưa triển khai U-BICL; xác nhận 2025 đang BLOCKED vì thiếu bộ giá thô đã kiểm trong workspace.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -190,7 +190,7 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | Task | Công việc / đầu ra | Phụ thuộc | Gate hoàn thành | Trạng thái |
 | --- | --- | --- | --- | --- |
 | U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [x] DONE — nguồn/124 upstream PASS; 2025 BLOCKED do thiếu giá thô đã kiểm |
-| U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [ ] TODO |
+| U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [x] DONE — protocol v1, sáu nhánh/một candidate và 88 ca fixture đã kiểm |
 | U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [ ] TODO |
 | U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [ ] TODO |
 | U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [ ] TODO |
@@ -389,6 +389,75 @@ owner/recovery của hai khóa OS được verifier cập nhật đúng vòng đ
 đã released. Ledger, report/bootstrap/archive, nguồn/code/schema/runtime
 nguyên byte trong task. QA hash/archive/runtime/số liệu/liên kết/diff PASS.
 **U10 đạt 1/10; tiếp theo U10-02**, chưa mở xác nhận hoặc cấp quyền gọi API.
+
+## U10-02 — Khóa protocol và fixture, 24/10/2026
+
+**DONE — khóa `unified_bic_protocol_v1`**, namespace `unified_bic_v1`, từ
+nguồn/audit tại `0abd1ac`. [Phương pháp độc lập](unified_bic_method_v1.md),
+[đặc tả máy đọc](unified_bic_protocol_v1.json) và
+[fixture tổng hợp](fixtures/unified_bic_contract_v1.json) là hợp đồng cho
+U10-03–09; chưa là mã chạy, execution plan hoặc release API.
+
+Khóa sáu nhánh Original/A_reference/U_full/U_stats/U_examples/Numeric_only,
+chỉ U_full được nominate. Một vòng development/một renderer family, không
+quét prompt/model/K. A_reference giữ thuật toán/evidence/prefix A trên cùng
+nguồn; ba projection U dùng cùng base evidence, Numeric dùng đúng posterior
+U và ready gate. Chỉ khác block visibility, giữ common instruction/schema
+cho mọi nhánh LLM; không quy toàn contrast U−A cho riêng pooling hoặc prompt.
+
+Đã làm rõ C/B1/B2 rời nhau, công thức A/pooling, nC=0, gate nhận λ trên raw
+posterior train và fallback A khi trượt; không thử λ đứng sau để cứu gate.
+Hai fold có **647 query score (325/322)** sau purge bốn cycle cutoff
+31/12/2021 đóng 06/01/2022; giữ diagnostics 651 query legacy nguyên trạng.
+Chưa tính loss diagnostics hoặc chọn λ trong task này.
+
+Task neo lịch VNINDEX 02/01/2018, block90 không chồng lấp, support≥2 từ full
+membership PIT/tuổi hợp lệ; representative theo similarity sau recency,
+gap≥5 phiên và không overlap, tối đa ba nhóm/ba exemplar. Membership/summary
+không thay vì ranking; label-shuffle không đổi selector. Mode task có thể
+chỉ một nhóm; thiếu nhóm dùng episode_fallback, thiếu ví dụ thì off, stats
+độc lập. Không cộng counts summary vào posterior hoặc gọi một exemplar là
+nhiều quan sát độc lập. Khóa claim gate ≥12/60 điểm có ≥2 task, ≥2/mã.
+
+Chọn cache W8/W9 đã kiểm cho development, một upstream/point và deep-copy;
+Original đầu, repeat/readiness/order và shared-off cùng point/repeat/body/
+model/options/schema rõ. Whitelist alias stats-only rỗng; duplicate độc lập,
+không vote. Khóa nomination/primary/family secondary/seed/MDD guard/limits;
+2025 vẫn BLOCKED thiếu nguồn giá thô, không có ngày chọn hoặc release mới.
+Backbone choice, wording renderer/common instruction và source/request lock
+cụ thể lần lượt thuộc U10-04, U10-05/06 và U10-09 trước LLM.
+
+| Artifact khóa | SHA-256 |
+| --- | --- |
+| `unified_bic_protocol_v1.json`, canonical JSON | `c392c92cd6b1b6c49672adeb4ada5cf47b902e3cb4c2bef41aca5cb5857abfda` |
+| `fixtures/unified_bic_contract_v1.json`, canonical JSON | `f4a0a49d3be7af76c8acfcf7dbeed8ed47b112c7781d7317c91ba0ea11ee1e30` |
+| `unified_bic_method_v1.md`, UTF-8/LF | `021d45333d7e5d7647c51014640aae90da7b9f1210568e5c27b9af78815d0632` |
+
+Canonical JSON dùng `core.prior_backtest.canonical_hash`: sort_keys=True,
+ensure_ascii=False, separators=(',', ':'), allow_nan=False; không băm byte
+indent/newline. Fixture bind đúng digest protocol; source anchor dùng byte
+SHA-256 của 12 nguồn có sẵn. Metadata/hash không tự cấp release hoặc cho
+consumer legacy nhận schema mới.
+
+**QA mới: 88 ca oracle tổng hợp PASS**, đối chiếu Beta bằng Decimal/CDF,
+nhãn kinh tế bằng engine hiện hữu, partition/gate/tie-break, task support/
+diversity/label-shuffle/fallback, visibility/Numeric, budget biên, shared-off,
+order/repeat, nomination/CI và bootstrap indices bằng vòng lặp độc lập.
+Hai fold/lịch 60 điểm/12 source anchor và binding protocol-fixture khớp;
+không dùng payoff 2025, outcome development mới hoặc gọi API. Fixture là
+expected contract cho code/test sau này, không chứng minh implementation U
+hoặc provider đã PASS. Thiếu các test production/PIT/resume và bốn gate
+U10-08 thì chưa mở development API.
+
+Phạm vi là tài liệu phương pháp và JSON đặc tả/fixture chưa có consumer
+runtime; không đổi code/test/config/schema đang chạy hoặc input legacy.
+Theo AGENTS.md 1.2 không chạy compileall/unit/E2E/leakage suite; chỉ kiểm
+oracle/JSON/hash/số liệu/liên kết/diff và bảo toàn nguồn. Không tạo receipt
+task riêng hoặc ghi gate cũ thành gate U mới. QA chín liên kết/anchor, ba
+digest và staged diff PASS; **4.374 file** code/nguồn/evidence cũ nguyên byte,
+gồm ledger, archive W9 và root README; không thay metadata khóa OS.
+**U10 đạt 2/10**, tiếp theo
+**U10-03** triển khai memory/index đúng protocol đã khóa.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 
