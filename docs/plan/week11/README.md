@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: IN PROGRESS, 5/8; W11-05 DONE — STOP_NO_IMPROVEMENT ngày 24/10/2026.**
+**Trạng thái: CLOSED — 6/8 DONE, 2/8 NOT_APPLICABLE; W11-08 DONE ngày 24/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -22,6 +22,8 @@ Khi bàn giao, W11 **0/8**. [W11-01](#w11-01--khóa-development-và-release-2210
 ba repeat đã chốt tại [W11-03](#w11-03--chốt-ba-repeat-development-24102026).
 [Selection W11-05](#w11-05--khóa-selection-và-điểm-dừng-24102026) đã khóa
 `STOP_NO_IMPROVEMENT`; không phát hành xác nhận 2025 cho revision này.
+[W11-08](#w11-08--bàn-giao-nhánh-dừng-và-khung-luận-văn-24102026) đã đóng tuần;
+[khung chương kết quả](results_chapter.md) bàn giao sang W12-04.
 
 | Đầu vào hiện có | Trạng thái dùng cho W11-01 |
 | --- | --- |
@@ -183,11 +185,13 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 | W11-05 | Khóa selection hoặc STOP_NO_IMPROVEMENT | 04 | STOP đã khóa; rule/oracle Decimal/fixture khớp, selected=null | [x] DONE |
 | W11-06 | Kiểm nguồn mới, công cụ report/bootstrap và bốn gate | 05 | Fixture oracle/PIT/canonical/reuse PASS đúng revision | [ ] NOT_APPLICABLE — nhánh xác nhận dừng tại selection |
 | W11-07 | Khóa manifest/release xác nhận hoặc BLOCKED | 06 | 128 điểm/sáu nhánh, repeat/protocol/exposure/hash trước outcome | [ ] NOT_APPLICABLE — không có candidate để phát hành |
-| W11-08 | Bàn giao run/resume/verify, khung chương và bảng | 07 | CLI thật; chốt không tối ưu tiếp W12; nhánh dừng có nội dung luận văn | [ ] TODO |
+| W11-08 | Bàn giao run/resume/verify, khung chương và bảng | 05; 06–07 nếu có candidate | CLI/nguồn đối chiếu; khung chương và bảng đủ nhánh dừng, tiếp tục W12-04 | [x] DONE |
 
 Nếu thiếu tập mới sạch hoặc không đạt selection, W11-06/07 ghi BLOCKED/
 NOT_APPLICABLE đúng lý do, không đánh PASS giả. W12 vẫn hoàn thành luận văn
 từ W9 và các kết quả exploratory mới, không kéo dài quá 12 tuần.
+W11 đã đóng với **6 task DONE và 2 task NOT_APPLICABLE**, không ghi 8/8
+PASS hoặc coi nghiệm thu bàn giao là bằng chứng cải thiện kinh tế.
 
 ## W11-01 — Khóa development và release, 22/10/2026
 
@@ -797,8 +801,8 @@ Original mặc định; không tuyên bố Bayes/ICL vô ích nói chung hoặc 
 
 Nhánh xác nhận của **W11-06/07 là NOT_APPLICABLE** vì thiếu candidate
 promotable; không tạo bootstrap/manifest/release xác nhận hay mở outcome
-2025. Các mốc đó không được đánh PASS; W11 vẫn IN PROGRESS 5/8.
-W11-08 còn bàn giao nhánh dừng, khung bảng/chương; W12 tiếp tục luận văn
+2025. Các mốc đó không được đánh PASS; tại thời điểm W11-05, W11 đạt 5/8.
+W11-08 nhận bàn giao nhánh dừng, khung bảng/chương; W12 tiếp tục luận văn
 bằng W9 và development exploratory, W12-01–03 không có release để chạy.
 
 **Phạm vi kiểm:** hai Markdown, selection JSON và ZIP QA; không đổi mã hệ
@@ -807,3 +811,85 @@ thống/test/runtime/schema/input, không đọc key hoặc gọi API. Theo AGEN
 PASS trên source/runtime không đổi (1.103 unit/249 leakage, compileall/E2E),
 không ghi gate cũ thành lượt mới. Oracle/fixture/link/diff/hash PASS;
 **7.554 tệp cũ nguyên byte**, root README và toàn report/ledger/W9/W10 giữ nguyên.
+
+## W11-08 — Bàn giao nhánh dừng và khung luận văn, 24/10/2026
+
+**DONE; W11 CLOSED — 6 task DONE, 2 task NOT_APPLICABLE.** Điểm dừng
+`STOP_NO_IMPROVEMENT` tại W11-05 giữ nguyên byte; không candidate, không
+manifest/release xác nhận 2025, Original giữ mặc định. W11-06/07 không áp
+dụng theo nhánh dừng, không được ghi PASS hoặc gộp thành 8/8 DONE.
+
+### Khung chương và giới hạn kết luận
+
+Đã bàn giao [khung chương kết quả và thảo luận](results_chapter.md), nối
+với [chương phương pháp W10](../week10/methodology_chapter.md):
+
+- W9/2024: primary +2,025325 đpt, CI95% [0,135027; 4,211864]; giữ đủ bốn
+  secondary inconclusive, VNM bất lợi và prior-off 2/39 còn nhiễu.
+- W11/2023: posterior trên giao 58, đủ chín nhánh G60, G/T ablation,
+  coverage multi-task thiếu, repeat mẫu 12 và lý do STOP; chưa có CI W11.
+- Có đoạn kết luận dùng cho luận văn và bản đồ bảng/hình/JSON nguồn;
+  phân biệt cải thiện toàn cấu hình, điểm số posterior và đóng góp riêng
+  demonstrations. Không dùng W9 xác nhận revision hoặc đổi mẫu theo return.
+
+### Vận hành và kiểm lại bằng chứng đã lưu
+
+Primary/ba repeat đã COMPLETE và verify; **không còn lệnh API cần chạy cho
+revision này**. Lệnh preflight/run/resume ở W11-01/02 và W11-03 là lịch sử
+của development đã hoàn tất; cách xử lý Ctrl+C/quota/unknown tại
+[hướng dẫn phục hồi](../week10/operations.md#7-dừng-phục-hồi-và-xử-lý-lỗi).
+Giữ checkpoint/UUID/ledger/cache, không tạo lượt mới để chọn kết quả thắng.
+CLI hiện chỉ có development, không có luồng xác nhận đã phát hành.
+
+Khi cần tái kiểm semantic từ saved Decision, chạy từ root PowerShell:
+
+```powershell
+$planPath = 'outputs/bayesian_benchmark/bic_icl_v2/development_plan_release_v2.json'
+$runPath = 'outputs/bayesian_benchmark/bic_icl_v2/development_run_release_v2'
+foreach ($repeatId in 0..3) {
+    py -3.13 -X utf8 scripts/run_bic_icl.py --verify-report --plan $planPath --output-dir $runPath --repeat-id $repeatId
+    if ($LASTEXITCODE -ne 0) { throw "Verify lượt $repeatId lỗi; dừng đối soát." }
+}
+```
+
+Đây là **lệnh tái kiểm tùy nhu cầu**, không phải bước còn thiếu để đóng
+W11; mỗi lượt có thể mất vài phút. Không cần key/preflight/handoff; đường
+offline từ chối mạng và không chạy LLM. W11-02/03 đã chạy verifier semantic
+thật PASS; W11-08 không chạy lại bốn lượt hoặc ghi chúng thành kiểm mới.
+
+| Bằng chứng bàn giao | Nơi lưu / điều kiện sử dụng |
+| --- | --- |
+| Quyết định STOP | [selection JSON](development_selection_v1.json), SHA byte `56da0ccc6cd14675bafe42f8b5cc1ddbb0c5aaf63048c3a8956ea43fc65859cc`; binding 14 tệp nguồn, code/runtime và rule |
+| Release development và bốn gate | [release](development_release_v1.json), [receipt W11-01](validation_gates/development_v1/technical_gates.json), [ZIP release](validation_gates/development_release_v1.zip); không là release xác nhận |
+| Raw primary và ba repeat | [ZIP primary](validation_gates/development_primary_v1.zip), [ZIP repeat](validation_gates/development_repeats_v1.zip); giữ raw/cache/checkpoint/ledger cùng plan |
+| Bảng số và oracle | [ZIP analysis](validation_gates/development_analysis_v1.zip), [ZIP selection](validation_gates/development_selection_v1.zip); mã QA/oracle và manifest nguyên byte |
+| W9 đã khóa và publication | [bàn giao W9-06](../week9/README.md#w9-06--khóa-kết-quả-tái-lập-và-bàn-giao-21102026), [manifest hình/bảng](../../figures/holdout_v1/manifest.json) |
+
+Git có tài liệu/ZIP W11 nhưng không thay toàn workspace: plan/run live,
+model/scaler/bank/index, nguồn giá/quyền/tin, tokenizer và archive W9 vẫn
+cần giữ theo identity đã bind. Kiểm SHA/manifest trước khi phục hồi vào
+vùng riêng; không giải nén đè nguồn đang dùng hoặc sửa hash để nhận nguồn
+khác. Ledger W9 là snapshot lịch sử trong archive, khác ledger live đã
+thêm request W11; không lấy hash ledger live thay binding cũ. Verify saved
+Decision không bảo đảm provider trả lại response giống khi gọi mới.
+
+### Bàn giao W12 và phạm vi nghiệm thu
+
+[W12](../week12/README.md) nhận nhánh dừng: W12-01–03 **NOT_RUN** do không
+có candidate/release xác nhận; W12-04–07 còn TODO. Bước tiếp theo là
+**W12-04**, hoàn thiện phương pháp và kết quả từ W9 cùng development W11.
+W12-05 vẫn phải nghiệm thu tái lập/gate mã bàn giao theo phạm vi riêng;
+đóng W11 không thay các deliverable luận văn/slide/bảo vệ chưa hoàn thành.
+Không mở tối ưu hoặc xác nhận mới trong revision đã dừng.
+
+Task chỉ thay bốn Markdown, không đổi code/test/runtime/schema/input hoặc
+bằng chứng đóng băng. Theo AGENTS.md 1.2, **không chạy lại compileall/unit/
+E2E/leakage**; receipt W11-01 (1.103 unit/249 leakage, compileall/E2E PASS)
+là bằng chứng cũ đúng source/runtime, không là lượt gate mới. CLI thật
+`run_bic_icl.py --help` exit 0 kiểm tên mode/flag; đây chỉ là kiểm giao diện,
+không thay verifier semantic. Kiểm số liệu, liên kết/anchor, binding nguồn,
+manifest/CRC/hash archive và diff PASS: 70 ô số, 30 liên kết/anchor mới,
+14 binding, 87 dependency/runtime, 1.773 hash input, 5 ZIP/2.043 entry và
+cú pháp 5 khối PowerShell. **7.592 tệp cũ ngoài ba README kế hoạch nguyên
+byte**, gồm root README, report/ledger và archive W9/W10/W11. Khung chương
+là Markdown độc lập mới; không tạo thêm receipt task hoặc chạy API.

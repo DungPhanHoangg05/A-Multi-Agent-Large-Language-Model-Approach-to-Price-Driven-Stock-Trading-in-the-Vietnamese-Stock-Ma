@@ -11,6 +11,11 @@
 prior-off còn nhiễu; mục tiêu mới là củng cố đóng góp ICL và khả năng khái
 quát. 2024 đã xem, không dùng xác nhận revision mới. [Chi tiết nâng cấp](week10/README.md).
 
+**Bàn giao mới nhất, 24/10/2026:** W11 CLOSED — 6 task DONE, 2
+NOT_APPLICABLE; selection `STOP_NO_IMPROVEMENT`, không phát hành xác nhận
+revision mới. [Khung chương kết quả](week11/results_chapter.md) và vận hành
+saved Decision đã bàn giao; W12-01–03 NOT_RUN, tiếp theo W12-04.
+
 **Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
 API. Ngày dữ liệu/cohort, cỡ mẫu và protocol nghiên cứu vẫn phải khóa trước
 run. Mọi thao tác dùng API key do người dùng tự chạy theo hướng dẫn từng
@@ -1338,7 +1343,7 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
   tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
-### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 5/8
+### 📅 TUẦN 11: Development và khóa xác nhận mới — CLOSED, 6 DONE / 2 NOT_APPLICABLE
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
 loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
 và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
@@ -1401,10 +1406,24 @@ và release, chuẩn bị khung bảng/chương. Không xem outcome mới để 
   W11-08 còn bàn giao nhánh dừng/luận văn. Không retune hoặc chọn ablation/
   lượt thắng để cứu kết quả; giữ W9 riêng và nguồn xác nhận chưa mở.
 
+- **W11-08 DONE, 24/10/2026:** [bàn giao nhánh dừng và khung luận văn](week11/README.md#w11-08--bàn-giao-nhánh-dừng-và-khung-luận-văn-24102026).
+  Hoàn tất [khung chương kết quả/thảo luận](week11/results_chapter.md): W9
+  primary/secondary và giới hạn prior-off tách khỏi development W11; có
+  posterior, chín nhánh, G/T, coverage, repeat, STOP và bản đồ bảng/hình.
+  Bàn giao lệnh verify-report offline đúng plan/run/repeat, cách giữ nguồn/
+  cache/ledger/archive và vận hành lịch sử; không còn API cần chạy cho
+  revision này. CLI help thật, số liệu/link/anchor/binding/hash/manifest/CRC
+  và diff PASS; chỉ bốn Markdown, không chạy lại suite theo AGENTS.md 1.2.
+  **W11 CLOSED: 6 task DONE, 2 task NOT_APPLICABLE**, không là 8/8 PASS.
+  W12-01–03 NOT_RUN do không candidate/release; **tiếp theo W12-04**.
+  Giữ Original mặc định và bằng chứng cũ nguyên byte, không mở tối ưu mới.
+
 ### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
 [Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,
 bootstrap/freeze; hoàn thiện luận văn/tái lập/25–30 slide/bảo vệ. Nếu thiếu
 tập độc lập hoặc không có ứng viên đạt, báo trạng thái và dùng bằng chứng W9.
+Nhánh hiện tại: **W12-01–03 NOT_RUN**, W12-04–07 TODO; nhận chương phương
+pháp W10 và khung kết quả W11 để viết tiếp, không có release xác nhận mới.
 Năm task luận văn W10 cũ chuyển sang W12-04–07, không mất nội dung bàn giao.
 
 ---
