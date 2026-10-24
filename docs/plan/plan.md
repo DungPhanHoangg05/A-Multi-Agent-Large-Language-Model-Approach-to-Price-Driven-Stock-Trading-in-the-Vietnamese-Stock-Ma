@@ -15,8 +15,8 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 2/10, U11 0/10, U12 0/5; đã audit nguồn/exposure và khóa protocol v1,
-chưa triển khai hoặc chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
+**Tiến độ hiện hành:** U10 3/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+khóa protocol v1 và dựng memory/index; chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
@@ -1260,6 +1260,17 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   resume chặn mạng và thử âm reseal bị chặn. 4.377 file cũ nguyên byte,
   không API LLM hoặc đổi dependency/runtime/data path legacy; không chạy
   lại toàn suite theo AGENTS.md 1.2. **U10 vẫn 2/10**, tiếp theo U10-03.
+
+- **Memory/index U-BICL, 24/10/2026:** [U10-03 DONE](week10/README.md#u10-03--memoryindex-từ-upstream-đã-kiểm-24102026).
+  Snapshot riêng 976 record (852 gốc + 124 upstream W8/W9), nhãn engine và
+  strict PIT/dedup/model/options; không Decision feature hoặc nhãn 2025.
+  Index mở scope 2025, giữ nguyên 852 feature row và 12 scaler W9 train-only.
+  Stats không lọc tuổi; examples giữ 730 ngày, không refit OOS. CLI prepare/
+  verify thật PASS, verify chặn mạng/Decision/key/ledger; 4.513 file cũ còn
+  nguyên byte. Compileall/unit 961/961 (24 test memory mới)/E2E/leakage
+  188/188 PASS đúng code/runtime; QA hash/nguồn/liên kết/diff PASS. Snapshot
+  một file 2.861.153 byte bind 355 nguồn, confirmation_allowed=false.
+  **U10 đạt 3/10**, tiếp theo **U10-04**; chưa diagnostics/chọn pooling hoặc release.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
