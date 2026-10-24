@@ -15,7 +15,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 1/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 2/10, U11 0/10, U12 0/5; đã audit nguồn/exposure và khóa protocol v1,
 chưa triển khai hoặc chạy API U-BICL. Xác nhận 2025 BLOCKED do thiếu bộ giá
 thô đã kiểm trong workspace. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -373,8 +373,9 @@ Cơ chế chưa có bằng chứng kinh tế chỉ được coi là giả thuy�
 | Prefix/Decision | Posterior/support/uncertainty và x→y rõ đơn vị; đối chiếu prior với tín hiệu | Giữ LLM là Decision, không hidden policy; ablation đủ G/T |
 | Shared-off | Reuse Original khi canonical request trùng; duplicate chẩn đoán riêng | Action off đồng nhất do thiết kế, ledger/resume đúng; không claim provider deterministic |
 
-Công thức, gate nhận pooling, task semantics, fallback và modules dự kiến
-ở [W10](week10/README.md). [Paper gốc](https://proceedings.mlr.press/v306/zhu26aj.html)
+Công thức, gate nhận pooling, task semantics và fallback đã khóa trong
+[protocol U-BICL v1](week10/unified_bic_method_v1.md); modules/tiến độ ở
+[W10](week10/README.md). [Paper gốc](https://proceedings.mlr.press/v306/zhu26aj.html)
 huấn luyện transformer theo prior/target tasks; U-BICL là thích ứng trên
 LLM hosted, không tự chứng minh amortized hierarchical Bayes trong LLM.
 Đối chứng Numeric_only không phải candidate ICL hoặc policy utility tối ưu.
@@ -1218,7 +1219,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 1/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 2/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1235,6 +1236,18 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   chưa chọn 128 điểm, đọc payoff mới hoặc gọi API. Chỉ sửa hai Markdown,
   CLI offline verify-report mới exit 0, nguồn/ledger khoa học nguyên byte;
   không chạy lại suite theo AGENTS.md 1.2; tiếp theo **U10-02** khóa protocol.
+
+- **U10-02 DONE, 24/10/2026:** [khóa protocol và fixture](week10/README.md#u10-02--khóa-protocol-và-fixture-24102026)
+  đặc tả `unified_bic_protocol_v1`/namespace `unified_bic_v1`, sáu nhánh và
+  duy nhất U_full được nominate. Rule pooling offline/fallback A, block90/
+  support/ranking/task–episode fallback, independent block gates, shared-off,
+  cache/order/repeat, estimand/family/claim/limits đã khóa. Score train có
+  647 query sau purge bốn cycle vượt cuối fold 2021; không sửa diagnostics cũ
+  hoặc chọn λ. Protocol JSON bind 12 nguồn, fixture bind digest protocol;
+  **88 ca oracle tổng hợp PASS**, không phải unit/gate implementation U.
+  Chỉ tài liệu và JSON đặc tả/fixture độc lập, không đổi runtime/schema/input
+  legacy; không chạy lại suite theo AGENTS.md 1.2. Chưa API/release, 2025
+  vẫn BLOCKED thiếu giá thô; **U10 2/10**, tiếp theo **U10-03** memory/index.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
