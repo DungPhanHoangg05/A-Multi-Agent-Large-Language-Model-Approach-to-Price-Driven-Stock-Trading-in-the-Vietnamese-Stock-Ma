@@ -15,8 +15,9 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 3/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
-khóa protocol v1 và dựng memory/index; chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
+**Tiến độ hiện hành:** U10 4/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
+Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
@@ -1219,7 +1220,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 2/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 4/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1271,6 +1272,20 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   188/188 PASS đúng code/runtime; QA hash/nguồn/liên kết/diff PASS. Snapshot
   một file 2.861.153 byte bind 355 nguồn, confirmation_allowed=false.
   **U10 đạt 3/10**, tiếp theo **U10-04**; chưa diagnostics/chọn pooling hoặc release.
+
+- **Backbone và pooling offline, 24/10/2026:** [U10-04 DONE](week10/README.md#u10-04--backbone-a-và-khóa-pooling-offline-24102026).
+  Stats PIT chia C/B1/B2 rời nhau, giữ cả bốn metric A_reference; không dùng
+  tuổi/feature/top-K để cắt population. Replay 647 query train đã purge,
+  kiểm 165 HMM prefix và scaler freeze theo fold; loss trên giao raw 594.
+  λ=8 đứng đầu bằng precision đầy đủ, giảm log loss 0,697885→0,684461 và
+  Brier 0,251468→0,245519, ready 352→396/647. Cả bốn mã giảm Brier,
+  đủ tám ô fold×mã; gate PASS, choice LOCKED riêng, protocol cũ nguyên byte.
+  Hai input ignored 4.849.990 byte bind 1.833 nguồn/code/runtime; CLI prepare/
+  verify và oracle nguồn thật PASS khi chặn mạng/Decision/key/ledger/giá 2025.
+  Compileall/unit **984/984** (23 test mới)/E2E/leakage **195/195 PASS**
+  trên đúng code/runtime; 6.579 file cũ và hai artifact mới nguyên byte.
+  QA hash/số liệu/liên kết/diff PASS; 2023/2024 chỉ kiểm integrity, không
+  chọn λ; chưa LLM hoặc release. **U10 đạt 4/10**, tiếp theo **U10-05**.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
