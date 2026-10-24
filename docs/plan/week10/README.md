@@ -1,7 +1,8 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
 **Trạng thái: 2/10 task DONE, cập nhật 24/10/2026; đã audit nguồn và khóa protocol U-BICL v1.**
-Chưa triển khai U-BICL; xác nhận 2025 đang BLOCKED vì thiếu bộ giá thô đã kiểm trong workspace.
+Giá thực thi 2025 đã PASS sau bổ sung nguồn riêng; U-BICL chưa triển khai,
+xác nhận chưa có release và vẫn cần các gate U10/U11.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 ## Mục tiêu và điểm xuất phát
@@ -189,7 +190,7 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 
 | Task | Công việc / đầu ra | Phụ thuộc | Gate hoàn thành | Trạng thái |
 | --- | --- | --- | --- | --- |
-| U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [x] DONE — nguồn/124 upstream PASS; 2025 BLOCKED do thiếu giá thô đã kiểm |
+| U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [x] DONE — nguồn/124 upstream PASS; đã bổ sung giá 2025 PASS trong namespace riêng |
 | U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [x] DONE — protocol v1, sáu nhánh/một candidate và 88 ca fixture đã kiểm |
 | U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [ ] TODO |
 | U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [ ] TODO |
@@ -458,6 +459,71 @@ digest và staged diff PASS; **4.374 file** code/nguồn/evidence cũ nguyên by
 gồm ledger, archive W9 và root README; không thay metadata khóa OS.
 **U10 đạt 2/10**, tiếp theo
 **U10-03** triển khai memory/index đúng protocol đã khóa.
+
+## Bổ sung nguồn giá 2025, 24/10/2026
+
+**Gate giá 2025 PASS — đã xử lý `MISSING_VERIFIED_2025_EXECUTION_SOURCE`.**
+Tự thu thập từ cùng VCI bằng headers vnstock 4.0.9, không cần người dùng
+cung cấp file, API key hoặc khai báo exposure lại. Chỉ kiểm dữ liệu/quyền/
+lịch; không gọi LLM, tính nhãn/return 2025 hoặc chọn ngày theo outcome.
+U10 vẫn **2/10 DONE**; bổ sung này chưa thực hiện memory/index U10-03.
+
+[`prepare_unified_execution_prices.py`](../../../scripts/prepare_unified_execution_prices.py)
+là công cụ input độc lập. Giữ verifier legacy giới hạn 2024 nguyên byte;
+snapshot mới ở `outputs/bayesian_benchmark/unified_bic_v1/inputs/execution_prices_2025/`.
+Mỗi mã giữ prefix 1.750 nến đã kiểm tới 2024 và nối **249 nến thô 2025**,
+tổng 1.999 nến/mã. Chỉ lấy trường raw VCI, nghìn VND; không suy ngược từ
+OHLC điều chỉnh. Events sao chép nguyên byte từ nguồn OOS đã có quyền 2025.
+
+Đối chiếu tám mẫu raw/adjusted VCI/KBS và Reference theo quyền, prefix REST
+kết thúc trước ngày quyền khớp chuỗi mở rộng. **Sáu mẫu thuộc 2025**; mẫu
+chia cổ phiếu VNM là 29/09/2020, MWG là 16/06/2022. Không coi cả tám là
+quyền 2025 hoặc gọi snapshot hồi cứu là vintage được lưu tại từng ngày.
+Đếm trên lưới step3 neo 02/01/2025, chỉ cycle hoàn tất trong quý, volume
+dương và không vắt quyền trong (entry, exit]; không đổi công thức engine:
+
+| Mã | Q1 | Q2 | Q3 | Q4 | Pool hợp lệ | Nến mới |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| FPT | 19 | 18 | 20 | 21 | 78 | 249 |
+| MWG | 19 | 19 | 20 | 21 | 79 | 249 |
+| VCB | 18 | 19 | 20 | 20 | 77 | 249 |
+| VNM | 19 | 19 | 20 | 20 | 78 | 249 |
+
+Không quý nào thiếu tám cycle theo rule nguồn, nhưng **chưa chọn/khóa 128
+điểm** hoặc phát hành xác nhận. Manifest giữ `is_execution_plan=false`,
+`confirmation_allowed=false`, selected_dates=null. BLOCKED do thiếu giá
+trong U10-01/protocol v1 là trạng thái tại lần khóa trước bổ sung này;
+giữ nguyên byte ba artifact protocol/phương pháp/fixture U10-02. Source
+availability mới phải được producer/release sau bind bằng manifest thực,
+không tự sửa hash/cờ protocol cũ hoặc mở API vì giá đã PASS.
+
+[Manifest snapshot](../../../outputs/bayesian_benchmark/unified_bic_v1/inputs/execution_prices_2025/manifest.json)
+SHA-256 byte:
+`fd63f4f13d15992ba0f2b692ad9b625fee8e766c670b0e5ab10a6595d64c547f`.
+**17 file, 1.374.421 byte**, gồm CSV/evidence/events/acquisition từng mã
+và manifest bind bốn file code LF, parent OOS và lịch VNINDEX. Artifact
+thuộc outputs ignored; cần giữ cùng workspace, clone Git không có dữ liệu.
+
+```powershell
+# Nguồn đã có: kiểm toàn bộ hoàn toàn offline.
+py -3.13 -X utf8 scripts/prepare_unified_execution_prices.py --verify-only
+# Chỉ khi cần thu thập/tiếp tục snapshot chưa đủ; giữ phần đã kiểm.
+py -3.13 -X utf8 scripts/prepare_unified_execution_prices.py --download
+```
+
+**Kiểm tra mới PASS:** biên dịch hai file Python mới; **31 test trọng tâm
+(12 mới)** về giá/PIT/leakage, prefix, quyền, phase lịch và nguồn; CLI tải
+thật, verify-only và resume thật đều exit 0. Resume được kiểm với mạng bị
+chặn, không HTTP và giữ nguyên byte 17 artifact. Hai thử âm trên bản sao
+tạm (sửa CSV rồi tự băm, sửa prefix evidence rồi tự băm) đều bị từ chối.
+**4.377 file cũ nguyên byte**, gồm ledger, archive/report W9, ba artifact
+protocol U10-02 và root README. QA hash/số liệu/liên kết/diff PASS.
+
+Phạm vi là utility input riêng và test, chưa đổi data path/config/runtime,
+PIT/retrieval hoặc hợp đồng kinh tế đang chạy; không sửa dependency frozen
+W9. Theo AGENTS.md 1.2 chạy compile/test trọng tâm có leakage, không chạy
+toàn compileall/unit/E2E/leakage suite. Đây là gate nguồn giá, không thay
+bốn gate implementation U10-08, nomination hoặc release U11.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 

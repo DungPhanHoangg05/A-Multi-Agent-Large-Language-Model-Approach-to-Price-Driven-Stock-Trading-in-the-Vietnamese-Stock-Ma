@@ -16,8 +16,8 @@ U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộn
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
 **Tiến độ hiện hành:** U10 2/10, U11 0/10, U12 0/5; đã audit nguồn/exposure và khóa protocol v1,
-chưa triển khai hoặc chạy API U-BICL. Xác nhận 2025 BLOCKED do thiếu bộ giá
-thô đã kiểm trong workspace. W9 không bị reset. [Thiết kế W10](week10/README.md)
+chưa triển khai hoặc chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
+xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
 **Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
@@ -1248,6 +1248,18 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Chỉ tài liệu và JSON đặc tả/fixture độc lập, không đổi runtime/schema/input
   legacy; không chạy lại suite theo AGENTS.md 1.2. Chưa API/release, 2025
   vẫn BLOCKED thiếu giá thô; **U10 2/10**, tiếp theo **U10-03** memory/index.
+
+- **Bổ sung nguồn giá 2025, 24/10/2026:** [gate giá mới PASS](week10/README.md#bổ-sung-nguồn-giá-2025-24102026)
+  utility input riêng tải VCI bằng vnstock, giữ 1.750 nến prefix W9 và nối
+  249 nến/mã; tám mẫu quyền/raw/adjusted VCI/KBS và prefix được kiểm lại.
+  Pool metadata FPT/MWG/VCB/VNM=78/79/77/78, mỗi quý đủ tám; chưa chọn 128
+  điểm, tính payoff hoặc phát hành release. Blocker thiếu giá đã xử lý;
+  trạng thái BLOCKED trong protocol v1 là snapshot khóa trước bổ sung,
+  giữ nguyên artifact/hash, confirmation_allowed vẫn false. Biên dịch hai
+  file mới/31 test trọng tâm có leakage PASS; CLI tải/verify/resume PASS,
+  resume chặn mạng và thử âm reseal bị chặn. 4.377 file cũ nguyên byte,
+  không API LLM hoặc đổi dependency/runtime/data path legacy; không chạy
+  lại toàn suite theo AGENTS.md 1.2. **U10 vẫn 2/10**, tiếp theo U10-03.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
