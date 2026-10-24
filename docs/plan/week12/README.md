@@ -1,6 +1,6 @@
 # Tuần 12 — Xác nhận độc lập, luận văn và bảo vệ
 
-**Trạng thái: TODO, 0/7; cập nhật 21/10/2026.**
+**Trạng thái: TODO — 0/7 DONE, 3 NOT_RUN, 4 TODO; cập nhật 24/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md) · [W9 đã khóa](../week9/README.md)
 
 ## Phạm vi và phân bổ thời gian
@@ -13,20 +13,35 @@ Nếu không đủ thời gian/dữ liệu thì report INCOMPLETE, không hạ c
 gate. Forward cohort không thể đủ trưởng thành trong W12 vẫn là kế hoạch
 sau khóa luận; không lấy dự báo chưa có exit làm nhãn.
 
+## Đầu vào từ nhánh dừng W11
+
+[W11-08 đã đóng](../week11/README.md#w11-08--bàn-giao-nhánh-dừng-và-khung-luận-văn-24102026):
+6 task DONE, W11-06/07 NOT_APPLICABLE. Selection giữ
+`STOP_NO_IMPROVEMENT`, không candidate/release xác nhận, chưa mở outcome
+2025. Vì vậy W12-01–03 **NOT_RUN** cho revision này; không đánh PASS hoặc
+chạy xác nhận để cứu kết quả. W12-04–07 vẫn thực hiện theo kế hoạch.
+
+Đầu vào viết gồm [chương phương pháp](../week10/methodology_chapter.md),
+[khung kết quả/thảo luận](../week11/results_chapter.md), bảng/hình W9 và
+JSON/QA development W11 đã khóa. Có lệnh tái kiểm saved Decision tại W11-08;
+Git clone không thay nguồn/cache ignored. **Bước tiếp theo: W12-04**;
+W12-05 vẫn cần nghiệm thu tái lập và gate mã bàn giao theo phạm vi riêng.
+Chưa hoàn thành task W12 nào khi nhận bàn giao khung bản thảo.
+
 ## Checklist
 
 | Task | Công việc | Phụ thuộc | Nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W12-01 | Người dùng preflight/run/resume primary và repeat đã khóa | W11 release | 128 điểm/sáu nhánh logic; HTTP/checkpoint đúng identity, không chọn lại | [ ] TODO |
-| W12-02 | Verify semantic/PIT/paired/kinh tế/request/reuse | 01 | Common support đủ; zero unknown; missing không CASH; prior-off reuse truy được | [ ] TODO |
-| W12-03 | Bootstrap, repeat diagnostics, bảng/hình và freeze | 02 | Primary/family/seed/L đúng plan; tất cả kết quả âm/inconclusive được giữ | [ ] TODO |
+| W12-01 | Người dùng preflight/run/resume primary và repeat đã khóa | W11 release | 128 điểm/sáu nhánh logic; HTTP/checkpoint đúng identity, không chọn lại | [ ] NOT_RUN — STOP, không candidate/release xác nhận |
+| W12-02 | Verify semantic/PIT/paired/kinh tế/request/reuse | 01 | Common support đủ; zero unknown; missing không CASH; prior-off reuse truy được | [ ] NOT_RUN — không có run xác nhận mới |
+| W12-03 | Bootstrap, repeat diagnostics, bảng/hình và freeze | 02 | Primary/family/seed/L đúng plan; tất cả kết quả âm/inconclusive được giữ | [ ] NOT_RUN — không có report xác nhận mới |
 | W12-04 | Chương phương pháp và kết quả | W9, W10–11; 03 nếu có | Tách rõ W9 xác nhận cũ, development mới, xác nhận mới hoặc thiếu; claim đúng tầng | [ ] TODO |
 | W12-05 | Tái lập/đóng gói/hướng dẫn và bốn gate mã bàn giao | 04 | Code/data/runtime/hash/release; restore riêng; mọi gate áp dụng PASS | [ ] TODO |
 | W12-06 | Hoàn thiện Word/LaTeX/PDF và 25–30 slide | 04–05 | Hình/bảng khớp artifact; tham chiếu/đơn vị/số mẫu chính xác | [ ] TODO |
 | W12-07 | Diễn tập phản biện và khóa bản nộp | 06 | Giải thích Bayes/ICL, selection/PIT, prior-off/noise và giới hạn; đủ deliverable | [ ] TODO |
 
-W12-01–03 có thể NOT_RUN/BLOCKED nếu W11 không phát hành release; ghi rõ lý
-do và tiếp tục 04–07 bằng bằng chứng W9. Không có xác nhận mới không đồng
+W12-01–03 đã ghi NOT_RUN vì W11 không phát hành release; tiếp tục 04–07
+bằng bằng chứng W9 và development W11. Không có xác nhận mới không đồng
 nghĩa không hoàn thành luận văn. Không đánh gate thực nghiệm PASS khi thiếu.
 
 ## Quy tắc kết luận và triển khai
