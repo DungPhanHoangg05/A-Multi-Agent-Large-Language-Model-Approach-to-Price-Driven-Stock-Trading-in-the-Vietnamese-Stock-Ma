@@ -1338,7 +1338,7 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
   tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
-### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 2/8
+### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 3/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
 loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
 và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
@@ -1364,14 +1364,16 @@ và release, chuẩn bị khung bảng/chương. Không xem outcome mới để 
   mới. **W11 2/8; tiếp theo W11-03**, chưa chạy ba repeat, phân tích,
   selection hoặc xác nhận 2025; giữ ngưỡng coverage R_task.
 
-- **W11-03 IN PROGRESS, 23/10/2026:** [bàn giao ba repeat](week11/README.md#w11-03--bàn-giao-ba-repeat-23102026).
-  Primary/plan/release 564 artifact và 328 HTTP record giữ đúng binding
-  W11-02; source/runtime/gate cũ không đổi. Đã đối soát sample, rotation
-  và canonical contract của 324 slot repeat trước API: 12 điểm, 108 slot
-  logic/62 invocation độc lập mỗi lượt. CLI tuần tự/resume/dừng khi lỗi đã
-  bàn giao; người dùng tự chạy API, agent verify offline khi có ba report.
-  Chỉ hai Markdown, không chạy lại suite; **W11 vẫn 2/8**, chưa chạy
-  repeat hoặc chốt W11-03, chưa phân tích/selection/xác nhận 2025.
+- **W11-03 DONE, 24/10/2026:** [chốt ba repeat development](week11/README.md#w11-03--chốt-ba-repeat-development-24102026).
+  Ba CLI verify-report offline mới PASS; mỗi lượt 12/12 common support,
+  108 slot logic complete/62 UUID khoa học, gồm 12 duplicate độc lập.
+  Tổng 324 slot/186 invocation, 188 HTTP gồm 186 thành công và 2 lần 429
+  đã phục hồi cùng UUID; không còn unknown. Rotation/canonical/shared
+  upstream/raw/ledger PASS; 564 artifact primary/plan/release nguyên byte.
+  Đóng băng ba report/checkpoint/raw/ledger/log; source/runtime/gate W11-01
+  không đổi. Chỉ tài liệu/bằng chứng, không chạy lại suite theo AGENTS.md 1.2.
+  **W11 3/8; tiếp theo W11-04** phân tích; chưa selection/nomination,
+  bootstrap hoặc xác nhận 2025, giữ ngưỡng coverage R_task.
 
 ### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
 [Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,

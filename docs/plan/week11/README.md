@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: IN PROGRESS, 2/8; W11-03 đã chuẩn bị offline, chờ người dùng chạy repeat.**
+**Trạng thái: IN PROGRESS, 3/8; W11-03 DONE ngày 24/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -19,7 +19,8 @@ protocol, nguồn và release. Không kéo tối ưu sang W12.
 [bản thảo chương phương pháp](../week10/methodology_chapter.md) đã hoàn tất.
 Khi bàn giao, W11 **0/8**. [W11-01](#w11-01--khóa-development-và-release-22102026)
 đã hoàn tất. Primary thật đã chốt tại [W11-02](#w11-02--chốt-primary-development-23102026);
-ba repeat và xác nhận 2025 chưa chạy.
+ba repeat đã chốt tại [W11-03](#w11-03--chốt-ba-repeat-development-24102026).
+Xác nhận 2025 chưa mở.
 
 | Đầu vào hiện có | Trạng thái dùng cho W11-01 |
 | --- | --- |
@@ -176,7 +177,7 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 | --- | --- | --- | --- | --- |
 | W11-01 | Kiểm nguồn/gate, khóa development và repeat plan | W10 | Dry-run/identity/nguồn PASS; release cache bind đủ snapshot/request/repeat/run/ledger | [x] DONE |
 | W11-02 | Người dùng chạy primary development | 01 | Primary COMPLETE, 60/60 common support, 480 slot LLM complete; report/source/raw/ledger PASS | [x] DONE |
-| W11-03 | Verify primary, chạy/verify ba repeat | 02 | Semantic/request/source PASS; không chọn response | [ ] IN PROGRESS — chờ API |
+| W11-03 | Verify primary, chạy/verify ba repeat | 02 | Ba CLI verify-report PASS; 12/12 common support mỗi lượt, primary nguyên byte | [x] DONE |
 | W11-04 | Phân tích economics/coverage/loss/T/G/repeat/failure | 03 | Đủ cả nhóm bất lợi và missing; không suy trace thành cơ chế | [ ] TODO |
 | W11-05 | Khóa selection hoặc STOP_NO_IMPROVEMENT | 04 | Rule và oracle độc lập khớp; không chọn ablation | [ ] TODO |
 | W11-06 | Kiểm nguồn mới, công cụ report/bootstrap và bốn gate | 05 | Fixture oracle/PIT/canonical/reuse PASS đúng revision | [ ] TODO |
@@ -353,16 +354,18 @@ unit, E2E hoặc leakage suite**. Đã đọc lại source/runtime và receipt g
 W11-01 PASS (1.103 unit/249 leakage, compileall/E2E); đây là gate cũ được
 viện dẫn, không ghi thành lượt suite mới. Diff/link/hash PASS.
 
-**Chưa có `report_1/2/3.json`; W11-03 vẫn TODO.** Nghiệm thu semantic
+**Tại lúc chốt W11-02, chưa có `report_1/2/3.json`; W11-03 còn TODO.**
+Nghiệm thu semantic
 primary ở đây là điều kiện chốt W11-02, chưa thay ba repeat bắt buộc.
 W11-04 còn phân tích economics/coverage/ablation/failure; chưa nomination,
 bootstrap hoặc mở xác nhận 2025, `confirmation_allowed=false`.
-**Tiếp theo W11-03: người dùng chạy ba repeat riêng theo mẫu đã khóa.**
+**Bàn giao tại W11-02: người dùng chạy ba repeat riêng theo mẫu đã khóa.**
 
 ## W11-03 — Bàn giao ba repeat, 23/10/2026
 
-**Đã chuẩn bị offline; chưa DONE, W11 vẫn 2/8.** Primary đã được verify tại
-W11-02. Trước bàn giao repeat, đối soát lại **564 artifact primary/plan/
+**Tại thời điểm bàn giao 23/10: đã chuẩn bị offline, chưa DONE, W11 2/8.**
+Primary đã được verify tại W11-02. Trước bàn giao repeat, đối soát lại
+**564 artifact primary/plan/
 release** với gói đóng băng: không đổi byte, gồm `report_0.json` với SHA
 `00771c113b0d4cc3ffbf370af789da3cee773e477d7aff2105c8c3cb95f9d4b2`.
 328 HTTP record primary vẫn khớp binding report. Source/runtime, 1.773
@@ -370,8 +373,8 @@ hash nguồn, 276 tệp source gate và receipt W11-01 khớp; preflight trong
 ledger PASS cùng plan. Đây là đối soát hash/binding của lượt primary đã
 verify, không ghi là chạy lại CLI semantic hoặc các suite.
 
-Cả ba repeat chưa khởi tạo. Manifest đã khóa **12 điểm/mỗi lượt, không
-fallback; 108 slot logic và 62 invocation độc lập/mỗi lượt**, gồm 12
+Khi bàn giao, cả ba repeat chưa khởi tạo. Manifest đã khóa **12 điểm/mỗi
+lượt, không fallback; 108 slot logic và 62 invocation độc lập/mỗi lượt**, gồm 12
 Original duplicate độc lập. Đã đối soát đủ 324 slot: sample, rotation
 `(3j+r−1) mod M` và canonical contract đều khớp primary; Numeric_only
 không có trong repeat. Giữ upstream, ma trận, request, model/options và
@@ -407,6 +410,72 @@ primary, chọn lượt tốt nhất, phân tích hoặc selection ở bước c
 
 Chỉ cập nhật hai Markdown; không đổi code/test/runtime/schema/input hoặc
 tạo request/API. Theo AGENTS.md 1.2, không chạy lại compileall/unit/E2E/
-leakage; viện dẫn đúng gate W11-01 trên source/runtime không đổi. Chưa có
-report repeat thật nên chưa đánh PASS phần thực nghiệm hoặc tăng checklist
-lên 3/8. Giữ `confirmation_allowed=false`.
+leakage; viện dẫn đúng gate W11-01 trên source/runtime không đổi. Khi bàn
+giao chưa có report repeat thật nên chưa đánh PASS phần thực nghiệm hoặc
+tăng checklist lên 3/8. Giữ `confirmation_allowed=false`.
+
+## W11-03 — Chốt ba repeat development, 24/10/2026
+
+**DONE; W11 3/8.** Người dùng đã chạy đủ ba repeat trên plan/run/release
+đã khóa. Agent chạy mới **ba CLI `--verify-report --repeat-id 1/2/3`
+offline, exit 0**, dựng lại toàn report từ source/PIT/packet/request,
+checkpoint, raw response, ledger và economics hiện hữu. Transport từ chối
+mạng, `--env-file` trỏ tệp không tồn tại; agent không đọc key hoặc gọi API.
+
+| Repeat | Common support | Slot logic complete | Invocation độc lập | HTTP 200 / 429 | Dấu resume nhánh |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 12/12, mỗi mã 3 | 108 | 62 | 62 / 1 | 1 |
+| 2 | 12/12, mỗi mã 3 | 108 | 62 | 62 / 0 | 0 |
+| 3 | 12/12, mỗi mã 3 | 108 | 62 | 62 / 1 | 1 |
+
+Đủ **324 slot logic complete, 186 UUID khoa học**, mỗi UUID đúng một
+attempt khoa học và một response HTTP 200 durable. Mỗi lượt có 50 invocation
+LLM thường, **12 Original duplicate độc lập**, 39 shared_original và 7
+stats_alias; tổng 36 duplicate, không alias sang Original. Đúng 12 point ID
+đã khóa, không fallback/exclusion; rotation `(3j+r−1) mod M`, canonical
+request/model/options và shared upstream khớp primary. Numeric_only chỉ
+thuộc primary. Không nhập repeat vào kết quả primary hoặc chọn response.
+
+HTTP của riêng repeat là **188 attempt: 186 HTTP 200 và 2 HTTP 429**;
+hai lần quota ở repeat 1/3 đã phục hồi cùng UUID. Giữ cả dấu resume và
+lịch sử lỗi; không còn checkpoint/HTTP unknown chưa giải quyết. Preflight
+text/vision cuối PASS cùng plan/credential ghi trong ledger. Toàn run
+primary + repeat có **516 attempt: 503 HTTP 200, 4 HTTP 429, 9 transport_error**;
+đủ 503 response cache thành công, không đếm trùng primary trong ba binding.
+Mỗi report repeat bind 280 checkpoint; số HTTP record gồm primary lần lượt
+391/390/391. Schema/request/source/raw/cache/ledger và common support PASS.
+
+**564 artifact primary/plan/release nguyên byte** so với gói W11-02,
+gồm `report_0.json` SHA
+`00771c113b0d4cc3ffbf370af789da3cee773e477d7aff2105c8c3cb95f9d4b2`.
+Giữ nguyên 3.370 HTTP record đã có trong snapshot ledger W11-02;
+chỉ nối lịch sử mới. Plan/release/context/request, 1.773 hash nguồn,
+87 tệp mã phụ thuộc, runtime và 276 tệp source gate khớp. Risk OFF, model/HMM/
+scaler/memory/lambda/pacing và hợp đồng T+2.5 giữ nguyên.
+
+| Report đã verify | SHA-256 byte |
+| --- | --- |
+| `report_1.json` | `e6815412d1ad7e91cfd56e6862148fecb79fb539c783d23828c0c442d97ea8c1` |
+| `report_2.json` | `09f90d63afaa861ee44c9aacafed95987bdd91956e0c4d3dc7a07ba145f9767f` |
+| `report_3.json` | `7daffc3bb0ee4fb4c0e2be8b321678f6ed1e846768e6821c0acfd35b85198183` |
+
+Đóng băng nguyên byte primary/ba report repeat, checkpoint/packet/context/
+request, toàn response cache và snapshot ledger, plan/release/gate/log cũ,
+ba log verifier và công cụ QA trong
+[`development_repeats_v1.zip`](validation_gates/development_repeats_v1.zip):
+**880 entry / 7.667.860 byte**, SHA-256 byte
+`d124b09c85ee86d5656101b0118eeaed6dba553c84313668678d7f27371d0c30`.
+Manifest/hash từng entry và CRC PASS; **7.551 tệp cũ nguyên byte** qua
+verifier/đóng gói, trừ metadata khóa OS không thuộc bằng chứng khoa học.
+
+**Phạm vi kiểm:** hai Markdown và gói bằng chứng kết quả đã có; không đổi
+code/test/runtime/schema/input. Theo AGENTS.md 1.2,
+**không chạy lại compileall/unit/E2E/leakage**; đọc lại receipt W11-01
+PASS (1.103 unit/249 leakage, compileall/E2E) trên source/runtime không đổi,
+không ghi thành lượt suite mới. Ba CLI verifier trên là kiểm nghiệm thu mới.
+Diff/liên kết/hash PASS, root README nguyên byte.
+
+**Tiếp theo W11-04:** phân tích economics/coverage/loss/T/G/repeat/failure.
+W11-03 chưa chọn R, nomination, bootstrap hoặc mở xác nhận 2025;
+giữ ngưỡng R_task (chỉ 3 điểm ≥2 task, FPT=0) và
+`confirmation_allowed=false`.
