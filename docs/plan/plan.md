@@ -1338,7 +1338,7 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
   tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
-### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 4/8
+### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 5/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
 loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
 và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
@@ -1387,6 +1387,19 @@ và release, chuẩn bị khung bảng/chương. Không xem outcome mới để 
   byte; chỉ tài liệu/phân tích, không chạy lại suite theo AGENTS.md 1.2.
   **W11 4/8; tiếp theo W11-05** khóa selection hoặc STOP theo rule;
   chưa nomination/bootstrap/release/xác nhận, giữ ngưỡng R_task.
+
+- **W11-05 DONE, 24/10/2026:** [khóa selection và điểm dừng](week11/README.md#w11-05--khóa-selection-và-điểm-dừng-24102026).
+  **STOP_NO_IMPROVEMENT**, selected=null, promotable=[]; Original giữ mặc
+  định, không release/xác nhận 2025. R_pool eligible nhưng D âm/kém A/
+  chỉ 1/4 mã tăng; R_task thiếu coverage hai task (3/60, FPT 0) và chỉ 1/4
+  mã tăng. Producer/report và oracle Decimal giá/action độc lập khớp từng
+  predicate; 19 fixture biên/tie và từ chối ablation PASS. Selection JSON
+  bind method/plan/report0–3/repeat/analysis/gate/release/ledger/code/runtime;
+  ZIP giữ mã/facts/QA, nguồn cũ nguyên byte. Chỉ tài liệu/quyết định trên
+  bằng chứng có sẵn, không chạy lại suite theo AGENTS.md 1.2.
+  **W11 5/8; nhánh xác nhận W11-06/07 NOT_APPLICABLE**, không đánh PASS;
+  W11-08 còn bàn giao nhánh dừng/luận văn. Không retune hoặc chọn ablation/
+  lượt thắng để cứu kết quả; giữ W9 riêng và nguồn xác nhận chưa mở.
 
 ### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
 [Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,

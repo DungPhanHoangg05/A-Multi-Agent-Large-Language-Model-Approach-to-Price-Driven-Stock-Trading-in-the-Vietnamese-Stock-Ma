@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: IN PROGRESS, 4/8; W11-04 DONE ngày 24/10/2026.**
+**Trạng thái: IN PROGRESS, 5/8; W11-05 DONE — STOP_NO_IMPROVEMENT ngày 24/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -20,7 +20,8 @@ protocol, nguồn và release. Không kéo tối ưu sang W12.
 Khi bàn giao, W11 **0/8**. [W11-01](#w11-01--khóa-development-và-release-22102026)
 đã hoàn tất. Primary thật đã chốt tại [W11-02](#w11-02--chốt-primary-development-23102026);
 ba repeat đã chốt tại [W11-03](#w11-03--chốt-ba-repeat-development-24102026).
-Xác nhận 2025 chưa mở.
+[Selection W11-05](#w11-05--khóa-selection-và-điểm-dừng-24102026) đã khóa
+`STOP_NO_IMPROVEMENT`; không phát hành xác nhận 2025 cho revision này.
 
 | Đầu vào hiện có | Trạng thái dùng cho W11-01 |
 | --- | --- |
@@ -179,9 +180,9 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 | W11-02 | Người dùng chạy primary development | 01 | Primary COMPLETE, 60/60 common support, 480 slot LLM complete; report/source/raw/ledger PASS | [x] DONE |
 | W11-03 | Verify primary, chạy/verify ba repeat | 02 | Ba CLI verify-report PASS; 12/12 common support mỗi lượt, primary nguyên byte | [x] DONE |
 | W11-04 | Phân tích economics/coverage/loss/T/G/repeat/failure | 03 | Bảng G/T/loss/coverage/repeat/failure, nhóm bất lợi/rỗng và oracle PASS | [x] DONE |
-| W11-05 | Khóa selection hoặc STOP_NO_IMPROVEMENT | 04 | Rule và oracle độc lập khớp; không chọn ablation | [ ] TODO |
-| W11-06 | Kiểm nguồn mới, công cụ report/bootstrap và bốn gate | 05 | Fixture oracle/PIT/canonical/reuse PASS đúng revision | [ ] TODO |
-| W11-07 | Khóa manifest/release xác nhận hoặc BLOCKED | 06 | 128 điểm/sáu nhánh, repeat/protocol/exposure/hash trước outcome | [ ] TODO |
+| W11-05 | Khóa selection hoặc STOP_NO_IMPROVEMENT | 04 | STOP đã khóa; rule/oracle Decimal/fixture khớp, selected=null | [x] DONE |
+| W11-06 | Kiểm nguồn mới, công cụ report/bootstrap và bốn gate | 05 | Fixture oracle/PIT/canonical/reuse PASS đúng revision | [ ] NOT_APPLICABLE — nhánh xác nhận dừng tại selection |
+| W11-07 | Khóa manifest/release xác nhận hoặc BLOCKED | 06 | 128 điểm/sáu nhánh, repeat/protocol/exposure/hash trước outcome | [ ] NOT_APPLICABLE — không có candidate để phát hành |
 | W11-08 | Bàn giao run/resume/verify, khung chương và bảng | 07 | CLI thật; chốt không tối ưu tiếp W12; nhánh dừng có nội dung luận văn | [ ] TODO |
 
 Nếu thiếu tập mới sạch hoặc không đạt selection, W11-06/07 ghi BLOCKED/
@@ -715,3 +716,94 @@ Oracle tài khoản/payoff/MDD, loss/confusion/support/bin/repeat, diff/link/has
 PASS. **Tiếp theo W11-05** mới khóa selection hoặc STOP_NO_IMPROVEMENT
 theo rule đã đăng ký; W11-04 chưa nomination, bootstrap, phát hành release
 hoặc chạy xác nhận; `confirmation_allowed=false`.
+
+
+## W11-05 — Khóa selection và điểm dừng, 24/10/2026
+
+**DONE; W11 5/8. Quyết định: `STOP_NO_IMPROVEMENT`.** Đã khóa
+[`development_selection_v1.json`](development_selection_v1.json), version
+`bic_icl_development_selection_v1`, SHA-256 byte
+`56da0ccc6cd14675bafe42f8b5cc1ddbb0c5aaf63048c3a8956ea43fc65859cc`.
+`selected_candidate=null`, `eligible_candidates=[R_pool]`,
+`promotable_candidates=[]`, `deployment_choice=original`,
+`development_closed=true`, `confirmation_allowed=false`,
+`new_confirmation_release_allowed=false`. Đây là quyết định nghiên cứu
+đã đóng băng; không sửa cấu hình triển khai mặc định hoặc cấp quyền API.
+
+Rule lấy nguyên `plan.protocol.selection`, nomination order chỉ R_pool/
+R_task full và đặc tả v1 mục 6 đã pin trước API. G primary 60, G từng mã
+12/16/16/16, không dùng T hoặc repeat thay primary. Bảng làm tròn để trình
+bày; các predicate so sánh trên số gốc trong JSON:
+
+| Điều kiện | R_pool full | R_task full |
+| --- | --- | --- |
+| Primary/common support, metric return/MDD hữu hạn | PASS 60/60 | PASS 60/60 |
+| Bốn gate đúng code/runtime; ba repeat đã verify | PASS | PASS |
+| Prior visible ≥6, ≥1/mã | PASS: 51; 9/14/13/15 | PASS: 48; 9/14/10/15 |
+| ≥6 điểm có ≥2 task và ≥1/mã | Không áp dụng | FAIL: 3; 0/1/1/1 |
+| Eligibility | PASS | FAIL coverage task |
+| D so Original >0, đpt | FAIL: −0,610202188055 | PASS: +0,101764434971 |
+| ΔR từng mã, đpt | +1,989371822104 / −0,475466446795 / −3,954714127530 / 0 | 0 / +0,407057739884 / 0 / 0 |
+| ΔR>0 ở ≥3/4 mã | FAIL: 1/4, FPT | FAIL: 1/4, MWG |
+| Mean ΔMDD ≤2 đpt | PASS: −0,227252376046 | PASS: +0,328201798075 |
+| Max ΔMDD ≤5 đpt | PASS: +1,312807192300 | PASS: +1,312807192300 |
+| D so A ≥0, đpt | FAIL: −0,203701023733 | PASS: +0,508265599293 |
+| Eligible **và** đủ toàn bộ promotion | Không | Không |
+
+Các ΔR/ΔMDD theo thứ tự FPT/MWG/VCB/VNM. R_pool đủ eligibility nhưng
+trượt ba điều kiện kinh tế: D>0, ít nhất ba mã tăng, D so A≥0. R_task
+trượt cả tổng/per-symbol coverage task và chỉ tăng ở một mã, dù D dương.
+Không có promotable nên không xếp một eligible thua thành candidate.
+Tie theo chênh D≤1e−9, rồi mean ΔMDD thấp hơn/R_pool trước R_task;
+rule tie không cần dùng trên số thật.
+
+**Oracle độc lập PASS:** producer dùng metric report đã verify; oracle
+stdlib không nhập selector/engine/analysis, tự ghép số cổ phiếu lẻ và vốn
+Decimal từ entry/exit/action, phí/trượt giá hai chiều rồi dựng MDD; visibility
+đọc prefix request, task coverage đọc task IDs thực sự visible. Đối chiếu
+cả facts, từng predicate, eligibility, promotion và quyết định; số học khớp
+trong 1e−9 đpt, boolean phải khớp chính xác. Dung sai đối soát số học không
+thay ngưỡng D>0 hoặc biến ΔR=0 thành tăng. Hai implementation và kỳ vọng
+riêng khớp **19 fixture biên**: strict/inclusive, coverage, thiếu gate/
+primary/repeat, D=0, max/mean MDD, D so A=0/âm và tie 1e−9; cả hai từ chối
+candidate ablation. Fixture không là Decision hoặc kết quả thực nghiệm.
+
+Selection bind **14 tệp nguồn bằng raw SHA**, gồm plan, method, report0–3,
+cohort/context/request, ledger, release development, receipt bốn gate và
+ZIP repeat/analysis; thêm digest protocol, code/runtime, run signature và
+hash producer/oracle. 87 tệp mã phụ thuộc/runtime, 276 tệp source gate và
+1.773 hash input khớp nguồn đã nghiệm thu; 871 artifact W11-03 nguyên byte.
+Đây là kiểm
+binding/oracle mới; không chạy lại verifier semantic W11-03 hoặc suite.
+
+Mã producer/oracle, facts đối chiếu, fixture, QA, baseline và bản selection
+nguyên byte được giữ trong
+[`development_selection_v1.zip`](validation_gates/development_selection_v1.zip):
+**11 entry / 397.501 byte**, SHA-256 byte
+`6c7919a0df177f39801eab20c9802d4fa24f4173ce11d500e047815813476469`.
+Manifest/hash từng entry và CRC PASS. Tái lập: giải nén QA ngoài repo,
+từ root cùng workspace chạy
+`py -3.13 -X utf8 <qa>/build_selection.py`; producer kiểm nguồn, tự gọi
+oracle độc lập và chỉ chấp nhận JSON hiện có nếu payload/binding còn khớp.
+Không dùng selector C2/A/B cũ cho artifact R revision này. JSON này không
+là release API; các consumer sau phải kiểm lại version/binding/rule.
+
+**Điểm dừng đã có trong protocol:** giữ lambda 8, model/options, memory,
+HMM/scaler, renderer, ma trận, ngưỡng và tập điểm; không mở vòng development
+mới để cứu kết quả. Stats-only D=+0,4839 và mẫu 12 repeat R_pool D=+0,5803
+không thay ứng viên full hoặc G60 đã đăng ký. Giữ kết quả W9 riêng và
+Original mặc định; không tuyên bố Bayes/ICL vô ích nói chung hoặc tương
+đương từ quyết định theo rule. Revision này chưa chứng minh cải thiện kinh tế.
+
+Nhánh xác nhận của **W11-06/07 là NOT_APPLICABLE** vì thiếu candidate
+promotable; không tạo bootstrap/manifest/release xác nhận hay mở outcome
+2025. Các mốc đó không được đánh PASS; W11 vẫn IN PROGRESS 5/8.
+W11-08 còn bàn giao nhánh dừng, khung bảng/chương; W12 tiếp tục luận văn
+bằng W9 và development exploratory, W12-01–03 không có release để chạy.
+
+**Phạm vi kiểm:** hai Markdown, selection JSON và ZIP QA; không đổi mã hệ
+thống/test/runtime/schema/input, không đọc key hoặc gọi API. Theo AGENTS.md
+1.2, **không chạy lại compileall/unit/E2E/leakage**; đọc receipt W11-01
+PASS trên source/runtime không đổi (1.103 unit/249 leakage, compileall/E2E),
+không ghi gate cũ thành lượt mới. Oracle/fixture/link/diff/hash PASS;
+**7.554 tệp cũ nguyên byte**, root README và toàn report/ledger/W9/W10 giữ nguyên.
