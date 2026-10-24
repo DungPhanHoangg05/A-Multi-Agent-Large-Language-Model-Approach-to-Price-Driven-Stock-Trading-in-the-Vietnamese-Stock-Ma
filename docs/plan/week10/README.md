@@ -1,6 +1,7 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: kế hoạch mới ngày 24/10/2026, 0/10 task triển khai DONE.**
+**Trạng thái: 1/10 task DONE, cập nhật 24/10/2026; U10-01 đã kiểm toán nguồn/exposure.**
+Chưa triển khai U-BICL; xác nhận 2025 đang BLOCKED vì thiếu bộ giá thô đã kiểm trong workspace.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 ## Mục tiêu và điểm xuất phát
@@ -188,7 +189,7 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 
 | Task | Công việc / đầu ra | Phụ thuộc | Gate hoàn thành | Trạng thái |
 | --- | --- | --- | --- | --- |
-| U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [ ] TODO |
+| U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [x] DONE — nguồn/124 upstream PASS; 2025 BLOCKED do thiếu giá thô đã kiểm |
 | U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [ ] TODO |
 | U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [ ] TODO |
 | U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [ ] TODO |
@@ -219,6 +220,175 @@ kỹ thuật thì không chạy API hoặc gọi mock là hiệu quả. Không n
 để thử vô hạn; W12 vẫn nộp luận văn với kết quả đã có và giới hạn trung thực.
 Tổng hợp các thành phần có thể tạo tương tác bất lợi; cần W11 chứng minh,
 không suy hiệu quả từ tên phiên bản hoặc tổng gain các bảng lịch sử.
+
+## U10-01 — Kiểm toán nguồn, exposure và compatibility, 24/10/2026
+
+**DONE — hoàn tất audit offline trên mốc `ff7d14f`.** W9 và nguồn upstream
+đủ điều kiện làm đầu vào cho bước khóa protocol; chưa xây memory/index hoặc
+chạy U-BICL. Gate xác nhận 2025 **BLOCKED**, reason
+`MISSING_VERIFIED_2025_EXECUTION_SOURCE`; đây là lý do được phép tại gate
+U10-01, không chặn thiết kế offline U10-02. Không tính payoff mới, đọc
+action/return 2025, tải nguồn mới hoặc gọi API trong task này.
+
+### Nguồn W9 và benchmark A
+
+Đọc lại đủ **4.432 entry** của archive W9, kiểm tên duy nhất/CRC và SHA-256
+archive. **4.431 file local khớp byte**; ngoại lệ duy nhất là ledger dùng
+chung đã được nối bởi revision trước. So trực tiếp với bản trong archive:
+3.036 HTTP record, 2.827 invocation và 29 recovery event của W9 đều giữ
+nguyên; hiện tương ứng 3.562/3.339/38. Không reset ledger hoặc loại usage
+của revision đã rút. Các metadata khóa OS không thuộc archive khoa học.
+
+| Nguồn đã đối chiếu | SHA-256 byte |
+| --- | --- |
+| [Archive W9](../../../outputs/bayesian_benchmark/improvement_v1/holdout/frozen_results_v1.zip), 64.258.053 byte | `1db2024a3a338cadcf72692287471f8a14feba49ce8a1b1a488b951896cfec70` |
+| [Report W9](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/report.json) | `0a926be1e6da2803d56dd7a572a4d3eae7b8863cc3fcd02eea111df35cd7c23f` |
+| [Bootstrap W9](../../../outputs/bayesian_benchmark/improvement_v1/holdout/run/bootstrap.json) | `78ae445037f68fa0f8cca4638dc7bc3e7c24efb2854539e078478e46db919e57` |
+| [Bank gốc, 852 record](../../../data_manager/regime_memory_store.json) | `09b48c6192a092b562173e8b3b7eceb44025c6e02454093e34214a730a460949` |
+| [HMM đóng băng](../../../data_manager/regime_model.json) | `58a8bccb11466177114017aeb648d934106629c1598ac96bd0bde9e5d5263ebd` |
+| [Index giá legacy](../../../outputs/bayesian_benchmark/price_features/candidate_index_v1.json) | `4f9242edcca9627437a6e37c81931d45621d48006ebd3f87a8d35952c20fb785` |
+| [Ledger hiện tại](../../../outputs/oos_pilot/api_usage.json), khác snapshot W9 do append | `bfab9b5cf3dfbdacedb2aaf76879b1361ecf8e373d98991f18aa2761ed213348` |
+
+Kiểm **69 dependency development/74 dependency holdout** theo hash LF của
+plan và Python **3.13.5 cùng 22 package** khớp runtime đã khóa. Benchmark A
+được đối chiếu với report/bootstrap/publication đã lưu, không chạy lại LLM
+hoặc dùng W9 chọn thêm phương pháp:
+
+| Chỉ tiêu A_tp_pool trên W9 | Kết quả giữ nguyên |
+| --- | --- |
+| Common support / nhánh / Decision | 64 điểm, 16/mã; sáu nhánh, 384 Decision |
+| D A−Original / CI95% L=4 | +2,025325 đpt / [0,135027; 4,211864] |
+| ΔR từng mã FPT/MWG/VCB/VNM | +3,188995 / +1,735789 / +3,285796 / −0,109279 đpt |
+| Mean/max ΔMDD | −1,725582 / +0,109279 đpt |
+| Stats / examples / cả hai / prior visible | 22 / 13 / 10 / 25 trên 64 điểm |
+| Prior-off / action khác dù canonical request giống | 39 / 2 |
+| Bốn secondary L=4, CI98,75% | Đều INCONCLUSIVE |
+
+Đây là kết quả có điều kiện trên cohort/Decision đã lưu; không chứng minh
+riêng pooling, demonstrations hoặc Bayes nội tại. BEAR=0, tin reliable=0/64
+và trace legacy N/A tiếp tục được giữ tại [giới hạn W9](../week9/README.md#w9-05--bảng-hình-và-phân-tích-giới-hạn-21102026).
+A_reference của run mới phải dùng cùng nguồn/instructions/shared-off với U;
+không so U trên memory mới với W9 rồi quy chênh lệch cho phương pháp.
+
+### Compatibility của upstream và các chỗ phải thích ứng
+
+Chỉ nạp `improvement_v1/{development,holdout}/plan.json`, `run/cohort.json`,
+`run/points/` và `run/responses/` đã khớp byte archive W9. Hai cohort cùng
+signal config/options và `execution_mode=research`. Dùng `shared_point`
+với `verify_only=True`, `restore_full_bundle`, `verify_source` và transform
+feature của index hiện hữu; không nạp Decision làm feature hoặc sinh nhãn.
+Schema point/journal lần lượt `improvement_shared_point_v1` và
+`agent_stage_journal_v1`; kiểm run signature, source proof, shared/journal
+hash, output durable và bốn stage complete đúng một attempt khoa học/stage.
+
+| Nguồn | FPT | MWG | VCB | VNM | Tương thích / loại |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Development 2023 | 12 | 16 | 16 | 16 | 60 / 0 |
+| Holdout W9 2024 | 16 | 16 | 16 | 16 | 64 / 0 |
+
+**124/124 PASS**, không trùng `(symbol, as_of_date)` với nhau hoặc bank gốc;
+496 stage complete. Tín hiệu T/P/Indicator/Alpha/Sentiment được parser
+hiện hữu tái dựng từ năm report, năm Alpha factor và tin PIT, khớp bundle;
+không đoán từ action/justification/confidence. Regime có 61 CONSOLIDATION,
+31 BULL, 32 CHOPPY, không BEAR. Cutoff từ 06/01/2023, cutoff mới nhất
+26/12/2024 ở cả bốn mã; mọi cycle đóng chậm nhất 31/12/2024. **976 chỉ là
+trần 852+124 khả thi**, chưa là bank đã phát hành hoặc coverage U-BICL.
+
+Model provenance của bank và hai nguồn khớp: text `openai/gpt-oss-20b`,
+temperature=0/max_tokens=2048, effort=low; vision `qwen/qwen3.8-27b`,
+temperature=0/max_tokens=1024, effort=none; reasoning_format=hidden cả hai.
+Window=45, daily, tiếng Việt, `zscore_tanh`, alpha_weights=null. Đây là
+identity nguồn, chưa chứng nhận model/provider còn gọi được; preflight thật
+vẫn thuộc bàn giao vận hành sau này.
+
+- Backbone tham chiếu ở `core/improvement_prior.py`: C khớp T/P, B=P∖C,
+  mB=(sB+1)/(nB+2), strength=4; nC=0 giữ thiếu conditional evidence.
+  Stats lấy toàn population PIT, không lấy counts từ top ba ví dụ.
+- Selector hiện hữu giữ tuổi theo **as_of_date**, max=730 ngày, half-life=365,
+  min_similarity=0,625, gap≥5 phiên; stats/examples gate tách block. Bank gốc
+  có cutoff cuối 27/12/2022: ví dụ mới nhất đã **737 ngày** ở 02/01/2025,
+  nên mọi ví dụ gốc trượt tuổi trong 2025; không suy stats cũng bị age-filter.
+- `build_price_feature_index` legacy chỉ nhận exit≤30/12/2022;
+  `PriceFeatureIndex.scaler` chỉ có fold train_2021/train_2022/oos_2023_2024.
+  U10-03 cần namespace/version index riêng để nhập 2023/2024 và dùng scaler
+  train-only cho 2025; không sửa index/fold/hash W9 để lách hợp đồng cũ.
+- Chưa kiểm support block 90 phiên, task coverage, pooling gate, budget biên
+  hoặc shared-off U. Các phần đó thuộc U10-02–08; audit compatible không thay
+  producer/verifier/PIT/dedup/nhãn qua engine và test future-append của U10-03.
+
+### Exposure và điều kiện năm 2025
+
+Khai báo lịch sử tại `4d34bc4:docs/plan/week10/exposure_inventory_v2.json`
+ghi: **“Xác nhận kết quả 2025 chưa được dùng để lựa chọn hoặc điều chỉnh
+phương pháp.”** Basis `PARTICIPANT_DECLARATION_AND_LOCAL_INVENTORY`,
+`unseen_outcomes_proven=false`, `confirmation_allowed=false`. Lịch sử
+`docs/plan/week11/README.md` cùng mốc ghi revision đã STOP trước manifest/
+release/xác nhận 2025. Hai commit sau mốc đó chỉ rút revision/lập kế hoạch
+mới; không xem việc rút output là xóa exposure hoặc yêu cầu khai báo lại.
+
+Inventory mới rà **6.074 JSON** toàn workspace, gồm **6.028 JSON dưới
+outputs ignored**, không lỗi parse; trích ngày cấu trúc/query/window và
+danh sách lịch, không phân tích action/payoff. Không thấy query/cutoff 2025.
+Kiểm thêm tám CSV outputs và ngày `record.csv` (45 nến 30/07–05/10/2026);
+CSV summary không có ngày không được coi là bằng chứng chưa xem. Các dấu
+2025 quan sát được là phạm vi archive, ngày tin/quyền và entry/exit giáp năm
+của cutoff 2024 bị loại, không phải run xác nhận. UUID chứa `2025` không là
+ngày. Không kiểm toán được mọi hoạt động ngoài workspace, ảnh/UI hoặc archive
+ngoài W9; không có report không chứng minh chưa từng xem payoff.
+
+**Exposure: kế thừa PASS trong phạm vi khai báo lịch sử + inventory local,
+không phát hiện sử dụng mới trái khai báo; không chứng nhận độc lập tuyệt
+đối. Giá/lịch đủ điều kiện xác nhận: BLOCKED tại nguồn hiện tại.**
+
+| Nguồn giá hiện có | Phạm vi và kết luận |
+| --- | --- |
+| `data/historical/manifest.json`, hash `0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c` | Archive 2018–2025; giá điều chỉnh, không thay giá thực thi thô |
+| `data/execution_prices/manifest.json`, hash `e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c` | Giá thô đã kiểm chỉ đến 31/12/2022 |
+| `data/execution_prices_oos/manifest.json`, hash `bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4` | Giá thô đã kiểm chỉ đến 31/12/2024; events đã có quyền 2025 |
+| Snapshot giá 2025 của revision đã rút | Namespace cũ không còn trên đĩa lúc audit; không có source raw/evidence/manifest 2025 để tái kiểm, không dùng kết quả PASS cũ thay nguồn thật |
+
+Chỉ đọc `Datetime` của năm CSV archive: lịch cùng **249 phiên**, 02/01–
+31/12/2025, tăng dần/không trùng. Step3 neo 02/01 có 83 cutoff/mã; trần
+cycle đóng trong quý là Q1/Q2/Q3/Q4=19/19/20/21, tổng **79/mã trước kiểm
+giá/quyền**. Events OOS có bốn ngày quyền FPT và hai ngày/mã còn lại trong
+2025, nhưng thiếu giá/Reference/volume 2025 để kiểm eligibility đầy đủ.
+**Chưa tái lập pool hợp lệ hoặc chọn/khóa 128 điểm**; không dùng các pool/
+ngày đã sinh bởi revision rút. Trước release U11 phải có snapshot giá thô/
+evidence/quyền/prefix/checksum đạt gate, rebuild lịch theo rule đã đăng ký
+và rà exposure phát sinh. Thiếu nguồn/independence thì chỉ exploratory hoặc
+forward sau lock theo kế hoạch; không dùng OHLC điều chỉnh tính nhãn.
+
+### Footprint, ranh giới và kiểm tra hoàn thành
+
+Bank/HMM/index gốc lần lượt **472.955 / 5.478 / 686.295 byte**; ledger hiện
+**11.918.358 byte**. Chỉ kiểm kích thước/hash, không sao chép hoặc sửa nguồn.
+
+| Nhánh lưu trữ dưới `improvement_v1/` | Số file | Byte |
+| --- | ---: | ---: |
+| development | 1.565 | 101.800.347 |
+| holdout, gồm archive W9 | 1.032 | 117.311.054 |
+| repeats | 868 | 53.155.050 |
+| train | 2 | 2.243.427 |
+| Tổng, loại chín file metadata khóa OS | 3.467 | 274.509.878 |
+
+Namespace `bic_icl_v2` không còn tại thời điểm U10-01; đoạn bàn giao dọn
+revision bên dưới mô tả thời điểm trước đó, không phải inventory hiện tại.
+Không tạo lại output, memory/index hoặc execution plan đã rút. Protocol U10-02
+sẽ khóa namespace/version mới; không ghi vào `improvement_v1` hoặc đổi hash cũ.
+
+Phạm vi thay đổi chỉ README tuần và kế hoạch tổng; không thêm receipt task,
+schema, code, test, runtime hoặc đầu vào. Theo **AGENTS.md 1.2 không chạy lại
+compileall/unit/E2E/leakage suite**; gate sau dọn revision ghi bên dưới là
+bằng chứng cũ, không phải gate mới của U-BICL. Lượt mới chạy
+`py -3.13 -X utf8 scripts/verify_improvement_holdout.py --verify-report`
+**exit 0**: tái dựng toàn report/384 Decision từ nguồn/checkpoint/HTTP audit
+và engine cũ, consumer/receipt/binding khớp; transport chặn mạng. Bootstrap/
+publication đối chiếu byte archive và số liệu đã lưu, không chạy lại producer.
+**4.366 file** trong phạm vi bảo vệ giữ nguyên byte, không mất file; bốn file
+owner/recovery của hai khóa OS được verifier cập nhật đúng vòng đời, owner
+đã released. Ledger, report/bootstrap/archive, nguồn/code/schema/runtime
+nguyên byte trong task. QA hash/archive/runtime/số liệu/liên kết/diff PASS.
+**U10 đạt 1/10; tiếp theo U10-02**, chưa mở xác nhận hoặc cấp quyền gọi API.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 

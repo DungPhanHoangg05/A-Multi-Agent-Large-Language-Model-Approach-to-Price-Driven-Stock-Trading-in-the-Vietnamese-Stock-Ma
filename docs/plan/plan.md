@@ -15,8 +15,9 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 0/10, U11 0/10, U12 0/5; mới lập kế hoạch,
-chưa triển khai hoặc chạy API U-BICL. W9 không bị reset. [Thiết kế W10](week10/README.md)
+**Tiến độ hiện hành:** U10 1/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+chưa triển khai hoặc chạy API U-BICL. Xác nhận 2025 BLOCKED do thiếu bộ giá
+thô đã kiểm trong workspace. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
 **Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
@@ -1217,10 +1218,23 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — TODO 0/10
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 1/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
+
+- **U10-01 DONE, 24/10/2026:** [audit nguồn/exposure và compatibility](week10/README.md#u10-01--kiểm-toán-nguồn-exposure-và-compatibility-24102026)
+  kiểm archive W9 đủ 4.432 entry: 4.431 file local khớp byte, ledger đã append
+  giữ đủ lịch sử W9. 69/74 dependency và Python 3.13.5/22 package khớp;
+  124/124 upstream 2023/2024 compatible, không trùng cycle, chưa tạo bank mới.
+  Benchmark A giữ D=+2,025325 đpt, CI95% [0,135027; 4,211864], bốn secondary
+  inconclusive. Inventory 6.074 JSON/khai báo lịch sử không phát hiện sử dụng
+  query 2025 mới; không chứng nhận chưa từng xem outcome ngoài workspace.
+  Namespace revision cũ hiện không còn, bộ giá thô OOS chỉ đến 2024:
+  **xác nhận 2025 BLOCKED — MISSING_VERIFIED_2025_EXECUTION_SOURCE**;
+  chưa chọn 128 điểm, đọc payoff mới hoặc gọi API. Chỉ sửa hai Markdown,
+  CLI offline verify-report mới exit 0, nguồn/ledger khoa học nguyên byte;
+  không chạy lại suite theo AGENTS.md 1.2; tiếp theo **U10-02** khóa protocol.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
