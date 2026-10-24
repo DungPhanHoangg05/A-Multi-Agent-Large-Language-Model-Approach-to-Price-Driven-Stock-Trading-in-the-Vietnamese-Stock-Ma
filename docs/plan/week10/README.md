@@ -1,7 +1,8 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: 3/10 task DONE, cập nhật 24/10/2026; đã audit nguồn, khóa protocol và dựng memory/index U-BICL v1.**
-Giá thực thi 2025 đã PASS; backbone/context/runtime U-BICL còn TODO,
+**Trạng thái: 4/10 task DONE, cập nhật 24/10/2026; đã audit nguồn, khóa protocol, memory/index và backbone U-BICL v1.**
+Giá thực thi 2025 đã PASS; pooling λ=8 khóa offline và bốn gate hồi quy PASS.
+Context/runtime U-BICL còn TODO,
 xác nhận chưa có release và vẫn cần các gate U10/U11.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -193,7 +194,7 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [x] DONE — nguồn/124 upstream PASS; đã bổ sung giá 2025 PASS trong namespace riêng |
 | U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [x] DONE — protocol v1, sáu nhánh/một candidate và 88 ca fixture đã kiểm |
 | U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [x] DONE — 976 record; scaler train-only, CLI nguồn thật và bốn gate PASS |
-| U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [ ] TODO |
+| U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [x] DONE — λ=8 PASS/LOCKED trên train; oracle/CLI và bốn gate PASS |
 | U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [ ] TODO |
 | U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [ ] TODO |
 | U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [ ] TODO |
@@ -201,10 +202,11 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [ ] TODO |
 | U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
 
-Đã có core/unified_bayes_memory.py. Các module tiếp theo dự kiến: unified_bayes_statistics.py,
+Đã có core/unified_bayes_memory.py, unified_bayes_statistics.py và
+unified_bayes_diagnostics.py. Các module tiếp theo dự kiến:
 unified_bayes_context.py, unified_bayes_runtime.py, unified_bayes_reports.py;
-scripts/run_unified_bayes.py; schema/fixtures cần thiết dưới W10. Các module
-tiếp theo chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
+scripts/run_unified_bayes.py; schema/fixtures cần thiết dưới W10. Context,
+runtime và CLI chạy U-BICL chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
 kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
 
 Tests phải phủ partition/oracle/n=0/future append/query self-match, độ tương
@@ -599,6 +601,103 @@ nguyên byte 4.513 file cũ và snapshot. QA số liệu/hash/liên kết/UTF-8/
 PASS. Sau các gate chỉ cập nhật tài liệu; không đổi code/runtime hoặc nguồn.
 **U10 đạt 3/10**, tiếp theo **U10-04** backbone A và kiểm pooling offline
 trên 647 query train đã khóa; chưa chạy diagnostics hoặc chọn λ ở U10-03.
+
+## U10-04 — Backbone A và khóa pooling offline, 24/10/2026
+
+**DONE — hierarchical pooling λ=8 PASS/LOCKED theo rule đã khóa;
+oracle/CLI nguồn thật và bốn gate hồi quy đầy đủ PASS.** Triển khai riêng
+[`core/unified_bayes_statistics.py`](../../../core/unified_bayes_statistics.py),
+[`core/unified_bayes_diagnostics.py`](../../../core/unified_bayes_diagnostics.py)
+và [`scripts/prepare_unified_bayes_pooling.py`](../../../scripts/prepare_unified_bayes_pooling.py).
+Không đổi engine, A/W9, nguồn hoặc memory/index U10-03. Không gọi LLM;
+đây là chọn hyperparameter trên train, chưa chứng minh hiệu quả U-BICL.
+
+Stats chia metadata cùng mã có **exit<query** thành C (cùng regime/T/P),
+B1 (cùng regime ngoài C), B2 (khác regime); ba nhóm rời nhau, phủ toàn
+population PIT. Không lọc theo tuổi, feature, similarity hoặc top-K.
+A_reference giữ nguyên cả bốn metric/mask legacy trên nguồn chung; U dùng
+`win_rate_long`. A giữ strength=4; pooling tính đúng m2/m1 và Beta ở mục 3,
+λ∈{2,4,8}. C rỗng giữ posterior/CrI null, tầng background rỗng ghi reason.
+Evidence ghi n/s, IDs, prior weight, tuổi và số cụm 90 phiên; raw n không là
+ESS. Readiness A giữ population≥20, pooling giữ nB1+nB2≥20; cả hai cần
+nC≥5 và width≤0,75. Stats chưa ready vẫn được chấm nếu có raw posterior.
+
+Replay **647 query train = 325 năm 2021 + 322 năm 2022**. Purge bốn cycle
+31/12/2021 đóng ngày 06/01/2022; không sửa diagnostics legacy 651 query.
+Kiểm lại shared checkpoint/tín hiệu nguồn và **165 historical-prefix HMM**
+đúng ngày query; scaler chỉ fit cycle exit trước đầu fold và giữ nguyên
+suốt fold, không fit HMM mới hoặc refit scaler OOS. Cả bốn posterior được
+tạo trước đọc target query. Nhãn được sinh lại bằng engine LONG
+Open(t+1)→Close(t+3), phí/slippage hai chiều và đối chiếu memory đã kiểm.
+Nguồn 2023/2024 chỉ kiểm integrity snapshot, không tham gia loss/chọn λ;
+không đọc target hoặc giá thực thi 2025.
+
+Loss dùng **cùng 594 raw posterior hữu hạn** của A và cả ba λ, trước gate
+readiness; 53 query C rỗng được ghi missing ID, không điền xác suất 0,5.
+Mỗi query có trọng số bằng nhau; Brier dùng xác suất thô, chỉ log loss
+clip [10⁻⁶; 1−10⁻⁶]. Coverage ready dưới đây có mẫu số **toàn bộ 647**.
+
+| Backbone | Mean log loss | Mean Brier | Ready / 647 |
+| --- | ---: | ---: | ---: |
+| A_tp_pool | 0,697884896091 | 0,251467777052 | 352 |
+| Pool λ=2 | 0,711699161861 | 0,256553589594 | 396 |
+| Pool λ=4 | 0,695111998748 | 0,250213464794 | 396 |
+| **Pool λ=8** | **0,684461149017** | **0,245519049601** | **396** |
+
+Xếp hạng bằng số đầy đủ (log loss, Brier, λ): **8 → 4 → 2**; chỉ xét gate
+cho λ đứng đầu, không thử runner-up nếu trượt. λ=8 giảm cả hai mean loss,
+ready tăng 44 và cả tám ô fold×mã đều có raw common. Số common theo
+FPT/MWG/VCB/VNM là **143/144/155/152**; ΔBrier pool−A lần lượt
+**−0,002759690 / −0,011322706 / −0,002105476 / −0,007776909**.
+Không mã nào tăng quá 0,01; gate PASS, reason rỗng. Đây không phải payoff
+hoặc kết quả xác nhận ngoài mẫu.
+
+[Diagnostics](../../../outputs/bayesian_benchmark/unified_bic_v1/inputs/pooling_diagnostics_v1.json)
+và [choice](../../../outputs/bayesian_benchmark/unified_bic_v1/inputs/backbone_choice_v1.json)
+gồm **2 file, 4.849.990 byte**, bind **1.833 nguồn**, memory/index, code LF,
+Python 3.13.5 và 22 package. SHA-256 byte lần lượt:
+
+- Diagnostics (4.847.054 byte): `575b650ceb88b7c69bdbe73786b1240d0a9f0bcc60b820f186b7486535993dca`.
+- Choice (2.936 byte): `32d0115b4f65bbd376d2f06ad7abee5f8004bff283d28580cc7a1759daaaa8e4`.
+
+Choice giữ `status=LOCKED`, `choice=hierarchical_pool`, `lambda=8`,
+`gate_status=PASS`, bind cả byte lẫn payload diagnostics và source hash.
+Hai artifact là input ignored; clone Git không có chúng. Protocol/fixture
+U10-02 vẫn nguyên byte: `PENDING_U10_04` là snapshot trước diagnostics;
+choice riêng ghi kết quả thực tế cho context/producer tiếp theo. Không sửa
+snapshot để giả release; `is_execution_plan=false` và
+`confirmation_allowed=false` vẫn giữ. Context/runtime/dry-run và release
+xác nhận thuộc các task sau.
+
+U10-05 lấy backbone U từ choice đã kiểm và dùng posterior `pool_8` tương
+ứng; A_reference tiếp tục dùng A và bốn metric cũ trên cùng memory. Loader
+không suy choice từ snapshot `PENDING_U10_04`, không chọn lại λ theo OOS.
+
+```powershell
+# Dựng một lần; chạy lại phải khớp artifact đã khóa, hỗ trợ tiếp tục sau report.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_pooling.py --prepare
+# Mặc định cũng là verify-only, tái dựng nguồn và toàn bộ 647 query.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_pooling.py --verify-only
+```
+
+**23 test mới PASS**: oracle fixture posterior/partition/gate/rank, bốn
+mask A, C rỗng, PIT/target poison, future append, hot query không I/O,
+common intersection/coverage, loss weighting/clipping, winner trượt không
+thử tiếp và evidence sửa rồi tự reseal. Oracle độc lập trên nguồn thật
+khớp cả 647 partition/posterior/gate/target và 594 common/loss/choice.
+CLI prepare và verify thật PASS khi chặn HTTP/socket, Decision, key,
+ledger và giá thực thi 2025. Kiểm prepare lặp/tiếp tục sau report và bốn
+ca âm sửa posterior/choice/tự reseal/định dạng artifact đều PASS;
+**6.579 file cũ nguyên byte**, gồm bank, nguồn, bằng chứng W9, protocol,
+memory U10-03, ledger và root README. Artifact mới cũng nguyên byte.
+
+**Nghiệm thu trên Python 3.13.5, đúng code mới:** compileall PASS;
+**984/984 unit test PASS** (gồm 23 test U10-04 mới); E2E PASS;
+**195/195 leakage test PASS**, không vi phạm. Tái kiểm sau unit/E2E và sau
+toàn bộ gate giữ nguyên byte 6.579 file cũ và hai artifact mới. QA số liệu,
+hash, liên kết, UTF-8 và diff PASS. Sau khóa diagnostics chỉ cập nhật tài
+liệu, không đổi code/runtime/nguồn để chọn lại λ. **U10 đạt 4/10**,
+tiếp theo **U10-05** task context/fallback/ranking và prompt.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 
