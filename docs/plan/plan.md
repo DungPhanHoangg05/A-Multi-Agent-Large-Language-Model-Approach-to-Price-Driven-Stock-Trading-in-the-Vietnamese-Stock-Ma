@@ -15,8 +15,9 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 4/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 5/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
+Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -409,7 +410,8 @@ và các vòng đã dùng để phát triển phải được giải trình.
 ensemble, risk overlay, soft regime hoặc cross-symbol. Thiếu gate/coverage
 hoặc không đạt nomination thì không chạy xác nhận để cứu kết quả. W12 vẫn
 hoàn thành luận văn từ W9 và kết quả U đúng phạm vi. API do người dùng chạy;
-module/CLI U hiện mới là kế hoạch, không là tính năng đã triển khai.
+memory/backbone/context đã có module riêng; runtime và CLI thực nghiệm U
+chưa hoàn tất. Trạng thái nghiệm thu từng phần được ghi tại README W10.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1220,7 +1222,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 4/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 5/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1286,6 +1288,22 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   trên đúng code/runtime; 6.579 file cũ và hai artifact mới nguyên byte.
   QA hash/số liệu/liên kết/diff PASS; 2023/2024 chỉ kiểm integrity, không
   chọn λ; chưa LLM hoặc release. **U10 đạt 4/10**, tiếp theo **U10-05**.
+
+- **Task context và renderer, 24/10/2026:** [U10-05 DONE](week10/README.md#u10-05--task-context-fallback-ranking-và-renderer-24102026).
+  Chia task mã/regime/block90 với full membership PIT, support≥2; greedy
+  đại diện không theo nhãn, thử đại diện kế khi xung đột và fallback episode
+  đúng selector A. Ba projection tách stats/examples, alias sidecar, horizon
+  Open(t+1)→Close(t+3), BRPP≤600/prompt<6500; giữ report cap legacy.
+  Cold loader chỉ nhận backbone đã khóa U10-04; query thuần RAM, verifier
+  rebuild semantic và phân biệt integer/float dù tự reseal. 24 test trọng tâm
+  và compileall PASS; prepare/verifier cold và oracle đủ 60 context nguồn
+  thật PASS: task=41/off=19, 34 điểm ≥2 task (3/11/10/10 theo mã), gate mô
+  tả support PASS, BRPP tối đa 406/600. Một input ignored 4.286.929 byte bind
+  357 nguồn/choice/code/runtime; 6.587 file cũ và renderer lock nguyên byte.
+  Compileall/unit **1008/1008** (24 test mới)/E2E/leakage **204/204 PASS**
+  trên đúng code cuối; QA nguồn/số liệu/hash/liên kết/diff PASS.
+  **U10 đạt 5/10**, tiếp theo **U10-06**; chưa LLM/runtime/shared-off
+  hoặc release, các phần đó tiếp tục ở U10-06–09.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
