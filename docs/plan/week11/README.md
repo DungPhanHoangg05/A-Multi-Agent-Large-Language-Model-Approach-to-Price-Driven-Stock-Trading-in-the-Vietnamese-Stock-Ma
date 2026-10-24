@@ -1,6 +1,6 @@
 # Tuần 11 — Development, kiểm đóng góp ICL và khóa xác nhận
 
-**Trạng thái: IN PROGRESS, 3/8; W11-03 DONE ngày 24/10/2026.**
+**Trạng thái: IN PROGRESS, 4/8; W11-04 DONE ngày 24/10/2026.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 ## Đầu vào và thời hạn
@@ -178,7 +178,7 @@ bootstrap tương ứng thì không phát hành release. Không sửa W9/manifes
 | W11-01 | Kiểm nguồn/gate, khóa development và repeat plan | W10 | Dry-run/identity/nguồn PASS; release cache bind đủ snapshot/request/repeat/run/ledger | [x] DONE |
 | W11-02 | Người dùng chạy primary development | 01 | Primary COMPLETE, 60/60 common support, 480 slot LLM complete; report/source/raw/ledger PASS | [x] DONE |
 | W11-03 | Verify primary, chạy/verify ba repeat | 02 | Ba CLI verify-report PASS; 12/12 common support mỗi lượt, primary nguyên byte | [x] DONE |
-| W11-04 | Phân tích economics/coverage/loss/T/G/repeat/failure | 03 | Đủ cả nhóm bất lợi và missing; không suy trace thành cơ chế | [ ] TODO |
+| W11-04 | Phân tích economics/coverage/loss/T/G/repeat/failure | 03 | Bảng G/T/loss/coverage/repeat/failure, nhóm bất lợi/rỗng và oracle PASS | [x] DONE |
 | W11-05 | Khóa selection hoặc STOP_NO_IMPROVEMENT | 04 | Rule và oracle độc lập khớp; không chọn ablation | [ ] TODO |
 | W11-06 | Kiểm nguồn mới, công cụ report/bootstrap và bốn gate | 05 | Fixture oracle/PIT/canonical/reuse PASS đúng revision | [ ] TODO |
 | W11-07 | Khóa manifest/release xác nhận hoặc BLOCKED | 06 | 128 điểm/sáu nhánh, repeat/protocol/exposure/hash trước outcome | [ ] TODO |
@@ -479,3 +479,239 @@ Diff/liên kết/hash PASS, root README nguyên byte.
 W11-03 chưa chọn R, nomination, bootstrap hoặc mở xác nhận 2025;
 giữ ngưỡng R_task (chỉ 3 điểm ≥2 task, FPT=0) và
 `confirmation_allowed=false`.
+
+## W11-04 — Phân tích development, 24/10/2026
+
+**DONE; W11 4/8.** Phân tích mô tả từ primary 60 điểm và ba repeat đã
+verify W11-03, không đổi Decision hay chọn response. Đối soát nguyên byte
+**871 artifact** trong ZIP W11-03, 1.773 hash nguồn, 87 tệp mã phụ thuộc và
+runtime, 276 tệp source gate và diagnostics train đã khóa. G=60 complete:
+FPT 12, MWG/VCB/VNM 16; không missing execution/exclusion, không thêm 2025.
+
+### Economics và hành động trên G
+
+LONG Open(t+1)→Close(t+3), phí/slippage hai chiều, SHORT=CASH; bốn tài khoản
+50 triệu, cổ phiếu lẻ và risk OFF như engine. D là trung bình đều bốn chênh
+return tài khoản, không là mean cycle hoặc return portfolio tái cân bằng.
+Đã dựng lại bằng engine và oracle độc lập ghép growth factor từ giá mua/bán
+sau phí; return, MDD, cycle payoff và toàn metric primary khớp report cũ.
+
+| Nhánh | R FPT % | R MWG % | R VCB % | R VNM % | D so Original, đpt |
+| --- | --- | --- | --- | --- | --- |
+| original | 1,3082 | 11,3502 | 2,4399 | 1,9378 | 0,0000 |
+| A_reference_shared_off | 3,6370 | 11,3502 | -1,5148 | 1,9378 | -0,4065 |
+| R_pool_full | 3,2976 | 10,8747 | -1,5148 | 1,9378 | -0,6102 |
+| R_pool_stats_only | 1,3082 | 13,2856 | 2,4399 | 1,9378 | 0,4839 |
+| R_pool_examples_only | 1,3082 | 11,3502 | -1,5148 | 1,9378 | -0,9887 |
+| R_task_full | 1,3082 | 11,7572 | 2,4399 | 1,9378 | 0,1018 |
+| R_task_stats_only | 1,3082 | 13,2856 | 2,4399 | 1,9378 | 0,4839 |
+| R_task_examples_only | 1,3082 | 9,8479 | 2,4399 | 1,9378 | -0,3756 |
+| Numeric_only | 0,0000 | 7,2904 | 0,0000 | 0,0000 | -2,4364 |
+
+![Chênh lệch return development so Original](development_analysis_v1.png)
+
+MDD đo trên equity cuối chu kỳ; ΔMDD dương là drawdown tăng so Original.
+MDD Original theo mã lần lượt
+5,1235/2,6936/4,0222/1,3190%. Classification dưới đây gộp **60 point**,
+24 nhãn UP/36 DOWN; Balanced là trung bình recall hai lớp trên mẫu đó.
+Participation=LONG/60, cash rate=1−participation; hit lấy mẫu số LONG.
+
+| Nhánh | LONG | Accuracy % | Balanced % | Hit LONG % | Mean ΔMDD đpt | Max ΔMDD đpt |
+| --- | --- | --- | --- | --- | --- | --- |
+| original | 18/60 | 63,33 | 59,72 | 55,56 | 0,0000 | 0,0000 |
+| A_reference_shared_off | 17/60 | 61,67 | 57,64 | 52,94 | 0,0000 | 0,0000 |
+| R_pool_full | 16/60 | 60,00 | 55,56 | 50,00 | -0,2273 | 1,3128 |
+| R_pool_stats_only | 19/60 | 65,00 | 61,81 | 57,89 | 0,0000 | 0,0000 |
+| R_pool_examples_only | 16/60 | 60,00 | 55,56 | 50,00 | 0,0000 | 0,0000 |
+| R_task_full | 20/60 | 63,33 | 60,42 | 55,00 | 0,3282 | 1,3128 |
+| R_task_stats_only | 19/60 | 65,00 | 61,81 | 57,89 | 0,0000 | 0,0000 |
+| R_task_examples_only | 19/60 | 61,67 | 58,33 | 52,63 | 0,3282 | 1,3128 |
+| Numeric_only | 4/60 | 60,00 | 51,39 | 50,00 | -2,7239 | -0,4308 |
+
+R_pool full chỉ tăng return ở FPT, giảm ở MWG/VCB, VNM bằng Original;
+R_task full chỉ tăng ở MWG, ba mã còn lại bằng Original. D so A lần lượt
+**−0,2037/+0,5083 đpt**; full so Numeric **+1,8262/+2,5382 đpt**.
+Stats-only có D cao hơn hai full trong lượt này; A/ablation/Numeric vẫn
+không thuộc tập nomination. Kết quả là point estimate exploratory, chưa CI.
+JSON trong ZIP giữ đủ return/MDD/equity, confusion, accuracy, participation,
+hit và Sharpe/Sortino cycle từng mã/nhánh; không annualize hoặc giấu null.
+
+### Coverage và support
+
+Stats/examples ready và visible là các mẫu số khác nhau. A full có
+stats/examples/both/visible/off = **45/41/36/50/10** trên 60 điểm; readiness
+stats của A theo metric gate hiện hữu. Hai R dùng chung posterior:
+
+| Base | Mã | G | Stats | Examples | Both=T | Visible | Off |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| R_pool | FPT | 12 | 8 | 5 | 4 | 9 | 3 |
+| R_pool | MWG | 16 | 14 | 13 | 13 | 14 | 2 |
+| R_pool | VCB | 16 | 10 | 12 | 9 | 13 | 3 |
+| R_pool | VNM | 16 | 14 | 11 | 10 | 15 | 1 |
+| R_task | FPT | 12 | 8 | 3 | 2 | 9 | 3 |
+| R_task | MWG | 16 | 14 | 6 | 6 | 14 | 2 |
+| R_task | VCB | 16 | 10 | 3 | 3 | 10 | 6 |
+| R_task | VNM | 16 | 14 | 9 | 8 | 15 | 1 |
+
+R_pool tổng stats/examples/both/visible/off = **46/41/36/51/9**;
+R_task = **46/21/19/48/12**. Có **10/60 query feature UNAVAILABLE**
+(FPT5/MWG1/VCB1/VNM3), không điền vector hoặc response thiếu.
+Stats off do nC<5: 14/60; examples pool thiếu qualified 14, feature 10,
+regime population<20 có 7; task thiếu cặp qualified 37, feature 10,
+population 7. Reason có thể chồng nhau, không cộng thành số query off.
+R_task raw k_tasks=0/1/2 là **37/20/3**; examples visible 21 điểm,
+chỉ **3 điểm có ≥2 task, mỗi MWG/VCB/VNM một, FPT 0**. Không tăng support
+bằng repeat cùng điểm, không nới ngưỡng bằng việc chạy đủ API.
+Primary prior-off so Original: A **0/10**, R_pool full **0/9**, R_task full
+**0/12** disagreement. Mọi view/round off được kiểm =0 theo reuse canonical;
+đây là bất biến triển khai, không là bằng chứng LLM dùng prior hiệu quả.
+
+### Posterior loss, reliability và mức co
+
+λ=8 đã khóa bằng train W10-04; không chọn lại theo development/return.
+Tất cả lambda train dùng cùng 598 posterior hữu hạn với A, không lọc
+readiness; 53 query train thiếu A giữ missing. Development chấm cùng 58:
+A thiếu `VNM-2023-03-30`, `FPT-2023-05-11`, R8 raw đủ 60 nhưng hai điểm
+nC=0 không được gọi là conditional evidence đã quan sát. Clip loss
+[1e−6;1−1e−6], không điền p=0,5 cho A thiếu.
+
+| Tập | Posterior | Query | Common | Raw | Ready | Log loss | Brier |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Train 2021–22 | A | 651 | 598 | 598 | 355 | 0,69645620 | 0,25078170 |
+| Train 2021–22 | R2 | 651 | 598 | 651 | 399 | 0,70995949 | 0,25573325 |
+| Train 2021–22 | R4 | 651 | 598 | 651 | 399 | 0,69371112 | 0,24954020 |
+| Train 2021–22 | R8 | 651 | 598 | 651 | 399 | 0,68332577 | 0,24496989 |
+| Dev 2023 | A | 60 | 58 | 58 | 45 | 0,70716163 | 0,25009158 |
+| Dev 2023 | R8 | 60 | 58 | 60 | 46 | 0,68841586 | 0,24477866 |
+
+Dev Δlog loss R8−A = **−0,01874577**, ΔBrier = **−0,00531292**.
+FPT là subgroup bất lợi: 0,69516912 so A 0,69420418 (n=11);
+MWG/VCB/VNM n=16/16/15 đều giảm log loss. Train giữ R2 bất lợi toàn bộ,
+VCB/train2021 R8 0,63908462 > A 0,63354190 (n=78). Toàn ba lambda,
+tám fold/mã, regime, bin và leave-one-quarter-out được giữ trong JSON.
+Chọn λ trên toàn train có selection bias, không là lựa chọn online năm 2021
+hoặc bằng chứng calibration/LLM không chệch. Hai R cùng posterior, không
+nhận thêm công calibration cho task format. Reliability dev (n=58):
+
+| Bin | A: n / p̄ / ȳ | R8: n / p̄ / ȳ |
+| --- | --- | --- |
+| [0,0;0,2) | 8 / 0,1709 / 0,6250 | 1 / 0,1906 / 1,0000 |
+| [0,2;0,4) | 29 / 0,3105 / 0,2414 | 38 / 0,3088 / 0,3158 |
+| [0,4;0,6) | 20 / 0,4838 / 0,5500 | 18 / 0,4773 / 0,5556 |
+| [0,6;0,8) | 1 / 0,7143 / 0,0000 | 1 / 0,6211 / 0,0000 |
+| [0,8;1,0] | 0 / NA / NA | 0 / NA / NA |
+
+Bin rỗng giữ NA; số đếm nhỏ, không suy calibration tốt chỉ từ mean loss.
+R8 train: mean hyperprior weight **0,575514**, mean |p−raw rate|
+**0,129289 trên 598** có conditional history; 53/651 thiếu history.
+Dev tương ứng **0,481023**, **0,085660 trên 58**; hai raw support=0 giữ
+reason/off. Weight/count không là effective sample size; CrI có điều kiện
+trên hyperprior plug-in. Loss tốt hơn A chưa thành ưu thế kinh tế full.
+
+### Ablation trên G và T
+
+T riêng cho từng R: stats **và** examples ready trên cùng base/query.
+T_pool=36, T_task=19; G vẫn 60. Các tài khoản T được dựng lại chỉ trên T,
+không lấy chênh của tài khoản G rồi lọc cycle, không thay G bằng T.
+Các số sau là D đpt, trung bình đều bốn tài khoản trên support tương ứng:
+
+| Base | T n (FPT/MWG/VCB/VNM) | Full−stats G | Full−stats T | Full−examples G | Full−examples T |
+| --- | --- | --- | --- | --- | --- |
+| R_pool | 4/13/9/10 | -1,0941 | -0,1397 | 0,3785 | 0,3575 |
+| R_task | 2/6/3/8 | -0,3821 | -0,3732 | 0,4773 | 0,4662 |
+
+Full−stats âm trên cả G/T cho hai R: các ước lượng điểm này chưa ủng hộ
+lợi ích tăng thêm của demonstrations. Full−examples dương mô tả phần statistics
+trong lượt đã lưu; chưa có CI, không chứng minh suy luận Bayes nội tại.
+R_task T vẫn gồm nhiều điểm chỉ một task. Task-ID exact-string mention
+trong R_task full là **0/21** điểm có task visible; đây chỉ là dò text thô,
+không chứng minh dùng/không dùng context hoặc cơ chế multi-task.
+
+### Repeat và nhóm bất lợi/rỗng
+
+Mỗi nhánh trong chín nhánh repeat có action disagreement **0/36** cặp
+(r1,r2)/(r1,r3)/(r2,r3), **không độc lập**. Tám nhánh LLM có trong primary
+đều 0/12 khi so primary cùng mẫu với từng repeat. Original duplicate
+0/12 mỗi lượt, tổng 0/36; UUID độc lập, không vote. Bốn contrast cho mỗi full:
+
+| Contrast | Primary cùng 12 | r1 | r2 | r3 | Mean r1–3, đpt |
+| --- | --- | --- | --- | --- | --- |
+| R_pool_full − original | 0,5803 | 0,5803 | 0,5803 | 0,5803 | 0,5803 |
+| R_pool_full − A_reference_shared_off | 0,5803 | 0,5803 | 0,5803 | 0,5803 | 0,5803 |
+| R_pool_full − R_pool_stats_only | 0,5803 | 0,5803 | 0,5803 | 0,5803 | 0,5803 |
+| R_pool_full − R_pool_examples_only | 0,5803 | 0,5803 | 0,5803 | 0,5803 | 0,5803 |
+| R_task_full − original | 0,0000 | 0,0000 | 0,0000 | 0,0000 | 0,0000 |
+| R_task_full − A_reference_shared_off | 0,0000 | 0,0000 | 0,0000 | 0,0000 | 0,0000 |
+| R_task_full − R_task_stats_only | 0,0000 | 0,0000 | 0,0000 | 0,0000 | 0,0000 |
+| R_task_full − R_task_examples_only | 0,0000 | 0,0000 | 0,0000 | 0,0000 | 0,0000 |
+
+Mẫu 12 có D R_pool dương cả primary và repeat; không thay D primary 60
+−0,6102 bằng +0,5803 của mẫu 12. Zero disagreement chỉ mô tả action trên
+mẫu/hosted snapshot này, không chứng nhận LLM deterministic hoặc bỏ
+provider/training variability. Không gộp repeat vào G hay chọn lượt thắng.
+
+| Nhóm | n (FPT/MWG/VCB/VNM) | D R_pool−Original | D R_task−Original |
+| --- | --- | --- | --- |
+| BULL | 2/3/3/3 | 0,7870 | 0,0000 |
+| BEAR | 0/0/0/0 | NA | NA |
+| CHOPPY | 5/7/7/7 | -1,0890 | 0,4345 |
+| CONSOLIDATION | 5/6/6/6 | -0,3791 | -0,3791 |
+| Q1 | 0/4/4/4 | NA | NA |
+| Q2 | 4/4/4/4 | 0,4840 | -0,3421 |
+| Q3 | 4/4/4/4 | -0,2744 | 0,4748 |
+| Q4 | 4/4/4/4 | -0,8139 | 0,0000 |
+
+BEAR không có mẫu; Q1 thiếu FPT nên D bốn tài khoản=NA. Không điền 0,
+đổi sang trung bình ba mã hay gọi nhóm rỗng là không có tác dụng.
+Các nhóm khác được dựng tài khoản riêng; không cộng D subgroup thành D G.
+
+### Failure và giới hạn đóng góp
+
+| Nhánh | LONG lỗ | CASH bỏ lỡ LONG lãi | CASH tránh LONG lỗ |
+| --- | --- | --- | --- |
+| original | 8 | 14 | 28 |
+| A_reference_shared_off | 8 | 15 | 28 |
+| R_pool_full | 8 | 16 | 28 |
+| R_pool_stats_only | 8 | 13 | 28 |
+| R_pool_examples_only | 8 | 16 | 28 |
+| R_task_full | 9 | 13 | 27 |
+| R_task_stats_only | 8 | 13 | 28 |
+| R_task_examples_only | 9 | 14 | 27 |
+| Numeric_only | 2 | 22 | 34 |
+
+R_pool full đổi action so Original **6/60**: hai ca có payoff cycle tốt hơn
+(`FPT-2023-06-27`, `MWG-2023-06-30`), bốn ca xấu hơn
+(`MWG-2023-04-28`, `VCB-2023-08-29`, `VCB-2023-10-30`, `FPT-2023-11-23`).
+R_task full đổi **2/60**: tốt hơn `MWG-2023-08-29`, xấu hơn
+`MWG-2023-04-28`. Đây là attribution cycle, không cộng để thay D tài khoản.
+Trong 46 điểm R có stats visible, 42 có p<0,5; pool/task full vẫn LONG
+**9/42 và 10/42**. LLM giữ quyền quyết định theo risk OFF; không gắn thêm
+overlay hoặc gọi các LONG này là lỗi thực thi. JSON giữ toàn bộ 540 case,
+cả adverse, lỗ, bỏ lỡ, tránh lỗ, IDs và hai chiều thay action.
+Ledger vẫn 516 attempt: 503 HTTP 200, 4 HTTP 429, 9 transport_error đã phục
+hồi; không còn execution unknown. Retry/quota là failure vận hành đã xử
+lý, không là repeat khoa học hoặc missing được đổi CASH.
+PIT xác minh thời điểm của input; không chứng nhận vintage kiến thức của
+LLM hosted trên dữ liệu lịch sử. Giới hạn này áp cho cả đối chứng và hai R.
+
+### Bằng chứng, tái lập và bước tiếp
+
+[`development_analysis_v1.zip`](validation_gates/development_analysis_v1.zip)
+có **9 entry / 598.133 byte**, SHA-256 byte
+`3df42b45c1a0960da24f08a61b9bcc20494abbbbe517e307b44098f891ffff7d`.
+Gồm `analysis.json` đầy đủ bảng/case/bins/fold/subgroup/repeat, mã phân tích,
+oracle/QA, baseline và PNG/SVG. Manifest/hash/CRC và xem biểu đồ PASS.
+Để tái lập trong cùng workspace: giải nén QA ngoài repo, từ root chạy
+`py -3.13 -X utf8 <qa>/analyze.py` rồi `py -3.13 -X utf8 <qa>/chart.py`;
+giữ các ZIP và nguồn ignored đã bind. Không cần credential/LLM,
+không mở outcome 2025.
+**7.552 tệp cũ nguyên byte**, gồm report0–3, ledger, W9/W10 và nguồn;
+root README nguyên byte. Chỉ hai Markdown, biểu đồ và gói phân tích mới,
+không đổi code/test/runtime/schema/input. Theo AGENTS.md 1.2,
+**không chạy lại compileall/unit/E2E/leakage**. Đọc lại gate W11-01
+PASS (1.103 unit/249 leakage, compileall/E2E) và source/runtime không đổi;
+không ghi gate cũ hoặc verifier W11-03 thành lượt chạy mới của task này.
+Oracle tài khoản/payoff/MDD, loss/confusion/support/bin/repeat, diff/link/hash
+PASS. **Tiếp theo W11-05** mới khóa selection hoặc STOP_NO_IMPROVEMENT
+theo rule đã đăng ký; W11-04 chưa nomination, bootstrap, phát hành release
+hoặc chạy xác nhận; `confirmation_allowed=false`.

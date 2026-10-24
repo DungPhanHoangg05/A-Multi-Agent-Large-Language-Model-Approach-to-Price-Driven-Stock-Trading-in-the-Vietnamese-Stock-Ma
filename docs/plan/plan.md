@@ -1338,7 +1338,7 @@ theo điểm dừng trước API, không hạ chuẩn hoặc thêm ứng viên.
   **6.719 tệp cũ nguyên byte**. **W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS**;
   tiếp theo **W11-01**, W11 vẫn 0/8, chưa mở xác nhận 2025 hoặc API revision.
 
-### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 3/8
+### 📅 TUẦN 11: Development và khóa xác nhận mới — IN PROGRESS 4/8
 [Checklist W11](week11/README.md): primary/repeat có đối chứng, phân tích
 loss/return/coverage/ablation, chọn một R hoặc dừng; khóa nguồn mới, manifest
 và release, chuẩn bị khung bảng/chương. Không xem outcome mới để chọn cấu hình.
@@ -1374,6 +1374,19 @@ và release, chuẩn bị khung bảng/chương. Không xem outcome mới để 
   không đổi. Chỉ tài liệu/bằng chứng, không chạy lại suite theo AGENTS.md 1.2.
   **W11 3/8; tiếp theo W11-04** phân tích; chưa selection/nomination,
   bootstrap hoặc xác nhận 2025, giữ ngưỡng coverage R_task.
+
+- **W11-04 DONE, 24/10/2026:** [phân tích development](week11/README.md#w11-04--phân-tích-development-24102026).
+  Giữ G60 và ba repeat 12 riêng; economics chín nhánh/oracle bốn tài khoản,
+  coverage, train/dev loss/reliability/shrinkage, T_pool36/T_task19,
+  ablation, action disagreement và toàn case thuận/bất lợi/missing PASS.
+  D so Original: R_pool full −0,6102; R_task full +0,1018 đpt.
+  R_task chỉ tăng ở MWG; ba mã còn lại bằng Original.
+  Full−stats âm cả G/T; posterior loss tốt hơn chưa thành lợi thế kinh tế
+  full. Repeat actions 0/36 nhưng là mẫu 12 đã khóa, không thay G60;
+  BEAR 0/Q1 thiếu FPT giữ NA. Đóng băng bảng/mã/QA/PNG/SVG, nguồn cũ nguyên
+  byte; chỉ tài liệu/phân tích, không chạy lại suite theo AGENTS.md 1.2.
+  **W11 4/8; tiếp theo W11-05** khóa selection hoặc STOP theo rule;
+  chưa nomination/bootstrap/release/xác nhận, giữ ngưỡng R_task.
 
 ### 📅 TUẦN 12: Xác nhận, luận văn và bảo vệ — TODO 0/7
 [Checklist W12](week12/README.md): nếu đủ gate thì chạy/verify xác nhận,
