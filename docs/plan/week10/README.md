@@ -1,8 +1,8 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: 4/10 task DONE, cập nhật 24/10/2026; đã audit nguồn, khóa protocol, memory/index và backbone U-BICL v1.**
+**Trạng thái: 5/10 task DONE, cập nhật 24/10/2026; đã audit nguồn, khóa protocol, memory/index, backbone và context/renderer U-BICL v1.**
 Giá thực thi 2025 đã PASS; pooling λ=8 khóa offline và bốn gate hồi quy PASS.
-Context/runtime U-BICL còn TODO,
+Context/renderer đã khóa và bốn gate U10-05 PASS; runtime U-BICL còn TODO,
 xác nhận chưa có release và vẫn cần các gate U10/U11.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -195,18 +195,18 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [x] DONE — protocol v1, sáu nhánh/một candidate và 88 ca fixture đã kiểm |
 | U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [x] DONE — 976 record; scaler train-only, CLI nguồn thật và bốn gate PASS |
 | U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [x] DONE — λ=8 PASS/LOCKED trên train; oracle/CLI và bốn gate PASS |
-| U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [ ] TODO |
+| U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [x] DONE — 34/60 có ≥2 task; BRPP tối đa 406/600; nguồn/oracle/CLI và bốn gate PASS |
 | U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [ ] TODO |
 | U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [ ] TODO |
 | U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [ ] TODO |
 | U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [ ] TODO |
 | U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
 
-Đã có core/unified_bayes_memory.py, unified_bayes_statistics.py và
-unified_bayes_diagnostics.py. Các module tiếp theo dự kiến:
-unified_bayes_context.py, unified_bayes_runtime.py, unified_bayes_reports.py;
-scripts/run_unified_bayes.py; schema/fixtures cần thiết dưới W10. Context,
-runtime và CLI chạy U-BICL chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
+Đã có core/unified_bayes_memory.py, unified_bayes_statistics.py,
+unified_bayes_diagnostics.py, unified_bayes_context.py và unified_bayes_prompt.py.
+Các module tiếp theo dự kiến: unified_bayes_runtime.py, unified_bayes_reports.py;
+scripts/run_unified_bayes.py; schema/fixtures cần thiết dưới W10.
+Runtime và CLI chạy U-BICL chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
 kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
 
 Tests phải phủ partition/oracle/n=0/future append/query self-match, độ tương
@@ -698,6 +698,116 @@ toàn bộ gate giữ nguyên byte 6.579 file cũ và hai artifact mới. QA s�
 hash, liên kết, UTF-8 và diff PASS. Sau khóa diagnostics chỉ cập nhật tài
 liệu, không đổi code/runtime/nguồn để chọn lại λ. **U10 đạt 4/10**,
 tiếp theo **U10-05** task context/fallback/ranking và prompt.
+
+## U10-05 — Task context, fallback, ranking và renderer, 24/10/2026
+
+**DONE — task context/fallback/ranking và renderer đã khóa; prepare/verifier
+cold nguồn thật, oracle độc lập và bốn gate hồi quy đầy đủ PASS.** Triển khai riêng
+[`core/unified_bayes_context.py`](../../../core/unified_bayes_context.py),
+[`core/unified_bayes_prompt.py`](../../../core/unified_bayes_prompt.py) và
+[`scripts/prepare_unified_bayes_context.py`](../../../scripts/prepare_unified_bayes_context.py).
+Giữ nguyên code/runtime, protocol/fixture và artifact U10-02–04. Cold loader
+chỉ nhận choice/diagnostics U10-04 đúng byte đã khóa, kiểm lại nguồn, code,
+runtime và memory/index; không hardcode một choice chưa kiểm hoặc chọn lại λ.
+
+Task ID `symbol|regime|bNNNN` neo lịch VNINDEX 02/01/2018, block=floor(index/90).
+Membership gồm toàn cycle cùng mã/regime đã đóng **exit<query**, tuổi cutoff
+≤730 ngày; summary s/n giữ cả member thiếu feature hoặc dưới similarity.
+Representative dùng bốn tín hiệu và bốn feature giá đã scale train-only,
+base≥0,625, score=base×2^(−age/365). Greedy ≤3 nhóm support≥2, thứ tự
+(-score, tuổi, task ID, episode ID); thử representative kế tiếp khi xung đột
+gap<5 phiên hoặc interval entry–exit đóng overlap. Diversity không đổi
+membership/summary, không cộng summary vào posterior.
+
+Một nhóm hợp lệ vẫn là mode `task`; không bù episode để đủ ba task. Không
+có task hợp lệ thì `episode_fallback`, giữ thứ tự selector A: score giảm,
+exit mới trước, ID tăng và gap≥5 phiên. Population<20 hoặc không còn ví dụ
+thì mode `off`, có reason và trace loại. Gate stats/examples độc lập;
+feature query thiếu tắt examples nhưng giữ population/posterior. Selector
+thuần chỉ nhận metadata/score, không nhận outcome hoặc Decision; nhãn chỉ
+dùng cho summary và T/P→net return% sau khi mode/representative đã chọn.
+
+Một base evidence dùng chung cho U_full/U_stats/U_examples. Projection
+U_stats không có mode, membership hoặc ID examples; U_examples có summary
+s/n và ví dụ nhưng không có posterior/CrI. Prefix giữ horizon
+**Open(t+1)→Close(t+3) theo phiên**, mean/CrI95% plug-in/support/prior weight
+nếu ready, legend T/P và ID ngắn, % LONG ròng lịch sử và SHORT=CASH. Sidecar
+ánh xạ T1–T3/E1–E3 duy nhất về task/cycle và toàn membership; các ID đầy đủ
+không được đưa thay legend vào prompt. Không có block visible thì prefix
+rỗng nguyên vẹn; renderer không cắt K, legend hoặc nhãn để né ngân sách.
+
+`UnifiedBayesContext.render` tái dựng semantic trên RAM trước projection;
+loader sau này phải dùng biên này. Adapter chịu trách nhiệm cấp query feature
+từ extractor/nguồn đã kiểm; `transform_query` kiểm schema/cutoff/source/scaler,
+sidecar bind hash feature. Verifier artifact tái trích feature từ nguồn thật,
+không tin vector do bên ngoài khai. Hot query không I/O, fit, trích lại feature
+hoặc sinh nhãn query. Future/self bị lọc trước đọc outcome; evidence khai PIT
+còn future hoặc bị sửa semantic rồi tự reseal phải lỗi.
+Cold loader vẫn tái kiểm integrity toàn snapshot, gồm nhãn lịch sử 2023/2024;
+context không lấy nhãn của chính query để làm feature, summary hoặc ranking.
+
+BRPP≤600 và prompt<6.500 Unicode code point, đúng các biên 600/6499 và
+601/6500. Kiểm đủ ba task, regime dài nhất, counts/return lớn, từng visibility,
+VI/EN với report bão hòa và reserve đủ 600; giữ nguyên `_distill_report` và
+`_cap_report`. `assemble_prompt` chỉ chèn nguyên block trước report đầu;
+instruction chung, schema/invocation/shared-off được tích hợp tại U10-06,
+không sửa Decision Agent hoặc contract W9 trong U10-05.
+Probe với horizon hiện hữu và report bão hòa giữ đủ reserve 600 đạt
+**6.269 ký tự VI / 6.286 EN**; prefix nguồn thật tối đa 406 cho prompt
+6.075/6.092. Đây là base hiện hữu; U10-06 vẫn phải kiểm lại tổng prompt
+sau khi thêm instruction chung mới.
+
+```powershell
+# Khóa context/renderer offline từ 60 upstream development có sẵn.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_context.py --prepare
+# Mặc định cũng là verify-only; dựng lại nguồn/feature/context/prefix.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_context.py --verify-only
+```
+
+Prepare trên 60 upstream development nguồn thật PASS khi chặn HTTP/socket,
+key, ledger, file Decision và giá thực thi 2025. Mode **task=41, off=19,
+episode_fallback=0**; fallback được kiểm bằng fixture tổng hợp, không ép
+mode trên nguồn thật. Trong 41 điểm task, **34 có ≥2 task visible**,
+FPT/MWG/VCB/VNM **3/11/10/10**, đạt gate support ≥12/60 và ≥2/mã.
+U_full/U_stats/U_examples có prefix visible **51/46/41**; cả hai block ready
+36, chỉ stats 10, chỉ examples 5, cả hai off 9. Đây là coverage context,
+không thay gate nomination, runtime dry-run U10-09 hoặc hiệu quả LLM.
+Verifier cold dựng lại toàn bộ nguồn/feature/60 context/prefix PASS, giữ
+nguyên byte artifact đã khóa và 6.587 file cũ.
+
+[Renderer/context lock](../../../outputs/bayesian_benchmark/unified_bic_v1/inputs/renderer_contract_v1.json)
+gồm **1 file, 4.286.929 byte**, bind **357 nguồn trực tiếp**, choice U10-04
+và qua choice tái kiểm 1.833 nguồn backbone; code LF/runtime được khóa riêng.
+SHA-256 byte: `7536eca3079db8769b4de8b4bcfbdd82b3ad521ea3a89131fb0c27bc1321f635`.
+Artifact input ignored giữ full evidence/membership và ba projection của
+60 điểm; clone Git không có file này. BRPP tối đa **406/600 ký tự** trên
+nguồn thật. `status=LOCKED`, `common_instruction_status=PENDING_U10_06`,
+`is_execution_plan=false`, `confirmation_allowed=false`; protocol U10-02
+vẫn nguyên byte, không cập nhật snapshot để giả release.
+
+Oracle riêng tính lại score, age, block, greedy/fallback, membership/s/n và
+visibility từ snapshot U10-03, khớp đủ 60 điểm. So bản nháp trước sửa verifier
+chỉ khác hash code CLI; context/prefix/mode nguyên giá trị. Kiểm prepare lặp,
+verify và bốn ca sửa mode/prefix/membership/kiểu counts rồi reseal đều PASS;
+**6.587 file cũ nguyên byte**, gồm artifact U10-02–04, W9, ledger và root README.
+
+Test mới phủ fixture block/task/visibility/budget, summary member không đủ
+feature, tráo nhãn không đổi ranking/mode, thử representative kế, interval
+đóng overlap, tie-break fallback, age/similarity biên, thiếu query feature,
+future append/self/equal-exit/target poison, Decision/nhãn lồng trong feature,
+hot query và context sửa rồi tự reseal. Regression artifact còn kiểm counts
+đổi integer→float sau reseal: prepare và verify phải phân biệt theo digest
+JSON, không dùng phép bằng Python cho semantic. Bản nháp trước sửa verifier
+được giữ nguyên byte ngoài namespace input; không đổi rule hoặc template.
+
+**Nghiệm thu trên Python 3.13.5, đúng code cuối:** 24 test trọng tâm PASS;
+compileall PASS; **1008/1008 unit test PASS** (24 test U10-05 mới);
+E2E PASS; **204/204 leakage test PASS**, không vi phạm. Sau unit/E2E và sau
+toàn bộ gate, 6.587 file cũ cùng renderer lock vẫn nguyên byte. QA nguồn,
+số liệu, hash, liên kết, UTF-8 và diff PASS. Sau khi khóa context/prefix chỉ
+cập nhật tài liệu, không đổi code/runtime/nguồn hoặc rule theo outcome.
+**U10 đạt 5/10**, tiếp theo **U10-06** shared-off, instruction chung và
+journal/retry; chưa gọi LLM U-BICL hoặc phát hành xác nhận.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 
