@@ -1,1076 +1,245 @@
-# Tuần 10 — Thiết kế và triển khai Bayesian ICL revision mới
+# Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: COMPLETE, 8/8. Gate kỹ thuật W10 PASS; đã bàn giao hướng dẫn vận hành và bản thảo chương phương pháp. R_task chưa đủ coverage đề cử trên cache; release và execution development thuộc W11.**
-Kế hoạch 12 tuần, điều chỉnh ngày 21/10/2026.
-[Kế hoạch tổng](../plan.md) · [W9](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
+**Trạng thái: kế hoạch mới ngày 24/10/2026, 0/10 task triển khai DONE.**
+[Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
-## Xuất phát và phạm vi
+## Mục tiêu và điểm xuất phát
 
-W1–W9 giữ nguyên kết quả. W10 chuyển sang thiết kế/triển khai; W11 chạy
-development và khóa xác nhận; W12 xác nhận, phân tích và hoàn thiện luận văn.
-Năm task luận văn W10 cũ chưa thực hiện được chuyển sang W12-04–07;
-không đánh dấu DONE. Các phần chưa ghi rõ đã triển khai dưới đây vẫn là
-**dự kiến**. CLI cohort đã triển khai tại W10-06. Không thay mặc định triển khai hoặc risk OFF.
+Xây dựng **Unified Bayesian In-Context Learning (U-BICL)**: một phương pháp
+hợp nhất lấy A_tp_pool làm nền, sử dụng có chọn lọc retrieval, posterior,
+bất định và demonstrations để cải thiện Decision LLM. Đây là ứng viên mới,
+chưa triển khai/chưa được xác nhận, không mặc định là phiên bản mạnh nhất.
+Không thay LLM bằng policy số rồi gọi phần thắng đó là đóng góp ICL.
 
-W9 đã xác nhận A−Original **+2,025325 đpt**, CI95% **[0,135027; 4,211864]**
-trên 64 điểm/384 Decision. Bốn secondary inconclusive; A prior-off 39/64,
-2/39 request giống nhưng action khác; cả stats/examples ready chỉ 10 điểm;
-BEAR=0 và tin reliable=0/64. Vì vậy cần củng cố giá trị của ICL và độ phủ,
-không coi phiên bản hiện tại hoàn toàn thất bại hoặc bảo đảm revision sẽ thắng.
-Nguồn đầy đủ: [W9-04–06](../week9/README.md#w9-04--bootstrap-và-kết-quả-thống-kê-holdout-21102026).
+A ở W9 có D=+2,025325 đpt so Original, CI95% [0,135027; 4,211864], tăng ở
+3/4 mã, mean ΔMDD=−1,725582 đpt. Bốn secondary chưa xác nhận ưu thế; 2/39
+cặp prior-off khác action dù request giống. Các kết quả này được giữ nguyên.
+Phiên bản kết hợp phải chứng minh lợi ích tăng thêm trên cùng nguồn/protocol,
+không cộng các gain từ những lượt chạy khác nhau để ước tính gain hợp nhất.
 
-## Đóng góp khóa luận và giới hạn
+Theo yêu cầu thay thế ngày 24/10/2026, mã/tài liệu và task của revision đã
+kết thúc trước đây được rút khỏi cây phát triển hiện hành. Việc lập lại plan
+không làm 2023/2024 thành dữ liệu chưa xem, không làm các thử nghiệm trước
+đó chưa từng xảy ra. Lịch sử Git ở mốc 4d34bc4 lưu provenance khi cần giải
+trình nghiên cứu; không viết lại lịch sử hoặc sửa bằng chứng W9.
 
-[Zhu, Oermann, Cho, ICML 2026](https://proceedings.mlr.press/v306/zhu26aj.html)
-huấn luyện transformer trên chuỗi prior/target tasks để học dự báo Bayes.
-Hệ thống này dùng LLM hosted có sẵn; thêm prefix không chứng minh mô hình
-được huấn luyện theo phương pháp đó. Định vị là **thích ứng Bayesian ICL
-cho giao dịch: posterior số học minh bạch + tác vụ lịch sử có nhãn trong
-context + Decision LLM**, kiểm bằng đối chứng. Không tuyên bố tái hiện đầy
-đủ amortized hierarchical Bayes hay confidence LLM được hiệu chuẩn.
+## Kết hợp gì và vì sao
 
-| Yêu cầu | Hiện thực cần có | Bằng chứng |
-| --- | --- | --- |
-| Bayesian | Prior/likelihood/posterior của sự kiện LONG ròng>0 | Oracle, counts, bất định, PIT, calibration ngoài thời gian |
-| ICL | Đưa cặp đặc trưng–nhãn lịch sử trước target/query, không cập nhật trọng số LLM | Request/hash/example IDs; full so stats-only/examples-only |
-| Multi-task | Nhóm lịch sử có định danh riêng và nhiều cycle mỗi nhóm | Schema nhóm mới; không đổi tên một cycle thành dataset nhiều quan sát |
-| Regime-aware | Regime PIT tham gia phân hoạch prior và retrieval | Coverage và phân tích theo regime, không suy BEAR từ mẫu rỗng |
-| Giá trị kinh tế | LLM quyết định theo T+2.5, engine không đổi | ΔR/MDD ghép cặp; mô hình số chỉ là đối chứng |
+| Thành phần | Nguồn ý tưởng | Vai trò trong U-BICL | Mức bằng chứng / điều kiện nhận |
+| --- | --- | --- | --- |
+| Prior theo Trend/Pattern | A_tp_pool | Backbone xác suất lịch sử có điều kiện | A có primary holdout dương; không chứng minh riêng từng chi tiết A |
+| Similarity giá, recency, diversity | C1/C2 | Lấy ví dụ tương đồng, tránh trùng thời gian | Có triển khai kiểm PIT; vẫn cần ablation kinh tế của hệ thống hợp nhất |
+| Gate tách stats/examples | C2 | Giữ block có evidence, không ép hai block cùng tồn tại | Coverage/trace kiểm được; không hạ ngưỡng vì return |
+| Prefix rõ đơn vị và bất định | B_semantic | Giảm mơ hồ về LONG/CASH, lịch sử và dự báo | Chỉ là giả thuyết; B không có bằng chứng thắng ổn định |
+| Đối chiếu prior với tín hiệu hiện tại | C3 | Yêu cầu viện dẫn evidence ID hợp lệ và giải thích mâu thuẫn | Trace là telemetry, không chứng minh LLM làm Bayes nội tại |
+| Memory PIT và shared-off | Bài học vận hành các vòng trước | Tăng độ mới nguồn, loại biến thiên giả ở nhánh không có prior | Lợi ích kỹ thuật; không gán cho cải thiện kinh tế |
+| Context nhiều task có support | Hướng multi-task ICL | Tóm tắt nhóm lịch sử và cặp x→y đại diện | Phải có nhiều quan sát mỗi task; không ép nhóm hiếm hoặc giả coverage |
 
-## Thiết kế: tối đa hai ứng viên
+Không nhập mọi cơ chế mặc định. Mỗi thành phần đi qua gate offline; chốt
+một cấu hình U-BICL trước development LLM. Không ensemble/vote nhiều Decision,
+không quét prompt/model/K để lấy return đẹp. Bayesian v1/C0/B/C3 vẫn là
+nguồn tham khảo lịch sử, không nhân bản tất cả vào ma trận mới.
 
-Pipeline: dữ liệu PIT → upstream dùng chung → posterior và retrieval →
-BRPP → Decision LLM → engine hiện hữu. Hai full-prior candidates là
-`R_pool` và `R_task`; ablation không là ứng viên để chọn theo return.
-Giữ model/options, schema Decision legacy, distill/cap và risk OFF.
+## 1. Hợp đồng học thuật và kiến trúc
 
-### P0 — Prior-off và nhiễu Decision
+Theo [paper gốc](https://proceedings.mlr.press/v306/zhu26aj.html), mô hình
+được huấn luyện trên prior/target tasks. Ở đây LLM hosted không được huấn
+luyện lại theo paper: đóng góp là **Bayesian evidence-conditioned ICL cho
+giao dịch**, với posterior số học, task context và thí nghiệm loại thành
+phần. Không tuyên bố tái tạo đầy đủ amortized hierarchical Bayes.
 
-Original chạy trước và lưu durable theo point/repeat. Khi candidate không
-có prior và **toàn request canonical** giống Original, checkpoint tham chiếu/
-deep-copy quyết định Original cùng point/repeat, ghi `decision_origin`, source
-hash và reason; không gọi LLM lại, không giả HTTP attempt. Request khác thì
-không reuse chỉ vì prefix rỗng. Resume không phát lại Original/upstream complete.
-Missing/error không thành CASH; ledger chỉ đếm HTTP thật.
+Luồng: nguồn giá/tin PIT → upstream một lần → memory đã kiểm → posterior
+và task retrieval → context ngắn → Decision LLM → engine T+2.5 hiện hữu.
+Ba lớp phải tách: ước lượng xác suất bằng code; học từ demonstrations trong
+context; quyết định kinh tế của LLM. Mọi lớp có version/provenance riêng.
 
-Áp dụng wrapper cho A đối chứng, đặt ID `A_reference_shared_off`: evidence,
-prompt và model A giữ nguyên nhưng execution protocol mới, không gọi đây là
-W9 chạy lại nguyên trạng. Original đầu block cố định; các nhánh còn lại xoay
-theo point/repeat. Duplicate Original độc lập chỉ dùng chẩn đoán; không vote,
-thay primary hoặc chọn response thuận lợi. Prior-off disagreement=0 là bất
-biến do reuse, không phải bằng chứng LLM deterministic. Không sửa W9 hồi tố.
+## 2. Memory theo thời gian, không sinh thêm lịch sử bằng Decision
 
-### R_pool — Empirical Bayes phân cấp cùng mã
+- Giữ bank gốc 852 record nguyên byte. Adapter mới nhập tối đa 124 upstream
+  đã có của 60 điểm 2023 và 64 điểm 2024 từ nguồn W8/W9, không phụ thuộc
+  output revision đã rút và không gọi thêm LLM để dựng bank.
+- Chỉ đọc upstream thật, không dùng action/justification/confidence Decision
+  làm feature. Kiểm model/schema/signal semantics; record không tương thích
+  bị loại rõ reason, không suy đoán hoặc tự đổi nhãn để đủ mẫu.
+- Nhãn LONG ròng lấy từ compute_round_trip_net_return với giá thô đã kiểm;
+  dedup theo episode/source identity, không chọn record vì có lãi. Bank/index
+  mới namespace riêng, scaler fit train-only; không ghi đè bank/model W9.
+- Query 2023 chỉ thấy cycle exit<query; không thấy 2024 dù cùng nằm trong
+  file. Xác nhận 2025 dùng snapshot tối đa 2024-12-31, không append outcome
+  2025 giữa run. Chặn query tự truy xuất chính nó và future append leakage.
+- Giữ max age 730 ngày, half-life 365 và các filter hiện hữu làm mặc định.
+  Bank chỉ tới 2022 không đủ ví dụ cho 2025; audit độ mới trước khóa, không
+  tăng tuổi tùy tiện để qua coverage. Metadata thiếu không được coi là zero.
+- Mọi đối chứng A/U/Numeric dùng cùng source snapshot khi so trong run mới.
+  A đối chứng là phương pháp A trên nguồn chung, không phải W9 bất biến.
 
-Giữ nguyên bank gốc 852 episode và HMM/scaler hiện hữu. Tạo bank revision
-append-only theo chính sách làm mới bên dưới; A/R/Numeric dùng cùng snapshot
-nguồn của query. Với query, phân hoạch rời nhau sau lọc exit_date < cutoff:
+## 3. Bayesian backbone và gate nhận pooling
 
-- C: cùng mã/regime, khớp Trend/Pattern.
-- B1: cùng mã/regime, không thuộc C.
-- B2: cùng mã, regime khác.
-
-Với s là số LONG ròng>0, n là support, mô hình đề xuất:
+Mặc định dùng thống kê A: C cùng mã/regime và Trend/Pattern; B là phần còn
+lại cùng mã/regime, C∩B rỗng. Với y=1[r_net>0], mB=(sB+1)/(nB+2):
 
 ```text
-m2 = (s2 + 1) / (n2 + 2)
-m1 = (s1 + lambda*m2) / (n1 + lambda)
-theta_C | D ~ Beta(sC + lambda*m1, nC-sC + lambda*(1-m1))
+theta | D ~ Beta(sC + 4*mB, nC-sC + 4*(1-mB))
 ```
 
-Mỗi cycle chỉ thuộc một nhóm; C không bị tính lại trong hyperprior.
-n2=0 cho m2=0,5 với reason thiếu background; không giả có quan sát.
-Đây là **empirical Bayes plug-in**: CrI có điều kiện trên hyperprior, không
-bao gồm toàn bộ bất định m1/m2 hoặc phụ thuộc giữa cycle.
+Bayes tạo xác suất lịch sử và CrI95%, không là confidence LLM. nC=0 trả
+missing conditional evidence, không biến prior mean thành dự báo đã quan sát.
+Posterior tính trên toàn population hợp lệ, không chỉ ba ví dụ top retrieval.
 
-Chỉ thử lambda ∈ {2,4,8} offline theo fold train. Chọn mean log loss trên
-query support chung, Brier tie-break rồi lambda nhỏ hơn; không dùng return
-2024. R_pool/R_task dùng cùng lambda đã khóa. Gate riêng: nC≥5, n1+n2≥20,
-CrI95% width≤0,75; không đủ thì stats off, không trình background như đã có
-conditional evidence. Báo coverage raw/ready, tuổi, số cụm thời gian và tỷ
-trọng prior lambda/(nC+lambda); raw n không là effective sample size.
-Diagnostics theo cụm kiểm độ nhạy; không tự thu hẹp CrI để qua gate.
+Chỉ một biến thể pooling được xét **offline**, không một candidate LLM mới:
+B1 cùng regime ngoài C, B2 khác regime cùng mã, ba nhóm rời nhau. m2=(s2+1)/
+(n2+2), m1=(s1+λ*m2)/(n1+λ), posterior Beta(sC+λ*m1,nC−sC+λ*(1−m1)).
+λ∈{2,4,8}; chọn trên train walk-forward bằng log loss, Brier tie-break,
+rồi λ nhỏ hơn. Không đưa record C lại vào prior; không pool chéo mã.
 
-R_pool giữ selector từng cycle hiện hữu, K≤3. Prefix phiên bản mới báo scope,
-nC, posterior và khoảng; không có policy ngoài LLM tự chặn LONG.
+Nhận pooling khi trên giao raw posterior ngoài thời gian: cả mean log loss
+và Brier không xấu hơn A, ít nhất một metric tốt hơn; không mã nào có Brier
+tăng >0,01; ready coverage không giảm. Rule khóa trước diagnostics; nếu
+trượt thì dùng A, không tiếp tục thêm λ. Đánh giá/fit theo fold PIT, purge
+cycle vượt biên; nói rõ đây là chọn hyperparameter trên train, không là test.
+CrI plug-in không tích phân toàn bộ bất định hyperprior/phụ thuộc cycle.
 
-### Memory làm mới có giới hạn, bắt buộc trước xác nhận 2025
+Gate stats của backbone A giữ population≥20, nC≥5, width≤0,75. Nếu pooling
+được nhận, gate thay population bằng nB1+nB2≥20, vẫn nC≥5/width≤0,75;
+version và rule khóa trước LLM. Báo n mỗi tầng, prior weight, tuổi, số cụm
+thời gian; không gọi raw n là effective sample size. Thiếu stats không xóa
+examples đã đủ điều kiện và ngược lại.
 
-Selector hiện hữu có max_prior_age_days=730. Bank kết thúc 2022 không còn
-ví dụ đủ tuổi cho 2025; không tăng trần tuổi theo return. Revision mới nhập
-**tối đa 124 điểm lịch sử đã khóa** từ 60 checkpoint upstream 2023 và 64
-checkpoint upstream 2024, không gọi LLM sinh thêm bank. Chỉ dùng upstream
-thật tại cutoff, không dùng action/justification/confidence Decision làm
-đặc trưng prior. Nhãn tính bằng hàm kinh tế chung trên giá thô đã verify;
-không chọn record theo lãi/lỗ.
+## 4. Context có nhiệm vụ, không ép sáu ví dụ vào mẫu thưa
 
-Adapter phải chứng minh schema/signal/model provenance tương thích, entry/
-exit và feature PIT; không chứng minh được thì loại với reason, không đoán
-từ Decision. Bank mới union theo episode ID/source, không nhân đôi cycle.
-Version, provenance, số nhập/loại và snapshot hash riêng; không sửa bank 852,
-index/scaler hoặc checkpoint W9 nguyên bản. Index mới bind scaler cũ đúng
-train, không refit bằng 2025; compatibility không đạt thì BLOCKED.
+Một task = (mã, regime, block 90 phiên VNINDEX không chồng lấp), neo từ
+lịch train đã bind. Task có ít nhất hai cycle đã đóng; trong phần chọn
+đại diện loại overlap entry–exit. Khác với block ngắn, block 90 phiên nhằm
+tăng support; đây là giả thuyết mới, không được gọi là đã chứng minh tốt hơn.
+Các record nhóm đều cùng cutoff; centroid/feature không dùng outcome.
 
-Rule như nhau ở development/xác nhận: record chỉ khả dụng khi exit<query;
-query 2023 không thấy record 2024 hoặc cycle chưa đóng, query tự nó luôn bị
-loại. Giá/feature/task grouping cutoff trước ranking. 2024 đã xem được khai
-báo là **nguồn lịch sử cho revision mới**, không là holdout của revision;
-không dùng 2024 chọn lambda/prompt theo return. Không append cycle 2025 trong
-cohort xác nhận, kể cả đã đóng; snapshot nguồn tối đa 2024-12-31 khóa trước
-run. Dữ liệu sau cutoff trong file không được vào evidence; kiểm future
-append invariance bắt buộc. Đây là cập nhật dữ liệu tự động có rule, không
-chọn lại phương pháp theo outcome.
+Giữ ranking similarity tín hiệu/giá, min_similarity=0,625, tuổi≤730,
+đa dạng khoảng cách ≥5 phiên. Xếp nhóm bằng similarity đại diện tốt nhất,
+sau đó tuổi đại diện rồi task ID; chọn tối đa ba nhóm, mỗi nhóm một cycle
+đại diện x→y và summary s/n của toàn nhóm PIT. Không xếp nhóm bằng s/n hoặc
+return, không ép cân bằng thắng/thua. Task summary không cộng thêm counts
+vào posterior vì đó là trình bày lại evidence, không mẫu độc lập mới.
 
-A_reference_shared_off dùng cùng nguồn làm mới: đây là **A với memory và
-execution revision mới**, không phải cấu hình W9 bất biến. R−A cô lập phần
-phương pháp trên nguồn chung; không quy gain do memory refresh cho pooling/
-task format. W9 báo riêng. Nếu cache không đủ tương thích/coverage, chặn
-xác nhận ICL mới thay vì gọi thêm API hàng loạt hoặc gọi stats-only là đã
-chứng minh demonstrations. Báo tuổi/max-age và coverage trước khi khóa.
+Context typed rõ task ID, n, s/n, x(T/P)→net return% đại diện. Full group
+membership ở sidecar; không gọi một exemplar đơn lẻ là nhiều quan sát.
+K_tasks tối đa 3, exemplar tối đa 3, budget như cũ. Không có nhóm đủ support
+thì chuyển sang top≤3 cycle theo selector A với context_mode=episode_fallback,
+ghi rõ không phải multi-task. Không có ví dụ hợp lệ thì examples off.
+Không chọn mode theo outcome hay action, chỉ metadata/support PIT.
 
-### R_task — Nhiều tác vụ lịch sử trong context
+Gate mô tả multi-task: ≥12/60 development có ≥2 task visible, ≥2/mã. Nếu
+không đạt, vẫn đo U-BICL với fallback nhưng không claim multi-task đã được
+kiểm đủ support; không sửa block theo return để qua gate. Báo cả coverage
+task/episode_fallback/off; estimand kinh tế bao gồm chính sách fallback này.
 
-Posterior giữ nguyên R_pool; chỉ đổi demonstrations. Task định nghĩa bởi
-`(symbol, regime, block_20_sessions)`. Block 20 phiên VNINDEX không chồng
-lấp, neo bằng lịch train đã bind, không neo lại theo query. Mỗi task chứa
-hai cycle PIT khác nhau; chọn theo khoảng cách feature/tín hiệu với query,
-không đọc nhãn để xếp hạng hoặc cân bằng thắng/thua. Loại overlap entry–exit
-trong demonstrations; tie-break ID cố định.
+## 5. Prefix và Decision có căn cứ
 
-Chọn tối đa ba task cùng mã/regime theo khoảng cách centroid feature đã
-chuẩn hóa train-only, rồi ngày gần, rồi ID. Centroid không dùng return.
-Giữ bộ lọc tuổi≤730 ngày và min_similarity=0,625 hiện hữu trước tạo nhóm;
-không mở rộng scope/tuổi để đủ nhóm. Trace ghi riêng lý do thiếu nhóm.
-Task thiếu hai cycle bị loại; không bịa ví dụ. Có thể trùng population thống
-kê nhưng không cộng các ví dụ lần nữa vào posterior.
+Một template duy nhất: regime/query horizon → posterior/support/CrI →
+task hoặc episode x→y → nhắc bất định/SHORT=CASH. BRPP≤600, toàn prompt
+<6.500 ký tự; giữ _distill_report/_cap_report. Không giấu provenance bằng
+thay ID thiếu định nghĩa; ID ngắn trong prompt phải ánh xạ duy nhất sidecar.
 
-Schema mới phân biệt `k_tasks≤3`, `examples_per_task=2`, `k_episodes≤6`;
-không đổi nghĩa legacy `k=3` (ba cycle). **BRPP vẫn ≤600 ký tự, prompt
-<6.500 ký tự**. Template giữ legend, task boundary, x→y, tín hiệu T/P và
-return ròng từng cycle theo %. Full feature, ID và nhãn nằm trong sidecar.
-Không gọi tỷ lệ/return lịch sử là xác suất/expected return query.
+Decision phải xem prior như bằng chứng tham khảo, đối chiếu với tín hiệu
+hiện tại, nêu căn cứ nếu chọn LONG khi prior thấp hoặc CASH khi prior cao.
+Không ép đồng ý prior; không cộng/trừ tay posterior theo sentiment/LLM.
+Vẫn schema legacy; dùng evidence_for/evidence_against/justification hiện có,
+không thêm self-reported probability hoặc field bắt buộc làm lệch đối chứng.
+Các nhánh LLM dùng cùng instruction chung và schema; khác đúng block context.
+Trace ID chỉ là telemetry, không dùng để promote.
 
-W10-05 phải chứng minh trường hợp biên 3×2 đủ ngữ nghĩa trong 600 ký tự.
-Nếu không đạt, R_task BLOCKED **trước API**, chỉ xét R_pool; không tự cắt
-nhãn/nhóm hoặc tăng trần. Đây là thích ứng task theo miền, không tự chứng
-minh latent task hoặc suy luận nội tại của LLM giống paper.
+Test biên đủ ba nhóm và CrI/đơn vị/legend; không cắt nhãn hoặc tăng budget
+để chạy. Kiểm horizon rõ Open(t+1)→Close(t+3) theo ngày phiên; prompt/báo cáo
+không được dùng T→T+2 mơ hồ về cutoff. Nếu cần sửa instruction chung phải
+version cho mọi nhánh mới, không sửa artifact/contract W9.
 
-### Ngoài phạm vi vòng này
+## 6. Shared-off, retry và ổn định
 
-Không ghép A+B, quét K/model, fine-tune transformer, đổi HMM/regime mềm,
-cross-symbol pooling, mở rộng bank hàng nghìn lời gọi LLM, backfill tin hoặc
-thêm risk overlay. Chưa thêm expected-utility policy: báo mean lãi/lỗ lịch
-sử để chẩn đoán; xác suất thắng tăng không bảo đảm lợi nhuận tăng. Mô hình
-payoff đầy đủ là hướng sau, không trừ phí hai lần hoặc thay ICL bằng rule.
+Original chạy trước mỗi point/repeat, lưu durable. Nhánh prior-off chỉ reuse
+khi toàn canonical body/model/options/schema khớp; source reference/deep-copy
+đúng point/repeat, decision_origin=shared_original. Không gọi lại, không tạo
+HTTP giả. Alias stats-only chỉ khi request/evidence identity đúng và có
+whitelist protocol. Full không alias vì tình cờ có cùng action.
 
-## Dữ liệu và xác nhận mới
+Duplicate Original độc lập chỉ chẩn đoán noise; không vote/lấy lượt đẹp nhất.
+Một upstream/point deep-copy cho mọi nhánh, repeats không chạy lại vision.
+Giữ _invoke_with_retry, backoff, ledger, checkpoint/unknown recovery hiện hữu.
+Không xóa usage cũ khỏi ledger dùng chung khi rút revision; key không vào log.
+Reuse đảm bảo prior-off cùng action bằng thiết kế, không chứng minh provider
+deterministic. Thiếu/error execution không được chuyển thành CASH.
 
-| Tập | Vai trò | Rào chắn |
-| --- | --- | --- |
-| Bank 2020–2022 | Fit và diagnostics walk-forward | Train trước query, purge exit vượt biên, model/scaler đúng prefix từng fold |
-| 2023, 60 điểm | Development/chọn R_pool hoặc R_task | Đã xem, luôn exploratory |
-| 2024, W9 | Xác nhận phiên bản cũ; failure analysis và nguồn memory mới theo rule | Đã ảnh hưởng thiết kế mới, không xác nhận revision mới hoặc chọn lambda |
-| 2025, dự kiến 128 điểm | Xác nhận mới nếu exposure audit PASS | Giá thô/quyền/PIT/provenance và chưa dùng tune phải kiểm được |
-| 2025 không sạch | Forward paper cohort sau lock, hoặc không có xác nhận mới | Không ép đủ mẫu trong W12; dùng W9 cho luận văn, revision mới exploratory |
+## 7. Phạm vi mô hình và dữ liệu
 
-W10-01 lập inventory việc code/report/người dùng đã xem return/action hoặc
-dùng 2025 để chọn ngày/tune. Không có report không chứng minh chưa xem;
-không xác minh được thì UNVERIFIED. Archive giá 2018–2025 không bảo đảm giá
-thô 2025 đạt hợp đồng. Trước lock chỉ kiểm metadata/lịch/eligibility, không
-đọc payoff để chọn mẫu; không dùng phần 2024 còn lại làm holdout mới.
+Giữ model/provider/options hiện hữu sau preflight; không quét model, fine-tune,
+soft regime, cross-symbol hay risk overlay trong vòng này. Numeric_only là
+đối chứng posterior mean>0,5 khi stats ready, thiếu evidence thì CASH theo
+policy đã khóa; không phải Bayes-optimal utility và không là candidate ICL.
+Mean lãi/lỗ lịch sử chỉ diagnostics; chưa có payoff model calibrated thì
+không gọi là expected return query hoặc trừ phí lần hai.
 
-Lịch 2025: 32 điểm/mã, tám/quý, 128 tổng; step3 neo phiên đầu năm, cycle
-hoàn tất trong quý, loại quyền/thiếu giá theo rule hiện hữu. Với pool N ngày
-hợp lệ mỗi mã/quý, lấy vị trí `floor(j*(N-1)/7), j=0..7`. N<8 thì BLOCKED,
-không hạ cỡ mẫu sau outcome. Khóa ngày/loại trừ/hash trước API. 128 là mục
-tiêu coverage, chưa bảo đảm power; [power audit W10-02](#w10-02--khóa-protocol-và-power-audit-22102026)
-đã báo MDE/độ rộng CI proxy trên train/dev, không dùng payoff 2025 để chọn n.
+2020–2022 train/fold; 2023 development đã xem; 2024 W9 là xác nhận bản cũ
+và nguồn lịch sử được khai báo cho revision mới. Không dùng 2024 tune prompt/
+λ hoặc chứng minh revision mới. 2025 là tập xác nhận dự kiến: kiểm lại giá
+thô/quyền/coverage và exposure từ lịch sử Git/nguồn W9, không tự coi việc
+xóa output là xóa exposure. Khai báo trước về 2025 là thông tin lịch sử,
+phải đối chiếu có sử dụng thêm kể từ đó; không yêu cầu xác nhận lại vô cớ.
+Không chứng minh được independence thì chỉ exploratory/forward sau lock.
 
-## Checklist
+## Checklist W10
 
-| Task | Công việc / đầu ra | Phụ thuộc | Nghiệm thu | Trạng thái |
+| Task | Công việc / đầu ra | Phụ thuộc | Gate hoàn thành | Trạng thái |
 | --- | --- | --- | --- | --- |
-| W10-01 | Audit exposure/giá 2025, split/mẫu, namespace `bic_icl_v2` | W9 | Hash W9 nguyên; eligibility/exposure PASS hoặc BLOCKED rõ lý do | [x] DONE — giá/lịch 128 điểm và exposure PASS theo khai báo + inventory; chờ protocol/release |
-| W10-02 | Khóa giả thuyết, task semantics, estimand/matrix/MDE/protocol | 01 | Phân biệt Bayes/ICL/policy; fallback và mẫu khóa trước API | [x] DONE — protocol v1 và 30 scenario power planning; không chứng nhận đủ power |
-| W10-03 | Shared-off wrapper, duplicate/checkpoint/recovery | 02 | Reuse đúng point/repeat/request; ledger thật, prior-off=Original | [x] DONE — 32 test mới, 978 unit/204 leakage và compileall/E2E PASS |
-| W10-04 | Adapter memory đã lưu, R_pool, gate và diagnostics train | 02 | Nguồn tương thích/dedup; partition/oracle/PIT PASS; lambda khóa; báo loss bất lợi | [x] DONE — memory 976, lambda=8; 38 test mới, 1.016 unit/215 leakage và compileall/E2E PASS |
-| W10-05 | R_task grouping/selector/renderer | 04 | Label-blind, overlap, 3×2 trong 600; BLOCKED nếu không đạt | [x] DONE — 40 test mới, 1.056 unit/227 leakage và compileall/E2E PASS; coverage cache chưa đủ đề cử |
-| W10-06 | Producer/loader/verifier/CLI và fixture kinh tế | 03–05 | Một upstream, schema riêng, JSON native, horizon và hai ngôn ngữ nhất quán | [x] DONE — 27 test mới, 1.083 unit/235 leakage và compileall/E2E PASS; CLI offline/oracle PASS |
-| W10-07 | Bốn gate, source freeze, dry-run development/repeat | 06 | Compileall/unit/E2E/leakage PASS đúng code/runtime | [x] DONE — 1.083 unit/235 leakage, compileall/E2E PASS; receipt consumer và dry-run/repeat PASS |
-| W10-08 | Hướng dẫn API/resume/verify và chương phương pháp | 07 | CLI thật, model pin/risk OFF; bàn giao W11 | [x] DONE — hướng dẫn/chương phương pháp, bảy kiểm tra CLI offline/guard PASS; W11 đã nhận bàn giao |
-
-## Module và kiểm thử dự kiến
-
-| Phần | Tệp mới dự kiến / tái dùng | Kiểm tra |
-| --- | --- | --- |
-| Protocol | `core/bic_icl_protocol.py`, `bic_icl_schema_v1.json` tại tuần 10 đã triển khai W10-06 | Plan/source/code/runtime/schema riêng; không sửa registry W8/W9 |
-| Shared Decision | `core/bic_icl_decisions.py` đã triển khai tại W10-03 | Canonical shared-off/stats alias, duplicate độc lập, raw/ledger/source receipt, resume cùng UUID |
-| Bayes | `core/bic_icl_statistics.py` đã nghiệm thu W10-04 | Counts/n=0/oracle/PIT, future append invariance, JSON native |
-| Memory revision | `core/bic_icl_memory.py` đã nghiệm thu W10-04 | Không dùng Decision làm feature; provenance/compatibility/dedup/source snapshot/cutoff |
-| Chuẩn bị offline | `core/bic_icl_diagnostics.py`, `scripts/prepare_bic_icl_memory.py` | Rebuild memory/index/train và verify bất biến; không là CLI cohort/Decision |
-| Task/context | `core/bic_icl_tasks.py`, `core/bic_icl_prompt.py` đã nghiệm thu W10-05; feature/scaler cũ | Label-blind, centroid/overlap, budget 3×2, schema/alias legacy |
-| Preflight context offline | `scripts/prepare_bic_icl_context.py`, fixture JSON tại tuần 10 | Verify snapshot W10-04; rebuild 60 context, hai template ngôn ngữ, không gọi Decision |
-| Runtime | `core/bic_icl_runtime.py`, `scripts/run_bic_icl.py` đã triển khai W10-06; retry/ledger/journal cũ | Crash/resume/unknown, shared-off, upstream một lần |
-| Report | `core/bic_icl_reports.py` đã triển khai W10-06; engine/metric cũ | Common support, bốn tài khoản, primary/repeat riêng; selection/bootstrap thuộc W11 |
-| Nghiệm thu revision | `validation_gates/revision_v1/`, `revision_acceptance_v1.zip` tại tuần 10, W10-07 | Source/runtime freeze, receipt bốn gate đọc được bởi consumer, dry-run 60 điểm và repeat SDK mock |
-
-P0/liên module phải đủ bốn gate AGENTS.md; retrieval/pooling/task phải có
-leakage suite. Không sửa hash W9 để nhận code mới: tái lập W9 bằng checkout/
-archive cũ riêng khi cần; manifest mới bind revision mới. Không trộn refactor
-verifier vào nâng cấp thuật toán nếu chưa profiling và test tương đương.
-
-## Điểm dừng và QA kế hoạch
-
-Hết W10, R_task chưa đạt thì loại trước API; R_pool cũng chưa đạt thì dừng
-nâng cấp và hoàn thiện luận văn bằng W9. Không mở ứng viên thứ ba hoặc hạ
-gate. Viết chương phương pháp trong W10, khung bảng/hình trong W11 để giữ W12.
-Runtime revision đã triển khai W10-06; nghiệm thu toàn revision W10-07
-PASS với source/runtime đã khóa. Hướng dẫn vận hành và bản thảo chương
-phương pháp hoàn tất W10-08; release và execution development thuộc W11.
-
-QA kế hoạch ban đầu ngày 21/10/2026: đối chiếu hash report/bootstrap/verification/archive W9,
-số liệu publication và diff/liên kết. Đây là tài liệu, không đổi code/test/
-runtime/schema/đầu vào; không chạy compileall/unit/E2E/leakage theo AGENTS.md
-1.2, không ghi gate cũ thành gate mới. Hash nguồn và kết quả W9 giữ nguyên.
-
-## W10-01 — Audit exposure, giá và mẫu xác nhận, 21/10/2026
-
-**DONE; giá thô, lịch 128 điểm và exposure PASS.** Exposure được cập nhật bằng
-khai báo làm rõ của người dùng và snapshot inventory local; đây chưa là
-release cho phép chạy xác nhận. Inventory ban đầu tại `76218e2`, merge audit tại
-`65fa4ca`; sau yêu cầu bổ sung của người dùng, nhánh
-`feat/bic-icl-confirmation-input-audit` thêm công cụ tải/verify giá công khai
-và lịch khả thi trong namespace riêng. Không gọi LLM, tính payoff hoặc đọc
-action/return 2025 để chọn mẫu. Có lịch 128 điểm mã–ngày đã bind nguồn/hash; đây chưa
-phải manifest/release cho phép chạy xác nhận.
-
-### Bằng chứng W9 và phạm vi exposure
-
-Archive [W9-06](../week9/README.md#w9-06--khóa-kết-quả-tái-lập-và-bàn-giao-21102026)
-đúng SHA-256 `1db2024a3a338cadcf72692287471f8a14feba49ce8a1b1a488b951896cfec70`.
-Đọc lại đủ **4.432 entry**, không trùng/thiếu, đối chiếu từng hash với file
-workspace: **4.432/4.432 khớp nguyên byte**. Sáu khóa plan/report/verification/
-bootstrap/ledger/publication trong bảng W9-06 giữ nguyên. Không chạy lại
-bootstrap hoặc dùng kết quả W9 để chọn phương pháp/mẫu mới.
-
-Kiểm kê ban đầu gồm **6.028 JSON** dưới `outputs/`, kể cả thư mục ignored, không lỗi
-parse; trích trường ngày/khóa, không chấm nhãn hoặc so return. Kiểm thêm tám
-CSV dưới `outputs/`, trường ngày của `record.csv`, code Python hiện hành và
-tên tệp chứa `2025` trong lịch sử các ref Git local. Các archive lịch sử,
-ảnh đã xuất, phiên UI ngoài workspace và lịch sử thao tác cá nhân không
-chứng minh được việc chưa xem bằng lượt kiểm kê này.
-
-| Nguồn / hoạt động | Bằng chứng quan sát được | Kết luận exposure |
-| --- | --- | --- |
-| Archive `data/historical/` | Đã tải năm mã đến 31/12/2025; script `prepare_historical_data.py` mặc định cùng ngày cuối | Dữ liệu 2025 đã hiện diện; không được gọi là chưa từng tiếp cận |
-| HMM/bank và các script train/plot | Code cắt train đến 2022; bank 852 và artifact cũ nguyên hash; plot regime giới hạn 2018–2022 | Không thấy đường fit hiện hành dùng 2025; không suy thành chứng nhận chưa tune thủ công |
-| Development/repeat/holdout W7–W9 | Không thấy cutoff query 2025 trong JSON đã kiểm; split đang khóa là 2023/2024 | Chưa thấy backtest Decision tại cutoff 2025 trong inventory này |
-| Coverage cũ | Ngày entry/exit 2025 chỉ thuộc cutoff 27, 30, 31/12/2024; cả ba bị loại `CROSS_YEAR_EXECUTION` và `EXECUTION_CALENDAR_MISMATCH` ở mỗi mã | Metadata lịch giáp năm, không phải mẫu xác nhận hoặc outcome 2025 |
-| Backtest legacy, ablation, robustness | 9/4/18 JSON; các cửa sổ/phiên thực thi được lưu nằm trong 2026. `data_start`/`data_end` bao trùm 2025 | Không thấy điểm chạy 2025, nhưng phạm vi dữ liệu đã nạp không chứng minh 2025 chưa được xem |
-| News cache VNM trong historical run | Có `date_parsed` năm 2025; ngày tin khác ngày query; code PIT loại tin sau cutoff | Không dùng cache này làm bằng chứng chưa tiếp cận 2025 hoặc bổ sung tin cho xác nhận |
-| Ledger và `record.csv` | Chuỗi `2025` trong ledger là phần UUID; `record.csv` có 45 nến từ 30/07 đến 05/10/2026 | Không coi trùng chuỗi UUID là ngày thử nghiệm |
-| Người dùng / người tham gia, file ngoài repo và các bản sao không kiểm được | Ban đầu trả lời **“Không chắc hoặc không thể xác minh”**; sau đó làm rõ: **“Xác nhận kết quả 2025 chưa được dùng để lựa chọn hoặc điều chỉnh phương pháp.”** | **PASS trong phạm vi khai báo không dùng outcome để chọn/tune và inventory local**; không chứng nhận chưa từng xem hoặc kiểm toán độc lập mọi hoạt động ngoài workspace |
-
-**Exposure hiện tại PASS**, basis `PARTICIPANT_DECLARATION_AND_LOCAL_INVENTORY`.
-Khai báo làm rõ tại [`exposure_inventory_v2.json`](exposure_inventory_v2.json)
-bind hash bản [`v1`](exposure_inventory_v1.json) và review, không xóa lịch sử
-UNVERIFIED. Snapshot mới rà **6.033 JSON**, gồm cả thư mục ignored và metadata
-nguồn giá mới, không phát hiện ngày query 2025 trong các trường cutoff/window/
-data_end. Các audit lịch/metadata có định danh riêng được tách khỏi query
-thực nghiệm. Không có report chỉ là một phần bằng chứng; quyết định PASS còn
-dựa vào xác nhận không dùng outcome để lựa chọn/điều chỉnh phương pháp.
-
-`unseen_outcomes_proven=false`: không suy lời xác nhận này thành chưa từng
-xem outcome. Hoạt động ngoài workspace được khai báo, chưa kiểm toán độc lập.
-Query 2025 trái ngược, nguồn đổi checksum, khai báo thiếu hoặc thừa nhận dùng
-outcome đều chặn PASS; chỉ sửa cờ trạng thái hoặc băm lại không đủ. Nếu sau này
-phát hiện đã dùng 2025 chọn/tune, giữ 2025 exploratory và chuyển sang forward
-sau lock hoặc báo không có xác nhận mới; không loại riêng điểm đã xem theo
-kết quả. Replay kiểm đúng snapshot tại thời điểm rà soát, không công bố rằng
-đã kiểm mọi file/hoạt động phát sinh về sau.
-
-### Giá thực thi, quyền và lịch 2025
-
-Đối chiếu checksum **29 file CSV/evidence/events** được ba manifest tham
-chiếu, cùng checksum byte của ba manifest. Bộ giá train và OOS đã PASS chỉ
-được chấp nhận trong phạm vi cũ; không mở rộng gate cũ sang 2025.
-
-| Manifest | Phạm vi / căn cứ | SHA-256 byte |
-| --- | --- | --- |
-| [`data/historical/manifest.json`](../../../data/historical/manifest.json) | 2018–2025, 1.999 nến/mã; ghi rõ giá thô và hệ số điều chỉnh chưa xác minh | `0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c` |
-| [`data/execution_prices/manifest.json`](../../../data/execution_prices/manifest.json) | `UNADJUSTED_EXECUTION`, PASS đến 31/12/2022; 1.251 nến/mã | `e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c` |
-| [`data/execution_prices_oos/manifest.json`](../../../data/execution_prices_oos/manifest.json) | `UNADJUSTED_EXECUTION`, PASS đến 31/12/2024; 1.750 nến/mã | `bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4` |
-| [Manifest giá revision](../../../outputs/bayesian_benchmark/bic_icl_v2/inputs/execution_prices_2025/manifest.json) | Snapshot mới 2018–2025, PASS; 1.999 nến/mã, prefix giá cũ không đổi, thêm 249 nến thô 2025/mã | `320fd13d734c0a552adb186918e1dca6ac1f3a5f578a46451fb9310874ef1bcf` |
-
-**Sửa kết luận audit ban đầu:** phạm vi giá của manifest OOS kết thúc 2024,
-nhưng chính các file events cũ **đã có quyền 2025**: FPT bốn ngày,
-VNM/VCB/MWG mỗi mã hai ngày. Không cần tải lại hoặc sửa các file quyền.
-Nguồn mới nối prefix raw 2018–2024 đã verify với raw VCI 2025, sao chép
-events nguyên byte vào snapshot mới. Đối chiếu toàn CSV với trường thô VCI,
-đơn vị nghìn VND, lịch VNINDEX và prefix cũ PASS. Có tám mẫu kiểm toán
-VCI/KBS, hai loại quyền/mã, tính lại Reference và kiểm prefix request.
-Sáu mẫu ở 2025; mẫu chia cổ phiếu VNM là 29/09/2020, MWG là 16/06/2022;
-không gọi cả tám mẫu là quyền 2025. Không lấy OHLC archive kỹ thuật thay giá
-thô. Hợp đồng kiểm giá tiếp tục theo
-[`core/execution_prices.py`](../../../core/execution_prices.py): Open(t+1),
-Close(t+3), volume dương cả ba phiên; loại quyền trong `(entry, exit]`, kể cả
-barrier do Reference khác Close trước. Không tính nhãn để làm eligibility.
-Đây là xác minh dữ liệu hồi cứu và prefix thô, không phải chứng nhận vintage
-đã lưu trực tiếp tại từng ngày 2025 hoặc nghiệm thu adapter memory W10-04.
-
-Đọc riêng cột `Datetime`: VNINDEX/FPT/VNM/VCB/MWG có lịch tăng dần, không
-trùng và khớp nhau, **249 phiên 02/01–31/12/2025**. Tại cutoff đầu năm có
-1.751 nến lịch sử, đủ số dòng warm-up trên archive; đây chưa là proof giá
-thô hoặc feature PIT. Lưới step3 neo **02/01/2025**, giữ phase sau mọi loại
-trừ, có **83 cutoff** mỗi mã. Đếm thuần lịch như sau:
-
-| Quý | Phiên | Cutoff step3 | Cycle hoàn tất trong quý, trước kiểm giá/quyền | Cutoff loại do biên quý/năm |
-| --- | ---: | ---: | ---: | --- |
-| Q1 | 58 | 20 | 19 | 31/03/2025 |
-| Q2 | 61 | 20 | 19 | 27/06/2025 |
-| Q3 | 64 | 21 | 20 | 26/09/2025 |
-| Q4 | 66 | 22 | 21 | 29/12/2025 |
-
-**79 cycle/mã là trần thuần lịch.** Sau kiểm nguồn, volume, quyền, warm-up,
-entry/exit đúng phiên và biên quý, pool đủ điều kiện trên lưới là:
-
-| Mã | Q1 | Q2 | Q3 | Q4 | Tổng pool | Số ngày chọn |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| FPT | 19 | 18 | 20 | 21 | 78 | 32 |
-| VNM | 19 | 19 | 20 | 20 | 78 | 32 |
-| VCB | 18 | 19 | 20 | 20 | 77 | 32 |
-| MWG | 19 | 19 | 20 | 21 | 79 | 32 |
-
-Giữ rule đã đăng ký: lọc eligibility trước, lấy vị trí
-`floor(j*(N-1)/7)`, j=0..7; **128/128 điểm mã–ngày trên 41 cutoff khác nhau**,
-không quý thiếu tám điểm. Không coi 128 điểm là 128 cụm ngày độc lập.
-Không neo lại step3 sau loại, giảm mẫu hoặc chọn ngày thay sau outcome/API
-lỗi. Lịch daily/selected, reason loại và hash nguồn được lưu trong audit;
-**is_execution_plan=false, confirmation_allowed=false**. Đặc tả và MDE/
-độ rộng CI từ train/dev đã được khóa riêng tại W10-02 bên dưới; audit
-đầu vào không tự chuyển thành execution plan hoặc release API.
-
-### Split, namespace và bàn giao
-
-| Tập | Vai trò khóa cho revision | Trạng thái ở W10-01 |
-| --- | --- | --- |
-| 2018–2022 / bank 2020–2022 | Train/diagnostics walk-forward, purge cycle vượt fold; giữ HMM/scaler và bank 852 | Nguồn cũ nguyên byte; chưa có gate mới cho thuật toán revision |
-| 2023, 60 upstream | Development exploratory; query chỉ thấy record có exit<cutoff | Không tạo lại lịch hoặc gọi LLM trong audit |
-| 2024, 64 upstream W9 | Kết quả xác nhận phiên bản cũ; nguồn memory revision theo rule tối đa 124 upstream 2023/2024 | Đã xem; không dùng chọn lambda/prompt theo return hoặc xác nhận revision |
-| 2025, 128 điểm | Lịch khả thi đã bind nguồn; exposure đủ điều kiện theo khai báo + inventory | Giá/lịch/exposure **PASS**, chờ protocol/power/candidate/release; không append cycle 2025 vào memory xác nhận |
-| Forward sau lock | Phương án khi 2025 không xác minh được tính độc lập | Chưa có cohort/ngày; không lấy các run 2026 có sẵn làm forward sau lock |
-
-Dành riêng namespace **`bic_icl_v2`**, gốc artifact
-`outputs/bayesian_benchmark/bic_icl_v2/` và version/identity riêng cho protocol,
-nguồn memory/index, development, repeat và xác nhận. Đã có CLI audit input
-riêng và đặc tả v1; chưa có runtime Decision/release xác nhận, W10-06 sẽ
-ánh xạ đặc tả vào schema/consumer tương ứng. Không ghi vào namespace
-`improvement_v1`, registry/schema W8/W9 hoặc thay hash cũ. Ledger provider
-hiện hữu giữ nguyên; namespace mới không được reset quota hoặc nhân bản HTTP
-attempt khi reuse. A/R/Numeric phải bind cùng snapshot nguồn của query;
-max source 31/12/2024 cho memory xác nhận, không refit scaler bằng 2025.
-
-**Điều kiện phát hành xác nhận:** giữ nguồn giá/lịch/exposure hiện tại qua
-verifier, khóa protocol/power, có candidate đủ điều kiện và release trước
-API. Thiếu điều kiện nào chưa cho chạy xác nhận. Nếu
-exposure không sạch, dùng forward sau lock hoặc ghi không có xác nhận mới;
-revision giữ exploratory và luận văn vẫn dùng bằng chứng W9.
-
-**QA lượt audit ban đầu:** diff/liên kết/số đếm/hash PASS; **6.636 file**
-bằng chứng/nguồn cũ được băm trước và đối chiếu sau audit, gồm archive W9 và
-ledger. Chỉ sửa README tuần và kế hoạch tổng; không đổi code/test/runtime/
-schema/đầu vào. Theo AGENTS.md 1.2 không chạy compileall/unit/E2E/leakage;
-không ghi gate W8-07 thành gate revision mới. **W10 1/8 DONE**, tiếp theo
-**W10-02** thiết kế protocol; ở lượt ban đầu exposure còn BLOCKED. Không cần
-chờ mở API để tiếp tục phần thiết kế offline.
-
-### Công cụ và tái lập phần bổ sung
-
-[`scripts/audit_bic_icl_inputs.py`](../../../scripts/audit_bic_icl_inputs.py)
-dùng helper giá hiện hữu, không sửa 74 dependency đã khóa của W9. `--download`
-chỉ lấy giá công khai, checkpoint theo mã; `--review-exposure` đóng băng
-inventory cho khai báo; `--build` lưu audit v2 một lần;
-`--verify` tái dựng toàn payload và đối chiếu envelope/hash, hoàn toàn offline.
-Không ghi đè audit khi code/nguồn thay đổi; không đưa missing thành CASH.
-
-```powershell
-# Chỉ dùng khi cần thu thập hoặc resume nguồn mới; không gọi LLM/API key.
-py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --download
-# Đóng băng inventory rà soát; chạy lại chỉ chấp nhận cùng snapshot.
-py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --review-exposure
-# Khóa lịch, nguồn và khai báo exposure trong input_audit_v2.json.
-py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --build
-# Tái lập cả giá, quyền, lịch 128 điểm và gate exposure từ nguồn đã lưu.
-py -3.13 -X utf8 scripts/audit_bic_icl_inputs.py --verify
-```
-
-Artifact lịch sử [input_audit.json](../../../outputs/bayesian_benchmark/bic_icl_v2/input_audit.json),
-version `bic_icl_v2_input_audit_v1`, bind 15 nguồn và năm file code;
-SHA-256 byte `2af54c962840645cc0b2b09c91a75346c8fcaaa17340228d6b3d108040229fe5`,
-digest payload `cabd2425edcc31ac713bdadf595d5afa95e5eb2e6bf00b23021e4906c611bda3`.
-Giữ nguyên byte v1 và khai báo v1; tái lập consumer v1 tại commit `8fd9156`.
-CLI hiện tại mặc định build/verify artifact v2, không ghi đè v1.
-
-Artifact mới [input_audit_v2.json](../../../outputs/bayesian_benchmark/bic_icl_v2/input_audit_v2.json),
-version `bic_icl_v2_input_audit_v2`, bind 18 nguồn và năm file code;
-SHA-256 byte `9f1c2fed3a8955107ecb63f83da7651fd3a3f17c6e9a964c4ab5092d2c4a75f8`,
-digest payload `a82e5403eaf8a59671554314f896ae5ac2a15e0178990db7eddb367f4d2c66cb`.
-`status=PASS`, `input_eligible=true`, `blocking_reasons=[]`;
-`confirmation_allowed=false`, `is_execution_plan=false`, còn
-`FROZEN_METHOD_AND_POWER_PROTOCOL` và `ELIGIBLE_CANDIDATE_AND_RELEASE`.
-Lịch/128 điểm giống nguyên payload v1, không chọn lại mẫu theo khai báo.
-
-Review [exposure_review_v2.json](../../../outputs/bayesian_benchmark/bic_icl_v2/exposure_review_v2.json)
-pin 6.033 JSON và trường ngày, SHA-256 byte
-`233401b3cb7d1116197bd1480d48070d4da65581ac477836a8227f37454645aa`.
-Archive [exposure_sources_v2.zip](../../../outputs/bayesian_benchmark/bic_icl_v2/exposure_sources_v2.zip)
-giữ nguyên byte đủ 6.033 JSON, 408.877.450 byte gốc/67.658.394 byte ZIP;
-SHA-256 `f142c8741f901fd02ad247e305f18444f58e371ed7a5a037e1aac5961ff3846b`.
-Loader kiểm SHA archive, tên/entry/hash từng nguồn và trích lại ngày query
-trước khi xét khai báo. Review chỉ lưu hash/ngày; archive giữ byte nguồn,
-không chấm action/return để chọn mẫu.
-
-Replay `--verify` dùng archive, nên ledger tăng hợp lệ sau lock vẫn tái lập
-được audit cũ. `--review-exposure` rà inventory live hiện tại và từ chối ghi
-đè nếu khác snapshot; khi cần rà thời điểm mới phải tạo phiên bản review mới.
-Archive complete nhưng chưa ghi receipt có thể phục hồi khi còn khớp nguồn;
-nguồn/archive hỏng không được nhận PASS hoặc âm thầm bỏ qua.
-Nguồn/raw/audit trong `outputs/bayesian_benchmark/bic_icl_v2/` là ignored,
-phải giữ cùng workspace; clone Git chỉ có công cụ, test và khai báo exposure.
-Không thay checksum W9 để nhận code mới. Không có lệnh chạy Decision hoặc
-phát hành xác nhận trong task này.
-
-**Phạm vi QA bổ sung:** đây là thay đổi công cụ và đường dữ liệu/PIT, áp
-dụng đủ bốn gate AGENTS.md 1.2 trên Python 3.13.5. Unit/leakage được chia
-theo nguyên module vào bốn tiến trình độc lập, giữ thứ tự trong module;
-đối chiếu multiset test ID với `unittest discover`, giữ cả bội số có sẵn,
-không bỏ ca hoặc giảm suite. Các tệp mới có quy tắc giữ byte khi checkout
-để checksum audit không đổi do chuyển LF/CRLF.
-
-CLI `--build`, `--verify` và chạy lại `--download` trên nguồn complete đã
-PASS: complete chỉ verify offline, không tải lại hoặc đổi timestamp/hash.
-Oracle riêng dựng eligibility/rank từ lịch, volume, quyền và Reference,
-khớp đủ 128 điểm và mọi pool quý; CSV snapshot bắt đầu bằng nguyên byte
-CSV 2018–2024 cũ. Các kiểm tra mới gồm horizon/biên quý/overlap, thiếu
-phiên, quyền tại entry/exit, Reference gap, payoff-blind ranking, future
-append invariance, JSON native, namespace containment, exposure và resume.
-
-**Nghiệm thu nguồn giá v1 tại `8fd9156` PASS:** compileall toàn codebase, **937 unit/180
-leakage**, E2E xác định; không lỗi hoặc skip. Inventory của cả hai suite
-khớp đầy đủ discovery trên đúng code cuối, gồm **12 test mới** tại
-[`test_bic_icl_input_audit_leakage.py`](../../../tests/test_bic_icl_input_audit_leakage.py).
-CLI verify thật exit 0; oracle lịch/rank, liên kết, diff, checksum audit và
-source PASS. **6.636 file cũ**, trong đó archive W9 đủ 4.432 entry và ledger,
-giữ nguyên byte; snapshot giá mới cũng giữ nguyên byte prefix CSV cũ.
-Không có nhãn/Decision 2025 hoặc HTTP LLM mới. Đây là gate của công cụ audit
-input v1; W10-07 phải nghiệm thu lại sau triển khai thuật toán/runtime.
-Đây là kết quả của v1, không ghi thành gate đã chạy cho consumer v2.
-
-**Đối soát exposure v2:** bổ sung chín ca, module hiện có **21 test trọng tâm
-PASS**. Kiểm khai báo thiếu/mâu thuẫn, cờ mở release, query 2025, sửa nguồn
-hoặc lịch sử, inventory rỗng, traversal, ledger tăng sau lock và khôi phục
-archive complete còn thiếu receipt. CLI `--build`/`--verify` thật exit 0;
-**6.651 file cũ nguyên byte**, lịch 128 điểm không đổi, 18 source/5 code hash
-khớp audit, liên kết/diff/checksum tài liệu PASS. Không gọi LLM hoặc sinh
-nhãn kinh tế 2025 trong lượt này.
-
-**Nghiệm thu consumer v2 PASS:** compileall toàn codebase, **946 unit/189
-leakage**, E2E xác định trên Python 3.13.5; không lỗi, skip hoặc expected
-failure. Multiset test ID của cả hai suite khớp đầy đủ discovery, gồm đủ
-21 ca module audit. Gate chạy trên đúng byte code/khai báo đã bind trong
-audit v2, có kiểm lại identity cuối lượt; không dùng gate v1 thay thế.
-W10-01 chốt gate đầu vào tại mốc **1/8**; không thay release xác nhận.
-
-## W10-02 — Khóa protocol và power audit, 22/10/2026
-
-**DONE, W10 2/8.** Đặc tả độc lập
-[`method_protocol_v1.md`](method_protocol_v1.md), version
-`bic_icl_method_protocol_v1`, đã khóa trước phép mô phỏng. Hash SHA-256
-UTF-8 sau chuẩn hóa LF:
-`e9c8410bed048733d1ad3faa296a200409c91bfd8be72557d98639ecd8e8313b`.
-Không hash README tiến độ làm phương pháp; thay ngữ nghĩa sau lock phải
-version mới. Module/schema/producer/runtime tương ứng vẫn thuộc các task
-triển khai tiếp theo, chưa có manifest cho phép API revision.
-
-Protocol khóa sự kiện LONG ròng>0, partition C/B1/B2 và posterior plug-in,
-lambda {2,4,8} chỉ chọn train, readiness độc lập hai block, task 20 phiên
-neo 02/01/2018, centroid/rank không đọc nhãn, 3×2/600 ký tự và fallback.
-Phân biệt Bayes số học, ICL trong context và Numeric heuristic; giữ schema,
-model/options/risk OFF, engine cổ phiếu lẻ hiện hữu. Khóa matrix/nomination,
-canonical shared-off/alias/duplicate, rotation/repeat, estimand tài khoản,
-bootstrap/family CI và điểm dừng. Không sửa registry hoặc phương pháp W9.
-
-**Power planning, không là chứng nhận power:** 10.000 draw/scenario,
-PCG64/seed 20261021, L=4 chính/L=2/8 sensitivity, mask 41 cutoff/128 điểm,
-32/mã nguyên audit v2. Giữ năm proxy đã đăng ký: C2/A/B−Original từ
-Decision 2023 và Numeric A−C2 trên mỗi fold train. Development chỉ có bảy
-ngày joint; train có 76/76 sau purge bốn cycle cuối 2021 đóng sang 2022.
-Không dùng payoff 2025, không chọn proxy variance nhỏ hoặc đổi N theo số.
-
-| Proxy | Ngày donor joint | Width CI95% dự kiến (đpt) | MDE80 (đpt) |
-| --- | ---: | ---: | ---: |
-| Decision 2023 C2−Original | 7 | 4,93 | 4,08 |
-| Decision 2023 A_tp_pool−Original | 7 | 26,21 | 17,27 |
-| Decision 2023 B_semantic−Original | 7 | 29,15 | 19,03 |
-| Numeric train 2021 A−C2 | 76 | 14,00 | 10,39 |
-| Numeric train 2022 A−C2 | 76 | 22,07 | 17,50 |
-
-Toàn bộ **30 scenario** (năm proxy×ba L×hai mức CI) được giữ trong bundle.
-CI98,75% tại L4 có width 5,67–37,38/MDE80 4,08–21,84 đpt; sensitivity
-CI95% L2 có MDE 4,06–22,52, L8 có 3,19–18,93. Không chọn L8 vì hẹp hơn;
-L8 vòng quanh chỉ bảy donor 2023 đặc biệt yếu. MDE là xấp xỉ location-shift
-ở cấp tài khoản, không là gain kỳ vọng của R hoặc power của kiểm định mới.
-Tỷ lệ interval dương tại δ=0 ở L4/CI95% dao động 0,21–7,45%: không dùng mô
-hình xấp xỉ này chứng nhận calibration/Type I error. MC SE chỉ mô tả sai số
-Monte Carlo, không gồm sai số donor/ngoại suy/provider. N=128 giữ nguyên;
-audit hoàn tất không đồng nghĩa đủ power, kết quả xác nhận có thể inconclusive.
-
-**Nguồn và tái lập:** report/plan development và diagnostics train khớp nguyên
-byte ba entry tương ứng trong archive W9. SHA byte nguồn lần lượt:
-`80f707e0f4ee62c384724085249f748e2e82cf6517ccf892ccb97b1603317314`,
-`f9745d946d81cb008e0a747f8367fe0c85a5fbd989e7148bde997227d651831e`,
-`c32993c726888f2fee3f9650f307db9afcb67145b4af40242bb49659bdbb23c9`.
-Audit đầu vào 2025 giữ byte/hash đã ghi ở W10-01.
-
-Bundle [power_audit_v1.zip](../../../outputs/bayesian_benchmark/bic_icl_v2/protocol_v1/power_audit_v1.zip)
-có bảy entry gồm script phân tích/oracle, pins và toàn bộ kết quả, SHA byte
-`4d87aa0c33a0729e05abfc67fb4196fe1c436cd3d58387c1db324fac8488c7e8`.
-Đây là bằng chứng phân tích ignored, cần giữ cùng workspace với nguồn;
-không là code ứng dụng/schema execution hoặc release. Từ root repo:
-
-```powershell
-$powerReplayDir = Join-Path $env:TEMP ('bic-icl-power-' + [guid]::NewGuid())
-Expand-Archive -LiteralPath outputs/bayesian_benchmark/bic_icl_v2/protocol_v1/power_audit_v1.zip -DestinationPath $powerReplayDir
-py -3.13 -X utf8 "$powerReplayDir/power_audit.py" . "$powerReplayDir/power_audit.json" --check
-py -3.13 -X utf8 "$powerReplayDir/power_oracle.py" .
-```
-
-**QA W10-02 PASS:** replay từ bundle khớp toàn payload; oracle độc lập kiểm
-30 scenario/576 tài khoản draw, nội suy quantile và power curve. Đối soát
-240 valuation development, 16 tài khoản source với report và 651 nhãn train
-qua hàm kinh tế chung. Sau purge còn 647 cycle train được xét metadata;
-608 cycle trên 152 ngày joint làm donor, không điền return thiếu.
-Hash/link/diff/source PASS, **6.664 file cũ nguyên byte**. Chỉ ba Markdown
-được quản lý trong Git và bằng chứng phân tích riêng; không đổi code/test/
-runtime/config/schema hoặc dữ liệu execution đầu vào. Theo AGENTS.md mục 1.2
-không chạy compileall/unit/E2E/leakage cho task thuần đặc tả/phân tích này,
-không ghi gate W10-01 như đã chạy lại. Không gọi API/LLM hoặc tạo payoff 2025.
-Tiếp theo **W10-03** triển khai shared-off/duplicate/checkpoint/recovery.
-
-## W10-03 — Shared Decision và phục hồi, 22/10/2026
-
-**DONE; W10 3/8.** Module mới
-[`core/bic_icl_decisions.py`](../../../core/bic_icl_decisions.py) cung cấp
-`DecisionBlock`, `branch_order` và `shared_stage_scope`; giữ code/runtime
-W9 nguyên byte. Đây là component cho runner W10-06, chưa có producer
-memory/R_pool/R_task hoặc CLI/release chạy cohort thật.
-
-| Biên | Hành vi đã triển khai |
-| --- | --- |
-| Request | Khóa toàn danh sách trước HTTP; tái dựng canonical body bằng serializer SDK thật, gồm messages/model/options/schema/tools; so prompt<6.500 và prefix≤600 |
-| Shared-off | Original đầu block, response durable trước nhánh khác; prefix rỗng và toàn contract giống mới reuse; `decision_origin=shared_original`, source branch/hash, không tạo attempt/HTTP giả |
-| Stats alias | Chỉ cặp R_pool/R_task stats-only cùng canonical request và cùng base evidence; giữ ID logic nhưng một source response. Full không alias vì tình cờ giống prompt |
-| Duplicate/repeat | Duplicate luôn invocation/UUID riêng; mỗi repeat có Original mới. Receipt pin byte state primary đã verify, cùng matrix/request/prefix/base/shared; chỉ xoay thứ tự theo protocol, không lấy response primary làm repeat |
-| Upstream | Một journal/point dùng chung primary/repeat; callback vào graph/journal hiện hữu, deep-copy state/output. Node complete được dùng lại, mất journal/marker sau bắt đầu phải dừng |
-| Durable | Identity/state/ready riêng; intent atomic trước SDK, raw/normalized trước evaluation. Alias chỉ trỏ nguồn complete cùng point/repeat; mất state sau lock không được tạo lại bằng `create=True` |
-| Recovery | Dùng ResilientTransport/pacer/retry wrapper hiện hữu; cùng UUID khi retry/format repair/resume. Cache response durable dùng lại sau restart, kiểm hash/header/body trước SDK. Quota ngày giữ unknown, không điền CASH |
-| Verifier | Tái kiểm toàn block và ledger disk trước HTTP tiếp theo, kể cả source alias; tự băm lại checkpoint không thay body/response thực. Thay cutoff, source, code, client options hoặc primary receipt đều bị chặn |
-
-`DecisionBlock.run` nhận shared bundle JSON đã seal, danh sách request
-đã render (`branch_id`, `prompt`, `prefix`, `base_evidence_sha256`) theo
-thứ tự đã khóa, cùng callback `verify_sources`. Renderer/evidence semantic,
-manifest/code/runtime toàn cohort và release sẽ do W10-04–07/W11 cấp;
-component không coi hash tự khai là đủ bằng chứng retrieval/PIT. Missing/
-unknown không là quyết định CASH. Fixture chỉ dùng HTTP mock ngoài workspace;
-run thật chỉ nhận thư mục con namespace `bic_icl_v2`, không ghi vào W9.
-
-Checkpoint nằm tại `decision_blocks/<repeat>/<point>/identity.json`,
-`state.json`, `ready.json`; journal tại `shared_stages/<point>/journal.json`.
-`verify_only=True` tái lập/so trạng thái, không gọi Decision mới. Source
-reference và HTTP audit dùng để phân biệt slot logic, Decision vật lý và
-HTTP retry; alias không là quan sát độc lập. Hai nhánh sau alias vẫn nhận
-bản sao output riêng, không cùng một đối tượng state có thể bị sửa chéo.
-
-**Kiểm thử trọng tâm:**
-[`test_bic_icl_decisions.py`](../../../tests/test_bic_icl_decisions.py) và
-[`test_bic_icl_decisions_leakage.py`](../../../tests/test_bic_icl_decisions_leakage.py),
-fixture SDK/HTTP mock tại [`bic_icl_fixture.py`](../../../tests/bic_icl_fixture.py).
-**32 ca PASS**: prior-off giống/khác request; stats alias/base; duplicate;
-khác point/lượt; repeat sai primary; ledger append; 429/format repair/quota;
-crash trước HTTP, sau durable response và trước persist alias; init orphan;
-khóa OS; cache hỏng sau restart; rehash state/identity/marker/raw; mất ledger/
-checkpoint; query outcome/future feature; horizon và JSON native.
-
-```powershell
-py -3.13 -X utf8 -m unittest discover -s tests -p "test_bic_icl_decisions*.py" -v
-```
-
-Do thay đổi paired protocol/retry/checkpoint P0, áp dụng đủ bốn gate
-AGENTS.md mục 1.2. Hai suite chạy trên bốn process, phân công động theo
-nguyên module và giữ thứ tự trong module; đối chiếu multiset test ID với
-`unittest discover`, không bỏ bội số/test hoặc skip. Identity UTF-8/LF của
-code/test/phương pháp giữ nguyên trong lượt gate và sau checkout; checksum
-nguồn/bằng chứng cũ vẫn đối chiếu theo byte gốc.
-
-**Nghiệm thu PASS trên Python 3.13.5:** compileall toàn codebase, **978 unit
-test/204 leakage**, E2E xác định; không lỗi, skip hoặc expected failure.
-Đủ 125 module unit/35 module leakage, hai multiset ID khớp discovery. Có
-**32 test mới** (17 ca wrapper/recovery, 15 ca integrity), toàn bộ SDK qua
-HTTP mock; không dùng gate W10-01 thay lượt này. Identity LF **242 file**
-giữ nguyên suốt gate; **6.666 file cũ nguyên byte**, gồm ledger, archive W9,
-input audit v2 và method protocol v1. Diff/liên kết/hash/source PASS.
-
-Log, inventory, runtime và công cụ chạy gate được đóng trong
-[`validation_gates/shared_decisions_v1.zip`](validation_gates/shared_decisions_v1.zip),
-184 entry/554.629 byte; SHA-256 byte
-`0c5d09604443fcf3d5f2a12115f7df38f4bcfcaa18c6383015b8de50b43c8a8b`.
-ZIP lưu log/inventory của bản code đã nghiệm thu. W10-07 vẫn phải
-nghiệm thu lại toàn revision sau
-triển khai memory/posterior/task/runner; component gate không là release.
-Không gọi HTTP/LLM thật, tạo nhãn 2025 hoặc thay mặc định triển khai.
-Tiếp theo **W10-04**: adapter memory đã lưu, R_pool và diagnostics train.
-
-## W10-04 — Memory revision, R_pool và lambda train, 22/10/2026
-
-**DONE; W10 4/8.** Bốn module/công cụ mới:
-[`bic_icl_memory.py`](../../../core/bic_icl_memory.py),
-[`bic_icl_statistics.py`](../../../core/bic_icl_statistics.py),
-[`bic_icl_diagnostics.py`](../../../core/bic_icl_diagnostics.py),
-[`prepare_bic_icl_memory.py`](../../../scripts/prepare_bic_icl_memory.py).
-Đây là producer offline và component posterior/selector cho W10-05–06;
-chưa có renderer R_task hoặc CLI cohort gọi Decision revision.
-
-**Memory:** đối chiếu byte với archive W9 đã khóa, đọc đúng 60 point 2023 và
-64 point 2024; kiểm plan/model/options, source PIT, Full seal và bốn stage
-journal complete. Tín hiệu lấy từ upstream; nhãn do hàm kinh tế chung sinh
-sau seal. Không dùng action/confidence/justification Decision làm feature.
-Nhập **124/124**, loại 0, dedup 0; union có **976 episode**, giữ nguyên bank
-852. Metadata từng bản ghi giữ source/shared/journal hash và signal identity;
-thiếu nguồn là lỗi integrity, không chuyển thành prior-off.
-
-Index revision riêng kế thừa nguyên tham số ba fold scaler cũ. Fold
-`confirmation_2025` dùng đúng scaler OOS kết thúc 2022, không gọi fit mới,
-không đổi validator miền 2023/2024 legacy. **103/124** feature nhập thêm
-AVAILABLE; **21** cửa sổ có quyền giữ UNAVAILABLE, không điền vector để đủ
-demonstrations. Counts statistics vẫn giữ các cycle này sau lọc PIT.
-Không nhập cycle 2025; `exit_date < query` áp trước partition/rank, cả query
-tự nó và record năm sau đều bị loại. A/R dùng cùng bank/index/selector;
-Numeric sẽ nhận cùng posterior khi tích hợp runner.
-
-**R_pool:** phân hoạch rời C/B1/B2, cùng mã; C khớp T/P, B1 phần còn lại cùng
-regime, B2 khác regime. Giữ counts, IDs, tuổi, cụm tháng, prior weight và CrI
-plug-in; n=0 ghi rõ thiếu quan sát, không gọi raw n là effective sample size.
-Stats gate dùng nC≥5, n1+n2≥20 và width≤0,75 trước làm tròn. Examples gate
-riêng, population cùng regime≥20, feature/scaler sẵn có và có ví dụ hợp lệ;
-giữ selector K≤3, tuổi≤730, similarity≥0,625, gap≥5 phiên/không overlap.
-Full/stats/examples là các view cùng base, không chạy lại retrieval theo view.
-Verifier dựng lại evidence, không chỉ nhận artifact đã tự băm lại.
-
-**Lambda train khóa bằng loss:** replay **651 query**, hai fold đã purge và
-**166 cutoff HMM/scaler/calibration prefix** của các query; đối chiếu A với
-diagnostics cũ đã đóng băng. Cả ba lambda chấm trên cùng **598 query** có
-posterior hữu hạn với A, không lọc riêng theo readiness. 53 query thiếu A
-không được điền 0,5 để scoring. R có thể tính posterior số học khi nC=0,
-ghi `NO_CONDITIONAL_HISTORY` và stats off; đây không là conditional evidence
-đã quan sát. Loss clip [1e−6,1−1e−6], tie 1e−12, Brier rồi lambda nhỏ hơn.
-
-| Phương pháp | Log loss chung | Brier chung | Stats ready / 651 |
-| --- | ---: | ---: | ---: |
-| A reference | 0,69645620 | 0,25078170 | 355 |
-| R, lambda=2 | 0,70995949 | 0,25573325 | 399 |
-| R, lambda=4 | 0,69371112 | 0,24954020 | 399 |
-| **R, lambda=8 — chọn** | **0,68332577** | **0,24496989** | **399** |
-
-R2 bất lợi so A; VCB/train2021 với lambda=8 cũng bất lợi về log loss
-(0,63908462 so 0,63354190), không giấu subgroup. Report giữ đủ ba lambda,
-từng fold/mã/regime, năm reliability bin [0;.2;.4;.6;.8;1], raw/ready/missing,
-LONG lãi/lỗ/zero và leave-one-query-quarter-out để mô tả độ nhạy theo cụm.
-Không chọn lại lambda theo sensitivity hoặc return 2023/2024/2025. Chọn bằng
-toàn train có selection bias, không là lựa chọn online đã có tại query 2021
-hoặc chứng nhận calibration OOS/LLM. PIT hồi cứu không chứng nhận vintage
-provider/kiến thức LLM; chưa có kết quả kinh tế của Decision revision.
-
-**Tái lập offline từ root:**
-
-```powershell
-py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind memory --destination outputs/bayesian_benchmark/bic_icl_v2/memory_v1
-py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind memory --destination outputs/bayesian_benchmark/bic_icl_v2/memory_v1 --verify
-py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind train --destination outputs/bayesian_benchmark/bic_icl_v2/train_v1
-py -3.13 -X utf8 scripts/prepare_bic_icl_memory.py --kind train --destination outputs/bayesian_benchmark/bic_icl_v2/train_v1 --verify
-```
-
-Hai thư mục có receipt code/runtime/output hash riêng; build ghi một lần,
-verify dùng lại producer đầy đủ và không đổi byte/timestamp output. Cả bốn
-lệnh build/verify memory/train thật đều exit 0, không đổi artifact khi verify.
-**38 test mới PASS** trong bốn module `test_bic_icl_memory`,
-`test_bic_icl_memory_leakage`, `test_bic_icl_statistics`, `test_bic_icl_preparation`.
-Oracle độc lập PASS nhãn của 124 cycle, 103 vector mới, scaler cũ và
-**1.953 posterior**, Beta CDF sai số tối đa 3,109e−15; loss/support khớp report.
-Không API/LLM thật, payoff 2025 hoặc thay economic/risk/default runtime.
-
-Do thay đổi đường dữ liệu/retrieval/PIT P0, áp dụng đủ bốn gate AGENTS.md 1.2
-trên Python 3.13.5: **compileall toàn codebase, 1.016 unit test, E2E xác định
-và 215 leakage PASS**, không lỗi, skip hoặc expected failure. Hai suite chia
-nguyên module vào bốn process, giữ thứ tự trong module; đủ **129 module unit,
-36 module leakage**, đối chiếu multiset test ID khớp discovery, không bỏ bội số.
-Identity LF của **251 file** giữ nguyên suốt gate; **6.671 tệp cũ nguyên byte**,
-gồm bank 852, W9, protocol/power và input audit v2. Diff/hash/liên kết PASS.
-W10-07 vẫn phải nghiệm thu lại toàn revision sau task/renderer/runner;
-gate component này chưa là release. Tiếp theo **W10-05** R_task/renderer.
-
-Artifact mới và log/inventory/oracle/runtime/công cụ QA được đóng nguyên byte
-trong [`validation_gates/memory_pool_v1.zip`](validation_gates/memory_pool_v1.zip),
-**204 entry / 1.929.694 byte**, SHA-256 byte
-`0a92be91d26364762cd8b324676254500a5ba6f1e9067f085537360b87a00dc6`.
-Manifest trong ZIP kiểm từng entry. Hai receipt nguồn cho bước sau:
-`memory_v1/receipt.json` SHA byte
-`20fee102b8fb797f6eb3eb376fa25b5a892e31bf38dac7e690c39481b5cfbd19`;
-`train_v1/receipt.json` SHA byte
-`90c15847b3f052128d72e0308c5916ee095f4da0c91fff776015ca40249feede`.
-Các đường receipt ở dưới `outputs/bayesian_benchmark/bic_icl_v2/`; ZIP giữ
-cả memory/index/diagnostics và receipt ở đúng đường tương đối đó.
-
-## W10-05 — Task selector và context, 22/10/2026
-
-**DONE; W10 5/8.** Triển khai
-[`bic_icl_tasks.py`](../../../core/bic_icl_tasks.py),
-[`bic_icl_prompt.py`](../../../core/bic_icl_prompt.py) và preflight offline
-[`prepare_bic_icl_context.py`](../../../scripts/prepare_bic_icl_context.py).
-R_task đạt nghiệm thu grouping/renderer; coverage đề cử chưa đạt trên cache
-upstream hiện có. Chưa chọn candidate hoặc phát hành xác nhận.
-
-**Selector:** task `(symbol, regime, floor(session_index/20))`, index0
-VNINDEX **02/01/2018**, không neo lại theo query. Lọc exit<query, cùng mã/
-regime, tuổi≤730, similarity≥0,625 và feature/scaler AVAILABLE trước grouping.
-Centroid dùng toàn bộ vector đủ điều kiện trong nhóm, không đọc nhãn.
-Xếp nhóm theo RMS centroid–query, ngày mới nhất giảm, rồi ID tăng.
-Trong nhóm, lấy cặp cố định theo rank cycle legacy, gap≥5 phiên và không
-overlap entry–exit; khi cặp xung đột với demonstrations đã nhận, loại cả
-nhóm và tiếp tục nhóm kế. Tối đa **3 task × 2 cycle**, không thay cặp theo
-nhãn hoặc cân bằng thắng/thua. Sidecar giữ toàn bộ qualification, centroid,
-rank, pair, IDs và reason loại; API grouping thuần từ chối outcome/label.
-
-**Context:** posterior/counts/lambda=8 giữ nguyên R_pool W10-04, không cộng
-demonstrations lần nữa. Stats/examples gate độc lập; examples cần population
-cùng regime≥20 và ít nhất một cặp hợp lệ. Full/stats/examples là view của
-cùng evidence; hai stats-only giữ cùng prefix/prompt/base hash để wrapper
-W10-03 alias, prior-off giữ đúng canonical Original. Renderer giữ boundary
-G1/G2/G3, x=T/P và y=W/L theo dấu return gốc, return ròng % hai số thập phân.
-Zero là L/+0,00%; return dương/âm rất nhỏ vẫn giữ W/L trước làm tròn.
-Không đổi schema/model/template/distill/cap legacy. BRPP>600 chặn cả ba
-nhánh của candidate trước API; không cắt nhãn/nhóm để qua trần.
-
-[`context_budget_fixture_v1.json`](context_budget_fixture_v1.json) là dữ
-liệu tổng hợp kiểm renderer, không là quan sát thị trường. Fixture đủ 3×2,
-return lớn/nhỏ/zero và report dài: **VI 300 ký tự BRPP / 6.147 prompt**,
-**EN 297 / 6.162**, đều ≤600 và <6.500. Preflight nguồn thật khôi phục đúng
-**60 upstream 2023**, không sinh lại upstream/Decision: tối đa **256 ký tự
-BRPP / 4.432 prompt**, kiểm 720 prompt của hai method × ba view × hai
-template ngôn ngữ. EN dùng cùng báo cáo nguồn VI qua template EN để kiểm
-ngân sách, không là cohort tiếng Anh hoặc kết quả Decision tiếng Anh.
-
-**Coverage R_task trên cache, sau gate hiển thị:**
-
-| Mã | Query | Có prior | Examples ready | Có ≥2 task |
-| --- | ---: | ---: | ---: | ---: |
-| FPT | 12 | 9 | 3 | 0 |
-| MWG | 16 | 14 | 6 | 1 |
-| VCB | 16 | 10 | 3 | 1 |
-| VNM | 16 | 15 | 9 | 1 |
-| Tổng | 60 | 48 | 21 | 3 |
-
-Trạng thái **INSUFFICIENT_CACHED_UPSTREAM_COVERAGE**: rule đề cử cần ≥6 điểm
-có ≥2 task và ≥1/mã; hiện chỉ 3 và FPT=0. Raw selection được ghi riêng,
-không đếm nhóm bị gate ẩn. Đây là giới hạn metadata, chưa là đánh giá return
-hoặc nomination cuối; kiểm lại với upstream lock W11, không nới lọc, neo
-lại lịch, tune prompt theo return hay gọi thêm LLM để tạo bank.
-
-**Tái lập offline từ root**, cần snapshot memory/train W10-04 cùng workspace:
-
-```powershell
-py -3.13 -X utf8 scripts/prepare_bic_icl_context.py --destination outputs/bayesian_benchmark/bic_icl_v2/context_v1
-py -3.13 -X utf8 scripts/prepare_bic_icl_context.py --destination outputs/bayesian_benchmark/bic_icl_v2/context_v1 --verify
-```
-
-Loader đối chiếu nguyên byte năm artifact với ZIP W10-04 đã pin độc lập,
-kiểm source/code/runtime/receipt; lambda không được chọn lại. Build ghi một
-lần, verify dựng lại semantic rồi so toàn evidence/prefix/prompt, không
-chấp nhận chỉ tự băm lại artifact. Hai lệnh thật exit 0, verify giữ nguyên
-byte/timestamp. Digest report
-`b94fa9a7c48e41f3bdd4653f3699ec06d1f5ccb1a0fd36e257ef83c87e4ad3fe`;
-receipt SHA-256 byte
-`50e579d7cae554ad1af0717a06f077b7029b272ae00d81aa55ad781c6387f0eb`.
-Artifact ở namespace ignored; ZIP nghiệm thu giữ cả preflight/receipt để
-tái lập, không ghi đè memory/train, W9 hoặc phương pháp đã khóa.
-
-**QA trên Python 3.13.5:** 40 test mới; oracle độc lập kiểm qualification,
-rank, **150 centroid, 26 cặp được chọn và 720 prompt** trên nguồn thật PASS.
-HTTP mock kiểm serializer/schema SDK, stats alias và shared-off không tạo
-attempt giả. Vì thay đổi retrieval/PIT/prompt P0, chạy đủ bốn gate:
-**compileall toàn codebase, 1.056 unit, E2E xác định và 227 leakage PASS**;
-không lỗi, skip hoặc expected failure. Hai suite chia nguyên module vào bốn
-process, giữ thứ tự trong module; đủ 134 module unit/37 module leakage,
-multiset ID khớp discovery, giữ cả bội số có sẵn. Identity UTF-8/LF của
-**261 file** không đổi; **6.686 tệp cũ nguyên byte**. Diff/hash/liên kết PASS.
-
-Bằng chứng cuối tại
-[`validation_gates/task_context_v1.zip`](validation_gates/task_context_v1.zip),
-**206 entry / 2.076.413 byte**, SHA-256 byte
-`08a8c943ddba8919eacb46fdb13426ffabe8c7d5d1ebd178ca0cfe2551dd8fd3`.
-Manifest kiểm hash từng entry, gồm gate/inventory/runtime, CLI, oracle,
-fixture tổng hợp và hai artifact context mới. Không API/LLM thật hoặc
-payoff/action 2025; `confirmation_allowed=false`. W10-07 phải nghiệm thu
-lại toàn revision sau tích hợp runner; component gate này chưa là release.
-Tiếp theo **W10-06**: producer/loader/verifier/CLI cohort và fixture kinh tế.
-
-## W10-06 — Producer, loader, verifier và CLI cohort, 22/10/2026
-
-**DONE; W10 6/8.** Các module mới:
-[`bic_icl_protocol.py`](../../../core/bic_icl_protocol.py),
-[`bic_icl_runtime.py`](../../../core/bic_icl_runtime.py),
-[`bic_icl_reports.py`](../../../core/bic_icl_reports.py) và
-[`run_bic_icl.py`](../../../scripts/run_bic_icl.py). Schema riêng
-[`bic_icl_schema_v1.json`](bic_icl_schema_v1.json) cho plan/packet/request/
-report; định danh không ghi đè W8/W9. Chỉ mở producer development 2023;
-confirmation 2025 cần selection/manifest/release ở các task sau.
-
-**Plan/source:** `bic_icl_cohort_plan_v1` ánh xạ canonical protocol v1 đã
-khóa, giữ 60 point và cấu hình nguồn/model VI, risk OFF. Bind rõ dependency
-thực thi, schema/fixture và runtime; không hash checklist hoặc tự thêm mọi
-analyzer tương lai vào identity. Loader dựng lại plan từ nguồn đã verify,
-từ chối đổi lịch/method/model/code hoặc chỉ tự băm lại. A/R/Numeric nhận
-cùng memory 976/index revision và lambda=8, không refit hoặc tune lại.
-
-Chính sách upstream khóa cho cả cohort: `VERIFIED_CACHE` kiểm Full/source
-cho mọi point, hoặc `FRESH_SHARED` chạy một upstream mới/point với journal
-Indicator/Pattern/Trend/Full. Không trộn cache/fresh theo outcome. Chỉ khi
-đủ upstream mới khóa toàn packet/request, ma trận và repeat trước Decision.
-Một R_task vượt budget chặn cả ba ID trên toàn cohort, tính lại M trước
-rotation; không biến BLOCKED thành prior-off. Coverage metadata hiện giữ
-nguyên [W10-05](#w10-05--task-selector-và-context-22102026), vẫn chưa đủ đề cử.
-
-**Runtime/checkpoint:** Original đầu, các nhánh còn lại xoay j mod M; repeat
-xoay (3j+r−1) mod M và có duplicate độc lập. Toàn slot primary khởi tạo trước
-HTTP; mất marker/state đã bắt đầu phải dừng, không tự tạo lại để replay.
-Verifier kiểm cả snapshot, source, raw/schema, ledger và cache durable trước
-HTTP tiếp theo. Unknown phục hồi cùng UUID qua wrapper/recovery hiện hữu;
-complete không gọi lại. Alias shared-off/stats giữ nguồn durable và không
-tạo HTTP giả. Metadata OS lock có thể cập nhật; artifact khoa học không đổi.
-
-Mẫu repeat lấy earliest both-ready/one-block-ready/off của R_pool, ba điểm
-khác nhau/mã; stratum thiếu bù earliest chưa chọn và ghi reason. Khóa trước
-Decision, không dùng action/return. Trên cache thật đủ cả ba stratum/mã,
-**12 điểm, không fallback**; đây là metadata cho bước khóa upstream W11,
-chưa là release hoặc kết quả repeat thực nghiệm.
-
-**Kinh tế/report:** Numeric LONG khi stats ready và p>0,5, còn lại SHORT=CASH;
-posterior thiếu/không hữu hạn là lỗi, không điền CASH. Evaluation chỉ chạy
-sau đủ Decision hợp lệ của point, cùng Open(t+1)/Close(t+3) và engine cũ.
-Report giữ common support, danh sách thiếu và từng tài khoản; D chỉ có khi
-đủ cohort, bằng trung bình đều chênh return bốn tài khoản, không mean cycle.
-Repeat r=1/2/3 có report riêng, không Numeric mới, không nhập primary hoặc
-chọn lượt tốt nhất. Không đề cử và không tính bootstrap trong task này.
-
-[`economic_fixture_v1.json`](economic_fixture_v1.json) tổng hợp hai cycle
-qua cuối tuần, một lãi/một lỗ, bốn chuỗi LONG/CASH. Oracle tính tiền mua/bán
-VND và vốn ghép độc lập rồi so engine/nhãn/MDD: vốn 50 triệu/mã, hệ số giá
-1.000, cổ phiếu lẻ, phí 0,25% và slippage 0,10% mỗi chiều. Không trừ phí lần
-nữa. SDK HTTP mock kiểm schema legacy và horizon T+2.5 ở VI/EN; plan thật
-vẫn VI, không lấy báo cáo VI làm cohort tiếng Anh.
-
-**Lệnh offline từ root:**
-
-```powershell
-py -3.13 -X utf8 scripts/run_bic_icl.py --prepare
-py -3.13 -X utf8 scripts/run_bic_icl.py --dry-run
-py -3.13 -X utf8 scripts/run_bic_icl.py --economic-fixture
-```
-
-Plan mặc định `outputs/bayesian_benchmark/bic_icl_v2/development_plan_v1.json`;
-run dùng thư mục `development_run_v1` riêng ngay dưới namespace.
-`--verify-only`/`--verify-report` kiểm run/report đã có mà không đọc key
-hoặc gọi mạng. `--run --resume` và `--repeat-id 1/2/3` chỉ dùng sau release;
-consumer kiểm đúng plan/gate/code/runtime/context lock trước đọc credential,
-rồi preflight text/vision cùng plan/credential. Fresh có `--lock-upstream`
-để hoàn tất journal/context trước release Decision tương ứng. W10-06 không
-cấp release hoặc chạy upstream/Decision thật; các lệnh online chưa được mở.
-
-Ba lệnh offline thật exit 0; thử run thiếu release exit 1 đúng dự kiến,
-dừng trước credential/HTTP. Dry-run/fixture/guard giữ nguyên byte/timestamp
-plan. Identity có **85 dependency**; plan SHA-256 byte
-`c728af94811636cde5360c9b029602b1e1946af048db7ddfff3fd89802fac530`,
-digest payload
-`4b584d47cc8ab6a6a1da1b6ad86bfefd478bcc6ffe7a0572953ebaa100e17765`.
-Context lock dựng từ toàn 60 point có digest
-`19db9111bdea7865478f809c188b5903d89b1090edb93fdb941d4c9e48250ddd`.
-Oracle kiểm trực tiếp population C của A trên memory, đối chiếu 60 evidence/
-prefix/prompt R với artifact W10-05, 480 contract SDK, 117 prior-off canonical
-và 12 lựa chọn repeat. Trên cả A/R: BRPP tối đa **518 ký tự**, prompt **4.671**.
-Giới hạn budget 3×2 hai ngôn ngữ vẫn theo fixture W10-05.
-
-**Nghiệm thu trên Python 3.13.5:** đủ **27 test mới PASS**, gồm upstream fresh
-một lần, VI/EN SDK/schema/horizon, ba repeat/duplicate, shared-off/stats alias,
-source/plan/packet/cache bị sửa, mất marker, unknown sau HTTP durable và
-resume cùng UUID. **Bốn gate PASS: compileall toàn codebase, 1.083 unit,
-E2E xác định và 235 leakage**, không lỗi, skip hoặc expected failure.
-Hai suite chia nguyên module vào bốn process, giữ thứ tự trong module;
-đủ 137 module unit/38 module leakage, multiset ID khớp discovery, không
-bỏ bội số. Identity UTF-8/LF của **271 file** không đổi suốt gate;
-**6.699 tệp cũ nguyên byte**, gồm W9 và toàn bộ snapshot W10-01–05.
-Diff/hash/liên kết PASS; schema/fixture mới dùng cùng normalization LF
-khi binding code, artifact/bằng chứng vẫn kiểm theo byte gốc.
-
-Log/inventory/runtime, công cụ QA, plan, sidecar 60 packet/context lock và
-schema/fixture JSON được đóng nguyên byte trong
-[`validation_gates/cohort_runtime_v1.zip`](validation_gates/cohort_runtime_v1.zip):
-**211 entry / 3.123.212 byte**, SHA-256 byte
-`070a89688fc283bb4caa7e604662804a11b3b5fe9a067f8949ff831e2f322243`.
-Manifest đối soát từng entry; không dùng log bản nháp làm gate cuối.
-Không gọi API/LLM thật hoặc tạo payoff/action 2025. W10-07 còn nghiệm thu
-source freeze/dry-run và receipt gate toàn revision; W11 khóa upstream/
-request/repeat trước chạy development. Đây chưa là release xác nhận.
-Tiếp theo **W10-07**.
-
-## W10-07 — Nghiệm thu toàn revision và source freeze, 22/10/2026
-
-**DONE; W10 7/8.** Task thêm receipt/log, gói bằng chứng và cập nhật tiến độ;
-code, test, runtime, schema, phương pháp và nguồn đầu vào giữ nguyên.
-Theo yêu cầu mốc nghiệm thu, chạy lại đủ bốn gate trên Python **3.13.5**
-sau tích hợp W10-03–06. Không dùng lượt gate component thay lượt này.
-
-**Source freeze:** [`revision_v1/source_freeze.json`](validation_gates/revision_v1/source_freeze.json)
-khóa mã tại commit `279dcbf`, **85 dependency thực thi**, **271 tệp trong
-phạm vi gate**, **1.773 hash nguồn** và phiên bản dependency runtime.
-Code dùng UTF-8/LF; artifact/log kiểm byte gốc. Plan development v1 giữ SHA
-`c728af94811636cde5360c9b029602b1e1946af048db7ddfff3fd89802fac530`,
-digest payload và timestamp W10-06. Source freeze SHA-256 byte
-`498bc75c681d6a11f75fb3ed774c93a3856e981db288007a52d72d8dacf508f9`.
-
-| Gate chạy mới | Kết quả |
-| --- | --- |
-| Compileall `agents core data_manager scripts tests utils` | PASS, exit 0 |
-| Unit discovery `test*.py` | **1.083 test / 137 module PASS** |
-| E2E xác định `scripts/run_end_to_end_test.py` | PASS, marker toàn pipeline |
-| Leakage discovery `test_*leakage.py` | **235 test / 38 module PASS** |
-
-Hai suite chạy bốn process, chia nguyên module và giữ thứ tự nội bộ;
-multiset ID khớp discovery, gồm bội số có sẵn. Không lỗi, skip, expected
-failure hoặc unexpected success. Hash 271 tệp giữ nguyên suốt bốn gate.
-Log tổng hợp nêu rõ cách chạy và từng module; log worker/inventory gốc
-được giữ trong ZIP. Không bổ sung hoặc sửa mã test trong task này.
-
-[`revision_v1/technical_gates.json`](validation_gates/revision_v1/technical_gates.json)
-dùng envelope `research_technical_gates_v1`, bind đúng 85 dependency/runtime
-của plan, bốn exit code và hash từng log đi kèm. Consumer hiện hữu
-`read_technical_gates` đọc lại **PASS**; binding sai code/runtime bị từ chối.
-SHA-256 receipt byte
-`d6953b466dd70cb0e528ea9a4d2fec5bfd10ecfa15d06bc0530947bfcdb834b9`.
-`.gitattributes` tại thư mục bằng chứng giữ byte receipt/log khi checkout.
-
-**Dry-run development/repeat:**
-[`revision_v1/dry_run.json`](validation_gates/revision_v1/dry_run.json), SHA-256 byte
-`5ca708f5a67f8196450d65132ffd2a2cb6d8856650e505e7ca0f6d91e90f7efe`. CLI prepare/dry-run/economic fixture exit 0;
-thử run thiếu release exit 1 trước credential/HTTP. Oracle tái đối soát
-60 population A/context với nguồn W10-05, 480 contract SDK, 117 prior-off
-canonical và mẫu 12 điểm repeat không fallback. Prefix/prompt lớn nhất
-518/4.671 ký tự, dưới trần 600/6.500. Context lock vẫn có digest
-`19db9111bdea7865478f809c188b5903d89b1090edb93fdb941d4c9e48250ddd`.
-
-Trên metadata thật: kiểm **60 primary + 12×3 repeat**, **96 thứ tự block /
-804 contract SDK**, cùng request/upstream và rotation đã khóa, không invoke
-Decision. Đây là dry-run, chưa có action/return development revision thật.
-
-Trên nguồn tổng hợp ngoài workspace, SDK/transport thật dùng HTTP mock:
-**12 primary + ba lượt 12 điểm**, tổng **156 HTTP giả lập**, mỗi repeat 42.
-Mỗi lượt có 12 duplicate độc lập; restart SDK rồi resume/verify không thêm
-HTTP, primary/packet/upstream giữ nguyên byte. Numeric chỉ tính ở primary;
-repeat tách report, không nhập D hoặc chọn lượt tốt nhất. Report mang
-`split=fixture`; checkpoint/ledger/cache mock được giữ trong ZIP, không
-dùng làm kết quả khoa học. Fixture kinh tế vẫn kiểm đủ bốn đường LONG/CASH.
-
-R_task đạt kỹ thuật nhưng cache chỉ **3 điểm có ≥2 task, FPT=0**;
-`task_coverage_eligible=false`. Giữ ngưỡng đề cử ≥6 và ≥1/mã. Gate kỹ thuật
-không cấp release: consumer authorization vẫn từ chối khi thiếu release,
-`api_release_issued=false`, `confirmation_allowed=false`. Không có API/LLM
-thật hoặc payoff/action 2025 mới; deployment/risk OFF giữ nguyên.
-
-**Gói bằng chứng:**
-[`validation_gates/revision_acceptance_v1.zip`](validation_gates/revision_acceptance_v1.zip),
-**828 entry / 5,302,967 byte**, SHA-256 byte
-`7770c149f8f0f72387fb7759072e7e01de96720aafc39345a9c3f21015f82cec`.
-Manifest/hash từng entry/CRC PASS; gồm source của 271 tệp, plan, source
-freeze, receipt/log/inventory bốn gate, CLI/oracle/metadata 60 điểm, fixture
-primary/repeat và công cụ QA. **6.711 tệp cũ nguyên byte**, gồm W9, ledger,
-snapshot W10-01–06 và plan; root README giữ nguyên. Diff/liên kết PASS.
-
-Đọc lại gate offline từ root, đồng thời kiểm source/runtime hiện tại:
-
-```powershell
-@'
-from pathlib import Path
-from core.bic_icl_protocol import CohortSources
-from core.candidate_selection import read_technical_gates
-from core.research_cohort import read_envelope
-plan = read_envelope(Path("outputs/bayesian_benchmark/bic_icl_v2/development_plan_v1.json"))
-CohortSources().validate(plan)
-print(read_technical_gates(Path("docs/plan/week10/validation_gates/revision_v1/technical_gates.json"), plan)["status"])
-'@ | py -3.13 -X utf8 -
-```
-
-Tiếp theo **W10-08**: hướng dẫn API/resume/verify và chương phương pháp;
-W11-01 còn khóa upstream/request/repeat và release development trước API.
-
-## W10-08 — Hướng dẫn vận hành, chương phương pháp và bàn giao, 22/10/2026
-
-**DONE; W10 COMPLETE 8/8, Gate kỹ thuật W10 PASS.**
-[Hướng dẫn vận hành](operations.md) đối chiếu trực tiếp CLI hiện hữu:
-prepare/dry-run/fixture, policy cache/fresh, preflight, primary/repeat,
-resume/verify và xử lý Ctrl+C/quota/unknown. Ghi rõ model/options pin,
-VI/risk OFF, ledger chung, các artifact ignored cần giữ cùng workspace
-và điều kiện source/runtime/request trước API. Flag `--upstream` chỉ
-chọn policy khi prepare; cả ba repeat dùng cùng run root, report riêng.
-
-[Bản thảo chương phương pháp](methodology_chapter.md) có nội dung hoàn
-chỉnh về câu hỏi nghiên cứu, split/exposure, nhãn T+2.5, estimand tài
-khoản, posterior C/B1/B2, lambda train, demonstrations/task/centroid,
-gate/budget, paired/shared-off/alias/duplicate, ablation/repeat,
-selection/STOP và thiết kế bootstrap/power. Phân biệt thành phần Bayes
-tính ngoài LLM, ICL trong context và policy Numeric. Có ánh xạ code/bằng
-chứng; không sửa đặc tả legacy hoặc protocol v1 đã khóa. Đã đối chiếu
-thông tin thư mục và định vị học thuật với nguồn PMLR chính thức của
-[Zhu, Oermann và Cho (2026)](https://proceedings.mlr.press/v306/zhu26aj.html).
-
-**QA CLI thật:** `--help`, `--prepare`, `--dry-run`, `--economic-fixture`
-đều exit 0. Ba lệnh `--preflight`, `--lock-upstream`, `--run` có receipt
-gate nhưng thiếu release đều exit 1 đúng dự kiến, dừng trước credential/
-HTTP dù trỏ env-file không tồn tại. Plan giữ nguyên byte/timestamp;
-dry-run đủ 60 điểm/mẫu repeat 12, fixture kinh tế đủ bốn đường LONG/CASH.
-Không tạo run development hoặc gọi API/LLM thật.
-
-Đối soát lệnh trong hướng dẫn với help/argparse: không dùng mode tạo
-release hoặc flag replay của runner legacy. Các lệnh online và phương
-án fresh được đánh dấu **có điều kiện sau W11-01**, chưa thực hiện trong
-task này. Verify run/repeat/resume dựa trên code và bằng chứng fixture
-W10-07; chưa có run thật để ghi là đã verify primary/repeat thực nghiệm.
-
-**Bàn giao W11:** [đầu vào và việc còn lại](../week11/README.md#đầu-vào-đã-bàn-giao-từ-w10).
-W11-01 còn kiểm nguồn/gate, khóa policy/packet/request/context/repeat và
-producer/verifier release development. W11-02/03 người dùng chạy API;
-selection, bootstrap và manifest/release xác nhận 2025 thuộc W11-05–07.
-Consumer release đã có, chưa có producer phát hành ở W10. Receipt gate
-và metadata dry-run không tự mở run. Coverage R_task vẫn chỉ ba điểm có
-≥2 task, FPT=0, chưa đủ đề cử; giữ nguyên ngưỡng và mọi kết luận missing.
-
-Theo **AGENTS.md 1.2**, task chỉ sửa **năm Markdown**: hai tài liệu độc
-lập mới, README W10/W11 và kế hoạch tổng; không đổi code/test/runtime/
-schema/input. **Không chạy lại compileall/unit/E2E/leakage**. Viện dẫn
-đúng lượt W10-07: 1.083 unit/235 leakage và compileall/E2E PASS; đọc lại
-receipt/source/runtime bằng consumer hiện tại PASS, không ghi thành suite
-mới. Đối chiếu CLI, số liệu power/coverage, link/anchor/diff/hash PASS;
-**6.719 tệp nguồn/bằng chứng cũ nguyên byte**, gồm W9, ledger, plan,
-protocol, receipt và archive W10-07. Root README giữ nguyên.
-
-Gate W10 xác nhận đủ triển khai/nghiệm thu kỹ thuật và tài liệu bàn giao;
-hiệu quả kinh tế revision chưa được đo. **Tiếp theo W11-01; W11 vẫn TODO
-0/8.** Giữ `confirmation_allowed=false`, chưa phát hành hoặc chạy xác
-nhận 2025, không đổi deployment/risk OFF.
+| U10-01 | Audit source/exposure, benchmark A, footprint và compatibility | W9 | Nguồn W9 nguyên; 2025 PASS hoặc reason; chưa đọc payoff mới | [ ] TODO |
+| U10-02 | Khóa protocol U-BICL, ma trận/claim/limits và fixture | 01 | Một candidate, không quét prompt; công thức/task/mode rõ | [ ] TODO |
+| U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [ ] TODO |
+| U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [ ] TODO |
+| U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [ ] TODO |
+| U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [ ] TODO |
+| U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [ ] TODO |
+| U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [ ] TODO |
+| U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [ ] TODO |
+| U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
+
+Module dự kiến: core/unified_bayes_memory.py, unified_bayes_statistics.py,
+unified_bayes_context.py, unified_bayes_runtime.py, unified_bayes_reports.py;
+scripts/run_unified_bayes.py; schema/fixtures cần thiết dưới W10. Tất cả là
+đề xuất, chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
+kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
+
+Tests phải phủ partition/oracle/n=0/future append/query self-match, độ tương
+thích nguồn/JSON, label-shuffle invariant ranking, task fallback/budget,
+shared-off/duplicate/resume/unknown, metric engine. P0/liên module chạy đủ
+bốn gate, không chỉ test renderer. Không tạo unit test chỉ để xác nhận chuỗi
+Markdown. API chỉ do người dùng chạy sau bàn giao CLI đã kiểm.
+
+## Điểm dừng và tính khả thi
+
+Một cấu hình hợp nhất, một vòng development; nếu pooling trượt dùng A,
+task thưa dùng episode fallback theo rule đã khóa. Hết W10 không đạt gate
+kỹ thuật thì không chạy API hoặc gọi mock là hiệu quả. Không nối thêm tuần
+để thử vô hạn; W12 vẫn nộp luận văn với kết quả đã có và giới hạn trung thực.
+Tổng hợp các thành phần có thể tạo tương tác bất lợi; cần W11 chứng minh,
+không suy hiệu quả từ tên phiên bản hoặc tổng gain các bảng lịch sử.
+
+## Bàn giao thay thế kế hoạch và dọn revision cũ
+
+Đã gỡ 74 tệp được Git theo dõi của revision cũ, gồm 37 tệp Python và các
+schema, fixture, báo cáo, bằng chứng riêng W10–W11. Không đổi mã legacy,
+W9 hoặc mặc định hệ thống. Kế hoạch tổng và W10–W12 đã đồng bộ; đây không
+phải hoàn thành các task U10/U11/U12 hoặc triển khai U-BICL.
+
+Đối chiếu SHA-256 xác nhận report, bootstrap và frozen_results_v1.zip của
+holdout W9 cùng outputs/oos_pilot/api_usage.json nguyên byte. Kiểm tra
+liên kết/anchor mới, UTF-8, số task và git diff --check đạt; không còn
+tham chiếu mã revision đã gỡ trong source và tài liệu đang theo dõi.
+
+Do có gỡ mã liên module, đã chạy lại đủ bốn gate trên Python 3.13.5:
+compileall PASS; unit 925/925 PASS (1.957,646 giây); E2E PASS (6,8 giây);
+leakage riêng 168/168 PASS (543,364 giây). Đây là kiểm tra hệ thống còn lại
+sau dọn revision, không phải bằng chứng kỹ thuật/kinh tế của U-BICL chưa
+triển khai. Sau các gate chỉ bổ sung ghi nhận này, không đổi code/runtime.
+
+Thư mục ignored outputs/bayesian_benchmark/bic_icl_v2 còn 896 tệp,
+165.457.756 byte. Bộ kiểm tra phê duyệt tự động từ chối thao tác xóa với
+thông báo “blocked by policy”, không cung cấp lý do chi tiết. Thư mục này
+chưa được xóa và không là đầu vào của kế hoạch mới. Lịch sử Git vẫn giữ
+provenance; không sửa lịch sử usage hoặc coi dữ liệu đã xem là chưa xem.
