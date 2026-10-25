@@ -198,7 +198,7 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [x] DONE — 34/60 có ≥2 task; BRPP tối đa 406/600; nguồn/oracle/CLI và bốn gate PASS |
 | U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [x] DONE — 300 body/32 test, shared-off/resume/SDK/source guard và bốn gate PASS |
 | U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [x] DONE — CLI/source/schema/report, 24 test, lifecycle 60 điểm và bốn gate PASS |
-| U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [ ] TODO |
+| U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [x] DONE — diagnostics 60 điểm, 25 test mới/6 boundary, receipt đúng code/runtime; bốn gate PASS |
 | U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [ ] TODO |
 | U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
 
@@ -206,7 +206,8 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 unified_bayes_diagnostics.py, unified_bayes_context.py, unified_bayes_prompt.py,
 unified_bayes_decision.py, unified_bayes_transport.py và unified_bayes_runtime.py.
 CLI/cohort/source/contracts/reports và schema artifact riêng đã nghiệm thu
-tại U10-07; diagnostics/dry-run/readiness tiếp tục ở U10-08–09.
+tại U10-07; diagnostics/receipt và ma trận lỗi đã nghiệm thu tại U10-08.
+Dry-run/MDE/readiness tiếp tục ở U10-09.
 Tái dùng engine, HMM, feature, retry/pacer/ledger đã
 kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
 
@@ -1000,6 +1001,81 @@ E2E PASS; **230/230 leakage test PASS**, không vi phạm. Sau toàn bộ gate,
 QA source/hash/số liệu, schema/native JSON, UTF-8/link/diff PASS.
 **U10 đạt 7/10**, tiếp theo **U10-08** diagnostics/failure-resume/leakage;
 U10-09 mới khóa dry-run/MDE/readiness; chưa API LLM thật hoặc release.
+
+## U10-08 — Diagnostics, ma trận lỗi và phục hồi, bốn gate (25/10/2026)
+
+Module `core/unified_bayes_validation.py` cùng CLI
+`scripts/validate_unified_bayes.py` dùng cold loader U10-07, kiểm lại toàn
+plan/source/request trước khi tạo diagnostics. Oracle metadata đối chiếu
+partition C/B1/B2, cùng mã, `exit<query`, self-match, tuổi ≤730 ngày của
+examples/task và block 90 phiên. Diagnostics giữ coverage/mode/readiness,
+lý do thiếu feature/support, số task được chọn, visibility/alias/shared-off
+và chiều dài prefix/prompt theo điểm, theo mã và toàn cohort. Cùng Full/base,
+instruction/model/options/schema và projection được kiểm lại; không tính
+payoff query hoặc dùng action để tạo diagnostics. Consumer yêu cầu bản dựng
+lại từ nguồn; checksum tự reseal không thay bằng chứng nguồn.
+
+[Fixture ma trận lỗi](fixtures/unified_bic_failure_matrix_v1.json) được test
+đọc trực tiếp. Sáu boundary trải trên bốn mã và nhánh U_full/duplicate:
+trước intent, sau intent, sau raw response, trước seal, sau seal và sau HTTP
+cache. Mỗi ca mở lại handle cohort từ cùng journal/ledger, giữ UUID/audit,
+slot complete nguyên byte và không phát lại HTTP thành công. Repeat giữ
+primary; duplicate vẫn độc lập. Ca 429/503 kiểm retry-after/backoff cùng
+body/UUID; auth/quota giữ unknown, không đổi lỗi thành CASH. Poison source,
+code hoặc authorization giữa retry phải chặn HTTP kế tiếp. Các test còn
+chặn alias/tuổi/partition/membership sai và sửa diagnostics/log/receipt/lệnh.
+Toàn bộ SDK chạy qua HTTP mock, ledger tạm và fake clock; các log fixture
+chỉ kiểm producer/consumer, không phải log nghiệm thu dự án.
+
+Producer hồi quy thực chạy bốn lệnh cố định, ghi log riêng và kiểm
+source/runtime/code trước/sau từng gate. Lỗi dừng, giữ progress/log và không
+cấp audit PASS. `technical_gates.json` giữ schema consumer U10-07, bind 22
+file execution; `validation_audit.json` bổ sung binding LF của toàn code,
+test, fixture, schema và cấu hình, cùng SHA byte của diagnostics/receipt/log.
+Việc này giữ nguyên execution plan và code-map đã đóng băng; audit cũng
+không cấp readiness U10-09 hoặc release.
+
+[Diagnostics nguồn thật](../../../outputs/bayesian_benchmark/unified_bic_v1/validation/diagnostics.json)
+gồm **212.868 byte**, SHA-256 byte
+`6562ac167d13eb619871866fe25833dcc4f35e1958b7fc9aad9ee0b4969dfb96`;
+bind **358 nguồn / 22 execution file / 303 code-test-fixture-schema-config file**.
+Oracle độc lập đọc plan/memory xác nhận đủ **60 điểm**: **41 task / 0 fallback /
+19 off**; readiness **36 both / 15 one block / 9 off**, **34 điểm có ≥2 task**
+(FPT/MWG/VCB/VNM: 3/11/10/10). Visibility Original/A/U_full/U_stats/U_examples
+là **0/50/51/46/41**, shared-off đủ điều kiện **0/10/9/14/19**. Prefix tối đa
+**518/600** (U tối đa 406), prompt tối đa **4570<6500** ký tự. Guard nguồn
+thật PASS: mạng/key/Decision nguồn/giá 2025/ledger/payoff query=0; **7.137 file
+cũ nguyên byte**, gồm plan và report planned U10-07.
+
+```powershell
+# Prepare một lần rồi verify mặc định; không đọc key, ledger hoặc gọi API.
+py -3.13 -X utf8 scripts/validate_unified_bayes.py --prepare
+py -3.13 -X utf8 scripts/validate_unified_bayes.py
+# Thực chạy mới đủ bốn gate, tạo thư mục validation riêng cho từng đợt.
+py -3.13 -X utf8 scripts/validate_unified_bayes.py --run-gates
+```
+
+**Nghiệm thu trên Python 3.13.5, đúng code cuối:** 25 test mới PASS, gồm
+8 test leakage và 6 boundary trong fixture. Nguồn thật/oracle/guard,
+compileall, **1089/1089 unit test** (2.390,167 giây), E2E (6,9 giây) và
+**238/238 leakage test** (336,640 giây) PASS, không có skip hoặc vi phạm.
+
+[Receipt bốn gate](../../../outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T182506_2bb477b2bb344779b993e609e09639cf/technical_gates.json)
+có SHA-256 byte `5d28cb8e51b1542600eac3c249ff6cc931e8f8b120e3a521fbbe2d347a186c8f`;
+[audit validation](../../../outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T182506_2bb477b2bb344779b993e609e09639cf/validation_audit.json)
+có SHA-256 byte `86b2b5a866e09f68459836755356c1b7b4d524a2b1ec28d08c8260e2e150a470`.
+Consumer đã đối soát cả bốn log byte, lệnh cố định, diagnostics tái dựng,
+303 file code/test/fixture/schema/config và source/runtime. Artifact ignored
+cần nguồn local đã khóa; không có trong clone Git sạch.
+
+```powershell
+py -3.13 -X utf8 scripts/validate_unified_bayes.py --verify-audit outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T182506_2bb477b2bb344779b993e609e09639cf/validation_audit.json
+```
+
+Sau bốn gate, code/runtime và **7.137 file cũ vẫn nguyên byte**, gồm W9,
+ledger, root README, các lock U10-02–07, plan và report planned. Kiểm tra
+UTF-8/diff/liên kết/số liệu PASS. **U10 đạt 8/10**, tiếp theo **U10-09**
+khóa dry-run/coverage/MDE/readiness; chưa gọi API LLM thật hoặc release.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 
