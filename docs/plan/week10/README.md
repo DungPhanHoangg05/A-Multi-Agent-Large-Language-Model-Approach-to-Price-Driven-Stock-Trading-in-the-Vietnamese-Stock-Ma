@@ -1,8 +1,8 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: 5/10 task DONE, cập nhật 24/10/2026; đã audit nguồn, khóa protocol, memory/index, backbone và context/renderer U-BICL v1.**
+**Trạng thái: 6/10 task DONE, cập nhật 25/10/2026; đã khóa instruction chung, shared-off và journal/retry U-BICL v1; bốn gate PASS.**
 Giá thực thi 2025 đã PASS; pooling λ=8 khóa offline và bốn gate hồi quy PASS.
-Context/renderer đã khóa và bốn gate U10-05 PASS; runtime U-BICL còn TODO,
+Context/renderer và kernel U10-06 đã khóa, nguồn thật và bốn gate hồi quy PASS;
 xác nhận chưa có release và vẫn cần các gate U10/U11.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -196,17 +196,18 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-03 | Memory/index revision từ upstream đã có | 02 | PIT/dedup/label/model/scaler/age; không Decision feature | [x] DONE — 976 record; scaler train-only, CLI nguồn thật và bốn gate PASS |
 | U10-04 | Backbone A, thử pooling offline và khóa choice | 03 | Oracle/fold/loss/coverage; rule PASS thì nhận, không thì A | [x] DONE — λ=8 PASS/LOCKED trên train; oracle/CLI và bốn gate PASS |
 | U10-05 | Task context/fallback/ranking và prompt | 03–04 | Label-blind, task support, budget 600/6500; thiếu đúng reason | [x] DONE — 34/60 có ≥2 task; BRPP tối đa 406/600; nguồn/oracle/CLI và bốn gate PASS |
-| U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [ ] TODO |
+| U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [x] DONE — 300 body/32 test, shared-off/resume/SDK/source guard và bốn gate PASS |
 | U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [ ] TODO |
 | U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [ ] TODO |
 | U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [ ] TODO |
 | U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
 
 Đã có core/unified_bayes_memory.py, unified_bayes_statistics.py,
-unified_bayes_diagnostics.py, unified_bayes_context.py và unified_bayes_prompt.py.
-Các module tiếp theo dự kiến: unified_bayes_runtime.py, unified_bayes_reports.py;
+unified_bayes_diagnostics.py, unified_bayes_context.py, unified_bayes_prompt.py,
+unified_bayes_decision.py, unified_bayes_transport.py và unified_bayes_runtime.py.
+Các module tiếp theo dự kiến: unified_bayes_reports.py;
 scripts/run_unified_bayes.py; schema/fixtures cần thiết dưới W10.
-Runtime và CLI chạy U-BICL chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
+Kernel runtime đã có; CLI chạy toàn ma trận U-BICL chưa tồn tại. Tái dùng engine, HMM, feature, retry/pacer/ledger đã
 kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
 
 Tests phải phủ partition/oracle/n=0/future append/query self-match, độ tương
@@ -808,6 +809,96 @@ số liệu, hash, liên kết, UTF-8 và diff PASS. Sau khi khóa context/prefi
 cập nhật tài liệu, không đổi code/runtime/nguồn hoặc rule theo outcome.
 **U10 đạt 5/10**, tiếp theo **U10-06** shared-off, instruction chung và
 journal/retry; chưa gọi LLM U-BICL hoặc phát hành xác nhận.
+
+## U10-06 — Instruction chung, shared-off và journal/retry, 25/10/2026
+
+**DONE — kernel, contract nguồn thật, 32 test trọng tâm và bốn gate hồi quy
+đầy đủ PASS trên đúng code/runtime cuối.** Triển khai riêng
+[`core/unified_bayes_decision.py`](../../../core/unified_bayes_decision.py),
+[`core/unified_bayes_transport.py`](../../../core/unified_bayes_transport.py),
+[`core/unified_bayes_runtime.py`](../../../core/unified_bayes_runtime.py) và
+[`scripts/prepare_unified_bayes_execution.py`](../../../scripts/prepare_unified_bayes_execution.py).
+Giữ nguyên code/runtime dùng chung, protocol/fixture, bằng chứng W9 và lock
+U10-02–05; instruction mới có version/lock riêng. Trường pending trong lock
+renderer U10-05 vẫn là snapshot lịch sử, không sửa byte để đánh dấu tiến độ.
+
+Cả năm nhánh Original/A_reference/U_full/U_stats/U_examples dùng cùng
+instruction VI/EN và `TradeDecisionOutput` legacy qua serializer SDK thật;
+chỉ khác prefix. Horizon ghi rõ **Open(t+1)→Close(t+3) theo phiên**, output
+giữ T+2.5, SHORT=CASH và phí engine hiện hữu. Instruction phân biệt tỷ lệ
+lịch sử với P(query), giải thích T/P và w0, yêu cầu đối chiếu tín hiệu hiện
+tại/giải thích mâu thuẫn; không buộc theo prior. Trace T/E được trích từ các
+field giải thích sẵn có, chỉ telemetry; không thêm probability/prior_use,
+field bắt buộc, vote hoặc sửa action. Numeric_only không đi qua kernel LLM.
+A_reference tái dùng nguyên masks, selector, bốn metric và renderer A trên
+union đã kiểm; ba view U giữ nguyên prefix/alias U10-05.
+Đối chiếu đủ 60 base evidence giữ nguyên mọi trường semantic; chỉ hash
+feature và seal base đổi vì adapter thêm provenance giá/lịch. Mỗi packet
+vẫn bind đúng evidence mới được tái dựng từ nguồn.
+
+Giữ cap/distill và trần **BRPP≤600/prompt<6.500 Unicode code point**.
+Report bão hòa, reserve đủ 600 và instruction mới đạt **6.349 VI / 6.299 EN**;
+300 body nguồn thật tối đa **4.570**, prefix toàn ma trận tối đa **518/600**
+(riêng U vẫn 406). Không cắt K hoặc legend để vừa trần.
+
+Journal lưu intent, raw structured response rồi output hợp lệ bằng ghi
+nguyên tử, khóa OS và một UUID/slot. Original phải complete durable trước
+nhánh khác trong cùng point/repeat. Prior-off chỉ deep-copy khi toàn body,
+model/options/schema trùng Original; lưu `decision_origin=shared_original`
+và tham chiếu byte/hash nguồn đúng point/repeat, **không UUID/HTTP giả**.
+Body khác phải invoke với reason. Whitelist alias stats rỗng: Full/Stats
+visible có body giống nhau vẫn invoke độc lập; Original_duplicate luôn
+độc lập. Primary/repeat giữ rotation protocol, ba repeat khai báo trước,
+cùng prepared request và một upstream/point, không gọi lại vision.
+
+Tái dùng `_invoke_with_retry`, ResilientPacer/Transport, budget và ledger
+hiện hữu: 429 theo retry-after, transient backoff; auth/quota dừng giữ usage
+và checkpoint. Unknown phục hồi cùng UUID có audit; upstream dùng StageJournal
+cũ với audit bên cạnh và khóa OS. HTTP response thành công đã durable được
+phục hồi trước request mới; response lỗi format đã tiêu thụ không được cache
+lại như format attempt tiếp theo. Tối đa hai format attempt, cùng body/UUID;
+complete không replay. Lỗi không biến thành CASH hoặc bỏ qua điểm.
+
+Verifier kiểm toàn manifest/schedule, mọi prepared point/slot, code/runtime,
+source, SDK body/model/options/schema và ledger trên đĩa trước chạy tiếp.
+HTTP guard kiểm lại nguồn/body trước từng retry. Parsed/output phải khớp
+raw HTTP và audit thực; sửa đồng thời parsed/output rồi reseal vẫn bị chặn.
+Binding phân biệt integer/float, chặn reuse chéo point/repeat, đổi nguồn,
+request hoặc ledger; không ghi đè usage trên đĩa bằng state RAM cũ.
+
+```powershell
+# Chỉ khóa instruction/body offline từ upstream development đã kiểm.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_execution.py --prepare
+# Mặc định cũng verify-only; dựng lại nguồn và 300 body qua SDK serializer.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_execution.py --verify-only
+```
+
+[Instruction/request lock](../../../outputs/bayesian_benchmark/unified_bic_v1/inputs/execution_contract_v1.json)
+gồm **1 file, 4.769.583 byte**, bind **357 nguồn trực tiếp**, renderer/choice
+và code LF/runtime. SHA-256 byte:
+`9d7ef5d43b7ebde1cd697aa1417730184600d38d815969ca92b15a4623f1abd0`.
+Input ignored không có trong clone Git; `status=LOCKED`, `is_execution_plan=false`,
+`confirmation_allowed=false`, **HTTP/Decision call=0**. Prepare và verifier cold
+nguồn thật PASS khi chặn mạng/socket/key/ledger/Decision/giá thực thi 2025.
+Cold loader kiểm integrity snapshot lịch sử; không dùng payoff query để chọn
+instruction, alias hoặc action. Chưa là producer/report U10-07, runtime dry-run
+U10-09, provider preflight hoặc release xác nhận.
+
+Oracle độc lập kiểm đủ 300 body/schema/instruction, 60 prefix U/alias đã khóa,
+112 metric A visible bằng counts/Beta tính lại từ memory, nguồn và native JSON.
+A_reference/U_full/U_stats/U_examples có prefix **50/51/46/41**; số prior-off
+đủ điều kiện canonical reuse **10/9/14/19** trên 60 điểm. Đây là eligibility
+offline, chưa là invocation/usage hoặc kết quả LLM. Prepare lặp/verify mặc định
+giữ nguyên byte; sửa instruction/body/schema/kiểu số rồi reseal bị chặn.
+**6.594 file cũ nguyên byte**, gồm W9, ledger, root README và các lock cũ.
+
+**Nghiệm thu trên Python 3.13.5, đúng code cuối:** 32 test trọng tâm PASS;
+compileall PASS; **1040/1040 unit test PASS** (32 test U10-06 mới);
+E2E PASS; **218/218 leakage test PASS**, không vi phạm. Sau toàn bộ gate,
+6.594 file cũ và execution lock vẫn nguyên byte; code/runtime không đổi.
+QA nguồn, số liệu/hash, native JSON, UTF-8, liên kết và diff PASS.
+**U10 đạt 6/10**, tiếp theo **U10-07** CLI producer/loader/verifier/report;
+chưa gọi API U-BICL hoặc phát hành xác nhận.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 
