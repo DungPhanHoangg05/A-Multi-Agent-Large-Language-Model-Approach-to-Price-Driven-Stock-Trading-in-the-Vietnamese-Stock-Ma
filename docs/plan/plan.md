@@ -15,7 +15,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 8/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 9/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
@@ -23,7 +23,9 @@ trọng tâm và bốn gate hồi quy đầy đủ PASS trên đúng code/runtim
 U10-07 đã nghiệm thu CLI/source/cohort/report và schema riêng; 24 test, nguồn
 thật/oracle/lifecycle và bốn gate hồi quy đầy đủ PASS trên code/runtime cuối.
 U10-08 đã nghiệm thu diagnostics/receipt và ma trận ngắt/resume; 25 test mới,
-1089 unit/238 leakage, compileall/E2E PASS; U10-09 còn dry-run/MDE/readiness.
+1089 unit/238 leakage, compileall/E2E PASS. U10-09 đã khóa dry-run 60 điểm,
+coverage/MDE/repeat/readiness; 1111 unit/248 leakage và bốn gate PASS.
+U10-10 còn bàn giao vận hành/phương pháp; chưa preflight hoặc API thật.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -416,8 +418,8 @@ và các vòng đã dùng để phát triển phải được giải trình.
 ensemble, risk overlay, soft regime hoặc cross-symbol. Thiếu gate/coverage
 hoặc không đạt nomination thì không chạy xác nhận để cứu kết quả. W12 vẫn
 hoàn thành luận văn từ W9 và kết quả U đúng phạm vi. API do người dùng chạy;
-memory/backbone/context đã có module riêng; runtime và CLI thực nghiệm U
-chưa hoàn tất. Trạng thái nghiệm thu từng phần được ghi tại README W10.
+memory/backbone/context/runtime và CLI offline đã nghiệm thu tới U10-09;
+U10-10 còn bàn giao vận hành. Trạng thái từng phần được ghi tại README W10.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1228,7 +1230,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 8/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 9/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1358,6 +1360,27 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   **7.137 file cũ nguyên byte**, gồm W9, ledger, U10-02–07 và report planned.
   **U10 đạt 8/10**, tiếp theo **U10-09** khóa dry-run/coverage/MDE/readiness;
   chưa API LLM thật, nomination hoặc release.
+
+- **Dry-run, coverage/MDE và readiness, 25/10/2026:** [U10-09 DONE](week10/README.md#u10-09--dry-run-coverage-mde-và-readiness-25102026).
+  CLI cold tái dựng source/plan/request, khóa assessment và bridge sáu field
+  đúng consumer U10-07, không sửa plan U10-07 hoặc journal planned. 60 điểm/
+  21 cutoff/96 block; 300 slot primary và 216 repeat, Numeric offline.
+  Coverage prior 51/60, examples 41/60, ≥2 task 34/60 đạt rule; observed LLM
+  common support/repeat vẫn 0. Giữ 12 điểm, ba strata/mã và ba repeat; reason,
+  upstream/packet/schedule/model hash khóa trước action, không vote/chọn lượt.
+  MDE từ 647 query train đã purge, 152 cụm đủ bốn mã/608 row; 39 row thiếu
+  cụm khai báo loại, không điền 0 hoặc bỏ điểm development. 54 scenario
+  policy cố định, block 4/sensitivity 2/8, PCG64 seed=20261024 và 5.000 cặp
+  antithetic. MDE location-shift dưới proxy action, không là power LLM thực
+  hoặc bootstrap xác nhận; 128 điểm chỉ layout giả định, chưa chứng nhận power.
+  **22 test mới, compileall, 1111/1111 unit, E2E và 248/248 leakage PASS**
+  trên code cuối. Dry-run/prepare/cold verifier và oracle độc lập 54 scenario/
+  repeat/rotation PASS; guard HTTP/key/ledger/Decision nguồn/giá 2025/payoff
+  query=0. Receipt 22 execution file và audit LF 308 code/test/fixture/schema/
+  config file khóa log byte/source/runtime; bridge được consumer chấp nhận.
+  Hai artifact ignored 287.465/514 byte; **7.153 file cũ nguyên byte**, gồm
+  W9, ledger, U10-02–08, plan và report planned. Chưa authorization/preflight,
+  API thật, nomination hoặc release. **U10 đạt 9/10**, tiếp theo **U10-10**.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
