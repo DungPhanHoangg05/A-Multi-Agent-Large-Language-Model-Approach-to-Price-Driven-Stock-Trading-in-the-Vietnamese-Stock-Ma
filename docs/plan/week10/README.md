@@ -1,6 +1,6 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: 7/10 task DONE, cập nhật 25/10/2026; CLI producer/loader/verifier/report U-BICL đã nghiệm thu, bốn gate PASS.**
+**Trạng thái: 9/10 task DONE, cập nhật 25/10/2026; dry-run/coverage/MDE/readiness U10-09 đã khóa offline, bốn gate PASS.**
 Giá thực thi 2025 đã PASS; pooling λ=8 khóa offline và bốn gate hồi quy PASS.
 Context/renderer và kernel U10-06 đã khóa, nguồn thật và bốn gate hồi quy PASS;
 xác nhận chưa có release và vẫn cần các gate U10/U11.
@@ -11,7 +11,7 @@ xác nhận chưa có release và vẫn cần các gate U10/U11.
 Xây dựng **Unified Bayesian In-Context Learning (U-BICL)**: một phương pháp
 hợp nhất lấy A_tp_pool làm nền, sử dụng có chọn lọc retrieval, posterior,
 bất định và demonstrations để cải thiện Decision LLM. Đây là ứng viên mới,
-chưa triển khai/chưa được xác nhận, không mặc định là phiên bản mạnh nhất.
+đã triển khai offline, chưa có kết quả LLM hoặc xác nhận, không mặc định là phiên bản mạnh nhất.
 Không thay LLM bằng policy số rồi gọi phần thắng đó là đóng góp ICL.
 
 A ở W9 có D=+2,025325 đpt so Original, CI95% [0,135027; 4,211864], tăng ở
@@ -199,7 +199,7 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-06 | Shared-off, instructions chung và journal/retry | 02 | Body/source/repeat binding; prior-off reuse; no hidden policy | [x] DONE — 300 body/32 test, shared-off/resume/SDK/source guard và bốn gate PASS |
 | U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [x] DONE — CLI/source/schema/report, 24 test, lifecycle 60 điểm và bốn gate PASS |
 | U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [x] DONE — diagnostics 60 điểm, 25 test mới/6 boundary, receipt đúng code/runtime; bốn gate PASS |
-| U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [ ] TODO |
+| U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [x] DONE — 60 điểm/12 repeat/54 scenario MDE, readiness cold-verify; 22 test mới và bốn gate PASS |
 | U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
 
 Đã có core/unified_bayes_memory.py, unified_bayes_statistics.py,
@@ -207,7 +207,7 @@ unified_bayes_diagnostics.py, unified_bayes_context.py, unified_bayes_prompt.py,
 unified_bayes_decision.py, unified_bayes_transport.py và unified_bayes_runtime.py.
 CLI/cohort/source/contracts/reports và schema artifact riêng đã nghiệm thu
 tại U10-07; diagnostics/receipt và ma trận lỗi đã nghiệm thu tại U10-08.
-Dry-run/MDE/readiness tiếp tục ở U10-09.
+Dry-run/MDE/readiness đã khóa tại U10-09; U10-10 còn bàn giao vận hành/phương pháp.
 Tái dùng engine, HMM, feature, retry/pacer/ledger đã
 kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
 
@@ -1076,6 +1076,125 @@ Sau bốn gate, code/runtime và **7.137 file cũ vẫn nguyên byte**, gồm W9
 ledger, root README, các lock U10-02–07, plan và report planned. Kiểm tra
 UTF-8/diff/liên kết/số liệu PASS. **U10 đạt 8/10**, tiếp theo **U10-09**
 khóa dry-run/coverage/MDE/readiness; chưa gọi API LLM thật hoặc release.
+
+## U10-09 — Dry-run, coverage, MDE và readiness (25/10/2026)
+
+CLI `scripts/prepare_unified_bayes_readiness.py` cùng
+`core/unified_bayes_readiness.py` tái dựng source/plan/request và diagnostics,
+kiểm receipt/audit bốn gate hiện tại trước planning. Prepare thêm hai artifact
+riêng: assessment nguồn/coverage/repeat/MDE và bridge readiness sáu field
+đúng consumer U10-07; mặc định verify-only từ nguồn, không tin self-seal.
+Không sửa plan, instruction/model/options, lịch, sample, namespace run,
+journal planned hoặc ledger. Fixture không được phát hành readiness thật.
+Chưa ghi authorization, preflight, UUID hoặc kết quả LLM.
+Nhãn `PENDING_U10_09` trong plan U10-07 là metadata của snapshot lịch sử;
+trạng thái nghiệm thu mới nằm ở receipt riêng gắn SHA plan, không sửa snapshot.
+
+Dry-run nguồn thật trên **60 điểm / 21 cụm cutoff / 96 block**, **300 slot
+LLM primary + 216 repeat**, Numeric_only 96 block offline. Guard chặn
+HTTP/key/ledger/Decision nguồn/giá 2025/payoff query PASS; **7.153 file cũ
+nguyên byte**, gồm toàn bộ artifact U10-08. Bốn gate của task này đang chạy
+trên **308 file code/test/fixture/schema/config**; receipt cũ 303 file giữ
+nguyên làm bằng chứng lịch sử, không nhận thay cho code planning mới.
+
+Coverage dự kiến giữ đủ 60 điểm; observed LLM common support/repeat pairs
+vẫn **0**, không gọi planned là kết quả hoàn tất. Gate prior/examples và
+multi-task claim dùng đúng ngưỡng protocol; G/T và fallback không thay primary.
+Repeat giữ **12 điểm, ba/mã**, đủ strata both-ready/one-block-ready/off;
+không dùng action hoặc chọn response tốt. Sidecar giữ reason chọn/bù,
+upstream/packet hash, cả schedule và rotation đã khóa; duplicate độc lập,
+repeat không cộng mẫu primary, không vote. Model/schema/body giữ nguyên;
+provider preflight là việc người dùng chạy sau handoff.
+
+### Giả định MDE được khóa trước mô phỏng nguồn thật
+
+[Policy planning v1](fixtures/unified_bic_planning_v1.json) được code/test
+đọc và kiểm đúng hằng số. Dùng **647 query train 2021/2022 đã purge** của
+U10-04, đối chiếu nhãn với memory/engine; không lấy outcome hoặc Decision
+2023–2025. Chỉ resample **152 cụm đủ bốn mã = 608 row**, mỗi năm 76 cụm;
+39 row tại 13 cụm thiếu mã được khai báo loại, không điền return 0. Đây là
+complete-case calibration, không loại điểm khỏi lịch development 60 điểm.
+
+Giữ tương quan return bốn mã trong cụm và circular block L=4, sensitivity
+L=2/8; báo calibration gộp và từng năm. Proxy LONG có xác suất 0,5, độc lập
+theo cutoff, chia sẻ action giữa bốn mã; flip đối xứng với tỷ lệ bất đồng
+giả định 0,10/0,25/0,50. Mỗi scenario reset PCG64 seed=20261024, 5.000 path
+và 5.000 path đổi nhánh antithetic. Tổng 10.000 draw **không là 10.000 quan
+sát độc lập**; sai số Monte Carlo tính theo 5.000 cặp độc lập.
+
+Dựng bốn tài khoản fractional/full-cash bằng compounding net return có sẵn
+phí của engine, không cộng cycle return/trừ phí lần hai. D là trung bình đều
+delta return tài khoản, đơn vị đpt. Mô hình planning dịch terminal D bằng δ:
+critical=q97,5%(null), power(δ)=Pr(null+δ>critical), MDE80=q97,5%−q20%.
+Đây là **location-shift planning dưới proxy action**, không là mô phỏng policy
+thật, bootstrap CI xác nhận theo protocol hoặc power LLM đã quan sát.
+
+Layout development giữ đúng mask 21 cutoff/60 điểm và số điểm mỗi mã.
+Layout 128 điểm giả định 32 cutoff chung đủ bốn mã, chưa là lịch 2025;
+không đọc giá/chọn ngày 2025 hoặc tuyên bố N=128 đủ power. Báo toàn bộ
+**54 scenario**, không chọn giả định đẹp, thay N/mẫu, prompt, λ, model, K
+hoặc nomination threshold theo MDE. MDE không cấp release xác nhận.
+
+Kernel production trên nguồn train khớp oracle độc lập đủ 54 scenario.
+MDE80 tại calibration gộp/L=4 dưới các giả định trên:
+
+| Bất đồng action giả định | Development 60 điểm, đpt | Layout giả định 128 điểm, đpt |
+| --- | ---: | ---: |
+| 10% | 8,163846 | 13,094784 |
+| 25% | 13,371508 | 20,458868 |
+| 50% | 18,880029 | 29,196119 |
+
+Qua mọi calibration/L/tỷ lệ bất đồng đã định trước, MDE80 trong khoảng
+**7,225374–19,743189 đpt** với layout development và **12,340120–29,733758 đpt**
+với layout 128 giả định. Đây không phải expected gain của U; không suy power
+thực của LLM từ bảng này. Hai layout có horizon/số cycle khác nhau; không
+so MDE terminal đpt để kết luận tăng N làm power xấu hơn. Không đổi mẫu sau
+kết quả; trước release xác nhận vẫn cần lịch/nguồn/exposure và chẩn đoán
+noise phù hợp, không có chứng nhận 2025 đủ power trong task này.
+
+**Nghiệm thu trên Python 3.13.5, đúng code cuối:** 22 test mới PASS, gồm 10 test leakage; oracle tài
+khoản khớp engine, kernel RNG/mask/antithetic/coverage/repeat và guard nguồn/
+receipt/fixture PASS. Dry-run nguồn thật, compileall, **1111/1111 unit test**
+(3.837,602 giây), E2E (7,1 giây) và **248/248 leakage test** (357,676 giây)
+PASS trên code cuối, không skip hoặc vi phạm. Prepare và cold verifier nguồn
+thật đều PASS; oracle độc lập khớp đủ 54 scenario, sample/reason repeat và
+rotation; không đổi sample/phương pháp sau khi thấy planning.
+
+[Receipt bốn gate hiện tại](../../../outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T220030_8658658ad88c4fe1ba8b33afe7e273de/technical_gates.json)
+có SHA-256 byte `9921725569add0115cd482de02c6ab990cec18948e71fd17322f6abfe86c4d29`;
+[audit validation hiện tại](../../../outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T220030_8658658ad88c4fe1ba8b33afe7e273de/validation_audit.json)
+có SHA-256 byte `5f7b08e72f3d7c5df46114546b8b18b1ac90cbfc6cd888004311092f4e1d6019`.
+Code/runtime/source đã được producer/consumer đối soát lại với bốn log thực;
+audit này thay receipt code 303 file khi nghiệm thu planning mới 308 file.
+
+[Assessment nguồn/coverage/repeat/MDE](../../../outputs/bayesian_benchmark/unified_bic_v1/development/readiness/assessment.json)
+gồm **287.465 byte**, SHA-256 byte
+`6464e0f7b93315d00461b1806bc7cd0aa9fe5348b463a549916c2dec5655379d`.
+[Bridge execution readiness](../../../outputs/bayesian_benchmark/unified_bic_v1/development/readiness/execution_readiness.json)
+gồm **514 byte**, SHA-256 byte
+`9c3504e1b503add9e4e82a239d627239e10c61f2d171a6e9686d6cf5e10e28d1`.
+Consumer U10-07 đã chấp nhận bridge gắn đúng plan/request/gate hiện tại;
+assessment phải được verifier U10-09 tái dựng trước bàn giao, bridge không
+tự kiểm MDE. Hai artifact ignored cần nguồn local đã khóa, không có trong
+clone Git sạch; giữ nguyên khi resume. Ba gate coverage dự kiến đều PASS:
+prior 51/60 (FPT/MWG/VCB/VNM 9/14/13/15), examples 41/60 (5/13/12/11),
+≥2 task 34/60 (3/11/10/10). Mẫu repeat có đủ ba strata ở cả bốn mã, không
+cần fill; sidecar vẫn giữ rule/reason fill để kiểm fixture.
+
+```powershell
+$validationAudit = "outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T220030_8658658ad88c4fe1ba8b33afe7e273de/validation_audit.json"
+# Producer một lần; default là cold verify-only, không key/ledger/API.
+py -3.13 -X utf8 scripts/prepare_unified_bayes_readiness.py --validation-audit $validationAudit --prepare
+py -3.13 -X utf8 scripts/prepare_unified_bayes_readiness.py --validation-audit $validationAudit
+```
+
+Sau prepare/verifier, **7.153 file cũ nguyên byte**, code/runtime/source
+giữ đúng gate và plan; UTF-8/liên kết/diff/số liệu PASS. Chưa tạo authorization
+hoặc preflight của run; `model_preflight=PENDING_MANUAL_NONRESEARCH_PREFLIGHT`,
+`handoff=PENDING_U10_10_AND_U11_01`, confirmation/nomination false. Đây là
+khóa readiness offline, không phải kết quả LLM, provider availability hoặc
+release xác nhận. **U10 đạt 9/10**, tiếp theo **U10-10** bàn giao vận hành và
+bản thảo phương pháp; API thật vẫn do người dùng chạy sau bàn giao.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 
