@@ -1,0 +1,535 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hợp đồng artifact U-BICL v1",
+  "$defs": {
+    "legacy_decision": {
+      "description": "Schema nhị phân bắt buộc cho Groq Structured Outputs.",
+      "properties": {
+        "decision": {
+          "description": "Mandatory binary trading decision. Never neutral.",
+          "enum": [
+            "LONG",
+            "SHORT"
+          ],
+          "title": "Decision",
+          "type": "string"
+        },
+        "forecast_horizon": {
+          "title": "Forecast Horizon",
+          "type": "string"
+        },
+        "confidence": {
+          "title": "Confidence",
+          "type": "string"
+        },
+        "risk_reward_ratio": {
+          "maximum": 5.0,
+          "minimum": 1.0,
+          "title": "Risk Reward Ratio",
+          "type": "number"
+        },
+        "evidence_for": {
+          "title": "Evidence For",
+          "type": "string"
+        },
+        "evidence_against": {
+          "title": "Evidence Against",
+          "type": "string"
+        },
+        "justification": {
+          "title": "Justification",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision",
+        "forecast_horizon",
+        "confidence",
+        "risk_reward_ratio",
+        "evidence_for",
+        "evidence_against",
+        "justification"
+      ],
+      "title": "TradeDecisionOutput",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "packet": {
+      "type": "object",
+      "properties": {
+        "packet_version": {
+          "type": "string"
+        },
+        "instruction_version": {
+          "type": "string"
+        },
+        "renderer_sha256": {
+          "type": "string"
+        },
+        "branch_id": {
+          "type": "string"
+        },
+        "point_id": {
+          "type": "string"
+        },
+        "query": {
+          "type": "object"
+        },
+        "language": {
+          "type": "string"
+        },
+        "shared_sha256": {
+          "type": "string"
+        },
+        "source_sha256": {
+          "type": "string"
+        },
+        "base_evidence_sha256": {
+          "type": "string"
+        },
+        "reference_sha256": {
+          "type": "string"
+        },
+        "visible_aliases": {
+          "type": "object"
+        },
+        "prefix": {
+          "type": "string",
+          "maxLength": 600
+        },
+        "prompt": {
+          "type": "string",
+          "maxLength": 6499
+        },
+        "prompt_sha256": {
+          "type": "string"
+        },
+        "body": {
+          "type": "object"
+        },
+        "contract": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "packet_version",
+        "instruction_version",
+        "renderer_sha256",
+        "branch_id",
+        "point_id",
+        "query",
+        "language",
+        "shared_sha256",
+        "source_sha256",
+        "base_evidence_sha256",
+        "reference_sha256",
+        "visible_aliases",
+        "prefix",
+        "prompt",
+        "prompt_sha256",
+        "body",
+        "contract"
+      ],
+      "additionalProperties": false
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "request_version": {
+          "const": "unified_bic_request_bundle_v1"
+        },
+        "point_id": {
+          "type": "string"
+        },
+        "source_proof": {
+          "type": "object"
+        },
+        "upstream": {
+          "type": "object"
+        },
+        "u_evidence": {
+          "type": "object"
+        },
+        "a_evidence": {
+          "type": "object"
+        },
+        "packets": {
+          "type": "object",
+          "properties": {
+            "Original": {
+              "$ref": "#/$defs/packet"
+            },
+            "A_reference": {
+              "$ref": "#/$defs/packet"
+            },
+            "U_full": {
+              "$ref": "#/$defs/packet"
+            },
+            "U_stats": {
+              "$ref": "#/$defs/packet"
+            },
+            "U_examples": {
+              "$ref": "#/$defs/packet"
+            }
+          },
+          "required": [
+            "Original",
+            "A_reference",
+            "U_full",
+            "U_stats",
+            "U_examples"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "request_version",
+        "point_id",
+        "source_proof",
+        "upstream",
+        "u_evidence",
+        "a_evidence",
+        "packets"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "type": "object",
+      "properties": {
+        "plan_version": {
+          "const": "unified_bic_cohort_plan_v1"
+        },
+        "split": {
+          "enum": [
+            "fixture",
+            "development_2023_exploratory"
+          ]
+        },
+        "protocol_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "request_lock_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code_sha256": {
+          "type": "object"
+        },
+        "runtime": {
+          "type": "object"
+        },
+        "sources": {
+          "type": "object"
+        },
+        "models": {
+          "type": "object"
+        },
+        "matrix": {
+          "const": [
+            "Original",
+            "A_reference",
+            "U_full",
+            "U_stats",
+            "U_examples",
+            "Numeric_only"
+          ]
+        },
+        "requests": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/request"
+          }
+        },
+        "schedule": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "point_id": {
+                "type": "string"
+              },
+              "repeat_id": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "order": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "point_id",
+              "repeat_id",
+              "order"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "repeat_sample": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "confirmation_allowed": {
+          "const": false
+        },
+        "risk_policy": {
+          "const": "OFF"
+        },
+        "readiness_stage": {
+          "const": "PENDING_U10_09"
+        }
+      },
+      "required": [
+        "plan_version",
+        "split",
+        "protocol_sha256",
+        "request_lock_sha256",
+        "code_sha256",
+        "runtime",
+        "sources",
+        "models",
+        "matrix",
+        "requests",
+        "schedule",
+        "repeat_sample",
+        "confirmation_allowed",
+        "risk_policy",
+        "readiness_stage"
+      ],
+      "additionalProperties": false
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "point_id": {
+          "type": "string"
+        },
+        "repeat_id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "context": {
+          "type": "object"
+        },
+        "source_proof": {
+          "type": "object"
+        },
+        "branches": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "planned",
+                  "unknown",
+                  "complete"
+                ]
+              },
+              "decision": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "output": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/legacy_decision"
+                  },
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "enum": [
+                          "LONG",
+                          "SHORT"
+                        ]
+                      },
+                      "reason": {
+                        "type": "string"
+                      },
+                      "kind": {
+                        "const": "OFFLINE"
+                      }
+                    },
+                    "required": [
+                      "action",
+                      "reason",
+                      "kind"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "decision_origin": {
+                "enum": [
+                  null,
+                  "invoked",
+                  "shared_original",
+                  "offline_numeric"
+                ]
+              },
+              "shared_original": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "prior_visible": {
+                "type": "boolean"
+              },
+              "trace": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "status",
+              "decision",
+              "output",
+              "decision_origin",
+              "shared_original",
+              "prior_visible",
+              "trace"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "evaluation": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "readiness": {
+          "type": "object"
+        },
+        "regime": {
+          "enum": [
+            "BULL",
+            "BEAR",
+            "CHOPPY",
+            "CONSOLIDATION"
+          ]
+        }
+      },
+      "required": [
+        "point_id",
+        "repeat_id",
+        "context",
+        "source_proof",
+        "branches",
+        "evaluation",
+        "readiness",
+        "regime"
+      ],
+      "additionalProperties": false
+    },
+    "report": {
+      "type": "object",
+      "properties": {
+        "report_version": {
+          "const": "unified_bic_cohort_report_v1"
+        },
+        "metric_version": {
+          "const": "cycle_risk_metrics_v2"
+        },
+        "split": {
+          "enum": [
+            "fixture",
+            "development_2023_exploratory"
+          ]
+        },
+        "binding": {
+          "type": "object"
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "INCOMPLETE"
+          ]
+        },
+        "matrix": {
+          "const": [
+            "Original",
+            "A_reference",
+            "U_full",
+            "U_stats",
+            "U_examples",
+            "Numeric_only"
+          ]
+        },
+        "primary": {
+          "type": "object"
+        },
+        "repeats": {
+          "type": "object"
+        },
+        "telemetry": {
+          "type": "object"
+        },
+        "context_modes": {
+          "type": "object"
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          }
+        },
+        "confirmation_allowed": {
+          "const": false
+        },
+        "nomination_allowed": {
+          "const": false
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "report_version",
+        "metric_version",
+        "split",
+        "binding",
+        "status",
+        "matrix",
+        "primary",
+        "repeats",
+        "telemetry",
+        "context_modes",
+        "points",
+        "confirmation_allowed",
+        "nomination_allowed",
+        "limitations"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

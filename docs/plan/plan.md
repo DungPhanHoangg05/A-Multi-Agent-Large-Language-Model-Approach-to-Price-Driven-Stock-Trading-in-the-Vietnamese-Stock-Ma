@@ -15,11 +15,13 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 6/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 7/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
 trọng tâm và bốn gate hồi quy đầy đủ PASS trên đúng code/runtime cuối.
+U10-07 đã nghiệm thu CLI/source/cohort/report và schema riêng; 24 test, nguồn
+thật/oracle/lifecycle và bốn gate hồi quy đầy đủ PASS trên code/runtime cuối.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -1224,7 +1226,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 6/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 7/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1321,6 +1323,22 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Một input ignored 4.769.583 byte bind 357 nguồn; 6.594 file cũ nguyên byte.
   Không API LLM thật hoặc release; đây chưa là producer/report/dry-run đầy
   đủ. **U10 đạt 6/10**, tiếp theo **U10-07**.
+
+- **CLI producer/loader/verifier/report, 25/10/2026:** [U10-07 DONE](week10/README.md#u10-07--cli-producer-loader-verifier-và-report-25102026).
+  Namespace/schema riêng, source cold tái dựng 60 Full W8/W9 và 300 body,
+  giữ U10-02–06 nguyên byte. Plan khóa 12 repeat trước action, 96 block/
+  516 slot LLM; Numeric_only offline, không vote hoặc trộn vào primary.
+  CLI prepare/default/dry-run không key/ledger/mạng; initialize/verify/report
+  đọc usage cũ, run/resume đòi gate/readiness trước key và đối soát authorization
+  với admission/usage. Preflight phi nghiên cứu cùng UUID/cache, không vào
+  primary. Report engine theo từng mã/support, regime/thời gian/ablation,
+  repeat/duplicate và telemetry; consumer rebuild, không tin self-seal.
+  24 test SDK/HTTP mock PASS; compileall/unit **1064/1064**/E2E/leakage
+  **230/230 PASS** trên code cuối. Prepare/cold verifier/lifecycle thật và
+  oracle 240 metric A, 12 repeat/rotation PASS; 6.602 file cũ nguyên byte.
+  Plan ignored 16.334.413 byte bind 358 nguồn/22 code-schema; report planned
+  3.220.052 byte, evaluation null/HTTP=0. Chưa là kết quả LLM hoặc release.
+  **U10 đạt 7/10**, tiếp theo **U10-08**; dry-run/MDE/readiness U10-09 vẫn riêng.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
