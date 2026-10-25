@@ -1,7 +1,12 @@
 # Tuần 11 — Kiểm định phiên bản hợp nhất và khóa kết quả nghiên cứu
 
-**Trạng thái: kế hoạch mới ngày 24/10/2026, 0/10 task DONE.**
+**Trạng thái: U11-01 DONE ngày 26/10/2026, 1/10 task DONE.**
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
+
+Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
+Tiếp theo **U11-02**: người dùng chạy preflight rồi primary/repeat theo
+[runbook production](../week10/unified_bic_operations.md#3-người-dùng-chạy-api-sau-release-development).
+Preflight và API thật chưa chạy; nomination/xác nhận 2025 vẫn chưa được cấp.
 
 ## Mục tiêu và đối chứng
 
@@ -122,7 +127,7 @@ nêu rõ hạn chế tái lập dù CI primary dương; không claim live/determ
 
 | Task | Công việc | Phụ thuộc | Đầu ra/nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
-| U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [ ] TODO |
+| U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [x] DONE — release development; cold verify và hash gate W10 PASS, chưa API thật |
 | U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [ ] TODO |
 | U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [ ] TODO |
 | U11-04 | Exposure/giá mới, manifest và release xác nhận | 03 đạt | 128 điểm/matrix/seed/source/receipt khóa trước outcome | [ ] TODO |
@@ -139,7 +144,135 @@ bản nộp; không tối ưu thêm hoặc giảm mẫu cho kịp. Task xác nh�
 kiện ghi NOT_RUN/BLOCKED, không PASS giả. Một thiết kế kiểm chứng được và
 kết quả trung thực vẫn là đóng góp khóa luận; không thể hứa trước kết quả thắng.
 
-Mã/runtime nâng cấp chưa có ở task lập kế hoạch. Khi triển khai dùng namespace
-unified_bic_v1, producer/loader/verifier/schema riêng, không ghi vào W9 hoặc
-ledger giả. Mọi thay đổi P0 chạy bốn gate; source freeze/version và CLI thật
-được phát hành ở W10, không cung cấp lệnh giả để người dùng chạy ngay.
+Runtime/producer/loader/verifier/schema namespace `unified_bic_v1` đã bàn giao
+ở W10; không ghi vào W9 hoặc ledger giả. Kiểm thử khi sửa code theo phạm vi
+tại [AGENTS.md mục 1.2](../../../AGENTS.md#12-điều-kiện-tiên-quyết-để-hợp-nhất-merge-criteria-vào-develop).
+Mốc release đối soát bốn gate trên đúng code/runtime đã khóa; không chạy lại
+toàn suite khi chỉ đổi tài liệu và các binding đó còn nguyên vẹn.
+
+## U11-01 — Dry-run và release development (26/10/2026)
+
+**Quyết định: RELEASED_FOR_DEVELOPMENT**, chỉ áp dụng cohort 2023 và một
+candidate U_full đã khóa. Release được ghi tại README này, không phải cờ
+JSON mới hoặc authorization API đã thực thi. CLI production vẫn kiểm nguồn,
+technical receipt/readiness, tokenizer và preflight trước primary. Người dùng
+thực hiện các bước online của U11-02; chưa nomination hoặc release xác nhận.
+
+### Bộ nguồn và phiên bản được phát hành
+
+Giữ nguyên bộ local trong `outputs/bayesian_benchmark/unified_bic_v1/` và
+ledger chung `outputs/oos_pilot/api_usage.json`, theo [bảng đường dẫn runbook](../week10/unified_bic_operations.md#1-bộ-bàn-giao-và-trạng-thái-ban-đầu).
+Các artifact ignored không đi cùng clone Git sạch; không prepare/initialize
+lại để thay bằng nguồn khác. Mốc Git trước task là
+`dcd9f32892590bf58263031becc64e9122add436`; code/runtime không đổi ở U11-01.
+Cold loader tái dựng **60 upstream W8/W9 và 300 canonical request** từ nguồn
+đã kiểm. Reuse đúng một upstream/point, deep-copy sang các nhánh/repeat;
+không tạo upstream mới hoặc dùng Decision lịch sử làm feature.
+
+Các hash dưới đây là **SHA-256 byte file**, trừ dòng ghi rõ digest semantic:
+
+| Binding | SHA-256 |
+| --- | --- |
+| `development/plan.json` — 16.334.413 byte | `4bb127868e40c6cf04fb7b9a51425f520a29e95adaaa994c1ae942a36b7ddc35` |
+| Digest semantic plan, dùng trong receipt/bridge | `f4af6edec9683bdc5b13ff7d1a604222783050573b47e58fdff8a2f7c73b3f59` |
+| `inputs/execution_contract_v1.json` | `9d7ef5d43b7ebde1cd697aa1417730184600d38d815969ca92b15a4623f1abd0` |
+| `development/readiness/assessment.json` | `6464e0f7b93315d00461b1806bc7cd0aa9fe5348b463a549916c2dec5655379d` |
+| `development/readiness/execution_readiness.json` | `9c3504e1b503add9e4e82a239d627239e10c61f2d171a6e9686d6cf5e10e28d1` |
+| Digest semantic schedule | `39befcf6e68f6cd2389fd4024b43da3291683c267f0d2271aca680209b3d0591` |
+
+Digest semantic dùng `core.historical_signals.digest`, khác hash byte của
+envelope. **358 nguồn**, **22 file execution code/schema**, **308 file
+code/test/fixture/schema/config trong audit** và runtime Python **3.13.5**
+đều khớp binding đã khóa. Receipt/audit hiện hành là bộ
+`validation/20261025T220030_8658658ad88c4fe1ba8b33afe7e273de/`:
+`technical_gates.json` có hash byte
+`9921725569add0115cd482de02c6ab990cec18948e71fd17322f6abfe86c4d29`,
+`validation_audit.json` có hash byte
+`5f7b08e72f3d7c5df46114546b8b18b1ac90cbfc6cd888004311092f4e1d6019`.
+Verifier đối soát cả diagnostics và bốn log thực, không chỉ đọc nhãn PASS.
+
+Decision giữ `openai/gpt-oss-20b`, temperature=0, max_tokens=2048,
+reasoning_effort=`low`, reasoning_format=`hidden`, service_tier=`on_demand`,
+n=1/stream=false và schema `TradeDecisionOutput` chung. SDK max_retries=0;
+retry đi qua wrapper/pacer đã khóa. Model upstream trong provenance là
+`qwen/qwen3.8-27b`, temperature=0, max_tokens=1024; development chỉ reuse
+upstream đã kiểm, không gọi lại vision. **Tokenizer cache PASS**; các tên
+model/options là identity của run, khả năng gọi provider hiện tại vẫn cần
+preflight phi nghiên cứu do người dùng chạy.
+
+### Cohort, thứ tự và repeat trước action
+
+Giữ **60 điểm / 21 cutoff**, FPT=12, MWG/VCB/VNM=16; năm nhánh LLM và
+Numeric_only offline. Primary xếp theo (ngày, FPT/MWG/VCB/VNM), Original
+đầu, xoay `[A_reference, U_full, U_stats, U_examples]` theo j mod 4.
+Repeat giữ đúng 12 điểm sau, chọn ngày đầu từng stratum readiness trước
+action; đủ ba strata/mã nên không cần fill:
+
+| Mã | both_ready | one_block_ready | off |
+| --- | --- | --- | --- |
+| FPT | 2023-06-27 | 2023-06-01 | 2023-04-12 |
+| MWG | 2023-01-06 | 2023-07-31 | 2023-03-30 |
+| VCB | 2023-02-08 | 2023-06-01 | 2023-01-06 |
+| VNM | 2023-02-08 | 2023-01-06 | 2023-03-30 |
+
+Sắp lại mẫu repeat theo cùng (ngày, mã), j=0..11; r=1,2,3. Original đầu,
+xoay `[A_reference, U_full, U_stats, U_examples, Original_duplicate]` theo
+(3j+r−1) mod 5. Tổng **96 block, gồm 300 slot primary + 216 slot repeat**;
+Numeric_only 96 block offline, không tính là slot LLM. Oracle độc lập trên
+plan khớp đủ mẫu/lý do chọn, thứ tự 96 block và model/options của 300 body.
+Shared-off chỉ reuse Original durable cùng point/repeat khi body trùng;
+duplicate luôn độc lập. Không vote hoặc nhập repeat vào primary.
+
+Coverage dự kiến, chưa là common support của LLM đã chạy:
+
+| Mã | Điểm | Prior U_full visible | Examples visible | Có ≥2 task |
+| --- | ---: | ---: | ---: | ---: |
+| FPT | 12 | 9 | 5 | 3 |
+| MWG | 16 | 14 | 13 | 11 |
+| VCB | 16 | 13 | 12 | 10 |
+| VNM | 16 | 15 | 11 | 10 |
+| Tổng | 60 | 51 | 41 | 34 |
+
+Cả ba gate coverage dự kiến PASS theo rule đã đăng ký. Context có 41 task/
+19 off, chưa dùng episode fallback. Prefix tối đa toàn ma trận **518/600**
+(U_full **406/600**); prompt tối đa **4.570<6.500**. Cold diagnostics kiểm
+PIT/partition/membership/alias, cùng Full/base/instruction và ngân sách prompt;
+assessment tái dựng coverage/repeat/MDE từ train, không dùng payoff query.
+
+### Kiểm tra và bàn giao U11-02
+
+Đã chạy PASS các lệnh production offline sau trên nguồn thật:
+
+```powershell
+$validationAudit = "outputs/bayesian_benchmark/unified_bic_v1/validation/20261025T220030_8658658ad88c4fe1ba8b33afe7e273de/validation_audit.json"
+py -3.13 -X utf8 scripts/run_unified_bayes.py --dry-run
+py -3.13 -X utf8 scripts/prepare_unified_bayes_readiness.py --validation-audit $validationAudit
+py -3.13 -X utf8 scripts/run_unified_bayes.py --verify-report
+py -3.13 -X utf8 -c "from core.groq_pacing import tokenizer_cached; assert tokenizer_cached(), 'Thiếu tokenizer cache'; print('Tokenizer cache PASS')"
+```
+
+Readiness/source/prompt và report đã lưu khớp bản tái dựng. **516 journal
+slot vẫn planned**, attempts rỗng/output null; **96 evaluation null**,
+primary/repeat INCOMPLETE, observed LLM common support=0, HTTP nghiên cứu=0.
+Chưa tạo `authorization.json` hoặc `preflight.json`. Metadata snapshot
+`PENDING_U10_09`/`PENDING_U10_10_AND_U11_01` giữ nguyên byte; trạng thái
+release hiện hành nằm ở README này, không sửa snapshot để đổi tiến độ.
+
+Task chỉ đổi tài liệu/quy định kiểm thử, không đổi code/test/schema/config/
+runtime/input. Theo AGENTS.md 1.2, **không chạy lại compileall/unit/E2E/
+leakage toàn hệ thống**. Viện dẫn gate **U10-09** đã PASS: compileall,
+**1111/1111 unit**, E2E và **248/248 leakage**; đã đối soát lại code/runtime/
+source/receipt/log, không ghi là chạy lại. Kiểm diff/UTF-8/liên kết/hash PASS;
+**6.822/6.826 file outputs cũ nguyên byte**, gồm W9, ledger, plan, Decision
+journal, report/readiness/receipt U10. Bốn file metadata khóa
+`run.owner.json`/`run.recovery.json` tại run và `run/journal/` được CLI
+`--verify-report` cập nhật theo cơ chế mở/nhả khóa; owner đều `released`,
+lịch sử recovery được giữ tiếp. Không thêm/xóa file outputs hoặc tạo
+receipt lặp lại theo task.
+
+Người dùng tiếp tục [mục 2–4 runbook](../week10/unified_bic_operations.md#2-kiểm-offline-trước-release-hoặc-resume):
+verify offline, preflight, primary `--run --resume`, verify/report, rồi ba
+repeat `--run --resume --repeats` và verify/report. Giữ đúng receipt/bridge/
+plan/run/ledger khi resume. Preflight lỗi phải dừng, giữ journal/usage và
+identity; không đổi model hoặc bỏ điểm để chạy tiếp. **U11 đạt 1/10**,
+tiếp theo **U11-02**; nomination/xác nhận và mặc định/risk OFF giữ nguyên.
