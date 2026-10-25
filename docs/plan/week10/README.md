@@ -1,10 +1,15 @@
 # Tuần 10 — Xây dựng phiên bản Bayesian In-Context Learning hợp nhất
 
-**Trạng thái: 9/10 task DONE, cập nhật 25/10/2026; dry-run/coverage/MDE/readiness U10-09 đã khóa offline, bốn gate PASS.**
+**Trạng thái: 10/10 task DONE, cập nhật 25/10/2026; đã bàn giao vận hành và bản thảo phương pháp, kế thừa bốn gate U10-09 PASS trên code/runtime nguyên vẹn.**
 Giá thực thi 2025 đã PASS; pooling λ=8 khóa offline và bốn gate hồi quy PASS.
 Context/renderer và kernel U10-06 đã khóa, nguồn thật và bốn gate hồi quy PASS;
 xác nhận chưa có release và vẫn cần các gate U10/U11.
 [Kế hoạch tổng](../plan.md) · [W9 đã xác nhận](../week9/README.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
+
+[Hướng dẫn vận hành development](unified_bic_operations.md) ·
+[Bản thảo phương pháp KLTN](unified_bic_methodology_draft.md).
+Tiếp theo **U11-01** chốt release development; chưa chạy API/preflight thật,
+chưa nomination hoặc release xác nhận. Hoàn thành W10 là nghiệm thu triển khai offline.
 
 ## Mục tiêu và điểm xuất phát
 
@@ -200,14 +205,15 @@ Không chứng minh được independence thì chỉ exploratory/forward sau loc
 | U10-07 | CLI producer/loader/verifier/report | 05–06 | Request/output schema riêng, legacy không đổi, JSON native | [x] DONE — CLI/source/schema/report, 24 test, lifecycle 60 điểm và bốn gate PASS |
 | U10-08 | Diagnostics, fixture failure/resume/leakage và bốn gate | 07 | Compileall/unit/E2E/leakage PASS đúng source/runtime | [x] DONE — diagnostics 60 điểm, 25 test mới/6 boundary, receipt đúng code/runtime; bốn gate PASS |
 | U10-09 | Dry-run 60 điểm, coverage/MDE và plan repeat | 08 | Lock source/schedule/model; không điều chỉnh theo outcome | [x] DONE — 60 điểm/12 repeat/54 scenario MDE, readiness cold-verify; 22 test mới và bốn gate PASS |
-| U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [ ] TODO |
+| U10-10 | Handoff vận hành và bản thảo phương pháp | 09 | CLI thật run/resume/verify; W11 chỉ chạy đúng release | [x] DONE — hướng dẫn CLI production/preflight/resume/report, bản thảo phương pháp và QA tài liệu/hash; chuyển U11-01 |
 
 Đã có core/unified_bayes_memory.py, unified_bayes_statistics.py,
 unified_bayes_diagnostics.py, unified_bayes_context.py, unified_bayes_prompt.py,
 unified_bayes_decision.py, unified_bayes_transport.py và unified_bayes_runtime.py.
 CLI/cohort/source/contracts/reports và schema artifact riêng đã nghiệm thu
 tại U10-07; diagnostics/receipt và ma trận lỗi đã nghiệm thu tại U10-08.
-Dry-run/MDE/readiness đã khóa tại U10-09; U10-10 còn bàn giao vận hành/phương pháp.
+Dry-run/MDE/readiness đã khóa tại U10-09; tài liệu vận hành/phương pháp đã
+bàn giao tại U10-10. W11 chỉ gọi API sau release development đúng protocol.
 Tái dùng engine, HMM, feature, retry/pacer/ledger đã
 kiểm; không sửa hash cũ để cho verifier legacy nhận code khác.
 
@@ -1093,7 +1099,7 @@ trạng thái nghiệm thu mới nằm ở receipt riêng gắn SHA plan, không
 Dry-run nguồn thật trên **60 điểm / 21 cụm cutoff / 96 block**, **300 slot
 LLM primary + 216 repeat**, Numeric_only 96 block offline. Guard chặn
 HTTP/key/ledger/Decision nguồn/giá 2025/payoff query PASS; **7.153 file cũ
-nguyên byte**, gồm toàn bộ artifact U10-08. Bốn gate của task này đang chạy
+nguyên byte**, gồm toàn bộ artifact U10-08. Bốn gate của task này đã PASS
 trên **308 file code/test/fixture/schema/config**; receipt cũ 303 file giữ
 nguyên làm bằng chứng lịch sử, không nhận thay cho code planning mới.
 
@@ -1195,6 +1201,40 @@ hoặc preflight của run; `model_preflight=PENDING_MANUAL_NONRESEARCH_PREFLIGH
 khóa readiness offline, không phải kết quả LLM, provider availability hoặc
 release xác nhận. **U10 đạt 9/10**, tiếp theo **U10-10** bàn giao vận hành và
 bản thảo phương pháp; API thật vẫn do người dùng chạy sau bàn giao.
+
+## U10-10 — Bàn giao vận hành và bản thảo phương pháp (25/10/2026)
+
+[Hướng dẫn vận hành](unified_bic_operations.md) dùng đúng CLI production:
+verify readiness/audit offline, kiểm tokenizer, preflight phi nghiên cứu,
+primary `--run --resume`, ba repeat, verify/refresh/verify report. Đã ghi rõ
+run hiện có planned nên cần resume ngay lượt API đầu; preflight bị ngắt
+chạy lại cùng lệnh, không có `--resume` cho mode preflight. Unknown giữ
+UUID/audit/cache/usage, complete không replay; lỗi integrity hoặc hai format
+attempt sai dừng để review. Không tạo cờ release/confirmation chưa tồn tại.
+Commands online chỉ dành cho người dùng sau release development U11-01.
+
+[Bản thảo phương pháp](unified_bic_methodology_draft.md) diễn giải câu hỏi,
+split/exposure/PIT, nhãn/kinh tế, posterior λ=8 và rule chọn, task/ranking/
+fallback, sáu nhánh/paired/shared-off/repeat, estimand/nomination/bootstrap
+đã đăng ký và giới hạn claim/MDE. Nêu rõ hệ thống không huấn luyện lại LLM
+theo paper gốc; số coverage/gate là nghiệm thu kỹ thuật, chưa là hiệu quả
+LLM. Protocol v1, đặc tả gốc và bằng chứng W9 giữ nguyên byte.
+
+**Phạm vi thuần tài liệu:** chỉ thêm hai Markdown vận hành/phương pháp và
+cập nhật README tuần/kế hoạch tổng; không đổi code/test/schema/config runtime
+hoặc input. Theo AGENTS.md mục 1.2, **không chạy lại compileall/unit/E2E/
+leakage**. Viện dẫn đúng gate U10-09: compileall, **1111 unit**, E2E và
+**248 leakage PASS**; receipt/audit/code/runtime/source/log byte được đối
+soát lại. Help của ba CLI thật và tokenizer cache PASS; lệnh trong runbook
+được kiểm parser/mode, không thực thi nhánh online. UTF-8/link/anchor/diff,
+số liệu/hợp đồng so code/protocol và **7.168 file cũ nguyên byte** PASS;
+identity 308 file cùng plan/readiness/ledger/report planned không đổi.
+
+Không sửa metadata snapshot `PENDING_U10_10_AND_U11_01` của assessment để
+đổi tiến độ; trạng thái hiện hành ở checklist này. **U10 hoàn tất 10/10**,
+đầu vào chuyển **U11-01**; U11/U12 chưa có task DONE mới. Chưa tạo
+authorization/preflight thật, primary/repeat LLM, nomination hoặc release
+xác nhận; mặc định hệ thống/risk OFF và toàn bộ lịch sử exposure giữ nguyên.
 
 ## Bàn giao thay thế kế hoạch và dọn revision cũ
 

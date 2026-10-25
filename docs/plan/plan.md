@@ -15,7 +15,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 9/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 10/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
@@ -25,7 +25,9 @@ thật/oracle/lifecycle và bốn gate hồi quy đầy đủ PASS trên code/ru
 U10-08 đã nghiệm thu diagnostics/receipt và ma trận ngắt/resume; 25 test mới,
 1089 unit/238 leakage, compileall/E2E PASS. U10-09 đã khóa dry-run 60 điểm,
 coverage/MDE/repeat/readiness; 1111 unit/248 leakage và bốn gate PASS.
-U10-10 còn bàn giao vận hành/phương pháp; chưa preflight hoặc API thật.
+U10-10 đã bàn giao hướng dẫn CLI production và bản thảo phương pháp, QA
+tài liệu/hash PASS; code/runtime giữ nguyên, không chạy lại suite. Tiếp theo
+U11-01 chốt release development; chưa preflight hoặc API thật.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -418,8 +420,9 @@ và các vòng đã dùng để phát triển phải được giải trình.
 ensemble, risk overlay, soft regime hoặc cross-symbol. Thiếu gate/coverage
 hoặc không đạt nomination thì không chạy xác nhận để cứu kết quả. W12 vẫn
 hoàn thành luận văn từ W9 và kết quả U đúng phạm vi. API do người dùng chạy;
-memory/backbone/context/runtime và CLI offline đã nghiệm thu tới U10-09;
-U10-10 còn bàn giao vận hành. Trạng thái từng phần được ghi tại README W10.
+memory/backbone/context/runtime/CLI offline và tài liệu vận hành/phương pháp
+đã nghiệm thu hết W10. U11-01 còn chốt release development; trạng thái từng
+phần được ghi tại README W10/W11.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1230,7 +1233,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 9/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 10/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1381,6 +1384,19 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Hai artifact ignored 287.465/514 byte; **7.153 file cũ nguyên byte**, gồm
   W9, ledger, U10-02–08, plan và report planned. Chưa authorization/preflight,
   API thật, nomination hoặc release. **U10 đạt 9/10**, tiếp theo **U10-10**.
+
+- **Bàn giao vận hành và phương pháp, 25/10/2026:** [U10-10 DONE](week10/README.md#u10-10--bàn-giao-vận-hành-và-bản-thảo-phương-pháp-25102026).
+  [Runbook production](week10/unified_bic_operations.md) có verify readiness/
+  audit, tokenizer, preflight, primary/repeat/resume và report; giữ UUID,
+  journal/ledger/receipt, dừng đúng trường hợp lỗi, không tạo cờ release giả.
+  [Bản thảo phương pháp KLTN](week10/unified_bic_methodology_draft.md) theo
+  protocol/code đã khóa, phân biệt adaptation ICL, planning và kiểm định
+  LLM còn chờ. Chỉ bốn Markdown thay đổi, không đổi runtime/test/schema/input;
+  không chạy lại suite theo AGENTS.md 1.2. Viện dẫn 1111 unit/248 leakage và
+  compileall/E2E PASS của U10-09; đối soát lại source/runtime/receipt/log/hash.
+  CLI help/tokenizer/parser/link/UTF-8/diff và 7.168 file cũ nguyên byte PASS.
+  Chưa API/preflight thật, nomination hoặc release xác nhận. **U10 hoàn tất
+  10/10**, chuyển **U11-01**; U11 0/10, U12 0/5, risk/mặc định OFF.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
