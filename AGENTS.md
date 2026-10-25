@@ -27,11 +27,12 @@ Mục tiêu cốt lõi: **Nâng cấp tính năng mới mà tuyệt đối KHÔN
 ### 1.2. Điều kiện Tiên quyết để Hợp nhất (Merge Criteria vào `develop`)
 Trước khi hợp nhất vào `develop`, phải chọn kiểm tra theo phạm vi ảnh hưởng của task; **không bắt buộc chạy kiểm thử cho mọi task**:
 - **Chỉ sửa tài liệu, checklist hoặc phân tích bằng chứng có sẵn**, không đổi code, test, cấu hình runtime, schema hay dữ liệu đầu vào: không cần chạy compileall, unit test, E2E hoặc leakage suite. Kiểm tra diff, liên kết, số liệu và hash nguồn liên quan; ghi rõ lý do không chạy suite trong README tuần hoặc báo cáo hoàn thành.
-- **Thay đổi code hoặc hành vi chạy**: chạy kiểm thử trọng tâm cho module và hợp đồng bị ảnh hưởng; biên dịch các file Python thay đổi. Không tự động chạy toàn suite nếu phạm vi hẹp và đã có kiểm tra phù hợp.
-- **Thay đổi liên module hoặc các hợp đồng P0** (kinh tế, PIT/leakage, paired protocol, prompt/token, retry/checkpoint), dependency/runtime dùng chung, hoặc mốc nghiệm thu có yêu cầu rõ: bắt buộc chạy đủ bốn gate bên dưới. Test leakage bắt buộc khi thay đổi đường dữ liệu/PIT/retrieval, kể cả phạm vi hẹp.
+- **Thay đổi code hoặc hành vi chạy**: chỉ chạy lại test liên quan trực tiếp đến code thay đổi và các caller/hợp đồng bị ảnh hưởng; chỉ biên dịch các file Python thay đổi. Ghi rõ các module/test được chọn và lý do bao phủ đủ phạm vi. Không chạy toàn bộ unit suite, compileall toàn codebase hoặc E2E toàn hệ thống cho mỗi lần sửa code.
+- **Thay đổi liên module, hợp đồng P0** (kinh tế, PIT/leakage, paired protocol, prompt/token, retry/checkpoint) **hoặc dependency/runtime dùng chung**: chọn các test tích hợp/hồi quy của đúng đường chạy bị ảnh hưởng, không tự động mở rộng thành toàn suite. Khi đổi đường dữ liệu/PIT/retrieval, bắt buộc chạy các test leakage liên quan. Chỉ chạy lại sau thay đổi mới hoặc khi còn lỗi/lo ngại chưa được giải quyết trong phạm vi đó.
+- **Mốc nghiệm thu/release yêu cầu bốn gate**: nếu code/test/schema/config/runtime được receipt khóa vẫn nguyên vẹn, kiểm lại hash nguồn/runtime/log/receipt và viện dẫn đúng kết quả đã PASS; không chạy lại toàn suite chỉ để cập nhật checklist. Nếu có thay đổi, kiểm thử lại phần bị ảnh hưởng và ghi rõ kết quả mới cùng giới hạn của gate cũ. Chỉ chạy hồi quy toàn hệ thống khi người dùng yêu cầu rõ việc chạy lại toàn bộ.
 - Chỉ merge khi mọi kiểm tra áp dụng đều PASS; không dùng kết quả cũ để thay cho kiểm tra hành vi đã đổi. Task thuần tài liệu có thể viện dẫn gate cũ nếu code/runtime giữ nguyên, nhưng không ghi là đã chạy lại.
 
-**Bốn gate dành cho task cần hồi quy đầy đủ:**
+**Bốn gate tham chiếu cho nghiệm thu toàn hệ thống (không tự động chạy lại; áp dụng quy tắc theo phạm vi ở trên):**
 1. **Gate 1 - Biên dịch toàn bộ codebase không lỗi**:
    ```powershell
    py -3.13 -m compileall agents core data_manager scripts tests utils
@@ -152,5 +153,5 @@ Khi nhận bất kỳ yêu cầu phát triển nào, Coding Agent phải thực 
 1. **Bước 1 - Khảo sát**: Đọc kỹ [docs/plan/plan.md](docs/plan/plan.md), kiểm tra các file mã nguồn liên quan và xác định phạm vi ảnh hưởng.
 2. **Bước 2 - Tạo Branch**: Tạo nhánh mới từ `develop` theo quy ước `feat/...`, `fix/...`, `test/...`.
 3. **Bước 3 - Lập trình**: Viết mã tối giản, module hóa cao, có đầy đủ type annotations và docstrings tiếng Việt.
-4. **Bước 4 - Kiểm tra theo phạm vi**: Áp dụng mục 1.2; chọn kiểm thử cần thiết và ghi phạm vi/kết quả hoặc lý do không chạy. Task thuần tài liệu không cần chạy suite; task cần hồi quy đầy đủ phải vượt cả bốn gate.
+4. **Bước 4 - Kiểm tra theo phạm vi**: Áp dụng mục 1.2; chỉ chạy test và biên dịch Python liên quan đến thay đổi, ghi phạm vi/kết quả hoặc lý do không chạy. Task thuần tài liệu không cần chạy suite; mốc cần bốn gate đối soát receipt/code/runtime đã khóa, không tự động chạy lại toàn bộ.
 5. **Bước 5 - Commit & Merge**: Commit với Conventional Commits (tuyệt đối không có `W1D1`), chuyển về `develop` và merge nhánh sau khi mọi kiểm tra áp dụng đã PASS.

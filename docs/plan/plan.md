@@ -15,7 +15,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 10/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 10/10, U11 1/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
@@ -26,8 +26,11 @@ U10-08 đã nghiệm thu diagnostics/receipt và ma trận ngắt/resume; 25 tes
 1089 unit/238 leakage, compileall/E2E PASS. U10-09 đã khóa dry-run 60 điểm,
 coverage/MDE/repeat/readiness; 1111 unit/248 leakage và bốn gate PASS.
 U10-10 đã bàn giao hướng dẫn CLI production và bản thảo phương pháp, QA
-tài liệu/hash PASS; code/runtime giữ nguyên, không chạy lại suite. Tiếp theo
-U11-01 chốt release development; chưa preflight hoặc API thật.
+tài liệu/hash PASS; code/runtime giữ nguyên, không chạy lại suite.
+U11-01 đã chốt release development ngày 26/10/2026: cold dry-run/readiness/
+report, nguồn/model/order/repeat/prompt và hash bốn gate W10 PASS; chỉ đổi
+tài liệu, không chạy lại toàn suite. Tiếp theo U11-02 do người dùng chạy
+preflight rồi primary/repeat; chưa preflight hoặc API thật.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -421,8 +424,8 @@ ensemble, risk overlay, soft regime hoặc cross-symbol. Thiếu gate/coverage
 hoặc không đạt nomination thì không chạy xác nhận để cứu kết quả. W12 vẫn
 hoàn thành luận văn từ W9 và kết quả U đúng phạm vi. API do người dùng chạy;
 memory/backbone/context/runtime/CLI offline và tài liệu vận hành/phương pháp
-đã nghiệm thu hết W10. U11-01 còn chốt release development; trạng thái từng
-phần được ghi tại README W10/W11.
+đã nghiệm thu hết W10. U11-01 đã chốt release development; trạng thái từng
+phần được ghi tại README W10/W11, U11-02 tiếp tục preflight/primary/repeat.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1398,10 +1401,23 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Chưa API/preflight thật, nomination hoặc release xác nhận. **U10 hoàn tất
   10/10**, chuyển **U11-01**; U11 0/10, U12 0/5, risk/mặc định OFF.
 
-### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
+### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 1/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
 release và xác nhận nếu đạt, bootstrap/ablation/noise, freeze và viết kết
 quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
+
+- **Dry-run và release development, 26/10/2026:** [U11-01 DONE](week11/README.md#u11-01--dry-run-và-release-development-26102026).
+  Cold CLI dry-run/readiness/report và oracle nguồn/model/order/repeat PASS:
+  60 điểm/21 cutoff/96 block, 300 slot primary +216 repeat, 12 điểm đủ ba
+  strata/mã. Nguồn 358 file, 22 execution file và audit 308 file đúng hash;
+  prefix tối đa 518/600, prompt 4.570<6.500. Tokenizer cache PASS; toàn bộ
+  516 slot vẫn planned, evaluation null/HTTP nghiên cứu=0. Giữ code/runtime,
+  viện dẫn compileall/1111 unit/E2E/248 leakage PASS U10-09 sau đối soát
+  receipt/log, không chạy lại suite theo AGENTS.md 1.2 đã cập nhật.
+  6.822/6.826 file outputs cũ nguyên byte; bốn metadata khóa/recovery được
+  verifier cập nhật, owner đã released. Release ghi trong README, không sửa
+  metadata snapshot hoặc tạo authorization/preflight giả. **U11 đạt 1/10**,
+  tiếp theo **U11-02** do người dùng chạy; nomination/xác nhận và risk OFF.
 
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,

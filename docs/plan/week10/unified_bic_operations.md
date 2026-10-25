@@ -2,11 +2,16 @@
 
 Tài liệu bàn giao U10-10 cho U11-01/02 trên workspace hiện tại. Trạng thái
 nghiệm thu và hash nguồn ở [README W10](README.md#u10-09--dry-run-coverage-mde-và-readiness-25102026).
-Lệnh dưới đây dùng CLI production đã kiểm ở U10-07–09. Phần gọi API chỉ do
-người dùng thực hiện **sau khi U11-01 chốt release development**; tài liệu
-này không đánh dấu release hoặc preflight đã PASS.
+**U11-01 đã chốt RELEASED_FOR_DEVELOPMENT ngày 26/10/2026**, với binding
+nguồn/model/order/repeat và kiểm offline tại [README W11](../week11/README.md#u11-01--dry-run-và-release-development-26102026).
+Lệnh dưới đây dùng CLI production đã kiểm ở U10-07–09. Người dùng có thể
+thực hiện lần lượt verify offline, preflight và primary/repeat cho U11-02.
+Preflight/API thật vẫn chưa chạy; release xác nhận 2025 chưa được cấp.
 
 ## 1. Bộ bàn giao và trạng thái ban đầu
+
+Trạng thái run khi bàn giao W10-10 dưới đây vẫn khớp kiểm offline U11-01;
+quyết định release development hiện hành ở liên kết W11 phía trên.
 
 Mở PowerShell tại root repository, dùng Python 3.13.5 và dependency đúng
 runtime trong receipt. Giữ code/model/options/source đã khóa. Clone Git
@@ -62,11 +67,11 @@ Không cần prepare/initialize lại các artifact đã có. Thiếu tokenizer 
 nguồn hoặc receipt thì dừng và đối chiếu hướng dẫn môi trường/nguồn; không
 giả cache, nới hash, đổi model hoặc tự sinh lại nguồn bằng dữ liệu mới.
 
-U11-01 đối chiếu đầy đủ plan/model/source/order/repeat, assessment và bốn
-gate đúng code/runtime trước khi chốt release development theo
-[checklist U11](../week11/README.md#a-development-và-nomination-trước-xác-nhận).
-CLI hiện kiểm technical receipt/bridge; nó không tự quyết định release
-nghiên cứu U11-01. W10 hoàn thành không tự phát hành xác nhận 2025.
+U11-01 đã đối chiếu đầy đủ plan/model/source/order/repeat, assessment và
+receipt/log bốn gate đúng code/runtime; xem [nghiệm thu release development](../week11/README.md#u11-01--dry-run-và-release-development-26102026).
+Không chạy lại toàn suite vì code/runtime giữ nguyên. CLI kiểm technical
+receipt/bridge; quyết định release nghiên cứu được ghi ở README W11.
+Khi resume vẫn phải verify đúng bộ đã khóa. Xác nhận 2025 chờ U11-03/04.
 
 ## 3. Người dùng chạy API sau release development
 
