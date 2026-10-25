@@ -15,9 +15,11 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 5/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 6/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
+U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
+trọng tâm và bốn gate hồi quy đầy đủ PASS trên đúng code/runtime cuối.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -1222,7 +1224,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 5/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 6/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1304,6 +1306,21 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   trên đúng code cuối; QA nguồn/số liệu/hash/liên kết/diff PASS.
   **U10 đạt 5/10**, tiếp theo **U10-06**; chưa LLM/runtime/shared-off
   hoặc release, các phần đó tiếp tục ở U10-06–09.
+
+- **Instruction, shared-off và journal/retry, 25/10/2026:** [U10-06 DONE](week10/README.md#u10-06--instruction-chung-shared-off-và-journalretry-25102026).
+  Năm nhánh dùng cùng instruction VI/EN và schema legacy, horizon phiên
+  Open(t+1)→Close(t+3); chỉ khác prefix. Original durable trước, off chỉ reuse
+  canonical body đúng point/repeat, không UUID/HTTP giả; duplicate và visible
+  Full/Stats vẫn độc lập dù body giống. Journal/HTTP cache giữ cùng UUID khi
+  resume, hai format attempt chung budget; raw/parsed/output đối soát với
+  ledger thực, lỗi không thành CASH. Guard nguồn/body/slot/code và ledger
+  trên đĩa, kể cả nguồn đổi trước HTTP đầu hoặc giữa retry. SDK thật qua
+  HTTP mock và 32 test PASS; compileall/unit **1040/1040**/E2E/leakage
+  **218/218 PASS** trên code cuối. Prepare/verifier cold và oracle 60 điểm/
+  300 body PASS; prompt tối đa 4.570, reserve 600 đạt VI/EN 6.349/6.299.
+  Một input ignored 4.769.583 byte bind 357 nguồn; 6.594 file cũ nguyên byte.
+  Không API LLM thật hoặc release; đây chưa là producer/report/dry-run đầy
+  đủ. **U10 đạt 6/10**, tiếp theo **U10-07**.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
