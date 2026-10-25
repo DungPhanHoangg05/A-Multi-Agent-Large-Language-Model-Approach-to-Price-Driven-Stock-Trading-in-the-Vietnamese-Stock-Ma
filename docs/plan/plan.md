@@ -15,13 +15,15 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 7/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 8/10, U11 0/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
 trọng tâm và bốn gate hồi quy đầy đủ PASS trên đúng code/runtime cuối.
 U10-07 đã nghiệm thu CLI/source/cohort/report và schema riêng; 24 test, nguồn
 thật/oracle/lifecycle và bốn gate hồi quy đầy đủ PASS trên code/runtime cuối.
+U10-08 đã nghiệm thu diagnostics/receipt và ma trận ngắt/resume; 25 test mới,
+1089 unit/238 leakage, compileall/E2E PASS; U10-09 còn dry-run/MDE/readiness.
 Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -1226,7 +1228,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập đã bàn giao tại README W9/W10.
 
-### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 7/10 DONE
+### 📅 TUẦN 10: Xây dựng Bayesian ICL hợp nhất — 8/10 DONE
 [Checklist U10](week10/README.md): audit nguồn/exposure, khóa một candidate,
 memory tương thích, backbone A/pooling offline, task context/fallback,
 shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gốc/W9.
@@ -1339,6 +1341,23 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Plan ignored 16.334.413 byte bind 358 nguồn/22 code-schema; report planned
   3.220.052 byte, evaluation null/HTTP=0. Chưa là kết quả LLM hoặc release.
   **U10 đạt 7/10**, tiếp theo **U10-08**; dry-run/MDE/readiness U10-09 vẫn riêng.
+
+- **Diagnostics, lỗi/phục hồi và nghiệm thu kỹ thuật, 25/10/2026:** [U10-08 DONE](week10/README.md#u10-08--diagnostics-ma-trận-lỗi-và-phục-hồi-bốn-gate-25102026).
+  Cold loader/source/request và oracle metadata kiểm đủ 60 điểm; diagnostics
+  PIT/partition/tuổi/task/Full/base/prefix/alias theo điểm và theo mã, không
+  payoff query hoặc action LLM. Mode 41 task/19 off, 34 điểm có ≥2 task,
+  prefix tối đa 518/600 và prompt 4570<6500; không chỉnh mẫu hoặc phương pháp.
+  Fixture sáu boundary trên bốn mã/U_full/duplicate, mở lại handle từ journal
+  durable; cùng UUID/audit, complete không replay, primary giữ nguyên. Chặn
+  source/code/authorization đổi giữa retry, poison membership/alias/tuổi và
+  tự reseal diagnostics/receipt/log. SDK thật qua HTTP mock, không API thật.
+  Producer thực chạy bốn gate; receipt execution 22 file và audit LF 303
+  code/test/fixture/schema/config file gắn plan/source/runtime/log byte.
+  **25 test mới PASS; compileall, 1089/1089 unit, E2E và 238/238 leakage PASS**
+  trên đúng code cuối; consumer receipt và QA nguồn/hash/UTF-8/diff PASS.
+  **7.137 file cũ nguyên byte**, gồm W9, ledger, U10-02–07 và report planned.
+  **U10 đạt 8/10**, tiếp theo **U10-09** khóa dry-run/coverage/MDE/readiness;
+  chưa API LLM thật, nomination hoặc release.
 
 ### 📅 TUẦN 11: Kiểm định và khóa kết quả — TODO 0/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
