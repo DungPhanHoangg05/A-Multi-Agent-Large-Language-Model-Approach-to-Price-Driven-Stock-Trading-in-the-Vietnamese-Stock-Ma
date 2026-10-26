@@ -29,9 +29,10 @@ U10-10 đã bàn giao hướng dẫn CLI production và bản thảo phương ph
 tài liệu/hash PASS; code/runtime giữ nguyên, không chạy lại suite.
 U11-01 đã chốt release development ngày 26/10/2026: cold dry-run/readiness/
 report, nguồn/model/order/repeat/prompt và hash bốn gate W10 PASS; chỉ đổi
-tài liệu, không chạy lại toàn suite. Tiếp theo U11-02 do người dùng chạy
-preflight rồi primary/repeat; chưa preflight hoặc API thật.
-Chưa chạy API U-BICL. Giá thực thi 2025 đã bổ sung và PASS;
+tài liệu, không chạy lại toàn suite. U11-02 đang chạy primary: preflight đã
+complete; snapshot xử lý lỗi resume có 157 slot complete/1 unknown/358 planned.
+Đã bổ sung adapter mở journal hiện hữu, giữ nguyên code/receipt và run đã khóa;
+người dùng tiếp tục API theo runbook. Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
@@ -1418,6 +1419,14 @@ quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
   verifier cập nhật, owner đã released. Release ghi trong README, không sửa
   metadata snapshot hoặc tạo authorization/preflight giả. **U11 đạt 1/10**,
   tiếp theo **U11-02** do người dùng chạy; nomination/xác nhận và risk OFF.
+
+- **Phục hồi entrypoint development sau quota, 26/10/2026:** [U11-02 đang thực hiện](week11/README.md#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
+  CLI cũ truyền create=True khi resume, từ chối slot đã tiến triển. Bổ sung
+  adapter mở journal bằng create=False, không đổi code/plan/receipt đã khóa;
+  receipt vận hành riêng bind adapter trước khi người dùng tiếp tục HTTP.
+  Preflight complete; giữ 157 slot primary complete, một unknown cùng UUID,
+  358 planned. Không reset hoặc đổi mẫu/phương pháp; U11 vẫn 1/10, nomination/
+  xác nhận và risk OFF. Kiểm thử bổ sung theo phạm vi ghi tại README W11.
 
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,

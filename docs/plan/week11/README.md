@@ -4,9 +4,10 @@
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
 
 Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
-Tiếp theo **U11-02**: người dùng chạy preflight rồi primary/repeat theo
+Đang thực hiện **U11-02**: người dùng chạy primary/repeat theo
 [runbook production](../week10/unified_bic_operations.md#3-người-dùng-chạy-api-sau-release-development).
-Preflight và API thật chưa chạy; nomination/xác nhận 2025 vẫn chưa được cấp.
+Preflight đã complete, primary đang chạy dở; xem [phục hồi resume sau quota](#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
+Nomination/xác nhận 2025 vẫn chưa được cấp.
 
 ## Mục tiêu và đối chứng
 
@@ -128,7 +129,7 @@ nêu rõ hạn chế tái lập dù CI primary dương; không claim live/determ
 | Task | Công việc | Phụ thuộc | Đầu ra/nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
 | U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [x] DONE — release development; cold verify và hash gate W10 PASS, chưa API thật |
-| U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [ ] TODO |
+| U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [ ] IN_PROGRESS — primary dở; dùng adapter mở journal hiện hữu sau quota |
 | U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [ ] TODO |
 | U11-04 | Exposure/giá mới, manifest và release xác nhận | 03 đạt | 128 điểm/matrix/seed/source/receipt khóa trước outcome | [ ] TODO |
 | U11-05 | Người dùng chạy primary/repeat xác nhận | 04 | Đúng namespace/identity, không đổi phương pháp giữa run | [ ] TODO |
@@ -276,3 +277,70 @@ repeat `--run --resume --repeats` và verify/report. Giữ đúng receipt/bridge
 plan/run/ledger khi resume. Preflight lỗi phải dừng, giữ journal/usage và
 identity; không đổi model hoặc bỏ điểm để chạy tiếp. **U11 đạt 1/10**,
 tiếp theo **U11-02**; nomination/xác nhận và mặc định/risk OFF giữ nguyên.
+
+## U11-02 — Primary/repeat và phục hồi sau quota (26/10/2026)
+
+**IN_PROGRESS, chưa DONE.** Snapshot tại lúc xử lý lỗi resume: preflight
+complete, **157 slot primary complete**, **1 slot unknown**, **358 slot
+planned** (gồm 216 repeat). Slot unknown là
+`VNM-2023-07-05 / r=0 / A_reference`; giữ UUID/attempts/cache và mọi output
+cũ. Số liệu U11-01 phía trên là snapshot trước khi bắt đầu API, không phải
+trạng thái hiện hành. Chưa phân tích để chọn phương pháp hoặc nominate.
+
+Nguyên nhân lỗi `Input/plan đã khóa với identity khác; cần run mới`:
+entrypoint online cũ luôn truyền `CohortRun(..., create=True)`, khiến
+`ExecutionJournal` so slot đã tiến triển với planned ban đầu. Không phải
+identity nghiên cứu đổi theo key. Kiểm thử W10 đã mở handle tiếp theo với
+`create=False`; đường online CLI sau restart chưa được kiểm đúng tình huống
+này. Giữ nguyên lỗi/lượt chạy cũ để công bố, không khởi tạo lại run.
+
+Adapter vận hành mới [tools/resume_unified_bayes.py](../../../tools/resume_unified_bayes.py)
+chỉ thay cách mở handle sang đường `create=False` sẵn có. Parser/source,
+authorize, tokenizer, credential, provider quota, retry/UUID, canonical body,
+paired protocol và report vẫn do CLI/kernel cũ thực hiện. Không đổi model,
+prompt, kết quả hoặc protocol sau outcome. Default offline không đọc key/
+gọi HTTP; online bắt buộc `--run --resume` và preflight cũ complete. Hai đường
+gate/readiness mặc định đúng bộ U11-01, không cần dựng lại biến PowerShell.
+
+Khi người dùng chạy online lần đầu bằng adapter, nó ghi receipt vận hành
+`development/run/resume_entrypoint_v1.json` gắn hash byte adapter, run
+signature, plan, execution code và runtime. Receipt này được kiểm lại cùng
+mọi guard kernel trước HTTP/retry; không sửa hoặc thay authorization/receipt
+bốn gate. Adapter và test đi kèm ở `tools/` được nghiệm thu bổ sung riêng,
+ngoài cây code/test nguồn đã đóng băng của W10; không coi gate W10 là test
+đã chạy cho code adapter mới. Đây là sửa cách mở checkpoint, giữ cùng run
+và công bố can thiệp vận hành trước khi tiếp tục.
+
+Sau khi tiến trình cũ dừng và người dùng đã lưu key mới vào `.env`, chạy
+**một lệnh**, chờ kết thúc; nếu lại dừng vì quota thì sau khi giải quyết
+credential/quota chạy lại đúng lệnh này:
+
+```powershell
+py -3.13 -X utf8 tools/resume_unified_bayes.py --run --resume --env-file ".env"
+```
+
+Primary COMPLETE mới chuyển ba repeat với `--repeats`; từng lệnh verify/
+report theo [runbook](../week10/unified_bic_operations.md#4-dừng-ngắt-và-resume).
+Giữ ledger/cache/journal và các slot complete, không đổi key khi tiến trình
+cũ vẫn sống. Agent chỉ chuẩn bị/kiểm offline và HTTP mock, không dùng key
+hoặc gọi API thật để chạy tiếp thay người dùng.
+
+**Kiểm tra theo phạm vi PASS:** chín ca mới trong
+[tools/test_resume_unified_bayes.py](../../../tools/test_resume_unified_bayes.py),
+gồm tái hiện lỗi cũ, đổi credential sau quota với ledger tổng/cùng UUID,
+restart CLI online thật qua biên source/credential/HTTP mock, không replay
+complete/repeat, không tạo slot mất và chặn adapter/receipt đổi. Bốn ca cũ
+liên quan auth/quota/partial resume/durable preflight cũng PASS: **13 ca**
+tổng cộng. Biên dịch đúng hai file Python mới PASS; không chạy toàn suite,
+E2E hoặc leakage do không đổi đường dữ liệu/PIT, prompt hay kernel kinh tế.
+Scope validation W10 vẫn đúng **308 file**, runtime và receipt/bốn log còn
+khớp; chỉ viện dẫn gate cũ cho đúng code cũ, adapter có các test riêng trên.
+
+Lệnh `py -3.13 -X utf8 tools/resume_unified_bayes.py --verify-only` trên run
+thật PASS, primary/repeat vẫn INCOMPLETE. Ledger, cache, 516 Decision slot,
+plan, authorization/preflight và mọi nguồn cũ nguyên byte; chỉ bốn metadata
+owner/recovery của khóa run/journal được verifier cập nhật, owner released.
+Chưa tạo receipt adapter hoặc HTTP mới trên run thật. Giữ `tools/` và receipt
+adapter cùng run khi đóng băng evidence U11-08. U11-02 chỉ DONE sau khi người
+dùng hoàn tất primary/repeat và verify/report, không dùng test mock thay kết
+quả nghiên cứu.

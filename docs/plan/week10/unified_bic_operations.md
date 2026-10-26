@@ -6,7 +6,9 @@ nghiệm thu và hash nguồn ở [README W10](README.md#u10-09--dry-run-coverag
 nguồn/model/order/repeat và kiểm offline tại [README W11](../week11/README.md#u11-01--dry-run-và-release-development-26102026).
 Lệnh dưới đây dùng CLI production đã kiểm ở U10-07–09. Người dùng có thể
 thực hiện lần lượt verify offline, preflight và primary/repeat cho U11-02.
-Preflight/API thật vẫn chưa chạy; release xác nhận 2025 chưa được cấp.
+Preflight thật đã complete, primary đang chạy dở; trạng thái và bản sửa
+entrypoint resume ở [U11-02](../week11/README.md#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
+Release xác nhận 2025 chưa được cấp.
 
 ## 1. Bộ bàn giao và trạng thái ban đầu
 
@@ -95,13 +97,21 @@ nếu bị ngắt thì chạy lại **chính lệnh preflight**, không thêm `-
 ### Primary và report
 
 ```powershell
-# Run đã có cohort/journal planned: cần --resume ngay cả lượt API đầu tiên.
-py -3.13 -X utf8 scripts/run_unified_bayes.py --run --resume --technical-gates $technicalGates --readiness $executionReadiness --env-file ".env"
+# Mở journal hiện hữu, giữ đúng receipt/readiness đã khóa bằng adapter vận hành.
+py -3.13 -X utf8 tools/resume_unified_bayes.py --run --resume --env-file ".env"
 # Ba lệnh sau offline; không truyền gate/readiness/env-file cho các mode này.
 py -3.13 -X utf8 scripts/run_unified_bayes.py --verify-only
 py -3.13 -X utf8 scripts/run_unified_bayes.py --report
 py -3.13 -X utf8 scripts/run_unified_bayes.py --verify-report
 ```
+
+Adapter chỉ mở run đã có cohort/journal và preflight complete. Nó dùng hai
+đường receipt/readiness ở mục 2 làm mặc định, giữ mọi guard/dispatch của CLI
+cũ; ghi hash adapter riêng trước Decision HTTP. Không dùng lại lệnh online
+`scripts/run_unified_bayes.py --run --resume` cho run đã có slot tiến triển:
+entrypoint cũ vẫn truyền `create=True`, dẫn đến lỗi identity khi cố khởi tạo
+lại slot complete/unknown. Kernel mở journal với `create=False` đã có sẵn;
+adapter bổ sung cách gọi đúng, không thay code/plan/receipt đã khóa.
 
 `--run` cũng kiểm preflight; complete không phát lại HTTP. Sau primary cần
 `primary=COMPLETE`, `repeat=INCOMPLETE`. Mọi nhánh/điểm phải đủ; lỗi hoặc
@@ -113,7 +123,7 @@ tái dựng. Snapshot/report có thể tính payoff sau khi mọi nhánh LLM c�
 ### Ba repeat đã khóa và duplicate độc lập
 
 ```powershell
-py -3.13 -X utf8 scripts/run_unified_bayes.py --run --resume --repeats --technical-gates $technicalGates --readiness $executionReadiness --env-file ".env"
+py -3.13 -X utf8 tools/resume_unified_bayes.py --run --resume --repeats --env-file ".env"
 py -3.13 -X utf8 scripts/run_unified_bayes.py --verify-only
 py -3.13 -X utf8 scripts/run_unified_bayes.py --report
 py -3.13 -X utf8 scripts/run_unified_bayes.py --verify-report
@@ -145,6 +155,25 @@ readiness; CLI đối soát amendment với usage trước HTTP. Không chạy l
 hoặc đổi model để vượt lỗi. Thay đổi hành vi sau action phải review revision
 và khai báo exploratory, không ghi đè rồi gọi là lượt đầu tiên.
 
+Khi hết quota và cần dùng credential khác, thực hiện **từng bước**, chờ lệnh
+trước kết thúc. Nếu tiến trình vẫn đang chờ/retry thì không mở tiến trình thứ
+hai. Sau khi đã dừng:
+
+1. Mở `.env` bằng trình soạn thảo local, sửa `GROQ_API_KEY` và lưu file.
+   Không gửi key vào chat hoặc đặt giá trị key trong câu lệnh.
+2. Nếu đang chạy primary, chỉ chạy một lệnh sau:
+
+   ```powershell
+   py -3.13 -X utf8 tools/resume_unified_bayes.py --run --resume --env-file ".env"
+   ```
+
+3. Nếu đang chạy repeat, dùng lệnh tương ứng có `--repeats` ở mục 3.
+   Các slot complete được giữ nguyên; slot unknown phục hồi cùng UUID và
+   audit. Đổi key không xóa usage cũ hoặc bảo đảm provider cấp quota mới.
+4. Chỉ khi primary hoặc repeat kết thúc mới chạy lần lượt `--verify-only`,
+   `--report`, `--verify-report` ở mục 3. Nếu dừng do lỗi integrity hoặc lỗi
+   format đã hết attempts, giữ nguyên run để rà soát, không tạo run mới.
+
 ## 5. Đầu ra chuyển sang phân tích U11
 
 Bàn giao nguyên run/HTTP cache/journal/authorization/preflight, ledger chung,
@@ -165,7 +194,9 @@ Không đổi `--plan`/`--output-dir` hoặc đặt cờ tự nghĩ ra để m�
 
 Các lệnh/flag được đối chiếu parser và code production. Run/resume/verify
 đã được kiểm bằng SDK thật qua HTTP mock, failure/resume/leakage và lifecycle
-nguồn thật trong U10-07–09; **chưa gọi API nghiên cứu thật hoặc preflight thật**.
+nguồn thật trong U10-07–09; tại thời điểm bàn giao W10 chưa gọi API thật.
+U11-02 đã có API thật và bổ sung adapter resume; nghiệm thu riêng và trạng
+thái chạy dở ở README W11, không gán các test W10 cho adapter mới.
 Bốn gate U10-09 là compileall, 1111 unit, E2E và 248 leakage PASS đúng nguồn/
 runtime. U10-10 chỉ bàn giao tài liệu, giữ code/schema/input/runtime nguyên
 byte nên viện dẫn gate đó, không ghi là đã chạy lại suite.
