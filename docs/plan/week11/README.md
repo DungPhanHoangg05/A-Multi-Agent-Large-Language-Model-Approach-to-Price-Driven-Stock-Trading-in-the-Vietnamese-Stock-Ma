@@ -8,8 +8,11 @@ Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01
 [nghiệm thu cuối](#nghiệm-thu-hoàn-tất-u11-02) trên run thật PASS, không còn
 slot planned/unknown. **U11-03 đã khóa NOT_NOMINATED**: chỉ 2/4 mã tăng so
 Original, dưới ngưỡng ≥3/4 dù D dương; xem [quyết định và phân tích](#u11-03--kiểm-định-development-và-khóa-nomination-26102026).
-Dừng nhánh xác nhận U11-04–08 theo protocol; tiếp theo **U11-09** viết kết
-quả/thảo luận. Chưa cấp nomination hoặc release 2025.
+Dừng nhánh xác nhận U11-04–08 của v1 theo protocol; **U11-09** viết kết
+quả/thảo luận vẫn tiếp tục. Theo yêu cầu mới ngày 26/10/2026, bổ sung
+[kế hoạch cải thiện có giới hạn](#kế-hoạch-bổ-sung-sau-u11-03-26102026):
+một revision R2 riêng, sáu task R01–R06 chưa triển khai, không kéo dài quá
+W12. Chưa cấp nomination hoặc release 2025 cho bất kỳ revision mới nào.
 
 ## Mục tiêu và đối chứng
 
@@ -560,3 +563,233 @@ nomination riêng; không thêm HTTP, sửa response hoặc thay outcome cũ.
 **U11 đạt 3/10**, U11-04–08 **NOT_RUN** theo nhánh dừng, không tính là DONE.
 Tiếp theo **U11-09** viết kết quả/thảo luận development với claim chưa được
 chứng minh; không mở dữ liệu/xác nhận 2025 hoặc thay ứng viên sau outcome.
+
+## Kế hoạch bổ sung sau U11-03 (26/10/2026)
+
+**Hiệu lực:** yêu cầu mới cho phép lên kế hoạch một revision nghiên cứu
+tiếp theo trong thời hạn 12 tuần. Quyết định v1 NOT_NOMINATED và protocol
+v1 giữ nguyên; đoạn kết U11-03 phía trên mô tả bàn giao của v1. R2 không
+phải chạy lại v1 để đổi kết quả, không tự được release và chưa có mã/runtime.
+Không xóa kết quả bất lợi, hạ rule ≥3/4 hoặc chọn ablation làm candidate.
+Các task U11-04–08 của v1 tiếp tục NOT_RUN; R01–R06 là checklist bổ sung,
+không cộng vào mẫu số 3/10 của v1. U11-09/10 và W12 vẫn phải hoàn thành.
+
+### 1. Chẩn đoán đã có và điều chưa thể kết luận
+
+Đọc lại selection, plan và report đã khóa, không gọi LLM hoặc mở payoff
+2025. Không chỉ thiếu một mã tăng: gain trung bình +0,026473 đpt quá nhỏ
+để xem là lợi ích vững chắc. Mục tiêu mới phải sửa cơ chế tạo quyết định,
+không tìm một thay đổi nhỏ đủ làm mã thứ ba dương.
+
+| Quan sát từ primary v1 | Ý nghĩa cho bước tiếp theo |
+| --- | --- |
+| U_full khác Original 5/60 action; cả năm CASH→LONG, không LONG→CASH | 55 action không đổi; cần kiểm chất lượng thay đổi quyết định và khả năng tránh lỗ, không tối đa hóa số lần prior visible |
+| Năm lệnh thêm có 2 lãi, 3 lỗ net | Gain bị triệt tiêu; chưa chứng minh do posterior, ví dụ hay nhiễu request |
+| U_full khác A 4/60; khác stats 5/60; khác examples 2/60 | Ablation kinh tế dựa trên rất ít thay đổi; không lấy contrast dương làm bằng chứng cơ chế đủ mạnh |
+| Prior 51/60, stats 46/60, examples 41/60, ≥2 task 34/60 | Coverage đã đạt; tăng K hoặc giảm ngưỡng không phải ưu tiên có căn cứ |
+| Trên 46 điểm stats-ready: mean p=0,364384; tỷ lệ thắng net=0,369565; Brier=0,226423; log loss=0,648615 | Mean gần nhau không chứng minh calibration có điều kiện hoặc lợi ích kinh tế; chưa có cơ sở kết luận toàn bộ Bayes sai |
+| 42/46 posterior mean≤0,5; Numeric_only chỉ LONG 4/60 | Ép theo p>0,5 có thể bỏ cơ hội; xác suất thắng không chứa độ lớn lãi/lỗ |
+| U_full có trích ID ở 1/51 điểm prior-visible; bốn trong năm action đổi không trích ID | Cần đọc nội dung thực; thiếu citation không chứng minh LLM bỏ qua prior, có citation cũng không chứng minh suy luận Bayes |
+| Repeat U ổn định trên 12 điểm, nhưng kết quả mẫu này đã âm ở primary | Không chọn repeat tốt hoặc tăng vote để cứu gain; chưa phải bằng chứng lỗi chủ yếu do ngẫu nhiên provider |
+
+Năm thay đổi dưới đây chỉ mô tả payoff từng cycle, **không cộng thành D
+tài khoản**; D phải dựng lại tài khoản bằng engine với thứ tự/lot/compounding:
+
+| Điểm | LONG net, % | Ghi chú |
+| --- | ---: | --- |
+| VCB-2023-02-08 | −1,015155 | p=0,396; hai exemplar net âm; justification chủ yếu nói tín hiệu kỹ thuật |
+| MWG-2023-04-28 | −1,349148 | p=0,523 với CrI rộng; prior không đảm bảo thắng |
+| MWG-2023-08-29 | +1,738163 | p=0,325 và ba exemplar âm nhưng lệnh có lãi; cấm suy ra hard veto p<0,5 từ vài ca lỗ |
+| VCB-2023-08-29 | +1,097742 | Chỉ examples ready; không được coi raw posterior bị ẩn là evidence LLM đã thấy |
+| FPT-2023-11-23 | −0,369465 | Giá tăng nhưng net sau phí âm; cần tách đúng hướng giá và lợi ích giao dịch |
+
+Đây là phân tích hậu nghiệm trên development đã xem. Các giả thuyết còn
+phải kiểm: prior thiếu thông tin payoff; cách diễn đạt làm LLM chú trọng
+tín hiệu tăng hơn bất định; lệch giữa population stats và examples; tuổi
+memory hoặc conditional signal ít khả năng dự báo. Không kết luận nguyên
+nhân chỉ từ năm ca, và không tạo rule riêng cho FPT/VNM/CONSOLIDATION.
+
+### 2. Revision R2 được đề xuất: Bayes về payoff và ICL có đối chiếu
+
+**Giữ:** memory/scaler/regime, partition C/B1/B2, posterior thắng λ=8,
+selector label-blind, block90, tối đa ba task/exemplar, engine, upstream
+chung, retry/checkpoint và Original mặc định. Không fine-tune, thay model,
+thêm agent, ensemble, risk overlay hay mở rộng ngân sách prompt. Nguyên
+nhân coverage đã được xử lý ở v1; mở lại các phần này sẽ làm mất khả năng
+quy trách nhiệm trong thời gian còn lại.
+
+**Thay đổi A — thêm độ lớn payoff có bất định, không hard veto theo p.**
+Về toán học, E(r_net)=p·E(r_net|r_net>0)+(1−p)·E(r_net|r_net≤0).
+Vì vậy p<0,5 vẫn có thể có mean dương. Tất cả r_net lấy từ cùng hàm
+kinh tế hiện hành; không trừ phí hai lần, không dùng target giá/R:R do LLM
+viết làm nhãn hoặc thay giá Open(t+1)/Close(t+3).
+
+Chỉ thử **một mô hình payoff offline**: Normal–Inverse-Gamma cho r_net
+trong C, với prior empirical Bayes từ B=B1∪B2 cùng mã, rời C và đúng PIT.
+Mô hình nhẹ có posterior/predictive dạng Student-t; công thức theo
+[Murphy, mục Normal–Inverse-Gamma](https://www.cs.ubc.ca/~murphyk/Papers/bayesGauss.pdf).
+Giả định Gaussian cho cycle return là xấp xỉ cần kiểm; Student-t predictive
+do bất định tham số không tự giải quyết phụ thuộc thời gian hoặc regime shift.
+
+Đặc tả khởi điểm cố định, đơn vị return dạng tỷ lệ: κ0=4, α0=2,
+m0=mean(r_B), β0=max(var_sample(r_B),10^−6); cần nB≥20, nC≥5 và gate
+stats v1 đạt. Với n=nC, x̄=mean(r_C), S=Σ(r_C−x̄)^2:
+κn=κ0+n; mn=(κ0m0+n·x̄)/κn; αn=α0+n/2;
+βn=β0+S/2+κ0n(x̄−m0)^2/(2κn). μ có Student-t bậc 2αn, location mn,
+scale sqrt(βn/(αnκn)); predictive r thêm hệ số (κn+1) dưới căn.
+Không dùng scale predictive làm CrI của mean. Var floor chỉ giữ số học,
+không là threshold giao dịch; không quét κ, α, floor sau khi xem return.
+
+Gate offline trên 647 query train 2021–2022 đã purge của U10-04, theo
+fold/PIT và common support: MAE không xấu hơn cả dự báo zero lẫn m0,
+tốt hơn ít nhất một; không mã nào MAE xấu hơn m0 quá 0,1 đpt; mean NLL
+predictive không xấu hơn prior predictive; coverage khoảng predictive
+90% ít nhất 85%, báo thêm độ rộng và theo mã/fold. Đây là ngưỡng tiếp tục
+nghiên cứu được đề xuất trước phép đo, không là kiểm định xác nhận hay
+chứng nhận model đúng. Không đủ support thì gate inconclusive, không PASS.
+Không cắt outlier hoặc thay fold vì lỗi lớn; stress outlier/dependence và
+case n nhỏ phải báo. Trượt gate thì **dừng R2 trước API**, không thử thêm
+family/model để tìm một phương án thắng.
+
+Trong prefix, gọi mn là **mean net lịch sử có shrinkage**, kèm CrI95%
+của mean và support; chưa gọi là expected return query đã hiệu chuẩn.
+Không nhân posterior p và payoff thành một phân phối giả khi chưa có
+mô hình chung. Không dùng mean/CrI làm override action; Numeric_payoff
+offline dùng mn>0 khi payoff ready, còn lại CASH, chỉ là đối chứng số học.
+
+**Thay đổi B — đưa evidence vào một cấu trúc dễ đối chiếu.** Giữ nguyên
+base prompt/instruction/schema v1 cho mọi nhánh mới; chỉ thay prefix R2.
+Thay ký hiệu khó đọc bằng nhãn ngắn rõ nghĩa: tỷ lệ thắng net/support,
+mean net/CrI nếu ready, task và x→y đã chọn, rồi yêu cầu đối chiếu bằng
+chứng thuận/nghịch trong evidence_for/evidence_against/justification sẵn có.
+Nói rõ TP/SL hoặc target giá không là cơ chế thoát lệnh của backtest.
+LLM vẫn quyết định LONG/CASH; không ép đồng ý prior, không ép thay action
+để đủ 3/4 mã. Missing payoff không là zero; tắt block với reason.
+
+BRPP≤600, toàn prompt<6500, giữ đủ ba task ở case biên. Không bỏ ví dụ
+thua, không gộp các nhóm khác nhau hoặc thêm outcome query để rút ngắn.
+ID/support/đơn vị phải giải mã được; sidecar lưu đầy đủ provenance. Không
+thay bank hoặc retrieval cùng lúc với renderer/payoff để tránh lẫn nguyên nhân.
+
+Kiểm 12 tình huống tổng hợp đã khóa (dấu/đơn vị, p thấp nhưng payoff dương,
+p cao nhưng payoff âm, CrI qua 0, missing, mâu thuẫn task/current signal),
+không là thí nghiệm lợi nhuận. Parser/oracle phải đúng; probe LLM do người
+dùng chạy một lượt sau freeze chỉ kiểm không bịa số/ID hoặc cơ chế thoát.
+Nếu lỗi số liệu/semantics, sửa lỗi và công bố, không chọn response tốt;
+sửa template sau development thật là revision mới ngoài vòng này.
+
+Tài liệu [Zhao et al.](https://proceedings.mlr.press/v139/zhao21c.html) cho
+thấy few-shot nhạy với prompt/ví dụ/thứ tự trong các tác vụ của họ; đó là
+lý do kiểm độ nhạy ở đây, không phải bằng chứng rằng calibration của họ
+sẽ tăng lợi nhuận hệ thống này. Không áp content-free calibration vào
+confidence dạng chữ rồi gọi là xác suất. Theo
+[paper nền](https://proceedings.mlr.press/v306/zhu26aj.html), transformer
+được huấn luyện trên prior/target tasks; R2 vẫn là ứng dụng Bayesian
+evidence-conditioned ICL trên hosted LLM, không tái tạo việc huấn luyện đó.
+
+### 3. Một vòng kiểm chứng mới, không đổi kết quả v1
+
+Namespace dự kiến unified_bic_r2, manifest/schema/verifier riêng; không
+sửa cờ selection.json, receipt hoặc code được v1 khóa. Runtime mới tái
+dùng adapter ổn định khi hash/hợp đồng tương thích. Đường nguồn/payoff/
+prompt/reuse thay đổi phải có test trọng tâm và leakage liên quan; viện
+dẫn gate cũ đúng phạm vi, không tự chạy lại toàn suite theo AGENTS.md 1.2.
+
+Ma trận đăng ký trước run, chỉ **R2_full** được xét:
+
+| Nhánh | Đối chứng nhằm trả lời |
+| --- | --- |
+| Original | Không prior, cùng base request v1 |
+| A_reference | A trên cùng memory/protocol mới |
+| U_v1_reference | Exact template v1, chạy trong cùng đợt để đo cải thiện so v1 |
+| R2_full | Prefix dễ đối chiếu + posterior thắng + payoff đủ gate + task examples |
+| R2_no_payoff | Prefix/selection y như R2, bỏ đúng block payoff; kiểm lợi ích độ lớn lãi/lỗ |
+| R2_no_examples | Giữ stats/payoff, bỏ demonstrations và task summary; kiểm lợi ích ICL |
+| Numeric_payoff | Offline, không LLM, không candidate |
+
+Development vẫn đủ 60 điểm 2023, sáu nhánh LLM=360 slot primary. Khóa
+12 điểm repeat và ba lượt bổ sung trước action: giữ danh sách v1 để không
+chọn lại theo outcome; sáu nhánh cộng Original_duplicate=252 slot repeat.
+Original đầu, năm nhánh còn lại xoay theo index; repeat xoay sáu nhánh kể
+cả duplicate. Upstream một lần/point, không gọi lại vision; chỉ reuse cache
+upstream sau kiểm identity. Response Decision v1 cũ chỉ tham khảo lịch sử,
+không ghép vào nhánh đối chứng mới vì thời điểm/provider có thể đổi.
+Shared-off chỉ reuse khi canonical request đúng point/repeat trùng hoàn toàn.
+
+Giữ nomination D>0, ≥3/4 mã tăng, D_R2−A≥0, coverage/multi-task và guard
+MDD v1. Bổ sung D_R2−U_v1>0 để không gọi revision mới là cải thiện khi
+chỉ bằng v1; đo/payoff visible≥30/60 và≥5/mã trước API để không đánh giá
+một block gần như luôn tắt. Không bổ sung rule theo tên mã hoặc loại riêng
+năm point đã biết. Phải báo số action đổi, cả CASH→LONG và LONG→CASH,
+payoff của các thay đổi, leave-one-change-out/leave-one-symbol-out và repeat;
+không chọn phân tích nhạy cảm thuận lợi làm nomination mới.
+
+Đây vẫn là **development đã dùng thích nghi nhiều lần**, không phải
+xác nhận độc lập dù qua gate. Chỉ sau nomination và release R2 riêng mới
+được dùng 2025: tái audit exposure của mọi lượt đã chạy, không chỉ v1;
+giá/coverage PASS không đồng nghĩa outcome chưa từng dùng để tune.
+Không rõ exposure thì báo exploratory và kết thúc trong W12, không hứa
+forward đủ mẫu trong vài ngày. Không dùng phần 2024 còn lại làm holdout mới.
+
+Nếu đủ điều kiện, xác nhận giữ 128 điểm/32 mỗi mã và rule lịch v1, cùng
+snapshot exit≤31/12/2024, không append outcome 2025. Khóa đủ sáu nhánh
+LLM, primary và repeats trước outcome. Primary R2−Original, CI95% theo
+bootstrap đã định (10.000 draw, L=4, cùng cutoff/mã); secondary family có
+**năm** contrast R2−A/v1/no_payoff/no_examples/Numeric, Bonferroni CI99%
+từng contrast. Không giữ CI98,75% của family bốn contrast cũ. MDE/coverage
+trước release; không giảm N, đổi seed hoặc cắt nhánh sau khi thấy kết quả.
+
+Primary xác nhận dương mới hỗ trợ lợi ích kinh tế; contrast với A/v1 mới
+hỗ trợ ưu thế so phương pháp tương ứng. Full−no_examples dương mới hỗ trợ
+đóng góp thêm của demonstrations; payoff hoặc Numeric thắng riêng không
+được gọi là ICL thắng. Không có ý nghĩa thống kê thì ghi inconclusive;
+không tăng số call/rerun hoặc nới tiêu chuẩn để ép kết luận.
+
+### 4. Checklist và thời hạn cứng trong W11–W12
+
+Không khởi động lại một tuần đã dùng. Ưu tiên dưới đây phải vừa phần thời
+gian thực tế còn lại; nếu thiếu thời gian thì giảm phạm vi nghiên cứu mới,
+không giảm chuẩn nghiệm thu hay kéo dài sang W13.
+
+| Task bổ sung | Phạm vi và đầu ra | Điểm dừng | Trạng thái |
+| --- | --- | --- | --- |
+| R01 | Hoàn tất audit 60 point, năm action đổi và reason/trace, payoff/age/conflict, đối chiếu nguồn | Phần đọc sơ bộ ở trên đã có; chưa coi là đủ kiểm nguyên nhân hoặc consumer mới | [ ] TODO |
+| R02 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT; giữ v1 | Gate offline trượt/không đủ support: dừng, không gọi development LLM | [ ] TODO |
+| R03 | Renderer/payoff/CLI/verifier namespace mới, fixture/12 probe, test phạm vi và dry-run coverage | Tối đa hai ngày làm việc cho R01–R03; không xong kỹ thuật thì không chạy API | [ ] TODO |
+| R04 | Người dùng chạy một development 60 điểm và repeat; analysis/nomination R2 | Một cấu hình, một lượt; không qua rule thì không chạy xác nhận | [ ] TODO |
+| R05 | Exposure audit, MDE và lock/release xác nhận riêng | Chỉ khi R04 đạt và kịp trước cuối W11; thiếu điều kiện thì NOT_RUN | [ ] TODO |
+| R06 | Người dùng chạy xác nhận, verify/CI/ablation; đóng băng và chuyển kết quả sang U11-09 | Cuối W11 bắt đầu run đã release; W12 ngày 1–2 chỉ hoàn tất/resume đúng run | [ ] TODO |
+
+R01–R03 ưu tiên trước, sau đó dành tối đa một vòng development và một
+xác nhận có điều kiện. U11-09 viết kết quả v1 và phương pháp R2 song song;
+U11-10 bàn giao rõ trạng thái mỗi revision. Hết ngày làm việc thứ hai W12
+khóa dữ liệu/bản thảo: run thiếu mẫu là INCOMPLETE, không lấy partial gain
+làm kết quả chính. Phần còn lại W12 chỉ tái lập, hoàn thiện hình/bảng,
+slide và bảo vệ. Không mở thêm candidate hoặc tuning sau mốc này.
+
+**Phương án nộp luôn có:** W9 A là bằng chứng xác nhận tích cực đã có
+(với đúng giới hạn cohort/secondary); v1 là kết quả âm về gate lựa chọn;
+R2 nếu chạy là nghiên cứu tiếp nối. v1 vẫn được trình bày đầy đủ trong
+kết quả/thảo luận, chỉ không dùng để tuyên bố ưu thế xác nhận. Nếu R2 chưa
+đủ chứng cứ, đóng góp khóa luận gồm ứng dụng Bayes/ICL có đối chứng, hệ
+thống PIT/tái lập và phân tích giới hạn, không sửa nhãn để gọi là thành công.
+
+### 5. Kiểm tra cho lần cập nhật kế hoạch này
+
+Chỉ sửa tài liệu, đọc/đối chiếu artifact hiện hữu, không thay code, schema,
+runtime, dữ liệu hoặc gọi API. Theo AGENTS.md 1.2 không chạy compileall,
+unit/E2E/leakage suite và không ghi là đã chạy lại các gate cũ. Hash byte
+nguồn phân tích để đối chiếu sau sửa tài liệu:
+
+| Nguồn dưới outputs/bayesian_benchmark/unified_bic_v1/development | SHA-256 |
+| --- | --- |
+| nomination/selection.json | 37439b49ebab656b5af5f5cb4f761e7428ac1e293c8fa529d56c002ad883d912 |
+| run/report.json | 5f691d4813b2c19965170f774486073840c3776248d2e452b837a725e511cd18 |
+| plan.json | 4bb127868e40c6cf04fb7b9a51425f520a29e95adaaa994c1ae942a36b7ddc35 |
+
+Sổ usage dùng chung giữ hash e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796.
+Các số liệu mới phía trên được tính trực tiếp từ 60 row repeat_id=0 và
+posterior trong plan; chưa chạy lại cold consumer có thể cập nhật lock.
+Đối chiếu byte hash, số liệu, liên kết/anchor, UTF-8 và diff là kiểm tra
+áp dụng cho lần lập kế hoạch, **đều PASS**; diff chỉ gồm ba tài liệu
+plan.md, README W11 và README W12. Không coi đó là nghiệm thu R01–R06.
