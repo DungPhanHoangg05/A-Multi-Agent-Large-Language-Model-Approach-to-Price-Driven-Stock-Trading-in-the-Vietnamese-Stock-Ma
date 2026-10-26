@@ -8,8 +8,10 @@ Lệnh dưới đây dùng CLI production đã kiểm ở U10-07–09. Người 
 thực hiện lần lượt verify offline, preflight và primary/repeat cho U11-02.
 **U11-02 đã DONE: primary 300/300 và repeat 216/216 complete**, cold verifier
 báo cáo cuối PASS; [nghiệm thu và hash bàn giao U11-03](../week11/README.md#nghiệm-thu-hoàn-tất-u11-02).
-Run hoàn tất chỉ cần verify/report offline; nomination và release xác nhận
-2025 chưa được cấp.
+**U11-03 đã khóa NOT_NOMINATED** vì chỉ 2/4 mã tăng, dưới ngưỡng ≥3/4;
+[quyết định nomination và phân tích](../week11/README.md#u11-03--kiểm-định-development-và-khóa-nomination-26102026).
+Run hoàn tất chỉ cần verify/report offline; dừng nhánh xác nhận 2025 theo
+protocol, tiếp theo viết kết quả U11-09.
 
 ## 1. Bộ bàn giao và trạng thái ban đầu
 
@@ -182,7 +184,12 @@ plan/source/input/readiness và cả thư mục validation đã dùng. `report.j
 phải vừa được refresh và verify; báo planned/complete/unknown và common
 support thực, từng mã, G/T, prior-off, repeat/duplicate và failure. Trace ID
 là telemetry; `nomination_allowed=false` trong report runtime không phải
-field để sửa tay. Nomination và publication producer/consumer thuộc U11-03.
+field để sửa tay. Nomination U11-03 đã có producer/consumer riêng; kiểm lại
+quyết định khóa mà không gọi API:
+
+```powershell
+py -3.13 -X utf8 tools/nominate_unified_bayes.py
+```
 
 Chỉ U_full được xét nomination theo protocol. Thiếu support hoặc trượt gate
 kinh tế thì dừng release xác nhận; không chọn ablation thắng để thay ứng viên.

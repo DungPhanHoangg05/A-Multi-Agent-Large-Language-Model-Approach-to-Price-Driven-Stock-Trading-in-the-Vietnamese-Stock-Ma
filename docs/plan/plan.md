@@ -15,7 +15,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 10/10, U11 2/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 10/10, U11 3/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
@@ -33,9 +33,13 @@ tài liệu, không chạy lại toàn suite. U11-02 đã hoàn tất **300/300 
 216/216 repeat**, 96 evaluation; cold source/journal/ledger/report verify PASS,
 không còn slot planned/unknown/missing. Adapter phục hồi giữ nguyên run/code/
 receipt đã khóa, lịch sử quota/retry và kết quả cũ. Chốt task chỉ đổi tài liệu,
-không chạy lại suite; tiếp theo U11-03 verify/analysis và xét nomination.
-Giá thực thi 2025 đã bổ sung và PASS;
-xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
+không chạy lại suite. U11-03 đã khóa **NOT_NOMINATED**: D_U−Original
+**+0,026473 đpt**, nhưng chỉ **2/4 mã tăng**, dưới rule ≥3/4; D_U−A
++0,039217 đpt và các gate khác PASS. Producer/consumer cold và oracle nguồn
+thật PASS, không key/API/giá 2025. Dừng U11-04–08 theo protocol, tiếp theo
+U11-09 viết kết quả/thảo luận; không nominate ablation hoặc hạ ngưỡng.
+Giá thực thi 2025 đã bổ sung và PASS nhưng không có release khi nomination
+không đạt. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
 **Cách thực hiện từ 09/10/2026:** bỏ bước dự toán ngân sách và lịch chạy
@@ -427,8 +431,9 @@ ensemble, risk overlay, soft regime hoặc cross-symbol. Thiếu gate/coverage
 hoặc không đạt nomination thì không chạy xác nhận để cứu kết quả. W12 vẫn
 hoàn thành luận văn từ W9 và kết quả U đúng phạm vi. API do người dùng chạy;
 memory/backbone/context/runtime/CLI offline và tài liệu vận hành/phương pháp
-đã nghiệm thu hết W10. U11-01 đã chốt release development; trạng thái từng
-phần được ghi tại README W10/W11, U11-02 tiếp tục preflight/primary/repeat.
+đã nghiệm thu hết W10. U11-01/02 đã release và hoàn tất development;
+U11-03 NOT_NOMINATED vì chỉ 2/4 mã tăng. Nhánh xác nhận dừng, chuyển viết
+kết quả U11-09; trạng thái từng phần ở README W10/W11.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1404,7 +1409,7 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Chưa API/preflight thật, nomination hoặc release xác nhận. **U10 hoàn tất
   10/10**, chuyển **U11-01**; U11 0/10, U12 0/5, risk/mặc định OFF.
 
-### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 2/10
+### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 3/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
 release và xác nhận nếu đạt, bootstrap/ablation/noise, freeze và viết kết
 quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
@@ -1441,6 +1446,21 @@ quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
   đối soát code/runtime/receipt cũ, không chạy lại suite theo AGENTS.md 1.2.
   **U11 đạt 2/10**, chuyển **U11-03** phân tích/xét nomination; chưa cấp
   nomination hoặc release 2025, risk/mặc định OFF.
+
+- **Kiểm định development và khóa nomination, 26/10/2026:** [U11-03 DONE](week11/README.md#u11-03--kiểm-định-development-và-khóa-nomination-26102026).
+  **NOT_NOMINATED / STOP_NO_CONFIRMATION_RELEASE**: G đủ 60 điểm và toàn
+  primary/repeat verify PASS, prior/examples/multi-task coverage đạt. D_U−
+  Original +0,026473 đpt nhưng chỉ MWG/VCB tăng (2/4<3/4); FPT −0,374299,
+  VNM=0. D_U−A +0,039217, mean/max ΔMDD 0,574281/1,312807 đều đạt rule.
+  T36 có D −0,246090; repeat trên 12 điểm có D r=1/2/3 −0,249962/0/
+  −0,249962, mean −0,166642; duplicate r=2 bất đồng 1/12. Giữ mọi nhóm
+  xấu, null khi thiếu mã, không chọn subgroup/repeat hoặc ablation thay G.
+  Producer/consumer/schema riêng trong tools, một artifact ignored write-once
+  555.678 byte; code/plan/report/ledger đã khóa giữ nguyên. 24 ca khác nhau,
+  biên dịch hai file mới, prepare/cold consumer chặn mạng/key/giá 2025 và
+  oracle 1.046 kiểm tra PASS; không chạy toàn suite theo AGENTS.md 1.2.
+  **U11 đạt 3/10**, U11-04–08 NOT_RUN, tiếp theo **U11-09**. Nomination/
+  release xác nhận và risk/mặc định OFF, chưa có claim xác nhận về hiệu ứng.
 
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,
