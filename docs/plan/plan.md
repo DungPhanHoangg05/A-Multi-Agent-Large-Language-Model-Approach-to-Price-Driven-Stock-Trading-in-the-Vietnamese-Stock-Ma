@@ -15,7 +15,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 10/10, U11 1/10, U12 0/5; đã audit nguồn/exposure,
+**Tiến độ hiện hành:** U10 10/10, U11 2/10, U12 0/5; đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
 U10-06 đã khóa instruction/shared-off/journal; contract nguồn thật, 32 test
@@ -29,10 +29,12 @@ U10-10 đã bàn giao hướng dẫn CLI production và bản thảo phương ph
 tài liệu/hash PASS; code/runtime giữ nguyên, không chạy lại suite.
 U11-01 đã chốt release development ngày 26/10/2026: cold dry-run/readiness/
 report, nguồn/model/order/repeat/prompt và hash bốn gate W10 PASS; chỉ đổi
-tài liệu, không chạy lại toàn suite. U11-02 đang chạy primary: preflight đã
-complete; snapshot xử lý lỗi resume có 157 slot complete/1 unknown/358 planned.
-Đã bổ sung adapter mở journal hiện hữu, giữ nguyên code/receipt và run đã khóa;
-người dùng tiếp tục API theo runbook. Giá thực thi 2025 đã bổ sung và PASS;
+tài liệu, không chạy lại toàn suite. U11-02 đã hoàn tất **300/300 primary và
+216/216 repeat**, 96 evaluation; cold source/journal/ledger/report verify PASS,
+không còn slot planned/unknown/missing. Adapter phục hồi giữ nguyên run/code/
+receipt đã khóa, lịch sử quota/retry và kết quả cũ. Chốt task chỉ đổi tài liệu,
+không chạy lại suite; tiếp theo U11-03 verify/analysis và xét nomination.
+Giá thực thi 2025 đã bổ sung và PASS;
 xác nhận chưa có release, chờ các gate U10/U11. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
 
@@ -1402,7 +1404,7 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Chưa API/preflight thật, nomination hoặc release xác nhận. **U10 hoàn tất
   10/10**, chuyển **U11-01**; U11 0/10, U12 0/5, risk/mặc định OFF.
 
-### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 1/10
+### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 2/10
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
 release và xác nhận nếu đạt, bootstrap/ablation/noise, freeze và viết kết
 quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
@@ -1420,13 +1422,25 @@ quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
   metadata snapshot hoặc tạo authorization/preflight giả. **U11 đạt 1/10**,
   tiếp theo **U11-02** do người dùng chạy; nomination/xác nhận và risk OFF.
 
-- **Phục hồi entrypoint development sau quota, 26/10/2026:** [U11-02 đang thực hiện](week11/README.md#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
+- **Phục hồi entrypoint development sau quota, 26/10/2026:** [bản vá resume U11-02](week11/README.md#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
   CLI cũ truyền create=True khi resume, từ chối slot đã tiến triển. Bổ sung
   adapter mở journal bằng create=False, không đổi code/plan/receipt đã khóa;
   receipt vận hành riêng bind adapter trước khi người dùng tiếp tục HTTP.
-  Preflight complete; giữ 157 slot primary complete, một unknown cùng UUID,
-  358 planned. Không reset hoặc đổi mẫu/phương pháp; U11 vẫn 1/10, nomination/
-  xác nhận và risk OFF. Kiểm thử bổ sung theo phạm vi ghi tại README W11.
+  Snapshot lúc vá: preflight complete, 157 slot primary complete, một unknown
+  cùng UUID, 358 planned. Không reset hoặc đổi mẫu/phương pháp; lúc đó U11
+  vẫn 1/10, nomination/xác nhận và risk OFF. 13 ca kiểm tra bổ sung và biên
+  dịch hai file mới PASS, không chạy lại suite; chi tiết ở README W11.
+
+- **Chốt thực thi development, 26/10/2026:** [U11-02 DONE](week11/README.md#nghiệm-thu-hoàn-tất-u11-02).
+  Người dùng hoàn tất 300 slot primary/60 điểm và 216 slot repeat/12 điểm
+  ×3 lượt; 96 evaluation, support đủ FPT12/MWG16/VCB16/VNM16, không missing/
+  unknown. Cold verifier nguồn/journal/cache/ledger/report và kiểm hash PASS.
+  404 invoked +112 reuse; ledger nghiên cứu giữ 411 lượt HTTP (404 thành công,
+  3 quota 429, 4 transport_error), preflight riêng; không xóa retry/reserve.
+  Duplicate độc lập đủ 36/36 cặp, repeat không trộn primary. Chỉ đổi tài liệu,
+  đối soát code/runtime/receipt cũ, không chạy lại suite theo AGENTS.md 1.2.
+  **U11 đạt 2/10**, chuyển **U11-03** phân tích/xét nomination; chưa cấp
+  nomination hoặc release 2025, risk/mặc định OFF.
 
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,
