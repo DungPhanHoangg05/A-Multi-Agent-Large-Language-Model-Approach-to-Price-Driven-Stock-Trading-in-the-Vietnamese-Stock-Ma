@@ -1,13 +1,13 @@
 # Tuần 11 — Kiểm định phiên bản hợp nhất và khóa kết quả nghiên cứu
 
-**Trạng thái: U11-01 DONE ngày 26/10/2026, 1/10 task DONE.**
+**Trạng thái: U11-02 DONE ngày 26/10/2026, 2/10 task DONE.**
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
 
 Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
-Đang thực hiện **U11-02**: người dùng chạy primary/repeat theo
-[runbook production](../week10/unified_bic_operations.md#3-người-dùng-chạy-api-sau-release-development).
-Preflight đã complete, primary đang chạy dở; xem [phục hồi resume sau quota](#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
-Nomination/xác nhận 2025 vẫn chưa được cấp.
+**U11-02 đã hoàn tất 300/300 slot primary và 216/216 slot repeat**;
+[nghiệm thu cuối](#nghiệm-thu-hoàn-tất-u11-02) trên run thật PASS, không còn
+slot planned/unknown. Tiếp theo **U11-03** verify/analysis và xét nomination
+theo rule đã khóa. Nomination/xác nhận 2025 vẫn chưa được cấp.
 
 ## Mục tiêu và đối chứng
 
@@ -129,7 +129,7 @@ nêu rõ hạn chế tái lập dù CI primary dương; không claim live/determ
 | Task | Công việc | Phụ thuộc | Đầu ra/nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
 | U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [x] DONE — release development; cold verify và hash gate W10 PASS, chưa API thật |
-| U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [ ] IN_PROGRESS — primary dở; dùng adapter mở journal hiện hữu sau quota |
+| U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [x] DONE — 300 primary +216 repeat complete, source/journal/ledger/report verify PASS |
 | U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [ ] TODO |
 | U11-04 | Exposure/giá mới, manifest và release xác nhận | 03 đạt | 128 điểm/matrix/seed/source/receipt khóa trước outcome | [ ] TODO |
 | U11-05 | Người dùng chạy primary/repeat xác nhận | 04 | Đúng namespace/identity, không đổi phương pháp giữa run | [ ] TODO |
@@ -280,7 +280,11 @@ tiếp theo **U11-02**; nomination/xác nhận và mặc định/risk OFF giữ 
 
 ## U11-02 — Primary/repeat và phục hồi sau quota (26/10/2026)
 
-**IN_PROGRESS, chưa DONE.** Snapshot tại lúc xử lý lỗi resume: preflight
+**DONE ngày 26/10/2026.** Primary/repeat và cold verifier báo cáo cuối đều
+COMPLETE/PASS; [nghiệm thu hoàn tất](#nghiệm-thu-hoàn-tất-u11-02) ghi số liệu
+và hash bàn giao U11-03.
+
+**Lịch sử xử lý lỗi resume:** snapshot tại lúc vá entrypoint có preflight
 complete, **157 slot primary complete**, **1 slot unknown**, **358 slot
 planned** (gồm 216 repeat). Slot unknown là
 `VNM-2023-07-05 / r=0 / A_reference`; giữ UUID/attempts/cache và mọi output
@@ -336,11 +340,81 @@ E2E hoặc leakage do không đổi đường dữ liệu/PIT, prompt hay kernel
 Scope validation W10 vẫn đúng **308 file**, runtime và receipt/bốn log còn
 khớp; chỉ viện dẫn gate cũ cho đúng code cũ, adapter có các test riêng trên.
 
-Lệnh `py -3.13 -X utf8 tools/resume_unified_bayes.py --verify-only` trên run
+Ở thời điểm nghiệm thu bản vá, lệnh
+`py -3.13 -X utf8 tools/resume_unified_bayes.py --verify-only` trên run
 thật PASS, primary/repeat vẫn INCOMPLETE. Ledger, cache, 516 Decision slot,
 plan, authorization/preflight và mọi nguồn cũ nguyên byte; chỉ bốn metadata
 owner/recovery của khóa run/journal được verifier cập nhật, owner released.
-Chưa tạo receipt adapter hoặc HTTP mới trên run thật. Giữ `tools/` và receipt
-adapter cùng run khi đóng băng evidence U11-08. U11-02 chỉ DONE sau khi người
-dùng hoàn tất primary/repeat và verify/report, không dùng test mock thay kết
-quả nghiên cứu.
+Lần kiểm offline bản vá chưa tạo receipt adapter hoặc HTTP mới trên run
+thật. Giữ `tools/` và receipt adapter cùng run khi đóng băng evidence U11-08.
+Nghiệm thu hoàn tất dưới đây dựa trên kết quả API thật do người dùng chạy,
+không dùng test mock thay kết quả nghiên cứu.
+
+### Nghiệm thu hoàn tất U11-02
+
+Người dùng đã hoàn tất primary, ba repeat và chuỗi verify/report trên cùng
+run đã khóa. Agent chạy lại **một cold verifier báo cáo**:
+
+```powershell
+py -3.13 -X utf8 tools/resume_unified_bayes.py --verify-report
+```
+
+Kết quả **`Snapshot/report PASS: primary=COMPLETE, repeat=COMPLETE`**.
+Verifier tái dựng source/plan/request, đọc toàn journal/ledger/cache và
+đối chiếu report lưu trên đĩa; không đọc key hoặc phát HTTP mới. Đối soát
+riêng lịch/UUID/reuse/receipt/common support và hash nguồn cũng PASS:
+
+| Bằng chứng | Primary | Repeat | Tổng |
+| --- | ---: | ---: | ---: |
+| Block đã có evaluation | 60 | 36 | 96 |
+| Slot LLM complete | 300 | 216 | 516 |
+| Slot invoked có output/UUID riêng | 248 | 156 | 404 |
+| Slot reuse Original cùng point/repeat | 52 | 60 | 112 |
+| Slot planned/unknown/missing | 0 | 0 | 0 |
+
+Common support primary đủ **FPT=12, MWG=16, VCB=16, VNM=16**, không loại
+điểm lỗi. Numeric_only được tính offline đủ 96 block, không tăng số slot
+LLM. Mẫu repeat giữ 12 điểm, ba điểm/mã và đủ r=1,2,3; mỗi lượt đủ
+3 điểm/mã. Nhánh Original_duplicate có **12/12 cặp mỗi lượt, 36/36 tổng**,
+UUID khác Original; các nhánh đều đủ **36/36 cặp so giữa các repeat**.
+Repeat/duplicate giữ riêng, không vào primary hoặc tạo thêm quan sát độc
+lập. Slot từng unknown tại `VNM-2023-07-05 / r=0 / A_reference` đã complete,
+giữ UUID và recovery audit cũ.
+
+Ledger của signature nghiên cứu có **411 lượt HTTP ghi nhận**: **404 HTTP
+200, 3 HTTP 429 và 4 transport_error**, không tính preflight riêng. Mỗi
+invoked slot có đúng một HTTP 200 được lưu/đối soát; lịch sử retry và lỗi
+không bị xóa. Số slot logic 516 bao gồm 112 reuse, không đồng nghĩa 516
+HTTP hoặc quan sát độc lập. Usage đo được **756.574 token** trên 404 lượt
+thành công; bảy lượt không có usage giữ null/reserve theo policy, không
+điền 0. Không còn unknown ở slot nghiên cứu không có nghĩa xóa bất định
+của các lượt HTTP lỗi trong ledger.
+
+Các binding bàn giao hiện tại, **SHA-256 byte file**:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `development/run/report.json` — 4.733.971 byte | `5f691d4813b2c19965170f774486073840c3776248d2e452b837a725e511cd18` |
+| `development/run/resume_entrypoint_v1.json` | `6cfc14af04836714bfd71e64d14b3f65dc790337ed4335e39bacc15ce8cc5da2` |
+| Ledger chung `outputs/oos_pilot/api_usage.json` | `e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796` |
+
+Plan byte/digest, cohort signature, authorization, preflight, source,
+model/options, schedule và mẫu repeat vẫn đúng khóa U11-01. Receipt adapter
+khớp byte code hiện hành; scope W10 **308 file**, runtime và receipt/bốn log
+vẫn khớp. Bàn giao nguyên plan/run/HTTP cache/journal/receipt adapter,
+authorization/preflight, ledger và bộ validation cho U11-03; các artifact
+ignored cần được giữ cùng workspace, không tạo receipt lặp lại chỉ để ghi
+checklist.
+
+**Phạm vi task chốt thuần tài liệu:** không sửa code/test/schema/config/
+runtime/input hoặc gọi API thật. Theo AGENTS.md 1.2, không chạy lại
+compileall/unit/E2E/leakage; viện dẫn đúng gate U10-09 và **13 ca kiểm tra
+adapter đã PASS** của bản vá, không ghi là chạy lại. Diff/UTF-8/liên kết/
+hash được kiểm; chỉ metadata owner/recovery của khóa được verifier cập
+nhật, Decision/cache/ledger/report và bằng chứng cũ giữ nguyên byte trong
+lần chốt.
+
+**U11 đạt 2/10**, chuyển **U11-03** để kiểm định/phân tích đầy đủ và xét
+nomination duy nhất U_full. `nomination_allowed=false`,
+`confirmation_allowed=false` trong report giữ nguyên; hoàn tất thực thi
+không tự cấp nomination, release 2025 hoặc bật risk/mặc định hệ thống.

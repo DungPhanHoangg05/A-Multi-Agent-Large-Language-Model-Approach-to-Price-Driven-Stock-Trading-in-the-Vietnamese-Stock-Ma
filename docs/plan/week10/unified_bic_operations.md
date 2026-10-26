@@ -6,9 +6,10 @@ nghiệm thu và hash nguồn ở [README W10](README.md#u10-09--dry-run-coverag
 nguồn/model/order/repeat và kiểm offline tại [README W11](../week11/README.md#u11-01--dry-run-và-release-development-26102026).
 Lệnh dưới đây dùng CLI production đã kiểm ở U10-07–09. Người dùng có thể
 thực hiện lần lượt verify offline, preflight và primary/repeat cho U11-02.
-Preflight thật đã complete, primary đang chạy dở; trạng thái và bản sửa
-entrypoint resume ở [U11-02](../week11/README.md#u11-02--primaryrepeat-và-phục-hồi-sau-quota-26102026).
-Release xác nhận 2025 chưa được cấp.
+**U11-02 đã DONE: primary 300/300 và repeat 216/216 complete**, cold verifier
+báo cáo cuối PASS; [nghiệm thu và hash bàn giao U11-03](../week11/README.md#nghiệm-thu-hoàn-tất-u11-02).
+Run hoàn tất chỉ cần verify/report offline; nomination và release xác nhận
+2025 chưa được cấp.
 
 ## 1. Bộ bàn giao và trạng thái ban đầu
 
@@ -25,7 +26,7 @@ Run hiện tại còn binding với vị trí ledger trong workspace; giữ nguy
 | Thành phần | Đường dẫn từ root / vai trò |
 | --- | --- |
 | Plan | `outputs/bayesian_benchmark/unified_bic_v1/development/plan.json`; 60 primary, 12 điểm ×3 repeat; 96 block/516 slot LLM |
-| Run | `outputs/bayesian_benchmark/unified_bic_v1/development/run`; journal planned, report dẫn xuất |
+| Run | `outputs/bayesian_benchmark/unified_bic_v1/development/run`; journal durable, report dẫn xuất |
 | Ledger chung | `outputs/oos_pilot/api_usage.json`; giữ toàn bộ lịch sử, không reset hoặc tạo ledger thay thế |
 | Assessment | `outputs/bayesian_benchmark/unified_bic_v1/development/readiness/assessment.json`; source, coverage, repeat và MDE |
 | Bridge | `outputs/bayesian_benchmark/unified_bic_v1/development/readiness/execution_readiness.json`; sáu field cho consumer CLI |
@@ -195,8 +196,9 @@ Không đổi `--plan`/`--output-dir` hoặc đặt cờ tự nghĩ ra để m�
 Các lệnh/flag được đối chiếu parser và code production. Run/resume/verify
 đã được kiểm bằng SDK thật qua HTTP mock, failure/resume/leakage và lifecycle
 nguồn thật trong U10-07–09; tại thời điểm bàn giao W10 chưa gọi API thật.
-U11-02 đã có API thật và bổ sung adapter resume; nghiệm thu riêng và trạng
-thái chạy dở ở README W11, không gán các test W10 cho adapter mới.
+U11-02 đã có API thật và hoàn tất primary/repeat bằng adapter resume; nghiệm
+thu cuối ở README W11, không gán các test W10 cho adapter mới. Task chốt chỉ
+đổi tài liệu và kiểm offline, không chạy lại suite hoặc gọi API mới.
 Bốn gate U10-09 là compileall, 1111 unit, E2E và 248 leakage PASS đúng nguồn/
 runtime. U10-10 chỉ bàn giao tài liệu, giữ code/schema/input/runtime nguyên
 byte nên viện dẫn gate đó, không ghi là đã chạy lại suite.
