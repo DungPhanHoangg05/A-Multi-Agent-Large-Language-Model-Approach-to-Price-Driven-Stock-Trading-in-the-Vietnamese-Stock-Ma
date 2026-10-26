@@ -1,18 +1,21 @@
 # Tuần 12 — Hoàn thiện kết quả và bảo vệ khóa luận
 
-**Trạng thái: kế hoạch điều chỉnh 24/10/2026, 0/5 DONE.**
+**Trạng thái: kế hoạch điều chỉnh 26/10/2026, 0/5 DONE; thời hạn vẫn 12 tuần.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md) · [W9](../week9/README.md)
 
-W10 triển khai một phiên bản Bayesian ICL hợp nhất; W11 development và xác
-nhận có gate. W12 hoàn thiện luận văn/tái lập/slide. Nếu run xác nhận W11
-chưa xong chỉ resume đúng manifest; không tune hoặc mở ma trận mới. Thiếu
-mẫu thì INCOMPLETE, không dùng mock/ước lượng nhãn chưa đóng để ghi PASS.
+W10 đã triển khai U-BICL v1; U11-03 khóa NOT_NOMINATED. Theo yêu cầu mới,
+[R01–R06 ở W11](../week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026)
+đề xuất một revision R2 về payoff/ICL, không đổi kết quả cũ. W12 ưu tiên
+luận văn/tái lập/slide. Chỉ hai ngày làm việc đầu được hoàn tất/resume
+xác nhận đã release và bắt đầu ở W11; không mở ma trận/run mới, tune hoặc
+gia hạn sang W13. Hết ngày thứ hai khóa dữ liệu: thiếu mẫu thì INCOMPLETE,
+không dùng mock, partial gain hoặc ước lượng nhãn chưa đóng làm kết quả chính.
 
 | Task | Đầu ra và tiêu chí | Trạng thái |
 | --- | --- | --- |
-| U12-01 | Chốt trạng thái run và claim: W9 xác nhận cũ, development U và xác nhận U nếu có; tách các cohort | [ ] TODO |
-| U12-02 | Hoàn thiện chương phương pháp/kết quả/thảo luận, đủ ablation/noise/failure và provenance các vòng đã xem | [ ] TODO |
-| U12-03 | Kiểm tái lập/checksum/cài đặt/restore riêng; bốn gate mã bàn giao, hướng dẫn offline và API | [ ] TODO |
+| U12-01 | Chốt trước cuối ngày thứ hai: W9 xác nhận cũ, v1 NOT_NOMINATED, development R2 và xác nhận R2 nếu có; không trộn cohort/revision | [ ] TODO |
+| U12-02 | Hoàn thiện phương pháp/kết quả/thảo luận, đủ ablation/noise/failure, năm action đổi của v1 và provenance mọi vòng phát triển; không bỏ kết quả bất lợi | [ ] TODO |
+| U12-03 | Kiểm tái lập/checksum/cài đặt/restore; viện dẫn receipt đúng source/runtime, test phần đổi nếu có; không tự chạy lại toàn suite; hướng dẫn offline và API | [ ] TODO |
 | U12-04 | Bản Word/LaTeX/PDF và 25–30 slide; số liệu/CI/hình/đơn vị khớp artifact | [ ] TODO |
 | U12-05 | Diễn tập phản biện và khóa bản nộp; giải thích Bayes/ICL/PIT/selection và giới hạn | [ ] TODO |
 

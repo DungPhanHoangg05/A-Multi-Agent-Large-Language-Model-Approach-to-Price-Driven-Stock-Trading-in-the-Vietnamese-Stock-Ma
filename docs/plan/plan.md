@@ -2,9 +2,10 @@
 
 **Đề tài**: *Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market*  
 **Dựa trên nền tảng**: Bài báo *Multi-Task Bayesian In-Context Learning* (Zhu, Oermann, Cho — ICML 2026) và Hệ thống Giao dịch Đa Agent LangGraph hiện có.  
-**Mục tiêu tài liệu**: Theo yêu cầu ngày **24/10/2026**, giữ lộ trình **12 tuần** và thay W10–W11 bằng kế hoạch xây dựng **Unified Bayesian In-Context Learning (U-BICL)**. Lấy A_tp_pool làm nền, kết hợp có điều kiện retrieval, uncertainty, task context và cơ chế thực thi ổn định. Một ứng viên hợp nhất, một vòng development có đối chứng; W11 khóa xác nhận và W12 luận văn/bảo vệ. Không hứa trước ưu thế kinh tế.
+**Mục tiêu tài liệu**: Giữ lộ trình **12 tuần**. U-BICL v1 đã triển khai và kết thúc development tại U11-03 với NOT_NOMINATED. Theo yêu cầu ngày **26/10/2026**, bổ sung **một revision R2 có giới hạn**: cải thiện bằng chứng payoff và cách Decision sử dụng ICL, qua gate offline trước API; giữ nguyên kết quả v1. W12 vẫn hoàn thiện luận văn/bảo vệ, không hứa trước ưu thế kinh tế.
 
-**Quy tắc đọc:** mục **5.6** và README **W10–W12** là kế hoạch hiện hành.
+**Quy tắc đọc:** mục **5.7** và phần bổ sung sau U11-03 ở README **W11**
+là kế hoạch cải thiện mới nhất; mục **5.6** giữ thiết kế/kết quả v1.
 Mục 5.5 và W1–W9 giữ lịch sử/protocol của phiên bản đã xác nhận; không sửa
 registry, selection, checkpoint hay kết quả cũ. Revision W10–W11 trước được
 rút khỏi cây phát triển theo yêu cầu; lịch sử Git vẫn giữ provenance. Thay
@@ -38,6 +39,9 @@ không chạy lại suite. U11-03 đã khóa **NOT_NOMINATED**: D_U−Original
 +0,039217 đpt và các gate khác PASS. Producer/consumer cold và oracle nguồn
 thật PASS, không key/API/giá 2025. Dừng U11-04–08 theo protocol, tiếp theo
 U11-09 viết kết quả/thảo luận; không nominate ablation hoặc hạ ngưỡng.
+Yêu cầu mới bổ sung R01–R06 (**0/6**, chưa triển khai), tách khỏi 3/10
+task v1: audit hành vi, payoff offline, renderer/test, một development và
+xác nhận có điều kiện; xem [kế hoạch R2](week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026).
 Giá thực thi 2025 đã bổ sung và PASS nhưng không có release khi nomination
 không đạt. W9 không bị reset. [Thiết kế W10](week10/README.md)
 và [kiểm định W11](week11/README.md) là nơi quản lý task mới.
@@ -434,6 +438,44 @@ memory/backbone/context/runtime/CLI offline và tài liệu vận hành/phương
 đã nghiệm thu hết W10. U11-01/02 đã release và hoàn tất development;
 U11-03 NOT_NOMINATED vì chỉ 2/4 mã tăng. Nhánh xác nhận dừng, chuyển viết
 kết quả U11-09; trạng thái từng phần ở README W10/W11.
+
+### 5.7. Cải thiện sau U11-03 — revision R2 có giới hạn
+
+Theo yêu cầu mới 26/10/2026, một revision riêng được lên kế hoạch, không
+đổi protocol/selection/code đã khóa của v1. [Đặc tả và checklist R01–R06](week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026)
+là nguồn điều hành; hạn 12 tuần giữ nguyên. U11-04–08 của v1 vẫn NOT_RUN.
+
+**Căn cứ:** v1 có prior ở 51/60 điểm nhưng chỉ đổi 5/60 action so Original,
+đều CASH→LONG; ba lỗ/hai lãi net. D chỉ +0,026473 đpt, FPT giảm, VNM
+không đổi. Trên 46 điểm stats-ready, mean p=0,364384 và tỷ lệ thắng
+0,369565 gần nhau nhưng chưa chứng minh calibration; không suy posterior
+hỏng hoặc tăng K là lời giải. Cần phân biệt xác suất thắng với độ lớn
+payoff và kiểm cách LLM đối chiếu bằng chứng, không cố tạo mã thứ ba dương.
+
+**Phạm vi:** giữ memory/regime/scaler/λ/selector/engine, thêm một mô hình
+Bayes payoff nhỏ kiểm trên train PIT và một prefix rõ net return/bất định/
+task/current signal. Không hard veto theo p>0,5, override action, thêm agent
+hoặc quét model/prompt. Payoff gate trượt hoặc kỹ thuật chưa đủ thì dừng
+trước API. Chi tiết prior, gate, template và các giới hạn ở README W11.
+
+**Đánh giá:** một candidate R2_full; đối chứng Original, A_reference,
+U_v1_reference, R2_no_payoff, R2_no_examples và Numeric_payoff offline.
+Development 60 điểm 2023 đã xem, repeat cố định; giữ các gate v1 và thêm
+R2−v1>0. Không coi development này là độc lập. Chỉ sau nomination/exposure/
+release R2 mới mở xác nhận 2025 đủ 128 điểm; primary CI95%, family năm
+secondary dùng Bonferroni CI99%, không lấy family cũ bốn contrast.
+
+**Thời hạn:** R01–R03 tối đa hai ngày làm việc trong phần W11 còn lại;
+cuối W11 phải chốt nomination/release và bắt đầu xác nhận nếu đủ điều kiện.
+Hai ngày đầu W12 chỉ hoàn tất/resume run đã khóa; sau đó đóng băng để viết
+luận văn, tái lập/slide/bảo vệ. Không đủ thời gian hoặc gate thì NOT_RUN/
+INCOMPLETE, không giảm mẫu, nới tiêu chuẩn hoặc chuyển sang W13.
+
+**Đầu ra nghiên cứu:** W9 là bằng chứng xác nhận tích cực có giới hạn;
+v1 vẫn được báo cáo đầy đủ với quyết định NOT_NOMINATED; R2 chỉ được
+claim theo bằng chứng thực. Không xóa v1 hay gọi lợi ích của Numeric là
+đóng góp ICL. Task hiện tại chỉ cập nhật plan/đọc artifact, không API hoặc
+đổi runtime; QA tài liệu/hash/số liệu, không chạy lại suite theo AGENTS.md 1.2.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1464,8 +1506,10 @@ quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
 
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,
-tái lập/bốn gate mã bàn giao, 25–30 slide và bảo vệ. Run dở chỉ resume đúng
-manifest; không thêm phương pháp hoặc giảm mẫu để kịp tiến độ.
+tái lập/đối soát gate đúng phạm vi, 25–30 slide và bảo vệ. [R01–R06 bổ sung](week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026)
+giữ v1 3/10 và U12 0/5; R2 0/6. Hai ngày đầu chỉ hoàn tất/resume xác nhận
+đã release/bắt đầu ở W11, sau đó khóa số liệu dù INCOMPLETE; không thêm
+phương pháp, giảm mẫu hoặc chạy lại toàn suite chỉ để cập nhật checklist.
 
 ---
 
