@@ -4,8 +4,10 @@
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md) · [W9](../week9/README.md)
 
 W10 đã triển khai U-BICL v1; U11-03 khóa NOT_NOMINATED. Theo yêu cầu mới,
-[R01–R06 ở W11](../week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026)
-đề xuất một revision R2 về payoff/ICL, không đổi kết quả cũ. W12 ưu tiên
+[chuỗi U11-04–U11-11](../week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
+triển khai kế hoạch R2 về payoff/ICL rồi tổng kết/bàn giao, không đổi kết
+quả cũ. U11 hiện 3/11, tiếp theo U11-04; W12 bắt đầu checklist sau bàn giao
+U11-11 (kể cả khi các bước xác nhận không được chạy). W12 ưu tiên
 luận văn/tái lập/slide. Chỉ hai ngày làm việc đầu được hoàn tất/resume
 xác nhận đã release và bắt đầu ở W11; không mở ma trận/run mới, tune hoặc
 gia hạn sang W13. Hết ngày thứ hai khóa dữ liệu: thiếu mẫu thì INCOMPLETE,

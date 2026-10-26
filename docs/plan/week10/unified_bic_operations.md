@@ -10,8 +10,10 @@ thực hiện lần lượt verify offline, preflight và primary/repeat cho U11
 báo cáo cuối PASS; [nghiệm thu và hash bàn giao U11-03](../week11/README.md#nghiệm-thu-hoàn-tất-u11-02).
 **U11-03 đã khóa NOT_NOMINATED** vì chỉ 2/4 mã tăng, dưới ngưỡng ≥3/4;
 [quyết định nomination và phân tích](../week11/README.md#u11-03--kiểm-định-development-và-khóa-nomination-26102026).
-Run hoàn tất chỉ cần verify/report offline; dừng nhánh xác nhận 2025 theo
-protocol, tiếp theo viết kết quả U11-09.
+Run v1 hoàn tất chỉ cần verify/report offline; nhánh xác nhận v1 dừng theo
+protocol. Kế hoạch tiếp nối hiện dùng [checklist U11-04–U11-11](../week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành),
+task tiếp theo U11-04; viết kết quả/bàn giao mang số U11-10/U11-11. Các
+lệnh v1 dưới đây không phải CLI triển khai hoặc release cho R2.
 
 ## 1. Bộ bàn giao và trạng thái ban đầu
 
@@ -76,7 +78,8 @@ U11-01 đã đối chiếu đầy đủ plan/model/source/order/repeat, assessme
 receipt/log bốn gate đúng code/runtime; xem [nghiệm thu release development](../week11/README.md#u11-01--dry-run-và-release-development-26102026).
 Không chạy lại toàn suite vì code/runtime giữ nguyên. CLI kiểm technical
 receipt/bridge; quyết định release nghiên cứu được ghi ở README W11.
-Khi resume vẫn phải verify đúng bộ đã khóa. Xác nhận 2025 chờ U11-03/04.
+Khi resume vẫn phải verify đúng bộ đã khóa. Nhánh xác nhận v1 đã dừng;
+release xác nhận R2 thuộc U11-08 và có protocol/runtime riêng.
 
 ## 3. Người dùng chạy API sau release development
 
@@ -194,7 +197,8 @@ py -3.13 -X utf8 tools/nominate_unified_bayes.py
 Chỉ U_full được xét nomination theo protocol. Thiếu support hoặc trượt gate
 kinh tế thì dừng release xác nhận; không chọn ablation thắng để thay ứng viên.
 Giá thực thi 2025 đã PASS ở bước bổ sung nguồn, nhưng vẫn cần nomination,
-exposure/independence audit, lịch và release U11-04. CLI bàn giao ở đây chỉ
+exposure/independence audit, lịch và release riêng (U11-08 trong checklist
+R2 hiện hành; v1 không có release do U11-03 NOT_NOMINATED). CLI ở đây chỉ
 chạy development; chưa có lệnh release/run xác nhận 2025 được phát hành.
 Không đổi `--plan`/`--output-dir` hoặc đặt cờ tự nghĩ ra để mở năm khác.
 
