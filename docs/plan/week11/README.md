@@ -1,6 +1,6 @@
 # Tuần 11 — Kiểm định phiên bản hợp nhất và khóa kết quả nghiên cứu
 
-**Trạng thái: U11-03 DONE; checklist hợp nhất ngày 26/10/2026 có 3/11 task DONE. Tiếp theo: U11-04.**
+**Trạng thái: U11-04 DONE; checklist hợp nhất ngày 26/10/2026 có 4/11 task DONE. Tiếp theo: U11-05.**
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
 
 Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
@@ -141,8 +141,8 @@ và tổng kết nghiên cứu, không khởi động lại nhánh xác nhận v
 | U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [x] DONE — release development; cold verify và hash gate W10 PASS, chưa API thật |
 | U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [x] DONE — 300 primary +216 repeat complete, source/journal/ledger/report verify PASS |
 | U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [x] DONE — NOT_NOMINATED: chỉ 2/4 mã tăng; source/consumer/oracle PASS |
-| U11-04 | Hoàn tất audit 60 point và năm action đổi của v1; reason/trace, payoff/age/conflict, đối chiếu nguồn | 03 đã khóa kết quả | Phân biệt quan sát và giả thuyết nguyên nhân; giữ nguyên evidence, phần đọc sơ bộ chưa tính DONE | [ ] TODO — task tiếp theo |
-| U11-05 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT | 04 | Gate offline/support đạt mới tiếp tục; trượt hoặc thiếu support thì dừng trước development LLM | [ ] TODO |
+| U11-04 | Hoàn tất audit 60 point và năm action đổi của v1; reason/trace, payoff/age/conflict, đối chiếu nguồn | 03 đã khóa kết quả | Phân biệt quan sát và giả thuyết nguyên nhân; giữ nguyên evidence, phần đọc sơ bộ chưa tính DONE | [x] DONE — đủ 60 điểm/năm thay đổi, nguồn/trace/payoff/tuổi đã đối soát; xem audit bên dưới |
+| U11-05 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT | 04 | Gate offline/support đạt mới tiếp tục; trượt hoặc thiếu support thì dừng trước development LLM | [ ] TODO — task tiếp theo |
 | U11-06 | Renderer/payoff/CLI/verifier namespace mới, fixture/12 probe, test phạm vi và dry-run coverage | 05 đạt gate offline | Prompt/semantic/PIT/reuse/coverage PASS; U11-04–06 tối đa hai ngày làm việc, chưa đủ kỹ thuật thì không chạy development | [ ] TODO |
 | U11-07 | Người dùng chạy development R2 60 điểm và repeat; verify/analysis/khóa nomination | 06 nghiệm thu | Một cấu hình/một vòng; giữ rule v1 và R2−v1>0, ghi cả kết quả bất lợi | [ ] TODO |
 | U11-08 | Exposure audit, MDE, manifest và release xác nhận R2 riêng | 07 NOMINATED | Đủ 128 điểm/matrix/seed/source/receipt, exposure PASS và kịp trước cuối W11; thiếu điều kiện thì NOT_RUN | [ ] TODO — có điều kiện |
@@ -588,7 +588,8 @@ phải chạy lại v1 để đổi kết quả, không tự được release v�
 Không xóa kết quả bất lợi, hạ rule ≥3/4 hoặc chọn ablation làm candidate.
 Nhánh xác nhận v1 giữ trạng thái NOT_RUN trong lịch sử. Công việc tiếp
 theo gộp vào U11-04–U11-09; tổng kết/bàn giao là U11-10/U11-11. Chỉ dùng
-checklist ở mục D, tiến độ hiện hành **3/11**; W12 vẫn phải hoàn thành.
+checklist ở mục D; tại lúc lập kế hoạch có **3/11** DONE. Sau audit U11-04,
+tiến độ hiện hành **4/11**; W12 vẫn phải hoàn thành.
 
 ### 1. Chẩn đoán đã có và điều chưa thể kết luận
 
@@ -619,6 +620,8 @@ tài khoản**; D phải dựng lại tài khoản bằng engine với thứ t�
 | VCB-2023-08-29 | +1,097742 | Chỉ examples ready; không được coi raw posterior bị ẩn là evidence LLM đã thấy |
 | FPT-2023-11-23 | −0,369465 | Giá tăng nhưng net sau phí âm; cần tách đúng hướng giá và lợi ích giao dịch |
 
+Đây là phần đọc sơ bộ khi lập kế hoạch, được hoàn tất bằng
+[audit U11-04](#u11-04--audit-quyết-định-development-v1-26102026) bên dưới.
 Đây là phân tích hậu nghiệm trên development đã xem. Các giả thuyết còn
 phải kiểm: prior thiếu thông tin payoff; cách diễn đạt làm LLM chú trọng
 tín hiệu tăng hơn bất định; lệch giữa population stats và examples; tuổi
@@ -808,3 +811,272 @@ tiến độ và liên kết điều hành ở plan.md, README W11/W12 và hư�
 hành v1. Kiểm tra diff/liên kết, chuỗi 01–11 duy nhất, ba DONE/tám TODO
 và hash nguồn nêu trên đều PASS; không chạy suite vì không đổi
 code/runtime/dữ liệu. Task tiếp theo là U11-04, chưa thực hiện task này.
+
+## U11-04 — Audit quyết định development v1 (26/10/2026)
+
+**DONE.** Đã đọc đủ `evidence_for`, `evidence_against`, `justification` và
+trace của **60 phản hồi primary U_full**, đối chiếu action của Original,
+A, stats, examples; đọc nguyên canonical prompt và hai phản hồi Original/
+U_full của **cả năm điểm đổi action**. Đây là audit hậu nghiệm để xác định
+điều cần kiểm ở U11-05, không phải một phép thử R2 hoặc nomination mới.
+v1 giữ **NOT_NOMINATED**, nhánh xác nhận v1 NOT_RUN; R2 chưa có gate payoff,
+development, nomination hoặc release xác nhận.
+
+### Phạm vi, phương pháp và nguồn audit
+
+Nguồn chính là `development/plan.json`, `run/report.json`,
+`nomination/selection.json` và `inputs/memory_index_v1.json` dưới
+`outputs/bayesian_benchmark/unified_bic_v1/`. Dùng đúng 60 row
+`repeat_id=0`, không nhập 36 block repeat vào primary. Đối chiếu theo
+`requests[point_id].packets[branch]`, `u_evidence`, `report.points` và
+`memory.records[episode_id]`; giữ nguyên prompt, output, alias và ID nguồn.
+Hash plan/report/selection/ledger ở bảng cuối phần kế hoạch vẫn là binding
+gốc, không cập nhật chúng để khớp kết quả audit.
+
+Sidecar phân tích cục bộ mới
+`development/audit/decision_audit.json` (**835.379 byte**,
+SHA-256 `ef3c98c21b3ff606493311c6a23f6f6397975495f28e2d4784a26997bb2a3046`)
+lưu đủ 60 nhận xét, năm bộ output/prefix/trace mỗi điểm, hash body/prompt,
+upstream provenance, gate/reason/exclusion counts, payoff/tuổi C/B1/B2 và
+ID/tuổi/nhãn từng exemplar. Đây là **đầu ra audit ignored**, không phải
+input R2 hoặc receipt release; cần giữ cùng bộ outputs khi bàn giao.
+README này giữ kết luận và bảng đọc được, không tạo thêm biên bản task.
+
+Payoff nhóm được tính từ `outcome.net_return_pct` có sẵn của đúng các ID
+C/B1/B2; đối soát n, s, partition rời, cùng mã và `exit_date < query`.
+Đối soát 60 payoff query với `compute_round_trip_net_return(entry_open,
+exit_close)` và 300 cặp action/evaluation: SHORT=CASH/return=0,
+LONG=BUY_SELL/net theo hợp đồng. Không cộng cycle return thành chênh lệch
+tài khoản. D vẫn là **+0,026473 đpt** đã khóa ở U11-03, với lot, thứ tự và
+compounding của engine; không tính lại D từ bảng năm cycle.
+
+Chỉ đánh dấu thông tin là **visible** khi có trong canonical prefix hoặc
+base prompt thực gửi. Posterior tắt và mean payoff tính thêm chỉ nằm trong
+sidecar audit, không được coi là dữ liệu LLM đã thấy. Tuổi dưới đây là ngày
+lịch từ cutoff episode tới cutoff query, không phải số phiên. Các nhận xét
+giải thích là đọc nội dung phản hồi, không quan sát suy luận nội tại.
+
+### Quan sát đủ 60 điểm
+
+U_full có **21 LONG/39 CASH**, Original **16 LONG/44 CASH**. Cả **5/60**
+khác biệt đều CASH→LONG: **2 cycle lãi, 3 cycle lỗ**; không có LONG→CASH.
+So với A/stats/examples lần lượt khác **4/5/2** action. Các số này đo đổi
+action trên cohort đã xem, không là hiệu quả nhân quả của từng block.
+
+Prior visible **51/60**; stats **46/60**, examples **41/60**; 9 điểm U_full
+off dùng lại đúng response Original/body cùng point/repeat. Có **90 lượt
+exemplar** trên 41 điểm, tuổi **24–726**, trung bình **393,177778 ngày**.
+Đây là lượt xuất hiện, có lặp ID giữa query. Trần 730 ngày chỉ áp selector
+examples; thống kê C/B1/B2 vẫn dùng toàn population PIT, có lịch sử cũ hơn.
+Không gọi sự khác biệt population/tuổi này là lỗi leakage hoặc sửa tuổi/K
+theo outcome. **23/90** exemplar có cặp Trend/Pattern khác query: selector
+task của v1 không buộc mọi representative thuộc C, nên không lấy mean/tỷ
+lệ task hay vài exemplar thay cho thống kê C. Trace chọn giữ cả `PRIOR_TOO_OLD`, feature unavailable,
+similarity, conflict và task-support/rank-limit; không bỏ các điểm tắt.
+
+U_full trích ID ở **1/51** điểm visible (VCB-2023-08-29), không có unknown
+ID. Đọc nội dung thấy **6/51** phản hồi nhắc rõ prior/lịch sử:
+VCB-2023-03-06, MWG-2023-06-30, VNM-2023-06-30, FPT-2023-08-29,
+VCB-2023-08-29, MWG-2023-10-30. Ví dụ MWG-2023-06-30 nhắc đúng
+mean=0,539, FPT-2023-08-29 nhắc mean=0,465; action cả hai vẫn giống
+Original. VNM-2023-06-30 nói tới hai ví dụ âm nhưng không trích ID. Vì vậy
+thiếu ID không đồng nghĩa bỏ prior; lời nhắc prior cũng không chứng minh
+đó là nguyên nhân action. Trong năm action đổi, chỉ VCB-2023-08-29 nhắc
+prior rõ ràng và có ID.
+
+Theo định nghĩa mô tả cố định, **21/60** input có Trend và alpha tổng hợp
+trái dấu (cả hai phải BULLISH/BEARISH); **10/60** có Trend trái dấu
+MACD−Signal mới nhất. Đây là xung đột bằng chứng đầu vào, không tự là lỗi
+Decision. `indicator_consensus` của nhiều chỉ báo không đồng nhất với dấu
+của một MACD. Base prompt có thứ tự ưu tiên và cảnh báo đối chiếu; các
+phản hồi thường chọn Trend/Pattern/MACD, nhưng không đủ bằng chứng để
+kết luận thay renderer chắc chắn sửa lợi nhuận.
+
+<details>
+<summary>Bảng audit đủ 60 điểm primary, giữ cả điểm bất lợi và prior tắt</summary>
+
+Thứ tự action: **Original/A_reference/U_full/U_stats/U_examples**;
+L=LONG, C=CASH (output gốc vẫn ghi SHORT). S=stats visible, E=examples
+visible, OFF=U_full không prior. Cột net là **LONG giả định của từng cycle,
+%**, kể cả khi action thực là CASH; không phải lợi nhuận đã thực hiện của
+mọi nhánh. Nhận xét tóm tắt lý do U_full phát biểu, không khẳng định lý do
+đó đúng hoặc đủ gây ra action.
+
+| Điểm | Action O/A/U/S/E | Visible | LONG net % | Nhận xét reason/trace sau đối chiếu |
+| --- | --- | --- | ---: | --- |
+| MWG-2023-01-06 | C/C/C/C/C | SE | -2.078356 | Đi ngang, MACD yếu; giữ CASH. |
+| VCB-2023-01-06 | L/L/L/L/L | OFF | -1.507717 | Trend/MACD tăng; prior tắt, dùng lại Original. |
+| VNM-2023-01-06 | L/C/L/L/L | S | -1.318974 | Trend/MACD tăng lấn alpha giảm; không nhắc prior. |
+| MWG-2023-02-08 | C/C/C/C/C | SE | -4.946986 | Xu hướng giảm lấn MACD trên Signal. |
+| VCB-2023-02-08 | C/L/L/L/L | SE | -1.015155 | Đổi sang LONG: Trend/MACD tăng lấn alpha giảm; không đối chiếu prior âm. |
+| VNM-2023-02-08 | C/C/C/C/C | SE | -1.352586 | Xu hướng/MACD giảm lấn alpha tăng. |
+| MWG-2023-03-06 | C/C/C/C/C | SE | -0.697557 | Xu hướng và MACD giảm; giữ CASH. |
+| VCB-2023-03-06 | C/C/C/C/C | SE | +0.930352 | Nhắc 1/5 của T1; không phải support C=13. |
+| VNM-2023-03-06 | C/C/C/C/C | SE | +0.087443 | Lo phí, đi ngang; diễn giải MACD giảm dù histogram dương. |
+| MWG-2023-03-30 | C/C/C/C/C | OFF | +2.522367 | Xu hướng yếu; prior tắt, dùng lại Original. |
+| VCB-2023-03-30 | L/L/L/L/L | OFF | -1.553612 | Trend/V-shape tăng; prior tắt, dùng lại Original. |
+| VNM-2023-03-30 | C/C/C/C/C | OFF | -1.756783 | Đi ngang/MACD yếu; prior tắt, dùng lại Original. |
+| MWG-2023-04-04 | L/L/L/L/L | OFF | -2.693586 | Đáy đôi/MACD tăng; prior tắt, dùng lại Original. |
+| VCB-2023-04-04 | C/C/C/C/C | OFF | -3.172049 | Alpha giảm lấn MACD tăng; prior tắt, dùng lại Original. |
+| VNM-2023-04-04 | C/C/C/C/C | S | -0.028403 | Trend/MACD giảm; gọi alpha giảm trái tổng hợp 5/5 tăng. |
+| FPT-2023-04-12 | C/C/C/C/C | OFF | -1.563207 | Đi ngang lấn MACD tăng; prior tắt, dùng lại Original. |
+| MWG-2023-04-28 | C/C/L/L/L | SE | -1.349148 | Đổi sang LONG: breakout/đáy đôi lấn MACD âm; không bàn alpha 4 giảm. |
+| VCB-2023-04-28 | L/L/L/L/L | SE | +2.612525 | Trend/V-shape/MACD tăng; không đối chiếu p thấp. |
+| VNM-2023-04-28 | C/C/C/C/C | SE | -0.130114 | Xu hướng/MACD giảm; cách viết short position cần hiểu CASH. |
+| FPT-2023-05-11 | L/L/L/L/L | OFF | +2.057366 | Trend/box/MACD tăng; prior tắt, dùng lại Original. |
+| FPT-2023-06-01 | L/L/L/L/L | S | +1.443095 | Trend/MACD tăng; stats-only, không đối chiếu p thấp. |
+| MWG-2023-06-01 | L/L/L/L/L | SE | +5.217798 | Trend/V-shape/MACD tăng; đề xuất stop-loss không phải cơ chế engine. |
+| VCB-2023-06-01 | C/C/C/C/C | E | +4.695867 | Đi ngang/alpha giảm; lo phí dù MACD tăng. |
+| VNM-2023-06-01 | C/C/C/C/C | SE | -0.397549 | Trend/MACD giảm; không nhắc prior. |
+| FPT-2023-06-27 | L/L/L/L/L | SE | -2.288214 | Trend tăng lấn MACD/alpha giảm; dự báo net>0,7% chưa là outcome. |
+| MWG-2023-06-30 | L/L/L/L/L | SE | -0.926101 | Nhắc mean=0,539 làm bằng chứng LONG; action vẫn như Original. |
+| VCB-2023-06-30 | C/C/C/C/C | SE | +1.288492 | Đi ngang/MACD yếu; giữ CASH. |
+| VNM-2023-06-30 | C/C/C/L/C | SE | -2.513213 | Nhắc hai ví dụ net âm; action vẫn như Original. |
+| FPT-2023-07-05 | C/C/C/C/C | OFF | -0.033770 | Trend/MACD giảm; diễn giải thu lãi từ bán khống sai hợp đồng CASH. |
+| MWG-2023-07-05 | L/L/L/L/L | SE | +9.255568 | Breakout/alpha tăng lấn MACD âm; không nhắc prior. |
+| VCB-2023-07-05 | C/C/C/C/C | SE | -0.113997 | Đi ngang/alpha giảm; giữ CASH. |
+| VNM-2023-07-05 | C/C/C/C/C | E | +2.427842 | Trend/alpha giảm lấn MACD tăng; giữ CASH. |
+| FPT-2023-07-31 | L/L/L/L/L | S | -2.901700 | Trend/MACD tăng; stats-only, không nhắc prior. |
+| MWG-2023-07-31 | C/C/C/C/C | S | -3.267306 | Đi ngang/alpha giảm lấn MACD tăng. |
+| VCB-2023-08-03 | C/C/C/C/C | S | -0.697557 | Trend/MACD giảm; stats-only, không nhắc prior. |
+| VNM-2023-08-03 | C/C/C/C/C | S | +2.041821 | Trend/alpha giảm; MACD death cross. |
+| FPT-2023-08-29 | L/L/L/L/L | S | +3.138160 | LONG với mean=0,465; alpha chỉ 2/5 giảm, không ép theo p. |
+| MWG-2023-08-29 | C/C/L/C/C | SE | +1.738163 | Đổi sang LONG: breakout lấn histogram âm; không đối chiếu ba ví dụ lỗ. |
+| VCB-2023-08-29 | C/C/L/C/L | E | +1.097742 | Đổi sang LONG: nhắc T1/T2 nhưng số là E1/E2; stats bị ẩn. |
+| VNM-2023-08-29 | L/L/L/L/L | S | +3.300334 | Trend/đáy đôi/MACD tăng lấn alpha giảm. |
+| FPT-2023-09-29 | C/C/C/C/C | SE | -1.654433 | Đi ngang/MACD yếu; giữ CASH. |
+| MWG-2023-09-29 | C/C/C/C/C | SE | -7.116346 | Trend/đỉnh đôi giảm; diễn giải thu lãi từ bán khống sai hợp đồng CASH. |
+| VCB-2023-09-29 | C/C/C/C/C | SE | -1.609634 | Trend/MACD giảm; từ shorting mơ hồ, engine vẫn CASH. |
+| VNM-2023-09-29 | C/C/C/C/C | SE | -0.429895 | Trend/MACD giảm; giữ CASH. |
+| FPT-2023-10-04 | C/C/C/L/C | SE | +2.298638 | Đi ngang/alpha giảm lấn pattern breakout. |
+| MWG-2023-10-04 | C/C/C/C/C | SE | -4.578113 | Trend/MACD/alpha giảm; giữ CASH. |
+| VCB-2023-10-04 | C/C/C/C/C | SE | -2.314108 | Trend/MACD/alpha giảm; giữ CASH. |
+| VNM-2023-10-04 | C/C/C/C/C | SE | -1.233602 | Trend/MACD/alpha giảm; giữ CASH. |
+| FPT-2023-10-30 | C/C/C/C/C | S | +3.853319 | Trend/MACD giảm; stats-only, không nhắc prior. |
+| MWG-2023-10-30 | C/C/C/C/C | SE | -9.054693 | Nhắc lịch sử dễ lỗ; không viện dẫn ID hoặc số cụ thể. |
+| VCB-2023-10-30 | L/L/L/L/L | E | +2.886117 | Trend/MACD tăng; examples-only, không nhắc prior. |
+| VNM-2023-10-30 | C/C/C/C/C | SE | +3.689885 | Trend/MACD giảm; short (cash) đúng hợp đồng. |
+| FPT-2023-11-23 | C/L/L/L/C | SE | -0.369465 | Đổi sang LONG: Trend/MACD tăng lấn alpha/pattern warning; net âm sau phí. |
+| MWG-2023-11-23 | C/C/C/L/C | SE | -0.435545 | Trend giảm lấn MACD tăng; shorting không phải lợi nhuận CASH. |
+| VCB-2023-11-23 | C/C/C/C/C | SE | -0.349127 | Trend/MACD/alpha xung đột; giữ CASH. |
+| VNM-2023-11-23 | C/C/C/C/C | SE | -0.842313 | Trend/Pattern giảm; phát biểu shorting không có lợi chưa đúng ngữ nghĩa CASH. |
+| VNM-2023-12-19 | C/C/C/C/C | SE | +0.191719 | Trend/MACD giảm; tránh short trade là diễn giải mơ hồ. |
+| FPT-2023-12-22 | C/C/C/C/C | E | +1.395224 | Đi ngang/MACD yếu; examples-only, không nhắc prior. |
+| MWG-2023-12-22 | L/L/L/L/L | SE | +0.474845 | Trend/MACD tăng lấn alpha giảm; không nhắc prior. |
+| VCB-2023-12-22 | C/C/C/C/C | SE | +1.511892 | Trend/MACD/alpha giảm; SHORT được mô tả giữ vốn. |
+
+</details>
+
+### Năm thay đổi: payoff, tuổi, xung đột và giới hạn giải thích
+
+Mean C dưới đây là **mean net thô hậu nghiệm**, không phải posterior mean
+payoff R2, không nằm trong prefix v1. p/CrI là xác suất thắng lịch sử dạng
+plug-in, không P(query). Với VCB-2023-08-29, stats không đủ support nên p
+raw không hiển thị; không gán hành vi điểm đó cho posterior bị ẩn.
+
+| Điểm | Stats visible: p [CrI95%] | C: thắng/n; mean net % audit | Exemplar net % (tuổi ngày, theo E1/E2/E3) | LONG net % query |
+| --- | --- | --- | --- | ---: |
+| VCB-2023-02-08 | 0,396 [0,221;0,586] | 8/18; −0,560968 | −4,049014 (64); −2,648141 (582) | −1,015155 |
+| MWG-2023-04-28 | 0,523 [0,299;0,743] | 5/10; −0,219692 | +2,398733 (402) | −1,349148 |
+| MWG-2023-08-29 | 0,325 [0,179;0,491] | 8/25; −0,333977 | −1,471342 (449); −1,426115 (567); −2,888052 (622) | +1,738163 |
+| VCB-2023-08-29 | Tắt: LOW_CONDITIONAL_SUPPORT | 0/3; −1,669796 | +0,241791 (399); −1,808774 (714) | +1,097742 |
+| FPT-2023-11-23 | 0,485 [0,323;0,648] | 14/27; −0,086374 | +2,049942 (352); +0,377145 (637) | −0,369465 |
+
+- **VCB-2023-02-08:** Original cho alpha giảm lấn momentum; U_full đảo
+  trọng số phát biểu, ưu tiên Trend/MACD tăng. Prompt có alpha 3/5 giảm,
+  cả hai exemplar lỗ và hai task thắng 1/5, 3/13. U_full không viện dẫn hay
+  đối chiếu các số lịch sử. Giá thực thi 93,8→93,5 cho cycle âm. A/stats/
+  examples cũng LONG, nên không quy riêng thay đổi này cho demonstrations.
+- **MWG-2023-04-28:** Original lo MACD âm/alpha giảm và phí; U_full nhấn
+  breakout/đáy đôi và target 42. Prompt có cảnh báo Trend thị giác mâu thuẫn
+  SMA/độ dốc, alpha 4/5 giảm; MACD −0,2214 dưới Signal −0,0989. Chỉ một
+  exemplar dương, task thắng 7/11, trong khi C mean âm dù p>0,5. Exemplar
+  và C không phải cùng summary population. Không có lời giải đối chiếu
+  prior; cycle thực 38,1→37,85 âm. p>0,5 không bảo đảm lợi nhuận dương.
+- **MWG-2023-08-29:** Original chọn CASH do MACD âm; U_full chọn LONG dựa
+  breakout/target 56, gọi MACD dưới Signal là bullish momentum rồi vẫn
+  ghi histogram âm ở evidence_against. Nguồn MACD 0,4634<0,8611 và
+  histogram −0,3977 đang bớt âm, nên phải phân biệt mức và xu hướng cải
+  thiện; không kết luận một từ “bullish” tự chứng minh lỗi tính chỉ báo.
+  Alpha 4/5 giảm, cả ba exemplar âm, CrI p có cận trên 0,491. U_full không
+  đối chiếu prior; chỉ full LONG, A/stats/examples CASH. Cycle thực lại
+  lãi 53→54,3. Ca này bác cách suy ra hard veto p<0,5 từ riêng ca lỗ.
+- **VCB-2023-08-29:** Stats tắt vì nC=3; chỉ hai ví dụ/task hiển thị.
+  Original nói MACD dưới Signal, nhưng số thật là −2,7649>−3,0568;
+  U_full nói đúng quan hệ, viện dẫn T1/T2 với +0,24%/−1,81%. Đây là payoff
+  **E1/E2**, không phải mean của hai task; ID có thật nhưng scope giải
+  thích chưa rõ. “Recent weakness” không có ngày hiển thị: hai episode
+  thực đã 399/714 ngày. Trend thị giác tăng có warning, Pattern giảm có
+  warning, alpha 3/5 tăng. Full/examples LONG và body trùng khi stats tắt;
+  hai slot vẫn được gọi riêng, response trùng không làm tăng số point
+  kiểm định độc lập. Cycle thực lãi 88,5→90,1.
+- **FPT-2023-11-23:** Original ưu tiên alpha giảm/lack of breakout, U_full
+  ưu tiên Trend/MACD tăng dù có alpha 4/5 giảm và pattern warning. Hai
+  exemplar dương nhưng hai task thắng chỉ 1/5, 4/10; C mean thô âm. C có
+  tuổi 86–1.249 ngày, hai exemplar 352/637 ngày; không phải cùng population
+  đã lọc tuổi. U_full không giải thích prior. Entry/exit 90,8→91,1 tăng
+  **+0,330396% gross** nhưng net **−0,369465%** sau phí/slippage. Không thay
+  nhãn net bằng nhãn đúng hướng giá để gọi cycle thắng.
+
+### Phát hiện nội dung và đầu vào cho U11-05
+
+Có lỗi hoặc điểm mơ hồ trong **phản hồi**, cần phân biệt với lỗi runtime:
+VNM-2023-04-04 gọi alpha xác nhận giảm dù prompt ghi 5/5 tăng;
+VCB-2023-03-06 lấy tỷ lệ 1/5 của T1 nói chung là prior long success trong
+khi C thực là 1/13; VCB-2023-08-29 dùng T thay cho E khi nói payoff cycle.
+Đây là các ví dụ có nguồn đối chiếu cụ thể, không phải ước lượng tỷ lệ
+hallucination toàn provider. Cảnh báo/input xung đột cũng đã có sẵn ở
+upstream v1, không được quy mọi lỗi diễn giải cho block Bayes.
+
+FPT-2023-07-05, MWG-2023-09-29 và MWG-2023-11-23 có lời giải gắn SHORT
+với thu lợi từ giá giảm/bán khống; MWG-2023-06-01 còn khuyên stop-loss.
+Engine vẫn thực thi CASH cho SHORT và Open(t+1)→Close(t+3) cho LONG,
+không TP/SL. Đặc biệt FPT-2023-07-05 **prior off/shared Original**, cho
+thấy ngữ nghĩa này đã có ngoài prefix U. Không sửa response/action, gọi
+lại LLM hoặc sửa engine để làm lời giải khớp sau khi biết outcome.
+
+Audit hỗ trợ **kiểm** hai giả thuyết đã đề xuất: xác suất thắng thiếu độ
+lớn lãi/lỗ; cấu trúc prefix/đối chiếu chưa làm rõ population, ID và bất định.
+Mean C âm ở cả năm điểm, kể cả p>0,5 ở MWG-2023-04-28; một số exemplar
+dương không đại diện mean C. Nhưng nếu veto theo mean C âm ở năm điểm
+này thì cũng bỏ hai cycle lãi: đây **không phải** bằng chứng rule veto hoặc
+payoff R2 sẽ thắng. Tuổi memory, tín hiệu có điều kiện yếu, prompt chung và
+noise provider vẫn là giả thuyết cạnh tranh; 5 thay đổi/60 không đủ phân
+rã nguyên nhân. Repeat giữ kết quả/giới hạn U11-03, không chọn lượt tốt.
+
+**Bàn giao U11-05:** giữ mô hình payoff/parameter và gate offline đề xuất
+trong kế hoạch; khóa protocol R2 trước phép đo, dùng đúng 647 query train
+PIT/fold/common support, báo cả outlier/phụ thuộc/n nhỏ. Chưa tính hoặc
+tuyên bố gate đó PASS ở U11-04. Không dùng bảng 60 điểm này để chọn mẫu,
+threshold, đổi bank/retrieval, thêm rule riêng từng mã, hoặc biến dữ liệu đã
+xem thành holdout. R2 chỉ tiếp tục nếu gate/support đáp ứng; chưa mở 2025.
+
+### Kiểm tra và đóng task
+
+Đối soát **376 hash nguồn**, 60 dòng bảng với sidecar, đủ 60 payoff query/
+300 action-evaluation, ID/visibility/shared-off, tuổi/partition/n/s **PASS**.
+Oracle NumPy độc lập **180 nhóm C/B1/B2 PASS**, kiểm mean/median, win/nonwin
+và đẳng thức mean theo xác suất thắng thực nghiệm; kiểm cả nhóm trống/null,
+không thay p thực nghiệm bằng posterior. Checklist duy nhất đủ 01–11,
+**bốn DONE/bảy TODO**; liên kết/anchor mới, UTF-8 và `git diff --check` PASS.
+
+Cold consumer `tools/nominate_unified_bayes.py` **PASS** trên nguồn thật:
+`NOT_NOMINATED; positive_symbols=2/4; D=0.026473168; API=0;
+confirmation_allowed=false`. Tái dựng và đối soát kernel/source/runtime,
+receipt/readiness, journal/cache/ledger/report và selection đã khóa; không
+chỉ tin self-seal. Lượt trong sandbox dừng ở `host_boot` vì không đọc được
+boot Windows; lượt ngoài sandbox hoàn tất với audit hook chặn
+`socket.connect/getaddrinfo`, `.env*` và `execution_prices_2025`.
+Snapshot **983 file cũ** của namespace v1 và ledger: **977 nguyên byte**,
+chỉ sáu metadata owner/recovery của run/journal/preflight được consumer
+cập nhật; cả ba owner đã `released`. Plan, protocol, selection, Decision
+journal, cache, report, receipt và ledger không đổi. Chỉ thêm sidecar audit
+mới trong namespace này; nguồn W8/W9 trong map 376 hash vẫn nguyên vẹn.
+
+Task chỉ đổi **ba Markdown** trong Git và thêm một đầu ra phân tích ignored;
+không đổi code/test/schema/runtime, source input, prompt, action, protocol
+hoặc ledger v1. Theo AGENTS.md 1.2, **không chạy compileall, unit, E2E hay
+leakage suite**; không ghi là đã chạy lại bốn gate. Các số gate W10 vẫn là
+receipt lịch sử gắn đúng nguồn/runtime; đây là kiểm tra audit và consumer,
+không là nghiệm thu runtime R2 chưa có. **U11 đạt 4/11**, tiếp theo
+**U11-05** khóa protocol R2 và gate payoff trên train PIT.

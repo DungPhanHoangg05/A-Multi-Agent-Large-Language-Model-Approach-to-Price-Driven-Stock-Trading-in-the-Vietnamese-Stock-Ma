@@ -16,7 +16,7 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 10/10, U11 3/11, U12 0/5; tiếp theo **U11-04**.
+**Tiến độ hiện hành:** U10 10/10, U11 4/11, U12 0/5; tiếp theo **U11-05**.
 Đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
@@ -40,8 +40,10 @@ không chạy lại suite. U11-03 đã khóa **NOT_NOMINATED**: D_U−Original
 +0,039217 đpt và các gate khác PASS. Producer/consumer cold và oracle nguồn
 thật PASS, không key/API/giá 2025. Nhánh xác nhận v1 dừng theo protocol;
 không nominate ablation hoặc hạ ngưỡng. Yêu cầu mới gộp kế hoạch tiếp nối
-vào **U11-04–U11-11**, chưa triển khai: audit hành vi, payoff offline,
-renderer/test, một development, xác nhận có điều kiện, tổng kết và bàn giao;
+vào **U11-04–U11-11**. U11-04 đã audit đủ 60 điểm/năm action đổi, reason/
+trace, payoff/tuổi/xung đột và đối chiếu nguồn v1. Tiếp theo U11-05 khóa
+protocol và kiểm payoff trên train PIT, rồi renderer/test, một development,
+xác nhận có điều kiện, tổng kết và bàn giao;
 xem [checklist tuần tự](week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
 và [thiết kế R2](week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026).
 Giá thực thi 2025 đã bổ sung và PASS nhưng không có release khi nomination
@@ -439,7 +441,8 @@ hoàn thành luận văn từ W9 và kết quả U đúng phạm vi. API do ngư
 memory/backbone/context/runtime/CLI offline và tài liệu vận hành/phương pháp
 đã nghiệm thu hết W10. U11-01/02 đã release và hoàn tất development;
 U11-03 NOT_NOMINATED vì chỉ 2/4 mã tăng. Nhánh xác nhận v1 dừng; phần
-tiếp nối R2 theo mục 5.7 và checklist hiện hành ở README W11, bắt đầu U11-04.
+tiếp nối R2 theo mục 5.7 và checklist hiện hành ở README W11; audit U11-04
+đã xong, tiếp theo U11-05.
 
 ### 5.7. Cải thiện sau U11-03 — revision R2 có giới hạn
 
@@ -1455,7 +1458,7 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Chưa API/preflight thật, nomination hoặc release xác nhận. **U10 hoàn tất
   10/10**, chuyển **U11-01**; U11 0/10, U12 0/5, risk/mặc định OFF.
 
-### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 3/11
+### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 4/11
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
 release và xác nhận nếu đạt, bootstrap/ablation/noise, freeze và viết kết
 quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
@@ -1510,10 +1513,24 @@ quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
   tổng kết/bàn giao mang số U11-10/U11-11. Nomination/release xác nhận và
   risk/mặc định OFF, chưa có claim xác nhận về hiệu ứng.
 
+- **Audit quyết định development v1, 26/10/2026:** [U11-04 DONE](week11/README.md#u11-04--audit-quyết-định-development-v1-26102026).
+  Đọc đủ reason/trace của 60 điểm, đối chiếu prompt và năm CASH→LONG;
+  hai cycle lãi/ba lỗ, không có LONG→CASH. Bảng đủ 60 điểm và sidecar
+  hậu nghiệm giữ output/prefix/ID, payoff C/B1/B2, tuổi và xung đột nguồn.
+  Chỉ 1/51 điểm trích ID nhưng sáu phản hồi nhắc rõ lịch sử; không dùng
+  thiếu citation làm bằng chứng bỏ qua prior. 90 lượt exemplar tuổi 24–726
+  ngày; stats không áp trần tuổi examples. Mean net C âm ở cả năm điểm đổi
+  là số audit chưa từng hiển thị, không phải căn cứ hard veto hoặc P(query).
+  Giữ lỗi diễn giải MACD/alpha, scope task/cycle và SHORT=CASH, kể cả ca
+  prior tắt; không sửa response hoặc quy lỗi kinh tế cho engine từ lời giải.
+  Nguồn/hash và kiểm tra phân tích theo phạm vi ghi tại README W11; không
+  thay code/test/runtime/input hoặc chạy lại toàn suite. **U11 đạt 4/11**,
+  tiếp theo **U11-05**; chưa có gate payoff R2, nomination hoặc release mới.
+
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,
 tái lập/đối soát gate đúng phạm vi, 25–30 slide và bảo vệ. [Chuỗi U11-04–U11-11](week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
-giữ U11 3/11 và U12 0/5, không còn checklist bổ sung riêng. Hai ngày đầu chỉ hoàn tất/resume xác nhận
+ghi U11 4/11 và U12 0/5, không còn checklist bổ sung riêng. Hai ngày đầu chỉ hoàn tất/resume xác nhận
 đã release/bắt đầu ở W11, sau đó khóa số liệu dù INCOMPLETE; không thêm
 phương pháp, giảm mẫu hoặc chạy lại toàn suite chỉ để cập nhật checklist.
 
