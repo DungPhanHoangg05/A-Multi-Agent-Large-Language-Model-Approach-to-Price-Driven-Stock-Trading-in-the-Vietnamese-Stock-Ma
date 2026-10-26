@@ -1,6 +1,6 @@
 # Tuần 11 — Kiểm định phiên bản hợp nhất và khóa kết quả nghiên cứu
 
-**Trạng thái: U11-03 DONE ngày 26/10/2026, 3/10 task DONE.**
+**Trạng thái: U11-03 DONE; checklist hợp nhất ngày 26/10/2026 có 3/11 task DONE. Tiếp theo: U11-04.**
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
 
 Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
@@ -8,11 +8,13 @@ Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01
 [nghiệm thu cuối](#nghiệm-thu-hoàn-tất-u11-02) trên run thật PASS, không còn
 slot planned/unknown. **U11-03 đã khóa NOT_NOMINATED**: chỉ 2/4 mã tăng so
 Original, dưới ngưỡng ≥3/4 dù D dương; xem [quyết định và phân tích](#u11-03--kiểm-định-development-và-khóa-nomination-26102026).
-Dừng nhánh xác nhận U11-04–08 của v1 theo protocol; **U11-09** viết kết
-quả/thảo luận vẫn tiếp tục. Theo yêu cầu mới ngày 26/10/2026, bổ sung
-[kế hoạch cải thiện có giới hạn](#kế-hoạch-bổ-sung-sau-u11-03-26102026):
-một revision R2 riêng, sáu task R01–R06 chưa triển khai, không kéo dài quá
-W12. Chưa cấp nomination hoặc release 2025 cho bất kỳ revision mới nào.
+Dừng nhánh xác nhận v1 theo protocol. Theo yêu cầu ngày 26/10/2026,
+[kế hoạch cải thiện có giới hạn](#kế-hoạch-bổ-sung-sau-u11-03-26102026)
+được gộp vào **U11-04–U11-11**, thực hiện lần lượt theo
+[checklist duy nhất](#d-checklist-thực-hiện-tuần-tự-hiện-hành). Không còn
+checklist task bổ sung riêng; deadline vẫn W12. Chưa cấp nomination hoặc
+release 2025 cho R2. Các mục A–C dưới đây giữ protocol v1 để tham chiếu;
+thiết kế R2 và checklist hiện hành là căn cứ cho công việc tiếp theo.
 
 ## Mục tiêu và đối chứng
 
@@ -129,20 +131,30 @@ mean, đủ mẫu số; các cặp phụ thuộc không là quan sát độc l�
 reuse không chứng minh LLM ổn định. Nếu repeat đổi dấu hoặc duplicate nhiễu,
 nêu rõ hạn chế tái lập dù CI primary dương; không claim live/deterministic.
 
-## D. Khóa nghiệm thu và luận văn
+## D. Checklist thực hiện tuần tự hiện hành
+
+Giữ U11-01–03 đã hoàn tất. Từ U11-04 trở đi thay bằng chuỗi công việc R2
+và tổng kết nghiên cứu, không khởi động lại nhánh xác nhận v1 đã dừng.
 
 | Task | Công việc | Phụ thuộc | Đầu ra/nghiệm thu | Trạng thái |
 | --- | --- | --- | --- | --- |
 | U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [x] DONE — release development; cold verify và hash gate W10 PASS, chưa API thật |
 | U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [x] DONE — 300 primary +216 repeat complete, source/journal/ledger/report verify PASS |
 | U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [x] DONE — NOT_NOMINATED: chỉ 2/4 mã tăng; source/consumer/oracle PASS |
-| U11-04 | Exposure/giá mới, manifest và release xác nhận | 03 đạt | 128 điểm/matrix/seed/source/receipt khóa trước outcome | [ ] NOT_RUN — nomination không đạt, không mở release 2025 |
-| U11-05 | Người dùng chạy primary/repeat xác nhận | 04 | Đúng namespace/identity, không đổi phương pháp giữa run | [ ] NOT_RUN — nhánh xác nhận dừng theo protocol |
-| U11-06 | Semantic/PIT/kinh tế/paired/reuse verification | 05 | Đủ G, không missing/unknown, nguồn/hash đúng | [ ] NOT_RUN — không có run xác nhận |
-| U11-07 | Bootstrap, ablation, noise và failure analysis | 06 | Primary/family/CI/rủi ro/mẫu số và kết quả bất lợi đầy đủ | [ ] NOT_RUN — không bootstrap xác nhận; mô tả development ở U11-03 |
-| U11-08 | Đóng băng evidence, bảng/hình và checksum | 07 | Run/response/HTTP/source/config/version tái lập, không key | [ ] NOT_RUN — không có evidence xác nhận; giữ nguyên bộ development |
-| U11-09 | Viết kết quả/thảo luận và phân loại claim | 03; 08 nếu có | Không trộn W9 với U; khai báo các vòng phát triển đã xem | [ ] TODO |
-| U11-10 | Bàn giao W12, hướng dẫn verify và giới hạn | 09 | Quyết định research/deployment riêng; không tự bật mặc định | [ ] TODO |
+| U11-04 | Hoàn tất audit 60 point và năm action đổi của v1; reason/trace, payoff/age/conflict, đối chiếu nguồn | 03 đã khóa kết quả | Phân biệt quan sát và giả thuyết nguyên nhân; giữ nguyên evidence, phần đọc sơ bộ chưa tính DONE | [ ] TODO — task tiếp theo |
+| U11-05 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT | 04 | Gate offline/support đạt mới tiếp tục; trượt hoặc thiếu support thì dừng trước development LLM | [ ] TODO |
+| U11-06 | Renderer/payoff/CLI/verifier namespace mới, fixture/12 probe, test phạm vi và dry-run coverage | 05 đạt gate offline | Prompt/semantic/PIT/reuse/coverage PASS; U11-04–06 tối đa hai ngày làm việc, chưa đủ kỹ thuật thì không chạy development | [ ] TODO |
+| U11-07 | Người dùng chạy development R2 60 điểm và repeat; verify/analysis/khóa nomination | 06 nghiệm thu | Một cấu hình/một vòng; giữ rule v1 và R2−v1>0, ghi cả kết quả bất lợi | [ ] TODO |
+| U11-08 | Exposure audit, MDE, manifest và release xác nhận R2 riêng | 07 NOMINATED | Đủ 128 điểm/matrix/seed/source/receipt, exposure PASS và kịp trước cuối W11; thiếu điều kiện thì NOT_RUN | [ ] TODO — có điều kiện |
+| U11-09 | Người dùng chạy xác nhận R2; verify/CI/ablation và đóng băng evidence/bảng/hình/checksum | 08 RELEASED | Đúng run/identity, đủ support, primary/family/repeat; bắt đầu cuối W11, hai ngày đầu W12 chỉ hoàn tất/resume | [ ] TODO — có điều kiện |
+| U11-10 | Viết kết quả/thảo luận và phân loại claim cho W9, v1 và R2 | 04–09 đã chốt DONE/NOT_RUN/BLOCKED/INCOMPLETE kèm lý do | Không trộn cohort/revision; khai báo mọi vòng đã xem, không bỏ kết quả bất lợi | [ ] TODO |
+| U11-11 | Bàn giao W12, hướng dẫn verify và giới hạn | 10 | Trạng thái mỗi revision rõ; research/deployment riêng, không tự bật mặc định | [ ] TODO |
+
+Thứ tự bình thường: **04 → 05 → 06 → 07 → 08 → 09 → 10 → 11**.
+Gate không đạt hoặc hết thời hạn: chốt kết quả của task đã thực hiện, ghi
+NOT_RUN/BLOCKED cho các bước thử nghiệm phụ thuộc chưa thể chạy, rồi tiếp
+tục U11-10 → U11-11. NOT_RUN không tính DONE; không cần mở xác nhận để
+hoàn tất checklist. Chi tiết phương pháp và điểm dừng ở phần R2 bên dưới.
 
 Đầu W11 ưu tiên development, giữa tuần lock xác nhận nếu đạt, cuối tuần
 phân tích. Nếu API kéo dài, W12 chỉ tiếp tục đúng run đã khóa và ưu tiên
@@ -351,7 +363,8 @@ thật PASS, primary/repeat vẫn INCOMPLETE. Ledger, cache, 516 Decision slot,
 plan, authorization/preflight và mọi nguồn cũ nguyên byte; chỉ bốn metadata
 owner/recovery của khóa run/journal được verifier cập nhật, owner released.
 Lần kiểm offline bản vá chưa tạo receipt adapter hoặc HTTP mới trên run
-thật. Giữ `tools/` và receipt adapter cùng run khi đóng băng evidence U11-08.
+thật. Giữ `tools/` và receipt adapter cùng run khi bàn giao evidence
+(U11-11 trong checklist hiện hành).
 Nghiệm thu hoàn tất dưới đây dựa trên kết quả API thật do người dùng chạy,
 không dùng test mock thay kết quả nghiên cứu.
 
@@ -560,9 +573,11 @@ evidence được bảo vệ không đổi**, sáu metadata owner/recovery của
 run/journal/preflight được cập nhật và đã released. Chỉ thêm artifact
 nomination riêng; không thêm HTTP, sửa response hoặc thay outcome cũ.
 
-**U11 đạt 3/10**, U11-04–08 **NOT_RUN** theo nhánh dừng, không tính là DONE.
-Tiếp theo **U11-09** viết kết quả/thảo luận development với claim chưa được
-chứng minh; không mở dữ liệu/xác nhận 2025 hoặc thay ứng viên sau outcome.
+Tại bàn giao v1, checklist cũ đạt **3/10**, các bước xác nhận **NOT_RUN**;
+v1 không được mở xác nhận 2025 hoặc đổi ứng viên sau outcome. Từ lần gộp
+kế hoạch 26/10/2026, checklist hiện hành là **3/11**, tiếp theo **U11-04**
+audit cho R2; viết kết quả và bàn giao mang số **U11-10/U11-11**. Việc đổi
+số task không đổi quyết định NOT_NOMINATED hay bằng chứng đã khóa của v1.
 
 ## Kế hoạch bổ sung sau U11-03 (26/10/2026)
 
@@ -571,8 +586,9 @@ tiếp theo trong thời hạn 12 tuần. Quyết định v1 NOT_NOMINATED và p
 v1 giữ nguyên; đoạn kết U11-03 phía trên mô tả bàn giao của v1. R2 không
 phải chạy lại v1 để đổi kết quả, không tự được release và chưa có mã/runtime.
 Không xóa kết quả bất lợi, hạ rule ≥3/4 hoặc chọn ablation làm candidate.
-Các task U11-04–08 của v1 tiếp tục NOT_RUN; R01–R06 là checklist bổ sung,
-không cộng vào mẫu số 3/10 của v1. U11-09/10 và W12 vẫn phải hoàn thành.
+Nhánh xác nhận v1 giữ trạng thái NOT_RUN trong lịch sử. Công việc tiếp
+theo gộp vào U11-04–U11-09; tổng kết/bàn giao là U11-10/U11-11. Chỉ dùng
+checklist ở mục D, tiến độ hiện hành **3/11**; W12 vẫn phải hoàn thành.
 
 ### 1. Chẩn đoán đã có và điều chưa thể kết luận
 
@@ -751,18 +767,10 @@ Không khởi động lại một tuần đã dùng. Ưu tiên dưới đây ph�
 gian thực tế còn lại; nếu thiếu thời gian thì giảm phạm vi nghiên cứu mới,
 không giảm chuẩn nghiệm thu hay kéo dài sang W13.
 
-| Task bổ sung | Phạm vi và đầu ra | Điểm dừng | Trạng thái |
-| --- | --- | --- | --- |
-| R01 | Hoàn tất audit 60 point, năm action đổi và reason/trace, payoff/age/conflict, đối chiếu nguồn | Phần đọc sơ bộ ở trên đã có; chưa coi là đủ kiểm nguyên nhân hoặc consumer mới | [ ] TODO |
-| R02 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT; giữ v1 | Gate offline trượt/không đủ support: dừng, không gọi development LLM | [ ] TODO |
-| R03 | Renderer/payoff/CLI/verifier namespace mới, fixture/12 probe, test phạm vi và dry-run coverage | Tối đa hai ngày làm việc cho R01–R03; không xong kỹ thuật thì không chạy API | [ ] TODO |
-| R04 | Người dùng chạy một development 60 điểm và repeat; analysis/nomination R2 | Một cấu hình, một lượt; không qua rule thì không chạy xác nhận | [ ] TODO |
-| R05 | Exposure audit, MDE và lock/release xác nhận riêng | Chỉ khi R04 đạt và kịp trước cuối W11; thiếu điều kiện thì NOT_RUN | [ ] TODO |
-| R06 | Người dùng chạy xác nhận, verify/CI/ablation; đóng băng và chuyển kết quả sang U11-09 | Cuối W11 bắt đầu run đã release; W12 ngày 1–2 chỉ hoàn tất/resume đúng run | [ ] TODO |
-
-R01–R03 ưu tiên trước, sau đó dành tối đa một vòng development và một
-xác nhận có điều kiện. U11-09 viết kết quả v1 và phương pháp R2 song song;
-U11-10 bàn giao rõ trạng thái mỗi revision. Hết ngày làm việc thứ hai W12
+Thực hiện theo [checklist U11-04–U11-11](#d-checklist-thực-hiện-tuần-tự-hiện-hành),
+không duy trì bảng task riêng ở phần này. U11-04–06 tối đa hai ngày làm
+việc; U11-07 một vòng development; U11-08/09 xác nhận có điều kiện;
+U11-10 tổng hợp kết quả rồi U11-11 bàn giao. Hết ngày làm việc thứ hai W12
 khóa dữ liệu/bản thảo: run thiếu mẫu là INCOMPLETE, không lấy partial gain
 làm kết quả chính. Phần còn lại W12 chỉ tái lập, hoàn thiện hình/bảng,
 slide và bảo vệ. Không mở thêm candidate hoặc tuning sau mốc này.
@@ -792,4 +800,11 @@ Các số liệu mới phía trên được tính trực tiếp từ 60 row repe
 posterior trong plan; chưa chạy lại cold consumer có thể cập nhật lock.
 Đối chiếu byte hash, số liệu, liên kết/anchor, UTF-8 và diff là kiểm tra
 áp dụng cho lần lập kế hoạch, **đều PASS**; diff chỉ gồm ba tài liệu
-plan.md, README W11 và README W12. Không coi đó là nghiệm thu R01–R06.
+plan.md, README W11 và README W12. Đây là QA của lần lập kế hoạch R2,
+không coi đó là nghiệm thu các task triển khai.
+
+Lần gộp checklist tiếp theo cùng ngày chỉ đổi thứ tự/mã task, phụ thuộc,
+tiến độ và liên kết điều hành ở plan.md, README W11/W12 và hướng dẫn vận
+hành v1. Kiểm tra diff/liên kết, chuỗi 01–11 duy nhất, ba DONE/tám TODO
+và hash nguồn nêu trên đều PASS; không chạy suite vì không đổi
+code/runtime/dữ liệu. Task tiếp theo là U11-04, chưa thực hiện task này.
