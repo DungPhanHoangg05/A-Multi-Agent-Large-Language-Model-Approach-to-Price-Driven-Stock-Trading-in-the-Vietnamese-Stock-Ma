@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["selection_version", "split", "candidate", "rules", "rules_sha256", "binding", "verification", "analysis", "decision", "confirmation_allowed", "risk_policy", "limitations"],
+  "properties": {
+    "selection_version": {"const": "unified_bic_development_nomination_v1"},
+    "split": {"const": "development_2023_exploratory"},
+    "candidate": {"const": "U_full"},
+    "rules": {"type": "object"},
+    "rules_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "binding": {"type": "object"},
+    "verification": {"type": "object", "additionalProperties": {"const": "PASS"}, "minProperties": 5},
+    "analysis": {"type": "object", "required": ["coverage", "primary", "strata", "context_modes", "regimes", "quarters", "repeat", "telemetry", "leave_one_symbol_out", "decision", "inference"]},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "research_candidate", "nomination_allowed", "confirmation_allowed", "checks", "failed_checks", "delta_return_original_by_symbol_pp", "delta_return_reference_by_symbol_pp", "delta_mdd_original_by_symbol_pp", "mean_delta_return_original_pp", "mean_delta_return_reference_pp", "positive_symbols", "mean_delta_mdd_pp", "max_delta_mdd_pp", "next_action"],
+      "properties": {
+        "status": {"enum": ["NOMINATED", "NOT_NOMINATED", "INSUFFICIENT_EVIDENCE"]},
+        "research_candidate": {"enum": ["U_full", null]},
+        "nomination_allowed": {"type": "boolean"},
+        "confirmation_allowed": {"const": false},
+        "checks": {"type": "object", "additionalProperties": {"type": "boolean"}, "minProperties": 10},
+        "failed_checks": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "delta_return_original_by_symbol_pp": {"type": "object"},
+        "delta_return_reference_by_symbol_pp": {"type": "object"},
+        "delta_mdd_original_by_symbol_pp": {"type": "object"},
+        "mean_delta_return_original_pp": {"type": ["number", "null"]},
+        "mean_delta_return_reference_pp": {"type": ["number", "null"]},
+        "positive_symbols": {"type": "integer", "minimum": 0, "maximum": 4},
+        "mean_delta_mdd_pp": {"type": ["number", "null"]},
+        "max_delta_mdd_pp": {"type": ["number", "null"]},
+        "next_action": {"enum": ["PREPARE_SEPARATE_CONFIRMATION_RELEASE", "STOP_NO_CONFIRMATION_RELEASE"]}
+      }
+    },
+    "confirmation_allowed": {"const": false},
+    "risk_policy": {"const": "OFF"},
+    "limitations": {"type": "array", "minItems": 5, "items": {"type": "string"}}
+  }
+}

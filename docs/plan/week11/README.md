@@ -1,13 +1,15 @@
 # Tuần 11 — Kiểm định phiên bản hợp nhất và khóa kết quả nghiên cứu
 
-**Trạng thái: U11-02 DONE ngày 26/10/2026, 2/10 task DONE.**
+**Trạng thái: U11-03 DONE ngày 26/10/2026, 3/10 task DONE.**
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
 
 Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
 **U11-02 đã hoàn tất 300/300 slot primary và 216/216 slot repeat**;
 [nghiệm thu cuối](#nghiệm-thu-hoàn-tất-u11-02) trên run thật PASS, không còn
-slot planned/unknown. Tiếp theo **U11-03** verify/analysis và xét nomination
-theo rule đã khóa. Nomination/xác nhận 2025 vẫn chưa được cấp.
+slot planned/unknown. **U11-03 đã khóa NOT_NOMINATED**: chỉ 2/4 mã tăng so
+Original, dưới ngưỡng ≥3/4 dù D dương; xem [quyết định và phân tích](#u11-03--kiểm-định-development-và-khóa-nomination-26102026).
+Dừng nhánh xác nhận U11-04–08 theo protocol; tiếp theo **U11-09** viết kết
+quả/thảo luận. Chưa cấp nomination hoặc release 2025.
 
 ## Mục tiêu và đối chứng
 
@@ -130,12 +132,12 @@ nêu rõ hạn chế tái lập dù CI primary dương; không claim live/determ
 | --- | --- | --- | --- | --- |
 | U11-01 | Dry-run/release development, nguồn/model/order/repeat | U10 | Bốn gate/source/prompt PASS; CLI đã kiểm | [x] DONE — release development; cold verify và hash gate W10 PASS, chưa API thật |
 | U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [x] DONE — 300 primary +216 repeat complete, source/journal/ledger/report verify PASS |
-| U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [ ] TODO |
-| U11-04 | Exposure/giá mới, manifest và release xác nhận | 03 đạt | 128 điểm/matrix/seed/source/receipt khóa trước outcome | [ ] TODO |
-| U11-05 | Người dùng chạy primary/repeat xác nhận | 04 | Đúng namespace/identity, không đổi phương pháp giữa run | [ ] TODO |
-| U11-06 | Semantic/PIT/kinh tế/paired/reuse verification | 05 | Đủ G, không missing/unknown, nguồn/hash đúng | [ ] TODO |
-| U11-07 | Bootstrap, ablation, noise và failure analysis | 06 | Primary/family/CI/rủi ro/mẫu số và kết quả bất lợi đầy đủ | [ ] TODO |
-| U11-08 | Đóng băng evidence, bảng/hình và checksum | 07 | Run/response/HTTP/source/config/version tái lập, không key | [ ] TODO |
+| U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [x] DONE — NOT_NOMINATED: chỉ 2/4 mã tăng; source/consumer/oracle PASS |
+| U11-04 | Exposure/giá mới, manifest và release xác nhận | 03 đạt | 128 điểm/matrix/seed/source/receipt khóa trước outcome | [ ] NOT_RUN — nomination không đạt, không mở release 2025 |
+| U11-05 | Người dùng chạy primary/repeat xác nhận | 04 | Đúng namespace/identity, không đổi phương pháp giữa run | [ ] NOT_RUN — nhánh xác nhận dừng theo protocol |
+| U11-06 | Semantic/PIT/kinh tế/paired/reuse verification | 05 | Đủ G, không missing/unknown, nguồn/hash đúng | [ ] NOT_RUN — không có run xác nhận |
+| U11-07 | Bootstrap, ablation, noise và failure analysis | 06 | Primary/family/CI/rủi ro/mẫu số và kết quả bất lợi đầy đủ | [ ] NOT_RUN — không bootstrap xác nhận; mô tả development ở U11-03 |
+| U11-08 | Đóng băng evidence, bảng/hình và checksum | 07 | Run/response/HTTP/source/config/version tái lập, không key | [ ] NOT_RUN — không có evidence xác nhận; giữ nguyên bộ development |
 | U11-09 | Viết kết quả/thảo luận và phân loại claim | 03; 08 nếu có | Không trộn W9 với U; khai báo các vòng phát triển đã xem | [ ] TODO |
 | U11-10 | Bàn giao W12, hướng dẫn verify và giới hạn | 09 | Quyết định research/deployment riêng; không tự bật mặc định | [ ] TODO |
 
@@ -418,3 +420,143 @@ lần chốt.
 nomination duy nhất U_full. `nomination_allowed=false`,
 `confirmation_allowed=false` trong report giữ nguyên; hoàn tất thực thi
 không tự cấp nomination, release 2025 hoặc bật risk/mặc định hệ thống.
+
+## U11-03 — Kiểm định development và khóa nomination (26/10/2026)
+
+**DONE — NOT_NOMINATED / STOP_NO_CONFIRMATION_RELEASE.** D_U−Original
+dương nhưng chỉ **2/4 mã tăng**, không đạt rule ≥3/4. Không đổi ngưỡng,
+nominate ablation hoặc mở 2025 để cứu kết quả. Đây là quyết định lựa chọn
+trên development đã xem, chưa phải kết luận thống kê xác nhận về hiệu ứng.
+
+### Gate và kết quả primary
+
+[Protocol v1](../week10/unified_bic_protocol_v1.json) giữ nguyên byte/rule trước
+outcome; chỉ U_full được xét. G đủ 60/60, mọi nhánh/300 primary/216 repeat
+và 96 evaluation complete, finite return/MDD của sáu nhánh trên bốn tài
+khoản, nguồn/PIT/paired/receipt/readiness/primary/repeat đều verify PASS.
+
+Lợi nhuận là tài khoản riêng 50 triệu theo engine, net đủ phí/slippage.
+R dùng %, các Δ và D dùng **điểm phần trăm**; số hiển thị làm tròn sáu
+chữ số, gate dùng precision gốc:
+
+| Mã | N | R Original, % | R U_full, % | ΔR U−Original | ΔR U−A | ΔMDD U−Original |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| FPT | 12 | 1,308248 | 0,933949 | −0,374299 | 0,000000 | 0,000000 |
+| MWG | 16 | 11,350163 | 11,757221 | +0,407058 | +0,407058 | +1,312807 |
+| VCB | 16 | 2,366803 | 2,439937 | +0,073133 | +1,112315 | +0,984316 |
+| VNM | 16 | 1,937829 | 1,937829 | 0,000000 | −1,362504 | 0,000000 |
+| Trung bình đều bốn mã | 60 | — | — | **+0,026473** | **+0,039217** | **+0,574281** |
+
+| Điều kiện đã khóa | Quan sát | Gate |
+| --- | --- | --- |
+| Nguồn/runtime/bốn gate và primary/ba repeat verify | PASS, đúng cohort và code đã khóa | PASS |
+| G=60 và finite return/MDD mọi nhánh | 60/60, đủ bốn mã | PASS |
+| Prior visible≥30, ≥5/mã | 51/60; FPT/MWG/VCB/VNM=9/14/13/15 | PASS |
+| Examples visible≥12, ≥2/mã | 41/60; 5/13/12/11 | PASS |
+| D_U−Original>0 | +0,026473 đpt | PASS |
+| ΔR>0 ở≥3/4 mã | **2/4: MWG, VCB; VNM bằng 0** | **FAIL** |
+| D_U−A≥0 | +0,039217 đpt | PASS |
+| Mean ΔMDD≤2; max≤5 đpt | 0,574281; 1,312807 | PASS |
+
+Primary descriptive contrasts Full−stats **+0,935474**, Full−examples
+**+0,383759**, Full−Numeric **+2,444624 đpt**; không có CI xác nhận trong
+task này. Các contrast không thay điều kiện nomination U_full và chưa
+chứng minh riêng đóng góp nhân quả của demonstrations/posterior.
+
+### G/T, task/fallback và các nhóm bất lợi
+
+| Nhóm | N | D_U−Original, đpt |
+| --- | ---: | ---: |
+| G toàn bộ | 60 | +0,026473 |
+| T stats/examples cùng ready | 36 | −0,246090 |
+| Chỉ stats ready | 10 | 0,000000 |
+| Chỉ examples ready | 5 | null — MWG không có support |
+| Prior U_full off | 9 | 0,000000 do reuse |
+| Có ≥2 task visible | 34 | +0,425859 |
+| Context mode task | 41 | +0,033185 |
+| Context mode episode_fallback | 0 | null |
+| Context mode off | 19 | 0,000000 |
+
+Hai phân hoạch readiness và context mode riêng; hàng multi-task giao nhau
+với task/T, không cộng N giữa các nhóm để tăng mẫu. Mode off của context
+chỉ tắt demonstrations, khác prior U_full off khi cả hai block tắt. Gate
+coverage multi-task PASS: 34 điểm có ≥2 task, theo mã 3/11/10/10, đạt ≥12
+và ≥2/mã. Đây là mức support của thiết kế, không cứu gate kinh tế hoặc
+chứng minh cơ chế Bayes bên trong LLM. Nhóm thiếu mã giữ D=null, không
+điền lợi nhuận 0 hoặc đổi mẫu số đều bốn tài khoản.
+
+Mọi regime/quý được giữ trong artifact. BULL 11 điểm D=0; BEAR không có
+support; CHOPPY 26 điểm **+0,357652**; CONSOLIDATION 23 điểm **−0,379080**.
+Q1 có 12 điểm nhưng thiếu FPT nên D=null; Q2/Q3/Q4 đều 16 điểm, lần lượt
+**−0,342129 / +0,749196 / −0,092366 đpt**. Không chọn nhóm dương thay G.
+
+### Repeat và duplicate
+
+Các lượt dưới đây dùng **cùng mẫu 12 điểm**, ba điểm/mã và cùng request/
+upstream; r=0 là primary trên mẫu này, khác G toàn bộ 60 điểm:
+
+| Lượt | D Full−Original | D Full−A |
+| --- | ---: | ---: |
+| r=0 trên 12 điểm | −0,249962 | −0,329743 |
+| r=1 | −0,249962 | −0,329743 |
+| r=2 | 0,000000 | −0,329743 |
+| r=3 | −0,249962 | −0,329743 |
+| Mean ba lượt bổ sung | **−0,166642** | **−0,329743** |
+
+Full−stats và Full−examples bằng 0 trong cả ba repeat; Full−Numeric bằng
+−1,176170 đpt mỗi lượt. Không vote/chọn r=2 hoặc nhập repeat vào primary.
+D âm trên mẫu 12 đã có ở r=0; không gán khác biệt với G 60 điểm chỉ cho
+nhiễu LLM khi hai mẫu khác nhau.
+
+Original bất đồng **2/36 cặp giữa các repeat** và **1/36 cặp primary-vs-repeat**;
+A_reference/U_full/U_stats/U_examples đều 0/36 ở hai phép so đó. Duplicate
+độc lập so Original: r=1 **0/12**, r=2 **1/12**, r=3 **0/12**. Các cặp phụ
+thuộc được giữ mẫu số, không tính là quan sát độc lập. Prior-off=0 do reuse
+không chứng minh provider deterministic; không claim ổn định live từ mẫu nhỏ.
+
+### Producer/consumer, khóa quyết định và bàn giao
+
+[CLI nomination offline](../../../tools/nominate_unified_bayes.py),
+[schema riêng](../../../tools/unified_bayes_nomination_v1.schema.json) và
+[test bổ sung](../../../tools/test_nominate_unified_bayes.py) nằm trong
+`tools/`, giữ nguyên code/test/schema/runtime execution W10 đã đóng băng.
+Producer cold tái dựng source/plan/request, diagnostics/PIT, assessment/
+readiness và bốn gate, mở journal hiện hữu qua adapter rồi rebuild report
+từ ledger/cache. Consumer mặc định làm lại cùng đường nguồn và so toàn bộ
+artifact; tự reseal JSON không thay được rule/metric/decision. Chỉ khóa
+U_full, không có cờ API, model hoặc threshold.
+
+```powershell
+# Producer write-once đã chạy, không sửa plan/run/report hoặc reset ledger.
+py -3.13 -X utf8 tools/nominate_unified_bayes.py --prepare
+# Consumer mặc định cold verify, không key/mạng/giá 2025.
+py -3.13 -X utf8 tools/nominate_unified_bayes.py
+```
+
+Artifact local ignored:
+`outputs/bayesian_benchmark/unified_bic_v1/development/nomination/selection.json`,
+**555.678 byte**, SHA-256 byte
+`37439b49ebab656b5af5f5cb4f761e7428ac1e293c8fa529d56c002ad883d912`.
+Bind hash byte input/report/receipt/plan, digest checkpoint/HTTP/source và
+runtime; code/test/schema phân tích có map hash text LF riêng, ổn định qua
+CRLF Git trên Windows. Không sửa `nomination_allowed=false` của report
+runtime cũ; quyết định có producer/consumer riêng, `research_candidate=null`,
+`nomination_allowed=false`, `confirmation_allowed=false`, risk OFF.
+
+**Nghiệm thu:** 23 ca rule/report/consumer và ba ca guard code cuối PASS
+(24 ca khác nhau), gồm biên zero/precision/coverage/MDD, metric hữu hạn,
+future cutoff/exit, fixture, source/ledger/code drift, tự reseal và dừng
+trước ghi khi guard lỗi. Biên dịch hai file Python mới PASS; không chạy
+toàn suite theo AGENTS.md 1.2. Bốn gate U10-09 và 13 ca adapter chỉ được
+viện dẫn cho đúng code cũ; không gán các test đó cho code phân tích mới.
+Prepare/cold consumer nguồn thật PASS khi chặn mạng/credential/giá 2025;
+oracle NumPy độc lập khớp **1.046 kiểm tra** nhãn LONG net, tài khoản/MDD,
+mean bốn mã trên G/T/task/regime/quý và mọi repeat. Nguồn, protocol,
+Decision/report/cache/ledger cũ giữ nguyên byte: **1.313/1.319 file nguồn/
+evidence được bảo vệ không đổi**, sáu metadata owner/recovery của khóa
+run/journal/preflight được cập nhật và đã released. Chỉ thêm artifact
+nomination riêng; không thêm HTTP, sửa response hoặc thay outcome cũ.
+
+**U11 đạt 3/10**, U11-04–08 **NOT_RUN** theo nhánh dừng, không tính là DONE.
+Tiếp theo **U11-09** viết kết quả/thảo luận development với claim chưa được
+chứng minh; không mở dữ liệu/xác nhận 2025 hoặc thay ứng viên sau outcome.
