@@ -3,6 +3,11 @@
 **Kế hoạch thay thế 27/10/2026; 0/6 task DONE. Thời hạn vẫn 12 tuần.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md)
 
+Lịch quản lý theo [quỹ giờ đã xác nhận tại W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
+W12 dự kiến **06–10/11/2026**, tổng **5–10 giờ**. Khóa dữ liệu cuối **07/11**;
+08–10/11 dành luận văn/tái lập/bản nộp. Đây là phân bổ công việc, không xác
+nhận hạn nộp chính thức hoặc bảo đảm đủ giờ viết mới toàn bộ luận văn.
+
 Hai ngày làm việc đầu chỉ hoàn tất/resume xác nhận đã release và bắt đầu
 ở W11. Hết ngày hai khóa dữ liệu, kể cả INCOMPLETE; không mở candidate,
 tune hoặc giảm N. Phần còn lại dành luận văn, tái lập và bảo vệ.

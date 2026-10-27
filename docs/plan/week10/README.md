@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; MT-BICL chưa triển khai, 0/10 task DONE.
-W10-01 đã hoàn tất phần kỹ thuật; chờ xác nhận quỹ thời gian thực tế.**
+**Kế hoạch thay thế 27/10/2026; W10-01 DONE, 1/10 task DONE.
+Quỹ thời gian đã xác nhận: hai tuần, mỗi ngày khoảng 1–2 giờ; tiếp theo W10-02.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -150,7 +150,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 
 | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [ ] IN PROGRESS — inventory/benchmark PASS; chờ hạn nộp và giờ khả dụng |
+| W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [x] DONE — inventory/benchmark PASS; quỹ 14–28 giờ, khả thi toàn bộ còn có điều kiện |
 | W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [ ] TODO |
 | W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [ ] TODO |
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [ ] TODO |
@@ -175,7 +175,8 @@ ngày viết lại. W10-01 phải chốt quỹ thời gian thực; không đủ 
 kiểm chứng thì ghi giới hạn khả thi và hoàn thiện luận văn. API key chỉ
 do người dùng chạy; agent chuẩn bị và kiểm offline.
 
-Phân bổ đề xuất trong năm ngày làm việc của W10: ngày 1 inventory/protocol;
+Lịch ngày và quỹ giờ đã chốt tại [W10-01](#w10-01--inventory-và-khả-năng-thực-thi-27102026)
+thay lịch tương đối tham chiếu sau đây. Phân bổ đề xuất trong năm ngày của W10: ngày 1 inventory/protocol;
 ngày 2–3 bank/tasks/oracle; ngày 4 train/validation; ngày 5 adapter/dry-run/
 freeze. Nếu mốc kỹ thuật trễ, dùng phần thời gian development còn lại để
 hoàn tất nhưng giữ điểm dừng W12 ngày hai; không bỏ gate để bù tiến độ.
@@ -201,7 +202,9 @@ không sửa file Python còn lại. Kết quả này không phải nghiệm thu
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 
-**Phần kỹ thuật hoàn tất; task chưa DONE vì chưa xác nhận lịch thực tế.**
+**DONE — đã kiểm inventory/benchmark và nhận xác nhận quỹ thời gian thực tế.**
+Hoàn tất task kiểm toán khả thi không có nghĩa toàn bộ MT-BICL đã triển khai
+hoặc chắc chắn hoàn thành thực nghiệm trong quỹ giờ còn lại.
 Nhánh `feat/mt-bicl-resource-inventory` tách từ `develop` đã đồng bộ tại
 `83c838f`. Hai công cụ offline mới tạo [inventory máy đọc](resource_inventory.json)
 và [kết quả đo GPU](gpu_benchmark.json), để W10-02 dùng khi khóa protocol.
@@ -310,12 +313,35 @@ tích hợp/kiểm chứng. Không dùng ngoại suy này để chốt tổng th
 thay bằng chứng cơ chế. W10-02 khóa packing/step sau xem chi phí pipeline;
 giữ trần train ba seed ≤12 giờ, không coi benchmark là chọn checkpoint.
 
-**Quỹ thời gian thực tế: PENDING.** Đã yêu cầu ngày nộp, số giờ khả dụng/ngày
-và ngày dương lịch của W12 ngày hai; chưa nhận xác nhận. Không cộng ba tuần
-từ 27/10, không suy deadline từ tên tuần hoặc báo tính khả thi toàn bộ là
-PASS chỉ vì GPU chạy được. Sau khi có lịch thực, đối chiếu thời gian làm
-bank/oracle/train/integration/development/xác nhận với mốc dừng, rồi chốt
-DONE hoặc giới hạn khả thi trước W10-02.
+**Quỹ thời gian đã xác nhận ngày 27/10/2026:** người dùng cho biết “Có thể
+thực hiện trong 2 tuần nữa, mỗi ngày khoảng 1-2 giờ”. Quy đổi 14 ngày là
+**14–28 giờ**, lấy **14 giờ** làm mức phân bổ cơ sở; 14 giờ tăng thêm chỉ
+có khi thực tế dành được hai giờ/ngày. Không mặc định có thời gian máy chạy
+không giám sát ngoài quỹ này. Trần train ≤12 giờ là giới hạn kỹ thuật tối đa,
+không phải 12 giờ đã được dành riêng hoặc được cộng thêm vào quỹ giờ.
+
+Để vận hành, chọn cửa sổ **28/10–10/11/2026**, bắt đầu ngày sau khi xác nhận;
+10/11 là mốc kết thúc công việc dự kiến từ “hai tuần nữa”, không khẳng định
+là hạn nộp chính thức của trường. W10/W11/W12 là các mốc công việc được
+phân bổ trong cửa sổ này, không cộng thêm ba tuần:
+
+| Mốc | Khoảng ngày | Quỹ cơ sở / tối đa | Điều kiện dừng |
+| --- | --- | --- | --- |
+| W10 còn lại | 28/10–01/11 | 5 / 10 giờ | Ưu tiên protocol, bank/tasks, oracle và kiểm cơ chế; chỉ release nếu đủ mọi gate W10-10 |
+| W11 | 02/11–05/11 | 4 / 8 giờ | Chỉ development khi W10 đạt; xác nhận phải đủ gate, release và bắt đầu chậm nhất 05/11 |
+| W12 hai ngày đầu | 06/11–07/11 | 2 / 4 giờ | Chỉ hoàn tất/resume run đã bắt đầu; khóa COMPLETE/INCOMPLETE/NOT_RUN cuối 07/11 |
+| W12 phần còn lại | 08/11–10/11 | 3 / 6 giờ | Luận văn, tái lập và bản nộp theo bằng chứng có được; không mở run mới |
+| Tổng | 14 ngày | 14 / 28 giờ | Không kéo dài để tìm kết quả thuận lợi |
+
+**Kết luận khả thi: có điều kiện, rủi ro cao về tổng khối lượng.** GPU chạy
+được backbone proxy, nhưng chưa đo pipeline thật và chưa có ước lượng đủ
+cho bank/HMM/oracle, tích hợp, API, kiểm chứng và viết luận văn. Quỹ 14–28 giờ
+không đủ bằng chứng để cam kết hoàn thành toàn bộ W10–W12 hoặc viết mới toàn
+bộ luận văn. W10-02 được tiếp nhận để khóa protocol và phạm vi trước train;
+không coi kết luận này là release train/API hoặc bỏ gate. Nếu không kịp
+W10-10 hoặc nomination/release W11, ghi NOT_RUN cho thực nghiệm phụ thuộc,
+giữ kết quả bất lợi/thiếu và dùng thời gian còn lại hoàn thiện luận văn.
+W10-01 DONE vì đã xác định giới hạn khả thi, không vì candidate đã PASS.
 
 ### Tái lập và kiểm tra theo phạm vi
 
@@ -341,3 +367,10 @@ vì không đổi engine, đường Decision, scaler/HMM, prompt/retry hoặc d�
 nguồn đã khóa. Các gate W9 là bằng chứng lịch sử, không ghi thành lượt chạy mới.
 `.gitattributes` giữ nguyên byte hai JSON và LF của hai script có hash,
 tránh `core.autocrlf=true` làm sai binding khi merge/checkout trên Windows.
+
+**Lần chốt quỹ thời gian:** chỉ sửa Markdown kế hoạch/checklist, giữ nguyên
+code/test/runtime, hai JSON inventory/benchmark và bằng chứng W9/ledger.
+Đối soát diff, liên kết/anchor, UTF-8, số ngày/quỹ giờ và hash nguồn liên quan
+**PASS**; không chạy
+lại compile/unit/E2E/leakage theo AGENTS.md 1.2. Kết quả 31 test và benchmark
+ở trên thuộc lượt triển khai kỹ thuật trước đó, không phải lượt chạy mới.

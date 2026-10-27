@@ -3,6 +3,10 @@
 **Kế hoạch thay thế 27/10/2026; 0/8 task DONE.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
+Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
+W11 dự kiến **02–05/11/2026**, tổng **4–8 giờ**. Chỉ thực hiện khi đủ gate
+phụ thuộc; release và bắt đầu xác nhận chậm nhất 05/11, nếu không ghi NOT_RUN.
+
 Một candidate Full_MT_BICL khóa ở W10; đo kinh tế và tách learned Bayes,
 demonstrations, target context. Không lấy synthetic KL thấp làm lợi nhuận.
 
@@ -96,9 +100,9 @@ sớm khi gain đẹp, thêm call khi CI chưa đẹp hoặc giảm N cho kịp 
 
 ## 5. Checklist W11
 
-Phân bổ đề xuất: ngày 1 freeze và bắt đầu development; ngày 2 hoàn tất/
-verify; ngày 3 phân tích/nomination; ngày 4 exposure/release; ngày 5 bắt
-đầu xác nhận và bàn giao. Đây là mốc quản lý, không là ước lượng tốc độ API.
+Thứ tự công việc trong quỹ giờ trên: freeze → development/verify → phân tích/
+nomination → exposure/release/bắt đầu xác nhận và bàn giao. Đây là thứ tự
+phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước lượng tốc độ API.
 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
