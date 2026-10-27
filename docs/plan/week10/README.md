@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
 **Kế hoạch thay thế 27/10/2026; W10-01–05 DONE, 5/10 task DONE.
-Simulator/oracle và dữ liệu preflight đã kiểm; tiếp theo W10-06.**
+W10-06 IN_PROGRESS: learner/train/resume đã có, chờ chạy GPU và seal.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -157,15 +157,15 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [x] DONE — 1.235 cycle hợp lệ/1.640 ứng viên, support giá PASS; chưa release train |
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [x] DONE — metadata PIT, disjoint membership, stream và packing/projection; support development 41/60 PASS |
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [x] DONE — oracle độc lập PASS; khóa 5.000 test/5.000 cặp, chuẩn bị dữ liệu preflight |
-| W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [ ] TODO |
+| W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [ ] IN_PROGRESS — learner/CLI/test sẵn; chờ preflight GPU, đủ ba seed và seal |
 | W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [ ] TODO |
 | W10-08 | Adapter/prefix/paired/shared-off/retry/checkpoint; test đường đổi | 04; 07 cơ chế đạt | [ ] TODO |
 | W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] TODO |
 | W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] TODO |
 
 Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context,simulator,oracle,oracle_reference,batches}.py`
-cùng CLI dựng/kiểm bank, task/context và corpus oracle. Model/runtime/reports, train/run CLI
-vẫn là phần triển khai tiếp theo. Reuse
+cùng CLI dựng/kiểm bank, task/context và corpus oracle. Learner và CLI train/resume/seal
+đã có; chờ chạy GPU. Mechanism/validation/reports và run tích hợp vẫn còn phía trước. Reuse
 engine, giá PIT, HMM, retry/pacer/ledger đã kiểm; không restore toàn revision
 cũ vào namespace mới. Test: future append/scaler/mask/query-label, optimizer
 frozen tại test, oracle, prompt cap, paired/unknown/resume và JSON native.
@@ -839,3 +839,115 @@ không chạy toàn suite/E2E/compileall. **Cold-rebuild corpus/identity PASS**;
 diff/link/UTF-8/hash PASS. Năm JSON khóa, bank/task-context cũ, nguồn W9 và
 ledger giữ nguyên byte. **Tiếp theo W10-06:** learner/mask, preflight thật,
 train ba seed và chọn checkpoint bằng 2021; chưa release development.
+
+## W10-06 — Learner, train/resume và seal, 27/10/2026
+
+**IN_PROGRESS — mã và kiểm thử đã sẵn sàng, chưa chạy preflight GPU hoặc train
+ba seed thật.** Không đánh dấu DONE từ unit test hoặc một checkpoint ít step.
+Nhánh `feat/mt-bicl-learner-training` tách từ `develop` tại `46bd5bc`.
+Người dùng chạy GPU theo toàn bộ lệnh bên dưới; kết quả được giữ trong cùng
+workspace để đối soát trước khi đóng task. W10 vẫn **5/10 DONE**.
+
+### Mã đã triển khai và kiểm tra
+
+`MTBiCLLearner`: hai lớp causal, hidden128/4 heads/FF256, **275.201 tham số**,
+FP32, dropout0,1; không AMP/TF32. Pad phải đến 69, mask tương lai và key padding
+trên model thật. BCEWithLogits mean tại X target/query của từng episode rồi
+mean effective batch128; prior/Y/marker/PAD không có loss. Microbatch chia
+liên tiếp, accumulation giữ đúng mean trước clip norm1 và AdamW đã khóa.
+
+CLI tái dùng nguyên sampler W10-05: 64 synthetic +64 market/step, train chỉ
+**723 query ≤2020**, selection **248 query năm 2021**, không tối ưu trên
+corpus test hoặc 2022. Checkpoint mỗi 1.000 step, đủ 10 checkpoint/seed,
+**10.000 optimizer step cho từng seed 17→42→73**; không early stopping bằng
+metric. Chọn checkpoint riêng mỗi seed và candidate chung theo macro log
+loss đều mã, Brier tie-break, step tăng dần, thứ tự seed đã khóa; không P&L.
+
+Preflight production đo 100 optimizer step gồm data generation/packing và
+forward/backward, đo thêm selection/checkpoint I/O, bỏ toàn bộ weights.
+Chỉ CUDA OOM trước train cho phép chuyển physical batch128→64→32, accumulation
+1→2→4; giữ một physical batch cho cả ba seed/resume. Dự toán dùng P95 thời
+gian step, chi phí selection/checkpoint/replay seal và dự phòng 25%; vượt cap/
+lịch thì `INCOMPLETE_NO_CANDIDATE`. Đây là policy kiểm quỹ giờ, không đổi model,
+ngưỡng khoa học hoặc số step đã đăng ký.
+
+Source/runtime/input hash và GPU được đối soát khi chạy. Checkpoint gồm model,
+optimizer, step và RNG Python/NumPy/torch/CUDA, load bằng `weights_only=True`.
+Resume snapshot ghi file mới trước đổi pointer atomic; mốc 1.000 step bất biến,
+checkpoint orphan phải khớp toàn state replay mới được dùng. Resume tự động
+lưu mỗi 100 step và tại pause. Khóa OS ngăn hai writer; không cần xóa file lock
+để resume. `seal` kiểm đủ ba seed/30 mốc và **replay cả 30 checkpoint trên 2021**
+trước chọn/export model; sửa dự báo rồi tự rehash JSON không vượt được replay.
+`verify` đối soát lại hash/index/nhãn/metrics/weights, không chạy lại optimizer.
+Candidate giữ `mechanism_status=NOT_RUN`, `development_allowed=false`; W10-07
+còn phải kiểm cơ chế và báo validation 2022 trước các bước tích hợp.
+
+**Kiểm tra theo phạm vi: 28 test mới +28 oracle/sampler +27 task/context +9
+protocol +8 atomic I/O +6 OS lock =106 PASS**, gồm **37 test trong các suite
+leakage**. Đã kiểm causal bằng tác động lên logit, gradient đúng vị trí,
+accumulation, resume bit-identical có dropout/AdamW/RNG, pause/resume, cap,
+hash/path và transaction lỗi. Một test điều phối đủ 30.000 bước bằng **mock
+optimizer/source trên CPU**, tạo fixture 30 checkpoint rồi kiểm replay/seal;
+fallback CUDA OOM cũng dùng mock. Chúng không phải train/preflight GPU thật.
+Bảy file Python mới biên dịch PASS. CLI `check-inputs` trên artifact thật PASS;
+nguồn/runtime/ba artifact/W9 được đối soát. Không sửa code cũ hoặc dependency,
+không chạy toàn unit/E2E/compileall, không LLM/API. Suite I/O/OS lock chạy ngoài
+sandbox do hạn chế Windows Temp đã xác định. Năm JSON khóa, ba input artifact
+và ledger giữ nguyên byte; chưa có output production `training_v1/` ở lúc bàn giao.
+Khối PowerShell bên dưới đã kiểm cú pháp, truyền tham số, thứ tự và dừng khi
+lỗi/pause bằng `py` mock; không dùng phép kiểm lệnh đó để gọi GPU thật.
+
+### Lệnh PowerShell từ đầu đến cuối
+
+Chạy tại máy có Python 3.13.5/CUDA/runtime đã khóa; không cần cài lại dependency.
+Các input W10-03–05 đã có trong workspace hiện tại. Chạy tuần tự, hàm wrapper
+dừng chuỗi khi có lỗi hoặc pause, không chuyển sang seed kế tiếp khi chưa đủ step.
+
+```powershell
+Set-Location -LiteralPath 'C:\Users\Legion\OneDrive\Tài liệu\GitHub\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma'
+$ErrorActionPreference = 'Stop'
+$env:PYTHONUTF8 = '1'
+$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+
+function Invoke-MtBicl {
+    py -3.13 -X utf8 scripts/train_mt_bicl.py @args
+    if ($LASTEXITCODE -ne 0) {
+        throw "MT-BICL dừng với mã $LASTEXITCODE; kiểm thông báo trước khi tiếp tục."
+    }
+}
+
+Invoke-MtBicl check-inputs
+Invoke-MtBicl preflight
+Invoke-MtBicl train --seed 17 --resume
+Invoke-MtBicl train --seed 42 --resume
+Invoke-MtBicl train --seed 73 --resume
+Invoke-MtBicl seal
+Invoke-MtBicl verify
+```
+
+`--resume` dùng được từ lượt đầu; seed đã COMPLETE được kiểm và bỏ qua, không
+train lại. Preflight đã PASS cùng identity được tái dùng. Có thể chạy từng
+dòng train vào các phiên khác nhau; mỗi seed phải COMPLETE trước seed kế tiếp.
+Muốn tạm dừng: **Ctrl+C một lần, đợi thông báo đã pause/lưu checkpoint**; mã
+thoát **3** là pause, **1** là lỗi và **0** là hoàn thành bước. Chạy lại phần
+setup/hàm ở terminal mới rồi cùng dòng `train --seed ... --resume`.
+
+Nếu chỉ muốn chạy tối đa 90 phút một phiên, thay dòng train của seed đang làm bằng:
+
+```powershell
+Invoke-MtBicl train --seed 17 --resume --session-minutes 90
+```
+
+Đổi `17` thành seed đang chạy; lặp cùng dòng đến khi đủ 10.000 step. Pause
+không đổi số step hoặc chọn checkpoint theo kết quả. Tổng **12 giờ active dùng
+chung** gồm preflight, generation, train, selection/checkpoint và seal replay;
+pause sạch không tính thời gian nghỉ. Nếu tiến trình chết cứng/đóng terminal,
+khoảng từ session chưa đóng đến phục hồi được tính bảo thủ vào cap vì không
+xác định được thời điểm chết; ưu tiên Ctrl+C/pause tự động. Hết cap/lịch giữ
+INCOMPLETE, không xóa state để chạy lại hoặc tự giảm kiến trúc/step.
+
+Đầu ra ignored tại `outputs/bayesian_benchmark/mt_bicl_v1/training_v1/`:
+`preflight.json`, `state.json`, `seed17/`, `seed42/`, `seed73/`,
+`candidate_v1.json` và weights export. Chỉ đóng W10-06 khi preflight PASS,
+cả ba seed COMPLETE, seal/replay và verify PASS; khi đó ghi số liệu/hash thật
+vào mục này. Chưa có kết quả đó, không tuyên bố learner đã đạt gate cơ chế.
