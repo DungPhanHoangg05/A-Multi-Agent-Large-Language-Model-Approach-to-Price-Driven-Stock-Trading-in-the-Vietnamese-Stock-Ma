@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
 **Kế hoạch thay thế 27/10/2026; W10-01–06 DONE, 6/10 task DONE.
-W10-06 đã nghiệm thu training/seal ngày 28/10/2026; tiếp theo W10-07.**
+W10-07 IN_PROGRESS: evaluator/baseline/report đã có, chờ chạy GPU và replay.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -158,14 +158,15 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [x] DONE — metadata PIT, disjoint membership, stream và packing/projection; support development 41/60 PASS |
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [x] DONE — oracle độc lập PASS; khóa 5.000 test/5.000 cặp, chuẩn bị dữ liệu preflight |
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [x] DONE — preflight GPU PASS, đủ 30.000 step/30 checkpoint; seed42 step1000 được chọn bằng 2021, seal/verify PASS |
-| W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [ ] TODO |
+| W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [ ] IN_PROGRESS — evaluator/CLI/test sẵn; chờ run và verify --replay trên GPU |
 | W10-08 | Adapter/prefix/paired/shared-off/retry/checkpoint; test đường đổi | 04; 07 cơ chế đạt | [ ] TODO |
 | W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] TODO |
 | W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] TODO |
 
 Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context,simulator,oracle,oracle_reference,batches}.py`
 cùng CLI dựng/kiểm bank, task/context và corpus oracle. Learner và CLI train/resume/seal
-đã nghiệm thu trên GPU. Mechanism/validation/reports và run tích hợp vẫn còn phía trước. Reuse
+đã nghiệm thu trên GPU. Evaluator mechanism/validation/report đã có, chờ chạy;
+adapter/run tích hợp còn phía trước. Reuse
 engine, giá PIT, HMM, retry/pacer/ledger đã kiểm; không restore toàn revision
 cũ vào namespace mới. Test: future append/scaler/mask/query-label, optimizer
 frozen tại test, oracle, prompt cap, paired/unknown/resume và JSON native.
@@ -1016,3 +1017,100 @@ không thay code, dependency hoặc artifact để vượt kiểm tra.
 báo cả ba seed/baseline/calibration trên 2022. Hiện vẫn
 `mechanism_status=NOT_RUN`, `development_allowed=false`; nghiệm thu training
 không đồng nghĩa đạt cơ chế hoặc được phát hành development/Decision LLM.
+
+## W10-07 — Mechanism gate và validation, 28/10/2026
+
+**IN_PROGRESS — mã đánh giá/CLI/test đã sẵn; chưa chạy evaluation GPU thật.**
+W10 vẫn **6/10 DONE**. Nhánh `feat/mt-bicl-mechanism-validation` từ `develop`
+tại `a13ef1d`; giữ nguyên byte trainer/model, protocol, corpus và 67 artifact
+training đã nghiệm thu. Không train thêm hoặc xem held test để sửa mô hình.
+
+Evaluator giữ candidate **seed42 step1000**, đồng thời báo seed17 step1000
+và seed73 step2000 theo selection 2021. Mỗi seed đọc đúng 5.000 synthetic
+test và 5.000 cặp đã khóa; không chọn lại seed/checkpoint theo synthetic/2022.
+Tính float64 Bernoulli **KL oracle||model từ log probabilities ổn định**,
+không clip; P95 dùng `numpy.quantile(.95, method='linear')`. Gate giữ mean
+KL≤0,02 nat, P95 absolute error≤0,10. Prior-swap giữ C/x/ID target, denominator
+theo |Δoracle|≥0,05 (corpus có 3.740 cặp), cần ≥200 và sign agreement≥90%.
+Đổi denominator bị từ chối; delta model=0 không tính đúng dấu oracle khác 0.
+Control pooling báo model/oracle/pooled và khoảng cách, không thêm threshold
+để phát hành ngoài protocol. Báo support/error theo K/m cả cold-start.
+
+Validation chung **256 query năm 2022**, frozen scaler/HMM, PIT exit<query;
+giữ coverage/exclusion reasons của bank. Full/No_prior/No_target dùng cùng
+weights của từng seed; bỏ đúng component rồi tính lại p. Base rate Laplace
+và logistic fit **731 cycle train hợp lệ** bằng scaler cuối 2020; khác với
+**723 query learner** vì tám cycle thiếu scaler historical-prefix vẫn dùng
+được khi fit baseline với scaler cuối train. Công bố đủ fit IDs/scaler hash/
+coef/intercept, không dùng label validation để fit. Logistic không hội tụ
+phải báo lỗi, chỉ single-class train được dùng hằng Laplace đã đăng ký.
+Naive pooling dùng finite shared-w simulator, không là ground truth thị trường.
+
+Report giữ raw logits, macro/per-symbol Brier/log loss, calibration **10 bin
+[left,right), bin cuối gồm 1**, cả bin trống count0/null; K/m marginal/joint
+support, runtime, r_net đầy đủ theo p-bin, mean gain/loss và toàn bộ danh sách
+cycle thắng/thua đã sắp theo mức gain/loss. r_net là fraction, p không là ER.
+Clip chỉ log loss thị trường ở [10⁻⁶,1−10⁻⁶], không clip KL hoặc calibration.
+So Full với từng baseline bằng delta hai metric; kết quả bất lợi giữ
+`WORSE_BOTH`/`MIXED_OR_TIE`, không ghi market performance PASS từ việc đã có report.
+2022 đã có exposure nên không gọi là holdout độc lập.
+
+Inference dùng `eval`/`inference_mode`, che nhãn query, không optimizer; băm
+tensor và kiểm gradient trước/sau. Journal riêng theo baseline/seed, atomic
+và OS lock; Ctrl+C chờ hết stage rồi lưu, resume bỏ qua stage đã khớp hash.
+Verifier tính lại metric từ raw logits; `--replay` dựng lại baseline bằng
+chính train và replay inference từ checkpoint đã khóa để đối chiếu raw logits,
+không update learner. Receipt `replay_verification.json` gắn hash index/report/
+source/GPU; không sửa seal hoặc budget training cũ.
+
+**Kiểm tra theo phạm vi: 16 test mới +60 hồi quy =76 PASS**, gồm **49 test
+trong các suite leakage**. Hồi quy gồm 11 model/causal, 28 oracle/sampler,
+13 task leakage và 8 bank/scaler leakage. Test mới dùng fixture tự dựng:
+KL cực trị không bị clipping, P95, denominator/zero delta, calibration/r_net,
+không chọn lại candidate, baseline train-only/single-class/convergence,
+query-label/future/duplicate, frozen inference và journal/replay chặn tự rehash
+dự báo sai. Năm file Python mới biên dịch PASS. CLI `check-inputs` trên receipt/
+corpus/task-context thật PASS; chưa fit baseline hoặc inference trên test/
+validation thật. Không sửa dependency, chạy toàn suite/E2E/compileall hoặc
+gọi LLM/API. Test journal Windows Temp chạy ngoài sandbox theo hạn chế quyền
+đã xác định; mọi kết quả test CPU không thay kết quả mechanism GPU thật.
+Đối soát đủ 67 file training, source trainer, đặc tả và ledger: giữ nguyên
+so với nghiệm thu W10-06. Khối PowerShell bên dưới đã kiểm cú pháp/tham số/
+thứ tự/dừng khi pause bằng `py` mock, không gọi GPU để kiểm khối lệnh.
+
+### Lệnh PowerShell đánh giá từ đầu đến cuối
+
+Chạy cùng runtime/GPU đã dùng train, không chạy lại các lệnh preflight/train/
+seal của W10-06. Các lệnh dưới chỉ tạo namespace `evaluation_v1/` mới.
+
+```powershell
+Set-Location -LiteralPath 'C:\Users\Legion\OneDrive\Tài liệu\GitHub\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma'
+$ErrorActionPreference = 'Stop'
+$env:PYTHONUTF8 = '1'
+$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+
+function Invoke-MtBiclEval {
+    py -3.13 -X utf8 scripts/evaluate_mt_bicl.py @args
+    if ($LASTEXITCODE -ne 0) {
+        throw "Đánh giá dừng với mã $LASTEXITCODE; kiểm thông báo trước khi tiếp tục."
+    }
+}
+
+Invoke-MtBiclEval check-inputs
+Invoke-MtBiclEval run --resume
+Invoke-MtBiclEval verify --replay
+```
+
+Muốn pause, Ctrl+C một lần và đợi stage được lưu; mã thoát3. Trong terminal
+mới chạy lại setup/hàm rồi `Invoke-MtBiclEval run --resume`, cuối cùng
+`Invoke-MtBiclEval verify --replay`. Mã1 là lỗi kỹ thuật; mã0 chỉ xác nhận
+report/integrity hoàn tất, **không có nghĩa cơ chế PASS**. Gate FAIL hoặc
+INCONCLUSIVE vẫn lưu đủ báo cáo và giữ `NO_MT_BICL_RELEASE`, không đổi seed,
+threshold hoặc thay âm thầm model. `development_allowed=false` trong mọi
+report bước này; gate đạt mới tiếp tục các điều kiện tích hợp W10-08–10.
+
+Output ignored: `outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/` gồm
+`index.json`, `baseline.json`, `seed17.json`, `seed42.json`, `seed73.json`,
+`report.json`, `replay_verification.json` và metadata khóa OS. Sau khi người
+dùng chạy xong, đối soát hash/receipt và ghi kết quả thật ở mục này; chưa
+đánh dấu DONE hoặc kết luận lợi ích dự báo/kinh tế từ test fixture.
