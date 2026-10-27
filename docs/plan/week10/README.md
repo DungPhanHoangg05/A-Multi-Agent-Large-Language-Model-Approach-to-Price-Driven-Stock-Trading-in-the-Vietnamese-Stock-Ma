@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; W10-01–03 DONE, 3/10 task DONE.
-Bank giá/feature/nhãn/scaler đã kiểm; tiếp theo W10-04.**
+**Kế hoạch thay thế 27/10/2026; W10-01–04 DONE, 4/10 task DONE.
+Task/context/streaming và projection fixture đã kiểm; tiếp theo W10-05.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -155,7 +155,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [x] DONE — inventory/benchmark PASS; quỹ 14–28 giờ, khả thi toàn bộ còn có điều kiện |
 | W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [x] DONE — protocol v1, bảng simulator, fixture và verifier đã khóa; chưa release train/API |
 | W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [x] DONE — 1.235 cycle hợp lệ/1.640 ứng viên, support giá PASS; chưa release train |
-| W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [ ] TODO |
+| W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [x] DONE — metadata PIT, disjoint membership, stream và packing/projection; support development 41/60 PASS |
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [ ] TODO |
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [ ] TODO |
 | W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [ ] TODO |
@@ -163,8 +163,9 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] TODO |
 | W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] TODO |
 
-Module dự kiến core/mt_bicl_{tasks,oracle,model,context,runtime,reports}.py,
-scripts/train_mt_bicl.py và scripts/run_mt_bicl.py; chưa tồn tại. Reuse
+Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context}.py` cùng CLI
+dựng/kiểm bank và task/context. Oracle/model/runtime/reports, train/run CLI
+vẫn là phần triển khai tiếp theo. Reuse
 engine, giá PIT, HMM, retry/pacer/ledger đã kiểm; không restore toàn revision
 cũ vào namespace mới. Test: future append/scaler/mask/query-label, optimizer
 frozen tại test, oracle, prompt cap, paired/unknown/resume và JSON native.
@@ -626,3 +627,122 @@ leakage liên quan; không chạy toàn unit/E2E/compileall hoặc fit HMM/train
 LLM. Mọi kiểm tra này khác gate learner/cơ chế/kinh tế còn chờ W10-05–W12.
 Giữ nguyên byte nguồn/W9/ledger và default Original/risk OFF. **Tiếp theo
 W10-04**: task metadata, prior/target/query rời nhau, streaming và projection.
+
+## W10-04 — Task/context, streaming và projection, 27/10/2026
+
+**DONE — đầu vào task/context đã kiểm, chưa có learner hoặc response LLM.**
+Nhánh `feat/mt-bicl-task-context` tách từ `develop` tại `cb9fffe`; lần hoàn
+thiện tiếp tục trên nhánh này sau ngắt, không tạo lại bank W10-03. Thêm
+`mt_bicl_regimes/stream/tasks/context` và CLI `build_mt_bicl_tasks.py`;
+giữ nguyên protocol v1, primitive và toàn bộ bằng chứng cũ.
+
+### Metadata và membership
+
+Task theo mã/block63; metadata regime nằm ở đầu block. Block 0–7 chưa đủ
+499 phiên, giữ **UNKNOWN/INSUFFICIENT_REGIME_HISTORY**, không gán ngược bằng
+artifact cuối 2022. Bốn model prefix train và một model cuối 2020 được fit
+trong namespace mới, dùng nguyên tham số/calibration của primitive:
+
+| Cutoff fit | Số phiên prefix | Phương pháp phân loại đã kiểm |
+| --- | ---: | --- |
+| 08/01/2020 | 505 | HMM |
+| 14/04/2020 | 568 | MULTI_FACTOR theo fallback đã khóa |
+| 14/07/2020 | 631 | MULTI_FACTOR theo fallback đã khóa |
+| 12/10/2020 | 694 | HMM |
+| 31/12/2020 | 752 | HMM, đóng băng cho query từ 2021 |
+
+Cache model dùng một CPU thread khi dựng/kiểm lại, không đổi dependency hoặc
+HMM parameters. Metadata task cũ không bị ghi lại bằng model mới. Hash tham
+số/model/scaler/calibration phải giữ nguyên qua inference; lỗi fit khác
+thiếu lịch sử phải raise. Scaler cuối 2020 chỉ được tính khi bắt đầu query
+từ 2021, không đọc feature train tương lai khi dựng query train sớm.
+
+Builder chỉ nhận nhãn qua `MarketStream`, lọc **exit<query** trước rank.
+Prior tối đa ba task trước target cùng mã, mỗi task 2–8 cycle; centroid tính
+trên mọi cycle hợp lệ đã đóng của task. Rank ưu tiên regime khớp đã biết,
+distance, độ mới và ID; không đọc y để chọn. Target là tám cycle mới nhất
+trong đúng block hiện tại. Query không chứa y/outcome. Validator từ chối
+trùng ID, sai mã/block, future membership/model/scaler hoặc giao khoảng
+entry–exit; giữ K=0/m=0 hợp lệ và reason, không áp lại trần tuổi 730 ngày.
+
+### Streaming và coverage nguồn thật
+
+Stream giữ bank W10-03 nguyên vẹn, nối cycle trực tiếp từ raw OOS đã kiểm
+khi **exit<query**. Không có API nhận nhãn từ report/evaluation caller.
+Query cùng ngày dùng chung view; tiến thời gian idempotent, lùi thời gian
+phải tạo replay mới. Replay incremental và cold replay khớp trong test;
+disk checkpoint/unknown/retry thuộc W10-08. Nguồn stream hiện mở đến 2024,
+chặn query 2025 cho tới khi có nguồn/release riêng.
+
+Đã dựng **1.235 query bank** với split riêng: train 731 (723 AVAILABLE,
+tám thiếu scaler prefix giữ reason), selection 248 và validation 256.
+Gate development không được áp nhầm cho các partition bank: ở đó ghi
+NOT_APPLICABLE. Có 96 metadata task, 228 scaler được dedupe theo hash và
+405 lượt audit view. Toàn bộ **324 feature/303 nhãn streaming mới** đã đối
+chiếu với primitive PIT và helper thực thi/kinh tế; không sinh y query
+development hoặc payoff 2025.
+
+| Mã | Point giữ nguyên | Feature/scaler AVAILABLE | Đồng thời K≥2, m≥2 | Thiếu feature do quyền/Reference |
+| --- | ---: | ---: | ---: | ---: |
+| FPT | 12 | 7 | 6 | 5 |
+| MWG | 16 | 15 | 12 | 1 |
+| VCB | 16 | 15 | 12 | 1 |
+| VNM | 16 | 13 | 11 | 3 |
+| Tổng | 60 | 49 | 41 | 11 |
+
+**Gate support PASS:** 41≥30, từng mã ≥5. Giữ đủ 60 point, cả 11 trường hợp
+UNAVAILABLE và các nhóm cold-start/m nhỏ; không bỏ điểm để tăng mẫu số sẵn
+sàng. Strata K/m theo mã, regime và quý nằm trong artifact. Đây chỉ là
+support đầu vào, không là gate cơ chế, kết quả dự báo/kinh tế hoặc release
+development; dry-run tích hợp và 24 semantic probe còn thuộc W10-09.
+
+### Packing/projection và artifact
+
+Packing khớp fixture chín token đã khóa và case đủ ba task/tám target
+**69 token**: marker phân task, causal-mask contract, query Y chỉ là nhãn
+loss bên ngoài input. Label C/Y không đi vào vị trí X tương ứng. Mask thực
+trên learner và gate synthetic vẫn chờ W10-05–07. No_target bỏ đúng C,
+giữ D/x và yêu cầu caller recompute p; Plain bỏ p, Stats bỏ demonstrations.
+
+LLM projection giữ tối đa hai exemplar/prior và hai target mới nhất, đủ
+legend/q/nhãn; sidecar giữ precision/ID/membership. Prefix thực tế dài tối
+đa **246 ký tự** với **p=NA**, chỉ là fixture chưa có learner inference.
+Test worst-case vẫn giữ đủ tám exemplar dưới 600 ký tự; prompt 6.499 được
+nhận, 6.500 bị từ chối. Kiểm prompt đầy đủ qua Decision/distill/cap và
+canonical shared-off thực tế vẫn thuộc W10-08, không tính đã tích hợp ở đây.
+
+Artifact local [task_context_v1.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/inputs/task_context_v1.json),
+**68.037.981 byte**, SHA-256 byte
+`4fca2146fbc03f4f74762a5a6b4d44c184b4b4244c3cb28d5dfda68d93fa0c57`;
+payload canonical `4bc67ca7843b61928a0ed67b18b845777c2ec42ad5f01d76e2bfbe7f8080a4f7`.
+Artifact chứa model prefix mới, metadata/scaler/ID, episode/packing/fixture,
+split và supervised query target tách khỏi input, coverage và stream audit.
+Development không có supervised query target; mọi flag train/Decision vẫn
+false. Outputs ignored: giữ cùng workspace hoặc dựng lại offline; không
+thêm receipt task rời chỉ lặp lại báo cáo này.
+
+```powershell
+# Chỉ tạo mới khi chưa có artifact; không ghi đè bằng chứng đã lưu.
+py -3.13 -X utf8 scripts/build_mt_bicl_tasks.py
+# Cold-rebuild cả bank nguồn, HMM/task/context/stream và so toàn payload/identity.
+py -3.13 -X utf8 scripts/build_mt_bicl_tasks.py --check
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_mt_bicl_tasks*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_mt_bicl_bank*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p test_regime_model.py -v
+py -3.13 -X utf8 -m unittest discover -s tests -p test_regime_leakage.py -v
+py -3.13 -m py_compile core/mt_bicl_regimes.py core/mt_bicl_stream.py core/mt_bicl_tasks.py core/mt_bicl_context.py scripts/build_mt_bicl_tasks.py tests/mt_bicl_tasks_support.py tests/test_mt_bicl_tasks.py tests/test_mt_bicl_tasks_leakage.py
+```
+
+**Kiểm tra theo phạm vi W10-04: 27 test mới +23 bank/scaler +6 model regime
++8 regime leakage = 64 PASS**, trong đó **29 leakage**; tám file Python mới
+biên dịch PASS. Lần hoàn thiện xác nhận lại 27 test và compile; 37 test hồi
+quy đã PASS trong cùng lượt W10-04 trước ngắt trên source/runtime giữ nguyên,
+không ghi là vừa chạy lại. Suite regime dùng Temp Windows chạy ngoài sandbox
+theo lỗi quyền đã xác định. Không chạy toàn unit/E2E/compileall hoặc gọi
+LLM; chỉ chọn đường giá/scaler/HMM/retrieval/mask/projection bị tác động.
+**Cold-rebuild toàn payload/identity PASS**; diff/link/anchor/UTF-8/hash PASS.
+Năm JSON khóa, bank W10-03, primitive, W9 và ledger giữ nguyên byte.
+Joblib có traceback dò CPU qua WMIC trong sandbox; lệnh vẫn exit 0 và kết
+quả model/context cold-rebuild khớp, không đổi dependency để bỏ cảnh báo.
+**Tiếp theo
+W10-05**: simulator/oracle độc lập và control không pooling; chưa train learner.
