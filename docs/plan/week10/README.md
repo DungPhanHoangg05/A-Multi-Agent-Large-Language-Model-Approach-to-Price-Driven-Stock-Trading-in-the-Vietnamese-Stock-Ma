@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; W10-01–07 DONE, 7/10 task DONE.
-W10-07 đã nghiệm thu đánh giá; gate cơ chế FAIL — NO_MT_BICL_RELEASE.**
+**Amendment 28/10/2026: W10-01–08 DONE, 8/14 task DONE; tiếp theo W10-09.
+Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE. V2 mới là kế hoạch, chưa train/release.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -9,6 +9,11 @@ các nhiệm vụ trước và các ví dụ đã đóng của nhiệm vụ hi�
 cấp xác suất dự báo/context cho Decision LLM. Giữ hệ thống đa agent và
 Original mặc định. Đo riêng ba mức: học được cơ chế, dự báo có ích, tài
 khoản cải thiện. Tên phương pháp hoặc synthetic test không chứng minh lợi nhuận.
+
+Mục 1–6 giữ đặc tả v1 để đối chiếu với bằng chứng đã khóa. **Phương án
+hiện hành là mục 9**, thay recipe/loss/selection cho revision mới; không sửa
+protocol_v1.json hoặc biến FAIL cũ thành PASS. W10-08–14 trong checklist
+thay các task tích hợp 08–10 chưa chạy; receipt W10-01–07 vẫn là lịch sử v1.
 
 ## 1. Thay đổi về phương pháp
 
@@ -159,18 +164,17 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [x] DONE — oracle độc lập PASS; khóa 5.000 test/5.000 cặp, chuẩn bị dữ liệu preflight |
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [x] DONE — preflight GPU PASS, đủ 30.000 step/30 checkpoint; seed42 step1000 được chọn bằng 2021, seal/verify PASS |
 | W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [x] DONE — đánh giá/replay/integrity đầy đủ; cơ chế FAIL cả ba seed, NO_MT_BICL_RELEASE |
-| W10-08 | Adapter/prefix/paired/shared-off/retry/checkpoint; test đường đổi | 04; 07 cơ chế đạt | [ ] BLOCKED — candidate không đạt gate cơ chế W10-07 |
-| W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] BLOCKED — phụ thuộc 08 và gate cơ chế chưa đạt |
-| W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] BLOCKED — không release candidate đã FAIL cơ chế |
+| W10-08 | Audit nguyên nhân từ raw logits, curve 2021 và oracle trên thị trường; phân biệt sự kiện/giả thuyết | 07 | [x] DONE — mục 9, không nghiệm thu learner |
+| W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [ ] TODO |
+| W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [ ] TODO |
+| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] TODO |
+| W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] TODO |
+| W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
+| W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
 
-Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context,simulator,oracle,oracle_reference,batches}.py`
-cùng CLI dựng/kiểm bank, task/context và corpus oracle. Learner và CLI train/resume/seal
-đã nghiệm thu trên GPU. Đánh giá mechanism/validation đã hoàn tất nhưng gate
-cơ chế FAIL; adapter/run/release bị chặn cho candidate này. Reuse
-engine, giá PIT, HMM, retry/pacer/ledger đã kiểm; không restore toàn revision
-cũ vào namespace mới. Test: future append/scaler/mask/query-label, optimizer
-frozen tại test, oracle, prompt cap, paired/unknown/resume và JSON native.
-Theo AGENTS.md 1.2, chọn test đường đổi, không tự chạy toàn suite mỗi task.
+V1 giữ nguyên core/mt_bicl_* và artifact đã khóa. V2 dùng module/schema/
+namespace riêng; không đổi hằng hash hoặc phục hồi candidate FAIL qua CLI cũ.
+Reuse engine/PIT/retry/ledger theo hợp đồng; test đường đổi theo AGENTS.md 1.2.
 
 ## 8. Thời hạn và dọn cây hiện hành
 
@@ -203,6 +207,195 @@ test_prior_backtest_leakage.py **3 PASS**, test_backtest_token_budget.py
 sandbox, đã chạy lại đúng suite ngoài sandbox và PASS. Không gọi API,
 không chạy toàn suite/E2E; không compile Python vì chỉ xóa module độc lập,
 không sửa file Python còn lại. Kết quả này không phải nghiệm thu MT-BICL.
+
+## 9. Khắc phục nguyên nhân và protocol v2 — 28/10/2026
+
+### W10-08 — Audit nguyên nhân: DONE
+
+**Không có bằng chứng đây chỉ là gate quá chặt.** Các ngưỡng 0,02/0,10/90%
+là lựa chọn của nghiên cứu, không phải định lý của paper; nhưng kết quả hiện
+tại còn kém cả dự báo hằng trên synthetic. Nới ngưỡng tới mức cho v1 đi tiếp
+sẽ làm mất ý nghĩa phép kiểm. Thiết kế v1 do kế hoạch trước đề xuất chưa phù
+hợp ở cả mục tiêu huấn luyện lẫn liên hệ giữa simulator và thị trường.
+
+Tính lại từ raw logits/oracle, không optimizer hoặc chọn lại candidate:
+
+| Phép kiểm | Seed 17 | Seed 42 | Seed 73 |
+| --- | ---: | ---: | ---: |
+| KL oracle→learner | 0,091474 | 0,097593 | 0,092478 |
+| P95 sai số xác suất | 0,385156 | 0,398685 | 0,384684 |
+| Khớp dấu prior-swap, N=3.740 | 49,1176% | 49,3316% | 49,6257% |
+| SD xác suất learner trên 5.000 episode | 0,037944 | 0,039176 | 0,038114 |
+| Tương quan p learner với p oracle | 0,038402 | 0,016695 | 0,024502 |
+
+Đối chứng **p=0,5**: KL **0,089548931451**, P95 **0,383296048154**;
+SD p oracle **0,203054**. Với seed42, median |Δp| khi đổi prior là **0,012003**,
+so oracle **0,156546** trên cùng 3.740 cặp; tương quan hai Δp chỉ **0,005528**.
+Đây là dấu hiệu learner chưa khai thác đúng context; không khẳng định mọi
+trọng số đều hằng hoặc đã chứng minh một dòng code cụ thể sai.
+
+| Nguyên nhân / bằng chứng | Mức kết luận | Cách sửa |
+| --- | --- | --- |
+| Selection chỉ tối ưu log loss 2021, chọn step1.000/1.000/2.000; không có điều kiện cơ chế | Xác nhận từ recipe và candidate | Chỉ xét checkpoint đạt synthetic validation trước khi xếp hạng thị trường |
+| Trộn loss synthetic:market=1:1 trên cùng weights; chỉ 723 query train/48 task, 43 task có ≥8 query | Thiết kế xác nhận; gradient conflict/chạy tắt theo miền là giả thuyết | Tách fit prior thị trường khỏi học suy luận; student dùng teacher loss, không BCE market trộn vào backbone |
+| Log loss 2021 từ step1.000→10.000: 17: 0,67712→1,14399; 42: 0,66766→1,12266; 73: 0,69346→1,19218 | Generalization xấu dần đã quan sát; chưa đủ để quy toàn bộ cho overfit | Không chỉ tăng step; kiểm learning curve riêng cơ chế và thị trường |
+| X/Y tách thành token, position tuyệt đối, hai lớp; loss trung bình mọi target prefix | Khác thiết kế paper; chưa chứng minh lỗi mask hay đây là nguyên nhân duy nhất | Paired observation token, query bị che nhãn; pilot nhỏ kiểm học và gradient |
+| Oracle logistic ngẫu nhiên dự báo thị trường còn kém learner | Xác nhận bằng phép tính bổ sung dưới đây | Đổi mô hình nhiệm vụ/prior; không distill oracle cũ rồi mặc định có ích |
+
+**Đối chiếu teacher với thị trường đã xem:** giữ membership/scaler và không
+fit thêm, gọi FiniteBayesOracle.predict trên input D/C/x; tính macro đều mã.
+Phép tính NumPy độc lập từ bảng latent cho cùng kết quả, và khớp 100 oracle
+synthetic đầu tiên với sai số 0 ở precision đang dùng.
+
+| Oracle v1, chỉ chẩn đoán | N | Macro log loss | Macro Brier |
+| --- | ---: | ---: | ---: |
+| 2021 | 248 | 0,731295602319 | 0,263917441501 |
+| 2022 | 256 | 0,788869994931 | 0,288754288428 |
+
+Trên 2022, base rate là **0,667347378601 / 0,237205159013**. Vì vậy sửa
+approximation error là cần thiết nhưng chưa đủ; không dùng oracle logistic
+v1 làm đường thay thế phát hành hoặc coi oracle là chân lý của thị trường.
+Chưa đánh giá cơ chế cả 30 checkpoint; không suy FAIL của ba checkpoint đã
+chọn thành FAIL của mọi checkpoint. Việc chọn lại bằng test cũ vẫn bị cấm.
+
+### 9.1. Quyết định phương pháp: nhiệm vụ đơn giản hơn, prior gắn thị trường
+
+Candidate duy nhất đề xuất: **MT-BICL-v2 với teacher Beta-Bernoulli phân cấp
+và learner distillation**, sau đó Decision LLM đọc p + task examples.
+Kế thừa cấu trúc retrieval/regime và đối chứng A của W9; không gán gain W9
+cho model mới. Bốn feature giá dùng để chọn context theo query, không ép
+ước lượng năm hệ số logistic riêng cho mỗi block chỉ có khoảng 7–20 query.
+
+Theo [paper §4 và Appendix C](https://arxiv.org/html/2606.20538v1), transformer
+được train trên prior/target tasks; synthetic checkpoint chọn bằng validation
+cùng phân phối, khác seed. Token của tác giả ghép x hiện tại với y trước đó.
+V2 giữ ý tưởng conditioning và kiểm prior-swap; **đổi likelihood sang
+Beta-Bernoulli, dùng soft teacher và paired observation là thích ứng riêng**,
+không tuyên bố tái lập thí nghiệm logistic hoặc công thức huấn luyện gốc.
+
+PASS trên họ Beta-Bernoulli mới không phải PASS trên bài toán logistic v1.
+Không so trực tiếp KL hai họ rồi kết luận model đã tốt hơn; đây là đổi giả
+thuyết/mô hình nhiệm vụ có khai báo. Giá trị hệ thống vẫn phải qua cùng
+benchmark kinh tế và đối chứng W11–W12, không đổi tiêu chí để hợp kết quả.
+
+Mô hình giả định: λ=(μ,κ), θ_k|λ~Beta(μκ,(1−μ)κ), y_ki|θ_k~Bernoulli(θ_k).
+Mỗi prior block có θ riêng; target có θ_* riêng. Dùng cùng bank, block63,
+cutoff, nhãn r_net>0 và retrieval v1. Query feature ảnh hưởng membership;
+trong teacher, count thắng/thua là sufficient statistics, không có hệ số x.
+Đây là giả định exchangeability trong tập ví dụ được chọn, phải công bố và
+kiểm trên thị trường, không khẳng định đúng cho mọi regime.
+
+Đề xuất khóa trước fit: grid μ={0,2;0,4;0,6;0,8}, κ={2;8;32;128}, 16 trạng
+thái. Fit π(λ) bằng marginal likelihood của **các block train duy nhất**,
+không lặp mỗi query thành một task độc lập. Chỉ cycle AVAILABLE có exit≤2020;
+không lấy nhãn 2021/2022 để fit, không đổi grid theo metric validation.
+EM khởi tạo uniform, Dirichlet α=2, tối đa 200 vòng, dừng khi max |Δπ|<1e−10;
+phải ghi hội tụ, membership và posterior-predictive checks. Grid/recipe là
+đề xuất cần khóa tại W10-09; không sửa simulator_v1.json.
+
+Với s/f là số thắng/thua và α=μκ, β=(1−μ)κ:
+
+    L_k(λ) = B(α+s_k, β+f_k) / B(α,β)
+    π(λ|D,C) ∝ π(λ) × ∏k L_k(λ) × L_target(λ)
+    p(y*=1|D,C) = Σλ π(λ|D,C) × (α+s_target)/(α+β+m)
+
+Tính log-beta/log-space; target cũng cập nhật λ. Oracle độc lập đối chiếu
+bằng tích xác suất tuần tự, không gọi lại cùng hàm để tạo expected. Giữ
+no-prior, no-target và naive pooling **shared θ** để kiểm khác biệt. Fit π
+là empirical Bayes offline; inference tại cutoff chỉ conditioning, không
+refit π từ 2021–2025. Oracle chính xác cho giả định này, không cho thị trường.
+
+### 9.2. Sửa learner và loss thay vì tăng tài nguyên mù quáng
+
+- Hai lớp hidden128, heads4, FF256; pre-LN/GELU, dropout0. Một architecture,
+  seed17/42/73, không ensemble hoặc chọn mô hình bằng P&L.
+- Mỗi observation đã biết là một token (x,y,mask); thêm ranh giới/role/task
+  slot. Query là (x,0,missing=1), không mang y thật. Tối đa 37 token với
+  24 prior +8 target +4 marker +1 query. Prior order được permutation;
+  target giữ thứ tự. Query đọc context hợp lệ, không nhãn tương lai.
+- Loss chỉ tại query: cross-entropy với **q posterior teacher từ đúng D/C/x**.
+  Không dùng θ/λ thật hoặc xác suất từ latent làm teacher label. Soft loss
+  giảm nhiễu Bernoulli và không ưu tiên quá mức target prefix ít ví dụ.
+- Student train trên synthetic sinh từ teacher đã fit train-only. x lấy từ
+  feature train (giữ tương quan), độc lập với latent θ trong simulator;
+  K/m và độ dài gồm cả cold-start. Nhãn Bernoulli sinh theo θ, posterior q
+  tính lại chỉ từ observations. Không đưa BCE của 723 market query vào
+  backbone theo tỷ lệ 1:1; nhãn thật đã dùng ở bước fit hyper-prior.
+- AdamW lr3e−4, warmup250 rồi cosine về3e−5; batch128, tối đa5.000 step/seed,
+  checkpoint250. Đo pipeline gồm teacher/cache trước khóa; trần train mới
+  **4 giờ tổng**, bao gồm pilots, generation, validation và seal. Không đủ
+  ngân sách thì INCOMPLETE; không nhân 4 giờ cho mỗi seed.
+- Hai pilot cố định seed17, tối đa500 step/case, chỉ diagnostic: packing cũ
+  và paired packing cùng soft teacher/synthetic-only. So tiny-set fit,
+  gradient và validation; không dùng pilot để lựa cấu hình theo 2022.
+  Tiny-set32 episode phải overfit q tới mean KL<1e−3; không đạt thì kiểm
+  gradient/mask/optimizer trước train lớn. Đây là sanity check, không gate
+  generalization hoặc bằng chứng thị trường; weights pilot bị bỏ.
+
+Không khẳng định packing gây FAIL cho đến khi có pilot. Nếu sửa bug phát
+hiện trong pilot, ghi revision và chỉ chạy lại test đường bị đổi; không
+thay ngưỡng đã biết để cho model qua.
+
+### 9.3. Selection và gate đúng cấp độ
+
+W10-09 phải đăng ký stream train/diagnostic/synthetic-validation/test/prior-swap
+mới, manifest và seed trước train. Synthetic v1 và 2022 đã xem giữ trạng thái
+exposed; stream mới chỉ là kiểm held-out của revision, không xóa tính thích
+nghi của toàn nghiên cứu. Không dùng test mới để chọn checkpoint.
+
+1. **Kỹ thuật:** oracle độc lập, PIT/kinh tế/mask/gradient/serialization,
+   frozen inference và source/runtime/hash PASS. Lỗi phải dừng.
+2. **Synthetic validation:** 5.000 episode và 5.000 cặp swap riêng. Chỉ
+   checkpoint có KL≤0,02, P95≤0,10, sign≥90% trên |Δoracle|≥0,05 và ít nhất
+   200 cặp eligible mới vào tập chọn. Không có checkpoint đủ điều kiện:
+   NO_ELIGIBLE_CHECKPOINT, không lấy checkpoint log loss thị trường thấp nhất.
+3. **Chọn candidate:** trong tập đủ điều kiện trên, macro log loss 2021,
+   Brier tie-break rồi step và seed theo thứ tự khóa. Báo cả ba seed và
+   đường cong; không đánh đồng checkpoint cuối với checkpoint tốt nhất.
+4. **Synthetic test mới:** chỉ mở sau seal selection, cùng ngưỡng trên;
+   FAIL giữ NO_MT_BICL_RELEASE_V2, không thay seed/checkpoint. Prior-swap
+   phải giữ C/x cố định và báo Δp amplitude/correlation, không chỉ sign.
+5. **Thị trường 2022:** báo teacher, student, base rate, logistic, no-prior,
+   no-target và pooling, cùng support; đối chiếu student−teacher để tách
+   lỗi approximation khỏi lỗi giả định. Brier/NLL bất lợi không được ghi
+   PASS nhưng không thay thế phép đo giá trị context trong Decision LLM.
+6. **Development:** chỉ sau kỹ thuật/cơ chế và W10-13/14 PASS. Đây là run
+   có đối chứng để tìm hiểu lợi ích toàn hệ thống, không chứng nhận trước
+   lợi nhuận. Nếu chỉ examples hoặc numeric thắng thì claim đúng thành phần.
+
+Giữ ngưỡng cơ chế **0,02/0,10/90%**, không nới theo kết quả v1. Báo constant
+và context-blind controls trên cùng corpus mới để phát hiện PASS do teacher
+quá phẳng. Thiếu cặp swap: INCONCLUSIVE, không thay sampler sau khi thấy
+student. Quy tắc sampling/corpus (gồm stress case) khóa trước inference.
+Không ép action theo p hoặc coi p là expected return; giữ hợp đồng kinh tế.
+
+### 9.4. Bàn giao, thời gian và nghiệm thu thay kế hoạch
+
+W10-09 khóa schema/protocol mới; W10-10–12 tạo bằng chứng thực thi; W10-13
+chuẩn bị adapter/CLI/dry-run; W10-14 là release duy nhất sang W11. Các cờ
+training/development/decision_calls tách riêng, mặc định false đến đúng gate.
+V2 không kế thừa PASS hoặc quyền release từ v1; pipeline cũ vẫn tái lập được.
+
+Giữ cửa sổ 28/10–10/11 và quỹ đã xác nhận 14–28 giờ. W10 còn lại đến01/11,
+trần10 giờ: khoảng1 giờ protocol,2 giờ teacher/oracle,2 giờ learner/pilot,
+3 giờ train/evaluate,2 giờ integration/release (train nằm trong trần4 giờ
+riêng, không cộng ra ngoài tổng). Đây là dự toán cần đối soát tại W10-09.
+Không reset quỹ giờ khi đổi revision: training v1 đã ghi 3,284 giờ active;
+phải đối soát phần đã dùng và thời gian vận hành còn lại trước cấp budget v2.
+Trần 10 giờ/4 giờ không mặc nhiên là số giờ còn được cấp; không lấy dự toán
+GPU thay ước lượng công sức tích hợp/kiểm thử/viết luận văn.
+Không đủ thời gian thì ghi NOT_RUN, không bỏ gate hoặc chuyển việc nặng sang
+phần viết luận văn. W11 phải release/bắt đầu xác nhận trước hết05/11;
+W12 khóa dữ liệu hết07/11, kết thúc công việc dự kiến10/11, không W13.
+
+Lượt 28/10 này chỉ đổi Markdown và phân tích bằng chứng: không sửa code,
+protocol/schema/runtime, không train GPU, không gọi API. Không chạy lại
+unit/leakage/E2E/compileall theo AGENTS.md1.2. Kiểm link/anchor/diff, số liệu
+raw và hash trước/sau. 77 file input/training/evaluation (bỏ metadata OS lock)
+có aggregate SHA-256 `93f8f3eb3c60984c10453ab9934e42d9f8eb189c2cff835a2645cfa0119346ab`;
+report gốc `861efa6d09e92fd2cbace21bd8f2175256e6c7a721bf731f67c737115c9de9aa`.
+W10-08 DONE là audit; **W10-09–14 chưa thực hiện**. Sửa kế hoạch chưa có
+nghĩa learner đã được sửa hoặc có bằng chứng cải thiện giao dịch.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 

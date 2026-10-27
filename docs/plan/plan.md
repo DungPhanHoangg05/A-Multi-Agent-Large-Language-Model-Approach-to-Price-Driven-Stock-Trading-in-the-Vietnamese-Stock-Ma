@@ -2,16 +2,17 @@
 
 **Đề tài:** Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market.
 
-**Hiện hành từ 27/10/2026:** thay W10–W12 bằng MT-BICL: huấn luyện bộ dự
-báo ICL nhỏ trên prior tasks + target context, kiểm bằng Bayes oracle,
-rồi tích hợp Decision LLM. Một candidate, một development và một xác nhận
-có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
-không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
+**Hiện hành từ 28/10/2026:** amendment MT-BICL-v2 sau audit W10-07:
+teacher Beta-Bernoulli phân cấp fit prior bằng train, student học posterior
+bằng distillation, selection chỉ trong checkpoint đạt cơ chế validation.
+Một candidate, một development và một xác nhận có điều kiện; không hạ gate
+hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ mới:** W10 7/10, W11 0/8, W12 0/6; **W10-01–07 DONE**.
-**W10-06 nghiệm thu 28/10/2026**: ba seed đủ step, seal/verify PASS.
-**W10-07 nghiệm thu 28/10/2026**: integrity/replay PASS, **gate cơ chế FAIL**;
-`NO_MT_BICL_RELEASE`. W10-08–10 và run development/xác nhận bị chặn cho candidate này.
+**Tiến độ:** W10 **8/14**, W11 **0/8**, W12 **0/6**; tiếp theo **W10-09**.
+W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
+constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
+2022. V2 sửa cả learner/selection và giả định teacher; chưa sửa code, chưa
+train hoặc cấp quyền development. W10-09–14 là chuỗi triển khai mới.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -93,19 +94,19 @@ Trong bài toán suy diễn tiên nghiệm phân cấp:
 
 | Thành phần | Thích ứng dự kiến | Giới hạn |
 | --- | --- | --- |
-| Hyper-prior/latent λ | Simulator hữu hạn có phân phối đã biết để kiểm cơ chế | Regime HMM không phải λ quan sát được; chưa biết prior thật của thị trường |
-| Task latent w | Hệ số logistic ẩn trong simulator | Không tuyên bố đây là trọng số thật của các agent |
+| Hyper-prior/latent λ | V2 dùng grid (μ,κ), π fit trên các block train duy nhất | Regime HMM không phải λ quan sát được; chưa biết prior thật của thị trường |
+| Task latent θ | Xác suất y net>0 riêng từng task, prior Beta theo λ | Đổi likelihood so với paper/v1; không mô hình hóa trực tiếp độ lớn lợi nhuận |
 | Prior dataset Dk | Một block 63 phiên của một mã, gồm nhiều (x,y) đã đóng | Lọc PIT rồi rank theo metadata/feature; không chọn theo lời/lỗ |
 | Target context C | Tối đa tám cycle đã đóng trong block hiện tại | Báo m=0; báo cáo agent tại query không thay được target labels |
-| Query x | Bốn feature giá PIT tại cutoff | Che y query; nhãn net T+2.5 cùng engine |
-| Mô hình ICL | Transformer nhỏ được train, dự báo theo D/C với weights cố định khi test | Oracle chỉ đúng trong simulator; thị trường phải đo riêng |
+| Query x | Bốn feature giá PIT điều khiển chọn context tại cutoff | Teacher dựa vào counts của context được chọn; che y query, cùng nhãn net T+2.5 |
+| Mô hình ICL | Transformer distill posterior teacher, đọc D/C với weights cố định khi test | Đúng trong simulator không suy ra đúng trên thị trường |
 | Decision LLM | Nhận p và projection examples, phối hợp với upstream hiện hữu | Không giả định hosted LLM tự tính posterior đúng hoặc p là expected return |
 
 ### 2.3. Phân định đóng góp
 
 Cấu trúc prior/target và mục tiêu học dự báo theo context lấy từ paper.
-Các lựa chọn block63, nhãn kinh tế, simulator hữu hạn, model nhỏ, retrieval
-PIT và cách tích hợp LLM là thiết kế của khóa luận, không là kết quả paper.
+Các lựa chọn block63, nhãn kinh tế, likelihood Beta-Bernoulli, distillation,
+model nhỏ, retrieval PIT và tích hợp LLM là thiết kế riêng, không là kết quả paper.
 Đóng góp cần chứng minh là giá trị của phương pháp trên hệ thống này;
 không tuyên bố đã tái lập mọi thí nghiệm hoặc có bảo đảm lợi nhuận.
 
@@ -346,36 +347,34 @@ checkpoint. Người dùng tự chạy mọi API; agent chuẩn bị và kiểm 
 
 ---
 
-### 5.6. MT-BICL hiện hành — 27/10/2026
+### 5.6. MT-BICL-v2 hiện hành — 28/10/2026
 
-[W10](week10/README.md) đặc tả đầy đủ:
+[W10 mục 9](week10/README.md#9-khắc-phục-nguyên-nhân-và-protocol-v2--28102026)
+là đặc tả đề xuất sau audit. Không dùng simulator logistic ngẫu nhiên làm
+teacher thị trường: oracle đó có NLL2022=0,788870, kém base rate0,667347.
+Ba learner đã chọn cũng kém constant0,5 khi so oracle synthetic; chưa có
+căn cứ nói chỉ cần nới gate. V1 và bằng chứng nguyên vẹn, không chọn lại seed.
 
-1. Dense cycle bank giá PIT/nhãn engine; task mã/block63, tối đa ba prior
-   tasks và tám cycle target vừa đóng. Prior/target/query rời nhau.
-2. Learner causal học p(y net>0 | x, prior tasks, target context), có
-   simulator hữu hạn/oracle. Không dùng NIG return hay chữ confidence
-   của LLM thay phép kiểm toàn bộ Bayesian ICL.
-3. Kiểm thay prior với target cố định, no-prior/no-target/naive pooling;
-   báo validation thị trường riêng, không suy synthetic accuracy ra P&L.
-4. Đưa p + task/target examples vào Decision; BRPP≤600/prompt<6500, schema
-   chung, upstream một lần, kinh tế T+2.5; không override action theo p.
+1. Giữ bank/PIT/block63/retrieval theo regime và feature; prior/target rời.
+2. Teacher mới: θ riêng từng task, hyper-prior hữu hạn trên (μ,κ), likelihood
+   Beta-Bernoulli; fit π trên block train duy nhất đến2020, freeze trước2021.
+   Không giả định teacher đúng với thị trường hoặc p là expected return.
+3. Paired observation tokens, che query y; soft posterior teacher loss,
+   không trộn BCE market1:1 vào backbone. Một architecture, ba seed.
+4. Chỉ checkpoint đạt synthetic validation mới được chọn bằng2021. Test mới
+   sau seal giữ ngưỡng KL0,02/P950,10/sign90%; 2022 báo cáo bất lợi đầy đủ.
+5. Adapter/paired/semantic và freeze W10-13/14 trước development. Thay
+   likelihood/distillation là thích ứng riêng, không tái lập paper nguyên bản.
 
-Một candidate Full_MT_BICL; Original/A_reference/Plain_ICL/No_target/
-Stats_only và Numeric_only offline là đối chứng. Full−A so toàn phương
-pháp do A giữ nguồn W9; ablation cùng nguồn Full tách thành phần. Development
-60 điểm 2023 đã xem, sáu LLM, repeat ba lượt/12 điểm. Nomination D>0,
-≥3/4 mã tăng, D so A≥0 và guard MDD; không chọn ablation thay Full.
-[W11](week11/README.md) khóa coverage/mẫu số/order/điều kiện release.
+[W11](week11/README.md): sáu LLM branches giữ ma trận Original/A/Plain/Full/
+No_target/Stats_only, Numeric_only offline; thêm Teacher_only diagnostic
+không thêm LLM hoặc thay candidate. Đo 60 điểm development2023 đã xem;
+nomination/risk và mục tiêu cải thiện rõ rệt giữ nguyên. Protocol_v2 phải
+được khóa ở W10-09 trước fit/train, không sửa khóa v1 hoặc hạ gate sau kết quả.
 
-Xác nhận dự kiến 128 điểm 2025 sau nomination/exposure audit. Context
-cập nhật từ cycle exit<query, không gradient/refit/tune; prequential,
-không IID. [W12](week12/README.md) giữ primary CI95%, family năm secondary
-CI99%, bootstrap cụm/ngày và giới hạn CI điều kiện saved predictions.
-Cải thiện rõ rệt cần D≥1 đpt, primary CI>0, phân tán/rủi ro đạt guard.
-
-Cấu hình/seed/protocol khóa trước run; giữ kết quả bất lợi. Nếu chưa đạt
-cơ chế hoặc không nominate, hoàn thiện luận văn theo bằng chứng trong
-12 tuần, không mở xác nhận để cứu kết quả.
+Xác nhận dự kiến128 điểm2025 sau nomination/exposure audit, prequential;
+[W12](week12/README.md) giữ primaryCI95%, năm secondaryCI99% và hạn chót.
+W10-08 audit DONE, các task triển khai v2 chưa làm; kế hoạch không là kết quả.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1186,7 +1185,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 7/10 DONE; gate cơ chế FAIL, chưa release
+### TUẦN 10: MT-BICL và tích hợp — 8/14 DONE; v1 FAIL, v2 chưa release
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1239,9 +1238,15 @@ No_prior/naive pooling; không suy lợi ích hệ thống hoặc kinh tế. Đ�
 cả ba seed, calibration/r_net/K/m; 7 file evaluation/hash giữ trong README W10.
 Viện dẫn **76 test PASS, 49 leakage** trên source/runtime nguyên vẹn, không
 chạy lại suite trong lượt nghiệm thu tài liệu. W10-07 DONE về phép đánh giá;
-**NO_MT_BICL_RELEASE**, W10-08–10 và development/xác nhận phụ thuộc bị chặn.
+**NO_MT_BICL_RELEASE** cho v1; các task tích hợp 08–10 của kế hoạch cũ bị chặn.
 Synthetic test/prior-swap/2022 đã xem; giữ nguyên revision/exposure, không
-tự sửa ngưỡng/model hoặc train thêm để vượt gate trong protocol hiện hành.
+tự sửa ngưỡng/model hoặc train thêm để vượt gate trong protocol v1.
+
+**Amendment 28/10 — W10-08 DONE:** audit raw logits/curve/checkpoint và
+oracle market; giữ v1 NO_MT_BICL_RELEASE. W10-09 protocol mới →10 teacher
+train-only →11 sửa learner/pilot →12 train/selection/evaluate →13 adapter/
+dry-run →14 release. [Mục9 W10](week10/README.md#9-khắc-phục-nguyên-nhân-và-protocol-v2--28102026)
+phân biệt sự kiện với giả thuyết; ngưỡng cơ chế không giảm, deadline không đổi.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
@@ -1305,6 +1310,7 @@ task tạo lại module. Revision W10–W12 dùng bảng module dự kiến tạ
 
 ## 10. KẾT LUẬN
 
+Amendment v2 sửa teacher/learner/selection theo audit, không sửa FAIL v1.
 W10–W12 tập trung prior-task/target-context và đo đóng góp Bayesian ICL
 bằng đối chứng cụ thể. W1–W9 giữ nguyên; revision dừng lưu trữ có checksum.
 Mục tiêu lợi ích rõ rệt, kết luận theo dữ liệu; không đổi kết quả, xóa
