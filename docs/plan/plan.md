@@ -8,7 +8,8 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 0/10, W11 0/8, W12 0/6; tiếp theo **W10-01**.
+**Tiến độ mới:** W10 0/10, W11 0/8, W12 0/6; **W10-01 đang thực hiện**:
+inventory/benchmark GPU đã kiểm, chờ xác nhận hạn nộp và quỹ giờ thực tế.
 [Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
 [phân tích/bản nộp W12](week12/README.md) là nguồn điều hành; mục 5.6 tóm tắt.
 W1–W9 và thiết kế trước đó là lịch sử, không lặp lại task đã hoàn tất.
@@ -1180,7 +1181,10 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
 ### TUẦN 10: MT-BICL và tích hợp — TODO 0/10
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
-dry-run/probe và release. Chưa triển khai; tiếp theo W10-01.
+dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
+benchmark GPU 100 step; chưa DONE vì còn xác nhận quỹ thời gian thực tế.
+HMM cần ít nhất 499 phiên: support giá 2018–2019 chưa đồng nghĩa có regime
+PIT đầu block, policy missing phải khóa ở W10-02 trước train.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/

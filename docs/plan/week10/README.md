@@ -1,6 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; MT-BICL chưa triển khai, 0/10 task DONE.**
+**Kế hoạch thay thế 27/10/2026; MT-BICL chưa triển khai, 0/10 task DONE.
+W10-01 đã hoàn tất phần kỹ thuật; chờ xác nhận quỹ thời gian thực tế.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -149,7 +150,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 
 | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [ ] TODO |
+| W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [ ] IN PROGRESS — inventory/benchmark PASS; chờ hạn nộp và giờ khả dụng |
 | W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [ ] TODO |
 | W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [ ] TODO |
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [ ] TODO |
@@ -197,3 +198,146 @@ test_prior_backtest_leakage.py **3 PASS**, test_backtest_token_budget.py
 sandbox, đã chạy lại đúng suite ngoài sandbox và PASS. Không gọi API,
 không chạy toàn suite/E2E; không compile Python vì chỉ xóa module độc lập,
 không sửa file Python còn lại. Kết quả này không phải nghiệm thu MT-BICL.
+
+## W10-01 — Inventory và khả năng thực thi, 27/10/2026
+
+**Phần kỹ thuật hoàn tất; task chưa DONE vì chưa xác nhận lịch thực tế.**
+Nhánh `feat/mt-bicl-resource-inventory` tách từ `develop` đã đồng bộ tại
+`83c838f`. Hai công cụ offline mới tạo [inventory máy đọc](resource_inventory.json)
+và [kết quả đo GPU](gpu_benchmark.json), để W10-02 dùng khi khóa protocol.
+Không gọi LLM/API, sinh nhãn thị trường mới, khôi phục revision đã dừng,
+fit HMM hoặc train candidate trong bước này.
+
+### Giá, quyền và khả năng dùng lịch sử sớm
+
+Đã chạy lại verifier nguồn hiện hành, không chỉ đọc cờ PASS trong manifest:
+
+| Nguồn | Inventory và kết quả xác minh |
+| --- | --- |
+| `data/execution_prices` | Bốn mã, mỗi mã 1.251 phiên, 02/01/2018–30/12/2022; CSV/evidence/quyền/checksum/lịch và tám mẫu quyền PASS; lịch legacy 852/868 hợp lệ |
+| `data/execution_prices_oos` | Bốn mã, mỗi mã 1.750 phiên đến 31/12/2024; cùng gate PASS, lịch legacy 1.510/1.532 hợp lệ |
+| `data/historical` | Năm CSV, mỗi mã 1.999 phiên đến 31/12/2025; checksum/lịch và bốn nến VNINDEX thay nguồn PASS. Cổ phiếu adjusted không thay giá thực thi thô |
+| Giá thô 2025 trong archive retired | Mỗi mã 1.999 phiên, gồm 249 phiên năm 2025. CSV/evidence/acquisition/events khớp hash; tái dựng trường raw khớp CSV, prefix 1.750 phiên và events khớp nguyên nguồn OOS |
+
+Nguồn 2025 ở `retired_20261027/outputs/bayesian_benchmark/unified_bic_v1/inputs/execution_prices_2025/`
+trong `implementation_evidence.zip`; chưa nhập vào namespace MT-BICL hoặc
+cấp release. Kiểm byte/raw/prefix này chưa thay verifier mẫu quyền 2025
+và audit trước xác nhận W11-06. Không tải lại nguồn hoặc coi self-seal cũ
+là chứng minh gate hiện hành. Toàn bộ **1.051 entry** trong manifest retired
+đã đối soát SHA-256 và số byte; archive không thay đổi.
+
+Không thiếu phiên so với VNINDEX ở hai bộ raw hiện hành. Cả bốn mã có
+Volume=0 ngày 23–24/01/2018; không điền giá/khối lượng. Số ngày chặn trong
+2018–2022 FPT/VNM/VCB/MWG lần lượt 16/15/6/14, hợp sự kiện quyền với gap
+Reference. Feature loại cửa sổ có barrier; nhãn loại quyền trong `(entry,exit]`
+và phiên giữ lệnh không có khớp. Hai điều kiện được đếm riêng, không cộng
+các nhóm loại có thể giao nhau.
+
+Lưới **thăm dò**, query từ index 20 của lịch giá chung, step=3, giữ 21 phiên
+feature liên tục và loại cycle vắt năm, cho support đồng thời giá/feature:
+
+| Mã | 2018 | 2019 | 2020 | Train ≤2020 | Chọn checkpoint 2021 | Validation 2022 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| FPT | 49 | 60 | 63 | 172 | 59 | 58 |
+| VNM | 56 | 63 | 63 | 182 | 63 | 65 |
+| VCB | 65 | 76 | 74 | 215 | 76 | 78 |
+| MWG | 57 | 64 | 67 | 188 | 61 | 67 |
+| Tổng | 227 | 263 | 267 | 757 | 259 | 268 |
+
+Mỗi mã có bốn cycle vắt năm bị loại. Đây **chưa phải bank, lịch khóa hoặc
+số episode train cuối cùng**; chưa kiểm block63, HMM, K/m, phân tách task
+và purge theo protocol. Không dùng nhãn để chọn neo hoặc tăng support.
+
+Điểm cần giải quyết trước train: primitive HMM cần MA200 và tối thiểu 300
+hàng feature, tương đương **499 phiên raw**; lịch hiện có chỉ đủ số hàng
+từ **30/12/2019**, chưa bảo đảm fit hội tụ. Vì vậy có giá/feature 2018–2019
+không đồng nghĩa có regime PIT ở đầu từng block. W10-02 phải khóa policy
+missing/reason hoặc phạm vi episode hợp lệ; không gán ngược bằng HMM cuối
+2022, không coi 757 là số train có regime hoàn chỉnh. Giữ split dự kiến,
+không tự chuyển validation 2022 vào train để bù thiếu.
+
+### Exposure và bằng chứng W9
+
+Giữ phân loại: ≤2022 đã dùng nhiều vòng; 2023 adaptive development; 2024
+đã xem W9, không là xác nhận mới. Kế thừa khai báo người dùng ở Git
+`4d34bc4:docs/plan/week10/exposure_inventory_v2.json`: “Xác nhận kết quả
+2025 chưa được dùng để lựa chọn hoặc điều chỉnh phương pháp.” Đã đối
+chiếu trực tiếp nội dung Git và lưu hash trong inventory, không yêu cầu
+khai báo lại nội dung đã xác nhận.
+
+Quét **6.033 JSON** dưới `outputs` kể cả ignored và mọi JSON của 1.051 entry
+retired không thấy ngày query 2025 trong các trường `as_of_date/query_date/
+query_cutoff/query_cutoff_date`. Có nguồn giá/quyền 2025 đã được kiểm; không
+đồng nhất việc kiểm nguồn với chạy Decision hoặc xem payoff xác nhận.
+Hai thư mục tạm bị sandbox từ chối đã kiểm lại ngoài sandbox: không còn
+lỗi đọc, không có JSON bổ sung. Kiểm tra này không chứng minh hoạt động
+ngoài workspace, ảnh/UI, ngày lưu trong khóa khác hoặc dữ liệu đã xóa chưa
+từng được xem: `unseen_outcomes_proven=false`, `confirmation_allowed=false`.
+W11-06 vẫn phải cập nhật exposure trước release; không rõ independence
+thì chỉ exploratory.
+
+Hash plan/report/verification/bootstrap/publication manifest và frozen ZIP
+W9 đều khớp binding [W9-06](../week9/README.md#w9-06--khóa-kết-quả-tái-lập-và-bàn-giao-21102026).
+Ledger dùng chung hiện có **3.974 request**; toàn bộ **3.036 request W9**
+khớp nguyên payload trong frozen ZIP. Hash ledger hiện tại khác mốc W9
+vì đã dùng tiếp ở revision sau; không reset hoặc ghi đè bằng ledger W9.
+Hash hiện tại `e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796`.
+Inventory khóa hash nguồn/raw/runtime liên quan để đối soát, không sửa
+receipt hoặc gọi lại consumer toàn W9 chỉ để cập nhật checklist.
+
+### Benchmark GPU và điều kiện thời gian
+
+Python **3.13.5**, torch **2.11.0+cu128**, CUDA **12.8**, driver **592.15**,
+RTX 5060 Laptop **8.150 MiB**, compute capability 12.0. Không đổi dependency.
+Decoder proxy hai lớp/hidden128/head4/FF256, AdamW lr=3e−4, FP32, không AMP/
+TF32; 275.201 tham số. Batch128, 69 token theo packing thử hai token x/y
+mỗi observation và marker task; tối đa 24 prior +8 target +query. Che y
+query, causal mask, loss tại chín vị trí target/query, không loss ở prior.
+10 warm-up và **100 step đo** forward/backward/optimizer có CUDA synchronize:
+
+| Phép đo | Kết quả |
+| --- | ---: |
+| Mean / median / P95 step | 7,625 / 7,522 / 8,377 ms |
+| Peak allocated / reserved | 163,18 / 184 MiB |
+| Tổng 100 step đã đo | 0,762 giây |
+| Ngoại suy compute 3 seed ×10.000 step | 0,06354 giờ, khoảng 3,81 phút |
+| Loss/weights hữu hạn, OOM | PASS, không OOM |
+
+Đây chỉ là proxy shape/capacity với tensor giả preallocated, không là
+simulator/oracle/tokenizer đã khóa hay tốc độ pipeline train thật. Không
+gồm data loader, sinh episode, oracle, validation, checkpoint, HMM và
+tích hợp/kiểm chứng. Không dùng ngoại suy này để chốt tổng thời gian hoặc
+thay bằng chứng cơ chế. W10-02 khóa packing/step sau xem chi phí pipeline;
+giữ trần train ba seed ≤12 giờ, không coi benchmark là chọn checkpoint.
+
+**Quỹ thời gian thực tế: PENDING.** Đã yêu cầu ngày nộp, số giờ khả dụng/ngày
+và ngày dương lịch của W12 ngày hai; chưa nhận xác nhận. Không cộng ba tuần
+từ 27/10, không suy deadline từ tên tuần hoặc báo tính khả thi toàn bộ là
+PASS chỉ vì GPU chạy được. Sau khi có lịch thực, đối chiếu thời gian làm
+bank/oracle/train/integration/development/xác nhận với mốc dừng, rồi chốt
+DONE hoặc giới hạn khả thi trước W10-02.
+
+### Tái lập và kiểm tra theo phạm vi
+
+```powershell
+# Tái lập toàn inventory từ nguồn thật, archive và Git; không cần key.
+py -3.13 -X utf8 scripts/audit_mt_bicl_resources.py --check
+# Benchmark mới phải có đường dẫn mới để giữ nguyên phép đo đã lưu.
+py -3.13 -X utf8 scripts/benchmark_mt_bicl_gpu.py --output outputs/bayesian_benchmark/mt_bicl_gpu_repeat.json
+py -3.13 -m py_compile scripts/audit_mt_bicl_resources.py scripts/benchmark_mt_bicl_gpu.py tests/test_mt_bicl_resource_audit.py
+py -3.13 -X utf8 -m unittest discover -s tests -p test_mt_bicl_resource_audit.py -v
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_execution_price*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p test_pit_price_features_leakage.py -v
+```
+
+**Kiểm tra mới: inventory `--check` PASS; biên dịch ba file PASS; 31 test PASS,
+không skip; UTF-8/JSON/liên kết/diff/hash PASS.** Chọn theo đường audit giá/quyền/PIT được dùng lại: sáu test mới
+về history sớm, barrier, future append, thiếu phiên, purge năm và nhận
+diện exposure; 19 test giá thực thi (gồm bảy leakage) và sáu leakage feature.
+Suite dùng fixture tạm gặp PermissionError Windows trong sandbox; kiểm
+lại đúng suite ngoài sandbox, không sửa test để bỏ kiểm tra. Chỉ biên dịch
+ba file Python mới. Không chạy toàn suite/E2E/compileall hoặc train candidate
+vì không đổi engine, đường Decision, scaler/HMM, prompt/retry hoặc dữ liệu
+nguồn đã khóa. Các gate W9 là bằng chứng lịch sử, không ghi thành lượt chạy mới.
+`.gitattributes` giữ nguyên byte hai JSON và LF của hai script có hash,
+tránh `core.autocrlf=true` làm sai binding khi merge/checkout trên Windows.

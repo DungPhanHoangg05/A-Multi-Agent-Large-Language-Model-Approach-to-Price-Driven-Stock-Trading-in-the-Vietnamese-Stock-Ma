@@ -1,0 +1,392 @@
+{
+  "inventory_version": "mt_bicl_resources_v1",
+  "audit_date": "2026-10-27",
+  "script_sha256": "53d4bb01966ce406ca7d3d81ac05b58dac3a3d413bdb5df5d34cf185c2cdc8cd",
+  "historical_manifest_sha256": "0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c",
+  "historical_basis": "Chưa xác minh giá thô và hệ số điều chỉnh tại từng thời điểm; chỉ dùng cho đặc trưng kỹ thuật trước khi kiểm toán nhãn kinh tế.",
+  "source_code_sha256": {
+    "core/execution_prices.py": "34f5c5d4e1d71fffae1770567dbd8a8c74054496650ce29d79d7d67d098f0121",
+    "core/pit_price_features.py": "35e5042a49aa2d1c3854150925389c6c3a79260eecaa99851ae6bea2a43794dc",
+    "core/regime_detector.py": "fba35472efafe4d5133db50d8ca24d4c57b5682960de2b8a2320a18bddf3be8b",
+    "scripts/verify_execution_price_gate.py": "4f15dc7d079eba32446b4cd26f4d0794c0f0397f4e8c7cb7a4261808d140091a",
+    "scripts/prepare_historical_data.py": "c81142720173bce98dcde84d0fa4a2b5c831f3d6517d30b45761412ced225a6a"
+  },
+  "regime_prerequisites": {
+    "warmup_rows": 200,
+    "minimum_train_feature_rows": 300,
+    "minimum_history_rows": 499,
+    "earliest_fit_date_by_row_count": "2019-12-30",
+    "status": "NOT_FITTED_FOR_MT_BICL",
+    "limits": "Ngày sớm nhất chỉ đủ số hàng, chưa đảm bảo fit hội tụ. Giá/feature 2018–2019 có thể dùng nhưng regime đầu block chưa có historical prefix phải giữ missing/reason; không dùng artifact cuối 2022 gán lại. W10-02 khóa chính sách trước train."
+  },
+  "price_manifest_sha256": {
+    "data/execution_prices": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+    "data/execution_prices_oos": "bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4"
+  },
+  "prices": {
+    "data/execution_prices": {
+      "FPT": {
+        "rows": 1251,
+        "first": "2018-01-02",
+        "last": "2022-12-30",
+        "events": 60,
+        "events_with_exright": 31,
+        "barriers_in_price_range": 16,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": {
+          "grid": "PROVISIONAL_QUERY_INDEX_20_STEP_3_NOT_PROTOCOL",
+          "years": {
+            "2018": {
+              "candidates": 76,
+              "holding_eligible": 74,
+              "feature_barrier": 25,
+              "joint_eligible": 49
+            },
+            "2019": {
+              "candidates": 82,
+              "holding_eligible": 80,
+              "feature_barrier": 20,
+              "joint_eligible": 60
+            },
+            "2020": {
+              "candidates": 83,
+              "holding_eligible": 82,
+              "feature_barrier": 19,
+              "joint_eligible": 63
+            },
+            "2021": {
+              "candidates": 83,
+              "holding_eligible": 80,
+              "feature_barrier": 21,
+              "joint_eligible": 59
+            },
+            "2022": {
+              "candidates": 82,
+              "holding_eligible": 79,
+              "feature_barrier": 21,
+              "joint_eligible": 58
+            }
+          },
+          "cross_year_excluded": 4,
+          "note": "Chỉ kiểm giá/quyền và cửa sổ 21 phiên; chưa kiểm HMM/K/m/block63 hoặc sinh y/r_net."
+        },
+        "legacy_candidates": 217,
+        "legacy_eligible": 211
+      },
+      "VNM": {
+        "rows": 1251,
+        "first": "2018-01-02",
+        "last": "2022-12-30",
+        "events": 28,
+        "events_with_exright": 23,
+        "barriers_in_price_range": 15,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": {
+          "grid": "PROVISIONAL_QUERY_INDEX_20_STEP_3_NOT_PROTOCOL",
+          "years": {
+            "2018": {
+              "candidates": 76,
+              "holding_eligible": 74,
+              "feature_barrier": 18,
+              "joint_eligible": 56
+            },
+            "2019": {
+              "candidates": 82,
+              "holding_eligible": 81,
+              "feature_barrier": 18,
+              "joint_eligible": 63
+            },
+            "2020": {
+              "candidates": 83,
+              "holding_eligible": 82,
+              "feature_barrier": 19,
+              "joint_eligible": 63
+            },
+            "2021": {
+              "candidates": 83,
+              "holding_eligible": 82,
+              "feature_barrier": 19,
+              "joint_eligible": 63
+            },
+            "2022": {
+              "candidates": 82,
+              "holding_eligible": 80,
+              "feature_barrier": 15,
+              "joint_eligible": 65
+            }
+          },
+          "cross_year_excluded": 4,
+          "note": "Chỉ kiểm giá/quyền và cửa sổ 21 phiên; chưa kiểm HMM/K/m/block63 hoặc sinh y/r_net."
+        },
+        "legacy_candidates": 217,
+        "legacy_eligible": 213
+      },
+      "VCB": {
+        "rows": 1251,
+        "first": "2018-01-02",
+        "last": "2022-12-30",
+        "events": 16,
+        "events_with_exright": 8,
+        "barriers_in_price_range": 6,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": {
+          "grid": "PROVISIONAL_QUERY_INDEX_20_STEP_3_NOT_PROTOCOL",
+          "years": {
+            "2018": {
+              "candidates": 76,
+              "holding_eligible": 76,
+              "feature_barrier": 11,
+              "joint_eligible": 65
+            },
+            "2019": {
+              "candidates": 82,
+              "holding_eligible": 82,
+              "feature_barrier": 6,
+              "joint_eligible": 76
+            },
+            "2020": {
+              "candidates": 83,
+              "holding_eligible": 82,
+              "feature_barrier": 8,
+              "joint_eligible": 74
+            },
+            "2021": {
+              "candidates": 83,
+              "holding_eligible": 82,
+              "feature_barrier": 6,
+              "joint_eligible": 76
+            },
+            "2022": {
+              "candidates": 82,
+              "holding_eligible": 82,
+              "feature_barrier": 4,
+              "joint_eligible": 78
+            }
+          },
+          "cross_year_excluded": 4,
+          "note": "Chỉ kiểm giá/quyền và cửa sổ 21 phiên; chưa kiểm HMM/K/m/block63 hoặc sinh y/r_net."
+        },
+        "legacy_candidates": 217,
+        "legacy_eligible": 215
+      },
+      "MWG": {
+        "rows": 1251,
+        "first": "2018-01-02",
+        "last": "2022-12-30",
+        "events": 51,
+        "events_with_exright": 19,
+        "barriers_in_price_range": 14,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": {
+          "grid": "PROVISIONAL_QUERY_INDEX_20_STEP_3_NOT_PROTOCOL",
+          "years": {
+            "2018": {
+              "candidates": 76,
+              "holding_eligible": 75,
+              "feature_barrier": 18,
+              "joint_eligible": 57
+            },
+            "2019": {
+              "candidates": 82,
+              "holding_eligible": 82,
+              "feature_barrier": 18,
+              "joint_eligible": 64
+            },
+            "2020": {
+              "candidates": 83,
+              "holding_eligible": 81,
+              "feature_barrier": 14,
+              "joint_eligible": 67
+            },
+            "2021": {
+              "candidates": 83,
+              "holding_eligible": 81,
+              "feature_barrier": 20,
+              "joint_eligible": 61
+            },
+            "2022": {
+              "candidates": 82,
+              "holding_eligible": 81,
+              "feature_barrier": 15,
+              "joint_eligible": 67
+            }
+          },
+          "cross_year_excluded": 4,
+          "note": "Chỉ kiểm giá/quyền và cửa sổ 21 phiên; chưa kiểm HMM/K/m/block63 hoặc sinh y/r_net."
+        },
+        "legacy_candidates": 217,
+        "legacy_eligible": 213
+      }
+    },
+    "data/execution_prices_oos": {
+      "FPT": {
+        "rows": 1750,
+        "first": "2018-01-02",
+        "last": "2024-12-31",
+        "events": 74,
+        "events_with_exright": 41,
+        "barriers_in_price_range": 22,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": null,
+        "legacy_candidates": 383,
+        "legacy_eligible": 375
+      },
+      "VNM": {
+        "rows": 1750,
+        "first": "2018-01-02",
+        "last": "2024-12-31",
+        "events": 36,
+        "events_with_exright": 30,
+        "barriers_in_price_range": 20,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": null,
+        "legacy_candidates": 383,
+        "legacy_eligible": 378
+      },
+      "VCB": {
+        "rows": 1750,
+        "first": "2018-01-02",
+        "last": "2024-12-31",
+        "events": 20,
+        "events_with_exright": 10,
+        "barriers_in_price_range": 7,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": null,
+        "legacy_candidates": 383,
+        "legacy_eligible": 380
+      },
+      "MWG": {
+        "rows": 1750,
+        "first": "2018-01-02",
+        "last": "2024-12-31",
+        "events": 58,
+        "events_with_exright": 22,
+        "barriers_in_price_range": 16,
+        "zero_volume_dates": [
+          "2018-01-23",
+          "2018-01-24"
+        ],
+        "calendar_missing": 0,
+        "provisional_dense_support": null,
+        "legacy_candidates": 383,
+        "legacy_eligible": 377
+      }
+    }
+  },
+  "retired_archive_sha256": "1b1b7428c62f8a8d06d51db091afe68f046412ae8ef3a4843bd87f0371764f0c",
+  "retired_verified_entries": 1051,
+  "retired_base": "23067b2cc3ca6e935e7c2a16a03fa2ed7f534e53",
+  "archived_2025": {
+    "path": "retired_20261027/outputs/bayesian_benchmark/unified_bic_v1/inputs/execution_prices_2025/",
+    "stocks": {
+      "FPT": {
+        "rows": 1999,
+        "rows_2025": 249,
+        "prefix_2024_matches": true,
+        "raw_evidence_matches": true,
+        "events_match_oos": true
+      },
+      "VNM": {
+        "rows": 1999,
+        "rows_2025": 249,
+        "prefix_2024_matches": true,
+        "raw_evidence_matches": true,
+        "events_match_oos": true
+      },
+      "VCB": {
+        "rows": 1999,
+        "rows_2025": 249,
+        "prefix_2024_matches": true,
+        "raw_evidence_matches": true,
+        "events_match_oos": true
+      },
+      "MWG": {
+        "rows": 1999,
+        "rows_2025": 249,
+        "prefix_2024_matches": true,
+        "raw_evidence_matches": true,
+        "events_match_oos": true
+      }
+    },
+    "status": "ARCHIVE_BYTES_RAW_PREFIX_VERIFIED_NOT_RELEASED",
+    "limits": "Chưa phục hồi namespace mới hoặc chạy lại verifier quyền 2025; không tự kế thừa price_gate PASS của revision đã dừng."
+  },
+  "exposure": {
+    "historical_declaration": {
+      "2020_2022": "train đã dùng nhiều vòng",
+      "2023": "development đã dùng nhiều vòng",
+      "2024": "W9 holdout cũ và nguồn lịch sử đã xem",
+      "2025": "chưa phát hành xác nhận trong các revision này; phải tái audit exposure trước run mới"
+    },
+    "participant_declaration": {
+      "git_ref": "4d34bc4:docs/plan/week10/exposure_inventory_v2.json",
+      "sha256": "e8418528db78aeca2d61c34eb81f1449e3b89f71e84ae0c0e2d780d616c8f1fb",
+      "text": "Xác nhận kết quả 2025 chưa được dùng để lựa chọn hoặc điều chỉnh phương pháp.",
+      "unseen_outcomes_proven": false
+    },
+    "local_outputs": {
+      "parsed_json": 6033,
+      "query_2025_hits": {},
+      "errors": [],
+      "unseen_outcomes_proven": false,
+      "confirmation_allowed": false,
+      "limits": "Quét khóa ngày query trong JSON outputs và archive retired; không chứng minh hoạt động ngoài workspace, ảnh/UI, khóa ngày tùy biến hoặc dữ liệu đã xóa chưa từng được xem."
+    },
+    "retired_query_2025_hits": {},
+    "classification": {
+      "through_2022": "REUSED_TRAIN_VALIDATION",
+      "2023": "ADAPTIVE_DEVELOPMENT",
+      "2024": "EXPOSED_W9",
+      "2025": "SOURCE_SEEN_NO_NEW_CONFIRMATION_RELEASE"
+    }
+  },
+  "w9_locked_sha256": {
+    "outputs/bayesian_benchmark/improvement_v1/holdout/plan.json": "6b6760768fe98731e64e1e518ffbc351db29a41397f46bfad0d3a19d96956944",
+    "outputs/bayesian_benchmark/improvement_v1/holdout/run/report.json": "0a926be1e6da2803d56dd7a572a4d3eae7b8863cc3fcd02eea111df35cd7c23f",
+    "outputs/bayesian_benchmark/improvement_v1/holdout/run/verification.json": "9bb0868740de59972e3183f2e3c449b3f7cd81d559f7598c910ed020681db498",
+    "outputs/bayesian_benchmark/improvement_v1/holdout/run/bootstrap.json": "78ae445037f68fa0f8cca4638dc7bc3e7c24efb2854539e078478e46db919e57",
+    "outputs/bayesian_benchmark/improvement_v1/holdout/frozen_results_v1.zip": "1db2024a3a338cadcf72692287471f8a14feba49ce8a1b1a488b951896cfec70",
+    "docs/figures/holdout_v1/manifest.json": "ce9dafcfa038bbff12bfe1b966ea5b2e519dd0e2d67adcea56ef00dc09d1cb48"
+  },
+  "shared_ledger": {
+    "sha256": "e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796",
+    "current_requests": 3974,
+    "w9_frozen_requests": 3036,
+    "w9_requests_unchanged": 3036,
+    "note": "Ledger chung đã tiến triển sau W9; không so bằng hash ledger lịch sử, không reset."
+  },
+  "time_budget": {
+    "status": "USER_CALENDAR_TRACKED_IN_WEEK_README",
+    "training_cap_hours": 12,
+    "data_stop": "W12 ngày hai; không tự suy ngày dương lịch"
+  },
+  "confirmation_allowed": false
+}
