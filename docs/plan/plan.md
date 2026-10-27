@@ -8,8 +8,8 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 2/10, W11 0/8, W12 0/6; **W10-01–02 DONE**, tiếp theo
-**W10-03**. Inventory/benchmark và protocol v1 trước train đã khóa; người dùng xác nhận hai tuần,
+**Tiến độ mới:** W10 3/10, W11 0/8, W12 0/6; **W10-01–03 DONE**, tiếp theo
+**W10-04**. Bank giá/feature/nhãn/scaler đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
 [Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
@@ -1183,7 +1183,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 2/10 DONE
+### TUẦN 10: MT-BICL và tích hợp — 3/10 DONE
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1195,7 +1195,12 @@ PIT đầu block. [W10-02](week10/README.md#w10-02--khóa-protocol-trước-trai
 đã khóa protocol v1/seed17,42,73/simulator/model/ma trận/gate, giữ regime
 UNKNOWN có reason ở block thiếu prefix; scaler episode train chỉ fit cycle
 đã đóng trước query. Verifier +9 test PASS, không train/API hoặc gate cơ chế
-production. Tiếp theo W10-03 dựng bank và kiểm support thực.
+production. [W10-03](week10/README.md#w10-03--dense-bank-feature-và-scaler-pit-27102026)
+đã dựng 1.235/1.640 cycle hợp lệ: 731 train/248 selection/256 validation,
+scaler cuối 2020 và prefix exit<query; tám cycle train thiếu lịch sử scaler
+giữ reason. Support giá/feature PASS cả bốn mã; 70 test PASS gồm 21 leakage,
+không fit HMM/train/LLM hoặc đổi bằng chứng W9. Tiếp theo W10-04 kiểm task/
+prior/target/streaming, chưa release train hoặc development.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/

@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; W10-01–02 DONE, 2/10 task DONE.
-Protocol v1 đã khóa trước train; tiếp theo W10-03.**
+**Kế hoạch thay thế 27/10/2026; W10-01–03 DONE, 3/10 task DONE.
+Bank giá/feature/nhãn/scaler đã kiểm; tiếp theo W10-04.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -154,7 +154,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | --- | --- | --- | --- |
 | W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [x] DONE — inventory/benchmark PASS; quỹ 14–28 giờ, khả thi toàn bộ còn có điều kiện |
 | W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [x] DONE — protocol v1, bảng simulator, fixture và verifier đã khóa; chưa release train/API |
-| W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [ ] TODO |
+| W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [x] DONE — 1.235 cycle hợp lệ/1.640 ứng viên, support giá PASS; chưa release train |
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [ ] TODO |
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [ ] TODO |
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [ ] TODO |
@@ -525,3 +525,104 @@ production không đổi. Bằng chứng 31 test W10-01 và gate W9 là lịch s
 không tính là lượt chạy mới. Không train, gọi API/LLM, sinh payoff 2023/2025
 hoặc thay bằng chứng/ledger W9. **Tiếp theo W10-03**, dựng dense bank/scaler/
 nhãn engine và báo support thực tế theo protocol đã khóa.
+
+## W10-03 — Dense bank, feature và scaler PIT, 27/10/2026
+
+**DONE — đường giá/feature/nhãn/scaler offline đã kiểm; chưa train learner.**
+Nhánh `feat/mt-bicl-dense-bank` tách từ `develop` tại `cfc8906`. Thêm
+`core/mt_bicl_bank.py`, `core/mt_bicl_scaler.py` và CLI
+`scripts/build_mt_bicl_bank.py`; không sửa primitive đã khóa hoặc khôi phục
+module của revision dừng. Dùng duy nhất bộ raw 2018–2022 đã kiểm checksum/
+evidence/quyền và lịch VNINDEX; CLI chặn sinh nhãn sau 2022 hoặc ghi output
+ra ngoài namespace mới. Protocol v1 và các artifact W10-01/02 giữ nguyên byte.
+
+### Kết quả trên nguồn thật
+
+Giữ **1.640 ứng viên**, 410/mã, query `20+3j`, block63 neo VNINDEX gốc.
+**1.235 cycle AVAILABLE**, 405 EXCLUDED; không đổi ID/neo sau khi loại.
+AVAILABLE ở đây yêu cầu đồng thời feature, giá thực thi, block và split hợp lệ:
+
+| Mã | Train ≤2020 | Chọn checkpoint 2021 | Validation 2022 | Block train có ≥2 cycle | Train thiếu scaler prefix |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| FPT | 166 | 56 | 54 | 12 | 2 |
+| MWG | 182 | 59 | 64 | 12 | 2 |
+| VCB | 207 | 73 | 75 | 12 | 2 |
+| VNM | 176 | 60 | 63 | 12 | 2 |
+| Tổng | 731 | 248 | 256 | — | 8 |
+
+Mọi mã đạt ngưỡng giá/feature trước train: ≥100 cycle train, ≥4 block train
+có hai cycle và ≥40 cycle selection. Đây **chưa phải gate K/m, regime hoặc
+cơ chế**, không là bằng chứng dự báo/lợi nhuận. Metadata HMM và membership
+prior/target thuộc W10-04; không dùng model cuối 2022 để lấp regime sớm.
+
+Reason giữ riêng, có thể giao nhau: **319** cửa sổ feature vắt quyền/Reference,
+**76** cycle cắt block, **26** chu kỳ giữ lệnh vắt quyền và **8** cycle cắt biên
+split. Không cộng các nhóm này thành số EXCLUDED. Bank purge biên partition
+2020/2021 và 2021/2022; cycle qua năm nhưng vẫn trong train 2018–2020 không
+tự bị loại. Vì vậy số thật không dùng trực tiếp số thăm dò W10-01 vốn loại
+mọi biên năm và chưa purge block.
+
+Feature tính theo NumPy sliding windows; đối chiếu **toàn bộ 1.640** coverage/
+reason/vector với `extract_pit_price_features`, tolerance tuyệt đối 1e−12.
+Nhãn **1.531 cycle đủ điều kiện nhãn** đã đối chiếu độc lập bằng
+`execution_prices_for_cycle` và `compute_round_trip_net_return`, đúng
+Open(t+1)/Close(t+3), phí/slippage hai chiều. Một số cycle có nhãn nhưng
+feature thiếu: giữ outcome ở sidecar, không đưa vào tập AVAILABLE hoặc fit
+scaler. r_net là fraction, y=`int(r_net>0)`; không dùng Close-to-Close,
+action/confidence/report hoặc gọi LLM tạo historical reports.
+
+### Scaler và các trường hợp thiếu
+
+Scaler prefix dùng feature của cycle train AVAILABLE với **exit<query**,
+không đọc outcome. Đã lưu audit **227 ngày query train**, count/max exit,
+hash tập ID và hash scaler; API `fit_scaler` trả toàn bộ fit ID/mean/variance/
+scale cho episode caller. Hai query đầu **27/02 và 02/03/2018** có fit_count=0:
+cycle cũ nhất đóng đúng query thứ hai nên chưa được dùng. Cả bốn mã có hai
+cycle `SCALER_NO_CLOSED_HISTORY`, tổng tám; không dùng scaler tương lai để bù.
+Sau gate scaler prefix còn **723 cycle train** có thể tạo episode; support
+task/context thực tế vẫn phải kiểm tiếp ở W10-04.
+
+Scaler cuối train dùng **731** cycle, cutoff **31/12/2020 inclusive**,
+exit thực tế từ **02/03/2018 đến 29/12/2020**. Mean/variance ddof=0, std=0
+dùng scale=1; giữ raw/z đầy đủ và model vector clip [−4,4]. Fit ID hash
+`25893eaad08b599103e7f4f1121c99e237d0eb8b6c008fa3a5e617e141f83f90`.
+Không refit bằng 2021/2022. Khi biến đổi prior/target quá khứ, caller truyền
+ngày query episode để dùng cùng scaler; API từ chối scaler hoặc feature
+vượt cutoff. Không coi auxiliary target loss là dự báo PIT độc lập ở ngày C.
+
+### Artifact và tái lập
+
+Artifact local [dense_bank_v1.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/inputs/dense_bank_v1.json)
+gồm toàn bộ ứng viên/reason, full-precision feature/outcome, frozen scaler,
+prefix audit và source/code/runtime identity; **3.309.372 byte**.
+SHA-256 byte: `0c2abb43dd338ce12f63213260bad241ef0c6a9e315299ed631274d06da334dc`.
+Payload SHA-256 canonical: `45b93e103e390b114da5cd661e29cc52da9f4968dc2a0b01af6fa4cf29fc9681`.
+Thư mục outputs này ignored; giữ cùng workspace hoặc dựng lại bằng nguồn
+đã khóa và CLI. Không cần receipt JSON/Markdown riêng lặp lại README.
+
+```powershell
+# Dựng mới khi artifact chưa tồn tại; không ghi đè bằng chứng đã lưu.
+py -3.13 -X utf8 scripts/build_mt_bicl_bank.py
+# Cold-rebuild toàn bộ từ nguồn và đối chiếu cả payload/identity, không tin self-seal.
+py -3.13 -X utf8 scripts/build_mt_bicl_bank.py --check
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_mt_bicl_bank*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_execution_price*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_pit_price_features*.py' -v
+py -3.13 -m py_compile core/mt_bicl_bank.py core/mt_bicl_scaler.py scripts/build_mt_bicl_bank.py tests/mt_bicl_bank_support.py tests/test_mt_bicl_bank.py tests/test_mt_bicl_bank_leakage.py
+```
+
+**Kiểm thử theo phạm vi: 23 test mới +19 execution price +28 PIT feature =
+70 PASS**, không skip; trong đó **21 leakage** (8 mới, 7 giá, 6 feature).
+Sáu file Python mới biên dịch PASS. Suite cũ dùng fixture Temp Windows được
+chạy thẳng ngoài sandbox do lỗi quyền đã xác định ở W10-01/02; không bỏ test
+hoặc sửa suite. Tạo artifact và **`--check` cold-rebuild toàn payload/identity
+PASS**; source/W9/ledger, năm JSON khóa cũ, link/anchor/UTF-8/diff/hash PASS.
+Test mới kiểm nhãn
+helper, barrier/volume/missing, block/split, JSON native, scaler ddof/clip,
+future append/query-label independence và lỗi PIT phải raise.
+
+Phạm vi mới là dữ liệu bank và scaler, nên chọn đúng suite giá/feature và
+leakage liên quan; không chạy toàn unit/E2E/compileall hoặc fit HMM/train/GPU/
+LLM. Mọi kiểm tra này khác gate learner/cơ chế/kinh tế còn chờ W10-05–W12.
+Giữ nguyên byte nguồn/W9/ledger và default Original/risk OFF. **Tiếp theo
+W10-04**: task metadata, prior/target/query rời nhau, streaming và projection.
