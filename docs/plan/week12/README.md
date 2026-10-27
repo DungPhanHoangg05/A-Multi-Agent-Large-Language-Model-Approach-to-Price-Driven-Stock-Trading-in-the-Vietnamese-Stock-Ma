@@ -11,6 +11,8 @@ nhận hạn nộp chính thức hoặc bảo đảm đủ giờ viết mới to
 Hai ngày làm việc đầu chỉ hoàn tất/resume xác nhận đã release và bắt đầu
 ở W11. Hết ngày hai khóa dữ liệu, kể cả INCOMPLETE; không mở candidate,
 tune hoặc giảm N. Phần còn lại dành luận văn, tái lập và bảo vệ.
+Protocol phương pháp/thống kê đã đăng ký trong [khóa W10-02](../week10/protocol_v1.json);
+không dùng việc khóa đặc tả thay nomination, audit exposure hoặc release xác nhận.
 
 ## Phân tích xác nhận khóa trước run
 

@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; W10-01 DONE, 1/10 task DONE.
-Quỹ thời gian đã xác nhận: hai tuần, mỗi ngày khoảng 1–2 giờ; tiếp theo W10-02.**
+**Kế hoạch thay thế 27/10/2026; W10-01–02 DONE, 2/10 task DONE.
+Protocol v1 đã khóa trước train; tiếp theo W10-03.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -64,7 +64,7 @@ verification. Audit K/m theo mã/regime/quý trước bất kỳ response Decisi
 
 ## 3. Bayes tham chiếu kiểm được cơ chế
 
-Đề xuất simulator logistic hữu hạn: 16 hyper-state λ và 64 vector
+Simulator logistic hữu hạn đã khóa tại [protocol W10-02](#w10-02--khóa-protocol-trước-train-27102026): 16 hyper-state λ và 64 vector
 w=(bias,b1,…,b4) cố định bằng seed; p(w|λ) chuẩn hóa quanh tâm tương ứng;
 y|x,w~Bernoulli(sigmoid(w·[1,x])). Mỗi episode lấy λ rồi các w_k riêng
 cho prior tasks và w_* cho target. Người học không thấy λ/w. Bảng hệ số,
@@ -86,10 +86,12 @@ x/y, PRIOR/TARGET/QUERY và missing-mask; đầu ra Bernoulli logit. Che nhãn
 query; loss chỉ ở target theo causal shift. Random thứ tự prior khi train,
 target giữ thứ tự. Train K=0..3, m=0..8 để ablation trong miền đã học.
 
-Một kiến trúc, ba seed cố định, không ensemble. AdamW lr=3e−4, batch128,
-tối đa 10.000 step/seed; benchmark 100 step trước khi khóa step ở W10-02.
-Tổng train tối đa 12 giờ; chỉ giảm batch vì VRAM trước train thật. Máy hiện
-thấy torch 2.11.0+cu128 và RTX 5060 Laptop, chưa đo tốc độ. Giữ Python
+Một kiến trúc, ba seed **17/42/73**, không ensemble. AdamW lr=3e−4, effective
+batch128, **10.000 optimizer step/seed**, checkpoint mỗi 1.000 step.
+Benchmark proxy 100 step W10-01 đã đo; W10-06 phải kiểm 100 step pipeline thật
+trước train, không giữ weights preflight. Tổng train tối đa 12 giờ; chỉ giảm
+physical batch vì VRAM trước cả ba seed, dùng accumulation giữ effective batch.
+Runtime torch 2.11.0+cu128, RTX 5060 Laptop đã kiểm. Giữ Python
 3.13.5, ghi runtime/seed/checkpoint/hash; không tự nâng dependency chung.
 Tách môi trường train nếu cần, không làm thay runtime baseline.
 
@@ -151,7 +153,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | Task | Đầu ra / điều kiện hoàn thành | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
 | W10-01 | Inventory giá/quyền/exposure/W9; benchmark GPU và xác nhận quỹ thời gian còn lại | Bắt đầu | [x] DONE — inventory/benchmark PASS; quỹ 14–28 giờ, khả thi toàn bộ còn có điều kiện |
-| W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [ ] TODO |
+| W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [x] DONE — protocol v1, bảng simulator, fixture và verifier đã khóa; chưa release train/API |
 | W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [ ] TODO |
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [ ] TODO |
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [ ] TODO |
@@ -374,3 +376,152 @@ code/test/runtime, hai JSON inventory/benchmark và bằng chứng W9/ledger.
 **PASS**; không chạy
 lại compile/unit/E2E/leakage theo AGENTS.md 1.2. Kết quả 31 test và benchmark
 ở trên thuộc lượt triển khai kỹ thuật trước đó, không phải lượt chạy mới.
+
+## W10-02 — Khóa protocol trước train, 27/10/2026
+
+**DONE — đặc tả đã khóa, implementation/gate MT-BICL chưa nghiệm thu.**
+Nhánh `docs/mt-bicl-protocol` tách từ `develop` tại `f2fcf24`. Nguồn máy đọc
+là [protocol_v1.json](protocol_v1.json), SHA-256 byte
+`da5cb873aa86d15ba5c0d4d50f3d65ea9da810b62b5a32b3ba819534858432fd`.
+Verifier ghim hash này trong source, kiểm binding của
+[simulator_v1.json](simulator_v1.json), [protocol_fixtures_v1.json](protocol_fixtures_v1.json)
+và hai artifact W10-01; không chấp nhận tự sửa payload rồi self-seal.
+JSON là nguồn tham số chuẩn; thay đổi phương pháp phải version mới trước
+train, giữ lịch sử/exposure, không sửa v1 để hợp thức hóa kết quả.
+
+### Phạm vi claim, dữ liệu và regime thiếu
+
+Ba câu hỏi giữ riêng: learner học cơ chế trong simulator; dự báo thị trường
+có ích; tài khoản cải thiện. Không dùng KL synthetic hoặc p để khẳng định
+lợi nhuận. Theo [paper §4](https://arxiv.org/html/2606.20538v1) và
+[training step của tác giả](https://raw.githubusercontent.com/martianmartina/multi-task-bayesian-icl/main/src/models/multi_task_implicit_model.py),
+prior/target được phân vai và loss đặt tại target. Bản thích ứng này dùng
+hai token X/Y thay input ghép x_t/y_(t−1), simulator hữu hạn và nhãn kinh tế
+riêng; không tuyên bố sao chép mọi chi tiết hoặc kết quả paper.
+
+Giữ train **2018–2020**, chọn checkpoint bằng **2021**, báo validation
+**2022**, development đã xem **2023**, reference đã xem **2024** và xác nhận
+có điều kiện **2025**. Không đổi split để cứu kết quả. Cycle lấy query tại
+index `20+3j` của VNINDEX neo **02/01/2018**, task `symbol:blockNNNN` với
+index chia nguyên 63. Query/entry/exit phải cùng block và cùng partition;
+cycle cắt biên bị loại có reason, không dồn lịch hoặc bù theo nhãn.
+Nhãn `int(r_net>0)` dùng helper engine; r_net dạng fraction, giữ sidecar.
+
+Scaler cho episode train chỉ fit các feature của cycle train đã đóng
+`exit<query` trên bốn mã, không dùng nhãn hoặc phần train sau query. Cuối
+train fit scaler bằng các cycle train hợp lệ rồi đóng băng từ 2021; std=0
+dùng scale=1, model/distance clip z vào [−4,4], giữ raw/z đầy đủ ở sidecar.
+HMM train dùng prefix ở đầu block; query dùng model đầu block trên prefix
+đến query. Dưới 499 phiên: **UNKNOWN/INSUFFICIENT_REGIME_HISTORY**, giữ cycle
+giá hợp lệ, không coi UNKNOWN–UNKNOWN là cùng regime. Lỗi fit/integrity khác
+phải dừng, không đổi thành missing. Từ 2021 dùng model cuối 2020 đóng băng;
+metadata task cũ không bị gán lại bằng model học sau đầu block. Không nạp
+artifact HMM cuối 2022 vào đường MT-BICL.
+
+Prior tối đa ba block cũ cùng mã, 2–8 cycle/block; centroid dùng mọi cycle
+đã đóng, rank ưu tiên regime khớp đã biết → Euclidean distance → độ mới → ID.
+Cycle chọn theo distance, cutoff giảm dần rồi ID, trình bày theo thời gian.
+C là tối đa tám cycle mới nhất trong current block, exit<query. ID và khoảng
+entry–exit rời nhau; future candidate bị lọc trước rank, membership đã chọn
+có vi phạm phải raise. Không dùng y để rank hoặc ép đủ K/m. Trước train cần
+≥100 cycle và ≥4 block có hai cycle/mã, selection 2021 ≥40 cycle/mã; thiếu
+thì STOP_INSUFFICIENT_TRAIN_SUPPORT, không chuyển 2022 vào train.
+
+### Simulator, tokenizer và lịch train
+
+Bảng 16 tâm là các dấu ±1 của bốn hệ số, bias=0. Mỗi tâm sinh bốn vector
+w với nhiễu Normal(0;0,55²), PCG64 seed **20261027**; bảng 64×5 trong JSON
+là nguồn chuẩn. p(λ)=1/16, p(w|λ) là softmax của khoảng cách bình phương
+với τ=0,75; x là Normal(0,1) bốn chiều clip [−4,4], y Bernoulli logistic.
+λ/w bị ẩn. Oracle phải cộng marginal từng prior task riêng, cập nhật λ từ C
+và normalize joint một lần; không dùng shared-w pooling thay oracle.
+
+Fixture đối chứng có hai task trái nhãn tại cùng x, C/query cố định:
+p hierarchical **0,7097017325468633**, shared-w pooling **0,6128674607386324**.
+Đã đối chiếu số học log-space và tuyến tính, tolerance 1e−12. Các observation
+giống giá trị vẫn có ID riêng và nhân likelihood riêng. Đây là expected
+fixture, chưa thay oracle production độc lập và toàn gate W10-05/07.
+
+Tokenizer dùng sáu số `[x1,x2,x3,x4,label_value,label_missing]`, ba role
+PRIOR/TARGET/QUERY. Marker `[0,0,0,0,−1,1]`; X không có y hiện tại, Y chỉ
+chứa nhãn cycle đã đóng; query không có token Y. Tối đa **69 token**,
+causal mask và right-padding mask; loss chỉ ở X target/query, không ở
+prior, Y, marker hoặc PAD. Decoder hai lớp/hidden128/head4/FF256, ReLU,
+dropout0,1, Linear numeric/role/position, Bernoulli head: **275.201 tham số**,
+FP32, không AMP/TF32. Đây là một kiến trúc, không ensemble.
+
+Ba seed **17/42/73**, AdamW lr=3e−4, weight_decay=0,01, clip grad-norm=1,
+10.000 optimizer step/seed, effective batch128, synthetic:market **1:1**.
+Physical batch chỉ chọn trước train bằng preflight OOM: 128/64/32 và
+accumulation 1/2/4; không đổi sau xem metric. Checkpoint mỗi 1.000 step,
+không early-stop theo kết quả. Seed/stream riêng cho bảng, train, sampling,
+permutation, diagnostic, test và prior-swap đã ghim trong JSON. Synthetic
+test/pairs có IDs 0–4999 và recipe cố định; W10-05 sinh và seal byte trước
+train, không xem test để chọn checkpoint hoặc điều chỉnh tham số.
+
+Chọn theo key `(round(macro log loss,12), round(macro Brier,12), step,
+seed order)`, macro đều bốn mã trên cùng query 2021. Báo checkpoint riêng
+mỗi seed và candidate chung; không chọn bằng P&L hoặc 2022. Baseline số:
+Laplace base-rate train, logistic L2 C=1, learned no-prior/no-target và
+finite shared-w pooling. Pooling thị trường là một baseline với giả định
+mô hình, không là market Bayes ground truth hoặc ablation cùng learned
+weights. Calibration cố định mười bin, giữ bin rỗng/null và bảng r_net/gain/
+loss theo bin; không suy expected return hay chỉnh threshold theo kết quả.
+
+### Ma trận và gate đã đăng ký
+
+Giữ sáu LLM **Original/A_reference/Plain_ICL/Full_MT_BICL/No_target/Stats_only**
+và **Numeric_only** offline; Full là candidate duy nhất. Model/options hiện
+hành đã ghim từ plan W9; common instruction/schema triển khai W10-08 và khóa
+byte W10-10 trước response mới. A giữ nguồn W9; Full−A so toàn phương pháp.
+No_target giữ D/x, bỏ C và recompute p; Stats_only giữ p Full, bỏ toàn
+demonstrations; Plain_ICL bỏ p, giữ cùng membership/projection Full.
+LLM thấy tối đa hai exemplar/prior và hai target mới nhất; q=rint(2z),
+p hiển thị ba chữ số thập phân, sidecar giữ full precision. Toàn BRPP≤600,
+prompt<6.500; quá ngưỡng dừng, không cắt nhãn/legend hoặc âm thầm giảm ví dụ.
+
+| Gate | Điều kiện đã khóa; hiện chưa phải kết quả PASS |
+| --- | --- |
+| Kỹ thuật/cơ chế | PIT/kinh tế/mask/JSON đúng; oracle độc lập; 5.000 synthetic test có mean KL≤0,02 nat, P95 absolute error≤0,10 |
+| Thay prior | 5.000 cặp giữ C/x; ≥200 cặp có abs(Δoracle)≥0,05, dấu Δmodel khớp ≥90%; Δmodel=0 là không khớp; thiếu cặp INCONCLUSIVE, không sinh bù |
+| Market validation | Báo mọi seed/baseline trên 2022, không ghi PASS cho metric bất lợi; cơ chế đạt mới đủ điều kiện kiểm giá trị context trong development |
+| Support development | K≥2 và m≥2 đồng thời ≥30/60 point, ≥5/mã; thiếu INSUFFICIENT_CONTEXT, không API |
+| Development/nomination | Lịch 60 point giữ nguyên trong JSON, 360 primary +252 repeat slot; đủ G, D>0, ≥3 mã tăng, Full−A≥0, mean/max ΔMDD≤2/5 đpt |
+| Xác nhận | Chỉ sau nomination/exposure/giá/quyền/MDE/release; 128 point, bootstrap L=4/10.000 draw/seed20261027, CI95% primary và CI99% cho năm secondary |
+| Claim kinh tế | D≥1 đpt, CI primary>0, ≥3 mã tăng, guard MDD đạt; secondary quyết định claim thành phần, không suy từ synthetic |
+
+Upstream một lần/point, deep-copy các nhánh/repeat; shared-off chỉ khi
+canonical request trùng và Original durable. Giữ wrapper retry/backoff,
+checkpoint/UUID/unknown reserve và SHORT=CASH. Snapshot hash ledger W10-01
+không cấm ledger sống append sau release; verifier bảo vệ từng request W9
+trong frozen ZIP, run verifier sau này phải bind request của chính run đó.
+Không reset ledger hoặc đổi lỗi API/integrity thành CASH. Tất cả release
+train/Decision/xác nhận vẫn **false** ở khóa đặc tả này. Trần train 12 giờ
+không cộng thêm vào quỹ 14–28 giờ; quá cap/lịch thì INCOMPLETE/NOT_RUN, giữ
+mốc release/start 05/11 và khóa dữ liệu 07/11, không hạ gate.
+
+### Kiểm tra và bàn giao
+
+```powershell
+py -3.13 -X utf8 scripts/verify_mt_bicl_protocol.py
+py -3.13 -X utf8 -m unittest discover -s tests -p test_mt_bicl_protocol.py -v
+py -3.13 -m py_compile scripts/verify_mt_bicl_protocol.py tests/test_mt_bicl_protocol.py
+```
+
+**Verifier nguồn/runtime/khóa PASS; chín test mới PASS, không skip; hai file
+Python mới biên dịch PASS.** Đã kiểm bảng latent/mass, số token/tham số,
+lịch/slot, fixture và đối chiếu số học pooling. 24 fixture hợp đồng và 24 ID
+semantic probe là đầu vào kiểm triển khai sau, không ghi là đã chạy test
+learner hoặc đã thực hiện probe LLM. Test âm kiểm đổi split/self-seal,
+latent/fixture/nhãn query, code/CSV lệch hash, sửa request W9; test append
+ledger hợp lệ tránh khóa nhầm lifecycle sống. `.gitattributes` giữ byte JSON
+và LF script. Diff/link/anchor/UTF-8/hash **PASS**; hai JSON W10-01 và byte
+ledger/bằng chứng W9 giữ nguyên.
+
+Phạm vi này thêm đặc tả/fixture và verifier offline, không đổi đường giá/PIT/
+retrieval/Decision/kinh tế hiện hữu. Vì vậy chỉ chạy suite mới và biên dịch
+hai file mới; không chạy lại toàn unit/E2E/compileall hoặc suite leakage
+production không đổi. Bằng chứng 31 test W10-01 và gate W9 là lịch sử,
+không tính là lượt chạy mới. Không train, gọi API/LLM, sinh payoff 2023/2025
+hoặc thay bằng chứng/ledger W9. **Tiếp theo W10-03**, dựng dense bank/scaler/
+nhãn engine và báo support thực tế theo protocol đã khóa.

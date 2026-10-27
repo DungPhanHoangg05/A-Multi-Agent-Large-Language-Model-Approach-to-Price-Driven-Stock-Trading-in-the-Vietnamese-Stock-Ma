@@ -9,6 +9,8 @@ phụ thuộc; release và bắt đầu xác nhận chậm nhất 05/11, nếu k
 
 Một candidate Full_MT_BICL khóa ở W10; đo kinh tế và tách learned Bayes,
 demonstrations, target context. Không lấy synthetic KL thấp làm lợi nhuận.
+Tham số/mẫu số/ma trận hiện được đăng ký tại [protocol W10-02](../week10/protocol_v1.json);
+đây là khóa đặc tả, chưa phải release chạy. W10-10 và các gate bên dưới vẫn bắt buộc.
 
 ## 1. Ma trận đối chứng đăng ký trước run
 
