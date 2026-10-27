@@ -9,7 +9,8 @@ có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
 **Tiến độ mới:** W10 6/10, W11 0/8, W12 0/6; **W10-01–06 DONE**.
-**W10-06 nghiệm thu 28/10/2026**: ba seed đủ step, seal/verify PASS; tiếp theo W10-07.
+**W10-06 nghiệm thu 28/10/2026**: ba seed đủ step, seal/verify PASS.
+**W10-07 IN_PROGRESS**: evaluator/baseline/CLI đã sẵn, chờ chạy GPU/replay và nghiệm thu báo cáo.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -1225,6 +1226,14 @@ weights export và đủ 67 file chứng cứ được đối soát; README W10 
 Viện dẫn **106 test PASS, 37 leakage** từ lượt triển khai trên source/runtime
 nguyên vẹn, không chạy lại suite trong lượt nghiệm thu tài liệu. **Tiếp theo
 W10-07**: gate cơ chế và validation 2022; chưa release development/Decision.
+
+[W10-07](week10/README.md#w10-07--mechanism-gate-và-validation-28102026)
+đã có evaluator frozen ba checkpoint chọn bằng 2021; KL/P95/prior-swap theo
+ngưỡng khóa, Full/No_prior/No_target và baseline train-only/pooling, calibration/
+r_net/K/m/report 2022. **76 test theo phạm vi PASS, 49 leakage**; CLI input/
+receipt/PIT thật PASS, chưa chạy GPU evaluation. Lệnh PowerShell run/resume/
+verify-replay ở README W10. W10 vẫn 6/10 DONE; kết quả FAIL phải giữ
+NO_MT_BICL_RELEASE, không chọn lại seed hoặc hạ gate.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
