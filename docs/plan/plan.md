@@ -8,8 +8,8 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 5/10, W11 0/8, W12 0/6; **W10-01–05 DONE**,
-**W10-06 IN_PROGRESS**: learner/CLI train-resume-seal và test đã sẵn, chờ người dùng chạy GPU.
+**Tiến độ mới:** W10 6/10, W11 0/8, W12 0/6; **W10-01–06 DONE**.
+**W10-06 nghiệm thu 28/10/2026**: ba seed đủ step, seal/verify PASS; tiếp theo W10-07.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -1184,7 +1184,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 5/10 DONE
+### TUẦN 10: MT-BICL và tích hợp — 6/10 DONE
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1216,12 +1216,15 @@ bị; **64 test PASS, 26 leakage**. Chưa có learner, optimizer preflight,
 gate cơ chế hoặc LLM; tiếp theo W10-06, chưa release development.
 
 [W10-06](week10/README.md#w10-06--learner-trainresume-và-seal-27102026)
-đã triển khai learner causal FP32/275.201 tham số, preflight GPU 100 step,
-train/resume ba seed đủ 10.000 step, chọn bằng 2021 và seal/replay 30 checkpoint.
-**106 test theo phạm vi PASS**, 37 leakage; điều phối/OOM dùng mock CPU,
-không là train GPU thật. Lệnh PowerShell đầy đủ và pause/resume ở README W10.
-Task còn **IN_PROGRESS**, chờ preflight/ba seed/seal thật; không tăng số DONE
-hoặc phát hành development trước kết quả đó.
+**đã nghiệm thu 28/10/2026**: learner causal FP32/275.201 tham số, preflight
+GPU 100 step PASS, ba seed 17/42/73 đủ **10.000 optimizer step/seed**, 30
+checkpoint và seal/verify PASS. Tổng active **3,284 giờ <12 giờ**; batch128,
+accumulation1. Candidate **seed42 step1000**, macro log loss 2021
+**0,667663202309**, Brier **0,237225674654**. Hash/identity/counter optimizer,
+weights export và đủ 67 file chứng cứ được đối soát; README W10 giữ hash thật.
+Viện dẫn **106 test PASS, 37 leakage** từ lượt triển khai trên source/runtime
+nguyên vẹn, không chạy lại suite trong lượt nghiệm thu tài liệu. **Tiếp theo
+W10-07**: gate cơ chế và validation 2022; chưa release development/Decision.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
