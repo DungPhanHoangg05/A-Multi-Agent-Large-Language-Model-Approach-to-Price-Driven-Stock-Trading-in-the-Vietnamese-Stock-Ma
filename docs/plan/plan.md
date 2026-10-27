@@ -16,7 +16,10 @@ plan hoặc xóa output không làm dữ liệu đã xem thành holdout độc l
 U-BICL phải so Original và A trên cùng nguồn/protocol mới, không cộng gain
 từ nhiều phiên bản/lượt chạy. Mặc định triển khai và risk OFF giữ nguyên.
 
-**Tiến độ hiện hành:** U10 10/10, U11 4/11, U12 0/5; tiếp theo **U11-05**.
+**Tiến độ hiện hành:** U10 10/10, U11 5/11, U12 0/5; tiếp theo **U11-10**.
+U11-05 đã khóa protocol và kiểm payoff R2 ngày 27/10/2026: **gate FAIL**
+trên 396/647 query common support. U11-06–09 **NOT_RUN** theo rule dừng;
+R2 chưa có development LLM, nomination hoặc xác nhận. NOT_RUN không tính DONE.
 Đã audit nguồn/exposure,
 khóa protocol v1, memory/index và pooling λ=8; bốn gate U10-04 PASS.
 Context/renderer U10-05 đã khóa; nguồn thật và bốn gate hồi quy PASS.
@@ -41,9 +44,9 @@ không chạy lại suite. U11-03 đã khóa **NOT_NOMINATED**: D_U−Original
 thật PASS, không key/API/giá 2025. Nhánh xác nhận v1 dừng theo protocol;
 không nominate ablation hoặc hạ ngưỡng. Yêu cầu mới gộp kế hoạch tiếp nối
 vào **U11-04–U11-11**. U11-04 đã audit đủ 60 điểm/năm action đổi, reason/
-trace, payoff/tuổi/xung đột và đối chiếu nguồn v1. Tiếp theo U11-05 khóa
-protocol và kiểm payoff trên train PIT, rồi renderer/test, một development,
-xác nhận có điều kiện, tổng kết và bàn giao;
+trace, payoff/tuổi/xung đột và đối chiếu nguồn v1. U11-05 đã khóa protocol
+và đo payoff trên train PIT; gate FAIL nên dừng renderer/probe/development/
+xác nhận R2. Tiếp theo U11-10 tổng kết rồi U11-11 bàn giao;
 xem [checklist tuần tự](week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
 và [thiết kế R2](week11/README.md#kế-hoạch-bổ-sung-sau-u11-03-26102026).
 Giá thực thi 2025 đã bổ sung và PASS nhưng không có release khi nomination
@@ -442,7 +445,8 @@ memory/backbone/context/runtime/CLI offline và tài liệu vận hành/phương
 đã nghiệm thu hết W10. U11-01/02 đã release và hoàn tất development;
 U11-03 NOT_NOMINATED vì chỉ 2/4 mã tăng. Nhánh xác nhận v1 dừng; phần
 tiếp nối R2 theo mục 5.7 và checklist hiện hành ở README W11; audit U11-04
-đã xong, tiếp theo U11-05.
+đã xong; U11-05 khóa protocol/kiểm payoff và FAIL gate offline. Dừng
+U11-06–09, tiếp theo U11-10 tổng hợp kết quả đúng phạm vi.
 
 ### 5.7. Cải thiện sau U11-03 — revision R2 có giới hạn
 
@@ -481,7 +485,7 @@ INCOMPLETE, không giảm mẫu, nới tiêu chuẩn hoặc chuyển sang W13.
 **Đầu ra nghiên cứu:** W9 là bằng chứng xác nhận tích cực có giới hạn;
 v1 vẫn được báo cáo đầy đủ với quyết định NOT_NOMINATED; R2 chỉ được
 claim theo bằng chứng thực. Không xóa v1 hay gọi lợi ích của Numeric là
-đóng góp ICL. Task hiện tại chỉ cập nhật plan/đọc artifact, không API hoặc
+đóng góp ICL. Lần lập kế hoạch 26/10/2026 chỉ cập nhật plan/đọc artifact, không API hoặc
 đổi runtime; QA tài liệu/hash/số liệu, không chạy lại suite theo AGENTS.md 1.2.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
@@ -1458,7 +1462,7 @@ shared-off, CLI/verifier, bốn gate và dry-run. Không sửa hệ thống gố
   Chưa API/preflight thật, nomination hoặc release xác nhận. **U10 hoàn tất
   10/10**, chuyển **U11-01**; U11 0/10, U12 0/5, risk/mặc định OFF.
 
-### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 4/11
+### 📅 TUẦN 11: Kiểm định và khóa kết quả — ĐANG THỰC HIỆN 5/11
 [Checklist U11](week11/README.md): primary/repeat development, nomination,
 release và xác nhận nếu đạt, bootstrap/ablation/noise, freeze và viết kết
 quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
@@ -1527,10 +1531,24 @@ quả. Một vòng duy nhất, không hạ ngưỡng sau outcome.
   thay code/test/runtime/input hoặc chạy lại toàn suite. **U11 đạt 4/11**,
   tiếp theo **U11-05**; chưa có gate payoff R2, nomination hoặc release mới.
 
+- **Khóa protocol và kiểm payoff train PIT, 27/10/2026:** [U11-05 DONE](week11/README.md#u11-05--protocol-r2-và-gate-payoff-train-pit-27102026).
+  Protocol R2 commit trước phép đo; một mô hình NIG, không sweep, giữ λ=8
+  và hợp đồng v1. Replay đúng 647 query 2021/2022 đã purge, 396 common
+  trên đủ tám ô fold/mã; 251 nC<5 được báo riêng, không đổi mẫu hoặc điền 0.
+  **Gate FAIL cả sáu check**: MAE NIG/zero/m0 2,698528/2,660456/2,615347%
+  return; NLL −1,815169>−1,935797; predictive coverage 81,818182%<85%;
+  VNM tăng MAE 0,137782 đpt>0,1. Dừng trước development LLM theo protocol.
+  29 test mới, 7 leakage liên quan và biên dịch bốn file mới PASS; producer/
+  cold consumer với guard key/mạng/2025/development, 7.096 kiểm tra oracle
+  độc lập và 984 file v1/ledger nguyên byte PASS. Không chạy toàn suite.
+  **U11 đạt 5/11**; U11-06–09 **NOT_RUN**, tiếp theo **U11-10** tổng hợp
+  W9/v1/R2 offline. Không gán R2 NOT_NOMINATED vì chưa chạy nomination.
+
 ### 📅 TUẦN 12: Luận văn, tái lập và bảo vệ — TODO 0/5
 [Checklist U12](week12/README.md): chốt trạng thái/claim, hoàn thiện chương,
 tái lập/đối soát gate đúng phạm vi, 25–30 slide và bảo vệ. [Chuỗi U11-04–U11-11](week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
-ghi U11 4/11 và U12 0/5, không còn checklist bổ sung riêng. Hai ngày đầu chỉ hoàn tất/resume xác nhận
+ghi U11 5/11 và U12 0/5; R2 dừng ở gate offline, U11-06–09 NOT_RUN.
+Không còn checklist bổ sung riêng. Hai ngày đầu chỉ hoàn tất/resume xác nhận
 đã release/bắt đầu ở W11, sau đó khóa số liệu dù INCOMPLETE; không thêm
 phương pháp, giảm mẫu hoặc chạy lại toàn suite chỉ để cập nhật checklist.
 
