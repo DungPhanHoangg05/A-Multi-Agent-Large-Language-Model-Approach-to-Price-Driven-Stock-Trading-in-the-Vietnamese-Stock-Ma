@@ -8,9 +8,10 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 6/10, W11 0/8, W12 0/6; **W10-01–06 DONE**.
+**Tiến độ mới:** W10 7/10, W11 0/8, W12 0/6; **W10-01–07 DONE**.
 **W10-06 nghiệm thu 28/10/2026**: ba seed đủ step, seal/verify PASS.
-**W10-07 IN_PROGRESS**: evaluator/baseline/CLI đã sẵn, chờ chạy GPU/replay và nghiệm thu báo cáo.
+**W10-07 nghiệm thu 28/10/2026**: integrity/replay PASS, **gate cơ chế FAIL**;
+`NO_MT_BICL_RELEASE`. W10-08–10 và run development/xác nhận bị chặn cho candidate này.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -1185,7 +1186,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 6/10 DONE
+### TUẦN 10: MT-BICL và tích hợp — 7/10 DONE; gate cơ chế FAIL, chưa release
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1228,12 +1229,19 @@ nguyên vẹn, không chạy lại suite trong lượt nghiệm thu tài liệu.
 W10-07**: gate cơ chế và validation 2022; chưa release development/Decision.
 
 [W10-07](week10/README.md#w10-07--mechanism-gate-và-validation-28102026)
-đã có evaluator frozen ba checkpoint chọn bằng 2021; KL/P95/prior-swap theo
-ngưỡng khóa, Full/No_prior/No_target và baseline train-only/pooling, calibration/
-r_net/K/m/report 2022. **76 test theo phạm vi PASS, 49 leakage**; CLI input/
-receipt/PIT thật PASS, chưa chạy GPU evaluation. Lệnh PowerShell run/resume/
-verify-replay ở README W10. W10 vẫn 6/10 DONE; kết quả FAIL phải giữ
-NO_MT_BICL_RELEASE, không chọn lại seed hoặc hạ gate.
+**đã nghiệm thu đánh giá thật**: verifier/receipt replay/raw logits PASS,
+scalar audit độc lập khớp metric; **cơ chế FAIL cả ba seed**. Candidate seed42/
+step1000 có mean KL **0,097592527938 >0,02**, P95 error **0,398684777570 >0,10**,
+prior-swap **1.845/3.740 =49,331551% <90%**. Giữ candidate chọn bằng 2021,
+không chọn lại bằng test. Trên 256 query 2022, Full log loss/Brier
+**0,683505992786/0,245025235530**, kém base rate/logistic/No_target, tốt hơn
+No_prior/naive pooling; không suy lợi ích hệ thống hoặc kinh tế. Đủ report
+cả ba seed, calibration/r_net/K/m; 7 file evaluation/hash giữ trong README W10.
+Viện dẫn **76 test PASS, 49 leakage** trên source/runtime nguyên vẹn, không
+chạy lại suite trong lượt nghiệm thu tài liệu. W10-07 DONE về phép đánh giá;
+**NO_MT_BICL_RELEASE**, W10-08–10 và development/xác nhận phụ thuộc bị chặn.
+Synthetic test/prior-swap/2022 đã xem; giữ nguyên revision/exposure, không
+tự sửa ngưỡng/model hoặc train thêm để vượt gate trong protocol hiện hành.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/

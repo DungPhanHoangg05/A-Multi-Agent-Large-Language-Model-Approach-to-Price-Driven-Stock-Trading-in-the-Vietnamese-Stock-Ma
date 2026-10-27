@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; W10-01–06 DONE, 6/10 task DONE.
-W10-07 IN_PROGRESS: evaluator/baseline/report đã có, chờ chạy GPU và replay.**
+**Kế hoạch thay thế 27/10/2026; W10-01–07 DONE, 7/10 task DONE.
+W10-07 đã nghiệm thu đánh giá; gate cơ chế FAIL — NO_MT_BICL_RELEASE.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -158,15 +158,15 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [x] DONE — metadata PIT, disjoint membership, stream và packing/projection; support development 41/60 PASS |
 | W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [x] DONE — oracle độc lập PASS; khóa 5.000 test/5.000 cặp, chuẩn bị dữ liệu preflight |
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [x] DONE — preflight GPU PASS, đủ 30.000 step/30 checkpoint; seed42 step1000 được chọn bằng 2021, seal/verify PASS |
-| W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [ ] IN_PROGRESS — evaluator/CLI/test sẵn; chờ run và verify --replay trên GPU |
-| W10-08 | Adapter/prefix/paired/shared-off/retry/checkpoint; test đường đổi | 04; 07 cơ chế đạt | [ ] TODO |
-| W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] TODO |
-| W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] TODO |
+| W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [x] DONE — đánh giá/replay/integrity đầy đủ; cơ chế FAIL cả ba seed, NO_MT_BICL_RELEASE |
+| W10-08 | Adapter/prefix/paired/shared-off/retry/checkpoint; test đường đổi | 04; 07 cơ chế đạt | [ ] BLOCKED — candidate không đạt gate cơ chế W10-07 |
+| W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] BLOCKED — phụ thuộc 08 và gate cơ chế chưa đạt |
+| W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] BLOCKED — không release candidate đã FAIL cơ chế |
 
 Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context,simulator,oracle,oracle_reference,batches}.py`
 cùng CLI dựng/kiểm bank, task/context và corpus oracle. Learner và CLI train/resume/seal
-đã nghiệm thu trên GPU. Evaluator mechanism/validation/report đã có, chờ chạy;
-adapter/run tích hợp còn phía trước. Reuse
+đã nghiệm thu trên GPU. Đánh giá mechanism/validation đã hoàn tất nhưng gate
+cơ chế FAIL; adapter/run/release bị chặn cho candidate này. Reuse
 engine, giá PIT, HMM, retry/pacer/ledger đã kiểm; không restore toàn revision
 cũ vào namespace mới. Test: future append/scaler/mask/query-label, optimizer
 frozen tại test, oracle, prompt cap, paired/unknown/resume và JSON native.
@@ -1013,17 +1013,20 @@ khớp identity; không gọi là kết quả vừa chạy lại. CLI verifier l
 sandbox chặn đọc boot Windows; chạy lại đúng lệnh ngoài sandbox đã PASS,
 không thay code, dependency hoặc artifact để vượt kiểm tra.
 
-**Tiếp theo W10-07:** kiểm KL/P95/prior-swap trên corpus synthetic đã khóa,
-báo cả ba seed/baseline/calibration trên 2022. Hiện vẫn
-`mechanism_status=NOT_RUN`, `development_allowed=false`; nghiệm thu training
-không đồng nghĩa đạt cơ chế hoặc được phát hành development/Decision LLM.
+Sau nghiệm thu training, W10-07 kiểm KL/P95/prior-swap và validation 2022.
+Seal training giữ nguyên `mechanism_status=NOT_RUN`, `development_allowed=false`
+tại thời điểm khóa; kết quả đánh giá sau đó ở mục W10-07 bên dưới. Nghiệm thu
+training không đồng nghĩa đạt cơ chế hoặc được phát hành development/Decision LLM.
 
 ## W10-07 — Mechanism gate và validation, 28/10/2026
 
-**IN_PROGRESS — mã đánh giá/CLI/test đã sẵn; chưa chạy evaluation GPU thật.**
-W10 vẫn **6/10 DONE**. Nhánh `feat/mt-bicl-mechanism-validation` từ `develop`
+**DONE — nghiệm thu đánh giá/replay/integrity ngày 28/10/2026; gate cơ chế
+FAIL, NO_MT_BICL_RELEASE.** Hoàn thành task đánh giá không có nghĩa learner
+đạt cơ chế. W10 hiện **7/10 DONE**, W10-08–10 bị chặn cho candidate này.
+Nhánh `feat/mt-bicl-mechanism-validation` từ `develop`
 tại `a13ef1d`; giữ nguyên byte trainer/model, protocol, corpus và 67 artifact
-training đã nghiệm thu. Không train thêm hoặc xem held test để sửa mô hình.
+training đã nghiệm thu; mã evaluator merge tại `2203048`. Không train thêm
+hoặc dùng kết quả test để sửa mô hình/ngưỡng trong lượt nghiệm thu.
 
 Evaluator giữ candidate **seed42 step1000**, đồng thời báo seed17 step1000
 và seed73 step2000 theo selection 2021. Mỗi seed đọc đúng 5.000 synthetic
@@ -1078,10 +1081,13 @@ gọi LLM/API. Test journal Windows Temp chạy ngoài sandbox theo hạn chế 
 so với nghiệm thu W10-06. Khối PowerShell bên dưới đã kiểm cú pháp/tham số/
 thứ tự/dừng khi pause bằng `py` mock, không gọi GPU để kiểm khối lệnh.
 
-### Lệnh PowerShell đánh giá từ đầu đến cuối
+### Lệnh PowerShell đánh giá đã dùng từ đầu đến cuối
 
 Chạy cùng runtime/GPU đã dùng train, không chạy lại các lệnh preflight/train/
 seal của W10-06. Các lệnh dưới chỉ tạo namespace `evaluation_v1/` mới.
+Run đã nghiệm thu; lệnh đối soát hiện tại là
+`py -3.13 -X utf8 scripts/evaluate_mt_bicl.py verify`. Khối dưới lưu quy trình
+đã dùng, gồm replay GPU đã hoàn tất và có receipt.
 
 ```powershell
 Set-Location -LiteralPath 'C:\Users\Legion\OneDrive\Tài liệu\GitHub\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma'
@@ -1111,6 +1117,101 @@ report bước này; gate đạt mới tiếp tục các điều kiện tích h�
 
 Output ignored: `outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/` gồm
 `index.json`, `baseline.json`, `seed17.json`, `seed42.json`, `seed73.json`,
-`report.json`, `replay_verification.json` và metadata khóa OS. Sau khi người
-dùng chạy xong, đối soát hash/receipt và ghi kết quả thật ở mục này; chưa
-đánh dấu DONE hoặc kết luận lợi ích dự báo/kinh tế từ test fixture.
+`report.json`, `replay_verification.json` và metadata khóa OS. Kết quả thật và
+hash nghiệm thu ở dưới; không kết luận lợi ích hệ thống hoặc kinh tế từ việc
+báo cáo đã hoàn tất.
+
+### Nghiệm thu đánh giá thật, 28/10/2026
+
+**Integrity/replay PASS; gate cơ chế FAIL.** Đã chạy đúng CLI `verify`, exit0,
+đối soát source/runtime/input/training receipt, raw logits, metric, index và
+receipt `INFERENCE_REPLAY_MATCH` gắn đúng report/hash/GPU. Receipt xác nhận
+người dùng đã replay inference/fit baseline train-only bằng mã đã khóa;
+lượt nghiệm thu không chạy lại GPU replay, optimizer hoặc fit baseline.
+`index.status=COMPLETE`, `technical_status=PASS`,
+`market_reporting_status=COMPLETE_NOT_A_PERFORMANCE_GATE`.
+
+Đối chiếu bổ sung bằng phép tính scalar độc lập trên raw logits và oracle
+đã khóa: KL dùng `math.fsum`/logsigmoid, P95 nội suy tuyến tính từ danh sách
+sai số đã sort, numerator prior-swap theo dấu Δp. Cả ba seed khớp report trong
+10⁻¹², denominator cố định **3.740/5.000 cặp**; mỗi seed đủ 5.000 test.
+
+| Seed / checkpoint chọn bằng 2021 | Mean KL (nat), ngưỡng ≤0,02 | P95 absolute error, ngưỡng ≤0,10 | Khớp dấu, ngưỡng ≥90% | Cơ chế |
+| --- | ---: | ---: | ---: | --- |
+| 17 / 1.000 | 0,091474276411 | 0,385156293483 | 1.837/3.740 =49,117647% | FAIL |
+| **42 / 1.000 — candidate** | **0,097592527938** | **0,398684777570** | **1.845/3.740 =49,331551%** | **FAIL** |
+| 73 / 2.000 | 0,092478448739 | 0,384683743530 | 1.856/3.740 =49,625668% | FAIL |
+
+Candidate vẫn seed42/step1000 đã chọn trước bằng 2021; không chuyển sang seed
+khác hoặc đổi checkpoint bằng test. Fixture pooling: model **0,450375781969**,
+oracle **0,709701732547**, pooled **0,612867460739**; model không gần oracle
+hơn pooled trên fixture này. Đây là diagnostic, không bổ sung gate mới.
+
+Validation **256/328 cycle ứng viên**: FPT54/MWG64/VCB75/VNM63; 72 cycle
+EXCLUDED. Reason counts 55 corporate-action window, 6 corporate-action holding,
+16 cross-block holding có thể giao nhau, không cộng thành số loại duy nhất.
+Mọi nhánh/seed giữ cùng 256 query. Baseline train731; Laplace rate
+**0,401091405184**, logistic hội tụ sau **14 iteration** trên cùng scaler
+cuối 2020. Không dùng kết quả 2022 để chọn hoặc fit lại candidate.
+
+| Phương pháp / seed | Macro log loss 2022 | Macro Brier 2022 |
+| --- | ---: | ---: |
+| Full 17 | 0,690833616179 | 0,248863357047 |
+| **Full 42 — candidate** | **0,683505992786** | **0,245025235530** |
+| Full 73 | 0,689912331630 | 0,248276217514 |
+| Base rate | 0,667347378601 | 0,237205159013 |
+| Logistic | 0,679045486760 | 0,242852774485 |
+| No_prior 42 | 0,685012049739 | 0,245360216154 |
+| No_target 42 | 0,675990443276 | 0,241166489690 |
+| Naive pooling | 0,755699582201 | 0,275776302878 |
+
+Full candidate **kém base rate, logistic và No_target ở cả hai metric**;
+tốt hơn No_prior và naive pooling. Các đối chiếu là mô tả trên validation
+2022 đã có exposure, không là bằng chứng lợi nhuận hoặc lý do đổi candidate.
+Report giữ đủ No_prior/No_target của cả ba seed, metric từng mã và raw logits.
+
+Calibration candidate có bốn bin khác rỗng; sáu bin còn lại giữ count0/null:
+
+| Bin p | N | Mean p | Tỷ lệ y=1 | Mean r_net (fraction) |
+| --- | ---: | ---: | ---: | ---: |
+| [0,2;0,3) | 10 | 0,272159 | 0,300000 | −0,015868 |
+| [0,3;0,4) | 80 | 0,358040 | 0,462500 | −0,003847 |
+| [0,4;0,5) | 159 | 0,444574 | 0,358491 | −0,006154 |
+| [0,5;0,6) | 7 | 0,531495 | 0,142857 | −0,037583 |
+
+Tổng observed rate **98/256 =0,3828125**; mean r_net mọi cycle
+**−0,006671986726**, mean positive gain **0,027514864821**, mean nonpositive
+loss **−0,027876489585**. Đây là nhãn cycle giữ nguyên hợp đồng engine, không
+là return tài khoản/action của candidate. K khả dụng=3 ở cả 256 query;
+m=0 có32, m=8 có117, đủ strata m=0..8 trong report. Không suy ER từ p.
+
+Đã đối soát **7 file evaluation, 4.104.608 byte**; raw logits/reports/receipt
+giữ nguyên trước/sau nghiệm thu, không gồm metadata khóa OS. Identity:
+`184ed2f68f9dad7f2e177ffe4037f3d9d14289302b3adea56d763e0b0543603a`.
+SHA-256 byte trong `outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/`:
+
+| Artifact | Byte | SHA-256 |
+| --- | ---: | --- |
+| [index.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/index.json) | 7.283 | `ffaf067f9b32cdb62fe7e4e3695c352f0413d52c1ada7ba056e3cf8b19719637` |
+| [baseline.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/baseline.json) | 43.928 | `92ec62c2bdd282ebbcd62722edb00cbb114631e4405a2711fd9f6948fb202914` |
+| [seed17.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/seed17.json) | 480.809 | `04aae684eee3a32073b871f467083105b8a2cdd57be110106b49e9f4edfc919a` |
+| [seed42.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/seed42.json) | 485.193 | `0423502327213ebd67a5ea2764423fe6cd426f0f15b2add35201011e609b5023` |
+| [seed73.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/seed73.json) | 486.649 | `3734bb18fb44e188b6febd1670e9a5ef0d30a9daf33c507a821e5b50dcf95fd7` |
+| [report.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/report.json) | 2.600.022 | `861efa6d09e92fd2cbace21bd8f2175256e6c7a721bf731f67c737115c9de9aa` |
+| [replay_verification.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/replay_verification.json) | 724 | `116d8ad86761d34863ef700f2f899b84b3bc4763c88fa773c2816619e631af49` |
+
+Theo AGENTS.md 1.2, chỉ sửa tài liệu/phân tích artifact nên không chạy lại
+unit/leakage/E2E/compileall hoặc biên dịch Python. Viện dẫn **76 test PASS,
+49 leakage** từ lượt triển khai trên code/runtime nguyên vẹn; không gọi là
+test vừa chạy lại. Verifier chạy ngoài sandbox để đọc boot Windows cho OS
+lock theo hạn chế đã xác định. Đặc tả, ba input, 67 file training, W9 và ledger
+giữ nguyên; không ghi đè receipt cũ, train bổ sung hoặc gọi LLM/API.
+
+**Kết luận phát hành: NO_MT_BICL_RELEASE; development_allowed=false,
+decision_calls_allowed=false.** W10-07 DONE về thực hiện/đối soát phép đánh
+giá, không PASS về cơ chế. W10-08–10 và development/xác nhận phụ thuộc bị chặn
+cho candidate này; không tự hạ ngưỡng, chọn lại seed/checkpoint hoặc thay model
+để đi tiếp. Synthetic test/prior-swap và kết quả 2022 nay đã xem; mọi nghiên
+cứu sửa phương pháp sau kết quả này phải khai báo exposure, giữ nguyên bằng
+chứng revision hiện tại và đăng ký protocol/version mới trước train theo quy
+tắc amendment, không coi đây là test chưa từng xem.
