@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Kế hoạch thay thế 27/10/2026; W10-01–04 DONE, 4/10 task DONE.
-Task/context/streaming và projection fixture đã kiểm; tiếp theo W10-05.**
+**Kế hoạch thay thế 27/10/2026; W10-01–05 DONE, 5/10 task DONE.
+Simulator/oracle và dữ liệu preflight đã kiểm; tiếp theo W10-06.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -156,15 +156,15 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-02 | Khóa protocol/claim/split/seed/simulator/model/ma trận/gate trước train | 01 | [x] DONE — protocol v1, bảng simulator, fixture và verifier đã khóa; chưa release train/API |
 | W10-03 | Dense cycle bank, bốn feature/scaler PIT và nhãn engine; missing có reason | 02 | [x] DONE — 1.235 cycle hợp lệ/1.640 ứng viên, support giá PASS; chưa release train |
 | W10-04 | Task builder, prior/target/query rời; streaming và projection fixture | 03 | [x] DONE — metadata PIT, disjoint membership, stream và packing/projection; support development 41/60 PASS |
-| W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [ ] TODO |
+| W10-05 | Simulator, oracle enumeration độc lập và no-pooling control | 02–04 | [x] DONE — oracle độc lập PASS; khóa 5.000 test/5.000 cặp, chuẩn bị dữ liệu preflight |
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [ ] TODO |
 | W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [ ] TODO |
 | W10-08 | Adapter/prefix/paired/shared-off/retry/checkpoint; test đường đổi | 04; 07 cơ chế đạt | [ ] TODO |
 | W10-09 | Dry-run 60 điểm/coverage và 24 semantic probe tổng hợp trước run thật | 08 | [ ] TODO |
 | W10-10 | Source/runtime/model/tokenizer freeze; CLI run/resume/verify; release development | 09 | [ ] TODO |
 
-Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context}.py` cùng CLI
-dựng/kiểm bank và task/context. Oracle/model/runtime/reports, train/run CLI
+Đã có `core/mt_bicl_{bank,scaler,regimes,stream,tasks,context,simulator,oracle,oracle_reference,batches}.py`
+cùng CLI dựng/kiểm bank, task/context và corpus oracle. Model/runtime/reports, train/run CLI
 vẫn là phần triển khai tiếp theo. Reuse
 engine, giá PIT, HMM, retry/pacer/ledger đã kiểm; không restore toàn revision
 cũ vào namespace mới. Test: future append/scaler/mask/query-label, optimizer
@@ -746,3 +746,96 @@ Joblib có traceback dò CPU qua WMIC trong sandbox; lệnh vẫn exit 0 và k�
 quả model/context cold-rebuild khớp, không đổi dependency để bỏ cảnh báo.
 **Tiếp theo
 W10-05**: simulator/oracle độc lập và control không pooling; chưa train learner.
+
+## W10-05 — Simulator, oracle độc lập và batch preflight, 27/10/2026
+
+**DONE — oracle hữu hạn đã kiểm độc lập; chưa có learner hoặc kết quả cơ chế
+của learner.** Nhánh `feat/mt-bicl-simulator-oracle` tách từ `develop` tại
+`f41fd6b`. Giữ nguyên byte protocol, coefficient table, fixture và toàn bộ
+nguồn/bằng chứng đã khóa; không gọi LLM/API hoặc chạy optimizer.
+
+### Simulator và hai cách tính Bayes
+
+Simulator đọc đúng bảng 16 λ/64 w và seed W10-02; mỗi prior task có w_k
+riêng, target có w_* riêng dưới cùng λ. K=0..3, m=0..8, n_k=2..8 và thứ tự
+draw x/y đúng recipe. PCG64/SeedSequence địa chỉ hóa bằng stream/model seed/
+episode ID, cho random-access/resume; train chỉ seed 17/42/73, các corpus
+test/diagnostic/preflight dùng model_seed=0. Latent và nhãn query ở sidecar,
+schema predictor chỉ nhận prior/target/query; ID trùng bị từ chối, cùng x/y
+với ID khác nhau vẫn tạo các likelihood factor riêng.
+
+`FiniteBayesOracle` dùng NumPy/log-space, marginal từng w_k rồi chuẩn hóa
+joint (λ,w_*) đúng một lần; C cập nhật cả λ. `EnumerationOracle` tự tính
+p(w|λ), likelihood và chuẩn hóa bằng vòng lặp scalar/math.fsum, không dùng
+matrix hoặc kernel likelihood của oracle chính. Cách tham chiếu liệt kê
+λ/w_* và marginal w_k riêng theo từng task; không duyệt tích Descartes
+khổng lồ của mọi w_k khi K=3. Một test độc lập khác duyệt **đủ 65.536
+cấu hình latent (λ,w₁,w*)** cho K=1 và khớp oracle.
+
+Control shared-w pooling dùng p(w)=Σλp(λ)p(w|λ), cập nhật chung bằng D+C.
+Fixture khóa cho **hierarchical p=0,7097017325468643**, pooled
+**p=0,6128674607386324**, khớp tolerance 10⁻¹². Đổi thứ tự task không đổi
+oracle; chia lại cùng observation giữa task có thể đổi hierarchical p,
+trong khi pooling giữ nguyên. Đây là phép kiểm ranh giới task trên
+simulator, không là ground truth hoặc kết quả hiệu quả thị trường.
+
+### Corpus cố định và dữ liệu preflight
+
+Khóa đúng **5.000 synthetic test**, ID 0..4999, cùng **5.000 cặp thay prior**,
+pair ID 0..4999, theo stream đã đăng ký. Mỗi cặp giữ nguyên C/x/ID target,
+chỉ thay prior A→B; nhãn query chung nằm ngoài input. Đã so **20.002 dự báo**
+độc lập: hierarchical và pooled trên mọi test, hai phía mọi cặp, hai control.
+Sai khác lớn nhất p **5,629×10⁻¹⁴**, log p₁ **7,794×10⁻¹⁴**, log p₀
+**7,669×10⁻¹⁴**, đều dưới 10⁻¹². K test 0/1/2/3 lần lượt
+1.196/1.297/1.276/1.231; m=0 có 539 episode, đủ mọi m đến 8.
+
+Có **3.740/5.000 cặp** thỏa |Δoracle|≥0,05, vượt tối thiểu 200:
+**support SUFFICIENT**, không sinh bù hoặc đổi ngưỡng. Learner chưa được
+đối chiếu KL/P95/sign agreement: `learner_mechanism_status=NOT_RUN_NO_MODEL`.
+Không dùng corpus này để chọn checkpoint/seed hoặc tối ưu learner.
+
+`TrainingBatchSource` cấp effective batch128, interleave **64 synthetic +64
+market**; ID=64×step+i, synthetic train/preflight có stream riêng. Market
+uniform mã rồi query train hợp lệ, không dùng y/r_net để sampling; tập thật
+có FPT164/MWG180/VCB205/VNM174, tổng **723** query. Drop K giữ top K, drop m
+giữ m mới nhất, m=0 bỏ hết C; prior permutation dùng stream riêng với domain
+0 synthetic/1 market, target giữ thứ tự. Numeric packing hai miền khớp cùng
+hợp đồng tối đa 69 token, query y chỉ ở external loss label.
+
+Đã dựng và băm **100 batch preflight dữ liệu thật**, lưu hash từng step và
+batch đầu. Trạng thái `DATA_PREPARED_OPTIMIZER_NOT_RUN`: chưa đo 100 optimizer
+step với learner/GPU hoặc kiểm mask thực trên mô hình. W10-06 phải làm
+preflight đó, bỏ weights preflight và kiểm cap 12 giờ trước train ba seed.
+Không coi proxy W10-01 hoặc chuẩn bị dữ liệu ở đây là phép đo pipeline train.
+
+### Artifact và kiểm tra theo phạm vi
+
+Artifact local [synthetic_oracle_v1.json](../../../outputs/bayesian_benchmark/mt_bicl_v1/inputs/synthetic_oracle_v1.json),
+**76.993.897 byte**, SHA-256 byte
+`9f82873fc054788ba6bcc97c79edec4388bcda2c66c097ac763d8000ed2c1f66`;
+payload canonical `99ece910145e395a712bf897582744d7d232cd83431c73f6c17caf3d03cfce82`.
+Gồm input/sidecar/oracle/control, corpus test/cặp, identity nguồn/runtime,
+thống kê và batch preflight. Outputs ignored, có CLI dựng lại; không thêm
+receipt Markdown riêng. CLI từ chối ghi đè; `--check` cold-rebuild so toàn
+payload/identity, không tự cập nhật checksum để nhận nguồn đã đổi.
+
+```powershell
+# Chỉ tạo mới khi chưa có artifact.
+py -3.13 -X utf8 scripts/prepare_mt_bicl_oracle.py
+py -3.13 -X utf8 scripts/prepare_mt_bicl_oracle.py --check
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_mt_bicl_oracle*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p 'test_mt_bicl_tasks*.py' -v
+py -3.13 -X utf8 -m unittest discover -s tests -p test_mt_bicl_protocol.py -v
+py -3.13 -m py_compile core/mt_bicl_simulator.py core/mt_bicl_oracle.py core/mt_bicl_oracle_reference.py core/mt_bicl_batches.py scripts/prepare_mt_bicl_oracle.py tests/test_mt_bicl_oracle.py tests/test_mt_bicl_oracle_leakage.py
+```
+
+**28 test mới +27 task/context +9 protocol =64 PASS**, gồm **26 leakage**.
+Sau đổi fixture batch sang dữ liệu PIT tự dựng đã chạy lại đúng 28 test mới;
+36 test hồi quy PASS ở cùng lượt task, source/runtime không đổi. Unit test
+không phụ thuộc artifact ignored; CLI kiểm riêng byte artifact thật và mã
+dựng nó. Bảy file Python mới biên dịch PASS. Chọn phạm vi oracle/sampling/
+packing/PIT và hợp đồng protocol; không sửa engine, scaler, HMM hoặc adapter,
+không chạy toàn suite/E2E/compileall. **Cold-rebuild corpus/identity PASS**;
+diff/link/UTF-8/hash PASS. Năm JSON khóa, bank/task-context cũ, nguồn W9 và
+ledger giữ nguyên byte. **Tiếp theo W10-06:** learner/mask, preflight thật,
+train ba seed và chọn checkpoint bằng 2021; chưa release development.

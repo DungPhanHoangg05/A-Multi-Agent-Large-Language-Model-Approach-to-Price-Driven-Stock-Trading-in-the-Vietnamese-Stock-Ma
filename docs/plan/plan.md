@@ -8,8 +8,8 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 4/10, W11 0/8, W12 0/6; **W10-01–04 DONE**, tiếp theo
-**W10-05**. Bank/task/context đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
+**Tiến độ mới:** W10 5/10, W11 0/8, W12 0/6; **W10-01–05 DONE**, tiếp theo
+**W10-06**. Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
 [Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
@@ -1183,7 +1183,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 4/10 DONE
+### TUẦN 10: MT-BICL và tích hợp — 5/10 DONE
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1205,7 +1205,14 @@ không fit HMM/train/LLM hoặc đổi bằng chứng W9 trong W10-03.
 target/query, stream exit<query, packing và projection fixture. Support
 development **41/60** đồng thời K≥2,m≥2, từng mã ≥5: PASS; giữ 11 point thiếu
 feature trong đủ 60 point. **64 test PASS, 29 leakage**, không train learner/
-LLM hoặc dùng y query development. Tiếp theo W10-05; chưa release development.
+LLM hoặc dùng y query development.
+
+[W10-05](week10/README.md#w10-05--simulator-oracle-độc-lập-và-batch-preflight-27102026)
+đã kiểm simulator/log-space oracle bằng enumeration scalar độc lập và
+control pooling. Khóa 5.000 test/5.000 cặp; **20.002 dự báo** khớp tolerance
+10⁻¹², **3.740 cặp** đủ |Δoracle|≥0,05. Dữ liệu 100 batch preflight đã chuẩn
+bị; **64 test PASS, 26 leakage**. Chưa có learner, optimizer preflight,
+gate cơ chế hoặc LLM; tiếp theo W10-06, chưa release development.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
