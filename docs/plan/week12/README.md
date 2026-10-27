@@ -1,42 +1,51 @@
-# Tuần 12 — Hoàn thiện kết quả và bảo vệ khóa luận
+# Tuần 12 — Xác nhận, định lượng đóng góp và bảo vệ
 
-**Trạng thái: kế hoạch điều chỉnh 26/10/2026, 0/5 DONE; thời hạn vẫn 12 tuần.**
-[Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md) · [W9](../week9/README.md)
+**Kế hoạch thay thế 27/10/2026; 0/6 task DONE. Thời hạn vẫn 12 tuần.**
+[Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md)
 
-W10 đã triển khai U-BICL v1; U11-03 khóa NOT_NOMINATED. Theo yêu cầu mới,
-[chuỗi U11-04–U11-11](../week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
-triển khai kế hoạch R2 về payoff/ICL rồi tổng kết/bàn giao, không đổi kết
-quả cũ. U11 hiện 5/11: U11-05 đã khóa protocol/kiểm payoff, gate FAIL ngày
-27/10/2026. U11-06–09 NOT_RUN, R2 chưa development LLM/nomination/xác nhận;
-tiếp theo U11-10 tổng hợp cả kết quả offline bất lợi. W12 bắt đầu checklist sau bàn giao
-U11-11 (kể cả khi các bước xác nhận không được chạy). W12 ưu tiên
-luận văn/tái lập/slide. Chỉ hai ngày làm việc đầu được hoàn tất/resume
-xác nhận đã release và bắt đầu ở W11; không mở ma trận/run mới, tune hoặc
-gia hạn sang W13. Hết ngày thứ hai khóa dữ liệu: thiếu mẫu thì INCOMPLETE,
-không dùng mock, partial gain hoặc ước lượng nhãn chưa đóng làm kết quả chính.
+Hai ngày làm việc đầu chỉ hoàn tất/resume xác nhận đã release và bắt đầu
+ở W11. Hết ngày hai khóa dữ liệu, kể cả INCOMPLETE; không mở candidate,
+tune hoặc giảm N. Phần còn lại dành luận văn, tái lập và bảo vệ.
 
-| Task | Đầu ra và tiêu chí | Trạng thái |
-| --- | --- | --- |
-| U12-01 | Chốt trước cuối ngày thứ hai: W9 xác nhận cũ, v1 NOT_NOMINATED, R2 gate offline FAIL và development/xác nhận R2 NOT_RUN; không trộn cohort/revision | [ ] TODO |
-| U12-02 | Hoàn thiện phương pháp/kết quả/thảo luận, đủ ablation/noise/failure, năm action đổi của v1 và provenance mọi vòng phát triển; không bỏ kết quả bất lợi | [ ] TODO |
-| U12-03 | Kiểm tái lập/checksum/cài đặt/restore; viện dẫn receipt đúng source/runtime, test phần đổi nếu có; không tự chạy lại toàn suite; hướng dẫn offline và API | [ ] TODO |
-| U12-04 | Bản Word/LaTeX/PDF và 25–30 slide; số liệu/CI/hình/đơn vị khớp artifact | [ ] TODO |
-| U12-05 | Diễn tập phản biện và khóa bản nộp; giải thích Bayes/ICL/PIT/selection và giới hạn | [ ] TODO |
+## Phân tích xác nhận khóa trước run
 
-Không gán gain do memory, prompt chung hoặc shared-off cho riêng Bayes/ICL;
-không dùng trace làm bằng chứng suy luận nội tại. CI saved Decision không
-bao gồm toàn bộ noise provider; dữ liệu hồi cứu PIT không loại tri thức
-sau cutoff trong trọng số LLM. Nêu giới hạn bốn mã, regime/tin thiếu, tuổi
-memory, task coverage và các nhóm xấu. Nếu hợp nhất không vượt A, vẫn giữ
-kết quả W9 với đúng phạm vi; không gọi xóa revision cũ là chưa thử bao giờ.
+Primary D=mean đều bốn tài khoản [R_Full−R_Original], net theo engine.
+Circular moving-block bootstrap ngày cutoff duy nhất, giữ mọi mã/nhánh
+cùng cụm: L=4, 10.000 draw, PCG64 seed=20261027, percentile linear CI95%;
+≥9.500 draw hữu hạn, không sinh bù invalid. Dựng lại tài khoản từ action/
+payoff lưu theo resample, không cộng Δcycle. L=2/8 chỉ sensitivity.
+Với context prequential, CI này điều kiện trên saved predictions, không
+tái tạo đường học hoặc toàn bộ bất định training/provider; không CI live.
 
-Lợi ích nghiên cứu được chia thành hệ thống đúng/tái lập, ứng dụng Bayes
-và ICL có đối chứng, rồi bằng chứng kinh tế. Gate kỹ thuật không thay CI;
-CI qua 0 là chưa đủ bằng chứng, không phải tương đương. Không tự bật U làm
-mặc định chỉ vì development tốt. Báo cáo kết quả bất lợi là điều kiện liêm
-chính nghiên cứu, không phải lý do sửa mẫu/ngưỡng sau outcome.
+Family năm secondary Full−A/Plain_ICL/No_target/Stats_only/Numeric_only:
+Bonferroni CI99% mỗi contrast, cùng draws/common support. Thiếu support
+giữ null; không chọn nhóm/repeat thuận lợi thay G. Model seed/LLM repeat
+báo riêng, không nhân thành số quan sát độc lập.
 
-Root README giữ giới thiệu/hướng dẫn tiếng Anh, tiến độ ở docs/plan. Giữ
-T+2.5, phí/slippage, SHORT=CASH, PIT, upstream một lần, BRPP≤600/prompt<6500,
-retry/checkpoint và Python 3.13.5. API do người dùng thực hiện; deadline vẫn
-12 tuần, không tiếp tục search vô hạn để bảo đảm thắng.
+| Bằng chứng | Claim được phép |
+| --- | --- |
+| Primary CI>0 | Hệ thống MT-BICL cải thiện trên cohort/protocol xác nhận |
+| Thêm D≥1 đpt, ≥3/4 mã tăng, guard MDD đạt | Đạt mục tiêu thực tiễn “cải thiện rõ rệt” |
+| Full−Plain_ICL CI>0 | Learned Bayes thêm giá trị ngoài cùng demonstrations |
+| Full−No_target CI>0 | Target context thêm giá trị trong cấu hình này |
+| Full−Stats_only CI>0 | Demonstrations trong Decision thêm giá trị ngoài numeric output |
+| Chỉ Numeric thắng | Đóng góp numeric, chưa chứng minh LLM ICL |
+| CI qua 0 hoặc run thiếu | Inconclusive/INCOMPLETE, không tuyên bố tương đương hoặc thắng |
+
+Synthetic mechanism đạt nhưng thị trường không tăng: báo đúng hai mức.
+Nếu chỉ W9 có hiệu ứng xác nhận, giữ đúng phạm vi, không đổi tên thành
+MT-BICL. Giải trình mọi vòng đã xem/lựa chọn thích nghi; archive không xóa exposure.
+
+## Checklist W12
+
+| Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
+| --- | --- | --- | --- |
+| W12-01 | Hoàn tất/resume run được phép; khóa COMPLETE/INCOMPLETE/NOT_RUN trước cuối ngày hai | W11-08 | [ ] TODO |
+| W12-02 | Cold verify/account oracle/bootstrap/secondary/noise/strata | 01 đủ mẫu, nếu không ghi NOT_RUN xác nhận | [ ] TODO |
+| W12-03 | Khóa bảng/hình/claim; tách synthetic/validation/development/xác nhận | 01–02 chốt trạng thái | [ ] TODO |
+| W12-04 | Phương pháp/kết quả/thảo luận, hạn chế selection/PIT/prequential | 03 | [ ] TODO |
+| W12-05 | Checksum/restore/cài đặt; receipt và test đúng phạm vi mã bàn giao | 04 | [ ] TODO |
+| W12-06 | Word/LaTeX/PDF, 25–30 slide, diễn tập và khóa bản nộp | 05 | [ ] TODO |
+
+Không chạy toàn suite chỉ để cập nhật checklist; không tự bật model mới
+làm mặc định. Root README giữ tiếng Anh, tiến độ ở docs/plan.
