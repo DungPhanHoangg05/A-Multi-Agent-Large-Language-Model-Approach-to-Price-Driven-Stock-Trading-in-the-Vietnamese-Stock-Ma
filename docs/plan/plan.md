@@ -8,8 +8,10 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 0/10, W11 0/8, W12 0/6; **W10-01 đang thực hiện**:
-inventory/benchmark GPU đã kiểm, chờ xác nhận hạn nộp và quỹ giờ thực tế.
+**Tiến độ mới:** W10 1/10, W11 0/8, W12 0/6; **W10-01 DONE**, tiếp theo
+**W10-02**. Inventory/benchmark đã kiểm; người dùng xác nhận hai tuần,
+1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
+hoàn thành thực nghiệm chỉ từ benchmark GPU.
 [Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
 [phân tích/bản nộp W12](week12/README.md) là nguồn điều hành; mục 5.6 tóm tắt.
 W1–W9 và thiết kế trước đó là lịch sử, không lặp lại task đã hoàn tất.
@@ -37,6 +39,9 @@ Không dự toán quota/lịch API riêng, nhưng cohort/order/seed/stop phải 
 Giữ P0/retry/ledger/checkpoint; test theo phạm vi AGENTS.md 1.2, không tự
 chạy toàn suite để cập nhật checklist. W10-01 kiểm quỹ thời gian/benchmark
 GPU; W12 ngày hai khóa dữ liệu, sau đó luận văn/tái lập/slide/bảo vệ.
+Lịch làm việc từ xác nhận 27/10: 28/10–10/11, khóa dữ liệu cuối 07/11;
+đây là mốc quản lý, không xác nhận hạn nộp chính thức của trường. Phân bổ
+quỹ giờ và điều kiện NOT_RUN tại [W10-01](week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026).
 
 ---
 
@@ -1178,11 +1183,13 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — TODO 0/10
+### TUẦN 10: MT-BICL và tích hợp — 1/10 DONE
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
-benchmark GPU 100 step; chưa DONE vì còn xác nhận quỹ thời gian thực tế.
+benchmark GPU 100 step; DONE sau xác nhận hai tuần, 1–2 giờ/ngày. Lịch
+28/10–10/11 có quỹ 14–28 giờ, khóa dữ liệu cuối 07/11; không cam kết đủ
+toàn bộ triển khai/thực nghiệm, không bỏ gate. Tiếp theo W10-02.
 HMM cần ít nhất 499 phiên: support giá 2018–2019 chưa đồng nghĩa có regime
 PIT đầu block, policy missing phải khóa ở W10-02 trước train.
 
