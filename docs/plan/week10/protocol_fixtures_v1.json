@@ -1,0 +1,363 @@
+{
+  "version": "mt_bicl_protocol_fixtures_v1",
+  "scope": "Expected contract cho W10-03..09; chưa phải test implementation hoặc gate cơ chế PASS",
+  "pooling_control": {
+    "x": [1, 0, 0, 0],
+    "prior_tasks": [
+      {"task_id": "control-P1", "distinct_observations": 6, "y": 1},
+      {"task_id": "control-P2", "distinct_observations": 6, "y": 0}
+    ],
+    "target_context": {"distinct_observations": 3, "y": 1},
+    "query_x": [1, 0, 0, 0],
+    "query_label_visible": false,
+    "latent_provenance_not_model_input": {"lambda": 0, "w_indices": [0, 63, 32]},
+    "expected_hierarchical_p": 0.7097017325468633,
+    "expected_pooled_p": 0.6128674607386324,
+    "absolute_tolerance": 1e-12,
+    "note": "Mỗi observation có ID riêng dù x/y bằng nhau; mọi hàng dùng x ở trên. Hai phép tính log-space và tuyến tính đối chiếu giá trị fixture; oracle production độc lập vẫn phải nghiệm thu W10-05."
+  },
+  "token_example": {
+    "prior": [
+      {
+        "x": [
+          1,
+          0,
+          -1,
+          0
+        ],
+        "y": 1
+      },
+      {
+        "x": [
+          0,
+          1,
+          0,
+          -1
+        ],
+        "y": 0
+      }
+    ],
+    "target_context": [
+      {
+        "x": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "y": 0
+      }
+    ],
+    "query_x": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "tokens": [
+      {
+        "role": "PRIOR",
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          -1,
+          1
+        ]
+      },
+      {
+        "role": "PRIOR",
+        "values": [
+          1,
+          0,
+          -1,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "role": "PRIOR",
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "role": "PRIOR",
+        "values": [
+          0,
+          1,
+          0,
+          -1,
+          0,
+          1
+        ]
+      },
+      {
+        "role": "PRIOR",
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "role": "TARGET",
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          -1,
+          1
+        ]
+      },
+      {
+        "role": "TARGET",
+        "values": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "role": "TARGET",
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "role": "QUERY",
+        "values": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1
+        ]
+      }
+    ],
+    "loss_positions": [
+      6,
+      8
+    ],
+    "external_loss_labels": [
+      0,
+      1
+    ],
+    "query_label_in_input": false
+  },
+  "contract_cases": [
+    {
+      "id": "closed_before_query",
+      "input": {
+        "exit_date": "2020-06-01",
+        "query_date": "2020-06-02"
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "exit_equals_query",
+      "input": {
+        "exit_date": "2020-06-02",
+        "query_date": "2020-06-02"
+      },
+      "expected": "EXCLUDE_NOT_CLOSED_STRICTLY_BEFORE"
+    },
+    {
+      "id": "exit_after_query",
+      "input": {
+        "exit_date": "2020-06-03",
+        "query_date": "2020-06-02"
+      },
+      "expected": "EXCLUDE_NOT_CLOSED_STRICTLY_BEFORE"
+    },
+    {
+      "id": "injected_future_membership",
+      "expected": "ValueError_OR_AssertionError"
+    },
+    {
+      "id": "overlapping_membership",
+      "expected": "ValueError_OR_AssertionError"
+    },
+    {
+      "id": "cross_train_selection_boundary",
+      "input": {
+        "query_date": "2020-12-30",
+        "exit_date": "2021-01-05"
+      },
+      "expected": "PURGED_SPLIT_BOUNDARY"
+    },
+    {
+      "id": "cross_block_holding",
+      "input": {
+        "query_index": 62,
+        "entry_index": 63,
+        "exit_index": 65
+      },
+      "expected": "EXCLUDE_CROSS_BLOCK"
+    },
+    {
+      "id": "block_anchor",
+      "input": {
+        "indices": [
+          0,
+          62,
+          63,
+          125,
+          126
+        ]
+      },
+      "expected": [
+        0,
+        0,
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "early_hmm",
+      "input": {
+        "prefix_rows": 498
+      },
+      "expected": {
+        "regime": "UNKNOWN",
+        "reason": "INSUFFICIENT_REGIME_HISTORY"
+      }
+    },
+    {
+      "id": "minimum_hmm_rows",
+      "input": {
+        "prefix_rows": 499
+      },
+      "expected": "FIT_ELIGIBLE_NOT_CONVERGENCE_PROOF"
+    },
+    {
+      "id": "scaler_future_append",
+      "expected": "SAME_QUERY_VECTOR_AND_MEMBERSHIP"
+    },
+    {
+      "id": "query_label_flip",
+      "expected": "SAME_INPUT_TOKENS_MEMBERSHIP_AND_PREDICTION"
+    },
+    {
+      "id": "prior_permutation_oracle",
+      "expected": "SAME_P_WITH_ATOL_1E_MINUS_12"
+    },
+    {
+      "id": "duplicate_id",
+      "expected": "ValueError_OR_AssertionError"
+    },
+    {
+      "id": "distinct_ids_equal_observations",
+      "expected": "RETAIN_TWO_LIKELIHOOD_FACTORS_NOT_DEDUP_BY_VALUES"
+    },
+    {
+      "id": "cold_start",
+      "input": {
+        "K": 0,
+        "m": 0
+      },
+      "expected": "VALID_MODEL_INPUT_WITH_COLD_START_REASON"
+    },
+    {
+      "id": "query_no_feature",
+      "expected": "CONTEXT_OFF_REUSE_ONLY_IF_CANONICAL_REQUEST_IDENTICAL"
+    },
+    {
+      "id": "nonfinite_model_p",
+      "expected": "INTEGRITY_ERROR_NOT_CASH"
+    },
+    {
+      "id": "prefix_max",
+      "input": {
+        "K": 3,
+        "n": [
+          8,
+          8,
+          8
+        ],
+        "m": 8
+      },
+      "expected": {
+        "tokens": 69,
+        "prior_examples_in_llm": 6,
+        "target_examples_in_llm": 2,
+        "brpp_max": 600,
+        "prompt_exclusive_max": 6500
+      }
+    },
+    {
+      "id": "cash_contract",
+      "input": {
+        "action": "SHORT"
+      },
+      "expected": "CASH_NO_UNDERLYING_SHORT"
+    },
+    {
+      "id": "flat_price_cost",
+      "input": {
+        "entry_open": 100,
+        "exit_close": 100
+      },
+      "expected_net_return": -0.006975568072824623
+    },
+    {
+      "id": "future_news_or_undated",
+      "expected": "EXCLUDED_FROM_PIT_SENTIMENT"
+    },
+    {
+      "id": "paired_upstream",
+      "expected": "ONE_UPSTREAM_PER_POINT_DEEP_COPY_ALL_BRANCHES_AND_REPEATS"
+    },
+    {
+      "id": "unknown_or_integrity",
+      "expected": "PRESERVE_LEDGER_UUID_RESERVE_NO_FAKE_CASH_OR_NEW_POINT"
+    }
+  ],
+  "semantic_probe_ids": [
+    "prior_swap_fixed_target-1",
+    "prior_swap_fixed_target-2",
+    "prior_swap_fixed_target-3",
+    "prior_swap_fixed_target-4",
+    "target_swap_fixed_prior-1",
+    "target_swap_fixed_prior-2",
+    "target_swap_fixed_prior-3",
+    "target_swap_fixed_prior-4",
+    "cold_start-1",
+    "cold_start-2",
+    "cold_start-3",
+    "cold_start-4",
+    "conflicting_tasks-1",
+    "conflicting_tasks-2",
+    "conflicting_tasks-3",
+    "conflicting_tasks-4",
+    "negative_net_after_costs-1",
+    "negative_net_after_costs-2",
+    "negative_net_after_costs-3",
+    "negative_net_after_costs-4",
+    "missing_or_extreme_feature-1",
+    "missing_or_extreme_feature-2",
+    "missing_or_extreme_feature-3",
+    "missing_or_extreme_feature-4"
+  ]
+}

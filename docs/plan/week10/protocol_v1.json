@@ -1,0 +1,654 @@
+{
+  "protocol_version": "mt_bicl_protocol_v1",
+  "locked_date": "2026-10-27",
+  "status": "LOCKED_SPEC_IMPLEMENTATION_PENDING",
+  "is_execution_plan": false,
+  "training_allowed": false,
+  "decision_calls_allowed": false,
+  "candidate": "Full_MT_BICL",
+  "namespace": "outputs/bayesian_benchmark/mt_bicl_v1",
+  "claim": "Học dự báo theo prior tasks và target context trong simulator; kiểm dự báo thị trường và tài khoản riêng. Không hứa lợi nhuận hoặc đồng nhất HMM với lambda.",
+  "references": {
+    "paper": "https://arxiv.org/html/2606.20538v1",
+    "author_model": "https://raw.githubusercontent.com/martianmartina/multi-task-bayesian-icl/main/src/models/multi_task_implicit_model.py",
+    "adaptation": "Dùng hai token x/y và marker, khác input x_t,y_(t-1) của paper; giữ causal prediction và target-only likelihood."
+  },
+  "artifacts": {
+    "simulator_v1.json": "17e5d9b4dbe87d65630469ce631d699c051f62c56d58b1da77a2370a2ff831f8",
+    "protocol_fixtures_v1.json": "fd7def3c674dac89a3ae1f39db22547720fce7832125e4fc1b85dfc32b7886ea",
+    "resource_inventory.json": "4048fdac5684b0bf10d1ececa16756f3e07f864cbcf1fe69fb78926d6500a8d9",
+    "gpu_benchmark.json": "c28706d845d0860e03b18704a25ee8d4ab3c78afc265ecaec9a20acc90a1163f"
+  },
+  "source_sha256": {
+    "core/execution_prices.py": "34f5c5d4e1d71fffae1770567dbd8a8c74054496650ce29d79d7d67d098f0121",
+    "core/pit_price_features.py": "35e5042a49aa2d1c3854150925389c6c3a79260eecaa99851ae6bea2a43794dc",
+    "core/regime_detector.py": "fba35472efafe4d5133db50d8ca24d4c57b5682960de2b8a2320a18bddf3be8b",
+    "scripts/verify_execution_price_gate.py": "4f15dc7d079eba32446b4cd26f4d0794c0f0397f4e8c7cb7a4261808d140091a",
+    "scripts/prepare_historical_data.py": "c81142720173bce98dcde84d0fa4a2b5c831f3d6517d30b45761412ced225a6a",
+    "core/backtest_engine.py": "57074df54e806adb1685436eac9bbe3053a87cadb12cb6613e682589ec8e8f2d",
+    "core/improvement_protocol.py": "10e19b5ef6a3d75e83f645f6cfdc8b46e1f883ec69626bbd1ee2ac743c261097",
+    "outputs/bayesian_benchmark/improvement_v1/development/plan.json": "f9745d946d81cb008e0a747f8367fe0c85a5fbd989e7148bde997227d651831e",
+    "outputs/bayesian_benchmark/improvement_v1/holdout/plan.json": "6b6760768fe98731e64e1e518ffbc351db29a41397f46bfad0d3a19d96956944"
+  },
+  "price_manifest_sha256": {
+    "data/execution_prices": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+    "data/execution_prices_oos": "bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4"
+  },
+  "historical_manifest_sha256": "0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c",
+  "runtime": {
+    "python": "3.13.5",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "hmmlearn": "0.3.3",
+    "dependency_upgrade": false
+  },
+  "economic_contract": {
+    "label_function": "core.backtest_engine.compute_round_trip_net_return",
+    "entry": "Open(t+1)",
+    "exit": "Close(t+3)",
+    "fee_each_side": 0.0025,
+    "slippage_each_side": 0.001,
+    "y": "int(r_net>0)",
+    "r_net_unit": "fraction",
+    "action_short": "CASH",
+    "initial_cash_vnd": 50000000,
+    "lot": 100,
+    "tp_sl_override_fixed_exit": false
+  },
+  "features": {
+    "columns": [
+      "momentum_5",
+      "momentum_20",
+      "volatility_20",
+      "ma_distance_20"
+    ],
+    "primitive": "pit_price_features_v1",
+    "required_bars": 21,
+    "corporate_action_policy": "raw_segment_21_v1",
+    "decision_action_confidence_reports_as_features": false,
+    "missing_vector": "NO_IMPUTATION_CONTEXT_OFF_WITH_REASON"
+  },
+  "calendar": {
+    "source": "data/historical/VNINDEX.csv",
+    "anchor": "2018-01-02",
+    "index_origin": 0,
+    "bank_query_indices": "20+3*j, j>=0, require t+3 in calendar",
+    "step": 3,
+    "task_id": "symbol:block{floor(query_calendar_index/63):04d}",
+    "block_sessions": 63,
+    "cycle_in_task": "query/entry/exit phải cùng block; không chuyển cycle sang block khác",
+    "split_purge": "query và exit phải cùng partition; khoảng nắm giữ không cắt biên",
+    "historical_id": "symbol-YYYY-MM-DD theo query, không theo action",
+    "calendar_gap": "UNAVAILABLE_MISSING_SESSION; không nén lịch hoặc nội suy"
+  },
+  "splits": {
+    "train": [
+      "2018-01-02",
+      "2020-12-31"
+    ],
+    "checkpoint_selection": [
+      "2021-01-01",
+      "2021-12-31"
+    ],
+    "validation": [
+      "2022-01-01",
+      "2022-12-31"
+    ],
+    "development": [
+      "2023-01-01",
+      "2023-12-31"
+    ],
+    "exposed_reference": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "conditional_confirmation": [
+      "2025-01-01",
+      "2025-12-31"
+    ],
+    "no_automatic_resplit": true,
+    "minimum_support_before_training": {
+      "train_cycles_per_symbol": 100,
+      "train_blocks_with_two_cycles_per_symbol": 4,
+      "checkpoint_cycles_per_symbol": 40,
+      "failure": "STOP_INSUFFICIENT_TRAIN_SUPPORT; không chuyển 2022 vào train"
+    }
+  },
+  "scaler": {
+    "family": "standardization_ddof0",
+    "scope": "global_four_symbols_equal_per_cycle_no_labels",
+    "train_episode_fit": "Chỉ feature cycle thuộc train đã đóng exit<query; không fit bằng future train rows của query đó",
+    "minimum_closed_cycles": 2,
+    "zero_std_scale": 1.0,
+    "post_train_fit": "Mọi feature train hợp lệ exit<=2020-12-31; freeze trước 2021",
+    "apply": "Cùng scaler episode cho prior/target/query; giữ vector raw và z đầy đủ trong sidecar",
+    "clip_model_and_distance": [
+      -4.0,
+      4.0
+    ],
+    "centroid": "Mean vector scale/clip của mọi cycle hợp lệ trong task đã đóng trước query, không chỉ tám cycle được chọn",
+    "auxiliary_loss_note": "Loss ở C trong episode là teacher-forced target loss, không báo như dự báo PIT độc lập tại ngày C."
+  },
+  "regime": {
+    "primitive": "MarketRegimeDetector",
+    "min_raw_rows": 499,
+    "train_task_metadata": "Fit historical prefix <=block_start, classify tại block_start; khóa metadata theo task ID",
+    "train_query": "Dùng model prefix của đầu block hiện tại, classify prefix <=query",
+    "insufficient_history": {
+      "regime": "UNKNOWN",
+      "reason": "INSUFFICIENT_REGIME_HISTORY",
+      "retain_price_cycles": true,
+      "known_match": false
+    },
+    "other_fit_or_integrity_error": "RAISE_STOP_NOT_UNKNOWN",
+    "evaluation_model": "Fit một lần bằng VNINDEX <=2020-12-31 trong namespace mới, classify query từ 2021; không dùng artifact cuối 2022",
+    "old_task_metadata": "Không gán lại bằng artifact fit sau đầu block; block từ 2021 dùng model cuối 2020, block vắt 2020/2021 giữ metadata historical-prefix",
+    "classification_method": "Giữ HMM hoặc fallback calibration của primitive cùng provenance; không đổi parameters",
+    "missing_regime_in_numeric_input": false,
+    "task_metadata_after_2020": "Block bắt đầu từ 2021 dùng model cuối 2020 đóng băng; chỉ classify prefix đến block_start, không refit bằng validation/test"
+  },
+  "membership": {
+    "same_symbol_only": true,
+    "closed_rule": "exit_date < query_date",
+    "prior_task_rule": "block_end < target_block_start; cycle thuộc prior block và >=2 cycle hợp lệ",
+    "max_prior_tasks": 3,
+    "max_cycles_per_prior": 8,
+    "min_cycles_per_prior": 2,
+    "target": "Tối đa tám cycle mới nhất trong current block, exit<query, tăng dần cutoff/ID",
+    "max_target_cycles": 8,
+    "prior_task_rank": [
+      "known_regime_match_first",
+      "centroid_euclidean_distance_ascending",
+      "latest_closed_exit_descending",
+      "task_id_lexicographic"
+    ],
+    "prior_cycle_rank": [
+      "euclidean_distance_to_query_ascending",
+      "as_of_date_descending",
+      "episode_id_lexicographic"
+    ],
+    "cycle_order_in_selected_prior": "as_of_date/ID tăng dần sau khi chọn tám cycle gần query nhất theo distance",
+    "disjoint": "ID và khoảng [entry,exit] của mọi observation và query rời nhau; cycle cắt block đã loại",
+    "age_cap_days": null,
+    "missing": "Giữ K=0..3,m=0..8 và reasons, không bù task khác mã, không cân bằng nhãn",
+    "violation": "Candidate tương lai bị loại trước rank; membership đã chọn chứa future/overlap phải raise ValueError/AssertionError",
+    "centroid_scaler_fit_ids": "Lưu ID/hash của tập fit scaler và toàn cycle centroid trước cutoff; không dùng y để rank"
+  },
+  "tokenizer": {
+    "version": "numeric_xy_marker_v1",
+    "numeric_dimensions": 6,
+    "numeric_fields": [
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "label_value",
+      "label_missing"
+    ],
+    "roles": {
+      "PRIOR": 0,
+      "TARGET": 1,
+      "QUERY": 2
+    },
+    "marker_values": [
+      0,
+      0,
+      0,
+      0,
+      -1,
+      1
+    ],
+    "x_token": "[x1,x2,x3,x4,0,1]",
+    "y_token": "[0,0,0,0,y,0]",
+    "sequence": "Mỗi prior: marker+(X,Y)*n; target: marker+(X,Y)*m; QUERY X cuối không có Y",
+    "max_tokens": 69,
+    "query_label_location": "External target only, không nằm tensor input, metadata rank hoặc prefix",
+    "mask": "Causal lower triangular gồm self; key padding mask bên phải; PAD không loss",
+    "loss": "BCEWithLogits tại mọi X target C và X query, mean theo episode rồi mean batch; không loss prior/Y/marker/PAD",
+    "prior_order_train": "Uniform permutation các task sau selection, dùng stream riêng",
+    "prior_order_eval": "Rank cố định; không random sau freeze",
+    "target_order": "chronological"
+  },
+  "model": {
+    "architecture": "torch.nn.TransformerEncoder dùng mask causal, không nhìn hai chiều",
+    "layers": 2,
+    "hidden": 128,
+    "heads": 4,
+    "ff": 256,
+    "dropout": 0.1,
+    "activation": "relu",
+    "batch_first": true,
+    "norm_first": false,
+    "layer_norm_eps": 1e-05,
+    "numeric_projection": "Linear(6,128)",
+    "role_embedding": [
+      3,
+      128
+    ],
+    "position_embedding": [
+      69,
+      128
+    ],
+    "output": "Linear(128,1), sigmoid cho p(y=1)",
+    "parameters": 275201,
+    "ensemble": false,
+    "precision": "float32",
+    "amp": false,
+    "tf32": false
+  },
+  "training": {
+    "model_seeds": [
+      17,
+      42,
+      73
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "optimizer_steps_per_seed": 10000,
+    "effective_batch": 128,
+    "physical_batches_before_training": [
+      128,
+      64,
+      32
+    ],
+    "gradient_accumulation": [
+      1,
+      2,
+      4
+    ],
+    "batch_change_only_on_pretrain_oom": true,
+    "synthetic_market_ratio": [
+      1,
+      1
+    ],
+    "market_query_sampling": "Uniform symbol, rồi uniform query hợp lệ thuộc train; không sampling theo y/r_net",
+    "market_context_dropout": "K uniform 0..K_available giữ top K; m uniform 0..m_available giữ m mới nhất; rank không đổi",
+    "checkpoints_every_steps": 1000,
+    "early_stopping_by_metrics": false,
+    "max_all_training_hours": 12,
+    "time_cap_scope": "Ba seed cộng preflight/episode generation/train/validation/checkpoint của quá trình train; không nhân 12 giờ mỗi seed",
+    "interruption": "Resume cùng seed/step/optimizer/RNG/identity; không đổi số step vì kết quả",
+    "cap_or_calendar_exhausted": "INCOMPLETE_NO_CANDIDATE; không nominate seed chưa train đủ",
+    "real_pipeline_preflight_steps": 100,
+    "preflight_weights_retained": false,
+    "preflight_gate": "Đo 100 step pipeline thật trước train, nếu vượt cap/lịch hoặc không chạy được thì STOP; không giảm architecture/step sau xem validation",
+    "deterministic": {
+      "torch_use_deterministic_algorithms": true,
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "cudnn_benchmark": false,
+      "seed_python_numpy_torch_cuda": true
+    },
+    "episode_ids": "Mỗi optimizer step s từ 0 có 64 synthetic và 64 market, episode_id=64*s+i, i=0..63; interleave hai miền; stream và model_seed tách biệt; microbatch chia liên tiếp, mean loss/accumulation bảo toàn effective batch128",
+    "physical_batch_scope": "Chọn một physical batch bằng preflight OOM trước cả ba seed; giữ nguyên mọi seed và resume, không đổi vì kết quả"
+  },
+  "rng_streams": {
+    "table": 20261027,
+    "synthetic_diagnostic": 20261028,
+    "synthetic_test": 20261029,
+    "prior_swap_pairs": 20261030,
+    "synthetic_train": 20261031,
+    "market_sampling": 20261101,
+    "prior_permutation": 20261102,
+    "runtime_preflight": 20261103,
+    "market_evaluation": "Không random; sort query/cutoff và symbol_order"
+  },
+  "selection": {
+    "dataset": "2021, cùng toàn bộ query có feature/label hợp lệ cho mọi seed/checkpoint",
+    "objective": "Macro mean log loss đều bốn mã; Brier tie-break; không P&L",
+    "probability_clip_for_metrics_only": [
+      1e-06,
+      0.999999
+    ],
+    "tie_key": [
+      "round(macro_log_loss,12)",
+      "round(macro_brier,12)",
+      "optimizer_step_ascending",
+      "seed_order_17_42_73"
+    ],
+    "report_all_seeds": true,
+    "candidate_seed": "Một seed/checkpoint duy nhất, không vote hoặc ensemble",
+    "evaluation_mode": "model.eval + no_grad/inference_mode, dropout OFF, optimizer/scaler/HMM frozen",
+    "validation_2022": "Báo toàn seed tại checkpoint riêng được chọn bằng 2021 và candidate chung; không chọn lại theo 2022",
+    "seed_reports": "Chọn checkpoint riêng mỗi seed bằng cùng key 2021 (bỏ seed_order); chọn candidate toàn bộ checkpoint/seed bằng key chung; báo cả ba seed"
+  },
+  "numeric_baselines": {
+    "base_rate": "Laplace (1+sum y_train)/(2+N_train), không refit sau 2020",
+    "logistic": {
+      "implementation": "sklearn.linear_model.LogisticRegression",
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "tol": 1e-08,
+      "random_state": 42,
+      "class_weight": null,
+      "features": "Cùng x z/clip; fit một lần bằng scaler cuối train và labels train, không reports",
+      "single_class": "Constant Laplace rate, ghi SINGLE_CLASS_TRAIN; lỗi hội tụ phải báo"
+    },
+    "no_prior": "Cùng learned weights, bỏ D; K=0 đã được train",
+    "no_target": "Cùng learned weights, bỏ C; m=0 đã được train",
+    "naive_pooling": "Finite-logistic shared-w predictor của simulator: p(w)=sum_lambda p(lambda)p(w|lambda), update chung từ D+C; weights/support không refit; trên market chỉ là baseline với giả định mô hình, không là ground truth",
+    "comparability": "Oracle hierarchical vs pooled cùng simulator tách giả định latent; không gọi so naive pooling thị trường là ablation cùng learned weights"
+  },
+  "reporting": {
+    "calibration_edges": [
+      0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "bin_rule": "[left,right), bin cuối gồm 1; giữ cả bin trống count=0/null",
+    "market_metrics": [
+      "Brier",
+      "log_loss",
+      "bin_count_mean_p_observed_rate",
+      "r_net_by_p_bin",
+      "mean_positive_gain",
+      "mean_nonpositive_loss",
+      "K_m_support",
+      "runtime"
+    ],
+    "r_net_diagnostics": "r_net dạng fraction; giữ thắng nhỏ/thua lớn và số mẫu; không suy expected return từ p",
+    "label_fraction_not_llm_confidence": true
+  },
+  "mechanism_gate": {
+    "synthetic_episodes": 5000,
+    "stream": "synthetic_test",
+    "model_seed_or_zero": 0,
+    "ids": "0..4999, recipe khóa trước train; không dùng test chọn checkpoint/seed",
+    "mean_kl_oracle_model_max_nats": 0.02,
+    "p95_absolute_error_max": 0.1,
+    "p95_method": "numpy.quantile(.95,method=linear)",
+    "kl": "Float64 Bernoulli KL oracle||model bằng log probabilities/logsigmoid(logit) ổn định; không clip để giảm KL; kiểm p gốc hữu hạn trong [0,1]",
+    "oracle_checks": [
+      "independent_enumeration_atol_1e-12",
+      "m0",
+      "K0",
+      "prior_permutation",
+      "C_updates_lambda",
+      "distinct_duplicate_observation_factor",
+      "duplicate_id_reject",
+      "shared_w_pooling_control"
+    ],
+    "prior_swap": {
+      "attempt_pairs": 5000,
+      "stream": "prior_swap_pairs",
+      "method": "pair_id 0..4999; K uniform1..3, m uniform0..8, n_k uniform2..8; lambda_A/lambda_B độc lập từ p_lambda; draw w và D_A, rồi D_B từ lambda_B; draw target w từ lambda_A và C/query chung cuối; B chỉ thay prior, giữ C/x/ID target",
+      "minimum_oracle_delta": 0.05,
+      "minimum_eligible_pairs": 200,
+      "sign_agreement_min": 0.9,
+      "insufficient": "INCONCLUSIVE_BLOCK_DEVELOPMENT; không sinh bù hoặc đổi delta"
+    },
+    "pooling_fixture": "Khóa trước train recipe pair khác task latent, báo model/oracle/pooled và gap; pooling không phải market ground truth",
+    "failure": "NO_MT_BICL_RELEASE, không thay bằng model return khác"
+  },
+  "decision": {
+    "llm_matrix": [
+      "Original",
+      "A_reference",
+      "Plain_ICL",
+      "Full_MT_BICL",
+      "No_target",
+      "Stats_only"
+    ],
+    "offline": [
+      "Numeric_only"
+    ],
+    "candidate_only": "Full_MT_BICL",
+    "symbol_order": [
+      "FPT",
+      "MWG",
+      "VCB",
+      "VNM"
+    ],
+    "signal_config": {
+      "models": {
+        "agent_llm_max_tokens": 2048,
+        "agent_llm_model": "openai/gpt-oss-20b",
+        "agent_llm_temperature": 0.0,
+        "graph_llm_max_tokens": 1024,
+        "graph_llm_model": "qwen/qwen3.8-27b",
+        "graph_llm_temperature": 0.0
+      },
+      "window_size": 45,
+      "norm_method": "zscore_tanh",
+      "alpha_weights": null,
+      "language": "vi",
+      "time_frame": "1d"
+    },
+    "client_options": {
+      "agent": {
+        "reasoning_format": "hidden",
+        "reasoning_effort": "low"
+      },
+      "graph": {
+        "reasoning_format": "hidden",
+        "reasoning_effort": "none"
+      }
+    },
+    "client_max_retries": 0,
+    "service_tier": "on_demand",
+    "api_wrapper": "_invoke_with_retry, resilient_invocation_v1 + Groq retry-after/backoff/checkpoint/ledger",
+    "upstream": "Một lần/point, deep-copy tất cả nhánh/repeat; legacy reuse chỉ sau verify identity, không vision riêng nhánh",
+    "A_reference": "A_tp_pool giữ bank/feature/selector nguồn W9; Full-A là so toàn phương pháp",
+    "Plain_ICL": "Cùng selected membership và projection Full, bỏ learned p/output; giữ K/m/support",
+    "No_target": "Recompute p với C=[], bỏ target examples, prior/query giữ nguyên Full; không truy xuất lại D theo C",
+    "Stats_only": "Cùng p Full, không examples/ID/summary outcome, chỉ K/m/support/p và query feature",
+    "Numeric_only": "LONG iff p>0.5 và input hợp lệ, còn lại CASH có reason; lỗi integrity/API không đổi thành CASH",
+    "Original": "Không context mới; cùng base instruction/schema/model/options của run mới, không replay W9 action",
+    "schema": "evidence_for/evidence_against/justification hiện hữu; p không phải expected return hoặc R:R; không ép action theo p",
+    "common_instruction_freeze": "W10-08 triển khai; W10-10 khóa byte common instruction/schema/tokenizer trước bất kỳ response development",
+    "ledger_lifecycle": "Hash ledger inventory là snapshot audit W10-01, không khóa byte ledger sống vĩnh viễn; giữ nguyên mọi request W9 trong frozen ZIP, cho phép append sau release bằng lifecycle/UUID/unknown reserve hiện hữu; verifier run riêng phải bind từng request thuộc run"
+  },
+  "projection": {
+    "max_prior_examples_each_task": 2,
+    "prior_example_choice": "Hai cycle đầu theo rank distance trong tám đã chọn; hiển thị theo cutoff/ID",
+    "max_target_examples": 2,
+    "target_choice": "Hai target cycle mới nhất; hiển thị theo cutoff/ID",
+    "features": "Cùng z clip[-4,4]; mã q=clip(rint(z*2),-8,8), bốn integer; rint ties-to-even",
+    "legend": "q=(mom5,mom20,vol20,ma20); z≈q/2; y=1:net>0; p=P(y=1), không phải ER",
+    "prior_chars_inclusive_max": 600,
+    "decision_prompt_chars_exclusive_max": 6500,
+    "overflow": "FAIL_BUDGET trước gọi API, không cắt nhãn/legend hoặc âm thầm giảm số ví dụ",
+    "full_precision_sidecar": true,
+    "p_decimal_places": 3,
+    "support_in_prefix": "K, m và n selected từng prior task; tổng số cycle eligible và provenance đầy đủ ở sidecar",
+    "shared_off": "Reuse Original chỉ canonical request/model/options/schema/point/repeat trùng và response durable"
+  },
+  "development": {
+    "year": 2023,
+    "points": 60,
+    "symbol_cutoffs": {
+      "FPT": [
+        "2023-04-12",
+        "2023-05-11",
+        "2023-06-01",
+        "2023-06-27",
+        "2023-07-05",
+        "2023-07-31",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ],
+      "VNM": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-08-03",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-19"
+      ],
+      "VCB": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-08-03",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ],
+      "MWG": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-07-31",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ]
+    },
+    "primary_slots": 360,
+    "repeat_points": 12,
+    "additional_repeats": 3,
+    "repeat_slots_including_duplicate": 252,
+    "repeat_selection": "Ba/mã: ngày đầu m=0, m=1..3, m>=4; thiếu stratum bù ngày đầu chưa chọn theo cutoff, ghi reason; khóa IDs trước action",
+    "primary_order": "sort(cutoff,symbol_order), Original đầu; rotate_left năm nhánh khác j mod5",
+    "repeat_order": "Original đầu; rotate_left sáu nhánh khác kể cả Original_duplicate (3*j+r-1) mod6; r=1..3",
+    "support_gate": {
+      "K_at_least": 2,
+      "m_at_least": 2,
+      "simultaneous_points_min": 30,
+      "simultaneous_each_symbol_min": 5,
+      "failure": "INSUFFICIENT_CONTEXT_NO_API"
+    },
+    "nomination": {
+      "G": 60,
+      "D_Full_Original_strict_min": 0,
+      "positive_symbols_min": 3,
+      "D_Full_A_inclusive_min": 0,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5,
+      "candidate_substitution": false
+    },
+    "semantic_probes": 24,
+    "repeat_not_in_primary": true
+  },
+  "confirmation": {
+    "year": 2025,
+    "conditional_on": [
+      "technical_mechanism_gate",
+      "nomination",
+      "exposure_audit",
+      "source_price_rights_verification",
+      "MDE_report",
+      "release_and_start_before_deadline"
+    ],
+    "points": 128,
+    "points_each_symbol": 32,
+    "points_each_symbol_quarter": 8,
+    "selection": "step3 neo phiên đầu 2025; cycle đóng trong quý và đủ giá/quyền/feature; sort N eligible rồi floor(j*(N-1)/7), j=0..7; N<8 BLOCKED, không đổi mẫu theo outcome",
+    "primary_slots": 768,
+    "repeat_slots": 252,
+    "context_updates": "Prequential, append market cycles exit<query bằng label engine độc lập action; không gradient/refit/tune",
+    "independence": "Không rõ exposure thì exploratory, không đổi sang 2024",
+    "G": 128,
+    "primary": "D=mean bốn account return Full-Original, đơn vị đpt, không mean cycle hoặc return portfolio",
+    "bootstrap": {
+      "rng": "PCG64",
+      "seed": 20261027,
+      "draws": 10000,
+      "block_dates": 4,
+      "sensitivity_blocks": [
+        2,
+        8
+      ],
+      "method": "Circular moving-block unique query date clusters; ceil(n_dates/L) starts uniform with replacement, offsets modulo, concat truncate n_dates; shared indices mọi nhánh/mã; account rebuild theo thứ tự resample",
+      "ci": 0.95,
+      "secondary_ci": 0.99,
+      "secondary": [
+        "Full-A",
+        "Full-Plain_ICL",
+        "Full-No_target",
+        "Full-Stats_only",
+        "Full-Numeric_only"
+      ],
+      "minimum_valid": 9500,
+      "invalid": "Thiếu mã/metric không hữu hạn; không sinh draw bù",
+      "quantile": "linear",
+      "limits": "CI điều kiện trên saved predictions, không replay prequential context hoặc toàn bất định training/provider"
+    },
+    "practical_gain": {
+      "D_min_pp": 1,
+      "primary_CI_lower_strict_min": 0,
+      "positive_symbols_min": 3,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5
+    }
+  },
+  "time": {
+    "user_hours_total": [
+      14,
+      28
+    ],
+    "planning_hours": 14,
+    "window": [
+      "2026-10-28",
+      "2026-11-10"
+    ],
+    "last_confirmation_release_and_start": "2026-11-05",
+    "data_stop": "2026-11-07",
+    "no_new_runs_after_stop": true,
+    "incomplete": "Giữ missing/unknown, ghi INCOMPLETE/NOT_RUN, hoàn thiện luận văn; không hạ gate hoặc kéo dài để tìm kết quả"
+  },
+  "release_stages": {
+    "now": "SPEC_ONLY",
+    "W10-03": "bank/scaler/label/PIT verified",
+    "W10-04": "task/membership/stream/projection fixtures verified",
+    "W10-05": "simulator/oracle independent verified, actual pipeline preflight prepared",
+    "W10-06": "Train 3 seed đủ step và chọn bằng 2021, seal artifacts",
+    "W10-07": "Technical + synthetic mechanism PASS; báo market validation bất lợi đúng trạng thái",
+    "W10-08": "adapter/shared-off/prompt/paired/retry/resume tested",
+    "W10-09": "60-point dry-run coverage +24 semantic probe",
+    "W10-10": "source/runtime/model/tokenizer freeze, CLI run/resume/verify, release development",
+    "W11-06": "Release xác nhận riêng sau nomination/exposure/source/MDE"
+  },
+  "amendments": "Mọi đổi split/seed/table/model/step/mask/ma trận/gate phải version mới trước train; giữ version cũ và khai báo exposure. Không tự rehash để lách lock; sửa sau outcome là exploratory, không vòng tối ưu mới trong hạn."
+}
