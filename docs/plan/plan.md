@@ -8,8 +8,9 @@ rồi tích hợp Decision LLM. Một candidate, một development và một xá
 có điều kiện. Mục tiêu mean ΔR≥1 đpt, CI xác nhận>0 và drawdown trong guard;
 không hứa kết quả hoặc cộng thêm ba tuần vào thời hạn 12 tuần đã có.
 
-**Tiến độ mới:** W10 5/10, W11 0/8, W12 0/6; **W10-01–05 DONE**, tiếp theo
-**W10-06**. Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
+**Tiến độ mới:** W10 5/10, W11 0/8, W12 0/6; **W10-01–05 DONE**,
+**W10-06 IN_PROGRESS**: learner/CLI train-resume-seal và test đã sẵn, chờ người dùng chạy GPU.
+Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
 [Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
@@ -1213,6 +1214,14 @@ control pooling. Khóa 5.000 test/5.000 cặp; **20.002 dự báo** khớp toler
 10⁻¹², **3.740 cặp** đủ |Δoracle|≥0,05. Dữ liệu 100 batch preflight đã chuẩn
 bị; **64 test PASS, 26 leakage**. Chưa có learner, optimizer preflight,
 gate cơ chế hoặc LLM; tiếp theo W10-06, chưa release development.
+
+[W10-06](week10/README.md#w10-06--learner-trainresume-và-seal-27102026)
+đã triển khai learner causal FP32/275.201 tham số, preflight GPU 100 step,
+train/resume ba seed đủ 10.000 step, chọn bằng 2021 và seal/replay 30 checkpoint.
+**106 test theo phạm vi PASS**, 37 leakage; điều phối/OOM dùng mock CPU,
+không là train GPU thật. Lệnh PowerShell đầy đủ và pause/resume ở README W10.
+Task còn **IN_PROGRESS**, chờ preflight/ba seed/seal thật; không tăng số DONE
+hoặc phát hành development trước kết quả đó.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
