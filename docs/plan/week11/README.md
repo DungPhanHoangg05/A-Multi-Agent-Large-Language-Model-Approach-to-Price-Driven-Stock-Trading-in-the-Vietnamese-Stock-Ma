@@ -1,6 +1,6 @@
 # Tuần 11 — Kiểm định phiên bản hợp nhất và khóa kết quả nghiên cứu
 
-**Trạng thái: U11-04 DONE; checklist hợp nhất ngày 26/10/2026 có 4/11 task DONE. Tiếp theo: U11-05.**
+**Trạng thái: U11-05 DONE ngày 27/10/2026; 5/11 task DONE. Gate payoff R2 FAIL; U11-06–09 NOT_RUN. Tiếp theo: U11-10.**
 [Kế hoạch tổng](../plan.md) · [Thiết kế W10](../week10/README.md) · [W12](../week12/README.md)
 
 Development đã **RELEASED_FOR_DEVELOPMENT** theo [nghiệm thu U11-01](#u11-01--dry-run-và-release-development-26102026).
@@ -15,6 +15,11 @@ Dừng nhánh xác nhận v1 theo protocol. Theo yêu cầu ngày 26/10/2026,
 checklist task bổ sung riêng; deadline vẫn W12. Chưa cấp nomination hoặc
 release 2025 cho R2. Các mục A–C dưới đây giữ protocol v1 để tham chiếu;
 thiết kế R2 và checklist hiện hành là căn cứ cho công việc tiếp theo.
+
+**Cập nhật 27/10/2026:** U11-05 đã khóa protocol và đo đủ 647 query train;
+396 điểm common support, đủ tám ô fold/mã. Gate payoff **FAIL**, nên R2 dừng
+trước development LLM theo đúng điểm dừng đã đăng ký. U11-06–09 NOT_RUN,
+không tính DONE; tiếp theo U11-10 tổng hợp W9, v1 và R2 offline.
 
 ## Mục tiêu và đối chứng
 
@@ -142,12 +147,12 @@ và tổng kết nghiên cứu, không khởi động lại nhánh xác nhận v
 | U11-02 | Người dùng chạy primary/repeat development | 01 | Slot đầy đủ, journal/reuse/ledger, không unknown | [x] DONE — 300 primary +216 repeat complete, source/journal/ledger/report verify PASS |
 | U11-03 | Verify/analysis và khóa nomination | 02 | Rule đã đăng ký, G/T/task/fallback/repeat đầy đủ; không chọn ablation | [x] DONE — NOT_NOMINATED: chỉ 2/4 mã tăng; source/consumer/oracle PASS |
 | U11-04 | Hoàn tất audit 60 point và năm action đổi của v1; reason/trace, payoff/age/conflict, đối chiếu nguồn | 03 đã khóa kết quả | Phân biệt quan sát và giả thuyết nguyên nhân; giữ nguyên evidence, phần đọc sơ bộ chưa tính DONE | [x] DONE — đủ 60 điểm/năm thay đổi, nguồn/trace/payoff/tuổi đã đối soát; xem audit bên dưới |
-| U11-05 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT | 04 | Gate offline/support đạt mới tiếp tục; trượt hoặc thiếu support thì dừng trước development LLM | [ ] TODO — task tiếp theo |
-| U11-06 | Renderer/payoff/CLI/verifier namespace mới, fixture/12 probe, test phạm vi và dry-run coverage | 05 đạt gate offline | Prompt/semantic/PIT/reuse/coverage PASS; U11-04–06 tối đa hai ngày làm việc, chưa đủ kỹ thuật thì không chạy development | [ ] TODO |
-| U11-07 | Người dùng chạy development R2 60 điểm và repeat; verify/analysis/khóa nomination | 06 nghiệm thu | Một cấu hình/một vòng; giữ rule v1 và R2−v1>0, ghi cả kết quả bất lợi | [ ] TODO |
-| U11-08 | Exposure audit, MDE, manifest và release xác nhận R2 riêng | 07 NOMINATED | Đủ 128 điểm/matrix/seed/source/receipt, exposure PASS và kịp trước cuối W11; thiếu điều kiện thì NOT_RUN | [ ] TODO — có điều kiện |
-| U11-09 | Người dùng chạy xác nhận R2; verify/CI/ablation và đóng băng evidence/bảng/hình/checksum | 08 RELEASED | Đúng run/identity, đủ support, primary/family/repeat; bắt đầu cuối W11, hai ngày đầu W12 chỉ hoàn tất/resume | [ ] TODO — có điều kiện |
-| U11-10 | Viết kết quả/thảo luận và phân loại claim cho W9, v1 và R2 | 04–09 đã chốt DONE/NOT_RUN/BLOCKED/INCOMPLETE kèm lý do | Không trộn cohort/revision; khai báo mọi vòng đã xem, không bỏ kết quả bất lợi | [ ] TODO |
+| U11-05 | Khóa protocol R2 và kiểm mô hình payoff trên train PIT | 04 | Gate offline/support đạt mới tiếp tục; trượt hoặc thiếu support thì dừng trước development LLM | [x] DONE — protocol/code khóa trước đo; 647 query/396 common; gate FAIL, consumer/oracle/test PASS |
+| U11-06 | Renderer/payoff/CLI/verifier namespace mới, fixture/12 probe, test phạm vi và dry-run coverage | 05 đạt gate offline | Prompt/semantic/PIT/reuse/coverage PASS; U11-04–06 tối đa hai ngày làm việc, chưa đủ kỹ thuật thì không chạy development | [ ] NOT_RUN — gate payoff U11-05 FAIL; chưa renderer/probe hoặc development R2 |
+| U11-07 | Người dùng chạy development R2 60 điểm và repeat; verify/analysis/khóa nomination | 06 nghiệm thu | Một cấu hình/một vòng; giữ rule v1 và R2−v1>0, ghi cả kết quả bất lợi | [ ] NOT_RUN — dừng trước development LLM; không nomination R2 |
+| U11-08 | Exposure audit, MDE, manifest và release xác nhận R2 riêng | 07 NOMINATED | Đủ 128 điểm/matrix/seed/source/receipt, exposure PASS và kịp trước cuối W11; thiếu điều kiện thì NOT_RUN | [ ] NOT_RUN — không nomination R2 nên không mở release xác nhận |
+| U11-09 | Người dùng chạy xác nhận R2; verify/CI/ablation và đóng băng evidence/bảng/hình/checksum | 08 RELEASED | Đúng run/identity, đủ support, primary/family/repeat; bắt đầu cuối W11, hai ngày đầu W12 chỉ hoàn tất/resume | [ ] NOT_RUN — không release, API/xác nhận R2=0 |
+| U11-10 | Viết kết quả/thảo luận và phân loại claim cho W9, v1 và R2 | 04–09 đã chốt DONE/NOT_RUN/BLOCKED/INCOMPLETE kèm lý do | Không trộn cohort/revision; khai báo mọi vòng đã xem, không bỏ kết quả bất lợi | [ ] TODO — task tiếp theo; R2 chỉ có bằng chứng offline |
 | U11-11 | Bàn giao W12, hướng dẫn verify và giới hạn | 10 | Trạng thái mỗi revision rõ; research/deployment riêng, không tự bật mặc định | [ ] TODO |
 
 Thứ tự bình thường: **04 → 05 → 06 → 07 → 08 → 09 → 10 → 11**.
@@ -589,7 +594,8 @@ Không xóa kết quả bất lợi, hạ rule ≥3/4 hoặc chọn ablation là
 Nhánh xác nhận v1 giữ trạng thái NOT_RUN trong lịch sử. Công việc tiếp
 theo gộp vào U11-04–U11-09; tổng kết/bàn giao là U11-10/U11-11. Chỉ dùng
 checklist ở mục D; tại lúc lập kế hoạch có **3/11** DONE. Sau audit U11-04,
-tiến độ hiện hành **4/11**; W12 vẫn phải hoàn thành.
+tiến độ khi đó **4/11**. U11-05 ngày 27/10/2026 đã hoàn tất với gate FAIL,
+tiến độ hiện hành **5/11**, dừng U11-06–09; W12 vẫn phải hoàn thành.
 
 ### 1. Chẩn đoán đã có và điều chưa thể kết luận
 
@@ -1080,3 +1086,167 @@ leakage suite**; không ghi là đã chạy lại bốn gate. Các số gate W10
 receipt lịch sử gắn đúng nguồn/runtime; đây là kiểm tra audit và consumer,
 không là nghiệm thu runtime R2 chưa có. **U11 đạt 4/11**, tiếp theo
 **U11-05** khóa protocol R2 và gate payoff trên train PIT.
+
+## U11-05 — Protocol R2 và gate payoff train PIT (27/10/2026)
+
+**DONE; kết quả nghiên cứu: gate payoff FAIL, R2 dừng trước development LLM.**
+Đây là kết quả hợp lệ của phép kiểm đã đăng ký, không phải lỗi thực thi hoặc
+nomination thất bại. U11-06–09 **NOT_RUN** theo rule dừng, không tính DONE;
+tiếp theo U11-10 viết kết quả/thảo luận. v1 vẫn NOT_NOMINATED, W9 giữ kết
+quả riêng; R2 chưa có renderer/probe LLM, development, nomination hoặc xác nhận.
+
+### Khóa trước phép đo và phạm vi triển khai
+
+[Protocol R2](unified_bic_r2_protocol_v1.json) commit **`cb71279`** trước khi
+tính gate; digest canonical SHA-256
+**`55cea533fe0854776d1d9bd2b0f1d138fdb71a9ec8895f1e9a14a90c8062afa0`**.
+Đây là hash JSON canonical, ổn định qua LF/CRLF, không phải hash byte file.
+Code/test commit **`0705421`** sau kiểm thử, cũng trước phép đo thật.
+Không thay protocol/parameter/rule sau outcome.
+
+Một mô hình NIG duy nhất, đơn vị return **tỷ lệ**: κ0=4, α0=2,
+m0=mean(B1∪B2), β0=max(sample variance B, 10⁻⁶); cần nB≥20, nC≥5 và
+gate stats v1 ready. Giữ nguyên công thức ở phần thiết kế, λ=8, memory/
+partition/retrieval, engine và model LLM. `pool_8` trong protocol là ID
+posterior diagnostics, tương ứng choice v1 `hierarchical_pool`, λ=8;
+`inherited_sections` giữ cấu hình lịch sử, `reselect_lambda=false` khóa
+việc không chọn lại các lambda. CrI95% dùng scale mean; PI90% dùng scale
+predictive lớn hơn hệ số √(κn+1). Công thức đã đối chiếu
+[Murphy §6](https://www.cs.ubc.ca/~murphyk/Papers/bayesGauss.pdf) và quy ước
+`loc/scale` của [SciPy 1.16.1 Student-t](https://docs.scipy.org/doc/scipy-1.16.1/reference/generated/scipy.stats.t.html).
+
+Protocol còn khóa ma trận sáu LLM + Numeric_payoff, 360 primary/252 repeat,
+12 ID repeat v1, một candidate R2_full, rule nomination v1 cộng R2−v1>0,
+coverage payoff, xác nhận có điều kiện và family năm contrast CI99%.
+Đó là đăng ký thiết kế có điều kiện, **không phải** các run đã thực hiện.
+Template/12 probe và release xác nhận dự kiến là khóa riêng ở U11-06/08;
+chúng không được tạo vì gate U11-05 trượt.
+
+Triển khai mới nằm riêng tại
+[module payoff](../../../tools/unified_bayes_r2_payoff.py),
+[producer/consumer offline](../../../tools/prepare_unified_bayes_r2_payoff.py)
+và [test số học/gate](../../../tools/test_unified_bayes_r2_payoff.py),
+[test PIT/leakage](../../../tools/test_unified_bayes_r2_payoff_leakage.py).
+Không sửa code/schema/receipt đã đóng băng của v1. Consumer tái dựng kết
+quả từ nguồn và rule, không tin nhãn PASS/FAIL hoặc self-seal của JSON.
+Prepare write-once giữ cùng identity; không có cờ gọi API hoặc đổi tham số.
+
+### Train PIT, support và kết quả gate
+
+Dùng đúng **647 query** U10-04: 325 train_2021 và 322 train_2022; bốn query
+cuối 2021 vắt exit qua biên năm tiếp tục bị purge, không dùng lại mẫu 651.
+Tái dựng IDs/calendar t+1/t+3, partition cùng mã/rời nhau/exit<query,
+n/s, posterior λ=8 và readiness rồi đối chiếu snapshot U10-04 đã khóa.
+Tín hiệu/regime/scaler và provenance HMM historical-prefix được tái dùng
+từ snapshot đã kiểm, không refit hoặc chạy lại upstream. Tạo evidence
+trước khi đọc target query; **647 target và 852 nhãn prior train** được
+đối soát bằng `HistoricalOutcomeGenerator`/hàm kinh tế engine hiện hành.
+
+Primary scoring dùng cùng giao **396/647** cho NIG, zero, m0 và prior
+predictive. Có đủ tám ô fold/mã dưới đây; support hợp lệ nên verdict là
+**FAIL**, không phải INCONCLUSIVE. Rule support được khóa trước phép đo:
+mỗi ô phải có ít nhất một row, từng row đạt nB/nC/readiness và metric hữu
+hạn. Đây không là chứng nhận power hoặc số quan sát độc lập.
+
+| Fold | FPT common/planned | MWG | VCB | VNM | Tổng |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 2021 | 38/80 | 47/81 | 43/82 | 49/82 | 177/325 |
+| 2022 | 59/79 | 54/81 | 57/82 | 49/80 | 219/322 |
+| Tổng | 97/159 | 101/162 | 100/164 | 98/162 | 396/647 |
+
+**251 row không ready đều có nC<5**, giữ nguyên trong report với reason và
+metric null. `LOW_CONDITIONAL_SUPPORT` và `V1_STATS_NOT_READY` cùng gắn
+251 row; 53 row còn `MISSING_PAYOFF_POSTERIOR` do C rỗng. Đây là reason
+chồng nhau, không cộng thành số query bị loại. Không đổi ngày/nhãn, cắt
+outlier, điền missing bằng zero hoặc chấm các baseline trên mẫu khác.
+
+MAE và width dưới đây đổi từ tỷ lệ sang **% return** để đọc; rule tính bằng
+precision gốc. NLL dùng density theo đơn vị tỷ lệ, có thể âm, **thấp hơn
+tốt hơn**; không so NLL khác đơn vị hoặc loại hằng số density.
+
+| Panel | Common | MAE NIG | MAE zero | MAE m0 | NLL NIG/prior | PI90% coverage | Width90% |
+| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |
+| Tất cả | 396 | 2,698528 | 2,660456 | 2,615347 | −1,815169 / −1,935797 | 81,818182% | 9,823727 |
+| 2021 | 177 | 2,449047 | 2,412784 | 2,369764 | −1,876060 / −2,028495 | 81,920904% | 8,981428 |
+| 2022 | 219 | 2,900164 | 2,860628 | 2,813833 | −1,765955 / −1,860876 | 81,735160% | 10,504489 |
+| FPT | 97 | 2,923071 | 2,852774 | 2,843525 | −1,600473 / −1,799789 | 81,443299% | 10,359974 |
+| MWG | 101 | 3,314022 | 3,237010 | 3,232707 | −1,592503 / −1,700375 | 76,237624% | 10,472132 |
+| VCB | 100 | 2,510829 | 2,540633 | 2,475747 | −1,884726 / −1,975539 | 81,000000% | 9,593763 |
+| VNM | 98 | 2,033471 | 1,998164 | 1,895689 | −2,186179 / −2,272490 | 88,775510% | 8,859354 |
+
+**Cả sáu check đều FAIL:** MAE NIG cao hơn zero **0,038073 đpt** và m0
+**0,083181 đpt**, không cải thiện strict ít nhất một baseline; VNM tăng
+MAE so m0 **0,137782 đpt**, vượt guard 0,1; mean NLL tăng **0,120628**;
+coverage PI90% chỉ **324/396=81,818182%**, dưới 85%. MAE NIG của VCB thấp
+hơn zero vẫn không cứu được gate toàn mẫu hoặc thay candidate/estimand.
+
+### Outlier, phụ thuộc, n nhỏ và giới hạn
+
+Report giữ đủ panel tám fold/mã, width, top 10 absolute error và top 10
+NLL, cụm 90 phiên, lag-1 theo fold/mã và chín stress tổng hợp đã đăng ký.
+Stress gồm nC=0..5, thay một quan sát bằng −50%/+50%, và quan sát lặp
+giống nhau; chỉ kiểm độ nhạy/số học, không sửa dữ liệu gate.
+
+| nC | Planned/common | MAE NIG (% return) | PI90% coverage |
+| --- | ---: | ---: | ---: |
+| 0–4 | 251/0 | null | null |
+| 5–9 | 171/171 | 2,497809 | 83,625731% |
+| 10–19 | 139/139 | 3,047716 | 81,294964% |
+| ≥20 | 86/86 | 2,533247 | 79,069767% |
+
+MWG-2022-11-15 có target net **+18,740368%**, absolute error NIG
+**19,855757%**, không bị loại. FPT-2021-01-25 có target **−13,790768%**,
+NLL NIG/prior **11,331816/3,761816**; PI90% width chỉ **7,007918**. Đây
+là quan sát sai số/tail của mô hình này, không tự chứng minh một nguyên
+nhân duy nhất. Lag-1 target theo tám ô từ **−0,312342 đến +0,165969**,
+residual từ **−0,280122 đến +0,187427**; các pool lịch sử còn được dùng lại
+giữa query. Không dùng lag nhỏ hoặc Student-t để tuyên bố độc lập/ESS=n.
+
+Train 2021/2022 đã được dùng chọn λ của v1; gate R2 là kiểm tra nghiên
+cứu tiếp nối đã đăng ký, **không phải xác nhận độc lập**. Các xấp xỉ
+Gaussian/empirical Bayes và conditional signal này chưa đạt điều kiện
+tiếp tục; không suy ra mọi Bayes/ICL đều vô ích. Không thử family, κ/α,
+floor hoặc conditional grouping khác sau kết quả này trong vòng R2.
+
+### Artifact, kiểm tra và bàn giao
+
+Artifact ignored duy nhất mới:
+`outputs/bayesian_benchmark/unified_bic_r2/offline/payoff_gate_v1.json`,
+**5.272.093 byte**, SHA-256 byte
+**`ef6130b85974604482c157b3ce70899a0470e4f6ef06453cd4f2d54def8136d8`**.
+Gắn protocol, **1.835 hash nguồn**, runtime và hash text LF riêng của bốn
+file code/test; lưu đủ 647 row, evidence/membership/prediction/target,
+support/reason, metric/panel/diagnostics và `development_allowed=false`.
+Protocol không ghi đè trạng thái snapshot v1; report FAIL không là cờ release.
+
+Producer `--prepare` và consumer mặc định đều hoàn tất trên nguồn thật;
+consumer tái dựng đúng report/FAIL. Có audit hook từ trước import, chặn
+mạng, `.env*`, giá 2025 và đường Decision development v1. **API=0**,
+không đọc ledger để gọi API, không refit hoặc mở xác nhận. Lệnh kiểm offline:
+
+```powershell
+py -3.13 -X utf8 tools/prepare_unified_bayes_r2_payoff.py
+```
+
+**Kiểm tra kỹ thuật PASS:** 29 test mới (19 số học/gate/consumer +10 PIT),
+7 test `test_unified_bayes_statistics_leakage.py` của primitive tái dùng,
+biên dịch đúng bốn file Python mới. Test kiểm scale mean/predictive,
+variance floor, n nhỏ/missing/overflow, density oracle, biên gate strict,
+same-support, source/self-seal, self/equal-exit/future/foreign poison và
+purge t+1/t+3. Oracle CDF/PPF dùng sai số 10⁻¹⁰; đây không phải epsilon
+của gate. Fixture tạm cần chạy ngoài sandbox do ACL TemporaryDirectory;
+không thay rule hoặc dữ liệu để xử lý quyền file.
+
+Oracle độc lập trên nguồn thật **7.096 đối soát PASS**: partition PIT từ
+metadata, NIG theo tổng bình phương chưa centered, scale, Student-t log
+density viết riêng, metric của 396 row common và aggregate. Producer đã
+đối soát đủ 852 nhãn train bằng engine. **984 file v1/ledger cũ nguyên byte**,
+gồm selection/plan/report/journal/cache/receipt/metadata khóa và audit
+U11-04; không cập nhật khóa v1 khi kiểm R2. Diff/liên kết/UTF-8/hash và
+checklist 01–11 với **5 DONE/4 NOT_RUN/2 TODO** PASS.
+
+Theo AGENTS.md 1.2, chỉ kiểm đường payoff/PIT mới và primitive liên quan,
+**không chạy lại toàn unit suite, compileall codebase hoặc E2E**. Gate
+W10 vẫn chỉ bao phủ code v1 đã khóa, không thay nghiệm thu bổ sung này.
+**U11 đạt 5/11**, U11-06–09 NOT_RUN; chuyển **U11-10** tổng hợp W9/v1/R2
+offline, không gọi R2 NOT_NOMINATED hoặc báo lợi nhuận LLM R2 chưa chạy.

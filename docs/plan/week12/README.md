@@ -6,7 +6,9 @@
 W10 đã triển khai U-BICL v1; U11-03 khóa NOT_NOMINATED. Theo yêu cầu mới,
 [chuỗi U11-04–U11-11](../week11/README.md#d-checklist-thực-hiện-tuần-tự-hiện-hành)
 triển khai kế hoạch R2 về payoff/ICL rồi tổng kết/bàn giao, không đổi kết
-quả cũ. U11 hiện 4/11 sau audit U11-04, tiếp theo U11-05; W12 bắt đầu checklist sau bàn giao
+quả cũ. U11 hiện 5/11: U11-05 đã khóa protocol/kiểm payoff, gate FAIL ngày
+27/10/2026. U11-06–09 NOT_RUN, R2 chưa development LLM/nomination/xác nhận;
+tiếp theo U11-10 tổng hợp cả kết quả offline bất lợi. W12 bắt đầu checklist sau bàn giao
 U11-11 (kể cả khi các bước xác nhận không được chạy). W12 ưu tiên
 luận văn/tái lập/slide. Chỉ hai ngày làm việc đầu được hoàn tất/resume
 xác nhận đã release và bắt đầu ở W11; không mở ma trận/run mới, tune hoặc
@@ -15,7 +17,7 @@ không dùng mock, partial gain hoặc ước lượng nhãn chưa đóng làm k
 
 | Task | Đầu ra và tiêu chí | Trạng thái |
 | --- | --- | --- |
-| U12-01 | Chốt trước cuối ngày thứ hai: W9 xác nhận cũ, v1 NOT_NOMINATED, development R2 và xác nhận R2 nếu có; không trộn cohort/revision | [ ] TODO |
+| U12-01 | Chốt trước cuối ngày thứ hai: W9 xác nhận cũ, v1 NOT_NOMINATED, R2 gate offline FAIL và development/xác nhận R2 NOT_RUN; không trộn cohort/revision | [ ] TODO |
 | U12-02 | Hoàn thiện phương pháp/kết quả/thảo luận, đủ ablation/noise/failure, năm action đổi của v1 và provenance mọi vòng phát triển; không bỏ kết quả bất lợi | [ ] TODO |
 | U12-03 | Kiểm tái lập/checksum/cài đặt/restore; viện dẫn receipt đúng source/runtime, test phần đổi nếu có; không tự chạy lại toàn suite; hướng dẫn offline và API | [ ] TODO |
 | U12-04 | Bản Word/LaTeX/PDF và 25–30 slide; số liệu/CI/hình/đơn vị khớp artifact | [ ] TODO |
