@@ -2,9 +2,15 @@
 
 **Cập nhật 29/10/2026; 1/8 task DONE. W11-01 đã có API preflight thật
 PASS. W11-02 đang chạy:139/360 primary complete,0/252 repeat, một unknown
-bị HTTP429/PROVIDER_DAILY_QUOTA từ chối. Lệnh phục hồi tường minh tại mục8;
-giữ nguyên UUID/request, không chạy lại các slot đã complete.**
+bị HTTP429/PROVIDER_DAILY_QUOTA từ chối. Theo yêu cầu mới, dùng **một lệnh
+duy nhất tại mục9**, tự preflight key hiện tại và resume cùng UUID.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
+
+**Chạy mới hoặc tiếp tục sau khi ngắt/đổi key đều dùng:**
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_development.py
+```
 
 Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
 W11 dự kiến **02–05/11/2026**, tổng **4–8 giờ**. Chỉ thực hiện khi đủ gate
@@ -141,7 +147,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
 | W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [x] DONE — cold-check parent/runner và API preflight/raw/cache/ledger thật PASS |
-| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] RUNNING —139/360 primary,0/252 repeat; một429 unknown, phục hồi theo mục8 |
+| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] RUNNING —139/360 primary,0/252 repeat; dùng resume một lệnh tại mục9 |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
@@ -321,7 +327,7 @@ W11-01 nguyên byte; ledger tài khoản vẫn3974 request/SHA nền. Research
 giữ612 slot pending, chưa có action hoặc unknown. Đây là bằng chứng kiểm
 runner, không thay cho run thật W11-02.
 
-**Lệnh người dùng chạy để tiếp tục cả hai bước:**
+**Lệnh ở mốc chuẩn bị runner; hiện dùng entrypoint mục9 để tự resume/đổi key:**
 
 ```powershell
 py -3.13 -X utf8 scripts/run_mt_bicl_development.py run
@@ -350,6 +356,9 @@ vote repeat hoặc gọi upstream mới. Tại mốc chuẩn bị này chưa tă
 W11-01/02 trước bằng chứng API thật; cập nhật nghiệm thu ở mục8.
 
 ## 8. Phục hồi request bị quota từ chối (29/10/2026)
+
+Đây là mốc recovery tường minh trước yêu cầu resume một lệnh. Entry point
+này còn ràng buộc key với preflight cũ; từ nay dùng mục9, không cần UUID.
 
 API preflight thật **PASS**, UUID HTTP `42972198-f7eb-4df8-87c1-daf8e26d1ae4`;
 verifier đã đối soát source/runtime/Git, parent/extension, body/schema/model,
@@ -397,3 +406,60 @@ chặn HTTP/unknown/cache/audit không đủ điều kiện và phát hiện s�
 Không đổi data/PIT/retrieval hoặc runtime dùng chung nên không chạy lại
 leakage/full suite/E2E; viện dẫn gate cũ sau đối soát hash/runtime/receipt.
 Agent chỉ chuẩn bị và kiểm offline, chưa gửi request retry thật.
+
+## 9. Một lệnh chạy và tiếp tục, tự preflight khi đổi key (29/10/2026)
+
+Yêu cầu mới của người dùng: “khi bị ngắt vì bất kì lý do gì thì chỉ cần
+chạy 1 lệnh là chạy được tiếp”. Lỗi `Credential khác preflight` do các CLI
+cũ yêu cầu key hiện tại khớp proof cũ. Entry point mới tự tạo proof cho key
+hiện tại, giữ proof/ledger của key trước; không cần người dùng chạy riêng
+preflight hoặc nhập UUID. `.env` có ưu tiên hơn biến môi trường như trước,
+console chỉ báo nguồn key, không in giá trị key.
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_development.py
+```
+
+Đây là lệnh cố định cho lần đầu, sau Ctrl+C, tắt terminal/máy, lỗi mạng,
+quota hoặc đổi key. Nó tự kiểm source/runtime/request/Git và checkpoint,
+khôi phục response durable hợp lệ trước, preflight key hiện tại khi cần,
+tìm intent còn dở rồi retry **cùng UUID/body/model/options/schema**. Slot
+complete không gọi lại; không lọc mã/ngày/nhánh hoặc đổi thứ tự612 slot.
+Preflight cũng tự phục hồi nếu bị ngắt, có signature riêng để không bị
+coi là scientific slot thừa. Key cũ và mới giữ proof riêng trong
+`run/credential_preflights/`; đổi key không xóa usage hoặc reset quota
+thực của cùng tài khoản provider.
+
+Quota ngày có thời điểm reset thì chương trình tự chờ theo provider, chia
+nhỏ thời gian chờ để vẫn ngắt được. Sau khi ngắt, chạy lại chính lệnh đó.
+Key không hợp lệ, thiếu quyền hoặc quota reset sau hạn dữ liệu được báo
+đúng nguyên nhân; sửa điều kiện ngoài rồi dùng cùng lệnh, không reset file.
+Hash/request/schema sai hoặc cache đã đóng dấu bị mất/sửa vẫn dừng kiểm
+integrity, không âm thầm bỏ qua. Response200 sai định dạng được giữ audit
+và tiếp tục format repair; cache hoàn chỉnh nhưng thiếu dấu cuối do crash
+chỉ được hoàn thiện dấu khi byte/body/audit khớp.
+
+[Amendment vận hành](development_continuation_v2.json), source `c9b2d4f`,
+SHA byte `4bcd0c931c453c9218cdc5dcdc19f24d7e5b3471ceab43d75d7b6ad126298db2`,
+khóa ủy quyền tự retry unknown theo yêu cầu mới; không sửa source/receipt
+W10, parent, runner hoặc recovery cũ. Giữ request/reserve cũ, append HTTP
+mới và ghi authorization resume durable. Nếu response bị mất trước khi
+durable, provider có thể đã xử lý request: cùng UUID không bảo đảm HTTP
+exactly-once. Ledger giữ cả lần chưa rõ và lần retry; **scientific slot/N
+primary/repeat không tăng**, không chọn lại kết quả đã complete. Đây là
+amendment phục hồi sau partial run, không thay candidate/weights/context/
+prompt, hợp đồng kinh tế/PIT, phương pháp hoặc mở vòng development mới.
+
+Kiểm theo phạm vi: **24 test PASS** (14 mới,10 hồi quy transport/cache),
+ba Python mới biên dịch PASS. Test tích hợp chạy lệnh mặc định với key mới
+và unknown429, tự preflight rồi hoàn tất612 slot bằng SDK/MockTransport;
+kiểm thêm interruption trước HTTP/trong preflight/sau raw response,
+reserve/audit, chờ quota, format repair và chặn cache/request/action sai.
+Không đổi market data/PIT/retrieval nên không chạy lại leakage/full suite/
+E2E; đối soát hash/runtime và viện dẫn gate đã khóa. Agent chỉ kiểm offline,
+chưa dùng key hoặc gửi API thật thay người dùng.
+
+Cold-check entrypoint mới trên checkpoint thật PASS:139 complete, một
+intent dở. Ledger4088 request và toàn bộ612 file slot giữ nguyên hash so
+với trước thay đổi; source runner/recovery cũ nguyên byte. `--status` không
+đọc key hoặc gửi HTTP; chưa thực hiện retry thật trong lượt sửa này.

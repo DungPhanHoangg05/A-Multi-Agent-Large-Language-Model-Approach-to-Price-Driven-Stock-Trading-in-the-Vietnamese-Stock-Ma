@@ -12,8 +12,9 @@ hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdo
 candidate seed42/step3000 được release cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
 PASS sau sửa khóa. W11-02 có139/360 primary complete,0/252 repeat; một
-unknown bị429/PROVIDER_DAILY_QUOTA từ chối, phục hồi cùng UUID bằng lệnh
-tường minh tại README W11. Không đổi manifest/runner đã freeze hoặc mở
+unknown bị429/PROVIDER_DAILY_QUOTA từ chối. Theo yêu cầu mới, dùng một lệnh
+resume cố định, tự preflight key hiện tại và phục hồi intent cùng UUID tại
+README W11. Không đổi manifest/runner đã freeze hoặc mở
 vòng development mới; chưa đủ mẫu để đóng02, chưa release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
@@ -1369,10 +1370,13 @@ W11-01 **DONE** sau đối soát preflight API thật, raw/cache/ledger và các
 hash/source/runtime đã khóa. W11-02 **RUNNING**:139/360 primary complete,
 0/252 repeat; một unknown tại VNM/2023-06-01/No_target chỉ có429 quota từ
 chối. Recovery vận hành yêu cầu UUID tường minh, giữ request/reserve/ledger
-cũ và source runner nguyên byte; không tự replay unknown khác.8 test mới
-và ba Python biên dịch PASS, không chạy lại full suite/E2E/leakage vì không
-đổi data/PIT/retrieval. Lệnh tiếp tục tại
-[phục hồi W11](week11/README.md#8-phục-hồi-request-bị-quota-từ-chối-29102026).
+cũ và source runner nguyên byte. Người dùng sau đó yêu cầu một lệnh resume
+cho mọi interruption và tự preflight khi đổi key: amendment vận hành mới
+giữ cùng UUID, reuse durable success, ghi audit retry và chờ reset quota;
+vẫn dừng integrity khi bằng chứng bị sửa/hỏng.24 test và ba Python biên
+dịch PASS, không full suite/E2E/leakage vì không đổi market data/PIT/
+retrieval. Lệnh tiếp tục tại
+[resume một lệnh](week11/README.md#9-một-lệnh-chạy-và-tiếp-tục-tự-preflight-khi-đổi-key-29102026).
 Chưa đóng02/03 hoặc release2025; không phân tích P&L trong bước phục hồi.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6

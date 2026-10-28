@@ -1,0 +1,46 @@
+{
+  "version": "mt_bicl_unified_continuation_v2",
+  "payload": {
+    "version": "mt_bicl_unified_continuation_v2",
+    "runner_extension_sha256": "5ebd7c2e4e0882abb704ce4a4b66dde27339c5301fba9fba9ba5ff9a656362ff",
+    "run_signature": "dcb624c9a66671160e17e7e40a4bdff968c679cf4d5d06d421897c21be00bc19",
+    "runtime": {
+      "python": "3.13.5",
+      "platform": "Windows",
+      "os_name": "nt",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "numpy": "2.1.2",
+        "pandas": "2.3.3",
+        "scikit-learn": "1.7.2",
+        "hmmlearn": "0.3.3",
+        "scipy": "1.16.1",
+        "TA-Lib": "0.6.8",
+        "langgraph": "1.0.10",
+        "langchain-core": "1.2.17",
+        "langchain-groq": "1.1.2",
+        "groq": "0.37.1",
+        "httpx": "0.28.1",
+        "pydantic": "2.11.7",
+        "jsonschema": "4.24.0",
+        "Pillow": "11.0.0",
+        "matplotlib": "3.10.8"
+      }
+    },
+    "source_sha256": {
+      "core/mt_bicl_v2_continuation.py": "1234b2c7d12334ca033602e69fcf8d13907c56afbfce142fc99e388dcd976637",
+      "scripts/continue_mt_bicl_development.py": "fa7279ea7c8b438249f3c1ba8b45526f8bed67be8785a7e6182c5e612d103aff",
+      "tests/test_mt_bicl_v2_continuation.py": "66c20494ccb117bd36e3d4ba4ac1a7c5ba7711051ba74c46a446a627c4ac4bf2"
+    },
+    "user_authorization": "tôi cần khi bị ngắt vì bất kì lý do gì thì chỉ cần chạy 1 lệnh là chạy được tiếp",
+    "resume": "AUTO_SAME_UUID_FOR_INCOMPLETE_ONLY_REUSE_VALID_DURABLE_SUCCESS_FIRST",
+    "credential": "AUTO_PREFLIGHT_CURRENT_CREDENTIAL_PRESERVE_OLD_PROOFS_AND_LEDGER",
+    "quota": "WAIT_PROVIDER_RESET_KEEP_ALL_RESERVES_NO_AUTOMATIC_KEY_ROTATION",
+    "complete": "NEVER_REPLAY",
+    "integrity": "STOP_ON_CORRUPT_OR_CHANGED_FROZEN_DATA",
+    "physical_duplicate_possible_for_lost_response": true,
+    "candidate_weights_prompts_schema_cohort_order_repeats_economics_PIT": "UNCHANGED",
+    "source_commit": "c9b2d4f4971bec9b434a06bcbd96db89d6583613"
+  },
+  "sha256": "254656109cf1f0cdfc6400ae73bc17731696cdfdbdc1ac832f380ebf041b174f"
+}
