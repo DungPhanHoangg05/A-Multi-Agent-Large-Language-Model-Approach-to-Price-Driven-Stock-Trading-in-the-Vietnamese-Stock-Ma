@@ -563,7 +563,7 @@ if ($LASTEXITCODE -ne 0) {
 
 **Amendment v2.1 đã được người dùng yêu cầu, đăng ký trước lần fit mới:**
 [protocol_v2_1.json](protocol_v2_1.json), SHA-256
-`e2502e921a49a7ded3061a5bdab18ff850158aa993df33f2b64a3d1e28030643`.
+`16f31de4f3d3a24d36b059ae1929001b618f3805a7fb95a2cd8d969bae3a8952`.
 Chỉ đổi `teacher.fit.max_iterations` từ200 lên1.000; giữ tolerance<10⁻¹⁰,
 uniform init, grid, dữ liệu, RNG, gate và hạn mức. Namespace kết quả mới
 `teacher_v2_1/`; source và hai artifact STOP200 bên dưới giữ nguyên byte
