@@ -1,8 +1,9 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 28/10/2026; 0/8 task DONE. W11-01 đã chuẩn bị manifest,
-dry-run và preflight offline; chờ người dùng chạy API preflight thật trước
-khi đóng task hoặc mở primary/repeat. W10-14 chỉ release development2023.**
+**Cập nhật 29/10/2026; 0/8 task DONE. API preflight W11-01 đã dừng
+trước HTTP vì lỗi signature khóa; chưa nghiệm thu API thật. Runner W11-02
+đã bổ sung entrypoint sửa khóa và tự preflight trước primary/repeat.
+Người dùng chạy lệnh tại mục7; W10-14 chỉ release development2023.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
@@ -138,8 +139,8 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] OFFLINE_READY — manifest/dry-run/preflight offline PASS; API thật NOT_RUN, chờ người dùng |
-| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] TODO |
+| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] OFFLINE_READY — preflight cũ dừng trước HTTP; entrypoint mới sửa khóa, chờ API thật PASS |
+| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] READY_FOR_USER_RUN — runner đã freeze; primary0/360, repeat0/252; tự preflight trước run |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
@@ -242,7 +243,7 @@ py -3.13 -X utf8 scripts/prepare_mt_bicl_development.py verify
 **Bước còn lại của W11-01 do người dùng chạy:**
 
 ```powershell
-py -3.13 -X utf8 scripts/prepare_mt_bicl_development.py api-preflight
+py -3.13 -X utf8 scripts/run_mt_bicl_development.py api-preflight
 ```
 
 Lệnh này cold-check manifest/receipt/Git/source trước khi đọc key, gửi
@@ -253,5 +254,94 @@ preflight vì toàn60 upstream đã được xác minh để reuse; không kiể
 bằng lời gọi mới. Thành công lưu
 `outputs/bayesian_benchmark/mt_bicl_v2/development2023/live_api_preflight.json`.
 Lệnh lặp dùng receipt durable, không gửi lại khi đã PASS; unknown dừng giữ
-bằng chứng. Sau receipt API thật PASS mới đối soát để đóng W11-01 và triển
-khai W11-02. Script hiện chỉ chuẩn bị/verify/preflight, chưa là runner ma trận.
+bằng chứng. Sau receipt API thật PASS mới đối soát để đóng W11-01.
+`prepare_mt_bicl_development.py` giữ nguyên source/receipt đã freeze; lệnh
+API legacy của script đó có lỗi khóa đã xác định dưới đây. Dùng entrypoint
+mới cho API; có thể chạy thẳng `run` ở mục7 để tự preflight rồi tiếp W11-02.
+
+## 7. W11-02 — Runner ghép cặp và sửa entrypoint preflight (29/10/2026)
+
+**READY_FOR_USER_RUN; chưa DONE.** Người dùng đã gửi log lệnh preflight
+legacy dừng với `Owner khác host/signature hoặc metadata không xác minh được`.
+Đối soát thực tế không có `live_api_preflight.json`, ledger vẫn3974 request
+và SHA nền nguyên vẹn. Vì vậy chưa thể nghiệm thu W11-01 hoặc ghi đã chạy
+development. Lỗi ở entrypoint: offline dùng signature cố định, API dùng
+hash manifest nhưng cả hai khóa cùng `development2023/`; `PriorRunLock`
+từ chối signature khác kể cả owner cũ đã released.
+
+Entry point mới giữ nguyên source/manifest/receipt W10 và W11-01, không
+xóa/sửa owner cũ hoặc nới kiểm host/OS lock. Các chế độ mới cùng dùng khóa
+`development2023/operations/` với signature cố định; API còn giữ khóa ledger
+tài khoản chung. Control request/model/options/schema và định dạng receipt
+API vẫn nguyên. Đây là bổ sung vận hành **trước response development đầu**,
+không là revision chọn lại candidate hoặc sửa phương pháp sau outcome.
+
+[Extension runner](development_runner_v2.json) neo source commit `6a1cfde`,
+SHA byte `5ebd7c2e4e0882abb704ce4a4b66dde27339c5301fba9fba9ba5ff9a656362ff`.
+Khóa riêng ba file source/test mới, runtime, hash parent và snapshot đủ612
+canonical request. Request được trích từ journal đã seal rồi so hash với
+manifest; không lấy Decision fixture làm kết quả. Không đổi teacher/student,
+p, upstream, cohort, order, repeat ID hoặc hợp đồng kinh tế/PIT.
+
+Runner tạo identity và **đủ612 slot pending durable trước HTTP đầu**, giữ
+lịch360 primary rồi252 repeat. Sau mỗi slot ghi intent/UUID hoặc response;
+sau mỗi point ghi progress. `Original_duplicate` luôn gọi riêng. Shared-off
+chỉ dùng Original complete cùng point/repeat và request nguyên vẹn. Mọi
+HTTP qua `_invoke_with_retry`/transport/pacer/audit hiện hữu, thêm guard so
+body thực với contract đã khóa trước network. Retry/format repair giữ cùng
+scientific UUID; ledger đếm HTTP thật, không đổi số slot.
+
+Resume bằng cùng lệnh `run`: slot complete không gọi lại; nếu ngắt sau
+HTTP thành công nhưng trước checkpoint, chỉ khôi phục khi raw cache/UUID/
+body/schema/audit khớp và parse lại được cùng Decision. Unknown thiếu raw
+durable vẫn dừng giữ reserve/UUID, không tự gửi lại hoặc đổi thành CASH.
+Mất slot sau ready, sai identity, lẫn fixture/research, sửa request/action/
+cache hoặc có kết quả vượt khoảng pending/unknown đều dừng trước HTTP tiếp.
+
+Kiểm theo phạm vi: **44 ca liên quan đạt**, gồm17 ca runner mới,14 ca
+Decision và13 ca context leakage. Lượt đầu41/42 PASS; test guard còn lại
+dùng messages rỗng nên nhận đúng lỗi schema trước lỗi model mong đợi.
+Đã sửa fixture thành messages hợp lệ/model sai và retest riêng PASS; thêm
+hai ca parent hash/runtime/upstream PASS. Không chạy lại41 ca đã PASS vì
+logic của chúng không đổi. Ba Python mới biên dịch PASS; không full suite,
+compileall toàn repo hoặc E2E. Gate W10/W11-01 được đối soát bằng hash,
+runtime, Git và receipt đã PASS theo AGENTS.md1.2; không lặp612 fixture và
+bảy mock HTTP cũ mỗi lần khởi động runner.
+
+Dry-run runner trên canonical request thật **PASS360/360 primary +252/252
+repeat**, unknown0, duplicate36, shared-off121 và491 fixture dispatch;
+không có API thật/upstream/student forward hoặc P&L. Progress fixture ở
+`development2023/runner_dry_run/progress.json` có SHA
+`e61cb9869d2fd3942b3f6ada86ee676e67b7a77d133018c118e112a820b18396`,
+identity `offline_fixture`. Đối soát323 nguồn/spec W10 và hai receipt
+W11-01 nguyên byte; ledger tài khoản vẫn3974 request/SHA nền. Research
+giữ612 slot pending, chưa có action hoặc unknown. Đây là bằng chứng kiểm
+runner, không thay cho run thật W11-02.
+
+**Lệnh người dùng chạy để tiếp tục cả hai bước:**
+
+```powershell
+py -3.13 -X utf8 scripts/run_mt_bicl_development.py run
+```
+
+Lệnh cold-check parent/extension/source/runtime/request/Git, giữ lock,
+kiểm checkpoint trước khi đọc key. Nếu chưa có preflight, gửi control
+request trước; chỉ sau API preflight thật PASS đúng credential mới gọi
+primary/repeat. Không cần chạy lại lệnh preflight legacy bị lỗi. Khi đủ
+612 slot, lệnh in `COMPLETE_AWAITING_W11_03`; không tính P&L, nomination,
+Numeric/Teacher hoặc mở2025 trong runner này.
+
+Kiểm trạng thái offline và chạy dry-run độc lập:
+
+```powershell
+py -3.13 -X utf8 scripts/run_mt_bicl_development.py status
+py -3.13 -X utf8 scripts/run_mt_bicl_development.py dry-run
+```
+
+Artifact research ở `outputs/bayesian_benchmark/mt_bicl_v2/development2023/run/`;
+`identity.json`, `ready.json`, `requests.json`, `slots/`, `http_cache/` và
+`progress.json` phải giữ nguyên khi resume. Fixture dùng `runner_dry_run/`
+với identity `offline_fixture`, không được migrate sang research. Ledger
+tài khoản chung và ngân sách W10 không reset; không giảm N, lọc nhánh/mã,
+vote repeat hoặc gọi upstream mới. Chưa tăng tiến độ W11-01/02 trước bằng
+chứng API thật; sau người dùng chạy sẽ nghiệm thu receipt/ledger/checkpoint.
