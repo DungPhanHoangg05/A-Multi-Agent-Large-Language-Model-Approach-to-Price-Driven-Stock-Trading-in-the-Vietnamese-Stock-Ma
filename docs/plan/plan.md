@@ -8,14 +8,16 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **9/14**, W11 **0/8**, W12 **0/6**; tiếp theo **W10-10**.
+**Tiến độ:** W10 **9/14**, W11 **0/8**, W12 **0/6**; **W10-10 INCOMPLETE**,
+teacher chưa hội tụ trong200 vòng; W10-11 bị chặn.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
-2022. V2 sửa cả learner/selection và giả định teacher; chưa triển khai
-teacher/learner hoặc cấp quyền development. W10-09 khóa protocol/manifest/membership/
-fixture v2; chưa fit hoặc train. Người dùng đã cấp thêm10 giờ cho phần W10
+2022. V2 đã triển khai teacher/oracle/sampler và chạy fit train-only; delta
+cuối1,755550427252e−9 chưa đạt<1e−10, giữ STOP, chưa PPC/corpus/learner
+hoặc release development. W10-09 khóa protocol/manifest/membership/
+fixture v2. Người dùng đã cấp thêm10 giờ cho phần W10
 v2 còn lại; active train/pilot≤4 giờ nằm trong quỹ này, không đổi hạn/gate.
-W10-10–14 là chuỗi triển khai tiếp theo.
+W10-10–14 giữ phụ thuộc; không dùng π chưa hội tụ hoặc tự tăng vòng EM.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -1260,6 +1262,17 @@ dry-run →14 release. [Mục9 W10](week10/README.md#9-khắc-phục-nguyên-nh�
 phân biệt sự kiện với giả thuyết; ngưỡng cơ chế không giảm, deadline không đổi.
 Khóa W10-09 kiểm **29 test PASS** (8 bank leakage), biên dịch hai file mới,
 CLI/hash/link/diff PASS; 77 file chứng cứ v1 nguyên byte, không fit/train/API.
+
+**W10-10 đã triển khai nhưng INCOMPLETE:** teacher Beta–Bernoulli, oracle
+tuần tự độc lập, sampler theo manifest và journal/budget/CLI CPU. Fit đúng
+731 cycle/48 block (293 thắng/438 thua),200 vòng có max|Δπ|=
+**1,755550427252×10⁻⁹≥10⁻¹⁰**: `STOP_TEACHER_NONCONVERGENCE_NO_UNIFORM_FALLBACK`.
+Integrity/replay và scalar audit độc lập PASS, không thay outcome; PPC,
+corpus thật, learner/GPU/API NOT_RUN. **51 test PASS,15 leakage**, biên dịch
+9 file mới PASS,77 file v1 và protocol/grant nguyên byte. Chi tiết/hash/lệnh
+tái kiểm tại [W10-10](week10/README.md#w10-10--teacher-betabernoulli-và-kiểm-oracle-28102026).
+Giữ9/14 DONE, W10-11 bị chặn; thay giới hạn EM cần amendment mới, không
+tự sửa protocol để biến kết quả chưa hội tụ thành PASS.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
