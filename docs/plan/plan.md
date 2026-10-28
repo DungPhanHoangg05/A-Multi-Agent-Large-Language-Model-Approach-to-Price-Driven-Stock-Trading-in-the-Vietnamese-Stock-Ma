@@ -8,16 +8,17 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **9/14**, W11 **0/8**, W12 **0/6**; **W10-10 INCOMPLETE**,
-teacher chưa hội tụ trong200 vòng; W10-11 bị chặn.
+**Tiến độ:** W10 **10/14**, W11 **0/8**, W12 **0/6**; **W10-10 DONE**,
+tiếp theo W10-11. Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
+teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
-2022. V2 đã triển khai teacher/oracle/sampler và chạy fit train-only; delta
-cuối1,755550427252e−9 chưa đạt<1e−10, giữ STOP, chưa PPC/corpus/learner
-hoặc release development. W10-09 khóa protocol/manifest/membership/
+2022. Teacher v2.1 đã fit train-only, delta9,827133551354e−11 đạt<1e−10;
+PPC1.000 replicate và corpus/oracle hoàn tất. Giữ cảnh báo PPC quá phân tán,
+chưa learner hoặc release development. W10-09 khóa protocol/manifest/membership/
 fixture v2. Người dùng đã cấp thêm10 giờ cho phần W10
 v2 còn lại; active train/pilot≤4 giờ nằm trong quỹ này, không đổi hạn/gate.
-W10-10–14 giữ phụ thuộc; không dùng π chưa hội tụ hoặc tự tăng vòng EM.
+W10-11–14 giữ phụ thuộc; không dùng π STOP200 hoặc mở student test trước seal.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -1192,7 +1193,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 9/14 DONE; v1 FAIL, v2 chưa release
+### TUẦN 10: MT-BICL và tích hợp — 10/14 DONE; v1 FAIL, v2.1 chưa release
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1263,7 +1264,7 @@ phân biệt sự kiện với giả thuyết; ngưỡng cơ chế không giảm
 Khóa W10-09 kiểm **29 test PASS** (8 bank leakage), biên dịch hai file mới,
 CLI/hash/link/diff PASS; 77 file chứng cứ v1 nguyên byte, không fit/train/API.
 
-**W10-10 đã triển khai nhưng INCOMPLETE:** teacher Beta–Bernoulli, oracle
+**Lượt W10-10 trước amendment, INCOMPLETE:** teacher Beta–Bernoulli, oracle
 tuần tự độc lập, sampler theo manifest và journal/budget/CLI CPU. Fit đúng
 731 cycle/48 block (293 thắng/438 thua),200 vòng có max|Δπ|=
 **1,755550427252×10⁻⁹≥10⁻¹⁰**: `STOP_TEACHER_NONCONVERGENCE_NO_UNIFORM_FALLBACK`.
@@ -1271,8 +1272,19 @@ Integrity/replay và scalar audit độc lập PASS, không thay outcome; PPC,
 corpus thật, learner/GPU/API NOT_RUN. **51 test PASS,15 leakage**, biên dịch
 9 file mới PASS,77 file v1 và protocol/grant nguyên byte. Chi tiết/hash/lệnh
 tái kiểm tại [W10-10](week10/README.md#w10-10--teacher-betabernoulli-và-kiểm-oracle-28102026).
-Giữ9/14 DONE, W10-11 bị chặn; thay giới hạn EM cần amendment mới, không
-tự sửa protocol để biến kết quả chưa hội tụ thành PASS.
+Tại lượt đó giữ9/14 DONE và chặn W10-11; kết quả được giữ nguyên làm bằng
+chứng trước amendment, không sửa thành hội tụ.
+
+**Hoàn thiện W10-10 với amendment v2.1:** prereg commit `ab59534` trước fit,
+chỉ đổi trần200→1.000. Cùng731 cycle/48 block/uniform init, hội tụ vòng237,
+max|Δπ|=**9,827133551354×10⁻¹¹**, trace200 vòng đầu trùng bit với lần cũ.
+Audit PPC1.000 replicate đã chạy; variance/tails task dự báo rộng hơn train,
+giữ bất lợi và không chỉnh grid. Oracle độc lập **62.074 dự báo** khớp≤10⁻¹²;
+validation/test swap có1.984/2.106 cặp eligible, đủ support. Tám file teacher/
+corpus/index đã seal, không student forward hoặc API/GPU. **32 test PASS,
+15 leakage**,4 file mới biên dịch PASS; nguồn/77 file v1 và STOP200 nguyên byte.
+Chi tiết/hash/lệnh CPU tại mục W10-10 của README W10. **10/14 DONE**, tiếp
+W10-11 packing/loss/pilot, chưa phát hành development hoặc chứng minh hiệu quả.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
