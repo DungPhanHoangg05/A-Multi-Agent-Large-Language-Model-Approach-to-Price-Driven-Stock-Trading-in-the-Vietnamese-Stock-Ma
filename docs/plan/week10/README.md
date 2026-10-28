@@ -1,8 +1,8 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–09 DONE, 9/14 task DONE; W10-10 INCOMPLETE.
-Teacher v2 đã fit đúng200 vòng nhưng chưa hội tụ; W10-11 bị chặn.
-Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE; v2 chưa train/release.**
+**Amendment 28/10/2026: W10-01–10 DONE, 10/14 task DONE; tiếp theo W10-11.
+Teacher v2.1 hội tụ ở vòng237, oracle/corpus đã kiểm; learner chưa train.
+Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE; chưa release development.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -167,8 +167,8 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [x] DONE — đánh giá/replay/integrity đầy đủ; cơ chế FAIL cả ba seed, NO_MT_BICL_RELEASE |
 | W10-08 | Audit nguyên nhân từ raw logits, curve 2021 và oracle trên thị trường; phân biệt sự kiện/giả thuyết | 07 | [x] DONE — mục 9, không nghiệm thu learner |
 | W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả khóa; sau đó người dùng cấp thêm10 giờ W10 v2, active≤4 giờ trong quỹ này; chưa fit/train |
-| W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [ ] INCOMPLETE — mã/51 test PASS; EM200 có Δπ=1,75555e−9≥1e−10, PPC/corpus NOT_RUN |
-| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] BLOCKED — teacher chưa hội tụ theo protocol |
+| W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [x] DONE — amendment1.000 vòng khóa trước fit; hội tụ237, PPC/corpus/oracle đầy đủ; giữ bất lợi PPC |
+| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] TODO — dùng teacher v2.1 đã khóa; chưa release train lớn |
 | W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] TODO |
 | W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
 | W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
@@ -571,7 +571,7 @@ uniform init, grid, dữ liệu, RNG, gate và hạn mức. Namespace kết qu�
 Khóa amendment bằng commit trước production fit; chưa có kết quả v2.1
 tại lượt đăng ký này. Kết quả200 vòng dưới đây là lịch sử, không bị sửa.
 
-**Đã triển khai và chạy fit CPU thật; task INCOMPLETE, không đánh dấu DONE.**
+**Lượt v2 trước amendment: đã chạy fit CPU thật nhưng task còn INCOMPLETE.**
 Nhánh `feat/hierarchical-beta-teacher` từ `develop` tại `c6c1328`, đã pull
 trước triển khai. Tuân thủ protocol v2 và grant10 giờ đã khóa; không thay
 grid, 200 vòng, tolerance, RNG hoặc bằng chứng v1 sau khi thấy kết quả.
@@ -685,7 +685,119 @@ if ($LASTEXITCODE -eq 2) {
 
 Lượt thực thi đã dùng `run --resume` rồi `verify --replay`; không cần chạy
 lại fit. Replay hiện chỉ tái dựng200 vòng cùng dữ liệu/source, không mở
-corpus hoặc chạy optimizer. **W10 vẫn9/14 DONE; W10-11 bị chặn.**
+corpus hoặc chạy optimizer. **Tại mốc STOP200, W10 đạt9/14 DONE và chặn W10-11;
+trạng thái hiện hành sau amendment ở dưới.**
+
+### Hoàn thiện bằng amendment v2.1, 28/10/2026
+
+**W10-10 DONE về teacher/oracle/audit; chưa nghiệm thu learner hoặc hiệu quả
+thị trường.** Amendment [protocol_v2_1.json](protocol_v2_1.json) được khóa
+trước fit bằng commit `ab59534` (bản UTF-8 cuối), SHA-256
+`16f31de4f3d3a24d36b059ae1929001b618f3805a7fb95a2cd8d969bae3a8952`.
+Chỉ nâng trần200→1.000; giữ uniform init, tolerance<10⁻¹⁰, grid/Dirichlet,
+train membership, RNG/sampler, gate và ngân sách. Hai file STOP200 và toàn
+bộ source v2 giữ nguyên, CLI cũ vẫn đối soát được; không warm-start từ π
+chưa hội tụ. Đây là amendment sau quan sát solver, không reset exposure.
+
+Fitter/caller mới tại `core/mt_bicl_v21_teacher.py`,
+`core/mt_bicl_v21_preparation.py`, `scripts/prepare_mt_bicl_teacher_v21.py`;
+helper toán/oracle/sampler/PPC/budget dùng nguyên v2. Code loader kiểm hash
+amendment trong đúng commit trước khi fit, chỉ áp dụng một delta số vòng;
+schema/namespace kết quả mang v2.1. Không sửa byte protocol v2 hoặc grant.
+
+**Fit thật:** đúng731 cycle/48 block (293 thắng/438 thua), hội tụ tại
+**vòng237**, max|Δπ|=**9,827133551354×10⁻¹¹ <10⁻¹⁰**. Trace0…200
+**trùng từng giá trị** với lần STOP cũ. Scalar EM độc lập dùng tích predictive/
+`math.fsum` chạy đúng237 vòng: max sai khác π **2,36755×10⁻¹⁴**, sai khác
+delta cuối **3,88578×10⁻¹⁶**. Không thử recipe, init hoặc grid khác.
+
+Audit prior-predictive **1.000 replicate** đã hoàn tất. Giữ rõ các bất lợi:
+
+| Thống kê train task | Quan sát | Khoảng95% prior-predictive | Đối chiếu |
+| --- | ---: | --- | --- |
+| Mean rate theo cycle | 0,400821 | [0,369357;0,496683] | Trong khoảng |
+| Variance rate theo task | 0,014235 | [0,030019;0,067176] | **Dưới khoảng** |
+| Quantile5% rate task | 0,240441 | [0;0,207778] | **Trên khoảng** |
+| Median rate task | 0,381944 | [0,341667;0,500000] | Trong khoảng |
+| Quantile95% rate task | 0,571429 | [0,666667;0,975000] | **Dưới khoảng** |
+| Task toàn thắng / toàn thua | 0 /0 | [0;0,0625] /[0;0,083333] | Trong khoảng |
+
+Teacher sinh phân phối task rộng hơn quan sát train; audit này **không xác
+nhận giả định mô hình phù hợp thị trường**. Protocol đã quy định PPC là
+diagnostic, không gate release theo metric thị trường; giữ bất lợi, không
+đổi grid/π để làm đẹp audit. W10-12 vẫn phải báo teacher/student−teacher/
+baselines trên2022, trước mọi claim về lợi ích.
+
+Đã seal sáu corpus cố định: diagnostic1.000, tiny-set32, validation5.000,
+validation-swap5.000 cặp, test5.000, test-swap5.000 cặp. Mỗi validation/test/
+swap giữ4.500 generative+500 stress. Oracle hierarchical và shared-θ pooling
+đối chiếu scalar cho **62.074 dự báo** (gồm10 fixture uniform), max sai khác
+p/logp1/logp0 lần lượt **1,99840×10⁻¹⁴ /7,10543×10⁻¹⁴ /5,15143×10⁻¹⁴**,
+đều dưới10⁻¹². Swap eligible cố định theo |Δoracle|≥0,05:
+**1.984/5.000 validation, 2.106/5.000 test**, đủ≥200, không sinh bù.
+
+Đối chứng hằng dùng p=Σπμ=**0,432570852318** trên validation có mean KL
+**0,037753805359**, P95 error **0,290391830834**, không đạt các ngưỡng0,02/
+0,10; teacher không phẳng theo phép kiểm này. Lượt audit đã xem oracle và
+control hằng của corpus, kể cả test; **chưa có student, student forward
+hoặc metric student test**. Không thay recipe/seed/gate sau audit. Test
+student và test-swap vẫn chỉ được forward sau seal selection W10-12.
+
+Tám file khoa học frozen tại namespace ignored
+`outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/`, tổng **181.572.585 byte**:
+
+| File | SHA-256 |
+| --- | --- |
+| [teacher_fit.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/teacher_fit.json) | `7a89978336d1307d2b65a8a9712a26792451900f78351ba8bf03bf5ee277dc78` |
+| [diagnostic.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/diagnostic.json) | `7b6435e3839c1953ef2e7e1ad3feb2dcabd2f51fed8c26b83d89a8c2a915caf2` |
+| [pilot_tiny.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/pilot_tiny.json) | `91b1908f2253241593bb6ea97167f9ff84a75eb90d22db8bf7128c73bd087b2d` |
+| [synthetic_validation.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/synthetic_validation.json) | `b5a761f7ac6b41cae4eb5a6af2fa8a57dbdf033c068b5fca40566eb5cb8d8721` |
+| [validation_swap.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/validation_swap.json) | `8e5ee3dcb60a5125b480a01a1ff607cfe39f2c7ddfab87bfd5130146bdfd43ac` |
+| [synthetic_test.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/synthetic_test.json) | `f19db2a4678098fd5a7196d1b2789f202deedbfec45133e73501721a0de2bbec` |
+| [test_swap.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/test_swap.json) | `06432c5f0a4fd783c70adc1b019cd4acea5428a35242cb2cd28d14d5bbc739d1` |
+| [index.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/index.json) | `a1e20a1fe4036a6fc660b25302908efcac92cf08c241233b36284c9fbc18ed83` |
+
+Identity canonical:
+`9b8487a9736fd33412c839cd2285b95ae6e205715fd67b9efd7e9cbd5664bba8`.
+Index `COMPLETE_TEACHER_ORACLE_ONLY`; training/development/Decision=false.
+Giữ chung `active_budget_v2.json` và OS lock rootv2, không reset phần cũ.
+**Cold replay CPU PASS, CLI exit0:** dựng lại toàn bộ teacher/237 vòng EM,
+PPC1.000 replicate và sáu corpus; so toàn payload với artifact đã khóa.
+Snapshot ngân sách sau fit+replay là **254,885267 giây active chung**,
+đã bao gồm0,183225 giây của lượt STOP200, còn dưới14.400 giây. Đây không
+phải tổng công sức quỹ10 giờ. Đồng hồ công việc lượt amendment tới mốc QA
+ghi **800,025 giây ≈13 phút20 giây**, bao gồm active trong lượt này;
+cộng lower bound1.227,546 giây lượt trước là≥**2.027,571 giây** đã quan sát,
+chưa gồm các khoảng chưa đo và hoàn tất sau QA; không tính active hai lần.
+
+**Kiểm tra theo phạm vi:32 test PASS**, gồm6 test amendment/caller mới,
+18 teacher/sampler/leakage v2 và8 bank leakage; **15 trong các suite leakage**.
+Biên dịch đúng4 file Python mới PASS. Prereg/hash/CLI check-inputs/UTF-8/
+link/checklist/diff PASS; không chạy toàn suite/E2E/compileall. Windows Temp/
+OS lock cần quyền ngoài sandbox như trước. Không GPU, optimizer hoặc API;
+77 file v1, hai file STOP200, source cũ, protocol/manifest/grant/ledger
+nguyên byte. Kết quả51 test của lượt v2 phía trên là lịch sử, không cộng
+thành số test vừa chạy lại trong lượt amendment này.
+
+Không cần chạy GPU. Lệnh tái kiểm hiện hành từ đầu đến cuối:
+
+```powershell
+Set-Location -LiteralPath 'C:\Users\Legion\OneDrive\Tài liệu\GitHub\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma'
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $false
+$env:PYTHONUTF8 = '1'
+
+py -3.13 -X utf8 scripts/prepare_mt_bicl_teacher_v21.py check-inputs
+if ($LASTEXITCODE -ne 0) { throw 'Input teacher v2.1 không đạt.' }
+
+py -3.13 -X utf8 scripts/prepare_mt_bicl_teacher_v21.py verify
+if ($LASTEXITCODE -ne 0) { throw 'Kiểm teacher v2.1 không đạt; dừng trước W10-11.' }
+```
+
+Lượt producer đã dùng `run --resume`, nghiệm thu bằng `verify --replay`;
+không cần fit lại. Lệnh replay CPU tái dựng cùng teacher/PPC/sáu corpus,
+không update model và được tính vào active budget. W10-11 dùng đúng teacher
+v2.1/converged và corpus đã khóa này, chưa mở student test hoặc train lớn.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 
