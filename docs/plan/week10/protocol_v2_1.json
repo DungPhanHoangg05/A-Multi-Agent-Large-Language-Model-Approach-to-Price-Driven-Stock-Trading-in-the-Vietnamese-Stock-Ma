@@ -1,0 +1,65 @@
+{
+  "version": "mt_bicl_protocol_v2_1",
+  "kind": "NUMERICAL_SOLVER_AMENDMENT",
+  "date": "2026-10-28",
+  "parent_protocol_sha256": "00fa160c4fd25aacaf789ba011721f3e03d1b03b9b020cb298a93ca94ddedb40",
+  "base_commit": "721c5e0",
+  "authorization_quote": "Th?c hi?n ?? ho?n thi?n W10-10 ?i",
+  "reason": "EM ch?a ??t max|delta pi|<1e-10 sau200 v?ng; ng??i d?ng ch?p thu?n t?ng tr?n tr??c l?n fit ti?p theo.",
+  "changes": [
+    {
+      "path": "teacher.fit.max_iterations",
+      "from": 200,
+      "to": 1000
+    }
+  ],
+  "all_other_parent_values_inherited": true,
+  "fit_start": "UNIFORM_16_NOT_WARM_START",
+  "convergence_unchanged": "MAX_ABS_PI_NEXT_MINUS_PI_LT_1e-10",
+  "failure": "STOP_TEACHER_NONCONVERGENCE_NO_UNIFORM_FALLBACK",
+  "one_new_fit_recipe_only": true,
+  "no_further_extension_without_new_amendment": true,
+  "output_directory": "outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1",
+  "artifact_versions": {
+    "teacher_fit": "mt_bicl_teacher_fit_v2_1",
+    "corpus": "mt_bicl_corpus_v2_1",
+    "index": "mt_bicl_teacher_index_v2_1"
+  },
+  "preserved_evidence_sha256": {
+    "outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2/teacher_fit.json": "68aa75cd988ded5dab75d7dd0653a230aa8ad8717884a489638120bbda4547e0",
+    "outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2/index.json": "af2160eb6f5499afa63570ce19f24c01769e9566f5461cea841636f61c48b057"
+  },
+  "preserved_code_sha256": {
+    "core/mt_bicl_v2_teacher.py": "8acb01f4162e9141dd024285912effd5a5c81c05d50d8ee69125436cab4dd517",
+    "core/mt_bicl_v2_reference.py": "bbcc0ded582264e43cc91b2c7e42d36650287094c0f326f598cfcb1ed9655f66",
+    "core/mt_bicl_v2_simulator.py": "e1156d4ead4f4696616b54f4a5db3719de80627198313b9104de1e4270781727",
+    "core/mt_bicl_v2_io.py": "25332a031235029b8554c82ff65e31b36bd0419ff738ecda3081c4dbe3d0e3ff",
+    "core/mt_bicl_v2_preparation.py": "f8bdce619d5591d140a3f9c9f00edba4cab2b1d9ed710ab2d535d2e566cc1d94",
+    "scripts/prepare_mt_bicl_teacher.py": "748a60e8d80771e8c31dc4e82668e3ba7b18338ec79bde4aca1321220a1feb8d",
+    "scripts/verify_mt_bicl_protocol_v2.py": "4f655a49b34e22648a2ecc0b8d6439e30224a76f8c3baf15adb5b33bceeda556",
+    "scripts/verify_mt_bicl_protocol.py": "91d5a2a355c5230b44d59655aa3dfc84b00b140283063102eb04cafc20e30d0f",
+    "core/bayesian_memory.py": "d78482b4b1e014ee1bfa916cddc911ef9573217a0225738bf3ced7d639d201f9",
+    "core/prior_run_lock.py": "41f85f6802cda48072284088a9a4ab15347f202697698ae44a55a468a02040ff"
+  },
+  "budget_identity_inherited_unchanged": true,
+  "budget_not_reset": true,
+  "prior_active_seconds": 0.18322549993172288,
+  "prior_observed_work_seconds_lower_bound": 1227.5456984001212,
+  "budget_grant_payload_sha256": "52b7d54ba31f6c02f12c304877a36dbe1958337152f6f77d957644064c128cf4",
+  "exposure": {
+    "parent_EM_200_result": "OBSERVED_NONCONVERGENCE",
+    "market_2021_2022": "PREVIOUSLY_EXPOSED_NO_NEW_FIT_LABELS",
+    "v2_student_forward": "NOT_RUN",
+    "v2_synthetic_student_test": "NOT_OPENED",
+    "independent_research_confirmation": false
+  },
+  "preregistration": {
+    "new_fit_run": false,
+    "new_corpus_materialized": false,
+    "new_output_directory_exists": false,
+    "commit_required_before_production_fit": true
+  },
+  "training_allowed": false,
+  "development_allowed": false,
+  "decision_calls_allowed": false
+}

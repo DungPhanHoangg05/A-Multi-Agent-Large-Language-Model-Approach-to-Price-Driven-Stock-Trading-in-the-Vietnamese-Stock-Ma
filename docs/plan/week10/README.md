@@ -561,6 +561,16 @@ if ($LASTEXITCODE -ne 0) {
 
 ## W10-10 — Teacher Beta–Bernoulli và kiểm oracle, 28/10/2026
 
+**Amendment v2.1 đã được người dùng yêu cầu, đăng ký trước lần fit mới:**
+[protocol_v2_1.json](protocol_v2_1.json), SHA-256
+`e2502e921a49a7ded3061a5bdab18ff850158aa993df33f2b64a3d1e28030643`.
+Chỉ đổi `teacher.fit.max_iterations` từ200 lên1.000; giữ tolerance<10⁻¹⁰,
+uniform init, grid, dữ liệu, RNG, gate và hạn mức. Namespace kết quả mới
+`teacher_v2_1/`; source và hai artifact STOP200 bên dưới giữ nguyên byte
+để còn tái lập được. Dùng chung đồng hồ active v2, không cấp thêm4 giờ.
+Khóa amendment bằng commit trước production fit; chưa có kết quả v2.1
+tại lượt đăng ký này. Kết quả200 vòng dưới đây là lịch sử, không bị sửa.
+
 **Đã triển khai và chạy fit CPU thật; task INCOMPLETE, không đánh dấu DONE.**
 Nhánh `feat/hierarchical-beta-teacher` từ `develop` tại `c6c1328`, đã pull
 trước triển khai. Tuân thủ protocol v2 và grant10 giờ đã khóa; không thay

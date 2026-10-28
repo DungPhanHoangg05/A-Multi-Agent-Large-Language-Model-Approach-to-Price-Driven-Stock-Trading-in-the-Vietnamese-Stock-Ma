@@ -10,6 +10,8 @@ hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdo
 
 **Tiến độ:** W10 **9/14**, W11 **0/8**, W12 **0/6**; **W10-10 INCOMPLETE**,
 teacher chưa hội tụ trong200 vòng; W10-11 bị chặn.
+Người dùng đã yêu cầu amendment v2.1: đăng ký trần EM1.000 vòng, giữ
+tolerance/grid/gate và khóa trước fit mới; kết quả STOP200 giữ nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
 2022. V2 đã triển khai teacher/oracle/sampler và chạy fit train-only; delta
