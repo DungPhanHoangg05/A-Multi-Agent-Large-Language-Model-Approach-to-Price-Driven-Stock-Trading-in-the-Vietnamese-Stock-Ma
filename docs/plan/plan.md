@@ -8,13 +8,13 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **14/14**, W11 **0/8**, W12 **0/6**; **W10-14 DONE**,
+**Tiến độ:** W10 **14/14**, W11 **1/8**, W12 **0/6**; **W10-14 DONE**,
 candidate seed42/step3000 được release cho development2023 sau freeze và
-cold verifier PASS. W11-01 đã chuẩn bị run manifest/dry-run/preflight offline;
-lệnh API preflight legacy dừng trước HTTP do signature khóa, chưa nghiệm thu.
-W11-02 đã có runner/extension sửa khóa, tự preflight trước360 primary+252
-repeat; người dùng chạy lệnh mới tại README W11 để tiếp tục.
-Chưa chạy Decision API thật và chưa cấp release xác nhận2025.
+cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
+PASS sau sửa khóa. W11-02 có139/360 primary complete,0/252 repeat; một
+unknown bị429/PROVIDER_DAILY_QUOTA từ chối, phục hồi cùng UUID bằng lệnh
+tường minh tại README W11. Không đổi manifest/runner đã freeze hoặc mở
+vòng development mới; chưa đủ mẫu để đóng02, chưa release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1362,18 +1362,18 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và release xác nhận — TODO 0/8
+### TUẦN 11: Development và release xác nhận — 1/8 DONE, development đang chạy
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
-W11-01 **OFFLINE_READY**, chưa DONE: khóa60 point,360 primary+252 repeat,
-12 repeat ID và upstream lịch sử đã kiểm; nguồn W10 giữ nguyên. Lệnh API
-preflight legacy dừng trước HTTP vì offline/API dùng signature khác nhau
-trên cùng lock. W11-02 **READY_FOR_USER_RUN**: extension/runner mới khóa
-operations riêng, giữ parent/bằng chứng nguyên byte; tự preflight thật
-trước khi chạy ma trận.44 ca liên quan đạt, ba Python mới biên dịch PASS;
-không full suite/E2E. Người dùng chạy lệnh tại
-[W11-02](week11/README.md#7-w11-02--runner-ghép-cặp-và-sửa-entrypoint-preflight-29102026).
-Primary0/360, repeat0/252; chưa đóng01/02 hoặc release2025 trước API thật.
+W11-01 **DONE** sau đối soát preflight API thật, raw/cache/ledger và các
+hash/source/runtime đã khóa. W11-02 **RUNNING**:139/360 primary complete,
+0/252 repeat; một unknown tại VNM/2023-06-01/No_target chỉ có429 quota từ
+chối. Recovery vận hành yêu cầu UUID tường minh, giữ request/reserve/ledger
+cũ và source runner nguyên byte; không tự replay unknown khác.8 test mới
+và ba Python biên dịch PASS, không chạy lại full suite/E2E/leakage vì không
+đổi data/PIT/retrieval. Lệnh tiếp tục tại
+[phục hồi W11](week11/README.md#8-phục-hồi-request-bị-quota-từ-chối-29102026).
+Chưa đóng02/03 hoặc release2025; không phân tích P&L trong bước phục hồi.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
