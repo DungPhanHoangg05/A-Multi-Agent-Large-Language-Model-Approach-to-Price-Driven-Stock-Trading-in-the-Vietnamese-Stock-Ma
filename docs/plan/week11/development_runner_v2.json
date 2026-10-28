@@ -1,0 +1,62 @@
+{
+  "version": "mt_bicl_development_runner_v2",
+  "payload": {
+    "version": "mt_bicl_development_runner_v2",
+    "parent_manifest_sha256": "eb154447af175cc740fea5fd5602fcc39cba33e5cbe128689539ad04bda05561",
+    "parent_payload_sha256": "e2d09b23f46cd53622d53d636af0b4dcda9e27cafaaed20bda456ea5ff9418c6",
+    "parent_receipt_sha256": "60e9c5ee3cc0eed87b78bc8c75b49eb77b6a54209516b9b63cb3bba75d4b6abb",
+    "runtime": {
+      "python": "3.13.5",
+      "platform": "Windows",
+      "os_name": "nt",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "numpy": "2.1.2",
+        "pandas": "2.3.3",
+        "scikit-learn": "1.7.2",
+        "hmmlearn": "0.3.3",
+        "scipy": "1.16.1",
+        "TA-Lib": "0.6.8",
+        "langgraph": "1.0.10",
+        "langchain-core": "1.2.17",
+        "langchain-groq": "1.1.2",
+        "groq": "0.37.1",
+        "httpx": "0.28.1",
+        "pydantic": "2.11.7",
+        "jsonschema": "4.24.0",
+        "Pillow": "11.0.0",
+        "matplotlib": "3.10.8"
+      }
+    },
+    "source_sha256": {
+      "core/mt_bicl_v2_development.py": "aba715f17eba59c205ca2373619a47aca8bc21c3508fc7dc4da6ff1ef87f553a",
+      "scripts/run_mt_bicl_development.py": "1609d1826381b1e3d36a71c68e026f943dbe8af9216d51073e939c5671141951",
+      "tests/test_mt_bicl_v2_development.py": "8773f3d803ca8dbfffdb503b1b8714eb17268632ea7eda88e7868ceac922589b"
+    },
+    "requests_payload_sha256": "f75b366f328c11d611f273cd99b85ba64a4b4d99ca73fd22c4155a9602635354",
+    "run_output": "outputs/bayesian_benchmark/mt_bicl_v2/development2023/run",
+    "ledger_path": "outputs/oos_pilot/api_usage.json",
+    "slot_count": 612,
+    "primary_slots": 360,
+    "repeat_slots": 252,
+    "preflight_lock": "outputs/bayesian_benchmark/mt_bicl_v2/development2023/operations",
+    "preflight_request": {
+      "point_id": "API_PREFLIGHT",
+      "repeat_index": 0,
+      "messages": [
+        {
+          "role": "user",
+          "content": "Kiểm tra giao thức JSON, không dự báo thị trường. Trả một TradeDecisionOutput hợp lệ: decision SHORT, forecast_horizon T+2.5, confidence Thấp, risk_reward_ratio 1.0; ba trường evidence_for/evidence_against/justification giải thích đây chỉ là kiểm tra API. SHORT nghĩa là giữ tiền mặt, không mở bán khống."
+        }
+      ]
+    },
+    "preflight_scope": "CONTROL_ONLY_ORIGINAL_PARENT_MANIFEST_SIGNATURE",
+    "order_reuse_and_unknown_policy": "UNCHANGED_FROM_PARENT_MANIFEST",
+    "authorization": "USER_RUNS_API_ONLY_AFTER_PARENT_AND_EXTENSION_GIT_ANCHORS",
+    "confirmation_allowed": false,
+    "training_allowed": false,
+    "refit_allowed": false,
+    "source_commit": "6a1cfdedbf0f50e8a882ca653c2c94593bf90059"
+  },
+  "sha256": "dcb624c9a66671160e17e7e40a4bdff968c679cf4d5d06d421897c21be00bc19"
+}
