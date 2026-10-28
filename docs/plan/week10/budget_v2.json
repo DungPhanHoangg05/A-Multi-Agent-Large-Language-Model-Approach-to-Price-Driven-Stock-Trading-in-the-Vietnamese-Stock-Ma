@@ -1,0 +1,61 @@
+{
+  "version": "mt_bicl_budget_v2",
+  "payload": {
+    "as_of_date": "2026-10-28",
+    "protocol_sha256": "00fa160c4fd25aacaf789ba011721f3e03d1b03b9b020cb298a93ca94ddedb40",
+    "authorization_source": "USER_MESSAGE",
+    "authorization_quote": "ok thêm 10 giờ cũng được",
+    "authorization_kind": "ADDITIONAL_ALLOCATION_AFTER_PROTOCOL_LOCK",
+    "scope": "W10_V2_REMAINING_WORK_AFTER_AUTHORIZATION",
+    "additional_hours": 10,
+    "remaining_available_hours": 10,
+    "W10_remaining_allocation_hours": 10,
+    "known_v1_active_seconds": 11821.577482399996,
+    "user_reported_total_spent_hours": null,
+    "historical_total_spent_status": "NOT_REPORTED_NOT_ASSUMED_ZERO",
+    "prior_costs_charged_to_new_allocation": false,
+    "original_budget_reset": false,
+    "W11_W12_writing_reserve_hours": 0,
+    "reserve_scope": "ADDITIONAL_W10_ALLOCATION_ONLY",
+    "original_W11_W12_writing_reserve_hours": null,
+    "original_reserve_policy": "UNCHANGED_NOT_REALLOCATED_TO_W10",
+    "v2_active_allocation_seconds": 14400,
+    "active_budget_is_subset_of_additional_hours": true,
+    "active_budget_includes": [
+      "BOTH_PILOTS",
+      "PREFLIGHT",
+      "TEACHER_CACHE_AND_GENERATION_FOR_TRAIN",
+      "ALL_THREE_SEED_TRAIN",
+      "VALIDATION_AND_CHECKPOINT",
+      "SEAL_AND_INFERENCE_REPLAY"
+    ],
+    "actual_usage_including_protocol_teacher_tests": {
+      "before_authorization_hours": null,
+      "after_authorization_seconds": null,
+      "status": "NOT_MEASURED_DO_NOT_TREAT_AS_ZERO",
+      "accounting_rule": "COUNT_EACH_INTERVAL_ONCE_ALL_WORK_WITHIN_10_HOURS_ACTIVE_SUBSET_WITHIN_14400_SECONDS"
+    },
+    "supersedes_budget_snapshot": "PENDING_ACTUAL_SPENT_AND_REMAINING_ACCOUNTING",
+    "supersession_reason": "Người dùng cấp thêm 10 giờ cho phần W10 v2 còn lại; không cần suy số giờ này từ quỹ cũ chưa đối soát.",
+    "protocol_bytes_changed": false,
+    "budget_authorized": true,
+    "technical_execution_released": false,
+    "training_allowed": false,
+    "development_allowed": false,
+    "decision_calls_allowed": false,
+    "training_prerequisites": [
+      "TEACHER_ORACLE_TECHNICAL_PASS",
+      "PAIRED_PILOT_PASS",
+      "REAL_PIPELINE_PREFLIGHT_ALL_THREE_SEEDS_FIT_REMAINING_ACTIVE_ALLOCATION",
+      "ACTUAL_USAGE_ACCOUNTED_BEFORE_EXECUTION_NO_UNKNOWN_AS_ZERO"
+    ],
+    "W10_stop": "2026-11-01",
+    "confirmation_release_and_start_by": "2026-11-05",
+    "data_stop": "2026-11-07",
+    "work_end": "2026-11-10",
+    "scientific_gates_changed": false,
+    "deadline_extended": false,
+    "if_budget_or_deadline_exhausted": "INCOMPLETE_OR_NOT_RUN_NO_GATE_RELAXATION"
+  },
+  "sha256": "52b7d54ba31f6c02f12c304877a36dbe1958337152f6f77d957644064c128cf4"
+}
