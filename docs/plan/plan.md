@@ -8,17 +8,18 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **11/14**, W11 **0/8**, W12 **0/6**; **W10-11 DONE**,
-hai pilot GPU và proof replay đã nghiệm thu; **W10-12 IN_PROGRESS**,
-pipeline train/selection/evaluate đã kiểm CPU, chờ preflight và ba seed GPU thật.
+**Tiến độ:** W10 **12/14**, W11 **0/8**, W12 **0/6**; **W10-12 DONE**,
+đủ ba seed/60 checkpoint GPU, selection seal và proof replay đã nghiệm thu.
+Candidate seed42/step3000 PASS cơ chế, chờ W10-13 kiểm tích hợp.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
 2022. Teacher v2.1 đã fit train-only, delta9,827133551354e−11 đạt<1e−10;
-PPC1.000 replicate và corpus/oracle hoàn tất. Giữ cảnh báo PPC quá phân tán,
-Hai pilot learner v2 đã PASS tiny-fit/replay; chưa train chính hoặc release
-development. Diagnostic còn kém, không suy generalization từ tiny-fit.
+PPC1.000 replicate và corpus/oracle hoàn tất. Giữ cảnh báo PPC quá phân tán.
+Hai pilot learner v2 đã PASS tiny-fit/replay; train chính và test cơ chế
+W10-12 đã PASS, chưa release development. Diagnostic pilot còn kém;
+test stress trượt P95, không suy chất lượng thị trường từ gate tổng hợp.
 W10-09 khóa protocol/manifest/membership/
 fixture v2. Người dùng đã cấp thêm10 giờ cho phần W10
 v2 còn lại; active train/pilot≤4 giờ nằm trong quỹ này, không đổi hạn/gate.
@@ -1197,7 +1198,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 11/14 DONE; v1 FAIL, v2.1 chưa release
+### TUẦN 10: MT-BICL và tích hợp — 12/14 DONE; v1 FAIL, v2.1 chờ tích hợp
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1302,18 +1303,27 @@ tiny KL **4,652074489520e−10<10⁻³**, integrity/proof `OPTIMIZER_REPLAY_MATC
 PASS, weights đã bỏ. Diagnostic paired KL/P95 **0,072556541606/0,374622402826**
 còn kém; tiny-fit không chứng minh generalization hoặc lợi nhuận. Scalar
 audit6.192 logits khớp≤1,11023e−16; source/receipt/bằng chứng cũ nguyên byte.
-Active tổng **456,492519 giây** sau teacher/pilot/replay. Quỹ active
+Tại mốc W10-11, active tổng **456,492519 giây** sau teacher/pilot/replay. Quỹ active
 14.400 giây dùng chung, không reset; lệnh đầy đủ tại
 [W10-11](week10/README.md#w10-11--paired-learner-soft-query-loss-và-pilot-28102026).
-**11/14 DONE; W10-12 IN_PROGRESS.** Đã thêm CLI preflight100 bước, train
-17/42/73×5.000, checkpoint/Adam/RNG/scheduler resume, đủ60 assessment và
-selection chỉ rank eligible theo2021. Test chỉ sau seal bất biến;
-no eligible không export/forward test, chỉ teacher/baselines2022.
-Evaluation/replay giữ kết quả bất lợi và không reselection; development/
-Decision=false. **74 test PASS,34 thuộc module leakage; bảy file Python
-mới biên dịch PASS**, không chạy toàn suite/E2E. Chưa chạy GPU production;
-active budget vẫn456,492519/14.400 giây, không reset quỹ10 giờ. Lệnh đầy đủ
-tại [W10-12](week10/README.md#w10-12--train-distillation-selection-có-điều-kiện-và-đánh-giá-28102026).
+**W10-12 DONE, nghiệm thu28/10/2026;12/14 DONE.** Preflight GPU100 bước
+PASS, batch128/accumulation1; ba seed17/42/73 đủ5.000 bước,60 checkpoint/
+assessment.59 eligible, rank bằng2021 khóa **seed42/step3000** trước test;
+per-seed17/73 khóa bước2500. Cả ba PASS cơ chế tổng hợp; candidate KL/P95
+**0,002773928298 /0,066787515103**, swap **2.072/2.106=98,385565%**,
+identity/proof `FROZEN_INFERENCE_REPLAY_MATCH` và verifier thường PASS.
+Stress500 riêng vẫn trượt P95 **0,191049104560**; không đổi gate hoặc
+reselection. Trên cùng256 query2022 đã exposed, candidate log loss/Brier
+**0,681334780440 /0,244110885513**, kém cả base rate, logistic và teacher
+full; không coi PASS cơ chế là cải thiện dự báo/lợi nhuận.
+131 file training/265.001.257 byte giữ nguyên; scalar audit477 đối chiếu
+khớp≤2,22045e−16,131 binding nguồn/bằng chứng cũ và ledger nguyên vẹn.
+Active tổng sau nghiệm thu **4.583,691938/14.400 giây**, còn9.816,308062
+giây; không reset quỹ10 giờ. Chỉ sửa tài liệu nên không chạy lại suite/
+biên dịch: viện dẫn74 test PASS/34 thuộc module leakage và bảy file biên
+dịch từ triển khai nguyên vẹn. **MECHANISM_PASS_AWAITING_INTEGRATION**,
+development/Decision=false; tiếp theo W10-13, chưa release W10-14.
+Chi tiết [W10-12](week10/README.md#w10-12--train-distillation-selection-có-điều-kiện-và-đánh-giá-28102026).
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
