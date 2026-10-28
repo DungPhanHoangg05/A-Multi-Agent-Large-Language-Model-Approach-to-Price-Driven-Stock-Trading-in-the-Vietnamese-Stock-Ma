@@ -1,9 +1,9 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 29/10/2026; 0/8 task DONE. API preflight W11-01 đã dừng
-trước HTTP vì lỗi signature khóa; chưa nghiệm thu API thật. Runner W11-02
-đã bổ sung entrypoint sửa khóa và tự preflight trước primary/repeat.
-Người dùng chạy lệnh tại mục7; W10-14 chỉ release development2023.**
+**Cập nhật 29/10/2026; 1/8 task DONE. W11-01 đã có API preflight thật
+PASS. W11-02 đang chạy:139/360 primary complete,0/252 repeat, một unknown
+bị HTTP429/PROVIDER_DAILY_QUOTA từ chối. Lệnh phục hồi tường minh tại mục8;
+giữ nguyên UUID/request, không chạy lại các slot đã complete.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
@@ -20,7 +20,8 @@ SHA `8459cfc1a4e95dae7512bc3c236fe102764d6af13ce5a7d3d19e0ce67d805121`,
 chỉ cho development2023 sau run manifest/API preflight. Nguồn/teacher/
 student/runtime/prompt/schema/cohort đã freeze; W11-01 vẫn phải khóa
 manifest cụ thể, thứ tự nhánh và 12 repeat point ID trước response đầu.
-Release này không cho phép xác nhận2025, train hoặc refit. Chưa chạy API.
+Release này không cho phép xác nhận2025, train hoặc refit. API development
+đã bắt đầu theo manifest/extension riêng; trạng thái tại mục8.
 
 Bayesian posterior đúng dưới giả định teacher và student học gần teacher
 không chứng minh lợi nhuận. Development phải đo việc thêm posterior/examples
@@ -139,8 +140,8 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] OFFLINE_READY — preflight cũ dừng trước HTTP; entrypoint mới sửa khóa, chờ API thật PASS |
-| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] READY_FOR_USER_RUN — runner đã freeze; primary0/360, repeat0/252; tự preflight trước run |
+| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [x] DONE — cold-check parent/runner và API preflight/raw/cache/ledger thật PASS |
+| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] RUNNING —139/360 primary,0/252 repeat; một429 unknown, phục hồi theo mục8 |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
@@ -162,7 +163,8 @@ mã mới nên kiểm theo phạm vi tại mục6. Quỹ giờ và mốc 05/11, 
 
 ## 6. W11-01 — Khóa manifest và preflight development (28/10/2026)
 
-**OFFLINE_READY; chưa DONE:** phần chuẩn bị do agent thực hiện đã xong;
+**Nghiệm thu API thật đã PASS tại mục8.** Mốc chuẩn bị28/10:
+**OFFLINE_READY; chưa DONE**, phần chuẩn bị do agent thực hiện đã xong;
 API preflight thật vẫn **NOT_RUN** theo quy tắc vận hành của
 [kế hoạch tổng](../plan.md): “API key do người dùng chạy; agent chuẩn bị/kiểm
 offline.” Không tăng tiến độ thành 1/8, không mở W11-02 và không coi mock
@@ -261,7 +263,8 @@ mới cho API; có thể chạy thẳng `run` ở mục7 để tự preflight r�
 
 ## 7. W11-02 — Runner ghép cặp và sửa entrypoint preflight (29/10/2026)
 
-**READY_FOR_USER_RUN; chưa DONE.** Người dùng đã gửi log lệnh preflight
+**Mốc trước API: READY_FOR_USER_RUN; chưa DONE.** Tiến độ thật tại mục8.
+Người dùng đã gửi log lệnh preflight
 legacy dừng với `Owner khác host/signature hoặc metadata không xác minh được`.
 Đối soát thực tế không có `live_api_preflight.json`, ledger vẫn3974 request
 và SHA nền nguyên vẹn. Vì vậy chưa thể nghiệm thu W11-01 hoặc ghi đã chạy
@@ -343,5 +346,54 @@ Artifact research ở `outputs/bayesian_benchmark/mt_bicl_v2/development2023/run
 `progress.json` phải giữ nguyên khi resume. Fixture dùng `runner_dry_run/`
 với identity `offline_fixture`, không được migrate sang research. Ledger
 tài khoản chung và ngân sách W10 không reset; không giảm N, lọc nhánh/mã,
-vote repeat hoặc gọi upstream mới. Chưa tăng tiến độ W11-01/02 trước bằng
-chứng API thật; sau người dùng chạy sẽ nghiệm thu receipt/ledger/checkpoint.
+vote repeat hoặc gọi upstream mới. Tại mốc chuẩn bị này chưa tăng tiến độ
+W11-01/02 trước bằng chứng API thật; cập nhật nghiệm thu ở mục8.
+
+## 8. Phục hồi request bị quota từ chối (29/10/2026)
+
+API preflight thật **PASS**, UUID HTTP `42972198-f7eb-4df8-87c1-daf8e26d1ae4`;
+verifier đã đối soát source/runtime/Git, parent/extension, body/schema/model,
+raw response/cache và ledger. **W11-01 DONE**, không chạy lại các gate cũ
+hoặc sửa receipt lịch sử. W11-02 chưa đủ mẫu để nghiệm thu.
+
+Checkpoint thực tế có **139 complete, một unknown,472 pending**. Log point
+cuối hiển thị138 nhưng Original của point tiếp đã durable, nên không lấy
+log point làm số slot đã lưu. Unknown ở index139 (slot thứ140),
+`VNM-2023-06-01 / No_target / repeat0`, scientific UUID
+`25b3723b-c25c-4def-9d5d-d50e064d023d`. HTTP
+`e07faa45-2b0e-4144-ade6-5092612733b1` trả429, chưa có response/cache200.
+`last_stop.reason=PROVIDER_DAILY_QUOTA`; mốc thử lại sớm nhất provider ghi
+`2026-10-28T19:13:06.481181Z`, tức **02:13:06 ngày29/10 giờ Việt Nam**.
+Mốc đó không bảo đảm provider đã cấp quota; giữ admission/cooldown gốc.
+
+Runner frozen vẫn dừng unknown khi chạy lại `run`. Vì vậy bổ sung
+[recovery vận hành](development_recovery_v2.json), source commit `c4676cb`,
+SHA byte `25aa9833c3fbbabc9fdab1dcde23176df2aefe250dfea46a5473cb13cf9dce85`.
+Đây là sửa phục hồi sau partial run, không đổi prediction/action rule,
+candidate, request/model/options/schema, teacher/student, cohort, order,
+repeat hoặc nomination. Giữ source/receipt runner trước đó nguyên byte;
+không mở thí nghiệm mới, đọc payoff hoặc chọn lại kết quả.
+
+Chỉ lệnh người dùng chỉ rõ UUID mới được retry. Verifier yêu cầu toàn bộ
+HTTP thuộc UUID đều là429 đã audit đúng body/slot, không có response mô
+hình/cache thành công. Unknown do transport_error, HTTP khác, thiếu bằng
+chứng hoặc sai audit vẫn dừng. Trước retry ghi authorization durable;
+giữ **cùng UUID/request**, giữ mọi row/reserve cũ và append HTTP mới.
+Sau response thành công mới cập nhật slot complete bằng raw cache/audit,
+rồi chuyển về runner gốc để tiếp tục. Slot complete không gọi lại.
+
+```powershell
+py -3.13 -X utf8 scripts/resume_mt_bicl_development.py retry-rejected 25b3723b-c25c-4def-9d5d-d50e064d023d
+```
+
+Lệnh này tự tiếp tục `run` sau khi slot429 hoàn tất; không cần reset file
+hoặc chạy lại từ đầu. Nếu provider lại từ chối429, giữ checkpoint/UUID và
+thử lại theo cooldown; không xóa ledger hoặc reserve. Các dòng nghỉ chủ
+động của pacer là hoạt động bình thường, không phải mất tiến độ.
+
+Kiểm theo phạm vi: **8 test phục hồi PASS**, ba Python mới biên dịch PASS;
+kiểm retry giữ UUID/reserve, complete không replay, ngắt vẫn giữ intent,
+chặn HTTP/unknown/cache/audit không đủ điều kiện và phát hiện sửa row cũ.
+Không đổi data/PIT/retrieval hoặc runtime dùng chung nên không chạy lại
+leakage/full suite/E2E; viện dẫn gate cũ sau đối soát hash/runtime/receipt.
+Agent chỉ chuẩn bị và kiểm offline, chưa gửi request retry thật.
