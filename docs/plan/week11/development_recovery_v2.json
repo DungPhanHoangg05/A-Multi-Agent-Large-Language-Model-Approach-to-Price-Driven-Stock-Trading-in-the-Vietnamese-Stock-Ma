@@ -1,0 +1,44 @@
+{
+  "version": "mt_bicl_rejected_request_recovery_v2",
+  "payload": {
+    "version": "mt_bicl_rejected_request_recovery_v2",
+    "runner_extension_sha256": "5ebd7c2e4e0882abb704ce4a4b66dde27339c5301fba9fba9ba5ff9a656362ff",
+    "run_signature": "dcb624c9a66671160e17e7e40a4bdff968c679cf4d5d06d421897c21be00bc19",
+    "runtime": {
+      "python": "3.13.5",
+      "platform": "Windows",
+      "os_name": "nt",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "numpy": "2.1.2",
+        "pandas": "2.3.3",
+        "scikit-learn": "1.7.2",
+        "hmmlearn": "0.3.3",
+        "scipy": "1.16.1",
+        "TA-Lib": "0.6.8",
+        "langgraph": "1.0.10",
+        "langchain-core": "1.2.17",
+        "langchain-groq": "1.1.2",
+        "groq": "0.37.1",
+        "httpx": "0.28.1",
+        "pydantic": "2.11.7",
+        "jsonschema": "4.24.0",
+        "Pillow": "11.0.0",
+        "matplotlib": "3.10.8"
+      }
+    },
+    "source_sha256": {
+      "core/mt_bicl_v2_recovery.py": "2cbacb7aa24fb46fbf0e5e97373ee37f265d5fae4e98a9ad82b450a97a1aee5f",
+      "scripts/resume_mt_bicl_development.py": "2db72c6ffcd6e485b87ab644900e7b21ef572646f928fce5b12edac827349e9d",
+      "tests/test_mt_bicl_v2_recovery.py": "b0c61671599ad70c8bbe8fad07cde2336eda84bcb7db15897f801b1f27266c3f"
+    },
+    "policy": "EXPLICIT_UUID_ALL_HTTP_429_AUDITED_NO_RESPONSE_RETRY_SAME_UUID_AND_BODY",
+    "reserve": "PRESERVE_ALL_OLD_REQUESTS_AND_RESERVES_APPEND_NEW_HTTP",
+    "complete": "NEVER_REPLAY",
+    "other_unknown": "STOP_NO_AUTOMATIC_RETRY",
+    "method_candidate_cohort_order_prompts_schema_weights": "UNCHANGED",
+    "scope": "OPERATIONAL_RECOVERY_AFTER_PARTIAL_DEVELOPMENT_NOT_NEW_EXPERIMENT",
+    "source_commit": "c4676cb13545b2b03ce51c0358a75c6d3e199686"
+  },
+  "sha256": "f0216c62863fb445d04c7c2d827269146ec1cf0d8450bb7eb4df1959c40d1982"
+}
