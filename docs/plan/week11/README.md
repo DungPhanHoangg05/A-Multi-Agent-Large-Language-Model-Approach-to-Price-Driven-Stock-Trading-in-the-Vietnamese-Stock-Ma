@@ -189,6 +189,13 @@ body/model/options/schema và response parser. Ledger tài khoản3974 request
 giữ nguyên SHA `e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796`;
 không reset hoặc ghi counter ngân sách W10.
 
+Verifier lạnh sau neo Git **PASS**: tái dựng toàn bộ lịch và612 canonical/
+HTTP contract từ nguồn, đối soát120 file upstream cùng96 journal dry-run,
+cold replay không invoke lại Decision, và replay bảy mock HTTP. Kiểm
+323 nguồn/spec W10 không file nào đổi; diff và liên kết Markdown PASS.
+Log kiểm thử cục bộ `outputs/bayesian_benchmark/mt_bicl_v2/preflight_scoped_tests.log`
+có SHA `0c07253bfb26153cdb14606ea04dd4925482f32afc3f805d20da051e8edab8c8`.
+
 Đã kiểm đủ **60 upstream lịch sử** bằng code/runtime/config, hash nguồn,
 snapshot PIT, bốn stage durable, Full bundle và journal. Cấu hình khớp
 release nên khóa reuse nguyên trạng, không tạo vision mới. `A_reference`
