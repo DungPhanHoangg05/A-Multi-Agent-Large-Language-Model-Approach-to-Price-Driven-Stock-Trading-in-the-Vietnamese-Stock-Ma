@@ -1,8 +1,9 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–13 DONE, 13/14 task DONE; tiếp theo W10-14.
-Candidate seed42/step3000 PASS cơ chế; adapter, dry-run60 và24 probe hợp đồng
-offline/replay PASS. Chờ freeze/release, chưa mở development/Decision API.
+**Amendment 28/10/2026: W10-01–14 DONE, 14/14 task DONE; tiếp theo W11-01.
+Candidate seed42/step3000 được release cho development 2023 sau freeze và
+cold verifier PASS. Trước Decision API vẫn cần run manifest/API preflight
+W11-01; chưa chạy development và chưa cấp release xác nhận 2025.
 Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -172,7 +173,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [x] DONE — hai pilot GPU đủ500 bước, paired tiny KL4,65207e−10; optimizer replay/hash PASS, weights đã bỏ |
 | W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [x] DONE — đủ15.000 bước/60 checkpoint;59 eligible, chọn seed42/step3000; test cơ chế/integrity/proof PASS, chờ tích hợp |
 | W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [x] DONE — dry-run60/24 contract probe offline,120 journal/cold replay PASS;117 test PASS,0 LLM/API |
-| W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
+| W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [x] DONE — receipt neo Git, cold verifier PASS; chỉ development2023 sau manifest/preflight W11-01 |
 
 V1 giữ nguyên core/mt_bicl_* và artifact đã khóa. V2 dùng module/schema/
 namespace riêng; không đổi hằng hash hoặc phục hồi candidate FAIL qua CLI cũ.
@@ -1387,6 +1388,102 @@ if ($LASTEXITCODE -ne 0) { throw 'Verifier tích hợp chưa PASS.' }
 **W10-13 DONE,13/14; tiếp theo W10-14 freeze/release có điều kiện.** Giữ
 `development_allowed=false`, `decision_calls_allowed=false`; chưa cấp
 quyền development hoặc Decision API chỉ từ receipt offline này.
+
+## W10-14 — Freeze, verifier lạnh và release development, 28/10/2026
+
+**DONE,14/14; W10 hoàn tất.** Nhánh `feat/distillation-development-release`
+từ `develop` tại `8211f18` sau pull. Thêm [release guard/verifier](../../../core/mt_bicl_v2_release.py),
+[CLI](../../../scripts/release_mt_bicl_v2.py) và [test](../../../tests/test_mt_bicl_v2_release.py).
+Không đổi nguồn, dữ liệu, teacher, student hoặc bằng chứng đã khóa của
+W10-12/13 và v1/W9; không refit, train, chọn lại candidate hoặc gọi API.
+
+[Receipt máy đọc](development_release_v2.json), version
+`mt_bicl_development_release_v2`, trạng thái **RELEASED_FOR_ADAPTIVE_DEVELOPMENT**,
+được tạo lúc **22:38:11 +07:00 ngày28/10/2026**, nguồn commit
+`cd70f4195888261b1a0b071d3209c33358510abd`, neo nguyên byte tại `e47e8b8`.
+Receipt **581.673 byte**, SHA-256
+`8459cfc1a4e95dae7512bc3c236fe102764d6af13ce5a7d3d19e0ce67d805121`.
+Consumer bắt buộc đối soát byte receipt với Git HEAD; sửa rồi self-hash
+không đủ để tạo release mới.
+
+Freeze **323 file nguồn/spec**, **262 artifact** (training131,
+integration123, teacher/corpus8), Python3.13.5 và16 phiên bản package;
+khóa cả candidate seed42/step3000, GPU kỳ vọng, protocol/membership,
+60 point2023, rule matrix/order/repeat, instruction/schema/model/options.
+Manifest training và integration giữ nguyên SHA đã nghiệm thu ở W10-12/13.
+File W11 mới có thể thêm sau; file nguồn đã freeze không được sửa rồi
+dùng tiếp release này. Run manifest cụ thể và12 repeat point ID vẫn phải
+khóa ở W11-01 trước response đầu tiên.
+
+Chỉ receipt mới cấp `development_allowed=true`, `decision_calls_allowed=true`
+trong scope **W11_2023_ONLY_AFTER_RUN_MANIFEST_AND_API_PREFLIGHT**.
+`confirmation_allowed=false`, `training_allowed=false`, `refit_allowed=false`;
+không có development/API nào được bắt đầu bởi task release. Cờ false trong
+protocol/receipt lịch sử giữ nguyên byte và diễn tả trạng thái tại thời
+điểm lập, không bị sửa để cấp quyền. Guard từ chối phase khác hoặc point
+ngoài cohort2023; release xác nhận2025 cần gate/receipt riêng của W11.
+
+Cold verifier trong tiến trình mới kiểm closure nguồn, byte/hash mọi
+artifact, runtime, nguồn protocol, candidate, prompt/schema/cohort, gate
+cơ chế tổng hợp, support và proof replay đã khóa. Không forward GPU,
+không chạy lại inference/optimizer hoặc đọc credential. Cold verify chỉ
+đọc được cả sau hạn/cap; freeze mới vẫn chịu deadline/budget cũ. Không
+đồng nhất check hash/proof với việc vừa chạy lại replay hoặc toàn hệ thống.
+
+Ledger nền **3.974 request** giữ SHA
+`e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796`;
+verifier cho append sau release nhưng từ chối sửa/mất request nền hoặc
+UUID trùng. Baseline được khóa trước response mới, không reseal sau run.
+Counter/identity và lịch sử phiên budget gốc cũng phải giữ, không cấp quỹ mới.
+
+Giữ nguyên kết quả bất lợi: student kém base rate/logistic/teacher trên
+2022 theo cả log-loss/Brier, stress subgroup trượt P95, teacher PPC quá
+phân tán. Gate cơ chế tổng hợp PASS không chứng minh lợi nhuận hoặc xóa
+FAIL subgroup.24 probe W10-13 vẫn là **OFFLINE_CONTRACT_ONLY**;
+`llm_semantic_behavior=NOT_RUN_BEFORE_RELEASE`, chưa đo reasoning hoặc
+giá trị tăng thêm của Decision LLM. Hosted LLM vẫn có giới hạn tri thức
+sau cutoff trong weights. Development W11 phải giữ các hạn chế này.
+
+Theo AGENTS.md1.2: **43 test riêng biệt PASS** gồm20 test release mới và23
+hồi quy liên quan (`test_mt_bicl_protocol`:9, `test_atomic_checkpoint_io`:8,
+`test_mt_bicl_v2_integration`:6). Phủ anchor/self-reseal, mutation nguồn/
+artifact/runtime/cohort/schema, phạm vi quyền, ledger append, budget
+rollback/history, ngày/cap, idempotence và consumer; hồi quy phủ protocol,
+atomic IO và journal/probe cold check được gọi lại. Ba file Python mới
+biên dịch PASS. Không đổi đường PIT/retrieval/kinh tế/prompt/retry; viện
+dẫn117 test/24 thuộc module leakage của W10-13 và74 test/34 thuộc module
+leakage của W10-12 trên nguồn/runtime nguyên vẹn, **không gọi là chạy lại**.
+Không chạy toàn unit suite/compileall/E2E hoặc gán lại bốn gate toàn hệ
+thống chỉ để chốt checklist; gate mới có phạm vi release và caller nêu trên.
+
+Active tổng **4.953,258804/14.400 giây**, còn **9.446,741196 giây**
+(khoảng2 giờ37 phút27 giây), active_since=null. Freeze/kiểm nguồn tăng
+**12,952776 giây** so với cuối W10-13; cold verify không sửa counter.
+Quỹ10 giờ đã cấp không reset; công việc thủ công chưa đo không tính là0,
+không cộng hai lần thời gian active chồng lấp. Hạn01/11, release/bắt đầu
+xác nhận chậm nhất05/11, dừng dữ liệu07/11 và hạn10/11 giữ nguyên.
+
+### Lệnh đầy đủ để đối soát release W10
+
+Đã chạy freeze và neo receipt vào Git; không cần tạo lại. Chạy từ thư mục
+gốc repo, đúng runtime đã khóa. Hai lệnh sau chỉ kiểm nguồn và release,
+không chạy development, gọi API hoặc tiêu quỹ active train/pilot.
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $false
+
+py -3.13 -X utf8 scripts/release_mt_bicl_v2.py check-inputs
+if ($LASTEXITCODE -ne 0) { throw 'Nguồn release chưa PASS; dừng.' }
+
+py -3.13 -X utf8 scripts/release_mt_bicl_v2.py verify
+if ($LASTEXITCODE -ne 0) { throw 'Cold verifier release chưa PASS; không chạy development.' }
+```
+
+Kỳ vọng `Release=RELEASED_FOR_ADAPTIVE_DEVELOPMENT; cold integrity=PASS`.
+CLI `freeze` chỉ phục vụ tạo receipt lần đầu; gọi lại kiểm receipt hiện
+hữu, không ghi đè hoặc cấp budget mới. Tiếp theo **W11-01**, khóa run
+manifest/cohort/order/repeat và API preflight; W11 vẫn0/8, W12 vẫn0/6.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 

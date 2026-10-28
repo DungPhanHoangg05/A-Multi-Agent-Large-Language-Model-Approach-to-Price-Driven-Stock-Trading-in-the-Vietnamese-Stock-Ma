@@ -8,9 +8,10 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **13/14**, W11 **0/8**, W12 **0/6**; **W10-13 DONE**,
-candidate seed42/step3000 PASS cơ chế; adapter/dry-run60 và24 probe hợp đồng
-offline/cold replay PASS. Chờ W10-14 freeze/release, chưa mở Decision API.
+**Tiến độ:** W10 **14/14**, W11 **0/8**, W12 **0/6**; **W10-14 DONE**,
+candidate seed42/step3000 được release cho development2023 sau freeze và
+cold verifier PASS. Tiếp theo W11-01 khóa run manifest/API preflight;
+chưa chạy Decision API và chưa cấp release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -18,7 +19,7 @@ constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
 2022. Teacher v2.1 đã fit train-only, delta9,827133551354e−11 đạt<1e−10;
 PPC1.000 replicate và corpus/oracle hoàn tất. Giữ cảnh báo PPC quá phân tán.
 Hai pilot learner v2 đã PASS tiny-fit/replay; train chính và test cơ chế
-W10-12 đã PASS, chưa release development. Diagnostic pilot còn kém;
+W10-12 đã PASS, W10-14 đã cấp release development có phạm vi. Diagnostic pilot còn kém;
 test stress trượt P95, không suy chất lượng thị trường từ gate tổng hợp.
 W10-09 khóa protocol/manifest/membership/
 fixture v2. Người dùng đã cấp thêm10 giờ cho phần W10
@@ -1198,7 +1199,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 13/14 DONE; v1 FAIL, v2.1 chờ freeze/release
+### TUẦN 10: MT-BICL và tích hợp — 14/14 DONE; v1 FAIL, v2.1 release development2023
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1342,6 +1343,21 @@ file Python mới biên dịch PASS; không full suite/compileall/E2E/train lạ
 Active tổng **4.940,306028/14.400 giây**, còn9.459,693972 giây, không reset
 quỹ10 giờ; **development/Decision=false**, tiếp theo W10-14 freeze/release.
 Chi tiết/lệnh [W10-13](week10/README.md#w10-13--adapter-decision-paired-và-kiểm-hợp-đồng-offline-28102026).
+
+**W10-14 DONE,28/10/2026;14/14 DONE.** Freeze và cold verifier mới PASS;
+[receipt](week10/development_release_v2.json) neo Git `e47e8b8`, SHA
+`8459cfc1a4e95dae7512bc3c236fe102764d6af13ce5a7d3d19e0ce67d805121`.
+Khóa323 nguồn/spec,262 artifact, Python3.13.5/16 package, candidate,
+instruction/schema/model/options và recipe/cohort2023; không sửa bằng
+chứng/cờ lịch sử. Receipt mới cấp development/Decision=true **chỉ W11
+2023 sau run manifest/API preflight W11-01**; confirmation/train/refit=false.
+43 test liên quan PASS và ba Python mới biên dịch PASS; không chạy lại
+toàn suite/E2E/leakage, chỉ viện dẫn gate cũ trên nguồn/runtime nguyên vẹn.
+Cold verify không inference/GPU/API hoặc reset budget. Active tổng
+4.953,258804/14.400 giây, còn9.446,741196 giây. Giữ stress P95 FAIL,
+student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM thật
+chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
+Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/

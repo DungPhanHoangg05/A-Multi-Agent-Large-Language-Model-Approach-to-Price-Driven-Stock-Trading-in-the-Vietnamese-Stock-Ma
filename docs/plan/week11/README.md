@@ -1,6 +1,7 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Amendment 28/10/2026; 0/8 task DONE. Chờ release v2 tại W10-14.**
+**Amendment 28/10/2026; 0/8 task DONE. W10-14 đã release development2023;
+tiếp theo W11-01 khóa run manifest/API preflight trước Decision API.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
@@ -12,7 +13,12 @@ cấp + learner distillation**, được chọn bằng quy tắc mới trước 
 V1 vẫn NO_MT_BICL_RELEASE; không sửa cờ cũ, không tái chọn checkpoint v1.
 [Amendment W10](../week10/README.md#9-khắc-phục-nguyên-nhân-và-protocol-v2--28102026)
 là thiết kế hiện hành. protocol_v1.json chỉ mô tả thí nghiệm đã đóng;
-W10-09 phải tạo protocol v2, W10-14 mới cấp release chạy. Chưa có release.
+W10-09 đã khóa protocol v2; W10-14 đã cấp [release](../week10/development_release_v2.json),
+SHA `8459cfc1a4e95dae7512bc3c236fe102764d6af13ce5a7d3d19e0ce67d805121`,
+chỉ cho development2023 sau run manifest/API preflight. Nguồn/teacher/
+student/runtime/prompt/schema/cohort đã freeze; W11-01 vẫn phải khóa
+manifest cụ thể, thứ tự nhánh và12 repeat point ID trước response đầu.
+Release này không cho phép xác nhận2025, train hoặc refit. Chưa chạy API.
 
 Bayesian posterior đúng dưới giả định teacher và student học gần teacher
 không chứng minh lợi nhuận. Development phải đo việc thêm posterior/examples
@@ -131,7 +137,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] TODO — chờ release v2 |
+| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] TODO — release đã có; cần run manifest/API preflight |
 | W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] TODO |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
@@ -147,6 +153,6 @@ còn lại hoàn thiện luận văn, không W13. Theo AGENTS.md 1.2 chỉ test 
 Amendment này được lập theo yêu cầu sửa phương pháp ngày 28/10 sau W10-07;
 không còn áp dụng lệnh dừng mọi nghiên cứu mới của recipe v1 cho v2. Các
 lệnh cấm sửa bằng chứng, chọn bằng test và triển khai khi chưa có release
-vẫn giữ. Chưa gọi development/API, chưa tăng tiến độ task W11. Chỉ sửa
-Markdown; kiểm diff/link/đồng bộ dependency, không chạy lại suite theo
+vẫn giữ. Bàn giao W10-14 chưa gọi development/API hoặc tăng tiến độ W11.
+Cập nhật W11 chỉ sửa Markdown; kiểm diff/link/đồng bộ dependency, không chạy lại suite theo
 AGENTS.md 1.2. Quỹ giờ và mốc 05/11, 07/11, 10/11 giữ nguyên.
