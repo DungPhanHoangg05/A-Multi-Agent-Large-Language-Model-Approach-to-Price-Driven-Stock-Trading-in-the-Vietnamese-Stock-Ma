@@ -1,0 +1,322 @@
+{
+  "version": "mt_bicl_development_preflight_v2",
+  "payload": {
+    "status": "OFFLINE_PASS_AWAITING_USER_LIVE_API_PREFLIGHT",
+    "manifest_payload_sha256": "e2d09b23f46cd53622d53d636af0b4dcda9e27cafaaed20bda456ea5ff9418c6",
+    "source_sha256": {
+      "core/mt_bicl_v2_run_manifest.py": "92bcf22e3800875bac0a23cc34c5615e8ea28133d5aa4c9e4eee5feee1063b8f",
+      "core/mt_bicl_v2_api_preflight.py": "b2e9c111121bfee6b84feaed143b5f40911d680b7db28f5cd2e31cbb465eb4bb",
+      "scripts/prepare_mt_bicl_development.py": "9f9d78e8b331e9c0c3f7cf1a68661510a4cd53a2ff6036b765c8c7585cee01d0",
+      "tests/test_mt_bicl_v2_run_manifest.py": "f5dcdc4f61c042e53989f349b186a807741460cc036edc2392e26718a57ed5fc"
+    },
+    "dry_run": {
+      "status": "PASS",
+      "scope": "REAL_VERIFIED_REPORTS_FROZEN_STUDENT_P_DECISION_FIXTURE",
+      "slots": 612,
+      "shared_off": 121,
+      "fixture_invocations": 491,
+      "duplicate_invocations": 36,
+      "max_prompt_chars": 4949,
+      "max_prefix_chars": 494,
+      "journals_sha256": {
+        "offline_dry_run/0/MWG-2023-01-06.json": "a6524c26dfea366c1a84b33d3ec329e65903934b5fe424c8619a87a9ddbd19f8",
+        "offline_dry_run/0/VCB-2023-01-06.json": "d2168d57513c06157ca5edadeca95c73584575cd58a2d0f7ae73c14989345492",
+        "offline_dry_run/0/VNM-2023-01-06.json": "dd9eb45fa7ed45ee7198747c77e2256938b7ea169fd465dd4d12871bf426fcf8",
+        "offline_dry_run/0/MWG-2023-02-08.json": "b8255301a7a4e313d5f582a0fa06621ce116409bff62940b098254c2c3762ef0",
+        "offline_dry_run/0/VCB-2023-02-08.json": "7a06eb6b1113a637514ad053d9d1ef1a03b9929445c2579f05a82430d1408d34",
+        "offline_dry_run/0/VNM-2023-02-08.json": "2274d97b4f0b37af309dcec351b8acda0a2390436b70c23476e872ebc90a7524",
+        "offline_dry_run/0/MWG-2023-03-06.json": "5eb117616252bb731602192ac407d68ad00a558c7defd4cb09a2c1ac1a6a521b",
+        "offline_dry_run/0/VCB-2023-03-06.json": "b564f99b9d1a5e2545286c294170bfa7a3f921e6d8ab4050817a67ba0c7922c4",
+        "offline_dry_run/0/VNM-2023-03-06.json": "41740e1ad06917b6a4082ed7ddd8c55c692c3c53d6a95f83c1e322c900fdaceb",
+        "offline_dry_run/0/MWG-2023-03-30.json": "891cbc1e2d9e8268ae88d34b83d7149380ea0309b29d98f13353946bcaa90a84",
+        "offline_dry_run/0/VCB-2023-03-30.json": "5f967913678acc95f10d6555aff00a7f8f9fbdb7703e46554a4c70f12105213e",
+        "offline_dry_run/0/VNM-2023-03-30.json": "6490f403f7220a8f65313c6815d0f85fff2b1c8bfe99c7408eee744c6e955469",
+        "offline_dry_run/0/MWG-2023-04-04.json": "3555463966b67b4e33398ef609944982b208acb44aefdeadc489bbfa1334ad6d",
+        "offline_dry_run/0/VCB-2023-04-04.json": "5bba6b96098754446c3175a350ab1f200459ec4500871fcda37a04c91c0c508f",
+        "offline_dry_run/0/VNM-2023-04-04.json": "8338796fa1799bd72d95f2bac657666f5f913f225f1efc099d922c67e5e657b7",
+        "offline_dry_run/0/FPT-2023-04-12.json": "077f25c467bbc0d289bb41abc806af27f2ae3aac12a73a0d11dbb2acf2ab6c13",
+        "offline_dry_run/0/MWG-2023-04-28.json": "58cc18123ba02701a694b2c6dea372c3dc005d9ac63abe5ff01c5bcc618612e2",
+        "offline_dry_run/0/VCB-2023-04-28.json": "13fccb76e056771f3e41b42497d19f16add1cd9673767d38a1a8e16b3fa5303a",
+        "offline_dry_run/0/VNM-2023-04-28.json": "5d7a2b3a310f0a2f2753d1a6ba6c30dc1bda33d846ef0ba325ad41d494122add",
+        "offline_dry_run/0/FPT-2023-05-11.json": "b6c4093b3daf6143d53f939b9c98eca9b9c6452a6f1b80c10f84d52c811d7b80",
+        "offline_dry_run/0/FPT-2023-06-01.json": "43733895756cd23f784f628820cc06a0f37887a9692a9f1596f2fbce5d7572ee",
+        "offline_dry_run/0/MWG-2023-06-01.json": "97eae3d0d85680a7986f61a7ad92f15ef3c870b820c2081e6c3b56c6cdc10550",
+        "offline_dry_run/0/VCB-2023-06-01.json": "57726f60c132b8faf22cc0603b65fdf71cc13d87cb77d18fcf8aad111b213d46",
+        "offline_dry_run/0/VNM-2023-06-01.json": "614d1b6d1be95f96a4306bb6d0dd6a542c58fbb050742b49a883aa7bd044362e",
+        "offline_dry_run/0/FPT-2023-06-27.json": "dcc547a978614115f81ee161d7c8f3d114f921965a9777774227b75b77cd0303",
+        "offline_dry_run/0/MWG-2023-06-30.json": "4f976c596cdf9290ac0a9f4098dba6083ce75709434b911e839d88a3775fc514",
+        "offline_dry_run/0/VCB-2023-06-30.json": "2a871d59206ebda2e7ae4b22d26f736ef33dc24e36c40564ef8f8980ca9c5f04",
+        "offline_dry_run/0/VNM-2023-06-30.json": "f220a9c8950a447a8ff165cc92676a0c5a5a11434126c3b0644a8487ad75464d",
+        "offline_dry_run/0/FPT-2023-07-05.json": "e91d9c9ffcea74d547395130676665251e71f14fdc8aaf99d338cb04310fa2c1",
+        "offline_dry_run/0/MWG-2023-07-05.json": "93083da2c862f60735642e0dcb1f01a7f6ca16961cf560ac6ebd0772765ef9b4",
+        "offline_dry_run/0/VCB-2023-07-05.json": "0fd0cadb3366b5ff0982362706d2849ed29dad2327b10bddcf33a523fdd21415",
+        "offline_dry_run/0/VNM-2023-07-05.json": "472c56c48ab8dc575c7fe3ef7a3e20c033e901734b15bd8fd648f31c00f5449a",
+        "offline_dry_run/0/FPT-2023-07-31.json": "ef2d9a8a8856a1b4b80106d727fada2f605ab600b92d7efa455be320a7cfb0af",
+        "offline_dry_run/0/MWG-2023-07-31.json": "e8379415e1aeefa222be9ff04bc7400fb0a328beac3ca401d1ca47c6c67c2342",
+        "offline_dry_run/0/VCB-2023-08-03.json": "cf69ed316be10b9530a2a687e2369d5d91baf5a052effe12e7f5b8607d7e301f",
+        "offline_dry_run/0/VNM-2023-08-03.json": "2be7bda630040a83a5a96d790f3b57c7a7424091ac7a55406180b7339fb90bcc",
+        "offline_dry_run/0/FPT-2023-08-29.json": "2314121ce1a3d0bb4ca461bf1db7ba49bee728a9c4f974eef69b905562baa32b",
+        "offline_dry_run/0/MWG-2023-08-29.json": "323e02707cdf52345e5e98b40efdefb7d97f57ed64e7e342622c6f26c52eab00",
+        "offline_dry_run/0/VCB-2023-08-29.json": "04be1acb3cb9af1c63211dbd6ba462f220db63211b1d31285a78d9fc3c8e0ad1",
+        "offline_dry_run/0/VNM-2023-08-29.json": "85d2f5cd3178e6a03d016c4f98d5ee3963d9381d5f7a209c9cb882c27696c5a2",
+        "offline_dry_run/0/FPT-2023-09-29.json": "b88874fff65abd9dea3e717d6d9c97c1a5847d942725d69c77b847463d05f810",
+        "offline_dry_run/0/MWG-2023-09-29.json": "cb759d0a56d2284fee9a76c5a875b3cf87661963bcd41e640deecc5650b073b7",
+        "offline_dry_run/0/VCB-2023-09-29.json": "e55854c3593ed1eb1490f41d3ff37619e999a44d7bae2fb424c9634cda24c73e",
+        "offline_dry_run/0/VNM-2023-09-29.json": "4eeb9cbcce4feb28a92cc0360d6f618301d7aeee2ff9686e2dfcf6e27a08ea91",
+        "offline_dry_run/0/FPT-2023-10-04.json": "7b378d126a7706064ac8bf1d0393a0f53f8a90a7409e812756a1e46102eedb16",
+        "offline_dry_run/0/MWG-2023-10-04.json": "97669c0ff650eca269068660f00afbd8be217af4defc6f7c6e5f22b52a49f80b",
+        "offline_dry_run/0/VCB-2023-10-04.json": "15d4399be367ab51bc52c2997b678a7d7b6fb2b9fc75458675357a27d8f8f293",
+        "offline_dry_run/0/VNM-2023-10-04.json": "d5361ce9f2dca788c137fa8441543b41662356dcbce5f024f956cb682fede2b4",
+        "offline_dry_run/0/FPT-2023-10-30.json": "e82daa9f3ebf6b6c88cd936ed8055392afe99de4c31131a6410e2946e669bf9c",
+        "offline_dry_run/0/MWG-2023-10-30.json": "7276f8452c3868340655f2341e6dff88c7eefdff0298808bb9a5857f27525b6e",
+        "offline_dry_run/0/VCB-2023-10-30.json": "ac7fb15f28aced94229d77d97a5486245036e6331eda0b081f1fae3fb67801d4",
+        "offline_dry_run/0/VNM-2023-10-30.json": "a1bcdba763587baf1d5889e6670c9d88eb8bb12c680a97de5e0f9f3e9f5a6034",
+        "offline_dry_run/0/FPT-2023-11-23.json": "8d91a9fc41db99d75817b1aabb2e4e958c4616202c0396bd9c5bb0f869220099",
+        "offline_dry_run/0/MWG-2023-11-23.json": "8db8eb2f48f85d5e8903086bfa1ace54bc901839f89bb298be54c39f71e008e7",
+        "offline_dry_run/0/VCB-2023-11-23.json": "0aa2e061d489a685a241de1e233838fa9bc28cb2df4616dcd2a949ab5db5e59a",
+        "offline_dry_run/0/VNM-2023-11-23.json": "a92768d4fdaa5a5f74b8a49e44e066408e797bf8f3e817abdbff7452ddfdb407",
+        "offline_dry_run/0/VNM-2023-12-19.json": "995846c23928fa7d679db620928ee4301341cf59fd31dd7ad127fa322a3666b3",
+        "offline_dry_run/0/FPT-2023-12-22.json": "ff90b7db9920bce9c69084b980e8c27640e28460b4034105c575a15b3c37b031",
+        "offline_dry_run/0/MWG-2023-12-22.json": "1e63a0648e13fe2273c634fb013ca1084aea4f06eedd3a7d725a49eaa22a3663",
+        "offline_dry_run/0/VCB-2023-12-22.json": "168edf03e343ed2ecf7b8d22be9f298cd8c63ef352c0afa8db85058c5eacb00c",
+        "offline_dry_run/1/MWG-2023-01-06.json": "c103837b6af6a4981824b440525261b6fd7ab91b3e2bb50b7df4f82c580fd248",
+        "offline_dry_run/1/VCB-2023-01-06.json": "a959f6ba4b34105140e354f86b6e523edc6ef7a26f834b3e9651dc7be66c52e7",
+        "offline_dry_run/1/VNM-2023-01-06.json": "06a1dfb91df40548abed87522940abdc66adc424b8975a4ddb09f2c6bf2805e5",
+        "offline_dry_run/1/MWG-2023-02-08.json": "441ed188d8b199db4345282692a88c092b731119a187c6aba188113187859ebb",
+        "offline_dry_run/1/VCB-2023-02-08.json": "e0a33eafb683b9a6cad4fb89fae34a498d300e2f094a666ae4e648485927c17c",
+        "offline_dry_run/1/VNM-2023-02-08.json": "c1fdd67052014e8a0e31b1d1dd08b8e4a246b821692179ce65f11315b653cb58",
+        "offline_dry_run/1/VNM-2023-03-06.json": "08fca78a24b63cf7d2d8102b4e16c749d73baa56d084d7b9859c38779fc3c488",
+        "offline_dry_run/1/FPT-2023-04-12.json": "3f732e133affd3e81b37fd42a0f3cdee92d22e2e50d2d4f39f2ab98bc0b63b8b",
+        "offline_dry_run/1/FPT-2023-05-11.json": "fbaf848d1099fe46fe92f5cebe80be5e57848a7977808c68f8af0b96f6daa0e9",
+        "offline_dry_run/1/MWG-2023-07-31.json": "1726f2bcabb9c6b5d889e4bdde8a42cfc1814954922e50b4ed9c1b3d2228741c",
+        "offline_dry_run/1/VCB-2023-08-03.json": "d3417786d1cc4cf571058f9bf66bb0f87eabca7463e52ddf358349ce8326ce16",
+        "offline_dry_run/1/FPT-2023-10-30.json": "334febdce5dc0cc6d343fb61fc6f84791bed7e17501867b6addcadb443bd63be",
+        "offline_dry_run/2/MWG-2023-01-06.json": "261bd4927857b5701f2e0f8007b18977703c1b4b21cff278a762c94ed21e562c",
+        "offline_dry_run/2/VCB-2023-01-06.json": "ae7a0fe1acfc2dcc51b08c63bcf0f70c810c6e1ceb76b39e235e0c7ea8b4ef82",
+        "offline_dry_run/2/VNM-2023-01-06.json": "60393204575ccfbfdbd077667a47752eec758c8c4ede8e2451e6d4b4c5637961",
+        "offline_dry_run/2/MWG-2023-02-08.json": "b0000b96a0229b09c659caa7eb0a899a05944bf734b85bda7c0cf6960710b173",
+        "offline_dry_run/2/VCB-2023-02-08.json": "2a143c9c6858c3b129103834dac52d6fe917ad69981fdcf2cb1cf37a19376ff7",
+        "offline_dry_run/2/VNM-2023-02-08.json": "abfea60c3ac2344ef47b8ca5cf49dedb702081f35de75a2066ac56a3702f2e8e",
+        "offline_dry_run/2/VNM-2023-03-06.json": "1abf8a1ced7bf733e777b6698a4b75cc355688c83960aae9af2bfa146798f8e8",
+        "offline_dry_run/2/FPT-2023-04-12.json": "db782805f0c06d05911558d82c237e27448f213a3d7c049dc9320f48a8c9acd2",
+        "offline_dry_run/2/FPT-2023-05-11.json": "2e142fa7e8e2b985be67e8fed01764468ed15829aca6a5f103c1dfb229e82c41",
+        "offline_dry_run/2/MWG-2023-07-31.json": "df8d31b0220a0676333712643a804c40d544506b824c768a871582cac9138c1d",
+        "offline_dry_run/2/VCB-2023-08-03.json": "a9d375864620b48d9400ddbcf69ee8d96ed7be3a9748b0d583941eafce857847",
+        "offline_dry_run/2/FPT-2023-10-30.json": "2d06f4a8632638ea476077412f1c956d5d73eb4ddabed8895e3e708de19119be",
+        "offline_dry_run/3/MWG-2023-01-06.json": "bf4e050a0d2038d6020ce6076c474dab5a3ff1f62d2ae49ab2f461ae727efc22",
+        "offline_dry_run/3/VCB-2023-01-06.json": "f15d604bc9a3f7ee3dc3f52cc79d2559608ccc6aaae378dd95edf01d6f0423b3",
+        "offline_dry_run/3/VNM-2023-01-06.json": "8957ac3802ab11b2f5f20d2d60f42a1433313124da192b3e4b69e3ad5b91ddab",
+        "offline_dry_run/3/MWG-2023-02-08.json": "30300f5c001caa38a745071e9fb5774dbd5bf1e9a64e5e1898c1b3ccc3fc8126",
+        "offline_dry_run/3/VCB-2023-02-08.json": "19a66e0fbff9cb7252578dd7a02570cbbe6e12b37f23b5c0fb6818acef845615",
+        "offline_dry_run/3/VNM-2023-02-08.json": "14c5973b1b427667c065d45cdce2843fd9b2ed1a779a2d7568297729008eff78",
+        "offline_dry_run/3/VNM-2023-03-06.json": "1c6dd8052cb0b21019b0e00f2f11c59965da449f9d965b78360f64f02d5ca0c3",
+        "offline_dry_run/3/FPT-2023-04-12.json": "984ae31fa3f00e4e3a074277e38a09733f5c1234afa47fec1d959fa92f781495",
+        "offline_dry_run/3/FPT-2023-05-11.json": "705bbdc3ebcecb53468ac12696eeb19c0e7addd09746a15d1160b5bac66e6394",
+        "offline_dry_run/3/MWG-2023-07-31.json": "b00f7d0a042a9b02a8b10157e5dddd4660f94ccea82a436f28b12332c0c2ff1d",
+        "offline_dry_run/3/VCB-2023-08-03.json": "313290345d821b1def53a73045c9be4d4a882020badb075d9e258468bbf207c7",
+        "offline_dry_run/3/FPT-2023-10-30.json": "cc20a9b6fd8dbf5854ccee6eb849bbb763b1281d26e939651d965407167b294f"
+      },
+      "real_api_calls": 0,
+      "new_upstream_calls": 0,
+      "student_forward_calls": 0,
+      "cold_replay": "PASS",
+      "llm_semantic_behavior": "NOT_RUN"
+    },
+    "wire_preflight": {
+      "status": "PASS",
+      "scope": "SDK_RETRY_PACER_AUDIT_MOCK_HTTP_ONLY",
+      "mock_http_calls": 7,
+      "real_api_calls": 0,
+      "tokenizer_cached": true,
+      "limits": {
+        "openai/gpt-oss-20b": {
+          "rpm": 30,
+          "rpd": 1000,
+          "tpm": 8000,
+          "tpd": 200000
+        },
+        "qwen/qwen3.8-27b": {
+          "rpm": 30,
+          "rpd": 1000,
+          "tpm": 8000,
+          "tpd": 200000
+        }
+      },
+      "requests": [
+        {
+          "branch_id": "Original",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "98d5bb449154c53fa3ec22b9c29f9ff82ba3da0e170c04cd877b0cc1740ab265",
+            "messages_sha256": "67f871928e91f1eb5f62abad1a7c91f739d36c87f661e28ce4ea1960be8d83c0",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "5eac3c167007ef0e3db9d756f5fdd681b5b5a2dd4b6ef9d698500a1d3895f7ea",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4303
+        },
+        {
+          "branch_id": "A_reference",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "eeff6949ff6f458c52deb36376fd622151ef22dad479753efe1d71809c03ccb0",
+            "messages_sha256": "9b18b1f6e9cce6dc682b315e18f91feca21def93029c0739e1262cbb5b3468f7",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "0bfa54df80aa85170cdc6bd78eea06373862136ab83b2bc59f36de61fba7f9a1",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4603
+        },
+        {
+          "branch_id": "Plain_ICL",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "d04b16be07b06685a3f0013aa48e1e989e0a7e29adcf16d51009d9e1d9605a56",
+            "messages_sha256": "f5ed3bc92ce51a426d33621d0e0378e91513e691f9c303eb70d48590553d3c55",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "6b590cb3bd30fe25b999265fd7ff8529c637c8c1713ab35e32b2195e8459710b",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4484
+        },
+        {
+          "branch_id": "Full_MT_BICL",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "2e55efc1b97c971c9244cc7d7bf7de3b3447d3db3d6cfbf42794943689488918",
+            "messages_sha256": "cdaac20d1e65685c39cd97220771541ab1d64305a955c1c3e9c6f531b432c0b8",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "49ef6521c2f3590f68463d78a50c61e1b2270251f4a1ecbaa8c3a70c038bc630",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4502
+        },
+        {
+          "branch_id": "No_target",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "bf037bd545e5ae65308d99db4059c687edc53b4f72f5f250a88f3d4d9399d5b9",
+            "messages_sha256": "3370d733b967f7cfebae0927296e8a70b8b5caa729d2eb7a422c04cab3851976",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "7da72adc4206f7251bebff4807b52285a4a456c062f3a8ac18303782c191451a",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4477
+        },
+        {
+          "branch_id": "Stats_only",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "4fadffca39cd81a71f5231e880a69414efd5d77ad2decd8099f3e9b761fd495b",
+            "messages_sha256": "617701aa140b75501fb333d849b4b0d5fa9e79e5a8596a7fd7d6f5798e17d5cd",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "b803aa4870899d94fa05c8faa816b3abd751bde90f90022477f2fa0126db8b71",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4386
+        },
+        {
+          "branch_id": "Original_duplicate",
+          "point_id": "VCB-2023-11-23",
+          "http_contract": {
+            "canonical_body_sha256": "98d5bb449154c53fa3ec22b9c29f9ff82ba3da0e170c04cd877b0cc1740ab265",
+            "messages_sha256": "67f871928e91f1eb5f62abad1a7c91f739d36c87f661e28ce4ea1960be8d83c0",
+            "response_format_sha256": "253e1da4dd6e1a7ac65c7da3184dc1976aecdcb383f73d282cfe5ce907fa64d7",
+            "prompt_sha256": "5eac3c167007ef0e3db9d756f5fdd681b5b5a2dd4b6ef9d698500a1d3895f7ea",
+            "model_options": {
+              "model": "openai/gpt-oss-20b",
+              "stream": false,
+              "n": 1,
+              "temperature": 0.0,
+              "stop": null,
+              "reasoning_format": "hidden",
+              "reasoning_effort": "low",
+              "service_tier": "on_demand",
+              "max_tokens": 2048
+            },
+            "tools_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+          },
+          "status": "PASS",
+          "reserved_tokens": 4303
+        }
+      ]
+    },
+    "ledger_before_after_sha256": "e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796",
+    "real_api_calls": 0,
+    "live_api_preflight": "NOT_RUN_USER_EXECUTES_BEFORE_PRIMARY",
+    "created_at": "2026-10-28T16:33:06.803718+00:00"
+  },
+  "sha256": "d721801114cf9f7cba061978e831699f10a00d7528415545ac8a33988efbdf75"
+}

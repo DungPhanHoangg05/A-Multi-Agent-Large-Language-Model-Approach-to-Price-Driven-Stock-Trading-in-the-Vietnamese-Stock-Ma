@@ -1,7 +1,8 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Amendment 28/10/2026; 0/8 task DONE. W10-14 đã release development2023;
-tiếp theo W11-01 khóa run manifest/API preflight trước Decision API.**
+**Cập nhật 28/10/2026; 0/8 task DONE. W11-01 đã chuẩn bị manifest,
+dry-run và preflight offline; chờ người dùng chạy API preflight thật trước
+khi đóng task hoặc mở primary/repeat. W10-14 chỉ release development2023.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
@@ -17,7 +18,7 @@ W10-09 đã khóa protocol v2; W10-14 đã cấp [release](../week10/development
 SHA `8459cfc1a4e95dae7512bc3c236fe102764d6af13ce5a7d3d19e0ce67d805121`,
 chỉ cho development2023 sau run manifest/API preflight. Nguồn/teacher/
 student/runtime/prompt/schema/cohort đã freeze; W11-01 vẫn phải khóa
-manifest cụ thể, thứ tự nhánh và12 repeat point ID trước response đầu.
+manifest cụ thể, thứ tự nhánh và 12 repeat point ID trước response đầu.
 Release này không cho phép xác nhận2025, train hoặc refit. Chưa chạy API.
 
 Bayesian posterior đúng dưới giả định teacher và student học gần teacher
@@ -137,7 +138,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
-| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] TODO — release đã có; cần run manifest/API preflight |
+| W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [ ] OFFLINE_READY — manifest/dry-run/preflight offline PASS; API thật NOT_RUN, chờ người dùng |
 | W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] TODO |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
@@ -154,5 +155,96 @@ Amendment này được lập theo yêu cầu sửa phương pháp ngày 28/10 s
 không còn áp dụng lệnh dừng mọi nghiên cứu mới của recipe v1 cho v2. Các
 lệnh cấm sửa bằng chứng, chọn bằng test và triển khai khi chưa có release
 vẫn giữ. Bàn giao W10-14 chưa gọi development/API hoặc tăng tiến độ W11.
-Cập nhật W11 chỉ sửa Markdown; kiểm diff/link/đồng bộ dependency, không chạy lại suite theo
-AGENTS.md 1.2. Quỹ giờ và mốc 05/11, 07/11, 10/11 giữ nguyên.
+Lượt amendment README trước W11-01 chỉ sửa Markdown, đã kiểm diff/link/
+đồng bộ dependency và không chạy lại suite theo AGENTS.md1.2. W11-01 có
+mã mới nên kiểm theo phạm vi tại mục6. Quỹ giờ và mốc 05/11, 07/11, 10/11 giữ nguyên.
+
+## 6. W11-01 — Khóa manifest và preflight development (28/10/2026)
+
+**OFFLINE_READY; chưa DONE:** phần chuẩn bị do agent thực hiện đã xong;
+API preflight thật vẫn **NOT_RUN** theo quy tắc vận hành của
+[kế hoạch tổng](../plan.md): “API key do người dùng chạy; agent chuẩn bị/kiểm
+offline.” Không tăng tiến độ thành 1/8, không mở W11-02 và không coi mock
+HTTP hoặc Decision fixture là phản hồi LLM thật.
+
+[Run manifest](development_run_manifest_v2.json) và
+[receipt preflight](development_preflight_v2.json) khóa riêng nguồn W11,
+receipt W10-14, teacher/student, runtime, model/options/schema và cohort.
+Nguồn/spec/bằng chứng W10 giữ nguyên; không train, refit, student forward,
+chạy account/P&L hoặc đọc outcome development/2025. P/projection MT-BICL
+được dùng lại từ W10-13 sau đối soát hash episode/membership đã release;
+`No_target` giữ p đã recompute với C rỗng, không thay bằng p Full.
+
+Nguồn W11 neo commit `92d0137`; SHA-256 byte:
+
+- Manifest: `eb154447af175cc740fea5fd5602fcc39cba33e5cbe128689539ad04bda05561`.
+- Receipt: `60e9c5ee3cc0eed87b78bc8c75b49eb77b6a54209516b9b63cb3bba75d4b6abb`.
+
+Dry-run đủ612 slot và96 journal, cold replay PASS. Prompt tối đa **4.949
+ký tự <6.500**, prefix **494≤600**, reserve tối đa **4.603 token≤8.000**.
+Có121 slot canonical trùng Original đủ điều kiện shared-off và491 fixture
+invocation; đây không phải số HTTP thật của run chưa bắt đầu. Preflight
+offline có bảy mock HTTP qua SDK/`_invoke_with_retry`/pacer/audit thật; kiểm
+body/model/options/schema và response parser. Ledger tài khoản3974 request
+giữ nguyên SHA `e73a87e2a45d73e76f63cdd58225c2de06b0df4e03ed09b91ad0f6f71c5c8796`;
+không reset hoặc ghi counter ngân sách W10.
+
+Đã kiểm đủ **60 upstream lịch sử** bằng code/runtime/config, hash nguồn,
+snapshot PIT, bốn stage durable, Full bundle và journal. Cấu hình khớp
+release nên khóa reuse nguyên trạng, không tạo vision mới. `A_reference`
+được dựng lại từ các báo cáo/tín hiệu thật bằng producer/index W9; không
+dùng prefix sinh từ reports fixture trong dry-run W10. Các nhánh/repeat
+deep-copy cùng shared point. Support đồng thời K≥2,m≥2 **41/60**:
+FPT6/MWG12/VCB12/VNM11; giữ đủ 10 point thiếu feature trong G=60.
+
+Manifest giữ **360 primary +252 repeat =612 slot**. `j` là chỉ số point
+toàn cohort sau sort(cutoff,symbol_order), không đánh lại chỉ số trên mẫu
+12 point. Primary Original đầu, xoay năm nhánh còn lại j mod5; repeat
+Original đầu, xoay sáu nhánh kể cả duplicate theo (3j+r−1) mod6, r=1..3.
+Chạy hết primary rồi repeat1, repeat2, repeat3; không đổi action theo vote.
+
+| Mã | Ngày đầu m=0 | Ngày đầu m=1..3 | Ngày đầu m≥4 |
+| --- | --- | --- | --- |
+| FPT | 2023-05-11 | 2023-10-30 (m=1) | 2023-04-12 (m=8) |
+| MWG | 2023-07-31 | 2023-02-08 (m=3) | 2023-01-06 (m=8) |
+| VCB | 2023-08-03 | 2023-02-08 (m=3) | 2023-01-06 (m=8) |
+| VNM | 2023-01-06 | 2023-02-08 (m=2) | 2023-03-06 (m=8) |
+
+Cả12 point chọn bằng context trước action, không cần fallback. Quy tắc
+fallback trong code giữ ngày đầu của mọi stratum hiện hữu trước khi bù
+ngày đầu chưa chọn cho stratum thiếu; mỗi mã luôn ba ID khác nhau.
+Reuse chỉ khi canonical point/repeat/request/body/model/options/schema
+khớp Original durable; **36 Original_duplicate gọi riêng**, không shared-off.
+Unknown giữ UUID/reserve và dừng, không tự replay hoặc chuyển thành CASH.
+
+Kiểm theo AGENTS.md1.2: **71 lượt kiểm thử PASS**, gồm module mới
+`test_mt_bicl_v2_run_manifest`, hồi quy adapter/Decision và
+`test_mt_bicl_tasks_leakage`; có12 ca adapter được loader lặp do module
+Decision import lớp fixture. Bốn file Python mới biên dịch PASS. Phạm vi
+này phủ lịch/repeat, serializer/schema/options, token reserve, transport/
+ledger, durable journal/duplicate, live-preflight bằng inner HTTP giả,
+raw-response integrity và PIT. Không chạy full suite, compileall toàn repo
+hoặc E2E; gate W10 chỉ được đối soát trên nguồn/runtime nguyên vẹn.
+
+Lệnh tái kiểm offline (không đọc key hoặc gọi mạng):
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_mt_bicl_development.py verify
+```
+
+**Bước còn lại của W11-01 do người dùng chạy:**
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_mt_bicl_development.py api-preflight
+```
+
+Lệnh này cold-check manifest/receipt/Git/source trước khi đọc key, gửi
+control JSON cố định qua `_invoke_with_retry`/transport/quota dùng chung,
+ghi intent UUID trước HTTP và bind raw response/cache/ledger. Không gửi
+point thị trường hoặc gọi upstream/primary/repeat. Chỉ cần text/schema
+preflight vì toàn60 upstream đã được xác minh để reuse; không kiểm vision
+bằng lời gọi mới. Thành công lưu
+`outputs/bayesian_benchmark/mt_bicl_v2/development2023/live_api_preflight.json`.
+Lệnh lặp dùng receipt durable, không gửi lại khi đã PASS; unknown dừng giữ
+bằng chứng. Sau receipt API thật PASS mới đối soát để đóng W11-01 và triển
+khai W11-02. Script hiện chỉ chuẩn bị/verify/preflight, chưa là runner ma trận.

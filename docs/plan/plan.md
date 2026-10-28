@@ -10,8 +10,9 @@ hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdo
 
 **Tiến độ:** W10 **14/14**, W11 **0/8**, W12 **0/6**; **W10-14 DONE**,
 candidate seed42/step3000 được release cho development2023 sau freeze và
-cold verifier PASS. Tiếp theo W11-01 khóa run manifest/API preflight;
-chưa chạy Decision API và chưa cấp release xác nhận2025.
+cold verifier PASS. W11-01 đã chuẩn bị run manifest/dry-run/preflight offline;
+API preflight thật NOT_RUN, chờ người dùng chạy trước khi đóng task.
+Chưa chạy Decision API thật và chưa cấp release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1362,6 +1363,12 @@ Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-r
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
+W11-01 **OFFLINE_READY**, chưa DONE: khóa60 point,360 primary+252 repeat,
+12 repeat ID và upstream lịch sử đã kiểm; nguồn W10 giữ nguyên. Dry-run và
+preflight SDK/transport offline PASS,71 lượt test liên quan PASS, bốn Python
+mới biên dịch PASS; không full suite/E2E. API preflight thật do người dùng
+chạy theo lệnh tại [W11-01](week11/README.md#6-w11-01--khóa-manifest-và-preflight-development-28102026),
+sau PASS mới đóng01 và mở02; chưa gọi API/run mới hoặc release2025.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
