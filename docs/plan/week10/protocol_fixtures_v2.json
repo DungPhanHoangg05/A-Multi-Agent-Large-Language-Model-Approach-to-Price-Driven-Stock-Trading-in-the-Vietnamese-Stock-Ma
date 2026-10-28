@@ -1,0 +1,272 @@
+{
+  "version": "mt_bicl_protocol_fixtures_v2",
+  "teacher_cases": [
+    {
+      "id": "cold_start",
+      "pi": "UNIFORM_16_NOT_FITTED",
+      "prior_counts": [],
+      "target_counts": [
+        0,
+        0
+      ],
+      "p_exact_fraction": [
+        "1",
+        "2"
+      ],
+      "p": 0.5,
+      "pooling_p": 0.5,
+      "atol": 1e-12
+    },
+    {
+      "id": "target_updates_lambda",
+      "pi": "UNIFORM_16_NOT_FITTED",
+      "prior_counts": [],
+      "target_counts": [
+        3,
+        0
+      ],
+      "p_exact_fraction": [
+        "1322664356963",
+        "1698012338750"
+      ],
+      "p": 0.7789486134928123,
+      "pooling_p": 0.7789486134928123,
+      "atol": 1e-12
+    },
+    {
+      "id": "conflicting_tasks",
+      "pi": "UNIFORM_16_NOT_FITTED",
+      "prior_counts": [
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "target_counts": [
+        3,
+        0
+      ],
+      "p_exact_fraction": [
+        "15540603673578022402388007460329751",
+        "18499521778809422129337251158659375"
+      ],
+      "p": 0.8400543462360881,
+      "pooling_p": 0.5888174482177133,
+      "atol": 1e-12
+    },
+    {
+      "id": "positive_prior",
+      "pi": "UNIFORM_16_NOT_FITTED",
+      "prior_counts": [
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ]
+      ],
+      "target_counts": [
+        0,
+        0
+      ],
+      "p_exact_fraction": [
+        "22105749937001438762892496944481929846194011214448566",
+        "27992533862522209556625523099919814208605281397413437"
+      ],
+      "p": 0.7897016413579376,
+      "pooling_p": 0.9684480154845755,
+      "atol": 1e-12
+    },
+    {
+      "id": "negative_prior",
+      "pi": "UNIFORM_16_NOT_FITTED",
+      "prior_counts": [
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          8
+        ]
+      ],
+      "target_counts": [
+        0,
+        0
+      ],
+      "p_exact_fraction": [
+        "5886783925520770793733026155437884362411270182964871",
+        "27992533862522209556625523099919814208605281397413437"
+      ],
+      "p": 0.21029835864206237,
+      "pooling_p": 0.031551984515424514,
+      "atol": 1e-12
+    }
+  ],
+  "paired_packet": {
+    "prior_tasks": [
+      {
+        "x": [
+          [
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "y": [
+          1
+        ]
+      }
+    ],
+    "target": {
+      "x": [
+        [
+          0,
+          1,
+          0,
+          0
+        ]
+      ],
+      "y": [
+        0
+      ]
+    },
+    "query_x": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "values": [
+      [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        -1,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        0,
+        1
+      ]
+    ],
+    "roles": [
+      0,
+      0,
+      1,
+      1,
+      2
+    ],
+    "task_slots": [
+      0,
+      0,
+      3,
+      3,
+      3
+    ],
+    "query_position": 4,
+    "loss_positions": [
+      4
+    ],
+    "external_teacher_q": null,
+    "query_label_in_input": false,
+    "production_min_prior_n": 2,
+    "fixture_exception": "TOKENIZER_UNIT_FIXTURE_ONE_OBSERVATION_ONLY"
+  },
+  "contract_cases": [
+    "query_y_hidden",
+    "no_latent_in_input",
+    "query_only_soft_loss",
+    "padding_mask",
+    "causal_mask",
+    "task_slot",
+    "prior_permutation",
+    "target_order",
+    "train_only_pi",
+    "train_unique_tasks",
+    "EM_nonconvergence_stop",
+    "oracle_independent",
+    "exit_strict_before_query",
+    "no_query_in_context",
+    "same_support_ablations",
+    "teacher_target_updates_lambda",
+    "pooling_shared_theta",
+    "validation_gate_before_selection",
+    "no_eligible_stop",
+    "test_after_seal",
+    "test_cannot_reselect",
+    "budget_no_reset",
+    "no_release_from_spec",
+    "v1_immutable"
+  ],
+  "semantic_probe_ids": [
+    "prior_swap_fixed_target-1",
+    "prior_swap_fixed_target-2",
+    "prior_swap_fixed_target-3",
+    "prior_swap_fixed_target-4",
+    "target_swap_fixed_prior-1",
+    "target_swap_fixed_prior-2",
+    "target_swap_fixed_prior-3",
+    "target_swap_fixed_prior-4",
+    "cold_start-1",
+    "cold_start-2",
+    "cold_start-3",
+    "cold_start-4",
+    "conflicting_tasks-1",
+    "conflicting_tasks-2",
+    "conflicting_tasks-3",
+    "conflicting_tasks-4",
+    "negative_net_after_costs-1",
+    "negative_net_after_costs-2",
+    "negative_net_after_costs-3",
+    "negative_net_after_costs-4",
+    "missing_or_extreme_feature-1",
+    "missing_or_extreme_feature-2",
+    "missing_or_extreme_feature-3",
+    "missing_or_extreme_feature-4"
+  ]
+}
