@@ -1,9 +1,9 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–11 DONE, 11/14 task DONE; W10-12 IN_PROGRESS.
-Teacher v2.1 hội tụ ở vòng237; pipeline train/selection/evaluate đã triển khai,
-chờ người dùng chạy preflight100 bước và train ba seed thật.
-Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE; chưa release development.**
+**Amendment 28/10/2026: W10-01–12 DONE, 12/14 task DONE; tiếp theo W10-13.
+Đã nghiệm thu preflight, ba seed và60 checkpoint GPU; candidate seed42/step3000
+PASS cơ chế, MECHANISM_PASS_AWAITING_INTEGRATION. Candidate v1 vẫn FAIL /
+NO_MT_BICL_RELEASE; chưa release development hoặc Decision.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -169,8 +169,8 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-08 | Audit nguyên nhân từ raw logits, curve 2021 và oracle trên thị trường; phân biệt sự kiện/giả thuyết | 07 | [x] DONE — mục 9, không nghiệm thu learner |
 | W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả khóa; sau đó người dùng cấp thêm10 giờ W10 v2, active≤4 giờ trong quỹ này; chưa fit/train |
 | W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [x] DONE — amendment1.000 vòng khóa trước fit; hội tụ237, PPC/corpus/oracle đầy đủ; giữ bất lợi PPC |
-| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [x] DONE — hai pilot GPU đủ500 bước, paired tiny KL4,65207e−10; optimizer replay/hash PASS, chờ preflight train lớn |
-| W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] IN_PROGRESS — CLI/checkpoint/selection seal/evaluate/replay đã kiểm CPU; chờ preflight và ba seed GPU thật |
+| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [x] DONE — hai pilot GPU đủ500 bước, paired tiny KL4,65207e−10; optimizer replay/hash PASS, weights đã bỏ |
+| W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [x] DONE — đủ15.000 bước/60 checkpoint;59 eligible, chọn seed42/step3000; test cơ chế/integrity/proof PASS, chờ tích hợp |
 | W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
 | W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
 
@@ -1005,7 +1005,8 @@ train chính, chọn candidate hoặc mở student test trong lượt nghiệm t
 
 ## W10-12 — Train distillation, selection có điều kiện và đánh giá, 28/10/2026
 
-**IN_PROGRESS — hoàn tất triển khai và kiểm thử CPU, chưa nghiệm thu GPU.**
+**DONE — đã nghiệm thu execution GPU, selection seal, test và proof replay;
+kết quả chi tiết ở mục nghiệm thu bên dưới.**
 CLI [train_mt_bicl_v2.py](../../../scripts/train_mt_bicl_v2.py) sử dụng ba
 module lõi mới và learner đã khóa; giữ nguyên teacher v2.1, pilot, protocol v2/v2.1,
 v1 FAIL và bằng chứng W9. Nhánh `feat/gated-distillation-training` tách từ
@@ -1069,8 +1070,9 @@ tuần tự độc lập sai số tối đa**1,965095e−14**, một update lear
 CPU/lr step1 hữu hạn và đổi weights; model tạm đã bỏ, không ghi checkpoint
 production. Đây không phải preflight100 bước hoặc train GPU chính.
 
-Kiểm `check-inputs` chỉ đọc PASS trước bàn giao. Active budget production
-giữ **456,492519/14.400 giây** sau teacher/pilot, còn13.943,507481 giây;
+Kiểm `check-inputs` chỉ đọc PASS trước bàn giao triển khai. Tại mốc bàn giao,
+active budget production là **456,492519/14.400 giây** sau teacher/pilot,
+còn13.943,507481 giây;
 quỹ4 giờ dùng chung, không reset. Các lệnh thực thi tính cả kiểm input
 trước stage vào budget cũ. Fixture CPU ở thư mục tạm không dùng ngân sách
 production. Thời gian triển khai lượt này tới mốc QA đã đo≥**2.590,517 giây**;
@@ -1135,8 +1137,131 @@ proof, các lần kiểm sau dùng `verify` thường. Output mới ở
 `outputs/bayesian_benchmark/mt_bicl_v2/training_v2/`: `preflight.json`,
 `state.json`, `seed*/checkpoint-*.pt`, `*.assessment.json`, `selection.json`,
 `evaluation/`, `report.json`, `replay_verification.json`; `candidate.pt` chỉ
-có khi eligible. Giữ tất cả để nghiệm thu. **W10 vẫn11/14 DONE** cho đến khi
-nghiệm thu execution/proof GPU thật; chưa chạy W10-13 hoặc development.
+có khi eligible. Chuỗi lệnh trên đã hoàn thành và nghiệm thu bên dưới;
+không train hoặc cold replay lại chỉ để cập nhật checklist. **W10 đạt12/14
+DONE; tiếp theo W10-13**, chưa mở development/Decision.
+
+### Nghiệm thu GPU và khóa kết quả, 28/10/2026
+
+**PASS trong phạm vi W10-12.** Người dùng hoàn tất toàn bộ chuỗi; verifier
+thường chạy lại khi nghiệm thu exit0: `Integrity=PASS; replay=PASS;
+cơ chế=PASS; release=MECHANISM_PASS_AWAITING_INTEGRATION`. Lượt nghiệm thu
+không optimizer, không chạy lại60 inference replay; đối soát proof đã có,
+weights/source/runtime, toàn bộ raw validation/2021 và metric/report cuối.
+Nhánh tài liệu `docs/distillation-acceptance` từ `develop` đã đồng bộ tại
+`9b2a1fc`; không sửa code/test/schema/config/runtime hoặc artifact đã khóa.
+
+Preflight GPU thật100 bước PASS, batch128/accumulation1, không OOM,
+weights đã bỏ. RTX5060 Laptop/CUDA12.8 và FP32 đúng pilot; dự toán còn
+**3.842,095822 giây** dưới quỹ còn13.910,943519 giây tại preflight. Ba seed
+17/42/73 đều COMPLETE5.000 step, mỗi seed20 checkpoint/report, không pending
+assessment hoặc resume snapshot dư. Tổng15.000 update trên1.920.000 episode
+train synthetic; checkpoint cuối5.000 được giữ dù chọn bước sớm hơn.
+
+Đủ60 báo cáo cơ chế validation và248 query2021 trước selection seal.
+**59/60 eligible**: seed17 đạt20/20, seed42 đạt20/20, seed73 đạt19/20;
+seed73/step250 trượt P95 **0,101561709423>0,1** (KL0,006142523196 đạt),
+giữ nguyên báo cáo, không loại âm thầm.
+Chọn đúng thứ tự rank đã khóa; candidate toàn cục **seed42/step3000**,
+macro log loss2021 **0,670663338493**, Brier **0,238778073492**. Không chọn lại
+theo test hoặc2022, kể cả seed khác có metric test/thị trường tốt hơn.
+
+| Seed | Bước đã khóa | Test KL (nat) | Test P95 | Swap đúng dấu /2.106 eligible | Cơ chế tổng hợp |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 17 | 2.500 | 0,002496801079 | 0,066987904813 | 2.069 (98,243115%) | PASS |
+| **42 — candidate** | **3.000** | **0,002773928298** | **0,066787515103** | **2.072 (98,385565%)** | **PASS** |
+| 73 | 2.500 | 0,003114439038 | 0,069885912012 | 2.071 (98,338082%) | PASS |
+
+Mỗi seed dùng cùng5.000 test và5.000 cặp; không đổi denominator hoặc redraw.
+Candidate Δp correlation trên eligible **0,960405179686**, không có delta
+student bằng0 trong2.106 cặp. Constant test KL/P95 **0,037344722221 /
+0,290391830834**, context-blind **0,037264627358 /0,288432678454**, đều FAIL;
+không rơi vào teacher-too-flat. Student no_prior P95 **0,186310158459**,
+no_target KL/P95 **0,026678450886 /0,240905376988**, đều FAIL khi đối chiếu
+oracle đầy đủ. Raw logits và report giữ đủ control, K/m/joint/cold-start.
+
+**Giới hạn stress:** trong candidate,4.500 IID có KL/P95
+**0,000986317630 /0,036260371845** PASS;500 stress có
+**0,018862424312 /0,191049104560**, trượt P95. PASS cơ chế ở đây
+áp dụng gate tổng hợp5.000 đã đăng ký; không tuyên bố mọi subgroup PASS
+hoặc sửa gate/teacher/model để che kết quả. Giữ cảnh báo PPC teacher quá
+phân tán và exposure2022 đã công bố.
+
+Trên cùng256 query2022 (328 cycle ứng viên,72 EXCLUDED), baseline fit đúng
+731 cycle train; Laplace p **0,401091405184**. Kết quả mô tả:
+
+| Variant | Macro log loss2022 | Macro Brier2022 |
+| --- | ---: | ---: |
+| Student full17 | 0,685976152329 | 0,246153908877 |
+| **Student full42 — candidate** | **0,681334780440** | **0,244110885513** |
+| Student full73 | 0,680496367222 | 0,243696046493 |
+| Teacher full | 0,677585852058 | 0,242239624527 |
+| Base rate | 0,667347378601 | 0,237205159013 |
+| Logistic | 0,679045486760 | 0,242852774485 |
+| Student no_prior42 | 0,690363607913 | 0,248444806956 |
+| Student no_target42 | 0,673391639955 | 0,240288301204 |
+| Teacher no_prior | 0,690366244691 | 0,248429220165 |
+| Teacher no_target | 0,670111006074 | 0,238657701797 |
+| Teacher pooling | 0,678441629369 | 0,242695632056 |
+
+Candidate **WORSE_BOTH** so với base rate, logistic, teacher full/pooling/
+no_target và student no_target; BETTER_BOTH so với teacher/student no_prior.
+Student−teacher full: log loss **+0,003748928382**, Brier
+**+0,001871260985**. Giữ calibration10 bin (năm bin rỗng count0/null),
+metric từng mã, strata/support và r_net gain/loss fraction trong report;
+không gọi kết quả thị trường PASS về dự báo hoặc chứng minh lợi nhuận.
+
+Đối soát scalar độc lập bằng `math.fsum`, log-sigmoid và P95 nội suy tuyến
+tính cho60 validation checkpoint, ba seed test và macro2021/2022:
+**477 đối chiếu**, sai số tối đa **2,220446049250e−16**. Proof
+`FROZEN_INFERENCE_REPLAY_MATCH` bind đúng identity
+`fc30c7e5ed7b6e6714596e2ab0b91c9edbee2341e07d00498b8ba177e4a8a624`,
+60 checkpoint, report/selection và GPU; `optimizer_retrained=false`.
+Export model-only đúng seed42/step3000, không mang optimizer.
+
+Đóng băng **131 file training,265.001.257 byte**; giữ nguyên hash trước/sau
+nghiệm thu. SHA-256 manifest `tên file→{bytes,sha256}`, JSON UTF-8 với
+`sort_keys=true`, `separators=(',',':')`:
+`d4a462ddd0108390f86ca87a85fd2c8482b6e96928e2f7a85e4ac729a353524c`.
+Các artifact gốc trong `outputs/bayesian_benchmark/mt_bicl_v2/training_v2/`:
+
+| Artifact | Byte | SHA-256 |
+| --- | ---: | --- |
+| preflight.json | 7.034 | `333a3abfeb74c15d853aa665c7baeb93fac24fb2ba38c05a91f5e4660ac39e91` |
+| state.json | 3.231.624 | `67092349396c107caeed50850b5359ba3e72be1f81c38616c7431cbd214bf591` |
+| selection.json | 8.765.360 | `af0fd252ec3020849363904d569568d83a3536f1dafd3356924bc1c5fd5d268e` |
+| report.json | 4.526.353 | `0221a4bb10247c32eb7b236a65d71a3af4d14747cdfa4fadb0f7f4d5774886e7` |
+| candidate.pt | 1.099.072 | `f8631d9e1bd15ac40422e58827c126e8c7eb9b0512a21c4a0697784cb86cd2dd` |
+| replay_verification.json | 961 | `e9e0f0349a748abcf8148c2a7e9430b143079d5983094c902807e278af4a2962` |
+
+Candidate source checkpoint `seed42/checkpoint-03000.pt`: SHA-256
+`7b300a0dc28fad050efac68282994ef2d02330dcc0d6a98760c0ac2686989a94`.
+60 checkpoint/report hash chi tiết có sẵn trong selection seal, không tạo
+thêm receipt lặp lại. Ngoài training mới, **131 binding nguồn/bằng chứng cũ**
+được kiểm PASS: v1, STOP200, teacher v2.1, pilot và các nguồn đã khóa;
+ledger giữ3.974 request/hash cũ, không có LLM/API mới.
+
+Active tổng sau lệnh người dùng **4.502,905388 giây**; lượt verifier nghiệm
+thu cộng **80,786551 giây**, tổng **4.583,691938/14.400 giây**
+(1 giờ16 phút23,692 giây), còn **9.816,308062 giây**. `active_since=null`,
+không reset ngân sách; riêng tăng từ mốc pilot **4.127,199419 giây** đã gồm
+preflight/train/assessment/seal/evaluation/replay và kiểm nguồn. Quỹ10 giờ
+không cấp lại; tổng công sức người dùng và các khoảng chưa đo vẫn chưa
+được đối soát đầy đủ, không coi là0.
+
+Theo AGENTS.md1.2, lượt này chỉ sửa hai Markdown và phân tích bằng chứng
+nguyên vẹn nên **không chạy lại unit/leakage/E2E/compileall hoặc biên dịch
+Python**. Viện dẫn74 test PASS/34 thuộc module leakage và bảy file biên dịch
+PASS từ triển khai tại `345b0d0`/merge `9b2a1fc`, không gọi là vừa chạy lại.
+Verifier thường cần quyền đọc boot Windows cho OS lock như các lượt trước;
+không sửa nguồn để vượt kiểm tra. Diff/link/checklist/hash/runtime/PIT
+contract và proof đều PASS trong phạm vi đối soát đã nêu.
+
+**Kết luận: W10-12 DONE; W10 đạt12/14 DONE. Candidate cơ chế PASS,
+MECHANISM_PASS_AWAITING_INTEGRATION; development_allowed=false,
+decision_calls_allowed=false.** Tiếp theo W10-13 adapter/paired/retry/
+checkpoint, dry-run và semantic probe; W10-14 mới xem xét freeze/release
+development có điều kiện. Chưa cấp phát hành chỉ từ kết quả cơ chế.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 
