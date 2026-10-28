@@ -1,9 +1,9 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–12 DONE, 12/14 task DONE; tiếp theo W10-13.
-Đã nghiệm thu preflight, ba seed và60 checkpoint GPU; candidate seed42/step3000
-PASS cơ chế, MECHANISM_PASS_AWAITING_INTEGRATION. Candidate v1 vẫn FAIL /
-NO_MT_BICL_RELEASE; chưa release development hoặc Decision.**
+**Amendment 28/10/2026: W10-01–13 DONE, 13/14 task DONE; tiếp theo W10-14.
+Candidate seed42/step3000 PASS cơ chế; adapter, dry-run60 và24 probe hợp đồng
+offline/replay PASS. Chờ freeze/release, chưa mở development/Decision API.
+Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
 Mục tiêu: một bộ dự báo **Multi-Task Bayesian ICL (MT-BICL)** nhỏ học từ
@@ -171,7 +171,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [x] DONE — amendment1.000 vòng khóa trước fit; hội tụ237, PPC/corpus/oracle đầy đủ; giữ bất lợi PPC |
 | W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [x] DONE — hai pilot GPU đủ500 bước, paired tiny KL4,65207e−10; optimizer replay/hash PASS, weights đã bỏ |
 | W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [x] DONE — đủ15.000 bước/60 checkpoint;59 eligible, chọn seed42/step3000; test cơ chế/integrity/proof PASS, chờ tích hợp |
-| W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
+| W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [x] DONE — dry-run60/24 contract probe offline,120 journal/cold replay PASS;117 test PASS,0 LLM/API |
 | W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
 
 V1 giữ nguyên core/mt_bicl_* và artifact đã khóa. V2 dùng module/schema/
@@ -1262,6 +1262,131 @@ MECHANISM_PASS_AWAITING_INTEGRATION; development_allowed=false,
 decision_calls_allowed=false.** Tiếp theo W10-13 adapter/paired/retry/
 checkpoint, dry-run và semantic probe; W10-14 mới xem xét freeze/release
 development có điều kiện. Chưa cấp phát hành chỉ từ kết quả cơ chế.
+
+## W10-13 — Adapter Decision, paired và kiểm hợp đồng offline, 28/10/2026
+
+**DONE,13/14; tiếp theo W10-14.** Nhánh `feat/distillation-decision-integration`
+từ `develop` tại `3667b15` sau pull. Thêm [adapter](../../../core/mt_bicl_v2_adapter.py),
+[Decision/journal](../../../core/mt_bicl_v2_decision.py),
+[driver/verifier](../../../core/mt_bicl_v2_integration.py),
+[CLI](../../../scripts/integrate_mt_bicl_v2.py); không đổi teacher/student,
+131 file W10-12 hoặc source v1/W9, không train/refit/thay candidate.
+Student FP32/CUDA12.8 trên RTX5060 đã khóa; kiểm manifest/hash/proof/runtime
+trước inference, từ chối query outcome hoặc membership/feature bị reseal.
+
+Sáu nhánh cùng instruction/schema legacy/model/options/shared reports.
+No_target giữ D/x, bỏ C rồi recompute p; Plain_ICL cùng projection/membership
+nhưng không p; Stats_only giữ p Full, K/m/n/Q, không demonstrations.
+Numeric_only LONG iff p>0,5; p≤0,5/feature unavailable thì CASH có reason,
+lỗi integrity/API không đổi thành CASH, p không override LLM. A_reference
+dùng producer A_tp_pool và đúng index OOS W9 `candidate_index_v1.json`
+SHA `4f9242edcca9627437a6e37c81931d45621d48006ebd3f87a8d35952c20fb785`,
+không build/refit hoặc lấy index train mặc định; giữ chuẩn hash request
+legacy riêng, không thay bằng canonical compact v2.
+
+Tái dùng StageJournal Indicator/Pattern/Trend/Full một lần/stage/point,
+deep-copy các nhánh. Shared-off chỉ từ Original durable khi prompt/model/
+options/schema/point/repeat trùng canonical; không dùng action W9 hoặc
+ghép khác repeat. Original_duplicate luôn invoke độc lập khi kiểm repeat.
+Intent/UUID ghi trước invoke; `_invoke_with_retry` và invocation budget
+chung bao phủ format repair, liên kết UUID/point/branch/run với transport
+quota hiện hữu. Ambiguous hoặc lỗi ghi response giữ unknown/UUID/reserve
+cả RAM và disk, không tự replay/đổi key/tạo point hoặc trả CASH.
+
+**Dry-run60 point PASS**: giá/tin PIT, nguồn A_reference và student inference
+thật; reports upstream/Decision là fixture, không LLM/vision. Original đầu,
+xoay năm nhánh còn lại đúng recipe. Support K≥2,m≥2 **41/60**:
+MWG12/VCB12/VNM11/FPT6, đạt≥30 và≥5/mã. Frozen context có **50 AVAILABLE /
+10 UNAVAILABLE**, giữ đủ60/reasons; sửa lỗi đếm11 trong tóm tắt W10-04 ở
+plan thành10, không đổi dữ liệu/mẫu/nhãn/receipt. Prefix tối đa **249≤600**,
+prompt **3.182<6.500**; worst-case K3/n8/m8 với báo cáo dài tối đa PASS,
+không cắt legend/nhãn/ví dụ để né gate.
+
+Trong reports fixture trung tính, A_reference hiện prefix5/60, fallback55;
+bốn nhánh MT fallback10 point feature unavailable:360 slot logic,
+95 shared-off,265 invoke fixture độc lập. Numeric_only có1 LONG/59 CASH;
+mọi Decision fixture cố định SHORT để chứng minh pipeline không override
+theo p. Không dùng các số này làm hành vi LLM, tỷ lệ dùng prior hoặc P&L.
+
+**24 semantic contract probe offline PASS** đúng ID đã khóa: prior-swap
+giữ C/Q, target-swap giữ D/Q, cold-start, conflicting tasks, nhãn âm sau
+phí, missing/extreme. Can thiệp là synthetic fixture trên schema PIT mẫu,
+không phải outcome thị trường mới. Kiểm token/prefix/legend/schema,
+ties-to-even, nhãn âm bằng `compute_round_trip_net_return`, missing tắt
+context và NaN/Inf dừng trước forward. Teacher/pooling p chỉ diagnostic,
+không thêm threshold/tune. Protocol chặn Decision API trước W10-14:
+**llm_semantic_behavior=NOT_RUN_BEFORE_RELEASE**, không gọi đây là probe
+reasoning LLM thật đã hoàn tất. CLI chỉ offline, không đọc key/có lệnh API.
+
+`check-inputs`, dry-run, probes, `verify --replay`, `verify` thường đều đạt
+**OFFLINE_INTEGRATION_REPLAY_MATCH**. Cold replay fresh student/60 point/
+24 probe khớp p, prefix, prompt, canonical request và output fixture;
+proof bind120 journal. **0 LLM/API,0 optimizer,0 P&L run**.
+Identity `80cb36138edd2c9d797a5ee800946e50014330eb8de870acaaa1e0fc14e666c5`;
+common instruction SHA
+`a88a4a34733971edba9a211b2100c10a7e24647d5e6576486eccb4198712118d`.
+123 file tại `outputs/bayesian_benchmark/mt_bicl_v2/integration_v2/`,
+**5.890.356 byte**, gồm120 journal/ba receipt máy đọc, không thêm biên bản
+lặp lại. Manifest tên file→{bytes,sha256}, JSON sort/compact UTF-8:
+`8c8db514ef640da65042c7489610b5b130f30f121e7f954535a70e8a84cea950`.
+
+| Artifact | Byte | SHA-256 |
+| --- | ---: | --- |
+| dry_run.json | 2.974.973 | `e1435dd985d4e35ffae78136e50fac1670382a4af0d18688d4e827096300c40c` |
+| semantic_probes.json | 149.070 | `e815569f663b15f42eca3416e0c66e36303d0e91527effd7959645e156a0dc00` |
+| verification.json | 18.941 | `e8de281ea4439aa83df9a6167ea8c360af5acfe10e665cb1c9e5d28f33c1dd61` |
+
+Theo AGENTS.md1.2: **117 test riêng biệt PASS**,32 mới và85 hồi quy liên
+quan;24 thuộc module leakage. Test mới phủ adapter/PIT, paired/prompt/
+unknown/fsync, journal60/probe24/replay. Hồi quy đúng caller được tái dùng:
+`test_mt_bicl_tasks_leakage`, `test_mt_bicl_v2_student_leakage`,
+`test_bayesian_prompt_budget`, `test_research_invocation`,
+`test_prior_checkpoint`, `test_prior_checkpoint_leakage`,
+`test_atomic_checkpoint_io`, `test_groq_pacing` — context/causal/query-label,
+cap, retry/429/ledger/UUID và atomic resume. Bảy file Python mới biên dịch
+PASS; không toàn suite/compileall/E2E/train lại hoặc dùng gate cũ thay
+kiểm mới trên đường tích hợp.
+
+Active tổng sau smoke/audit/inference/replay/kiểm nguồn:
+**4.940,306028/14.400 giây**, còn **9.459,693972 giây**, active_since=null;
+tăng356,614090 giây từ nghiệm thu W10-12. Gồm cả smoke lỗi binding index/
+hash legacy trước khi sửa, không reset/giấu chi phí. Công việc từ tạo
+branch tới mốc QA đã đo≥**2.461,818 giây**, là lower bound lượt này, không
+cộng lại active chồng lấp hoặc coi khoảng chưa đo là0. Quỹ10 giờ/W11/W12
+không cấp lại. W10-12/teacher/v1/W9 và ledger3.974 request nguyên vẹn;
+giữ stress P95 FAIL và các bất lợi2022, không suy lợi ích từ cơ chế.
+
+### Lệnh đầy đủ để tái lập/đối soát W10-13
+
+Chuỗi đã hoàn tất; thường chỉ cần `check-inputs` và `verify`, không cần
+cold replay lại để cập nhật checklist. Không xóa journal/receipt/budget;
+gián đoạn thì chạy lại đúng stage, unknown cần đối soát, không tự gửi lại.
+Các lệnh thực thi tính thời gian vào budget cũ.
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $false
+$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+
+py -3.13 -X utf8 scripts/integrate_mt_bicl_v2.py check-inputs
+if ($LASTEXITCODE -ne 0) { throw 'Nguồn tích hợp chưa đạt; dừng.' }
+
+py -3.13 -X utf8 scripts/integrate_mt_bicl_v2.py dry-run
+if ($LASTEXITCODE -ne 0) { throw 'Dry-run chưa xong; giữ journal để đối soát.' }
+
+py -3.13 -X utf8 scripts/integrate_mt_bicl_v2.py probes
+if ($LASTEXITCODE -ne 0) { throw 'Probe hợp đồng chưa PASS; không đổi gate.' }
+
+py -3.13 -X utf8 scripts/integrate_mt_bicl_v2.py verify --replay
+if ($LASTEXITCODE -ne 0) { throw 'Cold replay tích hợp chưa PASS.' }
+
+py -3.13 -X utf8 scripts/integrate_mt_bicl_v2.py verify
+if ($LASTEXITCODE -ne 0) { throw 'Verifier tích hợp chưa PASS.' }
+```
+
+**W10-13 DONE,13/14; tiếp theo W10-14 freeze/release có điều kiện.** Giữ
+`development_allowed=false`, `decision_calls_allowed=false`; chưa cấp
+quyền development hoặc Decision API chỉ từ receipt offline này.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 

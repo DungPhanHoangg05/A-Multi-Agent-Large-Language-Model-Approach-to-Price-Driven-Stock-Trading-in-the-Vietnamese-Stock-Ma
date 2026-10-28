@@ -8,9 +8,9 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **12/14**, W11 **0/8**, W12 **0/6**; **W10-12 DONE**,
-đủ ba seed/60 checkpoint GPU, selection seal và proof replay đã nghiệm thu.
-Candidate seed42/step3000 PASS cơ chế, chờ W10-13 kiểm tích hợp.
+**Tiến độ:** W10 **13/14**, W11 **0/8**, W12 **0/6**; **W10-13 DONE**,
+candidate seed42/step3000 PASS cơ chế; adapter/dry-run60 và24 probe hợp đồng
+offline/cold replay PASS. Chờ W10-14 freeze/release, chưa mở Decision API.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1198,7 +1198,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 12/14 DONE; v1 FAIL, v2.1 chờ tích hợp
+### TUẦN 10: MT-BICL và tích hợp — 13/14 DONE; v1 FAIL, v2.1 chờ freeze/release
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1218,7 +1218,7 @@ không fit HMM/train/LLM hoặc đổi bằng chứng W9 trong W10-03.
 [W10-04](week10/README.md#w10-04--taskcontext-streaming-và-projection-27102026)
 đã dựng metadata historical-prefix và frozen HMM cuối 2020, disjoint prior/
 target/query, stream exit<query, packing và projection fixture. Support
-development **41/60** đồng thời K≥2,m≥2, từng mã ≥5: PASS; giữ 11 point thiếu
+development **41/60** đồng thời K≥2,m≥2, từng mã ≥5: PASS; giữ 10 point thiếu
 feature trong đủ 60 point. **64 test PASS, 29 leakage**, không train learner/
 LLM hoặc dùng y query development.
 
@@ -1324,6 +1324,24 @@ biên dịch: viện dẫn74 test PASS/34 thuộc module leakage và bảy file 
 dịch từ triển khai nguyên vẹn. **MECHANISM_PASS_AWAITING_INTEGRATION**,
 development/Decision=false; tiếp theo W10-13, chưa release W10-14.
 Chi tiết [W10-12](week10/README.md#w10-12--train-distillation-selection-có-điều-kiện-và-đánh-giá-28102026).
+
+**W10-13 DONE,28/10/2026;13/14 DONE.** Adapter mới giữ candidate W10-12,
+source/protocol/hash cũ nguyên vẹn; sáu nhánh cùng instruction/schema/model/
+options. No_target bỏ C rồi recompute p, Plain_ICL không p, Stats_only không
+examples; Numeric_only offline p>0,5. A_reference giữ producer/index OOS W9.
+StageJournal một lần/stage/point; paired deep-copy, canonical shared-off
+chỉ từ Original durable, UUID/unknown/reserve không tự replay hoặc CASH.
+Dry-run60 point nguồn PIT/student GPU thật với reports/Decision fixture
+PASS; support41/60, MWG12/VCB12/VNM11/FPT6,50 AVAILABLE/10 UNAVAILABLE.
+Prefix≤249, prompt≤3.182;24 semantic **contract offline** probe và cold
+replay PASS,120 journal được bind. **0 LLM/API,0 optimizer/P&L run**;
+semantic behavior LLM thật NOT_RUN trước release W10-14.
+117 test PASS (32 mới,85 scoped regression;24 thuộc module leakage), bảy
+file Python mới biên dịch PASS; không full suite/compileall/E2E/train lại.
+123 artifact/5.890.356 byte mới; W10-12/teacher/v1/W9 và ledger nguyên vẹn.
+Active tổng **4.940,306028/14.400 giây**, còn9.459,693972 giây, không reset
+quỹ10 giờ; **development/Decision=false**, tiếp theo W10-14 freeze/release.
+Chi tiết/lệnh [W10-13](week10/README.md#w10-13--adapter-decision-paired-và-kiểm-hợp-đồng-offline-28102026).
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
