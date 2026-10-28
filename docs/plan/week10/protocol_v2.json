@@ -1,0 +1,1022 @@
+{
+  "version": "mt_bicl_protocol_v2",
+  "revision_date": "2026-10-28",
+  "base_commit": "10d4509",
+  "status": "SPEC_ONLY",
+  "training_allowed": false,
+  "teacher_fit_allowed": false,
+  "development_allowed": false,
+  "decision_calls_allowed": false,
+  "is_execution_plan": false,
+  "supersedes_method_not_evidence": "protocol_v1.json",
+  "v1_status": "FAIL_NO_MT_BICL_RELEASE",
+  "exposure": {
+    "synthetic_v1": "EXPOSED",
+    "prior_swap_v1": "EXPOSED",
+    "market_2021": "ADAPTIVE_SELECTION",
+    "market_2022": "EXPOSED_REPORTING_ONLY",
+    "market_2023": "EXPOSED_ADAPTIVE_DEVELOPMENT",
+    "market_2024": "EXPOSED_REFERENCE",
+    "market_2025": "SOURCE_CHECKED_OUTCOME_INDEPENDENCE_REAUDIT_BEFORE_RELEASE",
+    "new_synthetic": "HELD_OUT_WITHIN_ADAPTIVE_REVISION_NOT_INDEPENDENT_RESEARCH_CONFIRMATION"
+  },
+  "artifacts": {
+    "corpus_manifest_v2.json": "28292984f0a320533dd288a197f97d0536272750534d87103b92e0a37154489f",
+    "protocol_fixtures_v2.json": "44244012fe583c842739a85b7726fc8a0f9d697075234b75cf2f65de1ec1a154",
+    "training_membership_v2.json": "eda1b7f6ef7d2045b123df8959a394a97f9217c4ae1aac01e896963877c89950"
+  },
+  "runtime": {
+    "python": "3.13.5",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "hmmlearn": "0.3.3",
+    "dependency_upgrade": false
+  },
+  "splits": {
+    "train": [
+      "2018-01-02",
+      "2020-12-31"
+    ],
+    "checkpoint_selection": [
+      "2021-01-01",
+      "2021-12-31"
+    ],
+    "validation": [
+      "2022-01-01",
+      "2022-12-31"
+    ],
+    "development": [
+      "2023-01-01",
+      "2023-12-31"
+    ],
+    "exposed_reference": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "conditional_confirmation": [
+      "2025-01-01",
+      "2025-12-31"
+    ],
+    "no_automatic_resplit": true,
+    "minimum_support_before_training": {
+      "train_cycles_per_symbol": 100,
+      "train_blocks_with_two_cycles_per_symbol": 4,
+      "checkpoint_cycles_per_symbol": 40,
+      "failure": "STOP_INSUFFICIENT_TRAIN_SUPPORT; không chuyển 2022 vào train"
+    }
+  },
+  "economic_contract": {
+    "label_function": "core.backtest_engine.compute_round_trip_net_return",
+    "entry": "Open(t+1)",
+    "exit": "Close(t+3)",
+    "fee_each_side": 0.0025,
+    "slippage_each_side": 0.001,
+    "y": "int(r_net>0)",
+    "r_net_unit": "fraction",
+    "action_short": "CASH",
+    "initial_cash_vnd": 50000000,
+    "lot": 100,
+    "tp_sl_override_fixed_exit": false
+  },
+  "calendar": {
+    "source": "data/historical/VNINDEX.csv",
+    "anchor": "2018-01-02",
+    "index_origin": 0,
+    "bank_query_indices": "20+3*j, j>=0, require t+3 in calendar",
+    "step": 3,
+    "task_id": "symbol:block{floor(query_calendar_index/63):04d}",
+    "block_sessions": 63,
+    "cycle_in_task": "query/entry/exit phải cùng block; không chuyển cycle sang block khác",
+    "split_purge": "query và exit phải cùng partition; khoảng nắm giữ không cắt biên",
+    "historical_id": "symbol-YYYY-MM-DD theo query, không theo action",
+    "calendar_gap": "UNAVAILABLE_MISSING_SESSION; không nén lịch hoặc nội suy"
+  },
+  "features": {
+    "columns": [
+      "momentum_5",
+      "momentum_20",
+      "volatility_20",
+      "ma_distance_20"
+    ],
+    "primitive": "pit_price_features_v1",
+    "required_bars": 21,
+    "corporate_action_policy": "raw_segment_21_v1",
+    "decision_action_confidence_reports_as_features": false,
+    "missing_vector": "NO_IMPUTATION_CONTEXT_OFF_WITH_REASON"
+  },
+  "reuse_protocol_v1_sections": [
+    "scaler",
+    "regime",
+    "membership",
+    "numeric_baselines",
+    "decision",
+    "projection",
+    "development",
+    "confirmation"
+  ],
+  "source_sha256": {
+    "core/mt_bicl_bank.py": "c7f8c097212e9c62d4a15a31a5c615c2d9a66e4300642c190c09555664e039d3",
+    "core/mt_bicl_batches.py": "345f648b3ea3cb2bd8fdd04ed9587a6263035ccbcb9ad42c8e6617a98d46b3dc",
+    "core/mt_bicl_context.py": "b34760a81faa8f97c7f249afa51451787f9ae0701f27bd4be189dd4a16d550d8",
+    "core/mt_bicl_evaluation.py": "f15aff249a7423d88e3ec6b3b3f00bdd3fbfd7244bff7b4a1d76eed3211d5bef",
+    "core/mt_bicl_evaluation_run.py": "bae4df25ee12089b10359a86b28b6129ad7f404a83c8b5aa32713fa819916141",
+    "core/mt_bicl_model.py": "5933082a4eb75639a2294b5396eb6cf6179689a35270cfe25aca6884f172b4eb",
+    "core/mt_bicl_oracle.py": "213ad4c389a51a55e3962a3795054a3c79bf7c4c2830fcfc2cf67fe19334cbd5",
+    "core/mt_bicl_oracle_reference.py": "782147c2cc9e654c700697b6a62304692dc5212851851b153f65b8261723a0d9",
+    "core/mt_bicl_regimes.py": "6d036cb93c0ca3a965e536145fe2074fc2e27064c21cae0c2d7de637fcada704",
+    "core/mt_bicl_scaler.py": "8f7356b72b20177ae9116a3cf992554b614cfe8b0b9fb849db80dd54fe052bb3",
+    "core/mt_bicl_simulator.py": "442c174a30e473cd2619e411578b41d39133b1aa1ff6c05cb6f8e25d696323e9",
+    "core/mt_bicl_stream.py": "d87b67432ea415ef60fb12eb96c8658565ee672de801273512d0ddc53454cd4b",
+    "core/mt_bicl_tasks.py": "1f4b6c607c2952f18925a635f7c92cd539a27ce98929fb38498e426a231e413e",
+    "core/mt_bicl_trainer.py": "1a1ed7be544b2da001861ab99522410ce163495db7d793a6d8983d7cd9a01cc7",
+    "core/mt_bicl_training.py": "0187375514e8b201441d1054d9d30d7b097e7294898fe79d4205af2c4377b718",
+    "core/mt_bicl_training_io.py": "546b60a77f3c79b601263c0bf78919e67df593a0c54b5eac3d25c9d06f2f2877",
+    "scripts/audit_mt_bicl_resources.py": "53d4bb01966ce406ca7d3d81ac05b58dac3a3d413bdb5df5d34cf185c2cdc8cd",
+    "scripts/benchmark_mt_bicl_gpu.py": "5e0a01e074f0ca6fd8f394f63da0b99353d58eb5afa040974332c6d2a5f11a4b",
+    "scripts/build_mt_bicl_bank.py": "aae81c9ef15fee4c5018f8a2e76a175117ad0c6ea00f1e6ffe9c6e01e154d542",
+    "scripts/build_mt_bicl_tasks.py": "da566b8c4e19615c9c59803167b21dfccd4addf01a1ca4c9610f38fef3f4e666",
+    "scripts/evaluate_mt_bicl.py": "32ade36936895004287542e7efab3f391f149653f6819523c3812b9fbe8e2321",
+    "scripts/prepare_mt_bicl_oracle.py": "dc27373bf258497e6cf962436633370aa9b0cf97abe1360a296a25c8f7fb7b33",
+    "scripts/train_mt_bicl.py": "467009d143ddec7005d525c9c1a1ea54af2ebf2e5906f964167f884c93c183ab",
+    "scripts/verify_mt_bicl_protocol.py": "91d5a2a355c5230b44d59655aa3dfc84b00b140283063102eb04cafc20e30d0f"
+  },
+  "frozen_evidence_sha256": {
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/baseline.json": "92ec62c2bdd282ebbcd62722edb00cbb114631e4405a2711fd9f6948fb202914",
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/index.json": "ffaf067f9b32cdb62fe7e4e3695c352f0413d52c1ada7ba056e3cf8b19719637",
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/replay_verification.json": "116d8ad86761d34863ef700f2f899b84b3bc4763c88fa773c2816619e631af49",
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/report.json": "861efa6d09e92fd2cbace21bd8f2175256e6c7a721bf731f67c737115c9de9aa",
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/seed17.json": "04aae684eee3a32073b871f467083105b8a2cdd57be110106b49e9f4edfc919a",
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/seed42.json": "0423502327213ebd67a5ea2764423fe6cd426f0f15b2add35201011e609b5023",
+    "outputs/bayesian_benchmark/mt_bicl_v1/evaluation_v1/seed73.json": "3734bb18fb44e188b6febd1670e9a5ef0d30a9daf33c507a821e5b50dcf95fd7",
+    "outputs/bayesian_benchmark/mt_bicl_v1/inputs/dense_bank_v1.json": "0c2abb43dd338ce12f63213260bad241ef0c6a9e315299ed631274d06da334dc",
+    "outputs/bayesian_benchmark/mt_bicl_v1/inputs/synthetic_oracle_v1.json": "9f82873fc054788ba6bcc97c79edec4388bcda2c66c097ac763d8000ed2c1f66",
+    "outputs/bayesian_benchmark/mt_bicl_v1/inputs/task_context_v1.json": "4fca2146fbc03f4f74762a5a6b4d44c184b4b4244c3cb28d5dfda68d93fa0c57",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/candidate-0f2975ed61c94b34ad31ef7c82a56e7e.pt": "c6c2864a9a6e2bdf54fa79554b1b337a080889fc3bad0a5db7335c865c3e002a",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/candidate_v1.json": "3f963fb7e4fa0e70311b78b40c4ac91a2e329b4c1c518825157e38736a4613fa",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/preflight.json": "31be2d8e2f8e2dea9fcfe2f10e9481e59ad753313f8fedbfea17b83335606a67",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-01000.pt": "65a2c9869c20b411ebf88a005ce141abf505cde73a1b86a4047983cb983b7852",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-01000.selection.json": "e60ae322de3d484f5b8d53e0128605cda4a54a572843ded718dedad3f1e6a770",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-02000.pt": "5514879b712c3bcafaf218162b9536aa06911f9d7be324a3a26bcd3c6be19976",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-02000.selection.json": "067abf0659c7726696ca806ded5b21426fc7dfe4a148d84e16496fd812d12c02",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-03000.pt": "740ce98667d553fd59a831f2d16d7258635da0cf630c66dc009566338de412ab",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-03000.selection.json": "7da8da66261b911bee98b64380d983b188d8f91662ed79babe508e9b9ba6c9f0",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-04000.pt": "de5241b8367da3eacb179552d9a66dc2da3bb07107581e483688ae40b28966e7",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-04000.selection.json": "a5173fe8e57a6ed747a122633f493f6dcf24a3d53d0cb196262d1eba25e41f36",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-05000.pt": "8cd022867b6ed1a20fe0e654aa118e1b4163f60b4af107edf2f20cb0d675581f",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-05000.selection.json": "a8f2f3c7d10717b25a6cf988f04274961907863919699ef3c88e7403a62cd325",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-06000.pt": "ea85c9a07da0e60ed28e0c0a8daa8f363723b6ae203eeab114d26e0b023f1097",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-06000.selection.json": "82931668baab0eef3ba3b19d1d26c2556a3ee6f5300a329d6f363d7060820b97",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-07000.pt": "76a9df7a918f7be9b64b9d56ede23740f3c0d208631a70150944dd6bb680f500",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-07000.selection.json": "f9f9f5edbbae35de5194ef25cea52eeb95c09b26951328ef0fc55a9e68018f46",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-08000.pt": "c11e0eb48a7f722e8d0dea3db9bf303c685aae031259db90540f63c81973de01",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-08000.selection.json": "f66bb43ff96da493bc941539a33ee3a9fd4b2e021a2099dcbc6f5871596a7fe9",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-09000.pt": "b272f82b65ff6c02a65dc522d3ab2297d0d199af413957e8c963df0da514048a",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-09000.selection.json": "beaac5bcf4df1f8703918f6eab59a3c38f7cf1899967212ae6ea1f92cb2b1afe",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-10000.pt": "3ed070c15a7881b57dba95f0f099b3f7cd5a047d770c1e576b0c82677d96d0fa",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/checkpoint-10000.selection.json": "f47f47ea9f4f0ddbabaca7dc696ca30e68141c48c13ec64aa2ef927279f4e077",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed17/resume-10000-08d3a09aaaa449e8b4f5529592921c41.pt": "3ed070c15a7881b57dba95f0f099b3f7cd5a047d770c1e576b0c82677d96d0fa",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-01000.pt": "701898d560ff8f78d09ee12a4c1ea9de5f4ead093205882d54826dcfe80fdb69",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-01000.selection.json": "17adbd745f4d5956bd4a3d99fe95552ce4da2c1369f03f0652330dafdedf9209",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-02000.pt": "28b5a69289b29375619cd61035f35a8cc057af202478555d1ff583bf28a62194",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-02000.selection.json": "cce3241290ea7019ccb3608e5b003f4c200fef5a8a346c2523b109012e42ccfe",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-03000.pt": "106b8edb89ce541dbe2b3d13bfd1cc57baf020b37c90ff747179d4d8c7bd430d",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-03000.selection.json": "09669c2aec719b5251bdd86c486a29b45cbc80428972a1a9899f4a233871aa24",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-04000.pt": "24122573c2b66951d86b2ced845d104293e9c8284d6121f0cc597f84cb2622b6",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-04000.selection.json": "61a75092fcb875c90c49d0296448961a4c91afe8ff1b4036ebb88d4b6a51fb98",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-05000.pt": "f8b479bdd69685860de4f7360c640283bfcfab81486d94ddf6bc75f280d8bc5c",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-05000.selection.json": "ecffe7b80258070adacb75c0eef5661072ccedf19db6451d4d9c553e7ae6e4af",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-06000.pt": "c3c89d8934d12df6ec5869640a9e41f94d1c2ae6f57be38537fb154927d438a0",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-06000.selection.json": "db3df5f8c8a95dcbf690ba51a7e174905a06a77089fa74049463ad009bd6ecb4",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-07000.pt": "c27c52698ae8a2300414d9f2d9967859cb709df58f7e4622fb7f77c545a05a9b",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-07000.selection.json": "6b4e452d9f8752a56445020e569d0c4bf71221a7c805bb71e7e47827f1753978",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-08000.pt": "0f8af40cdedf2309194b665fd0ea10dd4a5fdfc4f52b9687234f0cb1794058cb",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-08000.selection.json": "fdc1b9efb9c45444faa669fd7f0969443beacbf9a13fa9ca6023dc152ea83795",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-09000.pt": "c65ddc7d3ac8919ccbe627a4705de6cc6d274471b39df6cf11e451b7c12ce11c",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-09000.selection.json": "9f77a3e0f6d8cd6803d7df39aa9bba7c281328b7ab18fa6031e73c905ce03aab",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-10000.pt": "9f29fa3d3eba5036e5148e1792b48ade5243e80699ebd01088946610f862e647",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/checkpoint-10000.selection.json": "7c321499db7adc0316c64718a5db58e03351f5a9fdf0b0009adbf324bd546b81",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed42/resume-10000-e0463e60f2e4453a93e77753ec224019.pt": "9f29fa3d3eba5036e5148e1792b48ade5243e80699ebd01088946610f862e647",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-01000.pt": "c28259d12dbd953b90315e8337e9d9f412ddc88168ea3180fa4b2770a5f3cbeb",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-01000.selection.json": "7708405d83482ad9eab62181a97e6598db262585178633ca18f0563b5ccbfa7e",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-02000.pt": "5aeef7548232634c021c04a17abc2f358d42cb3c4135c3bc9f47b3ecfed1dd18",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-02000.selection.json": "750a28afdf1f20f5c8f9f2dd1f966a18408bf0af5b3d28b46b530d9cf858d09b",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-03000.pt": "365db9e6dfc4fa92a3399b34f9a2fb38953097ac4ee0777c2acc43906af31c37",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-03000.selection.json": "c147f08bf58978a49f294dceeea311ba6ab8d3a064dc4659764f4415b970dec5",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-04000.pt": "15caaf34327f1674176e4ab1e59c02f5fef3aa2ceb9023cc020890e4708075b2",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-04000.selection.json": "89921817546e67d18be17ae32ef4df7f4e3e1c72ed52436462eb7b60efc028b9",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-05000.pt": "a54c32088b03f07135ca33575c3de574a0c5cf1f1177c383b06cfa81fe5ac0a6",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-05000.selection.json": "ab0fcc041e02586db2ef2bad76046c9e7f42bf8c8b224e3df1eb8c5c026ecb2b",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-06000.pt": "bdb6713ab1450d6edaa1d46b0b94693be01a86fb53c2f0becd7c0c7198466a28",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-06000.selection.json": "b1755324293fdfc128e1080f770b9e7a1ce29dd7b9a1eecf584fb9497b0e40c5",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-07000.pt": "9938cc3e3ded2f1c1c7fbdae2b86a9271fa097800be8167dc658db699defb818",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-07000.selection.json": "a33cea15d3dd935bfce629a126cf805673068b2aca1c5d1b8226d75b0b73083e",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-08000.pt": "b76d1e7c7d5dea97259700cbae94819c9ac5bbcb068a368cf0ffd986aa3cadc4",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-08000.selection.json": "779c6e49d5da47d20515f745221ae2dcd2e57f89390cf03c9ba57281e169f271",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-09000.pt": "b7d3b4a66eeb770cbaa3259406eaa346dbad11e47854344cd26e60abd5836133",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-09000.selection.json": "d551d6db8b56dc44f32e2e7b3e4b321631b9420fb63a42cf3df1bf5bdc57038f",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-10000.pt": "56c8b6dd1af65e11bb45bcd0049c4314ba44df4f02e4369f4ce37bf8f5e21a64",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/checkpoint-10000.selection.json": "4b8b8c5bb9b1606c088c7c1cf75026c1e91c76f595775afc9dd2dcd4f2a26d6b",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/seed73/resume-10000-b3d1a70b45844e16858a98ab329b6c74.pt": "56c8b6dd1af65e11bb45bcd0049c4314ba44df4f02e4369f4ce37bf8f5e21a64",
+    "outputs/bayesian_benchmark/mt_bicl_v1/training_v1/state.json": "1764965dd94b71a35f024e78f1b2edd9a3bf74653a1d017efaa0444b381db927"
+  },
+  "legacy_protocol_sha256": "da5cb873aa86d15ba5c0d4d50f3d65ea9da810b62b5a32b3ba819534858432fd",
+  "namespace": "outputs/bayesian_benchmark/mt_bicl_v2",
+  "module_prefix": "core/mt_bicl_v2_",
+  "no_modify_v1": true,
+  "teacher": {
+    "family": "HIERARCHICAL_BETA_BERNOULLI",
+    "mu": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "kappa": [
+      2,
+      8,
+      32,
+      128
+    ],
+    "grid_order": "MU_MAJOR_KAPPA_MINOR",
+    "states": 16,
+    "alpha": "mu*kappa",
+    "beta": "(1-mu)*kappa",
+    "fit": {
+      "records": "BANK_AVAILABLE_TRAIN_EXIT_LE_2020-12-31",
+      "expected_cycles": 731,
+      "expected_tasks": 48,
+      "group_by": "task_id",
+      "task_min_cycles": 1,
+      "deduplicate": "EPISODE_ID_UNIQUE_GROUP_ONCE_NOT_PER_QUERY",
+      "counts": "ALL_AVAILABLE_CYCLES_IN_EACH_UNIQUE_TRAIN_BLOCK",
+      "initial_pi": "UNIFORM_16",
+      "dirichlet_alpha": 2,
+      "method": "MAP_EM",
+      "responsibility": "pi_j*L_task_j / SUM_j(pi_j*L_task_j)",
+      "update": "(SUM_task responsibility_task_j + 1)/(N_tasks+16)",
+      "max_iterations": 200,
+      "convergence": "MAX_ABS_PI_NEXT_MINUS_PI_LT_1e-10",
+      "convergence_required": true,
+      "nonconvergence": "STOP_TEACHER_NONCONVERGENCE_NO_UNIFORM_FALLBACK",
+      "precision": "FLOAT64_LOGSPACE",
+      "fit_labels_after_2020": false,
+      "membership_seal_required": true,
+      "task_membership_order": "SORT_TASK_ID_THEN_SORT_CYCLE_AS_OF_DATE_ID",
+      "convergence_definition": "CHECK_MAX_ABS_NEXT_MINUS_OLD_AFTER_EACH_M_STEP_THEN_SAVE_NEXT",
+      "posterior_responsibilities_include_dirichlet": false
+    },
+    "likelihood": "B(alpha+s,beta+f)/B(alpha,beta)",
+    "binomial_coefficient": false,
+    "posterior": "NORMALIZE_ONCE_pi_TIMES_PRODUCT_PRIOR_L_TIMES_TARGET_L",
+    "predictive": "SUM_POSTERIOR_LAMBDA_TIMES_(alpha+s_target)/(alpha+beta+m)",
+    "query_feature_in_likelihood": false,
+    "hyperprior_refit_after_train": false,
+    "empty_context": "SUM_PI_TIMES_MU",
+    "oracle_independent": "SEQUENTIAL_BERNOULLI_PREDICTIVE_PRODUCTS_SCALAR_NO_LOGBETA_HELPER_REUSE",
+    "oracle_atol": 1e-12,
+    "oracle_checks": "ALL_FIXED_VALIDATION_TEST_AND_SWAP_A_B_PLUS_FIXTURES_BEFORE_STUDENT_FORWARD",
+    "oracle_test_visibility": "ORACLE_BUILDER_ONLY_NO_STUDENT_FORWARD_OR_TEST_METRICS",
+    "prior_predictive_audit": {
+      "replicates": 1000,
+      "task_sizes": "ACTUAL_UNIQUE_TRAIN_TASK_SIZES",
+      "summaries": [
+        "mean_rate",
+        "variance_task_rate",
+        "all_win_fraction",
+        "all_loss_fraction",
+        "task_rate_quantiles_05_50_95"
+      ],
+      "report": "OBSERVED_AND_PREDICTIVE_95_PERCENT_INTERVAL_LINEAR",
+      "market_fit_quality_is_not_release_gate": true,
+      "no_grid_tuning": true,
+      "sampling": "EACH_REPLICATE_DRAW_LAMBDA_PER_TRAIN_TASK_FROM_PI_THEN_THETA_THEN_N_BERNOULLI_KEEP_ACTUAL_TASK_SIZES",
+      "interval": "2.5_AND_97.5_PERCENT_QUANTILES_ACROSS_1000_REPLICATE_SUMMARIES",
+      "hyperprior_shared_between_synthetic_tasks": "ONE_LAMBDA_PER_EPISODE_ALL_PRIOR_AND_TARGET_TASKS"
+    }
+  },
+  "tokenizer": {
+    "version": "mt_bicl_paired_observation_v2",
+    "numeric": [
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "label_value",
+      "label_missing"
+    ],
+    "roles": {
+      "PRIOR": 0,
+      "TARGET": 1,
+      "QUERY": 2
+    },
+    "task_slots": {
+      "prior_in_presentation_order": [
+        0,
+        1,
+        2
+      ],
+      "target_and_query": 3
+    },
+    "marker": [
+      0,
+      0,
+      0,
+      0,
+      -1,
+      1
+    ],
+    "observation": "[x1,x2,x3,x4,y,0]",
+    "query": "[x1,x2,x3,x4,0,1]",
+    "sequence": "PRIOR_MARKER_OBSERVATIONS_PER_TASK_THEN_TARGET_MARKER_OBSERVATIONS_THEN_QUERY",
+    "max_tokens": 37,
+    "padding": "RIGHT_KEY_MASK",
+    "causal": "LOWER_TRIANGULAR_INCLUDING_SELF",
+    "prior_order": "UNIFORM_PERMUTATION_SEPARATE_RNG_EACH_TRAIN_EPISODE_FIXED_CORPUS_ONCE",
+    "target_order": "CHRONOLOGICAL",
+    "task_slot_reassigned_after_permutation": true,
+    "query_label_sidecar_only": true,
+    "latent_in_input": false
+  },
+  "model": {
+    "layers": 2,
+    "hidden": 128,
+    "heads": 4,
+    "ff": 256,
+    "dropout": 0.0,
+    "activation": "gelu",
+    "norm_first": true,
+    "layer_norm_eps": 1e-05,
+    "final_layer_norm": true,
+    "numeric_linear_bias": true,
+    "role_embeddings": 3,
+    "task_slot_embeddings": 4,
+    "absolute_positions": 37,
+    "head": "LINEAR_128_TO_1_WITH_BIAS",
+    "parameters": 271873,
+    "dtype": "FLOAT32",
+    "AMP": false,
+    "TF32": false,
+    "ensemble": false
+  },
+  "loss": {
+    "kind": "SOFT_BERNOULLI_CROSS_ENTROPY_WITH_LOGITS",
+    "position": "QUERY_ONLY",
+    "teacher_q": "POSTERIOR_FROM_VISIBLE_D_C_ONLY",
+    "reduction": "MEAN_EPISODES_PER_EFFECTIVE_BATCH",
+    "q_detached": true,
+    "market_BCE": false,
+    "query_y_used": false,
+    "latent_theta_as_q": false
+  },
+  "training": {
+    "model_seeds": [
+      17,
+      42,
+      73
+    ],
+    "seed_order": [
+      17,
+      42,
+      73
+    ],
+    "optimizer_steps_per_seed": 5000,
+    "metric_early_stop": false,
+    "checkpoint_every_steps": 250,
+    "checkpoints_per_seed": 20,
+    "effective_batch": 128,
+    "physical_batches_before_training": [
+      128,
+      64,
+      32
+    ],
+    "gradient_accumulation": [
+      1,
+      2,
+      4
+    ],
+    "batch_selection": "OOM_ONLY_BEFORE_TRAIN_SAME_FOR_ALL_SEEDS",
+    "optimizer": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0,
+    "foreach": false,
+    "fused": false,
+    "schedule": {
+      "warmup_steps": 250,
+      "end_lr": 3e-05,
+      "at_optimizer_step_s": "s/250*3e-4_IF_s_LE_250_ELSE_3e-5+0.5*(3e-4-3e-5)*(1+cos(pi*(s-250)/4750))",
+      "step_numbering": [
+        1,
+        5000
+      ]
+    },
+    "train_stream_episode_id": "(optimizer_step-1)*128+batch_index",
+    "synthetic_only": true,
+    "fresh_model_each_seed": true,
+    "preflight_steps": 100,
+    "preflight_weights_discarded": true,
+    "pilots": {
+      "seed": 17,
+      "cases": [
+        "LEGACY_X_Y_69_WITH_TASK_SLOT",
+        "PAIRED_37"
+      ],
+      "common_architecture_except_packing": true,
+      "legacy_parameters": 275969,
+      "legacy_slots": "SAME_4_TASK_SLOTS_REPEAT_ON_X_Y",
+      "legacy_loss": "QUERY_X_ONLY_SAME_SOFT_Q",
+      "max_steps_each": 500,
+      "tiny_set": 32,
+      "batch": "REPEAT_32_IN_ORDER_4_TIMES",
+      "optimizer": "SAME_ADAMW_FIXED_LR_3e-4_NO_SCHEDULER",
+      "required_paired_final_mean_KL_strict_max": 0.001,
+      "legacy_result": "DIAGNOSTIC_ONLY_NOT_ARCHITECTURE_SELECTION",
+      "report_at_steps": [
+        0,
+        250,
+        500
+      ],
+      "diagnostic_episodes": 1000,
+      "weights_discarded": true,
+      "failure": "STOP_FOR_BUG_AUDIT_NO_EXTRA_SEARCH_OR_STEPS"
+    },
+    "synthetic_validation_batch": 128,
+    "pilot_order": [
+      "LEGACY_X_Y_69_WITH_TASK_SLOT",
+      "PAIRED_37"
+    ],
+    "checkpoints_expected_total": 60,
+    "selection_no_shortcut": "ALL_60_VALIDATION_AND_2021_REPORTS_REQUIRED_BEFORE_SEAL"
+  },
+  "mechanism": {
+    "mean_kl_max_nat": 0.02,
+    "p95_absolute_error_max": 0.1,
+    "quantile": "LINEAR",
+    "kl_direction": "ORACLE_TO_STUDENT",
+    "kl_clipping": false,
+    "swap_abs_oracle_delta_min": 0.05,
+    "swap_min_eligible": 200,
+    "swap_sign_agreement_min": 0.9,
+    "zero_student_delta": "DISAGREE_WHEN_ORACLE_NONZERO",
+    "insufficient": "INCONCLUSIVE_NO_REDRAW",
+    "report": [
+      "K_m_marginal_and_joint",
+      "cold_start",
+      "iid_and_stress_separately_and_combined",
+      "delta_amplitude_quantiles",
+      "delta_pearson_correlation",
+      "constant_and_context_blind_controls"
+    ],
+    "controls": {
+      "constant": "SUM_FITTED_PI_TIMES_MU",
+      "context_blind": "SAME_STUDENT_D_EMPTY_C_EMPTY_KEEP_QUERY_X",
+      "no_prior": "TEACHER_OR_STUDENT_D_EMPTY",
+      "no_target": "TEACHER_OR_STUDENT_C_EMPTY",
+      "pooling": "SHARED_THETA_ALL_LABEL_COUNTS_WITH_FITTED_PI",
+      "report_same_inputs": "ALL_CONTROLS_ON_IDENTICAL_REGISTERED_CORPUS_AND_SUPPORT"
+    },
+    "degenerate_correlation": "NULL_WITH_REASON_NOT_ZERO",
+    "negative_control": "IF_CONSTANT_MEETS_ALL_KL_P95_THRESHOLDS_OR_SWAP_ELIGIBLE_LT_200_THEN_INCONCLUSIVE_TEACHER_TOO_FLAT_NO_RELEASE",
+    "swap_delta_sign": "P_B_MINUS_P_A"
+  },
+  "selection": {
+    "validation_at": "EVERY_CHECKPOINT_250_TO_5000_ALL_3_SEEDS",
+    "eligibility": "ALL_THREE_SYNTHETIC_VALIDATION_GATES_PASS_AND_TECHNICAL_PASS",
+    "rank_key": [
+      "round(macro_log_loss_2021,12)",
+      "round(macro_Brier_2021,12)",
+      "step",
+      "seed_order_17_42_73"
+    ],
+    "per_seed": "BEST_ELIGIBLE_OR_NO_ELIGIBLE_CHECKPOINT",
+    "global": "BEST_ELIGIBLE_ACROSS_ALL_SEEDS",
+    "no_eligible": "NO_ELIGIBLE_CHECKPOINT_NO_EXPORT_NO_TEST_FORWARD_NO_RELEASE",
+    "require_all_seeds_complete": true,
+    "test_visibility": "AFTER_IMMUTABLE_SELECTION_SEAL_ONLY",
+    "test_failure": "NO_MT_BICL_RELEASE_V2_NO_RESELECT",
+    "report_all_seed_curves": true,
+    "seed_without_eligible_test": "NOT_RUN_NO_FALLBACK_CHECKPOINT",
+    "technical_invalid": "STOP_NOT_SILENT_CHECKPOINT_EXCLUSION"
+  },
+  "market_reporting": {
+    "selection_year": 2021,
+    "report_year": 2022,
+    "same_support": 256,
+    "fit_baselines_train_cycles": 731,
+    "variants": [
+      "teacher_full",
+      "student_full",
+      "base_rate",
+      "logistic",
+      "teacher_no_prior",
+      "student_no_prior",
+      "teacher_no_target",
+      "student_no_target",
+      "teacher_pooling"
+    ],
+    "baseline_recipe": "PROTOCOL_V1_UNCHANGED_LAPLACE_AND_L2_C1_LOGISTIC",
+    "metrics": [
+      "macro_and_symbol_log_loss",
+      "macro_and_symbol_Brier",
+      "student_minus_teacher",
+      "calibration_10_bins",
+      "K_m_support",
+      "r_net_gain_loss_by_probability_bin"
+    ],
+    "market_log_loss_clip": [
+      1e-06,
+      0.999999
+    ],
+    "calibration": "LEFT_CLOSED_RIGHT_OPEN_LAST_INCLUDES_1_EMPTY_NULL",
+    "bad_result": "REPORT_WORSE_BOTH_OR_MIXED_NOT_PASS_NOT_RESELECT",
+    "p_is_expected_return": false,
+    "selection_rows": 248,
+    "no_eligible_market_reporting": "TEACHER_AND_BASELINES_ONLY_STUDENT_NOT_RUN"
+  },
+  "budget": {
+    "window": [
+      "2026-10-28",
+      "2026-11-10"
+    ],
+    "W10_stop": "2026-11-01",
+    "confirmation_release_and_start_by": "2026-11-05",
+    "data_stop": "2026-11-07",
+    "known_v1_active_seconds": 11821.577482399996,
+    "user_total_hours": [
+      14,
+      28
+    ],
+    "known_spent_is_lower_bound": true,
+    "remaining_total_upper_bound_hours": [
+      10.716228477111112,
+      24.716228477111112
+    ],
+    "W10_old_and_new_max_hours": 10,
+    "W10_v2_remaining_upper_bound_hours": 6.7162284771111125,
+    "v2_active_training_cap_seconds": 14400,
+    "active_cap_includes": [
+      "BOTH_PILOTS",
+      "PREFLIGHT",
+      "TEACHER_CACHE_AND_GENERATION_FOR_TRAIN",
+      "ALL_THREE_SEED_TRAIN",
+      "VALIDATION_AND_CHECKPOINT",
+      "SEAL_AND_INFERENCE_REPLAY"
+    ],
+    "v2_task_estimates_hours": {
+      "protocol": 1,
+      "teacher_oracle": 2,
+      "learner_pilots": 2,
+      "train_evaluate": 3,
+      "integration_release": 2
+    },
+    "estimates_are_not_grants": true,
+    "availability_status": "PENDING_ACTUAL_SPENT_AND_REMAINING_ACCOUNTING",
+    "training_budget_granted_seconds": 0,
+    "fit_budget_granted_seconds": 0,
+    "before_fit_or_train": [
+      "USER_ACTUAL_TOTAL_SPENT_AND_REMAINING_HOURS_RECEIPT",
+      "RESERVE_W11_W12_AND_WRITING",
+      "ALLOCATION_NOT_ABOVE_REMAINING_OR_W10_CAP"
+    ],
+    "if_infeasible": "NOT_RUN_OR_INCOMPLETE_NO_DEADLINE_EXTENSION_OR_GATE_RELAXATION",
+    "hard_crash_gap": "CHARGE_UNCLOSED_SESSION_UNTIL_RECOVERY",
+    "clean_pause": "EXCLUDE_CLOSED_DOWNTIME",
+    "before_student_optimization": [
+      "REAL_PIPELINE_PREFLIGHT_ESTIMATE_ALL_3_SEEDS_WITHIN_GRANTED_CAP",
+      "TEACHER_ORACLE_TECHNICAL_PASS"
+    ]
+  },
+  "release": {
+    "spec": "ALL_EXECUTION_FLAGS_FALSE",
+    "teacher_fit": "SEPARATE_BUDGET_AND_SOURCE_VERIFIED_AUTHORIZATION",
+    "train": "TEACHER_ORACLE_TECHNICAL_AND_PAIRED_PILOT_PASS_PLUS_BUDGET_RECEIPT",
+    "development": "TECHNICAL_SYNTHETIC_TEST_AND_INTEGRATION_FREEZE_PASS",
+    "task": "W10-14_ONLY",
+    "decision_before_release": false,
+    "teacher_fit_task": "W10-10_WITH_BUDGET_ACCOUNTING_NO_AUTOMATIC_AUTHORIZATION"
+  },
+  "amendment_rule": "NEW_VERSION_BEFORE_FIT_OR_STUDENT_OUTCOME_CHANGES_KEEP_OLD_BYTES_DECLARE_EXPOSURE",
+  "scaler": {
+    "family": "standardization_ddof0",
+    "scope": "global_four_symbols_equal_per_cycle_no_labels",
+    "train_episode_fit": "Chỉ feature cycle thuộc train đã đóng exit<query; không fit bằng future train rows của query đó",
+    "minimum_closed_cycles": 2,
+    "zero_std_scale": 1.0,
+    "post_train_fit": "Mọi feature train hợp lệ exit<=2020-12-31; freeze trước 2021",
+    "apply": "Cùng scaler episode cho prior/target/query; giữ vector raw và z đầy đủ trong sidecar",
+    "clip_model_and_distance": [
+      -4.0,
+      4.0
+    ],
+    "centroid": "Mean vector scale/clip của mọi cycle hợp lệ trong task đã đóng trước query, không chỉ tám cycle được chọn",
+    "auxiliary_loss_note": "Loss ở C trong episode là teacher-forced target loss, không báo như dự báo PIT độc lập tại ngày C."
+  },
+  "regime": {
+    "primitive": "MarketRegimeDetector",
+    "min_raw_rows": 499,
+    "train_task_metadata": "Fit historical prefix <=block_start, classify tại block_start; khóa metadata theo task ID",
+    "train_query": "Dùng model prefix của đầu block hiện tại, classify prefix <=query",
+    "insufficient_history": {
+      "regime": "UNKNOWN",
+      "reason": "INSUFFICIENT_REGIME_HISTORY",
+      "retain_price_cycles": true,
+      "known_match": false
+    },
+    "other_fit_or_integrity_error": "RAISE_STOP_NOT_UNKNOWN",
+    "evaluation_model": "Fit một lần bằng VNINDEX <=2020-12-31 trong namespace mới, classify query từ 2021; không dùng artifact cuối 2022",
+    "old_task_metadata": "Không gán lại bằng artifact fit sau đầu block; block từ 2021 dùng model cuối 2020, block vắt 2020/2021 giữ metadata historical-prefix",
+    "classification_method": "Giữ HMM hoặc fallback calibration của primitive cùng provenance; không đổi parameters",
+    "missing_regime_in_numeric_input": false,
+    "task_metadata_after_2020": "Block bắt đầu từ 2021 dùng model cuối 2020 đóng băng; chỉ classify prefix đến block_start, không refit bằng validation/test"
+  },
+  "membership": {
+    "same_symbol_only": true,
+    "closed_rule": "exit_date < query_date",
+    "prior_task_rule": "block_end < target_block_start; cycle thuộc prior block và >=2 cycle hợp lệ",
+    "max_prior_tasks": 3,
+    "max_cycles_per_prior": 8,
+    "min_cycles_per_prior": 2,
+    "target": "Tối đa tám cycle mới nhất trong current block, exit<query, tăng dần cutoff/ID",
+    "max_target_cycles": 8,
+    "prior_task_rank": [
+      "known_regime_match_first",
+      "centroid_euclidean_distance_ascending",
+      "latest_closed_exit_descending",
+      "task_id_lexicographic"
+    ],
+    "prior_cycle_rank": [
+      "euclidean_distance_to_query_ascending",
+      "as_of_date_descending",
+      "episode_id_lexicographic"
+    ],
+    "cycle_order_in_selected_prior": "as_of_date/ID tăng dần sau khi chọn tám cycle gần query nhất theo distance",
+    "disjoint": "ID và khoảng [entry,exit] của mọi observation và query rời nhau; cycle cắt block đã loại",
+    "age_cap_days": null,
+    "missing": "Giữ K=0..3,m=0..8 và reasons, không bù task khác mã, không cân bằng nhãn",
+    "violation": "Candidate tương lai bị loại trước rank; membership đã chọn chứa future/overlap phải raise ValueError/AssertionError",
+    "centroid_scaler_fit_ids": "Lưu ID/hash của tập fit scaler và toàn cycle centroid trước cutoff; không dùng y để rank"
+  },
+  "decision": {
+    "llm_matrix": [
+      "Original",
+      "A_reference",
+      "Plain_ICL",
+      "Full_MT_BICL",
+      "No_target",
+      "Stats_only"
+    ],
+    "offline": [
+      "Numeric_only"
+    ],
+    "candidate_only": "Full_MT_BICL",
+    "symbol_order": [
+      "FPT",
+      "MWG",
+      "VCB",
+      "VNM"
+    ],
+    "signal_config": {
+      "models": {
+        "agent_llm_max_tokens": 2048,
+        "agent_llm_model": "openai/gpt-oss-20b",
+        "agent_llm_temperature": 0.0,
+        "graph_llm_max_tokens": 1024,
+        "graph_llm_model": "qwen/qwen3.8-27b",
+        "graph_llm_temperature": 0.0
+      },
+      "window_size": 45,
+      "norm_method": "zscore_tanh",
+      "alpha_weights": null,
+      "language": "vi",
+      "time_frame": "1d"
+    },
+    "client_options": {
+      "agent": {
+        "reasoning_format": "hidden",
+        "reasoning_effort": "low"
+      },
+      "graph": {
+        "reasoning_format": "hidden",
+        "reasoning_effort": "none"
+      }
+    },
+    "client_max_retries": 0,
+    "service_tier": "on_demand",
+    "api_wrapper": "_invoke_with_retry, resilient_invocation_v1 + Groq retry-after/backoff/checkpoint/ledger",
+    "upstream": "Một lần/point, deep-copy tất cả nhánh/repeat; legacy reuse chỉ sau verify identity, không vision riêng nhánh",
+    "A_reference": "A_tp_pool giữ bank/feature/selector nguồn W9; Full-A là so toàn phương pháp",
+    "Plain_ICL": "Cùng selected membership và projection Full, bỏ learned p/output; giữ K/m/support",
+    "No_target": "Recompute p với C=[], bỏ target examples, prior/query giữ nguyên Full; không truy xuất lại D theo C",
+    "Stats_only": "Cùng p Full, không examples/ID/summary outcome, chỉ K/m/support/p và query feature",
+    "Numeric_only": "LONG iff p>0.5 và input hợp lệ, còn lại CASH có reason; lỗi integrity/API không đổi thành CASH",
+    "Original": "Không context mới; cùng base instruction/schema/model/options của run mới, không replay W9 action",
+    "schema": "evidence_for/evidence_against/justification hiện hữu; p không phải expected return hoặc R:R; không ép action theo p",
+    "common_instruction_freeze": "W10-13 adapter; W10-14 freeze before development response",
+    "ledger_lifecycle": "Hash ledger inventory là snapshot audit W10-01, không khóa byte ledger sống vĩnh viễn; giữ nguyên mọi request W9 trong frozen ZIP, cho phép append sau release bằng lifecycle/UUID/unknown reserve hiện hữu; verifier run riêng phải bind từng request thuộc run"
+  },
+  "projection": {
+    "max_prior_examples_each_task": 2,
+    "prior_example_choice": "Hai cycle đầu theo rank distance trong tám đã chọn; hiển thị theo cutoff/ID",
+    "max_target_examples": 2,
+    "target_choice": "Hai target cycle mới nhất; hiển thị theo cutoff/ID",
+    "features": "Cùng z clip[-4,4]; mã q=clip(rint(z*2),-8,8), bốn integer; rint ties-to-even",
+    "legend": "q=(mom5,mom20,vol20,ma20); z≈q/2; y=1:net>0; p=P(y=1), không phải ER",
+    "prior_chars_inclusive_max": 600,
+    "decision_prompt_chars_exclusive_max": 6500,
+    "overflow": "FAIL_BUDGET trước gọi API, không cắt nhãn/legend hoặc âm thầm giảm số ví dụ",
+    "full_precision_sidecar": true,
+    "p_decimal_places": 3,
+    "support_in_prefix": "K, m và n selected từng prior task; tổng số cycle eligible và provenance đầy đủ ở sidecar",
+    "shared_off": "Reuse Original chỉ canonical request/model/options/schema/point/repeat trùng và response durable"
+  },
+  "development": {
+    "year": 2023,
+    "points": 60,
+    "symbol_cutoffs": {
+      "FPT": [
+        "2023-04-12",
+        "2023-05-11",
+        "2023-06-01",
+        "2023-06-27",
+        "2023-07-05",
+        "2023-07-31",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ],
+      "VNM": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-08-03",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-19"
+      ],
+      "VCB": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-08-03",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ],
+      "MWG": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-07-31",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ]
+    },
+    "primary_slots": 360,
+    "repeat_points": 12,
+    "additional_repeats": 3,
+    "repeat_slots_including_duplicate": 252,
+    "repeat_selection": "Ba/mã: ngày đầu m=0, m=1..3, m>=4; thiếu stratum bù ngày đầu chưa chọn theo cutoff, ghi reason; khóa IDs trước action",
+    "primary_order": "sort(cutoff,symbol_order), Original đầu; rotate_left năm nhánh khác j mod5",
+    "repeat_order": "Original đầu; rotate_left sáu nhánh khác kể cả Original_duplicate (3*j+r-1) mod6; r=1..3",
+    "support_gate": {
+      "K_at_least": 2,
+      "m_at_least": 2,
+      "simultaneous_points_min": 30,
+      "simultaneous_each_symbol_min": 5,
+      "failure": "INSUFFICIENT_CONTEXT_NO_API"
+    },
+    "nomination": {
+      "G": 60,
+      "D_Full_Original_strict_min": 0,
+      "positive_symbols_min": 3,
+      "D_Full_A_inclusive_min": 0,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5,
+      "candidate_substitution": false
+    },
+    "semantic_probes": 24,
+    "repeat_not_in_primary": true
+  },
+  "confirmation": {
+    "year": 2025,
+    "conditional_on": [
+      "technical_mechanism_gate",
+      "nomination",
+      "exposure_audit",
+      "source_price_rights_verification",
+      "MDE_report",
+      "release_and_start_before_deadline"
+    ],
+    "points": 128,
+    "points_each_symbol": 32,
+    "points_each_symbol_quarter": 8,
+    "selection": "step3 neo phiên đầu 2025; cycle đóng trong quý và đủ giá/quyền/feature; sort N eligible rồi floor(j*(N-1)/7), j=0..7; N<8 BLOCKED, không đổi mẫu theo outcome",
+    "primary_slots": 768,
+    "repeat_slots": 252,
+    "context_updates": "Prequential, append market cycles exit<query bằng label engine độc lập action; không gradient/refit/tune",
+    "independence": "Không rõ exposure thì exploratory, không đổi sang 2024",
+    "G": 128,
+    "primary": "D=mean bốn account return Full-Original, đơn vị đpt, không mean cycle hoặc return portfolio",
+    "bootstrap": {
+      "rng": "PCG64",
+      "seed": 20261027,
+      "draws": 10000,
+      "block_dates": 4,
+      "sensitivity_blocks": [
+        2,
+        8
+      ],
+      "method": "Circular moving-block unique query date clusters; ceil(n_dates/L) starts uniform with replacement, offsets modulo, concat truncate n_dates; shared indices mọi nhánh/mã; account rebuild theo thứ tự resample",
+      "ci": 0.95,
+      "secondary_ci": 0.99,
+      "secondary": [
+        "Full-A",
+        "Full-Plain_ICL",
+        "Full-No_target",
+        "Full-Stats_only",
+        "Full-Numeric_only"
+      ],
+      "minimum_valid": 9500,
+      "invalid": "Thiếu mã/metric không hữu hạn; không sinh draw bù",
+      "quantile": "linear",
+      "limits": "CI điều kiện trên saved predictions, không replay prequential context hoặc toàn bất định training/provider"
+    },
+    "practical_gain": {
+      "D_min_pp": 1,
+      "primary_CI_lower_strict_min": 0,
+      "positive_symbols_min": 3,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5
+    }
+  },
+  "numeric_baselines": {
+    "base_rate": "Laplace (1+sum y_train)/(2+N_train), không refit sau 2020",
+    "logistic": {
+      "implementation": "sklearn.linear_model.LogisticRegression",
+      "C": 1.0,
+      "penalty": "l2",
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "tol": 1e-08,
+      "random_state": 42,
+      "class_weight": null,
+      "features": "Cùng x z/clip; fit một lần bằng scaler cuối train và labels train, không reports",
+      "single_class": "Constant Laplace rate, ghi SINGLE_CLASS_TRAIN; lỗi hội tụ phải báo"
+    },
+    "no_prior": "Cùng learned weights, bỏ D; K=0 đã được train",
+    "no_target": "Cùng learned weights, bỏ C; m=0 đã được train",
+    "naive_pooling": "Finite-logistic shared-w predictor của simulator: p(w)=sum_lambda p(lambda)p(w|lambda), update chung từ D+C; weights/support không refit; trên market chỉ là baseline với giả định mô hình, không là ground truth",
+    "comparability": "Oracle hierarchical vs pooled cùng simulator tách giả định latent; không gọi so naive pooling thị trường là ablation cùng learned weights"
+  },
+  "contracts": {
+    "json": "NATIVE_PYTHON_TYPES_FINITE_NUMBERS_UTF8_NO_NAN_OR_INFINITY",
+    "envelope": [
+      "version",
+      "payload",
+      "sha256"
+    ],
+    "sha256": "CANONICAL_PAYLOAD_JSON_ENSURE_ASCII_FALSE_SORT_KEYS_COMPACT_ALLOW_NAN_FALSE",
+    "teacher_fit": {
+      "version": "mt_bicl_teacher_fit_v2",
+      "required": [
+        "protocol_sha256",
+        "source_sha256",
+        "runtime",
+        "train_membership_sha256",
+        "grid",
+        "pi",
+        "iterations",
+        "converged",
+        "max_pi_delta",
+        "task_counts",
+        "fit_objective_trace",
+        "prior_predictive_audit"
+      ],
+      "release_flags": [
+        "training_allowed=false",
+        "development_allowed=false",
+        "decision_calls_allowed=false"
+      ]
+    },
+    "corpus": {
+      "version": "mt_bicl_corpus_v2",
+      "required": [
+        "protocol_sha256",
+        "teacher_byte_sha256",
+        "manifest_sha256",
+        "feature_pool_sha256",
+        "scaler_sha256",
+        "stream",
+        "seed",
+        "episode_ids",
+        "episodes",
+        "oracle_probabilities"
+      ],
+      "seal_before": "FIRST_STUDENT_OPTIMIZER_STEP",
+      "query_label_and_latents": "EXTERNAL_DIAGNOSTIC_SIDECAR_NEVER_PACKET_OR_TEACHER_Q"
+    },
+    "checkpoint": {
+      "version": "mt_bicl_checkpoint_v2",
+      "required": [
+        "protocol_sha256",
+        "teacher_sha256",
+        "corpus_sha256",
+        "source_sha256",
+        "runtime",
+        "seed",
+        "step",
+        "model",
+        "optimizer",
+        "scheduler",
+        "python_numpy_torch_cuda_rng",
+        "active_budget_seconds",
+        "physical_batch",
+        "accumulation"
+      ]
+    },
+    "selection_seal": {
+      "version": "mt_bicl_selection_v2",
+      "required": [
+        "all_60_checkpoint_sha256",
+        "validation_and_2021_reports_sha256",
+        "eligibility_all_checkpoints",
+        "per_seed_candidate_or_none",
+        "global_candidate_or_none",
+        "ranking_key",
+        "technical_verification",
+        "test_forward_not_started"
+      ],
+      "immutable_before": "FIRST_STUDENT_FORWARD_ON_SYNTHETIC_TEST_OR_TEST_SWAP"
+    },
+    "evaluation": {
+      "version": "mt_bicl_evaluation_v2",
+      "required": [
+        "selection_seal_sha256",
+        "teacher_student_sha256",
+        "corpus_sha256",
+        "raw_logits",
+        "all_seed_results",
+        "mechanism_status",
+        "market_comparisons",
+        "controls",
+        "calibration",
+        "release_status"
+      ],
+      "weights_frozen": true
+    },
+    "budget_receipt": {
+      "version": "mt_bicl_budget_v2",
+      "required": [
+        "user_reported_total_spent_hours",
+        "remaining_available_hours",
+        "known_v1_active_seconds",
+        "W11_W12_writing_reserve_hours",
+        "W10_remaining_allocation_hours",
+        "v2_active_allocation_seconds",
+        "actual_usage_including_protocol_teacher_tests",
+        "as_of_date"
+      ],
+      "grant_rule": "EXPLICIT_ALLOCATION_LE_MIN_14400_REMAINING_AFTER_RESERVES_NO_DOUBLE_COUNT_V1",
+      "cannot_edit_protocol_budget_to_grant": true
+    }
+  }
+}

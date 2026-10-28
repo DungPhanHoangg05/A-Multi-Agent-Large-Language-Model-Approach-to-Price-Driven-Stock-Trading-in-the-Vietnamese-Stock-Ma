@@ -8,11 +8,13 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **8/14**, W11 **0/8**, W12 **0/6**; tiếp theo **W10-09**.
+**Tiến độ:** W10 **9/14**, W11 **0/8**, W12 **0/6**; tiếp theo **W10-10**.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
-2022. V2 sửa cả learner/selection và giả định teacher; chưa sửa code, chưa
-train hoặc cấp quyền development. W10-09–14 là chuỗi triển khai mới.
+2022. V2 sửa cả learner/selection và giả định teacher; chưa triển khai
+teacher/learner hoặc cấp quyền development. W10-09 khóa protocol/manifest/membership/
+fixture v2; chưa fit hoặc train, budget thực thi=0 đến khi đối soát giờ thực.
+W10-10–14 là chuỗi triển khai tiếp theo.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
@@ -1185,7 +1187,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 8/14 DONE; v1 FAIL, v2 chưa release
+### TUẦN 10: MT-BICL và tích hợp — 9/14 DONE; v1 FAIL, v2 chưa release
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1242,11 +1244,16 @@ chạy lại suite trong lượt nghiệm thu tài liệu. W10-07 DONE về phé
 Synthetic test/prior-swap/2022 đã xem; giữ nguyên revision/exposure, không
 tự sửa ngưỡng/model hoặc train thêm để vượt gate trong protocol v1.
 
-**Amendment 28/10 — W10-08 DONE:** audit raw logits/curve/checkpoint và
-oracle market; giữ v1 NO_MT_BICL_RELEASE. W10-09 protocol mới →10 teacher
+**Amendment 28/10 — W10-08/09 DONE:** audit raw logits/curve/checkpoint và
+oracle market; giữ v1 NO_MT_BICL_RELEASE. W10-09 đã khóa protocol v2 và
+manifest/membership/fixture/verifier; chưa fit/train/API, budget cấp=0 chờ
+đối soát giờ thực. Trần W10 còn lại≤6,716228 giờ (chưa trừ việc khác), thấp
+hơn dự toán v2 thêm10 giờ; chưa đủ bằng chứng khả thi. Tiếp theo10 teacher
 train-only →11 sửa learner/pilot →12 train/selection/evaluate →13 adapter/
 dry-run →14 release. [Mục9 W10](week10/README.md#9-khắc-phục-nguyên-nhân-và-protocol-v2--28102026)
 phân biệt sự kiện với giả thuyết; ngưỡng cơ chế không giảm, deadline không đổi.
+Khóa W10-09 kiểm **29 test PASS** (8 bank leakage), biên dịch hai file mới,
+CLI/hash/link/diff PASS; 77 file chứng cứ v1 nguyên byte, không fit/train/API.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/

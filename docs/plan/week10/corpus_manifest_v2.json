@@ -1,0 +1,214 @@
+{
+  "version": "mt_bicl_corpus_manifest_v2",
+  "state": "RECIPE_ONLY_NO_EPISODES_OR_PREDICTIONS",
+  "rng": "numpy.PCG64",
+  "seed_sequence": [
+    "stream_seed",
+    "model_seed_or_zero",
+    "episode_id",
+    "component_domain"
+  ],
+  "component_domains": {
+    "structure": 0,
+    "latent_lambda_a": 1,
+    "latent_theta_a": 2,
+    "features": 3,
+    "labels_a": 4,
+    "latent_lambda_b": 5,
+    "latent_theta_b": 6,
+    "labels_b": 7,
+    "prior_permutation": 8
+  },
+  "fixed_corpora_model_seed": 0,
+  "train_and_preflight_model_seeds": [
+    17,
+    42,
+    73
+  ],
+  "pilot_tiny_model_seed": 0,
+  "streams": {
+    "train": {
+      "seed": 2026102801,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 640000
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "diagnostic": {
+      "seed": 2026102802,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 1000
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "synthetic_validation": {
+      "seed": 2026102803,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 5000
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "synthetic_test": {
+      "seed": 2026102804,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 5000
+      },
+      "materialized": false,
+      "held_until_selection_seal": true
+    },
+    "validation_swap": {
+      "seed": 2026102805,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 5000
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "test_swap": {
+      "seed": 2026102806,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 5000
+      },
+      "materialized": false,
+      "held_until_selection_seal": true
+    },
+    "pilot_tiny": {
+      "seed": 2026102807,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 32
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "prior_predictive": {
+      "seed": 2026102808,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 1000
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "permutation": {
+      "seed": 2026102809,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 640000
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    },
+    "preflight": {
+      "seed": 2026102810,
+      "ids": {
+        "start": 0,
+        "stop_exclusive": 12800
+      },
+      "materialized": false,
+      "held_until_selection_seal": false
+    }
+  },
+  "seed_overlap_v1": false,
+  "features": {
+    "pool": "TRAIN_AVAILABLE_731_SORTED_SYMBOL_THEN_AS_OF_DATE_THEN_ID",
+    "scaler": "FROZEN_TRAIN_END_2020",
+    "sampling": "UNIFORM_ROW_WITH_REPLACEMENT_WHOLE_4_VECTOR",
+    "clip": [
+      -4,
+      4
+    ],
+    "independent_of_latents_and_labels": true
+  },
+  "generative": {
+    "K": "DISCRETE_UNIFORM_0_3",
+    "m": "DISCRETE_UNIFORM_0_8",
+    "n_each_prior": "DISCRETE_UNIFORM_2_8",
+    "lambda": "CATEGORICAL_FITTED_PI",
+    "theta": "INDEPENDENT_BETA_PER_TASK_GIVEN_LAMBDA",
+    "y": "BERNOULLI_THETA",
+    "draw_order": [
+      "K_m_n",
+      "lambda",
+      "theta_prior_then_target",
+      "features_prior_then_target_then_query",
+      "uniform_labels_prior_then_target_then_query"
+    ],
+    "target_query_y": "SIDECAR_ONLY_NOT_LOSS",
+    "query_x": "FEATURE_POOL_INDEPENDENT"
+  },
+  "evaluation_mixture": {
+    "iid_ids": [
+      0,
+      4499
+    ],
+    "stress_ids": [
+      4500,
+      4999
+    ],
+    "gate_denominator": 5000,
+    "stress_recipe": {
+      "case": "(episode_id-4500)%10",
+      "K": "1_IF_CASE_LT_5_ELSE_3",
+      "n_each_prior": 8,
+      "m_by_case_mod5": [
+        0,
+        1,
+        2,
+        4,
+        8
+      ],
+      "prior_y": "ZERO_IF_FLOOR((episode_id-4500)/10)%2_EQ_0_ELSE_ONE",
+      "target_y": "ALTERNATING_0_1_START_ZERO",
+      "latent_sampling_in_stress": false,
+      "query_y": null
+    }
+  },
+  "prior_swap": {
+    "base": "MATCHING_MIXTURE_RECIPE_WITH_OWN_SWAP_STREAM",
+    "keep": [
+      "K",
+      "n_each_prior",
+      "all_x",
+      "target_observations",
+      "query_id",
+      "query_x"
+    ],
+    "replace": "ALL_PRIOR_LABELS_ONLY",
+    "iid_replacement": "DRAW_INDEPENDENT_LAMBDA_B_AND_PRIOR_THETAS_FROM_SAME_PI_THEN_BERNOULLI",
+    "stress_replacement": "COMPLEMENT_EVERY_PRIOR_Y",
+    "target_y_query": "NEVER_VISIBLE",
+    "eligible": "ABS_ORACLE_P_B_MINUS_P_A_GE_0.05",
+    "max_attempts": 5000,
+    "min_eligible": 200,
+    "no_redraw": true
+  },
+  "train_diagnostic_pilot_preflight_distribution": "GENERATIVE_ONLY_NO_STRESS",
+  "materialization_gate": [
+    "TEACHER_FIT_AND_INDEPENDENT_ORACLE_PASS",
+    "TRAIN_FEATURE_POOL_BINDING",
+    "CONTENT_SHA256_AND_ID_MEMBERSHIP_SEAL_BEFORE_ANY_STUDENT_OPTIMIZER",
+    "TEST_AND_TEST_SWAP_NO_FORWARD_OR_METRICS_BEFORE_SELECTION_SEAL"
+  ],
+  "test_no_tuning": true,
+  "draw_primitives": {
+    "categorical": "Generator.choice(16,p=pi)",
+    "uniform_int": "Generator.integers(low,high_exclusive)",
+    "beta": "Generator.beta(alpha,beta,size=K+1)_PRIOR_THEN_TARGET",
+    "features": "Generator.integers(0,731,size=SUM_N_PLUS_M_PLUS_1)",
+    "bernoulli": "Generator.random(size=N)_LT_THETA_TASK",
+    "permutation": "PCG64_SeedSequence([permutation_stream_seed,model_seed_or_zero,episode_id,source_stream_seed]).permutation(K)"
+  },
+  "synthetic_observation_ids": "UNIQUE_STREAM_SEED_MODEL_EPISODE_TASK_INDEX_OBSERVATION_INDEX_NOT_SOURCE_FEATURE_ROW_ID",
+  "feature_pool_outcomes_used_in_generation": false,
+  "query_y_generation": "IID_ONLY_GENERATE_AFTER_M_TARGET_LABELS_AND_KEEP_SIDECAR_UNUSED_BY_Q_OR_LOSS"
+}
