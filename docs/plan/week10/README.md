@@ -1,6 +1,6 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–10 DONE, 10/14 task DONE; tiếp theo W10-11.
+**Amendment 28/10/2026: W10-01–10 DONE, 10/14 task DONE; W10-11 IN_PROGRESS.
 Teacher v2.1 hội tụ ở vòng237, oracle/corpus đã kiểm; learner chưa train.
 Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE; chưa release development.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
@@ -168,7 +168,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-08 | Audit nguyên nhân từ raw logits, curve 2021 và oracle trên thị trường; phân biệt sự kiện/giả thuyết | 07 | [x] DONE — mục 9, không nghiệm thu learner |
 | W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả khóa; sau đó người dùng cấp thêm10 giờ W10 v2, active≤4 giờ trong quỹ này; chưa fit/train |
 | W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [x] DONE — amendment1.000 vòng khóa trước fit; hội tụ237, PPC/corpus/oracle đầy đủ; giữ bất lợi PPC |
-| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] TODO — dùng teacher v2.1 đã khóa; chưa release train lớn |
+| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] IN_PROGRESS — mã/35 test PASS; chờ hai pilot GPU và replay, chưa release train lớn |
 | W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] TODO |
 | W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
 | W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
@@ -798,6 +798,137 @@ Lượt producer đã dùng `run --resume`, nghiệm thu bằng `verify --replay
 không cần fit lại. Lệnh replay CPU tái dựng cùng teacher/PPC/sáu corpus,
 không update model và được tính vào active budget. W10-11 dùng đúng teacher
 v2.1/converged và corpus đã khóa này, chưa mở student test hoặc train lớn.
+
+## W10-11 — Paired learner, soft query loss và pilot, 28/10/2026
+
+**IN_PROGRESS — phần triển khai/kiểm CPU hoàn tất, chờ người dùng chạy GPU.**
+Nhánh `feat/paired-distillation-pilot` từ `develop` tại `b26e5d1`, đã pull.
+Chưa tạo run `pilot_v2/` thật; không ghi tiny-fit hoặc pilot GPU PASS từ
+unit test. W10 vẫn **10/14 DONE**; W10-12 chưa được mở train lớn.
+
+### Learner và phạm vi dữ liệu
+
+`core/mt_bicl_v2_student.py` triển khai paired37, legacy X/Y69 có task slot,
+ba role và slot0…2 prior/slot3 target/query. Round-trip validation chặn y
+query, sai role/slot, mất marker, đổi mask hoặc loss ở prior/target/PAD.
+q teacher tách riêng, detach khỏi gradient, loss chỉ logit query/mean episode.
+Pre-LN/GELU/dropout0/final LayerNorm đúng protocol; số tham số
+**271.873 paired /275.969 legacy**, FP32, không AMP/TF32. Khởi tạo position
+embedding cuối cùng để cùng seed17 có cùng weights ở mọi khối chung và
+cùng37 position đầu, giúp đối chiếu packing rõ hơn; không chọn packing từ
+metric. Legacy giữ vai trò diagnostic, paired37 vẫn là architecture đã khóa.
+
+`core/mt_bicl_v2_distillation.py` triển khai AdamW, accumulation/clip đúng
+một lần mỗi effective batch, frozen inference/fingerprint, KL/log-prob
+float64 không clip và lịch LR cho bước train sau. **Pilot dùng lr3e−4 cố
+định, không warmup/cosine.** Scheduler1…5.000 chỉ được kiểm bằng unit test,
+chưa chạy train ba seed hoặc chọn checkpoint.
+
+`core/mt_bicl_v2_pilot.py` bind đúng tám file teacher v2.1 đã nghiệm thu,
+source/runtime/amendment và grant. Chỉ decode `pilot_tiny`32 và `diagnostic`
+1.000, recompute q từ đúng input D/C. Các file validation/test/swap mới chỉ
+được băm streaming, không forward student; không dùng market2021/2022,
+query_y, latent hoặc outcome nguồn feature để fit pilot.
+
+### Hai pilot đã đăng ký và cơ chế phục hồi
+
+CLI `scripts/pilot_mt_bicl_v2.py` chỉ cho `check-inputs`, `run --resume`
+và `verify [--replay]`, không cờ thay seed/step/loss/architecture hoặc CPU
+production. Chạy legacy trước, paired sau, mỗi case khởi tạo lại seed17,
+**đúng500 optimizer step**, batch128 = tiny-set32 lặp bốn lần đúng thứ tự.
+Đo raw logits/soft CE/KL/P95 trên tiny/diagnostic ở **0/250/500** và gradient
+query-only thật. **Paired cuối phải mean KL<10⁻³**; legacy không là gate,
+không chọn case/step tốt nhất. Không đạt thì STOP, không thêm step/tìm cấu hình.
+
+Capacity trước pilot chỉ forward/backward, dự trù hai buffer moment AdamW,
+không optimizer.step. Chọn128, chỉ thử64/32 nếu CUDA OOM; giữ cùng physical
+batch cho cả hai case/resume. Đây **không phải preflight100 step thật** của
+W10-12; pilot PASS chưa tự cấp train lớn. Nguồn/GPU/batch khác phải dừng.
+
+Checkpoint tạm mỗi25 bước và khi pause, có model/AdamW counter/RNG/source/
+teacher/corpus/runtime/budget. Report durable → journal REPORT_READY → xóa
+đúng weights tạm của case → COMPLETE; resume xử lý gián đoạn tại bước bỏ
+weights mà không train case đó thêm. Cả hai case hoàn tất **không giữ .pt
+hoặc export weights pilot**. Cold replay tái tạo đúng500 bước/case từ
+seed17 rồi so toàn receipt/loss curve/raw logits/tensor hash; proof
+`replay_verification.json` bind state, hai receipt và GPU.
+
+Namespace ignored mới: `outputs/bayesian_benchmark/mt_bicl_v2/pilot_v2/`:
+`state.json`, hai file theo tên case và proof replay. Dùng chung root OS
+lock và `active_budget_v2.json`; kế thừa **254,885267 giây** active đã dùng
+ở snapshot W10-10, **không cấp lại4 giờ**. Cả capacity, hai pilot, báo cáo,
+checkpoint và replay đều tính vào14.400 giây. Replay tái train để kiểm
+bằng chứng, không là lượt tìm cấu hình khác. Không tăng cap/hạn/gate.
+
+### Kiểm tra theo phạm vi
+
+**35 test PASS, không skip:**20 test mới (7 learner,6 leakage,7 pilot I/O),
+7 hồi quy teacher leakage và8 bank leakage; **21 test trong các suite
+leakage**. Biên dịch đúng7 file Python mới PASS. Test đo tác động causal/
+padding lên logit, q flip không đổi input/logit, gradient chỉ query/q detach,
+shared init, accumulation, KL cực trị không clip và scheduler endpoints.
+Learner thật fit **fixture4 context/200 bước CPU** tới mean KL<10⁻³;
+đây không phải tiny-set32 hoặc pilot500 thật.
+
+Test I/O dùng model scalar/AdamW thật để đi hết500 counter, pause/resume,
+REPORT_READY interruption, discard và cold replay; có thêm checkpoint/
+resume bit-identical trên learner thật bằng fixture CPU. Mock CUDA OOM để
+kiểm fallback, không dùng GPU để kiểm capacity. Các con số tiny KL từ
+mock trong log unittest không là kết quả khoa học production.
+
+CLI `check-inputs` thật PASS, chỉ đọc input/nguồn; UTF-8/link/checklist/diff/
+PowerShell QA và hash bằng chứng kiểm theo phạm vi. Không chạy toàn suite/
+E2E/compileall, không API hoặc pilot GPU. Windows Temp cho I/O test chạy
+ngoài sandbox như trước. Tám file teacher v2.1, STOP200,77 file v1,
+source/protocol/manifest/grant/ledger giữ nguyên; runtime không đổi.
+Đồng hồ công việc từ sau tạo nhánh đến mốc QA ghi **1.830,709 giây ≈30
+phút31 giây**; cộng các lower bound W10-10 trước đó là≥**3.858,280 giây**
+đã quan sát trong quỹ10 giờ. Chưa gồm những khoảng chưa đo/hoàn tất sau QA,
+không coi là tổng công sức đầy đủ. Active production vẫn254,885267 giây,
+chưa có optimizer pilot production; không cộng test CPU thành pilot thật.
+
+### Lệnh PowerShell người dùng chạy từ đầu đến cuối
+
+Chạy cùng Python3.13.5/torch/CUDA/GPU đã dùng trước đó; không cài lại
+dependency hoặc chạy lại fit teacher. Bước cuối replay thêm500 bước/case
+đúng cùng recipe để kiểm weights đã discard, có tính vào active budget.
+
+```powershell
+Set-Location -LiteralPath 'C:\Users\Legion\OneDrive\Tài liệu\GitHub\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma'
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $false
+$env:PYTHONUTF8 = '1'
+$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+
+function Invoke-MtBiclPilot {
+    py -3.13 -X utf8 scripts/pilot_mt_bicl_v2.py @args
+    $pilotExitCode = $LASTEXITCODE
+    if ($pilotExitCode -eq 2) {
+        Write-Warning 'Gate tiny-set FAIL; giữ kết quả và tiếp tục verify bằng chứng, không mở W10-12.'
+        return
+    }
+    if ($pilotExitCode -ne 0) {
+        throw "Pilot dừng với mã $pilotExitCode; mã3 là pause, mã1 là lỗi kỹ thuật."
+    }
+}
+
+Invoke-MtBiclPilot check-inputs
+Invoke-MtBiclPilot run --resume
+Invoke-MtBiclPilot verify --replay
+```
+
+Ctrl+C khi `run`: chờ hết step và lưu checkpoint, mã3; trong terminal mới
+chạy lại phần setup/hàm rồi cùng `run --resume`, không đổi seed/batch.
+Nếu cần giới hạn một phiên, thay dòng run bằng
+`Invoke-MtBiclPilot run --resume --session-minutes 90`; pause không giảm
+tổng500 bước/case. `verify --replay` có thể Ctrl+C dừng, artifact pilot
+giữ nguyên; chạy lại cùng lệnh replay từ seed17, không lấy weights dở.
+
+Mã0 hoàn tất bước; **mã2 giữ gate FAIL**, wrapper cho chạy tiếp verify để
+có proof của kết quả bất lợi; mã1/3 dừng chuỗi. Nghiệm thu W10-11 chỉ sau
+hai case đủ500, paired tiny gate PASS và proof optimizer replay khớp.
+Khi chạy xong, cung cấp kết quả để đối soát artifact/receipt; chưa chạy
+W10-12 hoặc forward student test trong lượt này.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 
