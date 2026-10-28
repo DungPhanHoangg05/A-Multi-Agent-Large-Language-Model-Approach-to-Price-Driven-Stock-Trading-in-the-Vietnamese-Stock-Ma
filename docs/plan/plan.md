@@ -9,7 +9,8 @@ Một candidate, một development và một xác nhận có điều kiện; kh�
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
 **Tiến độ:** W10 **11/14**, W11 **0/8**, W12 **0/6**; **W10-11 DONE**,
-hai pilot GPU và proof replay đã nghiệm thu, tiếp theo W10-12.
+hai pilot GPU và proof replay đã nghiệm thu; **W10-12 IN_PROGRESS**,
+pipeline train/selection/evaluate đã kiểm CPU, chờ preflight và ba seed GPU thật.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1304,8 +1305,15 @@ audit6.192 logits khớp≤1,11023e−16; source/receipt/bằng chứng cũ nguy
 Active tổng **456,492519 giây** sau teacher/pilot/replay. Quỹ active
 14.400 giây dùng chung, không reset; lệnh đầy đủ tại
 [W10-11](week10/README.md#w10-11--paired-learner-soft-query-loss-và-pilot-28102026).
-**11/14 DONE**, tiếp theo W10-12 preflight100 bước thật rồi train/selection
-có điều kiện. Chưa train chính, chọn candidate hoặc mở student test.
+**11/14 DONE; W10-12 IN_PROGRESS.** Đã thêm CLI preflight100 bước, train
+17/42/73×5.000, checkpoint/Adam/RNG/scheduler resume, đủ60 assessment và
+selection chỉ rank eligible theo2021. Test chỉ sau seal bất biến;
+no eligible không export/forward test, chỉ teacher/baselines2022.
+Evaluation/replay giữ kết quả bất lợi và không reselection; development/
+Decision=false. **74 test PASS,34 thuộc module leakage; bảy file Python
+mới biên dịch PASS**, không chạy toàn suite/E2E. Chưa chạy GPU production;
+active budget vẫn456,492519/14.400 giây, không reset quỹ10 giờ. Lệnh đầy đủ
+tại [W10-12](week10/README.md#w10-12--train-distillation-selection-có-điều-kiện-và-đánh-giá-28102026).
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
