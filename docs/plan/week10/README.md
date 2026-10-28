@@ -165,7 +165,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-06 | Train ba seed; chọn checkpoint bằng 2021, seal artifacts | 05 | [x] DONE — preflight GPU PASS, đủ 30.000 step/30 checkpoint; seed42 step1000 được chọn bằng 2021, seal/verify PASS |
 | W10-07 | Mechanism gate/synthetic test, validation 2022/calibration/baselines | 06 | [x] DONE — đánh giá/replay/integrity đầy đủ; cơ chế FAIL cả ba seed, NO_MT_BICL_RELEASE |
 | W10-08 | Audit nguyên nhân từ raw logits, curve 2021 và oracle trên thị trường; phân biệt sự kiện/giả thuyết | 07 | [x] DONE — mục 9, không nghiệm thu learner |
-| W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả/manifest/membership/fixture/verifier khóa; budget thực thi=0, chưa fit/train |
+| W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả khóa; sau đó người dùng cấp thêm10 giờ W10 v2, active≤4 giờ trong quỹ này; chưa fit/train |
 | W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [ ] TODO |
 | W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] TODO |
 | W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] TODO |
@@ -376,13 +376,14 @@ chuẩn bị adapter/CLI/dry-run; W10-14 là release duy nhất sang W11. Các c
 training/development/decision_calls tách riêng, mặc định false đến đúng gate.
 V2 không kế thừa PASS hoặc quyền release từ v1; pipeline cũ vẫn tái lập được.
 
-Giữ cửa sổ 28/10–10/11 và quỹ đã xác nhận 14–28 giờ. W10 còn lại đến01/11,
+Phân bổ đề xuất trước khoản bổ sung: cửa sổ28/10–10/11, quỹ14–28 giờ. W10 đến01/11,
 trần10 giờ: khoảng1 giờ protocol,2 giờ teacher/oracle,2 giờ learner/pilot,
 3 giờ train/evaluate,2 giờ integration/release (train nằm trong trần4 giờ
 riêng, không cộng ra ngoài tổng). Đây là dự toán cần đối soát tại W10-09.
 Không reset quỹ giờ khi đổi revision: training v1 đã ghi 3,284 giờ active;
 phải đối soát phần đã dùng và thời gian vận hành còn lại trước cấp budget v2.
-Trần 10 giờ/4 giờ không mặc nhiên là số giờ còn được cấp; không lấy dự toán
+Tại lúc đề xuất, trần10 giờ/4 giờ chưa phải số giờ được cấp. Sau W10-09,
+người dùng đã cấp riêng thêm10 giờ như cập nhật bên dưới; không lấy dự toán
 GPU thay ước lượng công sức tích hợp/kiểm thử/viết luận văn.
 Không đủ thời gian thì ghi NOT_RUN, không bỏ gate hoặc chuyển việc nặng sang
 phần viết luận văn. W11 phải release/bắt đầu xác nhận trước hết05/11;
@@ -477,6 +478,37 @@ ghi PASS chỉ từ fixture/recipe này.
 
 ### Ngân sách và điều kiện trước fit/train
 
+**Cập nhật sau khóa, 28/10/2026:** người dùng trả lời **“ok thêm 10 giờ cũng
+được”**. Ghi nhận **10 giờ bổ sung dành cho phần W10 v2 còn lại kể từ xác
+nhận này**, ngoài quỹ cũ; không suy ngược tổng giờ đã dùng hoặc trừ lại chi
+phí v1 vào khoản mới. [budget_v2.json](budget_v2.json) lưu nguyên lời xác
+nhận, binding protocol và hạn mức. **Active train/pilot≤4 giờ chung, nằm
+trong10 giờ**, không cộng thành14 giờ; phạm vi gồm cả generation/cache,
+preflight, validation/checkpoint và seal/replay như protocol. Công sức
+triển khai/kiểm thử/teacher/integration cũng tính trong10 giờ, mỗi khoảng
+thời gian chỉ tính một lần. Không điều chuyển phần W11/W12/viết luận văn
+của quỹ cũ. Tổng đã dùng và dự trữ cũ chưa được báo: giữ null, không ghi0.
+
+Khoản bổ sung thay điều kiện chờ đối soát quỹ cũ cho **quyền ngân sách**;
+không sửa protocol đã khóa hoặc tự cấp release kỹ thuật. W10-10 có thể
+tiếp tục triển khai teacher trong phần được cấp; trước GPU vẫn phải đủ
+teacher/oracle, paired pilot, preflight và kế toán chi phí thực chứng minh
+ba seed nằm trong phần active còn lại. Giữ mốc01/11,05/11,07/11,10/11 và
+mọi gate. **Chưa fit/train/API trong lượt ghi nhận này.**
+
+Receipt có SHA-256 canonical payload
+`52b7d54ba31f6c02f12c304877a36dbe1958337152f6f77d957644064c128cf4`.
+Lượt cập nhật chỉ sửa kế hoạch/receipt và thuộc tính giữ byte JSON: kiểm
+schema trường bắt buộc, hash, hạn mức4/10 giờ, liên kết/diff và verifier
+đặc tả thật; không chạy lại unit/leakage/E2E/compileall vì không đổi code,
+runtime hoặc đường thực thi (AGENTS.md1.2). Viện dẫn29 test từ W10-09,
+không ghi vừa chạy lại. Protocol/manifest/fixture/membership,77 file v1,
+nguồn và ledger giữ nguyên; receipt chưa là output của consumer ngân sách
+W10-10–12, không tự tuyên bố release kỹ thuật.
+
+Phần dưới lưu **snapshot tại thời điểm khóa, trước xác nhận bổ sung**, không
+còn là lý do chặn ngân sách hiện hành:
+
 Quỹ tổng **14–28 giờ** không reset. V1 đã dùng tối thiểu **3,283772 giờ
 active**; chưa biết công sức đã dùng cho code/test/vận hành. Phần tổng còn
 lại chỉ có **trần trên10,716228–24,716228 giờ**, không là giờ được bảo đảm.
@@ -511,7 +543,9 @@ sửa test để né kiểm tra. Đối soát trước/sau đủ **77 file/265.6
 nguyên vẹn; ledger/nguồn giá/W9 vẫn khớp verifier kế thừa. Các gate v1 là
 bằng chứng lịch sử, không được ghi thành PASS teacher/student v2.
 
-Khối sau chạy từ đầu đến cuối, chỉ đối soát; **không cần chạy GPU**:
+Khối sau chạy từ đầu đến cuối, chỉ đối soát; **không cần chạy GPU**. CLI
+kiểm snapshot protocol nên vẫn in `budget cấp=0`; khoản cấp sau khóa nằm
+riêng tại `budget_v2.json`, không sửa snapshot để thay thông báo này:
 
 ```powershell
 Set-Location -LiteralPath 'C:\Users\Legion\OneDrive\Tài liệu\GitHub\A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma'

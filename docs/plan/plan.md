@@ -13,11 +13,14 @@ W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
 2022. V2 sửa cả learner/selection và giả định teacher; chưa triển khai
 teacher/learner hoặc cấp quyền development. W10-09 khóa protocol/manifest/membership/
-fixture v2; chưa fit hoặc train, budget thực thi=0 đến khi đối soát giờ thực.
+fixture v2; chưa fit hoặc train. Người dùng đã cấp thêm10 giờ cho phần W10
+v2 còn lại; active train/pilot≤4 giờ nằm trong quỹ này, không đổi hạn/gate.
 W10-10–14 là chuỗi triển khai tiếp theo.
 Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
 1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
 hoàn thành thực nghiệm chỉ từ benchmark GPU.
+Khoản10 giờ bổ sung cho W10 v2 được xác nhận riêng sau khóa W10-09; không
+coi là tổng giờ cũ đã được đối soát hoặc kéo dài cửa sổ đến10/11.
 [Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
 [phân tích/bản nộp W12](week12/README.md) là nguồn điều hành; mục 5.6 tóm tắt.
 W1–W9 và thiết kế trước đó là lịch sử, không lặp lại task đã hoàn tất.
@@ -1246,9 +1249,12 @@ tự sửa ngưỡng/model hoặc train thêm để vượt gate trong protocol 
 
 **Amendment 28/10 — W10-08/09 DONE:** audit raw logits/curve/checkpoint và
 oracle market; giữ v1 NO_MT_BICL_RELEASE. W10-09 đã khóa protocol v2 và
-manifest/membership/fixture/verifier; chưa fit/train/API, budget cấp=0 chờ
-đối soát giờ thực. Trần W10 còn lại≤6,716228 giờ (chưa trừ việc khác), thấp
-hơn dự toán v2 thêm10 giờ; chưa đủ bằng chứng khả thi. Tiếp theo10 teacher
+manifest/membership/fixture/verifier; chưa fit/train/API. Sau khóa, người dùng
+cấp **thêm10 giờ cho phần W10 v2 còn lại**, ghi tại
+[budget_v2.json](week10/budget_v2.json); active train/pilot≤4 giờ là phần con
+của10 giờ. Khoản mới thay điều kiện chờ đối soát quỹ cũ về ngân sách, không
+reset chi phí v1, lấy giờ W11/W12 hoặc thay protocol/gate/hạn. Chưa bảo đảm
+pipeline thực vừa trần, phải kiểm trước train. Tiếp theo10 teacher
 train-only →11 sửa learner/pilot →12 train/selection/evaluate →13 adapter/
 dry-run →14 release. [Mục9 W10](week10/README.md#9-khắc-phục-nguyên-nhân-và-protocol-v2--28102026)
 phân biệt sự kiện với giả thuyết; ngưỡng cơ chế không giảm, deadline không đổi.
