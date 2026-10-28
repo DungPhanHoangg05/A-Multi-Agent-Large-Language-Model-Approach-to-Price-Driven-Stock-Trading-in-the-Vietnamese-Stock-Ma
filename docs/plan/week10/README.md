@@ -1,7 +1,8 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–11 DONE, 11/14 task DONE; tiếp theo W10-12.
-Teacher v2.1 hội tụ ở vòng237; hai pilot đã kiểm, chưa train chính.
+**Amendment 28/10/2026: W10-01–11 DONE, 11/14 task DONE; W10-12 IN_PROGRESS.
+Teacher v2.1 hội tụ ở vòng237; pipeline train/selection/evaluate đã triển khai,
+chờ người dùng chạy preflight100 bước và train ba seed thật.
 Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE; chưa release development.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -169,7 +170,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả khóa; sau đó người dùng cấp thêm10 giờ W10 v2, active≤4 giờ trong quỹ này; chưa fit/train |
 | W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [x] DONE — amendment1.000 vòng khóa trước fit; hội tụ237, PPC/corpus/oracle đầy đủ; giữ bất lợi PPC |
 | W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [x] DONE — hai pilot GPU đủ500 bước, paired tiny KL4,65207e−10; optimizer replay/hash PASS, chờ preflight train lớn |
-| W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] TODO |
+| W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] IN_PROGRESS — CLI/checkpoint/selection seal/evaluate/replay đã kiểm CPU; chờ preflight và ba seed GPU thật |
 | W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
 | W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
 
@@ -1001,6 +1002,141 @@ Windows ngoài sandbox như đã xác định; không sửa code để vượt k
 seed trong active budget còn lại, fresh initialization17/42/73,5.000 bước/
 seed và selection có điều kiện cơ chế trên validation. Chưa preflight,
 train chính, chọn candidate hoặc mở student test trong lượt nghiệm thu này.
+
+## W10-12 — Train distillation, selection có điều kiện và đánh giá, 28/10/2026
+
+**IN_PROGRESS — hoàn tất triển khai và kiểm thử CPU, chưa nghiệm thu GPU.**
+CLI [train_mt_bicl_v2.py](../../../scripts/train_mt_bicl_v2.py) sử dụng ba
+module lõi mới và learner đã khóa; giữ nguyên teacher v2.1, pilot, protocol v2/v2.1,
+v1 FAIL và bằng chứng W9. Nhánh `feat/gated-distillation-training` tách từ
+`develop` tại `d8cbdee`. Không gọi LLM/API hoặc mở development/Decision.
+
+Preflight chạy **100 optimizer step thật** bằng stream riêng/seed17,
+discard weights; chỉ hạ physical128→64→32 khi CUDA OOM trong preflight,
+effective128 và cùng physical cho cả ba seed. Dự toán đo generation,
+teacher q, packing, optimizer, checkpoint/readback, forward đủ20.248 query
+validation/2021, derive metric và JSON roundtrip. Tính đủ15.000 update,
+600 snapshot định kỳ,60 assessment và60 cold replay, tối đa ba đánh giá test cùng replay và
+biên IO; vượt active budget còn lại thì khóa
+`INFEASIBLE_WITHIN_REMAINING_BUDGET`, không tự giảm seed/step/model/gate.
+
+Train **17→42→73, mỗi seed5.000 step**, khởi tạo mới, paired37/FP32,
+AdamW/lịch warmup250–cosine đúng protocol. Mỗi batch là128 episode synthetic
+`(step−1)*128+i`; q tính bằng teacher từ D/C, không từ latent/query_y hoặc
+nhãn thị trường. Checkpoint mốc250 bất biến, giữ đủ60 weights và60 báo cáo;
+resume snapshot mỗi25 bước hoặc pause. Lưu Adam moments/counter, RNG,
+scheduler, batch/accumulation, source/runtime và active seconds; đọc lại kiểm
+hash/dtype/shape/counter/cấu hình optimizer. Pending assessment phải xong
+trước update tiếp; checkpoint orphan chỉ nhận nếu tensor/Adam/RNG khớp
+chính xác khi chạy tiếp từ snapshot trước, không tự ghi đè.
+
+Mọi checkpoint, kể cả trượt cơ chế, đều có full/blind synthetic5.000,
+swapA/B5.000 cặp và cùng248 query2021. KL/P95, dấu/biên độ/correlation Δp,
+K/m/joint/cold-start và IID/stress giữ đủ; constant/control quá phẳng dẫn
+đến inconclusive theo protocol. Chỉ checkpoint **eligible** được rank bằng
+macro log loss/Brier2021 đã round12, step, thứ tự seed. Bắt buộc đủ ba seed/
+60 báo cáo trước `selection.json` bất biến; không fallback market-best.
+
+Sau seal, mỗi seed có eligible được đánh giá đúng checkpoint riêng; seed
+không eligible **NOT_RUN**, không mượn checkpoint. Global không eligible:
+**NO_ELIGIBLE_CHECKPOINT**, không export, không decode/forward student test;
+chỉ teacher/baselines2022. Có eligible: export model-only, mở đúng corpus
+test/swap đã khóa; báo full/blind/no_prior/no_target, teacher/constant/
+pooling controls. Mọi variant thị trường dùng cùng256 query2022; baseline
+fit đúng731 cycle train. Có calibration10 bin, strata/support, r_net gain/
+loss theo fraction, student−teacher/baselines và kết quả bất lợi; không suy
+ER/P&L từ p. Candidate test FAIL vẫn giữ nguyên selection,
+**NO_MT_BICL_RELEASE_V2**, không reselection. PASS cơ chế vẫn chỉ là
+`MECHANISM_PASS_AWAITING_INTEGRATION`; development/Decision=false.
+
+Teacher PPC quá phân tán, diagnostic pilot còn kém, kết quả2022 đã có
+exposure và các teacher/constant test diagnostics từng xem vẫn được giữ
+nguyên hạn chế; test student mới chỉ mở sau seal, không gọi2022 là holdout
+chưa từng xem. Kết quả v1 không được sửa hoặc thay bằng v2.
+
+Theo AGENTS.md1.2, chọn đúng đường learner/metric, checkpoint/selection/
+test barrier và PIT/context: **74 test riêng biệt PASS, trong đó34 thuộc
+các module leakage**;21 test mới gồm scalar CPU đủ15.000 update/60 mốc,
+pause/resume chính xác Adam/RNG/lr, pending/orphan, preflight OOM-only,
+no-eligible không test/export, candidate test FAIL không reselection,
+export model-only và cold replay. Bảy file Python mới biên dịch PASS.
+Không chạy toàn unit suite, compileall hoặc E2E; không gọi các fixture CPU
+là kết quả train/preflight/replay GPU thật. Các subset được kiểm lại khi
+thay đổi trực tiếp; không cộng lần chạy lặp vào74 test.
+
+Kiểm tích hợp bổ sung dùng batch128 synthetic train thật, q so với oracle
+tuần tự độc lập sai số tối đa**1,965095e−14**, một update learner thật trên
+CPU/lr step1 hữu hạn và đổi weights; model tạm đã bỏ, không ghi checkpoint
+production. Đây không phải preflight100 bước hoặc train GPU chính.
+
+Kiểm `check-inputs` chỉ đọc PASS trước bàn giao. Active budget production
+giữ **456,492519/14.400 giây** sau teacher/pilot, còn13.943,507481 giây;
+quỹ4 giờ dùng chung, không reset. Các lệnh thực thi tính cả kiểm input
+trước stage vào budget cũ. Fixture CPU ở thư mục tạm không dùng ngân sách
+production. Thời gian triển khai lượt này tới mốc QA đã đo≥**2.590,517 giây**;
+cộng lower bound trước đó≥**6.448,797 giây** trong quỹ10 giờ. Đây không phải
+tổng công sức đầy đủ; khoảng chưa đo/chi phí người dùng chạy tiếp không
+được tính là0 hoặc cấp lại10 giờ.
+
+### Lệnh người dùng chạy từ trên xuống dưới
+
+Mở PowerShell ở thư mục repo, dùng đúng Python3.13.5/CUDA/runtime đã khóa.
+Không chạy song song với teacher/pilot hoặc lệnh khác dùng namespace v2.
+Đọc kết quả preflight; script tự chặn train khi dự toán không đủ ngân sách.
+Chạy mỗi lệnh một lần; khi pause/lỗi chỉ tiếp tục đúng lệnh đang dở,
+không xóa state/checkpoint/budget hoặc chạy lại từ đầu.
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $false
+$env:CUBLAS_WORKSPACE_CONFIG = ':4096:8'
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py check-inputs
+if ($LASTEXITCODE -ne 0) { throw 'Input không đạt; dừng.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py preflight
+if ($LASTEXITCODE -ne 0) { throw 'Preflight chưa PASS; dừng, giữ nguyên bằng chứng/ngân sách.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py train --seed 17 --resume
+if ($LASTEXITCODE -ne 0) { throw 'Seed17 chưa COMPLETE; chạy tiếp đúng lệnh này khi sẵn sàng.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py train --seed 42 --resume
+if ($LASTEXITCODE -ne 0) { throw 'Seed42 chưa COMPLETE; chạy tiếp đúng lệnh này khi sẵn sàng.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py train --seed 73 --resume
+if ($LASTEXITCODE -ne 0) { throw 'Seed73 chưa COMPLETE; chạy tiếp đúng lệnh này khi sẵn sàng.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py seal
+if ($LASTEXITCODE -ne 0) { throw 'Selection chưa khóa; không mở test.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py evaluate --resume
+if ($LASTEXITCODE -ne 0) { throw 'Evaluation chưa hoàn tất; chạy tiếp đúng lệnh này.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py verify --replay
+if ($LASTEXITCODE -ne 0) { throw 'Cold replay chưa PASS; giữ nguyên artifacts để kiểm tra.' }
+
+py -3.13 -X utf8 scripts/train_mt_bicl_v2.py verify
+if ($LASTEXITCODE -ne 0) { throw 'Verifier chưa PASS; chưa nghiệm thu.' }
+```
+
+Nếu chỉ có60 phút/phiên, dùng `train --seed <seed-đang-dở> --resume
+--session-minutes 60`; hết phiên trả mã3, chạy lại chính lệnh đó đến khi
+COMPLETE rồi chuyển seed. Có thể Ctrl+C một lần và đợi checkpoint/pending
+assessment xong; không đóng cưỡng bức terminal. `evaluate --resume` cũng có
+`--session-minutes 60`, pause tại ranh giới stage. Seal/verify dừng giữa
+chừng thì giữ artifacts và chạy lại nguyên lệnh; hard crash tính bảo thủ
+cả gap trong active budget, không xóa counter để né cap.
+
+Mã0 nghĩa stage kỹ thuật hoàn tất **kể cả kết quả khoa học FAIL hoặc
+NO_ELIGIBLE_CHECKPOINT**; mã1 lỗi kỹ thuật/budget/lịch, mã2 preflight bất khả
+thi, mã3 pause. Không dừng chuỗi vì thấy FAIL cơ chế ở checkpoint; vẫn cần
+đủ60 report rồi seal và báo kết quả âm. Chỉ chạy cold replay một lần để tạo
+proof, các lần kiểm sau dùng `verify` thường. Output mới ở
+`outputs/bayesian_benchmark/mt_bicl_v2/training_v2/`: `preflight.json`,
+`state.json`, `seed*/checkpoint-*.pt`, `*.assessment.json`, `selection.json`,
+`evaluation/`, `report.json`, `replay_verification.json`; `candidate.pt` chỉ
+có khi eligible. Giữ tất cả để nghiệm thu. **W10 vẫn11/14 DONE** cho đến khi
+nghiệm thu execution/proof GPU thật; chưa chạy W10-13 hoặc development.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 
