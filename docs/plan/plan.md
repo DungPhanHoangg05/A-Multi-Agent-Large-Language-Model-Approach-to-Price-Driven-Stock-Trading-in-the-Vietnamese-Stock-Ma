@@ -8,15 +8,16 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **10/14**, W11 **0/8**, W12 **0/6**; **W10-10 DONE**,
-W10-11 IN_PROGRESS: mã/kiểm CPU xong, chờ hai pilot GPU và proof replay.
+**Tiến độ:** W10 **11/14**, W11 **0/8**, W12 **0/6**; **W10-11 DONE**,
+hai pilot GPU và proof replay đã nghiệm thu, tiếp theo W10-12.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
 constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
 2022. Teacher v2.1 đã fit train-only, delta9,827133551354e−11 đạt<1e−10;
 PPC1.000 replicate và corpus/oracle hoàn tất. Giữ cảnh báo PPC quá phân tán,
-learner v2 đã triển khai nhưng chưa chạy pilot GPU hoặc release development.
+Hai pilot learner v2 đã PASS tiny-fit/replay; chưa train chính hoặc release
+development. Diagnostic còn kém, không suy generalization từ tiny-fit.
 W10-09 khóa protocol/manifest/membership/
 fixture v2. Người dùng đã cấp thêm10 giờ cho phần W10
 v2 còn lại; active train/pilot≤4 giờ nằm trong quỹ này, không đổi hạn/gate.
@@ -1195,7 +1196,7 @@ chứng. Giữ phần cuối tuần cho đối soát, thống kê và khóa bả
   bằng chứng nhân quả. Run/ledger/archive ignored phải giữ cùng workspace;
   bản đồ chương kết quả và lệnh tái lập lưu tại README W9; bàn giao W10 cũ nằm trong archive.
 
-### TUẦN 10: MT-BICL và tích hợp — 10/14 DONE; v1 FAIL, v2.1 chưa release
+### TUẦN 10: MT-BICL và tích hợp — 11/14 DONE; v1 FAIL, v2.1 chưa release
 [Checklist W10](week10/README.md#7-checklist-w10): nguồn/exposure, protocol,
 dense bank, tasks, oracle, learner, mechanism/validation, tích hợp,
 dry-run/probe và release. W10-01 đã kiểm nguồn/raw/archive/exposure/W9 và
@@ -1288,16 +1289,23 @@ corpus/index đã seal, không student forward hoặc API/GPU. **32 test PASS,
 Chi tiết/hash/lệnh CPU tại mục W10-10 của README W10. **10/14 DONE**, tiếp
 W10-11 packing/loss/pilot, chưa phát hành development hoặc chứng minh hiệu quả.
 
-**W10-11 IN_PROGRESS:** paired37/legacy69 cùng soft query loss, pre-LN/GELU/
+**W10-11 DONE — nghiệm thu28/10:** paired37/legacy69 cùng soft query loss, pre-LN/GELU/
 dropout0/final LayerNorm,271.873/275.969 tham số; source/teacher v2.1 đã bind.
 CLI GPU hai case seed17×500 step, tiny32 lặp4, diagnostic1.000; chỉ paired
 KL<10⁻³ là gate tiny-fit. Có capacity OOM-only, AdamW/RNG checkpoint/resume,
 discard weights và optimizer cold replay/proof; không đọc student validation/
 test hoặc dùng market2022 để chọn cấu hình. **35 test PASS,21 leakage**,
-7 file mới biên dịch PASS; chỉ CPU fixture, chưa pilot GPU thật. Quỹ active
+7 file mới biên dịch PASS ở lượt triển khai CPU, không chạy lại suite khi
+nghiệm thu. GPU thật seed17 đủ500 bước/case, batch128/accumulation1; paired
+tiny KL **4,652074489520e−10<10⁻³**, integrity/proof `OPTIMIZER_REPLAY_MATCH`
+PASS, weights đã bỏ. Diagnostic paired KL/P95 **0,072556541606/0,374622402826**
+còn kém; tiny-fit không chứng minh generalization hoặc lợi nhuận. Scalar
+audit6.192 logits khớp≤1,11023e−16; source/receipt/bằng chứng cũ nguyên byte.
+Active tổng **456,492519 giây** sau teacher/pilot/replay. Quỹ active
 14.400 giây dùng chung, không reset; lệnh đầy đủ tại
 [W10-11](week10/README.md#w10-11--paired-learner-soft-query-loss-và-pilot-28102026).
-W10 vẫn10/14 DONE; nghiệm thu task sau khi người dùng chạy run/replay.
+**11/14 DONE**, tiếp theo W10-12 preflight100 bước thật rồi train/selection
+có điều kiện. Chưa train chính, chọn candidate hoặc mở student test.
 
 ### TUẦN 11: Development và release xác nhận — TODO 0/8
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/

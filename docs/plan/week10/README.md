@@ -1,7 +1,7 @@
 # Tuần 10 — Học Bayes từ prior tasks và target context
 
-**Amendment 28/10/2026: W10-01–10 DONE, 10/14 task DONE; W10-11 IN_PROGRESS.
-Teacher v2.1 hội tụ ở vòng237, oracle/corpus đã kiểm; learner chưa train.
+**Amendment 28/10/2026: W10-01–11 DONE, 11/14 task DONE; tiếp theo W10-12.
+Teacher v2.1 hội tụ ở vòng237; hai pilot đã kiểm, chưa train chính.
 Candidate v1 vẫn FAIL / NO_MT_BICL_RELEASE; chưa release development.**
 [Kế hoạch tổng](../plan.md) · [W11](../week11/README.md) · [W12](../week12/README.md)
 
@@ -168,7 +168,7 @@ Citation chỉ telemetry. Prior-off reuse chỉ khi canonical request trùng.
 | W10-08 | Audit nguyên nhân từ raw logits, curve 2021 và oracle trên thị trường; phân biệt sự kiện/giả thuyết | 07 | [x] DONE — mục 9, không nghiệm thu learner |
 | W10-09 | Khóa amendment/protocol v2, teacher, tokenizer/loss, selection, RNG và ngân sách trước fit/train | 08 | [x] DONE — đặc tả khóa; sau đó người dùng cấp thêm10 giờ W10 v2, active≤4 giờ trong quỹ này; chưa fit/train |
 | W10-10 | Teacher Beta-Bernoulli phân cấp, fit hyper-prior train-only, oracle độc lập và prior-predictive audit | 09 | [x] DONE — amendment1.000 vòng khóa trước fit; hội tụ237, PPC/corpus/oracle đầy đủ; giữ bất lợi PPC |
-| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [ ] IN_PROGRESS — mã/35 test PASS; chờ hai pilot GPU và replay, chưa release train lớn |
+| W10-11 | Sửa packing/loss; kiểm small-set fit, causal/gradient và pilot chẩn đoán có giới hạn | 10 | [x] DONE — hai pilot GPU đủ500 bước, paired tiny KL4,65207e−10; optimizer replay/hash PASS, chờ preflight train lớn |
 | W10-12 | Train/distill ba seed; selection có điều kiện cơ chế; đánh giá mới và báo thị trường | 11 | [ ] TODO |
 | W10-13 | Adapter/paired/retry/checkpoint, dry-run 60 điểm và semantic probe; test đường đổi | 12 đạt cơ chế/technical | [ ] TODO — có điều kiện |
 | W10-14 | Freeze teacher/student/runtime/protocol, verifier lạnh và release development v2 | 13 | [ ] TODO — có điều kiện |
@@ -801,10 +801,11 @@ v2.1/converged và corpus đã khóa này, chưa mở student test hoặc train 
 
 ## W10-11 — Paired learner, soft query loss và pilot, 28/10/2026
 
-**IN_PROGRESS — phần triển khai/kiểm CPU hoàn tất, chờ người dùng chạy GPU.**
+**DONE — nghiệm thu pilot GPU, receipt và proof replay ngày28/10/2026.**
 Nhánh `feat/paired-distillation-pilot` từ `develop` tại `b26e5d1`, đã pull.
-Chưa tạo run `pilot_v2/` thật; không ghi tiny-fit hoặc pilot GPU PASS từ
-unit test. W10 vẫn **10/14 DONE**; W10-12 chưa được mở train lớn.
+Mã triển khai merge tại `0267c51`. Lúc bàn giao chưa tạo run `pilot_v2/`
+thật; người dùng đã chạy đủ hai case và replay, kết quả thật ở cuối mục.
+W10 hiện **11/14 DONE**; W10-12 vẫn cần preflight100 bước trước train lớn.
 
 ### Learner và phạm vi dữ liệu
 
@@ -860,7 +861,7 @@ lock và `active_budget_v2.json`; kế thừa **254,885267 giây** active đã d
 checkpoint và replay đều tính vào14.400 giây. Replay tái train để kiểm
 bằng chứng, không là lượt tìm cấu hình khác. Không tăng cap/hạn/gate.
 
-### Kiểm tra theo phạm vi
+### Kiểm tra khi triển khai, trước GPU
 
 **35 test PASS, không skip:**20 test mới (7 learner,6 leakage,7 pilot I/O),
 7 hồi quy teacher leakage và8 bank leakage; **21 test trong các suite
@@ -884,11 +885,14 @@ source/protocol/manifest/grant/ledger giữ nguyên; runtime không đổi.
 Đồng hồ công việc từ sau tạo nhánh đến mốc QA ghi **1.830,709 giây ≈30
 phút31 giây**; cộng các lower bound W10-10 trước đó là≥**3.858,280 giây**
 đã quan sát trong quỹ10 giờ. Chưa gồm những khoảng chưa đo/hoàn tất sau QA,
-không coi là tổng công sức đầy đủ. Active production vẫn254,885267 giây,
+không coi là tổng công sức đầy đủ. Snapshot trước GPU ghi254,885267 giây active,
 chưa có optimizer pilot production; không cộng test CPU thành pilot thật.
 
-### Lệnh PowerShell người dùng chạy từ đầu đến cuối
+### Lệnh PowerShell đã dùng từ đầu đến cuối
 
+Run đã nghiệm thu; không cần chạy lại pilot/replay GPU. Lệnh đối soát hiện
+tại là `py -3.13 -X utf8 scripts/pilot_mt_bicl_v2.py verify`, dùng proof đã
+khóa, không optimizer. Khối dưới lưu quy trình đã dùng, cùng runtime/GPU.
 Chạy cùng Python3.13.5/torch/CUDA/GPU đã dùng trước đó; không cài lại
 dependency hoặc chạy lại fit teacher. Bước cuối replay thêm500 bước/case
 đúng cùng recipe để kiểm weights đã discard, có tính vào active budget.
@@ -927,8 +931,76 @@ giữ nguyên; chạy lại cùng lệnh replay từ seed17, không lấy weight
 Mã0 hoàn tất bước; **mã2 giữ gate FAIL**, wrapper cho chạy tiếp verify để
 có proof của kết quả bất lợi; mã1/3 dừng chuỗi. Nghiệm thu W10-11 chỉ sau
 hai case đủ500, paired tiny gate PASS và proof optimizer replay khớp.
-Khi chạy xong, cung cấp kết quả để đối soát artifact/receipt; chưa chạy
-W10-12 hoặc forward student test trong lượt này.
+Các điều kiện trên đã đối soát tại lượt nghiệm thu bên dưới. Chưa chạy
+preflight/train chính W10-12 hoặc forward student test trong lượt nghiệm thu.
+
+### Nghiệm thu artifact thật, 28/10/2026
+
+**PASS trong phạm vi W10-11.** CLI `verify` thật exit0:
+`Integrity=PASS; replay=PASS; paired tiny gate=PASS`. Nghiệm thu chỉ kiểm
+source/runtime/input/GPU, metric và proof hiện hữu; không chạy lại optimizer
+hoặc GPU replay. Proof `OPTIMIZER_REPLAY_MATCH` ghi nhận người dùng đã tái
+tạo500 bước/case từ seed17, so khớp toàn receipt/raw logits/loss curve/model
+fingerprint theo code đã khóa.
+
+Cả legacy và paired `COMPLETE`, đúng **500 optimizer step/case**, seed17;
+physical/effective **128/128**, accumulation1. Capacity PASS ngay128, không
+OOM hoặc đổi batch. GPU **RTX5060 Laptop/CUDA12.8**, một device, capability
+12.0; runtime/source khớp receipt. Gradient thật của32 query/case hữu hạn,
+nonzero ngoài query=0. Checkpoint pointer đã xóa, không còn weights `.pt`
+trong namespace pilot, không export weights sang train chính.
+
+| Packing | Step | Mean KL tiny32 | Mean KL diagnostic1.000 | P95 error diagnostic |
+| --- | ---: | ---: | ---: | ---: |
+| Legacy X/Y69 | 0 | 0,068413947944 | 0,070200961059 | 0,341923495021 |
+| Legacy X/Y69 | 250 | 7,124622142252e−10 | 0,090425737268 | 0,408791523960 |
+| Legacy X/Y69 | 500 | 7,748581949685e−10 | 0,089108220483 | 0,405815870195 |
+| Paired37 | 0 | 0,076396768546 | 0,073270633541 | 0,348351464604 |
+| Paired37 | 250 | 4,881188959971e−10 | 0,072619328068 | 0,374696658394 |
+| **Paired37** | **500** | **4,652074489520e−10 <10⁻³ — PASS** | **0,072556541606** | **0,374622402826** |
+
+Không chọn step250 hoặc đổi architecture theo bảng. Cả hai packing fit
+được tập nhỏ dưới recipe soft-loss mới; kết quả không chứng minh packing
+là nguyên nhân duy nhất khiến v1 thất bại. **Diagnostic còn kém**, paired
+KL/P95 chưa đạt các mức0,02/0,10; diagnostic này không phải gate validation
+đã đăng ký W10-12. Tiny-fit PASS chỉ là sanity check, không xác nhận Bayes
+generalization, hiệu quả thị trường hoặc cho phép reuse weights pilot.
+
+Đối chiếu bổ sung **6.192 raw logits/q** (hai case×ba step×(32+1.000)) bằng
+scalar `math.fsum`/logsigmoid, P95 nội suy từ danh sách sort: mọi KL/soft CE/
+MAE/P95 khớp trong **1,11023×10⁻¹⁶**. Tiny/diagnostic cùng tensor hash tại
+từng step, q khớp đúng corpus frozen. Giữ đủ các kết quả diagnostic bất lợi.
+
+Bốn file khoa học frozen ở
+`outputs/bayesian_benchmark/mt_bicl_v2/pilot_v2/`, tổng **565.317 byte**:
+
+| File | Byte | SHA-256 |
+| --- | ---: | --- |
+| [LEGACY_X_Y_69_WITH_TASK_SLOT.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/pilot_v2/LEGACY_X_Y_69_WITH_TASK_SLOT.json) | 279.610 | `2c8f551a2c3905cda0e82b6af4eba53eadf2019a9c4ee787da4abc434b5e9762` |
+| [PAIRED_37.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/pilot_v2/PAIRED_37.json) | 279.625 | `ea0dcc8a01aeb081925dc35ea089f411ff154fdfd8ab8edfaab0b27e2d16a583` |
+| [state.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/pilot_v2/state.json) | 5.028 | `7bd4de906bd01833cbaa0966dda4970238ab2e4bc405f7c2cbe98ad64aeb86b9` |
+| [replay_verification.json](../../../outputs/bayesian_benchmark/mt_bicl_v2/pilot_v2/replay_verification.json) | 1.054 | `f51524b57f70a3612cdc4a16f956ffdbf26ae65fa0c972b546b8814cd60faba7` |
+
+Identity canonical:
+`3488ccc303d3593c15184de0c873f77926da28e93468a372031521900021ee7c`.
+State `PILOT_PASS_AWAITING_PREFLIGHT`; training/development/Decision vẫn
+false. Active dùng chung sau pilot+replay **456,492519 giây ≈7 phút36 giây**,
+tăng **201,607252 giây** từ mốc W10-10; còn dưới trần14.400 giây, không
+reset phần đã dùng. Đây không phải tổng công sức10 giờ hoặc phép đo đủ
+để bảo đảm ba seed train chính vừa ngân sách.
+
+Lượt nghiệm thu chỉ sửa hai Markdown; theo AGENTS.md1.2 **không chạy lại
+unit/leakage/E2E/compileall hoặc biên dịch Python**. Viện dẫn đúng **35 test
+PASS/21 leakage** ở lượt triển khai với code/runtime nguyên vẹn; không ghi
+vừa chạy lại. CLI verify, scalar audit, hash/source/runtime/link/checklist/
+diff PASS. Bốn file pilot, tám file teacher v2.1, STOP200,77 file v1 và
+protocol/grant/ledger giữ nguyên byte trước/sau. OS lock cần quyền đọc boot
+Windows ngoài sandbox như đã xác định; không sửa code để vượt kiểm tra.
+
+**Tiếp theo W10-12:** preflight100 bước pipeline thật, dự toán đủ cả ba
+seed trong active budget còn lại, fresh initialization17/42/73,5.000 bước/
+seed và selection có điều kiện cơ chế trên validation. Chưa preflight,
+train chính, chọn candidate hoặc mở student test trong lượt nghiệm thu này.
 
 ## W10-01 — Inventory và khả năng thực thi, 27/10/2026
 
