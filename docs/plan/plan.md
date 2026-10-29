@@ -10,6 +10,13 @@ Bayesian utility khi sửa quyết định nền. Không train lại student, kh
 promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn12 tuần.
 V3 mới là kế hoạch, chưa code/protocol/release/API.
 
+**Cập nhật ngân sách 29/10/2026:** người dùng xác nhận ngân sách thời gian
+chạy được reset. Đợt v3 tính thời gian chạy mới từ 0, không khấu trừ thời
+gian các run v1/v2 hoặc chờ đối soát số dư cũ để được triển khai. W11-07
+ghi ngân sách mới vào protocol; giữ lịch 12 tuần, các mốc hoàn tất và khung
+phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
+thay quota API; chi tiết tại W11 mục13.4.
+
 **Tiến độ:** W10 **14/14**, W11 **5/15** (01–04 và audit06), W12 **0/6**.
 Tiếp theo **W11-05** đóng nomination v2 rồi **W11-07** khóa protocol v3.
 Receipt mô tả vẫn NOT_EVALUATED; số liệu đã không đạt rule, không cấp xác nhận v2.
@@ -77,7 +84,9 @@ chạy toàn suite để cập nhật checklist. W10-01 kiểm quỹ thời gian
 GPU; W12 ngày hai khóa dữ liệu, sau đó luận văn/tái lập/slide/bảo vệ.
 Lịch làm việc từ xác nhận 27/10: 28/10–10/11, khóa dữ liệu cuối 07/11;
 đây là mốc quản lý, không xác nhận hạn nộp chính thức của trường. Phân bổ
-quỹ giờ và điều kiện NOT_RUN tại [W10-01](week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026).
+quỹ giờ ban đầu tại [W10-01](week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026).
+Với đợt v3, áp dụng reset thời gian chạy được xác nhận ngày29/10 ở trên;
+các số dư/nguyên tắc không reset trong receipt W10/v2 chỉ mô tả đợt cũ.
 
 ---
 
@@ -408,7 +417,10 @@ W11-05 đóng v2;06 audit DONE;07–12 thiết kế/triển khai/kiểm/run/nomi
 không reset exposure. Xác nhận128 point2025 chỉ sau audit/release, primary
 CI95% và bảy secondary Bonferroni99,285714% theo [W12](week12/README.md).
 Giữ mốc bắt đầu xác nhận hết05/11, khóa dữ liệu07/11, công việc kết thúc10/11.
-Quỹ giờ phải trừ phần đã dùng; không tăng tuần, bỏ comparator hoặc đổi gate
+Ngân sách chạy v3 đã được reset: không trừ thời gian run v1/v2; ghi nhận
+chi phí v3 riêng và tiếp tục cùng bộ đếm khi resume/chuyển sang W12.
+Đánh giá khả thi trên ngân sách mới và thời gian lịch còn lại, không dùng
+số dư cũ để chặn development. Không tăng tuần, bỏ comparator hoặc đổi gate
 để cứu kết quả. Chưa có bằng chứng v3 hiệu quả.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
