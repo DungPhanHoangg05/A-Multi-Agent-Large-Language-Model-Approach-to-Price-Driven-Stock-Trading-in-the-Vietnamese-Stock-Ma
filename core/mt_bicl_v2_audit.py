@@ -69,18 +69,29 @@ def offline_decision(probability: float | None, available: bool) -> dict[str, An
             "reason": "QUERY_FEATURE_UNAVAILABLE" if not available else "P_GT_HALF" if action == "LONG" else "P_NOT_GT_HALF"}
 
 
-def check_labels(episode: dict[str, Any], bank: dict[str, Any]) -> int:
+def check_labels(episode: dict[str, Any], bank: dict[str, Any],
+                 sources: dict[str, tuple[pd.DataFrame, list[dict[str, Any]]]] | None = None) -> int:
     """Đọc nhãn chỉ của context đã đóng; đối chiếu helper kinh tế, không mở y query."""
     observations = [r for task in episode["prior"] for r in task["observations"]]+episode["target"]
     for row in observations:
-        original = bank[row["episode_id"]]
-        outcome = original["outcome"]
-        net = float(compute_round_trip_net_return(outcome["entry_open"], outcome["exit_close"]))
-        if (any(row[k] != original[k] for k in ("symbol", "as_of_date", "entry_date", "exit_date", "task_id"))
-                or row["exit_date"] >= episode["query"]["as_of_date"]
-                or row["y"] != int(net > 0) or outcome["y"] != row["y"]
-                or not math.isclose(row["r_net"], net, abs_tol=1e-12, rel_tol=0)
-                or not math.isclose(outcome["r_net"], net, abs_tol=1e-12, rel_tol=0)):
+        if row["exit_date"] >= episode["query"]["as_of_date"]:
+            raise ValueError("Nhãn context chưa đóng trước query")
+        original = bank.get(row["episode_id"])
+        if sources is None:
+            if original is None:
+                raise ValueError("Cycle streaming cần nguồn giá đã xác minh")
+            outcome = original["outcome"]
+            net = float(compute_round_trip_net_return(outcome["entry_open"], outcome["exit_close"]))
+        else:
+            cycle = evaluate_cycle(*sources[row["symbol"]], row["as_of_date"])
+            if row["entry_date"] != cycle["entry_date"] or row["exit_date"] != cycle["exit_date"]:
+                raise ValueError("Context sai lịch phiên T+2.5")
+            net = cycle["net_return_long"]
+        if original is not None and (any(row[k] != original[k] for k in ("symbol", "as_of_date", "entry_date", "exit_date", "task_id"))
+                or original["outcome"]["y"] != int(net > 0)
+                or not math.isclose(original["outcome"]["r_net"], net, abs_tol=1e-12, rel_tol=0)):
+            raise ValueError("Nhãn bank khác nguồn giá context")
+        if row["y"] != int(net > 0) or not math.isclose(row["r_net"], net, abs_tol=1e-12, rel_tol=0):
             raise ValueError("Nhãn/membership context khác nguồn kinh tế hoặc vi phạm PIT")
     return len(observations)
 
@@ -213,10 +224,12 @@ def rebuild(root: Path) -> dict[str, Any]:
     bank = {r["episode_id"]: r for r in read_json(root/"outputs/bayesian_benchmark/mt_bicl_v1/inputs/dense_bank_v1.json")["payload"]["records"]}
     fitted = read_envelope(root/TEACHER/"teacher_fit.json", TEACHER_VERSION)
     teacher, oracle = BetaBernoulliTeacher(fitted["pi"]), SequentialBetaOracle(fitted["pi"])
+    adapter, _ = reference_adapter(root, data["inputs"])
+    prices = {s: adapter.execution_data(s) for s in manifest["decision"]["symbol_order"]}
     diagnostics, labels = {}, 0
     for row in data["inputs"]["rows"]:
         episode = resolve_episode(row, data["inputs"]["context"])
-        labels += check_labels(episode, bank)
+        labels += check_labels(episode, bank, prices)
         pid = row["query"]["episode_id"]
         available = row["status"] == "AVAILABLE"
         p = data["variants"][pid]["Full_MT_BICL"]["probability"]
@@ -232,8 +245,6 @@ def rebuild(root: Path) -> dict[str, Any]:
         if diagnostics[pid]["Numeric_only"] != data["variants"][pid]["Numeric_only"]:
             raise ValueError("Numeric khác rule/xác suất student đã khóa")
     print("Context/nhãn kinh tế và teacher oracle PASS; action offline đã cố định trước mở giá query.", flush=True)
-    adapter, _ = reference_adapter(root, data["inputs"])
-    prices = {s: adapter.execution_data(s) for s in manifest["decision"]["symbol_order"]}
     evaluations = {pid: evaluate_cycle(*prices[pid.split('-')[0]], pid[4:]) for pid in manifest["layout"]["point_ids"]}
     points = []
     for block in manifest["layout"]["blocks"]:

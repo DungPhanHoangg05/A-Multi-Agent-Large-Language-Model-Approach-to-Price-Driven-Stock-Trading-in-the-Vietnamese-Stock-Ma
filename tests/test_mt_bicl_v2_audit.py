@@ -122,6 +122,21 @@ class OfflineAuditTests(unittest.TestCase):
                 raise AssertionError("Đã mở outcome query trước cố định action")
         self.assertEqual(check_labels({"query":{"as_of_date":"2023-01-01"},"prior":[],"target":[]},ForbidQuery()),0)
 
+    def test_streamed_context_uses_verified_prices_without_static_bank_row(self) -> None:
+        dates=pd.to_datetime(["2023-01-06","2023-01-09","2023-01-10","2023-01-11"])
+        frame=pd.DataFrame({"Datetime":dates,"Open":[100.]*4,"Close":[100.]*4,
+                            "High":[101.]*4,"Low":[99.]*4,"Volume":[1000]*4,"Reference":[100.]*4})
+        row={"episode_id":"FPT-2023-01-06","symbol":"FPT","as_of_date":"2023-01-06",
+             "entry_date":"2023-01-09","exit_date":"2023-01-11","task_id":"T1","y":0,
+             "r_net":compute_round_trip_net_return(100.,100.)}
+        episode={"query":{"as_of_date":"2023-02-01"},"prior":[],"target":[row]}
+        self.assertEqual(check_labels(episode,{}, {"FPT":(frame,[])}),1)
+        with self.assertRaises(ValueError):
+            check_labels(episode,{})
+        changed=deepcopy(episode);changed["target"][0]["r_net"]=.1
+        with self.assertRaises(ValueError):
+            check_labels(changed,{}, {"FPT":(frame,[])})
+
     def test_snapshot_rejects_rehashed_run_and_never_reseals(self) -> None:
         with TemporaryDirectory() as tmp:
             root=Path(tmp);(root/RUN).mkdir(parents=True)
