@@ -1,0 +1,32 @@
+{
+  "version": "utility_icl_protocol_lock_v3",
+  "payload": {
+    "status": "SPEC_LOCK_PASS",
+    "protocol_sha256": "1912d18145fcc0eb46563206a83cfbacf5420d48fd828d0f79abfb56fa0b7b48",
+    "source_commit": "4f88ce06d6fb175defcb68c98dbd83ea711b59ef",
+    "source_sha256": {
+      "core/mt_bicl_v3_protocol.py": "a9693c9e169ae49ab8b9a326086089f81c104d2bbc26aeeea4a6f6e0f49e0e62",
+      "scripts/verify_mt_bicl_protocol_v3.py": "26caadddd0b84c3ebb5c4199f3a6c536a5ba401276eb669df866ffb4fdb8a3b0",
+      "tests/test_mt_bicl_v3_protocol.py": "d15d9e618ac831223342c7f5176f6cf42a9262f4b36457fa35935651fe09e917"
+    },
+    "v2_evidence": {
+      "file_count": 2597,
+      "sha256": "abee3ec568a76d58335c064c9253391e7dfcd70a55c3efe605c1f8c3ffc2f6a3",
+      "method": "SHA256_CANONICAL_JSON_MAP_NAMESPACE_RELATIVE_PATH_TO_FILE_BYTE_SHA256",
+      "excluded_OS_lock_filenames": [
+        "run.lock",
+        "run.owner.json",
+        "run.recovery.json"
+      ]
+    },
+    "budget_cap_seconds": 64800,
+    "charged_experiment_seconds_at_lock": 0,
+    "budget_counter_materialized_at_lock": false,
+    "API_allowed": false,
+    "next_task": "W11-08",
+    "utility_implementation_exists_at_lock": false,
+    "development_slots": 804,
+    "confirmation_slots_conditional": 1348
+  },
+  "sha256": "cea236bdecf9e4ab1ab36cb702ea54884d7e8de105712599e911ad256e79b3ff"
+}
