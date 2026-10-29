@@ -1363,13 +1363,15 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và release xác nhận — 1/8 DONE, development đang chạy
+### TUẦN 11: Development và release xác nhận — 1/8 DONE, development đã chạy đủ slot
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
-W11-01 **DONE** sau đối soát preflight API thật, raw/cache/ledger và các
-hash/source/runtime đã khóa. W11-02 **RUNNING**:139/360 primary complete,
-0/252 repeat; một unknown tại VNM/2023-06-01/No_target chỉ có429 quota từ
-chối. Recovery vận hành yêu cầu UUID tường minh, giữ request/reserve/ledger
+W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
+raw/cache/ledger, Git và hash/source/runtime đã khóa; chi tiết tại
+[mục6.1 W11](week11/README.md#61-tái-nghiệm-thu-w11-01-29102026).
+W11-02 **AWAITING_ACCEPTANCE**:360/360 primary +252/252 repeat durable,
+không missing/unknown/pending; chưa đóng task trong lượt nghiệm thu W11-01.
+Tại mốc partial trước đây, recovery vận hành yêu cầu UUID tường minh, giữ request/reserve/ledger
 cũ và source runner nguyên byte. Người dùng sau đó yêu cầu một lệnh resume
 cho mọi interruption và tự preflight khi đổi key: amendment vận hành mới
 giữ cùng UUID, reuse durable success, ghi audit retry và chờ reset quota;
