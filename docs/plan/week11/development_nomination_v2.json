@@ -1,0 +1,153 @@
+{
+  "version": "mt_bicl_development_nomination_v2",
+  "payload": {
+    "revision": "v2",
+    "verification": "PASS",
+    "status": "NOT_NOMINATED",
+    "candidate_evaluated": "Full_MT_BICL",
+    "nominated_candidate": null,
+    "rules": {
+      "G": 60,
+      "D_Full_Original_strict_min": 0,
+      "positive_symbols_min": 3,
+      "D_Full_A_inclusive_min": 0,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5,
+      "candidate_substitution": false
+    },
+    "checks": {
+      "complete_G60_verified": true,
+      "D_Full_Original_gt_0": false,
+      "positive_symbols_at_least_3": false,
+      "D_Full_A_ge_0": true,
+      "mean_delta_MDD_le_2": true,
+      "max_delta_MDD_le_5": true
+    },
+    "failure_reasons": [
+      "D_Full_Original_gt_0",
+      "positive_symbols_at_least_3"
+    ],
+    "metrics": {
+      "G": 60,
+      "D_Full_Original_pp": -0.024756891114340984,
+      "positive_symbols": 1,
+      "D_Full_A_pp": 0.5765958266825304,
+      "mean_delta_MDD_pp": -0.05338028724999888,
+      "max_delta_MDD_pp": 2.4800646671999993,
+      "by_symbol": {
+        "FPT": {
+          "count": 12,
+          "return_full_pct": 1.3082475834692353,
+          "return_original_pct": 1.3082475834692353,
+          "return_A_reference_pct": 3.6806832779400445,
+          "delta_return_original_pp": 0.0,
+          "delta_return_A_pp": -2.372435694470809,
+          "MDD_full_pct": 5.123516518594473,
+          "MDD_original_pct": 5.123516518594473,
+          "delta_MDD_original_pp": 0.0
+        },
+        "MWG": {
+          "count": 16,
+          "return_full_pct": 17.50978386422637,
+          "return_original_pct": 13.285610930154634,
+          "return_A_reference_pct": 11.350163041816819,
+          "delta_return_original_pp": 4.224172934071737,
+          "delta_return_A_pp": 6.159620822409552,
+          "MDD_full_pct": 0.0,
+          "MDD_original_pct": 2.693585816199995,
+          "delta_MDD_original_pp": -2.693585816199995
+        },
+        "VCB": {
+          "count": 16,
+          "return_full_pct": -0.4336642858683293,
+          "return_original_pct": 1.3276211339822819,
+          "return_A_reference_pct": -1.5147775433381971,
+          "delta_return_original_pp": -1.7612854198506112,
+          "delta_return_A_pp": 1.0811132574698679,
+          "MDD_full_pct": 4.0222206699999985,
+          "MDD_original_pct": 4.0222206699999985,
+          "delta_MDD_original_pp": 0.0
+        },
+        "VNM": {
+          "count": 16,
+          "return_full_pct": -0.6240857036491132,
+          "return_original_pct": 1.9378293750293762,
+          "return_A_reference_pct": 1.9378293750293762,
+          "delta_return_original_pp": -2.5619150786784894,
+          "delta_return_A_pp": -2.5619150786784894,
+          "MDD_full_pct": 3.799038515700004,
+          "MDD_original_pct": 1.3189738485000047,
+          "delta_MDD_original_pp": 2.4800646671999993
+        }
+      }
+    },
+    "confirmation_v2": {
+      "status": "NOT_RUN",
+      "allowed": false,
+      "reason": "V2_NOT_NOMINATED"
+    },
+    "scope": "V2_ONLY_NO_V3_PROTOCOL_OR_RELEASE",
+    "candidate_substitution": false,
+    "report_nomination_field_preserved": "NOT_EVALUATED",
+    "binding": {
+      "run_signature": "dcb624c9a66671160e17e7e40a4bdff968c679cf4d5d06d421897c21be00bc19",
+      "report_path": "outputs/bayesian_benchmark/mt_bicl_v2/development2023/analysis/report.json",
+      "report_sha256": "ce4ac6b6c2f168ad8e88822236a38277ac46d812382414a691bcebfb8b89fb8d",
+      "accounts_sha256": "fab7ebe0b2102a17487ed02d5c099a53671b696323a9d7ca377dec050544a348",
+      "report_consumer": {
+        "accounts_sha256": "fab7ebe0b2102a17487ed02d5c099a53671b696323a9d7ca377dec050544a348",
+        "run_tree_sha256": "4e37d4809e4a0136766c53a3e46e62a811b0a316a95066ca7f121271bd936529",
+        "ledger_sha256": "6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5",
+        "source_commit": "994ba03d2000a3f3d88cf06bb8cca9c77bb8586b",
+        "source_sha256": {
+          "core/mt_bicl_v2_report.py": "d9625e1c5eb53bfbb3f1ae5de3c9229191d2b5ada1599fccb0d29b76b2fce598",
+          "scripts/report_mt_bicl_development.py": "e7940be03b9845a79b569ce4f82eee6c769243e3a4a157fc4ab88cb2a3ddf188",
+          "tests/test_mt_bicl_v2_report.py": "d3f77bb4ff59ce77e7d6c41c21aa6ed5f2c557070ed9b614d2ffc3c93a55c8ea"
+        },
+        "runtime": {
+          "python": "3.13.5",
+          "platform": "Windows",
+          "os_name": "nt",
+          "packages": {
+            "torch": "2.11.0+cu128",
+            "numpy": "2.1.2",
+            "pandas": "2.3.3",
+            "scikit-learn": "1.7.2",
+            "hmmlearn": "0.3.3",
+            "scipy": "1.16.1",
+            "TA-Lib": "0.6.8",
+            "langgraph": "1.0.10",
+            "langchain-core": "1.2.17",
+            "langchain-groq": "1.1.2",
+            "groq": "0.37.1",
+            "httpx": "0.28.1",
+            "pydantic": "2.11.7",
+            "jsonschema": "4.24.0",
+            "Pillow": "11.0.0",
+            "matplotlib": "3.10.8"
+          }
+        }
+      },
+      "protocol_path": "docs/plan/week10/protocol_v2.json",
+      "protocol_sha256": "00fa160c4fd25aacaf789ba011721f3e03d1b03b9b020cb298a93ca94ddedb40",
+      "rule_payload_sha256": "82ce88124700a47a487d6908512ef532504d4e198ea245c0c42465d1d2443492",
+      "v2_evidence": {
+        "file_count": 2597,
+        "sha256": "abee3ec568a76d58335c064c9253391e7dfcd70a55c3efe605c1f8c3ffc2f6a3",
+        "method": "SHA256_CANONICAL_JSON_MAP_NAMESPACE_RELATIVE_PATH_TO_FILE_BYTE_SHA256",
+        "excluded_OS_lock_filenames": [
+          "run.lock",
+          "run.owner.json",
+          "run.recovery.json"
+        ]
+      },
+      "source_commit": "40508d73d47ef05a34a9fbb04dd90594a163c57f",
+      "source_sha256": {
+        "core/mt_bicl_v2_nomination.py": "46404b3fb71f42e16e690879d9f3374ad0a64edfb4f44f245648914372baa821",
+        "scripts/nominate_mt_bicl_development.py": "72f92342fbb6722f20b4a17374a410093a0a7719b392816b7b88a661e82d4df4",
+        "tests/test_mt_bicl_v2_nomination.py": "be9e078d805fbcc7ca9646a915139abef22bcb47da53cd87d2242be787a1eb16"
+      }
+    }
+  },
+  "sha256": "f4e9367add3ac214bf7ca2eab6946031a49f5826d6dda47ac6066f56a7569cef"
+}

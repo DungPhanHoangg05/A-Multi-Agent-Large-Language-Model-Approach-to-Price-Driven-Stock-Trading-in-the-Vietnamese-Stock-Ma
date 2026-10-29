@@ -17,9 +17,10 @@ ghi ngân sách mới vào protocol; giữ lịch 12 tuần, các mốc hoàn t�
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ:** W10 **14/14**, W11 **5/15** (01–04 và audit06), W12 **0/6**.
-Tiếp theo **W11-05** đóng nomination v2 rồi **W11-07** khóa protocol v3.
-Receipt mô tả vẫn NOT_EVALUATED; số liệu đã không đạt rule, không cấp xác nhận v2.
+**Tiến độ:** W10 **14/14**, W11 **6/15** (01–06), W12 **0/6**.
+**W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
+report mô tả vẫn NOT_EVALUATED nguyên byte. Tiếp theo **W11-07** khóa protocol
+v3 và ghi ngân sách chạy mới sau reset; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
@@ -35,7 +36,7 @@ Engine giữ cổ phiếu phân số, chưa lô chẵn; không đổi hợp đ�
 **W11-04 DONE**: report/replay G60, strata/ablation/action/repeat và approximation
 gap PASS tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
 D Full−Original=−0,024756891 đpt dù accuracy cao hơn; không đồng nhất hai thước đo.
-Nomination máy v2 còn W11-05; chưa có release xác nhận2025. W11-06 audit
+Nomination máy v2 đã NOT_NOMINATED tại W11-05; chưa có release xác nhận2025. W11-06 audit
 đã tìm projection target và mâu thuẫn facts; thiết kế v3 ở mục13 W11.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
@@ -412,7 +413,7 @@ giữ teacher/student và P0, đổi đường ứng dụng có version riêng:
 5. Tám nhánh LLM trong run mới +Utility_only offline, giữ G60 và một candidate;
    nominal≤804 slot gồm repeat. Nomination giữ guard cũ, thêm Full>Fact_Anchor.
 
-W11-05 đóng v2;06 audit DONE;07–12 thiết kế/triển khai/kiểm/run/nominate v3;
+W11-05 DONE, v2 NOT_NOMINATED;06 audit DONE;07–12 thiết kế/triển khai/kiểm/run/nominate v3;
 13–15 xác nhận có điều kiện và bàn giao. Development mới vẫn exploratory,
 không reset exposure. Xác nhận128 point2025 chỉ sau audit/release, primary
 CI95% và bảy secondary Bonferroni99,285714% theo [W12](week12/README.md).
@@ -1392,7 +1393,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 5/15 DONE, báo cáo development PASS
+### TUẦN 11: Development và cải tiến quyết định — 6/15 DONE, nomination v2 đã đóng
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1448,13 +1449,28 @@ hình đã kiểm trực quan, JSON/PNG tái dựng khớp payload/byte.
 57 ca riêng biệt và ba Python mới biên dịch PASS theo phạm vi; không full
 suite/compileall/E2E/API/model inference, viện dẫn gate nguồn/PIT W11-03 nguyên vẹn.
 Chi tiết/lệnh tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
-Tiếp theo W11-05: khóa nomination theo rule trước run; chưa cấp release2025.
+Tại mốc W11-04 chưa khóa nomination; quyết định chính thức W11-05 dưới đây.
 
 **Amendment29/10 — W11-06 audit DONE:** teacher/student đã gần nhau, nhưng
 posterior tần suất thắng chưa đủ cho utility; context projection và cách đọc
-facts có lỗi quan sát được. W11-05 còn phải khóa nomination v2; tiếp theo07
+facts có lỗi quan sát được. W11-05 đã khóa nomination v2 tại mục14 W11; tiếp theo07
 protocol v3,08–10 implementation/QA/release,11–12 run/nominate,13–15 xác nhận/
 bàn giao. Không sửa JSON/kết quả cũ; xem [mục13 W11](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026).
+
+**W11-05 DONE,29/10/2026:** consumer đúng source/report/rule v2 đã khóa
+[receipt nomination](week11/development_nomination_v2.json), SHA byte
+`b2747759b0d368ebc045f3d0c7ffff0ddb9761959506271976cadf2fe1581d78`.
+**NOT_NOMINATED**, chỉ Full_MT_BICL được xét; confirmation v2 **NOT_RUN**.
+Không đạt D Full−Original>0 (thực tế−0,024756891114 đpt) và≥3/4 mã tăng
+(thực tế1/4); G60/verify, D Full−A≥0 và hai guard MDD đạt. Không promote
+ablation hoặc lấy accuracy/repeat thay G. Receipt mới nằm ngoài namespace
+v2; report NOT_EVALUATED và2.597 file evidence/ledger cũ nguyên byte.
+34 test (16 mới,18 hồi quy report), ba Python mới biên dịch PASS;
+tái dựng report/nomination và kiểm receipt khớp payload/byte Git PASS.
+Không market/PIT/retrieval change, không API/model/train/reset counter cũ,
+không full suite/compileall/E2E; gate cũ được viện dẫn đúng nguồn/runtime.
+Chi tiết/lệnh tại [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
+Tiếp theo W11-07 theo amendment và ngân sách chạy mới đã reset; chưa triển khai v3.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
