@@ -26,7 +26,7 @@ BANK = Path("outputs/bayesian_benchmark/mt_bicl_v1/inputs/dense_bank_v1.json")
 IMPLEMENTATION = tuple("core/mt_bicl_v3_"+name+".py" for name in (
     "budget", "context", "contracts", "decision", "features", "policy", "utility"))
 CODE = (*IMPLEMENTATION, "core/mt_bicl_v3_validation_inputs.py", "core/mt_bicl_v3_oracle.py",
-        "core/mt_bicl_v3_validation.py", "scripts/validate_mt_bicl_v3.py",
+        "core/mt_bicl_v3_validation.py", "core/mt_bicl_v3_validation_checks.py", "scripts/validate_mt_bicl_v3.py",
         "tests/test_mt_bicl_v3_validation.py", "tests/test_mt_bicl_v3_validation_leakage.py")
 CHECKS = Path("docs/plan/week11/validation_checks_v3")
 CHECKS_VERSION = "utility_icl_validation_contract_checks_v3"
