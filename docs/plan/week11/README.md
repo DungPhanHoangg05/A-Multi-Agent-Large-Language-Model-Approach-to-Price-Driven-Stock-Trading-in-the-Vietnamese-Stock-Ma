@@ -1,9 +1,8 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 29/10/2026; 1/8 task DONE. W11-01 đã có API preflight thật
-PASS. W11-02 đang chạy:139/360 primary complete,0/252 repeat, một unknown
-bị HTTP429/PROVIDER_DAILY_QUOTA từ chối. Theo yêu cầu mới, dùng **một lệnh
-duy nhất tại mục9**, tự preflight key hiện tại và resume cùng UUID.**
+**Cập nhật 29/10/2026; 1/8 task DONE. W11-01 tái nghiệm thu PASS tại mục6.1.
+W11-02 đã lưu đủ 360/360 primary +252/252 repeat, không missing/unknown;
+chờ nghiệm thu riêng. Lệnh chạy/tiếp tục thống nhất tại mục9.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Chạy mới hoặc tiếp tục sau khi ngắt/đổi key đều dùng:**
@@ -147,7 +146,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
 | W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [x] DONE — cold-check parent/runner và API preflight/raw/cache/ledger thật PASS |
-| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] RUNNING —139/360 primary,0/252 repeat; dùng resume một lệnh tại mục9 |
+| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] AWAITING_ACCEPTANCE —360/360 primary +252/252 repeat durable; unknown0/pending0 |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
@@ -248,7 +247,7 @@ Lệnh tái kiểm offline (không đọc key hoặc gọi mạng):
 py -3.13 -X utf8 scripts/prepare_mt_bicl_development.py verify
 ```
 
-**Bước còn lại của W11-01 do người dùng chạy:**
+**Lệnh API tại mốc chuẩn bị W11-01; hiện đã PASS, không cần chạy lại:**
 
 ```powershell
 py -3.13 -X utf8 scripts/run_mt_bicl_development.py api-preflight
@@ -266,6 +265,40 @@ bằng chứng. Sau receipt API thật PASS mới đối soát để đóng W11-
 `prepare_mt_bicl_development.py` giữ nguyên source/receipt đã freeze; lệnh
 API legacy của script đó có lỗi khóa đã xác định dưới đây. Dùng entrypoint
 mới cho API; có thể chạy thẳng `run` ở mục7 để tự preflight rồi tiếp W11-02.
+
+### 6.1. Tái nghiệm thu W11-01 (29/10/2026)
+
+**PASS — W11-01 DONE.** Đối soát offline bằng `verify_extension`, verifier
+continuation và `verify_live_preflight`: release W10-14, 323 nguồn/spec,
+teacher/student/candidate, runtime, Git anchor, manifest/receipt và 612
+canonical request còn đúng bản khóa. Toàn bộ 60 upstream, 120 file point/journal
+và 96 journal dry-run giữ nguyên hash; 12 repeat ID/order và support 41/60
+không đổi. Prompt tối đa 4.949<6.500 ký tự, prefix 494≤600, reserve 4.603 token.
+
+API control thật HTTP 200, UUID `42972198-f7eb-4df8-87c1-daf8e26d1ae4`,
+khớp model/options/schema, body, raw cache, response parser và ledger.
+Control ở vị trí 3974 của ledger (đếm từ 0), trước HTTP scientific đầu ở 3975.
+SHA-256 byte receipt API `live_api_preflight.json`:
+`f03c5ae9316b3d99d25c8f0fbbf00930bef0cf7585d9fc686730bca9f443b72d`;
+raw cache: `ff1a526e9604b3a88c99b5532751ffe010878a4e997bd8c7ad0184cfe0999864`.
+Ba hash release/manifest/receipt chuẩn bị vẫn đúng các giá trị tại mục6.
+
+Kiểm checkpoint hiện tại bằng `inspect_prefix` PASS: 612 complete,
+360 primary +252 repeat, không pending/unknown. Có121 shared-off và36
+Original_duplicate; 519 HTTP scientific gồm 491 HTTP 200, 26 HTTP 429 và hai
+transport_error được giữ audit/reserve. Ledger toàn tài khoản 4.498 row,
+SHA `6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5`;
+hash cây 612 file slot (content hash của map tên file→SHA byte) là
+`e49227da39a30a19e874214b0d75e3ac8a750f4657f40236c3d8edb9bf0c75fe`.
+Đối chiếu trước/sau xác nhận ledger và slot không đổi trong lượt nghiệm thu.
+Đây là snapshot hoàn tất chạy W11-02; nghiệm thu riêng W11-02 và bước
+W11-03/account/P&L/nomination chưa thực hiện.
+
+Chỉ sửa Markdown theo AGENTS.md1.2, không chạy lại compile/unit/E2E/leakage.
+Viện dẫn đúng 71 lượt test và bốn file Python biên dịch PASS tại mục6;
+log test còn nguyên SHA `0c07253bfb26153cdb14606ea04dd4925482f32afc3f805d20da051e8edab8c8`.
+Không đọc key, gọi API, inference/train hoặc sửa receipt/bằng chứng đã khóa.
+Diff/liên kết và số liệu nghiệm thu được đối soát trong lượt này.
 
 ## 7. W11-02 — Runner ghép cặp và sửa entrypoint preflight (29/10/2026)
 
