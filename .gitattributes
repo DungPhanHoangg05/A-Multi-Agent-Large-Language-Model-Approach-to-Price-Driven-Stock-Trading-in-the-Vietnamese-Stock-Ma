@@ -111,3 +111,17 @@ docs/plan/week11/budget_v3.json -text
 docs/plan/week11/utility_icl_v3.schema.json -text
 docs/plan/week11/protocol_fixtures_v3.json -text
 docs/plan/week11/protocol_lock_v3.json -text
+
+# Giữ byte nguồn utility v3 ổn định khi checkout trên Windows.
+core/mt_bicl_v3_budget.py text eol=lf
+core/mt_bicl_v3_context.py text eol=lf
+core/mt_bicl_v3_contracts.py text eol=lf
+core/mt_bicl_v3_decision.py text eol=lf
+core/mt_bicl_v3_features.py text eol=lf
+core/mt_bicl_v3_policy.py text eol=lf
+core/mt_bicl_v3_utility.py text eol=lf
+tests/mt_bicl_v3_support.py text eol=lf
+tests/test_mt_bicl_v3_budget.py text eol=lf
+tests/test_mt_bicl_v3_decision.py text eol=lf
+tests/test_mt_bicl_v3_features_leakage.py text eol=lf
+tests/test_mt_bicl_v3_utility.py text eol=lf
