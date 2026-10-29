@@ -8,7 +8,7 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **14/14**, W11 **3/8**, W12 **0/6**; **W10-14 DONE**,
+**Tiến độ:** W10 **14/14**, W11 **4/8**, W12 **0/6**; **W10-14 DONE**,
 candidate seed42/step3000 được release cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
 PASS sau sửa khóa. **W11-02 DONE**, nghiệm thu 29/10: đủ 360/360 primary
@@ -20,7 +20,10 @@ hoặc mở vòng development mới. **W11-03 DONE**: cold verify/PIT,32 tài kh
 primary +108 repeat và Numeric/Teacher offline; cold replay toàn report PASS
 tại [mục11 W11](week11/README.md#11-w11-03--cold-verify-và-tái-dựng-tài-khoản-offline-29102026).
 Engine giữ cổ phiếu phân số, chưa lô chẵn; không đổi hợp đồng kinh tế sau outcome.
-Tiếp theo W11-04; chưa nomination hoặc release xác nhận2025.
+**W11-04 DONE**: report/replay G60, strata/ablation/action/repeat và approximation
+gap PASS tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
+D Full−Original=−0,024756891 đpt dù accuracy cao hơn; không đồng nhất hai thước đo.
+Tiếp theo W11-05; chưa khóa nomination hoặc release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1368,7 +1371,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và release xác nhận — 3/8 DONE, cold verify/account PASS
+### TUẦN 11: Development và release xác nhận — 4/8 DONE, báo cáo development PASS
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1403,7 +1406,28 @@ cold replay toàn payload PASS; ledger4.498 row và cây run giữ đúng hash W
 84 ca riêng biệt PASS (35 leakage), ba Python mới biên dịch PASS theo phạm vi;
 không full suite/compileall/E2E hoặc chạy lại gate train. Chi tiết/lệnh tại
 [mục11 W11](week11/README.md#11-w11-03--cold-verify-và-tái-dựng-tài-khoản-offline-29102026).
-Tiếp theo W11-04; chưa nomination hoặc release2025.
+Tại mốc W11-03 chưa nomination hoặc release2025; báo cáo tiếp theo dưới đây.
+
+**W11-04 DONE,29/10/2026:** consumer mới giữ account report/ledger/run cũ
+nguyên hash; G=60 gồm10 thiếu feature, mọi K/m/regime/quý/prior-off và contrast,
+hai chiều action change, leave-one-change-out (hoàn nguyên action, giữ G),
+leave-one-symbol-out, mọi repeat và approximation/latency được báo riêng.
+Mean return Full4,440070% so Original4,464827%, D=**−0,024756891 đpt**;
+chỉ1/4 mã ΔR>0. Full−A/Plain/No_target/Stats/Numeric lần lượt
++0,576596/−0,118278/−0,684455/+0,294539/+4,671596 đpt. Không promote ablation.
+Accuracy Full65% so Original63,3333% không chứng minh P&L tăng.
+Trên50 point có feature, KL teacher||student mean0,001229988453 nats,
+P95 |Δp|0,053150920015; Numeric/Teacher bất đồng1/50, không coi teacher là nhãn
+thị trường. Repeat12 point không tăng N:0/72 bất đồng/nhánh, duplicate0/36;
+mọi D Full−LLM trên sample12 đều0, không dùng để thay G. Latency HTTP/pacing/
+invocation tách riêng; offline latency chưa đo, không gán0 hoặc gọi end-to-end.
+Report `development2023/analysis/report.json` SHA
+`ce4ac6b6c2f168ad8e88822236a38277ac46d812382414a691bcebfb8b89fb8d`,
+hình đã kiểm trực quan, JSON/PNG tái dựng khớp payload/byte.
+57 ca riêng biệt và ba Python mới biên dịch PASS theo phạm vi; không full
+suite/compileall/E2E/API/model inference, viện dẫn gate nguồn/PIT W11-03 nguyên vẹn.
+Chi tiết/lệnh tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
+Tiếp theo W11-05: khóa nomination theo rule trước run; chưa cấp release2025.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
