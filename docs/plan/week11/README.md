@@ -12,8 +12,12 @@ Tiếp theo W11-05 rồi W11-07; phương án v3 tại mục13 chưa triển kha
 py -3.13 -X utf8 scripts/continue_mt_bicl_development.py
 ```
 
-Lịch quản lý sau xác nhận quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
-W11 dự kiến **02–05/11/2026**, tổng **4–8 giờ**. Chỉ thực hiện khi đủ gate
+Lịch quản lý và khung phân bổ công việc tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
+W11 dự kiến **02–05/11/2026**, khung **4–8 giờ**. Người dùng xác nhận ngày
+**29/10/2026: ngân sách thời gian chạy được reset**. Đợt v3 tính mới từ 0,
+không khấu trừ giờ chạy v1/v2; chi tiết cập nhật tại mục13.4. Khung giờ công
+việc và lịch 12 tuần giữ nguyên, không coi khung này là thời gian API đã đo.
+Chỉ thực hiện khi đủ gate
 phụ thuộc; release và bắt đầu xác nhận chậm nhất 05/11, nếu không ghi NOT_RUN.
 
 Phạm vi lịch sử dưới đây: một candidate Full_MT_BICL của **revision v2: teacher Beta-Bernoulli phân
@@ -158,7 +162,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [x] DONE —đủ G60, mọi contrast/strata/repeat, sensitivity và KL/latency; report/hình replay PASS |
 | W11-05 | Khóa nomination v2 bằng consumer đúng source/report; kết luận theo rule cũ, confirmation v2 không chạy | 04 | [ ] TODO — số liệu đã cho thấy không đạt, chưa có receipt máy |
 | W11-06 | Audit quyết định/utility/target projection/facts và giới hạn repeat | 04 | [x] DONE — mục13; không đổi run hoặc promote ablation |
-| W11-07 | Khóa protocol v3, ngân sách còn lại, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [ ] TODO |
+| W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [ ] TODO |
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [ ] TODO |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [ ] TODO |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] TODO — có điều kiện |
@@ -953,7 +957,9 @@ Full−Original cho Bayes. Mục tiêu rõ rệt ≥1 đpt và guard phân tán/
 
 - **05:** khóa v2 NOT_NOMINATED bằng consumer; không mở xác nhận v2.
 - **07:** chốt hypothesis, source/protocol v3, feature/calculation/schema,
-  evidence audit, threshold/seed/order và quỹ giờ thực còn lại. Không fit
+  evidence audit, threshold/seed/order và ngân sách chạy mới đã được reset.
+  Ghi mốc reset, hạn mức và cách đo riêng cho v3; không yêu cầu đối soát số
+  dư chạy v1/v2 như điều kiện cấp ngân sách mới. Không fit
   hoặc grid-search threshold trên2023. 2021/2022 đã xem chỉ để diagnostic
   kỹ thuật/giới hạn; không được gọi lại là validation độc lập.
 - **08:** code utility, facts và renderer/anchor ở namespace mới; reuse
@@ -979,11 +985,26 @@ Full−Original cho Bayes. Mục tiêu rõ rệt ≥1 đpt và guard phân tán/
   Hết07/11 khóa dữ liệu,08–10/11 viết/bảo vệ; vẫn12 tuần, không W13.
 
 Ưu tiên công việc: facts/context → utility/policy → matched experiment;
-không train GPU, đổi LLM hoặc sweep prompt trong vòng này. Trần W11 đã có
-4–8 giờ không tự tăng; phải trừ phần đã dùng và đo preflight cả API pacing.
-Nếu ngân sách thực không đủ cho804 slot/verification hoặc phát hành trước
-05/11 thì chốt phần offline và NOT_RUN; không giảm G, bỏ comparator hoặc
-chuyển công việc sang thời gian viết luận văn để bảo đảm thắng.
+không train GPU, đổi LLM hoặc sweep prompt trong vòng này.
+
+**Ngân sách chạy sau reset — xác nhận của người dùng ngày29/10/2026:**
+
+- Đợt v3 bắt đầu bộ đếm thời gian chạy mới từ **0**; không trừ thời gian
+  train/pilot/development/verify của v1/v2 vào đợt này. Bỏ điều kiện phải
+  còn số dư chạy cũ mới được triển khai v3; quyền reset đã được xác nhận.
+- W11-07 ghi nhận hạn mức của đợt mới theo kế hoạch và cách đo; W11-10
+  đối chiếu preflight cho tối đa 804 slot development và 1.348 slot xác
+  nhận có điều kiện, tính cả pacing/retry/verification. Đây là dự toán
+  cần đo, không tự suy ra thời gian chạy không giới hạn hoặc quota mới.
+- Theo dõi chi phí phát sinh của v3 riêng; resume, retry và chuyển sang
+  W12 tiếp tục cùng bộ đếm v3, không cấp lại ngân sách sau mỗi lần dừng.
+  Ledger usage/API và bằng chứng v1/v2 giữ nguyên để tái lập; các ghi chú
+  “không reset ngân sách” trong receipt cũ chỉ áp dụng cho đợt cũ.
+- Giữ khung công việc W11 4–8 giờ, W12 5–10 giờ và các mốc 05/11, 07/11,
+  10/11. Chỉ kết luận thiếu thời gian sau khi xét ngân sách chạy mới và
+  thời gian lịch còn lại; không dùng giờ chạy v1/v2 để suy ra NOT_RUN v3.
+  Nếu vẫn không kịp thì bàn giao đúng trạng thái; không giảm G hoặc bỏ
+  comparator để kịp lịch. Reset không đổi tiêu chí nomination hay exposure.
 
 ### 13.5. Kiểm tra audit và amendment lần này
 
@@ -998,3 +1019,8 @@ Toàn2.597 file v2 (loại metadata OS lock) có aggregate SHA-256
 checklist 5/15, số liệu audit và diff: PASS. Theo AGENTS.md1.2 không
 chạy lại unit/leakage/E2E/compileall cho amendment tài liệu; không ghi là
 đã chạy lại57 test W11-04. W11-06 DONE là audit, không nghiệm thu v3.
+
+Cập nhật reset ngân sách cùng ngày chỉ sửa kế hoạch và dependency ngân sách;
+không ghi đè counter/ledger/runtime, không tạo release hoặc tăng tiến độ.
+Kiểm diff/liên kết và hash bằng chứng theo phạm vi tài liệu; không chạy lại
+unit/leakage/E2E/compileall theo AGENTS.md1.2.
