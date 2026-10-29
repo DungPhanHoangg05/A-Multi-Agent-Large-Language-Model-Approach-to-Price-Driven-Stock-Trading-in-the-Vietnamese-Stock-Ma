@@ -2,28 +2,34 @@
 
 **Đề tài:** Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market.
 
-**Hiện hành từ 28/10/2026:** amendment MT-BICL-v2 sau audit W10-07:
-teacher Beta-Bernoulli phân cấp fit prior bằng train, student học posterior
-bằng distillation, selection chỉ trong checkpoint đạt cơ chế validation.
-Một candidate, một development và một xác nhận có điều kiện; không hạ gate
-hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
+**Hiện hành từ 29/10/2026:** v2 hoàn tất development nhưng chưa chứng minh
+lợi ích kinh tế: D=−0,024757 đpt,1/4 mã tăng. Amendment v3 tại
+[W11 mục13](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026)
+đề xuất context theo trạng thái tín hiệu, summary đầy đủ, kiểm facts và
+Bayesian utility khi sửa quyết định nền. Không train lại student, không
+promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn12 tuần.
+V3 mới là kế hoạch, chưa code/protocol/release/API.
 
-**Tiến độ:** W10 **14/14**, W11 **4/8**, W12 **0/6**; **W10-14 DONE**,
-candidate seed42/step3000 được release cho development2023 sau freeze và
+**Tiến độ:** W10 **14/14**, W11 **5/15** (01–04 và audit06), W12 **0/6**.
+Tiếp theo **W11-05** đóng nomination v2 rồi **W11-07** khóa protocol v3.
+Receipt mô tả vẫn NOT_EVALUATED; số liệu đã không đạt rule, không cấp xác nhận v2.
+W10-14 đã release
+candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
 PASS sau sửa khóa. **W11-02 DONE**, nghiệm thu 29/10: đủ 360/360 primary
 và 252/252 repeat durable, không missing/unknown/pending; ma trận, UUID,
 request/raw cache/ledger và audit phục hồi PASS tại
 [mục10 W11](week11/README.md#10-w11-02--nghiệm-thu-ma-trận-development-hoàn-tất-29102026).
-Giữ lệnh resume cố định tại README W11; không đổi manifest/runner đã freeze
-hoặc mở vòng development mới. **W11-03 DONE**: cold verify/PIT,32 tài khoản
+Giữ manifest/runner và lệnh resume v2 để tái lập; không sửa hoặc mở lại run
+v2. Vòng v3 cần protocol/release mới theo yêu cầu29/10. **W11-03 DONE**: cold verify/PIT,32 tài khoản
 primary +108 repeat và Numeric/Teacher offline; cold replay toàn report PASS
 tại [mục11 W11](week11/README.md#11-w11-03--cold-verify-và-tái-dựng-tài-khoản-offline-29102026).
 Engine giữ cổ phiếu phân số, chưa lô chẵn; không đổi hợp đồng kinh tế sau outcome.
 **W11-04 DONE**: report/replay G60, strata/ablation/action/repeat và approximation
 gap PASS tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
 D Full−Original=−0,024756891 đpt dù accuracy cao hơn; không đồng nhất hai thước đo.
-Tiếp theo W11-05; chưa khóa nomination hoặc release xác nhận2025.
+Nomination máy v2 còn W11-05; chưa có release xác nhận2025. W11-06 audit
+đã tìm projection target và mâu thuẫn facts; thiết kế v3 ở mục13 W11.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -373,34 +379,37 @@ checkpoint. Người dùng tự chạy mọi API; agent chuẩn bị và kiểm 
 
 ---
 
-### 5.6. MT-BICL-v2 hiện hành — 28/10/2026
+### 5.6. Từ MT-BICL-v2 sang quyết định có utility — 29/10/2026
 
-[W10 mục 9](week10/README.md#9-khắc-phục-nguyên-nhân-và-protocol-v2--28102026)
-là đặc tả đề xuất sau audit. Không dùng simulator logistic ngẫu nhiên làm
-teacher thị trường: oracle đó có NLL2022=0,788870, kém base rate0,667347.
-Ba learner đã chọn cũng kém constant0,5 khi so oracle synthetic; chưa có
-căn cứ nói chỉ cần nới gate. V1 và bằng chứng nguyên vẹn, không chọn lại seed.
+V2 đã học cơ chế và chạy development. Trên50 point có feature, KL teacher/
+student≈0,00123; teacher p không vượt0,5 nên Teacher_only giữ CASH toàn bộ;
+Numeric_only dùng student chỉ có một LONG.
+Full đúng thêm1/60 nhãn nhưng lợi suất thấp hơn Original0,024757 đpt. VNM30/06
+hiện hai target đều thắng dù cả task3/8 thắng; Full VCB30/10 diễn giải sai
+quan hệ MACD/Signal có sẵn trong prompt. Không đủ bằng chứng rằng train thêm
+hoặc bỏ target sẽ xử lý nguyên nhân.
 
-1. Giữ bank/PIT/block63/retrieval theo regime và feature; prior/target rời.
-2. Teacher mới: θ riêng từng task, hyper-prior hữu hạn trên (μ,κ), likelihood
-   Beta-Bernoulli; fit π trên block train duy nhất đến2020, freeze trước2021.
-   Không giả định teacher đúng với thị trường hoặc p là expected return.
-3. Paired observation tokens, che query y; soft posterior teacher loss,
-   không trộn BCE market1:1 vào backbone. Một architecture, ba seed.
-4. Chỉ checkpoint đạt synthetic validation mới được chọn bằng2021. Test mới
-   sau seal giữ ngưỡng KL0,02/P950,10/sign90%; 2022 báo cáo bất lợi đầy đủ.
-5. Adapter/paired/semantic và freeze W10-13/14 trước development. Thay
-   likelihood/distillation là thích ứng riêng, không tái lập paper nguyên bản.
+[Amendment W11](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026)
+giữ teacher/student và P0, đổi đường ứng dụng có version riêng:
 
-[W11](week11/README.md): sáu LLM branches giữ ma trận Original/A/Plain/Full/
-No_target/Stats_only, Numeric_only offline; thêm Teacher_only diagnostic
-không thêm LLM hoặc thay candidate. Đo 60 điểm development2023 đã xem;
-nomination/risk và mục tiêu cải thiện rõ rệt giữ nguyên. Protocol_v2 phải
-được khóa ở W10-09 trước fit/train, không sửa khóa v1 hoặc hạ gate sau kết quả.
+1. Context cùng bucket MACD−Signal/Close−SMA20, task/block/cutoff/ranking
+   không dùng nhãn query. Không có support thì giữ quyết định nền, không bịa mẫu.
+2. Tóm tắt toàn P/T bằng n/thắng/thua/mean r_net, exemplar có magnitude;
+   không để hai label hiển thị thay toàn task. BRPP≤600, prompt<6500.
+3. Tính U=E[θG−(1−θ)L] bằng teacher posterior và magnitude PIT; uncertainty
+   conditional có giới hạn. Không dùng p>0,5 như tiêu chuẩn lợi nhuận.
+4. Fact_Anchor là đối chứng không Bayes. Full chỉ sửa a0 nếu facts/support
+   hợp lệ và Q10(ΔU)>0; lưu raw/final action, không đổi engine hoặc mặc định CASH.
+5. Tám nhánh LLM trong run mới +Utility_only offline, giữ G60 và một candidate;
+   nominal≤804 slot gồm repeat. Nomination giữ guard cũ, thêm Full>Fact_Anchor.
 
-Xác nhận dự kiến128 điểm2025 sau nomination/exposure audit, prequential;
-[W12](week12/README.md) giữ primaryCI95%, năm secondaryCI99% và hạn chót.
-W10-08 audit DONE, các task triển khai v2 chưa làm; kế hoạch không là kết quả.
+W11-05 đóng v2;06 audit DONE;07–12 thiết kế/triển khai/kiểm/run/nominate v3;
+13–15 xác nhận có điều kiện và bàn giao. Development mới vẫn exploratory,
+không reset exposure. Xác nhận128 point2025 chỉ sau audit/release, primary
+CI95% và bảy secondary Bonferroni99,285714% theo [W12](week12/README.md).
+Giữ mốc bắt đầu xác nhận hết05/11, khóa dữ liệu07/11, công việc kết thúc10/11.
+Quỹ giờ phải trừ phần đã dùng; không tăng tuần, bỏ comparator hoặc đổi gate
+để cứu kết quả. Chưa có bằng chứng v3 hiệu quả.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -1371,7 +1380,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và release xác nhận — 4/8 DONE, báo cáo development PASS
+### TUẦN 11: Development và cải tiến quyết định — 5/15 DONE, báo cáo development PASS
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1428,6 +1437,12 @@ hình đã kiểm trực quan, JSON/PNG tái dựng khớp payload/byte.
 suite/compileall/E2E/API/model inference, viện dẫn gate nguồn/PIT W11-03 nguyên vẹn.
 Chi tiết/lệnh tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
 Tiếp theo W11-05: khóa nomination theo rule trước run; chưa cấp release2025.
+
+**Amendment29/10 — W11-06 audit DONE:** teacher/student đã gần nhau, nhưng
+posterior tần suất thắng chưa đủ cho utility; context projection và cách đọc
+facts có lỗi quan sát được. W11-05 còn phải khóa nomination v2; tiếp theo07
+protocol v3,08–10 implementation/QA/release,11–12 run/nominate,13–15 xác nhận/
+bàn giao. Không sửa JSON/kết quả cũ; xem [mục13 W11](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026).
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
