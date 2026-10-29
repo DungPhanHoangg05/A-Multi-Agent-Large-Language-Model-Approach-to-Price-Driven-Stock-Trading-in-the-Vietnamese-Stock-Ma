@@ -1,0 +1,278 @@
+{
+  "version": "utility_icl_validation_contract_checks_v3",
+  "payload": {
+    "status": "PASS",
+    "source_commit": "262fc8fc72d5234244c31724b06aed342ac80856",
+    "source_sha256": {
+      "core/mt_bicl_v3_budget.py": "5ddd9214046d9c839088d3b687a486ed9ced6a98b3c58c5ce6a56b74efb4e5e1",
+      "core/mt_bicl_v3_context.py": "7382d5d7ac82c3733e8d0831246eb117f3dff140edc039e7bd4f0412e9bd5b21",
+      "core/mt_bicl_v3_contracts.py": "82f355f970df7a354a02607581017fd275362e80960e027d6568ba7850af9bf4",
+      "core/mt_bicl_v3_decision.py": "f5875beae2e5acf2d0f9c5592720aa62455b71353fe0f736b852aac29de7db30",
+      "core/mt_bicl_v3_features.py": "2bf9bffa351f6930cc34f73c5de07eac4895754248c8fd0afb1d99115434f72d",
+      "core/mt_bicl_v3_policy.py": "6fb2f979e7fdacd5782600c9d635cdbf7f1f1315ab31b82a9b3f88e1026351ad",
+      "core/mt_bicl_v3_utility.py": "f47ccfedf83c377290f456148389e841677b7978409e6db547636a7da006ab28",
+      "core/mt_bicl_v3_validation_inputs.py": "fdd05b9948b5e3e6882c905e00c69794b0fdddb30de197d5a60244090d28070a",
+      "core/mt_bicl_v3_oracle.py": "b1cd90f5e80d3e8f42bf2b3609a03b04577d612e764071c4f4102326e768b057",
+      "core/mt_bicl_v3_validation.py": "2f5ef827e036205a2793c1633d48dfb430b63292aa43006808a364fb0a072d81",
+      "scripts/validate_mt_bicl_v3.py": "dd3a093a61cab7a131132207e83cf703b253d0f37472e85b63655ba1eac63c90",
+      "tests/test_mt_bicl_v3_validation.py": "0535e487e10cda8f04cbb726259cebb7844d9c89b59c3e87932c9fbd46328e5c",
+      "tests/test_mt_bicl_v3_validation_leakage.py": "ad74b46e19a5d101adce3775da253485ffe7fa6f5bf81e70c2a6ef718c76d36b",
+      "tests/mt_bicl_v3_support.py": "8fa493d3924d4fe1653fd21eef151bc5fb397b10218c6ddf124977f8fb40a645",
+      "tests/test_mt_bicl_v3_budget.py": "e530e9b880650a8d988bcc4f8b8603ed06b2c7c586c52e4fb8402bf9c0eef30d",
+      "tests/test_mt_bicl_v3_decision.py": "02bb47455187b23b9a1bc09fbd05532a20a5d377f2003844080da7c2c5f09582",
+      "tests/test_mt_bicl_v3_features_leakage.py": "01158a228c9751a23bb07d2098f2dd7052dd60cb8083b7f337eeafac25e9c1c6",
+      "tests/test_mt_bicl_v3_utility.py": "23572f58ce47e475b240ef9c2cbe1cc0d462796dc00497ca548602cbd5628163",
+      "tests/test_mt_bicl_v3_protocol.py": "d15d9e618ac831223342c7f5176f6cf42a9262f4b36457fa35935651fe09e917",
+      "tests/test_mt_bicl_v2_decision.py": "2875c9fb3557a668a1dd0e08db793fe462543127799e61e84443c85cf977aa82",
+      "tests/test_paired_protocol.py": "2f7c366746f5fefe6f9707775f14c016fb49bbf0c8a465b24d29e7207bc28621"
+    },
+    "runtime": {
+      "python": "3.13.5",
+      "platform": "Windows",
+      "os_name": "nt",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "numpy": "2.1.2",
+        "pandas": "2.3.3",
+        "scikit-learn": "1.7.2",
+        "hmmlearn": "0.3.3",
+        "scipy": "1.16.1",
+        "TA-Lib": "0.6.8",
+        "langgraph": "1.0.10",
+        "langchain-core": "1.2.17",
+        "langchain-groq": "1.1.2",
+        "groq": "0.37.1",
+        "httpx": "0.28.1",
+        "pydantic": "2.11.7",
+        "jsonschema": "4.24.0",
+        "Pillow": "11.0.0",
+        "matplotlib": "3.10.8"
+      }
+    },
+    "tests_run": 74,
+    "failures": [],
+    "errors": [],
+    "successful_test_ids": [
+      "test_mt_bicl_v2_decision.DecisionTests.test_original_duplicate_is_an_independent_call_not_shared_off",
+      "test_mt_bicl_v3_budget.BudgetTests.test_cap_and_wait_precheck_stop_keep_counter",
+      "test_mt_bicl_v3_budget.BudgetTests.test_clock_rollback_raises_and_CtrlC_cleanly_closes",
+      "test_mt_bicl_v3_budget.BudgetTests.test_counter_tamper_missing_or_identity_change_not_reset",
+      "test_mt_bicl_v3_budget.BudgetTests.test_crash_gap_conservative_and_capped_not_fresh_grant",
+      "test_mt_bicl_v3_budget.BudgetTests.test_crash_past_data_stop_bounded_and_clean_deadline_stop",
+      "test_mt_bicl_v3_budget.BudgetTests.test_import_constructor_does_not_create_counter",
+      "test_mt_bicl_v3_budget.BudgetTests.test_real_OS_lock_rejects_concurrent_session_then_allows_resume",
+      "test_mt_bicl_v3_budget.BudgetTests.test_resume_stages_and_W12_share_counter_clean_pause_excludes_downtime",
+      "test_mt_bicl_v3_decision.DecisionTests.test_anchor_tamper_utility_wrong_membership_and_nonfinite_raise",
+      "test_mt_bicl_v3_decision.DecisionTests.test_bad_anchor_bypasses_all_revisions_to_original_with_source_proof",
+      "test_mt_bicl_v3_decision.DecisionTests.test_fact_anchor_no_context_and_revisions_only_appropriate_inputs",
+      "test_mt_bicl_v3_decision.DecisionTests.test_facts_enum_and_citations_exact_not_free_prose_claim",
+      "test_mt_bicl_v3_decision.DecisionTests.test_locked_policy_fixtures_strict_zero_both_directions",
+      "test_mt_bicl_v3_decision.DecisionTests.test_long_reports_keep_distill_cap_and_prompt_overflow_fail_before_invoke",
+      "test_mt_bicl_v3_decision.DecisionTests.test_missing_response_api_error_is_not_bypass_cash_or_fallback",
+      "test_mt_bicl_v3_decision.DecisionTests.test_nonpositive_rejection_keeps_raw_and_final_actions_separate",
+      "test_mt_bicl_v3_decision.DecisionTests.test_original_A_body_schema_options_unchanged_and_input_not_mutated",
+      "test_mt_bicl_v3_decision.DecisionTests.test_plain_and_no_utility_allow_change_without_U_or_veto",
+      "test_mt_bicl_v3_decision.DecisionTests.test_revision_plan_keeps_all_bypass_slots_without_HTTP_and_deepcopies_shared",
+      "test_mt_bicl_v3_decision.DecisionTests.test_same_proposed_kept_bad_facts_rejected_and_context_reason_checked",
+      "test_mt_bicl_v3_decision.DecisionTests.test_unsupported_keeps_anchor_not_default_cash_no_fake_request",
+      "test_mt_bicl_v3_decision.DecisionTests.test_utility_only_strict_positive_rule_and_native_JSON",
+      "test_mt_bicl_v3_decision.DecisionTests.test_wrapper_format_attempts_only_and_semantic_mismatch_not_retried",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_bad_source_and_selected_membership_hash_raise",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_filter_before_rank_centroid_population_and_multisymbol_cache",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_four_bucket_signs_missing_zero_and_no_rounding_epsilon",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_future_price_append_and_poison_do_not_change_packet_or_context",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_injected_query_labels_equal_exit_overlap_duplicate_fail_even_rehashed",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_insufficient_or_stale_prefix_keeps_explicit_unknown",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_macd_exact_prefix45_matches_legacy_round4_last28",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_negative_macd_above_signal_is_not_below_signal",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_query_outcome_and_candidate_labels_do_not_choose_membership",
+      "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_without_target_preserves_D_query_and_prunes_only_target_proofs",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test804_and1348_slots_include_independent_duplicate",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_12_repeat_points_lock_five_exposed_and_seven_hash_selected",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_exact_locked_bundle_and_no_API_or_training_release",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_fact_schema_separates_below_zero_from_below_signal",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_ledger_allows_append_but_not_reserve_mutation_reset_or_duplicate_ID",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_missing_extra_or_changed_artifact_rejected",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_primary_and_repeat_orders_preserve_global_index",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_rehashed_relaxed_rule_budget_or_API_flag_cannot_self_seal",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_reply_schema_requires_three_unique_citations_and_legacy_horizon",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_reset_budget18_hours_separate_from_legacy_and_shared_with_W12",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_schema_rejects_external_reference_without_network",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_schema_rejects_query_labels_nonfinite_and_unregistered_fields",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_seed_fixture_reproducible_and_components_independent",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_teacher_U_and_student_p_roles_and_ablation_are_separate",
+      "test_mt_bicl_v3_protocol.ProtocolTests.test_utility_schema_supported_draws_and_support_must_be_real",
+      "test_mt_bicl_v3_utility.UtilityTests.test_MC_mean_quantiles_and_draw_hash_not_confused_with_analytic_mean",
+      "test_mt_bicl_v3_utility.UtilityTests.test_full_no_target_common_streams_subset_and_recompute",
+      "test_mt_bicl_v3_utility.UtilityTests.test_global_no_actionable_blocks_before_API_including_zero_boundary",
+      "test_mt_bicl_v3_utility.UtilityTests.test_independent_scalar_mixture_theta_and_all_MC_draws",
+      "test_mt_bicl_v3_utility.UtilityTests.test_missing_or_unknown_does_not_forward_and_keeps_every_branch",
+      "test_mt_bicl_v3_utility.UtilityTests.test_nonfinite_numpy_missing_student_or_query_label_rejected",
+      "test_mt_bicl_v3_utility.UtilityTests.test_packing_still_four_dimensions_and_37_tokens_no_query_label",
+      "test_mt_bicl_v3_utility.UtilityTests.test_projection_all_counts_exemplar_label_blind_and_600_guard",
+      "test_mt_bicl_v3_utility.UtilityTests.test_support_boundaries_no_sampler_on_unsupported",
+      "test_mt_bicl_v3_utility.UtilityTests.test_variants_recompute_two_p_and_full_mask_without_U_leakage",
+      "test_mt_bicl_v3_utility.UtilityTests.test_zero_net_is_retained_once_in_loss_and_no_double_cost",
+      "test_mt_bicl_v3_validation.ValidationTests.test_approximation_union_not_mean_of_group_means",
+      "test_mt_bicl_v3_validation.ValidationTests.test_failed_approx_and_no_actionable_are_both_retained_without_release",
+      "test_mt_bicl_v3_validation.ValidationTests.test_infinite_KL_is_explicit_failure_not_JSON_infinity_or_clipping",
+      "test_mt_bicl_v3_validation.ValidationTests.test_leave_one_task_out_keeps_query_target_and_no_refill",
+      "test_mt_bicl_v3_validation.ValidationTests.test_oracle_all4096_draws_and_nonuniform_pi_match",
+      "test_mt_bicl_v3_validation.ValidationTests.test_projection_counts_exemplar_stats_and_No_target_must_match",
+      "test_mt_bicl_v3_validation.ValidationTests.test_receipt_missing_group_stale_source_or_missing_test_is_rejected",
+      "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_bad_historical_y_or_future_exit_raise_instead_of_support_bypass",
+      "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_cohort_keeps_missing_feature_and_ignores_outcome_values_and2025",
+      "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_frozen_timeline_rejects_fit_after2020_before_detector_access",
+      "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_full_population_rank_and_closed_engine_labels_pass",
+      "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_future_prices_and_query_label_poison_do_not_affect_input_or_audit",
+      "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_removed_centroid_member_cannot_self_rehash_to_smaller_population",
+      "test_paired_protocol.PairedProtocolTests.test_run_invokes_one_paired_execution_per_test_point"
+    ],
+    "semantic_groups": {
+      "numeric_signs_and_units": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_four_bucket_signs_missing_zero_and_no_rounding_epsilon",
+          "test_mt_bicl_v3_utility.UtilityTests.test_zero_net_is_retained_once_in_loss_and_no_double_cost"
+        ]
+      },
+      "assertion_citation_mismatch": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_decision.DecisionTests.test_facts_enum_and_citations_exact_not_free_prose_claim"
+        ]
+      },
+      "below_zero_vs_below_signal": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_negative_macd_above_signal_is_not_below_signal"
+        ]
+      },
+      "missing_feature_or_zero_bucket": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_four_bucket_signs_missing_zero_and_no_rounding_epsilon",
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_insufficient_or_stale_prefix_keeps_explicit_unknown"
+        ]
+      },
+      "full_membership_counts_projection": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_projection_all_counts_exemplar_label_blind_and_600_guard"
+        ]
+      },
+      "query_label_exclusion": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_injected_query_labels_equal_exit_overlap_duplicate_fail_even_rehashed",
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_query_outcome_and_candidate_labels_do_not_choose_membership"
+        ]
+      },
+      "future_append_invariance": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_future_price_append_and_poison_do_not_change_packet_or_context",
+          "test_mt_bicl_v3_validation_leakage.ValidationLeakageTests.test_future_prices_and_query_label_poison_do_not_affect_input_or_audit"
+        ]
+      },
+      "equal_exit_query_rejected": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_injected_query_labels_equal_exit_overlap_duplicate_fail_even_rehashed"
+        ]
+      },
+      "duplicate_cycle_rejected": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_features_leakage.FeatureLeakageTests.test_injected_query_labels_equal_exit_overlap_duplicate_fail_even_rehashed"
+        ]
+      },
+      "No_target_recompute_p_U_support": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_full_no_target_common_streams_subset_and_recompute"
+        ]
+      },
+      "Stats_same_U_no_exemplars": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_variants_recompute_two_p_and_full_mask_without_U_leakage"
+        ]
+      },
+      "Plain_NoUtility_same_Full_mask_no_U": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_variants_recompute_two_p_and_full_mask_without_U_leakage"
+        ]
+      },
+      "Q10_zero_rejected_both_directions": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_decision.DecisionTests.test_locked_policy_fixtures_strict_zero_both_directions"
+        ]
+      },
+      "teacher_mixture_scalar_oracle": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_independent_scalar_mixture_theta_and_all_MC_draws",
+          "test_mt_bicl_v3_validation.ValidationTests.test_oracle_all4096_draws_and_nonuniform_pi_match"
+        ]
+      },
+      "MC_common_random_numbers_subset": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_full_no_target_common_streams_subset_and_recompute"
+        ]
+      },
+      "magnitude_zero_loss_retained": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_zero_net_is_retained_once_in_loss_and_no_double_cost"
+        ]
+      },
+      "no_double_costs": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_utility.UtilityTests.test_zero_net_is_retained_once_in_loss_and_no_double_cost"
+        ]
+      },
+      "unsupported_bypass_anchor_not_CASH": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_decision.DecisionTests.test_unsupported_keeps_anchor_not_default_cash_no_fake_request"
+        ]
+      },
+      "API_error_not_policy_bypass": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_decision.DecisionTests.test_missing_response_api_error_is_not_bypass_cash_or_fallback"
+        ]
+      },
+      "all_ineligible_no_API": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_decision.DecisionTests.test_revision_plan_keeps_all_bypass_slots_without_HTTP_and_deepcopies_shared"
+        ]
+      },
+      "counter_resume_crash_no_reset": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v3_budget.BudgetTests.test_crash_gap_conservative_and_capped_not_fresh_grant",
+          "test_mt_bicl_v3_budget.BudgetTests.test_resume_stages_and_W12_share_counter_clean_pause_excludes_downtime"
+        ]
+      },
+      "paired_once_and_duplicate_independent": {
+        "status": "PASS",
+        "test_ids": [
+          "test_mt_bicl_v2_decision.DecisionTests.test_original_duplicate_is_an_independent_call_not_shared_off",
+          "test_paired_protocol.PairedProtocolTests.test_run_invokes_one_paired_execution_per_test_point"
+        ]
+      }
+    },
+    "scope": "ORDINARY_SYNTHETIC_CONTRACT_FIXTURES_NOT_MARKET_VALIDATION",
+    "runtime_budget_exclusion": "ORDINARY_UNIT_FIXTURES",
+    "real_API_calls": 0,
+    "real_frozen_weights_forward": false
+  },
+  "sha256": "bddda457b18e36bc93524a81d04883cea044bdd6aa0c9c131b86a2d22ff5c0d3"
+}
