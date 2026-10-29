@@ -1,9 +1,9 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Amendment 29/10/2026: 5/15 task DONE (01–04 và audit 06).**
-V2 có D=−0,024757 đpt, chỉ1/4 mã tăng: không đạt rule nomination.
-Artifact vẫn `NOT_EVALUATED`; **W11-05 phải đóng nomination chính thức**.
-Tiếp theo W11-05 rồi W11-07; phương án v3 tại mục13 chưa triển khai/release.
+**Cập nhật 29/10/2026: 6/15 task DONE (01–06).**
+**W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
+Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
+Tiếp theo W11-07; phương án v3 tại mục13 chưa triển khai/release.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -160,7 +160,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [x] DONE —360/360 primary +252/252 repeat durable; audit/cache/ledger PASS, unknown0/pending0 |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [x] DONE —cold replay PASS,32 account primary +108 repeat, Numeric/Teacher đủ60 point |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [x] DONE —đủ G60, mọi contrast/strata/repeat, sensitivity và KL/latency; report/hình replay PASS |
-| W11-05 | Khóa nomination v2 bằng consumer đúng source/report; kết luận theo rule cũ, confirmation v2 không chạy | 04 | [ ] TODO — số liệu đã cho thấy không đạt, chưa có receipt máy |
+| W11-05 | Khóa nomination v2 bằng consumer đúng source/report; kết luận theo rule cũ, confirmation v2 không chạy | 04 | [x] DONE —receipt NOT_NOMINATED, confirmation v2 NOT_RUN; source/report/rule/Git replay PASS |
 | W11-06 | Audit quyết định/utility/target projection/facts và giới hạn repeat | 04 | [x] DONE — mục13; không đổi run hoặc promote ablation |
 | W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [ ] TODO |
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [ ] TODO |
@@ -749,8 +749,8 @@ Kiểm theo AGENTS.md1.2: **57 ca riêng biệt PASS** (18 report mới,14 audit
 vô tình giống action đã sửa, chạy lại toàn18 ca report PASS. Ba Python mới
 biên dịch PASS. Không đổi đường market/PIT/retrieval hoặc source đã khóa,
 không chạy lại toàn suite/compileall/E2E; viện dẫn gate W11-03 trên đúng hash.
-Diff/liên kết/số liệu và JSON/PNG replay PASS. W11-05 còn TODO;
-`nomination=NOT_EVALUATED`, confirmation=false; chưa phát hành2025.
+Diff/liên kết/số liệu và JSON/PNG replay PASS. Tại mốc W11-04, W11-05 còn TODO;
+report giữ `nomination=NOT_EVALUATED`, confirmation=false. Receipt đóng v2 tại mục14.
 
 
 ## 13. W11-06 — Audit kinh tế và kế hoạch utility-aware Bayesian ICL (29/10/2026)
@@ -759,8 +759,8 @@ Diff/liên kết/số liệu và JSON/PNG replay PASS. W11-05 còn TODO;
 
 **V2 chưa chứng minh cải thiện hệ thống trên development này.** D âm và
 1/4 mã tăng khiến không đạt hai điều kiện nomination; D so A và hai guard
-MDD vẫn đạt. Report mô tả còn `nomination=NOT_EVALUATED`; task05 tạo quyết
-định máy, không tự sửa trường đó trong report. Không dùng chênh lệch nhỏ
+MDD vẫn đạt. Report mô tả giữ `nomination=NOT_EVALUATED`; task05 đã tạo quyết
+định máy riêng tại mục14, không sửa trường đó trong report. Không dùng chênh lệch nhỏ
 này để kết luận mọi Bayesian ICL đều vô ích hoặc hai hệ thống tương đương.
 Đây không chỉ là vấn đề gate quá chặt: ngay điều kiện return cao hơn hệ
 thống gốc cũng chưa đạt. Nới tiêu chí accuracy hoặc số mã tăng không làm
@@ -955,7 +955,7 @@ Full−Original cho Bayes. Mục tiêu rõ rệt ≥1 đpt và guard phân tán/
 
 ### 13.4. Thứ tự thực hiện và các điểm dừng
 
-- **05:** khóa v2 NOT_NOMINATED bằng consumer; không mở xác nhận v2.
+- **05 DONE:** v2 NOT_NOMINATED bằng consumer tại mục14; xác nhận v2 NOT_RUN.
 - **07:** chốt hypothesis, source/protocol v3, feature/calculation/schema,
   evidence audit, threshold/seed/order và ngân sách chạy mới đã được reset.
   Ghi mốc reset, hạn mức và cách đo riêng cho v3; không yêu cầu đối soát số
@@ -1024,3 +1024,54 @@ Cập nhật reset ngân sách cùng ngày chỉ sửa kế hoạch và dependen
 không ghi đè counter/ledger/runtime, không tạo release hoặc tăng tiến độ.
 Kiểm diff/liên kết và hash bằng chứng theo phạm vi tài liệu; không chạy lại
 unit/leakage/E2E/compileall theo AGENTS.md1.2.
+
+## 14. W11-05 — Khóa nomination v2 (29/10/2026)
+
+**PASS — W11-05 DONE; 6/15 task hoàn tất.** [Receipt máy](development_nomination_v2.json)
+khóa **NOT_NOMINATED**, chỉ xét Full_MT_BICL theo rule v2 trước run.
+`confirmation_v2.status=NOT_RUN`, `allowed=false`; không đề cử No_target,
+ablation hoặc Teacher thay Full. Receipt này chỉ đóng v2, không cấp protocol,
+ngân sách hoặc release v3; W11-07 tiếp tục theo amendment/reset đã xác nhận.
+
+Consumer `core/mt_bicl_v2_nomination.py`, CLI
+`scripts/nominate_mt_bicl_development.py`, source neo commit `40508d7`.
+SHA-256 byte receipt:
+`b2747759b0d368ebc045f3d0c7ffff0ddb9761959506271976cadf2fe1581d78`.
+Đối soát report đúng SHA/version/source/runtime/Git và tái dựng report từ
+account/manifest/ledger PASS; tính lại từ bốn tài khoản, kiểm contrast/D
+khớp report. Rule lấy đúng `protocol_v2.json:development.nomination`,
+không áp tiêu chí mới của v3 hoặc dùng accuracy/repeat thay lợi ích kinh tế.
+
+| Điều kiện v2 | Giá trị thực | Rule | Kết quả |
+| --- | ---: | --- | --- |
+| G đầy đủ đã verify | 60 | Đủ60 và đúng mọi nhánh/mã | PASS |
+| D Full−Original (đpt) | −0,024756891114 | >0 | FAIL |
+| Số mã ΔR>0 | 1/4 | ≥3/4 | FAIL |
+| D Full−A_reference (đpt) | +0,576595826683 | ≥0 | PASS |
+| Mean ΔMDD (đpt) | −0,053380287250 | ≤2 | PASS |
+| Max ΔMDD (đpt) | +2,480064667200 | ≤5 | PASS |
+
+Hai reason máy là `D_Full_Original_gt_0` và `positive_symbols_at_least_3`.
+Đây là không đạt rule đề cử trên development đã exposed, không là kết luận
+mọi Bayesian ICL kém hoặc chênh lệch có ý nghĩa thống kê.
+
+Report/account/requests và mọi JSON v2 cũ giữ nguyên byte, kể cả trường
+`NOT_EVALUATED`. Receipt mới nằm ngoài namespace evidence v2. Kiểm trước/sau
+đủ2.597 file v2, loại metadata OS lock, PASS; ledger4.498 request không đổi.
+Receipt ghi rõ thuật toán hash cây: canonical JSON map đường dẫn tương đối
+namespace→SHA byte, digest
+`abee3ec568a76d58335c064c9253391e7dfcd70a55c3efe605c1f8c3ffc2f6a3`;
+đây là binding có phương pháp riêng, không thay dấu aggregate lịch sử mục13.5.
+Không đọc key/API, gọi lại model, sửa forecast/economics/PIT hoặc reset counter cũ.
+
+```powershell
+py -3.13 -X utf8 scripts/nominate_mt_bicl_development.py --verify-only
+```
+
+Kiểm theo AGENTS.md1.2: **34 test PASS** (16 nomination mới,18 hồi quy report),
+ba Python mới biên dịch PASS. Phủ biên strict/inclusive, zero/NaN/bool/MDD,
+G60/missing/repeat/nhánh, chống đổi rule/promote ablation, report/source sai,
+receipt immutable và neo byte Git. Không đổi market/PIT/retrieval/engine nên
+không chạy lại leakage/full suite/compileall/E2E; viện dẫn gate cũ trên đúng hash.
+Tái dựng nomination và kiểm receipt `--verify-only` sau neo Git: **PASS**,
+khớp toàn payload và byte Git HEAD. Diff, liên kết, checklist và số liệu PASS.
