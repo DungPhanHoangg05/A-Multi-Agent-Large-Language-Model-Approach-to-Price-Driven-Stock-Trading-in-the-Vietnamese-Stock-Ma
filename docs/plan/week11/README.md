@@ -1,10 +1,11 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 30/10/2026: 7/15 task DONE (01–07).**
+**Cập nhật 30/10/2026: 8/15 task DONE (01–08).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
 **W11-07 SPEC_LOCK_PASS** tại mục15; ngân sách v3 mới18 giờ đã khóa.
-Tiếp theo W11-08; chưa triển khai utility hoặc cấp release/API v3.
+**W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
+kiểm thử offline PASS. Tiếp theo W11-09 validation; chưa cấp release/API v3.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -164,7 +165,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-05 | Khóa nomination v2 bằng consumer đúng source/report; kết luận theo rule cũ, confirmation v2 không chạy | 04 | [x] DONE —receipt NOT_NOMINATED, confirmation v2 NOT_RUN; source/report/rule/Git replay PASS |
 | W11-06 | Audit quyết định/utility/target projection/facts và giới hạn repeat | 04 | [x] DONE — mục13; không đổi run hoặc promote ablation |
 | W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [x] DONE —SPEC_LOCK_PASS,18 giờ/64.800 giây từ0, schema/fixtures/order/repeat và Git/source replay PASS |
-| W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [ ] TODO |
+| W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [x] DONE —172 test theo phạm vi PASS, scalar MC/PIT/ablation/guard/counter; chưa validation thị trường/API |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [ ] TODO |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] TODO — có điều kiện |
 | W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] TODO — có điều kiện |
@@ -964,7 +965,7 @@ Full−Original cho Bayes. Mục tiêu rõ rệt ≥1 đpt và guard phân tán/
   dư chạy v1/v2 như điều kiện cấp ngân sách mới. Không fit
   hoặc grid-search threshold trên2023. 2021/2022 đã xem chỉ để diagnostic
   kỹ thuật/giới hạn; không được gọi lại là validation độc lập.
-- **08:** code utility, facts và renderer/anchor ở namespace mới; reuse
+- **08 DONE:** code utility, facts và renderer/anchor ở namespace mới; reuse
   core engine/weights, không sửa freeze v2. Test deterministic math/JSON,
   task/query exclusion, future append, sign/unit/fee, projection counts,
   low-support/bypass và raw/final action. Caller chọn test đúng đường đổi.
@@ -1165,3 +1166,78 @@ implementation utility hoặc bằng chứng P&L. Không thay đường dữ li�
 trong bước này nên không rerun leakage/full suite/compileall/E2E; đối soát
 gate cũ theo hash/runtime. Không đọc key, forward model, train, mở payoff2025
 hoặc gọi API. Tiếp theo W11-08 triển khai đúng đặc tả đã khóa.
+
+## 16. W11-08 — Triển khai bucket, utility và revision policy v3 (30/10/2026)
+
+**PASS — W11-08 DONE; 8/15 task hoàn tất.** Source `282ea2d` thêm module v3,
+không sửa code/schema/artifact v2 hoặc protocol/schema/grant đã khóa ở mục15.
+Các cờ `SPEC_LOCK_PASS`, `utility_implementation_exists_at_lock=false` và
+next task08 trong receipt07 mô tả thời điểm khóa, không phải trạng thái
+implementation hiện tại hoặc release API. Checklist/tiến độ hiện tại ở đây.
+
+| Module | Hành vi đã triển khai |
+| --- | --- |
+| [features](../../../core/mt_bicl_v3_features.py), [contracts](../../../core/mt_bicl_v3_contracts.py) | Facts float64 từ tail45 PIT, TA-Lib MACD12/26/9, SMA20; lọc cùng bucket trước TaskBuilder v2, giữ scaler/regime/rank cũ và centroid toàn tập đủ điều kiện; query không nhãn, proof/source/membership riêng |
+| [utility](../../../core/mt_bicl_v3_utility.py), [context](../../../core/mt_bicl_v3_context.py) | Mixture λ theo từng task, θ target không pooled prior; bootstrap magnitude net4.096 draw/CRN; summary toàn membership và một exemplar/P/T; recompute No_target, masks/ablation đúng protocol |
+| [policy](../../../core/mt_bicl_v3_policy.py), [decision](../../../core/mt_bicl_v3_decision.py) | Facts enum/citation, a0 có proof, raw/final riêng; Q10ΔU>0, zero giữ a0; bypass giữ đủ slot; Original/A giữ nguyên request legacy, schema/prompt anchored riêng; invocation qua retry wrapper cũ |
+| [budget](../../../core/mt_bicl_v3_budget.py) | Một path/identity64.800 giây, khóa OS, checkpoint đơn điệu/UTC; resume/crash/clean pause/cap/deadline; mất counter không reset từ0 |
+
+Bucket dùng hiệu MACD−Signal và Close−SMA20 trước rounding, zero/missing
+UNKNOWN; phân biệt MACD âm nhưng vẫn trên Signal. Historical/query dùng
+cùng hàm, chỉ hash OHLCV prefix nhìn thấy; appended future không đổi facts.
+Membership lọc trước rank/cắt tám cycle, không chọn theo label, không fit
+scaler mới bằng bucket. Sidecar giữ facts/raw/z/model-vector, centroid fit
+IDs, scaler fit IDs/hash và toàn context; student vẫn dùng bốn chiều/
+PAIRED_37. Lỗi nguồn/selected future, duplicate, overlap hoặc query label
+raise, không chuyển thành lý do thiếu support.
+
+Utility giữ zero return trong loss, magnitude0; dùng r_net đã tính bởi
+engine, không trừ phí lần hai. Mean θ/U giải tích, mean MC, Q10/Q90 và MC SE
+tách riêng. Lưu hash/full draw/seed/component và IDs phục vụ replay. Oracle
+scalar dùng likelihood tích tuần tự độc lập, kiểm mean θ/U và từng draw
+trong4.096 draw với tolerance1e−12; không dùng sai số mean MC làm gate ngẫu nhiên.
+Đây vẫn là utility teacher+bootstrap dưới giả định sign/magnitude, không
+phải U đã distill hoặc khoảng có coverage thị trường đã chứng minh.
+
+No_target bỏ đúng C và tính lại p/U/support, giữ D/query; Stats giữ cùng
+p/U/summary nhưng không chứa exemplar hoặc exemplar IDs. Plain_revision/
+No_utility dùng mask Full, không nhận U/veto; Plain không nhận p. BRPP≤600,
+fact card≤700, anchor card≤80 và prompt<6.500 được kiểm trước invocation.
+Renderer anchored có hướng dẫn gọn riêng để năm report chạm cap vẫn qua
+fixture; `_distill_report`/`_cap_report` và request Original/A giữ nguyên.
+Overflow vẫn fail, không cắt counts/legend hoặc phần bất lợi trong run.
+
+Fact_Anchor sai assertion dùng Original có source proof cho mọi revision;
+thiếu support/bucket/feature giữ a0 có reason, không mặc định CASH. Reply
+thiếu/lỗi API hoặc U/eligibility không nhất quán phải dừng, kể cả proposed=a0.
+Validator chỉ chứng minh enum/citation/context reason, không mọi văn xuôi.
+Utility_only dùng đúng Q10U>0; gate toàn context dừng NO_ACTIONABLE_CONTEXT
+nếu không có interval Full-supported dương/âm nghiêm ngặt, trước API.
+
+**172 test riêng biệt PASS:** 59 test `test_mt_bicl_v3_*.py` gồm44 mới và15
+protocol đã có; 113 hồi quy đã loại test bị import trùng. Các module hồi quy:
+`test_mt_bicl_tasks`, `test_mt_bicl_tasks_leakage`, `test_mt_bicl_v2_teacher`,
+`test_mt_bicl_v2_teacher_leakage`, `test_mt_bicl_v2_adapter`,
+`test_mt_bicl_v2_decision`, `test_backtest_token_budget`,
+`test_paired_protocol`, `test_account_pnl`. Phạm vi phủ primitive được tái dùng,
+P0 kinh tế/PIT/paired/token và hợp đồng mới; gồm30 test trong ba module
+leakage. Khóa OS thật trong temp chặn phiên đồng thời, cho resume sau đóng;
+fixture clock kiểm crash gap/cap/deadline/Ctrl+C và không reset khi đổi stage.
+**12 file Python mới biên dịch PASS**; không chạy toàn suite/compileall/E2E
+vì đường v3 tách riêng và đã chọn đúng caller/hợp đồng bị ảnh hưởng theo AGENTS1.2.
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p "test_mt_bicl_v3_*.py" -v
+```
+
+Đối soát spec/receipt/runtime/π/weights và cây2.597 evidence v2 nguyên byte
+PASS bằng verifier07; aggregate vẫn `abee3ec568a76d58335c064c9253391e7dfcd70a55c3efe605c1f8c3ffc2f6a3`.
+Ledger vẫn4.498 rows, SHA byte `6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5`.
+Tests/compile là fixture kỹ thuật được grant loại khỏi runtime thực nghiệm;
+chưa có namespace/counter v3 trong repository, thời gian thực nghiệm vẫn0.
+W11-09 phải mở RuntimeBudget trước source checks/inference/validation đầu
+tiên và dùng cùng counter ở mọi stage sau đó. Chưa forward weights thật,
+fit model thực nghiệm, đọc payoff2025, gọi API hoặc có P&L v3.
+Tiếp theo **W11-09**: kiểm nguồn thật, approximation/support/semantic và
+diagnostic trên2021/2022 cùng context development mới; chưa được suy unit
+PASS thành đạt gate thị trường hoặc release ở W11-10.
