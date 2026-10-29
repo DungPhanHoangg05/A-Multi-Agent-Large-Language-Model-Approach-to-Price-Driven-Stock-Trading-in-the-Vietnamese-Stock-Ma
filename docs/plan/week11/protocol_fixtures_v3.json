@@ -1,0 +1,171 @@
+{
+  "version": "utility_icl_protocol_fixtures_v3",
+  "scope": "SYNTHETIC_CONTRACT_NOT_MARKET_OUTCOMES",
+  "seed": {
+    "protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "point_id": "FPT-2023-01-06",
+    "component": "theta",
+    "material_format": "utility-v3|{protocol_sha256}|{point_id}|{component}",
+    "uint128_decimal": "215755813990830622560994957789314817463"
+  },
+  "bucket_cases": [
+    {
+      "macd_minus_signal": 1.0,
+      "close_minus_sma20": 1.0,
+      "expected": "MACD_POS_PRICE_POS"
+    },
+    {
+      "macd_minus_signal": 1.0,
+      "close_minus_sma20": -1.0,
+      "expected": "MACD_POS_PRICE_NEG"
+    },
+    {
+      "macd_minus_signal": -1.0,
+      "close_minus_sma20": 1.0,
+      "expected": "MACD_NEG_PRICE_POS"
+    },
+    {
+      "macd_minus_signal": -1.0,
+      "close_minus_sma20": -1.0,
+      "expected": "MACD_NEG_PRICE_NEG"
+    },
+    {
+      "macd_minus_signal": 0.0,
+      "close_minus_sma20": 1.0,
+      "expected": "UNKNOWN"
+    },
+    {
+      "macd_minus_signal": null,
+      "close_minus_sma20": 1.0,
+      "expected": "UNKNOWN"
+    }
+  ],
+  "utility_analytic_cases": [
+    {
+      "theta_mean": 0.4,
+      "gain_mean": 0.04,
+      "loss_mean": 0.02,
+      "U": 0.004
+    },
+    {
+      "theta_mean": 0.6,
+      "gain_mean": 0.01,
+      "loss_mean": 0.03,
+      "U": -0.006
+    },
+    {
+      "theta_mean": 0.5,
+      "gain_mean": 0.02,
+      "loss_mean": 0.02,
+      "U": 0.0
+    }
+  ],
+  "policy_cases": [
+    {
+      "anchor": "CASH",
+      "proposed": "LONG",
+      "q10_U": 0.001,
+      "q90_U": 0.01,
+      "facts": true,
+      "supported": true,
+      "final": "LONG"
+    },
+    {
+      "anchor": "LONG",
+      "proposed": "CASH",
+      "q10_U": -0.02,
+      "q90_U": -0.001,
+      "facts": true,
+      "supported": true,
+      "final": "CASH"
+    },
+    {
+      "anchor": "CASH",
+      "proposed": "LONG",
+      "q10_U": 0.0,
+      "q90_U": 0.01,
+      "facts": true,
+      "supported": true,
+      "final": "CASH"
+    },
+    {
+      "anchor": "LONG",
+      "proposed": "CASH",
+      "q10_U": -0.01,
+      "q90_U": 0.0,
+      "facts": true,
+      "supported": true,
+      "final": "LONG"
+    },
+    {
+      "anchor": "LONG",
+      "proposed": "CASH",
+      "q10_U": -0.02,
+      "q90_U": -0.01,
+      "facts": false,
+      "supported": true,
+      "final": "LONG"
+    },
+    {
+      "anchor": "LONG",
+      "proposed": "CASH",
+      "q10_U": -0.02,
+      "q90_U": -0.01,
+      "facts": true,
+      "supported": false,
+      "final": "LONG"
+    }
+  ],
+  "facts_counterexample": {
+    "macd": -0.6521,
+    "signal": -0.762,
+    "MACD_SIGNAL": "ABOVE",
+    "MACD_ZERO": "NEGATIVE",
+    "scope": "EXPOSED_V2_DIAGNOSTIC_NOT_A_QUERY_EXCEPTION"
+  },
+  "development_repeat_ids": [
+    "MWG-2023-04-04",
+    "FPT-2023-04-12",
+    "MWG-2023-04-28",
+    "VNM-2023-04-28",
+    "MWG-2023-06-30",
+    "VCB-2023-06-30",
+    "VNM-2023-06-30",
+    "VCB-2023-08-29",
+    "VNM-2023-09-29",
+    "VCB-2023-10-30",
+    "VNM-2023-10-30",
+    "VCB-2023-12-22"
+  ],
+  "changed_v2_ids": [
+    "MWG-2023-04-04",
+    "MWG-2023-06-30",
+    "VNM-2023-06-30",
+    "VCB-2023-08-29",
+    "VCB-2023-10-30"
+  ],
+  "semantic_required_groups": [
+    "numeric_signs_and_units",
+    "assertion_citation_mismatch",
+    "below_zero_vs_below_signal",
+    "missing_feature_or_zero_bucket",
+    "full_membership_counts_projection",
+    "query_label_exclusion",
+    "future_append_invariance",
+    "equal_exit_query_rejected",
+    "duplicate_cycle_rejected",
+    "No_target_recompute_p_U_support",
+    "Stats_same_U_no_exemplars",
+    "Plain_NoUtility_same_Full_mask_no_U",
+    "Q10_zero_rejected_both_directions",
+    "teacher_mixture_scalar_oracle",
+    "MC_common_random_numbers_subset",
+    "magnitude_zero_loss_retained",
+    "no_double_costs",
+    "unsupported_bypass_anchor_not_CASH",
+    "API_error_not_policy_bypass",
+    "all_ineligible_no_API",
+    "counter_resume_crash_no_reset",
+    "paired_once_and_duplicate_independent"
+  ]
+}

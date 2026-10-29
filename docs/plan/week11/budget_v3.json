@@ -1,0 +1,57 @@
+{
+  "version": "utility_icl_budget_grant_v3",
+  "authorized_date": "2026-10-29",
+  "authority": "USER_CONFIRMED_RESET_AND_SELECTED_18_HOURS",
+  "user_reply": "18 giờ chạy tổng cho v3",
+  "cap_seconds": 64800,
+  "charged_seconds_at_reset": 0,
+  "deduct_v1_v2_runtime": false,
+  "shared_stages": [
+    "offline_validation",
+    "API_preflight",
+    "development",
+    "confirmation_if_released",
+    "cold_verification",
+    "report_replay"
+  ],
+  "includes": [
+    "CPU_GPU_frozen_inference",
+    "serialization_checkpoint_and_source_checks_inside_experiment",
+    "HTTP",
+    "pacing",
+    "retry",
+    "format_repair",
+    "provider_quota_wait",
+    "verification"
+  ],
+  "excludes": [
+    "human_authoring",
+    "ordinary_unit_fixture_tests_and_compilation",
+    "spec_only_metadata_lint",
+    "cleanly_closed_pause"
+  ],
+  "counter_path": "outputs/bayesian_benchmark/mt_bicl_v3/runtime_budget.json",
+  "counter_initialization": "ONCE_BEFORE_FIRST_V3_EXPERIMENT_W11_08_09",
+  "resume_and_W12": "SAME_COUNTER_NO_RESET",
+  "hard_crash": "CHARGE_UNCLOSED_GAP_UNTIL_RECOVERY_BOUNDED_BY_CAP_AND_DATA_STOP",
+  "meter": "monotonic_elapsed_within_session_UTC_durable_open_session_on_resume_flush_after_each_slot_or_stage",
+  "ledger": "outputs/oos_pilot/api_usage.json_APPEND_ONLY_REQUEST_ROWS_NO_QUOTA_RESET",
+  "work_hours_separate": {
+    "W11": [
+      4,
+      8
+    ],
+    "W12": [
+      5,
+      10
+    ]
+  },
+  "release_and_start_by": "2026-11-05T23:59:59+07:00",
+  "data_stop": "2026-11-07T23:59:59+07:00",
+  "submission_work_end": "2026-11-10",
+  "on_cap_or_deadline": "STOP_KEEP_UUID_RESERVE_CHECKPOINT_INCOMPLETE_NO_FILTERING_NO_NEW_RUN",
+  "preflight_required": "MEASURE_MAX804_PLUS_CONDITIONAL1348_SLOTS_WITH_PACING_RETRY_VERIFICATION_AND_REMAINING_CALENDAR",
+  "slot_counts_are_HTTP_limits": false,
+  "estimates_are_guarantees": false,
+  "new_API_quota_granted": false
+}

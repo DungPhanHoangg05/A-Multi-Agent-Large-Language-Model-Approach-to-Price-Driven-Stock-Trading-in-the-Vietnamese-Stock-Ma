@@ -1,0 +1,781 @@
+{
+  "version": "utility_icl_protocol_v3",
+  "date": "2026-10-29",
+  "status": "SPEC_ONLY_BEFORE_V3_IMPLEMENTATION_AND_RESPONSES",
+  "training_allowed": false,
+  "teacher_fit_allowed": false,
+  "development_allowed": false,
+  "decision_calls_allowed": false,
+  "confirmation_allowed": false,
+  "hypotheses": {
+    "primary": "Full_utility_ICL tăng return tài khoản so Original",
+    "incremental_Bayes": "Full phải hơn Fact_Anchor; Full−Plain gồm posterior/utility/policy, chưa tách riêng distillation",
+    "utility": "Full−No_utility tách utility và veto",
+    "target": "Full−No_target tách C bằng recompute",
+    "demonstrations": "Full−Stats_only tách exemplars khỏi cùng summary/p/U",
+    "no_guaranteed_profit": true
+  },
+  "exposure": {
+    "2021": "EXPOSED_DIAGNOSTIC_NOT_INDEPENDENT_VALIDATION",
+    "2022": "EXPOSED_DIAGNOSTIC_NOT_INDEPENDENT_VALIDATION",
+    "2023": "ADAPTIVE_DEVELOPMENT_AFTER_V2_OUTCOMES",
+    "2024": "EXPOSED_REFERENCE_NOT_NEW_HOLDOUT",
+    "2025": "NO_OUTCOME_ACCESS_UNTIL_EXPOSURE_AUDIT_AND_SEPARATE_RELEASE",
+    "repeat_sample": "PURPOSEFUL_DIAGNOSTIC_POST_V2_EXPOSURE"
+  },
+  "parent": {
+    "nomination_path": "docs/plan/week11/development_nomination_v2.json",
+    "nomination_sha256": "b2747759b0d368ebc045f3d0c7ffff0ddb9761959506271976cadf2fe1581d78",
+    "nomination_status": "NOT_NOMINATED",
+    "release_path": "docs/plan/week10/development_release_v2.json",
+    "release_sha256": "8459cfc1a4e95dae7512bc3c236fe102764d6af13ce5a7d3d19e0ce67d805121",
+    "release_scope": "INHERITED_FROZEN_ASSETS_ONLY_NOT_V3_API_AUTHORITY",
+    "report_path": "outputs/bayesian_benchmark/mt_bicl_v2/development2023/analysis/report.json",
+    "report_sha256": "ce4ac6b6c2f168ad8e88822236a38277ac46d812382414a691bcebfb8b89fb8d"
+  },
+  "runtime": {
+    "python": "3.13.5",
+    "platform": "Windows",
+    "os_name": "nt",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "numpy": "2.1.2",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "hmmlearn": "0.3.3",
+      "scipy": "1.16.1",
+      "TA-Lib": "0.6.8",
+      "langgraph": "1.0.10",
+      "langchain-core": "1.2.17",
+      "langchain-groq": "1.1.2",
+      "groq": "0.37.1",
+      "httpx": "0.28.1",
+      "pydantic": "2.11.7",
+      "jsonschema": "4.24.0",
+      "Pillow": "11.0.0",
+      "matplotlib": "3.10.8"
+    }
+  },
+  "inherited_source_sha256": {
+    "core/backtest_engine.py": "57074df54e806adb1685436eac9bbe3053a87cadb12cb6613e682589ec8e8f2d",
+    "core/execution_prices.py": "34f5c5d4e1d71fffae1770567dbd8a8c74054496650ce29d79d7d67d098f0121",
+    "core/mt_bicl_tasks.py": "1f4b6c607c2952f18925a635f7c92cd539a27ce98929fb38498e426a231e413e",
+    "core/mt_bicl_scaler.py": "8f7356b72b20177ae9116a3cf992554b614cfe8b0b9fb849db80dd54fe052bb3",
+    "core/mt_bicl_regimes.py": "6d036cb93c0ca3a965e536145fe2074fc2e27064c21cae0c2d7de637fcada704",
+    "core/mt_bicl_v2_teacher.py": "8acb01f4162e9141dd024285912effd5a5c81c05d50d8ee69125436cab4dd517",
+    "core/mt_bicl_v2_student.py": "3d74ff213d7194e4c0a85129099a2009e50fc36389c86ba2af3a1d022226dd24",
+    "core/mt_bicl_v2_adapter.py": "29e615300cf4fd48be449252b7b1106bc340757bbc1ca695a43687b69aebe999",
+    "core/mt_bicl_v2_reference.py": "bbcc0ded582264e43cc91b2c7e42d36650287094c0f326f598cfcb1ed9655f66",
+    "agents/indicator_agent.py": "470fa5d1f4350180a23bfe40564cd6c02e00b8939cd2d90cad775776f74ee57b",
+    "agents/decision_agent.py": "4a60154f52c5755388614813e88ff43480f91658ccdf55844667bec15d0bb571",
+    "utils/graph_util.py": "5a8ea82f3112932d8df7677223a433d331e5a0212c42154e3b4c648a4cb24b6a",
+    "core/mt_bicl_v2_report.py": "d9625e1c5eb53bfbb3f1ae5de3c9229191d2b5ada1599fccb0d29b76b2fce598",
+    "core/mt_bicl_v2_nomination.py": "46404b3fb71f42e16e690879d9f3374ad0a64edfb4f44f245648914372baa821"
+  },
+  "frozen_assets_sha256": {
+    "outputs/bayesian_benchmark/mt_bicl_v2/training_v2/candidate.pt": "f8631d9e1bd15ac40422e58827c126e8c7eb9b0512a21c4a0697784cb86cd2dd",
+    "outputs/bayesian_benchmark/mt_bicl_v2/teacher_v2_1/teacher_fit.json": "7a89978336d1307d2b65a8a9712a26792451900f78351ba8bf03bf5ee277dc78",
+    "outputs/bayesian_benchmark/price_features/candidate_index_v1.json": "4f9242edcca9627437a6e37c81931d45621d48006ebd3f87a8d35952c20fb785"
+  },
+  "candidate": {
+    "seed": 42,
+    "step": 3000,
+    "checkpoint": {
+      "file": "seed42/checkpoint-03000.pt",
+      "sha256": "7b300a0dc28fad050efac68282994ef2d02330dcc0d6a98760c0ac2686989a94",
+      "bytes": 3317105
+    },
+    "report": {
+      "file": "seed42/checkpoint-03000.assessment.json",
+      "sha256": "f3e3bc89ec4803cfe47c4e6d1c3952fed258cd183a36523e93c6e6c6e06eb4ef",
+      "bytes": 739370
+    }
+  },
+  "learner": {
+    "packing": "PAIRED_37",
+    "query_dimensions": 4,
+    "additional_bucket_dimensions": 0,
+    "weights_seed": 42,
+    "weights_step": 3000,
+    "refit_scaler_HMM_or_weights": false,
+    "reuse_v2_p_for_new_membership": false,
+    "U_is_distilled_output": false
+  },
+  "artifacts_sha256": {
+    "docs/plan/week11/budget_v3.json": "14e00747e8a1d2a3f783626daddb6ac1429b16e580740d9777694a2d167eb119",
+    "docs/plan/week11/utility_icl_v3.schema.json": "61a426b75ee2464e9644d503ed5a9530565248f3fde888c999f680db23721057",
+    "docs/plan/week11/protocol_fixtures_v3.json": "d7d8b3bd4082b877557b143587ae553e75b1e467d2b628ceaffa291951358b24"
+  },
+  "namespaces": {
+    "outputs": "outputs/bayesian_benchmark/mt_bicl_v3",
+    "development": "outputs/bayesian_benchmark/mt_bicl_v3/development2023",
+    "confirmation": "outputs/bayesian_benchmark/mt_bicl_v3/confirmation2025",
+    "shared_ledger": "outputs/oos_pilot/api_usage.json",
+    "no_v2_writes": true,
+    "no_v2_response_cache_for_new_requests": true
+  },
+  "ledger_baseline": {
+    "count": 4498,
+    "requests_prefix_sha256": "ae6c07ba0955204a3359d7fd3cebf8bbb2aae28adbcab8d1dd53b77e8cc429ff",
+    "file_sha256_at_protocol": "6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5",
+    "future": "KEEP_OLD_ROWS_AND_RESERVES_APPEND_ONLY_NO_ZERO_COUNTERS_NO_KEY_ROTATION"
+  },
+  "economic_contract": {
+    "entry": "Open(t+1)",
+    "exit": "Close(t+3)",
+    "SHORT": "CASH",
+    "fee_per_leg": 0.0025,
+    "slippage_per_leg": 0.001,
+    "label_function": "core.backtest_engine.compute_round_trip_net_return",
+    "initial_capital_vnd_each_symbol": 50000000.0,
+    "shares": "FROZEN_ENGINE_FRACTIONAL_NO_BOARD_LOT",
+    "summary": "MEAN_FOUR_ACCOUNT_RETURNS_NOT_SUM_OR_MEAN_CYCLE",
+    "TP_SL_changes_exit": false
+  },
+  "features": {
+    "PIT": "RAW_OHLCV_DATETIME_LE_QUERY_NO_FUTURE_NEWS_NO_UNDATED_NEWS",
+    "window_rows": 45,
+    "MACD": {
+      "implementation": "talib.MACD_same_parameters_as_TechnicalTools.compute_macd_before__to_clean_list",
+      "fast": 12,
+      "slow": 26,
+      "signal": 9
+    },
+    "SMA20": "ARITHMETIC_MEAN_LAST20_CLOSE_ON_SAME_PREFIX45",
+    "insufficient_prefix": "QUERY_FEATURE_UNAVAILABLE",
+    "numeric_precision": "FLOAT64_COMPARE_BEFORE_ROUNDING_NO_EPSILON",
+    "display": ".8g_with_explicit_raw_relation_enum_full_precision_sidecar",
+    "rounded_legacy_check": "ROUND4_LAST28_MATCH_TechnicalTools_compute_macd",
+    "bucket": {
+      "axes": [
+        "macd_minus_signal",
+        "close_minus_sma20"
+      ],
+      "labels": [
+        "MACD_POS_PRICE_POS",
+        "MACD_POS_PRICE_NEG",
+        "MACD_NEG_PRICE_POS",
+        "MACD_NEG_PRICE_NEG"
+      ],
+      "zero_or_missing": "UNKNOWN",
+      "history_and_query_same_implementation": true,
+      "bucket_not_from_LLM_prose": true
+    }
+  },
+  "membership": {
+    "same_symbol_only": true,
+    "closed_rule": "exit_date < query_date",
+    "prior_task_rule": "block_end < target_block_start; cycle thuộc prior block và >=2 cycle hợp lệ",
+    "max_prior_tasks": 3,
+    "max_cycles_per_prior": 8,
+    "min_cycles_per_prior": 2,
+    "target": "SAME_BLOCK_SAME_BUCKET_LATEST8_EXIT_LT_QUERY_SORT_CUTOFF_ID",
+    "max_target_cycles": 8,
+    "prior_task_rank": [
+      "known_regime_match_first",
+      "centroid_euclidean_distance_ascending",
+      "latest_closed_exit_descending",
+      "task_id_lexicographic"
+    ],
+    "prior_cycle_rank": [
+      "euclidean_distance_to_query_ascending",
+      "as_of_date_descending",
+      "episode_id_lexicographic"
+    ],
+    "cycle_order_in_selected_prior": "as_of_date/ID tăng dần sau khi chọn tám cycle gần query nhất theo distance",
+    "disjoint": "ID và khoảng [entry,exit] của mọi observation và query rời nhau; cycle cắt block đã loại",
+    "age_cap_days": null,
+    "missing": "Giữ K=0..3,m=0..8 và reasons, không bù task khác mã, không cân bằng nhãn",
+    "violation": "Candidate tương lai bị loại trước rank; membership đã chọn chứa future/overlap phải raise ValueError/AssertionError",
+    "centroid_scaler_fit_ids": "Lưu ID/hash của tập fit scaler và toàn cycle centroid trước cutoff; không dùng y để rank",
+    "additional_filter": "SAME_NONUNKNOWN_BUCKET_AS_QUERY_BEFORE_RANK_WITHOUT_Y",
+    "prior_centroid": "ALL_BUCKET_ELIGIBLE_CLOSED_CYCLES_IN_TASK_USING_FROZEN_SCALER",
+    "exemplar_rank": [
+      "euclidean_distance_to_query_ascending",
+      "as_of_date_descending",
+      "episode_id_lexicographic"
+    ],
+    "new_membership_new_p_U": true,
+    "historical_reports_fabrication": false
+  },
+  "scaler": {
+    "family": "standardization_ddof0",
+    "scope": "global_four_symbols_equal_per_cycle_no_labels",
+    "train_episode_fit": "Chỉ feature cycle thuộc train đã đóng exit<query; không fit bằng future train rows của query đó",
+    "minimum_closed_cycles": 2,
+    "zero_std_scale": 1.0,
+    "post_train_fit": "Mọi feature train hợp lệ exit<=2020-12-31; freeze trước 2021",
+    "apply": "Cùng scaler episode cho prior/target/query; giữ vector raw và z đầy đủ trong sidecar",
+    "clip_model_and_distance": [
+      -4.0,
+      4.0
+    ],
+    "centroid": "Mean vector scale/clip của mọi cycle hợp lệ trong task đã đóng trước query, không chỉ tám cycle được chọn",
+    "auxiliary_loss_note": "Loss ở C trong episode là teacher-forced target loss, không báo như dự báo PIT độc lập tại ngày C."
+  },
+  "regime": {
+    "primitive": "MarketRegimeDetector",
+    "min_raw_rows": 499,
+    "train_task_metadata": "Fit historical prefix <=block_start, classify tại block_start; khóa metadata theo task ID",
+    "train_query": "Dùng model prefix của đầu block hiện tại, classify prefix <=query",
+    "insufficient_history": {
+      "regime": "UNKNOWN",
+      "reason": "INSUFFICIENT_REGIME_HISTORY",
+      "retain_price_cycles": true,
+      "known_match": false
+    },
+    "other_fit_or_integrity_error": "RAISE_STOP_NOT_UNKNOWN",
+    "evaluation_model": "Fit một lần bằng VNINDEX <=2020-12-31 trong namespace mới, classify query từ 2021; không dùng artifact cuối 2022",
+    "old_task_metadata": "Không gán lại bằng artifact fit sau đầu block; block từ 2021 dùng model cuối 2020, block vắt 2020/2021 giữ metadata historical-prefix",
+    "classification_method": "Giữ HMM hoặc fallback calibration của primitive cùng provenance; không đổi parameters",
+    "missing_regime_in_numeric_input": false,
+    "task_metadata_after_2020": "Block bắt đầu từ 2021 dùng model cuối 2020 đóng băng; chỉ classify prefix đến block_start, không refit bằng validation/test"
+  },
+  "projection": {
+    "full_membership_summary_each_P_T": [
+      "n",
+      "wins",
+      "losses",
+      "mean_r_net_fraction"
+    ],
+    "max_exemplars_per_prior": 1,
+    "max_target_exemplars": 1,
+    "exemplar_selection": "DISTANCE_DATE_ID_NOT_LABEL",
+    "exemplar_fields": [
+      "quantized_four_features",
+      "y",
+      "r_net_fraction",
+      "age_days"
+    ],
+    "full_context_ids_and_precision_in_sidecar": true,
+    "flag_small_target_m_at_most": 3,
+    "prefix_chars_inclusive_max": 600,
+    "fact_card_chars_inclusive_max": 700,
+    "anchor_card_chars_inclusive_max": 80,
+    "prompt_chars_exclusive_max": 6500,
+    "distill_and_cap": "UNCHANGED",
+    "overflow": "FAIL_BEFORE_API_NO_LABEL_OR_LEGEND_DROP"
+  },
+  "utility": {
+    "source": "TEACHER_SIGN_BAYESIAN_BOOTSTRAP_MAGNITUDE",
+    "draws": 4096,
+    "rng": "PCG64",
+    "quantile_method": "linear",
+    "quantiles": [
+      0.1,
+      0.9
+    ],
+    "support": {
+      "K_min": 2,
+      "gain_min": 5,
+      "loss_min": 5,
+      "zero_net_in_loss": true
+    },
+    "deduplicate": "UNIQUE_EPISODE_IDS_IN_D_UNION_C_EACH_OBSERVATION_ONCE_PER_SIGN_OR_MAGNITUDE_FACTOR",
+    "lambda_posterior": "PI_LAMBDA_PRODUCT_BETA_BINOMIAL_LIKELIHOODS_OF_EACH_PRIOR_AND_TARGET_TASK_NO_POOLED_COUNTS",
+    "theta_draw": "BETA_ALPHA_LAMBDA_PLUS_TARGET_SUCCESSES_BETA_LAMBDA_PLUS_TARGET_FAILURES",
+    "mean_theta_oracle": "SUM_LAMBDA_POSTERIOR_TIMES_TARGET_POSTERIOR_MEAN_MATCH_predict_counts",
+    "magnitude_draw": "DIRICHLET1_WEIGHTS_NORMALIZE_EXP_NEGLOG_U_PER_SIGN_OVER_UNIQUE_CLOSED_NET_MAGNITUDES",
+    "U_draw": "theta_draw*gain_draw-(1-theta_draw)*loss_draw",
+    "CASH_utility": 0.0,
+    "mean_U_analytic": "teacher_mean_theta*sample_gain_mean-(1-teacher_mean_theta)*sample_loss_mean",
+    "MC_mean_separate": true,
+    "no_cost_double_subtraction": true,
+    "no_LLM_TP_SL_payoffs": true,
+    "seed_material": "utility-v3|{protocol_byte_sha256}|{point_id}|{component}",
+    "seed_integer": "FIRST16_SHA256_BYTES_UNSIGNED_BIG_ENDIAN_UINT128_STORED_DECIMAL_STRING",
+    "CRN_components": [
+      "lambda",
+      "theta",
+      "magnitude|episode_id"
+    ],
+    "CRN_uniform": "PCG64_integers_low1_high2pow53_exclusive_dtype_uint64_divide2pow53",
+    "CRN_lambda": "INVERSE_CDF_SAME_LAMBDA_UNIFORMS",
+    "CRN_theta": "scipy.stats.beta.ppf_SAME_THETA_UNIFORMS",
+    "CRN_magnitude": "SAME_PER_EPISODE_UNIFORMS_SUBSET_AND_RENORMALIZE_FOR_NO_TARGET",
+    "shared_across": [
+      "branch",
+      "repeat"
+    ],
+    "sensitivity": "LEAVE_ONE_PRIOR_TASK_OUT_DIAGNOSTIC_NO_POLICY_SELECTION",
+    "limitations": [
+      "SIGN_MAGNITUDE_FACTORIZATION_ASSUMPTION",
+      "NO_UNSEEN_TAIL_SUPPORT",
+      "SERIAL_DEPENDENCE",
+      "INTERVAL_NOT_COVERAGE_GUARANTEE"
+    ],
+    "student_role": "POINT_PROBABILITY_ONLY_NO_TEACHER_FALLBACK_IF_APPROXIMATION_FAILS"
+  },
+  "facts": {
+    "hard_assertions": [
+      "MACD_SIGNAL",
+      "MACD_ZERO",
+      "PRICE_SMA20"
+    ],
+    "horizon": "T+2.5",
+    "warnings": "TREND_PATTERN_ALPHA_SENTIMENT_AS_REPORTED_NOT_NUMERIC_GROUND_TRUTH",
+    "validator": "ENUMS_AND_VISIBLE_FACT_IDS_EXACT_PACKET_MATCH_UNKNOWN_EXPLICIT",
+    "unvalidated": "FREE_PROSE_JUSTIFICATIONS_PRESERVED_NOT_CLAIMED_SEMANTICALLY_PROVEN",
+    "invalid_anchor": "USE_ORIGINAL_ACTION_ALL_ANCHORED_BRANCHES_REASON_AND_SOURCE_HASH",
+    "anchor_API_or_integrity_error": "STOP_NOT_FALLBACK",
+    "invalid_revision_assertions": "KEEP_A0_NOT_CASH"
+  },
+  "policy": {
+    "a0": "FACT_ANCHOR_VALIDATED_ACTION_OR_ORIGINAL_ON_ASSERTION_MISMATCH",
+    "same_proposed_as_a0": "KEEP",
+    "change_rule": "FACTS_VALID_AND_SUPPORTED_AND_Q10_DELTA_U_STRICT_GT0",
+    "delta_U_draw": "(I_proposed_LONG-I_a0_LONG)*U_draw",
+    "CASH_TO_LONG_q10": "Q10_U",
+    "LONG_TO_CASH_q10": "NEGATIVE_Q90_U",
+    "zero_threshold": 0.0,
+    "nonpositive_or_missing_support": "KEEP_A0_WITH_REASON",
+    "integrity_API_PIT_error": "STOP_KEEP_UUID_AND_RESERVE",
+    "bypass_is_cache_hit": false,
+    "raw_final_and_anchor_proof_separate": true,
+    "symbol_date_blacklist": false
+  },
+  "decision": {
+    "llm_matrix": [
+      "Original",
+      "A_reference",
+      "Fact_Anchor",
+      "Plain_revision",
+      "Full_utility_ICL",
+      "No_utility",
+      "No_target",
+      "Stats_only"
+    ],
+    "offline_matrix": [
+      "Utility_only"
+    ],
+    "candidate_only": "Full_utility_ICL",
+    "config": {
+      "symbol_order": [
+        "FPT",
+        "MWG",
+        "VCB",
+        "VNM"
+      ],
+      "signal_config": {
+        "models": {
+          "agent_llm_max_tokens": 2048,
+          "agent_llm_model": "openai/gpt-oss-20b",
+          "agent_llm_temperature": 0.0,
+          "graph_llm_max_tokens": 1024,
+          "graph_llm_model": "qwen/qwen3.8-27b",
+          "graph_llm_temperature": 0.0
+        },
+        "window_size": 45,
+        "norm_method": "zscore_tanh",
+        "alpha_weights": null,
+        "language": "vi",
+        "time_frame": "1d"
+      },
+      "client_options": {
+        "agent": {
+          "reasoning_format": "hidden",
+          "reasoning_effort": "low"
+        },
+        "graph": {
+          "reasoning_format": "hidden",
+          "reasoning_effort": "none"
+        }
+      },
+      "client_max_retries": 0,
+      "service_tier": "on_demand"
+    },
+    "Original_A_schema": "LEGACY_TRADE_DECISION_OUTPUT",
+    "anchored_schema": "utility_icl_v3.schema.json#/$defs/reply",
+    "Original_A_new_calls": true,
+    "Original_v3_body": "REQUIRE_MATCH_V2_WHEN_IDENTICAL_UPSTREAM_NO_SILENT_PROMPT_REVISION",
+    "anchor_input": "SAME_UPSTREAM_AND_FACT_CARD_NO_P_U_OR_EXAMPLES",
+    "revision_input": "SAME_UPSTREAM_FACT_CARD_AND_SAME_A0_PER_POINT_REPEAT",
+    "Plain_revision": "FULL_MEMBERSHIP_SUMMARY_EXAMPLES_WITHOUT_P_OR_U_NO_NUMERIC_VETO_FULL_SUPPORT_MASK",
+    "Full_utility_ICL": "STUDENT_P_SUMMARY_EXAMPLES_TEACHER_UTILITY_AND_STRICT_REVISION_POLICY",
+    "No_utility": "FULL_WITHOUT_U_FIELDS_OR_NUMERIC_VETO_SAME_FULL_SUPPORT_MASK",
+    "No_target": "REMOVE_C_KEEP_D_QUERY_RECOMPUTE_P_TEACHER_U_AND_OWN_SUPPORT_NEVER_REUSE_FULL_U",
+    "Stats_only": "SAME_FULL_P_U_SUMMARY_REMOVE_ALL_EXEMPLARS_AND_EXEMPLAR_IDS",
+    "Utility_only": "LONG_IFF_SUPPORTED_AND_Q10_U_GT0_ELSE_CASH_WITH_REASON_NO_API",
+    "upstream": "REUSE_ONLY_SOURCE_RUNTIME_PIT_JOURNAL_HASH_VERIFIED_ONCE_DEEP_COPY_ALL_BRANCHES_REPEATS",
+    "A_reference": "W9_BANK_INDEX_PRODUCER_FIXED_NOT_DENSE_BANK_FABRICATED_REPORTS",
+    "frozen_client_schema_and_prompt_commit": "W11_10_BEFORE_FIRST_V3_RESPONSE"
+  },
+  "development": {
+    "year": 2023,
+    "point_ids": [
+      "MWG-2023-01-06",
+      "VCB-2023-01-06",
+      "VNM-2023-01-06",
+      "MWG-2023-02-08",
+      "VCB-2023-02-08",
+      "VNM-2023-02-08",
+      "MWG-2023-03-06",
+      "VCB-2023-03-06",
+      "VNM-2023-03-06",
+      "MWG-2023-03-30",
+      "VCB-2023-03-30",
+      "VNM-2023-03-30",
+      "MWG-2023-04-04",
+      "VCB-2023-04-04",
+      "VNM-2023-04-04",
+      "FPT-2023-04-12",
+      "MWG-2023-04-28",
+      "VCB-2023-04-28",
+      "VNM-2023-04-28",
+      "FPT-2023-05-11",
+      "FPT-2023-06-01",
+      "MWG-2023-06-01",
+      "VCB-2023-06-01",
+      "VNM-2023-06-01",
+      "FPT-2023-06-27",
+      "MWG-2023-06-30",
+      "VCB-2023-06-30",
+      "VNM-2023-06-30",
+      "FPT-2023-07-05",
+      "MWG-2023-07-05",
+      "VCB-2023-07-05",
+      "VNM-2023-07-05",
+      "FPT-2023-07-31",
+      "MWG-2023-07-31",
+      "VCB-2023-08-03",
+      "VNM-2023-08-03",
+      "FPT-2023-08-29",
+      "MWG-2023-08-29",
+      "VCB-2023-08-29",
+      "VNM-2023-08-29",
+      "FPT-2023-09-29",
+      "MWG-2023-09-29",
+      "VCB-2023-09-29",
+      "VNM-2023-09-29",
+      "FPT-2023-10-04",
+      "MWG-2023-10-04",
+      "VCB-2023-10-04",
+      "VNM-2023-10-04",
+      "FPT-2023-10-30",
+      "MWG-2023-10-30",
+      "VCB-2023-10-30",
+      "VNM-2023-10-30",
+      "FPT-2023-11-23",
+      "MWG-2023-11-23",
+      "VCB-2023-11-23",
+      "VNM-2023-11-23",
+      "VNM-2023-12-19",
+      "FPT-2023-12-22",
+      "MWG-2023-12-22",
+      "VCB-2023-12-22"
+    ],
+    "symbol_cutoffs": {
+      "FPT": [
+        "2023-04-12",
+        "2023-05-11",
+        "2023-06-01",
+        "2023-06-27",
+        "2023-07-05",
+        "2023-07-31",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ],
+      "VNM": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-08-03",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-19"
+      ],
+      "VCB": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-08-03",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ],
+      "MWG": [
+        "2023-01-06",
+        "2023-02-08",
+        "2023-03-06",
+        "2023-03-30",
+        "2023-04-04",
+        "2023-04-28",
+        "2023-06-01",
+        "2023-06-30",
+        "2023-07-05",
+        "2023-07-31",
+        "2023-08-29",
+        "2023-09-29",
+        "2023-10-04",
+        "2023-10-30",
+        "2023-11-23",
+        "2023-12-22"
+      ]
+    },
+    "N": 60,
+    "primary_slots": 480,
+    "repeat_slots": 324,
+    "nominal_max_slots": 804,
+    "one_development_only": true,
+    "primary_order": "Original_A_reference_Fact_Anchor_THEN_ROTATE5_REVISIONS_LEFT_j_mod5",
+    "repeat_order": "Original_A_reference_Fact_Anchor_THEN_ROTATE5_REVISIONS_PLUS_DUPLICATE_LEFT_(3j+r-1)_mod6",
+    "j": "FULL_COHORT_INDEX_SORT_DATE_SYMBOL_ORDER_NOT_REPEAT_SAMPLE_INDEX",
+    "symbol_order": [
+      "FPT",
+      "MWG",
+      "VCB",
+      "VNM"
+    ],
+    "repeat_ids": [
+      1,
+      2,
+      3
+    ],
+    "repeat_selection": {
+      "changed_v2_ids": [
+        "MWG-2023-04-04",
+        "MWG-2023-06-30",
+        "VNM-2023-06-30",
+        "VCB-2023-08-29",
+        "VCB-2023-10-30"
+      ],
+      "fill": "SEVEN_SMALLEST_SHA256_UTF8_v3-repeat|point_id_EXCLUDING_CHANGED",
+      "final_order": "FULL_COHORT_DATE_SYMBOL_ORDER",
+      "point_ids": [
+        "MWG-2023-04-04",
+        "FPT-2023-04-12",
+        "MWG-2023-04-28",
+        "VNM-2023-04-28",
+        "MWG-2023-06-30",
+        "VCB-2023-06-30",
+        "VNM-2023-06-30",
+        "VCB-2023-08-29",
+        "VNM-2023-09-29",
+        "VCB-2023-10-30",
+        "VNM-2023-10-30",
+        "VCB-2023-12-22"
+      ],
+      "exposure": "PURPOSEFUL_POST_V2_NOT_POPULATION_NOISE_ESTIMATE"
+    },
+    "Original_duplicate": "SEPARATE_SCIENTIFIC_UUID_NO_SHARED_RESPONSE_CACHE",
+    "bypass": "KEEP_EVERY_SLOT_AND_SOURCE_BOUND_A0_WITH_REASON_NO_HTTP_NO_FAKE_CACHE_HIT",
+    "nomination": {
+      "G": 60,
+      "D_Full_Original_strict_min": 0,
+      "positive_symbols_min": 3,
+      "D_Full_A_inclusive_min": 0,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5,
+      "candidate_substitution": false,
+      "D_Full_Fact_Anchor_strict_min": 0,
+      "candidate_only": "Full_utility_ICL",
+      "no_repeat_vote": true
+    }
+  },
+  "offline_validation": {
+    "years": [
+      2021,
+      2022
+    ],
+    "cohort": "ALL_SAME_FROZEN_GRID_RAW_PRICE_RIGHTS_VALID_WITHIN_YEAR_NO_PNL_SUBSELECTION",
+    "independence": "EXPOSED_DIAGNOSTIC_ONLY",
+    "schema_and_math_all_required_PASS": true,
+    "approximation": {
+      "mean_KL_teacher_student_max": 0.02,
+      "p95_abs_error_max": 0.1,
+      "query_outcomes_used": false,
+      "scope": "ALL_NEW_AVAILABLE_CONTEXT_ON_REGISTERED_DIAGNOSTIC_YEARS_AND_DEVELOPMENT_INPUTS_BEFORE_API"
+    },
+    "oracles": {
+      "teacher_mean_theta_abs_tol": 1e-12,
+      "analytic_mean_U_abs_tol": 1e-12,
+      "same_uniform_scalar_MC_abs_tol": 1e-12,
+      "MC_mean_minus_analytic": "REPORT_MC_SE_NOT_RANDOM_TOLERANCE_GATE"
+    },
+    "support_report": "ALL_SYMBOLS_REGIMES_COLD_START_K_M_NGAIN_NLOSS_INTERVAL_CROSS0_NO_FORCED_ELIGIBILITY",
+    "global_no_actionable": "IF_ZERO_FULL_SUPPORTED_INTERVALS_WITH_Q10_U_GT0_OR_Q90_U_LT0_STOP_NO_ACTIONABLE_CONTEXT_BEFORE_API",
+    "no_threshold_grid_search_or_weight_reselection": true,
+    "required_fixture_groups": [
+      "numeric_signs_and_units",
+      "assertion_citation_mismatch",
+      "below_zero_vs_below_signal",
+      "missing_feature_or_zero_bucket",
+      "full_membership_counts_projection",
+      "query_label_exclusion",
+      "future_append_invariance",
+      "equal_exit_query_rejected",
+      "duplicate_cycle_rejected",
+      "No_target_recompute_p_U_support",
+      "Stats_same_U_no_exemplars",
+      "Plain_NoUtility_same_Full_mask_no_U",
+      "Q10_zero_rejected_both_directions",
+      "teacher_mixture_scalar_oracle",
+      "MC_common_random_numbers_subset",
+      "magnitude_zero_loss_retained",
+      "no_double_costs",
+      "unsupported_bypass_anchor_not_CASH",
+      "API_error_not_policy_bypass",
+      "all_ineligible_no_API",
+      "counter_resume_crash_no_reset",
+      "paired_once_and_duplicate_independent"
+    ]
+  },
+  "confirmation": {
+    "year": 2025,
+    "N": 128,
+    "per_symbol": 32,
+    "per_quarter_symbol": 8,
+    "selection": "step3 neo phiên đầu 2025; cycle đóng trong quý và đủ giá/quyền/feature; sort N eligible rồi floor(j*(N-1)/7), j=0..7; N<8 BLOCKED, không đổi mẫu theo outcome",
+    "metadata_only_until_release": true,
+    "primary_slots": 1024,
+    "repeat_slots": 324,
+    "nominal_max_slots": 1348,
+    "additional_repeat_ids": [
+      1,
+      2,
+      3
+    ],
+    "repeat_selection": "FIRST_DATE_M0_M1TO3_MGE4_PER_SYMBOL_RESERVE_PRESENT_STRATA_THEN_FIRST_UNSELECTED_FALLBACK_AS_V2_SCHEDULE",
+    "IDs_locked_at": "W11_13_BEFORE_FIRST_RESPONSE_WITH_K_M_NEW_MEMBERSHIP_NO_OUTCOME",
+    "context_updates": "Prequential, append market cycles exit<query bằng label engine độc lập action; không gradient/refit/tune",
+    "preconditions": [
+      "V3_NOMINATED",
+      "EXPOSURE_AUDIT",
+      "MDE_REPORT",
+      "SOURCE_PRICE_RIGHTS_PASS",
+      "SEPARATE_V3_RELEASE",
+      "START_BY_NOV05"
+    ],
+    "primary": [
+      "Full_utility_ICL",
+      "Original"
+    ],
+    "secondary": [
+      [
+        "Full_utility_ICL",
+        "A_reference"
+      ],
+      [
+        "Full_utility_ICL",
+        "Fact_Anchor"
+      ],
+      [
+        "Full_utility_ICL",
+        "Plain_revision"
+      ],
+      [
+        "Full_utility_ICL",
+        "No_utility"
+      ],
+      [
+        "Full_utility_ICL",
+        "No_target"
+      ],
+      [
+        "Full_utility_ICL",
+        "Stats_only"
+      ],
+      [
+        "Full_utility_ICL",
+        "Utility_only"
+      ]
+    ],
+    "bootstrap": {
+      "rng": "PCG64",
+      "seed": 20261027,
+      "draws": 10000,
+      "block_dates": 4,
+      "sensitivity_blocks": [
+        2,
+        8
+      ],
+      "method": "Circular moving-block unique query date clusters; ceil(n_dates/L) starts uniform with replacement, offsets modulo, concat truncate n_dates; shared indices mọi nhánh/mã; account rebuild theo thứ tự resample",
+      "ci": 0.95,
+      "secondary_ci": 0.9928571428571429,
+      "secondary": [
+        "A_reference",
+        "Fact_Anchor",
+        "Plain_revision",
+        "No_utility",
+        "No_target",
+        "Stats_only",
+        "Utility_only"
+      ],
+      "minimum_valid": 9500,
+      "invalid": "Thiếu mã/metric không hữu hạn; không sinh draw bù",
+      "quantile": "linear",
+      "limits": "CI điều kiện trên saved predictions, không replay prequential context hoặc toàn bất định training/provider",
+      "account_resample": "SAVED_ACTION_PAYOFF_ORDER_WITH_SYNTHETIC_RESAMPLE_INDEX_NO_REAL_DATE_OVERLAP_NO_MODEL_REPLAY"
+    },
+    "practical_gain": {
+      "D_min_pp": 1,
+      "primary_CI_lower_strict_min": 0,
+      "positive_symbols_min": 3,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5
+    }
+  },
+  "recovery": {
+    "same_user_command_for_all_interruptions": true,
+    "retry": "AUTO_SAME_UUID_INCOMPLETE_ONLY_FIRST_REUSE_VALID_DURABLE_RESPONSE",
+    "physical_duplicate_possible_if_response_lost": true,
+    "never_replay_complete": true,
+    "credential_change": "AUTO_CONTROL_PREFLIGHT_NEW_HASH_SCOPE_KEEP_OLD_PROOFS",
+    "daily_quota": "WAIT_PROVIDER_RESET_ONLY_WITHIN_REMAINING_TIME_CAP_AND_DATA_STOP_CTRLC_CLEAN_PAUSE",
+    "wrapper": "_invoke_with_retry",
+    "retry_after": "PROVIDER_WAIT_AND_BACKOFF",
+    "format_attempts_per_invocation": 2,
+    "HTTP_retry_count": "ACTUAL_LEDGER_NOT_NOMINAL_SLOT_BOUND",
+    "reserve_unknown_preserved": true,
+    "live_owner_lock_never_removed": true
+  },
+  "budget_artifact": "docs/plan/week11/budget_v3.json",
+  "stop_states": [
+    "BLOCKED_SOURCE_OR_PIT",
+    "FAIL_APPROXIMATION_NO_TEACHER_FALLBACK",
+    "NO_ACTIONABLE_CONTEXT",
+    "FAIL_PROMPT_BUDGET",
+    "AUTH_CONFIG_ERROR_KEEP_CHECKPOINT",
+    "BUDGET_OR_DEADLINE_INCOMPLETE",
+    "NOT_NOMINATED",
+    "NOT_RUN_NO_CONFIRMATION_RELEASE"
+  ],
+  "next_stage": "W11_08_IMPLEMENTATION_ONLY_NO_API",
+  "release_task": "W11_10_DEVELOPMENT_ONLY_THEN_W11_13_CONFIRMATION",
+  "sources": [
+    {
+      "url": "https://proceedings.mlr.press/v306/zhu26aj.html",
+      "use": "TASK_PREFIX_LEARNED_HIERARCHICAL_INFERENCE_NOT_PROFIT_GUARANTEE"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v15/lacoste_julien11a.html",
+      "use": "DECISION_UTILITY_MOTIVATION_NOT_A_REPLICATION_OF_LOSS_CALIBRATED_TRAINING"
+    },
+    {
+      "url": "https://people.eecs.berkeley.edu/~jordan/sail/readings/rubin.pdf",
+      "use": "BAYESIAN_BOOTSTRAP_WEIGHTS_NOT_CALIBRATED_MARKET_COVERAGE"
+    }
+  ]
+}
