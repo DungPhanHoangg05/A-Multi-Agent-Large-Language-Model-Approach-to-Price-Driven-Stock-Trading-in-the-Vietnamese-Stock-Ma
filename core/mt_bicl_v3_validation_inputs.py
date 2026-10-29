@@ -12,7 +12,7 @@ import pandas as pd
 
 from core.bayesian_memory import atomic_write_json, read_json
 from core.execution_prices import load_verified_execution_data
-from core.mt_bicl_bank import SYMBOLS, content_hash
+from core.mt_bicl_bank import SYMBOLS, _visible_events, content_hash
 from core.mt_bicl_regimes import RegimeTimeline
 from core.mt_bicl_v2_adapter import load_inputs as inherited_inputs
 from core.mt_bicl_v2_experiment import CONTEXT, CONTEXT_SHA256
@@ -28,7 +28,7 @@ IMPLEMENTATION = tuple("core/mt_bicl_v3_"+name+".py" for name in (
 CODE = (*IMPLEMENTATION, "core/mt_bicl_v3_validation_inputs.py", "core/mt_bicl_v3_oracle.py",
         "core/mt_bicl_v3_validation.py", "scripts/validate_mt_bicl_v3.py",
         "tests/test_mt_bicl_v3_validation.py", "tests/test_mt_bicl_v3_validation_leakage.py")
-CHECKS = Path("docs/plan/week11/validation_checks_v3.json")
+CHECKS = Path("docs/plan/week11/validation_checks_v3")
 CHECKS_VERSION = "utility_icl_validation_contract_checks_v3"
 CHECK_SOURCES = (*CODE, "tests/mt_bicl_v3_support.py", "tests/test_mt_bicl_v3_budget.py",
                  "tests/test_mt_bicl_v3_decision.py", "tests/test_mt_bicl_v3_features_leakage.py",
@@ -46,6 +46,12 @@ def validate_checks(value: dict[str, Any], sources: dict[str, str], required: li
     for group in value["semantic_groups"].values():
         if group["status"] != "PASS" or not group["test_ids"] or not set(group["test_ids"]) <= set(ids):
             raise ValueError("Semantic fixture thiếu bằng chứng test PASS")
+
+
+def visible_prices(prices: dict[str, Any]) -> dict[str, Any]:
+    """Giữ chính sách event prefix cũ, kể cả placeholder thiếu ngày; không tự đổi rule quyền."""
+    return {symbol: (frame.loc[frame["Datetime"] <= "2023-12-31"].copy(), _visible_events(events, pd.Timestamp("2023-12-31")))
+            for symbol, (frame, events) in prices.items()}
 
 
 def cohort(bank: dict[str, Any], protocol: dict[str, Any]) -> list[dict[str, str]]:
@@ -106,9 +112,10 @@ def load_inputs(root: Path) -> dict[str, Any]:
     lock = verify_protocol(root)
     inherited = inherited_inputs(root)
     protocol = read_json(root/"docs/plan/week11/protocol_v3.json")
-    checks = read_envelope(root/CHECKS, CHECKS_VERSION)
-    validate_checks(checks, {name: file_hash(root/name) for name in CHECK_SOURCES}, protocol["offline_validation"]["required_fixture_groups"])
     commit = subprocess.check_output(["git", "log", "-1", "--format=%H", "--", *CODE], cwd=root, text=True).strip()
+    checks_path = root/CHECKS/(commit+".json")
+    checks = read_envelope(checks_path, CHECKS_VERSION)
+    validate_checks(checks, {name: file_hash(root/name) for name in CHECK_SOURCES}, protocol["offline_validation"]["required_fixture_groups"])
     subprocess.run(["git", "diff", "--exit-code", commit, "--", *CODE], cwd=root, check=True, capture_output=True)
     for name in CODE:
         if subprocess.check_output(["git", "show", commit+":"+name], cwd=root) != (root/name).read_bytes():
@@ -121,15 +128,14 @@ def load_inputs(root: Path) -> dict[str, Any]:
     history = pd.read_csv(history_path, parse_dates=["Datetime"])
     history = history.loc[history["Datetime"] <= "2023-12-31"].copy()
     prices = {s: load_verified_execution_data(root/"data/execution_prices_oos", s) for s in SYMBOLS}
-    prices = {s: (frame.loc[frame["Datetime"] <= "2023-12-31"].copy(), [e for e in events if e["exrightDate"] <= "2023-12-31"])
-              for s, (frame, events) in prices.items()}
+    prices = visible_prices(prices)
     rows = cohort(bank, protocol)
     paths = [BANK.as_posix(), CONTEXT, "data/historical/VNINDEX.csv"]
     paths.extend(p.relative_to(root).as_posix() for p in sorted((root/"data/execution_prices_oos").rglob("*")) if p.is_file())
     identity = {"version": "utility_icl_validation_identity_v3", "source_commit": commit,
                 "source_sha256": {name: file_hash(root/name) for name in CODE},
                 "protocol_sha256": lock["protocol_sha256"], "protocol_lock_sha256": file_hash(root/"docs/plan/week11/protocol_lock_v3.json"),
-                "contract_checks_sha256": file_hash(root/CHECKS),
+                "contract_checks_path": checks_path.relative_to(root).as_posix(), "contract_checks_sha256": file_hash(checks_path),
                 "input_sha256": {name: file_hash(root/name) for name in paths}, "runtime": protocol["runtime"],
                 "candidate": protocol["candidate"], "cohort": rows, "query_outcomes_used": False,
                 "development_allowed": False, "decision_calls_allowed": False, "confirmation_allowed": False}

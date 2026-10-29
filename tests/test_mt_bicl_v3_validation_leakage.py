@@ -16,7 +16,7 @@ from core.mt_bicl_stream import MarketStream
 from core.mt_bicl_v3_contracts import membership_hash
 from core.mt_bicl_v3_features import BucketTaskBuilder
 from core.mt_bicl_v3_validation import SourceAudit
-from core.mt_bicl_v3_validation_inputs import FrozenRegimes, cohort
+from core.mt_bicl_v3_validation_inputs import FrozenRegimes, cohort, visible_prices
 from mt_bicl_tasks_support import FakeDetector, setup
 
 
@@ -101,6 +101,12 @@ class ValidationLeakageTests(unittest.TestCase):
                 model, proof = frozen._model(str(self.history["Datetime"].iloc[40].date()))
                 self.assertIsNone(model)
                 self.assertEqual(proof["name"], "UNKNOWN")
+
+    def test_event_placeholders_use_frozen_visible_event_policy(self) -> None:
+        prices = {"FPT": (self.sources["FPT"][0], [{}, {"exrightDate": None}, {"exrightDate": ""},
+                   {"exrightDate": "2021-03-01"}, {"exrightDate": "2025-01-01"}])}
+        result = visible_prices(prices)
+        self.assertEqual(result["FPT"][1], [{"exrightDate": "2021-03-01"}])
 
 
 if __name__ == "__main__":
