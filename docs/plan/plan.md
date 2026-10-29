@@ -8,19 +8,22 @@ lợi ích kinh tế: D=−0,024757 đpt,1/4 mã tăng. Amendment v3 tại
 đề xuất context theo trạng thái tín hiệu, summary đầy đủ, kiểm facts và
 Bayesian utility khi sửa quyết định nền. Không train lại student, không
 promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn12 tuần.
-V3 mới là kế hoạch, chưa code/protocol/release/API.
+V3 đã khóa protocol/schema/fixtures/budget ở W11-07; chưa triển khai utility,
+release hoặc API. Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026).
 
 **Cập nhật ngân sách 29/10/2026:** người dùng xác nhận ngân sách thời gian
 chạy được reset. Đợt v3 tính thời gian chạy mới từ 0, không khấu trừ thời
-gian các run v1/v2 hoặc chờ đối soát số dư cũ để được triển khai. W11-07
-ghi ngân sách mới vào protocol; giữ lịch 12 tuần, các mốc hoàn tất và khung
+gian các run v1/v2 hoặc chờ đối soát số dư cũ để được triển khai. Người dùng
+xác nhận riêng trần **18 giờ chạy tổng v3**; W11-07 đã khóa64.800 giây từ0
+tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mốc hoàn tất và khung
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ:** W10 **14/14**, W11 **6/15** (01–06), W12 **0/6**.
+**Tiến độ 30/10/2026:** W10 **14/14**, W11 **7/15** (01–07), W12 **0/6**.
 **W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
-report mô tả vẫn NOT_EVALUATED nguyên byte. Tiếp theo **W11-07** khóa protocol
-v3 và ghi ngân sách chạy mới sau reset; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
+report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
+**W11-07 SPEC_LOCK_PASS**, trần18 giờ mới đã khóa, chưa tạo counter thực nghiệm;
+tiếp theo **W11-08** theo protocol v3 và schema đã neo Git.
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
@@ -413,7 +416,8 @@ giữ teacher/student và P0, đổi đường ứng dụng có version riêng:
 5. Tám nhánh LLM trong run mới +Utility_only offline, giữ G60 và một candidate;
    nominal≤804 slot gồm repeat. Nomination giữ guard cũ, thêm Full>Fact_Anchor.
 
-W11-05 DONE, v2 NOT_NOMINATED;06 audit DONE;07–12 thiết kế/triển khai/kiểm/run/nominate v3;
+W11-05 DONE, v2 NOT_NOMINATED;06 audit DONE;07 đã khóa spec;
+08–12 triển khai/kiểm/run/nominate v3;
 13–15 xác nhận có điều kiện và bàn giao. Development mới vẫn exploratory,
 không reset exposure. Xác nhận128 point2025 chỉ sau audit/release, primary
 CI95% và bảy secondary Bonferroni99,285714% theo [W12](week12/README.md).
@@ -1393,7 +1397,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 6/15 DONE, nomination v2 đã đóng
+### TUẦN 11: Development và cải tiến quyết định — 7/15 DONE, protocol v3 đã khóa
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1453,8 +1457,8 @@ Tại mốc W11-04 chưa khóa nomination; quyết định chính thức W11-05 
 
 **Amendment29/10 — W11-06 audit DONE:** teacher/student đã gần nhau, nhưng
 posterior tần suất thắng chưa đủ cho utility; context projection và cách đọc
-facts có lỗi quan sát được. W11-05 đã khóa nomination v2 tại mục14 W11; tiếp theo07
-protocol v3,08–10 implementation/QA/release,11–12 run/nominate,13–15 xác nhận/
+facts có lỗi quan sát được. W11-05 đã khóa nomination v2 tại mục14 W11;
+07 protocol v3 đã khóa,08–10 implementation/QA/release,11–12 run/nominate,13–15 xác nhận/
 bàn giao. Không sửa JSON/kết quả cũ; xem [mục13 W11](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026).
 
 **W11-05 DONE,29/10/2026:** consumer đúng source/report/rule v2 đã khóa
@@ -1470,7 +1474,30 @@ tái dựng report/nomination và kiểm receipt khớp payload/byte Git PASS.
 Không market/PIT/retrieval change, không API/model/train/reset counter cũ,
 không full suite/compileall/E2E; gate cũ được viện dẫn đúng nguồn/runtime.
 Chi tiết/lệnh tại [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
-Tiếp theo W11-07 theo amendment và ngân sách chạy mới đã reset; chưa triển khai v3.
+Tại mốc này chưa triển khai v3; đặc tả W11-07 tiếp theo dưới đây.
+
+**W11-07 DONE, nghiệm thu30/10/2026:** [protocol_v3.json](week11/protocol_v3.json),
+schema/fact-output-policy, fixture và grant18 giờ đã khóa trước implement/run,
+source `4f88ce0`; [receipt SPEC_LOCK_PASS](week11/protocol_lock_v3.json), SHA byte
+`7b1c3e2cd1e976b483f19391fa47f1cb675bae65f9d629929c8d2ccc7a1ca2ec`.
+Khóa source/π/weights/runtime, bucket TALib prefix45 trước rounding,
+context đầy đủ, U teacher+bootstrap4.096 draw/CRN, Q10ΔU>0 và support5+/5−/K≥2.
+No_target recompute p/U/support, Plain/No_utility cùng Full mask, raw/final
+action và bypass/technical-error tách rõ. G60,480 primary+324 repeat=804;
+sample12 từ5 action-change v2+bảy SHA nhỏ nhất đã khóa; xác nhận có điều kiện
+128 point/tối đa1.348 slot, family7 Bonferroni99,285714%. Không infer p/U thật
+hoặc gọi API; receipt không là release, cờ execution vẫn false.
+Ngân sách mới64.800 giây từ0, không trừ giờ v1/v2; một counter dùng chung khi
+resume/W12, tính cả pacing/retry/quota wait/verification trong thực nghiệm;
+coding/unit/spec lint riêng. Counter chưa tạo vì chưa chạy thực nghiệm;
+bước08 khởi tạo đúng một lần. Mốc05/11 và07/11 không đổi; bước10 phải đo khả thi,
+không hứa cap đủ tối đa2.152 slot. Source/2.597 evidence v2 nguyên byte,
+ledger4498-row prefix bind cho phép append sau release mới, không reset usage.
+31 test (15 mới+16 hồi quy nomination), ba Python mới biên dịch và CLI/hash/
+Git replay PASS; không full suite/compileall/E2E/leakage rerun vì chưa đổi
+implementation/đường dữ liệu/PIT. Chi tiết/lệnh tại
+[mục15 W11](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026).
+Tiếp theo W11-08 triển khai theo đặc tả; chưa release development/xác nhận v3.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run

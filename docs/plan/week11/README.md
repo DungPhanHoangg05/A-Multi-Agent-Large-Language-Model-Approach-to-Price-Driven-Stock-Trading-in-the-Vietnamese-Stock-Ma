@@ -1,9 +1,10 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 29/10/2026: 6/15 task DONE (01–06).**
+**Cập nhật 30/10/2026: 7/15 task DONE (01–07).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
-Tiếp theo W11-07; phương án v3 tại mục13 chưa triển khai/release.
+**W11-07 SPEC_LOCK_PASS** tại mục15; ngân sách v3 mới18 giờ đã khóa.
+Tiếp theo W11-08; chưa triển khai utility hoặc cấp release/API v3.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -37,8 +38,8 @@ Bayesian posterior đúng dưới giả định teacher và student học gần 
 không chứng minh lợi nhuận. Development phải đo việc thêm posterior/examples
 có giúp Decision LLM, giữ cả kết quả bất lợi và đối chứng phương pháp W9.
 
-Mục1–4 và các receipt mục6–12 giữ **protocol/kết quả v2**. Checklist mục5
-và amendment mục13 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
+Mục1–4 và các receipt mục6–12 giữ **protocol/kết quả v2**. Checklist mục5,
+amendment mục13 và protocol khóa mục15 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
 release v2 cho v3; không thay candidate bằng No_target sau khi thấy kết quả.
 
 ## 1. Ma trận đối chứng đăng ký trước run
@@ -162,7 +163,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [x] DONE —đủ G60, mọi contrast/strata/repeat, sensitivity và KL/latency; report/hình replay PASS |
 | W11-05 | Khóa nomination v2 bằng consumer đúng source/report; kết luận theo rule cũ, confirmation v2 không chạy | 04 | [x] DONE —receipt NOT_NOMINATED, confirmation v2 NOT_RUN; source/report/rule/Git replay PASS |
 | W11-06 | Audit quyết định/utility/target projection/facts và giới hạn repeat | 04 | [x] DONE — mục13; không đổi run hoặc promote ablation |
-| W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [ ] TODO |
+| W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [x] DONE —SPEC_LOCK_PASS,18 giờ/64.800 giây từ0, schema/fixtures/order/repeat và Git/source replay PASS |
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [ ] TODO |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [ ] TODO |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] TODO — có điều kiện |
@@ -897,7 +898,8 @@ release; nếu nguồn/contract đổi thì test phần liên quan, không đổ
 
 ### 13.3. Ma trận mới để không nhận nhầm công lao của Bayes
 
-Protocol v3 chưa tạo; phải khóa trước implement/run. Tám nhánh LLM tối đa:
+Đề xuất tại mốc audit v3, đã được khóa thành protocol ở mục15 trước implement/run.
+Tám nhánh LLM tối đa:
 
 | ID v3 | Nội dung | Đóng góp cần tách |
 | --- | --- | --- |
@@ -956,7 +958,7 @@ Full−Original cho Bayes. Mục tiêu rõ rệt ≥1 đpt và guard phân tán/
 ### 13.4. Thứ tự thực hiện và các điểm dừng
 
 - **05 DONE:** v2 NOT_NOMINATED bằng consumer tại mục14; xác nhận v2 NOT_RUN.
-- **07:** chốt hypothesis, source/protocol v3, feature/calculation/schema,
+- **07 DONE:** khóa tại mục15; chốt hypothesis, source/protocol v3, feature/calculation/schema,
   evidence audit, threshold/seed/order và ngân sách chạy mới đã được reset.
   Ghi mốc reset, hạn mức và cách đo riêng cho v3; không yêu cầu đối soát số
   dư chạy v1/v2 như điều kiện cấp ngân sách mới. Không fit
@@ -996,6 +998,9 @@ không train GPU, đổi LLM hoặc sweep prompt trong vòng này.
   đối chiếu preflight cho tối đa 804 slot development và 1.348 slot xác
   nhận có điều kiện, tính cả pacing/retry/verification. Đây là dự toán
   cần đo, không tự suy ra thời gian chạy không giới hạn hoặc quota mới.
+- Người dùng sau đó xác nhận **18 giờ chạy tổng cho v3**; grant máy tại
+  [budget_v3.json](budget_v3.json), cách đo/phạm vi tại mục15. Không tự coi
+  khung giờ công việc là grant API; đây là xác nhận chạy riêng của người dùng.
 - Theo dõi chi phí phát sinh của v3 riêng; resume, retry và chuyển sang
   W12 tiếp tục cùng bộ đếm v3, không cấp lại ngân sách sau mỗi lần dừng.
   Ledger usage/API và bằng chứng v1/v2 giữ nguyên để tái lập; các ghi chú
@@ -1075,3 +1080,88 @@ receipt immutable và neo byte Git. Không đổi market/PIT/retrieval/engine n�
 không chạy lại leakage/full suite/compileall/E2E; viện dẫn gate cũ trên đúng hash.
 Tái dựng nomination và kiểm receipt `--verify-only` sau neo Git: **PASS**,
 khớp toàn payload và byte Git HEAD. Diff, liên kết, checklist và số liệu PASS.
+
+## 15. W11-07 — Khóa protocol utility-aware Bayesian ICL v3 (nghiệm thu 30/10/2026)
+
+**PASS — W11-07 DONE; 7/15 task hoàn tất.** Đặc tả/grant được khóa29/10,
+tái kiểm và hoàn tất nghiệm thu30/10. [Protocol v3](protocol_v3.json),
+[schema wire/sidecar](utility_icl_v3.schema.json),
+[fixtures đặc tả](protocol_fixtures_v3.json) và [grant18 giờ](budget_v3.json)
+được neo source commit `4f88ce0`; [receipt khóa](protocol_lock_v3.json)
+có `SPEC_LOCK_PASS`, next task08, tất cả cờ train/refit/API/release=false.
+
+- SHA byte protocol: `1912d18145fcc0eb46563206a83cfbacf5420d48fd828d0f79abfb56fa0b7b48`.
+- SHA byte receipt: `7b1c3e2cd1e976b483f19391fa47f1cb675bae65f9d629929c8d2ccc7a1ca2ec`.
+
+Các lựa chọn ở mục13 đã thành thông số trước outcome v3. Giữ candidate
+seed42/step3000, π/scaler/HMM/runtime và hợp đồng engine v2. Hai dấu dùng
+`talib.MACD(12,26,9)` và Close−SMA20 trên đúng prefix45 nến PIT, float64
+trước làm tròn; kiểm tương đương helper cũ ở round4/last28 trong bước09.
+Zero/missing tạo UNKNOWN, không mở rộng bucket hoặc dùng lời giải thích LLM.
+Membership phải cùng bucket, exit<query, rank không dùng y, K≤3 và m≤8;
+thay membership phải recompute p/U, không lấy p của v2 cho context mới.
+
+Utility dùng4.096 draw từ posterior teacher và magnitude Bayesian bootstrap,
+K≥2, n_gain≥5, n_loss≥5; zero net thuộc loss với magnitude0. Student chỉ cung
+cấp p điểm. Tách mean U giải tích, mean Monte Carlo và Q10/Q90; không gọi U
+là output đã distill hoặc khoảng có coverage thị trường bảo đảm. Khóa seed
+uint128 từ SHA-256 protocol/query/component, lưu seed dạng chuỗi JSON;
+λ/θ dùng inverse CDF và mỗi observation có stream magnitude riêng, nên
+No_target dùng cùng random numbers trên subset rồi renormalize, không reuse U.
+Schema unsupported ghi0 draw/null thay vì giả đã sampling.
+
+Đổi action chỉ khi facts/support hợp lệ và Q10(ΔU)>0: CASH→LONG dùng Q10(U),
+LONG→CASH dùng −Q90(U); đúng0 không đổi. Không đủ bằng chứng giữ a0 kèm
+reason, không mặc định CASH. Plain_revision/No_utility cùng Full support mask,
+không nhận U/veto; Stats giữ p/U/summary, bỏ exemplar; No_target bỏ C và tính
+lại p/U/support riêng. Facts enum/citation được đối soát, không tuyên bố đã
+kiểm được mọi mâu thuẫn văn xuôi. Lỗi API/PIT/integrity vẫn dừng/resume.
+
+G60 và bốn mã giữ nguyên, primary480 +repeat324=**804 slot tối đa**.
+Original/A/Fact_Anchor trước, năm revision xoay j mod5; repeat thêm duplicate
+độc lập, sáu nhánh xoay (3j+r−1) mod6, j là index toàn cohort. Mẫu12 gồm5
+action-change v2 và7 SHA nhỏ nhất của `v3-repeat|point_id`, sort theo cohort:
+
+```text
+MWG-2023-04-04  FPT-2023-04-12  MWG-2023-04-28  VNM-2023-04-28
+MWG-2023-06-30  VCB-2023-06-30  VNM-2023-06-30  VCB-2023-08-29
+VNM-2023-09-29  VCB-2023-10-30  VNM-2023-10-30  VCB-2023-12-22
+```
+
+Đây là mẫu chẩn đoán có chủ đích sau exposure v2. Không vote/tăng N primary,
+không dùng cache response v2 cho request v3. Xác nhận vẫn có điều kiện ở
+128 point, tối đa **1.348 slot**, IDs chỉ khóa ở task13 sau exposure audit;
+family7 Bonferroni CI99,285714%, primary CI95%, cùng bootstrap L4/10.000/
+seed20261027. Nomination thêm Full>Fact_Anchor, giữ các guard kinh tế cũ.
+
+**Ngân sách mới64.800 giây từ0** dùng chung validation/preflight/development/
+xác nhận nếu release/verification; tính runtime CPU/GPU, source checks trong
+run, pacing/retry/quota wait và checkpoint. Human authoring, compile/unit
+fixture và spec-only metadata lint không là runtime thực nghiệm. Chưa chạy
+thực nghiệm v3 nên counter chưa materialize, số tính phí hiện0; bước08 phải
+tạo đúng một counter trước lệnh thực nghiệm đầu. Clean pause loại downtime;
+crash chưa đóng tính gap bảo thủ, không reset khi resume hoặc chuyển W12.
+Giữ mốc05/11 và07/11; grant không cấp quota API. Bước10 phải đo khả thi theo
+remaining cap/calendar, không coi2.152 slot danh nghĩa là HTTP bound hoặc
+hứa18 giờ đủ. Không dùng giờ v1/v2 để trừ grant này.
+
+Đã khóa source/schema/fixture/parent receipt, hash π/weights/runtime và đủ
+2.597 file v2 nguyên byte. Ledger4498 request nền được bind theo hash prefix:
+sau release mới chỉ append, không sửa row/reserve hoặc reset usage. Namespace
+`outputs/bayesian_benchmark/mt_bicl_v3/` tách riêng; chưa tạo ở bước07.
+Nếu không có Full-supported interval nào Q10(U)>0 hoặc Q90(U)<0 thì bước09
+dừng NO_ACTIONABLE_CONTEXT trước API; không hạ threshold hoặc ép action.
+Gate approximation trên context mới giữ mean KL≤0,02/P95 |Δp|≤0,1,
+không fallback teacher point estimate nếu student trượt.
+
+```powershell
+py -3.13 -X utf8 scripts/verify_mt_bicl_protocol_v3.py
+```
+
+**31 test PASS** (15 đặc tả/schema/ledger mới,16 hồi quy nomination v2),
+ba Python mới biên dịch PASS. Khóa/tái kiểm CLI thực tế và byte Git PASS;
+fixtures gồm dấu/unit/seed/order/support/JSON/citation, không phải nghiệm thu
+implementation utility hoặc bằng chứng P&L. Không thay đường dữ liệu/PIT
+trong bước này nên không rerun leakage/full suite/compileall/E2E; đối soát
+gate cũ theo hash/runtime. Không đọc key, forward model, train, mở payoff2025
+hoặc gọi API. Tiếp theo W11-08 triển khai đúng đặc tả đã khóa.
