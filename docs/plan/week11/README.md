@@ -1,8 +1,8 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 29/10/2026; 1/8 task DONE. W11-01 tái nghiệm thu PASS tại mục6.1.
-W11-02 đã lưu đủ 360/360 primary +252/252 repeat, không missing/unknown;
-chờ nghiệm thu riêng. Lệnh chạy/tiếp tục thống nhất tại mục9.**
+**Cập nhật 29/10/2026; 2/8 task DONE. W11-01 PASS tại mục6.1;
+W11-02 nghiệm thu PASS tại mục10: 360/360 primary +252/252 repeat,
+không missing/unknown. Tiếp theo W11-03: cold verify và dựng tài khoản offline.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Chạy mới hoặc tiếp tục sau khi ngắt/đổi key đều dùng:**
@@ -26,7 +26,7 @@ chỉ cho development2023 sau run manifest/API preflight. Nguồn/teacher/
 student/runtime/prompt/schema/cohort đã freeze; W11-01 vẫn phải khóa
 manifest cụ thể, thứ tự nhánh và 12 repeat point ID trước response đầu.
 Release này không cho phép xác nhận2025, train hoặc refit. API development
-đã bắt đầu theo manifest/extension riêng; trạng thái tại mục8.
+đã hoàn tất theo manifest/extension riêng; nghiệm thu tại mục10.
 
 Bayesian posterior đúng dưới giả định teacher và student học gần teacher
 không chứng minh lợi nhuận. Development phải đo việc thêm posterior/examples
@@ -146,7 +146,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
 | W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [x] DONE — cold-check parent/runner và API preflight/raw/cache/ledger thật PASS |
-| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [ ] AWAITING_ACCEPTANCE —360/360 primary +252/252 repeat durable; unknown0/pending0 |
+| W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [x] DONE —360/360 primary +252/252 repeat durable; audit/cache/ledger PASS, unknown0/pending0 |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
@@ -496,3 +496,43 @@ Cold-check entrypoint mới trên checkpoint thật PASS:139 complete, một
 intent dở. Ledger4088 request và toàn bộ612 file slot giữ nguyên hash so
 với trước thay đổi; source runner/recovery cũ nguyên byte. `--status` không
 đọc key hoặc gửi HTTP; chưa thực hiện retry thật trong lượt sửa này.
+
+## 10. W11-02 — Nghiệm thu ma trận development hoàn tất (29/10/2026)
+
+**PASS — W11-02 DONE; 2/8 task hoàn tất.** Run research có identity/ready/
+request snapshot đúng bản khóa và đúng 612 file slot. Đối soát trực tiếp
+bằng `verify_extension`, verifier recovery/continuation, `runner.inspect`,
+`validate_attempt` và `audit_response`; không lấy riêng log tiến độ làm bằng chứng.
+
+- Primary: 360/360 slot, sáu nhánh mỗi nhánh đủ 60 point;
+  FPT12/MWG16/VCB16/VNM16, không lọc điểm thiếu feature.
+- Repeat: 252/252 slot, đúng 12 point đã khóa, ba point/mã, mỗi point
+  ba lượt bổ sung với bảy nhánh. Mỗi nhánh có 36 slot; toàn bộ 36
+  Original_duplicate có UUID/HTTP riêng. N primary giữ 60, không vote repeat.
+- Cả 96 block point/repeat bắt đầu bằng Original; từng slot khớp thứ tự,
+  canonical request, body/model/options/schema và manifest. Có 121 shared-off
+  đúng Original durable cùng point/repeat; 491 slot còn lại có UUID riêng,
+  mỗi slot đúng một HTTP200 và decision khớp raw response đã đóng dấu.
+- Tổng 519 HTTP scientific: 491 HTTP200, 26 HTTP429, hai transport_error.
+  Mọi row/token reserve và audit retry được giữ; không orphan/trùng HTTP UUID,
+  không missing/unknown/pending trong checkpoint. `progress.json` khớp hoàn toàn
+  số đếm tái dựng và trạng thái `COMPLETE_AWAITING_W11_03`.
+- Bốn proof preflight theo credential và bốn authorization resume khớp
+  policy/UUID/slot/body/cache/ledger. Preflight gốc hoặc proof tương ứng có
+  trước HTTP scientific của credential đó; các row HTTP trước retry còn đúng
+  hash đã ghi trong authorization. Sau ledger nền chỉ thêm 524 HTTP Decision
+  (519 scientific +5 control), không gọi lại upstream/vision.
+
+Ledger 4.498 row và cây 612 slot còn đúng hai hash tại mục6.1. SHA byte
+`run/progress.json`: `98ddd0bcf81c255302937ff93e2fc8d9469ef2f5260b15e501c4d664a65ff8ac`.
+Hash cây toàn bộ file trong `run/` (content hash của map đường dẫn tương đối→SHA byte):
+`4e37d4809e4a0136766c53a3e46e62a811b0a316a95066ca7f121271bd936529`.
+Đối chiếu trước/sau xác nhận toàn bộ cây run và ledger giữ nguyên trong
+lượt nghiệm thu. Source/receipt/runtime W10, W11-01, runner, recovery và
+continuation nguyên vẹn; không đọc key, gọi API hoặc sửa dữ liệu nghiên cứu.
+
+Chỉ sửa tài liệu nên theo AGENTS.md1.2 không chạy lại unit/compile/E2E/leakage;
+viện dẫn kiểm thử tại mục7–9 sau đối soát đúng nguồn/runtime: 44 lượt runner,
+8 recovery và 24 continuation PASS, các file Python mới đã biên dịch PASS.
+Diff, liên kết và số liệu được kiểm trong lượt này. W11-03 còn TODO:
+chưa dựng account/Numeric/Teacher, tính P&L, nomination hoặc release2025.

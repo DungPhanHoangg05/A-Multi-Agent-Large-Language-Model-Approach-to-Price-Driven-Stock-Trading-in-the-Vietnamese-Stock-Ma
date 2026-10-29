@@ -8,14 +8,16 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **14/14**, W11 **1/8**, W12 **0/6**; **W10-14 DONE**,
+**Tiến độ:** W10 **14/14**, W11 **2/8**, W12 **0/6**; **W10-14 DONE**,
 candidate seed42/step3000 được release cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
-PASS sau sửa khóa. W11-02 có139/360 primary complete,0/252 repeat; một
-unknown bị429/PROVIDER_DAILY_QUOTA từ chối. Theo yêu cầu mới, dùng một lệnh
-resume cố định, tự preflight key hiện tại và phục hồi intent cùng UUID tại
-README W11. Không đổi manifest/runner đã freeze hoặc mở
-vòng development mới; chưa đủ mẫu để đóng02, chưa release xác nhận2025.
+PASS sau sửa khóa. **W11-02 DONE**, nghiệm thu 29/10: đủ 360/360 primary
+và 252/252 repeat durable, không missing/unknown/pending; ma trận, UUID,
+request/raw cache/ledger và audit phục hồi PASS tại
+[mục10 W11](week11/README.md#10-w11-02--nghiệm-thu-ma-trận-development-hoàn-tất-29102026).
+Giữ lệnh resume cố định tại README W11; không đổi manifest/runner đã freeze
+hoặc mở vòng development mới. Tiếp theo W11-03 cold verify/account offline;
+chưa tính P&L, nomination hoặc release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1363,14 +1365,16 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và release xác nhận — 1/8 DONE, development đã chạy đủ slot
+### TUẦN 11: Development và release xác nhận — 2/8 DONE, development đã nghiệm thu
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
 raw/cache/ledger, Git và hash/source/runtime đã khóa; chi tiết tại
 [mục6.1 W11](week11/README.md#61-tái-nghiệm-thu-w11-01-29102026).
-W11-02 **AWAITING_ACCEPTANCE**:360/360 primary +252/252 repeat durable,
-không missing/unknown/pending; chưa đóng task trong lượt nghiệm thu W11-01.
+W11-02 **DONE**, nghiệm thu29/10:360/360 primary +252/252 repeat durable,
+không missing/unknown/pending; ma trận/order, UUID, request/raw cache/ledger,
+token reserve, bốn credential proof và bốn authorization retry PASS tại
+[mục10 W11](week11/README.md#10-w11-02--nghiệm-thu-ma-trận-development-hoàn-tất-29102026).
 Tại mốc partial trước đây, recovery vận hành yêu cầu UUID tường minh, giữ request/reserve/ledger
 cũ và source runner nguyên byte. Người dùng sau đó yêu cầu một lệnh resume
 cho mọi interruption và tự preflight khi đổi key: amendment vận hành mới
@@ -1379,7 +1383,9 @@ vẫn dừng integrity khi bằng chứng bị sửa/hỏng.24 test và ba Pytho
 dịch PASS, không full suite/E2E/leakage vì không đổi market data/PIT/
 retrieval. Lệnh tiếp tục tại
 [resume một lệnh](week11/README.md#9-một-lệnh-chạy-và-tiếp-tục-tự-preflight-khi-đổi-key-29102026).
-Chưa đóng02/03 hoặc release2025; không phân tích P&L trong bước phục hồi.
+W11-03 còn TODO; chưa dựng account/Numeric/Teacher, phân tích P&L,
+nomination hoặc release2025. Lượt nghiệm thu02 chỉ sửa Markdown, đối soát
+nguồn/runtime/hash/receipt và bằng chứng thật; không chạy lại suite theo AGENTS.md1.2.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
