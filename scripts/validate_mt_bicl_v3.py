@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 import socket
 import sys
 
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
