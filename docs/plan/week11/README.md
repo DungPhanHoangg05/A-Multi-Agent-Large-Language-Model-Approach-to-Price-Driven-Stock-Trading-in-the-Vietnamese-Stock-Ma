@@ -1,8 +1,8 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 29/10/2026; 2/8 task DONE. W11-01 PASS tại mục6.1;
-W11-02 nghiệm thu PASS tại mục10: 360/360 primary +252/252 repeat,
-không missing/unknown. Tiếp theo W11-03: cold verify và dựng tài khoản offline.**
+**Cập nhật 29/10/2026; 3/8 task DONE. W11-01/02 PASS;
+W11-03 cold verify/rebuild/cold replay PASS tại mục11.
+Tiếp theo W11-04: báo cáo G/strata/ablation/action/repeat và approximation gap.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Chạy mới hoặc tiếp tục sau khi ngắt/đổi key đều dùng:**
@@ -83,8 +83,9 @@ Trước API: K≥2 và m≥2 đồng thời ở ≥30/60 và≥5/mã. Đây là
 để kiểm task/target, không dự đoán thắng. Thiếu thì INSUFFICIENT_CONTEXT;
 dense bank phải giải quyết trước run, không đổi block theo return.
 
-G đủ 60 point. D là mean ΔR bốn tài khoản 50 triệu, net/lot/compounding
-theo engine. Không cộng cycle payoff hay chỉ giữ point action đổi. Báo
+G đủ 60 point. D là mean ΔR bốn tài khoản 50 triệu, net/phí/lãi kép
+theo engine đã khóa: cổ phiếu phân số, chưa áp dụng lô chẵn (làm rõ tại mục11).
+Không cộng cycle payoff hay chỉ giữ point action đổi. Báo
 K/m/regime/quý/prior-off, CASH→LONG lẫn LONG→CASH, leave-one-change-out,
 leave-one-symbol-out, drawdown, LONG rate và mọi nhóm bất lợi.
 
@@ -147,7 +148,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | --- | --- | --- | --- |
 | W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [x] DONE — cold-check parent/runner và API preflight/raw/cache/ledger thật PASS |
 | W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [x] DONE —360/360 primary +252/252 repeat durable; audit/cache/ledger PASS, unknown0/pending0 |
-| W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [ ] TODO |
+| W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [x] DONE —cold replay PASS,32 account primary +108 repeat, Numeric/Teacher đủ60 point |
 | W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
 | W11-06 | Exposure/MDE, manifest 2025 và release xác nhận riêng | 05 đạt | [ ] TODO — có điều kiện |
@@ -534,5 +535,61 @@ continuation nguyên vẹn; không đọc key, gọi API hoặc sửa dữ liệ
 Chỉ sửa tài liệu nên theo AGENTS.md1.2 không chạy lại unit/compile/E2E/leakage;
 viện dẫn kiểm thử tại mục7–9 sau đối soát đúng nguồn/runtime: 44 lượt runner,
 8 recovery và 24 continuation PASS, các file Python mới đã biên dịch PASS.
-Diff, liên kết và số liệu được kiểm trong lượt này. W11-03 còn TODO:
-chưa dựng account/Numeric/Teacher, tính P&L, nomination hoặc release2025.
+Diff, liên kết và số liệu được kiểm trong lượt này. Tại mốc nghiệm thu02,
+W11-03 còn TODO; kết quả thực hiện tiếp theo được ghi tại mục11.
+
+## 11. W11-03 — Cold verify và tái dựng tài khoản offline (29/10/2026)
+
+**PASS — W11-03 DONE; 3/8 task hoàn tất.** Consumer mới `core/mt_bicl_v2_audit.py` và CLI
+`scripts/verify_mt_bicl_development.py` giữ nguyên source/receipt và toàn bộ
+run đã khóa. OS lock dùng chung với runner/ledger; socket mạng bị chặn,
+không đọc key, gọi LLM, student forward, train/refit hoặc reset ngân sách.
+
+Verifier đối chiếu snapshot W11-02, release/source/runtime/Git, teacher π,
+candidate, toàn bộ UUID/raw response/cache/ledger và proof preflight/retry;
+tái dựng 60 upstream/PIT/A_reference cùng 612 canonical request từ nguồn.
+Mỗi nhãn prior/target được kiểm với giá thực thi và helper kinh tế, gồm
+cycle streaming năm 2023 ngoài bank tĩnh cuối 2022, luôn yêu cầu exit<query.
+
+Numeric giữ p full precision của student đã seal trên cùng episode;
+Teacher được tính lại trên cùng D/C bằng π đã khóa, so oracle scalar độc
+lập với sai số≤10⁻¹². Hai nhánh đều LONG chỉ khi p>0,5 và feature hợp lệ;
+10 query thiếu feature giữ CASH kèm lý do, không loại khỏi G. Toàn bộ action
+offline cố định trước bước evaluator mở giá query.
+
+Tài khoản primary gồm tám nhánh×bốn mã, mỗi tài khoản khởi đầu 50 triệu;
+repeat có tài khoản riêng trên ba point/mã/lượt, giữ cả Original_duplicate,
+không trộn vào N primary. Dùng nguyên `compute_account_metrics`, đối soát
+số dư lãi kép và MDD bằng phép tính độc lập. LONG vào Open(t+1), ra Close(t+3),
+phí 0,25% và trượt giá 0,10% mỗi chiều; SHORT giữ CASH. Engine thực tế dùng
+cổ phiếu phân số, **chưa mô phỏng lô chẵn**; không bổ sung rounding sau outcome.
+Risk báo theo cycle, không dùng annualization mặc định cho cohort lấy mẫu thưa.
+
+Report duy nhất tại `outputs/bayesian_benchmark/mt_bicl_v2/development2023/verification/accounts.json`,
+ngoài cây `run/`; bind source commit/hash, runtime, manifest, toàn bộ cây run
+và ledger. Lệnh mặc định dựng và lưu immutable; `--verify-only` tái dựng từ
+nguồn rồi so toàn payload với report, không ghi lại checkpoint hoặc report.
+
+```powershell
+py -3.13 -X utf8 scripts/verify_mt_bicl_development.py --verify-only
+```
+
+Source neo commit `6ccc73c`; report đã dựng có SHA-256 byte
+`fab7ebe0b2102a17487ed02d5c099a53671b696323a9d7ca377dec050544a348`.
+Kết quả: 1.506 lượt nhãn context PASS, 50 AVAILABLE/10 thiếu feature,
+96 block point/repeat; **32 tài khoản primary và108 tài khoản repeat**.
+Numeric primary có1 LONG/59 CASH; Teacher primary có0 LONG/60 CASH,
+giữ nguyên ngưỡng và mọi kết quả bất lợi. **Cold replay `--verify-only` PASS**:
+tái dựng lại từ nguồn, toàn bộ payload khớp report đã lưu; hash report không đổi.
+Ledger4.498 row và cây run còn đúng hash W11-02 tại mục10, không sửa checkpoint,
+response hoặc bằng chứng cũ. Đã kiểm diff/liên kết/số liệu; chưa thực hiện
+W11-04/05, nomination hoặc release2025.
+
+Kiểm theo phạm vi AGENTS.md1.2: **84 ca riêng biệt PASS, gồm35 ca leakage**:
+14 ca audit mới,23 account engine,12 adapter,13 task leakage,15 upstream/
+news/context leakage và7 execution-price leakage. Lượt đầu60/61 PASS,
+fixture mới thiếu cột Reference được sửa và retest PASS; thêm ca streaming
+ngoài bank tĩnh và retest các caller kiểm nhãn sau sửa. Ba file Python mới
+biên dịch PASS, chỉ biên dịch lại hai file thay đổi sau lần sửa cuối.
+Không chạy full suite/compileall/E2E hoặc replay train/student cũ; các gate
+nguồn/runtime đã khóa được đối soát, không ghi là chạy lại.

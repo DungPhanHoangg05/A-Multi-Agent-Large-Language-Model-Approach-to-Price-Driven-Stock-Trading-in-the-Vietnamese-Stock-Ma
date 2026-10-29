@@ -8,7 +8,7 @@ bằng distillation, selection chỉ trong checkpoint đạt cơ chế validatio
 Một candidate, một development và một xác nhận có điều kiện; không hạ gate
 hoặc cộng thêm tuần. Mục tiêu mean ΔR≥1 đpt, CI>0 và guard drawdown giữ nguyên.
 
-**Tiến độ:** W10 **14/14**, W11 **2/8**, W12 **0/6**; **W10-14 DONE**,
+**Tiến độ:** W10 **14/14**, W11 **3/8**, W12 **0/6**; **W10-14 DONE**,
 candidate seed42/step3000 được release cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
 PASS sau sửa khóa. **W11-02 DONE**, nghiệm thu 29/10: đủ 360/360 primary
@@ -16,8 +16,11 @@ và 252/252 repeat durable, không missing/unknown/pending; ma trận, UUID,
 request/raw cache/ledger và audit phục hồi PASS tại
 [mục10 W11](week11/README.md#10-w11-02--nghiệm-thu-ma-trận-development-hoàn-tất-29102026).
 Giữ lệnh resume cố định tại README W11; không đổi manifest/runner đã freeze
-hoặc mở vòng development mới. Tiếp theo W11-03 cold verify/account offline;
-chưa tính P&L, nomination hoặc release xác nhận2025.
+hoặc mở vòng development mới. **W11-03 DONE**: cold verify/PIT,32 tài khoản
+primary +108 repeat và Numeric/Teacher offline; cold replay toàn report PASS
+tại [mục11 W11](week11/README.md#11-w11-03--cold-verify-và-tái-dựng-tài-khoản-offline-29102026).
+Engine giữ cổ phiếu phân số, chưa lô chẵn; không đổi hợp đồng kinh tế sau outcome.
+Tiếp theo W11-04; chưa nomination hoặc release xác nhận2025.
 Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
 teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
 W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
@@ -1365,7 +1368,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và release xác nhận — 2/8 DONE, development đã nghiệm thu
+### TUẦN 11: Development và release xác nhận — 3/8 DONE, cold verify/account PASS
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1383,9 +1386,24 @@ vẫn dừng integrity khi bằng chứng bị sửa/hỏng.24 test và ba Pytho
 dịch PASS, không full suite/E2E/leakage vì không đổi market data/PIT/
 retrieval. Lệnh tiếp tục tại
 [resume một lệnh](week11/README.md#9-một-lệnh-chạy-và-tiếp-tục-tự-preflight-khi-đổi-key-29102026).
-W11-03 còn TODO; chưa dựng account/Numeric/Teacher, phân tích P&L,
-nomination hoặc release2025. Lượt nghiệm thu02 chỉ sửa Markdown, đối soát
+Lượt nghiệm thu02 chỉ sửa Markdown, đối soát
 nguồn/runtime/hash/receipt và bằng chứng thật; không chạy lại suite theo AGENTS.md1.2.
+
+**W11-03 DONE,29/10/2026:** verifier mới giữ source/run/receipt cũ nguyên vẹn,
+tái dựng60 upstream/PIT/A_reference,612 canonical request và kiểm1.506 lượt
+nhãn context bằng helper kinh tế/giá đã xác minh, gồm cycle streaming2023.
+Student p dùng lại bản seal; Teacher dùng cùng context/π và khớp oracle scalar
+≤10⁻¹², không student forward/train/refit/API. Dựng32 account primary và108
+repeat riêng, mỗi tài khoản50 triệu; kiểm độc lập lãi kép/MDD. Engine thực tế
+dùng cổ phiếu phân số, chưa lô chẵn; làm rõ giới hạn, không sửa rounding sau outcome.
+Numeric có1 LONG/59 CASH, Teacher0 LONG/60 CASH; giữ cả10 point thiếu feature.
+Report immutable `development2023/verification/accounts.json`, SHA
+`fab7ebe0b2102a17487ed02d5c099a53671b696323a9d7ca377dec050544a348`,
+cold replay toàn payload PASS; ledger4.498 row và cây run giữ đúng hash W11-02.
+84 ca riêng biệt PASS (35 leakage), ba Python mới biên dịch PASS theo phạm vi;
+không full suite/compileall/E2E hoặc chạy lại gate train. Chi tiết/lệnh tại
+[mục11 W11](week11/README.md#11-w11-03--cold-verify-và-tái-dựng-tài-khoản-offline-29102026).
+Tiếp theo W11-04; chưa nomination hoặc release2025.
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
