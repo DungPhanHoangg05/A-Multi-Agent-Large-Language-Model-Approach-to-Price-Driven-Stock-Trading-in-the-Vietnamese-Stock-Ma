@@ -1,8 +1,8 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 29/10/2026; 3/8 task DONE. W11-01/02 PASS;
-W11-03 cold verify/rebuild/cold replay PASS tại mục11.
-Tiếp theo W11-04: báo cáo G/strata/ablation/action/repeat và approximation gap.**
+**Cập nhật 29/10/2026; 4/8 task DONE. W11-04 report/replay PASS tại mục12.
+G=60: D Full−Original=−0,024757 đpt; không kết luận accuracy tăng là P&L tăng.
+Tiếp theo W11-05: khóa nomination theo rule đã đăng ký.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Chạy mới hoặc tiếp tục sau khi ngắt/đổi key đều dùng:**
@@ -149,7 +149,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-01 | Đối soát release v2; freeze source/teacher/student/cohort/matrix/order/repeat, dry-run và receipt | W10-14 | [x] DONE — cold-check parent/runner và API preflight/raw/cache/ledger thật PASS |
 | W11-02 | Người dùng chạy primary 360 và repeat 252 slot, không missing/unknown | 01 | [x] DONE —360/360 primary +252/252 repeat durable; audit/cache/ledger PASS, unknown0/pending0 |
 | W11-03 | Cold verify v2 source/π/teacher/student/request/ledger/PIT; rebuild account, Numeric/Teacher offline | 02 | [x] DONE —cold replay PASS,32 account primary +108 repeat, Numeric/Teacher đủ60 point |
-| W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [ ] TODO |
+| W11-04 | Report G/strata/ablation/action/repeat và approximation gap; không đồng nhất accuracy với P&L | 03 | [x] DONE —đủ G60, mọi contrast/strata/repeat, sensitivity và KL/latency; report/hình replay PASS |
 | W11-05 | Khóa NOMINATED/NOT_NOMINATED theo rule trước run | 04 | [ ] TODO |
 | W11-06 | Exposure/MDE, manifest 2025 và release xác nhận riêng | 05 đạt | [ ] TODO — có điều kiện |
 | W11-07 | Người dùng bắt đầu xác nhận; checkpoint để W12 tiếp nhận | 06 | [ ] TODO — có điều kiện |
@@ -582,8 +582,8 @@ Numeric primary có1 LONG/59 CASH; Teacher primary có0 LONG/60 CASH,
 giữ nguyên ngưỡng và mọi kết quả bất lợi. **Cold replay `--verify-only` PASS**:
 tái dựng lại từ nguồn, toàn bộ payload khớp report đã lưu; hash report không đổi.
 Ledger4.498 row và cây run còn đúng hash W11-02 tại mục10, không sửa checkpoint,
-response hoặc bằng chứng cũ. Đã kiểm diff/liên kết/số liệu; chưa thực hiện
-W11-04/05, nomination hoặc release2025.
+response hoặc bằng chứng cũ. Tại mốc này chưa thực hiện W11-04/05;
+báo cáo W11-04 tiếp theo tại mục12, chưa nomination hoặc release2025.
 
 Kiểm theo phạm vi AGENTS.md1.2: **84 ca riêng biệt PASS, gồm35 ca leakage**:
 14 ca audit mới,23 account engine,12 adapter,13 task leakage,15 upstream/
@@ -593,3 +593,144 @@ ngoài bank tĩnh và retest các caller kiểm nhãn sau sửa. Ba file Python 
 biên dịch PASS, chỉ biên dịch lại hai file thay đổi sau lần sửa cuối.
 Không chạy full suite/compileall/E2E hoặc replay train/student cũ; các gate
 nguồn/runtime đã khóa được đối soát, không ghi là chạy lại.
+
+## 12. W11-04 — Báo cáo development, ablation và approximation gap (29/10/2026)
+
+**PASS — W11-04 DONE; 4/8 task hoàn tất.** Consumer mới
+`core/mt_bicl_v2_report.py` neo commit `994ba03`, chỉ dùng account report
+W11-03 nguyên byte, manifest và ledger đã khóa. Đối soát nguồn/runtime/Git,
+release/artifact, snapshot run và tái dựng cả 140 account gốc PASS; viện dẫn
+cold replay/PIT W11-03 trên đúng hash, không chạy lại upstream/model/train/API.
+
+[Report JSON đầy đủ](../../../outputs/bayesian_benchmark/mt_bicl_v2/development2023/analysis/report.json)
+có SHA byte `ce4ac6b6c2f168ad8e88822236a38277ac46d812382414a691bcebfb8b89fb8d`;
+[hình kết quả](../../../outputs/bayesian_benchmark/mt_bicl_v2/development2023/analysis/results.png)
+có SHA `e51e886833119aaef0333c726017f835fa8812fc7ce7d2016e27a241ce5535af`.
+Hình đã kiểm trực quan. Tái dựng `--verify-only` PASS: JSON khớp toàn payload,
+PNG khớp byte. Account report, ledger4.498 row và cây run giữ nguyên hash W11-03.
+
+### G và các contrast
+
+G giữ đủ60 point FPT12/MWG16/VCB16/VNM16, kể cả10 query thiếu feature;
+không excluded. Return và MDD dưới đây là mean đều bốn tài khoản50 triệu,
+không return portfolio hoặc mean cycle. Accuracy tính trên60 nhãn net T+2.5.
+
+| Nhánh | Mean return (%) | Mean MDD (%) | LONG/60 | Accuracy (%) |
+| --- | ---: | ---: | ---: | ---: |
+| Original | 4,464827 | 3,289574 | 18 | 63,3333 |
+| A_reference | 3,863475 | 2,734120 | 15 | 61,6667 |
+| Plain_ICL | 4,558348 | 2,857530 | 15 | 65,0000 |
+| Full_MT_BICL | 4,440070 | 3,236194 | 17 | 65,0000 |
+| No_target | 5,124525 | 2,953465 | 17 | 65,0000 |
+| Stats_only | 4,145531 | 2,953465 | 17 | 61,6667 |
+| Numeric_only | −0,231525 | 0,231525 | 1 | 58,3333 |
+| Teacher_only | 0,000000 | 0,000000 | 0 | 60,0000 |
+
+| Full so với | D (đpt) | Action khác/60 |
+| --- | ---: | ---: |
+| Original | −0,024757 | 5 |
+| A_reference | +0,576596 | 6 |
+| Plain_ICL | −0,118278 | 2 |
+| No_target | −0,684455 | 4 |
+| Stats_only | +0,294539 | 4 |
+| Numeric_only | +4,671596 | 18 |
+| Teacher_only (chẩn đoán) | +4,440070 | 17 |
+
+Full accuracy cao hơn Original nhưng return mean thấp hơn. Full cũng kém
+Plain_ICL và No_target trong development này; không thay candidate bằng
+ablation thắng. Full−A là so toàn phương pháp khác bank, không tách riêng
+hiệu ứng Bayes; các contrast không chứng minh hosted LLM tự tính Bayes.
+
+| Mã | R Original (%) | R Full (%) | ΔR (đpt) | ΔMDD (đpt) |
+| --- | ---: | ---: | ---: | ---: |
+| FPT | 1,308248 | 1,308248 | 0,000000 | 0,000000 |
+| MWG | 13,285611 | 17,509784 | +4,224173 | −2,693586 |
+| VCB | 1,327621 | −0,433664 | −1,761285 | 0,000000 |
+| VNM | 1,937829 | −0,624086 | −2,561915 | +2,480065 |
+
+Chỉ1/4 mã có ΔR>0; mean ΔMDD=−0,053380 và max ΔMDD=+2,480065 đpt.
+Đây là số liệu đầu vào cho W11-05, chưa phải receipt nomination.
+
+### Strata, action và sensitivity
+
+JSON giữ đủ K=0..3, m=0..8 cùng ba nhóm m, năm regime kể cả UNKNOWN,
+bốn quý, trạng thái feature, support gate và prior-off của từng nhánh.
+Mỗi subgroup dựng tài khoản mới trên đúng support; không cộng subgroup
+thành D_G. Nhóm rỗng trả null/NO_SUPPORT; thiếu mã giữ D bốn tài khoản null
+và báo mean theo các mã hiện hữu ở trường mô tả riêng.
+
+| Nhóm | N | D Full−Original (đpt) |
+| --- | ---: | ---: |
+| K=0 / feature unavailable | 10 | 0,000000 |
+| K=3 / available | 50 | −0,012581 |
+| m=0 | 11 | 0,000000 |
+| m=1..3 | 11 | −0,454117 |
+| m≥4 | 38 | +0,409698 |
+| BULL | 19 | +0,624326 |
+| BEAR | 4 | −0,721529 |
+| CHOPPY | 29 | 0,000000 |
+| CONSOLIDATION | 8 | 0,000000 |
+| Q1 | 12 | null — chỉ3 mã, không có FPT |
+| Q2 | 16 | +0,317274 |
+| Q3 | 16 | +0,274435 |
+| Q4 | 16 | −0,721529 |
+| K≥2,m≥2 đồng thời | 41 | +0,409698 |
+
+K=1/2 và UNKNOWN rỗng; m=2/3 lần lượt N=1/2, chỉ1/2 mã nên D=null.
+Prior-off canonical của A có24 point, bốn nhánh ICL có10 point/nhánh;
+Full prior-off so Original D=0 đúng reuse durable. Không coi reuse là lời gọi
+LLM độc lập hoặc dùng nhóm support41 để thay G60.
+
+Full so Original có2 CASH→LONG,3 LONG→CASH,15 LONG→LONG và40 CASH→CASH.
+Giữ cả năm action change, gồm ba ca thuận và hai ca bất lợi sau phí:
+
+| Point | Original→Full | Δcycle (%) — chỉ mô tả | D khi hoàn nguyên action này (đpt) |
+| --- | --- | ---: | ---: |
+| MWG-2023-04-04 | LONG→CASH | +2,693586 | −0,816064 |
+| MWG-2023-06-30 | LONG→CASH | +0,926101 | −0,296822 |
+| VNM-2023-06-30 | CASH→LONG | −2,513213 | +0,615722 |
+| VCB-2023-08-29 | CASH→LONG | +1,097742 | −0,295035 |
+| VCB-2023-10-30 | LONG→CASH | −2,886117 | +0,693643 |
+
+Leave-one-change-out chỉ hoàn nguyên Full về Original tại một action,
+giữ toàn bộ G=60 và dựng lại tài khoản; không bỏ point. Leave-one-symbol-out
+bỏ lần lượt FPT/MWG/VCB/VNM cho D=−0,033009/−1,441067/+0,554086/+0,820963 đpt.
+JSON giữ sensitivity cho mọi contrast, không chỉ các ca thuận.
+
+### Repeat, approximation và latency
+
+Trên đúng12 point đã khóa, mọi lượt0/1/2/3 có D Full−Original/A/Plain/
+No_target/Stats=0; Full−Numeric/Teacher=−0,442294 đpt ở cả bốn lượt.
+Tám nhánh có0/72 bất đồng action giữa các cặp lượt; Original_duplicate
+độc lập có0/36 bất đồng với Original cùng lượt. Đây là mẫu nhỏ với cặp
+phụ thuộc và có shared-off; không vote, tăng N primary hoặc suy ra provider
+luôn deterministic. Tài khoản sample12 không thay hay so trực tiếp với G60.
+
+Trên50/60 point có feature: KL teacher||student mean **0,001229988453 nats**,
+mean |Δp| **0,015684595799**, P95 |Δp| **0,053150920015**; giữ từng p full precision.
+Có1 bất đồng action/50 cặp p hợp lệ (1/60 trên G): MWG-2023-06-30,
+p_student=0,537359728940 so p_teacher=0,498016132686. Numeric LONG tại đây
+mất0,926101% tài khoản MWG; Teacher giữ CASH. KL nhỏ không chứng minh nhãn
+teacher đúng với thị trường hoặc lợi ích P&L. Thiếu feature giữ reason;
+không clip p để giấu KL vô hạn, hit rate của nhánh không LONG trả null/NO_LONG.
+
+Telemetry tách primary/repeat theo UUID/phase và giữ missing khác zero.
+Primary có316 HTTP, repeat203 (519 tổng, gồm cả retry/lỗi); primary P95 HTTP
+Original/A/Plain/Full/No_target/Stats lần lượt2,455670/2,272820/4,362338/
+2,376105/2,861788/4,088031 giây. JSON giữ latency, pacing, token và invocation
+elapsed riêng; không cộng timer lồng nhau hoặc coi HTTP là end-to-end.
+Latency offline Numeric/Teacher **NOT_MEASURED**, không gán0 vì p được tái dùng.
+
+Lệnh tái kiểm report/hình offline:
+
+```powershell
+py -3.13 -X utf8 scripts/report_mt_bicl_development.py --verify-only
+```
+
+Kiểm theo AGENTS.md1.2: **57 ca riêng biệt PASS** (18 report mới,14 audit,
+23 account engine,2 report leakage). Lượt đầu56/57 PASS; fixture Full/Original
+vô tình giống action đã sửa, chạy lại toàn18 ca report PASS. Ba Python mới
+biên dịch PASS. Không đổi đường market/PIT/retrieval hoặc source đã khóa,
+không chạy lại toàn suite/compileall/E2E; viện dẫn gate W11-03 trên đúng hash.
+Diff/liên kết/số liệu và JSON/PNG replay PASS. W11-05 còn TODO;
+`nomination=NOT_EVALUATED`, confirmation=false; chưa phát hành2025.
