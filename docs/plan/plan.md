@@ -9,8 +9,9 @@ lợi ích kinh tế: D=−0,024757 đpt,1/4 mã tăng. Amendment v3 tại
 Bayesian utility khi sửa quyết định nền. Không train lại student, không
 promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn12 tuần.
 V3 đã khóa protocol/schema/fixtures/budget ở W11-07 và triển khai utility/
-facts/policy ở W11-08, kiểm offline676 point/cold replay PASS ở W11-09;
-chưa có P&L, release hoặc API v3.
+facts/policy ở W11-08, kiểm offline676 point/cold replay PASS ở W11-09.
+W11-10 đã nghiệm thu bốn control API thật và release development2023;
+W11-11 sẵn sàng chạy, chưa có response development/P&L v3.
 Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026),
 implementation tại [mục16](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
 Kết quả offline tại [mục17](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
@@ -23,14 +24,16 @@ tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mố
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ 30/10/2026:** W10 **14/14**, W11 **9/15** (01–09), W12 **0/6**.
+**Tiến độ 30/10/2026:** W10 **14/14**, W11 **10/15** (01–10), W12 **0/6**.
 **W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
 report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
-**W11-07 SPEC_LOCK_PASS**, trần18 giờ đã khóa; counter hiện dùng888,774 giây,
-còn≈17,75 giờ. **W11-08 DONE**,172 test theo phạm vi PASS;
+**W11-07 SPEC_LOCK_PASS**, trần18 giờ đã khóa; counter hiện dùng1.476,968 giây,
+còn≈17,59 giờ. **W11-08 DONE**,172 test theo phạm vi PASS;
 **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH**, Full support40/60,
-12 interval âm/0 dương trên G60. **W11-10** freeze/dry-run804/replay PASS,
-đang chờ control API thật và release development; chưa tăng số task DONE.
+12 interval âm/0 dương trên G60. **W11-10 DONE**: freeze/dry-run804/replay,
+control thật/source/PIT/feasibility PASS; release development neo Git.
+**W11-11 READY_TO_RUN**,0/804 slot research; người dùng chạy cùng một lệnh
+tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
@@ -1404,7 +1407,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 9/15 DONE, validation offline v3 PASS
+### TUẦN 11: Development và cải tiến quyết định — 10/15 DONE, development v3 đã release
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1537,7 +1540,7 @@ không full suite/compileall/E2E; chọn test đúng đường mới/P0. Tiếp 
 W11-10 freeze/preflight rồi mới có thể release development; chi tiết
 [mục17 W11](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
 
-**W11-10 IN_PROGRESS,30/10/2026:** source `18b769b` và manifest v3 đã neo
+**W11-10 DONE,30/10/2026:** source `18b769b` và manifest v3 đã neo
 Git, schema/client/weights/runtime/repeat/order khóa trước response v3.
 99 test theo phạm vi (19 mới),9 Python mới biên dịch PASS; dry-run804 slot
 và cold replay PASS với671 HTTP giả lập/133 bypass, không HTTP thật hoặc
@@ -1546,10 +1549,21 @@ reset ledger/reserve/counter. Prompt lớn nhất4.949 ký tự, reserve4.882 to
 Dự toán development≈11,60 giờ; development+xác nhận1.348 slot theo cost
 bảo thủ hiện tại≈34,68 giờ, không fit quỹ18 giờ còn lại theo giả định đó.
 Chưa mở dữ liệu2025, chưa hứa xác nhận; recheck nếu nominate, không đổi cap.
-Còn control API thật do người dùng chạy theo phân công mục13.4, sau đó
-cold audit/feasibility/release riêng. Chưa DONE, chưa quyền primary hoặc
-confirmation. Lệnh và bằng chứng tại
+Bốn control thật HTTP200 do người dùng chạy đã cold audit raw/cache/ledger/
+body/schema/semantics PASS; chỉ bốn row mới, ledger4.502. Release
+`RELEASED_DEVELOPMENT_2023_ONLY` byte SHA
+`f2c5b4b93a2be54127fd6ea5cd992890ce351be4b07b46dc2f157c8e7170602e`
+đã neo Git; confirmation/training/substitution vẫn false. Source/runtime
+nguyên byte nên viện dẫn99 test/9 Python PASS, không chạy lại suite. Counter
+tổng1.476,968315 giây, còn63.323,031685 giây (≈17,59 giờ), đóng sạch.
+Lệnh và bằng chứng tại
 [mục18 W11](week11/README.md#18-w11-10--freeze-và-preflight-development-v3-30102026).
+
+**W11-11 READY_TO_RUN:** chưa có response development,0/804 slot research.
+Người dùng chạy `py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py`; cùng lệnh
+tự resume, không nhập UUID hoặc reset checkpoint/ledger/quota/counter.
+Đủ804 slot mới nghiệm thu DONE rồi chuyển W11-12, chưa phân tích P&L ở bước
+chạy; chi tiết tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
