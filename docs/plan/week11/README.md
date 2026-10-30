@@ -6,7 +6,7 @@ Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở rec
 **W11-07 SPEC_LOCK_PASS** tại mục15; ngân sách v3 mới18 giờ đã khóa.
 **W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
 kiểm thử offline PASS. **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH** tại
-mục17; tiếp theo W11-10 freeze/preflight, chưa cấp release/API v3.
+mục17. **W11-10 đang freeze/preflight** tại mục18; chưa cấp release development v3.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -168,7 +168,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [x] DONE —SPEC_LOCK_PASS,18 giờ/64.800 giây từ0, schema/fixtures/order/repeat và Git/source replay PASS |
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [x] DONE —172 test theo phạm vi PASS, scalar MC/PIT/ablation/guard/counter; chưa validation thị trường/API |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [x] DONE —676 point/replay PASS, approximation đạt, Full support40/60 và12 interval âm;75 test/22 semantic groups PASS |
-| W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] TODO — có điều kiện |
+| W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] IN_PROGRESS — freeze/dry-run804/replay PASS; chờ control API thật/release |
 | W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] TODO — có điều kiện |
 | W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [ ] TODO — có điều kiện |
 | W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] TODO — có điều kiện |
@@ -1331,3 +1331,96 @@ replay, không reset giữa chúng. Tham số/schema/spec/2.597 evidence v2 vẫ
 Tiếp theo **W11-10** freeze manifest/schema/client/prompt và preflight khả
 thi theo quỹ/lịch còn lại trước release development. PASS ở đây không là
 nomination hoặc xác nhận lợi ích kinh tế; các cờ release/API vẫn false.
+
+## 18. W11-10 — Freeze và preflight development v3 (30/10/2026)
+
+**OFFLINE_READY_AWAITING_LIVE_CONTROLS; chưa DONE hoặc release development.** Source mới
+`18b769bbc937e739235209bb9b7d828b115c6ee1` tách riêng serializer, journal,
+transport, freeze/preflight và hai CLI v3; không sửa code/schema/weights
+đã khóa của v2 hoặc W11-08/09. LangChain cần tên cho schema anchored:
+adapter thêm metadata `title=UtilityICLReplyV3`, giữ nguyên mọi property,
+enum và constraint. Original/A dùng nguyên schema legacy; serializer
+đối chiếu body Original trên cả60 upstream với manifest v2 trước freeze.
+
+[Manifest v3](development_manifest_v3.json) khóa source/runtime/candidate,
+snapshot60 point, template hai trạng thái a0, body/token bound, thứ tự96
+block và804 slot (480 primary,324 repeat;36 Original_duplicate độc lập).
+Khi anchor hợp lệ, tối đa671 slot đủ điều kiện HTTP và ít nhất133 slot
+bypass theo support đã khóa; anchor sai có thể tăng bypass. Không bỏ slot,
+không sử dụng response v2 làm kết quả v3. Prompt lớn nhất4.949 ký tự,
+reserve lớn nhất4.882 token/request, bao gồm output và padding hash động;
+mỗi body thực tế vẫn phải qua serializer/guard và kiểm bound trước HTTP.
+Utility_only lưu offline, không phát sinh request LLM.
+
+Manifest byte SHA
+`b3437959cddb76f6c26e8ef92224931e296e92f6fb01e1cff5545799e6f7493c`,
+snapshot content SHA
+`b19e25ea6733fd4316ece2b1182e6bcd78785b8105108db6a92b57bcdd131635`.
+Dry-run đủ804 slot và cold replay804 slot **PASS**,671 HTTP giả lập,
+133 bypass, **0 HTTP thật/0 upstream mới/0 model forward**. Fixture dùng
+namespace riêng, identity cấm promote sang research; replay từ raw/cache/
+ledger không invoke lần hai. Bằng chứng máy tại
+`outputs/bayesian_benchmark/mt_bicl_v3/development2023/freeze/`:
+`input_snapshot.json`, `dry_run.json`, `offline_preflight.json`.
+Dry-run receipt byte SHA
+`d91f8ee0941e91ae3f7ff3b978c36c32371f7d47ff4270055753bbb165ba4b49`.
+CLI `verify` sau neo manifest Git **PASS**: tái đối soát source/snapshot,
+validation/upstream/PIT và các bằng chứng khóa cũ, không inference/HTTP.
+Counter sau lượt này: **1.252,942398 giây đã dùng**, **63.547,057602 giây
+còn lại (≈17,65 giờ)**, `active_since=null`; không reset từ W11-09.
+Ledger vẫn4.498 request, byte SHA
+`6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5`;
+2.597 evidence v2 giữ nguyên. Chưa có control thật hoặc release receipt.
+
+Preflight offline dùng3.897 latency HTTP thành công đã có, P95≈4,719 giây,
+sliding61 giây/8.000TPM/30RPM và reserve input+output bảo thủ. Dự toán
+development gồm dự phòng verification≈**41.742,64 giây (11,60 giờ)**;
+stress804 HTTP≈13,85 giờ, repair format ở mọi invocation≈22,96 giờ.
+Dự toán development+xác nhận1.348 slot ở prompt cost hiện tại lớn nhất≈
+**124.838,56 giây (34,68 giờ)**, **không fit quỹ18 giờ còn lại** theo giả
+định này. Đây là dự toán bảo thủ cho2025 chưa mở, không phải kết quả
+prompt/support2025; W11-13 phải đo lại nếu nominate. Không hứa hoàn tất
+xác nhận hoặc cấp thêm giờ, không cắt comparator/mẫu để khớp cap. Quota
+ngày do provider quyết định; retry/quota wait chưa biết bị hard cap chặn.
+Status vẫn `AWAITING_LIVE_CONTROLS`, chưa dùng lịch sử latency thay cho
+preflight thật hoặc coi dự toán nominal là bảo đảm runtime.
+
+Kiểm thử theo AGENTS1.2: **99 test riêng biệt PASS** (19 mới,80 hồi quy
+đúng đường gọi), gồm17 test trong hai module leakage v3 và8 test paired;
+**9 file Python mới biên dịch PASS**. Phạm vi gồm schema/body SDK, policy,
+budget, PIT/reuse source, retry/transport/checkpoint và paired; không chạy
+full suite, compileall toàn cây hoặc E2E toàn hệ thống. Sau khi thêm hai
+guard recovery cuối, chạy lại13 test recovery; không ghi cộng lượt chạy
+lại vào số test riêng biệt. Bằng chứng gate cũ chỉ được viện dẫn cho
+source/runtime nguyên byte, không coi là đã chạy lại toàn hệ thống.
+
+Journal ghi intent/UUID trước HTTP, lưu raw cache/audit trước complete;
+resume đọc durable trước khi cần credential. Slot complete không replay;
+slot unknown tự phục hồi hoặc retry **cùng UUID**, giữ toàn bộ row/reserve
+cũ. Mất/sửa identity, ready, slot, cache, body, source hoặc ledger gây dừng.
+Key khác tự chạy control theo scope hash trước HTTP mới, không reset quota.
+HTTP429 phút tự chờ; quota ngày có reset time thì chỉ chờ khi vừa cap/lịch,
+không vừa hoặc thiếu reset time thì dừng giữ checkpoint. Mọi stage dùng
+counter18 giờ cũ; sạch Ctrl+C loại downtime, crash gap vẫn tính bảo thủ.
+
+Lệnh người dùng cho control trước release và tiếp tục run sau release:
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py
+```
+
+Trước khi có release Git, lệnh chỉ chạy bốn probe synthetic: schema legacy
+và anchored, mỗi schema có prompt ngắn/dài đại diện. Không dùng point/nhãn
+cohort hoặc dự báo thị trường. Chờ dòng `CONTROL_PREFLIGHT_PASS`, gửi kết
+quả để đối soát raw/cache/ledger và hoàn tất release W11-10. Nếu bị ngắt,
+chạy lại đúng lệnh, không nhập UUID hoặc xóa file. Sau release, cùng lệnh
+mới được chạy development2023; chưa có quyền confirmation2025 hoặc train.
+Phân công **“10–12 … user chạy API”** tại mục13.4 vẫn áp dụng; agent chỉ
+chuẩn bị, chạy giả lập chặn socket và nghiệm thu bằng chứng, không đọc key.
+
+CLI offline do agent dùng: `scripts/prepare_mt_bicl_v3.py prepare` để
+freeze/dry-run, `verify` để đối soát source/snapshot/Git, và `release` sau
+control thật/feasibility PASS. Manifest phải neo Git trước control; receipt
+release phải neo Git trước primary. Không cấp release từ mock hoặc chỉ từ
+ước lượng quota/ngân sách. Thời gian xác nhận1.348 slot mới là dự toán,
+phải tái kiểm ở W11-13; không đổi cap/mẫu/ma trận nếu không đủ quỹ.

@@ -29,7 +29,8 @@ report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/READM
 **W11-07 SPEC_LOCK_PASS**, trần18 giờ đã khóa; counter hiện dùng888,774 giây,
 còn≈17,75 giờ. **W11-08 DONE**,172 test theo phạm vi PASS;
 **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH**, Full support40/60,
-12 interval âm/0 dương trên G60; tiếp theo **W11-10** freeze/preflight.
+12 interval âm/0 dương trên G60. **W11-10** freeze/dry-run804/replay PASS,
+đang chờ control API thật và release development; chưa tăng số task DONE.
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
@@ -1535,6 +1536,20 @@ gồm hai pre-point technical stops, không reset. V2/ledger vẫn nguyên byte,
 không full suite/compileall/E2E; chọn test đúng đường mới/P0. Tiếp theo
 W11-10 freeze/preflight rồi mới có thể release development; chi tiết
 [mục17 W11](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
+
+**W11-10 IN_PROGRESS,30/10/2026:** source `18b769b` và manifest v3 đã neo
+Git, schema/client/weights/runtime/repeat/order khóa trước response v3.
+99 test theo phạm vi (19 mới),9 Python mới biên dịch PASS; dry-run804 slot
+và cold replay PASS với671 HTTP giả lập/133 bypass, không HTTP thật hoặc
+upstream/model mới. Giữ recovery cùng UUID, durable trước key/API, không
+reset ledger/reserve/counter. Prompt lớn nhất4.949 ký tự, reserve4.882 token.
+Dự toán development≈11,60 giờ; development+xác nhận1.348 slot theo cost
+bảo thủ hiện tại≈34,68 giờ, không fit quỹ18 giờ còn lại theo giả định đó.
+Chưa mở dữ liệu2025, chưa hứa xác nhận; recheck nếu nominate, không đổi cap.
+Còn control API thật do người dùng chạy theo phân công mục13.4, sau đó
+cold audit/feasibility/release riêng. Chưa DONE, chưa quyền primary hoặc
+confirmation. Lệnh và bằng chứng tại
+[mục18 W11](week11/README.md#18-w11-10--freeze-và-preflight-development-v3-30102026).
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
