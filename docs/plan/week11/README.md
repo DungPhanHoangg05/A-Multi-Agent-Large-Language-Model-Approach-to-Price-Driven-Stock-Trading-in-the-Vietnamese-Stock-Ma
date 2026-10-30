@@ -1,11 +1,12 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 30/10/2026: 8/15 task DONE (01–08).**
+**Cập nhật 30/10/2026: 9/15 task DONE (01–09).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
 **W11-07 SPEC_LOCK_PASS** tại mục15; ngân sách v3 mới18 giờ đã khóa.
 **W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
-kiểm thử offline PASS. Tiếp theo W11-09 validation; chưa cấp release/API v3.
+kiểm thử offline PASS. **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH** tại
+mục17; tiếp theo W11-10 freeze/preflight, chưa cấp release/API v3.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -166,7 +167,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-06 | Audit quyết định/utility/target projection/facts và giới hạn repeat | 04 | [x] DONE — mục13; không đổi run hoặc promote ablation |
 | W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [x] DONE —SPEC_LOCK_PASS,18 giờ/64.800 giây từ0, schema/fixtures/order/repeat và Git/source replay PASS |
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [x] DONE —172 test theo phạm vi PASS, scalar MC/PIT/ablation/guard/counter; chưa validation thị trường/API |
-| W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [ ] TODO |
+| W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [x] DONE —676 point/replay PASS, approximation đạt, Full support40/60 và12 interval âm;75 test/22 semantic groups PASS |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] TODO — có điều kiện |
 | W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] TODO — có điều kiện |
 | W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [ ] TODO — có điều kiện |
@@ -969,7 +970,7 @@ Full−Original cho Bayes. Mục tiêu rõ rệt ≥1 đpt và guard phân tán/
   core engine/weights, không sửa freeze v2. Test deterministic math/JSON,
   task/query exclusion, future append, sign/unit/fee, projection counts,
   low-support/bypass và raw/final action. Caller chọn test đúng đường đổi.
-- **09:** kiểm offline toàn bộ membership/utility, giữ output bất lợi;
+- **09 DONE:** kiểm offline toàn bộ membership/utility, giữ output bất lợi;
   kiểm thêm semantic fixture nhiều giá trị/dấu, không chỉ hai lỗi đã thấy.
   Oracle đối chiếu posterior mixture/expected utility độc lập, sign/unit/fee,
   counts/projection đầy đủ, ablation recompute, query exclusion/future append;
@@ -1241,3 +1242,92 @@ fit model thực nghiệm, đọc payoff2025, gọi API hoặc có P&L v3.
 Tiếp theo **W11-09**: kiểm nguồn thật, approximation/support/semantic và
 diagnostic trên2021/2022 cùng context development mới; chưa được suy unit
 PASS thành đạt gate thị trường hoặc release ở W11-10.
+
+## 17. W11-09 — Validation offline utility v3 và cold replay (30/10/2026)
+
+**PASS — W11-09 DONE; 9/15 task hoàn tất.** [Report](../../../outputs/bayesian_benchmark/mt_bicl_v3/offline_validation/report.json)
+`OFFLINE_VALIDATION_PASS`, không failed gate; [cold proof](../../../outputs/bayesian_benchmark/mt_bicl_v3/offline_validation/replay.json)
+`REPLAY_MATCH` đủ676 point và report. Source cuối `46bd268`,
+[QA đang dùng](validation_checks_v3/46bd2683dbacd9e9d32fa3d91b140419983c935a.json)
+neo75 test/22 semantic groups với đúng hash source. Không cấp quyền API.
+
+- SHA byte report: `690db24e3c20d25dc446199899e4f6018a3142132db23546d2b1ad55c9d16334`.
+- SHA byte cold proof: `507cc8497003106d92b3da99685df35a20a001bcd1ad56ce10bf81c6cef0fbcf`.
+
+[Loader/cohort](../../../core/mt_bicl_v3_validation_inputs.py) dùng toàn bộ
+lưới bank cũ có giá/quyền hợp lệ, không vắt block/split/năm, giữ cả query
+thiếu feature; chỉ dùng metadata eligibility, không dùng giá trị nhãn query.
+N=**310 diagnostic2021 +306 diagnostic2022 +60 development2023 =676**.
+2021/2022 đã exposed, 2023 là adaptive development; đây không là validation
+độc lập hoặc kiểm hiệu quả P&L. Bộ giá và VNINDEX được giới hạn đến2023;
+không mở payoff2025. Weights seed42/step3000, π/scaler và tham số HMM cũ
+giữ nguyên. HMM nạp lại JSON đúng proof/model hash cuối2020 hoặc historical
+prefix tương ứng, không refit, không nạp model cuối2022 thay vào.
+
+[Runner](../../../core/mt_bicl_v3_validation.py) kiểm độc lập toàn population
+cùng bucket trước rank, centroid, target latest8, feature/scaler và
+**9.877 lượt observation đã đóng** bằng helper net T+2.5; query label không
+đi vào input. [Oracle](../../../core/mt_bicl_v3_oracle.py) dùng tích predictive
+tuần tự và magnitude scalar/CRN độc lập, kiểm mean θ/U và **6.893.568 U draw**
+thuộc Full/No_target/sensitivity có support. Sai số lớn nhất
+**1,00697×10⁻¹³ <1×10⁻¹²**. MC mean/SE được báo riêng, không ép mean MC
+khớp giải tích bằng một gate ngẫu nhiên. Context, prefix, seed/draw hash,
+counts và sensitivity giữ full precision trong676 sidecar; cold replay
+tái tính mọi point bằng weights frozen và so toàn payload/byte.
+
+Gate approximation trên union Full/No_target: **1.108 context có feature**,
+244 context unavailable vẫn giữ trong denominator báo cáo. Mean KL
+**0,00040483868≤0,02**, P95 |Δp| **0,0286350419≤0,1**; không infinite KL,
+không teacher point fallback. Phân nhóm năm/nhánh chỉ mô tả, không thêm gate
+sau khi xem dữ liệu. Trên inputs2023 riêng có100 context available,
+mean KL0,00045970893 và P95 |Δp|0,0243215741.
+
+| Miền | Full đủ support | No_target đủ support | Full Q10U>0 | Full Q90U<0 | Full interval qua/chạm0 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Diagnostic2021, N310 | 190 | 174 | 8 | 40 | 142 |
+| Diagnostic2022, N306 | 206 | 191 | 0 | 81 | 125 |
+| Development2023, G60 | 40 | 37 | 0 | 12 | 28 |
+
+Trong G60, Full support theo mã: **FPT3/12, MWG14/16, VCB13/16, VNM10/16**;
+10 point thiếu query feature và10 thiếu magnitude support vẫn được giữ.
+Plain_revision/No_utility/Stats giữ mask Full40; No_target tự recompute37.
+Không phải NO_ACTIONABLE_CONTEXT vì có12 interval âm, phân bố FPT2/MWG5/
+VCB3/VNM2. Chúng chỉ có thể cho phép LONG→CASH nếu a0/proposal/facts phù hợp;
+không có bằng chứng utility cho CASH→LONG ở G60. Chưa có action LLM v3 thực
+tế. Theo rule đã khóa, Utility_only trên G60 sẽ CASH; không đổi threshold
+để tạo thêm LONG hoặc bỏ các điểm này khỏi report.
+
+Sensitivity giữ đủ **1.659 context bỏ một prior task**,845 còn đủ support;
+không bù task/rerank hoặc chọn policy bằng sensitivity. Chỉ **1/12** interval
+âm G60 giữ âm ở mọi lượt bỏ task; các trường hợp khác qua0 hoặc unsupported.
+Đây là giới hạn đáng kể của support/posterior, không bị che bằng kết quả
+approximation nhỏ. Không suy interval là coverage thị trường đã bảo đảm.
+
+```powershell
+# QA fixture, không mở counter thực nghiệm
+py -3.13 -X utf8 scripts/validate_mt_bicl_v3.py --contracts
+# Một lệnh tự resume validation, dùng lại point durable
+py -3.13 -X utf8 scripts/validate_mt_bicl_v3.py
+# Tái dựng đầy đủ từ nguồn/weights frozen, dùng cùng counter
+py -3.13 -X utf8 scripts/validate_mt_bicl_v3.py --verify-only
+```
+
+Kiểm theo phạm vi AGENTS1.2: **75 test PASS** (14 mới,59 v3 có sẵn và2 paired),
+gồm17 test trong hai module leakage; **7 file Python mới biên dịch PASS**.
+Không full suite/compileall/E2E vì code v3 tách riêng, các primitive P0 v2
+nguyên byte và đã được kiểm đúng caller/hợp đồng. Socket bị chặn trong CLI;
+không đọc key/client, gọi API, gradient/refit hoặc tính P&L query. QA cũ
+theo source commit được giữ để truy vết hai lần dừng kỹ thuật trước point
+đầu: placeholder event thiếu ngày và cấu hình CUBLAS. Adapter đã reuse
+`_visible_events`, CLI đặt deterministic CUDA như runtime cũ; không đổi
+economic/PIT rule. Không có point khoa học nào được chọn lại khi sửa hai lỗi.
+
+Counter đã materialize trước source checks đầu tiên. Snapshot sau cold
+replay: **888,773618 giây đã dùng**, **63.911,226382 giây còn lại** (≈17,75 giờ),
+`active_since=null`; tính cả hai lần dừng kỹ thuật và hai lượt validation/
+replay, không reset giữa chúng. Tham số/schema/spec/2.597 evidence v2 vẫn
+được verifier đối soát nguyên byte; ledger vẫn4.498 request, SHA
+`6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5`.
+Tiếp theo **W11-10** freeze manifest/schema/client/prompt và preflight khả
+thi theo quỹ/lịch còn lại trước release development. PASS ở đây không là
+nomination hoặc xác nhận lợi ích kinh tế; các cờ release/API vẫn false.

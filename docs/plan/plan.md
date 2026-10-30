@@ -9,9 +9,11 @@ lợi ích kinh tế: D=−0,024757 đpt,1/4 mã tăng. Amendment v3 tại
 Bayesian utility khi sửa quyết định nền. Không train lại student, không
 promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn12 tuần.
 V3 đã khóa protocol/schema/fixtures/budget ở W11-07 và triển khai utility/
-facts/policy ở W11-08; chưa validation thị trường, release hoặc API.
+facts/policy ở W11-08, kiểm offline676 point/cold replay PASS ở W11-09;
+chưa có P&L, release hoặc API v3.
 Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026),
 implementation tại [mục16](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
+Kết quả offline tại [mục17](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
 
 **Cập nhật ngân sách 29/10/2026:** người dùng xác nhận ngân sách thời gian
 chạy được reset. Đợt v3 tính thời gian chạy mới từ 0, không khấu trừ thời
@@ -21,12 +23,13 @@ tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mố
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ 30/10/2026:** W10 **14/14**, W11 **8/15** (01–08), W12 **0/6**.
+**Tiến độ 30/10/2026:** W10 **14/14**, W11 **9/15** (01–09), W12 **0/6**.
 **W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
 report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
-**W11-07 SPEC_LOCK_PASS**, trần18 giờ mới đã khóa, chưa tạo counter thực nghiệm;
-**W11-08 DONE**,172 test theo phạm vi PASS; tiếp theo **W11-09** kiểm offline
-approximation/support trên context mới theo protocol đã neo Git.
+**W11-07 SPEC_LOCK_PASS**, trần18 giờ đã khóa; counter hiện dùng888,774 giây,
+còn≈17,75 giờ. **W11-08 DONE**,172 test theo phạm vi PASS;
+**W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH**, Full support40/60,
+12 interval âm/0 dương trên G60; tiếp theo **W11-10** freeze/preflight.
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
@@ -420,7 +423,7 @@ giữ teacher/student và P0, đổi đường ứng dụng có version riêng:
    nominal≤804 slot gồm repeat. Nomination giữ guard cũ, thêm Full>Fact_Anchor.
 
 W11-05 DONE, v2 NOT_NOMINATED;06 audit DONE;07 đã khóa spec;08 triển khai DONE;
-09–12 kiểm/run/nominate v3;
+09 kiểm offline DONE;10–12 freeze/run/nominate v3;
 13–15 xác nhận có điều kiện và bàn giao. Development mới vẫn exploratory,
 không reset exposure. Xác nhận128 point2025 chỉ sau audit/release, primary
 CI95% và bảy secondary Bonferroni99,285714% theo [W12](week12/README.md).
@@ -1400,7 +1403,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 8/15 DONE, implementation v3 đã kiểm unit
+### TUẦN 11: Development và cải tiến quyết định — 9/15 DONE, validation offline v3 PASS
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1461,7 +1464,7 @@ Tại mốc W11-04 chưa khóa nomination; quyết định chính thức W11-05 
 **Amendment29/10 — W11-06 audit DONE:** teacher/student đã gần nhau, nhưng
 posterior tần suất thắng chưa đủ cho utility; context projection và cách đọc
 facts có lỗi quan sát được. W11-05 đã khóa nomination v2 tại mục14 W11;
-07 protocol v3 đã khóa,08 implementation DONE,09–10 QA/release,11–12 run/nominate,13–15 xác nhận/
+07 protocol v3 đã khóa,08 implementation và09 offline DONE,10 freeze/release,11–12 run/nominate,13–15 xác nhận/
 bàn giao. Không sửa JSON/kết quả cũ; xem [mục13 W11](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026).
 
 **W11-05 DONE,29/10/2026:** consumer đúng source/report/rule v2 đã khóa
@@ -1515,6 +1518,23 @@ Source/π/weights/runtime/spec/2.597 evidence v2 và ledger giữ nguyên,
 đối soát verifier07 PASS. Không full suite/compileall/E2E hoặc API/model thật;
 unit fixture không là kiểm chứng support/approximation thị trường.
 Tiếp theo W11-09; chi tiết [mục16 W11](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
+
+**W11-09 DONE,30/10/2026:** source `46bd268`,75 test/22 semantic groups và7
+Python mới biên dịch PASS. Offline676 point (310/306 diagnostic2021/2022,
+60 inputs2023) và cold replay toàn payload/byte PASS. Không fit/refit,
+query outcome/P&L hoặc API; chỉ frozen inference và label context đã đóng.
+Oracle độc lập kiểm6.893.568 U draw, max error1,00697e−13; approximation
+union1.108 context mean KL0,000404839, P95 |Δp|0,0286350 đạt ngưỡng đã khóa.
+G60 Full support40, No_target37, Full12 interval âm/28 qua0/0 dương;
+FPT chỉ3/12 support. Utility hiện chỉ có thể cho phép LONG→CASH có điều kiện,
+không CASH→LONG; chưa có action LLM thật. Chỉ1/12 interval âm giữ dấu sau
+mọi lượt bỏ task, giữ giới hạn/sensitivity bất lợi, không retune hoặc lọc G.
+Report byte SHA `690db24e3c20d25dc446199899e4f6018a3142132db23546d2b1ad55c9d16334`,
+cold proof REPLAY_MATCH. Counter tổng888,773618 giây, còn63.911,226382 giây;
+gồm hai pre-point technical stops, không reset. V2/ledger vẫn nguyên byte,
+không full suite/compileall/E2E; chọn test đúng đường mới/P0. Tiếp theo
+W11-10 freeze/preflight rồi mới có thể release development; chi tiết
+[mục17 W11](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
