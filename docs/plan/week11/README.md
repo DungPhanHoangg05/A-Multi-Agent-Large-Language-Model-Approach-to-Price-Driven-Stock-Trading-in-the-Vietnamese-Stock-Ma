@@ -1,12 +1,13 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 30/10/2026: 9/15 task DONE (01–09).**
+**Cập nhật 30/10/2026: 10/15 task DONE (01–10).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
 **W11-07 SPEC_LOCK_PASS** tại mục15; ngân sách v3 mới18 giờ đã khóa.
 **W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
 kiểm thử offline PASS. **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH** tại
-mục17. **W11-10 đang freeze/preflight** tại mục18; chưa cấp release development v3.
+mục17. **W11-10 DONE — RELEASED_DEVELOPMENT_2023_ONLY** tại mục18;
+**W11-11 sẵn sàng chạy804 slot** bằng lệnh tại mục19, chưa có response development v3.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -168,8 +169,8 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-07 | Khóa protocol v3, ngân sách chạy mới sau reset, hypothesis/ma trận/cohort/stop trước implement/run | 05–06 | [x] DONE —SPEC_LOCK_PASS,18 giờ/64.800 giây từ0, schema/fixtures/order/repeat và Git/source replay PASS |
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [x] DONE —172 test theo phạm vi PASS, scalar MC/PIT/ablation/guard/counter; chưa validation thị trường/API |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [x] DONE —676 point/replay PASS, approximation đạt, Full support40/60 và12 interval âm;75 test/22 semantic groups PASS |
-| W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [ ] IN_PROGRESS — freeze/dry-run804/replay PASS; chờ control API thật/release |
-| W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] TODO — có điều kiện |
+| W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [x] DONE — freeze/dry-run804/replay/control thật/source/PIT/feasibility PASS; release2023 neo Git |
+| W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] READY_TO_RUN — release2023 đã khóa;0/804 slot research, người dùng chạy lệnh mục19 |
 | W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [ ] TODO — có điều kiện |
 | W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] TODO — có điều kiện |
 | W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] TODO — có điều kiện |
@@ -1334,7 +1335,7 @@ nomination hoặc xác nhận lợi ích kinh tế; các cờ release/API vẫn 
 
 ## 18. W11-10 — Freeze và preflight development v3 (30/10/2026)
 
-**OFFLINE_READY_AWAITING_LIVE_CONTROLS; chưa DONE hoặc release development.** Source mới
+**PASS — W11-10 DONE; RELEASED_DEVELOPMENT_2023_ONLY.** Source mới
 `18b769bbc937e739235209bb9b7d828b115c6ee1` tách riêng serializer, journal,
 transport, freeze/preflight và hai CLI v3; không sửa code/schema/weights
 đã khóa của v2 hoặc W11-08/09. LangChain cần tên cho schema anchored:
@@ -1370,7 +1371,8 @@ Counter sau lượt này: **1.252,942398 giây đã dùng**, **63.547,057602 gi�
 còn lại (≈17,65 giờ)**, `active_since=null`; không reset từ W11-09.
 Ledger vẫn4.498 request, byte SHA
 `6de7ea8d023a9530c99d1c334ae94f248ba3c8297b7418497503cb73481b56b5`;
-2.597 evidence v2 giữ nguyên. Chưa có control thật hoặc release receipt.
+2.597 evidence v2 giữ nguyên. Tại mốc offline này chưa có control thật
+hoặc release receipt; kết quả nghiệm thu sau control ở cuối mục18.
 
 Preflight offline dùng3.897 latency HTTP thành công đã có, P95≈4,719 giây,
 sliding61 giây/8.000TPM/30RPM và reserve input+output bảo thủ. Dự toán
@@ -1382,8 +1384,8 @@ Dự toán development+xác nhận1.348 slot ở prompt cost hiện tại lớn 
 prompt/support2025; W11-13 phải đo lại nếu nominate. Không hứa hoàn tất
 xác nhận hoặc cấp thêm giờ, không cắt comparator/mẫu để khớp cap. Quota
 ngày do provider quyết định; retry/quota wait chưa biết bị hard cap chặn.
-Status vẫn `AWAITING_LIVE_CONTROLS`, chưa dùng lịch sử latency thay cho
-preflight thật hoặc coi dự toán nominal là bảo đảm runtime.
+Status của snapshot offline là `AWAITING_LIVE_CONTROLS`; không dùng lịch
+sử latency thay cho preflight thật hoặc coi dự toán nominal là bảo đảm runtime.
 
 Kiểm thử theo AGENTS1.2: **99 test riêng biệt PASS** (19 mới,80 hồi quy
 đúng đường gọi), gồm17 test trong hai module leakage v3 và8 test paired;
@@ -1411,10 +1413,10 @@ py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py
 
 Trước khi có release Git, lệnh chỉ chạy bốn probe synthetic: schema legacy
 và anchored, mỗi schema có prompt ngắn/dài đại diện. Không dùng point/nhãn
-cohort hoặc dự báo thị trường. Chờ dòng `CONTROL_PREFLIGHT_PASS`, gửi kết
-quả để đối soát raw/cache/ledger và hoàn tất release W11-10. Nếu bị ngắt,
-chạy lại đúng lệnh, không nhập UUID hoặc xóa file. Sau release, cùng lệnh
-mới được chạy development2023; chưa có quyền confirmation2025 hoặc train.
+cohort hoặc dự báo thị trường. Giai đoạn control đã hoàn tất và nghiệm thu
+bên dưới. Hiện đã có release; dùng cùng lệnh theo mục19 để chạy hoặc
+resume development2023, không nhập UUID hoặc xóa file. Chưa có quyền
+confirmation2025 hoặc train.
 Phân công **“10–12 … user chạy API”** tại mục13.4 vẫn áp dụng; agent chỉ
 chuẩn bị, chạy giả lập chặn socket và nghiệm thu bằng chứng, không đọc key.
 
@@ -1424,3 +1426,65 @@ control thật/feasibility PASS. Manifest phải neo Git trước control; recei
 release phải neo Git trước primary. Không cấp release từ mock hoặc chỉ từ
 ước lượng quota/ngân sách. Thời gian xác nhận1.348 slot mới là dự toán,
 phải tái kiểm ở W11-13; không đổi cap/mẫu/ma trận nếu không đủ quỹ.
+
+**Nghiệm thu control thật và release,30/10/2026:** bốn probe
+`legacy_short`, `legacy_long`, `anchored_short`, `anchored_long` đều
+complete, HTTP200, mỗi probe đúng một request/UUID. Cold audit kiểm
+serializer/body, schema/action/horizon/fact assertions, raw response hash,
+durable cache, ledger và credential scope **PASS**; ready receipt byte SHA
+`96133e5a4622f5d052eda0df9ce63261b9da8d2aabdde648fbfcee97d5510450`.
+Tổng usage4.619 token (4.184 input,435 output), latency1,048–1,207 giây.
+Ledger4.502 request: giữ nguyên4.498 row nền, chỉ thêm đúng bốn control,
+không HTTP thừa/retry hoặc response development. Ledger byte SHA tại
+nghiệm thu `93f70c4566445deb04b1ebd00d59821cbb218321d95c9e310541adc7d3eb6f84`.
+
+CLI `release` chặn socket đã tái đối soát source/runtime/weights/spec,
+validation/upstream60 point/PIT và v2 evidence; control raw/ledger PASS,
+profile `DEVELOPMENT_FEASIBLE`. Kiểm thêm804 hash journal dry-run và
+fixture ledger nguyên byte. [Release v3](development_release_v3.json)
+byte SHA `f2c5b4b93a2be54127fd6ea5cd992890ce351be4b07b46dc2f157c8e7170602e`,
+chỉ cho development2023 và Decision mới. Manifest vẫn nguyên byte với
+`primary_allowed=false`; quyền chạy lấy từ receipt release riêng đã neo
+Git, không sửa cờ lịch sử. Confirmation/training/candidate substitution
+vẫn false. Không tăng cap hoặc đổi phương pháp sau control.
+
+Sau nghiệm thu: counter **1.476,968315 giây đã dùng**, **63.323,031685 giây
+còn lại (≈17,59 giờ)**, `active_since=null`. Profile gồm3.901 latency
+thành công, P95≈4,719 giây; development≈11,60 giờ, combined xác nhận bảo
+thủ≈34,68 giờ vẫn không fit phần quỹ còn lại theo giả định đó. Giới hạn
+retry/quota ngày và điều kiện tái đo xác nhận ở trên giữ nguyên.
+Đây là nghiệm thu receipt/bằng chứng, không sửa code/test/schema/runtime:
+đối soát hash/Git và viện dẫn đúng99 test/9 Python PASS tại source `18b769b`;
+không chạy lại unit/compileall/E2E hoặc leakage suite theo AGENTS1.2.
+
+## 19. W11-11 — Chạy development v3 đã release
+
+**READY_TO_RUN; chưa DONE.** Tại bàn giao, chưa có namespace journal
+research hoặc response development v3: **0/804 slot research**. Bốn control
+thật không được tính là primary/repeat. Người dùng chạy đúng một lệnh:
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py
+```
+
+Lần này lệnh đã được phép chạy development2023 theo release đã neo Git:
+60 point/480 primary và12 point×3 repeat/324 slot, giữ đủ bypass. Dữ liệu
+và thứ tự lấy nguyên manifest; upstream được reuse, không gọi lại vision.
+Journal research ở `outputs/bayesian_benchmark/mt_bicl_v3/development2023/run/research/`;
+raw HTTP cache ở `run/http_cache/`, ledger dùng chung chỉ append. Cùng
+credential đã PASS không gọi lại bốn control; credential khác tự preflight
+trước request mới, giữ nguyên mọi usage/reserve/UUID cũ.
+
+Console báo `Đã lưu .../804 slot v3` theo point/repeat. Các dòng `[Quota]`
+nghỉ chủ động là pacing bình thường; không mở thêm tiến trình cùng lúc.
+Nếu bị ngắt, Ctrl+C hoặc hết quota, **chạy lại cùng lệnh** khi có thể tiếp
+tục; không xóa cache/checkpoint/counter/lock hoặc nhập UUID. Durable/complete
+được đối soát trước key/API, unknown còn dở retry cùng UUID. Sai integrity
+hoặc hết cap/deadline vẫn dừng giữ bằng chứng, không reset để chạy tiếp.
+
+Hoàn tất khi console báo `Đủ 804/804 slot v3; chờ W11-12 kiểm định, chưa P&L.`
+Người dùng gửi kết quả để nghiệm thu W11-11 và chuyển W11-12 cold verify/
+rebuild accounts/decomposition/nomination. Chưa đánh giá P&L hoặc accuracy
+development trong bước chạy, chưa cấp quyền xác nhận2025. Giữ hạn bắt đầu
+05/11 và data stop07/11 cùng counter18 giờ hiện có; dự toán11,60 giờ không
+phải cam kết thời gian hoàn tất khi provider giới hạn quota hoặc có retry.
