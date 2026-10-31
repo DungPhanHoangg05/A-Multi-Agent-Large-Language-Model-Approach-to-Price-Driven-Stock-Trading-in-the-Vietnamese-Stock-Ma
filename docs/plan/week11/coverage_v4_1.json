@@ -1,0 +1,1897 @@
+{
+  "version": "conditional_v4_1_numeric_coverage",
+  "status": "NUMERIC_BANK_PASS",
+  "full_summary": {
+    "grid_queries": 1640,
+    "labeled": 1523,
+    "core_valid": 1459,
+    "core_fraction": 0.9579776756401839,
+    "complete_case": 888,
+    "tasks_with_two_cycles": 80
+  },
+  "folds": {
+    "inner_2019H1": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 67,
+          "labeled": 67,
+          "core_valid": 67,
+          "core_fraction": 1.0,
+          "complete_case": 21,
+          "tasks_with_two_cycles": 4
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 36,
+          "core_valid": 32,
+          "core_fraction": 0.8888888888888888,
+          "complete_case": 17,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.1395201354361649,
+          0.322925452578237,
+          -1.2452872924510676,
+          0.32924969996364095,
+          0.08582623166654375,
+          0.471708682368796,
+          -1.2224304874573186,
+          0.16891745221871007,
+          -1.2316579477123089
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 36,
+          "0": 4
+        },
+        "m_histogram": {
+          "19": 1,
+          "0": 8,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 3,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "17": 1
+        },
+        "mask_histogram": {
+          "000000000": 19,
+          "111111100": 4,
+          "011111100": 10,
+          "000010000": 7
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 69,
+          "labeled": 69,
+          "core_valid": 69,
+          "core_fraction": 1.0,
+          "complete_case": 36,
+          "tasks_with_two_cycles": 4
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 38,
+          "core_valid": 37,
+          "core_fraction": 0.9736842105263158,
+          "complete_case": 16,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.10261848194327262,
+          0.22250806093429512,
+          -1.4156775042410066,
+          0.24299543936177595,
+          -0.0033457238493107165,
+          0.17619112196068937,
+          -1.2196303787030942,
+          0.16891745221871007,
+          -1.2316579477123089
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "0": 2,
+          "3": 38
+        },
+        "m_histogram": {
+          "0": 6,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 3,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 1,
+          "17": 1,
+          "18": 1,
+          "19": 1
+        },
+        "mask_histogram": {
+          "111111100": 2,
+          "011111100": 10,
+          "000010000": 11,
+          "000000000": 17
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 72,
+          "labeled": 72,
+          "core_valid": 72,
+          "core_fraction": 1.0,
+          "complete_case": 46,
+          "tasks_with_two_cycles": 4
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 38,
+          "core_valid": 37,
+          "core_fraction": 0.9736842105263158,
+          "complete_case": 24,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.2964640551016826,
+          0.638510008603113,
+          -1.1984263137252102,
+          0.5641867323369156,
+          -0.057967386017274566,
+          -0.1201432279047626,
+          -0.8987778529406679,
+          0.16891745221871007,
+          -1.2316579477123089
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 39,
+          "0": 1
+        },
+        "m_histogram": {
+          "18": 2,
+          "0": 5,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2,
+          "17": 1
+        },
+        "mask_histogram": {
+          "000000000": 26,
+          "111111100": 1,
+          "011111100": 5,
+          "000010000": 8
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 68,
+          "labeled": 68,
+          "core_valid": 68,
+          "core_fraction": 1.0,
+          "complete_case": 31,
+          "tasks_with_two_cycles": 4
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 38,
+          "core_valid": 37,
+          "core_fraction": 0.9736842105263158,
+          "complete_case": 19,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.03185877821680299,
+          0.16785367147284952,
+          -1.0368131845888937,
+          0.0696911876318962,
+          -0.1567392422768107,
+          -0.120924756461775,
+          -0.9546140029285635,
+          0.16891745221871007,
+          -1.2316579477123089
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "0": 2,
+          "3": 38
+        },
+        "m_histogram": {
+          "0": 6,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 1,
+          "12": 3,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 1,
+          "17": 1,
+          "18": 1,
+          "19": 1
+        },
+        "mask_histogram": {
+          "111111100": 2,
+          "011111100": 10,
+          "000010000": 8,
+          "000000000": 20
+        }
+      }
+    },
+    "inner_2019H2": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 98,
+          "labeled": 98,
+          "core_valid": 98,
+          "core_fraction": 1.0,
+          "complete_case": 38,
+          "tasks_with_two_cycles": 6
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "core_valid": 39,
+          "core_fraction": 0.975,
+          "complete_case": 24,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.15742634330168898,
+          0.3778545580461665,
+          -0.5380319130043757,
+          0.3340078317119856,
+          -0.026627909541453994,
+          0.0912793921572842,
+          -0.5458215541668971,
+          0.05689991386718608,
+          -1.1430078537074713
+        ],
+        "ood_queries": 1,
+        "K_histogram": {
+          "3": 42,
+          "0": 1
+        },
+        "m_histogram": {
+          "14": 3,
+          "15": 3,
+          "16": 3,
+          "0": 5,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "8": 3,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "17": 2,
+          "18": 1,
+          "7": 1
+        },
+        "mask_histogram": {
+          "000010000": 12,
+          "000000000": 25,
+          "111111100": 1,
+          "011111100": 5
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 105,
+          "labeled": 105,
+          "core_valid": 105,
+          "core_fraction": 1.0,
+          "complete_case": 52,
+          "tasks_with_two_cycles": 6
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "core_valid": 39,
+          "core_fraction": 0.975,
+          "complete_case": 23,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.12486746422198512,
+          0.4414070873195651,
+          -0.44873122357813455,
+          0.30539155637369153,
+          -0.16488293917530725,
+          0.13966719697711483,
+          -0.12781071232642863,
+          0.05689991386718608,
+          -1.1430078537074713
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 42,
+          "0": 1
+        },
+        "m_histogram": {
+          "16": 3,
+          "17": 3,
+          "18": 2,
+          "0": 5,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "15": 3,
+          "14": 1
+        },
+        "mask_histogram": {
+          "000010000": 13,
+          "000000000": 24,
+          "111111100": 1,
+          "011111100": 5
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 108,
+          "labeled": 108,
+          "core_valid": 108,
+          "core_fraction": 1.0,
+          "complete_case": 69,
+          "tasks_with_two_cycles": 6
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "core_valid": 40,
+          "core_fraction": 1.0,
+          "complete_case": 40,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.2237744508489064,
+          0.5106165024741094,
+          -0.26230492391234483,
+          0.4050575038707845,
+          -0.02170275008287243,
+          0.14403404069125894,
+          -0.40769840401939444,
+          0.05689991386718608,
+          -1.1430078537074713
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 43
+        },
+        "m_histogram": {
+          "17": 3,
+          "18": 2,
+          "19": 2,
+          "0": 4,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2
+        },
+        "mask_histogram": {
+          "000000000": 43
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 104,
+          "labeled": 104,
+          "core_valid": 104,
+          "core_fraction": 1.0,
+          "complete_case": 50,
+          "tasks_with_two_cycles": 6
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 39,
+          "core_valid": 38,
+          "core_fraction": 0.9743589743589743,
+          "complete_case": 19,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.0569344937114808,
+          -0.1680419751836774,
+          -0.8874592301186952,
+          -0.17853160631709328,
+          -0.13506199888820783,
+          0.09769737050245234,
+          -0.9194300418734537,
+          0.05689991386718608,
+          -1.1430078537074713
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 41,
+          "0": 2
+        },
+        "m_histogram": {
+          "16": 3,
+          "17": 2,
+          "18": 2,
+          "0": 6,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "15": 3,
+          "14": 1
+        },
+        "mask_histogram": {
+          "000010000": 16,
+          "000000000": 20,
+          "111111100": 2,
+          "011111100": 5
+        }
+      }
+    },
+    "inner_2020H1": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 138,
+          "labeled": 138,
+          "core_valid": 138,
+          "core_fraction": 1.0,
+          "complete_case": 62,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 38,
+          "core_valid": 35,
+          "core_fraction": 0.9210526315789473,
+          "complete_case": 18,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.13814297381804883,
+          -0.19027654664039345,
+          0.471121474656275,
+          -0.39358487877497045,
+          -0.31290477412670653,
+          -0.05940190138327652,
+          0.5290048969844395,
+          -0.19729341202166564,
+          0.9666732736749396
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 38,
+          "0": 3
+        },
+        "m_histogram": {
+          "18": 3,
+          "0": 7,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 1,
+          "15": 1,
+          "17": 2
+        },
+        "mask_histogram": {
+          "000000000": 19,
+          "111111100": 3,
+          "011111100": 9,
+          "000010000": 9,
+          "011010000": 1
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 145,
+          "labeled": 145,
+          "core_valid": 145,
+          "core_fraction": 1.0,
+          "complete_case": 75,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 38,
+          "core_valid": 37,
+          "core_fraction": 0.9736842105263158,
+          "complete_case": 24,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.2755868166613018,
+          -0.566161283989285,
+          1.7322291937214722,
+          -0.6200611154963773,
+          0.422326748129744,
+          -0.18394116809594313,
+          2.4997921731791437,
+          -0.19729341202166564,
+          0.9666732736749396
+        ],
+        "ood_queries": 8,
+        "K_histogram": {
+          "3": 39,
+          "0": 2
+        },
+        "m_histogram": {
+          "18": 2,
+          "0": 6,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2,
+          "17": 1
+        },
+        "mask_histogram": {
+          "000000000": 26,
+          "111111100": 2,
+          "011111100": 4,
+          "011010000": 1,
+          "000010000": 8
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 149,
+          "labeled": 149,
+          "core_valid": 149,
+          "core_fraction": 1.0,
+          "complete_case": 110,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 39,
+          "core_valid": 38,
+          "core_fraction": 0.9743589743589743,
+          "complete_case": 26,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.13564603956448074,
+          -0.07302752827453284,
+          0.7978966864809235,
+          -0.23974919413375875,
+          0.27196195112876026,
+          -0.062194330454080876,
+          1.807517064549297,
+          -0.19729341202166564,
+          0.9666732736749396
+        ],
+        "ood_queries": 4,
+        "K_histogram": {
+          "0": 1,
+          "3": 40
+        },
+        "m_histogram": {
+          "0": 5,
+          "18": 2,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2,
+          "17": 1,
+          "19": 1
+        },
+        "mask_histogram": {
+          "111111100": 1,
+          "011111100": 5,
+          "000010000": 8,
+          "000000000": 27
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 143,
+          "labeled": 143,
+          "core_valid": 143,
+          "core_fraction": 1.0,
+          "complete_case": 69,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 38,
+          "core_valid": 36,
+          "core_fraction": 0.9473684210526315,
+          "complete_case": 24,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.01729013226278762,
+          -0.011285938240208852,
+          1.0282711473610155,
+          -0.07498039328340805,
+          0.3427541757049565,
+          0.24273273783330224,
+          0.859610160257406,
+          -0.19729341202166564,
+          0.9666732736749396
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "0": 2,
+          "3": 39
+        },
+        "m_histogram": {
+          "0": 6,
+          "17": 2,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 1,
+          "18": 1,
+          "19": 1
+        },
+        "mask_histogram": {
+          "111111100": 2,
+          "011111100": 4,
+          "011010000": 1,
+          "000010000": 8,
+          "000000000": 26
+        }
+      }
+    },
+    "inner_2020H2": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 172,
+          "labeled": 172,
+          "core_valid": 172,
+          "core_fraction": 1.0,
+          "complete_case": 80,
+          "tasks_with_two_cycles": 10
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "core_valid": 39,
+          "core_fraction": 0.975,
+          "complete_case": 25,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.2326336550690477,
+          0.27880674575044695,
+          -0.5605808155250024,
+          0.30722936734711936,
+          0.0951786305673267,
+          -0.052804865649381104,
+          -0.6021938664207769,
+          0.5454131723198483,
+          -0.18588579462007684
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 42,
+          "0": 1
+        },
+        "m_histogram": {
+          "14": 3,
+          "15": 3,
+          "16": 3,
+          "0": 5,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "8": 3,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "17": 2,
+          "18": 1,
+          "7": 1
+        },
+        "mask_histogram": {
+          "000010000": 11,
+          "000000000": 26,
+          "111111100": 1,
+          "011111100": 5
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 181,
+          "labeled": 181,
+          "core_valid": 181,
+          "core_fraction": 1.0,
+          "complete_case": 98,
+          "tasks_with_two_cycles": 10
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 39,
+          "core_valid": 37,
+          "core_fraction": 0.9487179487179487,
+          "complete_case": 24,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.29826035796179073,
+          0.5730026243660421,
+          -0.056675926426353475,
+          0.5627470101023787,
+          0.25744903386010504,
+          -0.15134182156778034,
+          -0.015761674651655334,
+          0.5454131723198483,
+          -0.18588579462007684
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 41,
+          "0": 2
+        },
+        "m_histogram": {
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "0": 7,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 1,
+          "16": 1
+        },
+        "mask_histogram": {
+          "000000000": 28,
+          "111111100": 2,
+          "011111100": 5,
+          "000010000": 8
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 186,
+          "labeled": 186,
+          "core_valid": 186,
+          "core_fraction": 1.0,
+          "complete_case": 135,
+          "tasks_with_two_cycles": 10
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 39,
+          "core_valid": 37,
+          "core_fraction": 0.9487179487179487,
+          "complete_case": 37,
+          "tasks_with_two_cycles": 3
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.15651471245991116,
+          0.16432004048715756,
+          -0.6439108858618219,
+          0.23310427257526198,
+          0.10109194633290464,
+          -0.12666550242176805,
+          -0.5227955414696682,
+          0.5454131723198483,
+          -0.18588579462007684
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 41,
+          "0": 2
+        },
+        "m_histogram": {
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "0": 6,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 1
+        },
+        "mask_histogram": {
+          "000000000": 40,
+          "111111100": 2,
+          "011111100": 1
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 179,
+          "labeled": 179,
+          "core_valid": 179,
+          "core_fraction": 1.0,
+          "complete_case": 93,
+          "tasks_with_two_cycles": 10
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "core_valid": 38,
+          "core_fraction": 0.95,
+          "complete_case": 14,
+          "tasks_with_two_cycles": 2
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true
+        },
+        "mean_observed_standardized_shift": [
+          0.09421064322436265,
+          0.25733784133485277,
+          -0.6350417253794982,
+          0.2554200119476465,
+          0.16847578263629173,
+          0.012228506145086138,
+          -0.565689588176525,
+          0.5454131723198483,
+          -0.18588579462007684
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "0": 2,
+          "3": 41
+        },
+        "m_histogram": {
+          "0": 6,
+          "16": 4,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "18": 2,
+          "17": 1
+        },
+        "mask_histogram": {
+          "111111100": 2,
+          "011111100": 9,
+          "011010000": 1,
+          "000010000": 16,
+          "000000000": 15
+        }
+      }
+    },
+    "outer_2020": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 138,
+          "labeled": 138,
+          "core_valid": 138,
+          "core_fraction": 1.0,
+          "complete_case": 62,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "core_valid": 74,
+          "core_fraction": 0.9487179487179487,
+          "complete_case": 43,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          0.059782626463624776,
+          0.09027178050010205,
+          -0.047108248129103025,
+          -0.004814504435482688,
+          -0.042372859504439246,
+          -0.05512363639050333,
+          -0.11933672651447995,
+          0.2572773716575253,
+          0.4631868907649732
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 80,
+          "0": 4
+        },
+        "m_histogram": {
+          "18": 4,
+          "0": 12,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 5,
+          "6": 4,
+          "7": 3,
+          "8": 5,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "15": 4,
+          "17": 4,
+          "16": 3
+        },
+        "mask_histogram": {
+          "000000000": 45,
+          "111111100": 4,
+          "011111100": 14,
+          "000010000": 20,
+          "011010000": 1
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 145,
+          "labeled": 145,
+          "core_valid": 145,
+          "core_fraction": 1.0,
+          "complete_case": 75,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 77,
+          "core_valid": 74,
+          "core_fraction": 0.961038961038961,
+          "complete_case": 48,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          0.02687298761462471,
+          0.069698889158444,
+          0.9147242313015904,
+          0.006631557815051772,
+          0.3939776563839347,
+          -0.16775532789286152,
+          1.3811464959204685,
+          0.2572773716575253,
+          0.4631868907649732
+        ],
+        "ood_queries": 8,
+        "K_histogram": {
+          "3": 80,
+          "0": 4
+        },
+        "m_histogram": {
+          "18": 4,
+          "0": 13,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "15": 3,
+          "16": 3,
+          "17": 3,
+          "19": 2
+        },
+        "mask_histogram": {
+          "000000000": 54,
+          "111111100": 4,
+          "011111100": 9,
+          "011010000": 1,
+          "000010000": 16
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 149,
+          "labeled": 149,
+          "core_valid": 149,
+          "core_fraction": 1.0,
+          "complete_case": 110,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "core_valid": 75,
+          "core_fraction": 0.9615384615384616,
+          "complete_case": 63,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          0.009462433038586312,
+          0.05098995587244912,
+          0.08674478134949867,
+          -0.0008317052271199336,
+          0.20694650680602067,
+          -0.09671154622538575,
+          0.575352965301307,
+          0.2572773716575253,
+          0.4631868907649732
+        ],
+        "ood_queries": 4,
+        "K_histogram": {
+          "0": 3,
+          "3": 81
+        },
+        "m_histogram": {
+          "0": 11,
+          "18": 4,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "15": 4,
+          "16": 3,
+          "17": 3,
+          "19": 3
+        },
+        "mask_histogram": {
+          "111111100": 3,
+          "011111100": 6,
+          "000010000": 8,
+          "000000000": 67
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 143,
+          "labeled": 143,
+          "core_valid": 143,
+          "core_fraction": 1.0,
+          "complete_case": 69,
+          "tasks_with_two_cycles": 8
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "core_valid": 74,
+          "core_fraction": 0.9487179487179487,
+          "complete_case": 38,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          0.048990682191204483,
+          0.1256076753354235,
+          0.28735110745146397,
+          0.073461929990596,
+          0.3092706261162193,
+          0.1336748086938123,
+          0.1767341457352544,
+          0.2572773716575253,
+          0.4631868907649732
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "0": 4,
+          "3": 80
+        },
+        "m_histogram": {
+          "0": 12,
+          "17": 3,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "15": 4,
+          "16": 5,
+          "18": 3,
+          "19": 1
+        },
+        "mask_histogram": {
+          "111111100": 4,
+          "011111100": 13,
+          "011010000": 2,
+          "000010000": 24,
+          "000000000": 41
+        }
+      }
+    },
+    "outer_2021": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 212,
+          "labeled": 212,
+          "core_valid": 212,
+          "core_fraction": 1.0,
+          "complete_case": 105,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 76,
+          "core_valid": 71,
+          "core_fraction": 0.9342105263157895,
+          "complete_case": 38,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          0.2144988331517211,
+          0.5501185866631796,
+          0.07928422619799365,
+          0.506980418264144,
+          -0.06488984705482444,
+          0.08356559346581847,
+          -0.11824650313404544,
+          0.3591011845435609,
+          0.23169001570273584
+        ],
+        "ood_queries": 1,
+        "K_histogram": {
+          "3": 78,
+          "0": 6
+        },
+        "m_histogram": {
+          "18": 2,
+          "0": 14,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 5,
+          "7": 4,
+          "8": 4,
+          "9": 5,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "15": 4,
+          "16": 4,
+          "17": 2
+        },
+        "mask_histogram": {
+          "000000000": 42,
+          "111111100": 6,
+          "011111100": 12,
+          "011010000": 3,
+          "000010000": 21
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 219,
+          "labeled": 219,
+          "core_valid": 219,
+          "core_fraction": 1.0,
+          "complete_case": 123,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "core_valid": 73,
+          "core_fraction": 0.9358974358974359,
+          "complete_case": 36,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          0.12986007803855465,
+          0.3529366658623685,
+          0.325204064728275,
+          0.24597894681147292,
+          -0.13509431122857293,
+          -0.17237256610147775,
+          -0.0016506216462630944,
+          0.3591011845435609,
+          0.23169001570273584
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 79,
+          "0": 5
+        },
+        "m_histogram": {
+          "15": 5,
+          "0": 13,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 5,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "16": 5,
+          "17": 2,
+          "18": 1,
+          "19": 1
+        },
+        "mask_histogram": {
+          "000000000": 40,
+          "111111100": 5,
+          "011111100": 14,
+          "011010000": 1,
+          "000010000": 24
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 224,
+          "labeled": 224,
+          "core_valid": 224,
+          "core_fraction": 1.0,
+          "complete_case": 173,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "core_valid": 76,
+          "core_fraction": 0.9743589743589743,
+          "complete_case": 65,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.012730106363805156,
+          -0.07184005671082451,
+          0.07291444650336855,
+          -0.06392257605020017,
+          0.01057661039119883,
+          0.030210138038225545,
+          -0.15736746987432923,
+          0.3591011845435609,
+          0.23169001570273584
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 82,
+          "0": 2
+        },
+        "m_histogram": {
+          "15": 6,
+          "0": 10,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "16": 3,
+          "17": 3,
+          "18": 3,
+          "19": 3
+        },
+        "mask_histogram": {
+          "011111100": 5,
+          "000010000": 8,
+          "000000000": 69,
+          "111111100": 2
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 217,
+          "labeled": 217,
+          "core_valid": 217,
+          "core_fraction": 1.0,
+          "complete_case": 107,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "core_valid": 75,
+          "core_fraction": 0.9615384615384616,
+          "complete_case": 38,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.2238612213736569,
+          -0.39340721619454083,
+          -0.46478378457941466,
+          -0.32547110800326196,
+          -0.018799893290668546,
+          -0.07422419791205064,
+          -0.5299904064592461,
+          0.3591011845435609,
+          0.23169001570273584
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 80,
+          "0": 4
+        },
+        "m_histogram": {
+          "18": 3,
+          "0": 12,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 5,
+          "11": 3,
+          "12": 5,
+          "13": 4,
+          "14": 4,
+          "15": 4,
+          "16": 4,
+          "17": 3,
+          "19": 1
+        },
+        "mask_histogram": {
+          "000000000": 41,
+          "111111100": 4,
+          "011111100": 15,
+          "000010000": 24
+        }
+      }
+    },
+    "outer_2022": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 212,
+          "labeled": 212,
+          "core_valid": 212,
+          "core_fraction": 1.0,
+          "complete_case": 105,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 75,
+          "core_valid": 69,
+          "core_fraction": 0.92,
+          "complete_case": 40,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.05650530719114834,
+          -0.008334245809309089,
+          0.08815369244451335,
+          0.016231036021358412,
+          0.25821761064169957,
+          0.13749263084226407,
+          0.12272809499355515,
+          -0.45458866306501744,
+          0.6216602510766204
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 76,
+          "0": 6
+        },
+        "m_histogram": {
+          "18": 3,
+          "0": 14,
+          "1": 4,
+          "2": 4,
+          "3": 5,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 5,
+          "8": 5,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 3,
+          "15": 3,
+          "16": 2,
+          "17": 1,
+          "19": 1
+        },
+        "mask_histogram": {
+          "000000000": 44,
+          "111111100": 6,
+          "011111100": 13,
+          "011010000": 2,
+          "000010000": 17
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 219,
+          "labeled": 219,
+          "core_valid": 219,
+          "core_fraction": 1.0,
+          "complete_case": 123,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 77,
+          "core_valid": 73,
+          "core_fraction": 0.948051948051948,
+          "complete_case": 49,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.3182404580568811,
+          -0.5710410376227311,
+          1.074718306570465,
+          -0.5192614580732192,
+          0.20617931645403836,
+          -0.12320384183281576,
+          1.0822594812813926,
+          -0.45458866306501744,
+          0.6216602510766204
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 78,
+          "0": 4
+        },
+        "m_histogram": {
+          "18": 4,
+          "0": 12,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 3,
+          "11": 6,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "16": 3,
+          "17": 2,
+          "15": 3,
+          "19": 1
+        },
+        "mask_histogram": {
+          "000000000": 51,
+          "111111100": 4,
+          "011111100": 10,
+          "000010000": 16,
+          "011010000": 1
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 224,
+          "labeled": 224,
+          "core_valid": 224,
+          "core_fraction": 1.0,
+          "complete_case": 173,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 78,
+          "core_valid": 78,
+          "core_fraction": 1.0,
+          "complete_case": 67,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.08221822845211617,
+          -0.0857558819045333,
+          0.15582976083655156,
+          -0.08313840223590695,
+          0.004536274220612697,
+          -0.05501910107798993,
+          0.11307456108975819,
+          -0.45458866306501744,
+          0.6216602510766204
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 82
+        },
+        "m_histogram": {
+          "15": 6,
+          "0": 8,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 4,
+          "16": 3,
+          "17": 3,
+          "18": 3,
+          "19": 3
+        },
+        "mask_histogram": {
+          "011111100": 3,
+          "011010000": 1,
+          "000010000": 8,
+          "000000000": 70
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 217,
+          "labeled": 217,
+          "core_valid": 217,
+          "core_fraction": 1.0,
+          "complete_case": 107,
+          "tasks_with_two_cycles": 12
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 76,
+          "core_valid": 72,
+          "core_fraction": 0.9473684210526315,
+          "complete_case": 47,
+          "tasks_with_two_cycles": 4
+        },
+        "checks": {
+          "fit_core_cycles": true,
+          "fit_core_tasks": true,
+          "eval_core_cycles": true,
+          "eval_core_fraction": true
+        },
+        "mean_observed_standardized_shift": [
+          -0.0827590164454392,
+          -0.14202452771177504,
+          -0.02538578105747933,
+          -0.11643688171907496,
+          0.026140517549759185,
+          0.11905706514037956,
+          -0.1763970327539678,
+          -0.45458866306501744,
+          0.6216602510766204
+        ],
+        "ood_queries": 0,
+        "K_histogram": {
+          "3": 77,
+          "0": 5
+        },
+        "m_histogram": {
+          "18": 5,
+          "0": 13,
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4,
+          "10": 4,
+          "11": 4,
+          "12": 4,
+          "13": 4,
+          "14": 3,
+          "15": 3,
+          "16": 3,
+          "17": 2,
+          "19": 1
+        },
+        "mask_histogram": {
+          "000000000": 51,
+          "111111100": 5,
+          "011111100": 9,
+          "011010000": 1,
+          "000010000": 16
+        }
+      }
+    }
+  },
+  "failed_checks": [],
+  "panel_status": "AWAITING_USER_COLLECTION",
+  "ready_for_W11_19": false
+}
