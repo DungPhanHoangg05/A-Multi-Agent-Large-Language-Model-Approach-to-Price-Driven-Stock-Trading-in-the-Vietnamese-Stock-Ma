@@ -7,7 +7,8 @@ import unittest
 from unittest.mock import patch
 
 from core.mt_bicl_v41_contract import family_fit, feature_input, load_ready, original_fallback, original_for_policy, policy_prediction_key
-from core.mt_bicl_v41_panel import ACCEPTANCE
+from core.mt_bicl_v41_panel import ACCEPTANCE, plan_binding
+from core.mt_bicl_v4_protocol import checksum
 from core.mt_bicl_v4_dataset import encoded
 from test_mt_bicl_v41_data import fixture
 
@@ -56,6 +57,16 @@ class ContractTests(unittest.TestCase):
             path.write_bytes(encoded({'version':'conditional_v4_completed_dataset','status':'DATA_READY_PASS'}))
             with patch('core.mt_bicl_v41_contract.git',return_value=path.read_bytes()):
                 with self.assertRaises(ValueError): load_ready(root)
+
+    def test_plan_binding_uses_Git_blob_despite_CRLF_or_uncommitted_progress(self) -> None:
+        with TemporaryDirectory() as folder:
+            root=Path(folder);path=root/'docs/plan/week11/README.md'
+            path.parent.mkdir(parents=True);path.write_bytes(b'new progress\r\n')
+            blob=b'registered plan\n'
+            with patch('core.mt_bicl_v41_panel.git',side_effect=[b'fixture\n',blob]):
+                binding=plan_binding(root)
+            self.assertEqual(binding['sha256'],checksum(blob))
+            self.assertNotEqual(binding['sha256'],checksum(path.read_bytes()))
 
 
 if __name__ == '__main__':

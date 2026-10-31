@@ -33,6 +33,13 @@ EXTRA = ('core/mt_bicl_v4_collect.py', 'core/mt_bicl_v4_collect_transport.py',
          'scripts/prepare_mt_bicl_v4_1.py')
 
 
+def plan_binding(root: Path) -> dict[str, str]:
+    """Băm Git blob LF, không băm working copy CRLF hoặc tiến độ chưa commit."""
+    path = 'docs/plan/week11/README.md'
+    commit = git(root, 'log', '-1', '--format=%H', '--', path).decode().strip()
+    return {'commit': commit, 'path': path, 'sha256': checksum(git(root, 'show', commit+':'+path))}
+
+
 def prepare_release(root: Path) -> dict[str, Any]:
     """Chỉ cấp collection Original/panel2019–2022 sau ngân hàng cold PASS và commit code."""
     if (root/RELEASE).exists():
@@ -63,8 +70,7 @@ def prepare_release(root: Path) -> dict[str, Any]:
         'panel_sha256': checksum((root/PANEL).read_bytes()), 'nominal_research_HTTP': 768, 'controls_per_scope': 3,
         'credential_variables': spec['operation']['credential_variables'],
         'scope_independence_authority': 'USER_CONFIRMED_FOUR_INDEPENDENT_ORGANIZATIONS',
-        'plan_authority': {'commit': git(root, 'log', '-1', '--format=%H', '--', 'docs/plan/week11/README.md').decode().strip(),
-                           'path': 'docs/plan/week11/README.md', 'sha256': checksum((root/'docs/plan/week11/README.md').read_bytes())},
+        'plan_authority': plan_binding(root),
         'resume': parent['resume'], 'lost_unsealed_response': parent['lost_unsealed_response'],
         'collection_operator': 'USER_ONLY', 'writer': 'ONE_COORDINATOR_SHARED_LEDGER_LOCK',
         'training_allowed': False, 'reference_fit_allowed': False, 'development_allowed': False, 'confirmation_allowed': False,
