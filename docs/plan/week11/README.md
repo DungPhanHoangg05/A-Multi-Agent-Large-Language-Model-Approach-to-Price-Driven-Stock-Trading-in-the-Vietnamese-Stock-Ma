@@ -1,6 +1,6 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 31/10/2026: 10/15 task DONE (01–10).**
+**Cập nhật 31/10/2026: 11/15 task DONE (01–11).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
 **W11-07 SPEC_LOCK_PASS** tại mục15; grant18 giờ là bản khóa lịch sử.
@@ -9,7 +9,8 @@ counter cũ giữ làm bằng chứng, không còn chặn chạy/resume.
 **W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
 kiểm thử offline PASS. **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH** tại
 mục17. **W11-10 DONE — RELEASED_DEVELOPMENT_2023_ONLY** tại mục18;
-**W11-11 đang chạy,568/804 slot đã lưu**; tiếp tục bằng lệnh tại mục19.
+**W11-11 DONE —804/804 slot và cold replay vận hành PASS** tại mục19;
+tiếp theo W11-12 tái dựng tài khoản/phân tích/nomination.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -172,7 +173,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [x] DONE —172 test theo phạm vi PASS, scalar MC/PIT/ablation/guard/counter; chưa validation thị trường/API |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [x] DONE —676 point/replay PASS, approximation đạt, Full support40/60 và12 interval âm;75 test/22 semantic groups PASS |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [x] DONE — freeze/dry-run804/replay/control thật/source/PIT/feasibility PASS; release2023 neo Git |
-| W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] IN_PROGRESS —568/804 complete,1 unknown,235 pending; resume không giới hạn giờ tại mục19–20 |
+| W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [x] DONE —804/804 (480 primary+324 repeat),133 bypass; raw/cache/ledger/source/PIT/cold replay PASS;0 pending/unknown |
 | W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [ ] TODO — có điều kiện |
 | W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] TODO — có điều kiện |
 | W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] TODO — có điều kiện |
@@ -1461,10 +1462,14 @@ không chạy lại unit/compileall/E2E hoặc leakage suite theo AGENTS1.2.
 
 ## 19. W11-11 — Chạy development v3 đã release
 
-**IN_PROGRESS; chưa DONE.** Snapshot31/10: **568/804 slot complete**
-(480/480 primary,88/324 repeat),1 unknown,235 pending. Còn236 slot,
-211 slot đủ support HTTP và25 bypass theo mask; retry có thể thêm HTTP.
-Bốn control thật không được tính là primary/repeat. Chạy đúng một lệnh:
+**PASS — W11-11 DONE,31/10/2026;11/15 task hoàn tất.** Đủ **804/804 slot
+complete**:480/480 primary và324/324 repeat, **0 pending/unknown/missing**.
+Ma trận đủ8 nhánh×60 primary và9 nhánh×12 point×3 repeat.671 slot có
+response thật,133 slot bypass đúng support mask; không bỏ point/nhánh.
+36 Original_duplicate có cùng canonical request với Original của block,
+nhưng UUID độc lập và HTTP200 riêng. Control không được tính vào804 slot.
+
+Lệnh vận hành giữ để tái lập/resume cùng run đã hoàn tất:
 
 ```powershell
 py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py
@@ -1487,11 +1492,43 @@ tục; không xóa cache/checkpoint/counter/lock hoặc nhập UUID. Durable/com
 giữ bằng chứng. Quota do provider quyết định, pacing/backoff giữ nguyên.
 
 Hoàn tất khi console báo `Đủ 804/804 slot v3; chờ W11-12 kiểm định, chưa P&L.`
-Người dùng gửi kết quả để nghiệm thu W11-11 và chuyển W11-12 cold verify/
-rebuild accounts/decomposition/nomination. Chưa đánh giá P&L hoặc accuracy
-development trong bước chạy, chưa cấp quyền xác nhận2025. Giữ hạn bắt đầu
+Đã nghiệm thu kết quả người dùng; tiếp theo W11-12 cold verify/rebuild
+accounts/decomposition/nomination. Chưa đánh giá P&L hoặc accuracy
+development ở W11-11, chưa cấp quyền xác nhận2025. Giữ hạn bắt đầu
 05/11 và data stop07/11; không còn trần số giờ thực thi. Dự toán11,60 giờ
 là giá trị trước run, không phải cam kết khi provider giới hạn quota/retry.
+
+**Đối soát nghiệm thu:** CLI `--verify-only` chạy chặn network, trên bản
+sao journal, trả `UNBOUNDED_RESUME_VERIFIED:804/804;HTTP=0`, không còn slot
+cần dispatch. Source/schema/weights/manifest/release/amendment/Git, PIT và
+upstream60/60, canonical body/UUID/raw cache/fact-anchor/final policy đều
+PASS. Mỗi671 UUID scientific nối đúng một HTTP200; toàn bộ692 scientific
+HTTP ID nối đúng journal và duy nhất.21 lần lỗi gồm19 HTTP429 và2 transport
+error vẫn giữ nguyên row/reserve/audit, không còn row unknown trong run.
+
+Ledger **5.206 row** =4.498 row nền +692 research +16 control. Bốn scope
+credential đều cold audit4 control HTTP200 PASS; từng scope hoàn tất
+preflight trước HTTP research đầu.687 raw cache file nối đúng671 research
+và16 control HTTP200, không cache thừa/thiếu. Usage research đã ghi nhận
+1.391.314 token (1.275.787 input,115.527 output), không suy ra chi phí của
+transport error thiếu usage. Prefix4.990 row và568 complete trước amendment,
+counter lịch sử64.800 giây, source khoa học và các artifact cha nguyên byte.
+
+Run signature
+`43613b0f9d9f527775f8046f7881a367ce44987a7c2648c7647e17a1ee1cf6ea`;
+hash cây tính từ map tên file→byte SHA, JSON canonical sorted:
+
+- 804 slot journal: `7ae447b17b5079a1344edb5c5db972fe598ad8b440e329511d10136b7704ce03`.
+- 687 raw cache: `e0d880143995ecdf64c48926d02c0232f84bf5453e1133c71afe0b6cddc7cccb`.
+- Ledger byte SHA: `b89c5f7eff547a73f44136e5b60372c0ce5b9680fc47a02eddde13a42fd1e956`.
+- `run/research/progress.json`: `ebf129d61dfc0b857e36fb9c6a4debbe1fa20b5d4f101edf9a5b9001c192d029`.
+
+Progress giữ `COMPLETE_AWAITING_AUDIT` cho bước kiểm định kinh tế W11-12;
+đây là hoàn tất chạy và nghiệm thu vận hành, chưa là nomination hoặc bằng
+chứng tăng lợi nhuận. Không tính P&L/query outcome, mở2025 hoặc gọi API mới.
+Lượt chốt chỉ sửa tài liệu; theo AGENTS1.2 kiểm diff/link/hash và cold replay
+thực, viện dẫn53 test/3 Python PASS tại source vận hành `8782c1e` nguyên
+byte, không chạy lại unit/full suite/compileall/E2E/leakage suite.
 
 ## 20. Bỏ giới hạn bộ đếm thời gian theo chỉ đạo31/10/2026
 
