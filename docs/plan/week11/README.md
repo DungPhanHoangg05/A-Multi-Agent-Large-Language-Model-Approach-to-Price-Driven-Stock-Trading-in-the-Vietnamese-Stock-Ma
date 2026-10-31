@@ -1,6 +1,6 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 31/10/2026: 11/15 task DONE (01–11).**
+**Cập nhật 31/10/2026: 12/15 task DONE (01–12).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
 **W11-07 SPEC_LOCK_PASS** tại mục15; grant18 giờ là bản khóa lịch sử.
@@ -9,8 +9,9 @@ counter cũ giữ làm bằng chứng, không còn chặn chạy/resume.
 **W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
 kiểm thử offline PASS. **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH** tại
 mục17. **W11-10 DONE — RELEASED_DEVELOPMENT_2023_ONLY** tại mục18;
-**W11-11 DONE —804/804 slot và cold replay vận hành PASS** tại mục19;
-tiếp theo W11-12 tái dựng tài khoản/phân tích/nomination.
+**W11-11 DONE —804/804 slot và cold replay vận hành PASS** tại mục19.
+**W11-12 DONE — v3 NOT_NOMINATED** tại mục21; Full−Original=−5,313090 đpt,
+accuracy45% so Original65%; không cấp release xác nhận2025.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -174,9 +175,9 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [x] DONE —676 point/replay PASS, approximation đạt, Full support40/60 và12 interval âm;75 test/22 semantic groups PASS |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [x] DONE — freeze/dry-run804/replay/control thật/source/PIT/feasibility PASS; release2023 neo Git |
 | W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [x] DONE —804/804 (480 primary+324 repeat),133 bypass; raw/cache/ledger/source/PIT/cold replay PASS;0 pending/unknown |
-| W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [ ] TODO — có điều kiện |
-| W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] TODO — có điều kiện |
-| W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] TODO — có điều kiện |
+| W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [x] DONE — account/report/decomposition/cold replay PASS; v3 NOT_NOMINATED theo rule đã khóa |
+| W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] NOT_RUN — điều kiện nomination v3 không đạt, không phát hành release xác nhận |
+| W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] NOT_RUN — v3 NOT_NOMINATED, không có release xác nhận |
 | W11-15 | Bàn giao COMPLETE/INCOMPLETE/NOT_RUN và claim cho W12 | 05–14 chốt trạng thái | [ ] TODO |
 
 Không kịp release/bắt đầu cuối W11 thì không mở run mới ở W12. Thời gian
@@ -1579,3 +1580,106 @@ Source mới `8782c1e`, chính sách byte SHA
 `02a44d216f0adb29cccd860b11f556baa175627d1e5c40dc7ca9c8291e5107d4`;
 counter lịch sử byte SHA
 `e9ea478072c97fa0931d45c0048b2f964e9e48d3b60ee6f847ae687f0c654878`.
+
+## 21. W11-12 — Kiểm toán kinh tế, phân rã và nomination v3 (31/10/2026)
+
+**PASS kỹ thuật; v3 NOT_NOMINATED.** [Receipt máy](development_nomination_v3.json)
+khóa quyết định riêng; report mô tả giữ `NOT_EVALUATED` để không ghi đè
+bằng chứng trước consumer nomination. Chỉ Full_utility_ICL được xét,
+không promote ablation, không vote repeat hoặc thay G60/threshold sau kết quả.
+
+Source `04a2e05` thêm audit/account, report/decomposition, consumer
+nomination và CLI offline. Đối soát804 slot/raw/UUID/body/cache/control,
+PIT/upstream60 point trước, sau đó cố định mọi action final/offline/diagnostic
+**trước khi mở payoff2023**.944 occurrence nhãn context được kiểm lại bằng
+giá/quyền và `compute_round_trip_net_return`, strict exit<query. Không gọi
+API/model, gradient/refit hoặc dùng payoff2025.188 account được tái dựng:
+36 primary+120 repeat cho9 nhánh thật/offline và32 account diagnostic
+raw/facts-only; mỗi account dùng engine T+2.5,50 triệu/mã, phí0,25% và
+slippage0,10% mỗi chiều, SHORT=CASH, cổ phiếu phân số như hợp đồng cũ.
+
+Artifacts tại `outputs/bayesian_benchmark/mt_bicl_v3/development2023/`:
+`verification/accounts.json`, `analysis/report.json`, `analysis/results.png`.
+G60 giữ đủ10 feature-unavailable và20 point Full không support; Full support40,
+No_target recompute như snapshot trước run. Báo mọi K/m/bucket/regime/quý,
+strata thiếu mã giữ D null, không dùng subgroup thay primary.
+
+| Nhánh | Mean return 4 account (%) | Accuracy dấu net (%) | LONG/60 | Mean MDD (%) |
+| --- | ---: | ---: | ---: | ---: |
+| Original | 5,1313 | 65,00 | 15 | 2,2922 |
+| A_reference | 3,9936 | 61,67 | 15 | 2,9123 |
+| Fact_Anchor | −1,6897 | 43,33 | 50 | 10,0388 |
+| Plain_revision | −0,2809 | 46,67 | 50 | 8,0845 |
+| Full_utility_ICL | −0,1818 | 45,00 | 47 | 8,0663 |
+| No_utility | 0,9433 | 48,33 | 51 | 8,4024 |
+| No_target | −1,6897 | 43,33 | 50 | 10,0388 |
+| Stats_only | −0,6967 | 45,00 | 49 | 9,0915 |
+| Utility_only | 0,0000 | 60,00 | 0 | 0,0000 |
+
+Accuracy tính đúng dấu lợi nhuận LONG sau phí trên60 point, khác hit-rate
+lệnh LONG và khác return tài khoản; Utility_only60% là luôn CASH trên mẫu
+có36/60 nhãn DOWN, không chứng minh khả năng dự báo. D là mean đều bốn
+Δreturn tài khoản, không mean cycle, tổng lợi nhuận hoặc portfolio chung.
+
+| Mã | Original return (%) | Full return (%) | Full−Original (đpt) |
+| --- | ---: | ---: | ---: |
+| FPT | 3,6807 | 6,9931 | 3,3124 |
+| MWG | 16,4215 | −11,2057 | −27,6272 |
+| VCB | −1,5148 | 2,8321 | 4,3469 |
+| VNM | 1,9378 | 0,6534 | −1,2844 |
+
+Rule nomination đã khóa: **D Full−Original=−5,313090<0**; chỉ **2/4 mã**
+tăng (<3); **Full−A=−4,175356<0**; mean ΔMDD=**5,774045>2** và max ΔMDD=
+**12,228105>5** đpt. Chỉ guard mới **Full−Fact_Anchor=+1,507930>0** đạt
+cùng G60 đầy đủ. Năm guard kinh tế không đạt; không được lấy accuracy,
+nhánh No_utility hoặc repeat thuận lợi để đổi quyết định.
+
+Phân rã return account khép đúng tổng −5,313090 đpt:
+
+- Fact_Anchor−Original: **−6,821021 đpt**, tỷ trọng LONG tăng15→50/60.
+- Full raw proposal−Fact_Anchor: **+2,181424 đpt**.
+- Guard facts/context trên Full raw: **0 đpt** ở primary này.
+- Utility veto trên cùng raw proposals: **−0,673494 đpt**;5 tác động bất
+  lợi,2 có lợi,53 không đổi/zero. Full thực tế hơn Plain0,099157 đpt nhưng
+  kém No_utility1,125114 đpt; không đồng nhất mọi gain với Bayes.
+
+Đây là counterfactual từ saved actions/payoff, không là tác động nhân quả
+thuần của prompt/Bayes: các nhánh có response LLM độc lập. Giữ toàn bộ raw,
+a0/final/reason/Q10 trong cases; Full có30 KEEP,7 veto,3 accepted change,
+20 bypass (10 missing-feature,10 unsupported), không giấu phần bất lợi.
+Sensitivity hoàn nguyên từng action và bỏ từng mã có trong report, giữ G.
+
+Trên cùng12 point repeat, D Full−Original lần lượt r0/r1/r2/r3=
+**+0,193323/−0,700933/−0,528206/−0,464985 đpt**; account reset trên sample,
+không so trực tiếp với G60. Original_duplicate khác Original1/36 lần;
+72 cặp phụ thuộc/nhánh chỉ mô tả, không nhân N hoặc vote. Development đã
+exposed/adaptive; không dùng CI để nominate. Bootstrap xác nhận vẫn cần
+release riêng và không được gọi từ kết quả này.
+
+Kiểm theo AGENTS1.2: **77 test riêng biệt PASS** (24 mới,53 hồi quy đúng
+caller;5 test mới trong module leakage), **5 Python mới biên dịch PASS**.
+Ba lỗi fixture ban đầu (Reference và thứ tự ngày khi giả năm) đã sửa trước
+phân tích thị trường; không sửa source/run/tham số sau mở payoff. Không
+full suite/compileall/E2E; test tập trung economics, PIT, materialize trước
+outcome, decomposition, MDD, strict-zero/Full−A/Fact_Anchor, repeat/paired,
+immutability và consumer không promote ablation.
+
+```powershell
+py -3.13 -X utf8 scripts/analyze_mt_bicl_v3.py
+py -3.13 -X utf8 scripts/analyze_mt_bicl_v3.py --verify-only
+```
+
+Receipt/source/report/account/hash và hình đều được cold rebuild bằng lệnh
+thứ hai, không tin cờ PASS tự khai; hình đã kiểm trực quan. Hash byte:
+
+- Accounts: `4ecc5a30061013232b5e4098bacc1643e02786bebc1ff3003ea73c57eaa38120`.
+- Report: `ac92ebe91c62e76e3d05668c5d72b85dded6c125e25bc8abad444a90e87ad3d9`.
+- Hình PNG: `06553a51825ae39084fa8315266bbc43b35b4f7359fd77465ab5a855e8f363ec`.
+- Nomination: `aeb0bb41fc54b33fb152145ddf48a1773a4017e460fbfd2a549bae26b49897d0`.
+
+Ledger prefix5.206 row, run804/cache687, v2 evidence2.597 file, model/runtime,
+manifest/release và counter lịch sử nguyên vẹn. Consumer cho phép append
+ledger sau prefix đã khóa, không reset row/reserve hoặc reseal run.
+**Confirmation v3 NOT_RUN**, quyền xác nhận/training/substitution vẫn false;
+W11-13/14 không chạy do không đạt nomination. Bước bàn giao còn W11-15;
+không tự sửa recipe, mở lại training hoặc dùng2025 để cứu kết quả.

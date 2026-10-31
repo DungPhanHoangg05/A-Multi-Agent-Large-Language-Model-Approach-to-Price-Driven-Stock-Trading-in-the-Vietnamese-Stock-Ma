@@ -11,8 +11,8 @@ promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn1
 V3 đã khóa protocol/schema/fixtures/budget ở W11-07 và triển khai utility/
 facts/policy ở W11-08, kiểm offline676 point/cold replay PASS ở W11-09.
 W11-10 đã nghiệm thu bốn control API thật và release development2023;
-W11-11 đã hoàn tất804/804 slot và cold replay vận hành PASS; P&L/accuracy/
-nomination v3 còn ở W11-12.
+W11-11 đã hoàn tất804/804 slot; W11-12 cold audit/account/report PASS,
+v3 **NOT_NOMINATED**: Full−Original=−5,313090 đpt, accuracy45% so65%.
 Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026),
 implementation tại [mục16](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
 Kết quả offline tại [mục17](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
@@ -32,7 +32,7 @@ tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mố
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ 31/10/2026:** W10 **14/14**, W11 **11/15** (01–11), W12 **0/6**.
+**Tiến độ 31/10/2026:** W10 **14/14**, W11 **12/15** (01–12), W12 **0/6**.
 **W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
 report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
 **W11-07 SPEC_LOCK_PASS**, grant18 giờ giữ làm bản lịch sử; amendment31/10
@@ -42,6 +42,9 @@ bỏ giới hạn bộ đếm runtime. **W11-08 DONE**,172 test theo phạm vi P
 control thật/source/PIT/feasibility PASS; release development neo Git.
 **W11-11 DONE**,804/804 slot (480 primary+324 repeat),cold replay vận hành PASS
 tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
+**W11-12 DONE**, account/report/decomposition PASS, v3 NOT_NOMINATED tại
+[mục21 W11](week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026).
+Xác nhận v3 NOT_RUN; W11-13/14 không chạy do dependency nomination không đạt.
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
 cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
@@ -1415,7 +1418,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 11/15 DONE, development v3 đã hoàn tất
+### TUẦN 11: Development và cải tiến quyết định — 12/15 DONE, v3 NOT_NOMINATED
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1580,6 +1583,26 @@ lại suite; viện dẫn53 test/3 Python PASS ở source `8782c1e`, đối soá
 diff/link và replay thực theo AGENTS1.2. Chưa tính P&L/accuracy/nomination
 hoặc cấp quyền2025. Tiếp theo W11-12; chi tiết/hash nguồn tại
 [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
+
+**W11-12 DONE,31/10:** source `04a2e05`;77 test theo phạm vi (24 mới,
+53 hồi quy,5 test mới leakage) và5 Python biên dịch PASS. Cold audit đủ804
+raw/UUID/control/source/PIT trước mở payoff2023;944 occurrence nhãn context
+đối chiếu helper engine, tái dựng188 account gồm156 account thật/offline
+và32 diagnostic raw/facts-only. Full return−0,181775%, accuracy45%; Original
++5,131315%, accuracy65%; A+3,993580%,61,67%; Fact_Anchor−1,689706%,43,33%.
+**NOT_NOMINATED:** D Full−Original−5,313090, Full−A−4,175356 đpt;2/4 mã
+tăng, mean ΔMDD5,774045 và max12,228105 vượt2/5. Full−Fact_Anchor+1,507930
+đạt nhưng không đủ toàn rule. Không promote No_utility (+0,943339%) hoặc
+Utility_only (0%, luôn CASH) theo kết quả. Decomposition−6,821021 fact-anchor,
++2,181424 raw context proposal,0 guard facts,−0,673494 utility veto khép
+đúng D; đây là saved-action counterfactual, không claim nhân quả thuần.
+G60/strata/accuracy/repeat/sensitivity/telemetry và hình tại output riêngv3;
+cold rebuild account/report/nomination/PNG khớp byte/hash/Git. Không API,
+model forward/refit, payoff2025 hoặc đổi run/v2 evidence/counter lịch sử.
+Receipt [development_nomination_v3.json](week11/development_nomination_v3.json)
+byte SHA `aeb0bb41fc54b33fb152145ddf48a1773a4017e460fbfd2a549bae26b49897d0`.
+Confirmation v3 NOT_RUN, W11-13/14 không đủ dependency; còn bàn giao W11-15.
+Chi tiết [mục21 W11](week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026).
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
