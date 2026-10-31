@@ -12,6 +12,8 @@ W11-17 đã khóa protocol; W11-18 đã dựng snapshot/PIT audit1.640 query,
 warmup và agent/Original đã khóa, chờ người dùng thu thập thật bằng một lệnh
 tại [mục25 W11](week11/README.md#25-w11-18--release-bổ-sung-warmupagentoriginal-01112026).
 Chưa nghiệm thu W11-18, chưa mở W11-19 hoặc train predictor v4.
+Lượt người dùng đầu đã qua warmup/text probe; vision400. Đã sửa probe ảnh
+và bổ sung diagnostic provider, tiếp tục bằng cùng lệnh ở mục25 W11.
 
 **Bỏ tất cả giới hạn thời gian theo chỉ đạo người dùng:** không trần giờ,
 khung giờ theo tuần, deadline 05/11–07/11–10/11 hoặc hạn hoàn tất12 tuần.
