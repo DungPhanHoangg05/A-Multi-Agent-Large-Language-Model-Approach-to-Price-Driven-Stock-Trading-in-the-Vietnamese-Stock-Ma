@@ -16,7 +16,14 @@ Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utili
 implementation tại [mục16](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
 Kết quả offline tại [mục17](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
 
-**Cập nhật ngân sách 29/10/2026:** người dùng xác nhận ngân sách thời gian
+**Hiện hành31/10/2026:** người dùng yêu cầu bỏ hoàn toàn giới hạn bộ đếm
+giờ. V3 chạy/resume không trần18 giờ và không tính gap crash; counter cũ
+giữ nguyên làm lịch sử. Source/manifest/release khoa học và quota provider
+giữ nguyên; amendment máy tại [runtime_policy_v3.json](week11/runtime_policy_v3.json),
+chi tiết [mục20 W11](week11/README.md#20-bỏ-giới-hạn-bộ-đếm-thời-gian-theo-chỉ-đạo31102026).
+Lịch05/11,07/11 là các mốc riêng, không bị đổi bởi amendment bộ đếm.
+
+**Lịch sử ngân sách 29/10/2026:** người dùng xác nhận ngân sách thời gian
 chạy được reset. Đợt v3 tính thời gian chạy mới từ 0, không khấu trừ thời
 gian các run v1/v2 hoặc chờ đối soát số dư cũ để được triển khai. Người dùng
 xác nhận riêng trần **18 giờ chạy tổng v3**; W11-07 đã khóa64.800 giây từ0
@@ -24,15 +31,15 @@ tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mố
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ 30/10/2026:** W10 **14/14**, W11 **10/15** (01–10), W12 **0/6**.
+**Tiến độ 31/10/2026:** W10 **14/14**, W11 **10/15** (01–10), W12 **0/6**.
 **W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
 report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
-**W11-07 SPEC_LOCK_PASS**, trần18 giờ đã khóa; counter hiện dùng1.476,968 giây,
-còn≈17,59 giờ. **W11-08 DONE**,172 test theo phạm vi PASS;
+**W11-07 SPEC_LOCK_PASS**, grant18 giờ giữ làm bản lịch sử; amendment31/10
+bỏ giới hạn bộ đếm runtime. **W11-08 DONE**,172 test theo phạm vi PASS;
 **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH**, Full support40/60,
 12 interval âm/0 dương trên G60. **W11-10 DONE**: freeze/dry-run804/replay,
 control thật/source/PIT/feasibility PASS; release development neo Git.
-**W11-11 READY_TO_RUN**,0/804 slot research; người dùng chạy cùng một lệnh
+**W11-11 IN_PROGRESS**,568/804 slot complete; người dùng tiếp tục cùng lệnh
 tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
@@ -1559,7 +1566,13 @@ tổng1.476,968315 giây, còn63.323,031685 giây (≈17,59 giờ), đóng sạc
 Lệnh và bằng chứng tại
 [mục18 W11](week11/README.md#18-w11-10--freeze-và-preflight-development-v3-30102026).
 
-**W11-11 READY_TO_RUN:** chưa có response development,0/804 slot research.
+**W11-11 IN_PROGRESS,31/10:**568/804 complete (480 primary,88 repeat),
+1 unknown,235 pending. Bỏ bộ đếm18 giờ theo chỉ đạo mới; counter đã chạm
+64.800 giây giữ nguyên làm lịch sử, không tiếp tục cộng hoặc chặn resume.
+Amendment vận hành khóa ledger4.990 row/568 complete, không đổi UUID,
+source khoa học, manifest/release, nguồn PIT, prompt/model hoặc paired.
+53 test đúng phạm vi PASS (10 mới,43 hồi quy,7 leakage);3 Python biên dịch
+PASS. Không full suite/compileall/E2E hoặc API thật. Chi tiết tại mục20 W11.
 Người dùng chạy `py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py`; cùng lệnh
 tự resume, không nhập UUID hoặc reset checkpoint/ledger/quota/counter.
 Đủ804 slot mới nghiệm thu DONE rồi chuyển W11-12, chưa phân tích P&L ở bước
