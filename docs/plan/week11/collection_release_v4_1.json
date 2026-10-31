@@ -2,15 +2,15 @@
   "version": "conditional_v4_1_panel_release",
   "status": "USER_COLLECTION_RELEASED",
   "scope": "PANEL256_ORIGINAL_UPSTREAM_ONLY_2019_2022",
-  "source_commit": "0dd2a4a83884c2079a8fd2ab228ce9e20799c0e6",
+  "source_commit": "6fd50d23534006aa1c294713aef7ac72a9d22c74",
   "source_sha256": {
     "core/mt_bicl_v41_collect.py": "1235b135684c5489c1276aa94cb7f94c5db76dbfbc66d3644f4d70fc1350e1f4",
-    "core/mt_bicl_v41_panel.py": "26c4265c5053a9ca6bcd3353ca276fb88e335abdf8e5d0c3d5d3a618ae6fc6f1",
+    "core/mt_bicl_v41_panel.py": "950a37f0087262d264477de4040ae5e2defd4f0048bcda998e4eadef01a2afab",
     "core/mt_bicl_v41_runtime.py": "f953533b971f08eafc5e92f0926fec1dfb3226070f3be11223561e16460bd4d8",
     "core/mt_bicl_v41_contract.py": "758721a6a360ccb95984e2ca73466b172d2d5b9f8333443ceaefc420afb6ee4e",
     "scripts/continue_mt_bicl_v4_1.py": "760cf1ae6ab68ba57650c4e9557a724a4db9ac24a0701ba1949bfb62f2d931ca",
     "tests/test_mt_bicl_v41_collection.py": "44329a97c39105836609469e7a2fc722d040609864d0e9d537c4d19bd155a257",
-    "tests/test_mt_bicl_v41_contract.py": "33cb3fbb614a028fcb28b4b9359d4a01e110d0a5a18983ed54784e1336336dd2"
+    "tests/test_mt_bicl_v41_contract.py": "578fd4a27418bbd80687ce6fbb0d8874e805cb759afff75c121576d266174b51"
   },
   "dependency_sha256": {
     "core/mt_bicl_v2_decision.py": "f10be32f2a0686722937cd1d67fe502ae554ef9c520f06d46325bb4b9d4e98c8",
@@ -710,7 +710,7 @@
   "plan_authority": {
     "commit": "0d824650d11cde670497fa96b65aff29a3438380",
     "path": "docs/plan/week11/README.md",
-    "sha256": "594ee9106dde99b415be60b456c81c422ae5632723c1f9b9fd0de21838742c0b"
+    "sha256": "efab117979f5f825f0ad7f541ec59e62bcba2c01685015577ea12c559b67be90"
   },
   "resume": "ONE_COMMAND_CACHE_BEFORE_KEY_SAME_INCOMPLETE_UUID_NO_COMPLETE_REPLAY_KEEP_ALL_RESERVES",
   "lost_unsealed_response": "KEEP_HTTP_ROW_AND_RESERVE_RETRY_SAME_UUID_AFTER_CACHE_AUDIT;PHYSICAL_DUPLICATE_POSSIBLE_NO_REPEAT_VOTE",
@@ -726,5 +726,10 @@
   "ledger_baseline": {
     "count": 5279,
     "requests_prefix_sha256": "53e2d369ee2d725efdb926f01e52757fe56f170d0450127408d5aaf9d413e5f6"
+  },
+  "pre_api_correction": {
+    "supersedes_byte_sha256": "3df90f5c5e3b8637e57984794b513a3218c6a6d9437000abea9144efcd0453f8",
+    "reason": "GIT_PLAN_BLOB_LF_NOT_WORKTREE_CRLF",
+    "research_requests_before_correction": 0
   }
 }
