@@ -1,0 +1,885 @@
+{
+  "version": "conditional_mt_bicl_protocol_v4",
+  "date": "2026-10-31",
+  "status": "SPEC_ONLY",
+  "candidate": "Full_conditional_MT",
+  "permissions": {
+    "training_allowed": false,
+    "reference_fit_allowed": false,
+    "development_allowed": false,
+    "decision_calls_allowed": false,
+    "confirmation_allowed": false
+  },
+  "next_stage": "W11_18_OFFLINE_DATA_PREPARATION_SEPARATE_TASK",
+  "namespace": "outputs/bayesian_benchmark/mt_bicl_v4",
+  "authority": {
+    "plan_base_commit": "78337a42d54d855fcc8f4a6a6d3c95ec1ce168e6",
+    "plan_git_sha256": {
+      "docs/plan/plan.md": "ab670a21e0f3af4512fe55ad57d10ad3d7c91a896b26c560993b957d796674a8",
+      "docs/plan/week11/README.md": "f4f126032804ea5c14c912e7b5e864459753bed83cdc9fab70055ecdfa7d69d1",
+      "docs/plan/week12/README.md": "5514861250d2d79d4e213f040f34c06ec98473c02456753c0ac7145572d66462"
+    },
+    "legacy_status": "V1_FAIL_V2_V3_NOT_NOMINATED_NO_CONFIRMATION"
+  },
+  "parent_sha256": {
+    "docs/plan/week11/protocol_v3.json": "1912d18145fcc0eb46563206a83cfbacf5420d48fd828d0f79abfb56fa0b7b48",
+    "docs/plan/week11/development_manifest_v3.json": "b3437959cddb76f6c26e8ef92224931e296e92f6fb01e1cff5545799e6f7493c",
+    "docs/plan/week11/development_release_v3.json": "f2c5b4b93a2be54127fd6ea5cd992890ce351be4b07b46dc2f157c8e7170602e",
+    "docs/plan/week11/runtime_policy_v3.json": "02a44d216f0adb29cccd860b11f556baa175627d1e5c40dc7ca9c8291e5107d4",
+    "docs/plan/week11/development_nomination_v3.json": "aeb0bb41fc54b33fb152145ddf48a1773a4017e460fbfd2a549bae26b49897d0",
+    "outputs/bayesian_benchmark/mt_bicl_v3/development2023/verification/accounts.json": "4ecc5a30061013232b5e4098bacc1643e02786bebc1ff3003ea73c57eaa38120",
+    "outputs/bayesian_benchmark/mt_bicl_v3/development2023/analysis/report.json": "ac92ebe91c62e76e3d05668c5d72b85dded6c125e25bc8abad444a90e87ad3d9",
+    "outputs/bayesian_benchmark/mt_bicl_v3/development2023/freeze/input_snapshot.json": "a4948a1f77c01f3624da6b3a7bea2543d05b3d62863d8a387131fd79c1b5a32e"
+  },
+  "baseline_source_sha256": {
+    "core/backtest_engine.py": "57074df54e806adb1685436eac9bbe3053a87cadb12cb6613e682589ec8e8f2d",
+    "core/execution_prices.py": "34f5c5d4e1d71fffae1770567dbd8a8c74054496650ce29d79d7d67d098f0121",
+    "core/pit_price_features.py": "35e5042a49aa2d1c3854150925389c6c3a79260eecaa99851ae6bea2a43794dc",
+    "core/historical_signals.py": "26a35fa6e5421db09f5cbed5f219346e9aa72667b2a759568f0884cdcecdc7c5",
+    "core/mt_bicl_tasks.py": "1f4b6c607c2952f18925a635f7c92cd539a27ce98929fb38498e426a231e413e",
+    "core/mt_bicl_regimes.py": "6d036cb93c0ca3a965e536145fe2074fc2e27064c21cae0c2d7de637fcada704",
+    "core/regime_detector.py": "fba35472efafe4d5133db50d8ca24d4c57b5682960de2b8a2320a18bddf3be8b",
+    "core/mt_bicl_v2_decision.py": "f10be32f2a0686722937cd1d67fe502ae554ef9c520f06d46325bb4b9d4e98c8",
+    "core/mt_bicl_v2_integration.py": "4ea4063003598cc16692069fed02e22333ff1a1e46d07f6fe050b9caac9ceee6",
+    "core/improvement_runtime.py": "01909e3c0b0d5db8cf7beed2c262e368b791d5579774ce29ccff978d77e29a49",
+    "core/improvement_transport.py": "25a6fabcd18aef86f29b18a2699648c9ceaa929480cce2d255ccca233186bd32",
+    "core/groq_pacing.py": "a7a35c7cc99920d150b90535cf4d013d4390812c34bc9f5404e744f9cf4c348d",
+    "core/prior_run_lock.py": "41f85f6802cda48072284088a9a4ab15347f202697698ae44a55a468a02040ff",
+    "agents/decision_agent.py": "4a60154f52c5755388614813e88ff43480f91658ccdf55844667bec15d0bb571",
+    "agents/indicator_agent.py": "470fa5d1f4350180a23bfe40564cd6c02e00b8939cd2d90cad775776f74ee57b",
+    "agents/pattern_agent.py": "0b343ad7cd1d8c1e7c3781d22c8b843430c5ce35226088f336fad0cc1b2e7d49",
+    "agents/trend_agent.py": "79cdd6dae276cd556ed1a92318c7590e7d1831d14cb06812299ad75c6ebde1a0",
+    "agents/alpha_agent.py": "04ee4e42dbe30f8b12dd21181c031888f779eae093597f90facec2f66b863158"
+  },
+  "input_sha256": {
+    "data/historical/VNINDEX.csv": "971eec19f3f2b252b0810f551bbfd50c0c31a2c26957da0b9434b9b25e869a34",
+    "data/historical/manifest.json": "0c336ee95af3a016b608742f4355f05a4b99d3825bd2f557327d5df02c67719c",
+    "data/execution_prices/FPT.csv": "0a6606403e70247c8cf501844f2f011ec357c21d83095ed5c90336cd4f043a53",
+    "data/execution_prices/FPT.events.json": "0b37c6fd385b0e6ecd082aad0d00942d04343fa42ed2ec19aae4d3666991871c",
+    "data/execution_prices/FPT.evidence.json.gz": "16faea0ecdd68dd1f9af75a416ee30ded34e35ab60c09e53b00552babeaf90a5",
+    "data/execution_prices/manifest.json": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+    "data/execution_prices/MWG.csv": "3839c5d0d7240c997e02624b6afceb3aba88fb621a6e157a3852bcec15464693",
+    "data/execution_prices/MWG.events.json": "d9dc14691cc7943e663a4d54dd503fd4f684b1ceb8d43a4b6364f630abb96607",
+    "data/execution_prices/MWG.evidence.json.gz": "7b3424fe6ad1db982a684fbd6b7c4dbaa593161023b10bf3ed51f9c71cd0f3a9",
+    "data/execution_prices/VCB.csv": "64b6b272bad012f7739b6ecf33ce2d4e7dd8ae26429022fbeed3954796bbbe88",
+    "data/execution_prices/VCB.events.json": "0b01353f19a36696b6a5ff23a18d6920f8c4358f1bcebbfb22a0f9d31c992fc1",
+    "data/execution_prices/VCB.evidence.json.gz": "a2d6434d43680fee3dd9be27021a48519fd542e5346d6cb37d1e528e6934fcc8",
+    "data/execution_prices/VNM.csv": "7f36c58a33d6330ef75164d2d4e45de91494d19d723de9d4e4c573b6acdbdf1c",
+    "data/execution_prices/VNM.events.json": "31dc19e82f3ed1965568393ea91e281924cff7d9aa0efcb7e97446e00c174fd9",
+    "data/execution_prices/VNM.evidence.json.gz": "e10845a4547032817345c4fe6995afd25baf4eb3fd5773e180790ed4be0ea0c6"
+  },
+  "ledger_baseline": {
+    "path": "outputs/oos_pilot/api_usage.json",
+    "count": 5206,
+    "requests_prefix_sha256": "18d68685a15d6043c722e38b32d96a67428d5c9b2dba7638e01ffa454fe6a390"
+  },
+  "runtime": {
+    "python": "3.13.5",
+    "platform": "Windows",
+    "os_name": "nt",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "numpy": "2.1.2",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "hmmlearn": "0.3.3",
+      "scipy": "1.16.1",
+      "TA-Lib": "0.6.8",
+      "langgraph": "1.0.10",
+      "langchain-core": "1.2.17",
+      "langchain-groq": "1.1.2",
+      "groq": "0.37.1",
+      "httpx": "0.28.1",
+      "pydantic": "2.11.7",
+      "jsonschema": "4.24.0",
+      "Pillow": "11.0.0",
+      "matplotlib": "3.10.8"
+    }
+  },
+  "operation": {
+    "hour_cap": null,
+    "calendar_deadline": null,
+    "elapsed_counter_enabled": false,
+    "crash_gap_charging_enabled": false,
+    "api_operator": "USER_ONLY",
+    "agent_mode": "OFFLINE_NO_CREDENTIAL",
+    "quota_backoff": true,
+    "resume": "ONE_COMMAND_CACHE_BEFORE_KEY_SAME_UNFINISHED_UUID_KEEP_LEDGER_RESERVE",
+    "unknown": "AUDIT_RAW_AND_LEDGER_BEFORE_RETRY_NO_BLIND_REPLAY",
+    "credential_change": "NEW_SYNTHETIC_CONTROL_PREFLIGHT_KEEP_OLD_EVIDENCE",
+    "old_guards": "DO_NOT_IMPORT_LEGACY_TIME_OR_DEADLINE_GUARDS_IN_V4",
+    "release": "SEPARATE_STAGE_RELEASE_NEVER_INFER_FROM_SPEC"
+  },
+  "exposure": {
+    "2018_2022": "ADAPTIVE_RESEARCH_OOF_NOT_INDEPENDENT",
+    "2023": "EXPOSED_STRESS_ONLY_NO_HYPERPARAMETER_SELECTION",
+    "2024": "EXPOSED_W9_REFERENCE_NO_CONFIRMATION",
+    "2025": "SOURCE_CHECKED_INDEPENDENCE_UNPROVEN_DO_NOT_READ_OUTCOMES",
+    "forward": "W12_EXPOSURE_AUDIT_AND_PROTOCOL_BEFORE_FIRST_OBSERVATION",
+    "hosted_model": "POST_CUTOFF_PRETRAINING_KNOWLEDGE_LIMITATION"
+  },
+  "data": {
+    "symbols": [
+      "FPT",
+      "MWG",
+      "VCB",
+      "VNM"
+    ],
+    "universe_expansion": false,
+    "train_window": [
+      "2018-01-02",
+      "2020-12-31"
+    ],
+    "oof_end": "2022-12-31",
+    "calendar_anchor": "2018-01-02",
+    "query_indices": "20+3*j, j>=0",
+    "task_block_sessions": 63,
+    "require_cycle_within_block": true,
+    "evaluation_year_boundary": "ENTRY_AND_EXIT_WITHIN_EVALUATION_YEAR",
+    "sampling": "CALENDAR_FIRST_KEEP_MISSING_FEATURES_NO_OUTCOME_SELECTION",
+    "execution_source": "EXISTING_VERIFIED_UNADJUSTED_EXECUTION_VCI_THOUSAND_VND",
+    "source_revision": "NEW_MANIFEST_AND_EXPOSURE_AMENDMENT_BEFORE_LABEL_ANALYSIS",
+    "corporate_actions": "EXISTING_EXECUTION_BARRIERS_NO_BACK_ADJUSTED_PAYOFF",
+    "minimum_support": {
+      "train_labeled_cycles_per_symbol": 100,
+      "train_tasks_with_two_cycles_per_symbol": 4,
+      "outer_labeled_cycles_per_symbol": 30,
+      "agent_valid_fraction_each_outer_symbol": 0.7,
+      "agent_valid_train_cycles_per_symbol": 60,
+      "failure": "INSUFFICIENT_DATA_NO_AUTO_RESPLIT_OR_NUMERIC_SUBSTITUTION",
+      "inner_train_labeled_cycles_per_symbol": 60,
+      "inner_train_tasks_per_symbol": 2,
+      "inner_agent_valid_train_cycles_per_symbol": 40
+    },
+    "dataset_binding": "W11_18_IMMUTABLE_IDS_HASHES_COVERAGE_BEFORE_FIT",
+    "agent_generation": "REAL_PIT_REPORTS_SHARED_UPSTREAM_ONCE_USER_API_SEPARATE_RELEASE_NO_FABRICATION"
+  },
+  "economics": {
+    "label_function": "core.backtest_engine.compute_round_trip_net_return",
+    "entry": "Open(t+1)",
+    "exit": "Close(t+3)",
+    "fee_each_side": 0.0025,
+    "slippage_each_side": 0.001,
+    "r_net_unit": "fraction",
+    "positive_label": "int(r_net>0)",
+    "short": "CASH",
+    "cash_return": 0,
+    "initial_cash_vnd_per_symbol": 50000000,
+    "shares": "FRACTIONAL_SAME_AS_ACCEPTED_ACCOUNTS",
+    "second_cost_deduction": false,
+    "overlapping_positions": false,
+    "metric": "MEAN_EQUAL_FOUR_COMPOUNDED_ACCOUNT_RETURNS",
+    "mdd": "NONNEGATIVE_MAX_DRAWDOWN_OF_ENGINE_ACCOUNT_EQUITY"
+  },
+  "features": {
+    "numeric": [
+      [
+        "momentum_5",
+        "Close[t]/Close[t-5]-1"
+      ],
+      [
+        "momentum_20",
+        "Close[t]/Close[t-20]-1"
+      ],
+      [
+        "volatility_20",
+        "sample_std(Close[i]/Close[i-1]-1, i=t-19..t, ddof=1)"
+      ],
+      [
+        "ma_distance_20",
+        "Close[t]/mean(Close[t-19:t+1])-1"
+      ],
+      [
+        "macd_hist_relative",
+        "TA_Lib_MACD_12_26_9_on_last_45_Close_hist[t]/Close[t]"
+      ],
+      [
+        "relative_volume_20",
+        "Volume[t]/mean(Volume[t-19:t+1])-1"
+      ],
+      [
+        "range_20",
+        "(max(High[t-19:t+1])-min(Low[t-19:t+1]))/Close[t]"
+      ],
+      [
+        "index_momentum_20",
+        "VNINDEX_Close[t]/VNINDEX_Close[t-20]-1"
+      ],
+      [
+        "index_volatility_20",
+        "sample_std(VNINDEX_returns[t-19:t+1],ddof=1)"
+      ]
+    ],
+    "agent_categories": {
+      "trend": [
+        "BULLISH",
+        "BEARISH",
+        "NEUTRAL",
+        "UNKNOWN"
+      ],
+      "pattern": [
+        "BULLISH",
+        "BEARISH",
+        "NEUTRAL",
+        "UNKNOWN"
+      ],
+      "indicator_consensus": [
+        "BULLISH",
+        "BEARISH",
+        "NEUTRAL",
+        "UNKNOWN"
+      ],
+      "alpha_consensus": [
+        "BULLISH",
+        "BEARISH",
+        "NEUTRAL",
+        "UNKNOWN"
+      ],
+      "original_action": [
+        "LONG",
+        "CASH",
+        "UNKNOWN"
+      ]
+    },
+    "agent_parser": "core.historical_signals.report_signal_FOR_TREND_PATTERN_INDICATOR;ALPHA_FIVE_FACTOR_MAJORITY_FROM_SAME_VERIFIED_RAW;A0_FROM_DURABLE_ORIGINAL",
+    "conflict_features": [
+      "int(trend!=pattern) IF_BOTH_KNOWN",
+      "int(indicator_consensus!=alpha_consensus) IF_BOTH_KNOWN"
+    ],
+    "confidence": "EXCLUDED_NOT_A_PROBABILITY",
+    "sentiment": "ONLY_THROUGH_EXISTING_ORIGINAL_AND_ALPHA_NO_NEW_SENTIMENT_FEATURE",
+    "regime_categories": [
+      "BULL",
+      "BEAR",
+      "CHOPPY",
+      "CONSOLIDATION",
+      "UNKNOWN"
+    ],
+    "regime_fit": "FIT_AT_OR_BEFORE_BLOCK_START_AND_FOLD_FIT_END_FREEZE_LATEST_MODEL_AT_FOLD_FIT_END;UNKNOWN_IF_LT499_HISTORY",
+    "scaling": "TRAIN_FOLD_ONLY_MEAN_SAMPLE_STD_FLOOR_1e-8_NUMERIC;CATEGORIES_ONEHOT;MISSING_MASKS_SEPARATE;NO_QUERY_LABEL_OR_DATE_ID_EMBEDDING",
+    "query_history_bars": 45,
+    "zero_volume": "RELATIVE_VOLUME_VALID_IF_MEAN_POSITIVE_ELSE_MISSING",
+    "missing": "ZERO_AFTER_STANDARDIZATION_PLUS_MASK_NO_OUTCOME_IMPUTATION",
+    "query_fallback": "ANY_MISSING_REQUIRED_NUMERIC_OR_ANY_UNKNOWN_REQUIRED_AGENT_KEEP_A0;REGIME_UNKNOWN_ALLOWED",
+    "no_agent_ablation": "REMOVE_ALL_FIVE_AGENT_CATEGORIES_AND_TWO_CONFLICTS_FROM_X_TRAIN_TEST;A0_ONLY_IN_EXTERNAL_POLICY",
+    "ood": "ANY_ABS_NUMERIC_Z_GT_6_OR_ANY_NONFINITE_REQUIRED_VALUE_KEEP_A0;NO_CLIPPING_TO_HIDE_OOD",
+    "ood_threshold_z": 6
+  },
+  "context": {
+    "K_train": [
+      0,
+      1,
+      3,
+      5,
+      8
+    ],
+    "runtime_K_max": 3,
+    "K_selection": "LARGEST_TRAINED_K_NOT_EXCEEDING_MIN(3,ELIGIBLE_TASKS);NO_DUPLICATE_PADDING",
+    "M_max": 32,
+    "m_max": 32,
+    "M_min": 2,
+    "m_train": "ALL_INTEGER_LENGTHS_0_TO_32_UNIFORM_FEASIBLE_PREFIX;REAL_TASK_MAY_BE_SHORTER",
+    "prior_symbols": "SAME_QUERY_SYMBOL_ONLY",
+    "task_id": "symbol:block{floor(calendar_index/63):04d}",
+    "target_task": "QUERY_BLOCK_SAME_SYMBOL",
+    "eligibility": "WHOLE_PRIOR_BLOCK_ENDED_BEFORE_QUERY;OBSERVATION_EXIT_STRICT_LT_QUERY;NO_QUERY_OR_TARGET_TASK_IN_D",
+    "task_distance": "MEAN_SQUARED_DISTANCE_OF_STANDARDIZED_NINE_NUMERIC_CENTROID_TO_QUERY_PLUS_0.25_IF_KNOWN_REGIME_DIFF;UNKNOWN_PENALTY_0",
+    "ranking": "DISTANCE_ASC_LATEST_EXIT_DESC_TASK_ID_ASC",
+    "observation_selection": "WITHIN_TASK_NEAREST_NUMERIC_QUERY_DISTANCE_THEN_AS_OF_DESC_EPISODE_ID_ASC_TAKE_32_SORT_CHRONOLOGICALLY",
+    "target_selection": "LATEST_32_MATURE_SAME_BLOCK_CYCLES_SORT_CHRONOLOGICALLY",
+    "labels_loaded": "ONLY_AFTER_MEMBERSHIP_IDS_FIXED",
+    "minimum_sign_counts": null,
+    "hard_sign_bucket_filter": false,
+    "overlap": "D_AND_C_AND_QUERY_DISJOINT_IDS_AND_ENTRY_EXIT_INTERVALS_PER_SYMBOL;EXIT_EQUAL_QUERY_FORBIDDEN",
+    "order": "PRIOR_RANKED_TASKS_THEN_TARGET;NO_ABSOLUTE_TASK_ID_FEATURE",
+    "support": "K0_M0_ALLOWED_IF_TRAINED;QUERY_OOD_MISSING_RULE_ONLY;REPORT_K_M_NO_HARD_WIN_LOSS_COUNTS"
+  },
+  "folds": [
+    {
+      "id": "2020",
+      "train_start": "2018-01-02",
+      "fit_end": "2019-12-31",
+      "evaluation_start": "2020-01-01",
+      "evaluation_end": "2020-12-31",
+      "inner": [
+        {
+          "id": "2019H1",
+          "evaluation_start": "2019-01-01",
+          "evaluation_end": "2019-06-30",
+          "fit_end": "2018-12-31"
+        },
+        {
+          "id": "2019H2",
+          "evaluation_start": "2019-07-01",
+          "evaluation_end": "2019-12-31",
+          "fit_end": "2019-06-30"
+        }
+      ]
+    },
+    {
+      "id": "2021",
+      "train_start": "2018-01-02",
+      "fit_end": "2020-12-31",
+      "evaluation_start": "2021-01-01",
+      "evaluation_end": "2021-12-31",
+      "inner": [
+        {
+          "id": "2020H1",
+          "evaluation_start": "2020-01-01",
+          "evaluation_end": "2020-06-30",
+          "fit_end": "2019-12-31"
+        },
+        {
+          "id": "2020H2",
+          "evaluation_start": "2020-07-01",
+          "evaluation_end": "2020-12-31",
+          "fit_end": "2020-06-30"
+        }
+      ]
+    },
+    {
+      "id": "2022",
+      "train_start": "2018-01-02",
+      "fit_end": "2020-12-31",
+      "evaluation_start": "2022-01-01",
+      "evaluation_end": "2022-12-31",
+      "inner": [
+        {
+          "id": "2020H1",
+          "evaluation_start": "2020-01-01",
+          "evaluation_end": "2020-06-30",
+          "fit_end": "2019-12-31"
+        },
+        {
+          "id": "2020H2",
+          "evaluation_start": "2020-07-01",
+          "evaluation_end": "2020-12-31",
+          "fit_end": "2020-06-30"
+        }
+      ]
+    }
+  ],
+  "selection": {
+    "purge": "ALL_FIT_LABEL_EXIT_LT_EVALUATION_START_AND_EXIT_LE_FIT_END;REJECT_ANY_ENTRY_EXIT_OVERLAP_WITH_EVAL_INTERVAL",
+    "embargo": "NO_FUTURE_TRAIN_ROWS_IN_FORWARD_FOLD;STRICT_EXIT_BOUNDARY_SUFFICIENT",
+    "fit_scope": "SCALER_REGIME_PRIOR_RESIDUAL_SCALE_WEIGHTS_FEATURE_RULES_TRAIN_ONLY;CONTEXT_CAN_STREAM_MATURE_OUTER_ROWS_WITHOUT_REFIT",
+    "inner_score": "MEAN_EQUAL_SYMBOLS_OF_MEAN_EQUAL_DATES_CRPS;TIE_ABS_1e-12_USE_LEXICOGRAPHIC_CONFIG_ID",
+    "outer_score": "MEAN_EQUAL_THREE_FOLD_SCORES;NO_OUTER_CHOSEN_CONFIGURATION",
+    "final_config": "SELECT_FROM_INNER_2020H1_H2_ONLY;FIT_WEIGHTS_AND_SCALER_THROUGH_2020_12_31;2021_AND_2022_REPORT_GATE_ONLY",
+    "all_seeds": "FIXED_THREE_SEED_EQUAL_DISTRIBUTION_MIXTURE_NO_BEST_SEED",
+    "failed_fit": "REPORT_FAILURE_BLOCK_FAMILY_NO_SILENT_DROP_OR_EXTRA_TRIAL",
+    "learning_curve_train_fractions": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "registry_expansion": "NEW_REVISION_BEFORE_RUN_NOT_AFTER_2023_PAYOFF",
+    "checkpoint_clarification": "SUPERSEDES_PROPOSED_2021_CHECKPOINT_SELECTION;ALL_HYPERPARAMETERS_AND_CHECKPOINT_STEPS_INNER_ONLY;2021_2022_OUTER_REPORT_ONLY",
+    "calibration_refit": "FOR_EACH_OUTER_USE_ONLY_ITS_INNER_OOF_TO_SELECT_AND_FIT_MAP_AND_h;FINAL_USE_2020H1_H2_ONLY;NO_OUTER_CALIBRATION_REFIT",
+    "train_episode_normalization": "HISTORICAL_TRAIN_QUERY_USES_ONLY_TRAIN_PREFIX_AVAILABLE_BEFORE_THAT_QUERY;FROZEN_OUTER_SCALER_FROM_FOLD_FIT_ROWS_FOR_ALL_D_C_QUERY",
+    "family_config_selection": "SELECT_EACH_BASELINE_OR_LEARNER_FAMILY_BY_EQUAL_INNER_CRPS;CHOOSE_BASELINE_FAMILY_WINNER_BY_INNER_ONLY;FULL_VS_ABLATIONS_EACH_GETS_MATCHED_INNER_SEARCH_BUDGET;FINAL_NO_ENSEMBLE_SEED_SELECTION",
+    "tie_order": "ABS_CRPS_DIFFERENCE_LE1e-12_THEN_LEXICOGRAPHIC_CANONICAL_CONFIG_JSON;CHECKPOINT_TIE_EARLIEST_STEP;POLICY_TIE_SMALLER_h_THEN_IDENTITY",
+    "config_id": "CANONICAL_SORTED_JSON_OF_FAMILY_CAPACITY_LR_TAU_FEATURE_MAP;SEEDS_FIXED_NOT_PART_OF_SELECTION",
+    "failure_rule": "NONFINITE_OR_FAILED_CONFIG_IS_REPORTED_AND_BLOCKS_FAMILY;NO_DROP_TRIAL_TO_PICK_SURVIVOR"
+  },
+  "baselines": {
+    "zero_return": {
+      "family": "STUDENT_T",
+      "df": 5,
+      "location": 0,
+      "scale": "TRAIN_RMS_RESIDUAL_SQRT_3_OVER_5_FLOOR_1e-4"
+    },
+    "pooled_ridge": {
+      "alpha": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "df": 5,
+      "scale": "TRAIN_OOF_RMS_RESIDUAL_SQRT_3_OVER_5_FLOOR_1e-4",
+      "feature_maps": [
+        "NUMERIC_REGIME",
+        "FULL_AGENT"
+      ],
+      "intercept": "UNPENALIZED"
+    },
+    "target_only_reference": {
+      "prior": "SAME_TRAIN_HYPERPRIOR_AS_HIERARCHICAL_REFERENCE",
+      "D": "EMPTY",
+      "fit": "ONLY_C_MATURE_AT_QUERY"
+    },
+    "small_nonlinear": {
+      "family": "HistGradientBoostingRegressor",
+      "max_leaf_nodes": [
+        7,
+        15
+      ],
+      "max_iter": 100,
+      "learning_rate": 0.05,
+      "min_samples_leaf": 20,
+      "l2_regularization": 1.0,
+      "loss": "squared_error",
+      "early_stopping": false,
+      "random_state": 42,
+      "predictive_df": 5,
+      "scale": "TRAIN_OOF_RMS_RESIDUAL_SQRT_3_OVER_5_FLOOR_1e-4",
+      "feature_maps": [
+        "NUMERIC_REGIME",
+        "FULL_AGENT"
+      ],
+      "residual_scale": "TRAIN_OOF_RMS_RESIDUAL_SQRT_3_OVER_5_FLOOR_1e-4"
+    }
+  },
+  "reference": {
+    "likelihood": "r_net~StudentT(df=5,loc=phi(x)^T*w_task,scale=sigma_task)",
+    "phi": "INTERCEPT_STANDARDIZED_NUMERIC_REGIME_ONEHOT_AGENT_ONEHOT_AND_CONFLICTS",
+    "hierarchy": "beta_regime~Normal(beta_pool,s0^2*I);w_task~Normal(beta_regime,tau_multiplier*s0^2*I);sigma_task^2~InvGamma(3,2*s0^2)",
+    "train_hyperprior": "beta_pool=TRAIN_POOLED_RIDGE_ALPHA1; s0=max(1e-4,TRAIN_OOF_RMSE);NO_INFERENCE_LABEL_FIT_OF_HYPERPARAMETERS",
+    "tau_multiplier": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "inference": "STUDENT_T_NORMAL_GAMMA_AUGMENTATION_GIBBS;JOINT_UPDATE_BETA_REGIME_AND_TASK_LATENTS_USING_D_AND_C",
+    "query_regime": "TASK_REGIME_AT_BLOCK_START;QUERY_X_ALSO_CONTAINS_CURRENT_REGIME",
+    "chains": 4,
+    "warmup_per_chain": 1000,
+    "draws_per_chain": 1000,
+    "thinning": 1,
+    "seed": 20261031,
+    "seed_derivation": "SHA256(protocol_sha|query_id|chain_id)_FIRST_8_BYTES_BIG_ENDIAN",
+    "quality": {
+      "rank_split_rhat_max": 1.01,
+      "bulk_ess_min": 400,
+      "tail_ess_min": 400,
+      "mcse_mean_over_predictive_sd_max": 0.02,
+      "on_failure": "INFERENCE_UNRESOLVED_NO_AUTO_MORE_DRAWS_OR_CLAIM_MARKET_MISSPECIFICATION"
+    },
+    "reference_is_market_truth": false,
+    "numeric_checks": "GAUSSIAN_CONJUGATE_LIMIT_SCALAR_AND_VECTORIZED_MATCH_ABS_1e-10;GIBBS_PREDICTIVE_MEAN_WITHIN_3_MCSE_PLUS_1e-6",
+    "residual_scale_fit": "INNER_OOF_RESIDUALS_WHEN_AVAILABLE;FIRST_2018_BASE_FIT_USES_FIXED_LEAVE_TASK_BLOCK_OUT_WITHIN_FIT_ONLY;NO_EVALUATION_LABELS",
+    "intercept_regularization": "RIDGE_INTERCEPT_UNPENALIZED;HIERARCHICAL_INTERCEPT_INCLUDED_IN_ISOTROPIC_PRIOR;SCALING_FLOOR_APPLIES_NONINTERCEPT_ONLY"
+  },
+  "learner": {
+    "architectures": [
+      {
+        "id": "small",
+        "d_model": 64,
+        "layers": 2,
+        "heads": 4,
+        "ff_multiplier": 4
+      },
+      {
+        "id": "medium",
+        "d_model": 128,
+        "layers": 4,
+        "heads": 4,
+        "ff_multiplier": 4
+      }
+    ],
+    "dropout": 0.1,
+    "norm": "PRE_LAYER_NORM",
+    "packing": "OBSERVATION_X_TOKEN_THEN_R_TOKEN;TASK_START_MARKERS;QUERY_X_NO_QUERY_R;CAUSAL_MASK_PAD_MASK;LOSS_ONLY_TARGET_QUERIES",
+    "task_embedding": "PRIOR_OR_TARGET_TYPE_PLUS_WITHIN_TASK_POSITION;NO_SYMBOL_BLOCK_OR_CALENDAR_ID_EMBEDDING",
+    "prior_permutation": "SEEDED_UNIFORM_TRAIN;RANK_ORDER_TEST;REPORT_PERMUTATION_SENSITIVITY",
+    "head": {
+      "family": "MIXTURE_STUDENT_T",
+      "components": 3,
+      "df": 5,
+      "mean": "LINEAR_UNBOUNDED",
+      "scale": "softplus(raw)+1e-4",
+      "weights": "SOFTMAX",
+      "return_unit": "FRACTION_SAME_AS_LABEL"
+    },
+    "seeds": [
+      42,
+      137,
+      271
+    ],
+    "learning_rates": [
+      0.0003,
+      0.001
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "batch_size": 32,
+    "gradient_clip_norm": 1.0,
+    "maximum_optimizer_steps": 20000,
+    "evaluate_every_steps": 200,
+    "early_stop_patience_evaluations": 10,
+    "minimum_CRPS_improvement": 1e-08,
+    "checkpoint": "LOWEST_INNER_CRPS_THEN_EARLIEST_STEP;FINAL_REFIT_STEPS=ROUNDED_MEDIAN_INNER_BEST_STEP",
+    "real_loss": "MEAN_TARGET_QUERY_NLL_WEIGHT1;NO_PRIOR_LABEL_LOSS;UNIQUE_MARKET_ROW_BALANCED_SAMPLING",
+    "synthetic_pretraining_weight": 0,
+    "teacher_distillation_weight": 0,
+    "synthetic": "MECHANISM_TEST_ONLY_CONDITIONAL_REFERENCE_GENERATIVE_X_TO_R_TRAIN_FIT_META_PRIOR;SEPARATE_FIXED_SEED_DISJOINT_QUERY_IDS",
+    "weights_at_test": "FROZEN_NO_GRADIENT",
+    "comparators": "K0_AND_POOLED_AND_NO_AGENT_RETRAIN_MATCHED_CAPACITY_SEEDS_STEPS_SEARCH_SPACE;NO_TARGET_EMPTY_C_TRAIN_DOMAIN",
+    "target_query_sampling": "ONE_QUERY_PER_EPISODE;SORT_UNIQUE_ELIGIBLE_MARKET_QUERIES_BY_DATE_SYMBOL;SEEDED_SHUFFLE_FULL_PASSES;FEASIBLE_K_AND_CONTEXT_LENGTH_DRAW_UNIFORM;NO_OUTCOME_CLASS_BALANCE",
+    "no_target_training": "C_LENGTH0_IS_EXPLICITLY_IN_TRAIN_MIXTURE;RUNTIME_RECOMPUTE_WITH_EMPTY_C_SAME_WEIGHTS",
+    "pooled_training": "SAME_FULL_D_C_OBSERVATIONS_SORT_BY_DATE_ID;REMOVE_ALL_TASK_START_TYPE_BOUNDARIES_AND_USE_SINGLE_CONTEXT_SEGMENT;SAME_HEAD_CAPACITY_OPTIMIZER_SEEDS_STEPS",
+    "K0_training": "D_EMPTY_AT_TRAIN_AND_TEST;SAME_C_X_TARGET_QUERIES_CAPACITY_OPTIMIZER_SEEDS_STEPS",
+    "length_selection": "M_FOR_EACH_TASK_UNIFORM_INTEGER_2_TO_MIN(32,ELIGIBLE_M);m_UNIFORM_INTEGER_0_TO_MIN(32,ELIGIBLE_m);RUNTIME_TAKE_ALL_UP_TO32",
+    "training_max_tokens": 586,
+    "runtime_max_tokens": 261,
+    "optimizer_options": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "schedule": "CONSTANT_NO_WARMUP",
+      "weight_decay_scope": "ALL_PARAMETERS"
+    },
+    "numerics": {
+      "dtype": "float32",
+      "amp": false,
+      "tf32": false,
+      "deterministic_algorithms": true,
+      "device": "CUDA_IF_PINNED_AVAILABLE_ELSE_CPU_RECORD_DEVICE_NO_HYPERPARAMETER_CHANGE"
+    }
+  },
+  "calibration_policy": {
+    "distribution_maps": [
+      "IDENTITY",
+      "OOF_LOCATION_SCALE_AFFINE"
+    ],
+    "affine": "r_cal=b+a*r; a>=0.05; b_IN_FRACTION;NO_CLASSIFIER_REPLACES_DISTRIBUTION",
+    "fit": "NESTED_CROSSFIT_INNER_PREDICTIONS_ONLY_MIN_CRPS;BOUNDS_a[0.05,5]_b[-0.05,0.05];IDENTITY_WINS_TIE;NO_OUTER_LABEL_FIT",
+    "h_grid": [
+      0.0,
+      0.001,
+      0.0025
+    ],
+    "policy_config_selection": "INNER_ACCOUNT_REGRET_VS_ORIGINAL_MINIMIZED_WITH_MDD_GUARDS;TIE_SMALLER_h_THEN_IDENTITY;IF_ALL_FAIL_GATE_NO_ADAPTER",
+    "action": "candidate=LONG_IF_MU_GT0_ELSE_CASH;CHANGE_IFF(candidate_indicator-a0_indicator)*MU_STRICT_GT_h;ELSE_KEEP_A0",
+    "h_is_extra_fee": false,
+    "p_positive": "FROM_SAME_CALIBRATED_MIXTURE_CDF_AT0",
+    "mean": "FROM_SAME_CALIBRATED_MIXTURE_MEAN",
+    "risk": "OOD_MISSING_KEEP_A0;OOF_AND_DEVELOPMENT_ACCOUNT_MDD_GUARDS;NO_Q10_VETO",
+    "predictive_interval_is_mean_CI": false,
+    "off": "BYTE_IDENTICAL_ORIGINAL_RESPONSE_ON_100_PERCENT_POINTS",
+    "failure": "PIT_SOURCE_SCHEMA_API_INTEGRITY_ERRORS_RAISE_CHECKPOINT_NEVER_FAKE_CASH",
+    "affine_optimizer": {
+      "method": "SCIPY_L_BFGS_B",
+      "initial_a": 1.0,
+      "initial_b": 0.0,
+      "maxiter": 200,
+      "ftol": 1e-12,
+      "on_nonconvergence": "FAIL_CALIBRATION_NO_IDENTITY_SUBSTITUTION"
+    },
+    "regret_definition": "MEAN_EQUAL_FOUR_ACCOUNT(R_Original-R_policy)_PP_ON_INNER_FOLDS;SELECT_MIN_IF_MEAN_DELTA_MDD_LE2_AND_MAX_LE5_EACH_INNER_FOLD;IF_NO_STRICT_POSITIVE_FINAL_OOF_D_STOP_W21",
+    "branch_matching": "EACH_NUMERIC_FAMILY_FITS_OWN_DISTRIBUTION_MAP_BY_SAME_INNER_RULE_GRID;FULL_SELECTED_h_SHARED_BY_FULL_K0_POOLED_NO_TARGET_NO_AGENT_REFERENCE;LLM_BRANCHES_UNCHANGED",
+    "forward_crossfit": "FOR_MAP_AND_h_SELECTION:INNER_H1_PREDICTIONS_USE_IDENTITY;INNER_H2_MAP_FIT_H1_OOF_ONLY;IDENTITY_VS_AFFINE_SCORE_BOTH_INNER_BLOCKS_WITH_H1_IDENTITY_COMMON;FINAL_CHOSEN_MAP_REFIT_BOTH_INNER_OOF;NO_FUTURE_CALIBRATION_IN_EARLIER_INNER_SCORE",
+    "numerical_MT_action": "LONG_IFF_MU_NET_STRICT_GT_FULL_SELECTED_h_ELSE_CASH;NO_A0_HYSTERESIS;MISSING_OOD_KEEP_A0"
+  },
+  "metrics": {
+    "primary_forecast": "CRPS",
+    "crps": "4096_FIXED_SOBOL_QUANTILES_INVERSE_MIXTURE_CDF;MEAN_ABS_X_MINUS_Y_MINUS_HALF_MEAN_ABS_X_MINUS_XPRIME_USING_SORTED_SAMPLE_IDENTITY;VALIDATE_SCALAR_ORACLE_ABS_1e-6",
+    "secondary_forecast": [
+      "NLL",
+      "MAE_MEAN",
+      "BRIER_R_NET_GT0",
+      "ECE_10_FIXED_EQUAL_WIDTH_BINS",
+      "PIT_10_BINS",
+      "COVERAGE_50_80_95",
+      "INTERVAL_WIDTH_50_80_95"
+    ],
+    "all_G_forecast_fallback": "SAME_PRICE_ONLY_POOLED_INNER_SELECTED_DISTRIBUTION_ON_MISSING_OOD;FIT_TRAIN_ONLY;REPORT_COMMON_SUPPORT_AND_COVERAGE_SEPARATELY",
+    "groups": [
+      "symbol",
+      "regime",
+      "quarter",
+      "K",
+      "m",
+      "missing",
+      "OOD",
+      "LONG_TO_CASH",
+      "CASH_TO_LONG"
+    ],
+    "account": "ENGINE_COMPOUND_FOUR_50M_ACCOUNTS_NO_CYCLE_SUM_NO_REPEAT_POOLING",
+    "oof_account_aggregation": "MEAN_EQUAL_OUTER_FOLDS_OF_FOUR_ACCOUNT_CONTRASTS;PER_SYMBOL_MEAN_FOLD_DELTA;RISK_GUARDS_EACH_FOLD"
+  },
+  "gates": {
+    "W11_18": "PIT_LINEAGE_LABEL_OVERLAP_SOURCE_ALL_PASS_AND_ALL_MIN_SUPPORT",
+    "W11_19": {
+      "conditional_reference_CRPS_vs_inner_selected_baseline": "STRICTLY_LOWER_AGGREGATE_AND_AT_LEAST_2_OF_3_OUTER_FOLDS",
+      "inference_quality": "ALL_REFERENCE_QUALITY_CHECKS_PASS",
+      "no_signal": "STOP_FOUNDATION_REVISION_NO_W11_20_OR_LLM_MATRIX"
+    },
+    "W11_20": {
+      "mask_and_loss": "QUERY_LABEL_POISON_INVARIANCE_CAUSAL_MASK_TARGET_ONLY_LOSS",
+      "mechanism": "SEE_MECHANISM_FIXTURES_AND_NO_REFIT",
+      "no_claim": "SYNTHETIC_PASS_NOT_MARKET_GAIN"
+    },
+    "W11_21": {
+      "full_CRPS_vs": [
+        "INNER_SELECTED_BASELINE",
+        "Target_only_K0",
+        "Pooled_context",
+        "No_target"
+      ],
+      "rule": "STRICTLY_LOWER_AGGREGATE_AND_AT_LEAST_2_OF_3_OUTER_FOLDS_EACH;NO_DROPPED_FOLD",
+      "oof_D_Full_Original_strict_min_pp": 0,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5,
+      "risk_scope": "EACH_OUTER_FOLD",
+      "single_candidate": "FIXED_ENSEMBLE_CONFIG_HASH_CALIBRATION_POLICY_BEFORE_2023"
+    },
+    "W11_22": "SCOPED_P0_RETRY_CHECKPOINT_LEAKAGE_PAIRED_OFF_PASS_PLUS_SOURCE_MANIFEST_FREEZE_NO_DEADLINE_GUARDS",
+    "W11_23": "COMPLETE_ALL_PRIMARY_REPEAT_BRANCHES_WITH_ZERO_UNRESOLVED_UNKNOWN",
+    "W11_24": "COLD_INDEPENDENT_ENGINE_ACCOUNTS_NOMINATION_NO_ABLATION_PROMOTION"
+  },
+  "development": {
+    "year": 2023,
+    "exposed": true,
+    "point_ids": [
+      "MWG-2023-01-06",
+      "VCB-2023-01-06",
+      "VNM-2023-01-06",
+      "MWG-2023-02-08",
+      "VCB-2023-02-08",
+      "VNM-2023-02-08",
+      "MWG-2023-03-06",
+      "VCB-2023-03-06",
+      "VNM-2023-03-06",
+      "MWG-2023-03-30",
+      "VCB-2023-03-30",
+      "VNM-2023-03-30",
+      "MWG-2023-04-04",
+      "VCB-2023-04-04",
+      "VNM-2023-04-04",
+      "FPT-2023-04-12",
+      "MWG-2023-04-28",
+      "VCB-2023-04-28",
+      "VNM-2023-04-28",
+      "FPT-2023-05-11",
+      "FPT-2023-06-01",
+      "MWG-2023-06-01",
+      "VCB-2023-06-01",
+      "VNM-2023-06-01",
+      "FPT-2023-06-27",
+      "MWG-2023-06-30",
+      "VCB-2023-06-30",
+      "VNM-2023-06-30",
+      "FPT-2023-07-05",
+      "MWG-2023-07-05",
+      "VCB-2023-07-05",
+      "VNM-2023-07-05",
+      "FPT-2023-07-31",
+      "MWG-2023-07-31",
+      "VCB-2023-08-03",
+      "VNM-2023-08-03",
+      "FPT-2023-08-29",
+      "MWG-2023-08-29",
+      "VCB-2023-08-29",
+      "VNM-2023-08-29",
+      "FPT-2023-09-29",
+      "MWG-2023-09-29",
+      "VCB-2023-09-29",
+      "VNM-2023-09-29",
+      "FPT-2023-10-04",
+      "MWG-2023-10-04",
+      "VCB-2023-10-04",
+      "VNM-2023-10-04",
+      "FPT-2023-10-30",
+      "MWG-2023-10-30",
+      "VCB-2023-10-30",
+      "VNM-2023-10-30",
+      "FPT-2023-11-23",
+      "MWG-2023-11-23",
+      "VCB-2023-11-23",
+      "VNM-2023-11-23",
+      "VNM-2023-12-19",
+      "FPT-2023-12-22",
+      "MWG-2023-12-22",
+      "VCB-2023-12-22"
+    ],
+    "G": 60,
+    "counts_by_symbol": {
+      "FPT": 12,
+      "MWG": 16,
+      "VCB": 16,
+      "VNM": 16
+    },
+    "matrix": [
+      "Original",
+      "A_reference",
+      "Plain_ICL",
+      "Full_conditional_MT",
+      "Target_only_K0",
+      "Pooled_context",
+      "No_target",
+      "No_agent_features",
+      "Numerical_MT",
+      "Hierarchical_reference"
+    ],
+    "llm_branches": [
+      "Original",
+      "A_reference",
+      "Plain_ICL"
+    ],
+    "numeric_branches": [
+      "Full_conditional_MT",
+      "Target_only_K0",
+      "Pooled_context",
+      "No_target",
+      "No_agent_features",
+      "Numerical_MT",
+      "Hierarchical_reference"
+    ],
+    "original": "NEW_V4_RESPONSE_EACH_BLOCK_SAME_LEGACY_CANONICAL_BODY_NOT_V3_ANCHOR_OR_RAW_PROPOSAL",
+    "upstream": "EXACT_VALIDATED_LEGACY_POINT_SNAPSHOT_REUSE_OR_BLOCK_IF_INCOMPATIBLE_NO_PER_BRANCH_VISION",
+    "reference": "A_REFERENCE_W9_SOURCE_ADAPTER_PINNED_VIA_V3_BASELINE_SNAPSHOT",
+    "plain_icl": "SAME_FULL_MEMBERSHIP_LABEL_BLIND_TRUNCATION_MAX_2_EXAMPLES_PER_PRIOR_AND_TARGET_PLUS_A0_FREE_LEGACY_BASE;NO_NUMERIC_LEARNER_OUTPUT",
+    "plain_projection": "RANKED_TASKS_ORDER;NEAREST_NUMERIC_QUERY_WITHIN_TASK_THEN_AS_OF_DESC_ID_ASC;TAKE2;COMPLETE_TOKEN_ROWS_ONLY;DROP_LAST_EXAMPLE_UNTIL_PREFIX_LE600;IF_NONE_BASE_ORIGINAL_WITH_REUSE_AUDIT",
+    "order": "ORIGINAL_FIRST;A_REFERENCE_PLAIN_ICL_ROTATE_j_MOD2;NUMERIC_ALL_SAME_A0;REPEAT_DUPLICATE_TAIL_NO_SHARED_UUID",
+    "repeat_count": 12,
+    "extra_repeats": 3,
+    "repeat_selection": "W22_BEFORE_FIRST_V4_RESPONSE:PER_SYMBOL_ENUMERATE_3_SUBSETS_SATISFY_BOTH_V3_A0_DIRECTIONS_IF_PRESENT;MAXIMIZE_NUMBER_OF_m_STRATA_{0,1..3,>=4}_THEN_LEX_SORTED_DATE_ID_TUPLE;V3_ACTIONS_FOR_SAMPLING_ONLY_NOT_V4_BASELINE;REPORT_V4_ACTUAL_DIRECTION_COVERAGE",
+    "repeat_direction_constraint": "IF_BOTH_HISTORICAL_A0_DIRECTIONS_EXIST_REQUIRE_BOTH;IF_ABSENT_DECLARE_NON_ESTIMABLE_NO_OUTCOME_FALLBACK",
+    "original_duplicate": "FRESH_INDEPENDENT_UUID_SAME_BODY_OPTIONS_EACH_EXTRA_REPEAT",
+    "primary_action_rows": 600,
+    "repeat_action_rows": 396,
+    "total_action_rows": 996,
+    "primary_llm_slots": 180,
+    "repeat_llm_slots": 144,
+    "total_nominal_llm_slots": 324,
+    "no_vote": true,
+    "no_point_deletion": true,
+    "nomination": {
+      "candidate_only": "Full_conditional_MT",
+      "complete_G": 60,
+      "D_Full_Original_strict_min_pp": 0,
+      "positive_symbols_min": 3,
+      "D_Full_A_inclusive_min_pp": 0,
+      "D_Full_K0_strict_min_pp": 0,
+      "D_Full_pooled_strict_min_pp": 0,
+      "mean_delta_MDD_max_pp": 2,
+      "max_delta_MDD_max_pp": 5,
+      "substitution_allowed": false,
+      "repeat_vote": false,
+      "confirmation_on_failure": "NOT_RUN_NOT_NOMINATED"
+    }
+  },
+  "confirmation": {
+    "allowed": false,
+    "scope": "W12_01_EXPOSURE_AUDIT_W12_02_POWER_COHORT_PROTOCOL_SEPARATE_RELEASE",
+    "sample_size": null,
+    "block_length": null,
+    "deferred_parameters": "W12_ONLY_BEFORE_ANY_CONFIRMATION_OUTCOME;NO_AUTOMATIC_128_OR_L4",
+    "primary": "Full_conditional_MT-Original",
+    "primary_ci": 0.95,
+    "secondary": [
+      "A_reference",
+      "Plain_ICL",
+      "Target_only_K0",
+      "Pooled_context",
+      "No_target",
+      "No_agent_features",
+      "Numerical_MT",
+      "Hierarchical_reference"
+    ],
+    "secondary_ci": 0.99375,
+    "bootstrap_draws": 10000,
+    "finite_draws_min": 9500,
+    "seed": 20261031,
+    "practical_D_min_pp": 1,
+    "independence": "UNPROVEN_NOT_RELEASED"
+  },
+  "mechanism_fixtures": {
+    "seed": 20261031,
+    "queries_per_case": 256,
+    "cases": [
+      "FIX_D_C_CHANGE_X",
+      "FIX_X_C_SWAP_RELEVANT_PRIOR",
+      "ADD_TARGET_EVIDENCE",
+      "DESTROY_TASK_BOUNDARIES",
+      "IRRELEVANT_PRIOR",
+      "PERMUTE_PRIOR_TASKS",
+      "SHIFT_REGIME",
+      "K0_M0_COLD_START"
+    ],
+    "comparison": "COMPARE_REFERENCE_AND_LEARNER_DISTRIBUTIONS_NOT_REQUIRE_EVERY_ACTION_CHANGE",
+    "thresholds": {
+      "synthetic_mean_MAE_max": 0.002,
+      "synthetic_p_positive_MAE_max": 0.05,
+      "synthetic_CRPS_relative_excess_max": 0.05,
+      "synthetic_95_coverage_min": 0.9,
+      "synthetic_95_coverage_max": 0.99,
+      "prior_and_x_response_direction_agreement_min": 0.9,
+      "permutation_mean_abs_difference_max": 0.002
+    },
+    "reference_numerics": "GAUSSIAN_LIMIT_AND_INFERENCE_DIAGNOSTICS_BEFORE_ERROR_ATTRIBUTION",
+    "generation": "FOR_EACH_FOLD_TRAIN_FIT_HYPERPRIOR_DRAW_256_TASK_SETS_PER_CASE;NUMERIC_X_IID_N0I_DIM9;REGIME_UNIFORM5;AGENT_ONEHOT_UNIFORM_VALID_LEVELS_CONFLICTS_RECOMPUTED;INTERCEPT1;GENERATE_W_SIGMA_AND_R_FROM_LOCKED_REFERENCE;K3_M16_m8_BASE;SEED_SHA256_PROTOCOL_FOLD_CASE_QUERY;NOT_REAL_MARKET_LABELS",
+    "interventions": {
+      "FIX_D_C_CHANGE_X": "REPLACE_NUMERIC_X_WITH_NEGATIVE_X_KEEP_INTERCEPT_AND_OTHER_FEATURES",
+      "FIX_X_C_SWAP_RELEVANT_PRIOR": "DRAW_SECOND_TASK_SET_FROM_SAME_HYPERPRIOR_CONDITIONED_ON_DISTINCT_BETA;KEEP_X_C",
+      "ADD_TARGET_EVIDENCE": "NESTED_m_0_8_16_32",
+      "DESTROY_TASK_BOUNDARIES": "SAME_ROWS_SINGLE_CONTEXT_SEGMENT_AND_MATCHED_POOLED_MODEL",
+      "IRRELEVANT_PRIOR": "D_FROM_BETA_SHIFT_PLUS_3_TIMES_TRAIN_HYPER_SD",
+      "PERMUTE_PRIOR_TASKS": "ALL_6_PERMUTATIONS_OF_K3",
+      "SHIFT_REGIME": "NUMERIC_X_LOCATION_PLUS2_AND_TASK_COEFFICIENT_MEAN_MINUS2_HYPER_SD",
+      "K0_M0_COLD_START": "ALL_FOUR_K0_OR3_BY_m0_OR8_COMBINATIONS"
+    },
+    "finite_case_rule": "ALL_CASES_FINITE_AND_WITHIN_THRESHOLDS;REPORT_FAIL_AND_DIRECTION_CASES_WITH_REFERENCE_ABS_DELTA_MU_GT0_002_ONLY;NO_ELIGIBLE_DIRECTION_CASE_IS_NON_ESTIMABLE_NOT_PASS"
+  },
+  "artifact_flow": {
+    "W11_18": [
+      "dataset_manifest_v4.json",
+      "coverage_v4.json"
+    ],
+    "W11_19": [
+      "reference_oof_v4.json"
+    ],
+    "W11_20": [
+      "training_manifest_v4.json",
+      "mechanism_report_v4.json"
+    ],
+    "W11_21": [
+      "candidate_v4.json",
+      "calibration_policy_v4.json"
+    ],
+    "W11_22": [
+      "development_manifest_v4.json",
+      "development_release_v4.json"
+    ],
+    "W11_23": [
+      "run/research/slots",
+      "run/http_cache",
+      "api_usage_prefix"
+    ],
+    "W11_24": [
+      "verification/accounts.json",
+      "analysis/report.json",
+      "development_nomination_v4.json"
+    ],
+    "W11_25": [
+      "HANDOFF_SOURCE_WEIGHTS_EXPOSURE_STATUS_IN_WEEKLY_README"
+    ]
+  },
+  "required_tests": [
+    "PROTOCOL_HASH_NO_SELF_RESEAL",
+    "SOURCE_GIT_PARENT_LEDGER_APPEND_ONLY",
+    "FOLD_PURGE_EQUAL_EXIT_REJECT",
+    "D_C_QUERY_DISJOINT_NO_LABEL_MEMBERSHIP",
+    "SCALER_REGIME_TRAIN_CUTOFF",
+    "FUTURE_PRICE_NEWS_APPEND_INVARIANCE",
+    "NO_QUERY_PAYOFF_BEFORE_DECISION",
+    "AGENT_REAL_LINEAGE_PAIRED_COPY",
+    "K0_POOLED_NO_TARGET_RECOMPUTE",
+    "CAUSAL_MASK_QUERY_LABEL_POISON",
+    "DISTRIBUTION_CALIBRATION_MEAN_CDF_SAME",
+    "OFF_MISSING_OOD_EQUAL_A0",
+    "ECONOMIC_ENGINE_SCALAR_ACCOUNT",
+    "RETRY_429_RESUME_SAME_UUID_CACHE_FIRST",
+    "NO_TIME_OR_CALENDAR_STOP_IN_V4",
+    "COMPLETE_MATRIX_REPEAT_NO_VOTE",
+    "NOMINATION_ALL_RULES_NO_ABLATION_PROMOTION"
+  ],
+  "method_sources": [
+    "https://proceedings.mlr.press/v306/zhu26aj.html",
+    "https://arxiv.org/html/2606.20538v1",
+    "https://github.com/martianmartina/multi-task-bayesian-icl"
+  ]
+}
