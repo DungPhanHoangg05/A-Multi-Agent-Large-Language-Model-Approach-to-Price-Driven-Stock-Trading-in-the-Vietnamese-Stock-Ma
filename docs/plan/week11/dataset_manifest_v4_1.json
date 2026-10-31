@@ -1,0 +1,51 @@
+{
+  "version": "conditional_v4_1_numeric_manifest",
+  "status": "NUMERIC_BANK_PASS",
+  "source_commit": "f75b8f8472da67431dcd9384f170719058fc4b00",
+  "source_sha256": {
+    "core/mt_bicl_v41_data.py": "9d00a783dcf3a7ea29fb8458e19b386dc8317f8521cbc59d39d2d31cd9720625",
+    "core/mt_bicl_v41_bank.py": "4028f8b6300cc537190e640859ea19db0f6728ed8c9887a3b7df32dbd19c1a00",
+    "tests/test_mt_bicl_v41_data.py": "432a6f365a1dcf5b0a30e50a9fbf4bc30860791c25982ec6ca4e58c6ac48cb16",
+    "tests/test_mt_bicl_v41_leakage.py": "62f2101495e42663697b677d00be5775c28c8ff143a92f06841f46345eaa807f"
+  },
+  "protocol_sha256": "fe6b235c0761612c4abf2cc3f7c971fd185b0cf601845ba4d9b975d2c48c18b8",
+  "parent_manifest_sha256": "1d0681a7e0af1140748f3753568ab9b28cb8c1eb007e071dc51cc25e135293ee",
+  "inherited_artifact_sha256": {
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/observations.json": "7efd564cda16adb105343cfd9709e7c659d24b8b7a67460de544a532b15c32fa",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/labels.json": "0ce17e80717123643631e49a8e2759f3bb093e008fe3aa45fc27db89087274b9",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/folds.json": "88fc0a70b3138bbf989d2c2f7be0a4974163d072a95eed287980f3b5623ff51c",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/train_prefixes.json": "e838afeb7a7b4844f96b45cb5ebc508aec858bd3cd424494df491b47802c7fa5",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_registry.json": "b755cb679e9333b54f8e928c29a41bd64b2607c141dcf902787df959fc10ac4d",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/agent_requirements.json": "39e3059527b586f1f144f9124295bd34e7139064035c7fc16f768b15a7528215",
+    "docs/plan/week11/coverage_v4.json": "c93cdc845691f5e35f4109f20a5deb12e1abb3e903acb397602a2bbe82bbc7fe",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2019-12-31.json": "4a0eba10224d0a83870dcab24b7326e4aeb6e8dd60e5585b8da843e7def759bd",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2020-01-08.json": "2ec7526d8d8469161c764f7c54312044a04bd074f7d0113da9734857530e108a",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2020-04-14.json": "27c21025694f3cf80ba9dc36bfa3147353db1df91099aaec8ac2ea3060133b4a",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2020-06-30.json": "c2a632f3d41a3bcbf08cdc2c9e1c869e6b87221e62e2b3f322ba1763b3fc02bf",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2020-07-14.json": "f6e558ce40fbd8dfdfdc0b44e767283efcd976e5694faf624df813ac87f5a1d0",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2020-10-12.json": "7c111ca93735ef11457d03d1f32c5b25dc5dec1ffead0020bf827ac866b73535",
+    "outputs/bayesian_benchmark/mt_bicl_v4/data/regime_models/2020-12-31.json": "261c9893346c89f22dddc78c69b19433e46ae6b88a086b3e0d173e1cd20923d2"
+  },
+  "panel_manifest_sha256": "630a9eba55269bc8b099cf6988945190afaf6b8a44505d6c3b51ceaf8548f0fb",
+  "artifact_sha256": {
+    "outputs/bayesian_benchmark/mt_bicl_v4_1/data/observations.json": "8de5d7094bd7e19c8b3e006a75fdc4ff9444a0a94a9bdb9002845348f245ab36",
+    "outputs/bayesian_benchmark/mt_bicl_v4_1/data/labels.json": "0ce17e80717123643631e49a8e2759f3bb093e008fe3aa45fc27db89087274b9",
+    "outputs/bayesian_benchmark/mt_bicl_v4_1/data/folds.json": "747c0222275c4403edf71482f62e578b5eeb14f6ad5df296d2ebbdda511d1af9",
+    "outputs/bayesian_benchmark/mt_bicl_v4_1/data/train_prefixes.json": "6b3468b00eac93a935b7853fed1f1924a49afd987c26ce92fda199b0b404efd6",
+    "outputs/bayesian_benchmark/mt_bicl_v4_1/data/coverage.json": "2c4f1cc9f081697f4c859f43f903973336c6dc70d8283ca57eedce7a76c2db02"
+  },
+  "labels_byte_identical": true,
+  "grid_queries": 1640,
+  "numeric_summary": {
+    "grid_queries": 1640,
+    "labeled": 1523,
+    "core_valid": 1459,
+    "core_fraction": 0.9579776756401839,
+    "complete_case": 888,
+    "tasks_with_two_cycles": 80
+  },
+  "predictor_or_reference_fit": false,
+  "ready_for_W11_19": false,
+  "training_allowed": false,
+  "collection_released": false
+}
