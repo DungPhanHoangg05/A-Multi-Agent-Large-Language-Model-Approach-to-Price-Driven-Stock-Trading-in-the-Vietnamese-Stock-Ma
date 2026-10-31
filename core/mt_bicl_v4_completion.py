@@ -148,12 +148,19 @@ def verify_release(root: Path, *, require_git: bool = True) -> dict[str, Any]:
         raise DataCompletionError("Warmup/runtime/model options khác amendment")
     if any(importlib.metadata.version(n) != v for n, v in release["acquisition_runtime"].items()):
         raise DataCompletionError("Dependency thu thập nguồn đã đổi")
+    from core.mt_bicl_v4_http_diagnostics import verify_hotfix
+    hotfix = verify_hotfix(root)
     for group in ("source_sha256", "dependency_sha256", "parent_sha256", "news_sha256"):
         for name, expected in release[group].items():
+            if group == "source_sha256" and name in hotfix:
+                expected = hotfix[name]
             if checksum(safe_path(root, name).read_bytes()) != expected:
                 raise DataCompletionError("Nguồn collection đổi: " + name)
     for name in SOURCES:
-        if (root / name).read_bytes() != git(root, "show", release["source_commit"] + ":" + name):
+        historical = git(root, "show", release["source_commit"] + ":" + name)
+        if checksum(historical) != release["source_sha256"][name]:
+            raise DataCompletionError("Source cha không khớp commit khóa")
+        if name not in hotfix and (root / name).read_bytes() != historical:
             raise DataCompletionError("Source collection khác commit khóa")
     parent = read((root / PARENT).read_bytes())
     ids = [r["episode_id"] for r in read((root / BASE / "observations.json").read_bytes())["rows"]]

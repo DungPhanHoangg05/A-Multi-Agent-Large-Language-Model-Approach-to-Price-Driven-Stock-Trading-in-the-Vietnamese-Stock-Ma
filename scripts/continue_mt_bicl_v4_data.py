@@ -40,13 +40,13 @@ from scripts.prepare_groq_tokenizer import prepare_tokenizer
 
 
 def control_requests() -> list[dict[str, Any]]:
-    """Ba probe synthetic, không point/giá/nhãn thị trường; một probe có ảnh thật8×8."""
+    """Ba probe synthetic; vision revision dùng ảnh224×224, giữ intent ảnh8×8 cũ."""
     buf = io.BytesIO()
-    Image.new("RGB", (8, 8), (255, 0, 0)).save(buf, format="PNG")
+    Image.new("RGB", (224, 224), (255, 0, 0)).save(buf, format="PNG")
     plain = "CONTROL ONLY. Chỉ trả chính xác CONTROL_PASS. Không có dữ liệu thị trường."
     expected = deepcopy(CONTROL_DECISION)
     return [{"id": "text", "role": "agent", "content": plain},
-        {"id": "vision", "role": "graph", "content": [{"type": "text", "text": plain},
+        {"id": "vision_r2", "role": "graph", "content": [{"type": "text", "text": plain},
             {"type": "image_url", "image_url": {"url": "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()}}]},
         {"id": "original", "role": "agent", "content": "CONTROL ONLY: Trả JSON đúng schema và nội dung sau: " + json.dumps(expected, ensure_ascii=False), "expected": expected}]
 
