@@ -1,0 +1,28 @@
+{
+  "version": "conditional_mt_bicl_protocol_lock_v4",
+  "payload": {
+    "status": "SPEC_LOCK_PASS",
+    "source_commit": "a6cd8b71822bde2eeea74dafeef98a51542bbd7b",
+    "protocol_sha256": "ce868c6373548b207bc6d7d0a03bdb2c291bbcb95f47f0f33e3a3918cc8ccdf9",
+    "source_sha256": {
+      "core/mt_bicl_v4_protocol.py": "e7ee021471a5110421536937de1c7227d3ebbd3a3f40fdce762dea91136d2d73",
+      "scripts/verify_mt_bicl_protocol_v4.py": "dd9a536fbbae8126fb999cb2252fa037e165b84c36c8650ad0259c92aed475a8",
+      "tests/test_mt_bicl_v4_protocol.py": "3d72c0bfad7d2c01e98469388f5c38695620b3a3c2b3e606b53d95a727819a87",
+      "tests/test_mt_bicl_v4_protocol_leakage.py": "08a873818d680ddedab47ca5c18fe033dfce1576331631f82d806c3f0dd6bc1a",
+      "docs/plan/week11/protocol_v4.json": "ce868c6373548b207bc6d7d0a03bdb2c291bbcb95f47f0f33e3a3918cc8ccdf9"
+    },
+    "permissions": {
+      "training_allowed": false,
+      "reference_fit_allowed": false,
+      "development_allowed": false,
+      "decision_calls_allowed": false,
+      "confirmation_allowed": false
+    },
+    "ledger_baseline": {
+      "path": "outputs/oos_pilot/api_usage.json",
+      "count": 5206,
+      "requests_prefix_sha256": "18d68685a15d6043c722e38b32d96a67428d5c9b2dba7638e01ffa454fe6a390"
+    }
+  },
+  "sha256": "c5d089d1cc9b82e4012be129b75cae20a4b87fd1616df54289e9d9bd1b048d78"
+}

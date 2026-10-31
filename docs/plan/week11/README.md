@@ -1,8 +1,9 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Kế hoạch tiếp nối 31/10/2026: 14/25 task DONE; 2 NOT_RUN; 9 TODO.**
+**Kế hoạch tiếp nối 31/10/2026: 15/25 task DONE; 2 NOT_RUN; 8 TODO.**
 W11-15 bàn giao v3 và W11-16 audit phương pháp hoàn tất bằng tài liệu tại
-mục22; tiếp theo **W11-17** khóa thiết kế v4. V4 chưa triển khai hoặc chạy.
+mục22. **W11-17 SPEC_LOCK_PASS** tại mục23; tiếp theo **W11-18** xây và
+audit dataset PIT. Đã có verifier spec v4; chưa triển khai learner, train hoặc chạy API v4.
 **Bỏ mọi giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
 hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
 Các cap/deadline trong receipt và thiết kế v1–v3 bên dưới là lịch sử, không
@@ -50,7 +51,7 @@ không chứng minh lợi nhuận. Development phải đo việc thêm posterior
 có giúp Decision LLM, giữ cả kết quả bất lợi và đối chứng phương pháp W9.
 
 Mục1–4 và mục6–21 giữ **thiết kế/kết quả lịch sử v2/v3**. Checklist mục5
-và amendment mục22 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
+và amendment mục22/protocol mục23 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
 release v2 cho v3; không thay candidate bằng No_target sau khi thấy kết quả.
 
 ## 1. Ma trận đối chứng đăng ký trước run
@@ -184,7 +185,7 @@ mới. DONE của audit/kế hoạch không phải nghiệm thu code hoặc hi�
 | W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] NOT_RUN — v3 NOT_NOMINATED, không có release xác nhận |
 | W11-15 | Bàn giao v3 NOT_NOMINATED, xác nhận NOT_RUN và toàn bộ kết quả bất lợi | 05–14 chốt trạng thái | [x] DONE — mục22; bàn giao tài liệu, không tạo release |
 | W11-16 | Audit paper → teacher/simulator → learner → policy; phân biệt lỗi áp dụng và giới hạn dữ liệu | 12/15 | [x] DONE — mục22; chỉ phân tích bằng chứng có sẵn |
-| W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [ ] TODO |
+| W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [x] DONE — SPEC_LOCK_PASS; 24 test metadata/PIT, source/runtime/ledger và cold replay PASS; mục23 |
 | W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] TODO |
 | W11-19 | Baseline và Bayes có điều kiện; kiểm tín hiệu trên rolling folds trước distillation/LLM integration | 18 | [ ] TODO |
 | W11-20 | Meta-train learner v4 bằng prior/target có quan hệ x→return; loss target, cơ chế và kiểm shift | 19 đạt | [ ] TODO |
@@ -2028,3 +2029,69 @@ decomposition và số point fallback đều PASS. Chỉ ba Markdown thay đổi
 Hash trước/sau của2.597 file v2 và3.684 file v3 giữ nguyên (loại metadata
 OS lock); aggregate v3 `8ec3f9888b46bb0056af52119a5db9b58d54d8b6717c67d163bcc094b0815454`.
 Protocol/runtime policy/nomination JSON và ledger giữ nguyên byte.
+
+## 23. W11-17 — Khóa protocol Conditional MT-BICL v4 (31/10/2026)
+
+**DONE / SPEC_LOCK_PASS**. [Protocol máy](protocol_v4.json),
+[đặc tả phương pháp](conditional_advisor_v4.md) và
+[receipt khóa nguồn](protocol_lock_v4.json) xác định thiết kế trước dataset/
+fit/run v4. Candidate duy nhất `Full_conditional_MT`, Original durable làm
+nền; namespace mới `outputs/bayesian_benchmark/mt_bicl_v4/`. Chưa cấp quyền
+train, fit reference, gọi Decision/development hoặc xác nhận. Không có
+trần giờ, deadline lịch, counter elapsed hay crash-gap charge cho v4.
+
+- Khóa universe bốn mã, feature numeric liên tục và agent category có
+  provenance thật, nhãn net engine; D/C/query disjoint, exit<query, cùng
+  mã×block63, selection không dùng label. Không dùng bucket/sign-count
+  support của v3; missing/OOD giữ a0 và vẫn giữ point trong G.
+- Ba outer2020/2021/2022; cutoff weights2019/2020/2020. Inner2019H1/H2
+  hoặc2020H1/H2 chọn cấu hình, checkpoint/calibration/h. Final chỉ chọn
+  inner2020, weights≤2020; **làm rõ và thay đề xuất chọn checkpoint2021
+  tại mục22**. 2021/2022 chỉ report/gate outer,2023 chỉ stress/development.
+- Registry baseline, reference regression Student-t phân cấp, Gibbs
+  diagnostics, hai capacity learner/ba seed, head/loss/mask, synthetic
+  interventions và policy đã cụ thể trong JSON. W11-19/21 phải có signal
+  CRPS OOF ngoài baseline/K0/pooled/No_target trước tích hợp; không coi
+  oracle/synthetic PASS là bằng chứng kinh tế.
+- Distribution→calibration→mean/p(r>0) thống nhất; thay action chỉ khi
+  ΔEU>h chọn inner, không trừ thêm phí hoặc dùng Q10-veto. OFF=a0 100%;
+  lỗi integrity/PIT/API raise/checkpoint. P&L, vốn và fractional shares
+  giữ hợp đồng account đã nghiệm thu.
+- G2023 giữ60 ID (FPT12/MWG16/VCB16/VNM16),10 nhánh:600 primary +396
+  repeat/duplicate=996 dòng action;180+144=324 slot LLM danh nghĩa, chỉ
+  Original/A_reference/Plain_ICL cần LLM. Control/retry tính riêng. W11-22
+  vật hóa12 repeat ID bằng rule strata/hướng a0 lịch sử đã khóa trước
+  response v4 đầu; không dùng a0/anchor/raw v3 làm baseline v4.
+- Nomination Full: đủ G/integrity, D−Original>0,≥3/4 mã tăng, D−A≥0,
+  D−K0>0, D−pooled>0, mean ΔMDD≤2/max≤5 đpt. Chỉ một candidate, không
+  vote repeat/promote ablation. W12 vẫn0/8, chưa release hoặc mở payoff2025;
+  N/block-length chờ audit/power W12, family8 secondary CI99,375% đã khóa.
+
+Nguồn spec/verifier/test commit `a6cd8b71822bde2eeea74dafeef98a51542bbd7b`.
+Protocol SHA `ce868c6373548b207bc6d7d0a03bdb2c291bbcb95f47f0f33e3a3918cc8ccdf9`;
+receipt SHA `493559d45f4cd80c23439025b3e5addf880a073f7f81c1f697e8373c48b22908`.
+Binding gồm8 parent artifact,18 baseline source và15 file nguồn; runtime
+Python3.13.5/các package đã ghim khớp. Prefix ledger5.206 request giữ nguyên,
+cho append sau này, không sửa/reset; byte SHA vẫn
+`b89c5f7eff547a73f44136e5b60372c0ce5b9680fc47a02eddde13a42fd1e956`.
+Plan gốc lấy object Git `78337a4`, không hash README tiến độ mutable.
+
+Kiểm tra theo AGENTS.md1.2: **24 test mới PASS** (15 protocol/receipt và9
+metadata PIT/purge), bốn Python mới `py_compile` PASS; freeze và cold replay
+Git/source/runtime/parent/input/ledger PASS, network bị chặn. Các fixture
+metadata chưa thay kiểm dataset/model/inference v4. Không đổi caller legacy
+hoặc đường dữ liệu đang chạy nên không chạy lại toàn unit suite, compileall,
+E2E hoặc viện dẫn gate v3 thành gate v4. Diff/link/checklist/hash được đối
+soát; không train, forward model hoặc gọi API. W11-18–25 vẫn TODO.
+QA tài liệu:154 link/anchor nội bộ và checklist15 DONE/2 NOT_RUN/8 TODO
+PASS. Cây v2 2.597 file khớp snapshot nomination; v3 đủ804 slot/687 raw
+cache khớp hash nghiệm thu, progress/source analysis/counter cũ giữ byte.
+
+```powershell
+py -3.13 -X utf8 scripts/verify_mt_bicl_protocol_v4.py
+```
+
+Lệnh chỉ tái kiểm `SPEC_LOCK_PASS`, không chạy dataset/train/API. Bước tiếp
+theo **W11-18** xây manifest dữ liệu và audit coverage/PIT; thiếu agent thật
+hoặc support không đạt thì báo `INSUFFICIENT_DATA`, không tự thay cấu hình
+đã khóa hoặc mở cohort xác nhận.
