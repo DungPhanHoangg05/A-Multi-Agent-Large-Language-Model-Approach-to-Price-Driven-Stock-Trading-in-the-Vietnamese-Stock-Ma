@@ -8,12 +8,12 @@ W12 dự kiến **06–10/11/2026**, tổng **5–10 giờ**. Khóa dữ liệu 
 08–10/11 dành luận văn/tái lập/bản nộp. Đây là phân bổ công việc, không xác
 nhận hạn nộp chính thức hoặc bảo đảm đủ giờ viết mới toàn bộ luận văn.
 
-Ngân sách thời gian chạy v3 đã được người dùng reset ngày29/10/2026 và
-xác nhận **18 giờ/64.800 giây tổng** tại [grant W11-07](../week11/budget_v3.json):
-không khấu trừ thời gian run v1/v2. Run xác nhận/resume ở W12
-tiếp tục cùng counter v3 đã khóa ở W11-07, không reset lần nữa khi đổi tuần.
-Khung công việc W12 và hạn khóa dữ liệu giữ nguyên; đánh giá khả thi bằng
-ngân sách chạy mới, không bằng số dư của các run cũ.
+**Chỉ đạo hiện hành31/10/2026:** bỏ giới hạn bộ đếm giờ v3 theo
+[amendment vận hành](../week11/runtime_policy_v3.json). Run/resume ở W12
+dùng session không trần số giờ và không tính gap crash; counter/grant18
+giờ ở W11-07 giữ nguyên làm lịch sử, không reset hoặc tiếp tục ghi.
+Khung công việc W12, hạn khóa dữ liệu và các điều kiện release khoa học
+giữ nguyên; quota provider và thời gian lịch vẫn phải được đối soát.
 
 Hai ngày làm việc đầu chỉ hoàn tất/resume xác nhận đã release và bắt đầu
 ở W11. Hết ngày hai khóa dữ liệu, kể cả INCOMPLETE; không mở candidate,

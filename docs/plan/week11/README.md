@@ -1,13 +1,15 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 30/10/2026: 10/15 task DONE (01–10).**
+**Cập nhật 31/10/2026: 10/15 task DONE (01–10).**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
-**W11-07 SPEC_LOCK_PASS** tại mục15; ngân sách v3 mới18 giờ đã khóa.
+**W11-07 SPEC_LOCK_PASS** tại mục15; grant18 giờ là bản khóa lịch sử.
+**Chỉ đạo mới31/10: bỏ giới hạn bộ đếm giờ**, áp dụng qua amendment tại mục20;
+counter cũ giữ làm bằng chứng, không còn chặn chạy/resume.
 **W11-08 DONE** tại mục16: đã triển khai bucket/context/utility/facts/policy v3,
 kiểm thử offline PASS. **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH** tại
 mục17. **W11-10 DONE — RELEASED_DEVELOPMENT_2023_ONLY** tại mục18;
-**W11-11 sẵn sàng chạy804 slot** bằng lệnh tại mục19, chưa có response development v3.
+**W11-11 đang chạy,568/804 slot đã lưu**; tiếp tục bằng lệnh tại mục19.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W12](../week12/README.md)
 
 **Lệnh tái lập/tiếp tục của run v2 đã hoàn tất; không dùng để mở v3:**
@@ -170,7 +172,7 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-08 | Feature bucket PIT, context đầy đủ và utility posterior; fact packet/anchor/revision policy | 07 | [x] DONE —172 test theo phạm vi PASS, scalar MC/PIT/ablation/guard/counter; chưa validation thị trường/API |
 | W11-09 | Offline validation 2021/2022, oracle utility/semantic/leakage/ablation/probe và kiểm support | 08 | [x] DONE —676 point/replay PASS, approximation đạt, Full support40/60 và12 interval âm;75 test/22 semantic groups PASS |
 | W11-10 | Freeze v3 source/schema/model/manifest/repeat; dry-run, API preflight và release development riêng | 09 đạt | [x] DONE — freeze/dry-run804/replay/control thật/source/PIT/feasibility PASS; release2023 neo Git |
-| W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] READY_TO_RUN — release2023 đã khóa;0/804 slot research, người dùng chạy lệnh mục19 |
+| W11-11 | Người dùng chạy một development v3 đầy đủ, checkpoint/ledger riêng | 10 | [ ] IN_PROGRESS —568/804 complete,1 unknown,235 pending; resume không giới hạn giờ tại mục19–20 |
 | W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [ ] TODO — có điều kiện |
 | W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] TODO — có điều kiện |
 | W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] TODO — có điều kiện |
@@ -1459,9 +1461,10 @@ không chạy lại unit/compileall/E2E hoặc leakage suite theo AGENTS1.2.
 
 ## 19. W11-11 — Chạy development v3 đã release
 
-**READY_TO_RUN; chưa DONE.** Tại bàn giao, chưa có namespace journal
-research hoặc response development v3: **0/804 slot research**. Bốn control
-thật không được tính là primary/repeat. Người dùng chạy đúng một lệnh:
+**IN_PROGRESS; chưa DONE.** Snapshot31/10: **568/804 slot complete**
+(480/480 primary,88/324 repeat),1 unknown,235 pending. Còn236 slot,
+211 slot đủ support HTTP và25 bypass theo mask; retry có thể thêm HTTP.
+Bốn control thật không được tính là primary/repeat. Chạy đúng một lệnh:
 
 ```powershell
 py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py
@@ -1479,12 +1482,63 @@ Console báo `Đã lưu .../804 slot v3` theo point/repeat. Các dòng `[Quota]`
 nghỉ chủ động là pacing bình thường; không mở thêm tiến trình cùng lúc.
 Nếu bị ngắt, Ctrl+C hoặc hết quota, **chạy lại cùng lệnh** khi có thể tiếp
 tục; không xóa cache/checkpoint/counter/lock hoặc nhập UUID. Durable/complete
-được đối soát trước key/API, unknown còn dở retry cùng UUID. Sai integrity
-hoặc hết cap/deadline vẫn dừng giữ bằng chứng, không reset để chạy tiếp.
+được đối soát trước key/API, unknown còn dở retry cùng UUID. Giới hạn bộ
+đếm18 giờ đã bỏ theo mục20; lỗi integrity hoặc hạn lịch riêng vẫn dừng
+giữ bằng chứng. Quota do provider quyết định, pacing/backoff giữ nguyên.
 
 Hoàn tất khi console báo `Đủ 804/804 slot v3; chờ W11-12 kiểm định, chưa P&L.`
 Người dùng gửi kết quả để nghiệm thu W11-11 và chuyển W11-12 cold verify/
 rebuild accounts/decomposition/nomination. Chưa đánh giá P&L hoặc accuracy
 development trong bước chạy, chưa cấp quyền xác nhận2025. Giữ hạn bắt đầu
-05/11 và data stop07/11 cùng counter18 giờ hiện có; dự toán11,60 giờ không
-phải cam kết thời gian hoàn tất khi provider giới hạn quota hoặc có retry.
+05/11 và data stop07/11; không còn trần số giờ thực thi. Dự toán11,60 giờ
+là giá trị trước run, không phải cam kết khi provider giới hạn quota/retry.
+
+## 20. Bỏ giới hạn bộ đếm thời gian theo chỉ đạo31/10/2026
+
+Người dùng yêu cầu: **“loại bỏ hoàn toàn phần giới hạn bộ đếm này. để
+người dùng chạy tự do”**. [Chính sách vận hành mới](runtime_policy_v3.json)
+thay thế trần18 giờ và việc tính gap crash trong đường chạy/resume hiện
+hành. Không tăng quota provider hoặc cấp quyền thực nghiệm khác. Các
+grant/receipt/protocol/weights lịch sử giữ nguyên byte; những đoạn mô tả
+cap18 giờ ở mục13–18 là bằng chứng trước amendment, không còn là giới hạn
+runtime hiện hành. Counter cũ không bị reset, hạ số hoặc ghi tiếp; giữ
+nguyên snapshot64.800 giây đã tính trước thay đổi.
+
+Nguyên nhân dừng cũ: phiên chưa đóng từ20:40:33 ngày30/10 tới10:03:47
+ngày31/10 (+07) bị tính phí crash bảo thủ29.315,702322 giây, hết phần
+grant còn lại. Amendment bỏ cơ chế này; không trừ lại hoặc sửa log quá khứ.
+Mốc kế hoạch05/11 và data stop07/11 độc lập với bộ đếm, giữ nguyên.
+
+Entry point giữ nguyên lệnh, tải đúng CLI đã release từ object Git được
+kiểm SHA và dùng session không đếm giờ cùng verifier vận hành mới.
+Chỉ entrypoint được phép thay theo source receipt mới; tám file source
+khác trong manifest, source validation/protocol, model/schema/prompt,
+thứ tự/cohort/repeat, journal signature và chính sách raw/final action
+giữ nguyên. Các bước vận hành tiếp theo dùng `RuntimeSession`/verifier
+mới; CLI frozen cũ chỉ dùng tái lập lịch sử tại đúng source cũ.
+
+Chính sách khóa prefix4.990 row ledger và hash568 slot complete trước
+amendment; mọi row/reserve/complete cũ phải nguyên vẹn, chỉ append/chạy
+phần còn thiếu. Slot tiếp theo là **569** (index568),
+`VCB-2023-10-30`, repeat1, `Stats_only`; giữ UUID
+`c43c09a7-6efb-40fe-8054-ccf2996d0fc5`. Không gọi lại568 slot hoàn tất.
+
+Kiểm theo AGENTS1.2: **53 test PASS** (10 mới,43 hồi quy trực tiếp),
+gồm7 test leakage/PIT; **3 file Python thay đổi biên dịch PASS**. Phạm vi
+gồm counter đã đầy vẫn chạy, gap qua đêm/Ctrl+C, chờ25 giờ không bị cap18,
+khóa OS, UUID/reserve/cache, body guard, source override đúng một entrypoint
+và PIT. Không full suite/compileall/E2E; không API thật/key/P&L hoặc2025.
+Lệnh đối soát offline mới, dùng bản sao journal và dừng trước request thiếu:
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py --verify-only
+```
+
+Kết quả thực tế31/10: **UNBOUNDED_RESUME_VERIFIED,568/804,HTTP=0**;
+tái đối soát upstream/PIT60/60 và raw/cache/policy của complete prefix
+trên bản sao journal, dừng đúng slot569/cùng UUID trước credential/API.
+Ledger giữ4.990 row, counter cũ nguyên byte, không reset hoặc ghi thêm.
+Source mới `8782c1e`, chính sách byte SHA
+`02a44d216f0adb29cccd860b11f556baa175627d1e5c40dc7ca9c8291e5107d4`;
+counter lịch sử byte SHA
+`e9ea478072c97fa0931d45c0048b2f964e9e48d3b60ee6f847ae687f0c654878`.
