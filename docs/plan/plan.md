@@ -8,14 +8,18 @@ chuyển từ teacher count + prompt/anchor/veto sang **Conditional MT-BICL
 Advisor**: learner học predictive net return có điều kiện theo feature,
 prior tasks và target context; Original durable là quyết định nền.
 W11-17 đã khóa protocol; W11-18 đã dựng snapshot/PIT audit1.640 query,
-1.523 nhãn engine. Snapshot đầu **INSUFFICIENT_DATA**; release/runner bổ sung
-warmup và agent/Original đã khóa, chờ người dùng thu thập thật bằng một lệnh
-tại [mục25 W11](week11/README.md#25-w11-18--release-bổ-sung-warmupagentoriginal-01112026).
-Chưa nghiệm thu W11-18, chưa mở W11-19 hoặc train predictor v4.
-Lượt người dùng đầu đã qua warmup/text probe; vision400. Đã sửa probe ảnh
-và bổ sung diagnostic provider, tiếp tục bằng cùng lệnh ở mục25 W11.
+1.523 nhãn engine. Snapshot đầu **INSUFFICIENT_DATA**. Theo yêu cầu mới,
+[mục26 W11](week11/README.md#26-w11-18--phương-án-256-điểm-llm-trong-35-ngày-01112026)
+đề xuất **v4.1: ngân hàng numeric có mask + panel256 điểm LLM**. Bốn quota
+độc lập tổng80 điểm/ngày:256 điểm cần3,2 ngày quota, dự kiến4 ngày chạy có
+dự phòng và1 ngày chuẩn bị. Giảm84,39% HTTP nghiên cứu so1.640 điểm cũ.
+Chỉ cập nhật kế hoạch; chưa có protocol máy/runner v4.1. Lệnh mục25 vẫn
+chạy1.640 điểm, không phải lệnh panel256. Chưa nghiệm thu W11-18, chưa mở
+W11-19 hoặc train predictor. Probe vision phải PASS trước collection mới.
 
-**Bỏ tất cả giới hạn thời gian theo chỉ đạo người dùng:** không trần giờ,
+**Ngoại lệ mới: mục tiêu W11-18 trong3–5 ngày theo yêu cầu người dùng.**
+Đây là mục tiêu vận hành có điều kiện quota/preflight, không bỏ mẫu để
+kịp hạn. Các giai đoạn khác tiếp tục không giới hạn thời gian: không trần giờ,
 khung giờ theo tuần, deadline 05/11–07/11–10/11 hoặc hạn hoàn tất12 tuần.
 W11/W12 giữ làm tên giai đoạn/thư mục; tiến độ theo dependency và bằng
 chứng. PIT, horizon T+2.5, quota/backoff và cỡ mẫu đăng ký vẫn giữ. Mọi cap/
@@ -26,9 +30,10 @@ công việc tiếp nối. Không thay byte bằng chứng hoặc coi sửa tài
 **Tiến độ:** W10 **14/14**; W11 **15/25 DONE, 2 NOT_RUN, 1 IN_PROGRESS, 7 TODO**; W12 **0/8**.
 W11-15 đóng bàn giao v3; W11-16 audit paper/implementation DONE bằng tài liệu.
 W11-17 **SPEC_LOCK_PASS** tại [mục23](week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
-W11-18 đã chuẩn bị bổ sung warmup nguồn thô trước2018 và agent/Original có
-provenance; giữ audit thiếu hụt tại [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
-và hướng dẫn thu thập/resume tại mục25. Agent chỉ chuẩn bị và kiểm offline.
+W11-18 làm tiếp18a–18f tại mục26: amendment, ngân hàng offline, runner256,
+thu thập, cold acceptance và đồng bộ downstream. Warmup đã seal có thể
+reuse khi đúng lineage; giữ audit [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
+và release1.640 điểm mục25 nguyên byte. Agent chỉ chuẩn bị/kiểm offline.
 Sau khi W11-18 đủ gate mới mở19–25 baseline/learner/
 calibration/tích hợp/development/nomination/bàn giao. W12 audit exposure,
 khóa cohort/power và xác nhận độc lập khi có candidate đạt; không dừng vì lịch.
@@ -118,18 +123,20 @@ Trong bài toán suy diễn tiên nghiệm phân cấp:
 | Task latent | Hệ số và scale riêng task, có shrinkage | Không tiếp tục chỉ học xác suất thắng không phụ thuộc x |
 | Prior dataset Dk | Task chứa nhiều (x,r_net) PIT, boundary riêng, selection không dùng payoff query | Block63 là khởi điểm cần kiểm, không giả định stationary hoặc mọi task cùng prior |
 | Target context C | Cycle cùng target đã hoàn tất trước query; cold-start trong miền train | Không dùng report hiện tại thay lịch sử có nhãn hoặc lặp mẫu cho đủ context |
-| Query x | Feature giá/regime liên tục và tín hiệu agent thật, gồm Original a0 | Không fabricate agent data, không coi confidence chữ là xác suất |
+| Query x v4.1 đề xuất |9 feature giá, missing mask, regime;3 feature lõi bắt buộc | Agent X/a0 ra khỏi learner; Original thật chỉ vào policy; không fabricate dữ liệu |
 | Learner | Meta-training target NLL trên real tasks; synthetic conditional kiểm cơ chế | Synthetic PASS không thay bằng chứng thị trường; weights cố định tại test |
 | Action | μ_net từ cùng predictive distribution và policy so với a0 | off/missing=Original; không tạo anchor mới, không ghép teacher veto khác learner |
 
 ### 2.3. Phân định đóng góp
 
 Tách ba mệnh đề: học cơ chế phân cấp, dự báo có ích trên thị trường và
-nâng cấp quyết định giao dịch. K0/pooled kiểm đóng góp multi-task; no-agent
-và numeric-only kiểm phần đa agent. Likelihood Student-t, dữ liệu tài chính,
+nâng cấp quyết định giao dịch. K0/pooled kiểm đóng góp multi-task;
+Complete_case_MT kiểm xử lý missingness, Numerical_MT kiểm giá trị a0/policy.
+Likelihood Student-t, dữ liệu tài chính,
 retrieval PIT và policy sử dụng Original là thích ứng của đề tài, không là
-cam kết lợi nhuận từ paper. Đặc tả và điều kiện kiểm tại W11 mục22; v4 chưa
-được triển khai. V2/v3 dùng likelihood count và utility khác, giữ đúng tên.
+cam kết lợi nhuận từ paper. V4 đã có protocol/data tooling; learner chưa
+triển khai. Amendment v4.1 dự kiến tại W11 mục26 chưa có runtime; protocol
+v4 ở mục23 vẫn là bằng chứng thiết kế cũ. V2/v3 giữ đúng tên và kết quả.
 
 ---
 
@@ -163,8 +170,7 @@ Mục3 mô tả nền trước các vòng nâng cấp. Hiện trạng v3 và aud
 flowchart TD
     PIT[Snapshot PIT] --> UP[Upstream một lần]
     UP --> ORIG[Original durable a0]
-    UP --> X[Feature thị trường và tín hiệu agent]
-    ORIG --> X
+    PIT --> X[Feature thị trường và missing mask]
     BANK[Task bank có nhãn net đã đóng] --> CTX[Prior tasks và target context]
     PIT --> CTX
     X --> MT[Learner conditional MT-BICL]
@@ -177,7 +183,9 @@ flowchart TD
     OFF --> OUT
 ```
 
-Đây là thiết kế, chưa là đường chạy hiện tại. Không đổi engine T+2.5,
+Đây là thiết kế v4.1 dự kiến, chưa là đường chạy hiện tại. Learner học
+trên ngân hàng numeric; Original chỉ cần ở panel policy và cohort đánh
+giá hệ thống, không cần cho mọi observation lịch sử. Không đổi engine T+2.5,
 SHORT=CASH, vốn/chi phí hoặc prompt gốc. Learner numeric nhận toàn context;
 card giải thích chỉ là projection, giữ BRPP≤600 và prompt<6.500. Không
 cần LLM thứ hai để chọn lại action; không dùng Fact_Anchor v3 làm baseline.
@@ -338,19 +346,22 @@ chỉ ra teacher count bỏ x_query, nhãn synthetic độc lập x, support th�
 U không do student học và prompt anchor làm đổi mạnh chính sách nền.
 V4 cần dữ liệu/task/likelihood có tín hiệu thực trước ma trận API tiếp theo.
 
-1. Xây dataset PIT có feature giá và agent thật, giữ nhãn net engine;
-   kiểm coverage, task dependence, drift và exposure trước train.
+1. Theo amendment dự kiến W11 mục26, giữ ngân hàng numeric/mask PIT,
+   thu256 Original+upstream thật cho policy; nhãn net engine nguyên byte.
+   Kiểm coverage, task dependence, drift và exposure trước train; không
+   dùng panel thưa thay grid forecast hoặc cohort xác nhận.
 2. So baseline/conditional Bayesian reference bằng rolling folds; không
    distill thêm teacher misspecified chỉ vì oracle math PASS.
 3. Meta-train learner có target loss, prior/target boundary; kiểm x-query,
    prior swap, pooling, cold-start và shift; đo forecast thị trường riêng.
 4. Original là a0, OFF giữ đúng a0; distribution→calibration→policy thống
    nhất, không dùng learner p cho prompt rồi teacher khác cho veto.
-5. Một candidate cùng ma trận K0/pooled/no-target/no-agent/numeric/reference,
+5. Một candidate cùng ma trận K0/pooled/no-target/complete-case/numeric/reference,
    giữ Original/A/Plain. W12 family8 secondary, CI99,375%; primaryCI95%.
 
-Không trần thời gian. Kết thúc pha theo tiêu chí khoa học, không theo số
-ngày hoặc số giờ. W11-17–25 thực hiện tuần tự; W12 khóa exposure/cohort/
+Mục tiêu thu thập W11-18 là3–5 ngày; các pha khác không trần thời gian.
+Không đổi gate khoa học vì lịch. W11-17 đã khóa v4; amendment18a phải khóa
+v4.1 trước chạy panel, sau đó18b–25 tuần tự. W12 khóa exposure/cohort/
 power rồi chạy xác nhận. Dữ liệu≤2023 đã xem không trở thành holdout mới.
 Mục tiêu rõ rệt D≥1 đpt và guard rủi ro giữ; chưa có bằng chứng v4 đạt.
 
@@ -1578,11 +1589,11 @@ W11 mục22.6, schema/namespace mới và không sửa artifact lịch sử.
 
 ## 10. TRẠNG THÁI NGHIÊN CỨU
 
-V1/v2/v3 giữ đúng kết quả đã kiểm định. Hướng v4 sửa likelihood có điều
-kiện và vị trí tích hợp của learner, dùng Original làm nền; kiểm tách cơ
-chế/dự báo/hiệu quả giao dịch. Không còn giới hạn thời gian; không xóa
-exposure, đổi tiêu chí sau kết quả hoặc hứa chắc cải thiện. Lượt cập nhật
-này đã khóa protocol W11-17 và snapshot dữ liệu W11-18. Kiểm kỹ thuật
-dataset PASS, readiness INSUFFICIENT_DATA; cần dữ liệu agent/a0 thật và
-warmup trước2018 có source amendment. Learner/training/kiểm thị trường v4
-chưa được mở; không coi thiếu dữ liệu là kết quả dự báo hay kinh tế v4.
+V1/v2/v3 giữ đúng kết quả đã kiểm định. V4.1 dự kiến giữ conditional
+MT-BICL và Original làm nền, tách ngân hàng học numeric khỏi panel LLM;
+không xóa exposure hoặc hứa chắc cải thiện. Mục tiêu3–5 ngày chỉ áp dụng
+W11-18. Snapshot/receipt v4 vẫn INSUFFICIENT_DATA, protocol v4.1 chưa khóa,
+learner/training/kiểm thị trường chưa mở. Thu256 point không tự chứng minh
+readiness hay hiệu quả. Lượt này chỉ sửa Markdown, kiểm diff/link/số liệu/
+hash nguồn; không chạy unit/compileall/E2E/leakage vì không đổi hành vi
+theo AGENTS.md1.2. W11 giữ15/25 DONE, W12 giữ0/8.
