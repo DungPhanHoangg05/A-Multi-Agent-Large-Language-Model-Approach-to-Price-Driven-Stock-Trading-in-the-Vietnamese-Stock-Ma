@@ -1,12 +1,12 @@
 # Giai đoạn W12 — Xác nhận độc lập, định lượng đóng góp và bảo vệ
 
-**Kế hoạch tiếp nối 31/10/2026; 0/8 task DONE. Không giới hạn thời gian.**
+**Cập nhật 01/11/2026; 0/8 task DONE. W12 không giới hạn thời gian.**
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md)
 
 W11-15 bàn giao v3 **NOT_NOMINATED**, xác nhận v3 **NOT_RUN**; receipt và
 kết quả bất lợi tại [mục21 W11](../week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026).
 W11-16 audit paper và thiết kế v4 tại [mục22 W11](../week11/README.md#22-w11-1516--đóng-v3-audit-cách-áp-dụng-paper-và-kế-hoạch-v4-31102026).
-Không chuyển release v3 thành release v4; W12 chỉ xác nhận candidate v4
+Không chuyển release v3 thành release v4/v4.1; W12 chỉ xác nhận candidate
 sau W11-24/25 đạt nomination và có protocol/release riêng.
 
 Theo chỉ đạo mới, bỏ trần giờ, khung 5–10 giờ, hạn 12 tuần, các mốc 05/11,
@@ -18,10 +18,17 @@ không làm run tự hết hạn. Giữ PIT, T+2.5, retry/backoff, integrity và
 
 W11-17 đã khóa [protocol v4](../week11/protocol_v4.json) và verifier metadata
 tại [mục23 W11](../week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
-Chưa triển khai learner, train hoặc chạy API v4, chưa đọc payoff2025.
+Chưa triển khai learner, train hoặc chạy development v4, chưa đọc payoff2025.
+Collection đã có probe synthetic tại W11 mục25; không phải kết quả thị trường.
 Protocol này chưa khóa N/block-length xác nhận hoặc cấp release W12.
 W11-18 audit ngày01/11 có snapshot PIT nhưng **INSUFFICIENT_DATA**, chưa
 nghiệm thu hoặc mở W11-19; [chi tiết](../week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026).
+[Kế hoạch mới W11 mục26](../week11/README.md#26-w11-18--phương-án-256-điểm-llm-trong-35-ngày-01112026)
+đề xuất v4.1: learner numeric có mask và panel256 Original thật; mục tiêu
+thu thập3–5 ngày từ năng lực80 điểm/ngày. Đây chưa là protocol/release
+máy. Panel256 chỉ dùng development/calibration, không thay cohort xác
+nhận hoặc power W12. Ma trận/claim bên dưới là đích của amendment v4.1,
+phải khóa lại trước run; JSON v4 cũ giữ nguyên byte.
 Nếu đường chạy cũ còn guard deadline, task triển khai sau này phải bỏ
 cho namespace v4 và kiểm theo phạm vi; sửa README không thay hành vi CLI.
 
@@ -69,11 +76,17 @@ hữu hạn; không sinh bù để cứu CI. Bootstrap điều kiện trên pred
 đã lưu, không bao phủ toàn bộ bất định training/provider. Không annualize
 nếu thiết kế cohort không hỗ trợ diễn giải đó.
 
-Ma trận v4 theo W11 mục22.5 có **8 secondary** Full−A_reference/Plain_ICL/
-Target_only_K0/Pooled_context/No_target/No_agent_features/Numerical_MT/
+Ma trận v4.1 dự kiến theo W11 mục26 có **8 secondary** Full−A_reference/Plain_ICL/
+Target_only_K0/Pooled_context/No_target/Complete_case_MT/Numerical_MT/
 Hierarchical_reference. Khóa family trước run, Bonferroni hai phía
 CI(1−0,05/8)=**99,375%** mỗi contrast, cùng draws. Chỉ diễn giải kết quả
 của family đã khóa; không bỏ comparator âm để giảm hiệu chỉnh.
+Complete_case_MT thay No_agent_features trước run vì Full v4.1 không còn
+agent X trong learner; không giữ đối chứng trùng để diễn giải thành gain.
+Complete-case chỉ dùng input đủ9 numeric, query thiếu giữ a0; báo cả
+whole-cohort và common support. Full−Complete_case_MT kiểm thay đổi xử lý
+missingness và support, không tách được mọi nguyên nhân thành tác động
+nhân quả riêng. Nomination Full−Original/K0/pooled và guard MDD giữ nguyên.
 
 Forecast report tách NLL/CRPS/calibration/coverage và decision report.
 K0/pooled phải được train đối chứng tương ứng, giữ feature/data/capacity/
@@ -89,13 +102,19 @@ candidate từ W11, không chuyển sang ablation tốt nhất sau xác nhận.
 | Thêm D≥1 đpt, ≥3/4 mã cũ tăng, mean ΔMDD≤2 và max≤5 đpt | Đạt mục tiêu cải thiện rõ rệt đã định nghĩa cho cohort này |
 | Full−K0 và Full−pooled có CI đã hiệu chỉnh>0, kiểm cơ chế đạt | Có bằng chứng prior-task và cấu trúc multi-task đóng góp; không chỉ thêm model hoặc data |
 | Full−No_target CI đã hiệu chỉnh>0 | Target context giúp thích ứng trong cấu hình này |
-| Full−No_agent_features CI đã hiệu chỉnh>0 | Tín hiệu agent bổ sung giúp ngoài feature thị trường và a0 dùng chung |
-| Full−Numerical_MT CI đã hiệu chỉnh>0 | Quyết định nền đa agent có ích ngoài predictor numeric thuần |
+| Full−Complete_case_MT CI đã hiệu chỉnh>0 | Cách dùng feature có mask và support mở rộng giúp trên cohort này; không là bằng chứng learner dùng agent X |
+| Full−Numerical_MT CI đã hiệu chỉnh>0 | a0/policy nền đa agent có ích ngoài policy numeric cùng distribution; không chứng minh riêng từng agent |
 | Full hơn Plain_ICL | So sánh toàn phương pháp numeric advisor với ICL văn bản; không đồng nhất với proof hosted LLM tự làm Bayes |
 | Learner gần reference, tốc độ tốt hơn trên cùng input | Hiệu quả xấp xỉ/inference trong miền đã kiểm; không chứng minh reference là truth thị trường |
 | Chỉ forecast tốt hơn, P&L chưa tăng | Đóng góp dự báo; chưa chứng minh nâng cấp giao dịch |
 | Full tăng nhưng K0/pooled chưa phân biệt | Có lợi ích hệ thống, chưa tách được đóng góp multi-task Bayesian ICL |
 | CI qua0 hoặc cohort thiếu | Inconclusive/INCOMPLETE; không kết luận tương đương hoặc thắng |
+
+Trong v4.1, forecast có thể dùng ngân hàng numeric dày còn policy được
+chọn trên panel thưa. Phải báo giới hạn khả năng chuyển sang lịch G60/
+cohort mới, fallback theo mask, coverage và số action thực sự thay đổi.
+Không gán a0 cho điểm chưa gọi LLM, ngoại suy return panel thành toàn grid
+hoặc coi3–5 ngày thu thập là đủ chứng minh hiệu quả khóa luận.
 
 Giữ kết quả v1/v2/v3 và W9 trong phạm vi gốc; không đổi tên W9 thành bằng
 chứng của v4. Xác nhận fail phải được báo; nghiên cứu tiếp cần revision và

@@ -3,13 +3,16 @@
 **Hiện hành 01/11/2026: 15/25 task DONE; 2 NOT_RUN; 1 IN_PROGRESS; 7 TODO.**
 W11-15 bàn giao v3 và W11-16 audit phương pháp hoàn tất bằng tài liệu tại
 mục22. **W11-17 SPEC_LOCK_PASS** tại mục23. **W11-18 IN_PROGRESS**:
-snapshot đầu còn `INSUFFICIENT_DATA` tại mục24; đã khóa release và runner
-bổ sung warmup/agent/Original tại [mục25](#25-w11-18--release-bổ-sung-warmupagentoriginal-01112026).
-Người dùng chạy một lệnh ở mục25 để thu thập thật; sau đó cold nghiệm thu
-readiness. Chưa mở W11-19, train predictor hoặc gọi API v4 từ agent.
-Lượt người dùng đầu tiên đã có warmup và text probe PASS; vision probe
-HTTP400. Bản sửa probe/diagnostic cuối mục25 đã sẵn sàng để chạy lại cùng lệnh.
-**Bỏ mọi giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
+snapshot đầu còn `INSUFFICIENT_DATA` tại mục24. Theo yêu cầu mới, phương án
+tiếp nối là **v4.1: ngân hàng định lượng có mask + panel256 điểm LLM**, tại
+[mục26](#26-w11-18--phương-án-256-điểm-llm-trong-35-ngày-01112026).
+Bốn key có quota độc lập, tổng khoảng80 điểm/ngày do người dùng xác nhận.
+Mục tiêu riêng W11-18 là3–5 ngày; cần khóa amendment và triển khai trước.
+**Lệnh mục25 vẫn thu thập1.640 điểm; chưa có CLI chạy panel256.** Không
+tiếp tục toàn grid để thực hiện phương án rút gọn. Release/spec v4 giữ
+nguyên byte, không được coi là đã cho phép v4.1 hoặc đã qua readiness.
+Chưa mở W11-19, train predictor hoặc gọi API từ agent trong lượt này.
+**Các giai đoạn còn lại không giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
 hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
 Các cap/deadline trong receipt và thiết kế v1–v3 bên dưới là lịch sử, không
 chi phối kế hoạch mới. Cutoff PIT, horizon kinh tế và backoff API vẫn áp dụng.
@@ -56,7 +59,7 @@ không chứng minh lợi nhuận. Development phải đo việc thêm posterior
 có giúp Decision LLM, giữ cả kết quả bất lợi và đối chứng phương pháp W9.
 
 Mục1–4 và mục6–21 giữ **thiết kế/kết quả lịch sử v2/v3**. Checklist mục5
-và amendment mục22/protocol mục23 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
+và amendment mục26 là thứ tự làm tiếp; mục22–25 giữ nguồn thiết kế v4. Không sửa JSON đã khóa hoặc dùng
 release v2 cho v3; không thay candidate bằng No_target sau khi thấy kết quả.
 
 ## 1. Ma trận đối chứng đăng ký trước run
@@ -191,10 +194,10 @@ mới. DONE của audit/kế hoạch không phải nghiệm thu code hoặc hi�
 | W11-15 | Bàn giao v3 NOT_NOMINATED, xác nhận NOT_RUN và toàn bộ kết quả bất lợi | 05–14 chốt trạng thái | [x] DONE — mục22; bàn giao tài liệu, không tạo release |
 | W11-16 | Audit paper → teacher/simulator → learner → policy; phân biệt lỗi áp dụng và giới hạn dữ liệu | 12/15 | [x] DONE — mục22; chỉ phân tích bằng chứng có sẵn |
 | W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [x] DONE — SPEC_LOCK_PASS; 24 test metadata/PIT, source/runtime/ledger và cold replay PASS; mục23 |
-| W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] IN_PROGRESS — release/runner bổ sung đã khóa; chờ người dùng thu thập và cold nghiệm thu; mục24–25 |
+| W11-18 | Amendment v4.1; ngân hàng numeric có mask, panel256 Original thật, cold audit hai tập dữ liệu | 17 và amendment18a | [ ] IN_PROGRESS — kế hoạch3–5 ngày tại mục26; chưa triển khai/release256 |
 | W11-19 | Baseline và Bayes có điều kiện; kiểm tín hiệu trên rolling folds trước distillation/LLM integration | 18 | [ ] TODO |
 | W11-20 | Meta-train learner v4 bằng prior/target có quan hệ x→return; loss target, cơ chế và kiểm shift | 19 đạt | [ ] TODO |
-| W11-21 | OOF calibration, ablation K=0/pooled/no-agent, policy thay đổi Original và khóa candidate | 20 | [ ] TODO |
+| W11-21 | OOF calibration trên ngân hàng numeric; h/decision trên panel, K0/pooled/Complete_case_MT và khóa candidate | 20 | [ ] TODO |
 | W11-22 | Tích hợp shadow dùng Original durable; kiểm off=Original, economics/PIT/retry; freeze development | 21 đạt | [ ] TODO |
 | W11-23 | Development v4 ghép cặp đủ ma trận/cohort và repeat đã khóa | 22 | [ ] TODO |
 | W11-24 | Cold audit, phân rã forecast/policy, nomination và toàn bộ trường hợp bất lợi | 23 | [ ] TODO |
@@ -2197,6 +2200,9 @@ chạy lại không tạo agent/a0 còn thiếu. W11 giữ15/25 DONE, W12 giữ0
 
 ## 25. W11-18 — Release bổ sung warmup/agent/Original (01/11/2026)
 
+**Phạm vi vận hành cũ:** release dưới đây vẫn khóa1.640 điểm. Kế hoạch
+rút gọn mới ở mục26 chưa được triển khai; không dùng lệnh này như runner256.
+
 **IN_PROGRESS — công cụ/release đã sẵn sàng; chờ thu thập thật và cold nghiệm
 thu dữ liệu.** Chỉ đạo hoàn thiện W11-18 cho phép bổ sung nguồn warmup và
 thu thập agent/Original trong miền đã đăng ký. [Release collection](data_completion_release_v4.json)
@@ -2330,3 +2336,249 @@ Kiểm `--verify-only` trên checkpoint thật PASS: bốn mã đều749 nến w
 trước2018, overlap10 PASS; trả `WAITING_USER_API`,0 point complete. Không
 đọc key hoặc gọi HTTP. QA162 link/anchor, checklist và5 hash release/
 amendment/ledger/identity/warmup PASS; ledger và identity giữ nguyên byte.
+
+## 26. W11-18 — Phương án 256 điểm LLM trong 3–5 ngày (01/11/2026)
+
+**PLAN_ONLY — thay đổi thiết kế dự kiến, chưa đổi code/protocol máy hoặc
+cấp release mới.** Người dùng xác nhận4 quota độc lập, khoảng20 điểm/key/
+ngày, tổng80 điểm/ngày. Chỉ mục tiêu thời gian W11-18 được khôi phục theo
+yêu cầu này; không áp deadline cho train, development hoặc xác nhận W12.
+Không xóa dữ liệu/receipt cũ hoặc đổi trạng thái `INSUFFICIENT_DATA` bằng
+tài liệu. Làm tuần tự18a–18f dưới đây rồi mới mở19–25.
+
+### 26.1. Vì sao cần đổi thiết kế thu thập
+
+Một điểm collection hiện có3 HTTP nghiên cứu: Pattern, Trend, Original;
+Indicator và Alpha tính Python. Bốn key đã được tính trong80 điểm/ngày,
+nên1.640/80=**20,5 ngày quota**, không thể chia thêm cho4 lần nữa. Tối ưu
+chạy đồng thời chỉ giảm chờ, không giảm tổng quota cần dùng.
+
+V4 ràng buộc agent X/a0 của **mọi observation D/C/query** với learner.
+Vì vậy thiếu Original lịch sử làm nghẽn cả học dự báo, dù nhãn net và giá
+đã có. Paper học predictive distribution từ datasets prior/target; không
+đòi mỗi cặp (x,y) phải được tạo bằng hosted LLM. Tách dữ liệu học khỏi
+quyết định nền LLM là một thích ứng của đề tài, vẫn cần kiểm cơ chế và
+giá trị giao dịch. [Paper gốc](https://proceedings.mlr.press/v306/zhu26aj.html).
+
+Audit chỉ đọc metadata/mask, không mở return để chọn mẫu, cho thấy:
+
+| Dữ liệu snapshot v4 | Số lượng / ý nghĩa |
+| --- | --- |
+| Grid / có nhãn engine | 1.640 / 1.523; giữ toàn bộ ID và lý do không có nhãn |
+| Đủ cả9 numeric + nhãn | 888; không được gọi1.523 là1.523 mẫu complete-case |
+| Có momentum5 và2 feature VNINDEX + nhãn | 1.459; có thể nghiên cứu learner nhận mask cho6 feature còn lại |
+| Trong1.459, thiếu ít nhất1 feature tùy chọn | 571; không phải571 điểm được tạo mới hoặc được sửa giá |
+| Có nhãn nhưng thiếu feature lõi | 64; giữ để báo coverage/fallback, không lấp bằng số suy từ outcome |
+| Report legacy đủ điều kiện tự reuse theo release mới | 0;852 report cũ thiếu raw/options durable hoặc Original |
+
+Snapshot đầu tính agent coverage chung với numeric; **mục25 đã sửa phép
+tính này** trong `corrected_coverage`. Không kết luận release hiện hành
+bất khả thi vì gate agent70%. Tuy nhiên joint input vẫn chỉ888 điểm:
+VNM outer2020 có38/78=48,72% complete numeric, kể cả thu thập đủ agent.
+Thu thập thêm LLM không sửa được feature bị mask do cửa sổ qua ngày quyền.
+V4.1 xử lý hai vấn đề riêng: bỏ nhu cầu LLM trên D/C và học với missing
+mask có kiểm định, thay vì giữ yêu cầu mọi feature đều đầy đủ.
+
+### 26.2. Kiến trúc v4.1: Bayesian học numeric, Original ở policy
+
+Candidate dự kiến vẫn tên logic `Full_conditional_MT`, nhưng protocol và
+namespace phải mang revision **v4_1**, không ghi đè v4. Learner/reference/
+baseline nhận cùng9 feature numeric, mask và regime PIT; **không nhận**
+Pattern/Trend/Indicator/Alpha category, a0 hoặc conflict agent trong X.
+Không chèn agent X chỉ ở query vì train/context không có cùng phân phối.
+
+`D_prior + C_target + x_query/mask → predictive r_net → calibration`
+kết hợp `upstream dùng chung → Original durable a0` tại policy hiện có.
+Giữ task symbol×block63, nhãn engine, target loss, prior/target markers,
+K/M/m và weights cutoff; test-time thích ứng bằng context, không gradient.
+Hệ thống vẫn là đa agent được advisor Bayesian hỗ trợ. Claim mới không
+bao gồm “learner khai thác báo cáo agent trong lịch sử”. Có lợi ích hệ
+thống hay đóng góp multi-task phải được kiểm bằng các đối chứng riêng.
+
+**Hợp đồng missingness phải khóa trước fit:**
+
+1. Giữ nguyên9 công thức, raw source, mask và nhãn của snapshot. Feature
+   lõi là momentum5, index_momentum20, index_volatility20. Chỉ observation
+   có nhãn, đủ3 feature lõi mới vào fit/D/C. Không mở lại nhãn qua quyền,
+   không back-adjust giá, không lấy warmup agent để âm thầm đổi numeric.
+2. Sáu feature khác được thiếu có chủ ý: chuẩn hóa phần quan sát được,
+   điền0 sau chuẩn hóa và đưa mask riêng vào reference/learner/baseline.
+   Giá trị0 với mask=1 không được diễn giải là feature thật. Scaler từng
+   chiều chỉ fit giá trị quan sát được trong train prefix đúng fold;
+   thiếu2 giá trị để ước lượng một chiều thì chiều đó unavailable, không
+   mượn thống kê tương lai. Giữ floor std1e-8; OOD xét chiều quan sát.
+3. Retrieval dùng khoảng cách trên giao các chiều cùng quan sát, tối
+   thiểu3 chiều lõi; chuẩn hóa theo số chiều đó. Cộng0,25×tỷ lệ9 mask khác
+   nhau và phạt regime0,25 như cũ. Rank/tie/exit<query/disjoint giữ nguyên;
+   task centroid mỗi chiều chỉ dùng phần quan sát, nhãn nạp sau membership.
+   Khóa công thức này trong amendment, không chọn lại penalty bằng outer.
+4. Query thiếu lõi, scaler không hợp lệ hoặc OOD vẫn giữ a0. Forecast
+   toàn grid dùng fallback chung đã khóa và báo support riêng. Lỗi
+   PIT/source/API/integrity phải raise; không đổi thành missing thông thường.
+5. Mô hình có mask phải được train/evaluate đúng miền này. Synthetic
+   kiểm mask không làm lộ label, prior/query interventions và oracle với
+   giả định missingness khai báo; không coi zero-fill là tích phân Bayes
+   chính xác hoặc giả định missing hoàn toàn ngẫu nhiên trên thị trường.
+
+Đây là giả thuyết phương pháp mới, không gọi1.459 điểm là đã nghiệm thu.
+Mask có thể mang thông tin về lịch quyền/thiếu dữ liệu và làm mô hình
+overfit; phải báo kết quả theo mask, độ dài context và mã. Đối chứng
+`Complete_case_MT` chỉ dùng observation đủ9 numeric và fallback a0 khi
+query thiếu; cùng ngân sách chọn model, dùng để đo tác động của thay đổi.
+
+### 26.3. Panel256: mẫu LLM cố định, ngân hàng học không bị cắt còn256
+
+Giữ toàn grid2018–2022 để audit/dự báo; fit/query nào hợp lệ tuân thủ
+fold/cutoff cũ. Chỉ thu thập Original và upstream thật trên panel sau:
+
+| Năm | Điểm/mã | Tổng | Vai trò |
+| --- | --- | --- | --- |
+| 2019 | 8 mỗi nửa năm =16 | 64 | Inner chọn policy cho outer2020 |
+| 2020 | 8 mỗi nửa năm =16 | 64 | Inner chọn policy cuối; cũng là outer2020 với mô hình OOF khác |
+| 2021 | 16 | 64 | Outer đánh giá policy, không chọn cấu hình |
+| 2022 | 16 | 64 | Outer đánh giá policy, không fit weights2021/2022 |
+| **Tổng duy nhất** | **64/mã** | **256** | Không cộng lại point được dùng ở nhiều vai trò |
+
+Lịch chọn cố định: trong từng `year × symbol × half_year`, lấy các ID
+`label_eligible` của snapshot, sắp ngày/ID tăng. Với n phần tử, chọn8 vị
+trí **zero-based** `floor((j+0.5)*n/8), j=0..7`. Half-year theo as_of_date;
+giữ purge train/evaluation theo exit như fold hiện tại. Pool này chỉ dùng
+metadata khả năng tính nhãn, không đọc r_net, sign, action, độ tự tin hay
+điểm bất đồng. Không lọc theo numeric coverage để làm panel đẹp hơn.
+Nếu stratum thiếu8 thì `INSUFFICIENT_PANEL`, không chuyển quota sang mã
+khác. Danh sách phải được vật hóa/hash trước response nghiên cứu mới.
+
+Đối soát chỉ đọc trên snapshot hiện tại: đủ256 ID khác nhau,155 complete
+numeric và248 có feature lõi. Tám query thiếu lõi vẫn thu Original và giữ
+trong panel, Full fallback đúng a0. Hash dự kiến của ID sắp tăng, UTF-8,
+nối bằng LF và có LF cuối:
+`a2ee95af8d2bc817a495c1fa26cae37a70dacafe2dad36c0fd364d6fd3e2145c`.
+Đây là kiểm tra khả thi, chưa là manifest/release chạy API.
+
+Panel là **lịch giao dịch thưa đăng ký riêng**, không đại diện mặc nhiên
+cho return của toàn grid. Tái dựng4 account trên lịch panel; giữa các
+điểm giữ cash khi đã tất toán, không annualize hoặc nhân return theo tỷ
+lệ1.640/256. Không gán CASH/Original giả cho điểm chưa gọi LLM. Báo D/MDD
+và số thay đổi trên panel; forecast CRPS/NLL báo trên grid hợp lệ đầy đủ,
+cùng fallback và common support. Panel chỉ dùng phát triển, không thay
+G60 development hoặc cohort/power W12. Nửa năm32 điểm là ít cho policy:
+giữ h∈{0;0,001;0,0025}, không thêm tuner hoặc chia nhỏ policy theo mã.
+
+### 26.4. Gate và downstream phải đổi minh bạch
+
+- **Hai hợp đồng dữ liệu riêng.** Numeric giữ tối thiểu100 cycle/4 task
+  mỗi mã cho outer fit; inner60 cycle/2 task; outer evaluation30 cycle/mã.
+  Đếm lại trên observation đủ feature lõi và task có≥2 cycle, không đếm
+  mọi label thành input hợp lệ. Khóa yêu cầu coverage lõi≥70% trên nhãn
+  từng outer/mã; đây là coverage numeric của revision mới, không phải
+  kết quả PASS gate agent70% cũ.
+- Audit metadata cho thấy fit nhỏ nhất: inner2019H1 FPT67 cycle/4 task;
+  outer2020 FPT138/8; fit≤2020 cho outer2021/2022 FPT212/12. Evaluation
+  outer nhỏ nhất69; tỷ lệ lõi nhỏ nhất69/75=92% (FPT2022). Cần rebuild
+  scaler/membership, kiểm drift/OOD và leakage mới trước DATA_READY_PASS.
+- **Panel yêu cầu256/256 Original durable và upstream đúng lineage**,
+  không còn yêu cầu agent≥60/40 trên ngân hàng train không dùng agent X.
+  HTTP failure/unknown chưa giải quyết là INCOMPLETE, không loại ID, dùng
+  cache852 thay thế hoặc bịa quyết định. Schema action Original vẫn giữ.
+- W11-19/20 so baseline/reference/learner trên dữ liệu numeric có mask,
+  không chỉ panel. Giữ registry/seeds/inference diagnostic/CRPS gate và
+  kiểm cơ chế. Baseline/K0/pooled phải cùng feature, mask và cơ hội chọn
+  cấu hình; reference tuyến tính có mask không được coi là oracle thị trường.
+- W11-21 fit candidate map identity/affine trên dense inner OOF; H1 dùng
+  identity, H2 chỉ dùng map fit H1 như cũ. Chọn map/h bằng regret tài khoản
+  **panel inner** với guard MDD; final refit map chỉ trên inner2020 OOF.
+  Ngoài panel không có a0 để chấm regret. Giữ các cutoff2019/2020, không
+  chọn hyperparameter bằng2021/2022 hoặcG2023. Full CRPS phải hơn baseline/
+  K0/pooled/No_target trên aggregate và≥2/3 outer; D OOF panel>0 và guard
+  MDD từng fold vẫn phải đạt. Không hạ các ngưỡng hiệu quả để tiết kiệm API.
+- Outer2020 dùng model/policy chọn từ2019; cùng các điểm2020 có thể làm
+  inner cho outer2021/2022 với predictions khác. Khóa artifact theo fold,
+  không tái dùng prediction/fit sau2020 cho outer2020; không tính hai vai
+  trò thành các quan sát độc lập. Original durable cùng input có thể reuse.
+- W11-22–25 vẫn giữ G60, paired upstream, repeat, nomination và cold oracle.
+  Đổi **No_agent_features → Complete_case_MT** trong amendment: Full v4.1
+  đã không dùng agent X, nên giữ no-agent sẽ là so sánh trùng. Numerical_MT
+  dùng cùng distribution nhưng policy không dùng a0 trừ fallback. Giữ10
+  nhánh,996 dòng action/324 slot Decision LLM danh nghĩa ở development;
+  upstream/control/retry tính riêng. Các chi phí này **ngoài W11-18**.
+- W12 giữ8 secondary, CI99,375%, thay claim agent-feature bằng claim về
+  xử lý missingness khi đối chứng tương ứng đạt. Full hơn Original mới
+  là lợi ích hệ thống; hơn K0/pooled mới giúp tách đóng góp multi-task.
+  Full hơn Numerical_MT chỉ kiểm giá trị a0/policy, không chứng minh tác
+  dụng của từng agent. Không dùng panel256 làm kết quả chính khóa luận.
+
+### 26.5. Ngân sách thực tế và lựa chọn thay thế
+
+| Phương án | Điểm LLM / HTTP nghiên cứu | Thời gian tại80 điểm/ngày | Đánh giá |
+| --- | --- | --- | --- |
+| Thu đủ v4 hiện tại | 1.640 /4.920 | 20,5 ngày quota | Không đạt yêu cầu3–5 ngày |
+| Chỉ cắt v4 còn256, giữ nguyên feature/gate | 256 /768 | 3,2 ngày quota | Thiếu agent trên D/C, không được tiếp tục như v4 đã đủ dữ liệu |
+| **V4.1 numeric có mask + panel256** | **256 /768** | **3,2 ngày lý tưởng;4 ngày ở64 điểm/ngày** | Chọn làm kế hoạch tiếp nối; cần amendment/code mới |
+| Nâng quota cùng model | 1.640 /4.920 | Cần≥328 điểm/ngày để xong5 ngày, chưa dự phòng | Giữ thiết kế cũ nhưng cần quota/chi phí được xác minh; chưa mua dịch vụ |
+| Batch/provider/model khác | Chưa khóa | Chưa đủ bằng chứng bảo đảm3–5 ngày | Không đưa vào đường chạy chính |
+
+Panel giảm**84,39%** HTTP nghiên cứu, từ4.920 còn768; không đổi token cap,
+model hoặc số agent mỗi điểm. Có tối thiểu12 probe cho4 scope nếu mỗi
+scope cần3 probe, cộng retry/unknown recovery thực tế. Không tính probe
+thành mẫu khoa học. Ước lượng80 điểm/ngày là năng lực người dùng báo, không
+phải quota đã đo cho từng loại request; cần telemetry điểm complete/ngày.
+
+[Groq Batch](https://console.groq.com/docs/batch) công bố cửa sổ xử lý
+24 giờ–7 ngày và quota riêng; bảng model kiểm ngày01/11 không liệt kê
+vision model đang ghim `qwen/qwen3.8-27b`. Vì vậy chưa thể hứa “đổi sang
+Batch là xong trong24h”. Prompt cache cũng không bảo đảm bỏ được mọi nút
+thắt RPD/TPD/vision. Giữ model/options hiện tại để không thay baseline.
+[Rate limits của Groq](https://console.groq.com/docs/rate-limits) áp theo
+tổ chức; ở đây dùng xác nhận của người dùng rằng4 scope độc lập, không
+coi mọi bộ4 key bất kỳ đều nhân quota lên4.
+
+Lịch mục tiêu5 ngày gồm1 ngày chuẩn bị và4 ngày chạy, mỗi ngày**16 điểm/
+key ×4 =64 điểm**, dự phòng20% so80. Nếu chuẩn bị đã xong, có thể chạy
+80/80/80/16 điểm qua4 cửa sổ ngày. Mốc3 ngày chỉ đạt khi có cache đủ điều
+kiện hoặc throughput cao hơn, không hứa256 điểm trong đúng3 ngày ở80/ngày.
+Ngày5 là hạn mục tiêu thu thập/cold audit, không phải lý do bỏ các điểm lỗi
+để ghi DONE. Nếu provider lỗi kéo dài hoặc triển khai quá1 ngày thì báo
+ETA mới và phần còn thiếu; tuyệt đối không bảo đảm tối đa5 ngày vô điều kiện.
+
+Chọn **một coordinator ghi ledger/checkpoint**, chia danh sách thành4
+shard64 ID theo round-robin của danh sách đã sắp, bind scope credential
+được phép trước run. Coordinator chạy các scope tuần tự ở ranh giới point;
+không cần4 process đồng thời trên journal hiện tại. Nếu đổi key thủ công,
+ghi resume/scope và probe theo release. Mọi lần gọi vẫn qua retry/pacer,
+tuân thủ TPM/RPM/RPD/TPD, không vòng qua quota của một scope đã hết.
+Tăng concurrency chỉ làm sau khi có cơ chế một writer và kiểm lock/resume;
+không xóa lock hoặc nhân4 tiến trình CLI cũ.
+
+### 26.6. Các bước thực hiện tiếp trong W11-18
+
+| Bước | Công việc và đầu ra bắt buộc | Điều kiện hoàn tất |
+| --- | --- | --- |
+| **18a — khóa amendment** | Tạo protocol/lock v4_1, parent SHA v4; feature lõi/mask/retrieval, panel rule/ID/hash, hai loại metric, ma trận mới; namespace mới | Không fit/API trước spec lock; v4 receipt nguyên byte; model/options/economics/PIT không đổi |
+| **18b — ngân hàng offline** | Dựng scaler per-feature, D/C và fold theo mask; audit1.640 ID/1.523 label/1.459 candidate core; materialize panel256 trước đọc action mới | Nhãn nguyên byte; split/purge/lineage và gate numeric trên input thật PASS, không chỉ metadata |
+| **18c — runner panel và preflight** | Collector nhận đúng manifest256, một writer/4 scope; tái dùng warmup đã seal; raw cache/UUID/resume; xử lý vision400 bằng diagnostic hiện có | Probe đúng model thành công trước research; kế hoạch slot768+controls; không còn hard-code bắt đủ1.640 cho revision mới |
+| **18d — người dùng thu thập** | Thu256 Original+upstream,16 điểm/scope/ngày dự kiến; kiểm cache hợp lệ trước HTTP; báo complete/remaining và ETA hằng ngày | Không thay ID/model vì lỗi; không gọi A/Plain/repeat ở bước data; không xem P&L để dừng sớm |
+| **18e — cold acceptance** | Đối chiếu raw/HTTP/body/UUID/source/warmup/PIT; xác minh ngân hàng numeric và panel riêng; audit pipeline upstream một lần và a0 thật | Đủ256/256, numeric gate PASS, không unknown; receipt mới DATA_READY_PASS mới cho mở19 |
+| **18f — đồng bộ downstream** | Khóa baseline/reference/learner feature schema, calibration panel, Complete_case_MT, counts/family/claim W11–W12 | Không consumer nào dùng gate/manifest v4 như v4.1; W11-18 mới được đánh DONE |
+
+Các kiểm thử **khi triển khai**: poison label/future bar không đổi X/
+membership; không dùng missing value làm số thật; source mask/observed
+scaling/PIT; shared-core distance và disjoint D/C; panel deterministic/
+không thay theo action/return; đủ256 không đòi1.640;3 HTTP/point, replay
+không đọc key/gọi lại durable; lock/scope quota/backoff/unknown recovery;
+OFF/missing=Original. Chỉ chạy test liên quan và leakage đúng đường đổi,
+không chạy toàn suite do đổi kế hoạch.
+
+**Kiểm tra lượt lập kế hoạch:** chỉ sửa3 Markdown (README W11, W12 và
+plan tổng), không sửa Python/test/config/schema/JSON hoặc gọi API. Kiểm
+diff, link/anchor, số liệu chọn mẫu và hash so HEAD; không chạy compileall,
+unit/E2E/leakage theo AGENTS.md1.2 vì không có thay đổi hành vi. Nguồn audit:
+[coverage v4](coverage_v4.json), [protocol v4](protocol_v4.json),
+[release collection](data_completion_release_v4.json) và implementation
+`core/mt_bicl_v4_data.py`, `core/mt_bicl_v4_completion.py` tại `b8405a4`.
+Observations SHA `7efd564cda16adb105343cfd9709e7c659d24b8b7a67460de544a532b15c32fa`;
+folds SHA `88fc0a70b3138bbf989d2c2f7be0a4974163d072a95eed287980f3b5623ff51c`.
+QA tài liệu:164 liên kết/anchor nội bộ,12 hash nguồn/bằng chứng và checklist
+PASS; diff không lỗi khoảng trắng. Các gate runtime cũ chỉ được viện dẫn,
+không coi kiểm tài liệu này là đã chạy lại test hoặc nghiệm thu v4.1.
+W11 giữ15 DONE/2 NOT_RUN/1 IN_PROGRESS/7 TODO; W12 giữ0/8. Chưa có kết quả
+forecast, nomination hoặc lợi nhuận của v4.1.
