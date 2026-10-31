@@ -17,8 +17,12 @@ class AmendmentTests(unittest.TestCase):
 
     def test_only_registered_revision_is_accepted(self) -> None:
         self.assertEqual(validate(self.spec, self.parent), self.spec)
-        for key in ('economics', 'folds', 'learner', 'reference', 'baselines'):
+        for key in ('economics', 'folds'):
             self.assertEqual(self.spec[key], self.parent[key])
+        for key in ('architectures', 'seeds', 'learning_rates', 'optimizer', 'maximum_optimizer_steps'):
+            self.assertEqual(self.spec['learner'][key], self.parent['learner'][key])
+        for key in ('chains', 'warmup_per_chain', 'draws_per_chain', 'tau_multiplier', 'quality'):
+            self.assertEqual(self.spec['reference'][key], self.parent['reference'][key])
         self.assertFalse(any(self.spec['permissions'].values()))
 
     def test_no_agent_input_and_no_duplicate_ablation(self) -> None:
@@ -45,6 +49,9 @@ class AmendmentTests(unittest.TestCase):
         self.assertEqual(self.spec['calibration_policy']['artifact_key'], 'FOLD_ID_PLUS_POINT_ID_NOT_POINT_ID_ALONE')
         self.assertEqual(self.spec['confirmation']['secondary_ci'], self.parent['confirmation']['secondary_ci'])
         self.assertEqual(len(self.spec['confirmation']['secondary']), 8)
+        self.assertNotIn('AGENT', self.spec['reference']['phi'])
+        self.assertEqual(self.spec['baselines']['pooled_ridge']['feature_maps'], ['NUMERIC_MASK_REGIME'])
+        self.assertNotIn('AGENT_ONEHOT', self.spec['mechanism_fixtures']['generation'])
 
 
 if __name__ == '__main__':
