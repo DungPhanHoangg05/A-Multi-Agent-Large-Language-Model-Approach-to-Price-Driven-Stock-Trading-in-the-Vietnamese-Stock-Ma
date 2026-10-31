@@ -16,8 +16,10 @@ khi đủ dependency. Thời gian chờ quota, resume hoặc thu thập cohort f
 không làm run tự hết hạn. Giữ PIT, T+2.5, retry/backoff, integrity và mẫu
 đăng ký trước; không mở kết quả lặp lại để dừng khi CI vừa dương.
 
-Lượt31/10 này chỉ phân tích và sửa tài liệu. Chưa đổi mã/config/runtime,
-chưa train hoặc chạy API, chưa đọc payoff2025, chưa khóa protocol v4.
+W11-17 đã khóa [protocol v4](../week11/protocol_v4.json) và verifier metadata
+tại [mục23 W11](../week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
+Chưa triển khai learner, train hoặc chạy API v4, chưa đọc payoff2025.
+Protocol này chưa khóa N/block-length xác nhận hoặc cấp release W12.
 Nếu đường chạy cũ còn guard deadline, task triển khai sau này phải bỏ
 cho namespace v4 và kiểm theo phạm vi; sửa README không thay hành vi CLI.
 

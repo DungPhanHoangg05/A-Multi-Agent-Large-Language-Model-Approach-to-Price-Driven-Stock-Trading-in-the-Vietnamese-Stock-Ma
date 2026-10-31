@@ -7,7 +7,8 @@
 chuyển từ teacher count + prompt/anchor/veto sang **Conditional MT-BICL
 Advisor**: learner học predictive net return có điều kiện theo feature,
 prior tasks và target context; Original durable là quyết định nền.
-Lượt này chỉ phân tích và sửa tài liệu, chưa thay code hoặc chạy v4.
+W11-17 đã khóa protocol và verifier metadata v4; chưa xây dataset mới,
+triển khai learner, train hoặc chạy API v4.
 
 **Bỏ tất cả giới hạn thời gian theo chỉ đạo người dùng:** không trần giờ,
 khung giờ theo tuần, deadline 05/11–07/11–10/11 hoặc hạn hoàn tất12 tuần.
@@ -17,9 +18,10 @@ deadline trong receipt và kế hoạch lịch sử bên dưới không áp dụ
 công việc tiếp nối. Không thay byte bằng chứng hoặc coi sửa tài liệu là
 đã bỏ guard trong mã cũ; triển khai v4 sau này phải có runtime tương ứng.
 
-**Tiến độ:** W10 **14/14**; W11 **14/25 DONE, 2 NOT_RUN, 9 TODO**; W12 **0/8**.
+**Tiến độ:** W10 **14/14**; W11 **15/25 DONE, 2 NOT_RUN, 8 TODO**; W12 **0/8**.
 W11-15 đóng bàn giao v3; W11-16 audit paper/implementation DONE bằng tài liệu.
-Tiếp theo **W11-17** khóa protocol v4, rồi18–25 dữ liệu/baseline/learner/
+W11-17 **SPEC_LOCK_PASS** tại [mục23](week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
+Tiếp theo **W11-18**, rồi19–25 dữ liệu/baseline/learner/
 calibration/tích hợp/development/nomination/bàn giao. W12 audit exposure,
 khóa cohort/power và xác nhận độc lập khi có candidate đạt; không dừng vì lịch.
 
@@ -42,7 +44,7 @@ retired_20261027/manifest.json, base commit 23067b2. Mã/kết quả revision
 
 | Dữ liệu | Exposure và cách dùng mới |
 | --- | --- |
-| Đến 2022 | Đã dùng nhiều vòng; train weights đến 2020, chọn checkpoint 2021, validation 2022 không là holdout độc lập |
+| Đến 2022 | Đã dùng nhiều vòng; weights đến2020, checkpoint/config chọn inner2019/2020 theo W11-17; outer2020/2021/2022 không là holdout độc lập |
 | 2023 | Development đã xem nhiều lần; thay đổi là adaptive research |
 | 2024 | W9 holdout cũ và nguồn lịch sử đã xem, không làm xác nhận mới |
 | 2025 | Đã kiểm nguồn giá, chưa release xác nhận trong các vòng vừa dừng; audit toàn bộ exposure trước dùng |
@@ -1316,10 +1318,10 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### GIAI ĐOẠN W11: 14/25 DONE, 2 NOT_RUN, 9 TODO — v4 chưa triển khai
+### GIAI ĐOẠN W11: 15/25 DONE, 2 NOT_RUN, 8 TODO — v4 SPEC_LOCK_PASS
 
-Checklist hiện hành thêm15/16 bàn giao/audit DONE,17–25 nghiên cứu và kiểm
-v4; không deadline. Các đoạn W11-01–12 dưới đây là receipt lịch sử.
+Checklist hiện hành:15/16 bàn giao/audit DONE,17 khóa spec DONE,
+18–25 dữ liệu/nghiên cứu/kiểm v4; không deadline. Các đoạn W11-01–12 dưới đây là receipt lịch sử.
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1571,4 +1573,5 @@ V1/v2/v3 giữ đúng kết quả đã kiểm định. Hướng v4 sửa likelih
 kiện và vị trí tích hợp của learner, dùng Original làm nền; kiểm tách cơ
 chế/dự báo/hiệu quả giao dịch. Không còn giới hạn thời gian; không xóa
 exposure, đổi tiêu chí sau kết quả hoặc hứa chắc cải thiện. Lượt cập nhật
-này thuần tài liệu; toàn bộ triển khai, training và kiểm v4 còn TODO.
+này đã khóa protocol/verifier metadata ở W11-17; dataset, learner,
+training và kiểm thị trường v4 còn TODO.
