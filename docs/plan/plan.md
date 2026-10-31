@@ -11,7 +11,8 @@ promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn1
 V3 đã khóa protocol/schema/fixtures/budget ở W11-07 và triển khai utility/
 facts/policy ở W11-08, kiểm offline676 point/cold replay PASS ở W11-09.
 W11-10 đã nghiệm thu bốn control API thật và release development2023;
-W11-11 sẵn sàng chạy, chưa có response development/P&L v3.
+W11-11 đã hoàn tất804/804 slot và cold replay vận hành PASS; P&L/accuracy/
+nomination v3 còn ở W11-12.
 Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026),
 implementation tại [mục16](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
 Kết quả offline tại [mục17](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
@@ -31,7 +32,7 @@ tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mố
 phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
 thay quota API; chi tiết tại W11 mục13.4.
 
-**Tiến độ 31/10/2026:** W10 **14/14**, W11 **10/15** (01–10), W12 **0/6**.
+**Tiến độ 31/10/2026:** W10 **14/14**, W11 **11/15** (01–11), W12 **0/6**.
 **W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
 report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
 **W11-07 SPEC_LOCK_PASS**, grant18 giờ giữ làm bản lịch sử; amendment31/10
@@ -39,7 +40,7 @@ bỏ giới hạn bộ đếm runtime. **W11-08 DONE**,172 test theo phạm vi P
 **W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH**, Full support40/60,
 12 interval âm/0 dương trên G60. **W11-10 DONE**: freeze/dry-run804/replay,
 control thật/source/PIT/feasibility PASS; release development neo Git.
-**W11-11 IN_PROGRESS**,568/804 slot complete; người dùng tiếp tục cùng lệnh
+**W11-11 DONE**,804/804 slot (480 primary+324 repeat),cold replay vận hành PASS
 tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
 W10-14 đã release
 candidate seed42/step3000 cho development2023 sau freeze và
@@ -1414,7 +1415,7 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 10/15 DONE, development v3 đã release
+### TUẦN 11: Development và cải tiến quyết định — 11/15 DONE, development v3 đã hoàn tất
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1566,17 +1567,19 @@ tổng1.476,968315 giây, còn63.323,031685 giây (≈17,59 giờ), đóng sạc
 Lệnh và bằng chứng tại
 [mục18 W11](week11/README.md#18-w11-10--freeze-và-preflight-development-v3-30102026).
 
-**W11-11 IN_PROGRESS,31/10:**568/804 complete (480 primary,88 repeat),
-1 unknown,235 pending. Bỏ bộ đếm18 giờ theo chỉ đạo mới; counter đã chạm
-64.800 giây giữ nguyên làm lịch sử, không tiếp tục cộng hoặc chặn resume.
-Amendment vận hành khóa ledger4.990 row/568 complete, không đổi UUID,
-source khoa học, manifest/release, nguồn PIT, prompt/model hoặc paired.
-53 test đúng phạm vi PASS (10 mới,43 hồi quy,7 leakage);3 Python biên dịch
-PASS. Không full suite/compileall/E2E hoặc API thật. Chi tiết tại mục20 W11.
-Người dùng chạy `py -3.13 -X utf8 scripts/continue_mt_bicl_v3.py`; cùng lệnh
-tự resume, không nhập UUID hoặc reset checkpoint/ledger/quota/counter.
-Đủ804 slot mới nghiệm thu DONE rồi chuyển W11-12, chưa phân tích P&L ở bước
-chạy; chi tiết tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
+**W11-11 DONE,31/10:**804/804 complete (480 primary,324 repeat),0 pending/
+unknown/missing.671 response thật+133 bypass;36 Original_duplicate có UUID
+độc lập.692 research HTTP gồm671 HTTP200,19 HTTP429,2 transport error,
+giữ đầy đủ lỗi/reserve. Ledger5.206 row =4.498 nền +692 research +16 control;
+bốn scope credential cold audit/preflight trước research PASS.687 raw cache
+khớp toàn bộ research/control HTTP200. CLI `--verify-only` cold replay804
+slot,source/PIT/upstream60/60/body/UUID/raw/cache/policy/Git PASS,HTTP=0.
+Amendment không cap giờ tiếp tục áp dụng; prefix4.990 row/568 complete và
+counter lịch sử nguyên byte. Không đổi source/code/test/runtime hoặc chạy
+lại suite; viện dẫn53 test/3 Python PASS ở source `8782c1e`, đối soát hash/
+diff/link và replay thực theo AGENTS1.2. Chưa tính P&L/accuracy/nomination
+hoặc cấp quyền2025. Tiếp theo W11-12; chi tiết/hash nguồn tại
+[mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
 
 ### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
 [Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
