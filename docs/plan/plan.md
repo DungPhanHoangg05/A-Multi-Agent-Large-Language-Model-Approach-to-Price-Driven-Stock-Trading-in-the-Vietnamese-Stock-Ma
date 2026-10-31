@@ -13,9 +13,11 @@ W11-17 đã khóa protocol; W11-18 đã dựng snapshot/PIT audit1.640 query,
 đề xuất **v4.1: ngân hàng numeric có mask + panel256 điểm LLM**. Bốn quota
 độc lập tổng80 điểm/ngày:256 điểm cần3,2 ngày quota, dự kiến4 ngày chạy có
 dự phòng và1 ngày chuẩn bị. Giảm84,39% HTTP nghiên cứu so1.640 điểm cũ.
-Chỉ cập nhật kế hoạch; chưa có protocol máy/runner v4.1. Lệnh mục25 vẫn
-chạy1.640 điểm, không phải lệnh panel256. Chưa nghiệm thu W11-18, chưa mở
-W11-19 hoặc train predictor. Probe vision phải PASS trước collection mới.
+Đã khóa spec v4.1, ngân hàng numeric `NUMERIC_BANK_PASS`, panel256 và
+release collection; bàn giao [mục27 W11](week11/README.md#27-w11-18af--triển-khai-v41-và-bàn-giao-panel256-01112026).
+CLI: `py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1.py`, dùng4 key độc lập
+trong `.env` theo hướng dẫn. Lệnh mục25 vẫn chạy1.640 điểm. Chưa nghiệm thu
+W11-18, chưa mở W11-19 hoặc train predictor; chờ người dùng chạy18d rồi cold18e.
 
 **Ngoại lệ mới: mục tiêu W11-18 trong3–5 ngày theo yêu cầu người dùng.**
 Đây là mục tiêu vận hành có điều kiện quota/preflight, không bỏ mẫu để
@@ -30,9 +32,9 @@ công việc tiếp nối. Không thay byte bằng chứng hoặc coi sửa tài
 **Tiến độ:** W10 **14/14**; W11 **15/25 DONE, 2 NOT_RUN, 1 IN_PROGRESS, 7 TODO**; W12 **0/8**.
 W11-15 đóng bàn giao v3; W11-16 audit paper/implementation DONE bằng tài liệu.
 W11-17 **SPEC_LOCK_PASS** tại [mục23](week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
-W11-18 làm tiếp18a–18f tại mục26: amendment, ngân hàng offline, runner256,
-thu thập, cold acceptance và đồng bộ downstream. Warmup đã seal có thể
-reuse khi đúng lineage; giữ audit [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
+W11-18 đã thực hiện18a/b, release18c và khóa consumer18f; chờ thu thập18d
+và cold acceptance18e tại mục27. Warmup đã seal được tái kiểm/reuse đúng
+lineage; giữ audit [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
 và release1.640 điểm mục25 nguyên byte. Agent chỉ chuẩn bị/kiểm offline.
 Sau khi W11-18 đủ gate mới mở19–25 baseline/learner/
 calibration/tích hợp/development/nomination/bàn giao. W12 audit exposure,
@@ -1589,11 +1591,12 @@ W11 mục22.6, schema/namespace mới và không sửa artifact lịch sử.
 
 ## 10. TRẠNG THÁI NGHIÊN CỨU
 
-V1/v2/v3 giữ đúng kết quả đã kiểm định. V4.1 dự kiến giữ conditional
+V1/v2/v3 giữ đúng kết quả đã kiểm định. V4.1 đã khóa conditional
 MT-BICL và Original làm nền, tách ngân hàng học numeric khỏi panel LLM;
 không xóa exposure hoặc hứa chắc cải thiện. Mục tiêu3–5 ngày chỉ áp dụng
-W11-18. Snapshot/receipt v4 vẫn INSUFFICIENT_DATA, protocol v4.1 chưa khóa,
-learner/training/kiểm thị trường chưa mở. Thu256 point không tự chứng minh
-readiness hay hiệu quả. Lượt này chỉ sửa Markdown, kiểm diff/link/số liệu/
-hash nguồn; không chạy unit/compileall/E2E/leakage vì không đổi hành vi
-theo AGENTS.md1.2. W11 giữ15/25 DONE, W12 giữ0/8.
+W11-18. Snapshot/receipt v4 vẫn INSUFFICIENT_DATA; v4.1 có SPEC_LOCK_PASS,
+NUMERIC_BANK_PASS và release panel256, nhưng chưa có DATA_READY_PASS.
+Learner/training/kiểm thị trường chưa mở. Thu256 point không tự chứng minh
+hiệu quả; cần cold acceptance riêng. Triển khai được kiểm35 test mới và60
+hồi quy trực tiếp,14 Python biên dịch PASS; không chạy toàn suite theo
+AGENTS.md1.2. W11 giữ15/25 DONE, W12 giữ0/8.

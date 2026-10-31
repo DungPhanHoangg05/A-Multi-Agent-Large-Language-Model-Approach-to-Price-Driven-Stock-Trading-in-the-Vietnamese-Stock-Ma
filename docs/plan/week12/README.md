@@ -24,11 +24,12 @@ Protocol này chưa khóa N/block-length xác nhận hoặc cấp release W12.
 W11-18 audit ngày01/11 có snapshot PIT nhưng **INSUFFICIENT_DATA**, chưa
 nghiệm thu hoặc mở W11-19; [chi tiết](../week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026).
 [Kế hoạch mới W11 mục26](../week11/README.md#26-w11-18--phương-án-256-điểm-llm-trong-35-ngày-01112026)
-đề xuất v4.1: learner numeric có mask và panel256 Original thật; mục tiêu
-thu thập3–5 ngày từ năng lực80 điểm/ngày. Đây chưa là protocol/release
-máy. Panel256 chỉ dùng development/calibration, không thay cohort xác
-nhận hoặc power W12. Ma trận/claim bên dưới là đích của amendment v4.1,
-phải khóa lại trước run; JSON v4 cũ giữ nguyên byte.
+đã triển khai v4.1: learner numeric có mask và panel256 Original thật;
+spec/ngân hàng/release đã khóa tại [mục27 W11](../week11/README.md#27-w11-18af--triển-khai-v41-và-bàn-giao-panel256-01112026).
+Mục tiêu thu thập3–5 ngày từ năng lực80 điểm/ngày; đang chờ người dùng
+chạy panel và cold nghiệm thu. Panel256 chỉ dùng development/calibration,
+không thay cohort xác nhận hoặc power W12. Ma trận/claim bên dưới đã có
+amendment v4.1; JSON v4 cũ giữ nguyên byte. W12 chưa được cấp release.
 Nếu đường chạy cũ còn guard deadline, task triển khai sau này phải bỏ
 cho namespace v4 và kiểm theo phạm vi; sửa README không thay hành vi CLI.
 
