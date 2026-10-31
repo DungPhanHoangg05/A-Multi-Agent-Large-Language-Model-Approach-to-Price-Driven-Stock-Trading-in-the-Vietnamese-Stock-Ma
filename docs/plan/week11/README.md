@@ -2,10 +2,11 @@
 
 **Hiện hành 01/11/2026: 15/25 task DONE; 2 NOT_RUN; 1 IN_PROGRESS; 7 TODO.**
 W11-15 bàn giao v3 và W11-16 audit phương pháp hoàn tất bằng tài liệu tại
-mục22. **W11-17 SPEC_LOCK_PASS** tại mục23; tiếp theo **W11-18** xây và
-audit dataset PIT. **W11-18 đã dựng snapshot/cold audit nhưng chưa đạt
-readiness: INSUFFICIENT_DATA**, chi tiết mục24; chưa mở W11-19.
-Chưa triển khai learner, train predictor hoặc chạy API v4.
+mục22. **W11-17 SPEC_LOCK_PASS** tại mục23. **W11-18 IN_PROGRESS**:
+snapshot đầu còn `INSUFFICIENT_DATA` tại mục24; đã khóa release và runner
+bổ sung warmup/agent/Original tại [mục25](#25-w11-18--release-bổ-sung-warmupagentoriginal-01112026).
+Người dùng chạy một lệnh ở mục25 để thu thập thật; sau đó cold nghiệm thu
+readiness. Chưa mở W11-19, train predictor hoặc gọi API v4 từ agent.
 **Bỏ mọi giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
 hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
 Các cap/deadline trong receipt và thiết kế v1–v3 bên dưới là lịch sử, không
@@ -188,7 +189,7 @@ mới. DONE của audit/kế hoạch không phải nghiệm thu code hoặc hi�
 | W11-15 | Bàn giao v3 NOT_NOMINATED, xác nhận NOT_RUN và toàn bộ kết quả bất lợi | 05–14 chốt trạng thái | [x] DONE — mục22; bàn giao tài liệu, không tạo release |
 | W11-16 | Audit paper → teacher/simulator → learner → policy; phân biệt lỗi áp dụng và giới hạn dữ liệu | 12/15 | [x] DONE — mục22; chỉ phân tích bằng chứng có sẵn |
 | W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [x] DONE — SPEC_LOCK_PASS; 24 test metadata/PIT, source/runtime/ledger và cold replay PASS; mục23 |
-| W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] IN_PROGRESS — snapshot/PIT/cold audit PASS; INSUFFICIENT_DATA, chưa nghiệm thu; mục24 |
+| W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] IN_PROGRESS — release/runner bổ sung đã khóa; chờ người dùng thu thập và cold nghiệm thu; mục24–25 |
 | W11-19 | Baseline và Bayes có điều kiện; kiểm tín hiệu trên rolling folds trước distillation/LLM integration | 18 | [ ] TODO |
 | W11-20 | Meta-train learner v4 bằng prior/target có quan hệ x→return; loss target, cơ chế và kiểm shift | 19 đạt | [ ] TODO |
 | W11-21 | OOF calibration, ablation K=0/pooled/no-agent, policy thay đổi Original và khóa candidate | 20 | [ ] TODO |
@@ -2191,3 +2192,97 @@ py -3.13 -X utf8 scripts/prepare_mt_bicl_v4_data.py --verify-only
 
 Lệnh chỉ cold audit snapshot hiện tại và vẫn báo `INSUFFICIENT_DATA`;
 chạy lại không tạo agent/a0 còn thiếu. W11 giữ15/25 DONE, W12 giữ0/8.
+
+## 25. W11-18 — Release bổ sung warmup/agent/Original (01/11/2026)
+
+**IN_PROGRESS — công cụ/release đã sẵn sàng; chờ thu thập thật và cold nghiệm
+thu dữ liệu.** Chỉ đạo hoàn thiện W11-18 cho phép bổ sung nguồn warmup và
+thu thập agent/Original trong miền đã đăng ký. [Release collection](data_completion_release_v4.json)
+khóa source `49787ce1d504dcda4aa4036b561b9eda9d4f9e23`,8 source mới,
+37 dependency,3 receipt cha và4 snapshot tin. SHA release:
+`e4420086d6c16d0d46332c22283f762f061b6dd18ad9bfb844c2787d23f25004`.
+Release chỉ cho **người dùng** tải warmup và chạy collection2018–2022;
+không cấp train/reference fit, development2023 hoặc confirmation2025.
+Protocol/receipt/snapshot đầu và bằng chứng v1–v3 giữ nguyên byte.
+
+Hai điểm đã xử lý trước khi gọi API:
+
+- Coverage agent được tính riêng trên cycle có nhãn hợp lệ, không phụ thuộc
+  việc numeric cũng đầy đủ. Báo thêm joint numeric+agent; ngưỡng agent70%
+  và mọi ngưỡng support theo fold giữ nguyên. Missing numeric/reason vẫn
+  giữ trên grid; không xóa query để làm tăng tỷ lệ. Bản coverage mục24 giữ
+  nguyên làm bằng chứng lịch sử, revision mới dùng phép tính đã sửa.
+- Audit AST của852 report chứng minh prompt/postprocessing4 agent tương
+  đương sau khi loại đúng adapter retry đã biết. Tuy nhiên thiếu raw HTTP/
+  options durable và Original nên **0 report đủ điều kiện tự reuse** cho
+  release mới. Không kết luận prompt đổi chỉ vì SHA code khác; cache cũ
+  được giữ, collection mới khóa canonical input/options và raw response.
+
+Warmup lấy giá thực thi thô VCI từ01/01/2015 đến15/01/2018, cần ít nhất579
+phiên trước neo02/01/2018. Toàn bộ hàng overlap trả về, tối thiểu5 hàng,
+phải khớp OHLCV/Reference nguồn2018 đã khóa; sai nguồn/điều chỉnh giá thì
+dừng trước LLM. Chỉ nối hàng trước neo, không ghi đè giá cũ. Warmup cung
+cấp đủ600 nến Alpha và cửa sổ agent đầu kỳ; không thêm nhãn/query train
+trước2018, không đổi numeric/scaler/context/label đã khóa. Mỗi mã tải xong
+được lưu để resume; nguồn đã seal mất file hoặc đổi hash thì dừng đối soát.
+
+**Lệnh người dùng chạy tại thư mục gốc repo:**
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v4_data.py
+```
+
+Lệnh tự kiểm release → tải/đối soát warmup → chuẩn bị tokenizer có kiểm
+SHA →3 probe synthetic cho scope credential → thu thập1.640 point → audit
+coverage revision mới. `GROQ_API_KEY` trong `.env` chỉ đọc khi còn cần HTTP
+LLM sau bước replay cache. Không in key hoặc đọc key khi kiểm offline.
+Indicator và Alpha/Full giữ đúng cách tính Python của baseline; Pattern,
+Trend và Original gọi LLM, danh nghĩa4.920 lượt nghiên cứu, cộng probe và
+retry thực tế. Không thêm lời gọi LLM vào agent vốn tính xác định.
+
+Upstream lưu một lần/point, Original dùng deep-copy báo cáo đó với prior
+rỗng; prompt/schema/model/options khóa trong release. Mọi lời gọi qua
+wrapper retry, pacer/ledger chung và raw cache. Không phân tích P&L để
+chọn lại cấu hình trong bước thu thập.
+
+**Bị ngắt thì chạy lại đúng lệnh trên.** Point complete được xác minh và
+bỏ qua; stage chưa xong replay durable cache trước khi đọc key/gọi HTTP,
+giữ UUID, reserve và checkpoint. Đổi key có chủ ý tạo3 probe cho scope
+mới, không sửa dòng ledger cũ. Hết quota thì chờ reset/backoff của provider,
+có thể Ctrl+C rồi chạy lại; **không trần giờ hoặc deadline**. Nếu HTTP đã
+thành công nhưng response chưa kịp lưu durable, resume có thể phát sinh
+HTTP vật lý trùng với cùng UUID; giữ mọi bằng chứng cũ, không biến thành
+repeat vote hoặc quan sát khoa học mới. Lỗi integrity phải đối soát, không
+tự ghi đè bằng chứng để tiếp tục.
+
+Raw/cache/probe/checkpoint nằm trong
+`outputs/bayesian_benchmark/mt_bicl_v4/data_completion/`, gồm `warmup/`,
+`http_cache/`, `controls/`, `resume_events/` và
+`points/<point_id>/{stages,original,complete}.json`. Sau đủ1.640 point,
+revision tại `outputs/bayesian_benchmark/mt_bicl_v4/data_r2/` có
+`observations.json`, `coverage.json`, `manifest.json`; nhãn, fold và
+lineage số học kế thừa snapshot gốc với hash ràng buộc. Không sửa namespace
+`data/` đã khóa. Runner ghi `AWAITING_AGENT_COLD_ACCEPTANCE`; **không tự
+đánh dấu W11-18 DONE hoặc mở W11-19** kể cả khi đủ point. Nếu support vẫn
+thiếu thì giữ `INSUFFICIENT_DATA`, không hạ ngưỡng.
+
+**Kiểm tra theo phạm vi:**85 test riêng biệt PASS theo nhóm:27 test mới
+(coverage/warmup10, collection9, collection leakage8),58 hồi quy trực tiếp
+(recovery10, transport5, execution-price12+leakage7, protocol15+leakage9).
+Tám file Python mới biên dịch PASS. Test dùng HTTP giả và clock giả, kiểm
+đường graph/SDK/pacer thực, retry cùng UUID sau gián đoạn, cache mất trước
+seal, quota, đổi key, control lỗi, PIT và chạy lại toàn lệnh không đọc key.
+Không đổi caller/runtime cũ; không chạy toàn unit suite/compileall/E2E
+toàn hệ thống theo quy tắc kiểm tra phạm vi trong AGENTS.md.
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v4_data.py --verify-only
+```
+
+Kiểm offline release/source PASS, hiện trả `WAITING_USER_WARMUP_AND_API`;
+chưa có tải warmup hoặc API thật trong lượt triển khai này. Ledger vẫn5.206
+request, SHA `b89c5f7eff547a73f44136e5b60372c0ce5b9680fc47a02eddde13a42fd1e956`.
+Sau khi người dùng chạy xong, cold kiểm raw/UUID/ledger/source/PIT và mọi
+gate support mới quyết định DATA_READY_PASS/nghiệm thu. Checklist vẫn
+15 DONE/2 NOT_RUN/1 IN_PROGRESS/7 TODO; W12 vẫn0/8. QA161 link/anchor,
+checklist và6 hash receipt/ledger liên quan PASS; diff không lỗi khoảng trắng.

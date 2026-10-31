@@ -8,8 +8,10 @@ chuyển từ teacher count + prompt/anchor/veto sang **Conditional MT-BICL
 Advisor**: learner học predictive net return có điều kiện theo feature,
 prior tasks và target context; Original durable là quyết định nền.
 W11-17 đã khóa protocol; W11-18 đã dựng snapshot/PIT audit1.640 query,
-1.523 nhãn engine nhưng **INSUFFICIENT_DATA** do thiếu đầu vào agent/a0.
-Chưa nghiệm thu W11-18, chưa mở W11-19 hoặc train/gọi API v4.
+1.523 nhãn engine. Snapshot đầu **INSUFFICIENT_DATA**; release/runner bổ sung
+warmup và agent/Original đã khóa, chờ người dùng thu thập thật bằng một lệnh
+tại [mục25 W11](week11/README.md#25-w11-18--release-bổ-sung-warmupagentoriginal-01112026).
+Chưa nghiệm thu W11-18, chưa mở W11-19 hoặc train predictor v4.
 
 **Bỏ tất cả giới hạn thời gian theo chỉ đạo người dùng:** không trần giờ,
 khung giờ theo tuần, deadline 05/11–07/11–10/11 hoặc hạn hoàn tất12 tuần.
@@ -22,8 +24,9 @@ công việc tiếp nối. Không thay byte bằng chứng hoặc coi sửa tài
 **Tiến độ:** W10 **14/14**; W11 **15/25 DONE, 2 NOT_RUN, 1 IN_PROGRESS, 7 TODO**; W12 **0/8**.
 W11-15 đóng bàn giao v3; W11-16 audit paper/implementation DONE bằng tài liệu.
 W11-17 **SPEC_LOCK_PASS** tại [mục23](week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
-W11-18 cần bổ sung warmup nguồn thô trước2018 và agent/Original có provenance;
-chi tiết [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026).
+W11-18 đã chuẩn bị bổ sung warmup nguồn thô trước2018 và agent/Original có
+provenance; giữ audit thiếu hụt tại [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
+và hướng dẫn thu thập/resume tại mục25. Agent chỉ chuẩn bị và kiểm offline.
 Sau khi W11-18 đủ gate mới mở19–25 baseline/learner/
 calibration/tích hợp/development/nomination/bàn giao. W12 audit exposure,
 khóa cohort/power và xác nhận độc lập khi có candidate đạt; không dừng vì lịch.
