@@ -1,0 +1,3002 @@
+{
+  "version": "conditional_mt_bicl_data_coverage_v4",
+  "status": "INSUFFICIENT_DATA",
+  "ready_for_W11_19": false,
+  "technical_audit": "PASS",
+  "unique_queries": 1640,
+  "unique_labeled_cycles": 1523,
+  "unique_tasks": 80,
+  "full_summary": {
+    "grid_queries": 1640,
+    "labeled": 1523,
+    "numeric_valid": 888,
+    "agent_valid": 0,
+    "agent_valid_fraction": 0.0,
+    "tasks_with_two_cycles": 80,
+    "real_legacy_reports": 852,
+    "alpha_warmup_lt600": 772,
+    "feature_reasons": {
+      "CORPORATE_ACTION_FEATURE_WINDOW": 684,
+      "INSUFFICIENT_HISTORY_45": 32
+    },
+    "agent_reasons": {
+      "ALPHA_WARMUP_LT600": 772,
+      "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 852,
+      "NO_DURABLE_ORIGINAL": 1640,
+      "NO_HISTORICAL_AGENT_REPORT": 788,
+      "UNPARSEABLE_TREND": 3
+    },
+    "label_reasons": {
+      "CORPORATE_ACTION_DURING_HOLDING": 26,
+      "CROSS_BLOCK_HOLDING": 76,
+      "PURGED_YEAR_BOUNDARY": 16
+    }
+  },
+  "folds": {
+    "inner_2019H1": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 71,
+          "labeled": 71,
+          "numeric_valid": 21,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 71,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 50,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 71,
+            "NO_DURABLE_ORIGINAL": 71,
+            "NO_HISTORICAL_AGENT_REPORT": 71
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 36,
+          "numeric_valid": 17,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 40,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 21
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 40,
+            "NO_DURABLE_ORIGINAL": 40,
+            "NO_HISTORICAL_AGENT_REPORT": 40
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 2,
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 19,
+          "mean_standardized_shift": [
+            0.09543783791214447,
+            0.30498927102277795,
+            -1.3047925548716142,
+            0.3435491604406802,
+            0.0858262316665438,
+            0.03592335419745418,
+            -1.1659804595055565,
+            0.5590861329610587,
+            -0.8899358679712922
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 21,
+          "1": 19
+        },
+        "m_histogram": {
+          "0": 23,
+          "1": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "UNKNOWN": 40
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 72,
+          "labeled": 72,
+          "numeric_valid": 36,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 72,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 36,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 72,
+            "NO_DURABLE_ORIGINAL": 72,
+            "NO_HISTORICAL_AGENT_REPORT": 72
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 38,
+          "numeric_valid": 16,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 40,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 23
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 40,
+            "NO_DURABLE_ORIGINAL": 40,
+            "NO_HISTORICAL_AGENT_REPORT": 40
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 17,
+          "mean_standardized_shift": [
+            0.019109101307768182,
+            0.08081245354626454,
+            -1.540622158658801,
+            0.09656420002944083,
+            -0.0033457238493106965,
+            -0.07756551183423463,
+            -1.1627089758201303,
+            0.1845941664476136,
+            -0.8964710905957747
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 23,
+          "3": 17
+        },
+        "m_histogram": {
+          "0": 27,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 1
+        },
+        "regime_histogram": {
+          "UNKNOWN": 40
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 73,
+          "labeled": 73,
+          "numeric_valid": 46,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 73,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 27,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 73,
+            "NO_DURABLE_ORIGINAL": 73,
+            "NO_HISTORICAL_AGENT_REPORT": 73
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 38,
+          "numeric_valid": 24,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 40,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 14
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 40,
+            "NO_DURABLE_ORIGINAL": 40,
+            "NO_HISTORICAL_AGENT_REPORT": 40
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 26,
+          "mean_standardized_shift": [
+            0.23963272159400484,
+            0.4822928459342913,
+            -1.3005048470687166,
+            0.45180855648127616,
+            -0.05796738601727455,
+            -0.2976000871381911,
+            -0.9365340827328663,
+            0.023546892445254517,
+            -1.0207578419902812
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 14,
+          "1": 1,
+          "3": 25
+        },
+        "m_histogram": {
+          "0": 18,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "UNKNOWN": 40
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 71,
+          "labeled": 71,
+          "numeric_valid": 31,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 71,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 40,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 71,
+            "NO_DURABLE_ORIGINAL": 71,
+            "NO_HISTORICAL_AGENT_REPORT": 71
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 40,
+          "labeled": 38,
+          "numeric_valid": 19,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 40,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 20
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 40,
+            "NO_DURABLE_ORIGINAL": 40,
+            "NO_HISTORICAL_AGENT_REPORT": 40
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 20,
+          "mean_standardized_shift": [
+            -0.13329355632220796,
+            -0.1296936847716701,
+            -1.0417883301041908,
+            -0.1004509380447419,
+            -0.15673924227681074,
+            -0.2871298833885298,
+            -1.0468455400765557,
+            0.17178280656218844,
+            -0.9341627255563193
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 20,
+          "3": 20
+        },
+        "m_histogram": {
+          "0": 24,
+          "1": 2,
+          "10": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "UNKNOWN": 40
+        }
+      }
+    },
+    "inner_2019H2": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 106,
+          "labeled": 106,
+          "numeric_valid": 38,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 6,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 106,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 68,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 106,
+            "NO_DURABLE_ORIGINAL": 106,
+            "NO_HISTORICAL_AGENT_REPORT": 106
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "numeric_valid": 24,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 43,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 18
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 43,
+            "NO_DURABLE_ORIGINAL": 43,
+            "NO_HISTORICAL_AGENT_REPORT": 43
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 25,
+          "mean_standardized_shift": [
+            0.20693472384498626,
+            0.2714752397315354,
+            -0.6306328034309047,
+            0.30112600172867326,
+            -0.026627909541454026,
+            0.2727469552637297,
+            -0.5458915936189939,
+            0.039458325720488505,
+            -1.1564506196647044
+          ],
+          "ood_query_count": 1
+        },
+        "K_histogram": {
+          "0": 18,
+          "3": 25
+        },
+        "m_histogram": {
+          "0": 22,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "UNKNOWN": 43
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 109,
+          "labeled": 109,
+          "numeric_valid": 52,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 6,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 109,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 57,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 109,
+            "NO_DURABLE_ORIGINAL": 109,
+            "NO_HISTORICAL_AGENT_REPORT": 109
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "numeric_valid": 23,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 43,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 19
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 43,
+            "NO_DURABLE_ORIGINAL": 43,
+            "NO_HISTORICAL_AGENT_REPORT": 43
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 24,
+          "mean_standardized_shift": [
+            0.05663436399394725,
+            0.4210425777919735,
+            -0.28189639019817864,
+            0.2574951479265374,
+            -0.16488293917530725,
+            0.11213922445731377,
+            0.15852536720586438,
+            -0.05969848747301735,
+            -1.0153935456331198
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 19,
+          "3": 24
+        },
+        "m_histogram": {
+          "0": 23,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "UNKNOWN": 43
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 110,
+          "labeled": 110,
+          "numeric_valid": 69,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 6,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 110,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 41,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 110,
+            "NO_DURABLE_ORIGINAL": 110,
+            "NO_HISTORICAL_AGENT_REPORT": 110
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "numeric_valid": 40,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 43,
+          "feature_reasons": {},
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 43,
+            "NO_DURABLE_ORIGINAL": 43,
+            "NO_HISTORICAL_AGENT_REPORT": 43
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 43,
+          "mean_standardized_shift": [
+            0.2566910051022829,
+            0.5867415799742584,
+            -0.22310737437918823,
+            0.4864758713338413,
+            -0.021702750082872427,
+            0.23717956788213934,
+            -0.36844913006547236,
+            0.13596584892478822,
+            -1.11649699125221
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "3": 43
+        },
+        "m_histogram": {
+          "0": 4,
+          "1": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2,
+          "17": 3,
+          "18": 2,
+          "19": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "UNKNOWN": 43
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 108,
+          "labeled": 108,
+          "numeric_valid": 50,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 6,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 108,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 58,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 108,
+            "NO_DURABLE_ORIGINAL": 108,
+            "NO_HISTORICAL_AGENT_REPORT": 108
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 39,
+          "numeric_valid": 19,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 43,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 23
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 43,
+            "NO_DURABLE_ORIGINAL": 43,
+            "NO_HISTORICAL_AGENT_REPORT": 43
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 20,
+          "mean_standardized_shift": [
+            -0.17095179878392575,
+            -0.3898322104385885,
+            -0.6929476888750691,
+            -0.3139594352017043,
+            -0.13506199888820783,
+            0.12200822269746922,
+            -0.6470235315339676,
+            -0.16727352810491908,
+            -1.0091622619500575
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 23,
+          "3": 20
+        },
+        "m_histogram": {
+          "0": 27,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2
+        },
+        "regime_histogram": {
+          "UNKNOWN": 43
+        }
+      }
+    },
+    "inner_2020H1": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 147,
+          "labeled": 147,
+          "numeric_valid": 62,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 147,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 85,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 147,
+            "NO_DURABLE_ORIGINAL": 147,
+            "NO_HISTORICAL_AGENT_REPORT": 147
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 38,
+          "numeric_valid": 18,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 8,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 22
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 8,
+            "NO_DURABLE_ORIGINAL": 41,
+            "NO_HISTORICAL_AGENT_REPORT": 33
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 19,
+          "mean_standardized_shift": [
+            -0.4675226898265185,
+            -0.496021172096352,
+            0.4142063624213426,
+            -0.6151925162758943,
+            -0.3129047741267064,
+            0.1242211692530724,
+            0.5805925659564476,
+            -1.2365766893017394,
+            0.6923614572178347
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 22,
+          "3": 19
+        },
+        "m_histogram": {
+          "0": 24,
+          "1": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "17": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 25,
+          "BULL": 1,
+          "CHOPPY": 11,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 150,
+          "labeled": 150,
+          "numeric_valid": 75,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 150,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 75,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 150,
+            "NO_DURABLE_ORIGINAL": 150,
+            "NO_HISTORICAL_AGENT_REPORT": 150
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 38,
+          "numeric_valid": 24,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 8,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 15
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 8,
+            "NO_DURABLE_ORIGINAL": 41,
+            "NO_HISTORICAL_AGENT_REPORT": 33
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 26,
+          "mean_standardized_shift": [
+            0.07886673526765114,
+            -0.2978920986689939,
+            2.244864437976587,
+            -0.2625523728101813,
+            0.4223267481297439,
+            -0.08442680714348832,
+            3.0087043026781495,
+            0.2091423381321828,
+            2.014200070035986
+          ],
+          "ood_query_count": 7
+        },
+        "K_histogram": {
+          "0": 15,
+          "3": 26
+        },
+        "m_histogram": {
+          "0": 19,
+          "1": 2,
+          "10": 2,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 25,
+          "BULL": 1,
+          "CHOPPY": 11,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 151,
+          "labeled": 151,
+          "numeric_valid": 110,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 151,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 41,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 151,
+            "NO_DURABLE_ORIGINAL": 151,
+            "NO_HISTORICAL_AGENT_REPORT": 151
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 39,
+          "numeric_valid": 26,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 8,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 14
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 8,
+            "NO_DURABLE_ORIGINAL": 41,
+            "NO_HISTORICAL_AGENT_REPORT": 33
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 27,
+          "mean_standardized_shift": [
+            -0.0034300690898297617,
+            0.11298799963321471,
+            1.138110940977071,
+            -0.03207578829470546,
+            0.27196195112876004,
+            0.0361096979254047,
+            2.1951092948727355,
+            -0.013226023179393986,
+            2.1544651934873675
+          ],
+          "ood_query_count": 3
+        },
+        "K_histogram": {
+          "0": 14,
+          "3": 27
+        },
+        "m_histogram": {
+          "0": 18,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 25,
+          "BULL": 1,
+          "CHOPPY": 11,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 148,
+          "labeled": 148,
+          "numeric_valid": 69,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 148,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 79,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 148,
+            "NO_DURABLE_ORIGINAL": 148,
+            "NO_HISTORICAL_AGENT_REPORT": 148
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 41,
+          "labeled": 38,
+          "numeric_valid": 24,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 2,
+          "real_legacy_reports": 7,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 15
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 7,
+            "NO_DURABLE_ORIGINAL": 41,
+            "NO_HISTORICAL_AGENT_REPORT": 34
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 2
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 26,
+          "mean_standardized_shift": [
+            0.2190863781372257,
+            0.3953862624002507,
+            1.2268591410577925,
+            0.31408044013272945,
+            0.34275417570495637,
+            0.23500485603873963,
+            0.8798790925127166,
+            0.0271514862642219,
+            2.174184318247917
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 15,
+          "3": 26
+        },
+        "m_histogram": {
+          "0": 19,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 25,
+          "BULL": 1,
+          "CHOPPY": 11,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      }
+    },
+    "inner_2020H2": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 184,
+          "labeled": 184,
+          "numeric_valid": 80,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 10,
+          "real_legacy_reports": 7,
+          "alpha_warmup_lt600": 177,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 104,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 177,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 7,
+            "NO_DURABLE_ORIGINAL": 184,
+            "NO_HISTORICAL_AGENT_REPORT": 177
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "numeric_valid": 25,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 43,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 17
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 43,
+            "NO_DURABLE_ORIGINAL": 43
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 26,
+          "mean_standardized_shift": [
+            0.2020423736788738,
+            0.30026579760136424,
+            -0.5433328579878629,
+            0.3159962139408567,
+            0.09517863056732669,
+            -0.06219367586663016,
+            -0.5483985141395574,
+            0.5138552132206546,
+            -0.03245658845611236
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 17,
+          "3": 26
+        },
+        "m_histogram": {
+          "0": 21,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 5,
+          "BULL": 25,
+          "CHOPPY": 8,
+          "CONSOLIDATION": 5
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 187,
+          "labeled": 187,
+          "numeric_valid": 98,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 10,
+          "real_legacy_reports": 7,
+          "alpha_warmup_lt600": 180,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 89,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 180,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 7,
+            "NO_DURABLE_ORIGINAL": 187,
+            "NO_HISTORICAL_AGENT_REPORT": 180
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 39,
+          "numeric_valid": 24,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 42,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 15
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 42,
+            "NO_DURABLE_ORIGINAL": 43,
+            "NO_HISTORICAL_AGENT_REPORT": 1
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 28,
+          "mean_standardized_shift": [
+            0.3289754798566365,
+            0.5621902863928989,
+            0.0050488585904227955,
+            0.5634922910764594,
+            0.2574490338601049,
+            -0.0782696417295983,
+            0.011497845075931878,
+            0.4287291380624271,
+            0.06182332675928034
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 15,
+          "3": 28
+        },
+        "m_histogram": {
+          "0": 20,
+          "1": 2,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 5,
+          "BULL": 25,
+          "CHOPPY": 8,
+          "CONSOLIDATION": 5
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 189,
+          "labeled": 189,
+          "numeric_valid": 135,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 10,
+          "real_legacy_reports": 7,
+          "alpha_warmup_lt600": 182,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 54,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 182,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 7,
+            "NO_DURABLE_ORIGINAL": 189,
+            "NO_HISTORICAL_AGENT_REPORT": 182
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 39,
+          "numeric_valid": 37,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 42,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 3
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 42,
+            "NO_DURABLE_ORIGINAL": 43,
+            "NO_HISTORICAL_AGENT_REPORT": 1
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 40,
+          "mean_standardized_shift": [
+            0.15799419806239254,
+            0.17967622649172138,
+            -0.6604233603996342,
+            0.25010690579422834,
+            0.10109194633290455,
+            -0.08625369782225636,
+            -0.5309567862929834,
+            0.5119334110007203,
+            -0.12834448017868738
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 3,
+          "3": 40
+        },
+        "m_histogram": {
+          "0": 7,
+          "1": 2,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 1,
+          "16": 1,
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 5,
+          "BULL": 25,
+          "CHOPPY": 8,
+          "CONSOLIDATION": 5
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 185,
+          "labeled": 185,
+          "numeric_valid": 93,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 10,
+          "real_legacy_reports": 6,
+          "alpha_warmup_lt600": 179,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 92,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 179,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 6,
+            "NO_DURABLE_ORIGINAL": 185,
+            "NO_HISTORICAL_AGENT_REPORT": 179
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 43,
+          "labeled": 40,
+          "numeric_valid": 14,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 3,
+          "real_legacy_reports": 43,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 28
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 43,
+            "NO_DURABLE_ORIGINAL": 43
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 2,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 60,
+          "fit_tasks": 2,
+          "fit_agent": 40
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false
+        },
+        "drift": {
+          "numeric_queries": 15,
+          "mean_standardized_shift": [
+            0.18853284078939472,
+            0.4696453979251715,
+            -1.1429857117077427,
+            0.43254493561396684,
+            0.16847578263629168,
+            -0.1186129069966019,
+            -0.6546329516690725,
+            1.030186606326313,
+            -0.598256815623732
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 28,
+          "3": 15
+        },
+        "m_histogram": {
+          "0": 32,
+          "1": 2,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 1
+        },
+        "regime_histogram": {
+          "BEAR": 5,
+          "BULL": 25,
+          "CHOPPY": 8,
+          "CONSOLIDATION": 5
+        }
+      }
+    },
+    "outer_2020": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 147,
+          "labeled": 147,
+          "numeric_valid": 62,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 147,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 85,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 147,
+            "NO_DURABLE_ORIGINAL": 147,
+            "NO_HISTORICAL_AGENT_REPORT": 147
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "numeric_valid": 43,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 51,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 39
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 51,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 33
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 45,
+          "mean_standardized_shift": [
+            -0.061576688005681855,
+            0.014608951748603877,
+            -0.05113930658641473,
+            -0.04734044214804117,
+            -0.04237285950443927,
+            0.029972309480248396,
+            -0.06717760518709383,
+            -0.08011047969581014,
+            0.499121536028877
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 39,
+          "3": 45
+        },
+        "m_histogram": {
+          "0": 45,
+          "1": 3,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 1,
+          "17": 2,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 3,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 34,
+          "BULL": 1,
+          "CHOPPY": 45,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 150,
+          "labeled": 150,
+          "numeric_valid": 75,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 150,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 75,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 150,
+            "NO_DURABLE_ORIGINAL": 150,
+            "NO_HISTORICAL_AGENT_REPORT": 150
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 77,
+          "numeric_valid": 48,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 50,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 30
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 50,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 34
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 2,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 54,
+          "mean_standardized_shift": [
+            0.23845896039794473,
+            0.23604376227975973,
+            1.2331918764756107,
+            0.22814377960398935,
+            0.39397765638393445,
+            -0.06929300221336238,
+            1.6702209828911323,
+            0.42819247083145245,
+            1.2240345483545012
+          ],
+          "ood_query_count": 7
+        },
+        "K_histogram": {
+          "0": 30,
+          "3": 54
+        },
+        "m_histogram": {
+          "0": 39,
+          "1": 4,
+          "10": 3,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2,
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 34,
+          "BULL": 1,
+          "CHOPPY": 45,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 151,
+          "labeled": 151,
+          "numeric_valid": 110,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 151,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 41,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 151,
+            "NO_DURABLE_ORIGINAL": 151,
+            "NO_HISTORICAL_AGENT_REPORT": 151
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "numeric_valid": 63,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 50,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 17
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 50,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 34
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 67,
+          "mean_standardized_shift": [
+            0.10755897598164288,
+            0.18245671012401413,
+            0.13777196355446789,
+            0.15630296720264902,
+            0.20694650680602056,
+            -0.02327193633439997,
+            0.5798818744001043,
+            0.4495881618071914,
+            1.0014996556424935
+          ],
+          "ood_query_count": 3
+        },
+        "K_histogram": {
+          "0": 17,
+          "3": 67
+        },
+        "m_histogram": {
+          "0": 25,
+          "1": 4,
+          "10": 3,
+          "11": 3,
+          "12": 3,
+          "13": 3,
+          "14": 3,
+          "15": 2,
+          "16": 2,
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 3,
+          "9": 3
+        },
+        "regime_histogram": {
+          "BEAR": 34,
+          "BULL": 1,
+          "CHOPPY": 45,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 148,
+          "labeled": 148,
+          "numeric_valid": 69,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 8,
+          "real_legacy_reports": 0,
+          "alpha_warmup_lt600": 148,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 79,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 148,
+            "NO_DURABLE_ORIGINAL": 148,
+            "NO_HISTORICAL_AGENT_REPORT": 148
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "numeric_valid": 38,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 50,
+          "alpha_warmup_lt600": 33,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 43
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 33,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 50,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 34
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 41,
+          "mean_standardized_shift": [
+            0.2190342592042589,
+            0.4740018499983134,
+            0.3608533318698943,
+            0.3881409812923628,
+            0.3092706261162192,
+            0.1138170360876339,
+            0.2930225792673762,
+            0.5931286531155469,
+            1.218993037471058
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 43,
+          "3": 41
+        },
+        "m_histogram": {
+          "0": 51,
+          "1": 4,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 3,
+          "7": 2,
+          "8": 1,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 34,
+          "BULL": 1,
+          "CHOPPY": 45,
+          "CONSOLIDATION": 2,
+          "UNKNOWN": 2
+        }
+      }
+    },
+    "outer_2021": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 225,
+          "labeled": 225,
+          "numeric_valid": 105,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 48,
+          "alpha_warmup_lt600": 177,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 120,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 177,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 48,
+            "NO_DURABLE_ORIGINAL": 225,
+            "NO_HISTORICAL_AGENT_REPORT": 177
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 76,
+          "numeric_valid": 38,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 81,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 42
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 81,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 3
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 3,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 42,
+          "mean_standardized_shift": [
+            0.15695996073337698,
+            0.535142859094289,
+            0.08417237964541868,
+            0.44125342051435873,
+            -0.06488984705482444,
+            -0.011043123452534416,
+            -0.11799490944864655,
+            0.45504712590132645,
+            0.4291880415549502
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 42,
+          "3": 42
+        },
+        "m_histogram": {
+          "0": 48,
+          "1": 3,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2,
+          "16": 2,
+          "17": 3,
+          "2": 2,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 15,
+          "BULL": 69
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 227,
+          "labeled": 227,
+          "numeric_valid": 123,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 47,
+          "alpha_warmup_lt600": 180,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 104,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 180,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 47,
+            "NO_DURABLE_ORIGINAL": 227,
+            "NO_HISTORICAL_AGENT_REPORT": 180
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "numeric_valid": 36,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 82,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 44
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 82,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 2
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 2,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 40,
+          "mean_standardized_shift": [
+            0.05847558849213295,
+            0.2956044909903199,
+            0.19247863748886665,
+            0.22176043094495893,
+            -0.135094311228573,
+            0.03204594522594835,
+            -0.026114734578401477,
+            0.30638438957645897,
+            0.10887024805004064
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 44,
+          "3": 40
+        },
+        "m_histogram": {
+          "0": 52,
+          "1": 4,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "2": 5,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 3,
+          "7": 3,
+          "8": 3,
+          "9": 1
+        },
+        "regime_histogram": {
+          "BEAR": 15,
+          "BULL": 69
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 229,
+          "labeled": 229,
+          "numeric_valid": 173,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 47,
+          "alpha_warmup_lt600": 182,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 56,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 182,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 47,
+            "NO_DURABLE_ORIGINAL": 229,
+            "NO_HISTORICAL_AGENT_REPORT": 182
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "numeric_valid": 65,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 83,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 15
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 83,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 1
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 69,
+          "mean_standardized_shift": [
+            -0.016834002065765866,
+            -0.020009146111901344,
+            -0.11026673555111452,
+            -0.004949589419192241,
+            0.010576610391198836,
+            0.07043125409686893,
+            -0.29571798605908023,
+            0.3663168788542427,
+            0.057145081549208394
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 15,
+          "3": 69
+        },
+        "m_histogram": {
+          "0": 23,
+          "1": 4,
+          "10": 3,
+          "11": 3,
+          "12": 3,
+          "13": 3,
+          "14": 3,
+          "15": 2,
+          "16": 2,
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4
+        },
+        "regime_histogram": {
+          "BEAR": 15,
+          "BULL": 69
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 226,
+          "labeled": 226,
+          "numeric_valid": 107,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 47,
+          "alpha_warmup_lt600": 179,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 119,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 179,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 47,
+            "NO_DURABLE_ORIGINAL": 226,
+            "NO_HISTORICAL_AGENT_REPORT": 179
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 84,
+          "labeled": 78,
+          "numeric_valid": 38,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 83,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 43
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 83,
+            "NO_DURABLE_ORIGINAL": 84,
+            "NO_HISTORICAL_AGENT_REPORT": 1
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 4,
+            "PURGED_YEAR_BOUNDARY": 1
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 41,
+          "mean_standardized_shift": [
+            -0.21618912857909703,
+            -0.37914715368118135,
+            -0.6788762570069232,
+            -0.31535663156334404,
+            -0.018799893290668588,
+            -0.10181995420414444,
+            -0.5909895745540089,
+            0.4588824255207348,
+            -0.09093437930250835
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 43,
+          "3": 41
+        },
+        "m_histogram": {
+          "0": 51,
+          "1": 4,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 3,
+          "7": 3,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 15,
+          "BULL": 69
+        }
+      }
+    },
+    "outer_2022": {
+      "FPT": {
+        "fit": {
+          "grid_queries": 225,
+          "labeled": 225,
+          "numeric_valid": 105,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 48,
+          "alpha_warmup_lt600": 177,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 120,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 177,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 48,
+            "NO_DURABLE_ORIGINAL": 225,
+            "NO_HISTORICAL_AGENT_REPORT": 177
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 75,
+          "numeric_valid": 40,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 79,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 38
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 79,
+            "NO_DURABLE_ORIGINAL": 82,
+            "NO_HISTORICAL_AGENT_REPORT": 3,
+            "UNPARSEABLE_TREND": 2
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 3,
+            "CROSS_BLOCK_HOLDING": 4
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 44,
+          "mean_standardized_shift": [
+            0.07278079944186831,
+            0.22374673491440256,
+            0.09756517776833017,
+            0.18113376464709527,
+            0.2582176106416996,
+            0.16794363788237054,
+            0.0945987443329162,
+            -0.11799063213923545,
+            0.5836284366824857
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 38,
+          "3": 44
+        },
+        "m_histogram": {
+          "0": 46,
+          "1": 3,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 2,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "17": 3,
+          "18": 1,
+          "19": 1,
+          "2": 3,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 38,
+          "BULL": 19,
+          "CHOPPY": 16,
+          "CONSOLIDATION": 9
+        }
+      },
+      "MWG": {
+        "fit": {
+          "grid_queries": 227,
+          "labeled": 227,
+          "numeric_valid": 123,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 47,
+          "alpha_warmup_lt600": 180,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 104,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 180,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 47,
+            "NO_DURABLE_ORIGINAL": 227,
+            "NO_HISTORICAL_AGENT_REPORT": 180
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 77,
+          "numeric_valid": 49,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 81,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 31
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 81,
+            "NO_DURABLE_ORIGINAL": 82,
+            "NO_HISTORICAL_AGENT_REPORT": 1
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 1,
+            "CROSS_BLOCK_HOLDING": 4
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 51,
+          "mean_standardized_shift": [
+            -0.3300618504949035,
+            -0.4326829569187918,
+            1.0369814850416832,
+            -0.3880403494337216,
+            0.20617931645403847,
+            -0.023741995896129176,
+            0.9237758272363992,
+            -0.32439266245786114,
+            0.6557593969676202
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 31,
+          "3": 51
+        },
+        "m_histogram": {
+          "0": 39,
+          "1": 3,
+          "10": 3,
+          "11": 3,
+          "12": 3,
+          "13": 2,
+          "14": 4,
+          "15": 1,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "6": 3,
+          "7": 3,
+          "8": 3,
+          "9": 3
+        },
+        "regime_histogram": {
+          "BEAR": 38,
+          "BULL": 19,
+          "CHOPPY": 16,
+          "CONSOLIDATION": 9
+        }
+      },
+      "VCB": {
+        "fit": {
+          "grid_queries": 229,
+          "labeled": 229,
+          "numeric_valid": 173,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 47,
+          "alpha_warmup_lt600": 182,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 56,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 182,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 47,
+            "NO_DURABLE_ORIGINAL": 229,
+            "NO_HISTORICAL_AGENT_REPORT": 182
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 78,
+          "numeric_valid": 67,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 82,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 12
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 82,
+            "NO_DURABLE_ORIGINAL": 82
+          },
+          "label_reasons": {
+            "CROSS_BLOCK_HOLDING": 4
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 70,
+          "mean_standardized_shift": [
+            -0.12646134735591355,
+            -0.1556148133841311,
+            0.09176799292864563,
+            -0.1301991050908066,
+            0.004536274220612704,
+            0.013216369791824613,
+            -0.003996277329124222,
+            -0.45265984166952783,
+            0.7569056725370311
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 12,
+          "3": 70
+        },
+        "m_histogram": {
+          "0": 20,
+          "1": 4,
+          "10": 3,
+          "11": 3,
+          "12": 3,
+          "13": 3,
+          "14": 3,
+          "15": 3,
+          "16": 2,
+          "17": 2,
+          "18": 2,
+          "19": 2,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 4,
+          "7": 4,
+          "8": 4,
+          "9": 4
+        },
+        "regime_histogram": {
+          "BEAR": 38,
+          "BULL": 19,
+          "CHOPPY": 16,
+          "CONSOLIDATION": 9
+        }
+      },
+      "VNM": {
+        "fit": {
+          "grid_queries": 226,
+          "labeled": 226,
+          "numeric_valid": 107,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 12,
+          "real_legacy_reports": 47,
+          "alpha_warmup_lt600": 179,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 119,
+            "INSUFFICIENT_HISTORY_45": 8
+          },
+          "agent_reasons": {
+            "ALPHA_WARMUP_LT600": 179,
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 47,
+            "NO_DURABLE_ORIGINAL": 226,
+            "NO_HISTORICAL_AGENT_REPORT": 179
+          },
+          "label_reasons": {}
+        },
+        "evaluation": {
+          "grid_queries": 82,
+          "labeled": 76,
+          "numeric_valid": 47,
+          "agent_valid": 0,
+          "agent_valid_fraction": 0.0,
+          "tasks_with_two_cycles": 4,
+          "real_legacy_reports": 80,
+          "alpha_warmup_lt600": 0,
+          "feature_reasons": {
+            "CORPORATE_ACTION_FEATURE_WINDOW": 31
+          },
+          "agent_reasons": {
+            "LEGACY_AGENT_PROMPT_SOURCE_INCOMPATIBLE": 80,
+            "NO_DURABLE_ORIGINAL": 82,
+            "NO_HISTORICAL_AGENT_REPORT": 2,
+            "UNPARSEABLE_TREND": 1
+          },
+          "label_reasons": {
+            "CORPORATE_ACTION_DURING_HOLDING": 2,
+            "CROSS_BLOCK_HOLDING": 4
+          }
+        },
+        "requirements": {
+          "fit_labeled": 100,
+          "fit_tasks": 4,
+          "fit_agent": 60
+        },
+        "checks": {
+          "fit_labeled": true,
+          "fit_tasks": true,
+          "fit_agent": false,
+          "eval_labeled": true,
+          "eval_agent_fraction": false
+        },
+        "drift": {
+          "numeric_queries": 51,
+          "mean_standardized_shift": [
+            -0.07931012188808843,
+            -0.0972120897578069,
+            0.1963964194471901,
+            -0.07559969994846348,
+            0.026140517549759164,
+            0.003584899024354454,
+            -0.06352840651568248,
+            -0.7079468176742935,
+            1.0634392792069136
+          ],
+          "ood_query_count": 0
+        },
+        "K_histogram": {
+          "0": 31,
+          "3": 51
+        },
+        "m_histogram": {
+          "0": 39,
+          "1": 4,
+          "10": 2,
+          "11": 2,
+          "12": 2,
+          "13": 3,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4,
+          "6": 3,
+          "7": 3,
+          "8": 3,
+          "9": 2
+        },
+        "regime_histogram": {
+          "BEAR": 38,
+          "BULL": 19,
+          "CHOPPY": 16,
+          "CONSOLIDATION": 9
+        }
+      }
+    }
+  },
+  "failed_checks": [
+    {
+      "fold": "inner_2019H1",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H1",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H1",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H1",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H2",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H2",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H2",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2019H2",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H1",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H1",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H1",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H1",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H2",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H2",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H2",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "inner_2020H2",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "FPT",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "MWG",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "VCB",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2020",
+      "symbol": "VNM",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "FPT",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "MWG",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "VCB",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2021",
+      "symbol": "VNM",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "FPT",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "FPT",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "MWG",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "MWG",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "VCB",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "VCB",
+      "check": "eval_agent_fraction"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "VNM",
+      "check": "fit_agent"
+    },
+    {
+      "fold": "outer_2022",
+      "symbol": "VNM",
+      "check": "eval_agent_fraction"
+    }
+  ],
+  "observation_overlap": "NO_REPEATED_ID_OR_ENTRY_EXIT_WITHIN_SELECTED_D_C;FOLDS_AND_PREFIXES_REUSE_ROWS_NOT_INDEPENDENT_N",
+  "training_allowed": false,
+  "decision_calls_allowed": false,
+  "confirmation_allowed": false
+}
