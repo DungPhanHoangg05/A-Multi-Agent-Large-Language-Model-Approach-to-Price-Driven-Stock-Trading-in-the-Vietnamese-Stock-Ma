@@ -1,88 +1,37 @@
-# KẾ HOẠCH NGHIÊN CỨU & TRIỂN KHAI KHÓA LUẬN (12 TUẦN)
+# KẾ HOẠCH NGHIÊN CỨU & TRIỂN KHAI KHÓA LUẬN (CÁC GIAI ĐOẠN W1–W12)
 
 **Đề tài:** Regime-Aware Multi-Task Bayesian In-Context Learning for Multi-Agent LLM Stock Trading in the Vietnamese Stock Market.
 
-**Hiện hành từ 29/10/2026:** v2 hoàn tất development nhưng chưa chứng minh
-lợi ích kinh tế: D=−0,024757 đpt,1/4 mã tăng. Amendment v3 tại
-[W11 mục13](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026)
-đề xuất context theo trạng thái tín hiệu, summary đầy đủ, kiểm facts và
-Bayesian utility khi sửa quyết định nền. Không train lại student, không
-promote No_target theo kết quả; giữ tiêu chí kinh tế và thời hạn12 tuần.
-V3 đã khóa protocol/schema/fixtures/budget ở W11-07 và triển khai utility/
-facts/policy ở W11-08, kiểm offline676 point/cold replay PASS ở W11-09.
-W11-10 đã nghiệm thu bốn control API thật và release development2023;
-W11-11 đã hoàn tất804/804 slot; W11-12 cold audit/account/report PASS,
-v3 **NOT_NOMINATED**: Full−Original=−5,313090 đpt, accuracy45% so65%.
-Bản khóa tại [W11 mục15](week11/README.md#15-w11-07--khóa-protocol-utility-aware-bayesian-icl-v3-nghiệm-thu-30102026),
-implementation tại [mục16](week11/README.md#16-w11-08--triển-khai-bucket-utility-và-revision-policy-v3-30102026).
-Kết quả offline tại [mục17](week11/README.md#17-w11-09--validation-offline-utility-v3-và-cold-replay-30102026).
+**Hiện hành 31/10/2026:** v3 NOT_NOMINATED, Full−Original=−5,313090 đpt.
+[Audit và kế hoạch v4](week11/README.md#22-w11-1516--đóng-v3-audit-cách-áp-dụng-paper-và-kế-hoạch-v4-31102026)
+chuyển từ teacher count + prompt/anchor/veto sang **Conditional MT-BICL
+Advisor**: learner học predictive net return có điều kiện theo feature,
+prior tasks và target context; Original durable là quyết định nền.
+Lượt này chỉ phân tích và sửa tài liệu, chưa thay code hoặc chạy v4.
 
-**Hiện hành31/10/2026:** người dùng yêu cầu bỏ hoàn toàn giới hạn bộ đếm
-giờ. V3 chạy/resume không trần18 giờ và không tính gap crash; counter cũ
-giữ nguyên làm lịch sử. Source/manifest/release khoa học và quota provider
-giữ nguyên; amendment máy tại [runtime_policy_v3.json](week11/runtime_policy_v3.json),
-chi tiết [mục20 W11](week11/README.md#20-bỏ-giới-hạn-bộ-đếm-thời-gian-theo-chỉ-đạo31102026).
-Lịch05/11,07/11 là các mốc riêng, không bị đổi bởi amendment bộ đếm.
+**Bỏ tất cả giới hạn thời gian theo chỉ đạo người dùng:** không trần giờ,
+khung giờ theo tuần, deadline 05/11–07/11–10/11 hoặc hạn hoàn tất12 tuần.
+W11/W12 giữ làm tên giai đoạn/thư mục; tiến độ theo dependency và bằng
+chứng. PIT, horizon T+2.5, quota/backoff và cỡ mẫu đăng ký vẫn giữ. Mọi cap/
+deadline trong receipt và kế hoạch lịch sử bên dưới không áp dụng cho
+công việc tiếp nối. Không thay byte bằng chứng hoặc coi sửa tài liệu là
+đã bỏ guard trong mã cũ; triển khai v4 sau này phải có runtime tương ứng.
 
-**Lịch sử ngân sách 29/10/2026:** người dùng xác nhận ngân sách thời gian
-chạy được reset. Đợt v3 tính thời gian chạy mới từ 0, không khấu trừ thời
-gian các run v1/v2 hoặc chờ đối soát số dư cũ để được triển khai. Người dùng
-xác nhận riêng trần **18 giờ chạy tổng v3**; W11-07 đã khóa64.800 giây từ0
-tại [budget_v3.json](week11/budget_v3.json). Giữ lịch 12 tuần, các mốc hoàn tất và khung
-phân bổ công việc hiện có. Reset này không xóa lịch sử usage/exposure hoặc
-thay quota API; chi tiết tại W11 mục13.4.
+**Tiến độ:** W10 **14/14**; W11 **14/25 DONE, 2 NOT_RUN, 9 TODO**; W12 **0/8**.
+W11-15 đóng bàn giao v3; W11-16 audit paper/implementation DONE bằng tài liệu.
+Tiếp theo **W11-17** khóa protocol v4, rồi18–25 dữ liệu/baseline/learner/
+calibration/tích hợp/development/nomination/bàn giao. W12 audit exposure,
+khóa cohort/power và xác nhận độc lập khi có candidate đạt; không dừng vì lịch.
 
-**Tiến độ 31/10/2026:** W10 **14/14**, W11 **12/15** (01–12), W12 **0/6**.
-**W11-05 DONE:** receipt máy khóa v2 NOT_NOMINATED, confirmation v2 NOT_RUN;
-report mô tả vẫn NOT_EVALUATED nguyên byte; xem [mục14 W11](week11/README.md#14-w11-05--khóa-nomination-v2-29102026).
-**W11-07 SPEC_LOCK_PASS**, grant18 giờ giữ làm bản lịch sử; amendment31/10
-bỏ giới hạn bộ đếm runtime. **W11-08 DONE**,172 test theo phạm vi PASS;
-**W11-09 OFFLINE_VALIDATION_PASS / REPLAY_MATCH**, Full support40/60,
-12 interval âm/0 dương trên G60. **W11-10 DONE**: freeze/dry-run804/replay,
-control thật/source/PIT/feasibility PASS; release development neo Git.
-**W11-11 DONE**,804/804 slot (480 primary+324 repeat),cold replay vận hành PASS
-tại [mục19 W11](week11/README.md#19-w11-11--chạy-development-v3-đã-release).
-**W11-12 DONE**, account/report/decomposition PASS, v3 NOT_NOMINATED tại
-[mục21 W11](week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026).
-Xác nhận v3 NOT_RUN; W11-13/14 không chạy do dependency nomination không đạt.
-W10-14 đã release
-candidate seed42/step3000 cho development2023 sau freeze và
-cold verifier PASS. W11-01 đã nghiệm thu API preflight thật/raw/cache/ledger
-PASS sau sửa khóa. **W11-02 DONE**, nghiệm thu 29/10: đủ 360/360 primary
-và 252/252 repeat durable, không missing/unknown/pending; ma trận, UUID,
-request/raw cache/ledger và audit phục hồi PASS tại
-[mục10 W11](week11/README.md#10-w11-02--nghiệm-thu-ma-trận-development-hoàn-tất-29102026).
-Giữ manifest/runner và lệnh resume v2 để tái lập; không sửa hoặc mở lại run
-v2. Vòng v3 cần protocol/release mới theo yêu cầu29/10. **W11-03 DONE**: cold verify/PIT,32 tài khoản
-primary +108 repeat và Numeric/Teacher offline; cold replay toàn report PASS
-tại [mục11 W11](week11/README.md#11-w11-03--cold-verify-và-tái-dựng-tài-khoản-offline-29102026).
-Engine giữ cổ phiếu phân số, chưa lô chẵn; không đổi hợp đồng kinh tế sau outcome.
-**W11-04 DONE**: report/replay G60, strata/ablation/action/repeat và approximation
-gap PASS tại [mục12 W11](week11/README.md#12-w11-04--báo-cáo-development-ablation-và-approximation-gap-29102026).
-D Full−Original=−0,024756891 đpt dù accuracy cao hơn; không đồng nhất hai thước đo.
-Nomination máy v2 đã NOT_NOMINATED tại W11-05; chưa có release xác nhận2025. W11-06 audit
-đã tìm projection target và mâu thuẫn facts; thiết kế v3 ở mục13 W11.
-Amendment v2.1 nâng trần EM lên1.000 đã khóa trước fit;
-teacher hội tụ237 vòng với tolerance/grid/gate giữ nguyên, STOP200 lưu nguyên.
-W10-07 v1 vẫn **FAIL / NO_MT_BICL_RELEASE**. W10-08 audit DONE: learner kém
-constant p=0,5 trên synthetic; oracle logistic cũ cũng kém base rate trên
-2022. Teacher v2.1 đã fit train-only, delta9,827133551354e−11 đạt<1e−10;
-PPC1.000 replicate và corpus/oracle hoàn tất. Giữ cảnh báo PPC quá phân tán.
-Hai pilot learner v2 đã PASS tiny-fit/replay; train chính và test cơ chế
-W10-12 đã PASS, W10-14 đã cấp release development có phạm vi. Diagnostic pilot còn kém;
-test stress trượt P95, không suy chất lượng thị trường từ gate tổng hợp.
-W10-09 khóa protocol/manifest/membership/
-fixture v2. Người dùng đã cấp thêm10 giờ cho phần W10
-v2 còn lại; active train/pilot≤4 giờ nằm trong quỹ này, không đổi hạn/gate.
-W10-11–14 giữ phụ thuộc; không dùng π STOP200 hoặc mở student test trước seal.
-Bank/task/context/oracle đã kiểm theo protocol v1; người dùng xác nhận hai tuần,
-1–2 giờ/ngày (14–28 giờ). Khả thi toàn bộ còn có điều kiện, không bảo đảm
-hoàn thành thực nghiệm chỉ từ benchmark GPU.
-Khoản10 giờ bổ sung cho W10 v2 được xác nhận riêng sau khóa W10-09; không
-coi là tổng giờ cũ đã được đối soát hoặc kéo dài cửa sổ đến10/11.
-[Thiết kế W10](week10/README.md), [thực nghiệm W11](week11/README.md),
-[phân tích/bản nộp W12](week12/README.md) là nguồn điều hành; mục 5.6 tóm tắt.
-W1–W9 và thiết kế trước đó là lịch sử, không lặp lại task đã hoàn tất.
+**Kết quả giữ nguyên:** v1 FAIL/NO_MT_BICL_RELEASE; v2 NOT_NOMINATED
+(D−0,024757 đpt); v3 NOT_NOMINATED (D−5,313090 đpt, accuracy45% so65%).
+Ở v3, Fact_Anchor đổi35 CASH→LONG, làm giảm6,821021 đpt; raw revision
++2,181424, fact guard0, utility veto−0,673494 đpt. Teacher/simulator không
+học quan hệ x→return. Không promote ablation hoặc dùng PASS kỹ thuật làm
+bằng chứng kinh tế. [Receipt v3](week11/development_nomination_v3.json) và
+[mục21 W11](week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026)
+là nguồn kết quả; xác nhận v2/v3 NOT_RUN. Ngân sách18 giờ/reset rồi bỏ cap
+v3 là lịch sử; chỉ đạo hiện tại bỏ cả giới hạn lịch của kế hoạch tiếp nối.
 
 **Bằng chứng nền:** W9 A có D=+2,025325 đpt, CI95% [0,135027;4,211864]
 trên 64 điểm; secondary chưa xác nhận. Thêm context không tự tạo gain;
@@ -102,27 +51,22 @@ Archive không reset exposure. Không rõ independence thì chỉ exploratory.
 Luận văn khai báo các vòng phát triển; không sửa hoặc đổi tên kết quả W9
 thành MT-BICL. Mặc định hệ thống và risk OFF giữ nguyên.
 
-**Vận hành:** API key do người dùng chạy; agent chuẩn bị/kiểm offline.
-Không dự toán quota/lịch API riêng, nhưng cohort/order/seed/stop phải khóa.
-Giữ P0/retry/ledger/checkpoint; test theo phạm vi AGENTS.md 1.2, không tự
-chạy toàn suite để cập nhật checklist. W10-01 kiểm quỹ thời gian/benchmark
-GPU; W12 ngày hai khóa dữ liệu, sau đó luận văn/tái lập/slide/bảo vệ.
-Lịch làm việc từ xác nhận 27/10: 28/10–10/11, khóa dữ liệu cuối 07/11;
-đây là mốc quản lý, không xác nhận hạn nộp chính thức của trường. Phân bổ
-quỹ giờ ban đầu tại [W10-01](week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026).
-Với đợt v3, áp dụng reset thời gian chạy được xác nhận ngày29/10 ở trên;
-các số dư/nguyên tắc không reset trong receipt W10/v2 chỉ mô tả đợt cũ.
+**Vận hành:** API do người dùng chạy; agent chuẩn bị/kiểm offline. Giữ
+retry/ledger/checkpoint và source binding; không chạy lại suite cho task
+thuần tài liệu. Nghiên cứu mới không tự lặp đến khi có kết quả dương:
+registry/candidate/mẫu/analysis phải khóa, mọi exposure phải được ghi nhận.
+W12 khóa dữ liệu khi đủ cohort đã đăng ký, không theo ngày chót cũ.
 
 ---
 
 ## MỤC LỤC
 1. [Bối cảnh & Mục tiêu Nghiên cứu](#1-bối-cảnh--mục-tiêu-nghiên-cứu)
 2. [Cơ sở Lý thuyết & Ánh xạ từ Paper Gốc](#2-cơ-sở-lý-thuyết--ánh-xạ-từ-paper-gốc)
-3. [Kiểm toán Hiện trạng Repository (System Audit)](#3-kiểm-toán-hiện-trạng-repository-system-audit)
-4. [Kiến trúc Hệ thống Đề xuất (Target Architecture)](#4-kiến-trúc-hệ-thống-đề-xuất-target-architecture)
+3. [Kiểm toán nền hệ thống gốc](#3-kiểm-toán-nền-hệ-thống-gốc-lịch-sử)
+4. [Kiến trúc hệ thống đề xuất v4](#4-kiến-trúc-hệ-thống-đề-xuất-v4)
 5. [Thiết kế Thực nghiệm Khoa học Chuẩn KLTN](#5-thiết-kế-thực-nghiệm-khoa-học-chuẩn-kltn)
 6. [Các Rào chắn P0 Bắt buộc (Safeguards & Zero-Leakage)](#6-các-rào-chắn-p0-bắt-buộc-safeguards--zero-leakage)
-7. [Kế hoạch Thực hiện Chi tiết 12 Tuần (Deliverables Matrix)](#7-kế-hoạch-thực-hiện-chi-tiết-12-tuần-deliverables-matrix)
+7. [Kế hoạch theo giai đoạn W1–W12](#7-kế-hoạch-theo-giai-đoạn-w1w12-không-deadline)
 8. [Danh mục Tệp tin Cần Thêm Mới & Chỉnh Sửa](#8-danh-mục-tệp-tin-cần-thêm-mới--chỉnh-sửa)
 9. [Kế hoạch Quản trị Rủi ro & Dự phòng (Contingency Plans)](#9-kế-hoạch-quản-trị-rủi-ro--dự-phòng-contingency-plans)
 
@@ -133,7 +77,7 @@ các số dư/nguyên tắc không reset trong receipt W10/v2 chỉ mô tả đ�
 ### 1.1. Tính cấp thiết của đề tài
 - **Thách thức của LLM trong giao dịch định lượng**: Các mô hình ngôn ngữ lớn (LLMs) khi được triển khai trong kiến trúc đa agent (Multi-Agent Trading) thường đưa ra quyết định ở dạng suy luận độc lập không điều kiện (Zero-Shot Unconditioned Reasoning). Khi thị trường chứng khoán Việt Nam chuyển pha mạnh mẽ (Regime Shift) — từ Uptrend thanh khoản cao sang Downtrend sụp đổ hoặc Sideway giằng co — các agent thị giác (Pattern, Trend) liên tục gặp bẫy giá (Bull/Bear Trap), trong khi các chỉ báo kỹ thuật (RSI, MACD) rơi vào trạng thái quá bán/quá mua kéo dài.
 - **Ý tưởng từ paper**: [Zhu, Oermann và Cho (2026)](https://proceedings.mlr.press/v306/zhu26aj.html) huấn luyện transformer trên chuỗi prior tasks và target task để học dự báo Bayes phân cấp. Khả năng thích ứng bằng context ở test-time dựa trên quá trình huấn luyện đó; không mặc nhiên có ở mọi hosted LLM chỉ vì thêm prefix.
-- **Mục tiêu KLTN hiện hành**: học bộ dự báo nhỏ đọc nhiều tập ví dụ lịch sử và các ví dụ đã đóng của task hiện tại, rồi kiểm giá trị tăng thêm khi đưa kết quả/context vào Decision LLM. Regime là tín hiệu chọn nhiệm vụ liên quan; không đồng nhất nhãn HMM với latent λ hoặc gọi một cycle đơn lẻ là cả dataset. Cơ chế, chất lượng dự báo và hiệu quả tài khoản được kiểm riêng tại W10–W12.
+- **Mục tiêu KLTN hiện hành**: học bộ dự báo có điều kiện đọc prior tasks và target context đã đóng, rồi kiểm giá trị tăng thêm khi dùng phân phối return để điều chỉnh Original bằng policy đã khóa. Regime là tín hiệu chọn nhiệm vụ liên quan; không đồng nhất nhãn HMM với latent λ hoặc gọi một cycle đơn lẻ là cả dataset. Cơ chế, chất lượng dự báo và hiệu quả tài khoản được kiểm riêng tại W10–W12.
 
 ### 1.2. Giới hạn phạm vi (Scope Boundary for KLTN)
 - **Không thương mại hóa**: Không xây dựng hệ thống đặt lệnh tự động thực tế (broker API gateway), không mô phỏng sổ lệnh khớp liên tục (order book L2/L3), không giao dịch phái sinh/bán khống.
@@ -156,29 +100,33 @@ Trong bài toán suy diễn tiên nghiệm phân cấp:
    $$\langle\text{prior}\rangle D^{(1)} \dots \langle\text{prior}\rangle D^{(K)} \langle\text{target}\rangle (x_1, y_1), \dots, (x_{t-1}, y_{t-1}), x_t$$
    Transformer học cách trích xuất thông tin tiên nghiệm từ $D_{\text{prior}}$, cho phép thay đổi $D_{\text{prior}}$ ở thời điểm suy luận để điều khiển phân phối dự báo.
 
-### 2.2. Ánh xạ hiện hành sang giao dịch
+### 2.2. Ánh xạ đề xuất v4 sang giao dịch
 
-| Thành phần | Thích ứng dự kiến | Giới hạn |
+| Thành phần | Thiết kế tiếp nối | Giới hạn cần kiểm |
 | --- | --- | --- |
-| Hyper-prior/latent λ | V2 dùng grid (μ,κ), π fit trên các block train duy nhất | Regime HMM không phải λ quan sát được; chưa biết prior thật của thị trường |
-| Task latent θ | Xác suất y net>0 riêng từng task, prior Beta theo λ | Đổi likelihood so với paper/v1; không mô hình hóa trực tiếp độ lớn lợi nhuận |
-| Prior dataset Dk | Một block 63 phiên của một mã, gồm nhiều (x,y) đã đóng | Lọc PIT rồi rank theo metadata/feature; không chọn theo lời/lỗ |
-| Target context C | Tối đa tám cycle đã đóng trong block hiện tại | Báo m=0; báo cáo agent tại query không thay được target labels |
-| Query x | Bốn feature giá PIT điều khiển chọn context tại cutoff | Teacher dựa vào counts của context được chọn; che y query, cùng nhãn net T+2.5 |
-| Mô hình ICL | Transformer distill posterior teacher, đọc D/C với weights cố định khi test | Đúng trong simulator không suy ra đúng trên thị trường |
-| Decision LLM | Nhận p và projection examples, phối hợp với upstream hiện hữu | Không giả định hosted LLM tự tính posterior đúng hoặc p là expected return |
+| Hyper-prior/latent λ | Phân phối tham số quan hệ feature→return có điều kiện regime, fit train | Regime quan sát không phải latent thật; kiểm misspecification/shift |
+| Task latent | Hệ số và scale riêng task, có shrinkage | Không tiếp tục chỉ học xác suất thắng không phụ thuộc x |
+| Prior dataset Dk | Task chứa nhiều (x,r_net) PIT, boundary riêng, selection không dùng payoff query | Block63 là khởi điểm cần kiểm, không giả định stationary hoặc mọi task cùng prior |
+| Target context C | Cycle cùng target đã hoàn tất trước query; cold-start trong miền train | Không dùng report hiện tại thay lịch sử có nhãn hoặc lặp mẫu cho đủ context |
+| Query x | Feature giá/regime liên tục và tín hiệu agent thật, gồm Original a0 | Không fabricate agent data, không coi confidence chữ là xác suất |
+| Learner | Meta-training target NLL trên real tasks; synthetic conditional kiểm cơ chế | Synthetic PASS không thay bằng chứng thị trường; weights cố định tại test |
+| Action | μ_net từ cùng predictive distribution và policy so với a0 | off/missing=Original; không tạo anchor mới, không ghép teacher veto khác learner |
 
 ### 2.3. Phân định đóng góp
 
-Cấu trúc prior/target và mục tiêu học dự báo theo context lấy từ paper.
-Các lựa chọn block63, nhãn kinh tế, likelihood Beta-Bernoulli, distillation,
-model nhỏ, retrieval PIT và tích hợp LLM là thiết kế riêng, không là kết quả paper.
-Đóng góp cần chứng minh là giá trị của phương pháp trên hệ thống này;
-không tuyên bố đã tái lập mọi thí nghiệm hoặc có bảo đảm lợi nhuận.
+Tách ba mệnh đề: học cơ chế phân cấp, dự báo có ích trên thị trường và
+nâng cấp quyết định giao dịch. K0/pooled kiểm đóng góp multi-task; no-agent
+và numeric-only kiểm phần đa agent. Likelihood Student-t, dữ liệu tài chính,
+retrieval PIT và policy sử dụng Original là thích ứng của đề tài, không là
+cam kết lợi nhuận từ paper. Đặc tả và điều kiện kiểm tại W11 mục22; v4 chưa
+được triển khai. V2/v3 dùng likelihood count và utility khác, giữ đúng tên.
 
 ---
 
-## 3. KIỂM TOÁN HIỆN TRẠNG REPOSITORY (SYSTEM AUDIT)
+## 3. KIỂM TOÁN NỀN HỆ THỐNG GỐC (LỊCH SỬ)
+
+Mục3 mô tả nền trước các vòng nâng cấp. Hiện trạng v3 và audit áp dụng paper
+ở W11 mục21–22; không coi các điểm thiếu ban đầu bên dưới vẫn chưa được làm.
 
 ### 3.1. Điểm mạnh đã được thẩm định
 - **Quy chuẩn kinh tế chặt chẽ**: [core/backtest_engine.py](file:///c:/Users/Legion/OneDrive/Ta%CC%80i%20li%C3%AA%CC%A3u/GitHub/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma/core/backtest_engine.py) tuân thủ hợp đồng $T+2.5$ khép kín (mua Open ngày 1, bán Close ngày 3, tính đủ 0.25% phí + 0.10% trượt giá cả 2 chiều, short giữ cash).
@@ -199,75 +147,35 @@ không tuyên bố đã tái lập mọi thí nghiệm hoặc có bảo đảm l
 
 ---
 
-## 4. KIẾN TRÚC HỆ THỐNG ĐỀ XUẤT (TARGET ARCHITECTURE)
-
-Hệ thống nâng cấp sẽ tích hợp luồng trích xuất chế độ thị trường và truy xuất tiên nghiệm Bayes vào kiến trúc LangGraph hiện có:
+## 4. KIẾN TRÚC HỆ THỐNG ĐỀ XUẤT V4
 
 ```mermaid
 flowchart TD
-    subgraph Data_Layer["Tầng Dữ Liệu & Phân Loại Vĩ Mô (Point-in-Time)"]
-        VNIndex["VN-Index OHLCV (2018-2025)"] --> RegDetect["Regime Detector\n(Gaussian HMM / Multi-Factor)\nFit trên 2018-2022"]
-        StockData["Stock OHLCV (t <= as_of_date)"] --> UpstreamGraph
-        RegDetect --> CurrentRegime["Current Regime (lambda_t)\nat as_of_date"]
-    end
-
-    subgraph Memory_Layer["Tầng Bộ Nhớ Tiên Nghiệm Lịch Sử"]
-        HistEpisodes["Historical Memory Bank\n(300+ Episodes 2018-2022)\n[Regime | Agent Signals | T+2.5 Outcome]"]
-        CurrentRegime --> BayRetriever["Bayesian Prior Retriever\n(Strict: record.exit_date < as_of_date)"]
-        HistEpisodes --> BayRetriever
-        BayRetriever --> PriorPrefix["Compact Bayesian Prior Prefix\n(K=3 episodes + Empirical Stats)\n< 600 chars"]
-    end
-
-    subgraph LangGraph_Execution["Tầng Thực Thi LangGraph"]
-        UpstreamGraph["Shared Upstream Graph\n(Indicator -> Pattern -> Trend)"] --> AgentReports["Distilled Agent Reports\n(Target Task D_tgt)"]
-        PriorPrefix --> DecAgent["Decision Agent (LLM)\n[Bayesian ICL Conditioning]"]
-        AgentReports --> DecAgent
-        AlphaSent["Alpha Agent & Sentiment Agent"] --> DecAgent
-    end
-
-    DecAgent --> OutputDecision["Phán quyết: LONG / SHORT\n(Giao thức kinh tế T+2.5)"]
+    PIT[Snapshot PIT] --> UP[Upstream một lần]
+    UP --> ORIG[Original durable a0]
+    UP --> X[Feature thị trường và tín hiệu agent]
+    ORIG --> X
+    BANK[Task bank có nhãn net đã đóng] --> CTX[Prior tasks và target context]
+    PIT --> CTX
+    X --> MT[Learner conditional MT-BICL]
+    CTX --> MT
+    MT --> PPD[Predictive net return và calibration]
+    PPD --> POLICY[Policy sửa a0 đã khóa bằng OOF]
+    ORIG --> POLICY
+    POLICY --> OUT[Action và provenance]
+    ORIG --> OFF[OFF hoặc thiếu support: giữ đúng a0]
+    OFF --> OUT
 ```
 
-### 4.1. Chi tiết 3 Module Mới
-1. **`core/regime_detector.py`**:
-   - Sử dụng chuỗi log-return và độ biến động lịch sử 20 phiên của VN-Index.
-   - Huấn luyện Gaussian HMM (4 trạng thái) trên dữ liệu 2018–2022.
-   - Cung cấp hàm `get_market_regime(as_of_date)` trả về: `regime_id`, `regime_name`, `volatility_level`, `trend_strength`.
-2. **`core/bayesian_memory.py`**:
-   - Kho lưu trữ cấu trúc các chu kỳ lịch sử $T+2.5$ độc lập.
-   - Mỗi record gồm:
-     ```json
-     {
-       "episode_id": "FPT_20220415",
-       "symbol": "FPT",
-       "as_of_date": "2022-04-15",
-       "regime": "BEAR_CRASH",
-       "agent_signals": {
-         "trend": "DOWN",
-         "pattern": "BEARISH_ENGULFING",
-         "alpha_consensus": "GIẢM",
-         "indicator_consensus": "GIẢM",
-         "sentiment": "NEUTRAL"
-       },
-       "outcome": {
-         "actual_direction": "DOWN",
-         "net_return_pct": -4.2,
-         "was_bull_trap": false,
-         "result": "LOSS_IF_LONG"
-       }
-     }
-     ```
-3. **`core/bayesian_retriever.py`**:
-   - Nhận vào `symbol`, `as_of_date`, `current_regime` và tham số $K$ (mặc định $K=3$).
-   - Lọc tất cả record trong memory có `record.exit_date < as_of_date` trước xếp hạng/thống kê; chế độ Bayesian lọc thêm `record.regime == current_regime`.
-   - Tính toán thống kê Bayes kinh nghiệm:
-     - Tỷ lệ false breakout của Trend/Pattern trong regime này.
-     - Tỷ lệ thành công của các lệnh LONG trong regime này.
-   - Định dạng thành chuỗi Markdown cô đọng (dưới 600 ký tự).
-
----
+Đây là thiết kế, chưa là đường chạy hiện tại. Không đổi engine T+2.5,
+SHORT=CASH, vốn/chi phí hoặc prompt gốc. Learner numeric nhận toàn context;
+card giải thích chỉ là projection, giữ BRPP≤600 và prompt<6.500. Không
+cần LLM thứ hai để chọn lại action; không dùng Fact_Anchor v3 làm baseline.
 
 ## 5. THIẾT KẾ THỰC NGHIỆM KHOA HỌC CHUẨN KLTN
+
+Mục5.1–5.5 giữ thiết kế các vòng cũ để truy vết. Thiết kế tiếp nối v4
+ở mục5.6 và W11 mục22; mọi giới hạn thời gian trong kế hoạch cũ hết hiệu lực.
 
 ### 5.1. Dữ liệu & Danh mục Cổ phiếu (Universe)
 Phạm vi ban đầu W1–W9; revision W10–W12 dùng mục 5.6. Cỡ mẫu và độ bất định phải được công bố rõ:
@@ -361,7 +269,7 @@ cả stats/examples ready, bất đồng cả khi prior-off và trace NOT_USED.
 | P1 | Decision không hiểu hoặc không dùng prior | Prefix rõ ngữ nghĩa, cùng schema; ablation giữ evidence chung | Action thay đổi có đối chứng, không chỉ trace tự khai |
 | P2 | Ví dụ ít liên quan hoặc trùng lặp | K=3, đặc trưng PIT và đa dạng thời gian | Ablation retrieval tách khỏi posterior/prompt; không chọn ví dụ theo nhãn thắng |
 
-**Giới hạn tìm kiếm theo deadline:** một vòng cải tiến chính trong W8,
+**Thiết kế lịch sử W8, không áp dụng deadline cho v4:** một vòng cải tiến chính trong W8,
 tối đa **hai cấu hình phương pháp mới**, không tính đối chứng/ablation đã
 đăng ký. Ưu tiên một thay đổi posterior/retrieval và một thay đổi cách truyền
 bằng chứng; không quét tổ hợp. Chỉ sửa lỗi kỹ thuật sau vòng chính, không
@@ -413,41 +321,28 @@ checkpoint. Người dùng tự chạy mọi API; agent chuẩn bị và kiểm 
 
 ---
 
-### 5.6. Từ MT-BICL-v2 sang quyết định có utility — 29/10/2026
+### 5.6. Conditional MT-BICL v4 — kế hoạch tiếp nối31/10/2026
 
-V2 đã học cơ chế và chạy development. Trên50 point có feature, KL teacher/
-student≈0,00123; teacher p không vượt0,5 nên Teacher_only giữ CASH toàn bộ;
-Numeric_only dùng student chỉ có một LONG.
-Full đúng thêm1/60 nhãn nhưng lợi suất thấp hơn Original0,024757 đpt. VNM30/06
-hiện hai target đều thắng dù cả task3/8 thắng; Full VCB30/10 diễn giải sai
-quan hệ MACD/Signal có sẵn trong prompt. Không đủ bằng chứng rằng train thêm
-hoặc bỏ target sẽ xử lý nguyên nhân.
+Phân tích [W11 mục22](week11/README.md#22-w11-1516--đóng-v3-audit-cách-áp-dụng-paper-và-kế-hoạch-v4-31102026)
+chỉ ra teacher count bỏ x_query, nhãn synthetic độc lập x, support thưa,
+U không do student học và prompt anchor làm đổi mạnh chính sách nền.
+V4 cần dữ liệu/task/likelihood có tín hiệu thực trước ma trận API tiếp theo.
 
-[Amendment W11](week11/README.md#13-w11-06--audit-kinh-tế-và-kế-hoạch-utility-aware-bayesian-icl-29102026)
-giữ teacher/student và P0, đổi đường ứng dụng có version riêng:
+1. Xây dataset PIT có feature giá và agent thật, giữ nhãn net engine;
+   kiểm coverage, task dependence, drift và exposure trước train.
+2. So baseline/conditional Bayesian reference bằng rolling folds; không
+   distill thêm teacher misspecified chỉ vì oracle math PASS.
+3. Meta-train learner có target loss, prior/target boundary; kiểm x-query,
+   prior swap, pooling, cold-start và shift; đo forecast thị trường riêng.
+4. Original là a0, OFF giữ đúng a0; distribution→calibration→policy thống
+   nhất, không dùng learner p cho prompt rồi teacher khác cho veto.
+5. Một candidate cùng ma trận K0/pooled/no-target/no-agent/numeric/reference,
+   giữ Original/A/Plain. W12 family8 secondary, CI99,375%; primaryCI95%.
 
-1. Context cùng bucket MACD−Signal/Close−SMA20, task/block/cutoff/ranking
-   không dùng nhãn query. Không có support thì giữ quyết định nền, không bịa mẫu.
-2. Tóm tắt toàn P/T bằng n/thắng/thua/mean r_net, exemplar có magnitude;
-   không để hai label hiển thị thay toàn task. BRPP≤600, prompt<6500.
-3. Tính U=E[θG−(1−θ)L] bằng teacher posterior và magnitude PIT; uncertainty
-   conditional có giới hạn. Không dùng p>0,5 như tiêu chuẩn lợi nhuận.
-4. Fact_Anchor là đối chứng không Bayes. Full chỉ sửa a0 nếu facts/support
-   hợp lệ và Q10(ΔU)>0; lưu raw/final action, không đổi engine hoặc mặc định CASH.
-5. Tám nhánh LLM trong run mới +Utility_only offline, giữ G60 và một candidate;
-   nominal≤804 slot gồm repeat. Nomination giữ guard cũ, thêm Full>Fact_Anchor.
-
-W11-05 DONE, v2 NOT_NOMINATED;06 audit DONE;07 đã khóa spec;08 triển khai DONE;
-09 kiểm offline DONE;10–12 freeze/run/nominate v3;
-13–15 xác nhận có điều kiện và bàn giao. Development mới vẫn exploratory,
-không reset exposure. Xác nhận128 point2025 chỉ sau audit/release, primary
-CI95% và bảy secondary Bonferroni99,285714% theo [W12](week12/README.md).
-Giữ mốc bắt đầu xác nhận hết05/11, khóa dữ liệu07/11, công việc kết thúc10/11.
-Ngân sách chạy v3 đã được reset: không trừ thời gian run v1/v2; ghi nhận
-chi phí v3 riêng và tiếp tục cùng bộ đếm khi resume/chuyển sang W12.
-Đánh giá khả thi trên ngân sách mới và thời gian lịch còn lại, không dùng
-số dư cũ để chặn development. Không tăng tuần, bỏ comparator hoặc đổi gate
-để cứu kết quả. Chưa có bằng chứng v3 hiệu quả.
+Không trần thời gian. Kết thúc pha theo tiêu chí khoa học, không theo số
+ngày hoặc số giờ. W11-17–25 thực hiện tuần tự; W12 khóa exposure/cohort/
+power rồi chạy xác nhận. Dữ liệu≤2023 đã xem không trở thành holdout mới.
+Mục tiêu rõ rệt D≥1 đpt và guard rủi ro giữ; chưa có bằng chứng v4 đạt.
 
 ## 6. CÁC RÀO CHẮN P0 BẮT BUỘC (SAFEGUARDS & ZERO-LEAKAGE)
 
@@ -462,7 +357,10 @@ Các rào chắn kỹ thuật này phải được khóa chặt bằng code và 
 
 ---
 
-## 7. KẾ HOẠCH THỰC HIỆN CHI TIẾT 12 TUẦN (DELIVERABLES MATRIX)
+## 7. KẾ HOẠCH THEO GIAI ĐOẠN W1–W12 (KHÔNG DEADLINE)
+
+W1–W10 và receipt v1–v3 giữ lịch sử ngày/giờ đã ghi. Các mốc đó không là
+giới hạn hiện hành; task tiếp nối tại checklist W11/W12 và mục22 W11.
 
 ```
 W1 Đặc tả → W2 Regime/Memory → W3 Retriever/Prefix → W4 Tích hợp/Pilot
@@ -1418,7 +1316,10 @@ student kém ba đối chứng trên2022 và PPC quá phân tán; probe LLM th�
 chưa chạy. W10 hoàn tất; W11/W12 chưa tăng tiến độ, chưa có run API mới.
 Chi tiết/lệnh [W10-14](week10/README.md#w10-14--freeze-verifier-lạnh-và-release-development-28102026).
 
-### TUẦN 11: Development và cải tiến quyết định — 12/15 DONE, v3 NOT_NOMINATED
+### GIAI ĐOẠN W11: 14/25 DONE, 2 NOT_RUN, 9 TODO — v4 chưa triển khai
+
+Checklist hiện hành thêm15/16 bàn giao/audit DONE,17–25 nghiên cứu và kiểm
+v4; không deadline. Các đoạn W11-01–12 dưới đây là receipt lịch sử.
 [Checklist W11](week11/README.md#5-checklist-w11): run ghép cặp, verify/
 analysis/nomination, exposure/release/start xác nhận nếu đạt và bàn giao.
 W11-01 **DONE**, tái nghiệm thu29/10 PASS sau đối soát preflight API thật,
@@ -1601,21 +1502,25 @@ cold rebuild account/report/nomination/PNG khớp byte/hash/Git. Không API,
 model forward/refit, payoff2025 hoặc đổi run/v2 evidence/counter lịch sử.
 Receipt [development_nomination_v3.json](week11/development_nomination_v3.json)
 byte SHA `aeb0bb41fc54b33fb152145ddf48a1773a4017e460fbfd2a549bae26b49897d0`.
-Confirmation v3 NOT_RUN, W11-13/14 không đủ dependency; còn bàn giao W11-15.
+Confirmation v3 NOT_RUN, W11-13/14 không đủ dependency. W11-15 đã bàn giao
+bằng tài liệu; W11-16 audit DONE, tiếp theo17–25 theo kế hoạch mới.
 Chi tiết [mục21 W11](week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026).
 
-### TUẦN 12: Phân tích và bảo vệ — TODO 0/6
-[Checklist W12](week12/README.md#checklist-w12): hai ngày đầu hoàn tất run
-đã release, khóa CI/evidence/claim rồi luận văn/tái lập/slide. Không run
-mới hoặc tuần 13; thiếu mẫu INCOMPLETE, không PASS giả.
+### GIAI ĐOẠN W12: Xác nhận độc lập và bảo vệ — TODO 0/8
+
+[Checklist W12](week12/README.md#checklist-w12): exposure/cohort, cỡ mẫu và
+release, chạy xác nhận, cold audit/CI/ablation, khóa claim, luận văn, tái lập
+và bảo vệ. Không giới hạn giờ/ngày hoặc chỉ được chạy trong hai ngày đầu.
+V4 chỉ vào xác nhận sau nomination; không dùng v3 fail để cấm mọi nghiên
+cứu mới hoặc dùng bỏ deadline để chọn mẫu/kết quả thuận lợi.
 
 ---
 
 ## 8. DANH MỤC TỆP TIN CẦN THÊM MỚI & CHỈNH SỬA
 
 Danh mục 8.1–8.2 dưới đây là kiến trúc lịch sử đã triển khai, không phải
-task tạo lại module. Revision W10–W12 dùng bảng module dự kiến tại
-[W10](week10/README.md), schema/namespace riêng.
+task tạo lại module. Các revision đã chạy xem [W10](week10/README.md); phần tiếp nối v4 theo
+W11 mục22.6, schema/namespace mới và không sửa artifact lịch sử.
 
 ### 8.1. Các tệp tin thêm mới hoàn toàn
 1. **`core/regime_detector.py`**:
@@ -1660,10 +1565,10 @@ task tạo lại module. Revision W10–W12 dùng bảng module dự kiến tạ
 
 ---
 
-## 10. KẾT LUẬN
+## 10. TRẠNG THÁI NGHIÊN CỨU
 
-Amendment v2 sửa teacher/learner/selection theo audit, không sửa FAIL v1.
-W10–W12 tập trung prior-task/target-context và đo đóng góp Bayesian ICL
-bằng đối chứng cụ thể. W1–W9 giữ nguyên; revision dừng lưu trữ có checksum.
-Mục tiêu lợi ích rõ rệt, kết luận theo dữ liệu; không đổi kết quả, xóa
-exposure hoặc kéo dài thời hạn để bảo đảm thắng.
+V1/v2/v3 giữ đúng kết quả đã kiểm định. Hướng v4 sửa likelihood có điều
+kiện và vị trí tích hợp của learner, dùng Original làm nền; kiểm tách cơ
+chế/dự báo/hiệu quả giao dịch. Không còn giới hạn thời gian; không xóa
+exposure, đổi tiêu chí sau kết quả hoặc hứa chắc cải thiện. Lượt cập nhật
+này thuần tài liệu; toàn bộ triển khai, training và kiểm v4 còn TODO.

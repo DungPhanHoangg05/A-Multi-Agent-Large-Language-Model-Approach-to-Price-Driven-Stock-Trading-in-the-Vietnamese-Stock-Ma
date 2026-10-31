@@ -1,6 +1,14 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Cập nhật 31/10/2026: 12/15 task DONE (01–12).**
+**Kế hoạch tiếp nối 31/10/2026: 14/25 task DONE; 2 NOT_RUN; 9 TODO.**
+W11-15 bàn giao v3 và W11-16 audit phương pháp hoàn tất bằng tài liệu tại
+mục22; tiếp theo **W11-17** khóa thiết kế v4. V4 chưa triển khai hoặc chạy.
+**Bỏ mọi giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
+hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
+Các cap/deadline trong receipt và thiết kế v1–v3 bên dưới là lịch sử, không
+chi phối kế hoạch mới. Cutoff PIT, horizon kinh tế và backoff API vẫn áp dụng.
+
+**Trạng thái các vòng đã chạy:**
 **W11-05 đã khóa v2 NOT_NOMINATED; confirmation v2 NOT_RUN** tại mục14.
 Report mô tả giữ `NOT_EVALUATED` nguyên byte; quyết định máy ở receipt riêng.
 **W11-07 SPEC_LOCK_PASS** tại mục15; grant18 giờ là bản khóa lịch sử.
@@ -20,13 +28,9 @@ accuracy45% so Original65%; không cấp release xác nhận2025.
 py -3.13 -X utf8 scripts/continue_mt_bicl_development.py
 ```
 
-Lịch quản lý và khung phân bổ công việc tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
-W11 dự kiến **02–05/11/2026**, khung **4–8 giờ**. Người dùng xác nhận ngày
-**29/10/2026: ngân sách thời gian chạy được reset**. Đợt v3 tính mới từ 0,
-không khấu trừ giờ chạy v1/v2; chi tiết cập nhật tại mục13.4. Khung giờ công
-việc và lịch 12 tuần giữ nguyên, không coi khung này là thời gian API đã đo.
-Chỉ thực hiện khi đủ gate
-phụ thuộc; release và bắt đầu xác nhận chậm nhất 05/11, nếu không ghi NOT_RUN.
+Lịch/quỹ giờ tại [W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026)
+đã được thay thế bởi chỉ đạo bỏ giới hạn thời gian. Công việc tiếp nối theo
+dependency và bằng chứng ở mục22, không theo số giờ đã dùng hoặc ngày chót.
 
 Phạm vi lịch sử dưới đây: một candidate Full_MT_BICL của **revision v2: teacher Beta-Bernoulli phân
 cấp + learner distillation**, được chọn bằng quy tắc mới trước development.
@@ -45,8 +49,8 @@ Bayesian posterior đúng dưới giả định teacher và student học gần 
 không chứng minh lợi nhuận. Development phải đo việc thêm posterior/examples
 có giúp Decision LLM, giữ cả kết quả bất lợi và đối chứng phương pháp W9.
 
-Mục1–4 và các receipt mục6–12 giữ **protocol/kết quả v2**. Checklist mục5,
-amendment mục13 và protocol khóa mục15 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
+Mục1–4 và mục6–21 giữ **thiết kế/kết quả lịch sử v2/v3**. Checklist mục5
+và amendment mục22 là thứ tự làm tiếp. Không sửa JSON đã khóa hoặc dùng
 release v2 cho v3; không thay candidate bằng No_target sau khi thấy kết quả.
 
 ## 1. Ma trận đối chứng đăng ký trước run
@@ -158,9 +162,9 @@ sớm khi gain đẹp, thêm call khi CI chưa đẹp hoặc giảm N cho kịp 
 
 ## 5. Checklist W11
 
-Thứ tự công việc trong quỹ giờ trên: freeze → development/verify → phân tích/
-nomination → exposure/release/bắt đầu xác nhận và bàn giao. Đây là thứ tự
-phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước lượng tốc độ API.
+Task01–14 giữ nguyên kết quả đã chạy; 13/14 NOT_RUN do nomination v3 FAIL,
+không phải hết thời gian. Task15 đóng bàn giao v3; 16–25 là hướng nghiên cứu
+mới. DONE của audit/kế hoạch không phải nghiệm thu code hoặc hiệu quả v4.
 
 | Task | Đầu ra / gate | Phụ thuộc | Trạng thái |
 | --- | --- | --- | --- |
@@ -178,10 +182,20 @@ phụ thuộc, không là cam kết hoàn tất trong bốn ngày hoặc ước 
 | W11-12 | Cold verify, rebuild account, decomposition và nomination v3 theo rule mới đã khóa | 11 | [x] DONE — account/report/decomposition/cold replay PASS; v3 NOT_NOMINATED theo rule đã khóa |
 | W11-13 | Audit exposure/MDE, manifest xác nhận2025 và release v3 nếu nominate | 12 đạt | [ ] NOT_RUN — điều kiện nomination v3 không đạt, không phát hành release xác nhận |
 | W11-14 | Người dùng bắt đầu xác nhận trước hết05/11, giữ checkpoint | 13 | [ ] NOT_RUN — v3 NOT_NOMINATED, không có release xác nhận |
-| W11-15 | Bàn giao COMPLETE/INCOMPLETE/NOT_RUN và claim cho W12 | 05–14 chốt trạng thái | [ ] TODO |
+| W11-15 | Bàn giao v3 NOT_NOMINATED, xác nhận NOT_RUN và toàn bộ kết quả bất lợi | 05–14 chốt trạng thái | [x] DONE — mục22; bàn giao tài liệu, không tạo release |
+| W11-16 | Audit paper → teacher/simulator → learner → policy; phân biệt lỗi áp dụng và giới hạn dữ liệu | 12/15 | [x] DONE — mục22; chỉ phân tích bằng chứng có sẵn |
+| W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [ ] TODO |
+| W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] TODO |
+| W11-19 | Baseline và Bayes có điều kiện; kiểm tín hiệu trên rolling folds trước distillation/LLM integration | 18 | [ ] TODO |
+| W11-20 | Meta-train learner v4 bằng prior/target có quan hệ x→return; loss target, cơ chế và kiểm shift | 19 đạt | [ ] TODO |
+| W11-21 | OOF calibration, ablation K=0/pooled/no-agent, policy thay đổi Original và khóa candidate | 20 | [ ] TODO |
+| W11-22 | Tích hợp shadow dùng Original durable; kiểm off=Original, economics/PIT/retry; freeze development | 21 đạt | [ ] TODO |
+| W11-23 | Development v4 ghép cặp đủ ma trận/cohort và repeat đã khóa | 22 | [ ] TODO |
+| W11-24 | Cold audit, phân rã forecast/policy, nomination và toàn bộ trường hợp bất lợi | 23 | [ ] TODO |
+| W11-25 | Bàn giao candidate/receipt/exposure cho W12; hoặc chốt chưa đạt và giả thuyết cần nghiên cứu | 24 | [ ] TODO |
 
-Không kịp release/bắt đầu cuối W11 thì không mở run mới ở W12. Thời gian
-còn lại hoàn thiện luận văn, không W13. Theo AGENTS.md 1.2 chỉ test đường
+W12 được chuẩn bị và chạy xác nhận sau W11-25 khi đủ điều kiện khoa học;
+không còn deadline bắt đầu hoặc khóa dữ liệu theo lịch cũ. Theo AGENTS.md 1.2 chỉ test đường
 đổi và đối soát receipt đúng nguồn, không tự chạy toàn suite mỗi task.
 
 Amendment này được lập theo yêu cầu sửa phương pháp ngày 28/10 sau W10-07;
@@ -190,7 +204,8 @@ lệnh cấm sửa bằng chứng, chọn bằng test và triển khai khi chưa
 vẫn giữ. Bàn giao W10-14 chưa gọi development/API hoặc tăng tiến độ W11.
 Lượt amendment README trước W11-01 chỉ sửa Markdown, đã kiểm diff/link/
 đồng bộ dependency và không chạy lại suite theo AGENTS.md1.2. W11-01 có
-mã mới nên kiểm theo phạm vi tại mục6. Quỹ giờ và mốc 05/11, 07/11, 10/11 giữ nguyên.
+mã mới nên kiểm theo phạm vi tại mục6. Các mốc giờ/ngày cũ đã bị thay thế
+cho công việc tiếp nối theo chỉ đạo31/10 ở đầu tài liệu và mục22.
 
 ## 6. W11-01 — Khóa manifest và preflight development (28/10/2026)
 
@@ -1683,3 +1698,333 @@ ledger sau prefix đã khóa, không reset row/reserve hoặc reseal run.
 **Confirmation v3 NOT_RUN**, quyền xác nhận/training/substitution vẫn false;
 W11-13/14 không chạy do không đạt nomination. Bước bàn giao còn W11-15;
 không tự sửa recipe, mở lại training hoặc dùng2025 để cứu kết quả.
+
+## 22. W11-15/16 — Đóng v3, audit cách áp dụng paper và kế hoạch v4 (31/10/2026)
+
+### 22.1. Phạm vi và kết luận
+
+Theo yêu cầu mới, lượt này **chỉ phân tích và cập nhật Markdown**. Không sửa
+Python/test/config/schema, không train, gọi API, chạy model hoặc mở outcome2025.
+V3 giữ NOT_NOMINATED; W11-13/14 giữ NOT_RUN. W11-15 bàn giao đủ receipt,
+report, decomposition và giới hạn ở mục21 sang W12. Không đổi nhánh thắng.
+
+Bỏ mọi trần giờ và deadline lịch cho công việc tiếp nối, kể cả hạn 12 tuần,
+05/11 bắt đầu, 07/11 khóa dữ liệu và 10/11 hoàn tất. W11/W12 chỉ là tên
+giai đoạn để giữ cây tài liệu. Các số giờ/ngày trong receipt cũ không còn
+là điều kiện dừng kế hoạch mới. PIT/exit<query, horizon T+2.5, quota/backoff,
+checkpoint và việc khóa mẫu trước kiểm định vẫn là hợp đồng khoa học/vận hành.
+Không giới hạn thời gian không có nghĩa thử đến khi thắng: mọi revision,
+candidate và lần xem kết quả phải được ghi nhận, holdout chỉ mở theo protocol.
+
+**Chẩn đoán:** v3 thất bại cả dự báo lẫn cách tích hợp. Cần thay bài toán mà
+learner học và đường ra quyết định; tăng seed, nới Q10 hay đổi vài câu prompt
+không xử lý đầy đủ. Phương án v3 trước đây đã đặt một quyết định nền mới
+chưa chứng minh tương đương vào giữa hệ thống, đồng thời giữ teacher không
+phụ thuộc đặc trưng. Đó là hai lựa chọn thiết kế cần sửa, không phải lỗi
+do người dùng chạy sai hoặc chỉ do gate nomination quá chặt.
+
+### 22.2. Điều gì đã được quan sát, điều gì mới là giả thuyết?
+
+Số liệu đọc từ account/report v3, primary G60; không trộn Original của v2
+(4,464827%) với Original của v3 (5,131315%). Model/API có biến thiên giữa run.
+
+| Bằng chứng | Kết luận giới hạn |
+| --- | --- |
+| Original 5,131315%; Full −0,181775%; D −5,313090 đpt; accuracy 65%→45% | Không đạt ngay lợi ích so hệ thống gốc, không thể giải quyết bằng đổi nhãn gate |
+| Fact_Anchor −1,689706%; 35 CASH→LONG, 0 LONG→CASH so Original; LONG 15→50/60 | Anchor là thay chính sách lớn; không phải chỉ thêm một bảng dữ kiện trung tính |
+| Phân rã: −6,821021 anchor +2,181424 raw revision +0 fact guard −0,673494 utility veto | Tác hại lớn nhất nằm trước Bayesian revision; veto cũng làm kém trên mẫu này |
+| 20 point không support: Full LONG16, Original LONG6, khác10 action | “Không đủ Bayesian context” vẫn đổi hệ thống vì fallback về anchor mới; cần off=Original thực sự |
+| Full support40/60, FPT3/12; 0 interval dương,12 âm,28 qua0; chỉ1/12 âm bền qua mọi leave-one-task | Tín hiệu utility chủ yếu yếu/nhạy membership; gate chỉ có khả năng sửa LONG→CASH, không tạo cơ hội mua mới |
+| Teacher chỉ nhận count; simulator sinh y độc lập x; approximation union KL≈0,000405 | PASS cơ chế hiện tại chứng minh học gần một mô hình tần suất, không chứng minh học quan hệ tín hiệu→lợi nhuận |
+| U được tính từ teacher và bootstrap magnitude; p_student chỉ đi vào prompt | Phần điều khiển numeric của v3 không do learner học phân phối payoff; không quy gain của U cho distillation |
+
+20 point không support có D nhóm +0,142816 đpt khi dựng account riêng;
+không phải mọi thay đổi ở nhóm này đều gây lỗ. Vấn đề là mất tính đối chứng
+và fallback, không chọn nhóm bất lợi để kể chuyện. Không cộng D subgroup
+vào D toàn bộ vì đường vốn/lãi kép khác nhau.
+
+Ví dụ `MWG-2023-01-06`: Fact_Anchor chép đúng MACD dưới Signal, dưới0 và
+Close dưới SMA20, nhưng trả LONG với lý do **mua khi vượt kháng cự44**.
+Engine lại mua vô điều kiện tại Open phiên kế tiếp. Full raw muốn SHORT,
+Q10 guard giữ lại LONG của anchor. Các enum đúng không chứng minh logic
+action đúng hoặc điều kiện mua tương lai đã xảy ra. Receipt không sai khi
+ghi fact-check PASS: checker chỉ kiểm citation/enum, không kiểm toàn ngữ nghĩa.
+
+Trong [renderer v3](../../../core/mt_bicl_v3_decision.py), `build_anchored_prompt`
+lấy phần reports từ legacy, thay đầu prompt, hướng dẫn và schema. So với
+[compact prompt gốc](../../../agents/decision_agent.py), chuỗi `CONTRACT`
+mới giữ lịch/phí nhưng không còn nguyên câu “nếu không đủ bù phí ... chọn
+SHORT”; `PRIORITY` cũng rút gọn. Đây là thay đổi xác nhận được từ source.
+Chưa có ablation để kết luận riêng câu bị bỏ gây toàn bộ 35 LONG mới;
+schema, salience của facts và phản hồi LLM đều có thể góp phần.
+
+### 22.3. Đối chiếu paper với implementation
+
+[Paper §4, §5.2 và §5.5](https://arxiv.org/html/2606.20538v1) học dự báo
+`p(y_query | x_query, C_target, D_prior)`: task có latent riêng, prior tasks
+cung cấp thông tin về phân phối latent; loss đặt trên target. Thử nghiệm
+ERA5 cũng học từ dữ liệu thực. Paper báo cả tình huống shift mà thêm prior
+làm kém; không bảo đảm lợi ích trên mọi miền.
+[Mã huấn luyện tác giả](https://raw.githubusercontent.com/martianmartina/multi-task-bayesian-icl/main/src/train_multi_task.py)
+chọn data module linear/logistic và checkpoint theo validation loss, không
+huấn luyện một hosted chat LLM bằng cách chèn xác suất vào prompt.
+
+Các hàng dưới là **đánh giá implementation của khóa luận**, không là yêu
+cầu phải sao chép mọi kích thước/optimizer của paper:
+
+| Thành phần trong hệ thống | Phần hợp lý | Phần chưa phù hợp cần thay |
+| --- | --- | --- |
+| Prior tasks riêng, target riêng, che query y, causal mask | Giữ cấu trúc học theo context và PIT | Không đủ nếu likelihood không dùng x_query |
+| `BetaBernoulliTeacher.predict` | Posterior count có thể đúng toán dưới mô hình đã chọn | Bốn feature chỉ được validate; thay x nhưng giữ count không đổi teacher p. Learner được thưởng khi bỏ qua thông tin giá |
+| `BetaTaskSimulator` + soft query loss | Cách kiểm distillation có thể tái lập | Nhãn được lấy bằng Bernoulli(θ_task) độc lập feature; dữ liệu thật chỉ fit π và cung cấp x, không dạy quan hệ x→y |
+| Task mã×63 phiên, K≤3, M/m≤8 | Dễ kiểm lineage/cutoff | Chưa chứng minh task cùng phân phối prior; bucket hai dấu mất độ lớn tín hiệu, làm support thưa; không được coi block63 là latent thật |
+| Utility θ×gain−(1−θ)×loss | Dùng đúng payoff sau phí | Pool magnitude qua task và giả định tách sign/magnitude có thể che khác biệt thị trường; posterior toán đúng không khắc phục sai mô hình |
+| Student p + chat LLM + teacher veto | Có đối chứng từng nhánh và log raw/final | Ba bộ ra quyết định không cùng mục tiêu; p_student không quyết định U, action còn phụ thuộc một anchor mới |
+| Assertion schema | Bắt sai số/enum và giữ JSON hợp lệ | Chép lại đúng facts không kiểm được “mua có điều kiện” hay cách tổng hợp bằng chứng; không thay validation kinh tế |
+| Synthetic PASS → development | Phân biệt được approximation error | Thiếu cổng kiểm tín hiệu có điều kiện trên dữ liệu thị trường trước khi chi phí API tăng |
+
+Retrieval hiện tại **có** dùng feature/regime, nên toàn pipeline vẫn điều
+kiện hóa gián tiếp qua membership. Điểm thiếu ở đây là likelihood và
+learner không học quan hệ x_query→return khi D/C cố định; không khẳng
+định mọi phương pháp đếm có retrieval đều vô ích. Tác hại của từng yếu
+tố cần được tách bằng ablation, không suy nhân quả từ một bảng return.
+
+Nguồn đọc: [teacher](../../../core/mt_bicl_v2_teacher.py),
+[simulator](../../../core/mt_bicl_v2_simulator.py),
+[student](../../../core/mt_bicl_v2_student.py),
+[utility](../../../core/mt_bicl_v3_utility.py),
+[policy](../../../core/mt_bicl_v3_policy.py),
+[bucket](../../../core/mt_bicl_v3_features.py).
+Khác paper không tự động là lỗi; nhưng bỏ sự phụ thuộc x→y làm nhiệm vụ học
+khác mục tiêu lựa chọn giao dịch. Ngược lại, thay sang regression tùy ý như
+oracle v1/NIG cũ cũng không đủ: phải kiểm mô hình trên thị trường trước.
+
+### 22.4. Hướng v4: learner dự báo có điều kiện, Original làm quyết định nền
+
+Tên làm việc: **Conditional MT-BICL Advisor**. Candidate duy nhất là
+`Full_conditional_MT`; chưa có code, weights, protocol JSON hoặc release v4.
+
+Luồng dự kiến:
+
+    upstream PIT chạy một lần → Original durable a0
+                  ↓                  ↓
+        numeric/agent features + prior tasks + target context
+                  ↓
+        learner v4 → predictive net return → calibration/policy đã khóa
+                  ↓
+        final action + reason/provenance; thiếu support → đúng a0
+
+**A. Dữ liệu mang thông tin mà hệ thống đang sử dụng.**
+
+- Nhãn gốc luôn là `r_net` của `compute_round_trip_net_return`; y_sign được
+  suy từ r_net>0. Giữ Open(t+1)/Close(t+3), SHORT=CASH, chi phí hai chiều,
+  vốn/account hiện tại. Không thay label bằng đúng/sai lời giải thích.
+- X thị trường liên tục: momentum/volatility/volume tương đối, khoảng cách
+  SMA và MACD−Signal đã chuẩn hóa, trạng thái thị trường/regime PIT.
+  X agent: hướng Trend/Pattern, mức đồng thuận alpha, xung đột và a0;
+  chỉ lấy structured output hoặc parser xác minh từ report thật. Confidence
+  “Cao” là category, không tự đổi thành xác suất0,8.
+- W11-18 kiểm coverage trước. Historical agent reports thiếu phải được
+  tạo từ snapshot PIT với model/prompt khóa, upstream một lần/point rồi
+  dùng chung; người dùng chạy API. Không suy agent feature từ r_net hoặc
+  dùng LLM đọc giá tương lai để viết lại báo cáo. Model weights hosted
+  có tri thức hậu kỳ là giới hạn của benchmark hồi cứu, phải công bố.
+- Tập price-only dùng để kiểm tín hiệu trước; candidate có agent features
+  chỉ được khóa khi dữ liệu lịch sử đó tồn tại. Thiếu đầu vào lúc inference
+  giữ a0 và reason, không âm thầm thay model hoặc bỏ query khỏi G.
+- Chọn universe/calendar/nguồn giá, xử lý quyền và survivorship trước
+  labels đánh giá; có thể mở rộng lịch sử hoặc mã theo coverage, không chọn
+  mã thắng. Vẫn báo riêng bốn mã FPT/MWG/VCB/VNM để nối với hệ thống gốc.
+  Báo số cycle/task/ngày thực sự duy nhất và overlap; sinh nhiều episode
+  từ cùng bank không làm tăng số quan sát thị trường độc lập. Dùng learning
+  curve trên train/OOF để chọn capacity và nhu cầu thêm dữ liệu, không sao
+  chép quy mô transformer của paper vào bank nhỏ rồi kỳ vọng tự tổng quát.
+
+**B. Task và retrieval nhất quán giữa train và test.**
+
+- Bắt đầu từ mã×block63 không chồng lấn để có đối chứng với bank cũ;
+  block length là hyperparameter thiết kế, không khẳng định stationary.
+  Các task chỉ chia sẻ meta-prior có điều kiện theo regime/đặc trưng thị
+  trường; kiểm bằng posterior predictive và held-out task performance.
+  Prior mặc định từ lịch sử cùng mã như `TaskBuilder` hiện tại; borrowing
+  khác mã chỉ là cấu hình đăng ký riêng sau kiểm shared-prior, không tự
+  trộn để đạt K. Dữ liệu pooled để fit hyper-prior vẫn báo theo mã/regime.
+- Bỏ lọc cứng theo hai dấu và điều kiện phải có5 thắng/5 thua. Dùng x liên
+  tục, khoảng cách/regime mềm theo tham số fit train; không cần hai dấu
+  outcome cùng hiện diện mới dự báo. Missing/OOD được quyết định bằng
+  provenance, miền feature và support đã khóa, không bằng nhãn query.
+- D/C không trùng episode; prior task không là target task; mọi cycle
+  phải exit<query. Train query cũng phải tuân thủ đúng cutoff này. Giữ
+  timestamp, ID, missing mask, source hash và metadata regime từng prefix.
+- Dự kiến train hỗn hợp K∈{0,1,3,5,8}, M≤32, m≤32; runtime không dùng độ dài
+  ngoài miền đã train. Chọn membership theo rule không dùng y/r_net. Nếu
+  dữ liệu không đủ, dùng K/m nhỏ đã train và báo support, không lặp mẫu.
+  Giới hạn numeric context này độc lập BRPP: không ép toàn input learner
+  vào600 ký tự. Card giải thích vẫn BRPP≤600, prompt Decision<6.500.
+
+**C. Likelihood phải dùng x và dự báo độ lớn return.**
+
+Đề xuất reference phân cấp, cần kiểm và khóa ở W11-17/19:
+
+    λ ~ hyper-prior fit chỉ trên train
+    (w_task, σ_task) | λ, regime ~ prior có shrinkage
+    r_net | x, w_task, σ_task ~ Student-t(ν, w_taskᵀφ(x), σ_task)
+    q(r_query | x_query, C, D) = tích phân posterior theo λ và latent task
+
+φ(x) ban đầu là feature chuẩn hóa + intercept; không mở mạng feature lớn
+trước khi baseline tuyến tính có tín hiệu. Student-t là thích ứng của đề
+tài cho return, không phải kết luận của paper. Đây là **regression có
+điều kiện và partial pooling**, khác NIG mean-return không điều kiện đã
+FAIL. Không lấy U v3 hoặc một oracle ngẫu nhiên làm truth thị trường.
+
+W11-19 so với zero-return, pooled ridge/probabilistic regression, mô hình
+target-only và reference phân cấp trên cùng X/cohort. Reference inference
+cần đối soát scalar/conjugate fixture; với MCMC báo convergence/ESS và
+Monte Carlo error, không chỉ số draw. Không gọi reference là oracle của
+thị trường. Nếu không có tín hiệu OOF ngoài baseline thì sửa dữ liệu/task/
+likelihood bằng revision có ghi nhận trước, chưa chạy thêm ma trận LLM.
+Một baseline phi tuyến nhỏ có thể nằm trong registry để phân biệt quan hệ
+phi tuyến với thiếu tín hiệu; linear/reference thất bại không chứng minh
+mọi learner đều không thể học. Không chọn oracle vì dễ đạt KL synthetic.
+
+**D. Meta-training đúng bài toán dự báo; tách cơ chế và chất lượng thị trường.**
+
+- Learner nhỏ học `(D_prior, C_target, x_query) → q(r_net)` với marker task,
+  causal mask và loss chỉ trên target query/prefix có label đã che. Đề xuất
+  head mixture Student-t với mean/scale/weights hợp lệ để biểu diễn PPD;
+  không chỉ distill một xác suất count. Kiến trúc/head/miền độ dài khóa
+  trước train; tăng capacity phải là cấu hình đăng ký, không đổi sau test.
+- Dùng episode thị trường thật để học NLL target. Synthetic có quan hệ x→r
+  dùng kiểm cơ chế/pretraining theo meta-prior fit train; không dùng x thật
+  ghép nhãn ngẫu nhiên độc lập x. Pretraining/real-data adaptation và mọi
+  loss weight phải được khai báo; không coi fine-tuning là thích ứng không
+  gradient tại test-time. Khi test chỉ conditioning, weights giữ nguyên.
+- Kiểm có can thiệp: giữ D/C đổi x_query; giữ x/C đổi prior; tăng target
+  evidence; phá ranh giới task thành pooled; prior không liên quan; hoán vị
+  thứ tự prior và shift regime. So response với reference trên synthetic
+  biết mô hình, không đòi mọi feature change đều phải đổi action.
+- Thực nghiệm thị trường báo NLL/CRPS, calibration xác suất r>0, MAE,
+  coverage kèm độ rộng interval, riêng từng regime/mã/fold. Phân biệt
+  predictive interval của return với bất định về mean; không lấy Q10
+  predictive return làm CI của expected utility.
+- Chọn checkpoint bằng rolling validation; báo tất cả seed, không chọn
+  seed thắng2023. Ít nhất ba fold có purge theo thời điểm nhãn hoàn tất,
+  scaler/prior/feature selection fit phần train từng fold. ≤2022 đã xem
+  vẫn là development OOF, không đổi tên thành xác nhận độc lập. 2023 là
+  stress/development đã exposed; không dùng để chọn hyperparameter v4.
+
+**E. Tích hợp không thay quyết định nền và không giao lại số học cho LLM.**
+
+- a0 là response Original durable, giữ nguyên prompt/schema/model/options.
+  Không có Fact_Anchor mới trong đường candidate. Bayesian OFF hoặc đầu
+  vào không hợp lệ theo policy phải bằng đúng Original trên100% point.
+  Lỗi API/integrity/PIT vẫn raise/checkpoint, không chuyển thành fallback.
+- Learner tạo phân phối return; từ đó lấy mean net μ và xác suất r>0 từ
+  cùng một phân phối. Calibration dùng OOF; không ghép p của model này với
+  magnitude bootstrap của model khác rồi gọi đó là output learner.
+- Policy sửa action dự kiến: `ΔEU(a,a0)=(I[a=LONG]−I[a0=LONG])*μ_net`.
+  Chỉ sửa khi ΔEU vượt biên h≥0 đã chọn trong inner OOF, support/OOD hợp
+  lệ và kiểm rủi ro đạt. h là tolerance quyết định, không trừ phí lần nữa.
+  Bắt đầu bằng đối chứng h=0; nếu dùng vùng giữ a0 thì chọn theo regret/
+  risk OOF trong registry hữu hạn, không dựa năm ca hoặc return2023.
+- Bỏ Q10-veto v3 ở revision mới vì chưa được calibration cho quyết định;
+  không sửa ngưỡng/kết quả v3. Báo lợi ích và chi phí cơ hội của cả hai
+  chiều sửa, tỷ lệ giữ a0, OOD, missing và độ nhạy calibration.
+- Không gọi LLM thứ hai để tạo raw action mới rồi “cứu” bằng veto. Card
+  bằng chứng chỉ giải thích action đã tính; nếu cần LLM diễn giải, trường
+  action không được đổi. Tín hiệu “mua nếu vượt...” không được thực thi
+  thành LONG vô điều kiện. Hợp đồng P&L và vốn không thay đổi.
+
+### 22.5. Ma trận kiểm đóng góp, điều kiện đi tiếp và hạn chế claim
+
+Trọng tâm của paper là **learner học từ prior/target**, không phải số ví dụ
+văn bản trong prompt chat. Vì vậy K=0/pooled là đối chứng chính của cơ chế;
+Plain_ICL vẫn hữu ích cho so hệ thống nhưng không thay được các đối chứng đó.
+
+| Nhánh/kiểm định v4 | Nội dung khóa trước run | Mục đích |
+| --- | --- | --- |
+| Original | Response legacy, nguồn a0 dùng chung | Hiệu quả tăng thêm toàn hệ thống |
+| A_reference | Phương pháp W9, cùng upstream/cohort mới | So phương pháp có bằng chứng trước |
+| Plain_ICL | Legacy prompt + context cùng membership, không numeric learner | So ICL văn bản; cùng giới hạn prompt |
+| Full_conditional_MT | Learner đầy đủ + a0 + policy đã khóa | Candidate duy nhất |
+| Target_only_K0 | Learner cùng capacity được train K=0; cùng X/C/policy | Đóng góp prior tasks; không chỉ cắt prefix gây OOD |
+| Pooled_context | Cùng observations nhưng bỏ ranh giới prior/target, train tương ứng | Đóng góp cấu trúc phân cấp |
+| No_target | Full learner C rỗng trong miền đã train; recompute distribution | Đóng góp target evidence |
+| No_agent_features | X giá/regime, bỏ agent features ở train và test; cùng a0 | Giá trị thông tin agent ngoài action nền |
+| Numerical_MT | Full distribution, policy net thuần không dùng a0 | Phần lợi ích có cần quyết định nền đa agent? |
+| Hierarchical_reference | Reference phân cấp trên cùng input; cùng policy | Approximation/speed, không candidate thay thế |
+
+Kiểm off=Original là kiểm hợp đồng, không cần nhánh LLM độc lập. Forecast
+ablations chạy numeric trên cùng baseline durable; không nhân số API theo
+số model. Không trộn return của các nhánh đã chạy ở các phiên khác nhau.
+Nếu nhánh có feature thiếu, giữ query và fallback như protocol; báo common
+support bổ sung, không chọn giao điểm thuận lợi thay estimand toàn cohort.
+
+**Tiêu chí trước chi phí tích hợp:** W11-19/21 phải có predictive signal
+OOF hơn baseline và bằng chứng prefix/target giúp trên các fold giữ thời
+gian. Khóa metric chính CRPS, báo NLL/calibration và return decision song
+song; chọn bằng inner folds, đánh giá outer folds. Không gọi đây là test
+độc lập. Nếu learner chỉ khớp oracle nhưng không cải thiện dữ liệu thật,
+ghi đúng điểm nghẽn và nghiên cứu lại foundation trước API development.
+
+Đề xuất khóa ở17: ít nhất ba outer fold; tính CRPS theo mean đều ngày/mã,
+baseline thắng được xác định chỉ bằng inner folds. Mô hình có điều kiện
+phải giảm CRPS tổng OOF so baseline được chọn và cải thiện ở đa số outer
+fold, không chỉ một regime. Trước22, Full learner còn phải hơn K0/pooled
+theo cùng quy tắc và policy có Δreturn OOF dương so Original với guard
+rủi ro đã khóa. Báo mọi fold/calibration/coverage và bất định; đây là
+tiêu chí phát triển mới, chưa là bằng chứng xác nhận hoặc bảo đảm power.
+Purge dựa trên khoảng entry–exit chồng lên fold đánh giá, không chỉ chia
+theo ngày as_of; dữ liệu context mature tại mỗi query vẫn được dùng theo
+PIT đã khóa, không đưa nhãn chưa hoàn tất vào feature/scaler/fit.
+
+**Nomination v4 đề xuất, phải khóa tại17:** đủ G/integrity, D Full−Original>0,
+≥3/4 mã cũ tăng, Full−A≥0, mean ΔMDD≤2 và max≤5 đpt; thêm D Full−K0>0 và
+Full−pooled>0 trên development đã khóa để không nominate một mô hình có
+gain nhưng chưa thấy lợi ích multi-task. Full−Fact_Anchor không còn là gate
+vì anchor đó không thuộc candidate mới. Đây là rule mới trước v4, không
+đổi kết quả NOT_NOMINATED v3. W12 mới kiểm claim bằng CI độc lập; mục tiêu
+“rõ rệt” vẫn D≥1 đpt, CI95% primary>0, phân tán/rủi ro đạt trên cohort khóa.
+
+W11-23 có repeat định trước theo strata và cả hai chiều action nền; giữ
+Original_duplicate độc lập để đo noise. Không vote, không tăng N theo seed/
+repeat, không tái chọn candidate bằng kết quả tốt nhất. W11-24 phân rã
+Original→forecast policy→fallback/calibration, không dùng raw proposal v3
+để tính “v4 giả lập”: raw v3 đã condition trên anchor khác.
+
+### 22.6. Đầu ra theo task và nghiệm thu
+
+| Task | Artifact dự kiến khi thực hiện sau này | Điều kiện hoàn tất |
+| --- | --- | --- |
+| 17 | Protocol v4 trong W11: data/exposure, task/X/y, registry, folds, metrics, policy, test/matrix | Không còn tham số quyết định kết quả được chọn sau mở cohort; source/baseline binding rõ |
+| 18 | Dataset/feature/task manifest, PIT provenance, coverage/missing/overlap và drift audit | Không fabricated agent data; đủ fold, mọi train/target/query cutoff hợp lệ |
+| 19 | Baseline/reference OOF report và posterior predictive checks | Tách model misspecification khỏi inference error; ghi cả failure, đủ tín hiệu mới sang20 |
+| 20 | Learner weights/training manifest, seed/checkpoint và synthetic mechanism report | Query mask/target loss/PIT đúng; feature/prior/target interventions có oracle đối chiếu |
+| 21 | OOF calibration/ablation/policy report, một candidate khóa | Prefix/target có giá trị, support/OOD/fallback rõ; không chọn bằng2023/holdout |
+| 22 | Adapter/shadow receipt, new namespace/source/manifest và release development | off=Original; không thay engine/base prompt; P0 và test caller/leakage áp dụng PASS |
+| 23 | Paired development đủ cohort/matrix/repeat, raw/cache/ledger | Người dùng chạy API; no missing/unknown, không lọc ca xấu |
+| 24 | Cold accounts, decomposition, nomination và claim boundary | Đối chiếu independent consumer; NOT_NOMINATED nếu không đủ rule, không promote ablation |
+| 25 | Handoff source/weights/data/exposure và trạng thái cho W12 | Nominate mới mở release xác nhận; thất bại có diagnosis, không chạy lại tới khi thắng |
+
+Không có task nào dừng do hết giờ hoặc ngày chót. Early stopping theo
+validation/convergence, registry hữu hạn và cỡ mẫu khóa để tránh chọn lọc
+kết quả vẫn cần. Nếu revision v4 thất bại, chỉ mở revision tiếp với giả
+thuyết và exposure cập nhật; không sử dụng holdout đã mở như holdout mới.
+Nguồn phương pháp mới phải ở namespace riêng, không sửa receipt/source
+v1–v3; các yêu cầu triển khai ở bảng này **chưa thực hiện trong lượt hiện tại**.
+
+### 22.7. Kiểm tra tài liệu và bằng chứng
+
+Nguồn chính: v3 report SHA `ac92ebe91c62e76e3d05668c5d72b85dded6c125e25bc8abad444a90e87ad3d9`,
+accounts SHA `4ecc5a30061013232b5e4098bacc1643e02786bebc1ff3003ea73c57eaa38120`,
+nomination SHA `aeb0bb41fc54b33fb152145ddf48a1773a4017e460fbfd2a549bae26b49897d0`.
+Baseline ledger5.206 row SHA `b89c5f7eff547a73f44136e5b60372c0ce5b9680fc47a02eddde13a42fd1e956`.
+Đối soát diff, link/anchor, checklist, số liệu và hash nguồn trước/sau;
+theo AGENTS.md1.2 không chạy unit/compileall/E2E/leakage suite cho task chỉ
+sửa tài liệu. Không viện dẫn77 test cũ thành test mới hoặc tuyên bố v4 PASS.
+
+QA tài liệu:146 link/anchor nội bộ, UTF-8, số task, phép tính CI secondary,
+decomposition và số point fallback đều PASS. Chỉ ba Markdown thay đổi.
+Hash trước/sau của2.597 file v2 và3.684 file v3 giữ nguyên (loại metadata
+OS lock); aggregate v3 `8ec3f9888b46bb0056af52119a5db9b58d54d8b6717c67d163bcc094b0815454`.
+Protocol/runtime policy/nomination JSON và ledger giữ nguyên byte.
