@@ -1,6 +1,10 @@
 # Tuần 12 — Xác nhận, định lượng đóng góp và bảo vệ
 
 **Đồng bộ protocol v3 khóa/nghiệm thu30/10/2026; 0/6 task DONE. Thời hạn vẫn12 tuần.**
+**Cập nhật31/10:** W11-12 đã khóa v3 **NOT_NOMINATED**;
+xác nhận2025 **NOT_RUN**, không có release xác nhận. Kết quả và giới hạn
+tại [mục21 W11](../week11/README.md#21-w11-12--kiểm-toán-kinh-tế-phân-rã-và-nomination-v3-31102026);
+W12 tiếp nhận bằng chứng/kết luận này, không mở run để cứu kết quả.
 [Kế hoạch tổng](../plan.md) · [W10](../week10/README.md) · [W11](../week11/README.md)
 
 Lịch quản lý theo [quỹ giờ đã xác nhận tại W10-01](../week10/README.md#w10-01--inventory-và-khả-năng-thực-thi-27102026):
