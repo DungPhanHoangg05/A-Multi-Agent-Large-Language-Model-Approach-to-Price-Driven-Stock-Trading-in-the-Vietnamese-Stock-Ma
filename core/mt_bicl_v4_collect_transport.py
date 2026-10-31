@@ -79,7 +79,7 @@ class ReplayTransport(httpx.BaseTransport):
                         continue
                 except (ValueError, KeyError, TypeError, IndexError):
                     continue
-            elif budget.role in ("control_text", "control_vision"):
+            elif budget.role in ("control_text", "control_vision", "control_vision_r2"):
                 try:
                     if json.loads(body)["choices"][0]["message"]["content"].strip() != "CONTROL_PASS":
                         continue
@@ -91,6 +91,12 @@ class ReplayTransport(httpx.BaseTransport):
 
 class CollectionTransport(ResilientTransport):
     """Không cap giờ/ngày/số retry; quota provider được chờ đúng reset, cùng UUID."""
+
+    def __init__(self, pacer: Any, cache_root: Path, inner: httpx.BaseTransport | None = None) -> None:
+        from core.mt_bicl_v4_http_diagnostics import DiagnosticInner
+        super().__init__(pacer, cache_root, inner)
+        # Giữ lớp audit hiện có; chụp lỗi ở bên trong trước khi pacer dừng.
+        self.inner = DiagnosticInner(pacer, cache_root, self.inner.inner)
 
     def _cached(self, request: httpx.Request) -> httpx.Response | None:
         budget = CURRENT.get()
@@ -116,7 +122,7 @@ class CollectionTransport(ResilientTransport):
                         continue
                 except (ValueError, KeyError, TypeError, IndexError):
                     continue
-            elif budget.role in ("control_text", "control_vision"):
+            elif budget.role in ("control_text", "control_vision", "control_vision_r2"):
                 try:
                     if json.loads(body)["choices"][0]["message"]["content"].strip() != "CONTROL_PASS":
                         continue

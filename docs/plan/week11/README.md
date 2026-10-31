@@ -7,6 +7,8 @@ snapshot đầu còn `INSUFFICIENT_DATA` tại mục24; đã khóa release và r
 bổ sung warmup/agent/Original tại [mục25](#25-w11-18--release-bổ-sung-warmupagentoriginal-01112026).
 Người dùng chạy một lệnh ở mục25 để thu thập thật; sau đó cold nghiệm thu
 readiness. Chưa mở W11-19, train predictor hoặc gọi API v4 từ agent.
+Lượt người dùng đầu tiên đã có warmup và text probe PASS; vision probe
+HTTP400. Bản sửa probe/diagnostic cuối mục25 đã sẵn sàng để chạy lại cùng lệnh.
 **Bỏ mọi giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
 hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
 Các cap/deadline trong receipt và thiết kế v1–v3 bên dưới là lịch sử, không
@@ -2286,3 +2288,45 @@ Sau khi người dùng chạy xong, cold kiểm raw/UUID/ledger/source/PIT và m
 gate support mới quyết định DATA_READY_PASS/nghiệm thu. Checklist vẫn
 15 DONE/2 NOT_RUN/1 IN_PROGRESS/7 TODO; W12 vẫn0/8. QA161 link/anchor,
 checklist và6 hash receipt/ledger liên quan PASS; diff không lỗi khoảng trắng.
+
+### Sửa probe và chẩn đoán HTTP400 sau lượt người dùng đầu tiên
+
+Warmup đã tải/đối soát xong; ledger thêm đúng2 HTTP synthetic: text200 và
+vision400 tại `CONTROL_V4_vision`, model `qwen/qwen3.8-27b`. Chưa có HTTP
+nghiên cứu hoặc Original; point đầu chỉ có checkpoint chuẩn bị. HTTP400
+là request bị provider từ chối; chưa có bằng chứng đây là lỗi quota/key.
+Transport cũ chỉ giữ hash response lỗi, không giữ message nên **không thể
+kết luận chính xác nguyên nhân400 cũ**. Ảnh synthetic8×8 là điểm đáng nghi;
+model vẫn được Groq công bố hỗ trợ vision tại [tài liệu chính thức](https://console.groq.com/docs/vision).
+
+Bản sửa source `599facd` có [amendment vận hành](data_collection_hotfix_v4.json)
+riêng; không reseal release cha, không đổi model/options/request nghiên cứu,
+identity collection, cohort, warmup hoặc trần giờ. `vision_r2` dùng PNG RGB
+224×224 với intent synthetic mới; file/UUID probe8×8 cũ giữ nguyên. Text
+đã PASS được tái kiểm raw/ledger và bỏ qua, không gọi lại. Không dùng cùng
+UUID cho hai body ảnh khác nhau. UUID nghiên cứu chưa hoàn tất vẫn giữ.
+
+Transport mới lưu code/type/param/message đã lọc credential/data URL/token
+dài cùng body SHA, model, point và UUID tại `data_completion/http_errors/`,
+đồng thời in dòng `[Provider HTTP ...]` trước khi pacer dừng. Không đổi body
+HTTP, retry hoặc quota policy. Nếu còn400, cần đối chiếu thông báo provider
+mới; không tự thử đổi model/key/options. Tiếp tục bằng đúng lệnh ở mục25.
+
+Kiểm tra bản sửa:23 test PASS =6 test probe/diagnostic/amendment mới +9
+collection +8 collection-leakage;5 Python thay đổi biên dịch PASS. HTTP
+hoàn toàn giả lập; kiểm lỗi400 có bằng chứng, giữ nguyên probe/text/ledger
+cũ khi chuyển sang ảnh224×224, không gọi lại complete, cùng UUID nghiên
+cứu, quota, đổi scope credential, PIT và replay offline. Không chạy toàn
+suite vì không sửa economics/PIT/runtime dùng chung. Gate85 test của bản
+trước chỉ viện dẫn cho phần giữ nguyên, không coi là đã chạy lại toàn bộ.
+
+Ledger thật sau triển khai vẫn5.208 dòng, byte SHA
+`739cd0d6df421ef4e39f840cb896b05aab4509b0bb8883592692a0df4dfd2a60`.
+Warmup seal SHA `fd4e649ed3ebe3b52bd0b03f9a2be15aa42a2977049e80b5595081e0a2b93cc4`;
+identity SHA `f607ae46e4a22eb8b477d0768f5bded49b42a99c1eb6ba3e00b0602f46879263`.
+Agent không đọc key/gọi API thật; W11-18 vẫn IN_PROGRESS chờ thu thập.
+Amendment SHA `d989e04c5cfa111b93371630ff2bf86f7762e3da867944d9abf8e2f311f4846a`.
+Kiểm `--verify-only` trên checkpoint thật PASS: bốn mã đều749 nến warmup
+trước2018, overlap10 PASS; trả `WAITING_USER_API`,0 point complete. Không
+đọc key hoặc gọi HTTP. QA162 link/anchor, checklist và5 hash release/
+amendment/ledger/identity/warmup PASS; ledger và identity giữ nguyên byte.
