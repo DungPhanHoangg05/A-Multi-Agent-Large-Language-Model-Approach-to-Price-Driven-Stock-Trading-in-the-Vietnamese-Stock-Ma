@@ -1,9 +1,11 @@
 # Tuần 11 — Kiểm định giá trị tăng thêm của MT-BICL
 
-**Kế hoạch tiếp nối 31/10/2026: 15/25 task DONE; 2 NOT_RUN; 8 TODO.**
+**Hiện hành 01/11/2026: 15/25 task DONE; 2 NOT_RUN; 1 IN_PROGRESS; 7 TODO.**
 W11-15 bàn giao v3 và W11-16 audit phương pháp hoàn tất bằng tài liệu tại
 mục22. **W11-17 SPEC_LOCK_PASS** tại mục23; tiếp theo **W11-18** xây và
-audit dataset PIT. Đã có verifier spec v4; chưa triển khai learner, train hoặc chạy API v4.
+audit dataset PIT. **W11-18 đã dựng snapshot/cold audit nhưng chưa đạt
+readiness: INSUFFICIENT_DATA**, chi tiết mục24; chưa mở W11-19.
+Chưa triển khai learner, train predictor hoặc chạy API v4.
 **Bỏ mọi giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
 hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
 Các cap/deadline trong receipt và thiết kế v1–v3 bên dưới là lịch sử, không
@@ -186,7 +188,7 @@ mới. DONE của audit/kế hoạch không phải nghiệm thu code hoặc hi�
 | W11-15 | Bàn giao v3 NOT_NOMINATED, xác nhận NOT_RUN và toàn bộ kết quả bất lợi | 05–14 chốt trạng thái | [x] DONE — mục22; bàn giao tài liệu, không tạo release |
 | W11-16 | Audit paper → teacher/simulator → learner → policy; phân biệt lỗi áp dụng và giới hạn dữ liệu | 12/15 | [x] DONE — mục22; chỉ phân tích bằng chứng có sẵn |
 | W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [x] DONE — SPEC_LOCK_PASS; 24 test metadata/PIT, source/runtime/ledger và cold replay PASS; mục23 |
-| W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] TODO |
+| W11-18 | Xây dataset PIT có đặc trưng thị trường và tín hiệu agent thật; audit task, overlap, missing và lineage | 17 | [ ] IN_PROGRESS — snapshot/PIT/cold audit PASS; INSUFFICIENT_DATA, chưa nghiệm thu; mục24 |
 | W11-19 | Baseline và Bayes có điều kiện; kiểm tín hiệu trên rolling folds trước distillation/LLM integration | 18 | [ ] TODO |
 | W11-20 | Meta-train learner v4 bằng prior/target có quan hệ x→return; loss target, cơ chế và kiểm shift | 19 đạt | [ ] TODO |
 | W11-21 | OOF calibration, ablation K=0/pooled/no-agent, policy thay đổi Original và khóa candidate | 20 | [ ] TODO |
@@ -2095,3 +2097,97 @@ Lệnh chỉ tái kiểm `SPEC_LOCK_PASS`, không chạy dataset/train/API. Bư�
 theo **W11-18** xây manifest dữ liệu và audit coverage/PIT; thiếu agent thật
 hoặc support không đạt thì báo `INSUFFICIENT_DATA`, không tự thay cấu hình
 đã khóa hoặc mở cohort xác nhận.
+
+## 24. W11-18 — Dataset PIT và thiếu hụt đầu vào agent (01/11/2026)
+
+**IN_PROGRESS / INSUFFICIENT_DATA — chưa nghiệm thu W11-18, chưa mở W11-19.**
+Công cụ dữ liệu offline đã triển khai/kiểm và snapshot đã khóa bằng
+[manifest](dataset_manifest_v4.json), [coverage](coverage_v4.json).
+PASS kỹ thuật không được đổi thành DATA_READY_PASS: cả40 check thiếu
+agent support vẫn FAIL theo đúng protocol W11-17, không nới ngưỡng.
+
+Nguồn tool/test commit `8d01634fc4f1ec6c3ec103be501f16a54870e848`.
+Namespace `outputs/bayesian_benchmark/mt_bicl_v4/data/` có observations,
+labels sidecar riêng,7 fold outer/inner, train prefix scaler/membership,
+7 artifact regime và danh sách thiếu đầu vào `agent_requirements.json`.
+Manifest ràng buộc8 source mới,15 nguồn giá đã khóa,1.705 file cache/
+episode/manifest lịch sử và14 artifact dữ liệu/coverage/regime. Receipt
+đã commit, cold replay đối chiếu object Git, không chấp nhận tự reseal.
+
+| Bằng chứng | Kết quả |
+| --- | --- |
+| Grid query2018–2022 | 1.640,410/mã; giữ missing X và mọi lý do không thể gán nhãn |
+| Nhãn net có thể kiểm toán | 1.523: FPT376/MWG382/VCB385/VNM380; đúng engine Open(t+1)/Close(t+3), phí hai chiều |
+| Cycle có nhãn và đủ9 numeric | 888; không coi chúng là cohort độc lập mới |
+| Task mã×block63 | 80 task có≥2 cycle có nhãn |
+| Báo cáo agent lịch sử thật | 852; giữ hash raw report, episode cross-binding, PIT giá/tin và parser/factor proof |
+| Cycle đủ đầu vào Full | 0; thiếu Original durable trong nguồn lịch sử đã khảo sát |
+| Query có<600 nến Alpha | 772; phiên grid đầu đủ600 là01/06/2020 cho cả4 mã |
+| Query thiếu report lịch sử | 788; không bịa report hoặc suy signal từ label |
+| Cache chưa chứng minh tương thích mã prompt khóa | 852; SHA nguồn4 agent khác baseline, không tự coi thay code là cùng request |
+| Report Trend parser hiện tại không đọc được | 3; giữ raw/UNKNOWN/reason, không lấy nhãn có sẵn thay parser |
+
+Numeric tính rolling vector hóa theo công thức v4, sample std ddof1,
+MACD12/26/9 riêng prefix45. Barrier giá thô/quyền được kiểm theo cửa sổ
+feature;684 query có reason corporate-action feature window,32 thiếu
+prefix45. Đây là lý do thiếu X, không xóa query khỏi grid. Tổng888 là
+**joint numeric + label hợp lệ**; không đồng nhất với1.523 nhãn khả dụng.
+Các lý do label riêng:26 holding qua quyền,76 qua block,16 qua năm,
+có giao nhau; không cộng reason thành số cycle loại.
+
+Mỗi fold có scaler train riêng; train query dùng scaler prefix trước
+query, không dùng scaler cuối2020 cho2018/2019. D/C chọn bằng numeric/
+regime trước khi dùng sidecar label, cùng mã, disjoint IDs/entry–exit và
+exit<query. Đã audit2.644 context/membership (gồm lặp qua fold/prefix),
+không tính chúng thành2.644 quan sát thị trường độc lập. Báo K/m, regime,
+missing và standardized drift từng fold/mã trong coverage.
+
+Regime là feature: fit đúng7 prefix≤2020 trong namespace mới; thiếu499
+phiên trả UNKNOWN. Cold replay chỉ load tham số/training hash đã khóa,
+**không refit**. Chưa fit Bayesian reference, learner, calibration hoặc
+policy; không tính P&L/accuracy để chọn thiết kế. Không mở outcome2023/2025.
+
+**Thiếu hụt phải xử lý trước nghiệm thu:**
+
+1. Warmup Alpha là ràng buộc cấu trúc: nguồn hiện tại bắt đầu02/01/2018,
+   nên chạy thêm API trên cùng nguồn cũng không tạo được agent cho các
+   inner sớm. Cần source/exposure amendment riêng để bổ sung giá thực thi
+   thô trước2018 chỉ cho warmup, giữ nhãn/train/evaluation trong miền đã
+   đăng ký. Tại grid query đầu, cần thêm ít nhất579 phiên trước neo để
+   đạt600 nến. Không ghi đè nguồn/receipt cũ hoặc tự lùi split/cutoff.
+2. Audit tương đương canonical input/prompt của852 report trước khi reuse;
+   nếu không chứng minh được thì tạo report mới từ snapshot PIT theo model/
+   prompt/options đã khóa. Có source SHA khác chưa chứng minh chính nội
+   dung prompt đã đổi, nhưng cũng chưa đủ bằng chứng cho phép reuse.
+3. Bổ sung Original durable và report còn thiếu qua lượt thu thập **do
+   người dùng chạy**, với release collection riêng, raw/UUID/ledger,
+   upstream một lần/point và resume. Snapshot này chưa cấp API collection
+   hoặc train; `agent_requirements.json` chỉ là danh sách thiếu, không phải
+   response hay release giả. Sau bổ sung, cần snapshot/revision dữ liệu
+   mới giữ nguyên bản thiếu hụt này, và kiểm lại mọi gate support.
+
+**Kiểm tra theo phạm vi:**77 test PASS =26 dữ liệu mới +24 protocol v4
++19 execution-price +8 regime-leakage; tám Python mới `py_compile` PASS.
+QA độc lập trên1.640 row/1.523 label/2.644 membership kiểm lịch t+1/t+3,
+công thức scalar bốn hệ số phí/slippage, y_sign, purge, scaler prefix và
+D/C overlap PASS. Cold rebuild X/label/fold/lineage/coverage byte-identical,
+chỉ load regime, không network. Không đổi caller/runtime legacy nên không
+chạy toàn unit suite/compileall/E2E. Merge công cụ audit có kiểm kỹ thuật
+PASS; **không phải merge candidate/release hoặc nghiệm thu dữ liệu đầy đủ**.
+QA158 link/anchor, checklist15 DONE/2 NOT_RUN/1 IN_PROGRESS/7 TODO và
+hash trước/sau1.705 input agent cùng14 artifact đều PASS.
+
+Manifest SHA `1d0681a7e0af1140748f3753568ab9b28cb8c1eb007e071dc51cc25e135293ee`;
+coverage SHA `c93cdc845691f5e35f4109f20a5deb12e1abb3e903acb397602a2bbe82bbc7fe`.
+Protocol v4 SHA vẫn `ce868c6373548b207bc6d7d0a03bdb2c291bbcb95f47f0f33e3a3918cc8ccdf9`;
+lock spec `493559d45f4cd80c23439025b3e5addf880a073f7f81c1f697e8373c48b22908`.
+Ledger vẫn5.206 request, byte SHA
+`b89c5f7eff547a73f44136e5b60372c0ce5b9680fc47a02eddde13a42fd1e956`;
+không có API mới, không ghi counter/nguồn/bằng chứng v1–v3.
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_mt_bicl_v4_data.py --verify-only
+```
+
+Lệnh chỉ cold audit snapshot hiện tại và vẫn báo `INSUFFICIENT_DATA`;
+chạy lại không tạo agent/a0 còn thiếu. W11 giữ15/25 DONE, W12 giữ0/8.
