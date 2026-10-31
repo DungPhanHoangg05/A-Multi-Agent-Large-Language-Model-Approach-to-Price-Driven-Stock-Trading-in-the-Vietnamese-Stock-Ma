@@ -7,10 +7,12 @@ snapshot đầu còn `INSUFFICIENT_DATA` tại mục24. Theo yêu cầu mới, p
 tiếp nối là **v4.1: ngân hàng định lượng có mask + panel256 điểm LLM**, tại
 [mục26](#26-w11-18--phương-án-256-điểm-llm-trong-35-ngày-01112026).
 Bốn key có quota độc lập, tổng khoảng80 điểm/ngày do người dùng xác nhận.
-Mục tiêu riêng W11-18 là3–5 ngày; cần khóa amendment và triển khai trước.
-**Lệnh mục25 vẫn thu thập1.640 điểm; chưa có CLI chạy panel256.** Không
-tiếp tục toàn grid để thực hiện phương án rút gọn. Release/spec v4 giữ
-nguyên byte, không được coi là đã cho phép v4.1 hoặc đã qua readiness.
+Mục tiêu riêng W11-18 là3–5 ngày. **18a/18b đã PASS; 18c đã khóa release
+panel256; chờ người dùng chạy18d và cold nghiệm thu18e**, chi tiết
+[mục27](#27-w11-18af--triển-khai-v41-và-bàn-giao-panel256-01112026).
+**CLI mới:** `py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1.py`.
+Lệnh mục25 vẫn thu thập1.640 điểm; không dùng cho panel. Release/spec v4
+giữ nguyên byte; readiness v4.1 phải có receipt riêng sau đủ dữ liệu thật.
 Chưa mở W11-19, train predictor hoặc gọi API từ agent trong lượt này.
 **Các giai đoạn còn lại không giới hạn thời gian:** không trần giờ, hạn ngày, giới hạn 12 tuần
 hoặc điều kiện NOT_RUN vì đến 05/11, 07/11, 10/11. W11/W12 là tên giai đoạn.
@@ -194,7 +196,7 @@ mới. DONE của audit/kế hoạch không phải nghiệm thu code hoặc hi�
 | W11-15 | Bàn giao v3 NOT_NOMINATED, xác nhận NOT_RUN và toàn bộ kết quả bất lợi | 05–14 chốt trạng thái | [x] DONE — mục22; bàn giao tài liệu, không tạo release |
 | W11-16 | Audit paper → teacher/simulator → learner → policy; phân biệt lỗi áp dụng và giới hạn dữ liệu | 12/15 | [x] DONE — mục22; chỉ phân tích bằng chứng có sẵn |
 | W11-17 | Khóa protocol v4, exposure, feature/task/likelihood, folds, registry và tiêu chí từng pha | 16 | [x] DONE — SPEC_LOCK_PASS; 24 test metadata/PIT, source/runtime/ledger và cold replay PASS; mục23 |
-| W11-18 | Amendment v4.1; ngân hàng numeric có mask, panel256 Original thật, cold audit hai tập dữ liệu | 17 và amendment18a | [ ] IN_PROGRESS — kế hoạch3–5 ngày tại mục26; chưa triển khai/release256 |
+| W11-18 | Amendment v4.1; ngân hàng numeric có mask, panel256 Original thật, cold audit hai tập dữ liệu | 17 và amendment18a | [ ] IN_PROGRESS — 18a/b PASS, 18c release256; chờ18d/e; consumer18f đã khóa nhưng chưa mở19; mục27 |
 | W11-19 | Baseline và Bayes có điều kiện; kiểm tín hiệu trên rolling folds trước distillation/LLM integration | 18 | [ ] TODO |
 | W11-20 | Meta-train learner v4 bằng prior/target có quan hệ x→return; loss target, cơ chế và kiểm shift | 19 đạt | [ ] TODO |
 | W11-21 | OOF calibration trên ngân hàng numeric; h/decision trên panel, K0/pooled/Complete_case_MT và khóa candidate | 20 | [ ] TODO |
@@ -2339,8 +2341,8 @@ amendment/ledger/identity/warmup PASS; ledger và identity giữ nguyên byte.
 
 ## 26. W11-18 — Phương án 256 điểm LLM trong 3–5 ngày (01/11/2026)
 
-**PLAN_ONLY — thay đổi thiết kế dự kiến, chưa đổi code/protocol máy hoặc
-cấp release mới.** Người dùng xác nhận4 quota độc lập, khoảng20 điểm/key/
+**Kế hoạch đăng ký, đã triển khai/khóa tại mục27; chưa nghiệm thu panel
+thật.** Người dùng xác nhận4 quota độc lập, khoảng20 điểm/key/
 ngày, tổng80 điểm/ngày. Chỉ mục tiêu thời gian W11-18 được khôi phục theo
 yêu cầu này; không áp deadline cho train, development hoặc xác nhận W12.
 Không xóa dữ liệu/receipt cũ hoặc đổi trạng thái `INSUFFICIENT_DATA` bằng
@@ -2582,3 +2584,146 @@ PASS; diff không lỗi khoảng trắng. Các gate runtime cũ chỉ được v
 không coi kiểm tài liệu này là đã chạy lại test hoặc nghiệm thu v4.1.
 W11 giữ15 DONE/2 NOT_RUN/1 IN_PROGRESS/7 TODO; W12 giữ0/8. Chưa có kết quả
 forecast, nomination hoặc lợi nhuận của v4.1.
+
+## 27. W11-18a–f — Triển khai v4.1 và bàn giao panel256 (01/11/2026)
+
+**IN_PROGRESS — chưa đủ dữ liệu API để nghiệm thu W11-18.** Triển khai theo
+đúng mục26, giữ Groq GPT-OSS20B/Qwen27B và options đã khóa; không dùng
+local vision hoặc coi852 report legacy là raw tương đương. Chưa fit
+reference/learner/calibration/policy, chưa đọc outcome2023/2025.
+
+| Bước | Trạng thái và bằng chứng |
+| --- | --- |
+| 18a | **PASS** — [protocol v4.1](protocol_v4_1.json), [lock](protocol_lock_v4_1.json); source schema cuối `f0ae095`, parent v4 nguyên byte |
+| 18b | **NUMERIC_BANK_PASS** — [manifest numeric](dataset_manifest_v4_1.json), [coverage](coverage_v4_1.json), [panel256](panel_manifest_v4_1.json); cold rebuild byte-identical |
+| 18c | **USER_COLLECTION_RELEASED** — [release panel](collection_release_v4_1.json), source `6fd50d2`; một writer,4 scope,768 HTTP nghiên cứu danh nghĩa +12 probe tối thiểu |
+| 18d | **WAITING_USER_API,0/256** — người dùng chạy CLI dưới đây; chưa có response nghiên cứu v4.1 trong lượt triển khai |
+| 18e | **INCOMPLETE_PANEL,0/256** — cold bank PASS và nhánh thiếu dữ liệu đã kiểm; còn thiếu256 point thật nên không có `data_acceptance_v4_1.json` hoặc DATA_READY_PASS |
+| 18f | **Hợp đồng consumer đã khóa** trong spec và `core/mt_bicl_v41_contract.py`; loader vẫn chặn W11-19 tới khi có acceptance v4.1 đúng Git/hash. Chỉ chốt bước/task sau18e |
+
+Namespace mới `outputs/bayesian_benchmark/mt_bicl_v4_1/`. `data/` có
+observations không agent/a0, labels sidecar,7 fold, scaler/membership train
+prefix, coverage. Giữ nguyên1.640 grid ID,1.523 nhãn;1.459 observation đủ
+lõi,888 complete-case,571 observation đủ lõi nhưng thiếu optional. Mọi
+gate numeric PASS trên input thật: nhỏ nhất inner fit FPT67 cycle/4 task,
+outer2020 FPT138/8, fit≤2020 FPT212/12; outer evaluation ít nhất69 cycle,
+coverage lõi nhỏ nhất92%. Không dùng count1459 để tuyên bố đủ cả9 chiều.
+
+Đã rebuild từ raw source qua hàm feature/nhãn engine được pin của v4,
+đối chiếu từng row/mask/metadata và byte labels. Scaler sample-std mỗi
+chiều chỉ lấy giá trị quan sát của train mature prefix; chiều<2 giá trị
+unavailable. Điền0 sau chuẩn hóa kèm mask; query có chiều quan sát mà
+không có scaler phải fallback. Retrieval dùng giao chiều đủ lõi, centroid
+theo chiều quan sát, penalty mask0,25 và regime0,25; exit<query và D/C/query
+disjoint. Regime chỉ load artifact prefix cha đã khóa, không refit.
+
+Panel vật hóa trước key/API, đúng midpoint8 trên32 stratum,256 ID duy
+nhất,64/mã;155 complete-case và248 đủ lõi. Tám query thiếu lõi vẫn nằm
+trong panel. Shard `scope_1`…`scope_4` là sorted IDs round-robin,64 ID/shard.
+Original2020 có thể dùng ở hai vai trò nhưng prediction/fit/map/h phải
+khóa theo `fold_id/point_id`; không lấy model fit2020 cho outer2020.
+
+**Vận hành do người dùng thực hiện:** trong `.env`, đặt bốn key độc lập
+vào các biến sau, không gửi giá trị key qua chat:
+
+```dotenv
+GROQ_API_KEY_1=<key của organization 1>
+GROQ_API_KEY_2=<key của organization 2>
+GROQ_API_KEY_3=<key của organization 3>
+GROQ_API_KEY_4=<key của organization 4>
+```
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1.py
+```
+
+Lệnh kiểm release/source/panel/warmup → replay cache → bind bốn scope
+ẩn danh →12 probe synthetic → collection panel. Cache trước key, complete
+được kiểm và bỏ qua. Upstream một lần/point, Original dùng chung upstream;
+Indicator/Alpha là Python, Pattern/Trend/Original qua wrapper retry và
+pacer. Không gọi A/Plain/repeat trong bước data. Warmup cũ bốn mã đều749
+nến trước2018, overlap10 PASS; chỉ tái kiểm/reuse nguồn đã seal, không tải
+lại hoặc đổi numeric source.
+
+Nếu bị ngắt, chạy lại **đúng lệnh trên**, giữ shard/scope/UUID/reserve và
+raw cache. Scope gặp quota ngày được ghi cooldown riêng, coordinator
+phục vụ shard khác rồi quay lại; không chuyển point sang key khác ngầm.
+Hết mọi scope thì chờ reset, có thể Ctrl+C/resume. Không chạy4 process
+hoặc xóa lock; dùng một writer với OS lock run và ledger chung. Target16
+điểm/scope/ngày dùng để báo ETA, không phải counter chặn chạy. Telemetry
+ghi complete/remaining, từng shard, completion24h và ETA theo64 điểm/ngày;
+không có timer deadline hoặc tự bỏ điểm vì quá5 ngày.
+
+Đổi key có chủ ý cho một shard: sửa biến tương ứng trong `.env`, rồi chạy
+`py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1.py --rebind-scope scope_N`
+với N là1…4. Binding history append-only và probe cho key mới; không xóa
+request/UUID/bằng chứng cũ. Key trùng hoặc đổi nhiều scope không tường minh
+thì dừng. Bốn quota độc lập dựa trên xác nhận người dùng, không suy chỉ
+từ việc có bốn key khác nhau.
+
+`--preflight-only` chỉ kiểm synthetic bốn scope. `--verify-only` cấm
+network/credential, đối soát cache và báo phần còn thiếu. Nếu provider trả
+400, dòng `[Provider HTTP ...]` và `collection/http_errors/` giữ chi tiết
+đã lọc credential. Lỗi429 “request too large/expected output vượt limit”
+dừng `PROVIDER_REQUEST_EXCEEDS_LIMIT` để đối soát, không lặp vô hạn hoặc
+tự hạ token cap/model. Quota TPM/RPM/TPD thông thường vẫn theo provider.
+
+Sau đủ256 point, runner chỉ báo `PANEL_COMPLETE_AWAITING_COLD_ACCEPTANCE`.
+Agent nghiệm thu offline bằng:
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_mt_bicl_v4_1.py --accept
+```
+
+Cold kiểm lại ngân hàng và từng canonical request Pattern/Trend/Original
+qua raw cache, recompute deterministic reports/factors và nguồn PIT; không
+reserve/key/socket hoặc gọi lại LLM. Kiểm probe, scope/shard history,
+warmup, journal/raw/ledger và đúng256 unique IDs. Thiếu point trả
+`INCOMPLETE_PANEL`, không tạo receipt PASS. Khi đủ mới ghi acceptance
+riêng, neo Git rồi mở cửa dữ liệu cho W11-19; receipt v4 không thay thế được.
+
+Downstream cùng numeric9+mask9+regime; a0 chỉ ở policy trên panel. Full/K0/
+pooled/No_target/reference giữ registry và ngân sách chọn cấu hình; thay
+No_agent bằng Complete_case_MT có tập fit/scaler complete-case riêng.
+Forecast dense, map fit dense inner OOF; regret/h/tài khoản chỉ trên panel
+inner. H1 identity, H2 chỉ map fit H1; final dùng inner2020. Cấm action giả
+ngoài panel, không annualize hoặc nhân return theo1.640/256. OFF/missing/
+OOD trả nguyên Original đã có, API/integrity lỗi không biến thành CASH.
+Giữ996 action rows/324 Decision LLM slot development và8 secondary W12;
+không claim learner khai thác agent X, panel không thay xác nhận/power.
+
+Trong audit schema trước release, các field kế thừa `reference.phi`,
+baseline feature maps và synthetic generation còn nhắc agent X đã được
+đồng bộ numeric+mask. Đã khóa lại spec/manifest **trước mọi API v4.1**;
+bản đầu giữ byte trong Git (`2123e33`, `0a8f46d`, `f7643b6`) và archive cục
+bộ `mt_bicl_v4_1/pre_release_spec_alignment/`. Numeric artifact và label
+không đổi; v4/v1–v3 không reseal. Không dùng sửa schema để reset exposure.
+
+**Kiểm tra theo phạm vi:**35 test mới PASS (spec4, numeric8, leakage7,
+collection/coordinator10, consumer6);60 hồi quy trực tiếp PASS (data
+leakage12, collection leakage8, HTTP diagnostic6, recovery10, transport5,
+execution-price12+leakage7).14 Python mới biên dịch PASS. Test graph/SDK/
+pacer thật với HTTP giả, bốn scope/probe trước research, quota chuyển
+shard và resume cùng UUID, cold body/source, future price/news/label/mask
+poison, fallback và consumer fail-closed. Không chạy toàn suite/compileall/
+E2E toàn hệ thống theo AGENTS.md1.2; không sửa runtime/caller cũ.
+Regression riêng kiểm binding plan từ Git blob LF thay working copy CRLF
+trên Windows. Release ban đầu chưa qua preflight/API được sửa trước run;
+byte cũ giữ tại Git `c7e091b` và archive cục bộ, không đổi ID/nhãn/source.
+
+Protocol byte SHA `d786db3b1bba485d56b2eb3161beac4e5d76b48a52bbbfc797b8f23f714b745f`;
+lock `80ccfa6a39a1960e573beac1c3c1c1cdc289c01ac76ee5fb5936c0aa6e07f255`;
+numeric manifest `60dc74ea0aa8d83a4298d2d6af3437624dc0765d025e7aa83824281c861ac0e0`;
+panel manifest `630a9eba55269bc8b099cf6988945190afaf6b8a44505d6c3b51ceaf8548f0fb`;
+release `f50a7362feb762e95866f65d56e6a2c0051bd1e75af1f116b470a0c285c1e029`.
+Labels cả hai namespace cùng SHA
+`0ce17e80717123643631e49a8e2759f3bb093e008fe3aa45fc27db89087274b9`.
+Ledger vẫn5.279 request; prefix release SHA
+`53e2d369ee2d725efdb926f01e52757fe56f170d0450127408d5aaf9d413e5f6`.
+Chưa có kết quả kinh tế v4.1; W11 vẫn15 DONE/2 NOT_RUN/1 IN_PROGRESS/
+7 TODO, W12 vẫn0/8.
+Entry CLI `--verify-only` PASS trên nguồn thật, trả `WAITING_USER_API` và
+không đọc key/network. `--accept` cold rebuild bank byte-identical rồi
+trả `INCOMPLETE_PANEL`, không tạo receipt PASS. QA175 link/anchor nội bộ,
+checklist, byte labels và prefix5279 request PASS; không có complete hoặc
+HTTP nghiên cứu mới trong namespace v4.1. Diff không lỗi khoảng trắng.
