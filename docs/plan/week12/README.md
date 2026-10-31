@@ -20,6 +20,8 @@ W11-17 đã khóa [protocol v4](../week11/protocol_v4.json) và verifier metadat
 tại [mục23 W11](../week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
 Chưa triển khai learner, train hoặc chạy API v4, chưa đọc payoff2025.
 Protocol này chưa khóa N/block-length xác nhận hoặc cấp release W12.
+W11-18 audit ngày01/11 có snapshot PIT nhưng **INSUFFICIENT_DATA**, chưa
+nghiệm thu hoặc mở W11-19; [chi tiết](../week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026).
 Nếu đường chạy cũ còn guard deadline, task triển khai sau này phải bỏ
 cho namespace v4 và kiểm theo phạm vi; sửa README không thay hành vi CLI.
 
