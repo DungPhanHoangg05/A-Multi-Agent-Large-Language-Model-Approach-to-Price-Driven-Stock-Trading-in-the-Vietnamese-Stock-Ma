@@ -28,6 +28,70 @@ def _validate_equal_lengths(*values: Sequence[object]) -> None:
         raise ValueError("Các chuỗi actual/prediction phải có cùng số quan sát.")
 
 
+def binary_classification_metrics(
+    actuals: Sequence[object], predictions: Sequence[object]
+) -> Dict[str, object]:
+    """Tính chỉ số hai lớp trên support hợp lệ, dùng null khi không xác định.
+
+    Các tỷ lệ ở thang 0–1. UNKNOWN bị loại và được đếm rõ; nhãn không thuộc
+    hợp đồng UP/DOWN/LONG/SHORT/UNKNOWN hoặc rỗng làm phát sinh lỗi.
+    BA và macro-F1 chỉ có giá trị khi đủ cả hai lớp theo mẫu số tương ứng.
+    """
+
+    _validate_equal_lengths(actuals, predictions)
+
+    def normalize(values: Sequence[object]) -> np.ndarray:
+        normalized = []
+        for value in values:
+            token = str(value).strip().upper()
+            if token not in {*_DIRECTION_MAP, "UNKNOWN", ""}:
+                raise ValueError(f"Nhãn ngoài hợp đồng phân loại: {value!r}")
+            normalized.append(_normalize_direction(token))
+        return np.asarray(normalized, dtype=str)
+
+    actual, prediction = normalize(actuals), normalize(predictions)
+    valid = (actual != "UNKNOWN") & (prediction != "UNKNOWN")
+    actual, prediction = actual[valid], prediction[valid]
+    tp = int(np.sum((actual == "UP") & (prediction == "UP")))
+    fn = int(np.sum((actual == "UP") & (prediction == "DOWN")))
+    tn = int(np.sum((actual == "DOWN") & (prediction == "DOWN")))
+    fp = int(np.sum((actual == "DOWN") & (prediction == "UP")))
+    n = tp + fn + tn + fp
+
+    def ratio(numerator: int, denominator: int) -> float | None:
+        return float(numerator / denominator) if denominator else None
+
+    def per_class(correct: int, missed: int, wrong: int) -> Dict[str, object]:
+        return {
+            "support": correct + missed,
+            "predicted": correct + wrong,
+            "precision": ratio(correct, correct + wrong),
+            "recall": ratio(correct, correct + missed),
+            "f1": ratio(2 * correct, 2 * correct + missed + wrong),
+        }
+
+    up, down = per_class(tp, fn, fp), per_class(tn, fp, fn)
+    denominator = float(np.sqrt(float((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))))
+    return {
+        "n_input": len(actuals),
+        "n_valid": n,
+        "n_excluded": len(actuals) - n,
+        "confusion": {"tp": tp, "fn": fn, "tn": tn, "fp": fp},
+        "accuracy": ratio(tp + tn, n),
+        "balanced_accuracy": (
+            float((up["recall"] + down["recall"]) / 2.0)
+            if up["recall"] is not None and down["recall"] is not None else None
+        ),
+        "mcc": float((tp * tn - fp * fn) / denominator) if denominator else None,
+        "macro_f1": (
+            float((up["f1"] + down["f1"]) / 2.0)
+            if up["f1"] is not None and down["f1"] is not None else None
+        ),
+        "long_rate": ratio(tp + fp, n),
+        "per_class": {"UP": up, "DOWN": down},
+    }
+
+
 def calculate_mcnemar_test(
     y_true: Sequence[object],
     y_pred_full: Sequence[object],

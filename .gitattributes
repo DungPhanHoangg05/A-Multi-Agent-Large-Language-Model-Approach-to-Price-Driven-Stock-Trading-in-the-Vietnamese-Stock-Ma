@@ -1,3 +1,13 @@
 *.pdf binary
 ESWA/elsarticle.cls -whitespace
 ESWA/elsarticle-num.bst -whitespace
+
+# Giữ nguyên byte của code và bundle audit khi checkout trên Windows.
+AGENTS.md text eol=crlf
+plan.md text eol=lf
+core/revision_audit.py text eol=lf
+scripts/audit_revision_baselines.py text eol=lf
+tests/test_revision_baselines.py text eol=lf
+utils/statistical_tests.py text eol=crlf
+revision/*.md text eol=lf
+outputs/revision/** -text
