@@ -23,9 +23,41 @@ Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt p
 - [x] Bảo toàn 28 file manuscript gốc nguyên byte tại [manuscript_original.zip](manuscript_original.zip); sửa hai front matters, sections 01/03/05/06/07/08, bốn bảng generated và [response R1](response_to_reviewers.md). Hai PDF build được, 42 trang/bản, không undefined references/citations; đã render và kiểm tra bảng R1 cùng toàn bộ bố cục. Đây là bản nháp R1, không phải xác nhận Gate nộp lại.
 - [ ] **Chưa thể đóng R1:** 74/180 cycle có giá entry/exit mới khác legacy, trong đó hai nhãn đổi. Không có bảng head-to-head Full trên snapshot mới. Chưa xác minh comparator cùng report/feature/peer input và Full-exposure control từ train vì chưa khôi phục được bộ đầu vào/dự đoán train tương ứng từ `outputs/`/archive.
 
-**Dependency cụ thể còn lại:** khôi phục đúng historical snapshot/report/request/Full-train artifacts, hoặc thực hiện một study chung snapshot sau khi giải quyết protocol/provenance của R2/R3/R6/R9. Không dùng nhãn test, tỷ lệ LONG test của Full hoặc kết quả của protocol KLTN khác để lấp chỗ thiếu. Mục đóng R1 trong kế hoạch giữ nguyên tiêu chuẩn, không đánh dấu PASS bằng kết quả tái dựng khác dữ liệu.
+**Dependency cụ thể còn lại:** study mới chung snapshot bên dưới đang chạy; không phải khôi phục snapshot submission. Không dùng nhãn test, tỷ lệ LONG test của Full hoặc kết quả của protocol KLTN khác để lấp chỗ thiếu. Mục đóng R1 trong kế hoạch giữ nguyên tiêu chuẩn; R2/R3/R6/R9 và tính khả thi thực thi vẫn cần nghiệm thu riêng.
 
 Milestone đầu không tải vendor data hoặc gọi LLM. Lượt tiếp theo chỉ truy xuất OHLCV công khai qua vnstock/VCI và probe KBS để kiểm tra chất lượng; không gọi LLM/API có phí. Artifacts lịch sử giữ nguyên byte; manuscript gốc đã có archive trước khi sửa. Tập legacy và tập tái dựng đều là bằng chứng khám phá, không gắn nhãn thành untouched confirmatory test.
+
+## Study chung snapshot — đang thực hiện ngày 02/11/2026
+
+- [x] Khóa [protocol](r1_common_protocol.json), ba folds, chín mã, **540 test units trên 60 ngày decision**, 540 Full-calibration units lấy từ train đã purge. Đây là historical exploratory study, chưa phải confirmatory/prospective holdout.
+- [x] Tính đúng **3.038 feature snapshots** bằng Alpha node Python hiện tại; 225 cột OHLCV và 432 cột selected-alpha/sentiment/missingness. Logistic matched nhận cùng thông tin thị trường dạng số; không giả định cùng biểu diễn hoặc kiến thức của LLM. [Bank v2](../outputs/revision/r1_common_bank_v2/manifest.json), [receipt features](../outputs/revision/r1_common_bank_v2/features_complete.json).
+- [x] Chạy baseline số đủ 27 symbol/fold: **3.780 predictions, 216 daily ledgers**, support net **166 UP/374 DOWN**. [Report](../outputs/revision/r1_common_numeric_v2/report.json), [summary](../outputs/revision/r1_common_numeric_v2/summary.csv), [classification/regimes](../outputs/revision/r1_common_numeric_v2/classification.json), [model selection](../outputs/revision/r1_common_numeric_v2/models.json). Toàn bộ **224 hash** nguồn/đầu ra đã đối soát; kết quả số không đổi khi khóa lại bank sau smoke.
+- [x] Runner có archive request/response SDK, khóa nguồn/runtime, checkpoint theo fold/role/repeat, trần request cộng dồn, guard prompt <6.500 ký tự, retry theo provider và replay quyết định từ raw response. API key đã được cấu hình cục bộ; không đưa vào Git hoặc archive.
+- [ ] **Full đang chạy thật**, chưa đủ grid và chưa có kết quả head-to-head. Calibration chạy trước test; sau đó 5 end-to-end và 10 Decision-only repeats, tổng **8.100 Full decisions**, tối thiểu **14.580 requests**. Control exposure chỉ tạo từ Full calibration train sau khi đủ dữ liệu; không dùng tỷ lệ LONG test.
+- [ ] Chỉ cập nhật bảng Full/bản thảo/response và xét đóng R1 sau khi inference/analysis đầy đủ. Chưa sửa các PDF đã khóa chỉ dựa trên vài checkpoint calibration.
+
+| Baseline | Pooled accuracy | Pooled BA | Pooled MCC | Mean net return của 27 tài khoản |
+|---|---:|---:|---:|---:|
+| CASH / train-majority | 69,26% | 50,00% | NA | 0,00% |
+| Always-LONG cycles | 30,74% | 50,00% | NA | −15,33% |
+| Momentum 20 | 52,78% | 49,49% | −0,009 | −7,56% |
+| Logistic OHLCV | 61,30% | 52,96% | 0,061 | −3,49% |
+| Logistic matched market inputs | 57,59% | 51,29% | 0,025 | −5,90% |
+| Factor-only vote | 51,11% | 51,64% | 0,030 | −6,21% |
+
+Pooled classification có mẫu số 540 cho mỗi baseline; mean return là trung bình symbol/fold, không phải return một portfolio chung. Continuous hold price-only có mean return −2,23%, không có prediction/classification. Mọi comparator có giao dịch đều có mean return âm trong phép tổng hợp này; không suy alpha/profitability. Regime là gap close/SMA60 nhân quả của từng mã; folds, mã và repeats phụ thuộc nhau. BHN có 32 train points ở fold đầu, phải giữ giới hạn support nhỏ này.
+
+Smoke `v1` dừng sau hai response vision, **chưa có Full decision**, do guard mới nhầm yêu cầu Indicator gọi LLM. Indicator và Alpha backtest thực tế dùng Python xác định. Giữ bank/run smoke riêng, source 49 file trong [archive](../outputs/revision/r1_common_bank_v1/source_snapshot.zip); bank `v2` chỉ sửa guard/count, không đổi lịch/features/selection theo outcome. [Receipt tái dùng feature](../outputs/revision/r1_common_bank_v2/feature_reuse.json) kiểm nguồn archive, AST các hàm feature, lịch, runtime, giá và tin; chỉ đổi bank ID/self-hash, không chuyển response sang run mới. Bản baseline số `v1` trung gian còn cục bộ, không phải release hiện hành.
+
+Groq đang trả 429 với giới hạn vision ITPM 7.000; runner chờ đúng thời gian provider yêu cầu. Controller Windows chạy ẩn, chờ smoke cap 100 kết thúc rồi resume **cùng run v2** với trần **30.000 attempts cộng dồn**, và tự chạy analyzer sau khi inference hoàn tất. Controller dừng khi có lỗi cần xem xét; không đổi model/protocol, không mua/nâng gói và không retry vòng ngoài vô hạn. Log/worker status và raw run v2 đang tăng là dữ liệu cục bộ, chưa phải receipt release. Cần máy tiếp tục hoạt động và có mạng; completion của worker vẫn cần scientific review trước khi đóng R1.
+
+```powershell
+py -3.13 -X utf8 scripts/status_revision_common_study.py
+```
+
+Hướng dẫn chạy/resume và giới hạn: [r1_common_runbook.md](r1_common_runbook.md). Lượt này **24 test PASS**: 16 common-study tests (gồm native deterministic Indicator và replay chống sửa prediction), 5 alpha-leakage tests, 3 backtest-token-budget tests; biên dịch các Python mới PASS. Các tests dùng fake model chỉ ở temp fixture, không tính là kết quả thực nghiệm. Controller đã qua parse PowerShell và kiểm tra khóa trên tiến trình thật; pha inference/analyze nền còn đang chạy. Không chạy toàn suite vì chỉ thêm runner nghiên cứu riêng, giữ nguyên engine/agents/runtime/dependencies hiện có.
+
+Hash bằng chứng cũ vẫn PASS: 102 legacy qua archive, 126 numeric, 45 manuscript nguồn/PDF/log. Không thay byte artifacts cũ. Không dùng tests thay cho Full evidence.
 
 ## Vận hành offline
 

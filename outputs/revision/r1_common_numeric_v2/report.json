@@ -1,0 +1,241 @@
+{
+  "schema_version": "r1_common_numeric_v1",
+  "bank_id": "fc2b828ae27ecc95c3120416884ec928e22f70e801551e6e6f3e10a33e44b4bd",
+  "status": "numeric_complete_waiting_for_real_full_inference",
+  "n_scheduled_test": 540,
+  "n_folds": 3,
+  "n_prediction_records": 3780,
+  "n_daily_ledgers": 216,
+  "n_distinct_decision_dates": 60,
+  "pooled_metrics": {
+    "constant_down_cash": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 0,
+        "fn": 166,
+        "tn": 374,
+        "fp": 0
+      },
+      "accuracy": 0.6925925925925925,
+      "balanced_accuracy": 0.5,
+      "mcc": null,
+      "macro_f1": 0.40919037199124725,
+      "long_rate": 0.0,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 0,
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 540,
+          "precision": 0.6925925925925925,
+          "recall": 1.0,
+          "f1": 0.8183807439824945
+        }
+      }
+    },
+    "constant_up_cycles": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 166,
+        "fn": 0,
+        "tn": 0,
+        "fp": 374
+      },
+      "accuracy": 0.3074074074074074,
+      "balanced_accuracy": 0.5,
+      "mcc": null,
+      "macro_f1": 0.23512747875354106,
+      "long_rate": 1.0,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 540,
+          "precision": 0.3074074074074074,
+          "recall": 1.0,
+          "f1": 0.4702549575070821
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 0,
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    },
+    "train_majority": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 0,
+        "fn": 166,
+        "tn": 374,
+        "fp": 0
+      },
+      "accuracy": 0.6925925925925925,
+      "balanced_accuracy": 0.5,
+      "mcc": null,
+      "macro_f1": 0.40919037199124725,
+      "long_rate": 0.0,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 0,
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 540,
+          "precision": 0.6925925925925925,
+          "recall": 1.0,
+          "f1": 0.8183807439824945
+        }
+      }
+    },
+    "momentum_20": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 68,
+        "fn": 98,
+        "tn": 217,
+        "fp": 157
+      },
+      "accuracy": 0.5277777777777778,
+      "balanced_accuracy": 0.4949262289800915,
+      "mcc": -0.009497387729647686,
+      "macro_f1": 0.48886224521991545,
+      "long_rate": 0.4166666666666667,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 225,
+          "precision": 0.3022222222222222,
+          "recall": 0.40963855421686746,
+          "f1": 0.34782608695652173
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 315,
+          "precision": 0.6888888888888889,
+          "recall": 0.5802139037433155,
+          "f1": 0.6298984034833092
+        }
+      }
+    },
+    "logistic_price": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 52,
+        "fn": 114,
+        "tn": 279,
+        "fp": 95
+      },
+      "accuracy": 0.6129629629629629,
+      "balanced_accuracy": 0.5296211584305135,
+      "mcc": 0.06141393672798116,
+      "macro_f1": 0.5298890744821323,
+      "long_rate": 0.2722222222222222,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 147,
+          "precision": 0.35374149659863946,
+          "recall": 0.3132530120481928,
+          "f1": 0.33226837060702874
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 393,
+          "precision": 0.7099236641221374,
+          "recall": 0.7459893048128342,
+          "f1": 0.727509778357236
+        }
+      }
+    },
+    "logistic_matched_market_inputs": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 58,
+        "fn": 108,
+        "tn": 253,
+        "fp": 121
+      },
+      "accuracy": 0.575925925925926,
+      "balanced_accuracy": 0.51293408929837,
+      "mcc": 0.02535569852135016,
+      "macro_f1": 0.5123336291038154,
+      "long_rate": 0.3314814814814815,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 179,
+          "precision": 0.3240223463687151,
+          "recall": 0.3493975903614458,
+          "f1": 0.336231884057971
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 361,
+          "precision": 0.7008310249307479,
+          "recall": 0.6764705882352942,
+          "f1": 0.6884353741496598
+        }
+      }
+    },
+    "factor_only_vote": {
+      "n_input": 540,
+      "n_valid": 540,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 88,
+        "fn": 78,
+        "tn": 188,
+        "fp": 186
+      },
+      "accuracy": 0.5111111111111111,
+      "balanced_accuracy": 0.5163971393595774,
+      "mcc": 0.030267170890621156,
+      "macro_f1": 0.49375,
+      "long_rate": 0.5074074074074074,
+      "per_class": {
+        "UP": {
+          "support": 166,
+          "predicted": 274,
+          "precision": 0.32116788321167883,
+          "recall": 0.5301204819277109,
+          "f1": 0.4
+        },
+        "DOWN": {
+          "support": 374,
+          "predicted": 266,
+          "precision": 0.706766917293233,
+          "recall": 0.5026737967914439,
+          "f1": 0.5875
+        }
+      }
+    }
+  },
+  "missing_variants": [
+    "full",
+    "full_train_exposure_control"
+  ],
+  "scope": "deterministic numeric baselines only; no synthetic LLM repeats; symbol/fold means are not a joint portfolio; prospective validity and certified execution remain outside scope"
+}
