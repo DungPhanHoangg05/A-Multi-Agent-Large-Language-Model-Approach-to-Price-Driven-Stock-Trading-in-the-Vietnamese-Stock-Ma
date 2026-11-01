@@ -241,6 +241,63 @@ class ReplacementTests(unittest.TestCase):
             self.assertEqual(path.read_bytes(), b'previous')
             self.assertEqual(len(list(path.parent.iterdir())), 1)
 
+    def test_complete_acceptance_binds_new_release_shards_and_downstream(self) -> None:
+        from core.mt_bicl_v41_r2_acceptance import ACCEPTANCE, accept
+        from core.mt_bicl_v41_r2_contract import load_ready
+        from core.mt_bicl_v41_r2_data import DATA, MANIFEST, PANEL
+        from core.mt_bicl_v4_protocol import read
+        with TemporaryDirectory() as temporary, redirect_stdout(io.StringIO()):
+            root = Path(temporary)
+            ids = [f'FPT-2020-fixture-{i:03d}' for i in range(256)]
+            shards = {f'scope_{i+1}': ids[i::4] for i in range(4)}
+            mapping = {name: 'fixture-credential-' + name for name in shards}
+            release = {'point_ids': ids, 'shards': shards, 'config': {'symbol_order': ['FPT']}}
+            immutable(root / RELEASE, release)
+            immutable(root / MANIFEST, {'fixture': True})
+            immutable(root / PANEL, {'point_ids': ids})
+            immutable(root / DATA / 'observations.json', {'rows': [{'episode_id': pid, 'symbol': 'FPT'} for pid in ids]})
+            immutable(root / DATA / 'folds.json', {})
+            immutable(root / 'outputs/historical_memory_run/inputs/news/FPT.json', {'scored_articles': []})
+            for name in ('warmup_verified.json', 'identity.json'):
+                immutable(root / COLLECTION / name, {'fixture': True})
+            rows = [{'id': pid, 'credential_scope': mapping[next(n for n, selected in shards.items() if pid in selected)],
+                     'operational_amendment_sha256': checksum((root / RELEASE).read_bytes())} for pid in ids]
+            immutable(root / 'outputs/oos_pilot/api_usage.json', {'requests': rows})
+
+            def cold(actual_root, row, *args, **kwargs):
+                """Plumbing256; cold graph/SDK thật được kiểm riêng trong CoordinatorTests."""
+                record = {'original': {'decision': 'LONG'}, 'http': {'http_rows_sha256': {row['episode_id']: 'fixture'}}, 'files_sha256': {}}
+                immutable(root / COLLECTION / 'points' / row['episode_id'] / 'complete.json', record)
+                return record
+
+            # Tạo complete để mở cold; nội dung thực tế sau đó vẫn phải qua cold callback.
+            for pid in ids:
+                cold(root, {'episode_id': pid})
+            with patch('core.mt_bicl_v41_r2_acceptance.verify', return_value=release), \
+                 patch('core.mt_bicl_v41_r2_acceptance.build', return_value={'status': 'NUMERIC_BANK_PASS'}), \
+                 patch('core.mt_bicl_v41_r2_acceptance.identity', return_value=({'FPT': object()}, {'symbols': {}}, 'b'*64)), \
+                 patch('core.mt_bicl_v41_r2_acceptance.read_bindings', return_value=[mapping]), \
+                 patch('core.mt_bicl_v41_r2_acceptance.cold_point', side_effect=cold) as replay, \
+                 patch('core.mt_bicl_v41_r2_acceptance.clients'), patch('core.mt_bicl_v41_r2_acceptance.controls'):
+                result = accept(root)
+                self.assertEqual(replay.call_count, 256)
+                self.assertTrue(result['ready_for_W11_19'])
+                self.assertEqual(result['unique_points'], 256)
+                rows[0]['credential_scope'] = 'wrong-shard-credential'
+                (root / 'outputs/oos_pilot/api_usage.json').write_bytes(encoded({'requests': rows}))
+                with self.assertRaisesRegex(ValueError, 'shard/scope'):
+                    accept(root)
+            # Consumer chỉ đọc acceptance r2 đã neo; source/receipt anchor được kiểm ở verifier riêng.
+            def pinned(actual_root, name):
+                return {} if name == 'protocol_v4_1.json' else read((root / 'docs/plan/week11' / name).read_bytes())
+            rows[0]['credential_scope'] = mapping['scope_1']
+            (root / 'outputs/oos_pilot/api_usage.json').write_bytes(encoded({'requests': rows}))
+            with patch('core.mt_bicl_v41_r2_contract.verify', return_value=release), \
+                 patch('core.mt_bicl_v41_r2_contract.pinned', side_effect=pinned):
+                ready = load_ready(root)
+                self.assertEqual(len(ready['originals']), 256)
+                self.assertEqual(ready['protocol']['namespace'], COLLECTION.parent.as_posix())
+
 
 if __name__ == '__main__':
     unittest.main()

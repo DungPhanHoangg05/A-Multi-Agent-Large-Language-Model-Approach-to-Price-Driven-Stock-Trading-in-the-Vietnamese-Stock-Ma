@@ -144,7 +144,7 @@ def progress(root: Path, release: dict[str, Any], completed: set[str], ledger: d
     save_envelope(root/layout.collection/'progress.json', result)
     if layout.checkpoint is not None:
         layout.checkpoint(root)
-    print(f"Panel {result['complete']}/256 complete; còn{result['remaining']}; ETA kế hoạch{result['eta_days_at_planned_64_points_per_day']:.2f} ngày ở64 điểm/ngày; chưa cold nghiệm thu.", flush=True)
+    print(f"Panel {result['complete']}/256 hoàn tất; còn {result['remaining']}; ETA kế hoạch {result['eta_days_at_planned_64_points_per_day']:.2f} ngày ở 64 điểm/ngày; chưa cold nghiệm thu.", flush=True)
     return result
 
 
@@ -268,6 +268,6 @@ def run(root: Path, release: dict[str, Any], *, offline: bool = False, preflight
             if not future:
                 raise DataCompletionError('Coordinator không tiến triển và không có quota reset hợp lệ')
             wait = min(30., max(1., min(future)-clock()))
-            print(f'Các shard còn lại đang chờ quota; nghỉ{wait:.0f} giây. Ctrl+C rồi chạy lại cùng lệnh để resume.', flush=True)
+            print(f'Các shard còn lại đang chờ quota; nghỉ {wait:.0f} giây. Ctrl+C rồi chạy lại cùng lệnh để tiếp tục.', flush=True)
             sleep(wait)
     return progress(root, release, done, ledger, clock(), layout=layout)

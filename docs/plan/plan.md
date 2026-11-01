@@ -15,7 +15,8 @@ W11-17 đã khóa protocol; W11-18 đã dựng snapshot/PIT audit1.640 query,
 dự phòng và1 ngày chuẩn bị. Giảm84,39% HTTP nghiên cứu so1.640 điểm cũ.
 Đã khóa spec v4.1, ngân hàng numeric `NUMERIC_BANK_PASS`, panel256 và
 release collection; bàn giao [mục27 W11](week11/README.md#27-w11-18af--triển-khai-v41-và-bàn-giao-panel256-01112026).
-CLI: `py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1.py`, dùng4 key độc lập
+Lượt collection hiện hành là [v4.1 r2](week11/README.md#28-w11-18--lượt-thu-thập-hiện-hành-v41-r2).
+CLI: `py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1_r2.py`, dùng4 key độc lập
 trong `.env` theo hướng dẫn. Lệnh mục25 vẫn chạy1.640 điểm. Chưa nghiệm thu
 W11-18, chưa mở W11-19 hoặc train predictor; chờ người dùng chạy18d rồi cold18e.
 
@@ -32,9 +33,10 @@ công việc tiếp nối. Không thay byte bằng chứng hoặc coi sửa tài
 **Tiến độ:** W10 **14/14**; W11 **15/25 DONE, 2 NOT_RUN, 1 IN_PROGRESS, 7 TODO**; W12 **0/8**.
 W11-15 đóng bàn giao v3; W11-16 audit paper/implementation DONE bằng tài liệu.
 W11-17 **SPEC_LOCK_PASS** tại [mục23](week11/README.md#23-w11-17--khóa-protocol-conditional-mt-bicl-v4-31102026).
-W11-18 đã thực hiện18a/b, release18c và khóa consumer18f; chờ thu thập18d
-và cold acceptance18e tại mục27. Warmup đã seal được tái kiểm/reuse đúng
-lineage; giữ audit [mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
+W11-18 dùng ngân hàng numeric và lượt collection r2 tại mục28; chờ người
+dùng chạy warmup/preflight/18d rồi cold acceptance18e. Consumer r2 chỉ mở
+W11-19 sau receipt mới đủ256 ID được neo Git. Giữ audit
+[mục24](week11/README.md#24-w11-18--dataset-pit-và-thiếu-hụt-đầu-vào-agent-01112026)
 và release1.640 điểm mục25 nguyên byte. Agent chỉ chuẩn bị/kiểm offline.
 Sau khi W11-18 đủ gate mới mở19–25 baseline/learner/
 calibration/tích hợp/development/nomination/bàn giao. W12 audit exposure,

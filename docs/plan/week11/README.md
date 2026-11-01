@@ -2727,3 +2727,68 @@ không đọc key/network. `--accept` cold rebuild bank byte-identical rồi
 trả `INCOMPLETE_PANEL`, không tạo receipt PASS. QA175 link/anchor nội bộ,
 checklist, byte labels và prefix5279 request PASS; không có complete hoặc
 HTTP nghiên cứu mới trong namespace v4.1. Diff không lỗi khoảng trắng.
+
+## 28. W11-18 — Lượt thu thập hiện hành v4.1 r2
+
+Lượt hiện hành dùng namespace `outputs/bayesian_benchmark/mt_bicl_v4_1_r2/`;
+receipt v4/v4.1 trước đó giữ nguyên. [Ngân hàng r2](dataset_manifest_v4_1_r2.json)
+dựng độc lập từ giá gốc đã khóa:1.640 query,1.523 nhãn engine. Numeric/mask,
+nhãn, scaler, membership D/C và tên regime phải trùng v4.1; chỉ proof hash
+model regime được dựng và khóa riêng với cùng prefix/seed/tham số/runtime.
+Panel giữ đúng256 ID,32 stratum,64 ID/shard; model, prompt, client options,
+kinh tế T+2.5 và registry phương pháp giữ nguyên. Không fit predictor/reference.
+
+[Release r2](collection_release_v4_1_r2.json) chỉ cấp thu thập upstream và
+Original trên panel2019–2022. Một writer dùng ledger chung, không reset quota
+hoặc request; chữ ký/UUID/journal/cache thuộc riêng lượt này. Chi tiết lineage
+và exposure được khóa trong release. Chưa nghiệm thu W11-18 hoặc mở W11-19.
+
+Người dùng giữ bốn biến `GROQ_API_KEY_1`…`GROQ_API_KEY_4` trong `.env`,
+thuộc bốn organization độc lập như đã xác nhận, rồi chạy:
+
+```powershell
+py -3.13 -X utf8 scripts/continue_mt_bicl_v4_1_r2.py
+```
+
+Một lệnh kiểm nguồn/release → tải warmup VCI2015–đầu2018 theo từng mã →
+đối soát toàn bộ overlap với giá gốc → khóa identity → bind bốn scope →
+12 probe synthetic PASS → collection panel. Giá nghiên cứu từ2018 và nhãn
+không bị thay; không tạo nhãn trước2018. Warmup đã lưu hợp lệ được reuse.
+Mọi raw response đã seal bị mất/sửa đều dừng trước HTTP thay thế.
+
+Sau mỗi raw response và mỗi checkpoint point, runner mirror whitelist
+bằng chứng vào `C:\Users\<user>\Documents\CodexRecovery\mt_bicl_v4_1_r2\`,
+ngoài dự án; không sao chép `.env` hoặc credential. Lỗi ghi mirror dừng
+`LOCAL_BACKUP_FAILED`, giữ raw/UUID/ledger tại dự án. Khi nguồn/mirror đã
+được đối soát, chạy lại cùng lệnh; không xóa file để bỏ kiểm hash.
+
+Ctrl+C hoặc ngắt tiến trình: chạy lại **đúng lệnh trên**. Giữ shard, scope,
+UUID, raw và checkpoint; complete hợp lệ không gọi lại API. Quota ngày của
+một scope trả về coordinator, shard khác được phục vụ sau khi đủ preflight;
+hết mọi quota thì chờ reset. Không trần giờ, số point hoặc deadline tự dừng;
+target3–5 ngày vẫn có điều kiện quota. HTTP400 hoặc request vượt giới hạn
+provider dừng với thông tin đã lọc; không tự đổi model/key/token cap.
+
+`--preflight-only` tải/kiểm warmup rồi kiểm synthetic, chưa thu panel.
+`--verify-only` cấm network/key; trước warmup trả `WAITING_USER_WARMUP`,
+sau đó replay cache và báo `WAITING_USER_API` nếu còn điểm chưa thu.
+Đổi một key có chủ ý dùng `--rebind-scope scope_N`; binding history giữ lại.
+
+Đủ256 point chỉ báo `PANEL_COMPLETE_AWAITING_COLD_ACCEPTANCE`. Agent kiểm
+offline, không key/socket/reserve mới:
+
+```powershell
+py -3.13 -X utf8 scripts/prepare_mt_bicl_v4_1_r2.py accept
+```
+
+Cold rebuild numeric/PIT và cold canonical replay từng point/probe; kiểm
+scope/shard, nguồn warmup, raw, ledger và đúng256 unique IDs. Chỉ receipt
+`data_acceptance_v4_1_r2.json` đạt `DATA_READY_PASS`, được commit, mới cho
+`core.mt_bicl_v41_r2_contract.load_ready` mở W11-19. Các bước W11-19…25 và
+W12 tiếp tục theo dependency đã đăng ký; không dùng PASS vận hành làm bằng
+chứng kinh tế hoặc mở development/confirmation sớm.
+
+Phạm vi kiểm tra và hash nguồn/runtime nằm trong
+[QA r2](collection_validation_v4_1_r2.json). Không chạy lại toàn suite,
+compileall toàn codebase hoặc E2E toàn hệ thống; chọn test collector,
+coordinator, recovery/transport và PIT của đúng đường chạy mới theo AGENTS.md1.2.
