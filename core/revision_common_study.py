@@ -193,7 +193,8 @@ def prepare_bank(root: Path, destination: Path, protocol_path: Path) -> dict:
     sources += [p for directory in ("agents", "utils") for p in (root / directory).glob("*.py")]
     sources += [root / p for p in ("core/backtest_engine.py", "core/alpha_compare.py", "core/revision_baselines.py",
         "core/revision_common_study.py", "core/revision_call_archive.py", "core/revision_common_analysis.py",
-        "scripts/run_revision_common_study.py", "default_config.py")]
+        "scripts/run_revision_common_study.py", "scripts/evaluate_revision_baselines.py",
+        "core/revision_audit.py", "data_manager/sentiment_cache.py", "default_config.py")]
     news = {}
     for symbol in DEFAULT_SYMBOLS:
         path = root / f"sentiment_cache_{symbol}.json"
@@ -208,7 +209,7 @@ def prepare_bank(root: Path, destination: Path, protocol_path: Path) -> dict:
     nominal = n_calibration * 3 + n_test * protocol["end_to_end_repeats"] * 3 + n_test * (protocol["decision_only_repeats"] - 1)
     from importlib.metadata import version
     import sys
-    runtime = {name: version(name) for name in ("numpy", "pandas", "scipy", "scikit-learn", "TA-Lib", "groq", "langchain-groq", "langchain-core", "langgraph")}
+    runtime = {name: version(name) for name in ("numpy", "pandas", "scipy", "scikit-learn", "TA-Lib", "groq", "langchain-groq", "langchain-core", "langgraph", "matplotlib", "mplfinance", "Pillow", "pydantic", "python-dotenv")}
     runtime["python"] = sys.version.split()[0]
     manifest = {"schema_version": "r1_common_bank_v1", "protocol": protocol, "runtime": runtime,
         "news_hash": digest(news),

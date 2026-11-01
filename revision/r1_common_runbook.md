@@ -69,4 +69,41 @@ Không gộp tất cả repeats thành số thị trường độc lập, không
 
 ## Lượt smoke và khóa lại bank
 
-Bank/run `v1` là smoke bị dừng sau 2 response vision thật, chưa có prediction Full: guard cũ đã nhầm yêu cầu Indicator phải gọi LLM. Source trước sửa được bảo toàn trong `r1_common_bank_v1/source_snapshot.zip`. Runner hiện dùng bank/run/output `v2`. Lịch, runtime, giá, tin và AST hàm sinh feature không đổi; [feature_reuse.json](../outputs/revision/r1_common_bank_v2/feature_reuse.json) ghi kiểm tra và nguồn. Chỉ bank ID/self-hash của feature đổi, không sửa feature/market-input hash. Không chuyển response smoke sang run mới. Script `refreeze_revision_common_bank.py` là thao tác chuyển phiên bản một lần, từ chối ghi đè bank đích.
+Bank/run `v1` là smoke bị dừng sau 2 response vision thật, chưa có prediction Full: guard cũ đã nhầm yêu cầu Indicator phải gọi LLM. Source trước sửa được bảo toàn trong `r1_common_bank_v1/source_snapshot.zip`. Runner hiện dùng bank/run/output `v3`. Lịch, runtime, giá, tin và AST hàm sinh feature không đổi; [feature_reuse.json](../outputs/revision/r1_common_bank_v3/feature_reuse.json) ghi kiểm tra và nguồn. Chỉ bank ID/self-hash của feature đổi, không sửa feature/market-input hash. Không chuyển response smoke sang run mới. Script `refreeze_revision_common_bank.py --previous v2 --version v3` là thao tác chuyển phiên bản một lần, từ chối ghi đè bank đích.
+
+## Quota ngày và checkout mới
+
+Run v2 dừng sau 12 calibration, chưa có test, vì HTTP 429 TPD limit 200.000. Hai calibration dùng text fallback của agent gốc; giữ toàn bộ raw traces, không dùng làm kết quả Full chính thức hoặc chuyển sang v3. Không còn worker nền v2 chạy. Guard v3 đọc cả thời gian ghép như `18m10s`, dừng ngay khi hết quota ngày trước fallback/retry tiếp. Trước khi resume cần quota đáp ứng grid; không tự nâng gói hoặc chuyển provider/model.
+
+Source v2 được khóa tại `r1_common_bank_v2/source_snapshot.zip`; v3 chỉ tái dùng feature số sau kiểm tra, thêm hash helper/runtime dependency, không tái dùng prediction. Khi cần chạy nền trên Windows với quota đã có:
+
+```powershell
+pwsh -NoProfile -File scripts/continue_revision_common_study.ps1 -MaxRequests 30000
+py -3.13 -X utf8 scripts/status_revision_common_study.py
+```
+
+Controller dừng nếu inference lỗi, không có vòng resume vô hạn. Không coi receipt hoàn tất inference là đóng R1.
+
+Fresh checkout cần các `sentiment_cache_<SYMBOL>.json` nguyên bản mà bank đã hash dù score là unknown. Nếu thiếu, chỉ trích đúng chín cache files từ `r1_common_bank_v2/source_snapshot.zip`, đối chiếu SHA-256 trong manifest v3 trước khi dùng và không ghi đè file có sẵn. Không giải nén toàn archive lên root: code trong đó là phiên bản cũ. Tin đã lọc vẫn có tại `news.json`; không crawl/rescore để thay nguồn.
+
+## Lệnh terminal sau khi quota phục hồi
+
+Người dùng chọn giữ quota hiện tại và tự chạy từng đợt. Không cần chạy lại prepare/features/numeric. Lệnh **có gọi API** duy nhất trong quy trình tiếp tục là:
+
+```powershell
+py -3.13 -X utf8 scripts/run_revision_common_study.py run --max-requests 30000
+```
+
+Chạy từ repository root, cùng Python/mã/protocol đã khóa, key trong `.env`. Chạy lại đúng lệnh sau mỗi lần quota phục hồi để resume run v3; 30.000 là trần attempts cộng dồn, không phải mỗi đợt. Nếu chạm trần khi chưa đủ grid, cần chọn trần mới lớn hơn một cách chủ động. Không đổi bank/run/output để lách checkpoint. Không coi thời gian chờ cũ là quota đã đủ; provider có thể tiếp tục giới hạn và runner sẽ giữ dữ liệu rồi dừng.
+
+Các lệnh **không gọi API**:
+
+```powershell
+# Tiến độ trực tiếp; không phải verifier hoặc kết quả nghiệm thu.
+py -3.13 -X utf8 scripts/status_revision_common_study.py
+
+# Chỉ chạy sau khi inference báo hoàn tất đủ grid.
+py -3.13 -X utf8 scripts/run_revision_common_study.py analyze
+```
+
+`analyze` từ chối nếu chưa có inference_complete hoặc thiếu/hash sai artifacts. Sau khi hoàn tất cần kiểm tra kết quả, cập nhật manuscript/response và mới xét đóng R1. Nếu chỉ muốn kiểm integrity của releases/receipt đang có, dùng `scripts/verify_revision_common_study.py`; không gọi API, không tự chạy lại baselines.

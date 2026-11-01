@@ -1,0 +1,902 @@
+{
+  "sources": [
+    {
+      "path": "outputs/revision/r1_common_bank_v3/manifest.json",
+      "sha256": "b87ffa9c3ed1b60005c5c73b257230f76b80c938103b032b0498b2f1a3657b13"
+    },
+    {
+      "path": "outputs/revision/r1_common_bank_v3/features_complete.json",
+      "sha256": "06140221914bef41a8d8625e76a31a54bcbe9385ebaace09b77437a2549cb4cf"
+    },
+    {
+      "path": "scripts/evaluate_revision_common_numeric.py",
+      "sha256": "cc54e46f90613e92d0cd663486b0383e9ff49d56a4e76b10e2f64d3fbdece23e"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "classification.json",
+      "sha256": "083336897f15f0c33e5c5e8bea24d522fc92573c7fff85a48bef54f44b0abadf"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_constant_up_cycles.csv",
+      "sha256": "a447de8d558437999e43ebe589443dc57a0814fd0a0d4ac49741adf60a93bec0"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_continuous_hold.csv",
+      "sha256": "220d4e2f8d1dead858e6fad64e0e13103b868c2b7f10ea3c8c909b7e6bb519b8"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_factor_only_vote.csv",
+      "sha256": "aa10f288faca1188e8f7d525e64a5664017c598f198369145dd8c1f326ae41f2"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "1fe7e1cdc96991bf80315e2fa5e0557aa1a8a4c2b9797b308096d39c9020f11f"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_logistic_price.csv",
+      "sha256": "1fe7e1cdc96991bf80315e2fa5e0557aa1a8a4c2b9797b308096d39c9020f11f"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_momentum_20.csv",
+      "sha256": "c188dcf73e87b9f3ea16544482c7a59ddc0792bd3194d339f9222550607f325a"
+    },
+    {
+      "path": "daily/BHN_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_constant_up_cycles.csv",
+      "sha256": "b61d153b0c913872243cdc2de35fdfde4c614c4c665a0e43268f953421f6f611"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_continuous_hold.csv",
+      "sha256": "ecb7d4cd0ce0d6a9d41f808fec91179001c480e458c0d4f365aafcb22f889a94"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_factor_only_vote.csv",
+      "sha256": "e7e532e854cfef89f69ea996651a1b39f61cd9a4104484cd767ed0939a5b61a0"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "093e3cc1b0ed83e3c2cfba79255d543a88ae01a59e8fdf74331efc97de1fbbfc"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_logistic_price.csv",
+      "sha256": "1a00adca87d12e77f89efcf8ae69746445be897d6d26977ba1434bc83290714f"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_momentum_20.csv",
+      "sha256": "f67ddf7c5e9b6d385b890511e17021a7fd365631b90db209241232427da85612"
+    },
+    {
+      "path": "daily/BHN_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_constant_up_cycles.csv",
+      "sha256": "9676fd8d952933d09582868dc7434b1e5f05525efaad4378ffa48d79a6313484"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_continuous_hold.csv",
+      "sha256": "b45e5fbfe4b578be0c15c1359432714c3928624d7abcb8cb8996f0e8fa84d1a3"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_factor_only_vote.csv",
+      "sha256": "5b2a38f4b0bab35de3b31adf32822ec93e817d3742190a57e30f1ba4afd0034c"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "77406e3773c064c23e973435df5c13d6ef7f49ba6eaa5c961929bf927ea32c6e"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_logistic_price.csv",
+      "sha256": "a45c52e3360d1ae31e5d833d98eee432336011b1fad09bb33387c35659e0c23f"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_momentum_20.csv",
+      "sha256": "62baf972b18e1eb197ef61c05e018655c01fc824b1fbe35f84ef059dc0172f10"
+    },
+    {
+      "path": "daily/BHN_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_constant_up_cycles.csv",
+      "sha256": "3b3ea762503863a84c317b9bdf8512806a4f817c63509731ebe990e047401f32"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_continuous_hold.csv",
+      "sha256": "5c42a0e388d6949e5393cade2eab76fd5636476e78058390f3d912f7f16476d3"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_factor_only_vote.csv",
+      "sha256": "fbc22cdefc99508dddcb324a26cd921d6440e1383e0631e1674301b1e1c73323"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "d026b9ec1eaa92fe2392b23b9d10939724903672f5592c11f1520b71311bf2a0"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_logistic_price.csv",
+      "sha256": "55ae741c5794f7cc267e4b11b02497d59a3fbd9e458cc2334a4fa93eaa59c3a7"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_momentum_20.csv",
+      "sha256": "fa0d2d500c76a257ca97591dbbf03328b552fa7ec51c454e4c40037ae059cf7d"
+    },
+    {
+      "path": "daily/CMG_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_constant_up_cycles.csv",
+      "sha256": "2f9b5198c830176eb99b263575b631cc58820879c66eeac15c0857ee28f21697"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_continuous_hold.csv",
+      "sha256": "c054850d794cd5473f2980e006e76e56beba5b692f3763911a6565b2587b4c22"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_factor_only_vote.csv",
+      "sha256": "32c047dde987007dfbffe336a7521910420b21c2f5d3e8164219d900df6545f4"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "e3acba63ba910654810e2bda21cb497cb5dd8c17acb275bc960308a89260d4aa"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_logistic_price.csv",
+      "sha256": "571a4324630a324e9ffae5ac52cc4fbe72af49d0c232d1e54caed16eeac37535"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_momentum_20.csv",
+      "sha256": "330a100a7d84557c3d2b5559ccdc37c2099436937e2fc4d4a7fa44998efa62d0"
+    },
+    {
+      "path": "daily/CMG_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_constant_up_cycles.csv",
+      "sha256": "cd9ea7ef32a262d86387508707e167ee3bf18df123d9d587186ab0ed56ec60af"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_continuous_hold.csv",
+      "sha256": "5f3b440bb92eb11b86922d503eb8eb57799ed6f8bb3e43355c79d5cb078ab801"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_factor_only_vote.csv",
+      "sha256": "f320c29ac9b7e865a8d7ae5c7a2ab03616c48f58a850c6c83f368ff2ac159755"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "a8b9b273cb22dffa301e0f9507bd43f3d8cc76599113689040a160dabbf6b226"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_logistic_price.csv",
+      "sha256": "8583a7c396cb0bd5b39944918037bfa920e7e2f806d5c92a4cf84da431a1b5b0"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_momentum_20.csv",
+      "sha256": "954efaf0e56614ad75ef5fc4c69e1855aab9e61c6818da8f36f84aebe1de9dcf"
+    },
+    {
+      "path": "daily/CMG_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_constant_up_cycles.csv",
+      "sha256": "2adf4c69c769559c4d04736c42b588c183f9f844bb7278bf589f2b441031f923"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_continuous_hold.csv",
+      "sha256": "4a38614f7af1f1f4fd53628667c6d032a3203697ad656881a799d6ee00bc4bc4"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_factor_only_vote.csv",
+      "sha256": "02cf0b7d4e7868edbf8fcaec82d6ff03d7d8cfaff9dbc03c579704cb7510ce85"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "21970396e7b8e8a580d6effa0d20a977413d901ed58a9e62971d0264b4ffa558"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_logistic_price.csv",
+      "sha256": "7e74a3bebed88fd348c733a6d99913607edc6b961bb03dcd673b3b7cbb270b2a"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_momentum_20.csv",
+      "sha256": "b0528953d0cfe100ac5299a7a2718112b20dcc69c32be69057d1d1c8c07167ab"
+    },
+    {
+      "path": "daily/FPT_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_constant_up_cycles.csv",
+      "sha256": "d2068b18aab2714f6ea2abb258be27a7bf5ec794cb7bd516a157fc2fb1f85073"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_continuous_hold.csv",
+      "sha256": "b52b247909eed053b457864d67586048664b642a96ba4ce9a0817b1082670b75"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_factor_only_vote.csv",
+      "sha256": "4c46b699ffb7e61b57fa775282392519d1fb5708f4f743b7e002a48f45821874"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "a23ff136806c45a11fde77335d94f962ab5bd0887769082328935eb79effb20d"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_logistic_price.csv",
+      "sha256": "80163f933791dec577604c50e438d8aacf80073c8a07f889a284a8ede4fc9765"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_momentum_20.csv",
+      "sha256": "3243a2e4c536f4cd0c1cb2784525047219494894398e43d6dbd0a3a38913d564"
+    },
+    {
+      "path": "daily/FPT_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_constant_up_cycles.csv",
+      "sha256": "a143f5993e2ddf21ceb3d2db2e548463440841b25ea20ae2f8cdccde0c4585f2"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_continuous_hold.csv",
+      "sha256": "2f208a653f8f59ea7f9596953c3ad5e4cec4251210766186c86627fe27b323fc"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_factor_only_vote.csv",
+      "sha256": "64ee3ae074ac31022b7304e2d8a4296a5a9e73ee5aad49cff4d94ec77ba197db"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "0087fca606a6df09808c0eb0153a0736a8f1a9479a1dc171c3521f81153942ea"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_logistic_price.csv",
+      "sha256": "b2fa7e3d0a2acfe037ae74954cf61dcef22e840e908f672e1f8988ba2e872fe1"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_momentum_20.csv",
+      "sha256": "b631fe05524b392d62ed1e9e70a9db86f8d2cd36ddc8a067e4ab05615f5726e2"
+    },
+    {
+      "path": "daily/FPT_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_constant_up_cycles.csv",
+      "sha256": "682badb1ff583a5b9d748cd31dd5ab780a6e701ed0b40749f97db6fcdc7a1a53"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_continuous_hold.csv",
+      "sha256": "cf063ade8b24aece0507fa05b4b390dd34891ce020054e76589c47478fbee7fe"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_factor_only_vote.csv",
+      "sha256": "0e37009b40219369bba1a19510ce3417c8434ecd1d795f362790c331140e3914"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "96c97129a31d935856c289737211fd2627f9dd25fc9391bffa9d2868e3deedc6"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_logistic_price.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_momentum_20.csv",
+      "sha256": "0d5fa36d0be4c9d2feafba5de297e5cc4ced33e1ef899e7d628469f029b043cd"
+    },
+    {
+      "path": "daily/HVN_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_constant_up_cycles.csv",
+      "sha256": "e108befb57e3d361faf37405efd376d24d7d7590996eda414e1d81641053ee97"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_continuous_hold.csv",
+      "sha256": "e7e9f5eac62504d99665cb71f2b24c34b69394c77e42388ee65a738294a26ab4"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_factor_only_vote.csv",
+      "sha256": "dbd55c5b66cca1c7acd0f1ccc462f730749140c7bae074574a2231ade39bd7f0"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "d7f78b3f9d2052c5c2dd1e4e39e4a42db9f47b9e37f6637af69dad05cb6e1caf"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_logistic_price.csv",
+      "sha256": "e7b270c370d93a59d8516329d9af844c7785a2de4c9b6970dc1a84ac900656cf"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_momentum_20.csv",
+      "sha256": "0ff9b03561574c392afac226e7f4d138bf48e6a2554631230183a2fbf00c5ad6"
+    },
+    {
+      "path": "daily/HVN_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_constant_up_cycles.csv",
+      "sha256": "b2805196b6f4f60350a755813095f081497a99a0404ed5d979a8d9fda5418395"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_continuous_hold.csv",
+      "sha256": "ae218afe4ec05d3f6609bc5ca011d8f2b7f39213a2ca923741bd1ba6fa2ee523"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_factor_only_vote.csv",
+      "sha256": "4ca072a26bee03f8523164d65144cfa123dbdb3e4fbfc413aa0e2f21778990b9"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "3681cc2303c3037d86dfe21c8e92f7fdecea107f026a8c0e57b016c9a8203fcd"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_logistic_price.csv",
+      "sha256": "2e329259c964b19b2ad83aeab015b6d06e71d0a9ed86be460f5e47903428bbba"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_momentum_20.csv",
+      "sha256": "14ba16d651114d98624263438b08b2e1585e34fd5942285830664ec6fc67553e"
+    },
+    {
+      "path": "daily/HVN_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_constant_up_cycles.csv",
+      "sha256": "f886d7a178097938e9ad10128fd35ff09a22f1ca0c13e99db4b47cfc0d46ad9a"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_continuous_hold.csv",
+      "sha256": "52692da135dfc31ae7630cadf59b4dfe0d66f0ee3e5ecc9e557f35409822e992"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_factor_only_vote.csv",
+      "sha256": "2f2fd6666faabd7853a062c9d424172f79b5e9e83d310a660d4f10564787d69d"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "5c27d341932de962bf3d67196d51cb030ac3e69a2cebea5ba2a4e2d76d1f9573"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_logistic_price.csv",
+      "sha256": "6c78a922c78781d72f8ea2d8d00c563af92704b976e50da688c784423834d8c7"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_momentum_20.csv",
+      "sha256": "eae9f1187dc1e284dec240298272c508f646e248d6217d96ea40b7167cffa24a"
+    },
+    {
+      "path": "daily/MBB_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_constant_up_cycles.csv",
+      "sha256": "5798aaebffeffcf904ad6dd4a36539d4e837cf2df91540e18fdaacee6b2eb85a"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_continuous_hold.csv",
+      "sha256": "8838a5ca62b9b6a6826cf5489069df2d8b5f5c8e44699f64c745bde7c38b5376"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_factor_only_vote.csv",
+      "sha256": "08419555d03217e7b73c59217929350692753fe3321712ba929019f7843a6515"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "65c398d78d7311edaa771df29b0728feefcabf4b2c17f24c76e03a376b7083a5"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_logistic_price.csv",
+      "sha256": "17a2a3b74e0d77bc64dbce03c584159c68f577cd08c794d92e677c3921df44af"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_momentum_20.csv",
+      "sha256": "bb46f0d8da2e39c491691634a918ee3d04e2a81f1f23de07581ff27192a7d926"
+    },
+    {
+      "path": "daily/MBB_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_constant_up_cycles.csv",
+      "sha256": "def882da019e98426613ba30bdd456c29b9400e87bdfb9eb0d2f94b20b1b5864"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_continuous_hold.csv",
+      "sha256": "2b78706cff5bb08fa8686bbb1cfca6b141604af1afd9a1c86bc2ae42092b3614"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_factor_only_vote.csv",
+      "sha256": "21128dd191eee96caeb9368c4a15435ddcdb00afe0d8bfa4a87b83b8d45ae7c4"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "1eeb2b853c00c16e31581fb292ccfea603c3b36c6f22622e3bb47942858c61fc"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_logistic_price.csv",
+      "sha256": "d8debe63971c99ce08d0fb48f5e3f0c8705719a1246a8d32effbb7abd0b5a428"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_momentum_20.csv",
+      "sha256": "d1e5e8ce2991e366d130456786cf615358612785d655ff08434b9ec68c54a679"
+    },
+    {
+      "path": "daily/MBB_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_constant_up_cycles.csv",
+      "sha256": "59308e153a3c1661344dc98fa97966336c04225cf338aa5b8f20117431a4a198"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_continuous_hold.csv",
+      "sha256": "7238b2aae8c225010b7cf29ac0cad0ad158532b2f52a12b5c526cb038cb46731"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_factor_only_vote.csv",
+      "sha256": "4cf4f8faa3adf1e00347ab04f2e16e7be7012983d576443d272736fd8279f864"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "a2e6bd0aab681bba37db19f9a3a5d7f1e707f73ceae615c5685ce102cc37bb31"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_logistic_price.csv",
+      "sha256": "5a9f2dcd28158b33846834344c2941f0dc623343b7875baa1f8f039950cf32ed"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_momentum_20.csv",
+      "sha256": "64d0a8fbc90424a3e05e200e6f8a7af48de1b9be720e3be9710d4e0c60af4b35"
+    },
+    {
+      "path": "daily/MWG_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_constant_up_cycles.csv",
+      "sha256": "e81ec70424afe7f01c0b94d218b07f15f3ef36b9f0bd3fe02d3a286e72c2a7b3"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_continuous_hold.csv",
+      "sha256": "16c0b12c1f3b74821fd8d3ae1a17d0366c0a02467f012ff909c5ee56c69adc36"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_factor_only_vote.csv",
+      "sha256": "ef071da2106b9e985345ebcee430f004be1d7b9ebc20a7abd2d4858a31bf5780"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "307fda97befeeefb02c93fb1185aa3d15cf79c855dfe071e721404d2e8351dce"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_logistic_price.csv",
+      "sha256": "3f3a7140a600e3c01af6cfa6b4e204e6ba5d368a105d567c53048b4abca43d14"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_momentum_20.csv",
+      "sha256": "38eb355cfcb42ee4bda42a7d47494bda725f3d4d82bcfd0e94c31cc1eaed333b"
+    },
+    {
+      "path": "daily/MWG_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_constant_up_cycles.csv",
+      "sha256": "3619b48d437e51f74ca92708c11b3cc2924c644b1e97a3f42d41902d4d65a27f"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_continuous_hold.csv",
+      "sha256": "f898e783c400da135b6531535d159a82cea7e408205f753920474064fbc31f58"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_factor_only_vote.csv",
+      "sha256": "174f491b3fedec8e271bfefcb0250dbd44ad57e273828b0a7051f23986e97cb4"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "9868d94c5832b3ace9edd2ea9a95de8d63d706cc3a8d048455c27ef83433ed67"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_logistic_price.csv",
+      "sha256": "aa8dd4cffdda00dd5226c744707105564d0ad6bf569e0f8ba4d60c8da8395144"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_momentum_20.csv",
+      "sha256": "5561ce76b6d17b5808da7f2b6a2e86bdf41c0b968595e6822dad262698ec8808"
+    },
+    {
+      "path": "daily/MWG_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_constant_up_cycles.csv",
+      "sha256": "94e72fdf1a36f6c71821ba7204ae778d364d7d3e7c0181906b20a2c89e36213c"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_continuous_hold.csv",
+      "sha256": "c335755330be84ddffb2fc477a1e4a019c634c351584450b12ce7fa083538018"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_factor_only_vote.csv",
+      "sha256": "90f46b825470893a3e057334dbca904acaf2319389e6159c2b005cda00c136e0"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "9ce4987482cd4743abcb4861a2bfc2e10d4e6c83ad2da1fd172e5c506667fa96"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_logistic_price.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_momentum_20.csv",
+      "sha256": "c2e5b5610265ed8a72b60f0d8f29bbfdaaa2ef152f92660c7dea2acd70eb8b97"
+    },
+    {
+      "path": "daily/VCB_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_constant_up_cycles.csv",
+      "sha256": "7f550a492e9d57095cf9de6eedef84d97c6f3aec3446a38ca52615758cc856c5"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_continuous_hold.csv",
+      "sha256": "92b3668c08e27e46fb7ad1799c39bfceaeb9017fed1178f863ae0985f852fbfb"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_factor_only_vote.csv",
+      "sha256": "7d91e26ab45106f53ddf36a9e9d64edaadcaaac167122b5c6cabfcef198ef8e3"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "5830f4a045a6fa201b4036b77fc63a0520bb17bcbca509fb16ab4d6238e3e331"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_logistic_price.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_momentum_20.csv",
+      "sha256": "945eb0d2c6d5f2a5fb5c4e743718e8f0f7c81d2ade13e8c380bc192fd538406f"
+    },
+    {
+      "path": "daily/VCB_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_constant_up_cycles.csv",
+      "sha256": "b1a2d2fedbc532669893e04d7fac5cf486dbd589a80ea75057a66d4234d4c72b"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_continuous_hold.csv",
+      "sha256": "e01b670b19a343ef4eec1e27d5095377bf46c2937bab559f84a4d81339e7459b"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_factor_only_vote.csv",
+      "sha256": "70e656b29530c4204dabae3c8373a4f9d52e987f7db63101b0836ce1ea099145"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "49d3a7dcad0be7a9f17b1e67917ec74da8c7b0908708a754e10752dbe12558be"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_logistic_price.csv",
+      "sha256": "ae8ce717d40f457e7c8ce4eac737bf8d26a57531a7edd1801ab4069f5ad90ea4"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_momentum_20.csv",
+      "sha256": "058cc9af9cb0be65464306ca61246b5e1d6e0e22da216c1f9baf630f95c3cb6e"
+    },
+    {
+      "path": "daily/VCB_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_constant_up_cycles.csv",
+      "sha256": "79a195e3f62d40ab77ef17dcbda62e884ac0d493e3bd1386fc4078e79e0c6507"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_continuous_hold.csv",
+      "sha256": "9419890513d6efb9887bd9ef75d7dd54c35febea5ef2d08b7b43d8f0d95380e9"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_factor_only_vote.csv",
+      "sha256": "911b36a6f1dee15a1e53954324a4a75f4efb8b5eb6907c5a0ceeaaf405407426"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "03a94cb828e7f39bc2f25bbe3d2f006f004f4d9d74a697af05a74580886e2519"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_logistic_price.csv",
+      "sha256": "d9e44c2f4a9b271eb4eb5e8296983c659fb95bd24352f699507f4377074fc523"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_momentum_20.csv",
+      "sha256": "1b46046a6de4bc6c3fddc32039cb4ca1d108d6a14571e2b19466bb43a860d3ed"
+    },
+    {
+      "path": "daily/VJC_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_constant_up_cycles.csv",
+      "sha256": "dbe0429b035f198abb238ba5e1154f0df72aada7271cadd2af7b8c7952a8e329"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_continuous_hold.csv",
+      "sha256": "3675c15c0627d980a2c32f413638fd8ef00d05ce169795dbc6718bac9fa082a9"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_factor_only_vote.csv",
+      "sha256": "1ca8245c2b5b18a2fe5b6e0c48741d3e8197bb7fd982b5bd86bc47a74d01485a"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "e916d7788fed06be176a5d7ab57b8b38c637a38a7421a2ae10933f20b9ffda15"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_logistic_price.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_momentum_20.csv",
+      "sha256": "5d50642f0633386c0b061a602ad395cb223bfef482fcb4931efa8b96ddab00c3"
+    },
+    {
+      "path": "daily/VJC_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_constant_up_cycles.csv",
+      "sha256": "1c778619bd4411745018baa160296301225a22b4dbc93f617088d70eae8feda0"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_continuous_hold.csv",
+      "sha256": "2d2bfd597e9f849e178a8917f9e0852e2a44122e7ad9077873cee8d690ab410e"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_factor_only_vote.csv",
+      "sha256": "90efb45b2a01216020e21237af9da3f593994e568dab65c827269a39bcaa806c"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "9c8e6e001cc60880d954da6c19a58a2743f7ed5e1995576617ea78307d36232e"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_logistic_price.csv",
+      "sha256": "45404f80a8de3b6562b72830583960e3fc19e48aa2d50418579c35ecf6ac85c1"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_momentum_20.csv",
+      "sha256": "02e7f8d5083a9a111c7c50eeb30bd0d96404fc008597d71b931b71b2323b211f"
+    },
+    {
+      "path": "daily/VJC_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_constant_down_cash.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_constant_up_cycles.csv",
+      "sha256": "18cb43faf9f34f35ffcfb5077b19655494675b27917130c2c36f7b1bc3b02f5e"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_continuous_hold.csv",
+      "sha256": "51e5719faad92febbd7e62e246c096a2f2bcdfd7946559087e1d171b085c7f9d"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_factor_only_vote.csv",
+      "sha256": "383b84213249e25f7cc577767103bc2ddabb1e5b79964c89a9bbcea7f0ef286e"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_logistic_matched_market_inputs.csv",
+      "sha256": "3589ea36c681a9127042fe5c539dca7af80a91c339725e8c71fd7cb86141dc82"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_logistic_price.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_momentum_20.csv",
+      "sha256": "88c367d433dd26615df0f392b2b7d48010bd4df7b78bfe45b741026a6342619f"
+    },
+    {
+      "path": "daily/VNM_f2025_q4_train_majority.csv",
+      "sha256": "30a32c1cf1eedd22d4b4c8bcdea25298aec3021c13396a51925f822081b5e468"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_constant_down_cash.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_constant_up_cycles.csv",
+      "sha256": "1c0e726e807a7429ff2b4c59c166626f40de786dd2a5adc41d036b58cbed41f0"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_continuous_hold.csv",
+      "sha256": "f5fa84561796741f0da5b520aca33bb6fcf0efc3697364247ddfb79a0ec67730"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_factor_only_vote.csv",
+      "sha256": "6dd956d6a537fadb3652af6fae23042fd1a787afba7f2082eb4764639e2c449e"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_logistic_matched_market_inputs.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_logistic_price.csv",
+      "sha256": "1f6858e4f505e70a6c2b99bb7c0628781ccdfed71f1ee4c0ce0e5e47c2ba98ef"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_momentum_20.csv",
+      "sha256": "3c318c50f2bee5d7b42b0e29ebc13d5df2eef5135de57fef99c887651afc8c1c"
+    },
+    {
+      "path": "daily/VNM_f2026_q2_train_majority.csv",
+      "sha256": "a125156d68b2dc5612b14a97853ecc96876f9a260920a51291a56f14afff652a"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_constant_down_cash.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_constant_up_cycles.csv",
+      "sha256": "f27d527beee5658407b307b3ed0b3e1d4b698105240fe69130056db54c457f32"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_continuous_hold.csv",
+      "sha256": "a6d8ce708af231dc8fe2ffcc6e4ed94b677abb6682cfc71ff574c6ceb9e20fc1"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_factor_only_vote.csv",
+      "sha256": "d227e4f703442fdf6df9657bfdd08e71c7708c45cff524dcb01a1dc135fe4a41"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_logistic_matched_market_inputs.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_logistic_price.csv",
+      "sha256": "21dfab4a7266a6f1371bffd4d0b51581de6abd02a80c8759d0ee4a09d6d5d7bf"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_momentum_20.csv",
+      "sha256": "52297a1403f7a32d8b292f69a618a9f5464659bbbf8a16159b3f8d0d1a950a94"
+    },
+    {
+      "path": "daily/VNM_f2026_q3_train_majority.csv",
+      "sha256": "e6b3e6170c7428fa1c53f8753f3c643af597919d9423f99b5d0888e8eeda1a14"
+    },
+    {
+      "path": "models.json",
+      "sha256": "1afbd9fb52f7495ed02cf324ef3945e7079c6f8d0f107244fa19f0635d92ad2d"
+    },
+    {
+      "path": "predictions.csv",
+      "sha256": "fda142ecd6e4a6fe7b8412934b3481cd1cef246f17150393a51925a12c28cd56"
+    },
+    {
+      "path": "report.json",
+      "sha256": "812a230a53e2c1a358cae69344387173608463a24faf86c2ded28132be1d74cb"
+    },
+    {
+      "path": "summary.csv",
+      "sha256": "4a8c3359b0398f8fb11bec87ca1bcaf85ec6bda735133f0eaf296a8b9798bec2"
+    }
+  ]
+}

@@ -119,8 +119,8 @@ def evaluate(bank: Path, output: Path) -> None:
 def main() -> None:
     """Chỉ chạy offline; không nhận key và không tạo client provider."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--bank", type=Path, default=ROOT / "outputs/revision/r1_common_bank_v2")
-    parser.add_argument("--output", type=Path, default=ROOT / "outputs/revision/r1_common_numeric_v2")
+    parser.add_argument("--bank", type=Path, default=ROOT / "outputs/revision/r1_common_bank_v3")
+    parser.add_argument("--output", type=Path, default=ROOT / "outputs/revision/r1_common_numeric_v3")
     args = parser.parse_args()
     evaluate(args.bank.resolve(), args.output.resolve())
 

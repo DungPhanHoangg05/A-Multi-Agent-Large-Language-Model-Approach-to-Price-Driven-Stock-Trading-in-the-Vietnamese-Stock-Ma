@@ -1,0 +1,28 @@
+{
+  "status": "blocked_daily_vision_quota",
+  "attempted_requests": 1,
+  "n_full_decisions": 0,
+  "quota_daily_limit_tokens": 200000,
+  "retry_after_seconds_at_error": 714.528,
+  "guard_result": "stopped after first TPD error; no text fallback or retry request",
+  "prior_v2_is_diagnostic_only": true,
+  "artifacts": [
+    {
+      "path": "run_manifest.json",
+      "sha256": "720c97aae2741ae2bdcb84f184ec5e0f2525d83c8be19bf95c16d6334dd8bb5b"
+    },
+    {
+      "path": "usage_at_initial_quota_stop.json",
+      "sha256": "e086d461690f8bd9e3d70d9295fad05536dce6acb29735aa44d1372533102a9d"
+    },
+    {
+      "path": "calls/01a19821-1acc-7661-849a-cf333cf015e1.error.json",
+      "sha256": "3e8ced1122fcb1e60a5d0f283b0a86d37b675694f3718a335caf55e79148f313"
+    },
+    {
+      "path": "calls/01a19821-1acc-7661-849a-cf333cf015e1.request.json",
+      "sha256": "cfb63dd3f561c70453a8d27af0e01405a36cb470cbf0704c2a82204728bedcb8"
+    }
+  ],
+  "scope": "initial stop snapshot; live usage can increase on authorized resume"
+}

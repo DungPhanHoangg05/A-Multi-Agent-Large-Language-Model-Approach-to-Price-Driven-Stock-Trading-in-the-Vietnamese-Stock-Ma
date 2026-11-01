@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19819-cc03-79a2-bd4f-eb754b07cf4b",
+  "parent_request_hash": "5a19ee58b5bd29f4530d091f2a967eabab88fa28e7d0aaabfa0ba8b827acb000",
+  "ended_at_utc": "2026-11-01T17:13:11.050566+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "**Mô hình:** Định hướng xu hướng với điểm đảo chiều  \n**Độ tin cậy:** Trung bình  \n**Thiên lệch dự báo:** Giảm  \n**Bằng chứng:** Giá tăng đột ngột lên 33.9 vào 15/05, sau đó giảm xuống 31.74 và dần hồi phục lên 32.8, cho thấy sự đảo chiều ngắn hạn.  \n**Nến quan trọng:** Nến 15/05 (đỉnh 33.9)  \n**Hàm ý giao dịch:** Mua vào mức hỗ trợ quanh 32.5, bán khi giá vượt 33.5.",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "**Mô hình:** Định hướng xu hướng với điểm đảo chiều  \n**Độ tin cậy:** Trung bình  \n**Thiên lệch dự báo:** Giảm  \n**Bằng chứng:** Giá tăng đột ngột lên 33.9 vào 15/05, sau đó giảm xuống 31.74 và dần hồi phục lên 32.8, cho thấy sự đảo chiều ngắn hạn.  \n**Nến quan trọng:** Nến 15/05 (đỉnh 33.9)  \n**Hàm ý giao dịch:** Mua vào mức hỗ trợ quanh 32.5, bán khi giá vượt 33.5.",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 385,
+                "prompt_tokens": 999,
+                "total_tokens": 1384,
+                "completion_time": 0.415774723,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 240
+                },
+                "prompt_time": 0.090707117,
+                "prompt_tokens_details": null,
+                "queue_time": 0.390388474,
+                "total_time": 0.50648184
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8b41efc9a3",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19819-cc03-79a2-bd4f-eb754b07cf4b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 385,
+        "prompt_tokens": 999,
+        "total_tokens": 1384,
+        "completion_time": 0.415774723,
+        "completion_tokens_details": {
+          "reasoning_tokens": 240
+        },
+        "prompt_time": 0.090707117,
+        "prompt_tokens_details": null,
+        "queue_time": 0.390388474,
+        "total_time": 0.50648184
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8b41efc9a3",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

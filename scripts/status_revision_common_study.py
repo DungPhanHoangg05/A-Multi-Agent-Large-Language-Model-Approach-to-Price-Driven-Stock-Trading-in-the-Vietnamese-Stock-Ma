@@ -10,18 +10,20 @@ from pathlib import Path
 def main() -> None:
     """Chỉ đọc số checkpoint/attempt; không in key, raw prompts hoặc chi tiết tài khoản."""
     root = Path(__file__).resolve().parents[1]
-    run = root / "outputs/revision/r1_common_run_v2"
-    bank = root / "outputs/revision/r1_common_bank_v2"
+    run = root / "outputs/revision/r1_common_run_v3"
+    bank = root / "outputs/revision/r1_common_bank_v3"
     def read(path: Path) -> dict:
         return json.loads(path.read_bytes()) if path.exists() else {}
     manifest = read(bank / "manifest.json")
     usage = read(run / "usage.json")
     worker = read(run / "worker_status.json")
+    stopped = read(run / "stopped_receipt.json")
     units = Counter()
     for path in (run / "units").glob("*.json"):
         context = read(path)["context"]
         units[context["role"] + "/" + context["kind"]] += 1
-    print(json.dumps({"bank_id": manifest.get("bank_id"), "worker_phase": worker.get("phase"),
+    print(json.dumps({"bank_id": manifest.get("bank_id"), "worker_phase": worker.get("phase", "stopped" if stopped else "not_started"),
+        "last_stop": stopped.get("status"),
         "worker_process_id": worker.get("process_id"), "worker_log": worker.get("log"),
         "attempted_requests": usage.get("attempted_requests", 0),
         "max_requests_active_command": usage.get("max_requests_current_command"),
@@ -31,7 +33,7 @@ def main() -> None:
             manifest.get("protocol", {}).get("end_to_end_repeats", 0) +
             manifest.get("protocol", {}).get("decision_only_repeats", 0) - 1),
         "inference_complete": (run / "inference_complete.json").exists(),
-        "analysis_complete": (root / "outputs/revision/r1_common_analysis_v2/manifest.json").exists(),
+        "analysis_complete": (root / "outputs/revision/r1_common_analysis_v3/manifest.json").exists(),
         "scope": "live counts only; not receipt verification or scientific acceptance"}, ensure_ascii=False, indent=2))
 
 

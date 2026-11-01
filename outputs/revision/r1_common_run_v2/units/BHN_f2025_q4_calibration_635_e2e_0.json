@@ -1,0 +1,73 @@
+{
+  "parent": {
+    "run_signature": "de04ad0edb3f518e5d4c691b82ad53c3d058e6b8320bfe6916152c41d4448700",
+    "ready_hash": "6fb7311ff100271b5904ea13c14b578b4fd4fa8bc80b66ec0640d7ec865cd6fb"
+  },
+  "context": {
+    "symbol": "BHN",
+    "fold": "f2025_q4",
+    "decision": 635,
+    "role": "calibration",
+    "kind": "e2e",
+    "repeat_id": 0,
+    "stage": "decision"
+  },
+  "prediction": "LONG",
+  "confidence": "Cao",
+  "risk_reward_ratio": "1.6",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision_state": {
+    "final_trade_decision": "{\n  \"decision\": \"LONG\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 1.6,\n  \"evidence_for\": \"Trend analysis shows upward movement with support at 32.1 and resistance at 33.8, and the latest green candle broke 33.0 confirming breakout. MACD golden cross and widening histogram indicate increasing bullish momentum.\",\n  \"evidence_against\": \"MACD line remains below zero, indicating underlying bearish bias that could limit upside.\",\n  \"justification\": \"Entry at 33.0 with target 33.8 and stop 32.5 yields a risk/reward of 1.6, aligning with the 3‑day horizon. Pattern V and bullish indicators support a short‑term rally, making LONG the preferred position.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: BHN; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Tăng.\n\n**Mức hỗ trợ:** 32.1.\n\n**Mức kháng cự:** 33.8.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Bật lên.\n\n**Phân tích chi tiết:** Nến xanh cuối cùng đóng cửa vượt lên trên đường hỗ trợ xanh, tạo tín hiệu bứt phá. Giá đang tiến sát đường kháng cự đỏ, tạo áp lực cản ngắn hạn.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục tăng trong 3 phiên tới do động lượng bật lên từ hỗ trợ. Mục tiêu hướng tới vùng kháng cự 33.8.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Đảo chiều chữ V.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Giá tạo đáy tại 31.75 (12/02) và 31.75 (26/02), sau đó hồi phục mạnh liên tục lên vùng 33.5.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 01/04 phá vỡ kháng cự 33.0.\n\n**Hàm ý giao dịch:** Mua khi giá giữ trên 33.0, mục tiêu 34.0, ngừng lỗ dưới 32.5.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-0.0942**        | [-0.0814, -0.1192, -0.1474, -0.1678, -0.0942]                 |\n| Signal Line | **-0.1021**        | [-0.0618, -0.0733, -0.0881, -0.1041, -0.1021]                 |\n| Histogram   | **0.0079**        | [-0.0196, -0.0459, -0.0593, -0.0638, 0.0079]                 |\n\n- Giao cắt: ⚡ GOLDEN CROSS: MACD cắt lên trên Signal → tín hiệu MUA\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm → vù\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — BHN\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (0 TĂNG / 5 GIẢM / 0 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.6,\"evidence_for\":\"Trend analysis shows upward movement with support at 32.1 and resistance at 33.8, and the latest green candle broke 33.0 confirming breakout. MACD golden cross and widening histogram indicate increasing bullish momentum.\",\"evidence_against\":\"MACD line remains below zero, indicating underlying bearish bias that could limit upside.\",\"justification\":\"Entry at 33.0 with target 33.8 and stop 32.5 yields a risk/reward of 1.6, aligning with the 3‑day horizon. Pattern V and bullish indicators support a short‑term rally, making LONG the preferred position.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 572,
+              "prompt_tokens": 1560,
+              "total_tokens": 2132,
+              "completion_time": 0.640105134,
+              "completion_tokens_details": {
+                "reasoning_tokens": 405
+              },
+              "prompt_time": 0.16590548,
+              "prompt_tokens_details": null,
+              "queue_time": 0.180113316,
+              "total_time": 0.806010614
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_e99e93f2ac",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19812-e66b-7663-8988-672944719ac5-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1560,
+            "output_tokens": 572,
+            "total_tokens": 2132,
+            "output_token_details": {
+              "reasoning": 405
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19812-ddbf-7140-9bc1-c6618b6626ba",
+    "01a19812-e168-7172-b778-36295caa6d0e",
+    "01a19812-e66b-7663-8988-672944719ac5"
+  ],
+  "sha256": "ac58aa3557dc99be45b54e4364ffd95983c55c245bb77ad0a800224aedaee1b1"
+}

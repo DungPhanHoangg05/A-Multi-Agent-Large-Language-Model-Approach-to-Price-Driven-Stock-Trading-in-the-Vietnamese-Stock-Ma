@@ -17,6 +17,25 @@ class StudyStop(BaseException):
     """Dừng guard không được retry như một lỗi provider tạm thời."""
 
 
+def retry_after_seconds(error: str) -> float | None:
+    """Đọc cả giây đơn và khoảng ghép của Groq, ví dụ 18m10.368s hoặc 1h2m."""
+    import re
+    prefix = re.search(r"(?:retry after|try again in)\s*", error, re.I)
+    if not prefix:
+        return None
+    units = r"milliseconds?|minutes?|seconds?|hours?|days?|ms|[smhd]"
+    interval = re.match(rf"((?:[0-9]+(?:\.[0-9]+)?\s*(?:{units})\s*)+)", error[prefix.end():], re.I)
+    if not interval:
+        return None
+    seconds = 0.0
+    for amount, unit in re.findall(rf"([0-9]+(?:\.[0-9]+)?)\s*({units})", interval.group(1), re.I):
+        unit = unit.lower()
+        scale = .001 if unit.startswith("millisecond") or unit == "ms" else {
+            "s": 1, "m": 60, "h": 3600, "d": 86400}[unit[0]]
+        seconds += float(amount) * scale
+    return seconds
+
+
 class CallArchive(BaseCallbackHandler):
     """Chỉ lưu messages/response; không dump serialized client chứa credentials."""
 
@@ -98,11 +117,13 @@ class CallArchive(BaseCallbackHandler):
         write_json(self.directory / "calls" / f"{key}.error.json", self.clean({
             "attempt_id": key, "context": self.context, "type": type(error).__name__, "error": str(error)[:2000]}))
         self.pending.pop(key, None)
-        import re
         import time
-        match = re.search(r"(?:retry after|try again in)\s*([0-9]+(?:\.[0-9]+)?)\s*(?:s|seconds)", str(error), re.I)
-        if match:
-            self.not_before = max(self.not_before, time.monotonic() + float(match.group(1)) + 1.0)
+        delay = retry_after_seconds(str(error))
+        if delay is not None:
+            self.not_before = max(self.not_before, time.monotonic() + delay + 1.0)
+        if "tokens per day" in str(error).lower():
+            wait = f" Provider yêu cầu chờ {delay:.3f} giây." if delay is not None else ""
+            raise StudyStop("Đã hết quota tokens/ngày; giữ checkpoint, dừng trước fallback hoặc retry tiếp." + wait)
 
 
 class GuardedLLM:

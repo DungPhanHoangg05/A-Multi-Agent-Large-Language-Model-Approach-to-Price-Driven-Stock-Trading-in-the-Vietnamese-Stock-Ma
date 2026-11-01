@@ -22,7 +22,7 @@ from typing import TypedDict
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from core.revision_call_archive import CallArchive, GuardedLLM, StudyLock, StudyStop
+from core.revision_call_archive import CallArchive, GuardedLLM, StudyLock, StudyStop, retry_after_seconds
 from core.revision_common_study import (FrozenSentiment, digest, make_schedule, market_features,
     pack_state, point_state, read_json, restore_state, unit_key, verify_features, write_json)
 from core.revision_common_study import run_full
@@ -111,6 +111,33 @@ class CommonBankTests(unittest.TestCase):
 
 
 class CallArchiveTests(unittest.TestCase):
+    def test_compound_retry_after_and_daily_quota_stop_before_fallback(self):
+        for message, expected in (("Please try again in 18m10.368s.", 1090.368),
+                ("retry after 1h2m3s", 3723), ("try again in 2 minutes 5 seconds.", 125),
+                ("retry after 250ms", .25), ("retry after 120 seconds", 120)):
+            self.assertAlmostEqual(retry_after_seconds(message), expected)
+        self.assertIsNone(retry_after_seconds("không có thời gian retry"))
+        with tempfile.TemporaryDirectory() as temp:
+            handler = CallArchive(Path(temp), "bank", 2, "secret")
+            handler.context = {"stage": "upstream"}
+            key = uuid4()
+            handler.on_chat_model_start({}, [[HumanMessage(content="fixture")]], run_id=key)
+            error = RuntimeError("429 tokens per day (TPD): Limit 200000. Please try again in 18m10.368s.")
+            before = time.monotonic()
+            with self.assertRaisesRegex(StudyStop, "quota"):
+                handler.on_llm_error(error, run_id=key)
+            self.assertGreaterEqual(handler.not_before, before + 1090.368)
+            self.assertEqual(handler.count, 1)
+            self.assertFalse(handler.pending)
+            self.assertTrue((Path(temp) / "calls" / f"{key}.error.json").exists())
+            # Kiểm tra BaseException đi xuyên callback manager và retry proxy thật.
+            handler.not_before = 0
+            model = FakeListChatModel(responses=["không được dùng"], callbacks=[handler])
+            with patch.object(FakeListChatModel, "_generate", side_effect=error):
+                with self.assertRaises(StudyStop):
+                    GuardedLLM(model).invoke("fixture")
+            self.assertEqual(handler.count, 2)
+
     def test_real_callback_archives_raw_messages_and_response_without_secret(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp)

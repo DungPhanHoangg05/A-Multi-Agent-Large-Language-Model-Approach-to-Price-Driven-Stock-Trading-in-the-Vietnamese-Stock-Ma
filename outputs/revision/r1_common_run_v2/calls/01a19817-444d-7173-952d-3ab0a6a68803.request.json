@@ -1,0 +1,89 @@
+{
+  "bank_id": "fc2b828ae27ecc95c3120416884ec928e22f70e801551e6e6f3e10a33e44b4bd",
+  "attempt_id": "01a19817-444d-7173-952d-3ab0a6a68803",
+  "context": {
+    "symbol": "BHN",
+    "fold": "f2025_q4",
+    "decision": 653,
+    "role": "calibration",
+    "kind": "e2e",
+    "repeat_id": 0,
+    "stage": "decision"
+  },
+  "started_at_utc": "2026-11-01T17:10:24.080807+00:00",
+  "model_metadata": {
+    "ls_provider": "groq",
+    "ls_model_name": "openai/gpt-oss-20b",
+    "ls_temperature": 1e-08,
+    "ls_max_tokens": 2048
+  },
+  "invocation_parameters": {
+    "stop": null,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "TradeDecisionOutput",
+        "schema": {
+          "title": "TradeDecisionOutput",
+          "description": "Schema nhị phân bắt buộc cho Groq Structured Outputs.",
+          "properties": {
+            "decision": {
+              "description": "Mandatory binary trading decision. Never neutral.",
+              "enum": [
+                "LONG",
+                "SHORT"
+              ],
+              "type": "string"
+            },
+            "forecast_horizon": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "string"
+            },
+            "risk_reward_ratio": {
+              "maximum": 5.0,
+              "minimum": 1.0,
+              "type": "number"
+            },
+            "evidence_for": {
+              "type": "string"
+            },
+            "evidence_against": {
+              "type": "string"
+            },
+            "justification": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "decision",
+            "forecast_horizon",
+            "confidence",
+            "risk_reward_ratio",
+            "evidence_for",
+            "evidence_against",
+            "justification"
+          ],
+          "type": "object"
+        }
+      }
+    }
+  },
+  "messages": [
+    [
+      {
+        "type": "human",
+        "data": {
+          "content": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: BHN; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Đi ngang.\n\n**Mức hỗ trợ:** 30.0.\n\n**Mức kháng cự:** 32.8.\n\n**Độ dốc đường xu hướng:** Đang giảm.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá dao động trong biên hẹp, bám sát đường kháng cự đỏ và duy trì trên đường hỗ trợ xanh. Hai đường xu hướng đang hội tụ, cho thấy áp lực nén giá đang tăng dần.\n\n**Dự đoán xu hướng:** Giá có khả năng đi ngang hoặc giảm nhẹ về vùng hỗ trợ 30.0 trong 3 phiên tới. Sự hội tụ của hai đường xu hướng thường báo hiệu một đợt biến động mạnh sắp xảy ra.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Hộp giá.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Trung tính.\n\n**Bằng chứng:** Giá dao động trong biên độ hẹp 31.5 - 33.5, các nến gần nhất co cụm lại quanh vùng 32.0.\n\n**Nến quan trọng:** Nến 04/08 có bóng dưới dài chạm 29.0 và nến 04/15 có thân xanh mạnh.\n\n**Hàm ý giao dịch:** Chờ giá phá vỡ biên độ hộp, mua trên 33.5 hoặc bán dưới 31.5.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-0.1781**        | [-0.1216, -0.1604, -0.189, -0.1742, -0.1781]                 |\n| Signal Line | **-0.1404**        | [-0.0885, -0.1029, -0.1201, -0.1309, -0.1404]                 |\n| Histogram   | **-0.0377**        | [-0.033, -0.0575, -0.0689, -0.0432, -0.0377]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.0377)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — BHN\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (2 TĂNG / 3 GIẢM / 0 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+          "additional_kwargs": {},
+          "response_metadata": {},
+          "type": "human",
+          "name": null,
+          "id": null
+        }
+      }
+    ]
+  ],
+  "sha256": "30fd92f7cd806c02a2c1211cbf7cca25add2c853faab517a9a5bde76518441ea"
+}

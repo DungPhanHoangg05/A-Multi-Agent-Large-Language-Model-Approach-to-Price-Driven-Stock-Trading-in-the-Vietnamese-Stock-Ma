@@ -2,7 +2,7 @@ param([Parameter(Mandatory = $true)][ValidateRange(1, 100000)][int]$MaxRequests)
 
 $ErrorActionPreference = 'Stop'
 $taskRepoRoot = Split-Path -Parent $PSScriptRoot
-$taskRun = Join-Path $taskRepoRoot 'outputs/revision/r1_common_run_v2'
+$taskRun = Join-Path $taskRepoRoot 'outputs/revision/r1_common_run_v3'
 [System.IO.Directory]::CreateDirectory($taskRun) | Out-Null
 Set-Location -LiteralPath $taskRepoRoot
 $taskController = $null
@@ -30,6 +30,7 @@ try {
     }
     # Giữ nguyên run identity; không đổi model, protocol hoặc retry vô hạn.
     $env:PYTHONUNBUFFERED = '1'
+    $env:PYTHONIOENCODING = 'utf-8'
     Set-TaskStatus 'inference'
     & py -3.13 -X utf8 scripts/run_revision_common_study.py run --max-requests $MaxRequests *> $taskLog
     $taskExit = $LASTEXITCODE

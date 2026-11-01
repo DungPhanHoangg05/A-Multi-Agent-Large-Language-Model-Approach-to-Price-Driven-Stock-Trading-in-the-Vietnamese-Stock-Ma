@@ -17,9 +17,9 @@ def main() -> None:
     """Mặc định không gọi API; lệnh run yêu cầu budget request rõ ràng."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("prepare", "features", "preflight", "run", "analyze"))
-    parser.add_argument("--bank", type=Path, default=ROOT / "outputs/revision/r1_common_bank_v2")
-    parser.add_argument("--run", type=Path, default=ROOT / "outputs/revision/r1_common_run_v2")
-    parser.add_argument("--output", type=Path, default=ROOT / "outputs/revision/r1_common_analysis_v2")
+    parser.add_argument("--bank", type=Path, default=ROOT / "outputs/revision/r1_common_bank_v3")
+    parser.add_argument("--run", type=Path, default=ROOT / "outputs/revision/r1_common_run_v3")
+    parser.add_argument("--output", type=Path, default=ROOT / "outputs/revision/r1_common_analysis_v3")
     parser.add_argument("--protocol", type=Path, default=ROOT / "revision/r1_common_protocol.json")
     parser.add_argument("--max-requests", type=int, help="Trần attempt cộng dồn của đúng run, không phải budget mỗi lần resume")
     parser.add_argument("--workers", type=int, default=4, help="Worker CPU cho feature bank, từ 1 tới 4; không phải agent LLM")

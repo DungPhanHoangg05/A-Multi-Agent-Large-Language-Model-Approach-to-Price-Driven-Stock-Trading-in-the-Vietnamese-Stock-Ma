@@ -1,0 +1,41 @@
+{
+  "bank_id": "fc2b828ae27ecc95c3120416884ec928e22f70e801551e6e6f3e10a33e44b4bd",
+  "attempt_id": "01a19819-dd75-7200-8031-1d3da0185694",
+  "context": {
+    "symbol": "BHN",
+    "fold": "f2025_q4",
+    "decision": 668,
+    "role": "calibration",
+    "kind": "e2e",
+    "repeat_id": 0,
+    "stage": "upstream",
+    "market_input_hash": "f62a4ecfe6b9f255276d5785115f9a51acde0f9763d041a54cf9a94b1ab3bcbc"
+  },
+  "started_at_utc": "2026-11-01T17:13:14.360571+00:00",
+  "model_metadata": {
+    "langgraph_node": "Trend Agent",
+    "ls_provider": "groq",
+    "ls_model_name": "openai/gpt-oss-20b",
+    "ls_temperature": 1e-08,
+    "ls_max_tokens": 2048
+  },
+  "invocation_parameters": {
+    "stop": null
+  },
+  "messages": [
+    [
+      {
+        "type": "human",
+        "data": {
+          "content": "/no_think\nBạn là trợ lý nhận dạng mô hình xu hướng K-line trong bối cảnh giao dịch tần số cao.\n\nPhân tích dữ liệu OHLCV 1 ngày sau đây. Mục tiêu: DỰ ĐOÁN xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam. Xác định mức hỗ trợ và kháng cự từ đỉnh/đáy gần đây, sau đó dự đoán khả năng tăng/giảm.\n\n=== DỮ LIỆU OHLCV (30 NẾN GẦN NHẤT) ===\n  2025-04-08 00:00:00  M=31.83  C=32.49  T=30.77  Đ=30.77\n  2025-04-09 00:00:00  M=30.77  C=30.77  T=29.02  Đ=30.77\n  2025-04-10 00:00:00  M=31.48  C=32.93  T=31.48  Đ=32.93\n  2025-04-11 00:00:00  M=32.93  C=32.93  T=32.93  Đ=32.93\n  2025-04-14 00:00:00  M=32.93  C=32.93  T=32.93  Đ=32.93\n  2025-04-15 00:00:00  M=30.69  C=30.77  T=30.69  Đ=30.77\n  2025-04-16 00:00:00  M=30.77  C=32.93  T=30.77  Đ=32.93\n  2025-04-17 00:00:00  M=32.93  C=32.97  T=32.88  Đ=32.97\n  2025-04-18 00:00:00  M=32.88  C=32.97  T=32.09  Đ=32.97\n  2025-04-21 00:00:00  M=32.97  C=32.97  T=32.88  Đ=32.88\n  2025-04-22 00:00:00  M=30.77  C=30.77  T=30.77  Đ=30.77\n  2025-04-23 00:00:00  M=31.65  C=31.65  T=31.65  Đ=31.65\n  2025-04-24 00:00:00  M=31.65  C=31.65  T=31.65  Đ=31.65\n  2025-04-25 00:00:00  M=31.65  C=32.09  T=31.65  Đ=32.09\n  2025-04-28 00:00:00  M=31.65  C=32.05  T=31.65  Đ=31.87\n  2025-04-29 00:00:00  M=31.87  C=32.53  T=31.87  Đ=32.53\n  2025-05-05 00:00:00  M=32.53  C=32.53  T=32.53  Đ=32.53\n  2025-05-06 00:00:00  M=32.53  C=33.41  T=32.53  Đ=33.37\n  2025-05-07 00:00:00  M=31.61  C=31.61  T=31.61  Đ=31.61\n  2025-05-08 00:00:00  M=31.65  C=32.53  T=31.65  Đ=32.53\n  2025-05-09 00:00:00  M=32.44  C=32.53  T=32.44  Đ=32.53\n  2025-05-12 00:00:00  M=32.53  C=32.53  T=32.53  Đ=32.53\n  2025-05-13 00:00:00  M=32.44  C=32.44  T=31.7  Đ=31.83\n  2025-05-14 00:00:00  M=31.83  C=32.09  T=31.79  Đ=31.79\n  2025-05-15 00:00:00  M=33.9  C=33.9  T=33.9  Đ=33.9\n  2025-05-16 00:00:00  M=31.74  C=31.74  T=31.57  Đ=31.74\n  2025-05-19 00:00:00  M=31.74  C=31.74  T=31.74  Đ=31.74\n  2025-05-20 00:00:00  M=31.83  C=32.8  T=31.65  Đ=32.8\n  2025-05-21 00:00:00  M=32.8  C=32.8  T=32.8  Đ=32.8\n  2025-05-22 00:00:00  M=32.8  C=32.8  T=32.8  Đ=32.8\n\nTrả về ĐÚNG 8 trường dưới đây, mỗi trường 1 dòng. Không suy luận, không mở bài.\n\n**Hướng xu hướng:** Tăng | Giảm | Đi ngang\n**Mức hỗ trợ:** một mức giá cụ thể\n**Mức kháng cự:** một mức giá cụ thể\n**Độ dốc đường xu hướng:** Đang tăng | Đang giảm | Nằm ngang\n**Giá so với hỗ trợ:** Bật lên | Xuyên phá | Nén lại\n**Phân tích chi tiết:** tối đa 2 câu\n**Dự đoán xu hướng:** tối đa 2 câu cho T+2.5\n**Độ tin cậy:** Cao | Trung bình | Thấp\n\nQUAN TRỌNG: KHÔNG dùng ngoặc nhọn < >. KHÔNG lặp lại trường. KHÔNG thuật lại quá trình suy nghĩ.\n\nYÊU CẦU NGÔN NGỮ: Viết TOÀN BỘ câu trả lời bằng tiếng Việt tự nhiên, kể cả tên các trường và nhãn.",
+          "additional_kwargs": {},
+          "response_metadata": {},
+          "type": "human",
+          "name": null,
+          "id": null
+        }
+      }
+    ]
+  ],
+  "sha256": "c3b33f18fa01b7f620abb25d70ed7a006418ccd5db3da718ffc384f5bf4aab4a"
+}
