@@ -121,7 +121,9 @@ class CoordinatorTests(unittest.TestCase):
                 immutable(root / f'outputs/historical_memory_run/inputs/news/{symbol}.json', {'scored_articles': []})
             pacer.path = root / 'outputs/oos_pilot/api_usage.json'
             pacer.save()
-            layout = PanelLayout(COLLECTION, DATA, RELEASE, lambda *_: ({'FPT': frame}, {}, 'b' * 64))
+            backups = []
+            layout = PanelLayout(COLLECTION, DATA, RELEASE, lambda *_: ({'FPT': frame}, {}, 'b' * 64),
+                                 checkpoint=lambda _: backups.append(True))
             keys = {f'scope_{i}': 'fixture-key-' + str(i) for i in range(1, 5)}
             normal = transport.inner.inner.handler
             failed = []
@@ -141,7 +143,7 @@ class CoordinatorTests(unittest.TestCase):
 
             with patch('core.panel_coordinator.credentials', return_value=keys) as credential, \
                  patch('core.panel_coordinator.ResilientPacer', side_effect=pacer_factory), \
-                 patch('core.panel_coordinator.PanelTransport', side_effect=lambda p, c: PanelTransport(p, c, httpx.MockTransport(provider))), \
+                 patch('core.panel_coordinator.PanelTransport', side_effect=lambda p, c, **kw: PanelTransport(p, c, httpx.MockTransport(provider), **kw)), \
                  patch('scripts.prepare_groq_tokenizer.prepare_tokenizer'):
                 result = run(root, release, layout=layout, clock=pacer.clock, sleep=pacer.sleep)
                 self.assertEqual(result['complete'], 1)
@@ -150,6 +152,7 @@ class CoordinatorTests(unittest.TestCase):
             success = [r for r in recorded if r['status'] == 200]
             self.assertTrue(all(r['point_id'].startswith('CONTROL_') for r in success[:12]))
             self.assertEqual(len(wires), 15)
+            self.assertGreaterEqual(len(backups), 16)
             if daily_quota:
                 resumed = [r for r in recorded if r.get('checkpoint_attempt_id') == recorded[0]['checkpoint_attempt_id']]
                 self.assertEqual([r['status'] for r in resumed], [429, 200])
@@ -189,6 +192,22 @@ class CoordinatorTests(unittest.TestCase):
             cold_point(root, row, changed, [{'date_parsed': '2025-01-01', 'title': 'Tin tương lai'}], release,
                        'b' * 64, pacer.state, collection=COLLECTION)
             self.assertEqual(len(wires), 3)
+            http.close()
+
+    def test_backup_failure_stops_after_durable_response_and_can_resume(self) -> None:
+        with TemporaryDirectory() as temporary, redirect_stdout(io.StringIO()):
+            root = Path(temporary)
+            row, frame, release, pacer, transport, http, llms, wires = runtime(root)
+            transport.checkpoint = lambda: (_ for _ in ()).throw(OSError('fixture-backup-unavailable'))
+            with self.assertRaises(PilotStop):
+                collect_point(root, row, frame, [], release, 'b' * 64, llms, lambda: pacer.state, collection=COLLECTION)
+            self.assertEqual(pacer.state['last_stop']['reason'], 'LOCAL_BACKUP_FAILED')
+            first = deepcopy(pacer.state['requests'][0])
+            self.assertTrue(first.get('durable_response'))
+            transport.checkpoint = None
+            collect_point(root, row, frame, [], release, 'b' * 64, llms, lambda: pacer.state, collection=COLLECTION)
+            self.assertEqual(len(wires), 3)
+            self.assertEqual(first, pacer.state['requests'][0])
             http.close()
 
 

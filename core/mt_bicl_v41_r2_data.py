@@ -125,16 +125,18 @@ def build(root: Path, *, verify_only: bool = False) -> dict[str, Any]:
     for name, value in {**values, 'regime_registry.json': regimes.records}.items():
         immutable(root / DATA / name, value, verify_only=bool(existing))
     commit = existing['source_commit'] if existing else git(root, 'rev-parse', 'HEAD').decode().strip()
-    sources = {}
+    sources, git_sources = {}, {}
     for name in SOURCES:
         raw = (root / name).read_bytes()
-        if raw != git(root, 'show', commit + ':' + name):
+        blob = git(root, 'show', commit + ':' + name)
+        if raw.replace(b'\r\n', b'\n') != blob.replace(b'\r\n', b'\n'):
             raise ValueError('Source r2 chưa commit hoặc đã thay đổi: ' + name)
         sources[name] = checksum(raw)
+        git_sources[name] = checksum(blob)
     paths = [DATA / name for name in (*values, 'regime_registry.json')]
     paths.extend(DATA / 'regime_models' / (cap + '.json') for cap in regimes.records)
     result = {'version': 'conditional_v4_1_r2_numeric_manifest', 'status': values['coverage.json']['status'],
-        'source_commit': commit, 'source_sha256': sources,
+        'source_commit': commit, 'source_sha256': sources, 'source_git_blob_sha256': git_sources,
         'protocol_sha256': checksum((root / DOC / 'protocol_v4_1.json').read_bytes()),
         'parent_manifest_sha256': checksum((root / DOC / 'dataset_manifest_v4_1.json').read_bytes()),
         'input_sha256': price_spec['input_sha256'],

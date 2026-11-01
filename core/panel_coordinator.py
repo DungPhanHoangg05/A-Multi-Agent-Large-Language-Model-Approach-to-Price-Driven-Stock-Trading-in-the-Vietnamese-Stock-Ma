@@ -32,10 +32,26 @@ class PanelLayout:
     data: Path
     release: Path
     identity: Callable[[Path, dict[str, Any]], tuple[dict[str, Any], dict[str, Any], str]]
+    checkpoint: Callable[[Path], Any] | None = None
 
 
 class PanelTransport(CollectionTransport):
     """Giữ minute retry; quota ngày trả coordinator để phục vụ shard khác trước."""
+
+    def __init__(self, pacer: Any, cache: Path, inner: httpx.BaseTransport | None = None,
+                 *, checkpoint: Callable[[], Any] | None = None) -> None:
+        """Giữ backup callback ngoài transport HTTP, không đưa credential vào bản sao."""
+        super().__init__(pacer, cache, inner)
+        self.checkpoint = checkpoint
+
+    def _store(self, request: httpx.Request, response: httpx.Response) -> None:
+        """Raw/ledger durable trước backup; lỗi backup dừng trước request tiếp theo."""
+        super()._store(request, response)
+        if self.checkpoint is not None:
+            try:
+                self.checkpoint()
+            except (OSError, ValueError):
+                self.pacer.stop('LOCAL_BACKUP_FAILED', self.pacer.state['requests'][-1]['model'])
 
     def handle_request(self, request: httpx.Request) -> httpx.Response:
         return ResilientTransport.handle_request(self, request)
@@ -126,6 +142,8 @@ def progress(root: Path, release: dict[str, Any], completed: set[str], ledger: d
         'eta_days_at_planned_64_points_per_day': (len(release['point_ids'])-len(completed))/64,
         'eta_is_guarantee': False, 'training_allowed': False}
     save_envelope(root/layout.collection/'progress.json', result)
+    if layout.checkpoint is not None:
+        layout.checkpoint(root)
     print(f"Panel {result['complete']}/256 complete; còn{result['remaining']}; ETA kế hoạch{result['eta_days_at_planned_64_points_per_day']:.2f} ngày ở64 điểm/ngày; chưa cold nghiệm thu.", flush=True)
     return result
 
@@ -182,7 +200,9 @@ def run(root: Path, release: dict[str, Any], *, offline: bool = False, preflight
         """Trả trạng thái probe; quota ngày luôn giữ UUID và trả về coordinator."""
         nonlocal ledger
         pacer = ResilientPacer(ledger_path, credential=keys[name], amendment_sha256=checksum((root/layout.release).read_bytes()), policy='request_admission_v2')
-        with httpx.Client(transport=PanelTransport(pacer, cache), timeout=90.) as http:
+        transport = (PanelTransport(pacer, cache, checkpoint=lambda: layout.checkpoint(root))
+                     if layout.checkpoint is not None else PanelTransport(pacer, cache))
+        with httpx.Client(transport=transport, timeout=90.) as http:
             llms = clients(release['config'], http, keys[name])
             try:
                 controls(root, release, signature, llms, pacer, collection=layout.collection)

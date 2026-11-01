@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 from pathlib import Path
 import socket
 import sys
@@ -20,6 +21,7 @@ def main() -> int:
     from core.mt_bicl_v4_warmup import PendingWarmup
     from core.mt_bicl_v41_r2_acceptance import LAYOUT
     from core.mt_bicl_v41_r2_release import verify
+    from core.mt_bicl_v41_r2_backup import checkpoint
     from core.mt_bicl_v41_r2_warmup import COLLECTION, load
     from core.panel_coordinator import run
     from core.prior_run_lock import PriorRunLock
@@ -38,12 +40,17 @@ def main() -> int:
     try:
         with PriorRunLock(ROOT / COLLECTION / 'run.lock', 'conditional-panel-r2'):
             with PriorRunLock(ROOT / 'outputs/oos_pilot/api_usage.json.lock', 'shared-account-ledger-v2'):
-                release = verify(ROOT)
+                try:
+                    release = verify(ROOT)
+                except ValueError as error:
+                    raise DataCompletionError(str(error)) from None
                 if not args.verify_only:
                     from scripts.verify_execution_price_gate import fetch_paginated
                     load(ROOT, release, fetch=fetch_paginated)
+                    backup = checkpoint(ROOT)
+                    print('Bản sao runtime ngoài dự án: ' + backup['path'], flush=True)
                 result = run(ROOT, release, offline=args.verify_only, preflight_only=args.preflight_only,
-                             rebind=args.rebind_scope, layout=LAYOUT)
+                             rebind=args.rebind_scope, layout=LAYOUT if args.verify_only else replace(LAYOUT, checkpoint=checkpoint))
         print(f"V4.1 r2: {result['status']}; complete={result.get('complete', 0)}/256. Chưa tự mở W11-19.")
         return 0
     except PendingWarmup:
@@ -59,6 +66,14 @@ def main() -> int:
     except KeyboardInterrupt:
         print('Đã dừng; giữ warmup/shard/scope/UUID/cache/checkpoint. Chạy lại cùng lệnh để tiếp tục.')
         return 3
+    except FileNotFoundError as error:
+        path = Path(error.filename) if error.filename else Path('không xác định')
+        try:
+            path = path.resolve().relative_to(ROOT)
+        except ValueError:
+            path = Path(path.name)
+        print('Dừng kiểm r2: thiếu file ' + str(path) + '; giữ UUID/cache/reserve.', file=sys.stderr)
+        return 1
     except Exception as error:
         detail = str(error) if isinstance(error, DataCompletionError) else type(error).__name__
         print('Dừng kiểm r2: ' + detail + '; giữ bằng chứng. Không đổi model/key ngầm.', file=sys.stderr)

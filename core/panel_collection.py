@@ -250,4 +250,3 @@ def cold_point(root: Path, row: dict[str, Any], frame: Any, articles: list[dict[
             ENABLED.reset(enabled)
             RECOVERY.reset(recovery)
     return saved
-

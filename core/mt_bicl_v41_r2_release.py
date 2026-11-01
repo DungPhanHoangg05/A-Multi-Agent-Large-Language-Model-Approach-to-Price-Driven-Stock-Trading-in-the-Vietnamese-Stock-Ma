@@ -14,8 +14,9 @@ from core.mt_bicl_v41_r2_warmup import COLLECTION, RELEASE
 
 OLD_RELEASE = DOC / 'collection_release_v4_1.json'
 OLD_NAMESPACE = Path('outputs/bayesian_benchmark/mt_bicl_v4_1/collection')
-SOURCES = (*DATA_SOURCES, 'core/panel_collection.py', 'core/panel_coordinator.py',
+SOURCES = (*DATA_SOURCES, '.gitattributes', 'core/panel_collection.py', 'core/panel_coordinator.py',
     'core/mt_bicl_v41_r2_warmup.py', 'core/mt_bicl_v41_r2_release.py',
+    'core/mt_bicl_v41_r2_backup.py',
     'core/mt_bicl_v41_r2_acceptance.py', 'core/mt_bicl_v41_r2_contract.py',
     'scripts/continue_mt_bicl_v4_1_r2.py', 'scripts/prepare_mt_bicl_v4_1_r2.py',
     'tests/test_mt_bicl_v41_r2.py', 'tests/test_panel_coordinator.py')
@@ -56,18 +57,20 @@ def prepare(root: Path) -> dict[str, Any]:
     verify_ledger(ledger, old['ledger_baseline'])
     commit = git(root, 'rev-parse', 'HEAD').decode().strip()
     names = tuple(dict.fromkeys((*SOURCES, *old['dependency_sha256'], *old['source_sha256'])))
-    sources = {}
+    sources, git_sources = {}, {}
     for name in names:
         raw = (root / name).read_bytes()
-        if raw != git(root, 'show', commit + ':' + name):
+        blob = git(root, 'show', commit + ':' + name)
+        if raw.replace(b'\r\n', b'\n') != blob.replace(b'\r\n', b'\n'):
             raise ValueError('Cần commit source trước release r2: ' + name)
         sources[name] = checksum(raw)
+        git_sources[name] = checksum(blob)
     receipts = (OLD_RELEASE, MANIFEST, PANEL, DOC / 'protocol_v4_1.json', DOC / 'protocol_lock_v4_1.json', DOC / 'dataset_manifest_v4_1.json')
     panel = pinned(root, PANEL.name)
     result = {'version': 'conditional_v4_1_r2_collection_release', 'status': 'USER_COLLECTION_RELEASED',
         'authority': 'USER_2026_11_01_IMPLEMENT_REPLACEMENT_RUN_AND_CONTINUE_PLAN',
         'scope': 'PANEL256_ORIGINAL_UPSTREAM_ONLY_2019_2022', 'runtime_namespace': NAMESPACE.as_posix(),
-        'source_commit': commit, 'source_sha256': sources,
+        'source_commit': commit, 'source_sha256': sources, 'source_git_blob_sha256': git_sources,
         'receipt_sha256': {p.as_posix(): checksum((root / p).read_bytes()) for p in receipts},
         'numeric_artifact_sha256': bank['artifact_sha256'], 'input_sha256': bank['input_sha256'],
         'news_sha256': acquisition['news_sha256'], 'runtime': spec['runtime'],
@@ -76,6 +79,7 @@ def prepare(root: Path) -> dict[str, Any]:
         'nominal_research_HTTP': 768, 'controls_per_scope': 3, 'credential_variables': old['credential_variables'],
         'scope_independence_authority': old['scope_independence_authority'],
         'collection_operator': 'USER_ONLY', 'writer': 'ONE_COORDINATOR_SHARED_LEDGER_LOCK',
+        'backup_policy': 'MIRROR_OUTSIDE_PROJECT_AFTER_EVERY_RAW_AND_POINT_NO_CREDENTIALS',
         'hour_cap': None, 'calendar_deadline': None, 'daily_target_per_scope': 16,
         'resume': old['resume'], 'lost_unsealed_response': old['lost_unsealed_response'],
         'historical_evidence': historical_snapshot(root, old, ledger),
@@ -110,8 +114,11 @@ def verify(root: Path) -> dict[str, Any]:
             raw = (root / name).read_bytes()
             if checksum(raw) != sha:
                 raise ValueError('Nguồn r2 bị đổi/mất: ' + name)
-            if group == 'source_sha256' and raw != git(root, 'show', release['source_commit'] + ':' + name):
-                raise ValueError('Source r2 khác commit khóa: ' + name)
+            if group == 'source_sha256':
+                blob = git(root, 'show', release['source_commit'] + ':' + name)
+                if (checksum(blob) != release['source_git_blob_sha256'][name]
+                        or raw.replace(b'\r\n', b'\n') != blob.replace(b'\r\n', b'\n')):
+                    raise ValueError('Source r2 khác commit khóa: ' + name)
     for name, sha in release['historical_evidence']['surviving_evidence_sha256'].items():
         if checksum((root / name).read_bytes()) != sha:
             raise ValueError('Bằng chứng lượt cũ đã bị sửa/mất: ' + name)

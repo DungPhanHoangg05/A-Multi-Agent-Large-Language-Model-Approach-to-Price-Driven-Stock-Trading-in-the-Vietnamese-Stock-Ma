@@ -35,6 +35,7 @@ def release_fixture(root: Path) -> tuple:
         'scope': 'PANEL256_ORIGINAL_UPSTREAM_ONLY_2019_2022', 'runtime_namespace': COLLECTION.parent.as_posix(),
         'collection_operator': 'USER_ONLY', 'source_commit': 'fixture-commit',
         'source_sha256': {'source.py': checksum(files['source.py'])}, 'receipt_sha256': {},
+        'source_git_blob_sha256': {'source.py': checksum(files['source.py'])},
         'numeric_artifact_sha256': bank['artifact_sha256'], 'input_sha256': {},
         'news_sha256': {'news.json': checksum(files['news.json'])}, 'config': old['config'], 'warmup': old['warmup'],
         'point_ids': ids, 'shards': panel['shards'], 'nominal_research_HTTP': 768, 'controls_per_scope': 3,
@@ -179,6 +180,21 @@ class ReplacementTests(unittest.TestCase):
                      patch('core.mt_bicl_v41_r2_release.SOURCES', ('source.py',)), self.assertRaises((ValueError, KeyError)):
                     verify(root)
 
+    def test_source_working_bytes_and_git_blob_are_both_pinned(self) -> None:
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            release, receipt, git = release_fixture(root)
+            raw = b'# fixture\r\n'
+            (root / 'source.py').write_bytes(raw)
+            release['source_sha256']['source.py'] = checksum(raw)
+            with patch('core.mt_bicl_v41_r2_release.pinned', side_effect=receipt), \
+                 patch('core.mt_bicl_v41_r2_release.git', side_effect=git), \
+                 patch('core.mt_bicl_v41_r2_release.SOURCES', ('source.py',)):
+                self.assertEqual(verify(root), release)
+                release['source_git_blob_sha256']['source.py'] = 'f' * 64
+                with self.assertRaises(ValueError):
+                    verify(root)
+
     def test_acceptance_and_downstream_stay_closed_before_collection(self) -> None:
         from core.mt_bicl_v41_r2_acceptance import accept
         from core.mt_bicl_v41_r2_contract import load_ready
@@ -191,6 +207,39 @@ class ReplacementTests(unittest.TestCase):
                 self.assertEqual(result['remaining'], 256)
             with patch('core.mt_bicl_v41_r2_contract.verify', return_value=release), self.assertRaisesRegex(ValueError, 'chưa cold'):
                 load_ready(root)
+
+    def test_external_backup_whitelist_excludes_env_and_preserves_raw(self) -> None:
+        from core.mt_bicl_v41_r2_backup import checkpoint
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary) / 'project'
+            root.mkdir()
+            destination = Path(temporary) / 'external'
+            raw_path = COLLECTION / 'http_cache/fixture.json'
+            immutable(root / raw_path, {'durable': True})
+            immutable(root / 'outputs/oos_pilot/api_usage.json', {'requests': []})
+            (root / '.env').write_bytes(b'FIXTURE_SECRET_DO_NOT_COPY')
+            release = {'input_sha256': {}, 'news_sha256': {}, 'numeric_artifact_sha256': {}, 'receipt_sha256': {},
+                       'historical_evidence': {'surviving_evidence_sha256': {}}}
+            immutable(root / RELEASE, release)
+            checkpoint(root, destination)
+            self.assertFalse((destination / '.env').exists())
+            self.assertEqual((destination / raw_path).read_bytes(), (root / raw_path).read_bytes())
+            original = (destination / raw_path).read_bytes()
+            (destination / raw_path).write_bytes(b'corrupted-backup')
+            with self.assertRaisesRegex(ValueError, 'immutable'):
+                checkpoint(root, destination)
+            self.assertEqual((root / raw_path).read_bytes(), original)
+            self.assertEqual((destination / raw_path).read_bytes(), b'corrupted-backup')
+
+    def test_atomic_backup_write_failure_keeps_previous_copy(self) -> None:
+        from core.mt_bicl_v41_r2_backup import write_atomic
+        with TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'ledger.json'
+            path.write_bytes(b'previous')
+            with patch('core.mt_bicl_v41_r2_backup.os.replace', side_effect=OSError('fixture')), self.assertRaises(OSError):
+                write_atomic(path, b'next')
+            self.assertEqual(path.read_bytes(), b'previous')
+            self.assertEqual(len(list(path.parent.iterdir())), 1)
 
 
 if __name__ == '__main__':

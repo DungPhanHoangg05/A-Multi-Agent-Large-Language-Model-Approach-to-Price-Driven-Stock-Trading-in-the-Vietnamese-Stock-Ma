@@ -203,3 +203,57 @@ tests/test_mt_bicl_v41_contract.py text eol=lf
 docs/plan/week11/collection_release_v4_1.json -text
 docs/plan/week11/data_acceptance_v4_1.json -text
 docs/plan/week11/coverage_v4_1.json -text
+
+# Giữ byte nguồn và receipt của lượt panel độc lập ổn định trên Windows.
+.gitattributes text eol=lf
+core/panel_collection.py text eol=lf
+core/panel_coordinator.py text eol=lf
+core/mt_bicl_v41_r2_data.py text eol=lf
+core/mt_bicl_v41_r2_release.py text eol=lf
+core/mt_bicl_v41_r2_warmup.py text eol=lf
+core/mt_bicl_v41_r2_backup.py text eol=lf
+core/mt_bicl_v41_r2_acceptance.py text eol=lf
+core/mt_bicl_v41_r2_contract.py text eol=lf
+scripts/prepare_mt_bicl_v4_1_r2.py text eol=lf
+scripts/continue_mt_bicl_v4_1_r2.py text eol=lf
+tests/test_mt_bicl_v41_r2.py text eol=lf
+tests/test_panel_coordinator.py text eol=lf
+docs/plan/week11/dataset_manifest_v4_1_r2.json -text
+docs/plan/week11/collection_release_v4_1_r2.json -text
+docs/plan/week11/data_acceptance_v4_1_r2.json -text
+docs/plan/week11/collection_validation_v4_1_r2.json -text
+agents/alpha_agent.py text eol=crlf
+agents/decision_agent.py text eol=crlf
+agents/indicator_agent.py text eol=crlf
+agents/pattern_agent.py text eol=crlf
+agents/sentiment_agent.py text eol=crlf
+agents/trend_agent.py text eol=crlf
+core/alpha_compare.py text eol=crlf
+core/bayesian_memory.py text eol=crlf
+core/execution_prices.py text eol=crlf
+core/groq_pacing.py text eol=crlf
+core/historical_signals.py text eol=crlf
+core/improvement_recovery.py text eol=crlf
+core/improvement_transport.py text eol=crlf
+core/prior_backtest.py text eol=crlf
+core/prior_config.py text eol=crlf
+core/prior_context.py text eol=crlf
+core/prior_run_lock.py text eol=crlf
+core/prior_stage_journal.py text eol=crlf
+core/provider_quota.py text eol=crlf
+core/research_cohort.py text eol=crlf
+core/research_input_lock.py text eol=lf
+core/research_invocation.py text eol=crlf
+data_manager/sentiment_cache.py text eol=crlf
+default_config.py text eol=crlf
+scripts/prepare_groq_tokenizer.py text eol=crlf
+scripts/prepare_historical_data.py text eol=crlf
+scripts/verify_execution_price_gate.py text eol=crlf
+utils/alpha_selector.py text eol=crlf
+utils/graph_setup.py text eol=crlf
+utils/graph_util.py text eol=crlf
+utils/historical_api.py text eol=crlf
+utils/i18n.py text eol=crlf
+utils/static_util.py text eol=crlf
+core/backtest_engine.py text eol=crlf
+core/regime_detector.py text eol=crlf
