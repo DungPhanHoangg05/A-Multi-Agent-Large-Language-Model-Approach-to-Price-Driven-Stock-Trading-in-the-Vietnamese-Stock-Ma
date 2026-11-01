@@ -2,6 +2,8 @@
 
 Ngày lập: 01/11/2026. Nhánh khảo sát: `fix`.
 
+**Nơi cập nhật tiến độ hiện hành:** trực tiếp trong `plan.md`; tiến độ R1 được đối soát ngày **02/11/2026** tại [mục R1](#r1-progress). `revision/README.md` giữ vai trò nhật ký lịch sử; không tạo thêm file tiến độ hoặc dùng số đếm cũ ở đó làm trạng thái hiện tại.
+
 ## 0. Phương án rút gọn có hiệu lực từ 02/11/2026
 
 **Ưu tiên hiện hành: hoàn thiện phản biện với ít lượt LLM nhất có thể, dùng 5 key thuộc 5 org Groq do tác giả cung cấp.** Các mức 10 Decision repeats/5 end-to-end repeats và full grid cũ được thay bằng thiết kế ở mục này. Mục 3 vẫn giữ đầy đủ yêu cầu khoa học R1–R18; thứ tự, phạm vi thực nghiệm và ngân sách thực hiện theo mục 0, 4 và 5 đã cập nhật. Không phải mọi mở rộng được gợi ý ban đầu đều là yêu cầu của reviewer.
@@ -168,23 +170,49 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 
 ## 3. Ma trận xử lý toàn bộ comment
 
+<a id="r1-progress"></a>
+
 ### R1 — Baseline, mất cân bằng lớp và tuyên bố hiệu quả [P0]
 
 **Vấn đề:** Full thua constant DOWN/CASH về accuracy và mean return. No-Alpha yếu hơn mức BA 50%; lợi thế trước control yếu chưa xác lập giá trị dự báo. Label hiện là “LONG có lãi sau phí”, không phải dấu biến động giá thuần túy.
 
-**Trạng thái cập nhật 02/11/2026:** đã có audit legacy và numerical baseline releases; Full trên common snapshot còn incomplete, chuyển sang ngân sách mục 0. Theo dõi bằng chứng và dependency tại [revision/README.md](revision/README.md); target/metric contract tại [revision/target_contract.md](revision/target_contract.md). Chưa đóng R1 hoặc coi audit legacy là confirmatory evidence.
+**Trạng thái đối soát 02/11/2026: đã xử lý một phần, chưa đóng R1.** Audit legacy, pipeline/bằng chứng baseline số và bản thảo sửa lần đầu đã có. Mốc thực nghiệm Full theo kế hoạch rút gọn hiện là **0/540 test units**; chưa triển khai profile mới hoặc scheduler 5 org. Không dùng tỷ lệ 23/8.100 của study cũ để biểu diễn tiến độ kế hoạch mới, cũng không gộp mức hoàn thành code/tài liệu thành phần trăm hoàn thành bằng chứng khoa học.
 
-**Việc cần làm**
+**Đã hoàn thành và có artifact**
 
-- [ ] Theo ngân sách rút gọn mục 0: R1 dùng 540 units × một Full run trên cùng input với baselines, sau khi integrity gate đạt; không chờ 540 Full calibration hoặc grid 10/5 repeats. Phân bố repeats được báo ở panel R3 và không suy rộng tùy tiện sang toàn tập R1.
-- [ ] Tái tính class support, confusion matrix, accuracy, BA, MCC, macro-F1, precision/recall/F1 từng lớp cho mọi mã, fold, regime và repeat; phân biệt pooled và macro-average.
-- [ ] Thêm constant DOWN/CASH, constant UP/always-LONG cycles, majority-class fit trên train, buy-and-hold thực sự, momentum cố định, logistic regression và một baseline factor-only không LLM. Phân biệt majority nhìn từ test chỉ dùng mô tả với majority được huấn luyện hợp lệ.
-- [ ] Logistic có ít nhất hai cấu hình: chỉ indicator/OHLCV và cùng indicator + alpha + sentiment/missingness. Chuẩn hóa, imputation, chọn tham số, threshold chỉ fit trên train/validation. Baseline chỉ có giá và baseline cùng thông tin trả lời các câu hỏi khác nhau, phải ghi rõ.
-- [ ] Báo tỷ lệ LONG, turnover, exposure, số lệnh, net return, daily drawdown và chi phí. Control exposure tương đương Full là mở rộng có điều kiện; mặc định không tạo 540 Full train calls chỉ để fit control này. Nếu dùng random control với tỷ lệ ấn định hoặc fit từ numeric train, ghi đúng tên, không gọi đó là matched-Full exposure. Câu hỏi prompt-induced CASH được kiểm tra trực tiếp bằng placebo, BA/per-class metrics và LONG rate ở R4.
-- [ ] Nếu cần gọi “direction forecasting”, bổ sung target gross return riêng; giữ nguyên target net cho replication. Không đổi target sau khi thấy kết quả để tăng accuracy.
-- [ ] Viết lại abstract/highlights/introduction/conclusion sau kết quả mới; bỏ suy luận “alpha lift = alpha information value” từ phép so sánh Full vs baseline bundle.
+- [x] Khóa [target/metric contract](revision/target_contract.md): target net cho replication; `SHORT` là CASH; always-LONG từng cycle khác continuous buy-and-hold; undefined metric là `null`/`NA`.
+- [x] Audit **9 mã/180 điểm legacy**: support, confusion, accuracy, BA, MCC, macro-F1, precision/recall/F1 hai lớp, LONG rate, pooled/macro và replay kinh tế. Full accuracy **65,00%**, BA **55,01%**, MCC **0,113**; CASH accuracy **68,89%**. Đây là audit kết quả lịch sử, chưa phải so sánh Full với baseline mới cùng snapshot. Bằng chứng: [report](outputs/revision/r1_legacy/report.json), [classification](outputs/revision/r1_legacy/classification.csv), [manifest](outputs/revision/r1_legacy/manifest.json).
+- [x] Có [snapshot giá tái dựng](outputs/revision/r1_prices_v1/manifest.json) **9 mã × 1.681 phiên, 2020–30/09/2026** và [release numeric ban đầu](outputs/revision/r1_numeric_v1/report.json) **1.440 predictions/81 daily ledgers**. Giá entry/exit khác legacy ở **74/180** cycle, trong đó **2 nhãn đổi**; không ghép các kết quả này với legacy Full thành bảng head-to-head. Snapshot submission vẫn `unverified`.
+- [x] Khóa [common bank v3](outputs/revision/r1_common_bank_v3/manifest.json) và [feature receipt](outputs/revision/r1_common_bank_v3/features_complete.json): **3.038 feature snapshots**, **540 test units = 9 mã × 3 folds × 20 điểm**, trên **60 ngày decision**; folds 2025 Q4, 2026 Q2, 2026 Q3. Có 225 cột OHLCV và 432 cột alpha/sentiment/missingness; missing sentiment chưa được xác minh không trở thành bằng chứng sentiment hợp lệ.
+- [x] Chạy đủ baseline số trên bank v3: CASH, always-LONG cycles, train-majority, momentum 20, logistic OHLCV, logistic cùng thông tin thị trường dạng số, factor-only vote và continuous hold price-only. Có **3.780 prediction records/216 daily ledgers** cho 27 cặp mã/fold; **166 UP/374 DOWN** trên 540 units. Imputation/standardisation, C/threshold dùng train/validation theo thời gian và purge label overlap. Bằng chứng: [report](outputs/revision/r1_common_numeric_v3/report.json), [classification/regimes](outputs/revision/r1_common_numeric_v3/classification.json), [model selection](outputs/revision/r1_common_numeric_v3/models.json), [summary/ledger metrics](outputs/revision/r1_common_numeric_v3/summary.csv).
+- [x] Có metrics LONG rate, turnover, exposure, số lệnh, net return và daily-close drawdown cho baseline số. Ledger hiện dùng fractional shares/cash tái sử dụng ngay; continuous hold là comparator giá, **chưa xác nhận total return, corporate actions hoặc khả năng thực thi/settlement**. Không dùng kết quả này để đóng R15.
+- [x] Có runner cũ với request/response archive, checkpoint, source/runtime hashes, retry/quota guard và prompt guard; đã dùng API thật. Năng lực này là nền để sửa đường chạy mới, **chưa phải pool 5 org hoặc runner theo ngân sách rút gọn**.
+- [x] Đã sửa abstract/highlights/introduction/methods/results/conclusion và [response R1 nháp](revision/response_to_reviewers.md), bảo toàn manuscript gốc trong [archive](revision/manuscript_original.zip). [Hai PDF và manifest bản nháp](outputs/revision/r1_manuscript_v1/manifest.json) có 42 trang/bản; locators đã ghi: highlights trang vật lý 2, abstract 3, §5.5 trang 20–21, Tables 7–8 trang 23, Tables 10–11 trang 25, conclusion trang 28. Bản nháp này dùng audit/numeric ban đầu, **chưa chứa bảng Full trên common bank v3 hoặc kết quả kế hoạch mới**.
 
-**Đầu ra:** bảng baseline đầy đủ, bảng confusion/imbalance và tài liệu định nghĩa target. **Đạt khi:** mọi baseline cùng lịch, chi phí và dữ liệu hợp lệ; không che việc thua cash hoặc baseline đơn giản; undefined metric được ghi NA với quy ước rõ ràng. **Sửa tại:** `utils/statistical_tests.py`, `core/backtest_engine.py`, runner baseline mới, sections 03/05/06/08 và front matter.
+**Checkpoint thực tế của study cũ — không tính vào 540 test units mới**
+
+| Chỉ báo tại lần đối soát | Giá trị và cách diễn giải |
+|---|---|
+| Run đang được kiểm kê | [r1_common_run_v3](outputs/revision/r1_common_run_v3/run_manifest.json); cùng bank v3 ở trên |
+| API attempts đã ghi | **117** request files: **71 response + 46 error**; đây không phải 117 quyết định |
+| Decision checkpoints | **23 calibration/e2e, 0 test**; không đổi role calibration thành test hoặc gán sang profile mới |
+| Completion | Chưa có `inference_complete.json` hoặc `analysis_manifest.json`; chưa có Full head-to-head |
+| Output của status CLI | Vẫn báo `n_decisions_required=8100`, cap cũ 30.000 và `blocked_daily_vision_quota`; các giá trị này thuộc protocol/receipt cũ, không phải ngân sách mới |
+| Trạng thái tiến trình | Không suy worker đang chạy/đã dừng từ receipt lịch sử: không có `worker_status.json` hiện hành; lượt cập nhật tài liệu này không khởi động, dừng hoặc resume worker |
+
+Đếm checkpoint bằng `scripts/status_revision_common_study.py` và đối chiếu file thực; đây là kiểm kê tiến độ, chưa replay/xác nhận khoa học 23 calibration mới. Receipt dừng ban đầu v3 ghi 1 attempt/0 prediction chỉ phản ánh thời điểm trước khi resume. Baseline report vẫn ghi thiếu `full` và `full_train_exposure_control`; trong hai variant thiếu này, theo mục 0 **Full là bắt buộc**, còn control matched-Full exposure là tùy claim, không bắt quay lại 540 calibration calls.
+
+**Phần còn thiếu — thực hiện theo thứ tự ngắn nhất**
+
+- [ ] **R1.1 — Chuyển profile (FAST-02/03):** tạo protocol/bank/run mới riêng theo mục 0; triển khai pool 5 org với limiter, shared cap, shard/checkpoint và tests đúng phạm vi. Kiểm tra tiến trình cũ trước chuyển ở checkpoint boundary; không sửa protocol cũ hoặc chạy đồng thời năm instance runner hiện tại trên cùng run directory.
+- [ ] **R1.2 — Freeze input và smoke (FAST-04/05):** đối soát lineage/availability/report contracts và sentiment gate; chỉ reuse giá/features/baseline khi hash và contract còn khớp. Nếu sửa scorer/input, tạo release numeric tương ứng trên cùng 540 units trước so sánh. Chốt missing/failure policy, model/prompt, lịch, contrasts và ngân sách trước evaluation; smoke nằm ngoài evaluation và trong trần chung.
+- [ ] **R1.3 — Chạy Full một lượt:** **540 test units × 1 AS decision = 540 decisions**, tối thiểu **1.080 vision + 540 Decision = 1.620 API calls**, chưa tính retries/smoke. Đây là phần đầu của gói chung 4.158 research calls/trần 5.000 attempts ở mục 0, không phải một ngân sách cộng thêm. Không chờ 540 calibration hoặc 10/5 repeats toàn grid. Thêm 270 units và các panel 108/27 giải quyết R2/R3/R4 theo thiết kế chung; không coi repeats hoặc variants của panel là market observations mới.
+- [ ] **R1.4 — Hoàn thiện bảng Full–baseline:** trên cùng snapshot/target/lịch/cost và common support, xuất đủ support/confusion/BA/MCC/macro-F1/per-class metrics, pooled/macro, LONG rate và ledger cho Full; báo theo mã/fold/regime thực có. Uncertainty có phụ thuộc ngày/mã, paired contrasts và repeat dispersion dùng đúng phạm vi R3/R5; không gán 3-run SD của panel cho toàn bộ one-pass R1.
+- [ ] **R1.5 — Hoàn thiện claim và hồ sơ:** cập nhật lại các bảng, front matter, sections 03/05/06/08 và response bằng release cuối; kiểm PDF locators mới. Báo thẳng nếu Full thua CASH/non-LLM. Giữ target net; nếu giữ claim “direction forecasting” thì bổ sung target gross riêng đã định nghĩa, không đổi nhãn để cải thiện accuracy. Xử lý prompt-induced CASH bằng LONG rate/per-class metrics/placebo ở R4; chỉ thêm Full-exposure calibration khi thực sự giữ claim cần control này.
+
+**Điều kiện đóng R1:** có Full thật và baselines trên cùng điều kiện hợp lệ, đầy đủ metric/denominator/limitations, artifact kiểm chứng, vị trí bản thảo cuối và response tương ứng; chưa đạt điều kiện này tại lần cập nhật. Hoàn thành R1 không tự đóng R2/R3/R4/R6/R7/R9/R15 hoặc bảo đảm accept. Không dùng audit legacy, unit tests hay baseline số thay bằng chứng Full còn thiếu.
+
+**Kiểm tra cho lượt cập nhật tiến độ này:** `scripts/verify_revision_common_study.py` **PASS**: ba bank/feature receipts, hai numeric releases v2/v3, ba receipt dừng và replay calibration chẩn đoán v2; không phải nghiệm thu Full/R1. Đối soát thêm **4 hash đầu ra legacy**, **45 hash nguồn/đầu ra manuscript**, số đếm, 19 liên kết được thêm, UTF-8/cấu trúc Markdown và diff whitespace: **PASS**. Chỉ sửa tài liệu nên không chạy compileall, unit, E2E hoặc leakage suite, không gọi API và không ghi lại artifacts nghiên cứu. Các kết quả test/PDF QA trước đây được viện dẫn như lịch sử, không ghi là đã chạy lại.
 
 ### R2 — Mẫu ngắn, một regime và phụ thuộc chéo [P1]
 
@@ -457,7 +485,7 @@ Freeze policy cho API failures và missing data trước run: công bố failure
 
 ## 5. Lộ trình thực hiện theo dependency
 
-Lộ trình rút gọn kế thừa các phần đã triển khai trong `revision/README.md`; không làm lại G0/G1 hoặc toàn numerical suite nếu nguồn/code không đổi. Ước lượng là công sức cho phần còn thiếu; quota-time tính riêng ở mục 0. Owner là vai trò cần phân công, chưa phải người được chỉ định. Mục tiêu 5–10 ngày lịch chỉ áp dụng khi dữ liệu/provenance đủ và quota đáp ứng, không phải lời hứa accept hoặc deadline cố định.
+Lộ trình rút gọn kế thừa các phần đã triển khai và được đối soát tại [tiến độ R1](#r1-progress); `revision/README.md` chỉ là nhật ký lịch sử. Tái dùng audit/baselines còn khớp nguồn, không chạy lại numerical suite chỉ vì sửa Markdown. G0 mới hoàn thành phần kiểm kê; protocol mới, pool 5 org và các gate dữ liệu còn thiếu vẫn phải thực hiện. Ước lượng là công sức cho phần còn thiếu; quota-time tính riêng ở mục 0. Owner là vai trò cần phân công, chưa phải người được chỉ định. Mục tiêu 5–10 ngày lịch chỉ áp dụng khi dữ liệu/provenance đủ và quota đáp ứng, không phải lời hứa accept hoặc deadline cố định.
 
 | Giai đoạn | Công việc / reviewer | Owner | Ước lượng | Điều kiện qua giai đoạn |
 |---|---|---|---|---|
@@ -473,29 +501,29 @@ Dependency inference: **G0 → (G1/G2) → G3 → G4 → kết quả G5 → G6**
 
 ### 5.1. Danh sách triển khai tiếp theo
 
-- [ ] **FAST-01** Đối soát tiến độ và artifacts mới của v3, ghi chuyển scope ngân sách; không đụng usage/calls chưa commit của người dùng khi chỉ sửa tài liệu.
+- [x] **FAST-01 — đối soát tài liệu ngày 02/11/2026:** đã ghi trực tiếp tại R1 kết quả numeric, 117 attempts/23 calibration/0 test của v3 và ngân sách mới; kiểm integrity các release hiện có PASS. Giữ nguyên usage/calls chưa commit. Chuyển worker/profile thực tế và xác minh reuse thuộc FAST-02/03/04, chưa thực hiện.
 - [ ] **FAST-02** Tạo protocol mới với broad 810/panel108/upstream27, 3 repeats, core 5 variants, budget 5.000 attempts; không sửa JSON khóa cũ. Nếu giữ dynamic-selector LLM claim, đăng ký thêm 648 decisions/trần 5.800 trước run.
 - [ ] **FAST-03** Implement pool 5 org, per-org/model limiter, shared global cap, isolated workers/checkpoints và atomic aggregator; tất cả calls dùng retry wrapper hiện có.
 - [ ] **FAST-04** Gate sentiment/availability và lineage; bổ sung giá/features cho 270 units mới, numerical controls và fixed/random selection offline. Không trì hoãn toàn bộ prose/reference work vì đang thiếu LLM.
 - [ ] **FAST-05** Smoke <=60 attempts, đo ETA và request forecast; freeze prompt/model/report contracts trước chấm điểm. Trần đạt mà incomplete thì báo thiếu evidence, không tự giảm số unit sau khi thấy outcome.
 - [ ] **FAST-06** Chạy shared evaluation, reuse hợp lệ AS r0/upstream, tổng hợp broad và repeated-panel riêng; hoàn thiện response R1–R18 rồi kiểm Gate A/B/C.
 
-Các task T01–T10 dưới đây là bản đồ công việc gốc để trace reviewer; **đối chiếu trạng thái đã làm trong `revision/README.md` trước khi thực hiện**, không khởi động lại toàn bộ:
+Các task T01–T10 dưới đây là bản đồ công việc gốc để trace reviewer; **đối chiếu phần đã làm tại R1 trong file này trước khi thực hiện**, không khởi động lại toàn bộ. Dấu `[ ]` ở task rộng vẫn có thể chứa phần đã hoàn thành; chỉ đánh dấu toàn task khi đủ phạm vi:
 
 - [ ] **T01** Tạo manifest/hash cho submitted PDF/TeX/comments và toàn bộ result/cache; xác định version chính thức của submission.
-- [ ] **T02** Xuất independent audit 180 points: confusion/baselines/cycle return/NW và reproduction Table 7.
+- [ ] **T02** Audit 180 points: phần confusion/baselines/cycle return đã có trong `r1_legacy` (xem R1); phần NW/reproduction Table 7 chưa được nghiệm thu trong lần đối soát này. Tái dùng release hợp lệ, chỉ bổ sung phần còn thiếu.
 - [ ] **T03** Audit duplicate sequences và lineage toàn bộ checkpoint; giải quyết R6 trước khi dùng Table 9.
 - [ ] **T04** Chạy lại coverage từ raw articles qua đúng availability rules; sửa script paths và generated CSV/TeX invariants.
 - [ ] **T05** Sửa annualisation Sharpe/Sortino, canonical price fields/labels, daily equity và settlement contract.
 - [ ] **T06** Sửa citations sai, provenance QuantAgent, text/prompt conventions và thống nhất source/build.
 - [ ] **T07** Thêm immutable snapshot loader, request archive, full cache key và resume validation.
-- [ ] **T08** Implement baselines cùng feature contract và nested temporal selector.
+- [ ] **T08** Baselines số và train/validation model selection đã có trong `r1_common_numeric_v3` (xem R1); còn ghép Full trên cùng input hợp lệ và nghiệm thu nested temporal factor selector theo R10. Không triển khai lại baseline đã có chỉ vì task tổng chưa đóng.
 - [ ] **T09** Implement factorial/placebo/repeat runner và panel inference; simulation-check dưới null.
 - [ ] **T10** Freeze protocol, data/folds, budget và power/precision criteria trước run mới; thiết kế rút gọn này là historical exploratory. Một confirmatory study thực sự cần holdout thích hợp chưa dùng để phát triển phương pháp.
 
 ## 6. Deliverables cần có sau khi hoàn thành kế hoạch
 
-Các đường dẫn dưới đây là **đầu ra dự kiến**, chưa được tạo bởi lượt lập kế hoạch này.
+Các đường dẫn dưới đây là danh mục đầu ra cần có khi hoàn thành; phần đã tồn tại và phạm vi còn thiếu của R1 được ghi trực tiếp tại [tiến độ R1](#r1-progress). Các artifact/manifest/response phục vụ bằng chứng, không thay `plan.md` làm nơi cập nhật tiến độ và không cần tạo file tiến độ riêng.
 
 | Đầu ra | Nội dung / comment được đóng |
 |---|---|
@@ -575,4 +603,4 @@ Ngày truy cập 01/11/2026; các nguồn hiện hành không thay thế snapsho
 - **S7:** [Metadata Crossref của bài Deng và cộng sự](https://api.crossref.org/works/10.1109/TNNLS.2016.2522401). Publication metadata của volume/issue được trích là 2017.
 - **S8:** [Thông báo VSD về thời gian thanh toán T+2 năm 2022](https://vsdc.vn/vi/ad/152750). Dùng làm mốc lịch sử; execution study phải kiểm tra quy định có hiệu lực đúng từng thời kỳ.
 
-Audit ban đầu ngày 01/11/2026 đã đọc bài/nhận xét và tính lại các chẩn đoán ở mục 1; trạng thái triển khai sau đó nằm ở `revision/README.md`. Bản cập nhật 02/11/2026 chỉ sửa tài liệu kế hoạch/ngân sách/runbook, không chạy inference, thay protocol JSON/runtime hoặc ghi lại kết quả nghiên cứu. Thiết kế rút gọn chưa được triển khai chỉ bằng việc sửa file này; không đọc các checklist như những kết quả đã hoàn thành.
+Audit ban đầu ngày 01/11/2026 đã đọc bài/nhận xét và tính lại các chẩn đoán ở mục 1. Tiến độ hiện hành được cập nhật trực tiếp tại R1 trong `plan.md`; `revision/README.md` giữ lịch sử các lượt trước. Lượt đối soát tiến độ ngày 02/11/2026 chỉ sửa `plan.md`, không chạy inference, thay protocol JSON/runtime hoặc ghi lại kết quả nghiên cứu. Thiết kế rút gọn chưa được triển khai chỉ bằng việc sửa file này; checklist đã hoàn thành chỉ áp dụng đúng phạm vi và artifact được nêu.
