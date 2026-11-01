@@ -1,0 +1,26 @@
+\begin{table}[!htb]
+\centering
+\small
+\caption{Per-class legacy precision, recall and F1, in percent.}
+\label{tab:r1_class_metrics}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\setbox0=\hbox{%
+\begin{tabular}{llrrrr}
+\hline
+Variant & Class & Support & Precision & Recall & F1 \\
+\hline
+Full (legacy) & UP & 56 & 41.03 & 28.57 & 33.68 \\
+Full (legacy) & DOWN & 124 & 71.63 & 81.45 & 76.23 \\
+Base reports (legacy) & UP & 56 & 24.19 & 26.79 & 25.42 \\
+Base reports (legacy) & DOWN & 124 & 65.25 & 62.10 & 63.64 \\
+Constant DOWN / CASH & UP & 56 & NA & 0.00 & 0.00 \\
+Constant DOWN / CASH & DOWN & 124 & 68.89 & 100.00 & 81.58 \\
+Always-LONG cycles & UP & 56 & 31.11 & 100.00 & 47.46 \\
+Always-LONG cycles & DOWN & 124 & NA & 0.00 & 0.00 \\
+\hline
+\end{tabular}}
+\ifdim\wd0>0.98\textwidth\resizebox{0.98\textwidth}{!}{\copy0}\else\copy0\fi
+\par\smallskip
+\begin{minipage}{0.98\textwidth}\footnotesize A class with support but no predicted positives has undefined precision and zero recall/F1. All symbol-level confusion matrices and class metrics are retained in the reanalysis CSV/JSON.\end{minipage}
+\end{table}

@@ -1,0 +1,7 @@
+reviewer,subrequirement,status,evidence,manuscript_locator,remaining_dependency
+R1,class_support_metrics,complete_on_available_runs,outputs/revision/r1_legacy/classification.csv; outputs/revision/r1_numeric_v1/classification.json,Tables 7-8; PDF p23,Multi-year LLM folds/repeats remain R2/R3 dependencies
+R1,baseline_matrix,implemented_reconstruction_comparison_blocked,outputs/revision/r1_numeric_v1/summary.csv; report.json,Tables 10-11; PDF p25,74 legacy cycles differ; authenticated common snapshot missing
+R1,two_logistic_information_sets,partial,outputs/revision/r1_numeric_v1/models.json,Section 5.5; PDF p20-21,Exact Full reports/peer context/features unavailable; verified sentiment missing
+R1,daily_economics_and_exposure,partial,outputs/revision/r1_numeric_v1/daily_*.csv,Section 5.4-5.5; Tables 10-11,New snapshot daily ledger only; Full train exposure and certified action/execution data missing
+R1,net_and_gross_targets,implemented,revision/target_contract.md; outputs/revision/r1_numeric_v1/predictions.csv,Section 3; classification.json,Gross is secondary with same predictions; legacy net labels unchanged
+R1,claims_and_response,revised_not_closed,revision/response_to_reviewers.md; outputs/revision/r1_manuscript_v1/,Both abstracts/highlights; Sections 1/5/6/7/8,No alpha superiority claim; missing experiments remain explicitly open

@@ -1,0 +1,27 @@
+\begin{table}[!htb]
+\centering
+\small
+\caption{Exploratory numerical baselines on the newly retrieved snapshot: not a head-to-head comparison with legacy Full.}
+\label{tab:r1_numeric_metrics}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\setbox0=\hbox{%
+\begin{tabular}{lrrrrrr}
+\hline
+Variant & Acc. (\%) & BA (\%) & MCC & Mean return (\%) & Mean daily MDD (\%) & Held sessions (\%) \\
+\hline
+Constant DOWN / CASH & 68.89 & 50.00 & NA & 0.00 & 0.00 & 0.00 \\
+Always-LONG cycles & 31.11 & 50.00 & NA & -17.33 & 21.13 & 99.15 \\
+Continuous hold (price only) & NA & NA & NA & -5.53 & 14.74 & 100.00 \\
+Factor-only vote & 61.67 & 62.38 & 0.230 & -5.07 & 11.93 & 46.75 \\
+Logistic: price & 66.11 & 52.88 & 0.077 & -1.15 & 4.22 & 13.80 \\
+Logistic: price + factors + S/M & 61.67 & 51.12 & 0.025 & -2.83 & 7.38 & 21.62 \\
+Momentum (20) & 50.00 & 46.08 & -0.074 & -8.55 & 10.50 & 40.60 \\
+Train majority & 68.89 & 50.00 & NA & 0.00 & 0.00 & 0.00 \\
+Train-rate random control & 50.56 & 47.47 & -0.047 & -10.03 & 12.06 & 42.44 \\
+\hline
+\end{tabular}}
+\ifdim\wd0>0.98\textwidth\resizebox{0.98\textwidth}{!}{\copy0}\else\copy0\fi
+\par\smallskip
+\begin{minipage}{0.98\textwidth}\footnotesize All cycle classifiers use the same 180 new-snapshot cutoffs and net targets. Predictive metrics are pooled; economic columns average independent symbol accounts. S/M denotes verified sentiment and missingness; historical scorer provenance is unavailable, so sentiment scores are missing. The train-rate control uses training momentum exposure, not Full exposure. Continuous hold has one buy and one sell per symbol; price adjustments and dividends are not independently certified. No Full row is included because 74 cycles differ at entry and/or exit from legacy, including two changed labels.\end{minipage}
+\end{table}

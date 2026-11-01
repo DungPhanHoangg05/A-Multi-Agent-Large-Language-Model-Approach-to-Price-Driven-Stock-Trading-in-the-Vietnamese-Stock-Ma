@@ -1,0 +1,188 @@
+%%
+%% viQuantAgent / QuantAgent VN -- Academic Paper
+%% Converted to the Elsevier elsarticle (numbered-citation) template,
+%% based on elsarticle-template-num.tex, for submission to
+%% Knowledge-Based Systems (KBS).
+%%
+%% FORMAT CONVERSION ONLY: the scientific content is unchanged from the
+%% original cas-sc source (DKE_2026.tex); only front-matter markup and
+%% class-specific macros (\credit, \printcredits, [pos=...] float
+%% placement, \begin{keywords}, \tnotemark/\fnmark/\cormark, natbib
+%% \citep) have been adapted to elsarticle conventions.
+%%
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage[
+    left=1.8cm,
+    right=1.8cm,
+    top=2.0cm,
+    bottom=2.0cm
+]{geometry}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout -- left commented, preprint style is used here.
+%% \documentclass[final,3p,times]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in elsarticle.cls.
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsmath package provides various useful equation environments.
+\usepackage{amsmath}
+
+%% Packages required by the original manuscript content (tables,
+%% algorithms, float placement) -- preserved from the source document.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese, english]{babel}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{framed}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{orcidlink}
+\usepackage{hyperref}
+
+\journal{Knowledge-Based Systems}
+
+%% Figures live under figures/figs/... in this project; original
+%% \includegraphics calls use the relative path "figs/..." as in the
+%% source manuscript, so we add "figures/" to the graphics search path.
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+\title{Evaluating Quantitative Evidence in Multi-Agent Decision Support for Vietnamese Equities\tnoteref{t1}}
+\tnotetext[t1]{This research is funded by Foreign Trade University under research program number FTURP02-2026-08.}
+
+%% Authors
+% \author[1]{Hong-Viet Tran\,\orcidlink{0000-0002-4675-2123}}
+% \author[1]{Hoang-Dung Phan\,\orcidlink{0009-0003-6859-0852}}
+% \author[1,2]{Thanh-Tam Do Thi\,\orcidlink{0000-0002-7594-276X}}
+% \author[1]{Phuong-Thai Nguyen\,\orcidlink{0009-2063-7338-7789}}
+% \author[3]{Van-Tang Nguyen\,\corref{cor1}\orcidlink{0009-0009-7266-2437}}
+
+% %% Affiliations
+% \affiliation[1]{organization={Institute for Artificial Intelligence, University of Engineering and Technology, Vietnam National University},
+%             city={Hanoi},
+%             country={Vietnam}}
+
+% \affiliation[2]{organization={Faculty of Economic Information System and E-Commerce, Thuongmai University},
+%             city={Hanoi},
+%             country={Vietnam}}
+
+% \affiliation[3]{organization={Faculty of Technology and Data Science, Foreign Trade University},
+%             city={Hanoi},
+%             country={Vietnam}}
+
+% \cortext[cor1]{Corresponding author}
+
+
+%% Abstract
+\begin{abstract}
+We examine quantitative evidence in a five-agent decision-support architecture for Vietnamese equities using an audit of archived predictions and an explicitly separate numerical-baseline reconstruction. The legacy benchmark contains 180 decisions across nine equities. Its Full branch achieves 65.0\% accuracy, below a constant DOWN/CASH rule at 68.9\%; balanced accuracy is 55.0\% and Matthews correlation is 0.113. The Base reports control, which removes both factors and sentiment, has balanced accuracy of 44.4\%. Mean independently compounded Full account return is negative, whereas CASH returns zero. Consequently, the Full--Base accuracy gap does not establish alpha information value or profitability. Additional train-fitted majority, momentum, logistic and factor-only baselines, together with continuous-hold and daily mark-to-market ledgers, are evaluated on a newly retrieved, frozen price snapshot. That snapshot differs from legacy at 74 of the 180 cycles and changes two labels, so these numerical results are not presented as a head-to-head comparison with archived Full predictions. Missing historical reports and training predictions also prevent verification of an identical-information comparator and a Full-exposure-matched control. The reanalysis documents class imbalance, target definitions, preprocessing boundaries and the remaining evidence needed before claiming predictive superiority.
+\end{abstract}
+
+%%Graphical abstract
+\begin{graphicalabstract}
+\centering
+\includegraphics[width=0.95\textwidth]{figs/system_pipeline.png}
+\end{graphicalabstract}
+
+%%Research highlights
+\begin{highlights}
+\item A class-imbalance audit qualifies the legacy multi-agent benchmark.
+\item Constant CASH exceeds legacy Full in raw accuracy and mean return.
+\item Train-fitted numerical baselines use explicit temporal preprocessing.
+\item Snapshot differences prevent a valid retrospective Full comparison.
+\item The available evidence does not establish alpha value or profitability.
+\end{highlights}
+
+%% Keywords
+\begin{keyword}
+Multi-agent LLM \sep Knowledge fusion \sep Knowledge integration \sep Financial decision support \sep Vietnamese stock market \sep Alpha factor selection
+\end{keyword}
+
+\end{frontmatter}
+% The elsarticle preprint footer exceeds its output box by 2.61pt.
+% Visual inspection confirms no clipping; use a 3pt output tolerance.
+\global\hfuzz=3pt
+
+%% main text
+\input{sections/01_introduction.tex}
+\input{sections/02_related_work.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_system_architecture.tex}
+\input{sections/05_experimental_setup.tex}
+\input{sections/06_backtest_results.tex}
+\input{sections/07_limitations.tex}
+\input{sections/08_conclusion.tex}
+
+%% CRediT authorship contribution statement
+%% (elsarticle.cls has no \credit/\printcredits macros; the CRediT
+%% roles from the original cas-sc source are preserved here verbatim
+%% as a standard Elsevier "CRediT authorship contribution statement"
+%% section instead.)
+% \section*{CRediT authorship contribution statement}
+
+% \textbf{Van-Tang Nguyen:} Conceptualization (C); Software (So); Validation (Va); Investigation (I); Original draft preparation (O); Project administration (P); Funding acquisition (Fu).
+
+% \textbf{Hoang-Dung Phan:} Methodology (M); Software (So); Formal analysis (Fo); Investigation (I); Resources (R); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Visualization (Vi); Supervision (Su).
+
+% \textbf{Thanh-Tam Do Thi:} Methodology (M); Investigation (I); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Supervision (Su).
+
+% \textbf{Phuong-Thai Nguyen:} Methodology (M); Investigation (I); Data curation (D); Original draft preparation (O); Visualization (Vi); Supervision (Su).
+
+% \textbf{Hong-Viet Tran:} Conceptualization (C); Methodology (M); Software (So); Validation (Va); Formal analysis (Fo); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Project administration (P).
+
+\section*{CONFLICT OF INTEREST STATEMENT (mandatory)}
+Authors state no conflict of interest.
+
+% \section*{INFORMED CONSENT (if applicable)}
+% The protection of privacy is a legal right that must not be breached without individual informed consent. In cases where the identification of personal information is necessary for scientific reasons, authors should obtain full documentation of informed consent, including written permission from the patient prior to inclusion in the study. Incorporate the following (or a similar) statement: We have obtained informed consent from all individuals included in this study.
+
+% \section*{ETHICAL APPROVAL (if applicable)}
+% When papers talk about using people or animals, authors should make it clear that the research followed all national rules and institutional policies, and it was approved by the authors' institutional review board or a similar committee. The Helsinki Declaration's tenets must guide all investigations involving human subjects. Authors must also identify the committee or review board approving the experiments and provide a statement indicating approval of the research. Incorporate the following (or a similar) statement: The research related to human use has been complied with all the relevant national regulations and institutional policies in accordance with the tenets of the Helsinki Declaration and has been approved by the authors' institutional review board or equivalent committee; or: The research related to animal use has been complied with all the relevant national regulations and institutional policies for the care and use of animals.
+
+\section*{DATA AVAILABILITY (mandatory)}
+\begin{itemize}
+    \item[-]The underlying OHLCV records were retrieved through \texttt{vnstock}, and the source news pages are publicly accessible through CafeF (https://cafef.vn). The historical sentiment caches used in the reported experiments are processed research artifacts produced by crawling, cutoff filtering, and sentiment scoring; they are not an openly hosted dataset, and their legacy entries lack verifiable scorer metadata, as documented in Appendix~\ref{app:dependencies}. Requests for access to the processed caches and archived result artifacts may be directed to the corresponding author and remain subject to source terms and news copyright.
+
+    % \item[-] The data that support the findings of this study are available on request from the corresponding author, [initials: AB]. The data, which contain information that could compromise the privacy of research participants, are not publicly available due to certain restrictions.
+    % \item[-] Derived data supporting the findings of this study are available from the corresponding author [initials: AB] on request.
+    % \item[-] The data that support the findings of this study are available from [third party]. Restrictions apply to the availability of these data, which were used under license for this study. Data are available [from the authors / at URL] with the permission of [third party].
+% \item[-] The authors confirm that the data supporting the findings of this study are available within the article [and/or its supplementary materials].
+    % \item[-] The data that support the findings of this study are available from the corresponding author, [initials: AB], upon reasonable request.
+    % \item[-] Data availability is not applicable to this paper as no new data were created or analyzed in this study.
+\end{itemize}
+\section*{CODE AVAILABILITY}
+\begin{itemize}
+    \item[-]A demonstration chatbot system developed from the proposed framework is available in the \href{https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git}{project repository}.
+
+\end{itemize}
+
+\input{sections/acknowledgments.tex}
+
+\input{sections/appendices.tex}
+
+\newpage
+
+%% Loading bibliography style file
+\bibliographystyle{elsarticle-num}
+
+%% Loading bibliography database
+\bibliography{references}
+
+\clearpage
+
+\end{document}
