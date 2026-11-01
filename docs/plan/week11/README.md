@@ -2792,3 +2792,10 @@ Phạm vi kiểm tra và hash nguồn/runtime nằm trong
 [QA r2](collection_validation_v4_1_r2.json). Không chạy lại toàn suite,
 compileall toàn codebase hoặc E2E toàn hệ thống; chọn test collector,
 coordinator, recovery/transport và PIT của đúng đường chạy mới theo AGENTS.md1.2.
+Đã PASS21 test mới và53 hồi quy trong phạm vi đã chọn;15 ca numeric/PIT dùng
+fixture tách riêng với observations/folds r2, không thay dữ liệu v4 trong runtime.
+Giới hạn của một ca assemble v4 phụ thuộc artifact lịch sử được ghi rõ trong QA.
+12 Python mới biên dịch PASS;74 source qua kiểm byte checkout trên Windows.
+Lệnh thật `--verify-only` trả `WAITING_USER_WARMUP`; cold `accept` trả
+`INCOMPLETE_PANEL`0/256; consumer W11-19 vẫn đóng. Ledger5.376 request và30
+receipt JSON cũ nguyên byte; agent chưa chạy API hoặc đọc key.

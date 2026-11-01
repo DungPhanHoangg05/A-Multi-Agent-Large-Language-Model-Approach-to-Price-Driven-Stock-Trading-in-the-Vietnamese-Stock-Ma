@@ -1,0 +1,111 @@
+{
+  "version": "conditional_v4_1_r2_collection_validation",
+  "status": "OFFLINE_COLLECTION_CHECKS_PASS",
+  "release_sha256": "34b259a5e9fd2f984c5b1f46a6d988f760c28e00da83e4adf229fe1a6caedd07",
+  "numeric_manifest_sha256": "025c8995571e217ecb58a7aee5c617ca3b91667aa2ff0b26a84f851fad1231de",
+  "source_commit": "111dae720ac84e1d46e4684e25d5964a8e355b71",
+  "source_checkout_byte_checks": {
+    "checked": 74,
+    "mismatched": 0
+  },
+  "numeric_gate": "NUMERIC_BANK_PASS",
+  "numeric_artifacts_checked": 13,
+  "new_regime_identity_same_numeric_labels_scalers_memberships_and_names": true,
+  "tests": [
+    {
+      "module": "test_panel_coordinator",
+      "passed": 9,
+      "mode": "HTTP_MOCK_REAL_GRAPH_SDK_PACER"
+    },
+    {
+      "module": "test_mt_bicl_v41_r2",
+      "passed": 12,
+      "mode": "SYNTHETIC_WARMUP_LINEAGE_BACKUP_ACCEPTANCE_CONSUMER"
+    },
+    {
+      "module": "test_mt_bicl_v41_collection",
+      "passed": 10,
+      "mode": "HTTP_MOCK_REAL_GRAPH_SDK_PACER"
+    },
+    {
+      "module": "test_mt_bicl_v4_collection_leakage",
+      "passed": 7,
+      "mode": "DIRECT_PIT_RETRY_RAW_REGRESSION"
+    },
+    {
+      "module": "test_mt_bicl_v41_data + test_mt_bicl_v41_leakage",
+      "passed": 15,
+      "mode": "ISOLATED_FIXTURE_R2_OBSERVATIONS_AND_FOLDS_AT_LEGACY_TEST_PATH_NO_PRODUCTION_REPLACEMENT"
+    },
+    {
+      "module": "test_mt_bicl_v4_http_diagnostics",
+      "passed": 6,
+      "mode": "SYNTHETIC_PROVIDER_ERRORS"
+    },
+    {
+      "module": "test_improvement_recovery",
+      "passed": 10,
+      "mode": "HTTP_MOCK_FAKE_CLOCK"
+    },
+    {
+      "module": "test_improvement_transport",
+      "passed": 5,
+      "mode": "HTTP_MOCK_CANONICAL_UUID"
+    }
+  ],
+  "selected_tests_passed": 74,
+  "legacy_test_limit": {
+    "name": "test_mt_bicl_v4_collection_leakage.CollectionLeakageTests.test_duplicate_completed_point_cannot_inflate_data_cohort",
+    "attempted": true,
+    "result": "BLOCKED_MISSING_LEGACY_ARTIFACT",
+    "error": "FileNotFoundError",
+    "missing": "outputs/bayesian_benchmark/mt_bicl_v4/data/observations.json",
+    "reason": "Ca này kiểm assemble v4, không nằm trên đường r2. Không tạo observations v4 giả; r2 có gate256 unique ID và cold consumer riêng."
+  },
+  "compile": {
+    "result": "PASS",
+    "files": [
+      "core/panel_collection.py",
+      "core/panel_coordinator.py",
+      "core/mt_bicl_v41_r2_data.py",
+      "core/mt_bicl_v41_r2_release.py",
+      "core/mt_bicl_v41_r2_warmup.py",
+      "core/mt_bicl_v41_r2_backup.py",
+      "core/mt_bicl_v41_r2_acceptance.py",
+      "core/mt_bicl_v41_r2_contract.py",
+      "scripts/continue_mt_bicl_v4_1_r2.py",
+      "scripts/prepare_mt_bicl_v4_1_r2.py",
+      "tests/test_mt_bicl_v41_r2.py",
+      "tests/test_panel_coordinator.py"
+    ]
+  },
+  "full_suite_run": false,
+  "full_compileall_run": false,
+  "full_E2E_run": false,
+  "scope_reason": "Thêm namespace, collector/coordinator và receipt độc lập; primitive kinh tế/PIT/prompt/retry cũ giữ nguyên byte. Chỉ kiểm đường chạy liên quan theo AGENTS.md1.2.",
+  "real_entry_verify_only": "WAITING_USER_WARMUP",
+  "real_acceptance": "INCOMPLETE_PANEL",
+  "real_downstream": "BLOCKED_BEFORE_DATA_READY_PASS",
+  "complete_points": 0,
+  "old_receipts_byte_preserved": 30,
+  "old_frozen_runtime_bytes_preserved": true,
+  "ledger": {
+    "count": 5376,
+    "sha256": "3d852efeaaf2f7ec967ca27602ea5161ac622cfbfb27dd392929a273d63b88ee",
+    "unchanged": true
+  },
+  "prior_market_exposure_retained": 28,
+  "prior_missing_sealed_raw_retained": 94,
+  "mirror": {
+    "path": "C:\\Users\\Legion\\Documents\\CodexRecovery\\mt_bicl_v4_1_r2",
+    "files_verified": 57,
+    "credentials_copied": false
+  },
+  "API_calls_by_agent": 0,
+  "credentials_read_by_agent": false,
+  "online_preflight_performed": false,
+  "training_allowed": false,
+  "development_allowed": false,
+  "confirmation_allowed": false,
+  "W11_18_status": "IN_PROGRESS_AWAITING_USER_WARMUP_AND_PANEL256_THEN_COLD_ACCEPTANCE"
+}
