@@ -2,6 +2,24 @@
 
 Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt phản biện: `fix`; luồng KLTN trên `develop` được quản lý riêng.
 
+## Điều chỉnh ngân sách ngày 02/11/2026 — chỉ thay đổi tài liệu
+
+**Ưu tiên mới:** [phương án rút gọn trong kế hoạch](../plan.md#0-phương-án-rút-gọn-có-hiệu-lực-từ-02112026), thay yêu cầu hoàn tất 8.100 decisions của study Full cũ. Những số 5/10 repeats, 8.100 decisions, 14.580 requests và lệnh resume trần 30.000 ở phần lịch sử bên dưới mô tả **protocol cũ**, không là ngân sách mặc định mới.
+
+- [x] Xác định nguồn chi phí: 540 calibration Full +540×14 test decisions; calibration exposure và lặp dày toàn grid không phải điều kiện bắt đầu R1.
+- [x] Chốt thiết kế kế hoạch: R1 đầu tiên 540 Full decisions; gói chung **2.430 decisions/4.158 research requests**, smoke <=60 attempts, trần đề xuất **5.000 attempts** gồm retry. Không gọi đây là nghiên cứu đã chạy hoặc đủ power mặc định.
+- [x] Đặc tả pool **5 org Groq**: limiter theo org/model, balanced allocation, isolated workers/shards, shared global cap, parent hashes, retry/cooldown và bảo vệ secrets. Không cam kết tốc độ gấp năm khi chưa đo quota.
+- [x] Tách bắt buộc với tùy claim: numerical baselines/fixed-random, panel repeated/factorial/placebo, multi-year blocks, integrity/citations bắt buộc; Full-exposure calibration, fusion mới, VN100, Cartesian sweeps và prospective dài hạn khỏi critical path nếu không nhận claim tương ứng.
+- [ ] Implement profile mới, scheduler 5 org và tests đúng phạm vi; tạo protocol/bank/run mới. `r1_common_protocol.json`, code/runtime và source artifacts hiện **chưa thay đổi** bởi lượt này.
+- [ ] Kiểm tra status thực v3 và thực hiện chuyển study ở checkpoint boundary khi triển khai. Lượt sửa tài liệu thấy usage/call files mới chưa commit; giữ nguyên, không stage hoặc coi receipt dừng cũ là status realtime.
+- [ ] Gate sentiment: verified-unknown vẫn missing; cần input text/availability và scorer local pinned cho nhánh sentiment thực. Nếu thiếu, khai báo comment/claim còn mở thay vì chạy factorial rỗng rồi đóng R4/R7.
+
+Kiểm tra áp dụng cho task này: đối chiếu arithmetic/budget, đủ R1–R18, liên kết tài liệu, diff/whitespace, hash protocol và diff code/runtime. **Không chạy compileall, unit, E2E hoặc leakage suite**, vì chỉ sửa ba Markdown (`plan.md`, README này, runbook), không thay code/test/schema/runtime/input/protocol khóa. Không ghi gate cũ là đã chạy lại; mọi lần triển khai FAST sau đó phải test đường ảnh hưởng theo AGENTS.md.
+
+Kết quả kiểm tra tài liệu: **PASS** UTF-8, code fences, liên kết local, đủ R1–R18, công thức 2.430 decisions/4.158 requests và trần attempts; diff whitespace PASS. SHA-256 protocol cục bộ giữ nguyên `b39c3b859b8f92e3df8ec4baba571d5e6599369f7f7c0ac7ecc97d13f3a6b13b`, Git blob cũng khớp HEAD. Không so bytes CRLF của working tree với bản LF trong Git để kết luận sai rằng protocol đã đổi. Thay đổi `usage.json` và call artifacts có sẵn ngoài task được giữ nguyên, không đưa vào commit tài liệu.
+
+Phần bên dưới giữ tiến độ và kết quả lịch sử. [Runbook](r1_common_runbook.md) đã đánh dấu rõ lệnh cũ và điều kiện chuyển profile; chưa có CLI chạy gói rút gọn.
+
 ## R1 — đã có pipeline baseline và bản thảo sửa; chưa đóng bằng chứng
 
 - [x] Thêm metrics hai lớp: support, confusion, accuracy, BA, MCC, macro-F1, precision/recall/F1 từng lớp và LONG rate; undefined dùng null/NA.
@@ -27,7 +45,7 @@ Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt p
 
 Milestone đầu không tải vendor data hoặc gọi LLM. Lượt tiếp theo chỉ truy xuất OHLCV công khai qua vnstock/VCI và probe KBS để kiểm tra chất lượng; không gọi LLM/API có phí. Artifacts lịch sử giữ nguyên byte; manuscript gốc đã có archive trước khi sửa. Tập legacy và tập tái dựng đều là bằng chứng khám phá, không gắn nhãn thành untouched confirmatory test.
 
-## Study chung snapshot — đang thực hiện ngày 02/11/2026
+## Lịch sử study chung snapshot trước điều chỉnh ngân sách 02/11/2026
 
 - [x] Khóa [protocol](r1_common_protocol.json), ba folds, chín mã, **540 test units trên 60 ngày decision**, 540 Full-calibration units lấy từ train đã purge. Đây là historical exploratory study, chưa phải confirmatory/prospective holdout.
 - [x] Tính đúng **3.038 feature snapshots** bằng Alpha node Python hiện tại; 225 cột OHLCV và 432 cột selected-alpha/sentiment/missingness. Logistic matched nhận cùng thông tin thị trường dạng số; không giả định cùng biểu diễn hoặc kiến thức của LLM. [Bank v3](../outputs/revision/r1_common_bank_v3/manifest.json), [receipt features](../outputs/revision/r1_common_bank_v3/features_complete.json).

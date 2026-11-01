@@ -1,4 +1,20 @@
-# Vận hành thực nghiệm R1 trên snapshot chung
+# Vận hành study R1 cũ và chuyển sang kế hoạch rút gọn
+
+## Chỉ dẫn hiện hành từ 02/11/2026
+
+**Kế hoạch thay thế:** [mục 0 của plan.md](../plan.md#0-phương-án-rút-gọn-có-hiệu-lực-từ-02112026). Người dùng yêu cầu giảm thời gian và cho biết có 5 key thuộc 5 org Groq. Không còn yêu cầu chạy đủ 8.100 Full decisions/14.580 requests cũ như điều kiện đầu tiên để xử lý R1.
+
+- Bước R1 mới: 540 Full decisions, không 540 Full calibration, không 10/5 repeats trên toàn grid.
+- Gói chung: broad 810 units; panel108 gồm B/A/S/AS/P×3 Decision repeats; panel27 có thêm hai upstream realizations cho B/AS. Tổng từ zero verified inference: **2.430 decisions, 4.158 requests tối thiểu**, cộng smoke <=60 attempts và retry trong trần đề xuất **5.000 attempts toàn study**.
+- Optional fixed/random factors qua LLM chỉ khi giữ claim dynamic-selector superiority: thêm 648 decisions, trần đề xuất 5.800 attempts. Numeric fixed/random diagnostics vẫn bắt buộc và chạy offline.
+- Pool 5 org và profile nhỏ **chưa được implement trong lượt sửa tài liệu**. Runner/controller hiện tại vẫn đọc protocol cũ, không tự chuyển sang các số ở trên. Không chạy năm instance runner cũ cùng thư mục; chúng chưa có shard/quota/global-cap contract phù hợp.
+- Chưa có lệnh CLI chạy profile mới. Cần implement FAST-01…FAST-06 trong plan, test đúng phạm vi, freeze protocol/bank/run mới rồi mới đưa lệnh mới vào đây. Không hạ số repeat trong JSON cũ, không sửa artifacts và không gọi partial v3 là completed.
+- Resume v3 sau khi đọc tài liệu này vẫn tiếp tục **study cũ**. Các lệnh API bên dưới chỉ được giữ để tái hiện vận hành lịch sử, **không phải lệnh khuyến nghị cho kế hoạch rút gọn**. Chỉ sửa plan không tự dừng một worker đang chạy; lúc chuyển study phải kiểm tra checkpoint/tiến trình thực, giữ nguyên raw evidence và ghi trạng thái.
+- Có thể xem status hoặc verify integrity offline bằng các lệnh bên dưới. Không chạy lại features/numeric/tests chỉ để cập nhật checklist nếu code/runtime khóa giữ nguyên; reuse phải kiểm hash và đúng manifest.
+
+Quota và ETA phải đo theo từng org/model. Groq xác nhận [rate limits áp dụng ở cấp organization](https://console.groq.com/docs/rate-limits); không suy 5 org có quota giống nhau. Giữ model/prompt, cân bằng org theo variants/repeats, cooldown theo provider và archive org alias không chứa secret. Chi tiết scheduler và công thức ETA ở mục 0.4 của plan.
+
+## Thiết kế và lệnh của study cũ — lưu để truy vết
 
 Protocol: [r1_common_protocol.json](r1_common_protocol.json). Study này thay thế **phép so sánh** đang thiếu bằng một thực nghiệm mới; không sửa prediction/label legacy, không tự nhận đã khôi phục snapshot submission. Chưa có kết quả Full nếu chưa hoàn tất inference thật.
 
