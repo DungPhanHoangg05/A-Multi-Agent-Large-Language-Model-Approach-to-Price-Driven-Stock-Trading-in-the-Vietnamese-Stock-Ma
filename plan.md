@@ -6,7 +6,7 @@ Ngày lập: 01/11/2026. Nhánh khảo sát: `fix`.
 
 ## 0. Kế hoạch 72 giờ — năm org Groq Free, có hiệu lực 02/11/2026
 
-**T0 triển khai: 02/11/2026 11:01:39 Asia/Ho_Chi_Minh (04:01:39 UTC).** Mốc chặn tests/smoke: 02/11 23:01:39; dừng inference mục tiêu: 04/11 23:01:39; bàn giao: **05/11/2026 11:01:39**, tức T0+72 giờ. Không coi lịch này là bảo đảm accept. Chỉ đóng comment khi đủ thay đổi, artifact, vị trí bản thảo và response.
+**Trạng thái: chỉ cập nhật kế hoạch; chưa bắt đầu triển khai profile 72 giờ. T0 chưa được đặt.** T0 được ghi khi bắt đầu thực hiện sau bước rà soát này; mốc tương đối: T0+12h kiểm tests/smoke, T0+60h dừng inference, T0+72h bàn giao. Lượt sửa Markdown không khởi động đồng hồ triển khai. Không coi lịch này là bảo đảm accept; chỉ đóng comment khi đủ thay đổi, artifact, vị trí bản thảo và response.
 
 ### 0.1. Năng lực và ngân sách
 
@@ -56,7 +56,11 @@ Bàn giao hệ thống, bằng chứng thực thu được, bản thảo và res
 
 Grid cũ 8.100 Full decisions/14.580 calls và phương án trung gian 2.430 decisions/4.158 calls đã được thay bằng mục 0 hiện hành. Các protocol/bank/run cũ vẫn giữ nguyên byte. `revision/r1_common_protocol.json` không bị hạ repeats tại chỗ. **23 calibration v3 không tính vào 102 cặp mới.** Chỉ reuse giá/features/reports có cùng provenance/input/config hashes; tạo output riêng khi thay contract.
 
-Tiến độ duy nhất ở `plan.md`; `revision/README.md` và runbook cũ là lịch sử. Sau khảo sát 02/11/2026 mới thấy **một key được cấu hình**, chưa xác nhận đủ năm org; đã yêu cầu tác giả bổ sung cấu hình cục bộ, không gửi secrets vào chat. Chưa gọi API của profile mới. Không có worker Python revision cũ được thấy trong lần kiểm kê tiến trình; receipt cũ không dùng làm trạng thái realtime.
+Tiến độ duy nhất ở `plan.md`; `revision/README.md` và runbook cũ là lịch sử. Ngày 02/11/2026 đã kiểm tra cục bộ đủ **năm biến `GROQ_ORG_1_API_KEY`…`GROQ_ORG_5_API_KEY`, năm giá trị khác nhau**; tác giả xác nhận thuộc năm org Free. Không in/lưu key và chưa gọi API để kiểm tra hiệu lực, org identity hoặc quota còn lại. Thiếu key không còn là blocker; smoke vẫn phải chờ runner/tests mới. Không có worker Python revision cũ được thấy trong lần kiểm kê tiến trình; receipt cũ không dùng làm trạng thái realtime.
+
+**Đối soát các lần sửa trước:** `2bc5be2` đã thêm audit/metrics legacy; `d9d21b4` đã thêm snapshot, temporal baselines, daily ledger và sửa bản thảo nháp; `935e1cb` đã có bank chung/runner Full/archive; `81f11a4` đã sửa quota-day stop và retry interval. `7ad30c3`, `2bd9d66`, `3846ad2` chỉ cập nhật kế hoạch/tiến độ, không chứng minh profile mới đã triển khai. Bốn decision variants/shared upstream có sẵn trong `utils/graph_setup.py` và `core/backtest_engine.py`; runner nghiên cứu cũ vẫn chỉ chạy Full/grid cũ.
+
+**Lượt này giữ kết quả thay đổi ở `plan.md`:** phần module/output nháp tạo trước khi tác giả làm rõ phạm vi đã được gỡ, không đưa vào baseline triển khai hoặc ghi là task hoàn thành. Thử chuẩn bị sentiment local đã dừng ở kiểm tra label mapping, chưa tạo score mới hợp lệ; không dùng lần thử này để đóng D1-05 hay R7. Không chạy Groq, không khởi động worker nghiên cứu mới.
 
 ## 1. Mục tiêu và đánh giá hiện trạng
 
@@ -131,6 +135,8 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 
 ## 3. Ma trận xử lý toàn bộ comment
 
+Các mục dưới đây giữ tiêu chí bằng chứng của reviewer; ô chưa đóng không có nghĩa phải triển khai lại toàn bộ thành phần đã có. Danh sách thực thi ở mục 5 đã bỏ việc hoàn tất và chỉ ghi phần bổ sung còn thiếu, dựa trên tiến độ R1 và đối soát mục 0.5.
+
 <a id="r1-progress"></a>
 
 ### R1 — Baseline, mất cân bằng lớp và tuyên bố hiệu quả [P0]
@@ -173,7 +179,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 
 **Điều kiện đóng R1:** có Full thật và baselines trên cùng điều kiện hợp lệ, đầy đủ metric/denominator/limitations, artifact kiểm chứng, vị trí bản thảo cuối và response tương ứng; chưa đạt điều kiện này tại lần cập nhật. Hoàn thành R1 không tự đóng R2/R3/R4/R6/R7/R9/R15 hoặc bảo đảm accept. Không dùng audit legacy, unit tests hay baseline số thay bằng chứng Full còn thiếu.
 
-**Kiểm tra cho lượt cập nhật tiến độ này:** `scripts/verify_revision_common_study.py` **PASS**: ba bank/feature receipts, hai numeric releases v2/v3, ba receipt dừng và replay calibration chẩn đoán v2; không phải nghiệm thu Full/R1. Đối soát thêm **4 hash đầu ra legacy**, **45 hash nguồn/đầu ra manuscript**, số đếm, 19 liên kết được thêm, UTF-8/cấu trúc Markdown và diff whitespace: **PASS**. Chỉ sửa tài liệu nên không chạy compileall, unit, E2E hoặc leakage suite, không gọi API và không ghi lại artifacts nghiên cứu. Các kết quả test/PDF QA trước đây được viện dẫn như lịch sử, không ghi là đã chạy lại.
+**Kết quả đối soát lịch sử ở lượt cập nhật R1 trước đó:** `scripts/verify_revision_common_study.py` **PASS**: ba bank/feature receipts, hai numeric releases v2/v3, ba receipt dừng và replay calibration chẩn đoán v2; không phải nghiệm thu Full/R1. Đối soát thêm **4 hash đầu ra legacy**, **45 hash nguồn/đầu ra manuscript**, số đếm, 19 liên kết được thêm, UTF-8/cấu trúc Markdown và diff whitespace: **PASS**. Chỉ sửa tài liệu nên không chạy compileall, unit, E2E hoặc leakage suite, không gọi API và không ghi lại artifacts nghiên cứu. Các kết quả test/PDF QA trước đây được viện dẫn như lịch sử, không ghi là đã chạy lại.
 
 ### R2 — Mẫu ngắn, một regime và phụ thuộc chéo [P1]
 
@@ -443,7 +449,16 @@ Freeze policy cho API failures và missing data trước run: công bố failure
 
 ## 5. Triển khai theo task nhỏ và dependency
 
-Trạng thái: `pending`, `in_progress`, `done`, `partial`, `blocked`. Chỉ `done` khi đủ điều kiện và có bằng chứng; status task không tự đóng reviewer. Task thường 20–60 phút; runner/tests có thể 60–90 phút. Ghi nguyên nhân/ảnh hưởng tại dòng task khi vượt timebox. API chạy nền trong lúc làm offline; không tạo file tiến độ riêng.
+Danh sách dưới đây **chỉ còn phần cần thực hiện**. D1-01 (khảo sát) và D1-02 (sửa kế hoạch) đã xong nên được bỏ khỏi bảng chờ; giữ ID các task còn lại để không mất tham chiếu. `S0` là đầu vào đã đối soát ở mục 0.5/R1, không phải một task mới. `pending` có nghĩa là chưa làm phần bổ sung được mô tả, dù nền tảng tái sử dụng đã có.
+
+**Không làm lại trong 72 giờ:**
+
+- Không audit lại 180 điểm từ đầu, tải lại snapshot 9 mã, dựng lại bộ metrics hoặc triển khai lại các baseline đã có; tái dùng releases ở R1 và chỉ tính phần input/fold/contract thay đổi.
+- Không viết lại bốn nhánh ablation/shared upstream, archive/retry/prompt guard hoặc daily MTM ledger; chỉ bổ sung tích hợp, placebo, per-org caps, identity mới và checkpoint còn thiếu.
+- Không lặp bước sửa bản thảo R1 ban đầu hoặc build lại PDF cũ chỉ để cập nhật checklist; chỉ cập nhật nội dung chịu ảnh hưởng bởi kết quả mới và các comment còn mở.
+- Không cấu hình lại năm key, hoàn tất grid 8.100, chạy 540 calibration, thêm Full-exposure control, fixed/random LLM sweep hoặc domain validation có hai người khi chưa có nhân lực. Các phần này đã xong, đã hoãn hoặc không thuộc gói hiện hành; bỏ khỏi critical path.
+
+Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; chỉ `done` khi đủ điều kiện và bằng chứng. Task thường 20–60 phút; runner/tests có thể 60–90 phút. Nếu vượt timebox, ghi nguyên nhân và ảnh hưởng tại dòng task. Khi triển khai sau này, API chạy nền trong lúc làm offline; lượt hiện tại không chạy những task này.
 
 **Ngày 1:** khóa thiết kế, runner, tests/smoke và bắt đầu inference. Nếu T0+12h chưa PASS tests/smoke, không chạy đường chưa kiểm chứng; ghi nguy cơ thiếu evidence.
 
@@ -453,48 +468,46 @@ Trạng thái: `pending`, `in_progress`, `done`, `partial`, `blocked`. Chỉ `do
 
 | ID | Task | Dependency | Trạng thái | Bằng chứng hiện tại | Điều kiện hoàn thành |
 |---|---|---|---|---|---|
-| D1-01 | Khảo sát Git/run/process | — | done | Status fix; 117 attempts/23 calibration/0 test; một key; không thấy Python worker revision | Giữ nguyên artifacts/thay đổi có sẵn |
-| D1-02 | Cập nhật ngân sách/checklist | D1-01 | in_progress | plan.md | R1/R3/R4/R10 và lịch không mâu thuẫn |
-| D1-03 | Manifest 102 điểm, train/validation | D1-02 | pending | — | 54+48 points; purge; BHN exclusion |
-| D1-04 | Audit 180 articles | D1-01 | pending | — | Unique/date/content/URL hashes/provenance |
-| D1-05 | Thử rescore local <=90 phút | D1-04 | pending | — | Pinned revision/cache mới hoặc lý do unavailable |
+| D1-03 | Chốt manifest 102 điểm từ lịch có sẵn | S0 | pending | Đã kiểm tra read-only support 8 mã ở block cũ; chưa có manifest mới | 54+48 points; purge; BHN exclusion; reuse lịch ba fold hiện có |
+| D1-04 | Bổ sung article-level dedup/provenance audit | S0 | pending | Đã biết 180 records/180 parseable dates, legacy scorer unknown | Unique liên mã, hashes và availability; không lặp source inventory toàn outputs |
+| D1-05 | Xác minh mapping rồi rescore local <=90 phút | D1-04 | pending | Có cache model revision d7738b85200272f10ba8b048d80236c8c582b581; labels NEG/POS/NEU | Đối chiếu model card, pin tokenizer/mapping; tạo scores mới hoặc báo unavailable |
 | D1-06 | Chọn sentiment gate và panel | D1-03/05 | pending | — | 5-way hoặc 3-way khóa trước output |
 | D1-07 | Khóa protocol mới | D1-06 | pending | — | Units/variants/repeats/model/caps/failure policy |
-| D1-08 | Runner bỏ calibration/grid cũ | D1-07 | pending | — | Dry-run đúng 474 hoặc 366 decisions |
-| D1-09 | Kết nối B/A/S/AS và archive | D1-08 | pending | — | Flags/prompt isolation đúng |
+| D1-08 | Bổ sung profile runner 72h trên helper hiện có | D1-07 | pending | Runner/archive cũ có thật nhưng hardcode calibration và Full grid | Dry-run 474/366; không chạy calibration; không viết lại core engine |
+| D1-09 | Tích hợp bốn nhánh có sẵn vào runner mới | D1-08 | pending | ABLATION_CONFIGS, shared upstream và four-way tests đã có | Archive từng branch; kiểm isolation A/S và same-parent pairing |
 | D1-10 | Placebo train-only | D1-09 | pending | — | Donor/mask/schema hợp lệ, mapping tái lập |
 | D1-11 | Năm process/org, isolated shards | D1-08 | pending | — | Không ghi đè client/chart/temp/checkpoint |
-| D1-12 | Caps/resume/status | D1-09/11 | pending | — | Mọi retry được tính; resume không gọi response đã có |
-| D1-13 | Tests đúng đường mới | D1-10/12 | pending | — | Pairing/leakage/token/checkpoint/quota PASS |
-| D1-14 | Smoke một cặp/org | D1-13 +5 keys | blocked | Mới có một key cấu hình | Mỗi org có 2 vision+2 Decision responses thật |
+| D1-12 | Mở rộng caps/identity/node resume/status | D1-09/11 | pending | Đã có retry TPD/backoff, request archive và prompt <6500 guard | Caps 5 org; identity variant/repeat/realization; tái dùng node/response thành công |
+| D1-13 | Test phần thay đổi và caller bị ảnh hưởng | D1-10/12 | pending | Có suites paired/4way/common-study/leakage/token-budget | Bổ sung ca mới, chạy đúng phần chịu ảnh hưởng; không lặp toàn suite |
+| D1-14 | Smoke thật một cặp/org | D1-13 | pending | Đã đủ 5 key khác nhau trong cấu hình; chưa verify qua network | 2 vision+2 Decision/org; xác nhận model/quota/tokens, không sửa key setup |
 | D1-15 | Freeze runtime, chạy lô 1 | D1-14 | pending | — | Source/input hashes cố định; jobs đăng ký |
-| D1-16 | Audit duplication legacy | D1-01 | pending | — | Đối chiếu chuỗi trùng; không nhận provenance thiếu |
+| D1-16 | Hoàn thiện audit duplication/lineage legacy | S0 | pending | Đã xác nhận hai cặp chuỗi FPT trùng; còn nguồn request/branch chưa rõ | Đối soát phần còn thiếu ở các nhánh; không nhận provenance bằng suy đoán |
 | D2-01 | Kiểm lô 1/quota | D1-15 | pending | — | Coverage/failure/shard; không đổi mẫu theo outcome |
 | D2-02 | Chạy lô 2/resume | D2-01 | pending | — | Không lặp request thành công/repeats giả |
-| D2-03 | Baselines số cùng 102 points | D1-07 | pending | — | CASH/majority/LONG/momentum/2 logistic/factor/hold |
-| D2-04 | Numeric nhiều năm | D2-03 | pending | — | Coverage/regime/quality; không gán là LLM evidence |
-| D2-05 | Metrics/statistics R1/R5 | D2-03 | pending | — | Support/pooled/macro/BA/MCC/per-class/undefined |
-| D2-06 | Annualisation/daily ledger | D2-05 | pending | — | Daily/cycle frequency và cash gaps đúng |
+| D2-03 | Tái dùng baseline, bổ sung input/fold cho 102 points | D1-07 | pending | Đã có 3780 predictions/216 ledgers trên bank v3; toàn bộ comparator đã code | Trích subset còn khớp; refit/recompute chỉ fold, scorer hoặc input đã đổi |
+| D2-04 | Bổ sung numeric coverage lịch sử còn thiếu | D2-03 | pending | Đã có giá 2020-2026, numerical features và folds 2025-2026 | Mở rộng support/regime; không tải lại giá, không gán là LLM evidence |
+| D2-05 | Bổ sung NW/bootstrap phụ thuộc và bảng mới | D2-03 | pending | Support/BA/MCC/per-class/pooled/macro đã có; NW legacy còn cần đối soát | Giữ helpers đã kiểm; block/repeat uncertainty, denominator và NA đúng |
+| D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | pending | Baseline đã có daily MTM/cash gaps; engine còn dùng sqrt(252) ở account ratios | Kiểm chuỗi input là daily/cycle trước đổi; không dựng ledger lại |
 | D2-07 | Execution sensitivities R15 | D2-06 | pending | — | Pending cash/advance assumptions; cost/no-fill bounds |
-| D2-08 | Label/schema R11 | D2-03 | pending | — | Entry/exit/gross/net rõ; không đoán sửa legacy |
-| D2-09 | Indicator/custom alpha R12/R13 | D1-01 | pending | — | Boundary rules; Alpha_4 signed volume; giữ formula |
-| D2-10 | Chart fixture R14 | D1-01 | pending | — | Màu/prompt/renderer đúng; version khi đổi behavior |
+| D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | pending | Đã có target net/gross contract và baseline labels; legacy field còn ambiguous | Đồng bộ appendix/prompt/fields; không viết lại target hoặc đoán sửa lịch sử |
+| D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | pending | Rule/formula code đã tồn tại; cần khớp mô tả và boundary evidence | Sửa phần lệch; giữ formula Alpha_4; không phát triển alpha mới |
+| D2-10 | Bổ sung đối chứng chart/prompt R14 | S0 | pending | Renderer/style có sẵn; chưa chứng nhận chart lịch sử bằng fixture | Nến/màu/prompt đúng; chỉ rerun nếu phát hiện thay đổi behavior |
 | D2-11 | Registry/selector R10 | D2-03 | pending | — | Retained/excluded; fixed/random numeric/stability |
-| D2-12 | Coverage/provenance R7 | D1-04/05 | pending | — | Counts/percentages/missing; domain validation còn mở |
+| D2-12 | Xuất coverage từ audit/score đã khóa | D1-04/05 | pending | Count diagnostic cũ có sẵn nhưng không thay verified availability | Một nguồn CSV/TeX; missing khác neutral; domain validation còn mở |
 | D2-13 | Attribution/novelty R8 | D1-16 | pending | — | Reused/modified/new; MIT; claim phù hợp |
-| D2-14 | Audit toàn bộ references R16 | D1-01 | pending | — | Nguồn chính thức; bỏ/thay DOI và claim sai |
+| D2-14 | Hoàn tất reference audit ngoài các lỗi đã biết | S0 | pending | Mục R16 đã xác minh một số DOI/citations sai | Tái dùng đối chiếu đúng; rà phần chưa xác minh và sửa prose/bib |
 | D3-01 | Lô 3/retry trước deadline | D2-02 | pending | — | Caps; dừng T0+60h, công bố job thiếu |
 | D3-02 | Khóa result release | D3-01 | pending | — | Raw/parents/completion/failures nhất quán |
 | D3-03 | Bảng Full/Base/non-LLM | D3-02/D2-03 | pending | — | Cùng input/target/cost/support |
 | D3-04 | Bảng repeats/upstream | D3-02 | pending | — | Mean/SD/range/disagreement đúng panel |
 | D3-05 | Bảng factorial/placebo | D3-02 | pending | — | Contrasts/support hợp lệ; Full-Base là bundle effect |
 | D3-06 | Chi phí hệ thống | D3-02 | pending | — | Tokens/calls/retries/latency/coverage thật |
-| D3-07 | Results/discussion/conclusion | D3-03/04/05/06 | pending | — | Claim truy release; giữ kết quả âm |
-| D3-08 | Abstract/highlights/title | D3-07 | pending | — | Không claim vượt evidence |
-| D3-09 | Response đủ R1-R18 | D3-08 +offline audits | pending | — | Action/evidence/locator/residual requirements |
+| D3-07 | Cập nhật bản thảo nháp bằng kết quả mới | D3-03/04/05/06 | pending | R1 draft đã sửa methods/results/discussion/conclusion | Chỉ bổ sung/thay phần có bằng chứng mới; giữ kết quả âm |
+| D3-08 | Đồng bộ front matter với release cuối | D3-07 | pending | Abstract/highlights/intro đã được sửa hạn chế claim ở bản nháp | Cập nhật số liệu/title/claim chịu ảnh hưởng, không làm lại bản sửa ban đầu |
+| D3-09 | Hoàn thiện response từ R1 draft đến đủ R1-R18 | D3-08 +offline audits | pending | Đã có response R1 nháp và PDF locators lịch sử | Bổ sung R2-R18, cập nhật R1/locators; không nhận thiếu evidence là complete |
 | D3-10 | Metadata tác giả R18 | Tác giả xác nhận | pending | — | Không suy tên/ORCID; chưa xác nhận giữ pending |
-| D3-11 | Build/QA hai PDF | D3-09/10 | pending | — | Refs/citations/layout/totals/locators kiểm chứng |
-| D3-12 | Offline replay/package | D3-02 | pending | — | Tái lập bảng không API, không cache ngoài package |
+| D3-11 | Build/QA hai PDF của release mới | D3-09/10 | pending | Hai PDF R1 draft 42 trang đã build/QA trước đây | Chỉ build nguồn đã đổi; kiểm refs/layout/totals/locators mới |
+| D3-12 | Mở rộng offline replay/package cho profile mới | D3-02 | pending | Đã có verify legacy/common-study, manifest/hash và raw archive | Tái lập bảng mới không API, đủ input; không viết lại verifier lịch sử |
 | D3-13 | Chốt tiến độ trong plan.md | D3-11/12 | pending | — | Done/partial/blocked và comment còn mở |
 | D3-14 | Commit/merge/bàn giao | Checks đúng phạm vi | pending | — | Merge fix, xóa nhánh task local; không push/submit |
 
@@ -594,4 +607,4 @@ Ngày truy cập 01/11/2026; các nguồn hiện hành không thay thế snapsho
 - **S7:** [Metadata Crossref của bài Deng và cộng sự](https://api.crossref.org/works/10.1109/TNNLS.2016.2522401). Publication metadata của volume/issue được trích là 2017.
 - **S8:** [Thông báo VSD về thời gian thanh toán T+2 năm 2022](https://vsdc.vn/vi/ad/152750). Dùng làm mốc lịch sử; execution study phải kiểm tra quy định có hiệu lực đúng từng thời kỳ.
 
-Audit ban đầu ngày 01/11/2026 đã đọc bài/nhận xét và tính lại các chẩn đoán ở mục 1. Tiến độ hiện hành được cập nhật trực tiếp tại R1 trong `plan.md`; `revision/README.md` giữ lịch sử các lượt trước. Lượt đối soát tiến độ ngày 02/11/2026 chỉ sửa `plan.md`, không chạy inference, thay protocol JSON/runtime hoặc ghi lại kết quả nghiên cứu. Thiết kế rút gọn chưa được triển khai chỉ bằng việc sửa file này; checklist đã hoàn thành chỉ áp dụng đúng phạm vi và artifact được nêu.
+Audit ban đầu ngày 01/11/2026 đã đọc bài/nhận xét và tính lại các chẩn đoán ở mục 1. Tiến độ hiện hành được cập nhật trực tiếp tại R1 trong `plan.md`; `revision/README.md` giữ lịch sử các lượt trước. Lượt rà soát phạm vi ngày 02/11/2026 chỉ giữ thay đổi trong `plan.md`; phần code/output nháp vừa tạo ngoài phạm vi đã gỡ. Chưa có inference Groq, protocol/bank/run hoặc kết quả mới của profile 72 giờ. Kiểm tra tài liệu PASS: 42 task/dependencies, đủ R1–R18, ngân sách, liên kết, UTF-8/Markdown, số đếm run cũ, hash protocol nguyên vẹn và diff; không chạy compile/unit/E2E/leakage suites vì không giữ thay đổi code/runtime. Không ghi các checks lịch sử là đã chạy lại. Checklist đã hoàn thành chỉ áp dụng đúng phạm vi và artifact được nêu.
