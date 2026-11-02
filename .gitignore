@@ -12,3 +12,13 @@ record.csv
 Thumbs.db
 sentiment_cache_*
 .env
+tmp/
+
+# Trạng thái vận hành cục bộ của lượt R1 đã chốt; bằng chứng vẫn được theo dõi.
+/outputs/revision/r1_72h_run_v2/migration.lock
+/outputs/revision/r1_72h_run_v2/provider_locks/
+/outputs/revision/r1_72h_run_v2/quota.sqlite3*
+/outputs/revision/r1_72h_run_v2/shards/org*/worker.lock
+/outputs/revision/r1_72h_run_v2/shards/org*/status.json
+/outputs/revision/r1_72h_run_v2/shards/org*/usage.json
+/outputs/revision/r1_72h_run_v2/shards/org*/work/

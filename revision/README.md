@@ -4,6 +4,12 @@ Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt p
 
 **Tiến độ hiện hành:** [R1 đã chốt ngày 03/11/2026](../plan.md#r1-progress), xem [response](response_to_reviewers.md) và [release bản thảo](../outputs/revision/r1_manuscript_v2/manifest.json). Các mục bên dưới là nhật ký lịch sử của những lần triển khai trước, không phải checklist hiện tại.
 
+## Dọn working tree sau khi chốt R1 — 03/11/2026
+
+Theo yêu cầu tác giả, đã đưa 278 file phát sinh chưa commit của study dở `r1_common_run_v3` ra ngoài repo và lưu usage 117 attempts trước khi khôi phục usage đã commit. Lệnh xóa bị kiểm duyệt tự động chặn với lý do `blocked by policy`, nên các file được chuyển tới `%LOCALAPPDATA%/CodexCleanup/R1OldRun_20261103T024222/`, không tuyên bố đã xóa vật lý. Sáu file lịch sử đã commit của run cũ giữ nguyên; các số đếm 23 calibration/117 attempts bên dưới và trong kế hoạch là lịch sử, không phải checkpoint còn sẵn để resume trong working tree.
+
+Ignore đúng 37 file runtime của run R1 đã chốt: locks, quota SQLite, status/usage và work/cache. Raw calls, nodes, decisions, charts đã khóa, completion markers và analysis/manuscript release vẫn được Git theo dõi. Chỉ thay quy tắc Git và dọn file cục bộ; kiểm ignore cả trường hợp dương/âm, diff và hash release. Không chạy unit/E2E/leakage suites vì không đổi code, runtime khoa học hoặc đầu vào.
+
 ## Điều chỉnh ngân sách ngày 02/11/2026 — chỉ thay đổi tài liệu
 
 **Ưu tiên mới:** [phương án rút gọn trong kế hoạch](../plan.md#0-phương-án-rút-gọn-có-hiệu-lực-từ-02112026), thay yêu cầu hoàn tất 8.100 decisions của study Full cũ. Những số 5/10 repeats, 8.100 decisions, 14.580 requests và lệnh resume trần 30.000 ở phần lịch sử bên dưới mô tả **protocol cũ**, không là ngân sách mặc định mới.
