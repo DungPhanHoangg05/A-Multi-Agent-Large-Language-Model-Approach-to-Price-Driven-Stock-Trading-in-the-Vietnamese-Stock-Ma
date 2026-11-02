@@ -1,0 +1,254 @@
+[
+  {
+    "variant": "constant_down_cash",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 0,
+        "fn": 32,
+        "tn": 70,
+        "fp": 0
+      },
+      "accuracy": 0.6862745098039216,
+      "balanced_accuracy": 0.5,
+      "mcc": null,
+      "macro_f1": 0.4069767441860465,
+      "long_rate": 0.0,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 0,
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 102,
+          "precision": 0.6862745098039216,
+          "recall": 1.0,
+          "f1": 0.813953488372093
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  },
+  {
+    "variant": "constant_up_cycles",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 32,
+        "fn": 0,
+        "tn": 0,
+        "fp": 70
+      },
+      "accuracy": 0.3137254901960784,
+      "balanced_accuracy": 0.5,
+      "mcc": null,
+      "macro_f1": 0.23880597014925373,
+      "long_rate": 1.0,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 102,
+          "precision": 0.3137254901960784,
+          "recall": 1.0,
+          "f1": 0.47761194029850745
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 0,
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  },
+  {
+    "variant": "factor_only_vote",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 17,
+        "fn": 15,
+        "tn": 37,
+        "fp": 33
+      },
+      "accuracy": 0.5294117647058824,
+      "balanced_accuracy": 0.5299107142857142,
+      "mcc": 0.055525709321037904,
+      "macro_f1": 0.5105957616953218,
+      "long_rate": 0.49019607843137253,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 50,
+          "precision": 0.34,
+          "recall": 0.53125,
+          "f1": 0.4146341463414634
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 52,
+          "precision": 0.7115384615384616,
+          "recall": 0.5285714285714286,
+          "f1": 0.6065573770491803
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  },
+  {
+    "variant": "logistic_matched_market_inputs",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 11,
+        "fn": 21,
+        "tn": 48,
+        "fp": 22
+      },
+      "accuracy": 0.5784313725490197,
+      "balanced_accuracy": 0.5147321428571429,
+      "mcc": 0.02922391601207383,
+      "macro_f1": 0.5145545102379635,
+      "long_rate": 0.3235294117647059,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 33,
+          "precision": 0.3333333333333333,
+          "recall": 0.34375,
+          "f1": 0.3384615384615385
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 69,
+          "precision": 0.6956521739130435,
+          "recall": 0.6857142857142857,
+          "f1": 0.6906474820143885
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  },
+  {
+    "variant": "logistic_price",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 11,
+        "fn": 21,
+        "tn": 57,
+        "fp": 13
+      },
+      "accuracy": 0.6666666666666666,
+      "balanced_accuracy": 0.5790178571428571,
+      "mcc": 0.17287266640857019,
+      "macro_f1": 0.5815637065637066,
+      "long_rate": 0.23529411764705882,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 24,
+          "precision": 0.4583333333333333,
+          "recall": 0.34375,
+          "f1": 0.39285714285714285
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 78,
+          "precision": 0.7307692307692307,
+          "recall": 0.8142857142857143,
+          "f1": 0.7702702702702703
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  },
+  {
+    "variant": "momentum_20",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 13,
+        "fn": 19,
+        "tn": 34,
+        "fp": 36
+      },
+      "accuracy": 0.46078431372549017,
+      "balanced_accuracy": 0.4459821428571429,
+      "mcc": -0.10033567622450218,
+      "macro_f1": 0.4369165913881361,
+      "long_rate": 0.4803921568627451,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 49,
+          "precision": 0.2653061224489796,
+          "recall": 0.40625,
+          "f1": 0.32098765432098764
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 53,
+          "precision": 0.6415094339622641,
+          "recall": 0.4857142857142857,
+          "f1": 0.5528455284552846
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  },
+  {
+    "variant": "train_majority",
+    "metrics": {
+      "n_input": 102,
+      "n_valid": 102,
+      "n_excluded": 0,
+      "confusion": {
+        "tp": 0,
+        "fn": 32,
+        "tn": 70,
+        "fp": 0
+      },
+      "accuracy": 0.6862745098039216,
+      "balanced_accuracy": 0.5,
+      "mcc": null,
+      "macro_f1": 0.4069767441860465,
+      "long_rate": 0.0,
+      "per_class": {
+        "UP": {
+          "support": 32,
+          "predicted": 0,
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "DOWN": {
+          "support": 70,
+          "predicted": 102,
+          "precision": 0.6862745098039216,
+          "recall": 1.0,
+          "f1": 0.813953488372093
+        }
+      }
+    },
+    "scope": "separate gross-return diagnostic; decisions were elicited for the fixed net target"
+  }
+]
