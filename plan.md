@@ -6,7 +6,9 @@ Ngày lập: 01/11/2026. Nhánh khảo sát: `fix`.
 
 ## 0. Kế hoạch 72 giờ — năm org Groq Free, có hiệu lực 02/11/2026
 
-**Trạng thái: phần offline/runner đã hoàn tất và freeze; chờ tác giả chạy smoke/inference thật. T0 = 2026-11-02T11:31:24.452715+07:00.** T0 được ghi khi bắt đầu thực hiện sau bước rà soát này; mốc tương đối: T0+12h kiểm tests/smoke, T0+60h dừng inference, T0+72h bàn giao. Lượt sửa Markdown không khởi động đồng hồ triển khai. Không coi lịch này là bảo đảm accept; chỉ đóng comment khi đủ thay đổi, artifact, vị trí bản thảo và response.
+**Trạng thái: smoke 5 org đã PASS, inference có 175/474 research decisions, 87/102 cặp hoàn chỉnh và một cặp dở; đang chuyển policy theo chỉ đạo tác giả. T0 = 2026-11-02T11:31:24.452715+07:00.** T0 được ghi khi bắt đầu thực hiện sau bước rà soát này; mốc tương đối: T0+12h kiểm tests/smoke, T0+60h dừng inference, T0+72h bàn giao. Lượt sửa Markdown không khởi động đồng hồ triển khai. Không coi lịch này là bảo đảm accept; chỉ đóng comment khi đủ thay đổi, artifact, vị trí bản thảo và response.
+
+**Cập nhật vận hành theo yêu cầu tác giả 02/11/2026:** bỏ toàn bộ cap nội bộ (40 Decision/org/24h, 200 attempts/org, 600 Decision, 1.000 attempts toàn study) và bỏ tự dừng theo T0+60h. Những con số này ở các phần kế hoạch/manifest cũ chỉ còn là lịch sử dự toán. Policy hiện hành là [provider-only pool](revision/r1_provider_policy.json): dùng mọi key còn khả dụng cho model cần chạy, chờ rate-limit ngắn, chỉ pause các job khi không còn provider dùng được; các job khác có input cache/model khả dụng vẫn tiếp tục. Dừng bình thường khi đủ 474 research decisions. Lỗi integrity/schema/config được báo riêng, không điền prediction. Không đổi model/prompt/output-token caps/units/variants/repeats/donor hoặc target theo outcome.
 
 ### 0.1. Năng lực và ngân sách
 
@@ -143,7 +145,7 @@ Các mục dưới đây giữ tiêu chí bằng chứng của reviewer; ô chư
 
 **Vấn đề:** Full thua constant DOWN/CASH về accuracy và mean return. No-Alpha yếu hơn mức BA 50%; lợi thế trước control yếu chưa xác lập giá trị dự báo. Label hiện là “LONG có lãi sau phí”, không phải dấu biến động giá thuần túy.
 
-**Trạng thái đối soát 02/11/2026: đã xử lý một phần, chưa đóng R1.** Audit legacy, pipeline/bằng chứng baseline số và bản thảo sửa lần đầu đã có. Mốc thực nghiệm Full theo kế hoạch rút gọn hiện là **0/102 cặp Full/Base**; profile mới và pool 5 org đã triển khai/kiểm thử offline, chờ tác giả chạy smoke/API thật theo lệnh bên dưới. Không dùng tỷ lệ 23/8.100 của study cũ để biểu diễn tiến độ kế hoạch mới, cũng không gộp mức hoàn thành code/tài liệu thành phần trăm hoàn thành bằng chứng khoa học.
+**Trạng thái đối soát 02/11/2026: đã xử lý một phần, chưa đóng R1.** Audit legacy, pipeline/bằng chứng baseline số và bản thảo sửa lần đầu đã có. Mốc thực nghiệm Full theo kế hoạch rút gọn hiện là **87/102 cặp Full/Base hoàn chỉnh, thêm một cặp dở**, tổng **175/474 research decisions**. Năm org đã có smoke thật; pool provider-only mới giữ nguyên các kết quả đó và chờ tác giả resume. Không dùng tỷ lệ 23/8.100 của study cũ để biểu diễn tiến độ kế hoạch mới, cũng không gộp mức hoàn thành code/tài liệu thành phần trăm hoàn thành bằng chứng khoa học.
 
 **Đã hoàn thành và có artifact**
 
@@ -177,7 +179,7 @@ Bank mới [r1_72h_bank_v2](outputs/revision/r1_72h_bank_v2/manifest.json): 102 
 
 [Run manifest](outputs/revision/r1_72h_run_v2/run_manifest.json) khóa 50 hash source/input và runtime trước API. Allocation theo tải unit, không theo treatment/outcome; dự kiến 97/98/96/96/97 decisions kể smoke theo org, nằm trong ba cửa sổ cap 40. Mỗi process có charts/temp/client/checkpoint riêng, SQLite shared caps, cache node/response thật, không fallback model/CASH.
 
-**Checks:** 14 test profile mới PASS (design/PIT/donor/state isolation, global/org/rolling caps, native agents+parser với fake calls trong temp, raw replay/tamper/recovery, format repair, bootstrap/panel/export); 8 four-way +14 baseline-leakage/daily-ledger +3 token-budget tests PASS. Biên dịch đúng sáu file Python mới PASS. Tổng bao phủ 39 tests; không chạy full suite/E2E vì không sửa engine/agents/runtime dependencies hiện có. Model-card check HTTP và rescore CPU local có thực hiện; **chưa gọi Groq, chưa chạy smoke/evaluation thật hoặc worker nền**. Bản numeric development/failed-export giữ cục bộ, không phát hành; release numeric cuối có source hash hiện hành khớp.
+**Checks lượt chuẩn bị ban đầu (lịch sử):** 14 test profile mới PASS (design/PIT/donor/state isolation, global/org/rolling caps, native agents+parser với fake calls trong temp, raw replay/tamper/recovery, format repair, bootstrap/panel/export); 8 four-way +14 baseline-leakage/daily-ledger +3 token-budget tests PASS. Biên dịch đúng sáu file Python mới PASS. Tổng bao phủ 39 tests; không chạy full suite/E2E vì không sửa engine/agents/runtime dependencies hiện có. Model-card check HTTP và rescore CPU local có thực hiện; **tại thời điểm chuẩn bị ban đầu chưa gọi Groq**; sau đó tác giả đã chạy smoke/inference và dữ liệu hiện hành được đối soát ở cuối kế hoạch. Bản numeric development/failed-export giữ cục bộ, không phát hành; release numeric cuối có source hash hiện hành khớp.
 
 Timebox runner/tích hợp vượt 90 phút do bổ sung checkpoint từng node/SDK replay, xử lý SQLite lock trên Windows và QA pipeline numeric/export; tổng chuẩn bị offline khoảng T0+4,5h, vẫn trước gate T0+12h. Smoke/inference do tác giả chọn tự chạy terminal; không dùng fake-model tests thay evidence.
 
@@ -188,13 +190,13 @@ py -3.13 -X utf8 scripts/run_revision_72h.py smoke --all
 py -3.13 -X utf8 scripts/run_revision_72h.py run --all
 ```
 
-Chạy lệnh thứ hai sau khi smoke đủ năm org. Khi quota chặn, đợi reset rồi chạy lại đúng lệnh đang dở; caps cộng dồn không reset theo lệnh. Lệnh theo dõi/verify/analyze không gọi API nằm trong [runbook](revision/r1_72h_runbook.md). Deadline inference đã freeze: **23:31:24 ngày 04/11/2026, Asia/Saigon** (T0+60h); không sửa T0/caps tại chỗ sau inference.
+Năm smoke đã hoàn tất, hiện chỉ cần resume bằng lệnh run. Pool tự dùng key còn quota; khi không còn key khả dụng cho các job còn lại, đợi provider reset rồi chạy lại run; bộ đếm giữ nguyên và không còn cap nội bộ. Lệnh theo dõi/verify/analyze không gọi API nằm trong [runbook](revision/r1_72h_runbook.md). Mốc deadline lịch sử giữ trong manifest gốc nhưng không còn tự dừng theo yêu cầu tác giả. Original manifest/checkpoints không sửa; operational amendment khóa code/policy mới riêng.
 
 **Phần còn thiếu để đóng R1**
 
-- [x] **R1.1 — Chuyển profile (D1-07/08/11/12):** đã tạo protocol/bank/run riêng, pool/limiter/caps/shards/node checkpoints và tests ở trên. Rà process cũ không thấy worker revision; không sửa protocol cũ, không stage usage/calls của tác giả. Network smoke vẫn pending ở R1.2.
-- [ ] **R1.2 — Freeze input và smoke (D1-04/05/06/13/14):** **Partial:** input audit/scoring/gate, feature/donor contracts và runtime freeze đã xong; còn smoke thật một cặp/org. Chỉ reuse giá/features/baseline khi hash và contract còn khớp. Nếu sửa scorer/input, tạo release numeric tương ứng trên cùng 102 units trước so sánh. Chốt missing/failure policy, model/prompt, lịch, contrasts và ngân sách trước evaluation; smoke nằm ngoài evaluation và trong trần chung.
-- [ ] **R1.3 — Chạy paired study:** 102 units × B/AS =204 decisions/408 calls tối thiểu, là phần đầu của gói 474 decisions/714 calls ở mục 0; nhánh dự phòng tổng 366 decisions/606 calls. Không chờ calibration hoặc grid 10/5 cũ. Panel 18/9 giải quyết repeats/attribution/upstream với support riêng.
+- [x] **R1.1 — Chuyển profile (D1-07/08/11/12):** đã tạo protocol/bank/run riêng, pool/limiter/caps/shards/node checkpoints và tests ở trên. Rà process cũ không thấy worker revision; không sửa protocol cũ, không stage usage/calls của tác giả. Network smoke năm org đã PASS; không gọi lại smoke sau thay đổi policy quota.
+- [x] **R1.2 — Freeze input và smoke (D1-04/05/06/13/14):** Input audit/scoring/gate, feature/donor contracts, runtime freeze và một cặp smoke thật mỗi org đã PASS; org identity do tác giả xác nhận, quota cả ngày vẫn không được suy từ smoke. Chỉ reuse giá/features/baseline khi hash và contract còn khớp. Nếu sửa scorer/input, tạo release numeric tương ứng trên cùng 102 units trước so sánh. Chốt missing/failure policy, model/prompt, lịch, contrasts và ngân sách trước evaluation; smoke nằm ngoài evaluation và trong trần chung.
+- [ ] **R1.3 — Chạy paired study:** đang có 175 research decisions/87 cặp hoàn chỉnh, giữ job còn thiếu. Tổng thiết kế 102 units × B/AS =204 decisions/408 calls tối thiểu, là phần đầu của gói 474 decisions/714 calls ở mục 0; nhánh dự phòng tổng 366 decisions/606 calls. Không chờ calibration hoặc grid 10/5 cũ. Panel 18/9 giải quyết repeats/attribution/upstream với support riêng.
 - [ ] **R1.4 — Hoàn thiện bảng Full–baseline:** trên cùng snapshot/target/lịch/cost và common support, xuất đủ support/confusion/BA/MCC/macro-F1/per-class metrics, pooled/macro, LONG rate và ledger cho Full; báo theo mã/fold/regime thực có. Uncertainty có phụ thuộc ngày/mã, paired contrasts và repeat dispersion dùng đúng phạm vi R3/R5; không gán 3-run SD của panel cho toàn bộ one-pass R1.
 - [ ] **R1.5 — Hoàn thiện claim và hồ sơ:** cập nhật lại các bảng, front matter, sections 03/05/06/08 và response bằng release cuối; kiểm PDF locators mới. Báo thẳng nếu Full thua CASH/non-LLM. Giữ target net; nếu giữ claim “direction forecasting” thì bổ sung target gross riêng đã định nghĩa, không đổi nhãn để cải thiện accuracy. Xử lý prompt-induced CASH bằng LONG rate/per-class metrics/placebo ở R4; chỉ thêm Full-exposure calibration khi thực sự giữ claim cần control này.
 
@@ -500,10 +502,10 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D1-11 | Năm process/org, isolated shards | D1-08 | done | Năm child process + org locks; charts/temp/shards riêng; load 97/98/96/96/97 kể smoke | Không ghi đè client/chart/temp/checkpoint |
 | D1-12 | Mở rộng caps/identity/node resume/status | D1-09/11 | done | SQLite caps 200/org, 1000 total, 600 Decision, 40/org/24h; node/raw-response replay, repair và tamper tests PASS | Caps 5 org; identity variant/repeat/realization; tái dùng node/response thành công |
 | D1-13 | Test phần thay đổi và caller bị ảnh hưởng | D1-10/12 | done | 14 profile +8 four-way +14 leakage/ledger +3 token-budget PASS; scoped compile PASS | Bổ sung ca mới, chạy đúng phần chịu ảnh hưởng; không lặp toàn suite |
-| D1-14 | Smoke thật một cặp/org | D1-13 | pending | Đã đủ 5 key khác nhau trong cấu hình; chưa verify qua network | 2 vision+2 Decision/org; xác nhận model/quota/tokens, không sửa key setup |
-| D1-15 | Freeze runtime, chạy lô 1 | D1-14 | pending | — | Source/input hashes cố định; jobs đăng ký |
+| D1-14 | Smoke thật một cặp/org | D1-13 | done | Năm smoke markers/10 decisions thật đã replay; quota capacity/org identity không được suy đoán | 2 vision+2 Decision/org; xác nhận model/quota/tokens, không sửa key setup |
+| D1-15 | Freeze runtime, chạy lô 1 | D1-14 | partial | Original runtime + operational amendment đã khóa; 175/474 research decisions | Source/input hashes cố định; jobs đăng ký |
 | D1-16 | Hoàn thiện audit duplication/lineage legacy | S0 | pending | Đã xác nhận hai cặp chuỗi FPT trùng; còn nguồn request/branch chưa rõ | Đối soát phần còn thiếu ở các nhánh; không nhận provenance bằng suy đoán |
-| D2-01 | Kiểm lô 1/quota | D1-15 | pending | — | Coverage/failure/shard; không đổi mẫu theo outcome |
+| D2-01 | Kiểm lô 1/quota | D1-15 | done | Đã đối soát 384 attempts/8 errors và provider resets; bỏ cap nội bộ theo tác giả | Coverage/failure/shard; không đổi mẫu theo outcome |
 | D2-02 | Chạy lô 2/resume | D2-01 | pending | — | Không lặp request thành công/repeats giả |
 | D2-03 | Tái dùng baseline, bổ sung input/fold cho 102 points | D1-07 | done | [numeric release](outputs/revision/r1_72h_bank_v2/numeric/manifest.json): 714 predictions/408 ledgers/420 hashes PASS | Trích subset còn khớp; refit/recompute chỉ fold, scorer hoặc input đã đổi |
 | D2-04 | Bổ sung numeric coverage lịch sử còn thiếu | D2-03 | partial | Numeric cùng 102 units phủ sáu block; evidence rộng 540 points cũ vẫn riêng, không tự nhận Full multi-year | Mở rộng support/regime; không tải lại giá, không gán là LLM evidence |
@@ -517,7 +519,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-12 | Xuất coverage từ audit/score đã khóa | D1-04/05 | pending | Count diagnostic cũ có sẵn nhưng không thay verified availability | Một nguồn CSV/TeX; missing khác neutral; domain validation còn mở |
 | D2-13 | Attribution/novelty R8 | D1-16 | pending | — | Reused/modified/new; MIT; claim phù hợp |
 | D2-14 | Hoàn tất reference audit ngoài các lỗi đã biết | S0 | pending | Mục R16 đã xác minh một số DOI/citations sai | Tái dùng đối chiếu đúng; rà phần chưa xác minh và sửa prose/bib |
-| D3-01 | Lô 3/retry trước deadline | D2-02 | pending | — | Caps; dừng T0+60h, công bố job thiếu |
+| D3-01 | Lô 3/retry trước deadline | D2-02 | pending | — | Chạy đến đủ jobs hoặc provider pool hết quota; deadline cũ chỉ là lịch sử |
 | D3-02 | Khóa result release | D3-01 | pending | — | Raw/parents/completion/failures nhất quán |
 | D3-03 | Bảng Full/Base/non-LLM | D3-02/D2-03 | pending | — | Cùng input/target/cost/support |
 | D3-04 | Bảng repeats/upstream | D3-02 | pending | — | Mean/SD/range/disagreement đúng panel |
@@ -629,3 +631,13 @@ Ngày truy cập 01/11/2026; các nguồn hiện hành không thay thế snapsho
 - **S8:** [Thông báo VSD về thời gian thanh toán T+2 năm 2022](https://vsdc.vn/vi/ad/152750). Dùng làm mốc lịch sử; execution study phải kiểm tra quy định có hiệu lực đúng từng thời kỳ.
 
 Audit ban đầu ngày 01/11/2026 đã đọc bài/nhận xét và tính lại các chẩn đoán ở mục 1. Tiến độ hiện hành được cập nhật trực tiếp tại R1 trong `plan.md`; `revision/README.md` giữ lịch sử các lượt trước. Lượt rà soát phạm vi ngày 02/11/2026 chỉ giữ thay đổi trong `plan.md`; phần code/output nháp vừa tạo ngoài phạm vi đã gỡ. Chưa có inference Groq, protocol/bank/run hoặc kết quả mới của profile 72 giờ. Kiểm tra tài liệu PASS: 42 task/dependencies, đủ R1–R18, ngân sách, liên kết, UTF-8/Markdown, số đếm run cũ, hash protocol nguyên vẹn và diff; không chạy compile/unit/E2E/leakage suites vì không giữ thay đổi code/runtime. Không ghi các checks lịch sử là đã chạy lại. Checklist đã hoàn thành chỉ áp dụng đúng phạm vi và artifact được nêu.
+
+### Đối soát thay đổi quota/provider pool ngày 02/11/2026
+
+Đã snapshot 1.713 raw/checkpoint artifacts trước đổi policy và archive 50 source/input files đúng hash trong `outputs/revision/r1_72h_run_v2/runtime_history/`. [Operational amendment](outputs/revision/r1_72h_run_v2/execution_amendment.json) giữ original run signature, sources/runtime và audit scope mới; `run_manifest.json`, mọi prediction và model-input contract cũ giữ nguyên byte. AST các helper numeric/target/bootstrap/panel và variant-state/allocation được đối chiếu nguyên vẹn. Không reset quota counters hoặc gọi lại API đã có response hợp lệ.
+
+Pool có lease SQLite + khóa OS theo key, mỗi key một request đang xử lý trên toàn năm home workers. Home shard lưu trữ vẫn giữ nguyên; `provider_org` và `execution_epoch` được archive cho request mới. Hết quota một key thì mượn key khác; ITPM/RPM ngắn thì chờ/retry; worker bỏ qua job model đang hết quota để thực hiện job dùng cache/model còn quota, rồi kiểm lại các job chờ. Provider failures vẫn đếm trước network, lỗi JSON được thử lại có archive, không fallback model/CASH. Analyze báo epochs/cặp vượt epoch và usage theo provider để không che thay đổi lịch thực thi.
+
+Kiểm tra scoped mới: **19 tests profile PASS**, compile đúng các Python thay đổi PASS. Offline verifier replay **185 decisions thật = 10 smoke +175 research PASS**, 1.713 artifacts trước migration vẫn đúng hash. Không gọi API mới, không rerun baseline hoặc đổi hyperparameters. Tác giả tiếp tục bằng đúng `py -3.13 -X utf8 scripts/run_revision_72h.py run --all`; không cần đợi cap nội bộ sang ngày mới, không cần smoke lại. R1 vẫn mở chờ đủ dữ liệu, bảng cuối và manuscript/response.
+
+Diff check code/tài liệu PASS; snapshot nguyên byte `runtime_history/before_provider_only.json` có CRLF và được loại riêng khỏi whitespace check, giữ SHA đã khóa. Không chuẩn hóa lại byte của bằng chứng chỉ để xóa cảnh báo. Chỉ stage code/policy/amendment/source snapshot của task; không stage usage/calls của tác giả.

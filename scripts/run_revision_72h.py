@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 def main() -> None:
     """Lệnh smoke/run mới gọi API; mọi artifacts mới nằm ngoài run lịch sử."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("prepare", "assets", "freeze", "smoke", "run", "status", "analyze", "verify", "numeric"))
+    parser.add_argument("command", choices=("prepare", "assets", "freeze", "smoke", "run", "status", "analyze", "verify", "numeric", "migrate-provider-pool"))
     parser.add_argument("--bank", type=Path, default=ROOT / "outputs/revision/r1_72h_bank_v2")
     parser.add_argument("--run", type=Path, default=ROOT / "outputs/revision/r1_72h_run_v2")
     parser.add_argument("--org", type=int, choices=range(1, 6))

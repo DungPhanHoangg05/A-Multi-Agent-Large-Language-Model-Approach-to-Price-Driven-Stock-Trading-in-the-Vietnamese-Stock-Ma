@@ -30,14 +30,14 @@ py -3.13 -X utf8 scripts/run_revision_72h.py run --all
 
 Khi quota chặn, giữ nguyên bank/run/code và đợi provider cho phép rồi chạy lại đúng lệnh đang dở. Có thể resume riêng một org bằng `--org 1` thay cho `--all`; không chạy hai worker cùng org. Mọi variant của một unit ở cùng shard và cùng upstream realization. Charts/temp/checkpoint/client tách theo org.
 
-Responses SDK đã lưu được replay qua cùng parser khi node chưa checkpoint; node hoàn tất được reuse. Format repair tạo attempt mới, không lặp lại response lỗi định dạng trong cùng lần chạy. Không dùng text fallback thay vision, không tự đổi model, không điền CASH khi lỗi. Quota ngày hoặc lỗi provider làm shard pause có archive; lần resume tôn trọng reset đã lưu trong SQLite.
+Responses SDK đã lưu được replay qua cùng parser khi node chưa checkpoint; node hoàn tất được reuse. Format repair tạo attempt mới, không lặp lại response lỗi định dạng trong cùng lần chạy. Không dùng text fallback thay vision, không tự đổi model, không điền CASH khi lỗi. Hết quota một key thì tự mượn key khác cùng model. Rate-limit ngắn được chờ/retry. Mỗi key có lease/khóa OS để chỉ một request đang xử lý; reset provider được lưu trong SQLite. Job cần model đã hết quota sẽ chờ, các job dùng cache/model còn quota vẫn tiếp tục; chỉ pause khi không còn key dùng được cho công việc còn lại. Lỗi schema/config/integrity được phân biệt với quota.
 
-## Caps và điểm dừng
+## Policy hiện hành: chỉ quota provider quyết định pause
 
 - Nghiên cứu: **474 decisions, 240 vision calls, 714 LLM calls tối thiểu**. Smoke thêm 10 decisions/20 calls; tổng tối thiểu 734 calls.
-- Tối đa **200 LLM attempts/org**, **1.000 toàn study**, **600 Decision attempts** tổng và **40 Decision attempts/org trong rolling 24 giờ**. Bao gồm smoke/repair/failed attempts. Caps tổng không reset sau mỗi lệnh hoặc mỗi ngày.
+- Theo yêu cầu tác giả: **không còn cap attempts/Decision/ngày nội bộ**. Counters vẫn tích lũy, bao gồm smoke/repair/failures; không reset lịch sử.
 - Pacing tối thiểu 30 giây/model/org cùng reset provider; không bảo đảm tránh mọi 429 nếu org còn có workload khác. Mỗi org chỉ một request đang xử lý.
-- T0 và deadline T0+60h được khóa trong `run_manifest.json`; dừng để dành thời gian phân tích. Không sửa manifest/quota.sqlite3 hoặc đổi output nhằm lách cap/deadline. Không mua quota hoặc đổi model.
+- T0/deadline cũ giữ nguyên trong manifest lịch sử; **không còn tự dừng tại deadline**. Policy mới ở `r1_provider_policy.json` và `execution_amendment.json`. Không sửa manifest/counters hoặc mua quota/đổi model.
 - Allocation LPT dựa trên tải unit đã biết trước outcome, thay phân bổ round-robin nháp trong bank. Tải dự kiến kể smoke: 97/98/96/96/97 decisions theo org; mỗi org còn dư so với 120 attempts qua ba cửa sổ 24h. Số org/repeats không làm tăng số quan sát thị trường độc lập.
 
 ## Lệnh offline
@@ -55,7 +55,7 @@ Sau khi inference đủ grid:
 py -3.13 -X utf8 scripts/run_revision_72h.py analyze
 ```
 
-Analyzer cần đủ 102 cặp thật. Trước T0+60h còn thiếu panel thì yêu cầu resume; sau deadline có thể phân tích các cặp đầy đủ nhưng giữ panel thiếu là incomplete. Không ghi đè analysis release có sẵn.
+Analyzer cần đủ 102 cặp thật và đủ các panel đã khóa; không dùng deadline cũ để đóng release thiếu sau khi tác giả yêu cầu chạy tiếp. Kết quả ghi riêng execution epochs và các cặp đi qua thời điểm đổi policy. Không ghi đè analysis release có sẵn.
 
 Đầu ra: Full/Base/non-LLM trên cùng target/lịch/cost, confusion/per-class/pooled/macro/regime/cohorts, LONG rate, daily ledger, gross diagnostic riêng, bootstrap sáu block joint cross-section 10.000 lần seed 20261102, repeat/upstream dispersion đúng panel, calls/tokens/errors/latency và bảng TeX. Mean return trên 51 symbol-block accounts không phải portfolio chung; ledger fractional/immediate cash chưa chứng nhận settlement/total return. Bootstrap ít block chỉ có tính mô tả.
 
@@ -64,3 +64,9 @@ Sau đó cần kiểm tra release, cập nhật manuscript/response/PDF locators
 ## Chỉ khi cần tái dựng offline
 
 Các bước `prepare`, `assets`, `numeric`, `freeze` đã được thực hiện trên máy này, không cần chạy lại. Chúng từ chối ghi đè dữ liệu đã khóa. Muốn tái dựng một study khác cần đường dẫn bank/run mới và lập protocol phù hợp trước inference; không chỉnh lịch/seed theo outcome của study này.
+
+## Bảo toàn run đang dở khi đổi policy
+
+Đã thực hiện offline `migrate-provider-pool` trên máy này; chỉ cần chạy lại `run --all`. 185 decisions thật (10 smoke, 175 research) và 1.713 raw/checkpoint artifacts giữ nguyên. Source/input cũ nằm trong `runtime_history/original_sources.zip`; operational amendment khóa sources mới, không viết lại `run_manifest.json`. Numeric generation code lịch sử đối soát qua archive, helper AST giữ nguyên, không fit lại mô hình.
+
+`status` phân biệt home shard với actual provider org, cap nội bộ là null và deadline auto-stop false. Event worker cũ có thể vẫn nhắc cap 40 nhưng được đánh dấu predates-policy; đó là lịch sử, không phải giới hạn đang áp dụng. Requests mới có provider_org/epoch; epochs và cặp đi qua hai epoch được báo khi analyze.

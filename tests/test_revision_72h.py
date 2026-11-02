@@ -21,6 +21,7 @@ from core.revision_call_archive import StudyStop
 from core.revision72_data import schedules, make_jobs
 from core.revision72_run import allocate, variant_state, CachedLLM, checked, worker
 from core.revision72_quota import PoolLedger, PoolArchive
+from core.revision72_provider import RoutedLLM, PoolUnavailable, scientific_context
 from core.revision_baselines import load_prices
 from core.revision72_analysis import block_interval, panel_summary
 from core.revision_common_study import write_json
@@ -94,21 +95,81 @@ class DesignTests(unittest.TestCase):
 
 
 class QuotaTests(unittest.TestCase):
-    def test_rolling_daily_and_persistent_org_cap(self):
+    def test_one_key_cannot_have_two_inflight_requests_across_workers(self):
+        with tempfile.TemporaryDirectory() as temp:
+            ledger = PoolLedger(Path(temp)/"quota.sqlite", "run")
+            other = PoolLedger(Path(temp)/"quota.sqlite", "run")
+            self.assertEqual(ledger.acquire("vision",1,"first",[1]),1)
+            self.assertIsNone(other.acquire("text",1,"second",[1]))
+            other.release(1,"wrong_owner")
+            self.assertIsNone(other.acquire("text",1,"second",[1]))
+            ledger.release(1,"first")
+            self.assertEqual(other.acquire("text",1,"second",[1]),1)
+
+    def test_provider_pool_uses_another_key_after_one_exhausts_quota(self):
+        class Exhausted(FakeListChatModel):
+            def _call(self, *args, **kwargs):
+                raise RuntimeError("429 tokens per day (TPD). Please try again in 18m10s")
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp);ledger=PoolLedger(path/"quota.sqlite","run")
+            archive=PoolArchive(path/"shard","bank","secret1",ledger,1,0)
+            archive.context={"model":"text","stage":"decision","variant":"AS","unit_id":"fixture"}
+            def factory(**kwargs):
+                cls=Exhausted if kwargs['api_key']=='secret1' else FakeListChatModel
+                return cls(responses=['{"decision":"LONG"}'], callbacks=kwargs['callbacks'])
+            with patch('langchain_groq.ChatGroq',side_effect=factory),redirect_stdout(io.StringIO()):
+                result=RoutedLLM(archive,['secret1','secret2'],1,{'model':'text'},'amendment',[1,2]).invoke('fixture')
+            self.assertIn('LONG',result.content)
+            self.assertEqual(archive.count,2)
+            requests=[read_json(p) for p in (path/'shard/calls').glob('*.request.json')]
+            self.assertEqual({r['context']['provider_org'] for r in requests},{1,2})
+            self.assertTrue(all(scientific_context(r['context'])==archive.context for r in requests))
+            self.assertTrue(ledger.states('text',[1])[0]['active'])
+            self.assertIsNone(read_json(path/'shard/usage.json')['max_requests_current_command'])
+
+    def test_pool_stops_only_after_all_allowed_keys_report_long_quota(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp);ledger=PoolLedger(path/'quota.sqlite','run')
+            archive=PoolArchive(path/'shard','bank','secret1',ledger,1,0)
+            archive.context={'model':'vision','stage':'upstream'}
+            for org in (1,2):ledger.block(org,'vision','quota',1000,'provider TPD')
+            with patch('langchain_groq.ChatGroq') as client:
+                with self.assertRaises(PoolUnavailable):
+                    RoutedLLM(archive,['secret1','secret2'],1,{'model':'vision'},'epoch',[1,2]).invoke('fixture')
+                client.assert_not_called()
+            self.assertEqual(archive.count,0)
+
+    def test_short_rate_wait_is_retried_without_global_pause(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp);clock=[1000000.0]
+            ledger=PoolLedger(path/'quota.sqlite','run',lambda:clock[0])
+            archive=PoolArchive(path/'shard','bank','secret1',ledger,1,0)
+            archive.context={'model':'text','stage':'decision'}
+            ledger.block(1,'text','rate',5,'fixture ITPM')
+            ledger.block(2,'text','quota',1000,'fixture TPD')
+            def factory(**kw):return FakeListChatModel(responses=['LONG'],callbacks=kw['callbacks'])
+            def sleep(seconds):clock[0]+=seconds
+            with patch('langchain_groq.ChatGroq',side_effect=factory),patch('core.revision72_provider.time.sleep',side_effect=sleep):
+                response=RoutedLLM(archive,['secret1','secret2'],1,{'model':'text'},'epoch',[1,2]).invoke('fixture')
+            self.assertEqual(response.content,'LONG')
+            self.assertGreaterEqual(clock[0],1000006)
+            self.assertEqual(archive.count,1)
+
+    def test_old_40_decision_limit_and_deadline_do_not_stop_provider_mode(self):
         with tempfile.TemporaryDirectory() as temp:
             now = [1000000.0]
             ledger = PoolLedger(Path(temp) / "q.sqlite", "run", lambda: now[0])
             for i in range(40):
                 ledger.reserve(str(i), 1, "decision", "text", now[0]+1000000)
                 now[0] += 31
-            with self.assertRaises(StudyStop): ledger.reserve("blocked", 1, "decision", "text", now[0]+1000000)
+            ledger.reserve("above_40", 1, "decision", "text", 0)
             now[0] += 86400
             ledger.reserve("nextday", 1, "decision", "text", now[0]+1000000)
             resumed = PoolLedger(Path(temp) / "q.sqlite", "run", lambda: now[0])
             self.assertGreater(resumed.next_at(1, "text"), now[0])
             with self.assertRaises(ValueError): PoolLedger(Path(temp) / "q.sqlite", "other")
 
-    def test_global_and_per_org_attempt_caps_before_network(self):
+    def test_old_200_org_and_1000_total_limits_are_not_enforced(self):
         with tempfile.TemporaryDirectory() as temp:
             now = [1000000.0]
             ledger = PoolLedger(Path(temp) / "q.sqlite", "run", lambda: now[0])
@@ -116,10 +177,11 @@ class QuotaTests(unittest.TestCase):
                 for i in range(200):
                     ledger.reserve(f"{org}_{i}", org, "upstream", "vision", now[0]+1000000)
                     now[0] += 31
-                with self.assertRaises(StudyStop): ledger.reserve(f"{org}_overflow", org, "upstream", "vision", now[0]+1000000)
-            with self.assertRaises(StudyStop): ledger.reserve("overflow", 5, "upstream", "vision", now[0]+1000000)
+                ledger.reserve(f"{org}_above_200", org, "upstream", "vision", 0)
+                now[0] += 31
+            ledger.reserve("above_1000", 5, "upstream", "vision", 0)
 
-    def test_global_600_decision_cap_across_org_windows(self):
+    def test_old_600_decision_limit_is_not_enforced(self):
         with tempfile.TemporaryDirectory() as temp:
             now = [1000000.0]
             ledger = PoolLedger(Path(temp) / "q.sqlite", "run", lambda: now[0])
@@ -129,7 +191,7 @@ class QuotaTests(unittest.TestCase):
                         now[0] = 1000000.0 + day*90000 + org*1500 + i*31
                         ledger.reserve(f"{day}_{org}_{i}", org, "decision", "text", 9999999999)
             now[0] += 90000
-            with self.assertRaises(StudyStop): ledger.reserve("decision_overflow", 1, "decision", "text", 9999999999)
+            ledger.reserve("above_600", 1, "decision", "text", 0)
 
     def test_format_repair_consumes_new_attempt_instead_of_replaying_same_bad_output(self):
         from agents.decision_agent import create_final_trade_decider
@@ -184,6 +246,35 @@ class QuotaTests(unittest.TestCase):
 
 
 class WorkerTests(unittest.TestCase):
+    def test_worker_continues_cached_text_jobs_when_all_vision_keys_are_blocked(self):
+        """Không dừng cả shard ở job vision nếu panel dùng cache còn chạy được bằng text."""
+        manifest=read_json(BANK/'manifest.json');p=manifest['protocol'];first,second=manifest['units'][:2]
+        response='{"decision":"LONG","forecast_horizon":"T+2.5","confidence":"Cao","risk_reward_ratio":1.5,"evidence_for":"fixture","evidence_against":"fixture","justification":"fixture"}'
+        def factory(**kw):return FakeListChatModel(responses=[response],callbacks=kw['callbacks'],metadata=kw['metadata'])
+        clock=[1000000.0]
+        def now():clock[0]+=31;return clock[0]
+        with tempfile.TemporaryDirectory() as temp:
+            run=Path(temp)
+            identity={'sha256':'fixture','bank_id':manifest['bank_id'],'deadline_epoch':0,'jobs':[
+                {'id':'first','unit_id':first['id'],'org':1,'realization':0,'decisions':[{'variant':v,'repeat':0} for v in ('B','AS')]}]}
+            for i in range(1,6):write_json(run/f'shards/org{i}/smoke_complete.json',signed({'run_signature':'fixture','files':[]}))
+            with (patch('core.revision72_run.freeze',return_value=identity),
+                  patch('langchain_groq.ChatGroq',side_effect=factory),
+                  patch('core.revision72_run.PoolLedger',side_effect=lambda path,sig:PoolLedger(path,sig,now)),
+                  patch('utils.static_util.generate_kline_image',return_value={'pattern_image':'fixture'}),
+                  patch('utils.static_util.generate_trend_image',return_value={'trend_image':'fixture'}),
+                  patch.dict(os.environ,{f'GROQ_ORG_{i}_API_KEY':f'fixture_{i}' for i in range(1,6)}),redirect_stdout(io.StringIO())):
+                worker(ROOT,BANK,run,1,False)
+                original=next((run/'shards/org1/decisions').glob('*_B_n0.json')).read_bytes()
+                ledger=PoolLedger(run/'quota.sqlite3','fixture',now)
+                for i in range(1,6):ledger.block(i,p['graph_llm_model'],'quota',100000,'fixture TPD')
+                identity['jobs']=[{'id':'blocked','unit_id':second['id'],'org':1,'realization':0,'decisions':[{'variant':'B','repeat':0}]},
+                    {'id':'cached','unit_id':first['id'],'org':1,'realization':0,'decisions':[{'variant':'A','repeat':1}]}]
+                with self.assertRaises(PoolUnavailable):worker(ROOT,BANK,run,1,False)
+                self.assertTrue((run/f"shards/org1/decisions/{first['id']}_r0_A_n1.json").exists())
+                self.assertEqual(next((run/'shards/org1/decisions').glob('*_B_n0.json')).read_bytes(),original)
+                self.assertEqual(len(list((run/'shards/org1/calls').glob('*.request.json'))),5)
+
     def test_native_nodes_smoke_pair_and_resume_use_four_fake_calls_only(self):
         """Native agents và parser thật; fake responses chỉ trong temp, không phải evidence."""
         manifest = read_json(BANK / "manifest.json")

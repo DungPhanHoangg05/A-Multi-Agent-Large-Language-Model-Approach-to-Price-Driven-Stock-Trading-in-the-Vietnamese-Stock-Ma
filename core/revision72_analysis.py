@@ -13,6 +13,7 @@ from core.revision_audit import sha256_file
 from core.revision_baselines import daily_ledger, factor_vote, load_prices, logistic_predictions, numerical_features
 from core.revision_common_study import read_json, write_json
 from core.revision72_run import checked, freeze
+from core.revision72_provider import scientific_context
 from scripts.evaluate_revision_baselines import csv_rows
 from utils.statistical_tests import binary_classification_metrics
 
@@ -134,6 +135,8 @@ def verify(root: Path, bank: Path, run: Path) -> list[dict]:
     identity = freeze(root, bank, run)
     manifest = read_json(bank / "manifest.json")
     valid = []
+    amendment_path=run/"execution_amendment.json"
+    epoch=checked(amendment_path)["sha256"] if amendment_path.exists() else identity["sha256"]
     expected = {(j["unit_id"], j["realization"], d["variant"], d["repeat"]): j["org"]
                 for j in identity["jobs"] for d in j["decisions"]}
     expected.update({(u["id"], 0, v, 0): u["org"] for u in manifest["smoke"] for v in ("B", "AS")})
@@ -170,8 +173,10 @@ def verify(root: Path, bank: Path, run: Path) -> list[dict]:
             for attempt in record["request_ids"]:
                 req = checked(shard / f"calls/{attempt}.request.json")
                 resp = read_json(shard / f"calls/{attempt}.response.json")
-                if req["context"] != record["context"] or resp["parent_request_hash"] != req["sha256"]:
+                if scientific_context(req["context"]) != scientific_context(record["context"]) or resp["parent_request_hash"] != req["sha256"]:
                     raise ValueError("Request/variant/response không khớp")
+                if "provider_org" in req["context"] and (req["context"]["provider_org"] not in range(1,6) or req["context"].get("execution_epoch") != epoch):
+                    raise ValueError("Routing metadata không khớp operational epoch đã khóa")
                 raw = resp["response"]["generations"][0][0]["message"]
             text = raw.get("content", "")
             if not text:
@@ -222,13 +227,14 @@ def system_costs(run: Path) -> dict:
     """Chi phí API quan sát được; token thiếu không điền bằng dự đoán hoặc giá hiện hành."""
     attempted = errors = successes = missing_usage = 0
     prompt = completion = 0
-    latency, models = [], Counter()
+    latency, models, providers = [], Counter(), Counter()
     branch_attempts, branch_errors = Counter(), Counter()
     for shard in (run / "shards").glob("org*"):
         attempted += len(list((shard / "calls").glob("*.request.json")))
         errors += len(list((shard / "calls").glob("*.error.json")))
         for path in (shard / "calls").glob("*.request.json"):
             context = read_json(path)["context"]
+            providers[int(context.get("provider_org",shard.name[3:]))] += 1
             branch = context.get("variant", "shared_" + context.get("node", "unknown"))
             branch_attempts[branch] += 1
             if path.with_name(path.name.replace(".request.", ".error.")).exists():
@@ -247,7 +253,7 @@ def system_costs(run: Path) -> dict:
     return {"request_files": attempted, "successful_responses": successes, "errors": errors,
         "usage_unreported_responses": missing_usage, "observed_prompt_tokens": prompt, "observed_completion_tokens": completion,
         "latency_seconds_sum": float(sum(latency)), "latency_seconds_median": float(np.median(latency)) if latency else None,
-        "models": dict(models), "failures_by_branch": {k: {"attempts": n, "errors": branch_errors[k],
+        "models": dict(models), "attempts_by_provider_org":dict(providers), "failures_by_branch": {k: {"attempts": n, "errors": branch_errors[k],
             "error_fraction": branch_errors[k]/n} for k, n in branch_attempts.items()},
         "monetary_cost": None, "scope": "SDK-observed usage; excludes unknown usage on failed requests; not inferred billing"}
 
@@ -287,7 +293,7 @@ def analyze(root: Path, bank: Path, run: Path) -> None:
     if any((u["id"], 0, v, 0) not in index for u in manifest["units"] for v in ("B", "AS")):
         raise ValueError("Chưa đủ 102 cặp B/AS; không tạo bảng Full từ run thiếu")
     import time
-    if len(index) < manifest["n_decisions"] and time.time() < identity["deadline_epoch"]:
+    if len(index) < manifest["n_decisions"] and ((run / "execution_amendment.json").exists() or time.time() < identity["deadline_epoch"]):
         raise ValueError("Còn panel jobs trước T0+60h; resume inference trước khi khóa analysis release")
     output = run / "analysis"
     if output.exists():
@@ -356,6 +362,8 @@ def analyze(root: Path, bank: Path, run: Path) -> None:
     actual = len(index)
     write_json(output / "report.json", {"n_paired_units": len(manifest["units"]), "required_research_decisions": manifest["n_decisions"],
         "actual_research_decisions": actual, "all_jobs_complete": actual == manifest["n_decisions"],
+        "execution_epochs":dict(Counter(r.get("execution_epoch","original") for r in records if not r["context"]["smoke"])),
+        "cross_epoch_main_pairs":sum(index[(u["id"],0,"B",0)].get("execution_epoch","original") != index[(u["id"],0,"AS",0)].get("execution_epoch","original") for u in manifest["units"]),
         "n_unique_decision_dates": len({u["date"] for u in manifest["units"]}),
         "status": "paired_R1_tables_ready_pending_manuscript_and_panel_review",
         "limitations": "historical exploratory; six blocks/roughly twelve dates, uncertain PIT news and model contamination; fractional immediate-cash ledger not certified settlement; no automatic R1 closure"}, True)
@@ -384,6 +392,8 @@ def analyze(root: Path, bank: Path, run: Path) -> None:
     lines += [r"\hline", r"\end{tabular}", r"\par\footnotesize Percentages except MCC. Mean return is over 51 symbol--block accounts, not a joint portfolio. Historical exploratory evidence; execution and news PIT are unverified.", r"\end{table}"]
     (output / "r1_baselines.tex").write_text("\n".join(lines)+"\n", encoding="utf8", newline="\n")
     sources = [run / "run_manifest.json", bank / "manifest.json", bank / "numeric/manifest.json"]
+    if (run/"execution_amendment.json").exists():
+        sources += [run/"execution_amendment.json",run/"runtime_history/original_sources.zip",run/"runtime_history/before_provider_only.json"]
     sources += [p for shard in (run / "shards").glob("org*") for folder in ("calls", "nodes", "decisions", "charts")
                 for p in sorted((shard / folder).glob("*.json"))]
     release_manifest(root, output, sources)

@@ -18,6 +18,7 @@ from core.revision_call_archive import GuardedLLM, StudyLock, StudyStop
 from core.revision_common_study import (FrozenSentiment, digest, pack_state, point_state,
     read_json, restore_state, write_json)
 from core.revision72_quota import PoolArchive, PoolLedger
+from core.revision72_provider import RoutedLLM, PoolUnavailable, scientific_context, seed_provider_state
 
 
 def signed(value: dict) -> dict:
@@ -57,7 +58,7 @@ def allocate(manifest: dict) -> list[dict]:
     return [{**j, "org": owner[j["unit_id"]]} for j in manifest["jobs"]]
 
 
-def freeze(root: Path, bank: Path, run: Path) -> dict:
+def freeze(root: Path, bank: Path, run: Path, amend: bool = False) -> dict:
     """Freeze sau assets/tests, trước API; plan tiến độ và secrets không phải runtime input."""
     from importlib.metadata import version
     manifest = read_json(bank / "manifest.json")
@@ -86,9 +87,12 @@ def freeze(root: Path, bank: Path, run: Path) -> dict:
     files += [root / p for p in ("core/backtest_engine.py", "core/alpha_compare.py", "core/revision_audit.py",
         "core/revision_baselines.py", "core/revision_common_study.py", "core/revision_call_archive.py",
         "core/revision72_data.py", "core/revision72_quota.py", "core/revision72_run.py", "core/revision72_analysis.py",
+        "core/revision72_provider.py",
         "scripts/run_revision_72h.py", "scripts/evaluate_revision_baselines.py", "default_config.py")]
     inputs = [bank / p for p in ("manifest.json", "article_audit.json", "local_scores.json", "news.json", "assets_complete.json")]
     inputs.append(protocol_path)
+    policy_path = root / "revision/r1_provider_policy.json"
+    inputs.append(policy_path)
     numeric = read_json(bank / "numeric/manifest.json")
     for artifact in numeric["outputs"]:
         if sha256_file(bank / "numeric" / artifact["path"]) != artifact["sha256"]:
@@ -102,8 +106,59 @@ def freeze(root: Path, bank: Path, run: Path) -> dict:
     path = run / "run_manifest.json"
     if path.exists():
         old = checked(path)
-        if old["sources"] != source or old["runtime"] != runtime or old["bank_id"] != manifest["bank_id"]:
-            raise ValueError("Nguồn/runtime đã đổi sau freeze; không resume run cũ")
+        if old["runtime"] != runtime or old["bank_id"] != manifest["bank_id"]:
+            raise ValueError("Runtime hoặc bank đã đổi; không được migrate quota policy")
+        if old["sources"] != source:
+            amendment_path = run / "execution_amendment.json"
+            allowed = {"core/revision72_quota.py", "core/revision72_run.py", "core/revision72_analysis.py",
+                "scripts/run_revision_72h.py", "core/revision72_provider.py", "revision/r1_provider_policy.json"}
+            previous = {s["path"]:s["sha256"] for s in old["sources"]}
+            current = {s["path"]:s["sha256"] for s in source}
+            if any(current.get(p) != h and p not in allowed for p,h in previous.items()) or set(current)-set(previous)-allowed:
+                raise ValueError("Có thay đổi ngoài routing/quota được cho phép; giữ nguyên nghiên cứu")
+            archive = run / "runtime_history/original_sources.zip"
+            from zipfile import ZipFile
+            import hashlib
+            with ZipFile(archive) as archived:
+                for record in old["sources"]:
+                    if hashlib.sha256(archived.read(record["path"])).hexdigest() != record["sha256"]:
+                        raise ValueError("Archive code/runtime cũ không khớp")
+                import ast
+                for filename, names in (("core/revision72_analysis.py", {"numeric","target","block_interval","panel_summary"}),
+                                         ("core/revision72_run.py", {"variant_state","allocate"})):
+                    def functions(text: str) -> dict:
+                        return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(text).body
+                                if isinstance(n,ast.FunctionDef) and n.name in names}
+                    if functions(archived.read(filename).decode("utf8")) != functions((root/filename).read_text(encoding="utf8")):
+                        raise ValueError("Thay đổi quota không được sửa numerical/variant estimand")
+            if not amendment_path.exists():
+                if not amend:
+                    raise ValueError("Cần migrate-provider-pool offline một lần trước khi resume bằng policy mới")
+                with StudyLock(run / "migration.lock"):
+                    probes = []
+                    try:
+                        for org in range(1,6):
+                            lock = StudyLock(run / f"shards/org{org}/worker.lock")
+                            lock.__enter__(); probes.append(lock)
+                        snapshot = read_json(run / "runtime_history/before_provider_only.json")
+                        for record in snapshot["artifacts"]:
+                            if sha256_file(run / record["path"]) != record["sha256"]:
+                                raise ValueError("Checkpoint trước migration đã đổi; không sửa prediction")
+                        value = signed({"original_run_signature":old["sha256"], "sources":source,
+                            "runtime":runtime, "policy":read_json(policy_path), "original_source_archive_sha256":sha256_file(archive),
+                            "checkpoint_snapshot_sha256":sha256_file(run / "runtime_history/before_provider_only.json"),
+                            "created_utc":datetime.now(timezone.utc).isoformat(),
+                            "scope":"operational routing/quota only; original manifest, prompts, checkpoints and scientific run identity retained"})
+                        write_json(amendment_path, value, True)
+                    finally:
+                        for lock in reversed(probes): lock.__exit__()
+            value = checked(amendment_path)
+            if value["sources"] != source or value["original_run_signature"] != old["sha256"] or value["runtime"] != runtime:
+                raise ValueError("Nguồn không khớp operational amendment đã khóa")
+            if value["original_source_archive_sha256"] != sha256_file(archive):
+                raise ValueError("Archive gốc đã đổi")
+            if value["checkpoint_snapshot_sha256"] != sha256_file(run / "runtime_history/before_provider_only.json"):
+                raise ValueError("Snapshot trước thay đổi quota đã đổi")
         return old
     import re
     match = re.search(r"T0 = ([^*\s]+)", (root / "plan.md").read_text(encoding="utf8"))
@@ -115,6 +170,7 @@ def freeze(root: Path, bank: Path, run: Path) -> dict:
         "deadline_epoch": t0.timestamp() + 60 * 3600, "required_decisions": manifest["n_decisions"],
         "org_identity": "five author-asserted org slots; distinct keys checked privately; provider org identity unverified unless returned",
         "protocol": protocol, "bank_template_scope": "bank protocol retains numerical-generation template fields; this execution protocol is authoritative for sample/repeats/calibration/exposure",
+        "execution_policy":read_json(policy_path),
         "jobs": allocate(manifest), "allocation": "LPT by fixed unit decision/call load; source bank round-robin is replaced before inference; no treatment split or outcome input"})
     write_json(path, value, True)
     return value
@@ -143,7 +199,7 @@ class CachedLLM:
             if key in self.used or not response_path.exists():
                 continue
             request = checked(path)
-            if request["context"] != self.archive.context or request["messages"] != [expected]:
+            if scientific_context(request["context"]) != scientific_context(self.archive.context) or request["messages"] != [expected]:
                 continue
             response = read_json(response_path)
             if response["parent_request_hash"] != request["sha256"]:
@@ -230,10 +286,11 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
     if not all(keys) or len(set(keys)) != 5:
         raise ValueError("Cần năm key khác nhau; không in/lưu key hoặc hash key")
     key = keys[org - 1]
-    # Chỉ smoke/run mới tới network. Catalogue không chứng minh org identity/quota.
-    available = {m.id for m in Groq(api_key=key, max_retries=0, timeout=20).models.list().data}
-    if not {protocol["agent_llm_model"], protocol["graph_llm_model"]}.issubset(available):
-        raise ValueError("Org thiếu model đã khóa; không đổi model")
+    # Smoke kiểm riêng từng key; run đã có năm smoke markers và dùng pool.
+    if smoke:
+        available = {m.id for m in Groq(api_key=key, max_retries=0, timeout=20).models.list().data}
+        if not {protocol["agent_llm_model"], protocol["graph_llm_model"]}.issubset(available):
+            raise ValueError("Org thiếu model đã khóa; không đổi model")
     if not smoke:
         for i in range(1, 6):
             marker = checked(run / f"shards/org{i}/smoke_complete.json")
@@ -245,7 +302,10 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
     shard = run / f"shards/org{org}"
     shard.mkdir(parents=True, exist_ok=True)
     ledger = PoolLedger(run / "quota.sqlite3", identity["sha256"])
+    seed_provider_state(run, ledger)
     archive = PoolArchive(shard, identity["bank_id"], key, ledger, org, identity["deadline_epoch"])
+    amendment = run / "execution_amendment.json"
+    epoch = checked(amendment)["sha256"] if amendment.exists() else identity["sha256"]
     status_path = shard / "status.json"
     with StudyLock(shard / "worker.lock"):
         write_json(status_path, {"phase": "smoke" if smoke else "inference", "pid": os.getpid(), "updated_utc": datetime.now(timezone.utc).isoformat()})
@@ -260,9 +320,11 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
             parser = BacktestEngine({"use_historical_sentiment": False})
             def model(node: str, role: str) -> CachedLLM:
                 prefix = "agent" if role == "text" else "graph"
-                delegate = ChatGroq(api_key=key, model=protocol[f"{prefix}_llm_model"], temperature=0,
-                    max_tokens=protocol[f"{prefix}_llm_max_tokens"], max_retries=0, timeout=120,
-                    reasoning_format="hidden", callbacks=[archive], metadata={"langgraph_node": node})
+                delegate = RoutedLLM(archive, keys, org, {
+                    "model":protocol[f"{prefix}_llm_model"], "temperature":0,
+                    "max_tokens":protocol[f"{prefix}_llm_max_tokens"], "max_retries":0, "timeout":120,
+                    "reasoning_format":"hidden", "metadata":{"langgraph_node":node}}, epoch,
+                    allowed=[org] if smoke else list(range(1,6)))
                 return CachedLLM(delegate, archive)
             class NoFallback:
                 def invoke(self, *args: Any, **kwargs: Any) -> Any:
@@ -274,7 +336,7 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
             units = {u["id"]: u for u in manifest["units"] + manifest["smoke"]}
             jobs = [{"unit_id": f"smoke_org{org}", "realization": 0, "id": f"smoke{org}",
                      "decisions": [{"variant": v, "repeat": 0} for v in ("B", "AS")]}] if smoke else [j for j in identity["jobs"] if j["org"] == org]
-            for job in jobs:
+            def execute_job(job: dict) -> None:
                 unit = units[job["unit_id"]]
                 symbol, index, realization = unit["symbol"], unit["decision"], job["realization"]
                 asset = checked(bank / f"features/{symbol}_{index}.json")
@@ -305,12 +367,14 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
                     else:
                         before = len(archive.ids)
                         value = node(deepcopy(state))
-                        ids = archive.ids[before:]
+                        all_ids = archive.ids[before:]
+                        ids = [a for a in all_ids if (shard / f"calls/{a}.response.json").exists()]
                         if name != "Indicator Agent" and not ids:
                             raise ValueError("Vision node thiếu raw response thật")
                         result = signed({"parent": parent, "context": context, "state": pack_state(value), "request_ids": ids,
-                            "call_hashes": [{"path": p.relative_to(shard).as_posix(), "sha256": sha256_file(p)} for a in ids for p in
-                                (shard / f"calls/{a}.request.json", shard / f"calls/{a}.response.json") if p.exists()]})
+                            "execution_epoch":epoch, "failed_request_ids":[a for a in all_ids if a not in ids],
+                            "call_hashes": [{"path": p.relative_to(shard).as_posix(), "sha256": sha256_file(p)} for a in all_ids for p in
+                                (shard / f"calls/{a}.request.json", shard / f"calls/{a}.response.json", shard / f"calls/{a}.error.json") if p.exists()]})
                         write_json(path, result, True)
                     for record in result["call_hashes"]:
                         if sha256_file(shard / record["path"]) != record["sha256"]:
@@ -335,14 +399,35 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
                     prediction, confidence, ratio, source, reason = parser._parse_prediction(value)
                     if prediction not in ("LONG", "SHORT"):
                         raise ValueError("Không lưu prediction fallback")
-                    ids = archive.ids[before:]
+                    all_ids = archive.ids[before:]
+                    ids = [a for a in all_ids if (shard / f"calls/{a}.response.json").exists()]
                     value = signed({"parent": parent, "context": context, "prediction": prediction,
                         "confidence": confidence, "decision_source": source, "fallback_reason": reason,
-                        "state": pack_state(value), "request_ids": ids,
-                        "call_hashes": [{"path": p.relative_to(shard).as_posix(), "sha256": sha256_file(p)} for a in ids for p in
-                            (shard / f"calls/{a}.request.json", shard / f"calls/{a}.response.json") if p.exists()]})
+                        "state": pack_state(value), "request_ids": ids, "execution_epoch":epoch,
+                        "failed_request_ids":[a for a in all_ids if a not in ids],
+                        "call_hashes": [{"path": p.relative_to(shard).as_posix(), "sha256": sha256_file(p)} for a in all_ids for p in
+                            (shard / f"calls/{a}.request.json", shard / f"calls/{a}.response.json", shard / f"calls/{a}.error.json") if p.exists()]})
                     write_json(path, value, True)
                     print(f"Org {org}: {unit['id']} r{realization} {variant}/{repeat} đã checkpoint.", flush=True)
+            remaining_jobs = jobs
+            while remaining_jobs:
+                pending = []
+                blocked_models = set()
+                for job in remaining_jobs:
+                    try:
+                        execute_job(job)
+                    except PoolUnavailable as exc:
+                        pending.append(job)
+                        if exc.model: blocked_models.add(exc.model)
+                if not pending:
+                    break
+                usable = any(any(not s["active"] or s["kind"] not in ("quota","quota_unknown_reset","key_error","incompatible")
+                             for s in ledger.states(m, [org] if smoke else list(range(1,6)))) for m in blocked_models)
+                if not usable:
+                    raise PoolUnavailable(f"Shard {org} đã thử mọi job; {len(pending)} job còn chờ quota/model. Các job có key khả dụng đã tiếp tục.")
+                # Quota có thể reset trong lúc worker xử lý model/job khác.
+                remaining_jobs = pending
+                time.sleep(1)
             name = "smoke_complete.json" if smoke else "shard_complete.json"
             marker = signed({"run_signature": identity["sha256"], "org": org, "smoke": smoke,
                 "org_identity_verified": False, "quota_capacity_verified": False,
@@ -369,7 +454,11 @@ def worker(root: Path, bank: Path, run: Path, org: int, smoke: bool) -> None:
 
 def dispatch(root: Path, bank: Path, run: Path, command: str, org: int | None, all_orgs: bool) -> None:
     """Không suy trạng thái process từ receipt cũ; API chỉ trong smoke/run."""
-    if command == "freeze":
+    if command == "migrate-provider-pool":
+        original = freeze(root, bank, run, amend=True)
+        seed_provider_state(run, PoolLedger(run / "quota.sqlite3", original["sha256"]))
+        print(f"Đã đổi policy vận hành, giữ nguyên nghiên cứu/checkpoint {original['sha256']}.")
+    elif command == "freeze":
         print(f"Đã freeze runtime: {freeze(root, bank, run)['sha256']}")
     elif command == "verify":
         freeze(root, bank, run)
@@ -377,11 +466,14 @@ def dispatch(root: Path, bank: Path, run: Path, command: str, org: int | None, a
         verify(root, bank, run)
     elif command == "status":
         manifest = read_json(bank / "manifest.json")
+        amendment_path = run / "execution_amendment.json"
+        amendment_data = checked(amendment_path) if amendment_path.exists() else None
         rows = []
         pair_variants: dict[str, set] = {}
         for i in range(1, 6):
             shard = run / f"shards/org{i}"
             decisions = [checked(p) for p in (shard / "decisions").glob("*.json")]
+            event = read_json(shard / "status.json") if (shard / "status.json").exists() else None
             research = [v for v in decisions if not v["context"]["smoke"]]
             for value in research:
                 c = value["context"]
@@ -393,18 +485,29 @@ def dispatch(root: Path, bank: Path, run: Path, command: str, org: int | None, a
                 "repeat_ids": sorted({v["context"]["repeat"] for v in research}),
                 "requests": len(list((shard / "calls").glob("*.request.json"))),
                 "errors": len(list((shard / "calls").glob("*.error.json"))),
-                "last_worker_event": read_json(shard / "status.json") if (shard / "status.json").exists() else None})
+                "last_worker_event":event, "event_predates_provider_only_policy":bool(event and amendment_data and event.get("updated_utc","") < amendment_data["created_utc"])})
         from core.revision72_analysis import system_costs
+        provider_states = []
+        amendment = run / "execution_amendment.json"
+        if amendment.exists():
+            identity = checked(run / "run_manifest.json")
+            ledger = PoolLedger(run / "quota.sqlite3", identity["sha256"])
+            for model in (manifest["protocol"]["agent_llm_model"], manifest["protocol"]["graph_llm_model"]):
+                provider_states.append({"model":model,"states":ledger.states(model,list(range(1,6)))})
         print(json.dumps({"profile": "revision_72h", "required_pairs": 102,
             "complete_main_pairs": sum(v == {"B", "AS"} for v in pair_variants.values()),
             "required_decisions": manifest["n_decisions"], "orgs": rows, "usage": system_costs(run),
+            "execution_policy": "provider_only" if amendment.exists() else "original_caps", "internal_caps":None if amendment.exists() else "original",
+            "automatic_deadline_stop":not amendment.exists(), "provider_states":provider_states,
             "scope": "live artifact counts and last worker events; no process liveness inferred from old receipts"}, ensure_ascii=False, indent=2))
     elif all_orgs:
         children = [subprocess.Popen([sys.executable, "-X", "utf8", str(root / "scripts/run_revision_72h.py"), command,
             "--bank", str(bank), "--run", str(run), "--org", str(i)], cwd=root) for i in range(1, 6)]
         codes = [child.wait() for child in children]
+        if any(code not in (0,3) for code in codes):
+            raise RuntimeError(f"Có shard gặp lỗi cần kiểm tra, không phải quota đơn thuần; mã thoát: {codes}")
         if any(codes):
-            raise StudyStop(f"Một số shard dừng có checkpoint; mã thoát theo org: {codes}")
+            raise StudyStop(f"Các job còn lại chưa có key khả dụng; pool đã tiếp tục mọi job có thể chạy. Mã thoát home shards: {codes}; xem status để biết quota từng provider.")
         if command == "run":
             complete(bank, run)
     elif org:
@@ -438,6 +541,7 @@ def complete(bank: Path, run: Path) -> None:
     if actual != expected or len(research) != len(expected):
         raise ValueError("Shard markers chưa đủ/sai jobs")
     receipt = signed({"run_signature": identity["sha256"], "n_research_decisions": len(research), "markers": markers,
+                      "execution_amendment_sha256":sha256_file(run/"execution_amendment.json") if (run/"execution_amendment.json").exists() else None,
                       "status": "inference_complete_pending_analysis_and_scientific_review"})
     path = run / "inference_complete.json"
     if path.exists():
