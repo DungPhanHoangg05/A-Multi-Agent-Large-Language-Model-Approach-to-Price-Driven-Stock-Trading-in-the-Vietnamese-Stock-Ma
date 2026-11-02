@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Accuracy, MCC and LONG frequency across the same three executions.}
+\label{tab:r3_classification}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrrrr}
+\hline
+Panel & Variant & N & Acc. mean & Acc. SD (pp) & MCC mean & MCC SD & LONG mean \\
+\hline
+decision & B & 18 & 27.78 & 5.56 & -0.473 & 0.079 & 50.00 \\
+decision & A & 18 & 35.19 & 8.49 & -0.372 & 0.112 & 42.59 \\
+decision & S & 18 & 31.48 & 3.21 & -0.421 & 0.044 & 46.30 \\
+decision & AS & 18 & 37.04 & 11.56 & -0.378 & 0.195 & 37.04 \\
+decision & P & 18 & 38.89 & 5.56 & -0.323 & 0.073 & 38.89 \\
+upstream & B & 9 & 85.19 & 6.42 & 0.703 & 0.091 & 37.04 \\
+upstream & AS & 9 & 96.30 & 6.42 & 0.919 & 0.141 & 25.93 \\
+\hline
+\end{tabular}
+\par\smallskip\footnotesize Percentages except MCC. Per-execution scores and mean/SD/median/range/conditional intervals for every metric are retained in the machine-readable report. These are panel-only distributions, not 102-unit one-pass uncertainty.
+\end{table}

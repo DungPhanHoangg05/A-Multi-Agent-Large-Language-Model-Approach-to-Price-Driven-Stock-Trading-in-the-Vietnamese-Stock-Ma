@@ -1,0 +1,242 @@
+{
+  "actual_provider_orgs": {
+    "1": 151,
+    "2": 165,
+    "3": 165,
+    "4": 141,
+    "5": 134
+  },
+  "alpha_norm_method": "zscore_tanh",
+  "alpha_weights": null,
+  "bank_id": "bbb55305d4f21faefd695206e2afc186b1d8cc244b53579b93047ce057a2de5b",
+  "frozen_run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+  "frozen_source_hashes": [
+    {
+      "path": "agents/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "agents/agent_state.py",
+      "sha256": "5f976cd4f36de1e67c756553e68d9732a73b473ec148806e086f39492f38df9c"
+    },
+    {
+      "path": "agents/alpha_agent.py",
+      "sha256": "39cc608cecc0366e85ef15c19c2f21b77284212e0e408065c2423899320fae81"
+    },
+    {
+      "path": "agents/decision_agent.py",
+      "sha256": "e3383678a5b1ffc65470ab019699e19198939560ae2d445222830a34c8c19512"
+    },
+    {
+      "path": "agents/indicator_agent.py",
+      "sha256": "a4518e502438dc7c10068020dd0d494410005287c0d1f3768daa96256134cb96"
+    },
+    {
+      "path": "agents/pattern_agent.py",
+      "sha256": "864ef97b14dbd2d0648360c9344de9171b8bc63296ca89596c93e9b296c5b96c"
+    },
+    {
+      "path": "agents/sentiment_agent.py",
+      "sha256": "1960572d5faa764ee9cfd74f150fee001885bab5a41d54f7fc27951904a9f731"
+    },
+    {
+      "path": "agents/trend_agent.py",
+      "sha256": "d5ed2562e7f73048e47e5d9355e3ec477eed163f313c78fcd72c6132cedcad8f"
+    },
+    {
+      "path": "core/alpha_compare.py",
+      "sha256": "b9b0419d93541f49837ab4cabffad13a6771e5aaea74561f1070fe7c2d1166bd"
+    },
+    {
+      "path": "core/backtest_engine.py",
+      "sha256": "f7ec20bf049ad5580afe78c437f2d3668f1c87f418df1615730113ed6110d992"
+    },
+    {
+      "path": "core/revision72_analysis.py",
+      "sha256": "1b6d22299dc8e14e7373685c9ccfce82cbd07ec7503cc06ae6af02492cdd2e55"
+    },
+    {
+      "path": "core/revision72_data.py",
+      "sha256": "d2bfdace0594f9a6f66c746236cc0cb670b5a05f85ccb8237e34f65d6eb7ff41"
+    },
+    {
+      "path": "core/revision72_quota.py",
+      "sha256": "668618f6d6d009ce0a7c7f614f8b946b38c590227195735a966f9199761f328a"
+    },
+    {
+      "path": "core/revision72_run.py",
+      "sha256": "9bf5b9d5f3e5109112056227ddd75cd14a511a1df7a66d9da57202e3fd944e32"
+    },
+    {
+      "path": "core/revision_audit.py",
+      "sha256": "220d7d37a9130f30720c267575a084e3deba961822928c9048571b5bb66e9c99"
+    },
+    {
+      "path": "core/revision_baselines.py",
+      "sha256": "b6c0e05d62154c31a6fec387b68d6c6f875b1125a4115046d2e978de1b2ed6c5"
+    },
+    {
+      "path": "core/revision_call_archive.py",
+      "sha256": "c6d9a816f680791eed0c185a3f1c232519200e822f794fff0b163bfde21be7f0"
+    },
+    {
+      "path": "core/revision_common_study.py",
+      "sha256": "45eb777490667b5be7a3bd8a773b59d8289a7a68b8eb5bb1d139b9a169711ba5"
+    },
+    {
+      "path": "default_config.py",
+      "sha256": "ed5b2f852544479afd14ad22e232eddfb54ed1ef40cbcd420e7ebd58b1a955ca"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/article_audit.json",
+      "sha256": "336aa144936368dbf1e80f2c4a25f718be1fd51c04a6b77ed5e88c703ac57924"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/assets_complete.json",
+      "sha256": "b758f9096e1c41a8fffff9c173cd6706eb2f6c314349f58ee4a34b60cf2a2ff5"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/local_scores.json",
+      "sha256": "9481df99807b962803e1381b887ae07a0593e0d799bb05448e81f8603c488acd"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/manifest.json",
+      "sha256": "b1f9c9261b5220f5d33a5fd759ddb4d6e7c5dc13431ea88218eae312e4d35f97"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/news.json",
+      "sha256": "04eea13ccd8cee49508612e65ac5a7fe2cb423b90cf984191f80a4b7c6769b8e"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/numeric/manifest.json",
+      "sha256": "0ba9d5a4fc920d9d97b69a87e9b021f055c0401b743e59fb0ae6cdd972cc08f0"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/BHN.csv",
+      "sha256": "19564bd9d81d1d730f1e52b7457c080a4172002f062630d0d32f45415bddc15c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/CMG.csv",
+      "sha256": "0df2267c3547d032b2adae6b36324b052a3e82a912d825629c3a71c0cef98fbc"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/FPT.csv",
+      "sha256": "b3734bd8a4e0af790d85dc44eec06e0454543097c777729446292a8db2019e0b"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/HVN.csv",
+      "sha256": "fbae86e08a0ae2df3165b0fb7e87064d810ddbfcd5615e580eb88965088c785c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/manifest.json",
+      "sha256": "d74896420c0dfd0db37a6e821b4c025ff6c9dc3fba9f27589fe566f3ad1ae0ec"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/MBB.csv",
+      "sha256": "70e9c89ce508eb38f0fe496dfcb2caf69ffcebcacfb4c47dcacf6a7b6b644dc7"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/MWG.csv",
+      "sha256": "3081843791152a151a40c4bc42611e0e6ca3414cc86703ba93f748c04f6d8a1c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VCB.csv",
+      "sha256": "fa324f48c7d0ff3710b727670f9e7eb523f43d4974136f0af5fcec1ddc3a2f10"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VJC.csv",
+      "sha256": "7a94bdd62ea0dd6044dc9846afc0d5a8a8923bef6133dc2addba1af73ee8c3db"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VNM.csv",
+      "sha256": "78e00d997b45e48ccc2aa76c41adf50e8ada350a0f58468a0d080480e8832d50"
+    },
+    {
+      "path": "revision/r1_72h_protocol.json",
+      "sha256": "d0611ef0d43870a00693bb3f17bb6a7ed2efb126a7c1650e85a0b8f74b6ae57f"
+    },
+    {
+      "path": "scripts/evaluate_revision_baselines.py",
+      "sha256": "ad56f5c94d323344611cef60c77acd55603fa724fe01188cf80b116c62bffd62"
+    },
+    {
+      "path": "scripts/run_revision_72h.py",
+      "sha256": "f00d5e7a2a9048f1054bc0e0db77d535b11edc51444dd10d951e54c04f58777f"
+    },
+    {
+      "path": "utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "utils/aggregate_benchmarks.py",
+      "sha256": "4b884438b1f2a087c5ce8ec42584f6f0ce3981a0b4bde93c7b89b708e6741421"
+    },
+    {
+      "path": "utils/alpha_selector.py",
+      "sha256": "a8fcf575385805debb2a30b00cb946f8ab2a55bad7c94df4fa369b3f76c12323"
+    },
+    {
+      "path": "utils/color_style.py",
+      "sha256": "3d32e049284f2114247ca2b94bf4e43f8686c9f40242ff903d9f36f46707b12f"
+    },
+    {
+      "path": "utils/decision_parser.py",
+      "sha256": "9d2a2e9f602b776f507c5a9086a06ffda84603ce5e17eb78881ab5d2b7fe13bf"
+    },
+    {
+      "path": "utils/graph_setup.py",
+      "sha256": "f5ce6233ae59577229528c1326ac89976d54076d644a28528b79fe44643e5a10"
+    },
+    {
+      "path": "utils/graph_util.py",
+      "sha256": "5a8ea82f3112932d8df7677223a433d331e5a0212c42154e3b4c648a4cb24b6a"
+    },
+    {
+      "path": "utils/i18n.py",
+      "sha256": "2b143b0582d0f7110d78ee3d740d267d3e2e16a78e156382d43bd7ddfca396b8"
+    },
+    {
+      "path": "utils/json_util.py",
+      "sha256": "8a32249fbc7574379843caa92c29b68d358a531e680b89e8e36401a8ff0d7cb2"
+    },
+    {
+      "path": "utils/static_util.py",
+      "sha256": "8c52fe0663dd2fb8fa4fafd96361594d20aa83d0bf3fe1e0a957dcdff0167db4"
+    },
+    {
+      "path": "utils/statistical_tests.py",
+      "sha256": "5d1096fbf63d9428efc9f6b13ed611fc2324e4ed1281e3c61f1cc9246e54b314"
+    },
+    {
+      "path": "utils/trading_graph.py",
+      "sha256": "78ebf49c78d865123e7cbaf80dc75baf5ece26780de2c5555ca46725b35823c3"
+    }
+  ],
+  "n_errors": 22,
+  "n_order_jobs": 98,
+  "n_order_matches": 98,
+  "n_panel_union_decisions": 322,
+  "n_panel_vision_successes": 88,
+  "n_request_attempts": 756,
+  "n_shared_r0_decisions": 2,
+  "n_successes": 734,
+  "order_scope": "r0 B/AS comes from the main pair; remaining A/S/P r0 executed later. r1/r2 variant order rotates; quota pauses/provider routing are observational confounds, not randomized provider experiments",
+  "overlap_units": [
+    "VCB_f2026_q3_1675"
+  ],
+  "provider_identity_scope": "routing key-slot index (original calls use their home shard); org identity mapping is author-confirmed, not immutable provider attestation",
+  "r0_reuse": "same actual checkpoint contributes to main/panels by design; distinct repeated executions require their own raw successful request IDs",
+  "run_git_commit": "unknown; authoritative frozen source-byte hashes retained, no retrospective commit inference",
+  "served_weight_revision": "unverified; recorded aliases/fingerprints are not pinned weights",
+  "temperature_audit": {
+    "adapter_rule": "if self.temperature == 0: self.temperature = 1e-8",
+    "adapter_source_sha256": "42721554b02dac28f1c917667a3cfe0a96f06a38b27e9b781e8d68a834df76a4",
+    "adapter_version": "langchain-groq 1.1.2",
+    "declared_temperature": 0.0,
+    "n_matching_attempts": 756,
+    "scope": "SDK client property/metadata audited, not a provider wire trace or immutable weight revision; no hosted seed is supplied in the frozen caller",
+    "sdk_reported_temperature": 1e-08
+  },
+  "variance_identification": "different panels and only decision repeat 0 under regenerated upstream; no crossed 3x3 design or subtraction of variances. Overlap does not create independent stage components",
+  "window_size": 45
+}

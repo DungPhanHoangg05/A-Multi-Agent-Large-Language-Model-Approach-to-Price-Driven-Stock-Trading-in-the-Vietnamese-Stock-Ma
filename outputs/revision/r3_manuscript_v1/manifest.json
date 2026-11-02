@@ -1,0 +1,376 @@
+{
+  "analysis_release": "outputs/revision/r3_repeats_v1/manifest.json",
+  "created_local": "2026-11-03T03:54:04.321071+07:00",
+  "limitations": [
+    "Three executions and three historical blocks per panel; no calibrated CI coverage or significance claim",
+    "Conditional finite BA draws: 9612/10000 Decision and 6986/10000 upstream; undefined draws disclosed, not zero-imputed",
+    "Different panels, only one overlapping unit and no crossed upstream x Decision grid; variance components not identified",
+    "r0 split phases, quota pauses, provider routing and timing confounded; not complete counterbalancing",
+    "SDK metadata 1e-8 after zero coercion; not provider wire capture, deterministic guarantee or immutable served-weight identity",
+    "Legacy nominal defaults have missing provenance and distinct cutoff families; no complete legacy sweep replication",
+    "No best-run selection, no ensemble, no stable predictive advantage, prospective validity or profitability claim"
+  ],
+  "outputs": [
+    {
+      "path": "main.log",
+      "sha256": "b30edcdf99c185de3b0b5341b916979fb6cbb398fe45fc1d006794f0b9def579"
+    },
+    {
+      "path": "main.pdf",
+      "sha256": "a6d8ff7baed2f9f8c2ba427f1bea715267a9623b619a50701950710e2e5dd6f7"
+    },
+    {
+      "path": "main_submit.log",
+      "sha256": "fd400b786973c804f07f68e53aa7b40203986a5b6330019948e3f35612a23910"
+    },
+    {
+      "path": "main_submit.pdf",
+      "sha256": "b9994a233ad35daf9405d4cabaaee389e9512392edc4cd3dc25aec5bb3350f4d"
+    },
+    {
+      "path": "sources.zip",
+      "sha256": "1d0f3e65493d6c3f7e8673ea3ce142054fdade5ac632b44ce485d7b48939e6ae"
+    }
+  ],
+  "pdf_qa": {
+    "R3_physical_locators": {
+      "appendix_A_2_main": [
+        43,
+        44,
+        45
+      ],
+      "appendix_A_2_submit": [
+        42,
+        43,
+        44
+      ],
+      "conclusion": [
+        35,
+        36
+      ],
+      "limitations_L4": [
+        34
+      ],
+      "methods_5_8": [
+        24
+      ],
+      "results_6_3": [
+        28,
+        29
+      ],
+      "tables_A_28_A_29_main": [
+        44
+      ],
+      "tables_A_28_A_29_submit": [
+        43
+      ],
+      "tables_A_30_A_31_main": [
+        45
+      ],
+      "tables_A_30_A_31_submit": [
+        44
+      ]
+    },
+    "inherited_warning": "Single elsarticle footer overfull hbox 2.61049pt; no clipping; no body/table overflow",
+    "main_pages": 58,
+    "main_submit_pages": 58,
+    "rendering": "Every page in both final PDFs rendered to contact sheets; new methods/results/limitations/conclusion, four R3 tables and changed transitions inspected at readable scale",
+    "undefined_references_citations_duplicate_labels_anchors": false
+  },
+  "prior_manuscript_release": "outputs/revision/r2_manuscript_v1/manifest.json",
+  "prior_source_verification": "Historical current-source mismatches are checked against the exact corresponding sources.zip; prior outputs remain byte-exact. R3 source archive contains current paper/code/docs, not duplicate immutable outputs listed as source dependencies.",
+  "reviewer_comment_embedded_verbatim": "Reviewer 1 comment 3 transcribed from author-provided DOCX, exact text retained in response; DOCX not modified or included in release",
+  "schema_version": "revision_r3_manuscript_release_v1",
+  "scope": "Offline matched-repeat audit, descriptive uncertainty and manuscript/response revision; no new inference",
+  "sources": [
+    {
+      "path": "core/revision_r2_panel.py",
+      "sha256": "bb20ee87009dba1bb8b8d28897c9d0d841f866322048a9367c3958326329006a"
+    },
+    {
+      "path": "core/revision_r3_repeats.py",
+      "sha256": "e461837c9c36603a2691d1f50549857ddc7b27c578bd502b862a30821c8c5aca"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/manifest.json",
+      "sha256": "11086bc888e78a457fee169ae54d9ba7607eb3615a78e07ca2529721619f556c"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/sources.zip",
+      "sha256": "e04160b13d9dbba6c91b4d61121ce16faab5629187cb0355d611a902318da66f"
+    },
+    {
+      "path": "outputs/revision/r2_manuscript_v1/manifest.json",
+      "sha256": "d2af41b1957703cd5c675cf3829c383b41ed21a38503d9a357c4c73cadf6f147"
+    },
+    {
+      "path": "outputs/revision/r2_manuscript_v1/sources.zip",
+      "sha256": "0ff0ef88cbf709831b9674fa2870684596a9534ab6feedef796a3c534c1d5c18"
+    },
+    {
+      "path": "outputs/revision/r2_panel_v1/manifest.json",
+      "sha256": "52543e3bec797eb665cbd002b10f15bc8baa3d25010fc0b53a9ae2df680019bf"
+    },
+    {
+      "path": "outputs/revision/r3_repeats_v1/manifest.json",
+      "sha256": "57a2bc42f7fc666b4dbd5316a7c9c77e41ca5a720932bf728ff862cd196df3a9"
+    },
+    {
+      "path": "paper/elsarticle-num.bst",
+      "sha256": "0db2e53b2378cbe5815e436c1afe9dcac67123a32406fa8f11fad7978808e202"
+    },
+    {
+      "path": "paper/elsarticle.cls",
+      "sha256": "23a341acd0e35c20148c836fc6e9251549aa45b059fc1750356ca2f3f11f3cb0"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.png",
+      "sha256": "ce93ca2e80f33da49b8dba034f36007b6e9ff5fa1932fb234df54ad763d8dc4f"
+    },
+    {
+      "path": "paper/figs/backtest_BHN_20260917_1227.png",
+      "sha256": "1fdd500812ece8fa0d9b6b3bc205b7e171a1f5ecd149528836d0d092f3ab421f"
+    },
+    {
+      "path": "paper/figs/backtest_CMG_20260916_1110.png",
+      "sha256": "7351ffed0b0afcb6568d2cdae6004f9b23c0be512593bbe60c985109ba2c93de"
+    },
+    {
+      "path": "paper/figs/backtest_FPT_20260915_1458.png",
+      "sha256": "b772079e92c3d49e295439416c5456b8f20d9df1b4753123fcee98857ace9ab4"
+    },
+    {
+      "path": "paper/figs/backtest_HVN_20260916_1032.png",
+      "sha256": "ee84ba6bed88f5af8347006eeba9aa4394a4f92d50df4f9a90b133d4314e882d"
+    },
+    {
+      "path": "paper/figs/backtest_MBB_20260916_1129.png",
+      "sha256": "95f54e1f8f8398fc3473619110441e6d7ce6627324d2d40e6b3db2dc45ddea65"
+    },
+    {
+      "path": "paper/figs/backtest_MWG_20260916_1422.png",
+      "sha256": "2253a8844986d09c0fd67460b57fd8e90151a93681e35d85145329f9e9b4796d"
+    },
+    {
+      "path": "paper/figs/backtest_VCB_20260916_1337.png",
+      "sha256": "c2476a6242f3d3a440a64172cf890c93d1457db0584d97e620781eec5dfe81f7"
+    },
+    {
+      "path": "paper/figs/backtest_VJC_20260915_1542.png",
+      "sha256": "b6586b7368c04b88b1ac37dbf02720c63c2ceb8a01420753b248f9b68d290137"
+    },
+    {
+      "path": "paper/figs/backtest_VNM_20260915_1514.png",
+      "sha256": "442ab2fd645e332f3df1aef374d4a15bbb4b36cfa795ebc6a47f7280e8286aef"
+    },
+    {
+      "path": "paper/figs/decision_agent_pipeline.png",
+      "sha256": "48c454d1540f6897e300d828c04ca56a1e03aa2d9d15b78e11a87666eb94392a"
+    },
+    {
+      "path": "paper/figs/system_pipeline.png",
+      "sha256": "d02d7f971ed0778b33921fbdfd1b0e727b513adf15f6ab4655315dba4639ea70"
+    },
+    {
+      "path": "paper/figs/walkforward_protocol.png",
+      "sha256": "9953c5eabc41523db151caa5f56b20c707754eef41bfca7cc99755118c05b229"
+    },
+    {
+      "path": "paper/generated/r1_class_metrics.tex",
+      "sha256": "fc1784749010507589559bafcd012d34bc0f3510b11e84d1270b6d7c3a0bf1f2"
+    },
+    {
+      "path": "paper/generated/r1_common_classes.tex",
+      "sha256": "8fb3667efdbfa950de47d05178be4ac3e8e9bce9b2157ebf2f78b13e492805ce"
+    },
+    {
+      "path": "paper/generated/r1_common_intervals.tex",
+      "sha256": "1f00ebd36fc68952f775dee577d3f126d80750934693ee213439fc095774d841"
+    },
+    {
+      "path": "paper/generated/r1_common_macro.tex",
+      "sha256": "de41bcad16c175527b1238daaece14b9026e91612a89d698aa757c090296af9e"
+    },
+    {
+      "path": "paper/generated/r1_common_metrics.tex",
+      "sha256": "c578d76cf971687e618c2f8ca9222f5cb86341dcc44bf5bdfdd89980ab1d631d"
+    },
+    {
+      "path": "paper/generated/r1_common_panels.tex",
+      "sha256": "10aadc0a22d723ef7f095625d2ce83a3ba86c6372e5663aa72cc865070df2730"
+    },
+    {
+      "path": "paper/generated/r1_common_strata.tex",
+      "sha256": "f76bd041e44643c2b1ec733bc7470555bd514126f2ac425cf4ad30e9d410fa15"
+    },
+    {
+      "path": "paper/generated/r1_common_symbols.tex",
+      "sha256": "bfa27ac632d915429ac7b51de1c25329a615921b3cea0649b3b2086fc53948c1"
+    },
+    {
+      "path": "paper/generated/r1_comparability.tex",
+      "sha256": "2b3c89092e8d7c9efcddddadb15eeb284a529a5ae8e454c52514694c8913a5b7"
+    },
+    {
+      "path": "paper/generated/r1_legacy_metrics.tex",
+      "sha256": "d27c3ce568ac9220b8f077ee3a70974494538e54f539be35acea6f40f7364bdb"
+    },
+    {
+      "path": "paper/generated/r1_numeric_metrics.tex",
+      "sha256": "1d673c70d838dacf26f43b806a2f16eead0a31e56a1b715b56e2015d3389c1c1"
+    },
+    {
+      "path": "paper/generated/r2_coverage.tex",
+      "sha256": "5da68f9624de0231e3be21c329e8570d0c47c77c66598f3ab3270fe0ff3e3c1c"
+    },
+    {
+      "path": "paper/generated/r2_dependence.tex",
+      "sha256": "cdc74eb68c33af54ec0becb3741fcc36f403ca7c40acdf7cf9a1185d84f3e363"
+    },
+    {
+      "path": "paper/generated/r2_folds.tex",
+      "sha256": "915bd252f83a31f496f10fa227e839e7b59de72065cacb7229830ef570da1bdf"
+    },
+    {
+      "path": "paper/generated/r2_regimes.tex",
+      "sha256": "779e2a1c9e5afaaa5b811ceeb2ab1e1c9514f0b63d7dade89a6fa2cda47b6b39"
+    },
+    {
+      "path": "paper/generated/r3_classification.tex",
+      "sha256": "289bbaf4fb5e70ee704964aa8752a5a12732642f58a0dc363b591e8a4ff44358"
+    },
+    {
+      "path": "paper/generated/r3_contrasts.tex",
+      "sha256": "a2d1abf6967406f4acb91239f9c13b40222b50557c02f6bcd75be65e65e77f7f"
+    },
+    {
+      "path": "paper/generated/r3_returns.tex",
+      "sha256": "7d927f8128b7b5f1d6a334d94fd8c714b1f0a9788545a2140fee2e0e54f85aa7"
+    },
+    {
+      "path": "paper/generated/r3_variability.tex",
+      "sha256": "3524bda66c02c6040a060f2f9205ba84b5c48287ad323f81524ab37278e6165c"
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "f00e5b6c401ee47537ef990b1ef2418ded57ea1a05e33244c021e6ac692565ac"
+    },
+    {
+      "path": "paper/main_submit.tex",
+      "sha256": "dae7cc96c3222ca58acde28cb3d34b3cfc9a8f659910b8dfb63754529601d0f3"
+    },
+    {
+      "path": "paper/references.bib",
+      "sha256": "c188fb50f39c10ae0b3d4cc5f6fbbef2c20cb578c1c85e95d8e5c603985ef4e8"
+    },
+    {
+      "path": "paper/sections/01_introduction.tex",
+      "sha256": "7cb87030e7cdf5bb4ad9ffc4f97e6a04e17b7e0bae6406eef246a262bb25006d"
+    },
+    {
+      "path": "paper/sections/02_related_work.tex",
+      "sha256": "82bf1aec08f3a178041be1876eb4c237074b76baad0b248c6eb8abec602cd50c"
+    },
+    {
+      "path": "paper/sections/03_problem_formulation.tex",
+      "sha256": "72d1bd515c7f84e09a8d2e0aaae9707128b8cf56615de25b8e0df48d2d0f9424"
+    },
+    {
+      "path": "paper/sections/04_system_architecture.tex",
+      "sha256": "735fc08bc6c7f09312487fedcc0993e5c82aac340a4aeae801a46ed2162b73b1"
+    },
+    {
+      "path": "paper/sections/05_experimental_setup.tex",
+      "sha256": "0fd493f65496cbafc6cf7d46085781be8a59d2c451836babb65f87f42ee09894"
+    },
+    {
+      "path": "paper/sections/06_backtest_results.tex",
+      "sha256": "c5da6be6e13d8b68338810e6a388dc44382de258624e7b0e660185e28d043a07"
+    },
+    {
+      "path": "paper/sections/07_limitations.tex",
+      "sha256": "d43677f92d6068a34048bd43d33a29d8cfacc1bc460ec94d003d6510ce64da36"
+    },
+    {
+      "path": "paper/sections/08_conclusion.tex",
+      "sha256": "1d485f89aec79064051bdc94bb32f718a37f983839ba6cdaf3880216ec742205"
+    },
+    {
+      "path": "paper/sections/acknowledgments.tex",
+      "sha256": "144503e0908506d64cd52bb99480fd3082c63bc63831e66299e237007f868e9c"
+    },
+    {
+      "path": "paper/sections/appendices.tex",
+      "sha256": "2b236e96afc3afb8d14308d50baa2f7824cd4147404d3d8b306d29cbe64f8645"
+    },
+    {
+      "path": "plan.md",
+      "sha256": "121a03b5e5f3fbd39d1ba4a70a2b6ecd1f1889c5b5ccae6ec7c86b06c1058bdc"
+    },
+    {
+      "path": "revision/README.md",
+      "sha256": "2cb59db92655ba2a4f7ed3571df36ef319145f05373a52d1d000dffd4e7f977b"
+    },
+    {
+      "path": "revision/response_to_reviewers.md",
+      "sha256": "478c1c31bf58ef7430c2ade411e828ae473cb632019e036b72a9c898d4fb8b84"
+    },
+    {
+      "path": "revision/reviewer_matrix.csv",
+      "sha256": "7dd35077ef2c7d77079a92e322f74316113d19bcb9e9ef5824e7861e30a21b29"
+    },
+    {
+      "path": "scripts/analyze_revision_r2.py",
+      "sha256": "aa6a3c941f3a37f9a8d3211c2c1a5be2f02bb735ba4fe0682e0f99aa55f0477c"
+    },
+    {
+      "path": "scripts/analyze_revision_r3.py",
+      "sha256": "d3087643331c592fe68da93d5f937c295fe071ca9451016aaaf6fa57d8eabb65"
+    },
+    {
+      "path": "tests/test_revision_r2_leakage.py",
+      "sha256": "b1109ee2379ba8091f232b91f943170f0c4f5bb83e33634ab0aa069253fca384"
+    },
+    {
+      "path": "tests/test_revision_r3_repeats.py",
+      "sha256": "ef977a4d65d3ce26bb7e0303bfd978e61987aa8ff4b6d6b46b667df4d22696e6"
+    }
+  ],
+  "status": "R1-R3 addressed within stated historical exploratory scope; R4-R18 remain independently assessed",
+  "validation": {
+    "R1_source_output_hashes_verified": 3752,
+    "R3_TeX_files_reproduced": 4,
+    "R3_artifacts_reproduced": 16,
+    "archived_attempts": 756,
+    "archived_errors": 22,
+    "archived_successes": 734,
+    "classification_predictions": 918,
+    "commands": [
+      "py -3.13 -X utf8 -m unittest discover -s tests -p test_revision_r3_repeats.py -v",
+      "py -3.13 -X utf8 scripts/analyze_revision_r3.py --check"
+    ],
+    "compiled_files": [
+      "core/revision_r3_repeats.py",
+      "scripts/analyze_revision_r3.py",
+      "tests/test_revision_r3_repeats.py"
+    ],
+    "cutoff_variant_disagreement_groups": 108,
+    "existing_daily_ledgers_checked": 510,
+    "existing_metric_groups": 189,
+    "fixed_upstream_groups_with_identical_prompts": 90,
+    "legacy_inventory_artifacts": 12,
+    "legacy_inventory_rows": 24,
+    "new_api_calls": 0,
+    "new_predictions": 0,
+    "new_tests_passed": 10,
+    "panel_account_executions": 249,
+    "panel_node_records": 132,
+    "per_execution_metric_rows": 21,
+    "raw_R1_decisions_replayed": 484,
+    "reproduction": "Fresh process with PYTHONHASHSEED=17, all artifacts and generated TeX byte-identical",
+    "scope_note": "Targeted tests cover offline statistics/identity only. Engine, runtime, inference, target, inputs and dependencies unchanged. Full suite/E2E not rerun.",
+    "unique_panel_decision_executions": 322,
+    "unique_panel_vision_successes": 88,
+    "within_job_orders_matched": 98
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "analysis_timing": "two-level CI procedure added after inference; panel/repeat allocation itself was frozen before calls",
+  "bootstrap": "10000 joint whole-block x paired-run weighted resamples, seed 20261102; same block/run draws for all variants",
+  "decision_panel": "18 units x B/A/S/AS/P x 3 decisions, shared upstream realization 0",
+  "estimand": "mean of three per-execution metrics on common panel support; SD uses ddof=1; median/min/max all reported",
+  "limits": "three executions and three historical blocks per panel; descriptive, not calibrated coverage or variance-component identification",
+  "return": "mean net return of separate symbol-block accounts formed only from panel cycles; not portfolio return",
+  "schema_version": "revision_r3_repeats_v1",
+  "scope": "descriptive repeat analysis on frozen preselected panels; no model calls or new predictions",
+  "selection": "all repeats retained; no best seed/run/checkpoint or ensemble substituted for the broad r0 one-pass result",
+  "undefined": "null/NA; CIs conditional on finite draws with n_defined/n_undefined disclosed; no imputed zero",
+  "upstream_panel": "9 units x B/AS x 3 upstream realizations, decision repeat 0 only"
+}

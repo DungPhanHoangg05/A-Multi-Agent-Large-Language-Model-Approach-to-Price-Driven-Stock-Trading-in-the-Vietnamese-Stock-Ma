@@ -2,7 +2,14 @@
 
 Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt phản biện: `fix`; luồng KLTN trên `develop` được quản lý riêng.
 
-**Tiến độ hiện hành:** [R1](../plan.md#r1-progress) và [R2](../plan.md#r2-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release bản thảo R1+R2](../outputs/revision/r2_manuscript_v1/manifest.json). Các mục bên dưới là nhật ký lịch sử của những lần triển khai trước, không phải checklist hiện tại.
+**Tiến độ hiện hành:** [R1](../plan.md#r1-progress), [R2](../plan.md#r2-progress) và [R3](../plan.md#r3-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release bản thảo R1–R3](../outputs/revision/r3_manuscript_v1/manifest.json). R4–R18 đánh giá riêng. Các mục bên dưới là nhật ký lịch sử, không phải checklist hiện tại.
+
+## Nghiệm thu R3 — 03/11/2026
+
+Audit offline hai panel đã khóa: 18×5×3 Decision và 9×2×3 upstream, union 322 unique decisions/88 vision requests, 90 nhóm cùng prompt, 98/98 call orders đúng lịch trong job. [Analysis release](../outputs/revision/r3_repeats_v1/manifest.json) có 16 artifacts; [kế hoạch](../plan.md#r3-progress) và response ghi số liệu, mẫu số và giới hạn. SDK ghi T=1e-8 do adapter đổi cấu hình zero; served weights/commit lịch sử không được tự xác thực. Decision Full–Base BA mean 5,56 pp nhưng SD 14,63 pp và interval [−9,56,+23,08]; không kết luận lợi thế ổn định. Hai panel khác support, không trừ SD để phân rã phương sai.
+
+10 targeted tests, compile ba file mới, replay 484 real decisions, 3.752 hashes và fresh-process byte reproduction 16 artifacts/bốn TeX PASS. Lệnh offline: `py -3.13 -X utf8 scripts/analyze_revision_r3.py --check`. Không gọi API hoặc đổi inference/input/runtime; không chạy lại full suite/E2E. Hai PDF 59/58 trang đã build/render QA. R1/R2 outputs nguyên byte; source cũ xác minh qua frozen ZIP. Ba executions/ba block chưa bảo đảm precision; không chọn best run hoặc ensemble, không coi repeats là market observations độc lập.
+
 
 ## Nghiệm thu R2 — 03/11/2026
 

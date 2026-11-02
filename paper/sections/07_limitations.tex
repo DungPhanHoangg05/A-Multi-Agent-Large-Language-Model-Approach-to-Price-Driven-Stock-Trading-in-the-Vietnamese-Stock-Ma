@@ -43,7 +43,17 @@ Selecting five factors from 85 candidates introduces multiple-testing and winner
 The 80 WorldQuant-derived entries are heuristic single-asset adaptations rather than exact implementations of the original cross-sectional formulas. Their stability was not evaluated through IC decay, lagged signal autocorrelation, or turnover. These diagnostics are needed to determine whether apparent predictiveness survives to the $L=3$ horizon and remains economically meaningful after trading costs.
 
 \paragraph{L4. Hosted-model and visual reliability.}
-Temperature zero and fixed prompts do not guarantee deterministic hosted-model outputs, and provider-side revisions or inference nondeterminism may still affect repeated runs. The paired design controls this variation within each Full/No-Alpha comparison, but not necessarily across independent executions.
+Configured temperature zero is mapped to $10^{-8}$ by the audited SDK;
+fixed prompts and that near-zero client setting do not guarantee deterministic
+hosted outputs. Sharing upstream reports controls those inputs within a pair,
+not randomness of separate Decision calls. The three-execution audit reports
+actual conditional dispersion rather than assuming it vanishes. Provider
+routing, timing and unverified served weights remain confounds. The Decision
+and upstream panels have different supports and only one overlapping unit;
+they cannot identify separate variance components without a crossed design.
+Three runs and three blocks, with substantial undefined resamples, do not
+justify precise or calibrated confidence claims or generalisation to all
+102 units. Nominal legacy defaults are not authenticated matched repeats.
 
 The Pattern and Trend agents use deterministic OHLCV rules to detect obvious inconsistencies in visual conclusions. These rules check output consistency only and leave the VLM's actual use of the cited candle, wick, breakout, or trendline unverified. Prior work reports strong trend sensitivity and persistent spatial-reasoning limitations in financial chart understanding \cite{wang2026martingale,shu2026finchart}. Establishing causal visual grounding would require matched counterfactual charts and human-labelled local evidence, neither of which is included in this study.
 

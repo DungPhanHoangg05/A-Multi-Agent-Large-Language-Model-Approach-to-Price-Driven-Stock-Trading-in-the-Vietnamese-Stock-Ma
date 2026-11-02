@@ -95,6 +95,52 @@ cross-regime advantage, statistical power or external validity. All targets
 precede protocol freeze, and the observed provider metadata cannot resolve
 training contamination for either model.
 
+\subsection{Matched Repeat Distributions}
+\label{sec:r3_results}
+
+Tables~\ref{tab:r3_classification}--\ref{tab:r3_contrasts} report the
+three-execution distributions on each fixed support. On the 18-unit Decision
+panel, Full accuracy is 37.04\% with SD 11.56 points; BA is 30.56\% with
+SD 10.49 points, median 29.17\% and range 20.83--41.67\%. Mean MCC is
+$-0.378$ with SD 0.195. Full--Base BA differences are
+$+4.17,-8.33,+20.83$ points: mean 5.56, SD 14.63 and median 4.17 points.
+The conditional two-level interval is $[-9.56,23.08]$ points and includes
+both signs. These variations do not support a reliable bundle advantage.
+Full mean return is $-1.544\%$ (SD 0.679 points) over its 13 panel accounts,
+versus Base at $-1.786\%$ (SD 0.239). The paired return difference ranges
+from $-0.595$ to $+1.224$ points. Lower mean loss does not establish
+profitability or isolated factor information value.
+
+On the separate nine-unit upstream panel, Full BA is 97.62\% with SD
+4.12 points, versus Base 90.48\% with SD 4.12. Its Full--Base BA difference
+is 7.14 points in each realization, but the conditional block/run interval
+is $[0.00,14.29]$. Mean returns are $+0.624\%$ for Full and $+0.284\%$
+for Base over nine accounts. This much stronger selected support is not
+pooled with the Decision panel or used to choose a favorable run. Only one
+market unit overlaps, so subtracting the two panels' SDs cannot identify
+an upstream variance contribution. Full pairwise disagreement is 22.22\%
+within the Decision panel and 7.41\% within the upstream panel; these are
+support-specific descriptions, not a controlled comparison of stages.
+
+Of 10,000 block/run draws, 388 lose class support for Decision-panel BA
+and 3,014 for upstream-panel BA. The reported BA intervals therefore use
+9,612 and 6,986 finite draws, respectively. Missing metrics are not filled
+with zero, and the resulting conditional percentiles are not claimed to
+have calibrated 95\% coverage. Machine-readable outputs retain every run,
+cutoff disagreement, metric-specific undefined count and daily panel ledger.
+The observed dispersion conditions on the fixed inputs and recorded client
+configuration; unknown served weights and provider/timing changes prevent
+attributing it solely to intrinsic sampling noise.
+
+The 24-row legacy default inventory covers twelve source artifacts for FPT,
+VCB and VNM. For each ticker, nominal defaults span two recorded cutoff and
+cycle-endpoint families. Even within one family, complete reports, prompts,
+code identity and independent executions are not authenticated. Their
+15--20-point spread is not treated as an estimate of stochastic variance
+under identical inputs. The old window/normalisation/weight sweeps are not
+newly replicated here; their robustness and component-attribution claims
+remain withdrawn, and unresolved branch provenance is assessed separately.
+
 \subsection{Legacy Nine-Symbol Paired Benchmark}
 
 The original 180 net labels contain 56 UP and 124 DOWN outcomes. Full has

@@ -226,7 +226,7 @@ decisions; ten smoke decisions are outside evaluation. No incomplete job,
 fallback output or synthetic CASH prediction enters the release.
 
 New text/vision calls use \texttt{openai/gpt-oss-20b} and
-\texttt{qwen/qwen3.8-27b}, temperature zero and output caps 2,048/1,024,
+\texttt{qwen/qwen3.8-27b}, configured temperature zero and output caps 2,048/1,024,
 respectively. Requests, raw responses, parent hashes and runtime/source
 identities are archived. An author-authorised operational amendment replaces
 internal budget and deadline stops with routing across five provider keys;
@@ -317,15 +317,83 @@ release dates, temperature and request fingerprints do not prove absence
 of memorised historical prices. No contamination-free, market-wide or
 untouched prospective performance claim is made.
 
-\subsection{Legacy Implementation and Robustness Design}
+\subsection{Matched Repeated Executions}
+\label{sec:r3_protocol}
 
-The text model is \texttt{openai/gpt-oss-20b} and the vision model is \texttt{qwen/qwen3.8-27b}; both use temperature zero in the reported runs. Text and vision output caps are 2,048 and 1,024 tokens, respectively, with at most three client retries and hidden reasoning format requested for supported reasoning models. Python and NumPy seed 42 controls local experiment ordering and deterministic utilities; the moving-block bootstrap uses seeds 42, 43, and 44 for Full, No-Alpha, and paired-lift resamples. No seed is passed to the hosted decoding API. Temperature zero therefore reduces sampling variation but does not imply bitwise determinism.
+The repeated-run audit conditions on the two panels chosen before inference:
+18 units (six UP/twelve DOWN, eight symbols, five dates, three blocks) have
+three Decision executions for each B/A/S/AS/P variant with upstream fixed;
+nine units (two UP/seven DOWN, nine symbols, three dates, three blocks) have
+three regenerated upstream realizations for B/AS, each followed by one
+Decision execution. The base realization is reused from the main comparison
+by design. Only one unit overlaps the panels, sharing its two r0 B/AS
+decisions; their union contains 322 unique decision executions. Each distinct
+execution has its own successful raw request ID. The 90 fixed-upstream
+unit--variant groups retain identical actual prompt hashes across all three
+Decision calls. Every variant in a realization has the same upstream parent.
+Regenerated vision nodes have 88 distinct successful requests across the
+panel union. Repeated identical predictions are permitted, but copying a raw
+response into another repeat identity is rejected.
+
+The configuration audit records cutoff/asset/prompt hashes, frozen source
+identity, model aliases, SDK metadata, provider key slots, timestamps and
+every failure. All 756 attempted calls record the same SDK temperature
+$10^{-8}$: the pinned \texttt{langchain-groq} 1.1.2 adapter converts a
+configured zero to that value. This is observed client metadata, not an
+independent provider wire capture or weight-revision attestation. It corrects
+the shorthand ``temperature zero'' without implying deterministic hosted
+outputs. Output caps remain 2,048/1,024; no hosted decoding seed is supplied
+by the frozen caller. Source-byte hashes are authoritative where the model
+run's exact Git commit or served weight revision is unrecorded. The audit
+does not infer historical configuration from current defaults.
+
+Within-job successful call order matches all 98 registered panel-related
+jobs. However, r0 B/AS originates in the earlier main pair and the remaining
+A/S/P r0 calls occur later; r1/r2 rotate variant order. Quota interruptions,
+provider routing and timing are observed confounds, not a randomized provider
+experiment or a complete Latin-square counterbalance. All 22 archived errors
+remain in the 756-attempt inventory; valid decisions are structured model
+outputs without synthetic CASH or model fallback. The 734 successful calls
+include ten smoke decisions and their upstream calls, excluded from metrics.
+
+For each variant, accuracy, BA, MCC, macro-F1, LONG rate and account return
+are calculated separately for executions 0, 1 and 2. We report the mean,
+sample SD ($\mathrm{ddof}=1$), median, range and paired contrasts. Return is
+the mean of 13 decision-panel or nine upstream-panel symbol--block accounts
+containing only their selected cycles, under the frozen R1 costs and daily
+ledger. It is neither a pooled portfolio nor the broad 51-account return.
+Per-cutoff disagreement and the full three-prediction vector are retained.
+
+The descriptive interval procedure is an analysis added after inference,
+not a preregistered precision guarantee. Each of 10,000 draws (seed 20261102)
+resamples whole temporal blocks with their complete cross-section and also
+resamples the three execution indices, using the same draws for all variants.
+The statistic is the mean of the sampled per-execution scores, not pooled
+classification of $3N$ independent markets. Undefined class/dispersion draws
+are counted and intervals use only finite draws; all metric-specific counts
+are published. With only three runs and three blocks per panel, coverage
+is not calibrated. No best run, seed or checkpoint is selected and no ensemble
+is substituted for the main r0 result. The different panels and lack of
+Decision repeats within every upstream realization preclude a crossed
+variance-component decomposition.
+
+\subsection{Implementation Defaults and Legacy Robustness Design}
+
+The legacy implementation description names text model
+\texttt{openai/gpt-oss-20b} and vision model \texttt{qwen/qwen3.8-27b},
+configured temperature zero, output caps 2,048/1,024 and up to three client
+retries. These are described defaults, not authenticated per-call provenance
+for the archived legacy artifacts. The new study's actual client metadata
+and provider-quota retry policy are audited separately in
+Section~\ref{sec:r3_protocol}. Python/NumPy seed 42 and legacy bootstrap seeds
+42--44 concern local utilities, not hosted decoding. A nominal zero setting
+and a local seed do not establish bitwise-deterministic hosted outputs.
 
 The configured provider identifiers are recorded, but the Groq endpoint did not expose an immutable weight digest or provider-side revision in the archived run artifacts, and the aliases were not pinned to such a revision. Exact replay across a later provider update is therefore not guaranteed. This limitation is separate from checkpoint reproducibility: calls are executed sequentially with rate-limit pacing, and resuming a checkpoint preserves completed outputs instead of regenerating them. The legacy sentiment caches have an analogous, explicitly reported provenance limit: their article scores predate scorer metadata and are labelled \texttt{legacy-unknown} rather than attributed retrospectively to a ViSoBERT revision. The corrected runtime records \texttt{scorer}, \texttt{scorer\_backend}, and \texttt{is\_fallback} for newly scored articles, but this software change neither identifies the backend of historical cache entries nor changes any reported benchmark value.
 
 \begin{table}[htb]
 \centering
-\caption{Implementation configuration used by the reported experiments.}
+\caption{Implementation defaults described with legacy experiments; not authenticated legacy per-call provenance.}
 \label{tab:implementation_details}
 \renewcommand{\arraystretch}{1.16}
 \begin{tabularx}{\textwidth}{|l|X|}
