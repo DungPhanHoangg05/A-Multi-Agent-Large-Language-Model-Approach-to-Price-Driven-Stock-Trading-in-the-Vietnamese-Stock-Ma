@@ -63,6 +63,38 @@ units/three dates. Neither selected panel is pooled with the main study
 or used to choose a preferred checkpoint.
 
 \FloatBarrier
+\subsection{Temporal and Coverage-Cohort Sensitivity}
+\label{sec:r2_results}
+
+The frozen sample covers rising, falling and sideways individual price
+contexts rather than assigning a regime from the name of a year:
+there are 33 bull, 35 bear and 34 sideways units
+(Table~\ref{tab:r2_regimes}). Full BA is respectively 50.00\%, 41.67\%
+and 48.22\%, with LONG frequencies 33.33\%, 14.29\% and 20.59\%.
+These strata overlap in calendar dates and are not independent market
+replications. The early-2025 block contains 16 DOWN and zero UP net outcomes;
+its class-balanced score is undefined, not filled with zero or omitted from
+the overall panel. Volatility and turnover-proxy strata are reported as
+post-inference diagnostics; favorable subsets are not selected to define a
+new trading rule or claim.
+
+Table~\ref{tab:r2_dependence} separates unequal coverage from broad pooled
+weighting. On the common eight-symbol/six-block cohort ($N=96$, twelve
+dates), Full/Base BA is 48.61\%/46.53\%; the paired difference is
+2.08 points with descriptive interval $[-4.10,8.67]$. On nine symbols in
+three recent blocks ($N=54$, six dates), BA is 47.18\%/46.67\%, difference
+0.51 points with interval $[-8.33,6.25]$. Neither cohort replaces the planned
+102-unit result; they overlap and are not pooled as extra observations.
+
+Omitting one of the six blocks changes Full--Base BA from $-2.20$ to
+$+2.75$ percentage points. Full remains below price-logistic BA in all six
+leave-one-block-out calculations (differences $-11.11$ to $-2.63$ points),
+but these sensitivities are not independent significance tests. The sparse
+historical panel broadens temporal coverage without establishing a stable
+cross-regime advantage, statistical power or external validity. All targets
+precede protocol freeze, and the observed provider metadata cannot resolve
+training contamination for either model.
+
 \subsection{Legacy Nine-Symbol Paired Benchmark}
 
 The original 180 net labels contain 56 UP and 124 DOWN outcomes. Full has

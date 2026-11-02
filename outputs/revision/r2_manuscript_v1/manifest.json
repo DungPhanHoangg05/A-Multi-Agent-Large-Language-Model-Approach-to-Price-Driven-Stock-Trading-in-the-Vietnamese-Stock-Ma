@@ -1,0 +1,407 @@
+{
+  "analysis_release": "outputs/revision/r2_panel_v1/manifest.json",
+  "created_local": "2026-11-03T03:11:55.378687+07:00",
+  "limitations": [
+    "Only 12 historical decision dates and six coarse blocks; not independent symbol replications",
+    "Volatility/turnover strata added after inference, descriptive only",
+    "Purposive/surviving nine-symbol universe; PIT membership/suspension unknown",
+    "All labels predate protocol freeze; served weights/training exclusion unverified",
+    "R3-R18 remain separately assessed; not submission-ready"
+  ],
+  "outputs": [
+    {
+      "path": "main.log",
+      "sha256": "4a3ba97763914a238060403ec75feee3fb109ca63e5e726d6aa66b87bc850b81"
+    },
+    {
+      "path": "main.pdf",
+      "sha256": "6e7fc63eade4cdca3bddff9976a1a4e800e9c3f79bac4acfe8150fbdfaf130e7"
+    },
+    {
+      "path": "main_submit.log",
+      "sha256": "98aa793240f98ddf168fc82fe09f73a9b0545026f8ce1da835d3e26319323dd2"
+    },
+    {
+      "path": "main_submit.pdf",
+      "sha256": "43ecb0b6e30d47e816ef1afd0176f3cb09225e1a2baeb9c38f76fb36ad751db7"
+    },
+    {
+      "path": "sources.zip",
+      "sha256": "0ff0ef88cbf709831b9674fa2870684596a9534ab6feedef796a3c534c1d5c18"
+    }
+  ],
+  "pdf_qa": {
+    "R2_physical_locators": {
+      "Table_A_24": [
+        39
+      ],
+      "Tables_A_25_A_27": [
+        40
+      ],
+      "appendix_A_1": [
+        39,
+        40
+      ],
+      "limitations_L1": [
+        30,
+        31
+      ],
+      "methods_5_7": [
+        23
+      ],
+      "results_6_2": [
+        27
+      ]
+    },
+    "body_table_overflow": 0,
+    "documents": {
+      "main": {
+        "locators": {
+          "5.6. New Frozen": [
+            21
+          ],
+          "5.7. Temporal": [
+            23
+          ],
+          "6.1. New Common": [
+            24
+          ],
+          "6.2. Temporal": [
+            27
+          ],
+          "8. Conclusion": [
+            33
+          ],
+          "Appendix A. New": [
+            34
+          ],
+          "Table 10:": [
+            26
+          ],
+          "Table 7:": [
+            25
+          ],
+          "Table 8:": [
+            26
+          ],
+          "Table 9:": [
+            26
+          ],
+          "Table A.": [
+            27,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40
+          ],
+          "Temporal Coverage and Regime Audit": [
+            39
+          ]
+        },
+        "physical_pages": 53
+      },
+      "main_submit": {
+        "locators": {
+          "5.6. New Frozen": [
+            21
+          ],
+          "5.7. Temporal": [
+            23
+          ],
+          "6.1. New Common": [
+            24
+          ],
+          "6.2. Temporal": [
+            27
+          ],
+          "8. Conclusion": [
+            33
+          ],
+          "Appendix A. New": [
+            34
+          ],
+          "Table 10:": [
+            26
+          ],
+          "Table 7:": [
+            25
+          ],
+          "Table 8:": [
+            26
+          ],
+          "Table 9:": [
+            26
+          ],
+          "Table A.": [
+            27,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40
+          ],
+          "Temporal Coverage and Regime Audit": [
+            39
+          ]
+        },
+        "physical_pages": 54
+      }
+    },
+    "duplicate_labels": 0,
+    "duplicate_page_anchors": 0,
+    "known_warning": "Inherited elsarticle preprint footer 2.61049pt overfull; visually checked without clipping",
+    "undefined_citations": 0,
+    "undefined_references": 0,
+    "visual_review": "All 53 main pages overview-rendered and inspected, R2 methods/results/tables enlarged; submission front matter, corresponding R2 pages and final page inspected"
+  },
+  "prior_manuscript_release": "outputs/revision/r1_manuscript_v2/manifest.json",
+  "prior_source_verification": "Original R1 manifest sources resolve via its frozen sources.zip when current paper/plan/response have changed; all prior outputs unchanged",
+  "reviewer_comment_embedded_verbatim": "revision/response_to_reviewers.md; original local DOCX is not republished",
+  "schema_version": "revision_r2_manuscript_release_v1",
+  "scope": "Sparse multi-year actual R1 LLM evidence, descriptive context/dependence audit and qualified claims; no prospective, power, market-wide or contamination-free certification",
+  "sources": [
+    {
+      "path": "paper/elsarticle-num.bst",
+      "sha256": "0db2e53b2378cbe5815e436c1afe9dcac67123a32406fa8f11fad7978808e202"
+    },
+    {
+      "path": "paper/elsarticle.cls",
+      "sha256": "23a341acd0e35c20148c836fc6e9251549aa45b059fc1750356ca2f3f11f3cb0"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.png",
+      "sha256": "ce93ca2e80f33da49b8dba034f36007b6e9ff5fa1932fb234df54ad763d8dc4f"
+    },
+    {
+      "path": "paper/figs/backtest_BHN_20260917_1227.png",
+      "sha256": "1fdd500812ece8fa0d9b6b3bc205b7e171a1f5ecd149528836d0d092f3ab421f"
+    },
+    {
+      "path": "paper/figs/backtest_CMG_20260916_1110.png",
+      "sha256": "7351ffed0b0afcb6568d2cdae6004f9b23c0be512593bbe60c985109ba2c93de"
+    },
+    {
+      "path": "paper/figs/backtest_FPT_20260915_1458.png",
+      "sha256": "b772079e92c3d49e295439416c5456b8f20d9df1b4753123fcee98857ace9ab4"
+    },
+    {
+      "path": "paper/figs/backtest_HVN_20260916_1032.png",
+      "sha256": "ee84ba6bed88f5af8347006eeba9aa4394a4f92d50df4f9a90b133d4314e882d"
+    },
+    {
+      "path": "paper/figs/backtest_MBB_20260916_1129.png",
+      "sha256": "95f54e1f8f8398fc3473619110441e6d7ce6627324d2d40e6b3db2dc45ddea65"
+    },
+    {
+      "path": "paper/figs/backtest_MWG_20260916_1422.png",
+      "sha256": "2253a8844986d09c0fd67460b57fd8e90151a93681e35d85145329f9e9b4796d"
+    },
+    {
+      "path": "paper/figs/backtest_VCB_20260916_1337.png",
+      "sha256": "c2476a6242f3d3a440a64172cf890c93d1457db0584d97e620781eec5dfe81f7"
+    },
+    {
+      "path": "paper/figs/backtest_VJC_20260915_1542.png",
+      "sha256": "b6586b7368c04b88b1ac37dbf02720c63c2ceb8a01420753b248f9b68d290137"
+    },
+    {
+      "path": "paper/figs/backtest_VNM_20260915_1514.png",
+      "sha256": "442ab2fd645e332f3df1aef374d4a15bbb4b36cfa795ebc6a47f7280e8286aef"
+    },
+    {
+      "path": "paper/figs/decision_agent_pipeline.png",
+      "sha256": "48c454d1540f6897e300d828c04ca56a1e03aa2d9d15b78e11a87666eb94392a"
+    },
+    {
+      "path": "paper/figs/system_pipeline.png",
+      "sha256": "d02d7f971ed0778b33921fbdfd1b0e727b513adf15f6ab4655315dba4639ea70"
+    },
+    {
+      "path": "paper/figs/walkforward_protocol.png",
+      "sha256": "9953c5eabc41523db151caa5f56b20c707754eef41bfca7cc99755118c05b229"
+    },
+    {
+      "path": "paper/generated/r1_class_metrics.tex",
+      "sha256": "fc1784749010507589559bafcd012d34bc0f3510b11e84d1270b6d7c3a0bf1f2"
+    },
+    {
+      "path": "paper/generated/r1_common_classes.tex",
+      "sha256": "8fb3667efdbfa950de47d05178be4ac3e8e9bce9b2157ebf2f78b13e492805ce"
+    },
+    {
+      "path": "paper/generated/r1_common_intervals.tex",
+      "sha256": "1f00ebd36fc68952f775dee577d3f126d80750934693ee213439fc095774d841"
+    },
+    {
+      "path": "paper/generated/r1_common_macro.tex",
+      "sha256": "de41bcad16c175527b1238daaece14b9026e91612a89d698aa757c090296af9e"
+    },
+    {
+      "path": "paper/generated/r1_common_metrics.tex",
+      "sha256": "c578d76cf971687e618c2f8ca9222f5cb86341dcc44bf5bdfdd89980ab1d631d"
+    },
+    {
+      "path": "paper/generated/r1_common_panels.tex",
+      "sha256": "10aadc0a22d723ef7f095625d2ce83a3ba86c6372e5663aa72cc865070df2730"
+    },
+    {
+      "path": "paper/generated/r1_common_strata.tex",
+      "sha256": "f76bd041e44643c2b1ec733bc7470555bd514126f2ac425cf4ad30e9d410fa15"
+    },
+    {
+      "path": "paper/generated/r1_common_symbols.tex",
+      "sha256": "bfa27ac632d915429ac7b51de1c25329a615921b3cea0649b3b2086fc53948c1"
+    },
+    {
+      "path": "paper/generated/r1_comparability.tex",
+      "sha256": "2b3c89092e8d7c9efcddddadb15eeb284a529a5ae8e454c52514694c8913a5b7"
+    },
+    {
+      "path": "paper/generated/r1_legacy_metrics.tex",
+      "sha256": "d27c3ce568ac9220b8f077ee3a70974494538e54f539be35acea6f40f7364bdb"
+    },
+    {
+      "path": "paper/generated/r1_numeric_metrics.tex",
+      "sha256": "1d673c70d838dacf26f43b806a2f16eead0a31e56a1b715b56e2015d3389c1c1"
+    },
+    {
+      "path": "paper/generated/r2_coverage.tex",
+      "sha256": "5da68f9624de0231e3be21c329e8570d0c47c77c66598f3ab3270fe0ff3e3c1c"
+    },
+    {
+      "path": "paper/generated/r2_dependence.tex",
+      "sha256": "cdc74eb68c33af54ec0becb3741fcc36f403ca7c40acdf7cf9a1185d84f3e363"
+    },
+    {
+      "path": "paper/generated/r2_folds.tex",
+      "sha256": "915bd252f83a31f496f10fa227e839e7b59de72065cacb7229830ef570da1bdf"
+    },
+    {
+      "path": "paper/generated/r2_regimes.tex",
+      "sha256": "779e2a1c9e5afaaa5b811ceeb2ab1e1c9514f0b63d7dade89a6fa2cda47b6b39"
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "f00e5b6c401ee47537ef990b1ef2418ded57ea1a05e33244c021e6ac692565ac"
+    },
+    {
+      "path": "paper/main_submit.tex",
+      "sha256": "dae7cc96c3222ca58acde28cb3d34b3cfc9a8f659910b8dfb63754529601d0f3"
+    },
+    {
+      "path": "paper/references.bib",
+      "sha256": "c188fb50f39c10ae0b3d4cc5f6fbbef2c20cb578c1c85e95d8e5c603985ef4e8"
+    },
+    {
+      "path": "paper/sections/01_introduction.tex",
+      "sha256": "7cb87030e7cdf5bb4ad9ffc4f97e6a04e17b7e0bae6406eef246a262bb25006d"
+    },
+    {
+      "path": "paper/sections/02_related_work.tex",
+      "sha256": "82bf1aec08f3a178041be1876eb4c237074b76baad0b248c6eb8abec602cd50c"
+    },
+    {
+      "path": "paper/sections/03_problem_formulation.tex",
+      "sha256": "72d1bd515c7f84e09a8d2e0aaae9707128b8cf56615de25b8e0df48d2d0f9424"
+    },
+    {
+      "path": "paper/sections/04_system_architecture.tex",
+      "sha256": "735fc08bc6c7f09312487fedcc0993e5c82aac340a4aeae801a46ed2162b73b1"
+    },
+    {
+      "path": "paper/sections/05_experimental_setup.tex",
+      "sha256": "c326ed4ac1d9312b4d4d34d9459c58c2a52a5f6485ae7598184fc27fefef2eed"
+    },
+    {
+      "path": "paper/sections/06_backtest_results.tex",
+      "sha256": "1d850f0ee6c5776b2c7af5e88a60f06bbbd115cebfb66d09bae2239f3b313984"
+    },
+    {
+      "path": "paper/sections/07_limitations.tex",
+      "sha256": "193c8f9f7763ce3754e6abaf11345e90b7444ab49f6e18cfeb4010d3e8c84470"
+    },
+    {
+      "path": "paper/sections/08_conclusion.tex",
+      "sha256": "178b3f1dcefa7774e034083430c860189b03227d477b9892b84851d0f90a1633"
+    },
+    {
+      "path": "paper/sections/acknowledgments.tex",
+      "sha256": "144503e0908506d64cd52bb99480fd3082c63bc63831e66299e237007f868e9c"
+    },
+    {
+      "path": "paper/sections/appendices.tex",
+      "sha256": "04f7e65b1388585d24aedf618ce6022f03d0bc5f3d602c290ca5daa6cced3562"
+    },
+    {
+      "path": "core/revision_r2_panel.py",
+      "sha256": "bb20ee87009dba1bb8b8d28897c9d0d841f866322048a9367c3958326329006a"
+    },
+    {
+      "path": "scripts/analyze_revision_r2.py",
+      "sha256": "aa6a3c941f3a37f9a8d3211c2c1a5be2f02bb735ba4fe0682e0f99aa55f0477c"
+    },
+    {
+      "path": "tests/test_revision_r2_leakage.py",
+      "sha256": "b1109ee2379ba8091f232b91f943170f0c4f5bb83e33634ab0aa069253fca384"
+    },
+    {
+      "path": "plan.md",
+      "sha256": "8741f2f546d676a52a4590b742e49e40eb5bdb5ca5e0d3a335300870699e68cf"
+    },
+    {
+      "path": "revision/response_to_reviewers.md",
+      "sha256": "91822ec3fd7500418c56dd3354b79e383f16e9db3ffd5c22f6d4d09f7aa0fb8a"
+    },
+    {
+      "path": "revision/reviewer_matrix.csv",
+      "sha256": "4789c25f8957ed0ad3e67229e1a1d06730ff9fd25e6d3940d24b2d8d6e69f275"
+    },
+    {
+      "path": "revision/README.md",
+      "sha256": "917a271c2846ad49abe9d6c2594f2d8dbd8bb32a56855861341533a29d767ec9"
+    },
+    {
+      "path": "outputs/revision/r2_panel_v1/manifest.json",
+      "sha256": "52543e3bec797eb665cbd002b10f15bc8baa3d25010fc0b53a9ae2df680019bf"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/manifest.json",
+      "sha256": "11086bc888e78a457fee169ae54d9ba7607eb3615a78e07ca2529721619f556c"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/sources.zip",
+      "sha256": "e04160b13d9dbba6c91b4d61121ce16faab5629187cb0355d611a902318da66f"
+    }
+  ],
+  "status": "R2_addressed_historical_exploratory_R1_preserved_R3_R18_pending",
+  "validation": {
+    "R1_source_output_hashes_verified": 3752,
+    "R2_artifacts_reproduced": 15,
+    "classification_predictions": 918,
+    "classifier_ledgers_exposure_checked": 459,
+    "commands": [
+      "py -3.13 -X utf8 -m unittest discover -s tests -p test_revision_r2_leakage.py -v",
+      "py -3.13 -X utf8 scripts/run_revision_72h.py verify",
+      "py -3.13 -X utf8 scripts/analyze_revision_r2.py --check"
+    ],
+    "compiled_files": [
+      "core/revision_r2_panel.py",
+      "scripts/analyze_revision_r2.py",
+      "tests/test_revision_r2_leakage.py"
+    ],
+    "existing_daily_ledgers_return_order_checked": 510,
+    "full_panel_slots": 972,
+    "logistic_preprocessing_sets_verified": 102,
+    "missing_panel_slots_retained": 54,
+    "new_tests_passed": 7,
+    "outer_symbol_fold_scopes": 51,
+    "raw_R1_decisions_replayed": 484,
+    "reproduction": "Fresh process with PYTHONHASHSEED=17 reproduces all JSON/CSV/TeX exactly; source imputer/scaler audits rerun, classifiers not refitted",
+    "scope_note": "Only new audit code compiled/tested; no engine, inference, frozen data, target, dependency/runtime or model changes; no full suite/E2E rerun, no new model API calls",
+    "target_calendar_dates": 36,
+    "target_symbol_sessions": 306
+  }
+}

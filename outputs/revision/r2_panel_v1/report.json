@@ -1,0 +1,136 @@
+{
+  "coverage": [
+    {
+      "AS_LONG": 2,
+      "B_LONG": 6,
+      "decision_dates": [
+        "2023-07-03",
+        "2023-09-22"
+      ],
+      "down": 13,
+      "fold": "b2023_h2",
+      "n_symbols": 8,
+      "n_target_calendar_dates": 6,
+      "n_units": 16,
+      "trend_counts": {
+        "bear": 2,
+        "bull": 9,
+        "sideways": 5
+      },
+      "up": 3
+    },
+    {
+      "AS_LONG": 6,
+      "B_LONG": 7,
+      "decision_dates": [
+        "2024-07-01",
+        "2024-09-20"
+      ],
+      "down": 9,
+      "fold": "b2024_h2",
+      "n_symbols": 8,
+      "n_target_calendar_dates": 6,
+      "n_units": 16,
+      "trend_counts": {
+        "bear": 4,
+        "bull": 8,
+        "sideways": 4
+      },
+      "up": 7
+    },
+    {
+      "AS_LONG": 2,
+      "B_LONG": 2,
+      "decision_dates": [
+        "2025-01-02",
+        "2025-03-31"
+      ],
+      "down": 16,
+      "fold": "b2025_h1",
+      "n_symbols": 8,
+      "n_target_calendar_dates": 6,
+      "n_units": 16,
+      "trend_counts": {
+        "bear": 6,
+        "bull": 5,
+        "sideways": 5
+      },
+      "up": 0
+    },
+    {
+      "AS_LONG": 3,
+      "B_LONG": 4,
+      "decision_dates": [
+        "2025-10-01",
+        "2025-12-19"
+      ],
+      "down": 11,
+      "fold": "f2025_q4",
+      "n_symbols": 9,
+      "n_target_calendar_dates": 6,
+      "n_units": 18,
+      "trend_counts": {
+        "bear": 7,
+        "bull": 5,
+        "sideways": 6
+      },
+      "up": 7
+    },
+    {
+      "AS_LONG": 3,
+      "B_LONG": 4,
+      "decision_dates": [
+        "2026-04-01",
+        "2026-06-24"
+      ],
+      "down": 12,
+      "fold": "f2026_q2",
+      "n_symbols": 9,
+      "n_target_calendar_dates": 6,
+      "n_units": 18,
+      "trend_counts": {
+        "bear": 13,
+        "bull": 1,
+        "sideways": 4
+      },
+      "up": 6
+    },
+    {
+      "AS_LONG": 7,
+      "B_LONG": 9,
+      "decision_dates": [
+        "2026-07-01",
+        "2026-09-23"
+      ],
+      "down": 16,
+      "fold": "f2026_q3",
+      "n_symbols": 9,
+      "n_target_calendar_dates": 6,
+      "n_units": 18,
+      "trend_counts": {
+        "bear": 3,
+        "bull": 5,
+        "sideways": 10
+      },
+      "up": 2
+    }
+  ],
+  "eligible_date_symbol_slots": 102,
+  "first_decision_date": "2023-07-03",
+  "fold_audit": "51 purged outer symbol/fold scopes; stored preprocessing checked against train+validation only; no classifier refit",
+  "full_date_symbol_slots": 108,
+  "independence": "distinct dates/sessions are counted, not asserted statistically independent; symbol or repeat counts do not increase independent market replications",
+  "last_decision_date": "2026-09-23",
+  "missing_date_symbol_slots": 6,
+  "n_blocks": 6,
+  "n_decision_dates": 12,
+  "n_missing_panel_rows": 54,
+  "n_panel_rows_all_variants": 972,
+  "n_symbols": 9,
+  "n_target_calendar_dates": 36,
+  "n_target_symbol_sessions": 306,
+  "n_units": 102,
+  "selector_scope": "LLM uses frozen causal 600-session native selector at each cutoff; its diagnostics are not nested factor-discovery inference (R10 remains separate)",
+  "status": "R2_evidence_ready_pending_manuscript_review",
+  "universe_limitation": "eight-symbol/six-block and nine-symbol/three-block cohorts overlap and must not be pooled"
+}

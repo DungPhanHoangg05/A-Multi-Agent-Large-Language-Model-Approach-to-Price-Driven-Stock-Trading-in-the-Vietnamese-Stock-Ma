@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Audit of the frozen chronological outer folds and inner validation.}
+\label{tab:r2_folds}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrrll}
+\hline
+Block & Symbol scopes & Train range & Validation range & Warm-up & Purge & Refit stats \\
+\hline
+b2023\_h2 & 8 & 70--70 & 19--19 & 600 & PASS & PASS \\
+b2024\_h2 & 8 & 153--153 & 19--19 & 600 & PASS & PASS \\
+b2025\_h1 & 8 & 194--194 & 21--21 & 600 & PASS & PASS \\
+f2025\_q4 & 9 & 32--256 & 20--20 & 600 & PASS & PASS \\
+f2026\_q2 & 9 & 75--299 & 18--18 & 600 & PASS & PASS \\
+f2026\_q3 & 9 & 94--318 & 20--20 & 600 & PASS & PASS \\
+\hline
+\end{tabular}
+\par\smallskip\footnotesize Warm-up counts available observed sessions at the first train cutoff. All 51 scopes have label exits strictly before the next split. Stored imputation/scaling statistics reproduce from train plus matured validation; classifiers are not refitted. Exact split dates/counts are in folds.csv.
+\end{table}

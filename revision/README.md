@@ -2,7 +2,13 @@
 
 Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt phản biện: `fix`; luồng KLTN trên `develop` được quản lý riêng.
 
-**Tiến độ hiện hành:** [R1 đã chốt ngày 03/11/2026](../plan.md#r1-progress), xem [response](response_to_reviewers.md) và [release bản thảo](../outputs/revision/r1_manuscript_v2/manifest.json). Các mục bên dưới là nhật ký lịch sử của những lần triển khai trước, không phải checklist hiện tại.
+**Tiến độ hiện hành:** [R1](../plan.md#r1-progress) và [R2](../plan.md#r2-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release bản thảo R1+R2](../outputs/revision/r2_manuscript_v1/manifest.json). Các mục bên dưới là nhật ký lịch sử của những lần triển khai trước, không phải checklist hiện tại.
+
+## Nghiệm thu R2 — 03/11/2026
+
+Tái dùng 102 actual LLM pairs, audit 51 fold/preprocessing scopes, calendar missing mask, regimes/exposure, whole-block cohort/leave-one-out sensitivity và contamination; không gọi API hoặc refit classifier. Bằng chứng nằm trong [R2 release](../outputs/revision/r2_panel_v1/manifest.json), tiến độ/giới hạn tại kế hoạch. Bảy test leakage/dependence mới và compile đúng ba file Python mới PASS; replay 484 real decisions và 3.752 hash nguồn/output PASS. Full suite/E2E không chạy lại vì không đổi engine, inference, target, inputs hoặc dependency/runtime đã khóa. Hai PDF 53/54 trang đã build/render QA; bốn bảng R2 ở trang vật lý 39–40. Không xem 12 ngày hoặc chín mã là các replication độc lập, không nhận prospective/contamination-free hoặc market-wide validity.
+
+Đối soát offline bằng `py -3.13 -X utf8 scripts/analyze_revision_r2.py --check`; lệnh kiểm manifest và tái tạo 15 artifacts/bốn TeX từ dữ liệu đã khóa. Release R1 không bị sửa: các hash nguồn bản thảo/kế hoạch lịch sử được đối chiếu qua `r1_manuscript_v2/sources.zip` khi bản hiện hành đã sang R2. Chỉ bản thảo/report mới ghi nghiệm thu R2; status generator lịch sử trong report R1/R2 giữ nguyên.
 
 ## Dọn working tree sau khi chốt R1 — 03/11/2026
 

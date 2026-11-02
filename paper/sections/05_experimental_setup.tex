@@ -246,9 +246,76 @@ symbols in each block are resampled together over six blocks, with 10,000
 bootstrap replicates and seed 20261102. The resulting few-block intervals
 are descriptive. Three-repeat dispersion is restricted to the selected
 panel, not assigned to the 102-unit one-pass study. The economic ledger
-uses fractional shares and immediate cash reuse. Means over 51 independent
+uses fractional shares and immediate cash reuse. Means over 51 separate
 symbol--block accounts are not a joint portfolio, a certified settlement
 simulation or a dividend-adjusted total-return estimate.
+
+\subsection{Temporal Coverage and Dependent Panel Audit}
+\label{sec:r2_protocol}
+
+The temporal audit reuses the complete frozen prediction bank; it makes no
+new model calls or outcome-dependent changes to dates, units or predictions.
+Tables~\ref{tab:r2_coverage} and \ref{tab:r2_folds} detail its support.
+The period extends from 3 July 2023 to 23 September 2026, but is sparsely
+sampled: twelve decision dates and 36 distinct future target-session dates,
+not continuous daily evaluation across those years. There are 306 eligible
+symbol--target-session observations, which share calendar shocks and cannot
+be counted as independent replications. Separately funded account simulations
+likewise do not imply statistical independence.
+
+The snapshot contains 1,681 observed vendor sessions per symbol from
+2 January 2020 through 30 September 2026. A contradictory BHN bar on
+13 September 2022 requires the already frozen valid-suffix rule, excluding
+673 prefix rows while preserving their raw bytes. Its remaining history
+does not meet the 600-session warm-up in the first three blocks. The panel
+therefore has 102 eligible cells out of 108 date--symbol slots; the six
+missing BHN cells remain missing for every classifier. Predictions are joined
+on actual calendar date, symbol and variant, not a within-symbol test index.
+The full nine-classifier grid has 972 slots with 54 explicit missing cells.
+
+All 51 outer symbol--block scopes have expanding past training samples and
+chronological inner validation. Training label exits precede the first
+validation decision; validation label exits precede the first test decision.
+The first train cutoff has at least 600 observed history sessions. Depending
+on symbol and block, there are 32--318 training samples and 18--21 validation
+samples. Stored logistic imputation and scaling statistics were independently
+recomputed from exactly the purged training plus matured validation inputs
+and matched in every scope; classifiers were not refitted. Hyperparameter
+selection follows the frozen validation procedure. The LLM's adaptive factor
+selector remains the frozen causal 600-session policy at each cutoff, not
+a newly nested factor-discovery experiment; multiplicity and selector
+stability remain separate requirements.
+
+The original trend context is the close/SMA60 gap. To describe coverage more
+fully, two post-inference descriptive dimensions are added: trailing
+20-session close-return sample volatility and trailing 20-session mean
+Close$\times$Volume. Each high/low threshold is its symbol--fold median on
+train cutoffs only. These values use no future bars or test-label fitting,
+but the new stratification itself was not preregistered before inference.
+The turnover proxy retains vendor quote/volume units and is not a measure
+of spread, depth or executable liquidity. Context labels describe individual
+price paths, not an independently verified market-index regime.
+
+Group metrics report unit, class, symbol and distinct-date support alongside
+LONG frequency. Exposure is checked against the frozen daily ledgers over
+the three target sessions per unit; its denominator excludes the long cash
+gaps between selected decisions. It is not a calendar-wide portfolio exposure.
+Whole-block bootstrap draws keep all eligible symbols, both dates and every
+variant together, preserving contemporaneous dependence and the missing
+mask. Coverage-cohort and leave-one-block-out sensitivities are descriptive;
+three or six blocks do not establish inter-block independence or reliable
+small-sample precision. The cross-symbol legacy Wilcoxon value is not used
+as an inferential test for this study.
+
+This remains a purposively selected surviving nine-symbol universe. There
+is no authenticated point-in-time constituent, listing/delisting or
+suspension registry; zero volume does not certify suspension. All labels
+matured by 28 September 2026, before protocol freeze on 2 November 2026,
+so there are zero prospective test units. The served text/vision weight
+revision and training-corpus exclusion are unverified. Archived model names,
+release dates, temperature and request fingerprints do not prove absence
+of memorised historical prices. No contamination-free, market-wide or
+untouched prospective performance claim is made.
 
 \subsection{Legacy Implementation and Robustness Design}
 

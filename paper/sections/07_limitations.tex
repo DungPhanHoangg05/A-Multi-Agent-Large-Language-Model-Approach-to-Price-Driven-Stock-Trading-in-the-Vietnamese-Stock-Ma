@@ -7,13 +7,20 @@
 The legacy benchmark contains only 20 observations per symbol. Common dates and market shocks invalidate interpreting nine symbol-level gaps as nine independent market replications, and the stored Wilcoxon result is not used to establish a general significant improvement. The tickers are not a probability sample. Class imbalance, snapshot revisions and incomplete input provenance further constrain inference even for this fixed universe.
 
 The new study extends historical coverage to six blocks, but contains only
-twelve distinct decision dates and a purposively selected nine-symbol
-universe. BHN covers only three recent blocks. Joint block bootstrap intervals
-and preselected repeated panels are descriptive; panel dispersion cannot be
-assigned to the full one-pass sample. Historical outcomes may be represented
-in hosted-model training data, and no untouched prospective test is claimed.
-Full's new BA of 48.31\% and negative mean return do not establish a benefit
-over naive or numerical controls.
+twelve distinct decision dates and 36 distinct target-session dates in a
+purposively selected nine-symbol universe. These dates, the symbol accounts
+and the repeated calls are not additional independent market replications.
+BHN covers only three recent blocks; cohort sensitivities preserve that
+missingness. Joint block bootstrap intervals and preselected repeated panels
+are descriptive. With six or three historical clusters, neither power nor
+inter-block independence is established. The Full--Base gap changes sign
+when individual blocks are omitted. Volatility/turnover strata are causal
+calculations added after inference and cannot support a confirmatory regime
+strategy. Historical prices may be represented in either hosted model's
+training corpus: all target labels precede protocol freeze, and no served
+weight digest or authenticated training exclusion is available. Model release
+date alone does not remove that concern. Full's new BA of 48.31\% and negative
+mean return do not establish a benefit over naive or numerical controls.
 
 Directional skill does not directly imply profitability. In the legacy run,
 Full improves mean accuracy by 13.9 pp over Base and has a less negative mean

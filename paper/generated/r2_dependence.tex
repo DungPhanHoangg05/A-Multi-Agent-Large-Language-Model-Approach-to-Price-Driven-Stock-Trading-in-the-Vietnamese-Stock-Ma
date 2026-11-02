@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Coverage-cohort sensitivity with synchronized whole-block resampling.}
+\label{tab:r2_dependence}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrrrrr}
+\hline
+Cohort & N & Blocks & Dates & BA AS & BA B & Delta (pp) & 95\% interval (pp) \\
+\hline
+All available & 102 & 6 & 12 & 48.31 & 47.77 & 0.55 & [-5.91, 8.00] \\
+Eight symbols & 96 & 6 & 12 & 48.61 & 46.53 & 2.08 & [-4.10, 8.67] \\
+Nine recent & 54 & 3 & 6 & 47.18 & 46.67 & 0.51 & [-8.33, 6.25] \\
+\hline
+\end{tabular}
+\par\smallskip\footnotesize 10,000 descriptive resamples, seed 20261102. Every selected block retains its full cross-section, both dates, all variants and missing eligibility mask. Cohorts overlap; three or six blocks are too few for a precision or general-superiority claim.
+\end{table}

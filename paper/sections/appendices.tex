@@ -34,6 +34,35 @@ nine-symbol/three-recent-block cohorts. Blocks and dates are shared across
 symbols, so neither symbol counts nor repeated decisions create additional
 independent market replications.
 
+\subsection{Temporal Coverage and Regime Audit}
+\label{app:r2_detail}
+
+The R2 audit reuses the fixed 102-unit prediction bank. Exact train,
+validation, test and label-maturity boundaries for every symbol--block scope
+are provided in \texttt{folds.csv}. The data manifest records source,
+quality and universe limits; the calendar-panel CSV retains every missing
+cell. No missing prediction is replaced with CASH and no unit is added
+after observing an outcome.
+
+\input{generated/r2_coverage.tex}
+\input{generated/r2_folds.tex}
+\FloatBarrier
+
+\input{generated/r2_regimes.tex}
+\input{generated/r2_dependence.tex}
+\FloatBarrier
+
+The machine-readable release additionally provides class support and both
+classes' metrics for all nine classifiers within each context stratum,
+target-session exposure verified against daily ledgers, all paired bootstrap
+contrasts for three overlapping coverage cohorts, and leave-one-block-out
+sensitivities. Volatility and turnover medians are fitted only on train;
+their use here is explicitly post-inference description. The nine-symbol
+universe remains purposive and potentially survivor-biased. Distinct dates
+are counts of observations, not a claim about the effective independent
+sample size. \texttt{contamination.json} records zero units after protocol
+freeze and no authenticated served-model training cutoff.
+
 \clearpage
 \section{Agent System Prompts}
 \label{app:prompts}

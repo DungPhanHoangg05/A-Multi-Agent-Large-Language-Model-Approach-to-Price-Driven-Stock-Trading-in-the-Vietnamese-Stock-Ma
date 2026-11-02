@@ -1,0 +1,133 @@
+{
+  "created_utc": "2026-11-02T20:08:40.564343+00:00",
+  "outputs": [
+    {
+      "path": "protocol.json",
+      "sha256": "f2ed76df95e55f81b63cb5cf36757718f83b4ff8faa89c69c3e396d2115855ca"
+    },
+    {
+      "path": "data_manifest.json",
+      "sha256": "495482e08687507dfb5cd51837d45d35143b60950b23ef024dc07fe42c4b1847"
+    },
+    {
+      "path": "folds.csv",
+      "sha256": "b9434c9a03824a0e982159d7a7c4920bdf009cfbeadbf8a8d369173f0b347310"
+    },
+    {
+      "path": "regime_labels.csv",
+      "sha256": "5a8a0e3ff3b4e4e1d08bb234876dfe6f1626f031e5d99dcc2c359f64913b287c"
+    },
+    {
+      "path": "prediction_panel.csv",
+      "sha256": "b9016df2182cbe66312d4e22c90a8845be914d95a5d6a9b1a062b4460b134c1d"
+    },
+    {
+      "path": "target_sessions.csv",
+      "sha256": "a66a5c8be637128ea26329a7007d83f196414a2094d09eaede1608449c2d7786"
+    },
+    {
+      "path": "stratified_metrics.json",
+      "sha256": "58c9ee76878d24e9d642d509dcb6bfdfb8c6e76fd7ab3915ceb3d9b85496adfa"
+    },
+    {
+      "path": "exposure_by_regime.csv",
+      "sha256": "9fe5ca4aba932c6bb8651395ff7542dc33d766528c0c514e1accc6bf07ed272b"
+    },
+    {
+      "path": "dependence.json",
+      "sha256": "d03a4265b0598bad988155cdf2a5eca5b39d92f5fca1e0a2c88a39680dd4d03e"
+    },
+    {
+      "path": "contamination.json",
+      "sha256": "c2f5661dd360f81f84a2fa108adb6a00ae50ea80a5e3a4b99f7e19a375ed8f5f"
+    },
+    {
+      "path": "report.json",
+      "sha256": "4a8d9f2b06f2d808c21d422c858979e79f209e0a2ff133e8c18e3727cd821e2d"
+    },
+    {
+      "path": "r2_coverage.tex",
+      "sha256": "5da68f9624de0231e3be21c329e8570d0c47c77c66598f3ab3270fe0ff3e3c1c"
+    },
+    {
+      "path": "r2_regimes.tex",
+      "sha256": "779e2a1c9e5afaaa5b811ceeb2ab1e1c9514f0b63d7dade89a6fa2cda47b6b39"
+    },
+    {
+      "path": "r2_dependence.tex",
+      "sha256": "cdc74eb68c33af54ec0becb3741fcc36f403ca7c40acdf7cf9a1185d84f3e363"
+    },
+    {
+      "path": "r2_folds.tex",
+      "sha256": "915bd252f83a31f496f10fa227e839e7b59de72065cacb7229830ef570da1bdf"
+    }
+  ],
+  "schema_version": "revision_r2_panel_release_v1",
+  "scope": "retrospective descriptive audit of the complete frozen R1 study; no new model selection or LLM calls",
+  "sources": [
+    {
+      "path": "core/revision_r2_panel.py",
+      "sha256": "bb20ee87009dba1bb8b8d28897c9d0d841f866322048a9367c3958326329006a"
+    },
+    {
+      "path": "scripts/analyze_revision_r2.py",
+      "sha256": "aa6a3c941f3a37f9a8d3211c2c1a5be2f02bb735ba4fe0682e0f99aa55f0477c"
+    },
+    {
+      "path": "tests/test_revision_r2_leakage.py",
+      "sha256": "b1109ee2379ba8091f232b91f943170f0c4f5bb83e33634ab0aa069253fca384"
+    },
+    {
+      "path": "scripts/finalize_revision_r1.py",
+      "sha256": "a59ec1a5369055df8c9a8594a39b7b9ae3e95d9f80539c9744272eabe6509fbd"
+    },
+    {
+      "path": "core/revision_baselines.py",
+      "sha256": "b6c0e05d62154c31a6fec387b68d6c6f875b1125a4115046d2e978de1b2ed6c5"
+    },
+    {
+      "path": "core/revision72_analysis.py",
+      "sha256": "6586c5e9d78988e408cf55672fce30cdcff2d7475bf9059eb9b2f54edb69eec8"
+    },
+    {
+      "path": "core/revision_common_study.py",
+      "sha256": "45eb777490667b5be7a3bd8a773b59d8289a7a68b8eb5bb1d139b9a169711ba5"
+    },
+    {
+      "path": "utils/statistical_tests.py",
+      "sha256": "5d1096fbf63d9428efc9f6b13ed611fc2324e4ed1281e3c61f1cc9246e54b314"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/manifest.json",
+      "sha256": "d74896420c0dfd0db37a6e821b4c025ff6c9dc3fba9f27589fe566f3ad1ae0ec"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/manifest.json",
+      "sha256": "b1f9c9261b5220f5d33a5fd759ddb4d6e7c5dc13431ea88218eae312e4d35f97"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/numeric/manifest.json",
+      "sha256": "0ba9d5a4fc920d9d97b69a87e9b021f055c0401b743e59fb0ae6cdd972cc08f0"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/numeric/models.json",
+      "sha256": "d2812a6845db6ca5be14a855b11e418bc8681dcf88f0c122124a3e00c8b223a9"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/run_manifest.json",
+      "sha256": "7b416b82f81f58a8abe709b32bdd5572b54964507107c57464b6051f6b2ac912"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/analysis/manifest.json",
+      "sha256": "6d5317c32458a8da6e403eb178428288dae9d751dde090635568195c630f68db"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/manifest.json",
+      "sha256": "11086bc888e78a457fee169ae54d9ba7607eb3615a78e07ca2529721619f556c"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/sources.zip",
+      "sha256": "e04160b13d9dbba6c91b4d61121ce16faab5629187cb0355d611a902318da66f"
+    }
+  ]
+}
