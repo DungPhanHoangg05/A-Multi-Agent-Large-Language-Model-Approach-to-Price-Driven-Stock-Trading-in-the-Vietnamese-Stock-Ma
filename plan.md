@@ -4,98 +4,59 @@ Ngày lập: 01/11/2026. Nhánh khảo sát: `fix`.
 
 **Nơi cập nhật tiến độ hiện hành:** trực tiếp trong `plan.md`; tiến độ R1 được đối soát ngày **02/11/2026** tại [mục R1](#r1-progress). `revision/README.md` giữ vai trò nhật ký lịch sử; không tạo thêm file tiến độ hoặc dùng số đếm cũ ở đó làm trạng thái hiện tại.
 
-## 0. Phương án rút gọn có hiệu lực từ 02/11/2026
+## 0. Kế hoạch 72 giờ — năm org Groq Free, có hiệu lực 02/11/2026
 
-**Ưu tiên hiện hành: hoàn thiện phản biện với ít lượt LLM nhất có thể, dùng 5 key thuộc 5 org Groq do tác giả cung cấp.** Các mức 10 Decision repeats/5 end-to-end repeats và full grid cũ được thay bằng thiết kế ở mục này. Mục 3 vẫn giữ đầy đủ yêu cầu khoa học R1–R18; thứ tự, phạm vi thực nghiệm và ngân sách thực hiện theo mục 0, 4 và 5 đã cập nhật. Không phải mọi mở rộng được gợi ý ban đầu đều là yêu cầu của reviewer.
+**T0 triển khai: 02/11/2026 11:01:39 Asia/Ho_Chi_Minh (04:01:39 UTC).** Mốc chặn tests/smoke: 02/11 23:01:39; dừng inference mục tiêu: 04/11 23:01:39; bàn giao: **05/11/2026 11:01:39**, tức T0+72 giờ. Không coi lịch này là bảo đảm accept. Chỉ đóng comment khi đủ thay đổi, artifact, vị trí bản thảo và response.
 
-### 0.1. Vì sao R1 phát sinh 8.100 quyết định
+### 0.1. Năng lực và ngân sách
 
-`revision/r1_common_protocol.json` đã khóa study cũ chỉ có variant Full, chưa bao gồm factorial/placebo cho R4:
+Tác giả xác nhận mỗi org Free chạy khoảng **20 Full +20 Base reports mỗi ngày**: 5×3×40=**600 quyết định** trong ba cửa sổ quota đủ. Đây là ước tính, không phải số API requests hoặc quota token đã xác minh. Quota còn lại thực tế và reset của từng org quyết định năng lực dùng được. Không mua quota hoặc đổi model để đạt deadline.
 
-- 540 quyết định calibration train = 9 mã × 3 folds × 20 điểm, chỉ để fit control theo exposure của Full.
-- 540 test units × (5 end-to-end + 10 Decision-only − 1 repeat chung) = 7.560 quyết định test.
-- Tổng **8.100 quyết định Full**, ít nhất **14.580 API requests**: 540×3 calibration + 540×5×3 end-to-end + 540×9 Decision-only. Request retries/format repairs chưa nằm trong số tối thiểu.
-
-**Không tiếp tục coi hoàn tất grid này là điều kiện đầu tiên để làm R1 hoặc các comment còn lại.** R1 trực tiếp yêu cầu baseline/metrics/class balance; 540 calibration Full, 10/5 repeats trên mọi điểm và full-grid architecture là chi phí do thiết kế triển khai thêm. Giữ chúng như lịch sử, không sửa protocol JSON đã khóa để ép run cũ thành study mới.
-
-### 0.2. Phạm vi tối thiểu và phần được hoãn
-
-| Bắt buộc để phản hồi có bằng chứng | Cách rút ngắn | Chỉ làm thêm khi giữ claim tương ứng |
-|---|---|---|
-| R1: baselines thật trên cùng input/target | Một lượt Full trên 540 test units có bank; numerical baselines không gọi LLM | Control matched-Full exposure cần calibration riêng |
-| R2: thêm thời gian và regime, inference có phụ thuộc | Thêm 270 Full units ở ba block lịch sử; numerical baselines chạy rộng 2023–2026 | VN100/toàn thị trường, thị trường nước ngoài, prospective dài hạn |
-| R3: nhiều lần chạy, báo dispersion | 3 Decision repeats trên panel 108 units; 3 end-to-end realizations cho B/AS trên 27 units | 10/5 repeats trên mọi điểm; không tăng số lần chỉ để đạt p-value |
-| R4: factor/sentiment/placebo | B/A/S/AS và một placebo alpha có sentiment giữ nguyên, dùng chung reports | Nhiều placebo families, nhiều model/provider, nhiều loại fusion mới |
-| R5/R6/R9: thống kê, lineage, reproducibility | Replay/metrics/hashes offline; archive mọi call mới | Chạy lại model chỉ để tính lại CI, Sharpe hoặc thay bảng |
-| R7: coverage và domain validation | Audit offline; scorer pinned chạy local, tập nhãn tài chính gọn | Fine-tune mới hoặc crawl nhiều nguồn khi bài không nhận claim NLP mới |
-| R8: novelty và attribution đúng | Mô tả prompt-level fusion, reused/new matrix và MIT notice | Phát triển một cơ chế Bayesian/fusion mới chỉ để làm bài có vẻ mới |
-| R10: fixed/random factors và selection diagnostics | Tính trên numeric bank; bảng fixed/random của policy số | Fixed/random factors qua LLM nếu khẳng định dynamic selection cải thiện toàn pipeline |
-| R11–R18: nhất quán, execution và bài viết | Sửa contract/prose/citations; numerical replay cho cost/horizon khả thi | Quét Cartesian W×horizon×weights×normalisation×model bằng LLM |
-
-Hoãn một thí nghiệm phải đi cùng bỏ/thu hẹp claim mà thí nghiệm đó hỗ trợ. Bảng này **không tự đóng R nào**, và không tuyên bố một study nhỏ chắc chắn đủ power hoặc chắc chắn được accept. Riêng R2 cần cả kết quả của các block thêm, regime coverage thực và giới hạn lấy mẫu; có dữ liệu train nhiều năm chưa phải evaluation nhiều năm.
-
-### 0.3. Thiết kế dùng chung và số lượt chính xác
-
-Ký hiệu: B = không factor/không sentiment; A = factor-only; S = sentiment-only; AS = Full; P = cùng cấu trúc với AS, giữ sentiment, thay alpha bằng placebo nhân quả. Một **unit** là một mã tại một cutoff; repeat và variant không tạo thêm market unit độc lập.
-
-1. **Tập rộng R1–R2: 810 units, mỗi unit một AS decision.** Giữ 540 units của lịch ba folds hiện tại (2025 Q4, 2026 Q2, 2026 Q3). Thêm ba block ở 2023 H2, 2024 H2, 2025 H1, mỗi block 10 ngày decision chung × 9 mã =270. Chọn 10 ngày cách 3 phiên theo lịch tham chiếu, có nhãn đã trưởng thành, vào đầu khoảng đã định; warm-up và universe hợp lệ chỉ xét dữ liệu quá khứ. Khóa danh sách trước inference; không chọn ngày theo accuracy/return hoặc nhìn tương lai để săn regime. Đây là tối đa **90 ngày decision** nếu lịch hiện tại khớp đồng bộ; báo số ngày thực, không tự đếm 810 replication độc lập.
-2. **Panel lặp/attribution R3–R4: 108 units nằm trong 810.** Mỗi block lấy hai ngày decision, một ở đầu và một ở cuối block, cùng 9 mã: 6×2×9=108. Manifest phải khóa cutoffs trước khi xem output mới. Chạy B/A/S/AS/P, **3 Decision repeats** trên đúng cùng upstream/report/alpha/sentiment snapshot. AS repeat 0 lấy từ tập rộng, không gọi lại: thêm `108×(5×3−1)=1.512` quyết định. Tổng panel có 1.620 records nhưng chỉ 108 market units/12 ngày, CI phải phản ánh điều đó.
-3. **Panel end-to-end R3: 27 units nằm trong panel 108.** Dùng ba ngày đã chọn từ ba block trải qua thời kỳ cũ/giữa/mới ×9 mã; chốt ID trước run. Tạo lại upstream **hai lần bổ sung**, mỗi lần chạy B và AS: thêm `27×2×2=108` decisions, `27×2×2=108` vision calls. Realization đầu đã nằm ở panel attribution; có 3 realizations cho từng B/AS, không gọi repeat 0 hai lần. Đây là sensitivity cho upstream variance, không chứng minh full-grid end-to-end robustness.
-4. **Numerical baselines/factors/metrics:** dùng cùng units và train/validation/PIT contract; thêm đánh giá số trên lịch nhiều năm liên tục để mô tả market/regime coverage. Không gọi API, không làm artificial repeats cho model xác định. Train/validation không thêm Full inference mặc định.
-
-| Hạng mục bắt buộc | Quyết định LLM mới, nếu chưa có artifact hợp lệ | Vision calls tối thiểu | Tổng API requests tối thiểu |
+| Hạng mục | Decisions mới | Vision calls | API calls tối thiểu |
 |---|---:|---:|---:|
-| AS trên 540 units hiện có | 540 | 1.080 | 1.620 |
-| AS trên 270 units mở rộng thời gian | 270 | 540 | 810 |
-| B/A/S/AS/P, 3 repeats trên 108 units, trừ AS r0 đã có | 1.512 | 0 | 1.512 |
-| Hai upstream realizations thêm, B/AS trên 27 units | 108 | 108 | 216 |
-| **Tổng nghiên cứu cơ sở** | **2.430** | **1.728** | **4.158** |
+| Tập chính 102 điểm × B/AS | 204 | 204 | 408 |
+| Panel 18 điểm × B/A/S/AS/P × 3 repeats, trừ B/AS r0 | 234 | 0 | 234 |
+| Panel upstream 9 điểm × 2 realizations bổ sung × B/AS | 36 | 36 | 72 |
+| **Nghiên cứu tối đa** | **474** | **240** | **714** |
+| Smoke ngoài evaluation, một cặp/org | 10 | 10 | 20 |
+| **Tổng trước retry** | **484** | **250** | **734** |
 
-**R1 đầu tiên giảm từ 8.100 xuống 540 quyết định**, không còn 540 Full calibration. Toàn gói cơ sở trả lời nhiều comment dùng 2.430 decisions, ít hơn 70% so với 8.100 của riêng study Full cũ; requests tối thiểu giảm khoảng 71,5% (14.580 →4.158). Đây là so sánh ngân sách thiết kế khác nhau, không khẳng định hai study cho bằng chứng thống kê tương đương.
+Dự phòng **116 quyết định tương đương (~19,3%)** so với năng lực 600; không dùng để sweep/cherry-pick. Trần nội bộ: **200 API attempts/org/toàn study**, tổng **1.000**; **600 Decision attempts** toàn study, tối đa **40/org trong cửa sổ 24 giờ** kể cả smoke/retry. Trần nội bộ không thay limiter/token quota của provider. Mọi retry/repair đều phải được tính trước network; hết quota ngày thì checkpoint và chờ hợp lệ, không fallback model hoặc điền CASH.
 
-- Dành tối đa **60 request attempts smoke/preflight inference** ngoài tập chấm điểm, dùng để kiểm tra model/quota/render/parse/archive và đo tokens/latency. Catalogue/preflight offline không cần suy luận. Smoke không được nhân bản thành research predictions.
-- **Trần cơ sở đề xuất: 5.000 attempts cộng dồn toàn study/5 org**, bao gồm smoke và retries: 4.158+60=4.218 calls chuẩn, còn 782 attempts dự phòng. Nếu lỗi làm không đủ manifest trong trần này, dừng với trạng thái incomplete; không điền CASH và không nâng trần tự động.
-- **Mở rộng R10 có điều kiện:** nếu giữ claim dynamic selector vượt fixed/random **trong LLM**, thêm hai variant fixed/random trên đúng 108 units×3 repeats =648 decisions, dùng lại upstream. Khi đó tổng 3.078 decisions, 4.806 research calls; cộng smoke tối đa 4.866 attempts chuẩn, trần đề xuất **5.800**. Random factor draw khóa theo unit; random-draw seed và Decision-repeat seed phải được phân biệt. Nhiều random draws cho phân phối selector chạy offline trước.
-- Không tính tiết kiệm từ calls cũ trước audit. Ngân sách là từ zero verified inference; chỉ trừ số request thực sự được tái dùng hợp lệ, cùng role/cutoff/input/prompt/model/revision/branch. Calibration cũ không chuyển thành test hoặc repeat mới.
-- Các phép đếm giả định Indicator/Alpha/Sentiment chuẩn bị offline và chỉ Pattern/Trend gọi vision, mỗi final decision một text call. Nếu implementation phát sinh report LLM, repair hoặc fallback thì dry-run/call instrumentation phải cộng vào dự toán trước freeze; không giả định chúng miễn phí.
+### 0.2. Lịch 102 điểm và các panel
 
-**Điểm chặn sentiment:** protocol cũ coi mọi legacy-unknown scorer là missing và khóa peer set rỗng. Không chạy hàng nghìn factorial calls với S/AS chỉ có missing rồi nhận đó là bằng chứng sentiment. Trước freeze, audit raw text/availability; khi có đầu vào hợp lệ, score local bằng model revision cố định sang cache mới. Nếu không có đủ tin thật, vẫn có thể báo missingness experiment, nhưng R4 sentiment/R7 empirical contribution còn mở và claim sentiment hữu ích phải bỏ. Chi phí thu thập tin hoặc phục hồi raw text không thể giải quyết bằng thêm key.
+Một market unit là một mã tại cutoff. B=không alpha/không sentiment; A=alpha-only; S=sentiment-only; AS=Full; P=Full với alpha placebo nhân quả, giữ sentiment và cấu trúc prompt. Control lịch sử No-Alpha được gọi **Base reports**, vì bỏ cả alpha và sentiment.
 
-### 0.4. Lập lịch 5 org Groq và dự toán thời gian
+- **54 điểm:** 9 mã × ba fold 2025 Q4/2026 Q2/2026 Q3 × cutoff thứ 1 và 20 trong lịch đã khóa.
+- **48 điểm lịch sử:** 8 mã (không BHN) × ba block 2023 H2/2024 H2/2025 H1 × hai cutoff. Lấy phiên đầu từ 01/07/2023, 01/07/2024, 02/01/2025 và phiên cách 57 phiên giao dịch. Train kết thúc tương ứng 31/03/2023, 31/03/2024, 30/09/2024; validation bắt đầu ngày kế tiếp, purge trước test. Giữ W=45, L=3, lịch sử alpha 600 phiên.
+- BHN không đủ lịch sử hợp lệ ở ba block cũ sau quality cutoff 14/09/2022; không giảm warm-up/sửa giá để lấp thiếu. Báo riêng universe tám mã chung qua sáu block và chín mã ở ba fold mới; báo pooled/macro và support thực.
+- **Factorial panel 18:** chỉ chọn unit có >=3 bài hợp lệ trong 90 ngày sau audit/rescore pinned. Round-robin mã theo thứ tự tên, trong mỗi mã theo thời gian tăng dần, tối đa ba unit/mã. Khóa danh sách trước inference; không tuyên bố đủ chín mã/sáu block nếu coverage không hỗ trợ.
+- **Upstream panel 9:** CMG/FPT/HVN ở cutoff cuối block 2023; BHN/MBB/MWG ở cutoff cuối 2025 Q4; VCB/VJC/VNM ở cutoff cuối 2026 Q3. B/AS r0 dùng lại tập chính; hai realizations sau tạo upstream mới, không nhân bản final decision.
+- Placebo lấy vector alpha từ train trước cutoff, seed **20261102**, giữ schema/missingness và donor mapping. Alpha report không được rò sentiment; S không được nhận alpha.
 
-Theo [Groq rate limits](https://console.groq.com/docs/rate-limits) (kiểm tra 02/11/2026), quota áp dụng ở cấp organization; có RPM/RPD/TPM/TPD và có thể có ITPM/OTPM. Vì năm key thuộc năm org khác nhau, có thể phân phối các job được cấp quyền qua năm quota riêng. Không suy một key = một cấu hình quota giống nhau hoặc tốc độ luôn gấp năm.
+**Gate trước inference:** nếu thiếu scorer pinned, nguồn tin hợp lệ hoặc không đủ 18 điểm sentiment, khóa nhánh dự phòng **B/Full/P ×3 repeats**. Tổng dự phòng **366 decisions/240 vision/606 research calls**; thêm smoke thành 376 decisions/626 calls. Không chạy factorial sentiment rỗng và không đóng R4 sentiment/R7 domain validation. Tập dự phòng lấy cutoff cuối từng block, lần lượt: `2023: CMG/FPT/HVN; 2024: MBB/MWG/VCB; 2025 H1: VJC/VNM/CMG; 2025 Q4: BHN/FPT/HVN; 2026 Q2: BHN/MBB/MWG; 2026 Q3: VCB/VJC/VNM`.
 
-**Việc triển khai tối thiểu, chưa được code trong lượt sửa kế hoạch này:**
+Không bảo đảm có hai người gán nhãn trong 72 giờ. Rescore local chỉ tạo provenance mới, không xác nhận chất lượng tài chính hoặc biến cache legacy thành snapshot PIT xác thực. Không đổi score cũ. Đánh giá numeric rộng hơn chạy offline, không gọi nó là LLM multi-year evidence.
 
-- [ ] Dùng pool `org_1`…`org_5`, secrets chỉ ở môi trường cục bộ; manifest lưu alias org/project không chứa key. Xác nhận cùng model locked và quyền truy cập của từng org. Không dump `.env`, key hay credential hash vào artifacts.
-- [ ] Mỗi org có limiter riêng theo model/quota bucket, cộng limiter toàn study. Khởi điểm một request đang xử lý/org; chỉ tăng concurrency nếu telemetry và quota cho phép. Dùng chung scheduler cho Pattern/Trend/Decision, không cấp cố định một org cho một treatment hoặc regime.
-- [ ] Shard theo unit cân bằng block/mã; shuffle/counterbalance order variants và repeats bằng seed đã khóa. Lưu org alias với từng request và kiểm tra org có bị confound với variant/model không. Cùng upstream snapshot được mọi branch dùng qua parent hash, không tái tạo chỉ vì đổi org.
-- [ ] Mọi call tiếp tục qua `_invoke_with_retry`; tôn trọng `retry-after`/reset, backoff và quota thực. Org/model chạm TPD được cooldown đến thời điểm hợp lệ; job chưa chạy có thể sang org khác còn quota, không spam org đang bị giới hạn. Lỗi account/permission/model mismatch phải điều tra, không che bằng đổi key.
-- [ ] Dùng 5 process/worker cách ly client, chart paths, checkpoint shards và file tạm; một writer/aggregator cho global usage/manifest. Runner hiện chưa có contract này: **không chạy năm bản runner cũ cùng bank/run**, không đổi biến môi trường client chung giữa threads. Lock/atomic write chống hai worker ghi cùng unit.
-- [ ] Dùng idempotency key cho unit/variant/repeat/node. Resume chỉ job thiếu; raw successful responses giữ nguyên. Reuse reports chỉ trong cùng realization; không cache final decision giữa các repeats.
-- [ ] Giữ Decision prompt `<6.500` ký tự, `_distill_report`/`_cap_report`; đo số token thực chứ không coi ký tự là token. Giảm output cap chỉ sau smoke cho thấy không truncate/parse lỗi, rồi freeze và dùng đồng nhất. Không đổi model, prompt hoặc cap giữa chừng để chạy nhanh hơn.
-- [ ] Meter attempts, input/output/cache tokens, duration, 429, fallback, successful decisions và coverage; progress hiển thị market units và variants/repeats riêng. Forecast ETA từ quota còn lại và p95 payload, không chỉ throughput token quảng cáo.
+### 0.3. Đường chạy và interface
 
-**Công thức ETA:** với quota bucket m, nhu cầu token `V_m`, năng lực tổng thực dùng của năm org `Q_m/ngày`, cận dưới quota-time là `V_m/Q_m`; lấy bottleneck trên các bucket, đồng thời xét RPM/RPD/ITPM/OTPM, p95 latency, dependency DAG và tải đang dùng của org. Nếu quota dùng chung giữa text/vision, cộng nhu cầu token trước khi chia; không tính cùng quota hai lần. Reset thực theo provider, không tự giả định đúng 00:00 giờ Việt Nam.
+Tạo profile `revision_72h`, protocol/bank/run mới; entrypoint riêng có `prepare`, `smoke`, `run`, `status`, `analyze`, `verify`. Dùng năm process/org riêng biệt; mỗi process có chart/temp/checkpoint riêng, một request đang xử lý. Phân shard cân bằng tải/block, không theo treatment. Secrets qua `GROQ_ORG_1_API_KEY`…`GROQ_ORG_5_API_KEY`; không lưu key hoặc hash key trong Git/artifacts.
 
-Ví dụ chỉ để dự toán, **không phải quota đã xác minh**: nếu cả năm org đều có vision TPD 200.000 chưa dùng, tổng là 1.000.000 token/ngày. Với 1.728 vision calls và 2.500–4.000 quota-token/call, riêng vision cần 4,32–6,91 triệu token, tương đương tối thiểu 4,3–6,9 quota-days. Text calls, retry và quota dùng chung có thể kéo dài hơn. Smoke phải thay các số giả định bằng telemetry; năm key không bảo đảm hoàn tất trong vài giờ.
+Reuse bốn nhánh ablation, parser, retry/archive hiện có. Checkpoint có profile/input hash/variant/repeat/realization; parent upstream dùng chung đúng realization. Resume chỉ requests còn thiếu; archive response thành công phải tồn tại trước khi cho phép dùng lại. Freeze model/prompt/caps và tất cả inputs trước evaluation. Giữ `_distill_report`, `_cap_report`, Decision prompt <6.500 ký tự. Không chạy năm instance runner cũ trên cùng directory.
 
-Telemetry cục bộ đã đọc ngày 02/11/2026: 48 response vision thành công có median **2.424**, p95 **2.523 total tokens**; 23 response text có median **2.194**, p95 **2.964**. Đây là mẫu smoke/calibration hiện có, không phải output của profile mới và không chứng minh quota của bốn org còn lại. Nếu tạm dùng p95 này cho 1.728 vision +2.430 text calls, nhu cầu khoảng **4,36 triệu vision tokens và 7,20 triệu text tokens** trước retry. Nếu hai model cùng chia tổng 1 triệu token/ngày thì cận dưới khoảng **11,6 quota-days**; nếu bucket riêng thì tính bottleneck từng model. Đo lại profile mới vì placebo/sentiment/report length có thể khác; không ép ETA 5–10 ngày khi số đo không hỗ trợ.
+Trước nghiên cứu, smoke một cặp ngoài evaluation/org, archive hai vision và hai Decision responses. Status mới đếm riêng market units, variants, repeats, attempted requests, failures, tokens và coverage. Mục tiêu mỗi ngày khoảng **34 điểm chính +6 panel +3 upstream**, tối đa 158 research decisions; lịch cố định trước outcome, backlog không làm thay mẫu. Dừng inference T0+60h để dành 12h cuối cho phân tích/QA.
 
-Mục tiêu vận hành có điều kiện: **2–3 ngày làm việc để sửa phần thiếu, freeze và chuẩn bị bài; khoảng 5–10 ngày lịch cho gói nghiên cứu/biên tập nếu dữ liệu đủ và quota ví dụ đáp ứng**, cho chạy offline/citations/manuscript trong khi chờ API. Nếu ETA vượt ngân sách, giữ trần và thu hẹp claim/phạm vi công khai; không chọn kết quả tốt nhất hoặc bỏ silently những strata chạy chậm.
+### 0.4. Phân tích và giới hạn kết luận
 
-Batch API chỉ là phương án thay thế nếu model/plan thực có hỗ trợ và ETA tốt hơn. [Tài liệu Batch](https://console.groq.com/docs/batch) nêu cửa sổ xử lý bất đồng bộ 24 giờ đến 7 ngày; không mặc định đây là đường nhanh nhất, và không tự nâng gói.
+BA primary; MCC/per-class secondary; economic metrics riêng. Bootstrap mô tả **10.000** lần, seed **20261102**, resample nguyên block cùng cross-section/variants; ghi số block/ngày thật và resamples undefined. Khoảng 12 ngày của tập chính và panel nhỏ không mặc nhiên đủ power/significance. Không coi variants/repeats là market observations mới. Giữ target net cho replication; gross là target riêng đã định nghĩa.
 
-### 0.5. Chuyển từ study cũ sang thiết kế rút gọn
+Bàn giao hệ thống, bằng chứng thực thu được, bản thảo và response đủ 18 comment. Comment thiếu input/human validation/PID/author confirmation giữ pending. R8 cần đóng góp phù hợp thực tế, không chỉ đổi tên fusion. Không thêm fixed/random LLM variants, model/fusion mới, Bayesian/KLTN, grid W/horizon, Full-exposure calibration hoặc training mới trong 72 giờ; thu hẹp claim cần các thử nghiệm đó.
 
-- [ ] Kiểm tra status và checkpoint của run v3 tại thời điểm chuyển. Không suy receipt cũ “0 prediction” vẫn đúng sau khi người dùng resume; không tự dừng tiến trình khác chỉ vì chỉnh tài liệu.
-- [ ] Khi chuyển triển khai, kết thúc run cũ ở checkpoint boundary theo quyền vận hành của task, giữ nguyên archive/hash và ghi lý do dừng là đổi ngân sách. Không xóa requests, `usage.json` hay lock của tiến trình còn hoạt động.
-- [ ] Tạo protocol/bank/run ID mới cho thiết kế rút gọn; **không sửa `revision/r1_common_protocol.json` đã khóa**, không hạ repeats tại chỗ và gắn completion cho v3. Lượt này chỉ sửa Markdown, chưa có CLI thực thi profile mới.
-- [ ] Reuse giá, numerical features, chart/report hoặc raw response chỉ khi provenance và input/AST/config hashes chứng minh cùng nội dung, có parent IDs và access hợp lệ. Những inputs thay sentiment/normalization/prompt cần feature/response mới; giữ artifacts gốc nguyên byte.
-- [ ] Các baseline số đã có không phải chạy lại chỉ vì sửa plan. Chỉ tính bổ sung các block/variant/input đã đổi; các bảng R1 cũ và mới phải phân biệt dataset/protocol.
-- [ ] Freeze subset/schedule, primary contrasts, estimand, failure/stop policy và cap trước inference mới. Baseline kết quả cũ đã được xem nên nghiên cứu vẫn là **historical exploratory revision**, không đổi nhãn thành confirmatory.
-- [ ] Repeated-panel không đại diện tự động cho variance của toàn 810 units. Báo riêng broad one-pass và panel mean/SD/CI; 3 repeats chỉ là minimum khả thi, có thể thiếu precision. Không dừng sớm theo p-value; không tuyên bố hoàn tất reviewer khi dữ liệu còn thiếu.
+### 0.5. Bảo toàn lịch sử và chuyển giao
 
+Grid cũ 8.100 Full decisions/14.580 calls và phương án trung gian 2.430 decisions/4.158 calls đã được thay bằng mục 0 hiện hành. Các protocol/bank/run cũ vẫn giữ nguyên byte. `revision/r1_common_protocol.json` không bị hạ repeats tại chỗ. **23 calibration v3 không tính vào 102 cặp mới.** Chỉ reuse giá/features/reports có cùng provenance/input/config hashes; tạo output riêng khi thay contract.
+
+Tiến độ duy nhất ở `plan.md`; `revision/README.md` và runbook cũ là lịch sử. Sau khảo sát 02/11/2026 mới thấy **một key được cấu hình**, chưa xác nhận đủ năm org; đã yêu cầu tác giả bổ sung cấu hình cục bộ, không gửi secrets vào chat. Chưa gọi API của profile mới. Không có worker Python revision cũ được thấy trong lần kiểm kê tiến trình; receipt cũ không dùng làm trạng thái realtime.
 
 ## 1. Mục tiêu và đánh giá hiện trạng
 
@@ -176,7 +137,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 
 **Vấn đề:** Full thua constant DOWN/CASH về accuracy và mean return. No-Alpha yếu hơn mức BA 50%; lợi thế trước control yếu chưa xác lập giá trị dự báo. Label hiện là “LONG có lãi sau phí”, không phải dấu biến động giá thuần túy.
 
-**Trạng thái đối soát 02/11/2026: đã xử lý một phần, chưa đóng R1.** Audit legacy, pipeline/bằng chứng baseline số và bản thảo sửa lần đầu đã có. Mốc thực nghiệm Full theo kế hoạch rút gọn hiện là **0/540 test units**; chưa triển khai profile mới hoặc scheduler 5 org. Không dùng tỷ lệ 23/8.100 của study cũ để biểu diễn tiến độ kế hoạch mới, cũng không gộp mức hoàn thành code/tài liệu thành phần trăm hoàn thành bằng chứng khoa học.
+**Trạng thái đối soát 02/11/2026: đã xử lý một phần, chưa đóng R1.** Audit legacy, pipeline/bằng chứng baseline số và bản thảo sửa lần đầu đã có. Mốc thực nghiệm Full theo kế hoạch rút gọn hiện là **0/102 cặp Full/Base**; chưa triển khai profile mới hoặc scheduler 5 org. Không dùng tỷ lệ 23/8.100 của study cũ để biểu diễn tiến độ kế hoạch mới, cũng không gộp mức hoàn thành code/tài liệu thành phần trăm hoàn thành bằng chứng khoa học.
 
 **Đã hoàn thành và có artifact**
 
@@ -189,7 +150,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 - [x] Có runner cũ với request/response archive, checkpoint, source/runtime hashes, retry/quota guard và prompt guard; đã dùng API thật. Năng lực này là nền để sửa đường chạy mới, **chưa phải pool 5 org hoặc runner theo ngân sách rút gọn**.
 - [x] Đã sửa abstract/highlights/introduction/methods/results/conclusion và [response R1 nháp](revision/response_to_reviewers.md), bảo toàn manuscript gốc trong [archive](revision/manuscript_original.zip). [Hai PDF và manifest bản nháp](outputs/revision/r1_manuscript_v1/manifest.json) có 42 trang/bản; locators đã ghi: highlights trang vật lý 2, abstract 3, §5.5 trang 20–21, Tables 7–8 trang 23, Tables 10–11 trang 25, conclusion trang 28. Bản nháp này dùng audit/numeric ban đầu, **chưa chứa bảng Full trên common bank v3 hoặc kết quả kế hoạch mới**.
 
-**Checkpoint thực tế của study cũ — không tính vào 540 test units mới**
+**Checkpoint thực tế của study cũ — không tính vào 102 cặp test mới**
 
 | Chỉ báo tại lần đối soát | Giá trị và cách diễn giải |
 |---|---|
@@ -204,9 +165,9 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 
 **Phần còn thiếu — thực hiện theo thứ tự ngắn nhất**
 
-- [ ] **R1.1 — Chuyển profile (FAST-02/03):** tạo protocol/bank/run mới riêng theo mục 0; triển khai pool 5 org với limiter, shared cap, shard/checkpoint và tests đúng phạm vi. Kiểm tra tiến trình cũ trước chuyển ở checkpoint boundary; không sửa protocol cũ hoặc chạy đồng thời năm instance runner hiện tại trên cùng run directory.
-- [ ] **R1.2 — Freeze input và smoke (FAST-04/05):** đối soát lineage/availability/report contracts và sentiment gate; chỉ reuse giá/features/baseline khi hash và contract còn khớp. Nếu sửa scorer/input, tạo release numeric tương ứng trên cùng 540 units trước so sánh. Chốt missing/failure policy, model/prompt, lịch, contrasts và ngân sách trước evaluation; smoke nằm ngoài evaluation và trong trần chung.
-- [ ] **R1.3 — Chạy Full một lượt:** **540 test units × 1 AS decision = 540 decisions**, tối thiểu **1.080 vision + 540 Decision = 1.620 API calls**, chưa tính retries/smoke. Đây là phần đầu của gói chung 4.158 research calls/trần 5.000 attempts ở mục 0, không phải một ngân sách cộng thêm. Không chờ 540 calibration hoặc 10/5 repeats toàn grid. Thêm 270 units và các panel 108/27 giải quyết R2/R3/R4 theo thiết kế chung; không coi repeats hoặc variants của panel là market observations mới.
+- [ ] **R1.1 — Chuyển profile (D1-07/08/11/12):** tạo protocol/bank/run mới riêng theo mục 0; triển khai pool 5 org với limiter, shared cap, shard/checkpoint và tests đúng phạm vi. Kiểm tra tiến trình cũ trước chuyển ở checkpoint boundary; không sửa protocol cũ hoặc chạy đồng thời năm instance runner hiện tại trên cùng run directory.
+- [ ] **R1.2 — Freeze input và smoke (D1-04/05/06/13/14):** đối soát lineage/availability/report contracts và sentiment gate; chỉ reuse giá/features/baseline khi hash và contract còn khớp. Nếu sửa scorer/input, tạo release numeric tương ứng trên cùng 102 units trước so sánh. Chốt missing/failure policy, model/prompt, lịch, contrasts và ngân sách trước evaluation; smoke nằm ngoài evaluation và trong trần chung.
+- [ ] **R1.3 — Chạy paired study:** 102 units × B/AS =204 decisions/408 calls tối thiểu, là phần đầu của gói 474 decisions/714 calls ở mục 0; nhánh dự phòng tổng 366 decisions/606 calls. Không chờ calibration hoặc grid 10/5 cũ. Panel 18/9 giải quyết repeats/attribution/upstream với support riêng.
 - [ ] **R1.4 — Hoàn thiện bảng Full–baseline:** trên cùng snapshot/target/lịch/cost và common support, xuất đủ support/confusion/BA/MCC/macro-F1/per-class metrics, pooled/macro, LONG rate và ledger cho Full; báo theo mã/fold/regime thực có. Uncertainty có phụ thuộc ngày/mã, paired contrasts và repeat dispersion dùng đúng phạm vi R3/R5; không gán 3-run SD của panel cho toàn bộ one-pass R1.
 - [ ] **R1.5 — Hoàn thiện claim và hồ sơ:** cập nhật lại các bảng, front matter, sections 03/05/06/08 và response bằng release cuối; kiểm PDF locators mới. Báo thẳng nếu Full thua CASH/non-LLM. Giữ target net; nếu giữ claim “direction forecasting” thì bổ sung target gross riêng đã định nghĩa, không đổi nhãn để cải thiện accuracy. Xử lý prompt-induced CASH bằng LONG rate/per-class metrics/placebo ở R4; chỉ thêm Full-exposure calibration khi thực sự giữ claim cần control này.
 
@@ -220,7 +181,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 
 **Việc cần làm**
 
-- [ ] Reuse snapshot **2020–30/09/2026** đã được đóng băng nếu hash/quality phù hợp, kèm warm-up trước fold đầu. Mục 0 mở rộng evaluation LLM thành sáu block 2023–2026 và numeric evaluation rộng; không tải lại dữ liệu chỉ để có một run ID mới. Chỉ dùng ngày có dữ liệu và label đã trưởng thành.
+- [ ] Reuse snapshot **2020–30/09/2026** đã được đóng băng nếu hash/quality phù hợp, kèm warm-up trước fold đầu. Mục 0 mở rộng evaluation LLM thành sáu block 2023–2026 với 102 units/quality exclusions theo mục 0 và numeric evaluation rộng; không tải lại dữ liệu chỉ để có một run ID mới. Chỉ dùng ngày có dữ liệu và label đã trưởng thành.
 - [ ] Giữ chín mã trong gói tối thiểu để giảm triển khai/calls; mô tả rõ survivorship/purposive selection và không suy rộng toàn thị trường. Mở rộng VN30/VN100 là tùy chọn khi nhận claim external validity tương ứng; universe phải point-in-time, ghi listing/delisting/missing/suspension.
 - [ ] Dùng rolling/expanding outer folds, inner validation theo thời gian; purge các mẫu có label span chạm tập test và fit lại toàn bộ preprocessing/selection trong train.
 - [ ] Regime tăng/giảm/đi ngang, volatility và liquidity được gán bằng quy tắc chỉ dùng dữ liệu đã quan sát tại cutoff. Báo số cutoff, số phiên độc lập, class balance, exposure từng regime; không chỉ nêu tên năm.
@@ -237,7 +198,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 **Việc cần làm**
 
 - [ ] Tạo manifest so sánh toàn bộ cấu hình “default”: cutoff IDs, data hash, prompt hash, model/provider, token caps, temperature, code commit, fallback và order.
-- [ ] Hai tầng theo mục 0: **3 Decision repeats trên 108 units cho B/A/S/AS/P**, **3 upstream realizations trên 27 units cho B/AS**. Một realization đầu được chia sẻ, không tính/call hai lần. Bỏ mặc định 10/5 trên mọi điểm; ghi rõ variance chỉ được đo trực tiếp ở panel đã chọn, 3 repeats chưa bảo đảm power/precision.
+- [ ] Hai tầng theo mục 0: **3 Decision repeats trên panel 18 units theo sentiment gate**, **3 upstream realizations trên 9 units cho B/AS**. Một realization đầu được chia sẻ, không tính/call hai lần. Bỏ mặc định 10/5 trên mọi điểm; ghi rõ variance chỉ được đo trực tiếp ở panel đã chọn, 3 repeats chưa bảo đảm power/precision.
 - [ ] Mỗi repeat có identity/checkpoint riêng trong study; chỉ resume requests còn thiếu của đúng repeat. Không sao final decision từ repeat trước. Manifest có parent reports để cho phép reuse upstream được chủ đích.
 - [ ] Cân bằng/thay thứ tự gọi các variant giữa repeats, giữ model revision và cấu hình; lưu request ID/timestamp và mọi retry/fallback. Seed Python/NumPy không thay thế seed hay tính xác định của hosted API.
 - [ ] Báo mean, SD, median/range, CI cho BA, MCC, accuracy, lift, return; disagreement rate theo cutoff và variance giữa upstream/decision.
@@ -252,7 +213,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 **Việc cần làm**
 
 - [ ] Đổi tên control lịch sử thành `No-factor/no-sentiment` hoặc `Base reports`; dùng `Full − Base` cho bundle effect.
-- [ ] Chạy factorial 2×2 trên **panel 108 units, đủ chín mã/sáu block, 3 repeats**: B=(0,0), A=(1,0), S=(0,1), AS=(1,1). Khi diễn giải alpha có sentiment, so sánh **AS−S**; alpha không sentiment là **A−B**. Tương tự sentiment: AS−A và S−B. Phân tích riêng strata sentiment available; không gọi missing-sentiment contrast là effect của tin tức.
+- [ ] Chạy factorial 2×2 trên **panel 18 units đủ điều kiện sentiment, 3 repeats**, công bố đúng mã/ngày/fold thực có: B=(0,0), A=(1,0), S=(0,1), AS=(1,1). Khi diễn giải alpha có sentiment, so sánh **AS−S**; alpha không sentiment là **A−B**. Tương tự sentiment: AS−A và S−B. Phân tích riêng strata sentiment available; không gọi missing-sentiment contrast là effect của tin tức.
 - [ ] Placebo bắt buộc P giữ nguyên headings, schema, vị trí, phong cách/token budget và sentiment như AS, thay alpha bằng vector quá khứ từ training pool trước cutoff, seed khóa. Đây là một control family đủ trực tiếp cho R4; neutral/random-value families khác là tùy chọn. Availability mask phải giống treatment để placebo không có thêm thông tin về missingness.
 - [ ] Không shuffle với giá trị từ tương lai của outer test; giữ cấu trúc tương quan factor hợp lý, lưu seed và permutation map. Giá trị placeholder không được tự mang tín hiệu tương lai.
 - [ ] Kiểm tra alpha reasoning report không rò sentiment vào A; sentiment branch không rò factor vào S. Shared Indicator/Pattern/Trend phải cùng hash tại mỗi `(cutoff, repeat)`.
@@ -346,7 +307,7 @@ Một comment chỉ đóng khi có **thay đổi cụ thể + artifact kiểm ch
 - [ ] Kiểm tra registry thật, không suy từ lời mô tả “80+5”. Thêm numerical fixtures cho các translation quan trọng; kiểm tra dùng volume thật hay range proxy và tính nhất quán đơn vị. Báo tỷ lệ proxy/missing, làm sensitivity loại các trường hợp đó.
 - [ ] Inner time-ordered calibration xác định normalization, IC sign, ranking và hyperparameters; outer test đánh giá toàn bộ selector không nhìn tương lai. Purge label overlap và yêu cầu label đã trưởng thành. Không dùng outer outcomes để chọn lại top-5 hoặc sign.
 - [ ] Báo selection frequency trên **eligible cutoffs**, eligibility count, IC sign stability, Jaccard overlap/rank stability qua cutoff, IC decay theo horizon, autocorrelation/turnover theo mã/regime.
-- [ ] So sánh dynamic top-5 với tập 5 factor cố định định trước, random eligible top-5 với nhiều seed, simple momentum/factor vote và không sign-flip **bằng numeric policy trên cùng bank** trước, không gọi LLM cho từng candidate. Random factor selection khác placebo đổi giá trị factor ở R4. Nếu bài kết luận dynamic selection vượt fixed/random trong toàn pipeline LLM, chạy thêm 648 decisions như mục 0; numeric comparison không thay cho claim đó.
+- [ ] So sánh dynamic top-5 với tập 5 factor cố định định trước, random eligible top-5 với nhiều seed, simple momentum/factor vote và không sign-flip **bằng numeric policy trên cùng bank** trước, không gọi LLM cho từng candidate. Random factor selection khác placebo đổi giá trị factor ở R4. Không giữ claim dynamic selection vượt fixed/random trong toàn pipeline LLM trong gói 72 giờ; numeric comparison chỉ hỗ trợ policy số.
 - [ ] Chọn trước multiplicity procedure phù hợp họ giả thuyết: Holm cho các contrast xác nhận; FDR cho khám phá factor; nếu claim tìm được strategy/factor vượt trội sau search thì dùng Reality Check/SPA/DSR thích hợp cùng toàn bộ candidate/trial returns. Không áp DSR lên accuracy hoặc gọi IC ranking là significance.
 - [ ] Giữ nhật ký toàn bộ trial/config đã thử. Không bỏ multiplicity sang Future Work nếu vẫn nhận claim phát hiện factor hiệu quả.
 
@@ -449,20 +410,17 @@ Chọn **BA là primary predictive metric**; MCC, per-class precision/recall, ra
 
 Primary contrasts đề xuất: A−B; AS−S; true alpha−placebo tương ứng; Full−baseline non-LLM mạnh nhất **đã chọn bằng validation**. Áp family-wise control cho tập contrast này. Không chọn baseline mạnh nhất bằng final-test outcome rồi diễn giải p-value như đã đăng ký trước.
 
-### 4.2. Matrix tối thiểu cần chạy theo ngân sách rút gọn
+### 4.2. Ma trận thực nghiệm trong 72 giờ
 
-| Nhóm | Cấu hình | Phạm vi |
+| Thành phần | Phạm vi | Bằng chứng |
 |---|---|---|
-| Legacy | Replay 180 points/receipts đã có | Offline, không rerun historical LLM hoặc gọi đây là untouched test |
-| Naive/economic/non-LLM | CASH, UP cycles, train-majority, buy-and-hold, momentum, logistic, factor-only | Toàn bộ common units; bổ sung block mới, không tính lại phần đã khóa chỉ vì sửa Markdown |
-| Broad Full | AS một run trên 540 units hiện có +270 units lịch sử mới | 810 decisions; cùng inputs/ledger với numeric baselines; có giới hạn lấy mẫu |
-| Factorial + placebo | B/A/S/AS/P | Panel 108 units, 3 Decision repeats, AS r0 dùng lại broad run; cần sentiment coverage thật |
-| Upstream variance | B và AS | Panel 27 units, 3 realizations gồm r0 đã có; báo như sensitivity |
-| Selection | Dynamic/fixed/random factors, orientation/turnover/IC stability | Offline đầu tiên; 648 LLM calls tùy claim dynamic-selector superiority |
-| Architecture | Base derived từ QuantAgent và concat hiện tại | Không thêm fusion/model mới trong gói cơ sở; thu hẹp claim novelty |
-| Robustness | Cost/slippage/fill, regime, sign/normalisation diagnostics | Numeric replay/offline; đổi target/horizon chỉ là numeric sensitivity, không gọi forecast L=3 thành forecast L=5/10 |
+| Numeric baselines | Cùng 102 units và evaluation số rộng hơn | Không gọi LLM; input/target/cost/support khớp |
+| Paired broad | B/AS, 102 units, một run | 204 decisions; tám mã chung/sáu block và chín mã/ba fold báo riêng |
+| Attribution/repeats | 18 units ×3 repeats; 5-way hoặc 3-way đã chọn trước run | 234 hoặc 126 decisions thêm; shared upstream, không fake repeats |
+| Upstream sensitivity | B/AS, 9 units ×3 realizations | Thêm 36 decisions/36 vision; không suy variance toàn grid |
+| Selection/execution | Fixed/random numeric controls, registry, cost/fill/calendar | Offline; bỏ claim đòi fixed/random LLM hoặc execution certification chưa có |
 
-Chỉ một default W=45, L=3 và model pair đã khóa cho LLM core. Khóa protocol/contrasts trước inference; **không chạy Cartesian sweep** W×normalisation×weights×horizon×model. Thay đổi hành vi để sửa lỗi phải version và áp dụng chung các branch. Không giảm token bằng bỏ evidence chỉ ở một branch; không lấy forecast cũ gắn sang horizon mới. Giá trị numeric sensitivity chỉ hỗ trợ đúng policy số đã đánh giá.
+Giữ W=45, L=3, model pair đã khóa; không Cartesian sweep, không đổi model/cap giữa study. Sentiment gate, failure policy, lịch, contrast, cap và source hashes phải khóa trước evaluation. Hoàn thành chạy không tự đóng comment.
 
 ### 4.3. Data và run contract
 
@@ -479,47 +437,80 @@ Freeze policy cho API failures và missing data trước run: công bố failure
 ### 4.4. Inference và quyết định khoa học
 
 - Resample nguyên block ngày với toàn bộ cross-section, variants và paired reports; thêm cấp repeat đúng thiết kế. Primary estimand là hiệu quả trên universe cố định; suy rộng toàn thị trường cần universe/sample design khác.
-- Report CI/effect size kèm số ngày, folds, mã và runs. Broad 810-unit one-pass không có 3-run SD trên toàn mẫu; SD/CI theo repeats chỉ áp dụng panel 108, upstream sensitivity chỉ panel 27. Phân biệt uncertainty do market sample và do inference stochasticity. Không coi stock, folds chồng lấn hoặc repeats là độc lập tùy tiện. Panel chỉ 12 ngày (upstream 3 ngày) có uncertainty lớn, không coi số org hoặc repeats làm tăng số regime độc lập.
+- Report CI/effect size kèm số ngày, folds, mã và runs. Broad 102-unit paired one-pass không có 3-run SD trên toàn mẫu; SD/CI theo repeats chỉ áp dụng panel 18, upstream sensitivity chỉ panel 9. Phân biệt uncertainty do market sample và do inference stochasticity. Không coi stock, folds chồng lấn hoặc repeats là độc lập tùy tiện. Tập chính khoảng 12 ngày và upstream 3 ngày có uncertainty lớn; số ngày panel attribution phụ thuộc gate đã freeze, không coi số org hoặc repeats làm tăng số regime độc lập.
 - Nếu effect biến mất trước CASH, non-LLM hoặc placebo, nêu thẳng. Có thể xây dựng nghiên cứu về điều kiện thất bại/benchmark hoặc cơ chế tốt hơn rồi đánh giá trên holdout mới; không đổi mục tiêu sau hoc và gọi đó là confirmatory success.
 - Predictive benefit không đủ để claim profitability; return dương vài mã không đủ để claim portfolio alpha. Kết luận phải khớp loại bằng chứng thực tế.
 
-## 5. Lộ trình thực hiện theo dependency
+## 5. Triển khai theo task nhỏ và dependency
 
-Lộ trình rút gọn kế thừa các phần đã triển khai và được đối soát tại [tiến độ R1](#r1-progress); `revision/README.md` chỉ là nhật ký lịch sử. Tái dùng audit/baselines còn khớp nguồn, không chạy lại numerical suite chỉ vì sửa Markdown. G0 mới hoàn thành phần kiểm kê; protocol mới, pool 5 org và các gate dữ liệu còn thiếu vẫn phải thực hiện. Ước lượng là công sức cho phần còn thiếu; quota-time tính riêng ở mục 0. Owner là vai trò cần phân công, chưa phải người được chỉ định. Mục tiêu 5–10 ngày lịch chỉ áp dụng khi dữ liệu/provenance đủ và quota đáp ứng, không phải lời hứa accept hoặc deadline cố định.
+Trạng thái: `pending`, `in_progress`, `done`, `partial`, `blocked`. Chỉ `done` khi đủ điều kiện và có bằng chứng; status task không tự đóng reviewer. Task thường 20–60 phút; runner/tests có thể 60–90 phút. Ghi nguyên nhân/ảnh hưởng tại dòng task khi vượt timebox. API chạy nền trong lúc làm offline; không tạo file tiến độ riêng.
 
-| Giai đoạn | Công việc / reviewer | Owner | Ước lượng | Điều kiện qua giai đoạn |
-|---|---|---|---|---|
-| G0 — Đối soát và chuyển kế hoạch | Status/hash/lineage v3, gaps R6/R7/R9; tái dùng audit đã có | Lead + software | 0,5 ngày | Giữ raw cũ; xác định verified/unverified; có protocol mới riêng |
-| G1 — Hoàn thiện đường chạy ngắn | Fix contract/ledger cần thiết; pool 5 org, shard/lock/limiter; factorial/repeats | Software + quant | 1–2 ngày | Tests đúng đường bị đổi PASS; không chạy cả suite vô cớ |
-| G2 — Data/protocol/sentiment freeze | Thêm block, audit tin/local scorer, chọn panel; numeric controls | Data + methods + NLP | 0,5–1 ngày nếu nguồn đủ | Hash input/units/contrasts/caps khóa; sentiment gap khai báo; không tune theo output mới |
-| G3 — Smoke hạn mức | Tối đa 60 attempts trên points ngoài evaluation; đo tokens/parse/quotas | Software | 0,5 ngày, phụ thuộc quota | ETA thực và caps; lỗi format/model trước khi dùng quota lớn |
-| G4 — Shared evaluation | Broad AS, factorial/placebo, repeat sensitivity; bổ sung R10 nếu giữ claim | Experiment owner | Theo quota; ví dụ riêng vision 4,3–6,9 quota-days | Đủ manifest, không cherry-pick; completion theo profile mới |
-| G5 — Bài viết và phân tích | R5/R8/R11–R18/citations làm khi chờ API; results hoàn thiện sau G4 | Quant + lead | 1–2 ngày công, phần lớn chồng lịch G4 | Claim–evidence matrix và bảng từ artifacts |
-| G6 — Replay/QA/hồ sơ | Hash/replay release, PDF/response, author metadata/persistent ID | Người kiểm tra + corresponding author | 0,5–1 ngày sau kết quả | Qua gates áp dụng; route nộp đúng decision letter |
+**Ngày 1:** khóa thiết kế, runner, tests/smoke và bắt đầu inference. Nếu T0+12h chưa PASS tests/smoke, không chạy đường chưa kiểm chứng; ghi nguy cơ thiếu evidence.
 
-Dependency inference: **G0 → (G1/G2) → G3 → G4 → kết quả G5 → G6**. Reference audit, attribution, metadata tác giả, sửa prose và chuẩn bị response bắt đầu ngay sau G0, cùng thời gian chờ API. Prospective collection là nhánh riêng khi cần claim đó; không chờ nó nếu chỉ công bố historical exploratory evidence, và không gọi backtest là prospective.
+**Ngày 2:** lô 2 và sửa metric/ledger/labels/registry/provenance/citations. Không thêm sweep/model/training hoặc fixed/random LLM calls.
 
-### 5.1. Danh sách triển khai tiếp theo
+**Ngày 3:** dừng inference T0+60h, phân tích/bản thảo/response/PDF/package; thiếu job báo incomplete, không kéo dài hoặc điền prediction.
 
-- [x] **FAST-01 — đối soát tài liệu ngày 02/11/2026:** đã ghi trực tiếp tại R1 kết quả numeric, 117 attempts/23 calibration/0 test của v3 và ngân sách mới; kiểm integrity các release hiện có PASS. Giữ nguyên usage/calls chưa commit. Chuyển worker/profile thực tế và xác minh reuse thuộc FAST-02/03/04, chưa thực hiện.
-- [ ] **FAST-02** Tạo protocol mới với broad 810/panel108/upstream27, 3 repeats, core 5 variants, budget 5.000 attempts; không sửa JSON khóa cũ. Nếu giữ dynamic-selector LLM claim, đăng ký thêm 648 decisions/trần 5.800 trước run.
-- [ ] **FAST-03** Implement pool 5 org, per-org/model limiter, shared global cap, isolated workers/checkpoints và atomic aggregator; tất cả calls dùng retry wrapper hiện có.
-- [ ] **FAST-04** Gate sentiment/availability và lineage; bổ sung giá/features cho 270 units mới, numerical controls và fixed/random selection offline. Không trì hoãn toàn bộ prose/reference work vì đang thiếu LLM.
-- [ ] **FAST-05** Smoke <=60 attempts, đo ETA và request forecast; freeze prompt/model/report contracts trước chấm điểm. Trần đạt mà incomplete thì báo thiếu evidence, không tự giảm số unit sau khi thấy outcome.
-- [ ] **FAST-06** Chạy shared evaluation, reuse hợp lệ AS r0/upstream, tổng hợp broad và repeated-panel riêng; hoàn thiện response R1–R18 rồi kiểm Gate A/B/C.
+| ID | Task | Dependency | Trạng thái | Bằng chứng hiện tại | Điều kiện hoàn thành |
+|---|---|---|---|---|---|
+| D1-01 | Khảo sát Git/run/process | — | done | Status fix; 117 attempts/23 calibration/0 test; một key; không thấy Python worker revision | Giữ nguyên artifacts/thay đổi có sẵn |
+| D1-02 | Cập nhật ngân sách/checklist | D1-01 | in_progress | plan.md | R1/R3/R4/R10 và lịch không mâu thuẫn |
+| D1-03 | Manifest 102 điểm, train/validation | D1-02 | pending | — | 54+48 points; purge; BHN exclusion |
+| D1-04 | Audit 180 articles | D1-01 | pending | — | Unique/date/content/URL hashes/provenance |
+| D1-05 | Thử rescore local <=90 phút | D1-04 | pending | — | Pinned revision/cache mới hoặc lý do unavailable |
+| D1-06 | Chọn sentiment gate và panel | D1-03/05 | pending | — | 5-way hoặc 3-way khóa trước output |
+| D1-07 | Khóa protocol mới | D1-06 | pending | — | Units/variants/repeats/model/caps/failure policy |
+| D1-08 | Runner bỏ calibration/grid cũ | D1-07 | pending | — | Dry-run đúng 474 hoặc 366 decisions |
+| D1-09 | Kết nối B/A/S/AS và archive | D1-08 | pending | — | Flags/prompt isolation đúng |
+| D1-10 | Placebo train-only | D1-09 | pending | — | Donor/mask/schema hợp lệ, mapping tái lập |
+| D1-11 | Năm process/org, isolated shards | D1-08 | pending | — | Không ghi đè client/chart/temp/checkpoint |
+| D1-12 | Caps/resume/status | D1-09/11 | pending | — | Mọi retry được tính; resume không gọi response đã có |
+| D1-13 | Tests đúng đường mới | D1-10/12 | pending | — | Pairing/leakage/token/checkpoint/quota PASS |
+| D1-14 | Smoke một cặp/org | D1-13 +5 keys | blocked | Mới có một key cấu hình | Mỗi org có 2 vision+2 Decision responses thật |
+| D1-15 | Freeze runtime, chạy lô 1 | D1-14 | pending | — | Source/input hashes cố định; jobs đăng ký |
+| D1-16 | Audit duplication legacy | D1-01 | pending | — | Đối chiếu chuỗi trùng; không nhận provenance thiếu |
+| D2-01 | Kiểm lô 1/quota | D1-15 | pending | — | Coverage/failure/shard; không đổi mẫu theo outcome |
+| D2-02 | Chạy lô 2/resume | D2-01 | pending | — | Không lặp request thành công/repeats giả |
+| D2-03 | Baselines số cùng 102 points | D1-07 | pending | — | CASH/majority/LONG/momentum/2 logistic/factor/hold |
+| D2-04 | Numeric nhiều năm | D2-03 | pending | — | Coverage/regime/quality; không gán là LLM evidence |
+| D2-05 | Metrics/statistics R1/R5 | D2-03 | pending | — | Support/pooled/macro/BA/MCC/per-class/undefined |
+| D2-06 | Annualisation/daily ledger | D2-05 | pending | — | Daily/cycle frequency và cash gaps đúng |
+| D2-07 | Execution sensitivities R15 | D2-06 | pending | — | Pending cash/advance assumptions; cost/no-fill bounds |
+| D2-08 | Label/schema R11 | D2-03 | pending | — | Entry/exit/gross/net rõ; không đoán sửa legacy |
+| D2-09 | Indicator/custom alpha R12/R13 | D1-01 | pending | — | Boundary rules; Alpha_4 signed volume; giữ formula |
+| D2-10 | Chart fixture R14 | D1-01 | pending | — | Màu/prompt/renderer đúng; version khi đổi behavior |
+| D2-11 | Registry/selector R10 | D2-03 | pending | — | Retained/excluded; fixed/random numeric/stability |
+| D2-12 | Coverage/provenance R7 | D1-04/05 | pending | — | Counts/percentages/missing; domain validation còn mở |
+| D2-13 | Attribution/novelty R8 | D1-16 | pending | — | Reused/modified/new; MIT; claim phù hợp |
+| D2-14 | Audit toàn bộ references R16 | D1-01 | pending | — | Nguồn chính thức; bỏ/thay DOI và claim sai |
+| D3-01 | Lô 3/retry trước deadline | D2-02 | pending | — | Caps; dừng T0+60h, công bố job thiếu |
+| D3-02 | Khóa result release | D3-01 | pending | — | Raw/parents/completion/failures nhất quán |
+| D3-03 | Bảng Full/Base/non-LLM | D3-02/D2-03 | pending | — | Cùng input/target/cost/support |
+| D3-04 | Bảng repeats/upstream | D3-02 | pending | — | Mean/SD/range/disagreement đúng panel |
+| D3-05 | Bảng factorial/placebo | D3-02 | pending | — | Contrasts/support hợp lệ; Full-Base là bundle effect |
+| D3-06 | Chi phí hệ thống | D3-02 | pending | — | Tokens/calls/retries/latency/coverage thật |
+| D3-07 | Results/discussion/conclusion | D3-03/04/05/06 | pending | — | Claim truy release; giữ kết quả âm |
+| D3-08 | Abstract/highlights/title | D3-07 | pending | — | Không claim vượt evidence |
+| D3-09 | Response đủ R1-R18 | D3-08 +offline audits | pending | — | Action/evidence/locator/residual requirements |
+| D3-10 | Metadata tác giả R18 | Tác giả xác nhận | pending | — | Không suy tên/ORCID; chưa xác nhận giữ pending |
+| D3-11 | Build/QA hai PDF | D3-09/10 | pending | — | Refs/citations/layout/totals/locators kiểm chứng |
+| D3-12 | Offline replay/package | D3-02 | pending | — | Tái lập bảng không API, không cache ngoài package |
+| D3-13 | Chốt tiến độ trong plan.md | D3-11/12 | pending | — | Done/partial/blocked và comment còn mở |
+| D3-14 | Commit/merge/bàn giao | Checks đúng phạm vi | pending | — | Merge fix, xóa nhánh task local; không push/submit |
 
-Các task T01–T10 dưới đây là bản đồ công việc gốc để trace reviewer; **đối chiếu phần đã làm tại R1 trong file này trước khi thực hiện**, không khởi động lại toàn bộ. Dấu `[ ]` ở task rộng vẫn có thể chứa phần đã hoàn thành; chỉ đánh dấu toàn task khi đủ phạm vi:
+### 5.1. Kiểm thử và nghiệm thu
 
-- [ ] **T01** Tạo manifest/hash cho submitted PDF/TeX/comments và toàn bộ result/cache; xác định version chính thức của submission.
-- [ ] **T02** Audit 180 points: phần confusion/baselines/cycle return đã có trong `r1_legacy` (xem R1); phần NW/reproduction Table 7 chưa được nghiệm thu trong lần đối soát này. Tái dùng release hợp lệ, chỉ bổ sung phần còn thiếu.
-- [ ] **T03** Audit duplicate sequences và lineage toàn bộ checkpoint; giải quyết R6 trước khi dùng Table 9.
-- [ ] **T04** Chạy lại coverage từ raw articles qua đúng availability rules; sửa script paths và generated CSV/TeX invariants.
-- [ ] **T05** Sửa annualisation Sharpe/Sortino, canonical price fields/labels, daily equity và settlement contract.
-- [ ] **T06** Sửa citations sai, provenance QuantAgent, text/prompt conventions và thống nhất source/build.
-- [ ] **T07** Thêm immutable snapshot loader, request archive, full cache key và resume validation.
-- [ ] **T08** Baselines số và train/validation model selection đã có trong `r1_common_numeric_v3` (xem R1); còn ghép Full trên cùng input hợp lệ và nghiệm thu nested temporal factor selector theo R10. Không triển khai lại baseline đã có chỉ vì task tổng chưa đóng.
-- [ ] **T09** Implement factorial/placebo/repeat runner và panel inference; simulation-check dưới null.
-- [ ] **T10** Freeze protocol, data/folds, budget và power/precision criteria trước run mới; thiết kế rút gọn này là historical exploratory. Một confirmatory study thực sự cần holdout thích hợp chưa dùng để phát triển phương pháp.
+- Pairing/state isolation: shared upstream/chart hash; alpha không rò sang S, sentiment không rò sang A.
+- Temporal: purge, donor train-only, tin available_at, source/feature reuse; chạy leakage tests đúng đường mới.
+- Checkpoint/integrity: identity có variant/repeat/realization; từ chối nguồn/prompt/model khác; raw response/parent bị sửa phải fail; không fallback CASH.
+- Quota: TPD stop, retry interval/repair đếm đủ, caps năm org và một request/org; ngắt sau upstream không gọi lại response thành công.
+- Metrics: support/pooled/macro/NA, daily/cycle frequency và gaps; smoke thật không thay kiểm chứng khoa học.
+- Chỉ compile Python thay đổi và chạy suites liên quan paired/ablation/common-study/token/leakage/significance/account theo phạm vi. Không chạy toàn bộ suite cho mỗi task tài liệu.
+- Nhánh task tách từ fix; chỉ stage file thuộc task, Conventional Commit, merge sau checks PASS và xóa nhánh đã merge. Không stage usage/calls của người dùng hoặc sửa artifacts lịch sử.
+
+### 5.2. Giới hạn bàn giao
+
+R1 ưu tiên bảng thật trên 102 paired units; R2/R3 có multi-block/repeats nhưng giới hạn mẫu nhỏ. R4 sentiment chỉ đóng khi gate và evidence đủ; R7 chưa có hai người gán nhãn nên domain validation không được hứa hoàn tất. R8 thu hẹp novelty đúng thực tế. R9/R18 thiếu PID, tác giả xác nhận hoặc route nộp lại phải giữ pending. Bàn giao sau 72h có thể là bản sửa có bằng chứng và danh sách thiếu chính xác, không đánh dấu mọi reviewer đã thỏa để kịp lịch.
 
 ## 6. Deliverables cần có sau khi hoàn thành kế hoạch
 
