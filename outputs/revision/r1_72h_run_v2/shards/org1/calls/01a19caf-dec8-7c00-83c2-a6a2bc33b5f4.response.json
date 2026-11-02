@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19caf-dec8-7c00-83c2-a6a2bc33b5f4",
+  "parent_request_hash": "f4082be27efd0584584f375959c9e5962d210ba2b1aa6f6491b944c9f6d72a5c",
+  "ended_at_utc": "2026-11-02T14:35:37.246290+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":3.5,\"evidence_for\":\"Trend up with support at 63.5 and resistance at 69.5; bullish flag pattern confirms continuation.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate decreasing momentum.\",\"justification\":\"Buy at open expecting price to reach 69.5 within 3 days; stop below support gives risk reward ratio ~3.5.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":3.5,\"evidence_for\":\"Trend up with support at 63.5 and resistance at 69.5; bullish flag pattern confirms continuation.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate decreasing momentum.\",\"justification\":\"Buy at open expecting price to reach 69.5 within 3 days; stop below support gives risk reward ratio ~3.5.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1391,
+                "prompt_tokens": 1567,
+                "total_tokens": 2958,
+                "completion_time": 1.608349917,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1274
+                },
+                "prompt_time": 0.080108997,
+                "prompt_tokens_details": null,
+                "queue_time": 0.080477873,
+                "total_time": 1.688458914
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19caf-dec8-7c00-83c2-a6a2bc33b5f4-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1391,
+        "prompt_tokens": 1567,
+        "total_tokens": 2958,
+        "completion_time": 1.608349917,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1274
+        },
+        "prompt_time": 0.080108997,
+        "prompt_tokens_details": null,
+        "queue_time": 0.080477873,
+        "total_time": 1.688458914
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

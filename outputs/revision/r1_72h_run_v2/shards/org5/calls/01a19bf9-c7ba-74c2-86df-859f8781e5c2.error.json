@@ -1,0 +1,15 @@
+{
+  "attempt_id": "01a19bf9-c7ba-74c2-86df-859f8781e5c2",
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false,
+    "provider_org": 4,
+    "execution_epoch": "e2c4edd6034a110746bd386c4435f9313220273293c84c6ce6339956300985d1"
+  },
+  "type": "RateLimitError",
+  "error": "Error code: 429 - {'error': {'message': \"Request too large for model `qwen/qwen3.8-27b` in organization `org_01knkt40j1ecnb3px4t764akn1` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1024. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the request's expected output) and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\", 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+}

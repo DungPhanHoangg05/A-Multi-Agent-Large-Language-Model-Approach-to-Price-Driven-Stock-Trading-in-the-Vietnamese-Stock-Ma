@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c09-e05d-7f80-bd78-4d71b5c6789b",
+  "parent_request_hash": "8638ed5ca3b419b8f9472d29b71555f0c1dd2e3f118a6987fc50ad77e70d436e",
+  "ended_at_utc": "2026-11-02T11:34:17.865105+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis indicates an upward channel with support at 65.5 and resistance at 68.5, suggesting a potential breakout above 66.5 within 3 days. Accumulation pattern shows higher highs and higher lows, supporting a bullish bias.\",\"evidence_against\":\"MACD line below signal and negative histogram indicates bearish momentum, which could counter the bullish trend.\",\"justification\":\"Given the bullish trend and support/resistance structure, a long position is justified, but the bearish MACD signal introduces caution. Risk-reward ratio is approximately 1:1, aligning with the 1.0 ratio requirement.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis indicates an upward channel with support at 65.5 and resistance at 68.5, suggesting a potential breakout above 66.5 within 3 days. Accumulation pattern shows higher highs and higher lows, supporting a bullish bias.\",\"evidence_against\":\"MACD line below signal and negative histogram indicates bearish momentum, which could counter the bullish trend.\",\"justification\":\"Given the bullish trend and support/resistance structure, a long position is justified, but the bearish MACD signal introduces caution. Risk-reward ratio is approximately 1:1, aligning with the 1.0 ratio requirement.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1102,
+                "prompt_tokens": 1565,
+                "total_tokens": 2667,
+                "completion_time": 1.329556394,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 935
+                },
+                "prompt_time": 0.323792311,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.595805666,
+                "total_time": 1.653348705
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9340e7d14d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c09-e05d-7f80-bd78-4d71b5c6789b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1102,
+        "prompt_tokens": 1565,
+        "total_tokens": 2667,
+        "completion_time": 1.329556394,
+        "completion_tokens_details": {
+          "reasoning_tokens": 935
+        },
+        "prompt_time": 0.323792311,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.595805666,
+        "total_time": 1.653348705
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9340e7d14d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

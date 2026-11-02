@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0e-94fb-7f93-a42e-98304d188eda",
+  "parent_request_hash": "b3d581951691e6508dc307e165465a1a64af2aa1964d310bd747899605aff1d0",
+  "ended_at_utc": "2026-11-02T11:39:26.116487+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD death cross and negative histogram confirm bearish momentum.\",\"evidence_against\":\"Pattern indicates potential breakout but not yet confirmed.\",\"justification\":\"Trend is sideways, pattern not yet breakout, MACD signals sell, so short is appropriate.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD death cross and negative histogram confirm bearish momentum.\",\"evidence_against\":\"Pattern indicates potential breakout but not yet confirmed.\",\"justification\":\"Trend is sideways, pattern not yet breakout, MACD signals sell, so short is appropriate.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 610,
+                "prompt_tokens": 1395,
+                "total_tokens": 2005,
+                "completion_time": 0.647668004,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 521
+                },
+                "prompt_time": 1.143606323,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.314320691,
+                "total_time": 1.791274327
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0e-94fb-7f93-a42e-98304d188eda-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 610,
+        "prompt_tokens": 1395,
+        "total_tokens": 2005,
+        "completion_time": 0.647668004,
+        "completion_tokens_details": {
+          "reasoning_tokens": 521
+        },
+        "prompt_time": 1.143606323,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.314320691,
+        "total_time": 1.791274327
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

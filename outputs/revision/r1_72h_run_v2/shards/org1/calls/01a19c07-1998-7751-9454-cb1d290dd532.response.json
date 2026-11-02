@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c07-1998-7751-9454-cb1d290dd532",
+  "parent_request_hash": "4175627d8cfe3bb297d3893e7c0ede2ded9e8dc2de11019545f6b04d8790490b",
+  "ended_at_utc": "2026-11-02T11:31:14.799668+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal indicates bearish momentum; trend analysis shows price likely to stay near support.\",\"evidence_against\":\"Pattern suggests potential breakout above resistance.\",\"justification\":\"Shorting aligns with bearish indicators and protects cash over horizon; fees and slippage make long less attractive.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal indicates bearish momentum; trend analysis shows price likely to stay near support.\",\"evidence_against\":\"Pattern suggests potential breakout above resistance.\",\"justification\":\"Shorting aligns with bearish indicators and protects cash over horizon; fees and slippage make long less attractive.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 631,
+                "prompt_tokens": 1478,
+                "total_tokens": 2109,
+                "completion_time": 0.758816841,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 534
+                },
+                "prompt_time": 0.07954798,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317413761,
+                "total_time": 0.838364821
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c07-1998-7751-9454-cb1d290dd532-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 631,
+        "prompt_tokens": 1478,
+        "total_tokens": 2109,
+        "completion_time": 0.758816841,
+        "completion_tokens_details": {
+          "reasoning_tokens": 534
+        },
+        "prompt_time": 0.07954798,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317413761,
+        "total_time": 0.838364821
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

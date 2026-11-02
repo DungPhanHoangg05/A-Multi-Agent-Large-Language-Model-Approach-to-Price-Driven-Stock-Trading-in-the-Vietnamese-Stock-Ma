@@ -1,0 +1,88 @@
+{
+  "parent": {
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+    "asset_hash": "1840a42a5fcc58cdc089ac752a761af1192fb4513c0b60673517082f18aefe04",
+    "upstream_hash": "516dcea36ab8e45d84478f2061cc3d1e9267a4af26cca1801a8067368df2b9f9",
+    "node_hashes": [
+      "bdc86cdb84a1a7c2d145ef9142740442c32e4c8e8a8b055233cc34219a5ddb69",
+      "d67c326740e1dcf194502b1d156a131eac602633c618c2f3b7828e0ec0428331",
+      "f632627da67e45b5ab23637af0a6c5bd4100e59cbc31c7470363be4e80ca96ed"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "FPT_f2026_q2_1613",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "SHORT",
+  "confidence": "Cao",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"SHORT\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"Trend analysis indicates a sideways movement with support at 64.2 and resistance at 69.5, but pattern analysis shows a clear downtrend with successive lower highs and lows. MACD is below signal with negative histogram, confirming bearish momentum.\",\n  \"evidence_against\": \"The trend analysis suggests a potential slight upward movement if price breaks above 65.5, which could reduce the bearish bias.\",\n  \"justification\": \"Given the combined bearish signals from trend, pattern, and MACD, a short position aligns with the expected price decline over the T+2.5 horizon. The risk reward ratio of 2.0 reflects the anticipated move below support while limiting exposure to potential upside.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: FPT; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n3 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Đi ngang.\n\n**Mức hỗ trợ:** 64.2.\n\n**Mức kháng cự:** 69.5.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá đóng cửa hiện tại đang nằm sát trên đường hỗ trợ màu xanh, cho thấy lực cầu đang đỡ giá. Khoảng cách giữa giá và đường kháng cự màu đỏ vẫn còn rộng, chưa có tín hiệu bứt phá.\n\n**Dự đoán xu hướng:** Giá có khả năng đi ngang hoặc tăng nhẹ trong 3 phiên tới do đang được hỗ trợ tốt. Cần vượt qua vùng 65.5 để xác nhận xu hướng tăng rõ ràng hơn.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Xu hướng giảm rõ rệt.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Chuỗi các đỉnh và đáy liên tục thấp dần từ vùng 70 xuống 64, các nhịp hồi đều yếu và bị đẩy xuống.\n\n**Nến quan trọng:** Nến đỏ thân dài ngày 2026-06-24 xác nhận đà giảm mạnh.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng 65.5 - 66, ngừng lỗ trên 67.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-0.532**        | [-0.0844, -0.2006, -0.3547, -0.457, -0.532]                 |\n| Signal Line | **-0.1729**        | [0.1772, 0.1016, 0.0104, -0.0831, -0.1729]                 |\n| Histogram   | **-0.3591**        | [-0.2616, -0.3022, -0.3651, -0.3739, -0.3591]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.3591)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm → vù\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates a sideways movement with support at 64.2 and resistance at 69.5, but pattern analysis shows a clear downtrend with successive lower highs and lows. MACD is below signal with negative histogram, confirming bearish momentum.\",\"evidence_against\":\"The trend analysis suggests a potential slight upward movement if price breaks above 65.5, which could reduce the bearish bias.\",\"justification\":\"Given the combined bearish signals from trend, pattern, and MACD, a short position aligns with the expected price decline over the T+2.5 horizon. The risk reward ratio of 2.0 reflects the anticipated move below support while limiting exposure to potential upside.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 773,
+              "prompt_tokens": 1437,
+              "total_tokens": 2210,
+              "completion_time": 0.826557395,
+              "completion_tokens_details": {
+                "reasoning_tokens": 595
+              },
+              "prompt_time": 0.358535594,
+              "prompt_tokens_details": null,
+              "queue_time": 0.396673868,
+              "total_time": 1.185092989
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_d23c14756c",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19ba1-954a-7ea2-ab06-0984eca72dce-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1437,
+            "output_tokens": 773,
+            "total_tokens": 2210,
+            "output_token_details": {
+              "reasoning": 595
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19ba1-954a-7ea2-ab06-0984eca72dce"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19ba1-954a-7ea2-ab06-0984eca72dce.request.json",
+      "sha256": "0f70b4661442c471f171caa84d59d19ae1522f5a59d077139e80226954b38b96"
+    },
+    {
+      "path": "calls/01a19ba1-954a-7ea2-ab06-0984eca72dce.response.json",
+      "sha256": "ec32d70ffd5b376ff9147308f3d4675db14ee9a3a8bda6c69fcc78136e9a8fca"
+    }
+  ],
+  "sha256": "0515b3bd3ebf8c93e95ad7cba2f9361fe2214e2b5c5897a4a8ebb882a456bedd"
+}

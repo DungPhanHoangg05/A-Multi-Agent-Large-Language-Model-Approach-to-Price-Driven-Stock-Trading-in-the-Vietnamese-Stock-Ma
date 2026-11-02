@@ -48,6 +48,7 @@
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \usepackage{orcidlink}
 \usepackage{hyperref}
+\hypersetup{hypertexnames=false}
 
 \journal{Knowledge-Based Systems}
 
@@ -90,7 +91,7 @@
 
 %% Abstract
 \begin{abstract}
-We examine quantitative evidence in a five-agent decision-support architecture for Vietnamese equities using an audit of archived predictions and an explicitly separate numerical-baseline reconstruction. The legacy benchmark contains 180 decisions across nine equities. Its Full branch achieves 65.0\% accuracy, below a constant DOWN/CASH rule at 68.9\%; balanced accuracy is 55.0\% and Matthews correlation is 0.113. The Base reports control, which removes both factors and sentiment, has balanced accuracy of 44.4\%. Mean independently compounded Full account return is negative, whereas CASH returns zero. Consequently, the Full--Base accuracy gap does not establish alpha information value or profitability. Additional train-fitted majority, momentum, logistic and factor-only baselines, together with continuous-hold and daily mark-to-market ledgers, are evaluated on a newly retrieved, frozen price snapshot. That snapshot differs from legacy at 74 of the 180 cycles and changes two labels, so these numerical results are not presented as a head-to-head comparison with archived Full predictions. Missing historical reports and training predictions also prevent verification of an identical-information comparator and a Full-exposure-matched control. The reanalysis documents class imbalance, target definitions, preprocessing boundaries and the remaining evidence needed before claiming predictive superiority.
+We evaluate a five-agent decision-support architecture for Vietnamese equities using a new frozen common-snapshot study and a separate audit of legacy predictions. The new study contains 102 paired market units across nine equities, six historical blocks in 2023--2026 and twelve decision dates. Its net-cycle target has 25 UP and 77 DOWN outcomes. Full achieves 62.75\% accuracy, below constant DOWN/CASH at 75.49\%; balanced accuracy is 48.31\%, Matthews correlation is $-0.035$, and LONG frequency is 22.55\%. Base reports, which removes both factors and sentiment, achieves balanced accuracy of 47.77\%. Price-only logistic regression achieves 55.61\% balanced accuracy on the same support. Full's mean net return across 51 independent symbol--block accounts is $-0.88\%$, versus zero for CASH and $-0.68\%$ for price logistic regression. A six-block paired bootstrap yields a descriptive Full--Base balanced-accuracy interval of $[-5.91,8.00]$ percentage points. Three-repeat decision and upstream panels are reported on their preselected supports; their dispersion is not generalised to the full sample. All 474 planned research decisions are archived, excluding ten smoke decisions. The new evidence does not establish predictive superiority, isolated alpha/sentiment value or profitability. Historical-model contamination, uncertain news availability and simplified fractional immediate-cash execution limit interpretation. Legacy results remain separate because their authenticated input snapshot could not be recovered.
 \end{abstract}
 
 %%Graphical abstract
@@ -101,11 +102,11 @@ We examine quantitative evidence in a five-agent decision-support architecture f
 
 %%Research highlights
 \begin{highlights}
-\item A class-imbalance audit qualifies the legacy multi-agent benchmark.
-\item Constant CASH exceeds legacy Full in raw accuracy and mean return.
-\item Train-fitted numerical baselines use explicit temporal preprocessing.
-\item Snapshot differences prevent a valid retrospective Full comparison.
-\item The available evidence does not establish alpha value or profitability.
+\item A frozen study evaluates 102 Base--Full pairs across six historical blocks.
+\item CASH exceeds Full in accuracy; price logistic has higher balanced accuracy.
+\item All 474 planned decisions include preselected repeated and placebo panels.
+\item Full has negative mean net return under explicit execution assumptions.
+\item The evidence does not establish alpha value or predictive superiority.
 \end{highlights}
 
 %% Keywords

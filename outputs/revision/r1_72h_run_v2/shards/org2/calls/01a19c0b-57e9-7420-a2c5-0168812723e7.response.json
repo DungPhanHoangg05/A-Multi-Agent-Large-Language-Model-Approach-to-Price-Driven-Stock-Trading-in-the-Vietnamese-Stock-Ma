@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0b-57e9-7420-a2c5-0168812723e7",
+  "parent_request_hash": "94a7c2f9df3a8d0c8ac8f7185c45711a3a29947a8c8cd15046b7497630fe484b",
+  "ended_at_utc": "2026-11-02T11:35:53.868261+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram indicates bearish momentum. Sentiment score is negative, suggesting market bias against the stock.\",\"evidence_against\":\"Trend analysis and V reversal pattern indicate potential upward movement toward resistance 28.5.\",\"justification\":\"Given the bearish MACD and negative sentiment, the risk of a short trade outweighs the potential upside from the bullish trend. Therefore, holding cash (short) is the prudent choice for the T+2.5 horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram indicates bearish momentum. Sentiment score is negative, suggesting market bias against the stock.\",\"evidence_against\":\"Trend analysis and V reversal pattern indicate potential upward movement toward resistance 28.5.\",\"justification\":\"Given the bearish MACD and negative sentiment, the risk of a short trade outweighs the potential upside from the bullish trend. Therefore, holding cash (short) is the prudent choice for the T+2.5 horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1512,
+                "prompt_tokens": 1494,
+                "total_tokens": 3006,
+                "completion_time": 1.613844216,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1375
+                },
+                "prompt_time": 0.116165537,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.348268022,
+                "total_time": 1.730009753
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0b-57e9-7420-a2c5-0168812723e7-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1512,
+        "prompt_tokens": 1494,
+        "total_tokens": 3006,
+        "completion_time": 1.613844216,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1375
+        },
+        "prompt_time": 0.116165537,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.348268022,
+        "total_time": 1.730009753
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

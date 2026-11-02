@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19cb1-111d-7251-881f-5d7cc8f0fbd4",
+  "parent_request_hash": "be974aeb81c7a97ba5cf42bef0a9e697bbe123e069cec2828a2609e1fdf0e499",
+  "ended_at_utc": "2026-11-02T14:36:55.954204+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line above signal with widening histogram indicates bullish momentum; pattern V shape suggests potential reversal at support 133.5. However, trend analysis shows a clear downtrend and alpha factors overall decreasing, reducing the likelihood of a profitable long trade.\",\"evidence_against\":\"Trend analysis shows a clear downtrend with low confidence, and alpha factors overall decreasing, reducing the likelihood of a profitable long trade.\",\"justification\":\"Given the conflicting bullish signals but stronger downtrend and alpha consensus, a short position aligns with the risk management rule to avoid buying if profit cannot be guaranteed. The short trade will benefit from the expected price decline to around 130 within the 3‑day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line above signal with widening histogram indicates bullish momentum; pattern V shape suggests potential reversal at support 133.5. However, trend analysis shows a clear downtrend and alpha factors overall decreasing, reducing the likelihood of a profitable long trade.\",\"evidence_against\":\"Trend analysis shows a clear downtrend with low confidence, and alpha factors overall decreasing, reducing the likelihood of a profitable long trade.\",\"justification\":\"Given the conflicting bullish signals but stronger downtrend and alpha consensus, a short position aligns with the risk management rule to avoid buying if profit cannot be guaranteed. The short trade will benefit from the expected price decline to around 130 within the 3‑day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1299,
+                "prompt_tokens": 1596,
+                "total_tokens": 2895,
+                "completion_time": 1.488515628,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1120
+                },
+                "prompt_time": 0.096138113,
+                "prompt_tokens_details": null,
+                "queue_time": 1.734540279,
+                "total_time": 1.584653741
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e2cb7a84ec",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19cb1-111d-7251-881f-5d7cc8f0fbd4-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1299,
+        "prompt_tokens": 1596,
+        "total_tokens": 2895,
+        "completion_time": 1.488515628,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1120
+        },
+        "prompt_time": 0.096138113,
+        "prompt_tokens_details": null,
+        "queue_time": 1.734540279,
+        "total_time": 1.584653741
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e2cb7a84ec",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

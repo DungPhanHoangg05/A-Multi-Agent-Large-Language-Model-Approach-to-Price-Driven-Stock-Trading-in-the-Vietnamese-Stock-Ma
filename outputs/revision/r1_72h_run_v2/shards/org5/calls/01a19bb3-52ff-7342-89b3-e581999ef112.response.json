@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bb3-52ff-7342-89b3-e581999ef112",
+  "parent_request_hash": "a2ebf7f4d18596a9010f6959c9c2c0e233332f302eeefa685fadea89e3877d60",
+  "ended_at_utc": "2026-11-02T10:00:13.069921+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD line is negative at -0.1628 and below signal line, indicating bearish momentum; trend analysis shows a clear downtrend with support at 60.0 and resistance at 62.0.\",\"evidence_against\":\"The double bottom pattern near 59.5 could signal a potential reversal.\",\"justification\":\"Given the bearish MACD and downtrend, a short position aligns with the risk management rules; the double bottom is not strong enough to override the negative momentum.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD line is negative at -0.1628 and below signal line, indicating bearish momentum; trend analysis shows a clear downtrend with support at 60.0 and resistance at 62.0.\",\"evidence_against\":\"The double bottom pattern near 59.5 could signal a potential reversal.\",\"justification\":\"Given the bearish MACD and downtrend, a short position aligns with the risk management rules; the double bottom is not strong enough to override the negative momentum.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 590,
+                "prompt_tokens": 1573,
+                "total_tokens": 2163,
+                "completion_time": 0.767460421,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 453
+                },
+                "prompt_time": 0.093595973,
+                "prompt_tokens_details": null,
+                "queue_time": 0.361944481,
+                "total_time": 0.861056394
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb3-52ff-7342-89b3-e581999ef112-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 590,
+        "prompt_tokens": 1573,
+        "total_tokens": 2163,
+        "completion_time": 0.767460421,
+        "completion_tokens_details": {
+          "reasoning_tokens": 453
+        },
+        "prompt_time": 0.093595973,
+        "prompt_tokens_details": null,
+        "queue_time": 0.361944481,
+        "total_time": 0.861056394
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

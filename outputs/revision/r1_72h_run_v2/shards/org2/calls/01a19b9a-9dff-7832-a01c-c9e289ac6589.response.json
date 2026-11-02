@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b9a-9dff-7832-a01c-c9e289ac6589",
+  "parent_request_hash": "ddfbb8e14a1306973472a96e92380be49ae6da3e70589a9a6427ff53e0392430",
+  "ended_at_utc": "2026-11-02T09:33:14.197898+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal line indicates bearish momentum; price is near support 13.80 and trend is sideways, making a short entry likely to capture a pullback. Pattern analysis shows weak double top at 14.90 with low reliability, suggesting limited upside.\",\"evidence_against\":\"Trend slope is increasing, indicating potential for a breakout to the upside.\",\"justification\":\"Given the bearish MACD and weak pattern, a short position is preferred to avoid potential losses from a sideways or slight upward move. The short trade allows us to hold cash if the market fails to move against us, meeting the risk management criteria.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal line indicates bearish momentum; price is near support 13.80 and trend is sideways, making a short entry likely to capture a pullback. Pattern analysis shows weak double top at 14.90 with low reliability, suggesting limited upside.\",\"evidence_against\":\"Trend slope is increasing, indicating potential for a breakout to the upside.\",\"justification\":\"Given the bearish MACD and weak pattern, a short position is preferred to avoid potential losses from a sideways or slight upward move. The short trade allows us to hold cash if the market fails to move against us, meeting the risk management criteria.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 998,
+                "prompt_tokens": 1463,
+                "total_tokens": 2461,
+                "completion_time": 1.112457854,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 832
+                },
+                "prompt_time": 0.085473304,
+                "prompt_tokens_details": null,
+                "queue_time": 0.343398527,
+                "total_time": 1.197931158
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b9a-9dff-7832-a01c-c9e289ac6589-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 998,
+        "prompt_tokens": 1463,
+        "total_tokens": 2461,
+        "completion_time": 1.112457854,
+        "completion_tokens_details": {
+          "reasoning_tokens": 832
+        },
+        "prompt_time": 0.085473304,
+        "prompt_tokens_details": null,
+        "queue_time": 0.343398527,
+        "total_time": 1.197931158
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

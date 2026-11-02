@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b96-b7b2-7f11-8b5f-faeb65c686b6",
+  "parent_request_hash": "ae241e1e666231a83e9756d19c8ad265817d3ec9151ef9feb506ca7675e67a6b",
+  "ended_at_utc": "2026-11-02T09:28:30.996370+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"Trend analysis indicates an upward move with support at 40.5 and resistance at 44.0, and MACD shows bullish momentum with histogram expanding. Alpha factors collectively signal a bullish stance with 3 out of 5 indicators positive.\",\"evidence_against\":\"Pattern analysis shows low reliability and the V reversal pattern does not match current candles.\",\"justification\":\"Given the bullish trend, positive MACD, and overall alpha consensus, the target of 44.0–45.0 is achievable within the 3‑day horizon, providing a risk‑reward ratio above 1.0. Therefore a LONG position is recommended.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"Trend analysis indicates an upward move with support at 40.5 and resistance at 44.0, and MACD shows bullish momentum with histogram expanding. Alpha factors collectively signal a bullish stance with 3 out of 5 indicators positive.\",\"evidence_against\":\"Pattern analysis shows low reliability and the V reversal pattern does not match current candles.\",\"justification\":\"Given the bullish trend, positive MACD, and overall alpha consensus, the target of 44.0–45.0 is achievable within the 3‑day horizon, providing a risk‑reward ratio above 1.0. Therefore a LONG position is recommended.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1042,
+                "prompt_tokens": 1556,
+                "total_tokens": 2598,
+                "completion_time": 1.216919696,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 869
+                },
+                "prompt_time": 0.133824973,
+                "prompt_tokens_details": null,
+                "queue_time": 0.502363821,
+                "total_time": 1.350744669
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d6de37e6be",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b96-b7b2-7f11-8b5f-faeb65c686b6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1042,
+        "prompt_tokens": 1556,
+        "total_tokens": 2598,
+        "completion_time": 1.216919696,
+        "completion_tokens_details": {
+          "reasoning_tokens": 869
+        },
+        "prompt_time": 0.133824973,
+        "prompt_tokens_details": null,
+        "queue_time": 0.502363821,
+        "total_time": 1.350744669
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d6de37e6be",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c09-7612-7f73-8993-d253509d06e0",
+  "parent_request_hash": "2ea4d801187a13b44ff88f8117c748e22b69a9c233b1d7feffafbafd1c79cbf1",
+  "ended_at_utc": "2026-11-02T11:33:50.035693+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with price above support 19.70 and breaking resistance 20.65. MACD line above signal and histogram positive increasing indicates bullish momentum.\",\"evidence_against\":\"Overall alpha factors indicate a negative outlook.\",\"justification\":\"Long position aligns with bullish trend and momentum indicators. Risk of alpha negativity mitigated by strong support and resistance levels.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with price above support 19.70 and breaking resistance 20.65. MACD line above signal and histogram positive increasing indicates bullish momentum.\",\"evidence_against\":\"Overall alpha factors indicate a negative outlook.\",\"justification\":\"Long position aligns with bullish trend and momentum indicators. Risk of alpha negativity mitigated by strong support and resistance levels.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 923,
+                "prompt_tokens": 1521,
+                "total_tokens": 2444,
+                "completion_time": 1.281237927,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 809
+                },
+                "prompt_time": 0.078578666,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.173361275,
+                "total_time": 1.3598165930000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c09-7612-7f73-8993-d253509d06e0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 923,
+        "prompt_tokens": 1521,
+        "total_tokens": 2444,
+        "completion_time": 1.281237927,
+        "completion_tokens_details": {
+          "reasoning_tokens": 809
+        },
+        "prompt_time": 0.078578666,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.173361275,
+        "total_time": 1.3598165930000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

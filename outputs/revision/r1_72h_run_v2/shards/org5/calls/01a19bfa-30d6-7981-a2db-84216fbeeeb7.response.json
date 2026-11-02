@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19bfa-30d6-7981-a2db-84216fbeeeb7",
+  "parent_request_hash": "e4f25c97d337bc5aec9d5ef2b73e66042b08dbf3b1518ddb9f62e014cf92fa61",
+  "ended_at_utc": "2026-11-02T11:17:09.979804+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD below signal and negative histogram confirm bearish momentum; pattern shows declining highs and lows.\",\"evidence_against\":\"Trend analysis indicates sideways, but bearish pattern dominates.\",\"justification\":\"Given bearish indicators and pattern, short is preferred; risk reward ratio acceptable.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD below signal and negative histogram confirm bearish momentum; pattern shows declining highs and lows.\",\"evidence_against\":\"Trend analysis indicates sideways, but bearish pattern dominates.\",\"justification\":\"Given bearish indicators and pattern, short is preferred; risk reward ratio acceptable.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 346,
+                "prompt_tokens": 1580,
+                "total_tokens": 1926,
+                "completion_time": 0.3855156,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 253
+                },
+                "prompt_time": 0.499788061,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.212021039,
+                "total_time": 0.885303661
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_75c733514d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bfa-30d6-7981-a2db-84216fbeeeb7-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 346,
+        "prompt_tokens": 1580,
+        "total_tokens": 1926,
+        "completion_time": 0.3855156,
+        "completion_tokens_details": {
+          "reasoning_tokens": 253
+        },
+        "prompt_time": 0.499788061,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.212021039,
+        "total_time": 0.885303661
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_75c733514d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

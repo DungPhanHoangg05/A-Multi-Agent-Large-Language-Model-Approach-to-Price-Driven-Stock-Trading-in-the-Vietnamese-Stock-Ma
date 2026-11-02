@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c0a-d9be-7d22-ba0c-62f5041bb955",
+  "parent_request_hash": "71e751f9d87281d4b12a1c0aca0190ab500b72b0842447ec26942ec8f517beb9",
+  "ended_at_utc": "2026-11-02T11:35:20.985976+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a bullish channel with support at 65.5 and resistance at 68.5, and alpha factors show 4 out of 5 bullish signals.\",\"evidence_against\":\"MACD line is below signal, indicating bearish momentum.\",\"justification\":\"Entry near 66.5 with target 68.5 and stop at 65.5 yields a risk-reward ratio of 1.5, satisfying the 1:1 minimum requirement.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a bullish channel with support at 65.5 and resistance at 68.5, and alpha factors show 4 out of 5 bullish signals.\",\"evidence_against\":\"MACD line is below signal, indicating bearish momentum.\",\"justification\":\"Entry near 66.5 with target 68.5 and stop at 65.5 yields a risk-reward ratio of 1.5, satisfying the 1:1 minimum requirement.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 989,
+                "prompt_tokens": 1563,
+                "total_tokens": 2552,
+                "completion_time": 1.072889629,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 849
+                },
+                "prompt_time": 0.13723096,
+                "prompt_tokens_details": null,
+                "queue_time": 0.319057399,
+                "total_time": 1.210120589
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0a-d9be-7d22-ba0c-62f5041bb955-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 989,
+        "prompt_tokens": 1563,
+        "total_tokens": 2552,
+        "completion_time": 1.072889629,
+        "completion_tokens_details": {
+          "reasoning_tokens": 849
+        },
+        "prompt_time": 0.13723096,
+        "prompt_tokens_details": null,
+        "queue_time": 0.319057399,
+        "total_time": 1.210120589
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

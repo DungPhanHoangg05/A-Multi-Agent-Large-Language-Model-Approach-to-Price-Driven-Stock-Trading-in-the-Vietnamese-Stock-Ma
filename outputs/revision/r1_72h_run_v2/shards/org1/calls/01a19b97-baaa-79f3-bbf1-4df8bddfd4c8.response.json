@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19b97-baaa-79f3-bbf1-4df8bddfd4c8",
+  "parent_request_hash": "d9e08aadcdd36636e35a000b52f71077be311b6c065a32a35a51c2efad865a5b",
+  "ended_at_utc": "2026-11-02T09:29:36.806326+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern suggests a potential buy at support 8.8-8.9 with target 9.3.\",\"evidence_against\":\"MACD death cross and negative histogram indicate a sell signal.\",\"justification\":\"Trend is sideways with no breakout confirmation; indicator signals sell; pattern weak.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern suggests a potential buy at support 8.8-8.9 with target 9.3.\",\"evidence_against\":\"MACD death cross and negative histogram indicate a sell signal.\",\"justification\":\"Trend is sideways with no breakout confirmation; indicator signals sell; pattern weak.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1050,
+                "prompt_tokens": 1478,
+                "total_tokens": 2528,
+                "completion_time": 1.180333495,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 951
+                },
+                "prompt_time": 0.337772528,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.390836638,
+                "total_time": 1.518106023
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b97-baaa-79f3-bbf1-4df8bddfd4c8-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1050,
+        "prompt_tokens": 1478,
+        "total_tokens": 2528,
+        "completion_time": 1.180333495,
+        "completion_tokens_details": {
+          "reasoning_tokens": 951
+        },
+        "prompt_time": 0.337772528,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.390836638,
+        "total_time": 1.518106023
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

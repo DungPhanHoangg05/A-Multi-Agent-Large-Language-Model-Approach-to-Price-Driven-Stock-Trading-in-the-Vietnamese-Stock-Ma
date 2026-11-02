@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c07-a3d7-7e62-a9fd-89ee18d64be9",
+  "parent_request_hash": "f17dc4516dd1fdb9d682a06979f437be9efe31564d64ff40adf2f908351ca17c",
+  "ended_at_utc": "2026-11-02T11:31:54.690267+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD below signal and histogram negative trending indicates bearish momentum; trend analysis shows price likely to stay near support 57.5 with selling pressure.\",\"evidence_against\":\"Pattern suggests potential upside if price breaks above 60, but current candle does not match pattern.\",\"justification\":\"Given bearish MACD and trend leaning sideways with selling pressure, shorting VCB is the prudent choice to capture potential decline to support level. The risk reward ratio of 2.0 ensures acceptable risk given the 0.7% two-way slippage and 0.25% commission.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD below signal and histogram negative trending indicates bearish momentum; trend analysis shows price likely to stay near support 57.5 with selling pressure.\",\"evidence_against\":\"Pattern suggests potential upside if price breaks above 60, but current candle does not match pattern.\",\"justification\":\"Given bearish MACD and trend leaning sideways with selling pressure, shorting VCB is the prudent choice to capture potential decline to support level. The risk reward ratio of 2.0 ensures acceptable risk given the 0.7% two-way slippage and 0.25% commission.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1440,
+                "prompt_tokens": 1478,
+                "total_tokens": 2918,
+                "completion_time": 1.556598116,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1285
+                },
+                "prompt_time": 1.734376685,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.349883466,
+                "total_time": 3.290974801
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c07-a3d7-7e62-a9fd-89ee18d64be9-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1440,
+        "prompt_tokens": 1478,
+        "total_tokens": 2918,
+        "completion_time": 1.556598116,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1285
+        },
+        "prompt_time": 1.734376685,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.349883466,
+        "total_time": 3.290974801
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

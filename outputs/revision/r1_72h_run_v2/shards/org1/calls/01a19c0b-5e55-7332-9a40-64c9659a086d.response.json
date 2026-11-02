@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0b-5e55-7332-9a40-64c9659a086d",
+  "parent_request_hash": "447d49e95efb2d8ee63655de5aaab7d48d72fa87a2c40890bc52eb17d40c213a",
+  "ended_at_utc": "2026-11-02T11:35:55.076242+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern bullish with high confidence suggests potential upside, but trend is sideways and MACD shows bearish momentum.\",\"evidence_against\":\"MACD death cross indicates bearish momentum.\",\"justification\":\"Given the sideways trend and bearish MACD signal, holding cash is safer. The pattern bullish signal is insufficient to overcome the negative momentum.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern bullish with high confidence suggests potential upside, but trend is sideways and MACD shows bearish momentum.\",\"evidence_against\":\"MACD death cross indicates bearish momentum.\",\"justification\":\"Given the sideways trend and bearish MACD signal, holding cash is safer. The pattern bullish signal is insufficient to overcome the negative momentum.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 929,
+                "prompt_tokens": 1440,
+                "total_tokens": 2369,
+                "completion_time": 1.08461863,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 820
+                },
+                "prompt_time": 0.384236209,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.210901967,
+                "total_time": 1.468854839
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0b-5e55-7332-9a40-64c9659a086d-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 929,
+        "prompt_tokens": 1440,
+        "total_tokens": 2369,
+        "completion_time": 1.08461863,
+        "completion_tokens_details": {
+          "reasoning_tokens": 820
+        },
+        "prompt_time": 0.384236209,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.210901967,
+        "total_time": 1.468854839
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

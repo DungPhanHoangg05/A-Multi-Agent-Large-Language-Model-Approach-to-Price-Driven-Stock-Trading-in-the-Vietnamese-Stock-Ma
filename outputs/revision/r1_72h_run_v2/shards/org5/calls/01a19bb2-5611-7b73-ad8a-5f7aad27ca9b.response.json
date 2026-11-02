@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19bb2-5611-7b73-ad8a-5f7aad27ca9b",
+  "parent_request_hash": "3fb44563cc1622c250eea6f39f8565811f588fddbb2021d06804cfab03393474",
+  "ended_at_utc": "2026-11-02T09:59:09.562739+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates a downward trend with price near support 22.00 and MACD below signal confirming bearish momentum. Double top pattern at 24.0 and price testing support 22.0 suggest potential break below support.\",\"evidence_against\":\"Trend confidence is low, raising uncertainty about a sustained down move.\",\"justification\":\"Given the bearish trend, pattern, and MACD signals, a short position is justified to capture potential decline. The short trade aligns with the T+2.5 settlement horizon and avoids holding the stock beyond the allowed period.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates a downward trend with price near support 22.00 and MACD below signal confirming bearish momentum. Double top pattern at 24.0 and price testing support 22.0 suggest potential break below support.\",\"evidence_against\":\"Trend confidence is low, raising uncertainty about a sustained down move.\",\"justification\":\"Given the bearish trend, pattern, and MACD signals, a short position is justified to capture potential decline. The short trade aligns with the T+2.5 settlement horizon and avoids holding the stock beyond the allowed period.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1227,
+                "prompt_tokens": 1470,
+                "total_tokens": 2697,
+                "completion_time": 1.3974512510000001,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1073
+                },
+                "prompt_time": 0.332610184,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.314485243,
+                "total_time": 1.730061435
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ef00694abe",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb2-5611-7b73-ad8a-5f7aad27ca9b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1227,
+        "prompt_tokens": 1470,
+        "total_tokens": 2697,
+        "completion_time": 1.3974512510000001,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1073
+        },
+        "prompt_time": 0.332610184,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.314485243,
+        "total_time": 1.730061435
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ef00694abe",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

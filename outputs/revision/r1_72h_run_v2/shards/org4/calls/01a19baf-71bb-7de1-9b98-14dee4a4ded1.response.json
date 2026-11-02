@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19baf-71bb-7de1-9b98-14dee4a4ded1",
+  "parent_request_hash": "7db4af3013e4ebbdee249c21267810667975dbcb39b7e46a93ce750e87bc8d3e",
+  "ended_at_utc": "2026-11-02T09:55:32.317528+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is upward with price near resistance 13.15 and MACD bullish. Pattern V reversal confirms reversal with high confidence.\",\"evidence_against\":\"No clear bearish signals.\",\"justification\":\"Buy at 13.0, target 13.5, stop 12.8. Expect price to continue upward within 3 days.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is upward with price near resistance 13.15 and MACD bullish. Pattern V reversal confirms reversal with high confidence.\",\"evidence_against\":\"No clear bearish signals.\",\"justification\":\"Buy at 13.0, target 13.5, stop 12.8. Expect price to continue upward within 3 days.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 548,
+                "prompt_tokens": 1443,
+                "total_tokens": 1991,
+                "completion_time": 0.601607713,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 441
+                },
+                "prompt_time": 0.168903465,
+                "prompt_tokens_details": null,
+                "queue_time": 1.353938659,
+                "total_time": 0.770511178
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d3e146e1a5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19baf-71bb-7de1-9b98-14dee4a4ded1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 548,
+        "prompt_tokens": 1443,
+        "total_tokens": 1991,
+        "completion_time": 0.601607713,
+        "completion_tokens_details": {
+          "reasoning_tokens": 441
+        },
+        "prompt_time": 0.168903465,
+        "prompt_tokens_details": null,
+        "queue_time": 1.353938659,
+        "total_time": 0.770511178
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d3e146e1a5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c0e-1e79-7ca0-a168-a1dc986704a0",
+  "parent_request_hash": "ae583147e229580c8f061445aa9da96c16fad14e4018b450c10999b1b81791c9",
+  "ended_at_utc": "2026-11-02T11:38:54.788796+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD shows death cross indicating bearish momentum; trend analysis shows sideways with no breakout above resistance.\",\"evidence_against\":\"Pattern flag up suggests potential breakout to 145.\",\"justification\":\"Given bearish MACD and sideways trend, short position is preferred to avoid missing upside; shorting allows cash holding and potential profit if price declines.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD shows death cross indicating bearish momentum; trend analysis shows sideways with no breakout above resistance.\",\"evidence_against\":\"Pattern flag up suggests potential breakout to 145.\",\"justification\":\"Given bearish MACD and sideways trend, short position is preferred to avoid missing upside; shorting allows cash holding and potential profit if price declines.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 659,
+                "prompt_tokens": 1440,
+                "total_tokens": 2099,
+                "completion_time": 0.767799102,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 553
+                },
+                "prompt_time": 0.092580444,
+                "prompt_tokens_details": null,
+                "queue_time": 0.049199825,
+                "total_time": 0.860379546
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0e-1e79-7ca0-a168-a1dc986704a0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 659,
+        "prompt_tokens": 1440,
+        "total_tokens": 2099,
+        "completion_time": 0.767799102,
+        "completion_tokens_details": {
+          "reasoning_tokens": 553
+        },
+        "prompt_time": 0.092580444,
+        "prompt_tokens_details": null,
+        "queue_time": 0.049199825,
+        "total_time": 0.860379546
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

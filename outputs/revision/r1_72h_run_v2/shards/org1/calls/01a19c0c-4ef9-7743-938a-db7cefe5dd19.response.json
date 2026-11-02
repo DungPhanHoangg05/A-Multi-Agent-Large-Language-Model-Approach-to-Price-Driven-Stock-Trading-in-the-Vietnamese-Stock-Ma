@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c0c-4ef9-7743-938a-db7cefe5dd19",
+  "parent_request_hash": "8b1041947380a280ba0c8ff8e71e982e203711935b2edad4ee0c22938686347f",
+  "ended_at_utc": "2026-11-02T11:36:56.202872+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"MACD death cross signals sell and trend is sideways, indicating no clear upward move.\",\"evidence_against\":\"Flag up pattern with high confidence suggests potential breakout above 141.\",\"justification\":\"Given the MACD sell signal and lack of confirmed breakout, shorting to hold cash is prudent; the risk‑reward ratio of 1.2 reflects modest upside if the breakout fails.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"MACD death cross signals sell and trend is sideways, indicating no clear upward move.\",\"evidence_against\":\"Flag up pattern with high confidence suggests potential breakout above 141.\",\"justification\":\"Given the MACD sell signal and lack of confirmed breakout, shorting to hold cash is prudent; the risk‑reward ratio of 1.2 reflects modest upside if the breakout fails.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 673,
+                "prompt_tokens": 1440,
+                "total_tokens": 2113,
+                "completion_time": 0.720265559,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 554
+                },
+                "prompt_time": 0.072478905,
+                "prompt_tokens_details": null,
+                "queue_time": 0.331180845,
+                "total_time": 0.792744464
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_84bb35977d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0c-4ef9-7743-938a-db7cefe5dd19-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 673,
+        "prompt_tokens": 1440,
+        "total_tokens": 2113,
+        "completion_time": 0.720265559,
+        "completion_tokens_details": {
+          "reasoning_tokens": 554
+        },
+        "prompt_time": 0.072478905,
+        "prompt_tokens_details": null,
+        "queue_time": 0.331180845,
+        "total_time": 0.792744464
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_84bb35977d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

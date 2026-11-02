@@ -1,0 +1,63 @@
+{
+  "parent": {
+    "input_hash": "7d9afe65a66e343b633e096af8c65777f618ff6ad9282603e9086230f9725a64",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5"
+  },
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Xu hướng giảm.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Giá tạo đỉnh tại 64.5 (cuối tháng 5) và liên tục tạo các đỉnh thấp hơn cùng đáy thấp hơn về vùng 60.5.\n\n**Nến quan trọng:** Nến đỏ thân dài ngày 28/05 phá vỡ cấu trúc tăng và nến đỏ ngày 24/06 xác nhận xu hướng giảm.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 61.5 - 62.0, cắt lỗ nếu vượt qua 62.5.",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19bf9-d601-7d50-9bfe-8bbb71566515"
+  ],
+  "execution_epoch": "e2c4edd6034a110746bd386c4435f9313220273293c84c6ce6339956300985d1",
+  "failed_request_ids": [
+    "01a19bf9-c0fc-7691-9cd0-74553a61e786",
+    "01a19bf9-c7ba-74c2-86df-859f8781e5c2",
+    "01a19bf9-cdd5-7983-a1f1-1672e977e269"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bf9-c0fc-7691-9cd0-74553a61e786.request.json",
+      "sha256": "b86008dd4aafa85210ed9b5045373e62f2c5a1d55a373605aaa06dd243653d0e"
+    },
+    {
+      "path": "calls/01a19bf9-c0fc-7691-9cd0-74553a61e786.error.json",
+      "sha256": "693ecbcb042426de6f71ad3c5a85678b3af81689cf2b4c23dff53a3960b61bae"
+    },
+    {
+      "path": "calls/01a19bf9-c7ba-74c2-86df-859f8781e5c2.request.json",
+      "sha256": "6e418cc0f3612d43a883288973acd2b7b024f53908ffbabc7c5b56e89f307f8d"
+    },
+    {
+      "path": "calls/01a19bf9-c7ba-74c2-86df-859f8781e5c2.error.json",
+      "sha256": "8df80ea19055498047cbd1844a5242051964257581cce3d67db3f039ccbff0b3"
+    },
+    {
+      "path": "calls/01a19bf9-cdd5-7983-a1f1-1672e977e269.request.json",
+      "sha256": "16e15bd28169f4266a1acfd51a655a1458194e0fc755e3f80e439cbfde7ea276"
+    },
+    {
+      "path": "calls/01a19bf9-cdd5-7983-a1f1-1672e977e269.error.json",
+      "sha256": "17a287bd3820170a7bf3e7e543a4ac76e4c5b357d1d874c3d036b9e003c79603"
+    },
+    {
+      "path": "calls/01a19bf9-d601-7d50-9bfe-8bbb71566515.request.json",
+      "sha256": "163fe67c03d5b35be335a3403e4ffde84e40832012c325b4318495de4d087793"
+    },
+    {
+      "path": "calls/01a19bf9-d601-7d50-9bfe-8bbb71566515.response.json",
+      "sha256": "dd83c621e8209dcebf72e8960e2f40a29113574873939a028a5e4f2efa57048c"
+    }
+  ],
+  "sha256": "c4f6a22299de05b5796abc6618dc212a1f7e15aec4cce87312685f802ffc4d20"
+}

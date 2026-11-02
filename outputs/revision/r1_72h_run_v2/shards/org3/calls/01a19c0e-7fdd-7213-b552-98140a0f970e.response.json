@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0e-7fdd-7213-b552-98140a0f970e",
+  "parent_request_hash": "2ed7a7cbef42ab74e7b72f107eda2d4fb60aa54283bedea9194062419e290b2a",
+  "ended_at_utc": "2026-11-02T11:39:20.914500+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows price above resistance 24.5 and moving upward; MACD indicates bullish momentum with histogram widening.\",\"evidence_against\":\"No clear downside support below 22.5, but risk of reversal exists.\",\"justification\":\"Buying at 23.5+ will capture upward move to target 24.5; risk limited by stop at 22.5.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows price above resistance 24.5 and moving upward; MACD indicates bullish momentum with histogram widening.\",\"evidence_against\":\"No clear downside support below 22.5, but risk of reversal exists.\",\"justification\":\"Buying at 23.5+ will capture upward move to target 24.5; risk limited by stop at 22.5.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 413,
+                "prompt_tokens": 1505,
+                "total_tokens": 1918,
+                "completion_time": 0.512180187,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 296
+                },
+                "prompt_time": 0.869470099,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.34500324,
+                "total_time": 1.381650286
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_996f667773",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0e-7fdd-7213-b552-98140a0f970e-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 413,
+        "prompt_tokens": 1505,
+        "total_tokens": 1918,
+        "completion_time": 0.512180187,
+        "completion_tokens_details": {
+          "reasoning_tokens": 296
+        },
+        "prompt_time": 0.869470099,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.34500324,
+        "total_time": 1.381650286
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_996f667773",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

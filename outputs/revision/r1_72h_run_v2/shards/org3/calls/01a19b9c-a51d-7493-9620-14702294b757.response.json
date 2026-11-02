@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b9c-a51d-7493-9620-14702294b757",
+  "parent_request_hash": "042a838f2021bb32af03f9f422b0b8fc5363ec37777425230b817d8dee25f57f",
+  "ended_at_utc": "2026-11-02T09:35:27.857057+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with support at 82.5 and resistance at 93.5, and MACD histogram is declining, confirming weakening momentum.\",\"evidence_against\":\"None of the alpha factors indicate a reversal; overall alpha trend is decreasing.\",\"justification\":\"Given the downtrend, declining momentum, and lack of reversal signals, a short position is optimal to capture potential price decline while avoiding the risk of holding cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with support at 82.5 and resistance at 93.5, and MACD histogram is declining, confirming weakening momentum.\",\"evidence_against\":\"None of the alpha factors indicate a reversal; overall alpha trend is decreasing.\",\"justification\":\"Given the downtrend, declining momentum, and lack of reversal signals, a short position is optimal to capture potential price decline while avoiding the risk of holding cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 472,
+                "prompt_tokens": 1522,
+                "total_tokens": 1994,
+                "completion_time": 0.536581792,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 342
+                },
+                "prompt_time": 0.076421897,
+                "prompt_tokens_details": null,
+                "queue_time": 0.816639245,
+                "total_time": 0.613003689
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_34cb00738d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b9c-a51d-7493-9620-14702294b757-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 472,
+        "prompt_tokens": 1522,
+        "total_tokens": 1994,
+        "completion_time": 0.536581792,
+        "completion_tokens_details": {
+          "reasoning_tokens": 342
+        },
+        "prompt_time": 0.076421897,
+        "prompt_tokens_details": null,
+        "queue_time": 0.816639245,
+        "total_time": 0.613003689
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_34cb00738d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

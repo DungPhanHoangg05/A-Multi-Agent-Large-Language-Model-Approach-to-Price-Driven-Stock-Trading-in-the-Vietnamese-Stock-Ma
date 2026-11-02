@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c01-1b58-7322-bc69-44a3f4bc2983",
+  "parent_request_hash": "5261548a74265f8807db5705345b7f99ccbd8839dc26812c22fa9501909c27ca",
+  "ended_at_utc": "2026-11-02T11:24:43.555055+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an upward direction with price above support and approaching resistance at 23.5. MACD shows bullish crossover with positive histogram, confirming upward momentum.\",\"evidence_against\":\"Pattern analysis suggests a potential bearish reversal, but the pattern is flagged as unreliable due to mismatched candles.\",\"justification\":\"Given the bullish trend and MACD confirmation, a LONG position is justified. The risk of a short position is higher due to the lack of clear bearish signals.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an upward direction with price above support and approaching resistance at 23.5. MACD shows bullish crossover with positive histogram, confirming upward momentum.\",\"evidence_against\":\"Pattern analysis suggests a potential bearish reversal, but the pattern is flagged as unreliable due to mismatched candles.\",\"justification\":\"Given the bullish trend and MACD confirmation, a LONG position is justified. The risk of a short position is higher due to the lack of clear bearish signals.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 860,
+                "prompt_tokens": 1467,
+                "total_tokens": 2327,
+                "completion_time": 1.164663484,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 725
+                },
+                "prompt_time": 1.103858662,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.390275789,
+                "total_time": 2.268522146
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c01-1b58-7322-bc69-44a3f4bc2983-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 860,
+        "prompt_tokens": 1467,
+        "total_tokens": 2327,
+        "completion_time": 1.164663484,
+        "completion_tokens_details": {
+          "reasoning_tokens": 725
+        },
+        "prompt_time": 1.103858662,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.390275789,
+        "total_time": 2.268522146
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

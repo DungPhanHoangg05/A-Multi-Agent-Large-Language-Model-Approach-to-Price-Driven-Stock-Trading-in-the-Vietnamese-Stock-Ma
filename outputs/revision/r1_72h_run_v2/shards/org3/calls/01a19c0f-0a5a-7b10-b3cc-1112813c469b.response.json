@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c0f-0a5a-7b10-b3cc-1112813c469b",
+  "parent_request_hash": "eeb9a7df4146a7b02ac9c7dc578dd63406c75b16c0dba4863d1f10741dab5d2e",
+  "ended_at_utc": "2026-11-02T11:39:56.972542+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with price above resistance 23.8 and MACD bullish. Pattern V reversal confirms bullish momentum.\",\"evidence_against\":\"Risk-reward ratio below 1 due to potential drop below support 21.0.\",\"justification\":\"Given the unfavorable risk-reward, holding cash is safer. Thus choose SHORT.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with price above resistance 23.8 and MACD bullish. Pattern V reversal confirms bullish momentum.\",\"evidence_against\":\"Risk-reward ratio below 1 due to potential drop below support 21.0.\",\"justification\":\"Given the unfavorable risk-reward, holding cash is safer. Thus choose SHORT.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 841,
+                "prompt_tokens": 1582,
+                "total_tokens": 2423,
+                "completion_time": 0.950719873,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 734
+                },
+                "prompt_time": 0.253190084,
+                "prompt_tokens_details": null,
+                "queue_time": 0.351226493,
+                "total_time": 1.203909957
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_334cc21c60",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0f-0a5a-7b10-b3cc-1112813c469b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 841,
+        "prompt_tokens": 1582,
+        "total_tokens": 2423,
+        "completion_time": 0.950719873,
+        "completion_tokens_details": {
+          "reasoning_tokens": 734
+        },
+        "prompt_time": 0.253190084,
+        "prompt_tokens_details": null,
+        "queue_time": 0.351226493,
+        "total_time": 1.203909957
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_334cc21c60",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b96-c23c-7113-b986-f46cd4fdf515",
+  "parent_request_hash": "35e9847e68bcb92f36f764581bd73ea3bb0407fca673acabbe8f2ff3b5fb0165",
+  "ended_at_utc": "2026-11-02T09:29:00.250190+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend shows upward movement with price above support and breaking resistance; MACD indicates bullish momentum with histogram expanding.\",\"evidence_against\":\"Pattern reliability is low and MACD line remains negative.\",\"justification\":\"Long position expected to capture upside to 44.0 within T+2.5; fees and slippage estimated at 0.7% will be offset by target gain.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend shows upward movement with price above support and breaking resistance; MACD indicates bullish momentum with histogram expanding.\",\"evidence_against\":\"Pattern reliability is low and MACD line remains negative.\",\"justification\":\"Long position expected to capture upside to 44.0 within T+2.5; fees and slippage estimated at 0.7% will be offset by target gain.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 867,
+                "prompt_tokens": 1431,
+                "total_tokens": 2298,
+                "completion_time": 1.188272282,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 749
+                },
+                "prompt_time": 0.111965125,
+                "prompt_tokens_details": null,
+                "queue_time": 0.390255425,
+                "total_time": 1.300237407
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b96-c23c-7113-b986-f46cd4fdf515-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 867,
+        "prompt_tokens": 1431,
+        "total_tokens": 2298,
+        "completion_time": 1.188272282,
+        "completion_tokens_details": {
+          "reasoning_tokens": 749
+        },
+        "prompt_time": 0.111965125,
+        "prompt_tokens_details": null,
+        "queue_time": 0.390255425,
+        "total_time": 1.300237407
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

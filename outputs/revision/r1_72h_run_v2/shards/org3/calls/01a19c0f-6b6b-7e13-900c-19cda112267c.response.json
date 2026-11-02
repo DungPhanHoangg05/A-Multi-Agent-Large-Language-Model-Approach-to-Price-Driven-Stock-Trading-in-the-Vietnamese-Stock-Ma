@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0f-6b6b-7e13-900c-19cda112267c",
+  "parent_request_hash": "9eecf7f584ef64a3e3733a0dc07c72c30d8b2b14ad59eb047ac73fdfebf8af13",
+  "ended_at_utc": "2026-11-02T11:40:22.679522+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is bullish with price above resistance and MACD line above signal indicating momentum. Pattern shows a V reversal with a strong bounce from support at 21.0 and price above 23.5.\",\"evidence_against\":\"If resistance at 24.5 holds, the trade may not cover fees.\",\"justification\":\"Long position expected to capture upward move to 24.5 with net profit after fees. Pattern and MACD confirm bullish momentum, making short less attractive.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is bullish with price above resistance and MACD line above signal indicating momentum. Pattern shows a V reversal with a strong bounce from support at 21.0 and price above 23.5.\",\"evidence_against\":\"If resistance at 24.5 holds, the trade may not cover fees.\",\"justification\":\"Long position expected to capture upward move to 24.5 with net profit after fees. Pattern and MACD confirm bullish momentum, making short less attractive.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 959,
+                "prompt_tokens": 1505,
+                "total_tokens": 2464,
+                "completion_time": 2.370936163,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 821
+                },
+                "prompt_time": 0.635569878,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.714739247,
+                "total_time": 3.006506041
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_bb6a356524",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0f-6b6b-7e13-900c-19cda112267c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 959,
+        "prompt_tokens": 1505,
+        "total_tokens": 2464,
+        "completion_time": 2.370936163,
+        "completion_tokens_details": {
+          "reasoning_tokens": 821
+        },
+        "prompt_time": 0.635569878,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.714739247,
+        "total_time": 3.006506041
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_bb6a356524",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

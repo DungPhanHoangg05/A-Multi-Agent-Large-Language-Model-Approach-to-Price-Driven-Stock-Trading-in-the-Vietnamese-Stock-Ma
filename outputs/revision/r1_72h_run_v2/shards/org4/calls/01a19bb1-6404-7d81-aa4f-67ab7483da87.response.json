@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bb1-6404-7d81-aa4f-67ab7483da87",
+  "parent_request_hash": "8aac171d381a8e92ef1b55c56a57609a428405b319d59796a0222043b130020c",
+  "ended_at_utc": "2026-11-02T09:57:37.979685+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD death cross and histogram turning negative confirm bearish momentum; price is near resistance 30.5 and trending downward. Trend pattern shows consolidation and potential break below support 29.0.\",\"evidence_against\":\"Price is close to support 29.0, which could act as a floor.\",\"justification\":\"Given the bearish trend, MACD death cross, and price near resistance, a short position aligns with the forecast horizon of T+2.5. The risk-reward ratio of 2:1 supports the trade with acceptable risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD death cross and histogram turning negative confirm bearish momentum; price is near resistance 30.5 and trending downward. Trend pattern shows consolidation and potential break below support 29.0.\",\"evidence_against\":\"Price is close to support 29.0, which could act as a floor.\",\"justification\":\"Given the bearish trend, MACD death cross, and price near resistance, a short position aligns with the forecast horizon of T+2.5. The risk-reward ratio of 2:1 supports the trade with acceptable risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 821,
+                "prompt_tokens": 1450,
+                "total_tokens": 2271,
+                "completion_time": 0.880313749,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 670
+                },
+                "prompt_time": 0.095471274,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391060561,
+                "total_time": 0.975785023
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ce54c53bd5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb1-6404-7d81-aa4f-67ab7483da87-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 821,
+        "prompt_tokens": 1450,
+        "total_tokens": 2271,
+        "completion_time": 0.880313749,
+        "completion_tokens_details": {
+          "reasoning_tokens": 670
+        },
+        "prompt_time": 0.095471274,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391060561,
+        "total_time": 0.975785023
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ce54c53bd5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

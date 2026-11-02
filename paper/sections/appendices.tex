@@ -1,5 +1,40 @@
 \appendix
 
+\section{New Common-Snapshot Baseline Details}
+\label{app:r1_common_detail}
+
+These tables belong only to the new 102-unit study. Percentages and support
+refer to net-cycle outcomes; NA denotes undefined or inapplicable metrics.
+The equal-symbol means below differ from pooled weighting because BHN has
+six units while each other symbol has twelve. Every classifier's full
+confusion and both-class metrics, including groups with absent classes, are
+retained in the accompanying CSV/JSON release.
+
+\input{generated/r1_common_macro.tex}
+\FloatBarrier
+
+\input{generated/r1_common_symbols.tex}
+\FloatBarrier
+
+Return in the symbol table is the mean of independent two-cycle
+symbol--block accounts (three accounts for BHN and six for each other
+symbol). Continuous hold uses one buy and sell per account and has no
+cycle-classification scores. This is a price-series comparator under the
+same assumed costs, not certified total return. Per-account daily-close
+drawdown, turnover, fees, slippage, held-session fraction and close exposure
+are provided in the economic CSV and daily ledgers.
+
+\input{generated/r1_common_strata.tex}
+\FloatBarrier
+
+Regime is causal per symbol using the decision-close/SMA60 gap. The
+machine-readable classification release additionally contains all nine
+classifiers by block/regime and the common eight-symbol/six-block and
+nine-symbol/three-recent-block cohorts. Blocks and dates are shared across
+symbols, so neither symbol counts nor repeated decisions create additional
+independent market replications.
+
+\clearpage
 \section{Agent System Prompts}
 \label{app:prompts}
 

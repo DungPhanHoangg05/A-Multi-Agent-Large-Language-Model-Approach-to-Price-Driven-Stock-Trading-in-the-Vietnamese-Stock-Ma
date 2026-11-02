@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c0d-b155-72a0-92c2-543832f6f157",
+  "parent_request_hash": "84c09fb5ed9ca41601e6a7c8acf355384e44d7a145733a8cb19de720f7af568f",
+  "ended_at_utc": "2026-11-02T11:38:27.073654+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend shows an upward channel with a narrowing range, indicating a potential breakout above 66.5 within 3 days. Pattern analysis confirms bullish accumulation with support at 64 and target 68, suggesting entry above support.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate bearish momentum, which could delay or reverse the breakout.\",\"justification\":\"Given the higher priority of trend and pattern signals over the single bearish indicator, a long position is justified. The expected reward exceeds the risk, and the trade aligns with the 3-day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend shows an upward channel with a narrowing range, indicating a potential breakout above 66.5 within 3 days. Pattern analysis confirms bullish accumulation with support at 64 and target 68, suggesting entry above support.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate bearish momentum, which could delay or reverse the breakout.\",\"justification\":\"Given the higher priority of trend and pattern signals over the single bearish indicator, a long position is justified. The expected reward exceeds the risk, and the trade aligns with the 3-day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 856,
+                "prompt_tokens": 1443,
+                "total_tokens": 2299,
+                "completion_time": 0.897219165,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 703
+                },
+                "prompt_time": 0.092798289,
+                "prompt_tokens_details": null,
+                "queue_time": 0.34783691,
+                "total_time": 0.990017454
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_feb9b278f1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0d-b155-72a0-92c2-543832f6f157-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 856,
+        "prompt_tokens": 1443,
+        "total_tokens": 2299,
+        "completion_time": 0.897219165,
+        "completion_tokens_details": {
+          "reasoning_tokens": 703
+        },
+        "prompt_time": 0.092798289,
+        "prompt_tokens_details": null,
+        "queue_time": 0.34783691,
+        "total_time": 0.990017454
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_feb9b278f1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

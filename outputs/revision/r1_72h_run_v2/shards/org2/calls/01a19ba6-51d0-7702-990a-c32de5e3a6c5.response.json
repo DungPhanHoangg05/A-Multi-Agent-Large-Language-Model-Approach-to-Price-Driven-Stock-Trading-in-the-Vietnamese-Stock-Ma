@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19ba6-51d0-7702-990a-c32de5e3a6c5",
+  "parent_request_hash": "95587feda60c62a4d760e42d7249cbf9397929fca559496dae6a1ada987fd98f",
+  "ended_at_utc": "2026-11-02T09:45:33.920999+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum, making a cash position preferable.\",\"evidence_against\":\"Alpha factors overall increasing suggest potential upside.\",\"justification\":\"Given the bearish MACD and sideways trend, holding cash avoids potential losses and covers fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum, making a cash position preferable.\",\"evidence_against\":\"Alpha factors overall increasing suggest potential upside.\",\"justification\":\"Given the bearish MACD and sideways trend, holding cash avoids potential losses and covers fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 861,
+                "prompt_tokens": 1573,
+                "total_tokens": 2434,
+                "completion_time": 1.057480553,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 767
+                },
+                "prompt_time": 0.092232535,
+                "prompt_tokens_details": null,
+                "queue_time": 1.733009048,
+                "total_time": 1.149713088
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19ba6-51d0-7702-990a-c32de5e3a6c5-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 861,
+        "prompt_tokens": 1573,
+        "total_tokens": 2434,
+        "completion_time": 1.057480553,
+        "completion_tokens_details": {
+          "reasoning_tokens": 767
+        },
+        "prompt_time": 0.092232535,
+        "prompt_tokens_details": null,
+        "queue_time": 1.733009048,
+        "total_time": 1.149713088
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

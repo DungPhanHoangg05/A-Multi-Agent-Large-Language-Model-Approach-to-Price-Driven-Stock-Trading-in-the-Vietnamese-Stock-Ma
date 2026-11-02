@@ -1,0 +1,60 @@
+{
+  "request_files": 756,
+  "successful_responses": 734,
+  "errors": 22,
+  "usage_unreported_responses": 0,
+  "observed_prompt_tokens": 1229635,
+  "observed_completion_tokens": 420761,
+  "latency_seconds_sum": 1593.207668,
+  "latency_seconds_median": 1.7664145,
+  "models": {
+    "qwen/qwen3.8-27b": 250,
+    "openai/gpt-oss-20b": 484
+  },
+  "attempts_by_provider_org": {
+    "1": 151,
+    "3": 165,
+    "2": 165,
+    "5": 134,
+    "4": 141
+  },
+  "failures_by_branch": {
+    "shared_Pattern Agent": {
+      "attempts": 140,
+      "errors": 15,
+      "error_fraction": 0.10714285714285714
+    },
+    "shared_Trend Agent": {
+      "attempts": 130,
+      "errors": 5,
+      "error_fraction": 0.038461538461538464
+    },
+    "B": {
+      "attempts": 161,
+      "errors": 0,
+      "error_fraction": 0.0
+    },
+    "AS": {
+      "attempts": 163,
+      "errors": 2,
+      "error_fraction": 0.012269938650306749
+    },
+    "A": {
+      "attempts": 54,
+      "errors": 0,
+      "error_fraction": 0.0
+    },
+    "S": {
+      "attempts": 54,
+      "errors": 0,
+      "error_fraction": 0.0
+    },
+    "P": {
+      "attempts": 54,
+      "errors": 0,
+      "error_fraction": 0.0
+    }
+  },
+  "monetary_cost": null,
+  "scope": "SDK-observed usage; excludes unknown usage on failed requests; not inferred billing"
+}

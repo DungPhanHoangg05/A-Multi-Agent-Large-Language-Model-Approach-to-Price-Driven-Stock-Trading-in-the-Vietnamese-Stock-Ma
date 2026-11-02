@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0b-41d8-7ab3-bdaa-29f1e1026a1d",
+  "parent_request_hash": "b9d6dc11b31d132019ef6381cd131758e3b0423dc208d806a43515b785067672",
+  "ended_at_utc": "2026-11-02T11:35:48.062264+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross (MACD below Signal) indicating a sell signal, and the overall alpha factors trend is negative (GIẢM).\",\"evidence_against\":\"The flag up pattern has high confidence and suggests a potential breakout above resistance.\",\"justification\":\"Given the bearish MACD signal and negative alpha consensus, a short position is preferred to preserve cash over the T+2.5 horizon. The pattern’s bullishness is outweighed by stronger negative indicators.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross (MACD below Signal) indicating a sell signal, and the overall alpha factors trend is negative (GIẢM).\",\"evidence_against\":\"The flag up pattern has high confidence and suggests a potential breakout above resistance.\",\"justification\":\"Given the bearish MACD signal and negative alpha consensus, a short position is preferred to preserve cash over the T+2.5 horizon. The pattern’s bullishness is outweighed by stronger negative indicators.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 671,
+                "prompt_tokens": 1470,
+                "total_tokens": 2141,
+                "completion_time": 0.745935512,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 534
+                },
+                "prompt_time": 0.659951711,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.211889142,
+                "total_time": 1.4058872230000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0b-41d8-7ab3-bdaa-29f1e1026a1d-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 671,
+        "prompt_tokens": 1470,
+        "total_tokens": 2141,
+        "completion_time": 0.745935512,
+        "completion_tokens_details": {
+          "reasoning_tokens": 534
+        },
+        "prompt_time": 0.659951711,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.211889142,
+        "total_time": 1.4058872230000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

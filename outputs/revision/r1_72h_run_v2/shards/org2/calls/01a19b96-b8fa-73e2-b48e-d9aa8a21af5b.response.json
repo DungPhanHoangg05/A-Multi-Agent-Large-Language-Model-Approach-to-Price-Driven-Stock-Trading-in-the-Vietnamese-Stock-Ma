@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b96-b8fa-73e2-b48e-d9aa8a21af5b",
+  "parent_request_hash": "0f8063a029846da2e65e30c00c6b608da9f1a809e81a99084a580fed6b0a9a40",
+  "ended_at_utc": "2026-11-02T09:28:58.437885+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD histogram negative indicates weakening momentum; overall alpha factors are negative.\",\"evidence_against\":\"Pattern shows accumulation trend.\",\"justification\":\"Negative MACD histogram and overall negative alpha factors justify a short position; the sideways trend and lack of breakout support further support this stance.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD histogram negative indicates weakening momentum; overall alpha factors are negative.\",\"evidence_against\":\"Pattern shows accumulation trend.\",\"justification\":\"Negative MACD histogram and overall negative alpha factors justify a short position; the sideways trend and lack of breakout support further support this stance.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 780,
+                "prompt_tokens": 1553,
+                "total_tokens": 2333,
+                "completion_time": 0.941755359,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 684
+                },
+                "prompt_time": 0.092040613,
+                "prompt_tokens_details": null,
+                "queue_time": 0.318583936,
+                "total_time": 1.033795972
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ef00694abe",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b96-b8fa-73e2-b48e-d9aa8a21af5b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 780,
+        "prompt_tokens": 1553,
+        "total_tokens": 2333,
+        "completion_time": 0.941755359,
+        "completion_tokens_details": {
+          "reasoning_tokens": 684
+        },
+        "prompt_time": 0.092040613,
+        "prompt_tokens_details": null,
+        "queue_time": 0.318583936,
+        "total_time": 1.033795972
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ef00694abe",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

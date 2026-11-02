@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0b-6269-7f23-9db4-cff0c8eca2b7",
+  "parent_request_hash": "d7d5d8f6c619fcb7a938e8553401e4d807c8af4efce313ad532697d307f71c7a",
+  "ended_at_utc": "2026-11-02T11:35:56.659562+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":4,\"evidence_for\":\"Trend analysis indicates a bullish breakout above 66.5 within 3 days, supported by a rising support level at 65.5 and resistance at 68.5. MACD line remains positive and the forecast predicts a price rise to 68, providing a potential reward of ~3% net after fees.\",\"evidence_against\":\"MACD histogram shows a decreasing momentum, indicating a potential weakening of the bullish trend.\",\"justification\":\"The expected price increase to 68 yields a net profit (~2.3%) that exceeds the risk (~0.8%), giving a risk-reward ratio of 4. This aligns with the strategy to capture upside while maintaining a favorable risk-reward profile.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":4,\"evidence_for\":\"Trend analysis indicates a bullish breakout above 66.5 within 3 days, supported by a rising support level at 65.5 and resistance at 68.5. MACD line remains positive and the forecast predicts a price rise to 68, providing a potential reward of ~3% net after fees.\",\"evidence_against\":\"MACD histogram shows a decreasing momentum, indicating a potential weakening of the bullish trend.\",\"justification\":\"The expected price increase to 68 yields a net profit (~2.3%) that exceeds the risk (~0.8%), giving a risk-reward ratio of 4. This aligns with the strategy to capture upside while maintaining a favorable risk-reward profile.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1556,
+                "prompt_tokens": 1565,
+                "total_tokens": 3121,
+                "completion_time": 1.756061439,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1376
+                },
+                "prompt_time": 0.099117031,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.318143398,
+                "total_time": 1.85517847
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0b-6269-7f23-9db4-cff0c8eca2b7-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1556,
+        "prompt_tokens": 1565,
+        "total_tokens": 3121,
+        "completion_time": 1.756061439,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1376
+        },
+        "prompt_time": 0.099117031,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.318143398,
+        "total_time": 1.85517847
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

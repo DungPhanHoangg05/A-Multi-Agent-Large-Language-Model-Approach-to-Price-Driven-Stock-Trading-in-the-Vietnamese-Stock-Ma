@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0e-0997-7681-9f0b-831a6594faf1",
+  "parent_request_hash": "5034ed63762b115f4cc62b0cf81652d16a48d659c57d9f7df9d5f251fc06efbc",
+  "ended_at_utc": "2026-11-02T11:38:50.294103+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross with histogram trending negative, indicating bearish momentum; trend analysis predicts a sideways market with no breakout in the next 3 days.\",\"evidence_against\":\"Pattern analysis suggests a bullish flag with potential breakout above 141.\",\"justification\":\"Given the bearish MACD signal and lack of breakout, shorting is the safer choice; the bullish pattern is not yet confirmed and could reverse.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross with histogram trending negative, indicating bearish momentum; trend analysis predicts a sideways market with no breakout in the next 3 days.\",\"evidence_against\":\"Pattern analysis suggests a bullish flag with potential breakout above 141.\",\"justification\":\"Given the bearish MACD signal and lack of breakout, shorting is the safer choice; the bullish pattern is not yet confirmed and could reverse.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 893,
+                "prompt_tokens": 1395,
+                "total_tokens": 2288,
+                "completion_time": 1.30658254,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 770
+                },
+                "prompt_time": 0.299039067,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.35130091,
+                "total_time": 1.605621607
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0e-0997-7681-9f0b-831a6594faf1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 893,
+        "prompt_tokens": 1395,
+        "total_tokens": 2288,
+        "completion_time": 1.30658254,
+        "completion_tokens_details": {
+          "reasoning_tokens": 770
+        },
+        "prompt_time": 0.299039067,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.35130091,
+        "total_time": 1.605621607
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

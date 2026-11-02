@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19bfc-0ad4-7f20-8e62-9a4fea048a28",
+  "parent_request_hash": "bf41c3f283e1153b1cfd2b35e400dcd33af83e37165a585547f0d4a4b56e1302",
+  "ended_at_utc": "2026-11-02T11:19:11.529194+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern V reversal bullish with price above support 27.0 and near resistance 28.8.\",\"evidence_against\":\"MACD line below signal and negative histogram indicating bearish momentum.\",\"justification\":\"Trend confidence is low and alpha factors suggest a decrease; shorting preserves cash until a clearer reversal.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern V reversal bullish with price above support 27.0 and near resistance 28.8.\",\"evidence_against\":\"MACD line below signal and negative histogram indicating bearish momentum.\",\"justification\":\"Trend confidence is low and alpha factors suggest a decrease; shorting preserves cash until a clearer reversal.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 698,
+                "prompt_tokens": 1591,
+                "total_tokens": 2289,
+                "completion_time": 0.808202117,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 596
+                },
+                "prompt_time": 1.316807658,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.34218162,
+                "total_time": 2.125009775
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_228717f27c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bfc-0ad4-7f20-8e62-9a4fea048a28-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 698,
+        "prompt_tokens": 1591,
+        "total_tokens": 2289,
+        "completion_time": 0.808202117,
+        "completion_tokens_details": {
+          "reasoning_tokens": 596
+        },
+        "prompt_time": 1.316807658,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.34218162,
+        "total_time": 2.125009775
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_228717f27c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

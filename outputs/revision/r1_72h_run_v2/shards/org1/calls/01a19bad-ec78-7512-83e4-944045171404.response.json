@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bad-ec78-7512-83e4-944045171404",
+  "parent_request_hash": "b3edc004b4c8777a6324e562220d41213231425e48036dc7fec4a1408c0d725a",
+  "ended_at_utc": "2026-11-02T09:53:51.584829+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern flag up suggests breakout above 59.5 with target 62.\",\"evidence_against\":\"MACD negative and overall alpha decreasing indicate weak bullish momentum.\",\"justification\":\"Pattern signals potential breakout but negative MACD and alpha reduce confidence, so short to hold cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern flag up suggests breakout above 59.5 with target 62.\",\"evidence_against\":\"MACD negative and overall alpha decreasing indicate weak bullish momentum.\",\"justification\":\"Pattern signals potential breakout but negative MACD and alpha reduce confidence, so short to hold cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1369,
+                "prompt_tokens": 1574,
+                "total_tokens": 2943,
+                "completion_time": 1.742364211,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1269
+                },
+                "prompt_time": 0.0792019,
+                "prompt_tokens_details": null,
+                "queue_time": 0.338576404,
+                "total_time": 1.821566111
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d6de37e6be",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bad-ec78-7512-83e4-944045171404-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1369,
+        "prompt_tokens": 1574,
+        "total_tokens": 2943,
+        "completion_time": 1.742364211,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1269
+        },
+        "prompt_time": 0.0792019,
+        "prompt_tokens_details": null,
+        "queue_time": 0.338576404,
+        "total_time": 1.821566111
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d6de37e6be",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

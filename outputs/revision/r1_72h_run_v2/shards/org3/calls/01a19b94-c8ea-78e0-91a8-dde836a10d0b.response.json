@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19b94-c8ea-78e0-91a8-dde836a10d0b",
+  "parent_request_hash": "4d4e66065060d00e5c02ce08fe0e24c8863cc7fb8320d9cac2edc7c29fe03b93",
+  "ended_at_utc": "2026-11-02T09:26:52.700748+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD line and histogram are negative with widening trend, indicating bearish momentum; alpha factors overall show decrease, confirming a downtrend.\",\"evidence_against\":\"Report 1 indicates a potential uptrend, but confidence is low and conflicts with other indicators.\",\"justification\":\"The convergence of negative MACD, widening histogram, and overall decreasing alpha factors supports a bearish outlook; the low confidence uptrend signal is outweighed by stronger bearish evidence.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD line and histogram are negative with widening trend, indicating bearish momentum; alpha factors overall show decrease, confirming a downtrend.\",\"evidence_against\":\"Report 1 indicates a potential uptrend, but confidence is low and conflicts with other indicators.\",\"justification\":\"The convergence of negative MACD, widening histogram, and overall decreasing alpha factors supports a bearish outlook; the low confidence uptrend signal is outweighed by stronger bearish evidence.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 686,
+                "prompt_tokens": 1605,
+                "total_tokens": 2291,
+                "completion_time": 0.856471928,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 557
+                },
+                "prompt_time": 0.857853774,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.390845677,
+                "total_time": 1.714325702
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8b41efc9a3",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b94-c8ea-78e0-91a8-dde836a10d0b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 686,
+        "prompt_tokens": 1605,
+        "total_tokens": 2291,
+        "completion_time": 0.856471928,
+        "completion_tokens_details": {
+          "reasoning_tokens": 557
+        },
+        "prompt_time": 0.857853774,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.390845677,
+        "total_time": 1.714325702
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8b41efc9a3",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

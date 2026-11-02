@@ -1,0 +1,93 @@
+{
+  "parent": {
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+    "asset_hash": "b61da4bed8848317660b38ae1eae78eed80afb73f549406486a848a25f625ecf",
+    "upstream_hash": "4d53e1c1c7a7f7890538b70ea020e2d8c144f38f2148ff6e6db263cbc2f63e58",
+    "node_hashes": [
+      "68df018e0753b37418125afe060cb4de1d1d7b9fcbf4629d04eda0beacd9ebac",
+      "e9db7eb9816418863c2eac07a95921a0761a01ab715ab3ce8e55209f37e57f29",
+      "32c1c5982421e0ee39f0aa14506510837046710289fc95d8d37d079a458ba6ea"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "HVN_b2025_h1_1307",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "SHORT",
+  "confidence": "Trung bình",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"SHORT\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Trung bình\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"Trend analysis indicates a downward trend with price near support 22.00 and MACD below signal confirming bearish momentum. Double top pattern at 24.0 and price testing support 22.0 suggest potential break below support.\",\n  \"evidence_against\": \"Trend confidence is low, raising uncertainty about a sustained down move.\",\n  \"justification\": \"Given the bearish trend, pattern, and MACD signals, a short position is justified to capture potential decline. The short trade aligns with the T+2.5 settlement horizon and avoids holding the stock beyond the allowed period.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: HVN; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n3 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Giảm.\n\n**Mức hỗ trợ:** 22.00.\n\n**Mức kháng cự:** 23.00.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá đóng cửa phiên gần nhất (22.70) đang nằm dưới đường kháng cự đỏ (23.20) và tiến sát đường hỗ trợ xanh (22.30). Các nến gần đây có thân nhỏ và bóng trên dài, cho thấy áp lực bán đang chiếm ưu thế.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục điều chỉnh giảm hoặc đi ngang trong biên độ hẹp do bị chặn bởi kháng cự. Nếu thủng mốc 22.00, xu hướng giảm sẽ được xác nhận mạnh hơn.\n\n**Độ tin cậy:** Thấp\n\n[Cảnh báo đối chiếu: Xu hướng thị giác giảm mâu thuẫn với SMA20/SMA50 và độ dốc giá]\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Đỉnh đôi.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Hai đỉnh gần bằng nhau quanh mức 24.0, giá đang kiểm tra lại vùng hỗ trợ 22.0.\n\n**Nến quan trọng:** Nến đỏ thân dài xuất hiện sau đỉnh thứ hai.\n\n**Hàm ý giao dịch:** Bán khi giá phá vỡ vùng hỗ trợ 22.0, ngừng lỗ trên 24.0.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **0.2344**        | [0.3001, 0.3007, 0.2763, 0.2508, 0.2344]                 |\n| Signal Line | **0.2615**        | [0.2644, 0.2717, 0.2726, 0.2682, 0.2615]                 |\n| Histogram   | **-0.0271**        | [0.0357, 0.0291, 0.0037, -0.0174, -0.0271]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.0271)\n- Histogram xu hướng: THU HẸP (động lượng giảm)\n- MACD Line so với 0: Dương → vùng tăn\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates a downward trend with price near support 22.00 and MACD below signal confirming bearish momentum. Double top pattern at 24.0 and price testing support 22.0 suggest potential break below support.\",\"evidence_against\":\"Trend confidence is low, raising uncertainty about a sustained down move.\",\"justification\":\"Given the bearish trend, pattern, and MACD signals, a short position is justified to capture potential decline. The short trade aligns with the T+2.5 settlement horizon and avoids holding the stock beyond the allowed period.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 1227,
+              "prompt_tokens": 1470,
+              "total_tokens": 2697,
+              "completion_time": 1.3974512510000001,
+              "completion_tokens_details": {
+                "reasoning_tokens": 1073
+              },
+              "prompt_time": 0.332610184,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "queue_time": 0.314485243,
+              "total_time": 1.730061435
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_ef00694abe",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19bb2-5611-7b73-ad8a-5f7aad27ca9b-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1470,
+            "output_tokens": 1227,
+            "total_tokens": 2697,
+            "input_token_details": {
+              "cache_read": 256
+            },
+            "output_token_details": {
+              "reasoning": 1073
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19bb2-5611-7b73-ad8a-5f7aad27ca9b"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bb2-5611-7b73-ad8a-5f7aad27ca9b.request.json",
+      "sha256": "54a4f04c08a884856afbd6ebe5514bd99b76876e896dec2df8e88240592465e6"
+    },
+    {
+      "path": "calls/01a19bb2-5611-7b73-ad8a-5f7aad27ca9b.response.json",
+      "sha256": "02930d0acbad1e25b0067003a54e0e6c90c9b3e359b9f3181abfb17e37f5a894"
+    }
+  ],
+  "sha256": "043de1293b825b9c842879f0ba2a50be8dc0a17e2102d0dc23fda23339c58902"
+}

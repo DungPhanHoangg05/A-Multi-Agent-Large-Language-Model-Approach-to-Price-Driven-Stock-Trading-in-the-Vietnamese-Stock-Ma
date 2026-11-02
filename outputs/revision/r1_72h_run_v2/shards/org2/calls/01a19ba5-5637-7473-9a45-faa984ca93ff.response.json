@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19ba5-5637-7473-9a45-faa984ca93ff",
+  "parent_request_hash": "c78ec2f70002ecfa38d26d17696e3ffdaf31a959a52eb5b0493918a6d97a7abb",
+  "ended_at_utc": "2026-11-02T09:44:28.291553+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates an uptrend with support at 64 and resistance at 69.5, and the V reversal pattern confirms bullish momentum. The recent green candle closed above support, reinforcing the bullish bias.\",\"evidence_against\":\"MACD line is below signal and the histogram is widening negative, indicating increasing bearish momentum.\",\"justification\":\"The bullish trend and V reversal pattern outweigh the negative MACD signal, supporting a LONG position. The risk reward ratio of 1.5 meets the required range.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates an uptrend with support at 64 and resistance at 69.5, and the V reversal pattern confirms bullish momentum. The recent green candle closed above support, reinforcing the bullish bias.\",\"evidence_against\":\"MACD line is below signal and the histogram is widening negative, indicating increasing bearish momentum.\",\"justification\":\"The bullish trend and V reversal pattern outweigh the negative MACD signal, supporting a LONG position. The risk reward ratio of 1.5 meets the required range.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1046,
+                "prompt_tokens": 1442,
+                "total_tokens": 2488,
+                "completion_time": 1.187331018,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 904
+                },
+                "prompt_time": 0.115491496,
+                "prompt_tokens_details": null,
+                "queue_time": 0.339520175,
+                "total_time": 1.302822514
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_34cb00738d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19ba5-5637-7473-9a45-faa984ca93ff-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1046,
+        "prompt_tokens": 1442,
+        "total_tokens": 2488,
+        "completion_time": 1.187331018,
+        "completion_tokens_details": {
+          "reasoning_tokens": 904
+        },
+        "prompt_time": 0.115491496,
+        "prompt_tokens_details": null,
+        "queue_time": 0.339520175,
+        "total_time": 1.302822514
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_34cb00738d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

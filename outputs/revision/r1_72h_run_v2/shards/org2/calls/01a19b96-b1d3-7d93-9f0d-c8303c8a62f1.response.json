@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b96-b1d3-7d93-9f0d-c8303c8a62f1",
+  "parent_request_hash": "1ad83a2ef4b86fe9980c0de84bf5d89ebdd74245ffef5c8a6f54a29d05ba3f3b",
+  "ended_at_utc": "2026-11-02T09:28:28.615821+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is sideways with price near support and MACD below signal indicating weak momentum.\",\"evidence_against\":\"Accumulation pattern suggests potential upside but price has not broken resistance.\",\"justification\":\"MACD negative histogram and price near support imply limited upside; holding cash avoids potential loss.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is sideways with price near support and MACD below signal indicating weak momentum.\",\"evidence_against\":\"Accumulation pattern suggests potential upside but price has not broken resistance.\",\"justification\":\"MACD negative histogram and price near support imply limited upside; holding cash avoids potential loss.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 698,
+                "prompt_tokens": 1428,
+                "total_tokens": 2126,
+                "completion_time": 0.813188299,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 600
+                },
+                "prompt_time": 0.105581834,
+                "prompt_tokens_details": null,
+                "queue_time": 0.208571117,
+                "total_time": 0.918770133
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_75c733514d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b96-b1d3-7d93-9f0d-c8303c8a62f1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 698,
+        "prompt_tokens": 1428,
+        "total_tokens": 2126,
+        "completion_time": 0.813188299,
+        "completion_tokens_details": {
+          "reasoning_tokens": 600
+        },
+        "prompt_time": 0.105581834,
+        "prompt_tokens_details": null,
+        "queue_time": 0.208571117,
+        "total_time": 0.918770133
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_75c733514d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

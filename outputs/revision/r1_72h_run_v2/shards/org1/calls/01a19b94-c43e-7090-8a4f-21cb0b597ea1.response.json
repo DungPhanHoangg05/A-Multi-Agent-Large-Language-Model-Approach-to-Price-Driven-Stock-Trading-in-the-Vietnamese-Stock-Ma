@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b94-c43e-7090-8a4f-21cb0b597ea1",
+  "parent_request_hash": "476e3af884f145c0539e94c338ad097095cccfc13ae5c0a9cd257584dda8d2fc",
+  "ended_at_utc": "2026-11-02T09:26:22.905694+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD death cross and falling histogram indicate weakening momentum, supporting a short position.\",\"evidence_against\":\"Trend analysis shows a sideways market with no clear breakout, which could limit upside.\",\"justification\":\"The MACD signals a sell while the price is near support, making a short trade optimal for the T+2.5 horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD death cross and falling histogram indicate weakening momentum, supporting a short position.\",\"evidence_against\":\"Trend analysis shows a sideways market with no clear breakout, which could limit upside.\",\"justification\":\"The MACD signals a sell while the price is near support, making a short trade optimal for the T+2.5 horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1459,
+                "prompt_tokens": 1457,
+                "total_tokens": 2916,
+                "completion_time": 1.569701317,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1350
+                },
+                "prompt_time": 0.248768436,
+                "prompt_tokens_details": null,
+                "queue_time": 0.39342481,
+                "total_time": 1.818469753
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b94-c43e-7090-8a4f-21cb0b597ea1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1459,
+        "prompt_tokens": 1457,
+        "total_tokens": 2916,
+        "completion_time": 1.569701317,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1350
+        },
+        "prompt_time": 0.248768436,
+        "prompt_tokens_details": null,
+        "queue_time": 0.39342481,
+        "total_time": 1.818469753
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

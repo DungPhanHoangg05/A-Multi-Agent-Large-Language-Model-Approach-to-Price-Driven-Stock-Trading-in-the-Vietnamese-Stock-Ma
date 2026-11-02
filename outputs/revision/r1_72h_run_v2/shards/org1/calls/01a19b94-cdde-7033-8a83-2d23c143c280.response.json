@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b94-cdde-7033-8a83-2d23c143c280",
+  "parent_request_hash": "f81a4e6525c0efb84b8fd8331c34307483a94cb5e945c766ee8f0274f09733b6",
+  "ended_at_utc": "2026-11-02T09:26:53.980023+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1,\"evidence_for\":\"MACD shows a death cross (MACD line below signal) indicating a sell signal, and the majority of alpha factors are negative.\",\"evidence_against\":\"Pattern analysis indicates an accumulation uptrend with potential target 31.\",\"justification\":\"Given the sell signal from MACD and negative alpha consensus, the risk of holding the stock outweighs potential upside; thus holding cash is prudent.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1,\"evidence_for\":\"MACD shows a death cross (MACD line below signal) indicating a sell signal, and the majority of alpha factors are negative.\",\"evidence_against\":\"Pattern analysis indicates an accumulation uptrend with potential target 31.\",\"justification\":\"Given the sell signal from MACD and negative alpha consensus, the risk of holding the stock outweighs potential upside; thus holding cash is prudent.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1724,
+                "prompt_tokens": 1582,
+                "total_tokens": 3306,
+                "completion_time": 2.78809005,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1603
+                },
+                "prompt_time": 0.093934982,
+                "prompt_tokens_details": null,
+                "queue_time": 0.388782988,
+                "total_time": 2.882025032
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_5979a0e1b7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b94-cdde-7033-8a83-2d23c143c280-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1724,
+        "prompt_tokens": 1582,
+        "total_tokens": 3306,
+        "completion_time": 2.78809005,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1603
+        },
+        "prompt_time": 0.093934982,
+        "prompt_tokens_details": null,
+        "queue_time": 0.388782988,
+        "total_time": 2.882025032
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_5979a0e1b7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

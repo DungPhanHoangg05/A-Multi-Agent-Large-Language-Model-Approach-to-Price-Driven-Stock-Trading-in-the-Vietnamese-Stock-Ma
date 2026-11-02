@@ -1,0 +1,88 @@
+{
+  "parent": {
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "node_hashes": [
+      "aa9deec62f57ad065c0c70455e9307e13487eb440780bd29df9de947f216a5ad",
+      "536c2359142b795dd7fd5c673e0534f9f9efb31bff769ce3b06b58e95970ebe6",
+      "a63a45dd8e8de6033721e0485a1eee320890b9562fee36621cffb9512d9952d9"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "SHORT",
+  "confidence": "Cao",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"SHORT\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 2.5,\n  \"evidence_for\": \"Trend analysis shows a clear downtrend with price below resistance and approaching support at 19.60. MACD histogram trending downwards indicates weakening momentum, confirming a short position.\",\n  \"evidence_against\": \"MACD line above signal line suggests potential bullish reversal.\",\n  \"justification\": \"Given the downtrend, support at 19.60, and weak momentum, a short position aligns with risk management. The short position allows capital preservation over the T+2.5 horizon.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: MBB; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Giảm.\n\n**Mức hỗ trợ:** 19.60.\n\n**Mức kháng cự:** 20.60.\n\n**Độ dốc đường xu hướng:** Đang giảm.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá đóng cửa liên tục nằm dưới đường kháng cự đỏ và đang tiến sát về phía đường hỗ trợ xanh. Các phiên gần nhất cho thấy biên độ dao động thu hẹp dần khi giá bị kẹp giữa hai đường xu hướng.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục giảm hoặc đi ngang trong biên hẹp do áp lực từ đường kháng cự phía trên. Nếu thủng mốc 19.60, xu hướng giảm sẽ được xác nhận mạnh hơn.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Xu hướng giảm.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Giá liên tục tạo các đỉnh và đáy thấp hơn, phá vỡ vùng hỗ trợ 20.00 và dao động trong vùng 19.75 - 20.25.\n\n**Nến quan trọng:** Nến xanh mạnh ngày 28/05 bị chặn lại và các nến đỏ liên tiếp sau đó.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng 20.20 - 20.25, cắt lỗ nếu vượt 20.50.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-0.1376**        | [-0.1383, -0.1301, -0.135, -0.1373, -0.1376]                 |\n| Signal Line | **-0.1737**        | [-0.2286, -0.2089, -0.1941, -0.1827, -0.1737]                 |\n| Histogram   | **0.0361**        | [0.0903, 0.0788, 0.0591, 0.0454, 0.0361]                 |\n\n- Giao cắt: MACD đang ở trên Signal (khoảng cách MACD−Signal = 0.0361)\n- Histogram xu hướng: THU HẸP (động lượng giảm)\n- MACD Line so với 0: Âm → vùng\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — MBB\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (2 TĂNG / 3 GIẢM / 0 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment đã xác minh: score=0.273351; số bài=5; peers không khả dụng.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows a clear downtrend with price below resistance and approaching support at 19.60. MACD histogram trending downwards indicates weakening momentum, confirming a short position.\",\"evidence_against\":\"MACD line above signal line suggests potential bullish reversal.\",\"justification\":\"Given the downtrend, support at 19.60, and weak momentum, a short position aligns with risk management. The short position allows capital preservation over the T+2.5 horizon.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 587,
+              "prompt_tokens": 1573,
+              "total_tokens": 2160,
+              "completion_time": 0.709729854,
+              "completion_tokens_details": {
+                "reasoning_tokens": 452
+              },
+              "prompt_time": 0.079258662,
+              "prompt_tokens_details": null,
+              "queue_time": 0.768457267,
+              "total_time": 0.788988516
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_816fc87d18",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19bb5-4f97-72f0-8657-a20ed9d3df73-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1573,
+            "output_tokens": 587,
+            "total_tokens": 2160,
+            "output_token_details": {
+              "reasoning": 452
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19bb5-4f97-72f0-8657-a20ed9d3df73"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bb5-4f97-72f0-8657-a20ed9d3df73.request.json",
+      "sha256": "164cf337b275d88dd2541dcade55a1af8b4af9c3ebe4221f2b3c5a1876502446"
+    },
+    {
+      "path": "calls/01a19bb5-4f97-72f0-8657-a20ed9d3df73.response.json",
+      "sha256": "a027346bfd8f7082d88c1134233a51cb1a3ddc47453d655d2a408e239ef1b851"
+    }
+  ],
+  "sha256": "f6801aa68f055210de2b9603f8e530bb5fd5fbd39bb024e3c8bf472ec510aaef"
+}

@@ -1,0 +1,360 @@
+{
+  "schema_version": "r1_manuscript_release_v2",
+  "created_local": "2026-11-03T02:31:17.155114+07:00",
+  "status": "R1_closed_historical_exploratory_other_comments_pending",
+  "scope": "New common-snapshot evidence and withdrawn superiority/isolated-alpha/profitability claims; not submission-ready",
+  "n_research_decisions": 474,
+  "n_smoke_decisions_excluded": 10,
+  "n_main_pairs": 102,
+  "n_distinct_decision_dates": 12,
+  "n_historical_blocks": 6,
+  "decision_panel_units": 18,
+  "upstream_panel_units": 9,
+  "pdf_qa": {
+    "documents": {
+      "main": {
+        "physical_pages": 51,
+        "locators": {
+          "5.6. New Frozen": [
+            21
+          ],
+          "6.1. New Common": [
+            23
+          ],
+          "Table 7:": [
+            24
+          ],
+          "Table 8:": [
+            25
+          ],
+          "Table 9:": [
+            25
+          ],
+          "Table 10:": [
+            25
+          ],
+          "8. Conclusion": [
+            32
+          ],
+          "Appendix A. New": [
+            33
+          ],
+          "Table A.": [
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ]
+        }
+      },
+      "main_submit": {
+        "physical_pages": 52,
+        "locators": {
+          "5.6. New Frozen": [
+            21
+          ],
+          "6.1. New Common": [
+            23
+          ],
+          "Table 7:": [
+            24
+          ],
+          "Table 8:": [
+            25
+          ],
+          "Table 9:": [
+            25
+          ],
+          "Table 10:": [
+            25
+          ],
+          "8. Conclusion": [
+            32
+          ],
+          "Appendix A. New": [
+            33
+          ],
+          "Table A.": [
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ]
+        }
+      }
+    },
+    "visual_review": "All main pages/contact sheets and enlarged new tables inspected; corresponding submission front matter/tables/appendix and final pages inspected",
+    "undefined_references": 0,
+    "undefined_citations": 0,
+    "duplicate_labels": 0,
+    "body_or_table_overflow": 0,
+    "known_layout_warning": "Inherited elsarticle preprint footer 2.61049pt overfull; visually checked, no clipping",
+    "duplicate_page_anchors": 0,
+    "final_layout_validation": "Unique PDF page anchors added; extracted text/pagination unchanged in both PDFs and all 50 overview-rendered main pages pixel-identical to visually reviewed images; final page separately reviewed."
+  },
+  "validation": {
+    "raw_decisions_replayed": 484,
+    "analysis_and_numeric_hashes_checked": 3752,
+    "legacy_output_and_archived_paper_hashes_checked": 32,
+    "prediction_rows": 918,
+    "classification_groups_recomputed": 189,
+    "daily_ledgers_checked": 510,
+    "generated_tex_files": 7,
+    "presentation_csv_files": 2,
+    "compiled_files": [
+      "scripts/finalize_revision_r1.py"
+    ],
+    "commands": [
+      "py -3.13 -X utf8 scripts/run_revision_72h.py verify",
+      "py -3.13 -X utf8 scripts/finalize_revision_r1.py --check"
+    ],
+    "suite_scope": "No inference/runtime/data/target changes; direct validation of all presentation inputs/outputs and compile of the new offline exporter. No full suite rerun or new API call.",
+    "legacy_verifier_limit": "Historical full-source verifier is stale for the actively edited plan metadata; legacy outputs and original paper archive verified separately; no old receipt rewritten."
+  },
+  "historical_status_policy": "Immutable run/analysis generator statuses are retained; this manuscript manifest records the later R1 review/closure.",
+  "other_reviewers": "R2-R18 remain independently pending; no submission version, hosted weight revision, certified news PIT/domain validity or settlement claim",
+  "sources": [
+    {
+      "path": "paper/elsarticle-num.bst",
+      "sha256": "0db2e53b2378cbe5815e436c1afe9dcac67123a32406fa8f11fad7978808e202"
+    },
+    {
+      "path": "paper/elsarticle.cls",
+      "sha256": "23a341acd0e35c20148c836fc6e9251549aa45b059fc1750356ca2f3f11f3cb0"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.png",
+      "sha256": "ce93ca2e80f33da49b8dba034f36007b6e9ff5fa1932fb234df54ad763d8dc4f"
+    },
+    {
+      "path": "paper/figs/backtest_BHN_20260917_1227.png",
+      "sha256": "1fdd500812ece8fa0d9b6b3bc205b7e171a1f5ecd149528836d0d092f3ab421f"
+    },
+    {
+      "path": "paper/figs/backtest_CMG_20260916_1110.png",
+      "sha256": "7351ffed0b0afcb6568d2cdae6004f9b23c0be512593bbe60c985109ba2c93de"
+    },
+    {
+      "path": "paper/figs/backtest_FPT_20260915_1458.png",
+      "sha256": "b772079e92c3d49e295439416c5456b8f20d9df1b4753123fcee98857ace9ab4"
+    },
+    {
+      "path": "paper/figs/backtest_HVN_20260916_1032.png",
+      "sha256": "ee84ba6bed88f5af8347006eeba9aa4394a4f92d50df4f9a90b133d4314e882d"
+    },
+    {
+      "path": "paper/figs/backtest_MBB_20260916_1129.png",
+      "sha256": "95f54e1f8f8398fc3473619110441e6d7ce6627324d2d40e6b3db2dc45ddea65"
+    },
+    {
+      "path": "paper/figs/backtest_MWG_20260916_1422.png",
+      "sha256": "2253a8844986d09c0fd67460b57fd8e90151a93681e35d85145329f9e9b4796d"
+    },
+    {
+      "path": "paper/figs/backtest_VCB_20260916_1337.png",
+      "sha256": "c2476a6242f3d3a440a64172cf890c93d1457db0584d97e620781eec5dfe81f7"
+    },
+    {
+      "path": "paper/figs/backtest_VJC_20260915_1542.png",
+      "sha256": "b6586b7368c04b88b1ac37dbf02720c63c2ceb8a01420753b248f9b68d290137"
+    },
+    {
+      "path": "paper/figs/backtest_VNM_20260915_1514.png",
+      "sha256": "442ab2fd645e332f3df1aef374d4a15bbb4b36cfa795ebc6a47f7280e8286aef"
+    },
+    {
+      "path": "paper/figs/decision_agent_pipeline.png",
+      "sha256": "48c454d1540f6897e300d828c04ca56a1e03aa2d9d15b78e11a87666eb94392a"
+    },
+    {
+      "path": "paper/figs/system_pipeline.png",
+      "sha256": "d02d7f971ed0778b33921fbdfd1b0e727b513adf15f6ab4655315dba4639ea70"
+    },
+    {
+      "path": "paper/figs/walkforward_protocol.png",
+      "sha256": "9953c5eabc41523db151caa5f56b20c707754eef41bfca7cc99755118c05b229"
+    },
+    {
+      "path": "paper/generated/r1_class_metrics.tex",
+      "sha256": "fc1784749010507589559bafcd012d34bc0f3510b11e84d1270b6d7c3a0bf1f2"
+    },
+    {
+      "path": "paper/generated/r1_common_classes.tex",
+      "sha256": "8fb3667efdbfa950de47d05178be4ac3e8e9bce9b2157ebf2f78b13e492805ce"
+    },
+    {
+      "path": "paper/generated/r1_common_intervals.tex",
+      "sha256": "1f00ebd36fc68952f775dee577d3f126d80750934693ee213439fc095774d841"
+    },
+    {
+      "path": "paper/generated/r1_common_macro.tex",
+      "sha256": "de41bcad16c175527b1238daaece14b9026e91612a89d698aa757c090296af9e"
+    },
+    {
+      "path": "paper/generated/r1_common_metrics.tex",
+      "sha256": "c578d76cf971687e618c2f8ca9222f5cb86341dcc44bf5bdfdd89980ab1d631d"
+    },
+    {
+      "path": "paper/generated/r1_common_panels.tex",
+      "sha256": "10aadc0a22d723ef7f095625d2ce83a3ba86c6372e5663aa72cc865070df2730"
+    },
+    {
+      "path": "paper/generated/r1_common_strata.tex",
+      "sha256": "f76bd041e44643c2b1ec733bc7470555bd514126f2ac425cf4ad30e9d410fa15"
+    },
+    {
+      "path": "paper/generated/r1_common_symbols.tex",
+      "sha256": "bfa27ac632d915429ac7b51de1c25329a615921b3cea0649b3b2086fc53948c1"
+    },
+    {
+      "path": "paper/generated/r1_comparability.tex",
+      "sha256": "2b3c89092e8d7c9efcddddadb15eeb284a529a5ae8e454c52514694c8913a5b7"
+    },
+    {
+      "path": "paper/generated/r1_legacy_metrics.tex",
+      "sha256": "d27c3ce568ac9220b8f077ee3a70974494538e54f539be35acea6f40f7364bdb"
+    },
+    {
+      "path": "paper/generated/r1_numeric_metrics.tex",
+      "sha256": "1d673c70d838dacf26f43b806a2f16eead0a31e56a1b715b56e2015d3389c1c1"
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "9646a445c055045f045b79ddbacc693e066f05c67548ed05b9e6dc7b9cbb9d40"
+    },
+    {
+      "path": "paper/main_submit.tex",
+      "sha256": "7742a5133416616efee501b3ab963d5bdd94e28790f9843408e2bb832d3c4626"
+    },
+    {
+      "path": "paper/references.bib",
+      "sha256": "c188fb50f39c10ae0b3d4cc5f6fbbef2c20cb578c1c85e95d8e5c603985ef4e8"
+    },
+    {
+      "path": "paper/sections/01_introduction.tex",
+      "sha256": "7cb87030e7cdf5bb4ad9ffc4f97e6a04e17b7e0bae6406eef246a262bb25006d"
+    },
+    {
+      "path": "paper/sections/02_related_work.tex",
+      "sha256": "82bf1aec08f3a178041be1876eb4c237074b76baad0b248c6eb8abec602cd50c"
+    },
+    {
+      "path": "paper/sections/03_problem_formulation.tex",
+      "sha256": "72d1bd515c7f84e09a8d2e0aaae9707128b8cf56615de25b8e0df48d2d0f9424"
+    },
+    {
+      "path": "paper/sections/04_system_architecture.tex",
+      "sha256": "735fc08bc6c7f09312487fedcc0993e5c82aac340a4aeae801a46ed2162b73b1"
+    },
+    {
+      "path": "paper/sections/05_experimental_setup.tex",
+      "sha256": "2b348fd9f5711ab153d58e4f60a434e700d9d9cb14f414ad24505f807164ce22"
+    },
+    {
+      "path": "paper/sections/06_backtest_results.tex",
+      "sha256": "aceabea1f70175ca2f3d200907dfa09a1a7765ba6cc770201efba28a05f25857"
+    },
+    {
+      "path": "paper/sections/07_limitations.tex",
+      "sha256": "28b7d9c0d8968bb453b7c615c57b3fcafba7cd9c011f035fa8821b2d9a33bd0f"
+    },
+    {
+      "path": "paper/sections/08_conclusion.tex",
+      "sha256": "13530c08290630f195517bc0c9e3cc73bba01730cb947b4a6d01f30581944987"
+    },
+    {
+      "path": "paper/sections/acknowledgments.tex",
+      "sha256": "144503e0908506d64cd52bb99480fd3082c63bc63831e66299e237007f868e9c"
+    },
+    {
+      "path": "paper/sections/appendices.tex",
+      "sha256": "972c0c6dda8579e5ffaa79e4fa7be884b7d33ac93e48df6f9309e27088b67daf"
+    },
+    {
+      "path": "scripts/finalize_revision_r1.py",
+      "sha256": "a59ec1a5369055df8c9a8594a39b7b9ae3e95d9f80539c9744272eabe6509fbd"
+    },
+    {
+      "path": "revision/response_to_reviewers.md",
+      "sha256": "21c7e99348299c6d3b566b1c7c1dff0f3aa7af80868f290530e79852bc82dcc3"
+    },
+    {
+      "path": "revision/reviewer_matrix.csv",
+      "sha256": "cf1cd42f281550190a9571e77da4454822c3581f1225ddc0d2ea43393994c4f8"
+    },
+    {
+      "path": "revision/target_contract.md",
+      "sha256": "86d7ea8076eeaf2829aa82aa95eadf5e71480a2148904c734d4e266fca422eda"
+    },
+    {
+      "path": "revision/r1_72h_runbook.md",
+      "sha256": "55a1298461115f5e31d1967ae8537e5a3a9e3e6d2513a9eeba5006677b155027"
+    },
+    {
+      "path": "plan.md",
+      "sha256": "6a1f9fef641aec1d1198cbff02ff5faec1b63721e256b3f20c55144ebcf7eed9"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/inference_complete.json",
+      "sha256": "652074e4f0ca17b6779ae5d86cbeed2b601a55a32097ac30b67ea1759362bd9f"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/analysis/manifest.json",
+      "sha256": "6d5317c32458a8da6e403eb178428288dae9d751dde090635568195c630f68db"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/run_manifest.json",
+      "sha256": "7b416b82f81f58a8abe709b32bdd5572b54964507107c57464b6051f6b2ac912"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/execution_amendment.json",
+      "sha256": "79cc56f703f4b95a1f0032f7606838b2ebe81c5b58d5b337f5ff155acb7670fc"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/numeric/manifest.json",
+      "sha256": "0ba9d5a4fc920d9d97b69a87e9b021f055c0401b743e59fb0ae6cdd972cc08f0"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v1/manifest.json",
+      "sha256": "c4b7e6848d84d39c17008af6502ea09d447e5a7e7f2bd9b3bd99051948b5836a"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "baseline_by_symbol.csv",
+      "sha256": "4743b234dae71d354cc7f644804583c6c66b3b9c236d91f62db7e1fbaba4811b"
+    },
+    {
+      "path": "main.log",
+      "sha256": "7a49eee491bcf3aa47d8824c40c9fea20327f3e8d4677abecf5aef104ba43074"
+    },
+    {
+      "path": "main.pdf",
+      "sha256": "fb0c1813841b1ce188fea3d566aa1f962f1644b23364c8e5b90e40dcbdf7df3a"
+    },
+    {
+      "path": "main_submit.log",
+      "sha256": "411e4c6ebb1d7fb6cf30321ae1daf126493526edf391993aba08482db7e81fa6"
+    },
+    {
+      "path": "main_submit.pdf",
+      "sha256": "12d45a0b96826d5729291a4bf9f2bf13ecd77c2b522d800d3841b9b0e00cb065"
+    },
+    {
+      "path": "per_class_all_groups.csv",
+      "sha256": "b941cefdabe7b452274bfed91620704b4768be2d59513c53d11f9b94d2a9a235"
+    },
+    {
+      "path": "prior_manuscript_sources.zip",
+      "sha256": "04e63d7d511fd8a3e53a38ecddc0d122dd62716577a5b063ce5a29b459197fc4"
+    },
+    {
+      "path": "sources.zip",
+      "sha256": "e04160b13d9dbba6c91b4d61121ce16faab5629187cb0355d611a902318da66f"
+    }
+  ]
+}

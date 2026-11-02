@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b91-a66e-7aa0-bc2b-45191d9c2efb",
+  "parent_request_hash": "02a0685c1e7123e83c85c62feb9327a5c7daa17893f4cca04aa94e54372cd87d",
+  "ended_at_utc": "2026-11-02T09:22:57.515048+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend breakout above 11.25 and MACD golden cross confirm bullish momentum.\",\"evidence_against\":\"Support at 10.45 weak, potential reversal risk.\",\"justification\":\"Enter long at 10.80, target 11.50, stop 10.50.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend breakout above 11.25 and MACD golden cross confirm bullish momentum.\",\"evidence_against\":\"Support at 10.45 weak, potential reversal risk.\",\"justification\":\"Enter long at 10.80, target 11.50, stop 10.50.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 467,
+                "prompt_tokens": 1438,
+                "total_tokens": 1905,
+                "completion_time": 0.535485181,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 369
+                },
+                "prompt_time": 0.084826252,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391877849,
+                "total_time": 0.620311433
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8b41efc9a3",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b91-a66e-7aa0-bc2b-45191d9c2efb-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 467,
+        "prompt_tokens": 1438,
+        "total_tokens": 1905,
+        "completion_time": 0.535485181,
+        "completion_tokens_details": {
+          "reasoning_tokens": 369
+        },
+        "prompt_time": 0.084826252,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391877849,
+        "total_time": 0.620311433
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8b41efc9a3",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

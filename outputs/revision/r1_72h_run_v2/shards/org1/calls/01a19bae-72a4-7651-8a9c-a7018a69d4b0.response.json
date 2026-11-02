@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bae-72a4-7651-8a9c-a7018a69d4b0",
+  "parent_request_hash": "565f8a44036ed18304dc760c74abd33cc744675ada5d5a0edfebdd530d33a6ed",
+  "ended_at_utc": "2026-11-02T09:54:25.054460+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is bearish with support at 73.0 and resistance at 76.0; MACD line is below signal and histogram is falling, confirming weak momentum.\",\"evidence_against\":\"Alpha factors overall are increasing, which could suggest a potential reversal.\",\"justification\":\"Given the confirmed downtrend and bearish MACD, a short position is preferred to avoid buying at a high and selling at a low; the risk-reward ratio of 2:1 is acceptable for this horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is bearish with support at 73.0 and resistance at 76.0; MACD line is below signal and histogram is falling, confirming weak momentum.\",\"evidence_against\":\"Alpha factors overall are increasing, which could suggest a potential reversal.\",\"justification\":\"Given the confirmed downtrend and bearish MACD, a short position is preferred to avoid buying at a high and selling at a low; the risk-reward ratio of 2:1 is acceptable for this horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 571,
+                "prompt_tokens": 1583,
+                "total_tokens": 2154,
+                "completion_time": 0.646469149,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 432
+                },
+                "prompt_time": 0.092596423,
+                "prompt_tokens_details": null,
+                "queue_time": 0.593706564,
+                "total_time": 0.739065572
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_34cb00738d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bae-72a4-7651-8a9c-a7018a69d4b0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 571,
+        "prompt_tokens": 1583,
+        "total_tokens": 2154,
+        "completion_time": 0.646469149,
+        "completion_tokens_details": {
+          "reasoning_tokens": 432
+        },
+        "prompt_time": 0.092596423,
+        "prompt_tokens_details": null,
+        "queue_time": 0.593706564,
+        "total_time": 0.739065572
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_34cb00738d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

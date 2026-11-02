@@ -2,6 +2,8 @@
 
 Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt phản biện: `fix`; luồng KLTN trên `develop` được quản lý riêng.
 
+**Tiến độ hiện hành:** [R1 đã chốt ngày 03/11/2026](../plan.md#r1-progress), xem [response](response_to_reviewers.md) và [release bản thảo](../outputs/revision/r1_manuscript_v2/manifest.json). Các mục bên dưới là nhật ký lịch sử của những lần triển khai trước, không phải checklist hiện tại.
+
 ## Điều chỉnh ngân sách ngày 02/11/2026 — chỉ thay đổi tài liệu
 
 **Ưu tiên mới:** [phương án rút gọn trong kế hoạch](../plan.md#0-phương-án-rút-gọn-có-hiệu-lực-từ-02112026), thay yêu cầu hoàn tất 8.100 decisions của study Full cũ. Những số 5/10 repeats, 8.100 decisions, 14.580 requests và lệnh resume trần 30.000 ở phần lịch sử bên dưới mô tả **protocol cũ**, không là ngân sách mặc định mới.

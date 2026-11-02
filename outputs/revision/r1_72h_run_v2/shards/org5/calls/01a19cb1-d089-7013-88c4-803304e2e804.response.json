@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19cb1-d089-7013-88c4-803304e2e804",
+  "parent_request_hash": "04be8241327a210ca2d25d914abd0868bad1f5ace79bc92aa1c42df95cd0b984",
+  "ended_at_utc": "2026-11-02T14:37:47.579533+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is up with price above support 60.5 and MACD golden cross indicates bullish momentum.\",\"evidence_against\":\"Alpha factors overall indicate a decrease, suggesting potential weakness.\",\"justification\":\"Buying at open and selling at close near 64.5 should yield net profit after fees. Holding cash if not enough upside is prudent.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is up with price above support 60.5 and MACD golden cross indicates bullish momentum.\",\"evidence_against\":\"Alpha factors overall indicate a decrease, suggesting potential weakness.\",\"justification\":\"Buying at open and selling at close near 64.5 should yield net profit after fees. Holding cash if not enough upside is prudent.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 853,
+                "prompt_tokens": 1557,
+                "total_tokens": 2410,
+                "completion_time": 0.985342831,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 744
+                },
+                "prompt_time": 0.103818478,
+                "prompt_tokens_details": null,
+                "queue_time": 0.350628456,
+                "total_time": 1.089161309
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19cb1-d089-7013-88c4-803304e2e804-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 853,
+        "prompt_tokens": 1557,
+        "total_tokens": 2410,
+        "completion_time": 0.985342831,
+        "completion_tokens_details": {
+          "reasoning_tokens": 744
+        },
+        "prompt_time": 0.103818478,
+        "prompt_tokens_details": null,
+        "queue_time": 0.350628456,
+        "total_time": 1.089161309
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

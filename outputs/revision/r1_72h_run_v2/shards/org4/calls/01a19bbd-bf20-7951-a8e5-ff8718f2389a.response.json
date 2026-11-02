@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bbd-bf20-7951-a8e5-ff8718f2389a",
+  "parent_request_hash": "6f632f682ef87975da31e73e590ad8cd0854dd50784d143baf6d1783919a7269",
+  "ended_at_utc": "2026-11-02T10:11:07.327190+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows a clear downward movement with price near support 54.8 and MACD histogram trending negative, confirming bearish momentum.\",\"evidence_against\":\"\",\"justification\":\"Shorting aligns with the prevailing bearish trend and negative momentum, maximizing potential profit while minimizing exposure to a likely decline.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows a clear downward movement with price near support 54.8 and MACD histogram trending negative, confirming bearish momentum.\",\"evidence_against\":\"\",\"justification\":\"Shorting aligns with the prevailing bearish trend and negative momentum, maximizing potential profit while minimizing exposure to a likely decline.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 745,
+                "prompt_tokens": 1439,
+                "total_tokens": 2184,
+                "completion_time": 0.821287264,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 646
+                },
+                "prompt_time": 0.086331448,
+                "prompt_tokens_details": null,
+                "queue_time": 0.05045222,
+                "total_time": 0.907618712
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_80501ff3a1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bbd-bf20-7951-a8e5-ff8718f2389a-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 745,
+        "prompt_tokens": 1439,
+        "total_tokens": 2184,
+        "completion_time": 0.821287264,
+        "completion_tokens_details": {
+          "reasoning_tokens": 646
+        },
+        "prompt_time": 0.086331448,
+        "prompt_tokens_details": null,
+        "queue_time": 0.05045222,
+        "total_time": 0.907618712
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_80501ff3a1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

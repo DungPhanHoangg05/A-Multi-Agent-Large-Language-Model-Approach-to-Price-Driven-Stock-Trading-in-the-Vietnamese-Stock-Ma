@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19cb3-34ad-7433-b154-0b2421b31cee",
+  "parent_request_hash": "95853a7c43289bd06607c27fd332af37447ca04778e5d23090c95dbcc3f8689d",
+  "ended_at_utc": "2026-11-02T14:39:14.996103+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD golden cross indicates bullish momentum. Price is above support and approaching resistance at 64.5.\",\"evidence_against\":\"Alpha factors overall decreasing may signal weakening trend.\",\"justification\":\"Long position expected to capture upside to 64.5 with net profit after fees. Holding until T+2 ensures compliance with settlement rules.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD golden cross indicates bullish momentum. Price is above support and approaching resistance at 64.5.\",\"evidence_against\":\"Alpha factors overall decreasing may signal weakening trend.\",\"justification\":\"Long position expected to capture upside to 64.5 with net profit after fees. Holding until T+2 ensures compliance with settlement rules.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1049,
+                "prompt_tokens": 1557,
+                "total_tokens": 2606,
+                "completion_time": 1.230063653,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 936
+                },
+                "prompt_time": 0.091982964,
+                "prompt_tokens_details": null,
+                "queue_time": 0.585890594,
+                "total_time": 1.322046617
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19cb3-34ad-7433-b154-0b2421b31cee-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1049,
+        "prompt_tokens": 1557,
+        "total_tokens": 2606,
+        "completion_time": 1.230063653,
+        "completion_tokens_details": {
+          "reasoning_tokens": 936
+        },
+        "prompt_time": 0.091982964,
+        "prompt_tokens_details": null,
+        "queue_time": 0.585890594,
+        "total_time": 1.322046617
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

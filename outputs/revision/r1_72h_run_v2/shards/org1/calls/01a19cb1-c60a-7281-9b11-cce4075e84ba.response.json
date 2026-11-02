@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19cb1-c60a-7281-9b11-cce4075e84ba",
+  "parent_request_hash": "2bec3cf67af1d9e80f9739baa97a34bb8177b48f86704874c79fda201adda75e",
+  "ended_at_utc": "2026-11-02T14:37:42.963494+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"MACD line below signal and negative histogram confirm bearish momentum; V‑reversal pattern shows price is likely to reverse from 29.5 to 28.5.\",\"evidence_against\":\"Trend is sideways, which could allow a neutral outcome.\",\"justification\":\"Enter short near 29.3 with stop at 30.0 and target 28.5, giving a risk‑reward ratio of about 1.2; the bearish indicators outweigh the neutral trend.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"MACD line below signal and negative histogram confirm bearish momentum; V‑reversal pattern shows price is likely to reverse from 29.5 to 28.5.\",\"evidence_against\":\"Trend is sideways, which could allow a neutral outcome.\",\"justification\":\"Enter short near 29.3 with stop at 30.0 and target 28.5, giving a risk‑reward ratio of about 1.2; the bearish indicators outweigh the neutral trend.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 678,
+                "prompt_tokens": 1424,
+                "total_tokens": 2102,
+                "completion_time": 0.7746011,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 541
+                },
+                "prompt_time": 0.084317972,
+                "prompt_tokens_details": null,
+                "queue_time": 0.081388706,
+                "total_time": 0.858919072
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19cb1-c60a-7281-9b11-cce4075e84ba-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 678,
+        "prompt_tokens": 1424,
+        "total_tokens": 2102,
+        "completion_time": 0.7746011,
+        "completion_tokens_details": {
+          "reasoning_tokens": 541
+        },
+        "prompt_time": 0.084317972,
+        "prompt_tokens_details": null,
+        "queue_time": 0.081388706,
+        "total_time": 0.858919072
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

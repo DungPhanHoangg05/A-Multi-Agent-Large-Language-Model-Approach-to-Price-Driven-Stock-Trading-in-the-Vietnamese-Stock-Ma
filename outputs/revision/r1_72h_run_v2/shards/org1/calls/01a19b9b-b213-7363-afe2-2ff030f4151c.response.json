@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b9b-b213-7363-afe2-2ff030f4151c",
+  "parent_request_hash": "ed97dee2c37ecf028f49b332f6c2916fc3eb06bf078925e3a1b92b3d0efe6c90",
+  "ended_at_utc": "2026-11-02T09:33:55.887285+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is down and pattern confirms a declining structure; MACD golden cross is present but does not override the prevailing bearish bias.\",\"evidence_against\":\"MACD golden cross suggests a potential short-term reversal.\",\"justification\":\"The dominant trend and pattern indicate a downtrend, so a short position is preferred; the MACD signal alone is insufficient to justify a long trade.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is down and pattern confirms a declining structure; MACD golden cross is present but does not override the prevailing bearish bias.\",\"evidence_against\":\"MACD golden cross suggests a potential short-term reversal.\",\"justification\":\"The dominant trend and pattern indicate a downtrend, so a short position is preferred; the MACD signal alone is insufficient to justify a long trade.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 629,
+                "prompt_tokens": 1455,
+                "total_tokens": 2084,
+                "completion_time": 0.690524874,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 513
+                },
+                "prompt_time": 0.0722806,
+                "prompt_tokens_details": null,
+                "queue_time": 0.320677421,
+                "total_time": 0.762805474
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b9b-b213-7363-afe2-2ff030f4151c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 629,
+        "prompt_tokens": 1455,
+        "total_tokens": 2084,
+        "completion_time": 0.690524874,
+        "completion_tokens_details": {
+          "reasoning_tokens": 513
+        },
+        "prompt_time": 0.0722806,
+        "prompt_tokens_details": null,
+        "queue_time": 0.320677421,
+        "total_time": 0.762805474
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

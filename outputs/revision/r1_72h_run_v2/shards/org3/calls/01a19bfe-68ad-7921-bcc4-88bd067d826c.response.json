@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bfe-68ad-7921-bcc4-88bd067d826c",
+  "parent_request_hash": "d706366c9d8adf0d08a57b00ee9c7af599e3df059a6aaad2c35c3b02673a127f",
+  "ended_at_utc": "2026-11-02T11:21:46.354827+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an upward direction with price above support 21.5 and approaching resistance 23.5, suggesting potential continuation of the uptrend.\",\"evidence_against\":\"Pattern analysis shows a clear downward trend with low confidence, contradicting the trend signal.\",\"justification\":\"Given the conflict between trend and pattern signals, a short position is preferred to avoid potential losses if the downtrend prevails.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an upward direction with price above support 21.5 and approaching resistance 23.5, suggesting potential continuation of the uptrend.\",\"evidence_against\":\"Pattern analysis shows a clear downward trend with low confidence, contradicting the trend signal.\",\"justification\":\"Given the conflict between trend and pattern signals, a short position is preferred to avoid potential losses if the downtrend prevails.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 893,
+                "prompt_tokens": 1467,
+                "total_tokens": 2360,
+                "completion_time": 1.328128976,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 770
+                },
+                "prompt_time": 0.08574839,
+                "prompt_tokens_details": null,
+                "queue_time": 0.60176988,
+                "total_time": 1.413877366
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_84bb35977d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bfe-68ad-7921-bcc4-88bd067d826c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 893,
+        "prompt_tokens": 1467,
+        "total_tokens": 2360,
+        "completion_time": 1.328128976,
+        "completion_tokens_details": {
+          "reasoning_tokens": 770
+        },
+        "prompt_time": 0.08574839,
+        "prompt_tokens_details": null,
+        "queue_time": 0.60176988,
+        "total_time": 1.413877366
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_84bb35977d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

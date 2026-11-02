@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c09-0773-7e63-bc7a-089c6cb3536b",
+  "parent_request_hash": "a80505e1039f3cdcd7720308950d564531cdf21e9875ea7ac0edcba0b54a9b4f",
+  "ended_at_utc": "2026-11-02T11:33:21.588390+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum; overall alpha factors show a decrease trend.\",\"evidence_against\":\"Pattern analysis hints at a possible breakout above 60, but confidence is low.\",\"justification\":\"Shorting avoids potential losses from bearish indicators and negative sentiment; the expected net profit after fees is unlikely to cover the costs.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum; overall alpha factors show a decrease trend.\",\"evidence_against\":\"Pattern analysis hints at a possible breakout above 60, but confidence is low.\",\"justification\":\"Shorting avoids potential losses from bearish indicators and negative sentiment; the expected net profit after fees is unlikely to cover the costs.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 668,
+                "prompt_tokens": 1553,
+                "total_tokens": 2221,
+                "completion_time": 1.009728575,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 555
+                },
+                "prompt_time": 0.281658869,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.212827918,
+                "total_time": 1.291387444
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c09-0773-7e63-bc7a-089c6cb3536b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 668,
+        "prompt_tokens": 1553,
+        "total_tokens": 2221,
+        "completion_time": 1.009728575,
+        "completion_tokens_details": {
+          "reasoning_tokens": 555
+        },
+        "prompt_time": 0.281658869,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.212827918,
+        "total_time": 1.291387444
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

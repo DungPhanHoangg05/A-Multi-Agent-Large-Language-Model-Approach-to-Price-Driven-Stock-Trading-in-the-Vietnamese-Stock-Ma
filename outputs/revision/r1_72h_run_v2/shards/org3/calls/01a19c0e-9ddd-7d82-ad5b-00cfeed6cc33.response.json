@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c0e-9ddd-7d82-ad5b-00cfeed6cc33",
+  "parent_request_hash": "b558ce6254079fed4c1f73db55b36f245edef94a611f246b5642ae1432ac0483",
+  "ended_at_utc": "2026-11-02T11:39:26.949162+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up, MACD bullish, V pattern reversal confirm bullish bias.\",\"evidence_against\":\"Price near resistance 24.5, risk of reversal.\",\"justification\":\"Buy when price holds above 23.5, target 24.5, stop 22.5.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up, MACD bullish, V pattern reversal confirm bullish bias.\",\"evidence_against\":\"Price near resistance 24.5, risk of reversal.\",\"justification\":\"Buy when price holds above 23.5, target 24.5, stop 22.5.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 479,
+                "prompt_tokens": 1580,
+                "total_tokens": 2059,
+                "completion_time": 0.528918276,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 381
+                },
+                "prompt_time": 0.107423602,
+                "prompt_tokens_details": null,
+                "queue_time": 0.047846127,
+                "total_time": 0.636341878
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0e-9ddd-7d82-ad5b-00cfeed6cc33-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 479,
+        "prompt_tokens": 1580,
+        "total_tokens": 2059,
+        "completion_time": 0.528918276,
+        "completion_tokens_details": {
+          "reasoning_tokens": 381
+        },
+        "prompt_time": 0.107423602,
+        "prompt_tokens_details": null,
+        "queue_time": 0.047846127,
+        "total_time": 0.636341878
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

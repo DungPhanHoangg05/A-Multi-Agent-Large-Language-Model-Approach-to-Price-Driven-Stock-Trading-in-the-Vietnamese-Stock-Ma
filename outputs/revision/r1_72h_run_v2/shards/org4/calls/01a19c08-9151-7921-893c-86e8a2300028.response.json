@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c08-9151-7921-893c-86e8a2300028",
+  "parent_request_hash": "ee7a03d55169dccc84b23105954eecb642c3e1e63fb544a5c650ee75e93060dc",
+  "ended_at_utc": "2026-11-02T11:32:51.932803+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with support at 19.70 and resistance at 20.65; V reversal pattern and MACD bullish signals confirm momentum. MACD line above signal and positive histogram confirm increasing momentum.\",\"evidence_against\":\"Trend slope is decreasing, indicating potential weakening.\",\"justification\":\"Price is expected to break resistance and reach 20.80-21.00 within 3 days; bullish indicators outweigh the slight slope decline.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with support at 19.70 and resistance at 20.65; V reversal pattern and MACD bullish signals confirm momentum. MACD line above signal and positive histogram confirm increasing momentum.\",\"evidence_against\":\"Trend slope is decreasing, indicating potential weakening.\",\"justification\":\"Price is expected to break resistance and reach 20.80-21.00 within 3 days; bullish indicators outweigh the slight slope decline.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 766,
+                "prompt_tokens": 1446,
+                "total_tokens": 2212,
+                "completion_time": 0.802170689,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 637
+                },
+                "prompt_time": 0.534711938,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.387775978,
+                "total_time": 1.336882627
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d23c14756c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c08-9151-7921-893c-86e8a2300028-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 766,
+        "prompt_tokens": 1446,
+        "total_tokens": 2212,
+        "completion_time": 0.802170689,
+        "completion_tokens_details": {
+          "reasoning_tokens": 637
+        },
+        "prompt_time": 0.534711938,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.387775978,
+        "total_time": 1.336882627
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d23c14756c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

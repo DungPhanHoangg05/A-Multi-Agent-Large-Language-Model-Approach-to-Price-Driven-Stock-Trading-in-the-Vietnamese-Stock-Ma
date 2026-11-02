@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b98-c2f9-7410-b299-6955e90f75de",
+  "parent_request_hash": "8891a35702b59ab3d775b19dae771eb9a0db75da71220c165cab0ea0d84c192c",
+  "ended_at_utc": "2026-11-02T09:30:43.648548+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD death cross indicates bearish signal; trend analysis shows price below support 9.20 and falling.\",\"evidence_against\":\"Alpha factors overall trend is down, no bullish alpha signals.\",\"justification\":\"Given bearish MACD and trend below support, short position aligns with risk management; target near 9.20 with stop above 9.40.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD death cross indicates bearish signal; trend analysis shows price below support 9.20 and falling.\",\"evidence_against\":\"Alpha factors overall trend is down, no bullish alpha signals.\",\"justification\":\"Given bearish MACD and trend below support, short position aligns with risk management; target near 9.20 with stop above 9.40.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 615,
+                "prompt_tokens": 1599,
+                "total_tokens": 2214,
+                "completion_time": 0.689864985,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 499
+                },
+                "prompt_time": 0.094270542,
+                "prompt_tokens_details": null,
+                "queue_time": 0.350467778,
+                "total_time": 0.784135527
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b98-c2f9-7410-b299-6955e90f75de-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 615,
+        "prompt_tokens": 1599,
+        "total_tokens": 2214,
+        "completion_time": 0.689864985,
+        "completion_tokens_details": {
+          "reasoning_tokens": 499
+        },
+        "prompt_time": 0.094270542,
+        "prompt_tokens_details": null,
+        "queue_time": 0.350467778,
+        "total_time": 0.784135527
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

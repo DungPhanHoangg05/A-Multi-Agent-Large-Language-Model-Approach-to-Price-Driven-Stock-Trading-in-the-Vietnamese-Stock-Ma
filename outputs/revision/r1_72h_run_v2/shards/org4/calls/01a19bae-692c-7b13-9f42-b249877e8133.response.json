@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bae-692c-7b13-9f42-b249877e8133",
+  "parent_request_hash": "d2a07fd1006cf85f2109ca6df33845ff26c1dbb6d4366d667c5af8c8e2a4b177",
+  "ended_at_utc": "2026-11-02T09:54:22.462786+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend giảm rõ rệt, MACD và histogram giảm, không có tín hiệu mua. Alpha factors tổng hợp tăng, không có alpha giảm.\",\"evidence_against\":\"Không có tín hiệu tăng giá mạnh.\",\"justification\":\"Vì xu hướng giảm và các chỉ báo không hỗ trợ mua, nên bán khống là lựa chọn an toàn. Nếu giá vượt hỗ trợ 34.5, có thể cân nhắc mua lại.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend giảm rõ rệt, MACD và histogram giảm, không có tín hiệu mua. Alpha factors tổng hợp tăng, không có alpha giảm.\",\"evidence_against\":\"Không có tín hiệu tăng giá mạnh.\",\"justification\":\"Vì xu hướng giảm và các chỉ báo không hỗ trợ mua, nên bán khống là lựa chọn an toàn. Nếu giá vượt hỗ trợ 34.5, có thể cân nhắc mua lại.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 529,
+                "prompt_tokens": 1552,
+                "total_tokens": 2081,
+                "completion_time": 0.68453676,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 400
+                },
+                "prompt_time": 0.092416155,
+                "prompt_tokens_details": null,
+                "queue_time": 0.365598905,
+                "total_time": 0.776952915
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bae-692c-7b13-9f42-b249877e8133-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 529,
+        "prompt_tokens": 1552,
+        "total_tokens": 2081,
+        "completion_time": 0.68453676,
+        "completion_tokens_details": {
+          "reasoning_tokens": 400
+        },
+        "prompt_time": 0.092416155,
+        "prompt_tokens_details": null,
+        "queue_time": 0.365598905,
+        "total_time": 0.776952915
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

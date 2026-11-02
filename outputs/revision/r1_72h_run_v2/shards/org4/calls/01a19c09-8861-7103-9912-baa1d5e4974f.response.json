@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c09-8861-7103-9912-baa1d5e4974f",
+  "parent_request_hash": "44506ed05678b2f96f8d760e31709ee017ab68cee98b43cd25115673e3751427",
+  "ended_at_utc": "2026-11-02T11:33:55.319918+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is up with price near support 70.5 and approaching resistance 74.5, and MACD histogram is widening indicating increasing momentum. Pattern analysis suggests buying above 72 with target 75 and stop 70, which yields a net return above transaction costs.\",\"evidence_against\":\"MACD line is below signal, indicating a potential bearish reversal.\",\"justification\":\"Given the bullish trend and expected target exceeding costs, a LONG position is justified. The risk-reward ratio of 1:1 meets the minimum requirement.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is up with price near support 70.5 and approaching resistance 74.5, and MACD histogram is widening indicating increasing momentum. Pattern analysis suggests buying above 72 with target 75 and stop 70, which yields a net return above transaction costs.\",\"evidence_against\":\"MACD line is below signal, indicating a potential bearish reversal.\",\"justification\":\"Given the bullish trend and expected target exceeding costs, a LONG position is justified. The risk-reward ratio of 1:1 meets the minimum requirement.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1469,
+                "prompt_tokens": 1465,
+                "total_tokens": 2934,
+                "completion_time": 1.7399314110000001,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1321
+                },
+                "prompt_time": 0.099409267,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.389981292,
+                "total_time": 1.8393406780000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_5979a0e1b7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c09-8861-7103-9912-baa1d5e4974f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1469,
+        "prompt_tokens": 1465,
+        "total_tokens": 2934,
+        "completion_time": 1.7399314110000001,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1321
+        },
+        "prompt_time": 0.099409267,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.389981292,
+        "total_time": 1.8393406780000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_5979a0e1b7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

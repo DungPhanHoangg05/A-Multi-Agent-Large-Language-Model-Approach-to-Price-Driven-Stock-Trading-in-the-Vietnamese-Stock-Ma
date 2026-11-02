@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b95-c327-79b3-88b9-0398979f7330",
+  "parent_request_hash": "d25040d4bab10e5db4adb8315fa3a2fd91b378455063784b29c06d2b5cdd826c",
+  "ended_at_utc": "2026-11-02T09:27:27.153608+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend shows breakout above 49.2 in 3 days; support at 47.8 and resistance at 49.2.\",\"evidence_against\":\"MACD below signal and histogram negative indicates bearish momentum.\",\"justification\":\"Given bearish MACD, short protects cash; trend bullish but indicator suggests reversal.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend shows breakout above 49.2 in 3 days; support at 47.8 and resistance at 49.2.\",\"evidence_against\":\"MACD below signal and histogram negative indicates bearish momentum.\",\"justification\":\"Given bearish MACD, short protects cash; trend bullish but indicator suggests reversal.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 439,
+                "prompt_tokens": 1443,
+                "total_tokens": 1882,
+                "completion_time": 0.488402374,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 334
+                },
+                "prompt_time": 0.072413533,
+                "prompt_tokens_details": null,
+                "queue_time": 0.340174906,
+                "total_time": 0.560815907
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_34cb00738d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b95-c327-79b3-88b9-0398979f7330-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 439,
+        "prompt_tokens": 1443,
+        "total_tokens": 1882,
+        "completion_time": 0.488402374,
+        "completion_tokens_details": {
+          "reasoning_tokens": 334
+        },
+        "prompt_time": 0.072413533,
+        "prompt_tokens_details": null,
+        "queue_time": 0.340174906,
+        "total_time": 0.560815907
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_34cb00738d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

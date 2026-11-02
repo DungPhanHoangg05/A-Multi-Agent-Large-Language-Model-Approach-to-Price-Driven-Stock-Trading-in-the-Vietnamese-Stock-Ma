@@ -2,6 +2,19 @@
 
 Tiến độ và điều kiện đóng R1 nằm trong [plan.md](../plan.md). Tài liệu này chỉ hướng dẫn vận hành. Profile mới không chạy 540 calibration hay grid 8.100 cũ và không chuyển 23 calibration cũ thành test.
 
+## Run đã hoàn tất — 03/11/2026
+
+Đủ 474 research +10 smoke, 102 cặp chính và panels 18/9. R1 đã chốt bằng [bản thảo release mới](../outputs/revision/r1_manuscript_v2/manifest.json) và [response](response_to_reviewers.md); không cần chạy thêm API để hoàn thành R1. Các lệnh smoke/run bên dưới là hướng dẫn vận hành lịch sử, không phải yêu cầu chạy lại.
+
+Đối soát/tái tạo bảng offline:
+
+```powershell
+py -3.13 -X utf8 scripts/run_revision_72h.py verify
+py -3.13 -X utf8 scripts/finalize_revision_r1.py --check
+```
+
+Bỏ `--check` chỉ để tái xuất các TeX/CSV trình bày từ analysis đã khóa. Không chạy lại `analyze` trên cùng thư mục vì release hiện có phải giữ nguyên. Hai PDF được build từ `paper/main.tex` và `paper/main_submit.tex` bằng pdflatex/bibtex; source/PDF/log/locators và hash được khóa trong manifest bản thảo. Bộ đếm runtime SQLite và work/temp không phải đầu vào khoa học để tái tạo bảng.
+
 ## Đầu vào đã chuẩn bị
 
 - Bank: `outputs/revision/r1_72h_bank_v2/`; 102 market units, sáu block, 12 ngày decision. BHN chỉ có ba fold mới; tám mã còn lại đủ sáu block.

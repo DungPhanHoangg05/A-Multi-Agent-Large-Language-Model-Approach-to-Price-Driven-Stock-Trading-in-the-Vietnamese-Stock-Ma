@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bb3-565c-7182-a44a-856e8249d680",
+  "parent_request_hash": "351556fbf52171443fe6f78c8584e23f9fdaca1200742ced2199b28e4e241a90",
+  "ended_at_utc": "2026-11-02T09:59:46.089411+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern shows higher highs and higher lows, indicating potential upward movement.\",\"evidence_against\":\"MACD below signal and negative histogram, indicating bearish momentum.\",\"justification\":\"Trend is sideways, pattern suggests uptrend but MACD bearish, so uncertain. Choose SHORT to avoid potential losses.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern shows higher highs and higher lows, indicating potential upward movement.\",\"evidence_against\":\"MACD below signal and negative histogram, indicating bearish momentum.\",\"justification\":\"Trend is sideways, pattern suggests uptrend but MACD bearish, so uncertain. Choose SHORT to avoid potential losses.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 979,
+                "prompt_tokens": 1462,
+                "total_tokens": 2441,
+                "completion_time": 1.081048863,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 880
+                },
+                "prompt_time": 0.113178448,
+                "prompt_tokens_details": null,
+                "queue_time": 0.221870265,
+                "total_time": 1.1942273110000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a12402de73",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb3-565c-7182-a44a-856e8249d680-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 979,
+        "prompt_tokens": 1462,
+        "total_tokens": 2441,
+        "completion_time": 1.081048863,
+        "completion_tokens_details": {
+          "reasoning_tokens": 880
+        },
+        "prompt_time": 0.113178448,
+        "prompt_tokens_details": null,
+        "queue_time": 0.221870265,
+        "total_time": 1.1942273110000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a12402de73",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

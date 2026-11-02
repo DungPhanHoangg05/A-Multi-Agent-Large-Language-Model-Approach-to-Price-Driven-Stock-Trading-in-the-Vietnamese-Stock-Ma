@@ -1,0 +1,15 @@
+{
+  "attempt_id": "01a19c0f-8a0f-74f2-a3c0-ad64cbe578ef",
+  "context": {
+    "unit_id": "FPT_b2023_h2_929",
+    "realization": 1,
+    "stage": "upstream",
+    "node": "Trend Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false,
+    "provider_org": 1,
+    "execution_epoch": "e2c4edd6034a110746bd386c4435f9313220273293c84c6ce6339956300985d1"
+  },
+  "type": "RateLimitError",
+  "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kmtc867debjsp437292n5hxb` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199934, Requested 2634. Please try again in 18m29.376s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+}

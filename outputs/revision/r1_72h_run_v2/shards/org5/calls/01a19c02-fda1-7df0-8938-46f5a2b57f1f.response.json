@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c02-fda1-7df0-8938-46f5a2b57f1f",
+  "parent_request_hash": "8a1370e7c342b1d45c24fae4b4975afbc357352df4a1de490a917fe8657a56c6",
+  "ended_at_utc": "2026-11-02T11:26:46.089061+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line below signal and histogram negative indicates bearish momentum; pattern analysis shows declining highs and lows confirming a downtrend.\",\"evidence_against\":\"Trend analysis indicates a sideways market, which could reduce the probability of a sustained decline.\",\"justification\":\"Given the bearish technical signals and the risk of a flat market, a short position aligns with the strategy to preserve cash if the trade does not meet profit expectations.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line below signal and histogram negative indicates bearish momentum; pattern analysis shows declining highs and lows confirming a downtrend.\",\"evidence_against\":\"Trend analysis indicates a sideways market, which could reduce the probability of a sustained decline.\",\"justification\":\"Given the bearish technical signals and the risk of a flat market, a short position aligns with the strategy to preserve cash if the trade does not meet profit expectations.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 552,
+                "prompt_tokens": 1582,
+                "total_tokens": 2134,
+                "completion_time": 0.605571591,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 426
+                },
+                "prompt_time": 0.780088656,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.317114995,
+                "total_time": 1.3856602470000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ef00694abe",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c02-fda1-7df0-8938-46f5a2b57f1f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 552,
+        "prompt_tokens": 1582,
+        "total_tokens": 2134,
+        "completion_time": 0.605571591,
+        "completion_tokens_details": {
+          "reasoning_tokens": 426
+        },
+        "prompt_time": 0.780088656,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.317114995,
+        "total_time": 1.3856602470000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ef00694abe",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

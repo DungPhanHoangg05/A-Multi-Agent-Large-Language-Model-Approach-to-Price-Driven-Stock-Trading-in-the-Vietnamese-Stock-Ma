@@ -17,7 +17,7 @@ step size $S$
 
 \KwOut{
 Directional predictions $\hat{y}_{e,L}$,
-accuracy, Alpha Lift, and compounded account return
+accuracy, Full--Base difference, and compounded account return
 }
 
 Initialize results list $\mathcal{R} \leftarrow \emptyset$
@@ -469,7 +469,10 @@ retaining only values $e_i\geq W$ before reversing the list for execution.
 Thus $e=W$ is included whenever it is among the requested points, and every
 selected point satisfies the complete-window and complete-target conditions.
 Here $S$ is the step size between consecutive test points and
-$N_{\mathrm{test}} = 20$ in our main experiments.
+$N_{\mathrm{test}} = 20$ in the legacy experiments. The new common-snapshot
+study instead uses the explicit block schedule in
+Section~\ref{sec:r1_common_protocol}; it does not treat 102 cross-symbol units
+as 102 independent dates.
 
 The three primary evaluation metrics are:
 \begin{align}
@@ -501,8 +504,9 @@ The three primary evaluation metrics are:
     \frac{W_K}{W_0}-1,
     \label{eq:account_return}
 \end{align}
-where $\Delta\mathrm{Acc}$ (\emph{Alpha Lift}) quantifies the improvement
-in directional accuracy attributable to the Alpha Agent. In the economic
+where $\Delta\mathrm{Acc}$ is the Full--Base raw-accuracy difference, called
+\emph{Alpha Lift} only in legacy artifacts. Because Base removes both factors
+and sentiment, this difference cannot identify an isolated alpha effect. In the economic
 simulation, $a_e=1$ for \texttt{LONG} and $a_e=0$ for \texttt{SHORT}. Each
 LONG allocates all available cash at $O_e$, pays fee and slippage on the BUY
 leg, liquidates all shares at $C_{e-1+L}$, and pays the same rates on the SELL

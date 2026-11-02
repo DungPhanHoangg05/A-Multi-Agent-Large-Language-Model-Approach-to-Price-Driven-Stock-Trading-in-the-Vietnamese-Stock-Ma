@@ -1,0 +1,21 @@
+\begin{table}[htbp]
+\centering
+\caption{Common-snapshot paired comparison on 102 units (six historical blocks).}
+\label{tab:revision-paired-baselines}
+\begin{tabular}{lrrrrrr}
+\hline
+Variant & Accuracy & BA & MCC & Macro-F1 & LONG rate & Mean net return \\
+\hline
+AS & 62.75 & 48.31 & -0.035 & 48.24 & 22.55 & -0.88 \\
+B & 57.84 & 47.77 & -0.041 & 47.65 & 31.37 & -1.03 \\
+constant\_down\_cash & 75.49 & 50.00 & NA & 43.02 & 0.00 & 0.00 \\
+constant\_up\_cycles & 24.51 & 50.00 & NA & 19.69 & 100.00 & -3.00 \\
+factor\_only\_vote & 51.96 & 51.97 & 0.034 & 48.34 & 49.02 & -1.46 \\
+logistic\_matched\_market\_inputs & 60.78 & 52.42 & 0.044 & 51.82 & 32.35 & -1.10 \\
+logistic\_price & 67.65 & 55.61 & 0.114 & 55.68 & 23.53 & -0.68 \\
+momentum\_20 & 49.02 & 47.32 & -0.046 & 44.86 & 48.04 & -1.64 \\
+train\_majority & 75.49 & 50.00 & NA & 43.02 & 0.00 & 0.00 \\
+\hline
+\end{tabular}
+\par\footnotesize Percentages except MCC. Mean return is over 51 symbol--block accounts, not a joint portfolio. Historical exploratory evidence; execution and news PIT are unverified.
+\end{table}

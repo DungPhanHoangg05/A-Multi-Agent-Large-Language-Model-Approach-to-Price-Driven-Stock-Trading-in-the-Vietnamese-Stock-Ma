@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bb1-749b-7f20-9eb4-b220ca1622ba",
+  "parent_request_hash": "0d4918160eadbc59f94b30228f7af016306e7b62868ec784c472eeef65812d6a",
+  "ended_at_utc": "2026-11-02T09:58:09.972425+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD line (0.2335) below Signal (1.2062) indicates bearish momentum; double top pattern at 168 suggests potential reversal.\",\"evidence_against\":\"Trend analysis indicates an uptrend with price above support 143 and still far from resistance 158.\",\"justification\":\"Given the bearish MACD and double top pattern, a short position is favored; the uptrend is less reliable and may not overcome the bearish signals within the 3-day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD line (0.2335) below Signal (1.2062) indicates bearish momentum; double top pattern at 168 suggests potential reversal.\",\"evidence_against\":\"Trend analysis indicates an uptrend with price above support 143 and still far from resistance 158.\",\"justification\":\"Given the bearish MACD and double top pattern, a short position is favored; the uptrend is less reliable and may not overcome the bearish signals within the 3-day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 940,
+                "prompt_tokens": 1452,
+                "total_tokens": 2392,
+                "completion_time": 1.125304636,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 803
+                },
+                "prompt_time": 0.071996402,
+                "prompt_tokens_details": null,
+                "queue_time": 0.388404793,
+                "total_time": 1.197301038
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb1-749b-7f20-9eb4-b220ca1622ba-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 940,
+        "prompt_tokens": 1452,
+        "total_tokens": 2392,
+        "completion_time": 1.125304636,
+        "completion_tokens_details": {
+          "reasoning_tokens": 803
+        },
+        "prompt_time": 0.071996402,
+        "prompt_tokens_details": null,
+        "queue_time": 0.388404793,
+        "total_time": 1.197301038
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

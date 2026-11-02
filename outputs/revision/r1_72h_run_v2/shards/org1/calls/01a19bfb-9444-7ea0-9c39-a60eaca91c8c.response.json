@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bfb-9444-7ea0-9c39-a60eaca91c8c",
+  "parent_request_hash": "421ad1ed879d8b1dc4989a677c081a51eddc60adc703d44906283ee5462be0b2",
+  "ended_at_utc": "2026-11-02T11:18:41.520748+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"V‑shaped reversal pattern shows price rebounding from 27.0 to 28.8, indicating potential upward move.\",\"evidence_against\":\"MACD line is below signal and negative, signaling bearish momentum.\",\"justification\":\"Given the negative MACD and low confidence trend, shorting to preserve cash is prudent.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"V‑shaped reversal pattern shows price rebounding from 27.0 to 28.8, indicating potential upward move.\",\"evidence_against\":\"MACD line is below signal and negative, signaling bearish momentum.\",\"justification\":\"Given the negative MACD and low confidence trend, shorting to preserve cash is prudent.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1066,
+                "prompt_tokens": 1466,
+                "total_tokens": 2532,
+                "completion_time": 1.123139769,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 959
+                },
+                "prompt_time": 0.073345176,
+                "prompt_tokens_details": null,
+                "queue_time": 0.31738516,
+                "total_time": 1.196484945
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bfb-9444-7ea0-9c39-a60eaca91c8c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1066,
+        "prompt_tokens": 1466,
+        "total_tokens": 2532,
+        "completion_time": 1.123139769,
+        "completion_tokens_details": {
+          "reasoning_tokens": 959
+        },
+        "prompt_time": 0.073345176,
+        "prompt_tokens_details": null,
+        "queue_time": 0.31738516,
+        "total_time": 1.196484945
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

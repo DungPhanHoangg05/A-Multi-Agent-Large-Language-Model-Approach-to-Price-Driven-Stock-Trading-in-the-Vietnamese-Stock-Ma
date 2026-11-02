@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bb1-6a86-7c93-9840-457ddf337da5",
+  "parent_request_hash": "8cbf38001f4dfcccb68bef6a374b664cc253d81d44ebcc7726ce2ecace620770",
+  "ended_at_utc": "2026-11-02T09:58:07.648363+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price near support 29.0 and MACD death cross confirming bearish momentum.\",\"evidence_against\":\"None of the alpha factors provide a strong bullish signal.\",\"justification\":\"Given the bearish trend, MACD death cross, and lack of bullish alpha consensus, a short position is optimal to preserve cash and avoid potential losses.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price near support 29.0 and MACD death cross confirming bearish momentum.\",\"evidence_against\":\"None of the alpha factors provide a strong bullish signal.\",\"justification\":\"Given the bearish trend, MACD death cross, and lack of bullish alpha consensus, a short position is optimal to preserve cash and avoid potential losses.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 471,
+                "prompt_tokens": 1577,
+                "total_tokens": 2048,
+                "completion_time": 0.523021149,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 356
+                },
+                "prompt_time": 0.118908055,
+                "prompt_tokens_details": null,
+                "queue_time": 0.350597859,
+                "total_time": 0.641929204
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb1-6a86-7c93-9840-457ddf337da5-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 471,
+        "prompt_tokens": 1577,
+        "total_tokens": 2048,
+        "completion_time": 0.523021149,
+        "completion_tokens_details": {
+          "reasoning_tokens": 356
+        },
+        "prompt_time": 0.118908055,
+        "prompt_tokens_details": null,
+        "queue_time": 0.350597859,
+        "total_time": 0.641929204
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

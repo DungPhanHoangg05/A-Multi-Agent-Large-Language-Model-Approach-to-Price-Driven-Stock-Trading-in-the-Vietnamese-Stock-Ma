@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b9e-9ee0-76b3-9f9c-5d39d2364b0b",
+  "parent_request_hash": "3a52332d586c59573bdcaee05c6820f1d184ac9f608545d01ba509d0b1ccf56c",
+  "ended_at_utc": "2026-11-02T09:37:07.529309+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down with support at 56 and resistance at 58, MACD shows negative momentum and widening histogram.\",\"evidence_against\":\"Alpha factors overall indicate a decreasing trend, reducing confidence in a reversal.\",\"justification\":\"Shorting aligns with the prevailing downtrend and negative indicators; it protects cash if the price fails to rebound within the horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down with support at 56 and resistance at 58, MACD shows negative momentum and widening histogram.\",\"evidence_against\":\"Alpha factors overall indicate a decreasing trend, reducing confidence in a reversal.\",\"justification\":\"Shorting aligns with the prevailing downtrend and negative indicators; it protects cash if the price fails to rebound within the horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 555,
+                "prompt_tokens": 1575,
+                "total_tokens": 2130,
+                "completion_time": 0.613067985,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 439
+                },
+                "prompt_time": 0.088976748,
+                "prompt_tokens_details": null,
+                "queue_time": 0.344120203,
+                "total_time": 0.702044733
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_92d51d08e5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b9e-9ee0-76b3-9f9c-5d39d2364b0b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 555,
+        "prompt_tokens": 1575,
+        "total_tokens": 2130,
+        "completion_time": 0.613067985,
+        "completion_tokens_details": {
+          "reasoning_tokens": 439
+        },
+        "prompt_time": 0.088976748,
+        "prompt_tokens_details": null,
+        "queue_time": 0.344120203,
+        "total_time": 0.702044733
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_92d51d08e5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "attempt_id": "01a19bfa-b267-73f0-b49b-241809175e90",
+  "parent_request_hash": "44864bd3c31d90bc0a8566788f0dd79bc90747db808e80ec4dafc4a585dd094b",
+  "ended_at_utc": "2026-11-02T11:17:41.502029+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "**Mô hình:** Đảo chiều chữ V\n**Độ tin cậy:** Trung bình\n**Thiên lệch dự báo:** Giảm\n**Bằng chứng:** Giá tăng vọt từ 132 lên đỉnh 144, sau đó giảm mạnh liên tục về 136\n**Nến quan trọng:** Nến xanh thân dài ngày 04/06 và nến đỏ thân dài ngày 24/06\n**Hàm ý giao dịch:** Bán khi giá không vượt qua kháng cự 140, cắt lỗ nếu vượt 144",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "**Mô hình:** Đảo chiều chữ V\n**Độ tin cậy:** Trung bình\n**Thiên lệch dự báo:** Giảm\n**Bằng chứng:** Giá tăng vọt từ 132 lên đỉnh 144, sau đó giảm mạnh liên tục về 136\n**Nến quan trọng:** Nến xanh thân dài ngày 04/06 và nến đỏ thân dài ngày 24/06\n**Hàm ý giao dịch:** Bán khi giá không vượt qua kháng cự 140, cắt lỗ nếu vượt 144",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 121,
+                "prompt_tokens": 1366,
+                "total_tokens": 1487,
+                "completion_time": 0.236603472,
+                "completion_tokens_details": null,
+                "prompt_time": 0.122935951,
+                "prompt_tokens_details": null,
+                "queue_time": 0.146588609,
+                "total_time": 0.359539423
+              },
+              "model_name": "qwen/qwen3.8-27b",
+              "system_fingerprint": "fp_4560dae850",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bfa-b267-73f0-b49b-241809175e90-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 121,
+        "prompt_tokens": 1366,
+        "total_tokens": 1487,
+        "completion_time": 0.236603472,
+        "completion_tokens_details": null,
+        "prompt_time": 0.122935951,
+        "prompt_tokens_details": null,
+        "queue_time": 0.146588609,
+        "total_time": 0.359539423
+      },
+      "model_name": "qwen/qwen3.8-27b",
+      "system_fingerprint": "fp_4560dae850",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

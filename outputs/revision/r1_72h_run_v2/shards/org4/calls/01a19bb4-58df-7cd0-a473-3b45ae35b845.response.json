@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19bb4-58df-7cd0-a473-3b45ae35b845",
+  "parent_request_hash": "668e8d0146cb588d1866646bd846605b8c6c23b0009b9d6e2a9da6f1c250bab3",
+  "ended_at_utc": "2026-11-02T10:01:21.355421+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with price above support 21.0 and MACD line above signal indicating bullish momentum.\",\"evidence_against\":\"Alpha factors overall negative and pattern confidence is low.\",\"justification\":\"Given the negative alpha consensus and low pattern confidence, a short position is preferred to preserve cash while awaiting potential reversal.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with price above support 21.0 and MACD line above signal indicating bullish momentum.\",\"evidence_against\":\"Alpha factors overall negative and pattern confidence is low.\",\"justification\":\"Given the negative alpha consensus and low pattern confidence, a short position is preferred to preserve cash while awaiting potential reversal.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 996,
+                "prompt_tokens": 1568,
+                "total_tokens": 2564,
+                "completion_time": 1.148417942,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 891
+                },
+                "prompt_time": 1.2764066170000001,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.318034379,
+                "total_time": 2.424824559
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb4-58df-7cd0-a473-3b45ae35b845-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 996,
+        "prompt_tokens": 1568,
+        "total_tokens": 2564,
+        "completion_time": 1.148417942,
+        "completion_tokens_details": {
+          "reasoning_tokens": 891
+        },
+        "prompt_time": 1.2764066170000001,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.318034379,
+        "total_time": 2.424824559
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

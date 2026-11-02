@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c07-9d78-7da1-b7a3-61524833a3de",
+  "parent_request_hash": "b9b737021e267ad501726cd0161a3be9b91c961f65ce67ce922de845df613349",
+  "ended_at_utc": "2026-11-02T11:31:49.686952+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis shows an uptrend with price near support 118 and approaching resistance 128; MACD line above signal and positive histogram confirm bullish momentum.\",\"evidence_against\":\"The trend slope is decreasing, indicating potential slowdown.\",\"justification\":\"Based on bullish trend, positive MACD, and alpha factors, a long position is expected to yield a net profit exceeding transaction costs; risk-reward ratio of 1.5 supports the trade.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis shows an uptrend with price near support 118 and approaching resistance 128; MACD line above signal and positive histogram confirm bullish momentum.\",\"evidence_against\":\"The trend slope is decreasing, indicating potential slowdown.\",\"justification\":\"Based on bullish trend, positive MACD, and alpha factors, a long position is expected to yield a net profit exceeding transaction costs; risk-reward ratio of 1.5 supports the trade.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1022,
+                "prompt_tokens": 1526,
+                "total_tokens": 2548,
+                "completion_time": 1.255356713,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 892
+                },
+                "prompt_time": 0.320281484,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.349429879,
+                "total_time": 1.575638197
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c07-9d78-7da1-b7a3-61524833a3de-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1022,
+        "prompt_tokens": 1526,
+        "total_tokens": 2548,
+        "completion_time": 1.255356713,
+        "completion_tokens_details": {
+          "reasoning_tokens": 892
+        },
+        "prompt_time": 0.320281484,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.349429879,
+        "total_time": 1.575638197
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

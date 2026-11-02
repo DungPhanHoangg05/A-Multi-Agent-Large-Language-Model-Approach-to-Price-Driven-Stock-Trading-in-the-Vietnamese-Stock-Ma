@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b96-bde3-7630-9271-c76224e42b7a",
+  "parent_request_hash": "0543beaf0d94af8ba081d37343c078eeb1e12a52b02f0672bf9672e02c48425a",
+  "ended_at_utc": "2026-11-02T09:28:31.071489+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is down with support at 9.65 and resistance at 10.10; MACD is below signal indicating bearish momentum.\",\"evidence_against\":\"Alpha factors overall increasing but trend remains bearish.\",\"justification\":\"Given the bearish trend, V-pattern reversal, and negative MACD, a short position aligns with the strategy to avoid buying and hold cash. The forecast horizon of T+2.5 allows for potential price decline before mandatory sale.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is down with support at 9.65 and resistance at 10.10; MACD is below signal indicating bearish momentum.\",\"evidence_against\":\"Alpha factors overall increasing but trend remains bearish.\",\"justification\":\"Given the bearish trend, V-pattern reversal, and negative MACD, a short position aligns with the strategy to avoid buying and hold cash. The forecast horizon of T+2.5 allows for potential price decline before mandatory sale.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 496,
+                "prompt_tokens": 1566,
+                "total_tokens": 2062,
+                "completion_time": 0.544684528,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 364
+                },
+                "prompt_time": 0.078281162,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317384372,
+                "total_time": 0.62296569
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b96-bde3-7630-9271-c76224e42b7a-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 496,
+        "prompt_tokens": 1566,
+        "total_tokens": 2062,
+        "completion_time": 0.544684528,
+        "completion_tokens_details": {
+          "reasoning_tokens": 364
+        },
+        "prompt_time": 0.078281162,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317384372,
+        "total_time": 0.62296569
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

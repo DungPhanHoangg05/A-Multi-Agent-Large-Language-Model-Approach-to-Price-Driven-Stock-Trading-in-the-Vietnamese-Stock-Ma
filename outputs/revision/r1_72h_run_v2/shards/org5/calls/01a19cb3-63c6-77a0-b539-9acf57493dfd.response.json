@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19cb3-63c6-77a0-b539-9acf57493dfd",
+  "parent_request_hash": "b3b8fa6517780f2377cbf166b02d6a662e46d0df6d8858af1d726e22c7267e94",
+  "ended_at_utc": "2026-11-02T14:39:26.502797+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD golden cross confirms bullish momentum; price is above support 60.5 and approaching resistance 64.5.\",\"evidence_against\":\"Price remains below resistance, potential for short-term pullback.\",\"justification\":\"Trend is upward with strong momentum; expected gains should cover 0.70% transaction cost.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD golden cross confirms bullish momentum; price is above support 60.5 and approaching resistance 64.5.\",\"evidence_against\":\"Price remains below resistance, potential for short-term pullback.\",\"justification\":\"Trend is upward with strong momentum; expected gains should cover 0.70% transaction cost.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 715,
+                "prompt_tokens": 1482,
+                "total_tokens": 2197,
+                "completion_time": 0.798020066,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 610
+                },
+                "prompt_time": 0.084888554,
+                "prompt_tokens_details": null,
+                "queue_time": 0.390696067,
+                "total_time": 0.88290862
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19cb3-63c6-77a0-b539-9acf57493dfd-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 715,
+        "prompt_tokens": 1482,
+        "total_tokens": 2197,
+        "completion_time": 0.798020066,
+        "completion_tokens_details": {
+          "reasoning_tokens": 610
+        },
+        "prompt_time": 0.084888554,
+        "prompt_tokens_details": null,
+        "queue_time": 0.390696067,
+        "total_time": 0.88290862
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

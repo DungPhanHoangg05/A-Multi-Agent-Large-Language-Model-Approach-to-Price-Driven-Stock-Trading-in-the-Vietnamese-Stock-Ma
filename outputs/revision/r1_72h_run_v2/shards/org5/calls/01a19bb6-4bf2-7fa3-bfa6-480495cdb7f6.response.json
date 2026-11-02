@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bb6-4bf2-7fa3-bfa6-480495cdb7f6",
+  "parent_request_hash": "8867d7f7d493963e8695915b8da4cb1aa33bb110c702d3d3d3db505060fa5fa8",
+  "ended_at_utc": "2026-11-02T10:02:59.863134+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern shows lower highs and lower lows, confirming a downtrend. MACD line below signal line indicates bearish momentum.\",\"evidence_against\":\"Trend analysis shows an upward direction, which could counter bearish signals.\",\"justification\":\"Given the bearish pattern and MACD confirmation, a short position is preferred to avoid potential losses. The trend's upward bias is outweighed by stronger bearish indicators, making a short stance more prudent.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern shows lower highs and lower lows, confirming a downtrend. MACD line below signal line indicates bearish momentum.\",\"evidence_against\":\"Trend analysis shows an upward direction, which could counter bearish signals.\",\"justification\":\"Given the bearish pattern and MACD confirmation, a short position is preferred to avoid potential losses. The trend's upward bias is outweighed by stronger bearish indicators, making a short stance more prudent.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1284,
+                "prompt_tokens": 1450,
+                "total_tokens": 2734,
+                "completion_time": 1.411685026,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1158
+                },
+                "prompt_time": 0.103285011,
+                "prompt_tokens_details": null,
+                "queue_time": 0.224078652,
+                "total_time": 1.5149700369999999
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_75c733514d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb6-4bf2-7fa3-bfa6-480495cdb7f6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1284,
+        "prompt_tokens": 1450,
+        "total_tokens": 2734,
+        "completion_time": 1.411685026,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1158
+        },
+        "prompt_time": 0.103285011,
+        "prompt_tokens_details": null,
+        "queue_time": 0.224078652,
+        "total_time": 1.5149700369999999
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_75c733514d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

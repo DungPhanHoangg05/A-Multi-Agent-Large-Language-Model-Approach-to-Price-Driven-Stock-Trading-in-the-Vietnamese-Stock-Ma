@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c02-108a-7f10-b4dd-55a7aed59fae",
+  "parent_request_hash": "5d2c8e099a61b3d94bbac54b05d398e7fce9de25938385ed35f88b1c4c847ce1",
+  "ended_at_utc": "2026-11-02T11:25:45.619744+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates sideways or slight decline with support at 58.5 and resistance at 61.5, alpha factors show majority decreasing, and negative sentiment score of -0.705545. MACD line is above signal in negative territory with a positive histogram, indicating increasing negative momentum.\",\"evidence_against\":\"MACD histogram positive suggests potential bullish momentum that could reverse the downtrend.\",\"justification\":\"Given the alignment of bearish trend, negative alpha, and negative sentiment, a short position is preferred to avoid potential losses from insufficient upside to cover fees. The short horizon of T+2.5 allows capturing any further decline before the mandatory holding period.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates sideways or slight decline with support at 58.5 and resistance at 61.5, alpha factors show majority decreasing, and negative sentiment score of -0.705545. MACD line is above signal in negative territory with a positive histogram, indicating increasing negative momentum.\",\"evidence_against\":\"MACD histogram positive suggests potential bullish momentum that could reverse the downtrend.\",\"justification\":\"Given the alignment of bearish trend, negative alpha, and negative sentiment, a short position is preferred to avoid potential losses from insufficient upside to cover fees. The short horizon of T+2.5 allows capturing any further decline before the mandatory holding period.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1078,
+                "prompt_tokens": 1540,
+                "total_tokens": 2618,
+                "completion_time": 1.437950326,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 905
+                },
+                "prompt_time": 0.174030961,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.35113896,
+                "total_time": 1.6119812869999999
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c02-108a-7f10-b4dd-55a7aed59fae-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1078,
+        "prompt_tokens": 1540,
+        "total_tokens": 2618,
+        "completion_time": 1.437950326,
+        "completion_tokens_details": {
+          "reasoning_tokens": 905
+        },
+        "prompt_time": 0.174030961,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.35113896,
+        "total_time": 1.6119812869999999
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

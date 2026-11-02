@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bf9-3fcb-7cc3-b3f1-b6b30f3ef559",
+  "parent_request_hash": "4ed9a9c7df3deb0f30de44cbfde410b78e58bb9cf8aa5904dc472f8fd3e32c86",
+  "ended_at_utc": "2026-11-02T11:16:07.330113+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with support 55.5 and resistance 60.8, V‑shape pattern indicates potential breakout.\",\"evidence_against\":\"MACD below signal and negative histogram, alpha factors overall decreasing.\",\"justification\":\"Momentum indicators are bearish and alpha signals are weak, so shorting to avoid potential reversal while covering fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with support 55.5 and resistance 60.8, V‑shape pattern indicates potential breakout.\",\"evidence_against\":\"MACD below signal and negative histogram, alpha factors overall decreasing.\",\"justification\":\"Momentum indicators are bearish and alpha signals are weak, so shorting to avoid potential reversal while covering fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 844,
+                "prompt_tokens": 1581,
+                "total_tokens": 2425,
+                "completion_time": 0.969757466,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 736
+                },
+                "prompt_time": 0.102691794,
+                "prompt_tokens_details": null,
+                "queue_time": 0.049424896,
+                "total_time": 1.07244926
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bf9-3fcb-7cc3-b3f1-b6b30f3ef559-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 844,
+        "prompt_tokens": 1581,
+        "total_tokens": 2425,
+        "completion_time": 0.969757466,
+        "completion_tokens_details": {
+          "reasoning_tokens": 736
+        },
+        "prompt_time": 0.102691794,
+        "prompt_tokens_details": null,
+        "queue_time": 0.049424896,
+        "total_time": 1.07244926
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

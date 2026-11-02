@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c04-6590-7c73-84e7-9764c9c04b35",
+  "parent_request_hash": "2ca0a69fca6cb4e7aa90c80401ec68f3b7364ae4102c1d16c43ed5ae4ce8458d",
+  "ended_at_utc": "2026-11-02T11:28:17.980995+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is down with support at 21.0 and resistance at 23.5, and alpha factors confirm a downward bias.\",\"evidence_against\":\"MACD shows a bullish crossover, but it is insufficient to override the prevailing downtrend.\",\"justification\":\"Shorting aligns with the consensus of trend, alpha, and support/resistance analysis, minimizing risk of missing the downtrend.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is down with support at 21.0 and resistance at 23.5, and alpha factors confirm a downward bias.\",\"evidence_against\":\"MACD shows a bullish crossover, but it is insufficient to override the prevailing downtrend.\",\"justification\":\"Shorting aligns with the consensus of trend, alpha, and support/resistance analysis, minimizing risk of missing the downtrend.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 633,
+                "prompt_tokens": 1570,
+                "total_tokens": 2203,
+                "completion_time": 0.804172224,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 514
+                },
+                "prompt_time": 0.21508277,
+                "prompt_tokens_details": null,
+                "queue_time": 0.433452765,
+                "total_time": 1.019254994
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c04-6590-7c73-84e7-9764c9c04b35-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 633,
+        "prompt_tokens": 1570,
+        "total_tokens": 2203,
+        "completion_time": 0.804172224,
+        "completion_tokens_details": {
+          "reasoning_tokens": 514
+        },
+        "prompt_time": 0.21508277,
+        "prompt_tokens_details": null,
+        "queue_time": 0.433452765,
+        "total_time": 1.019254994
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

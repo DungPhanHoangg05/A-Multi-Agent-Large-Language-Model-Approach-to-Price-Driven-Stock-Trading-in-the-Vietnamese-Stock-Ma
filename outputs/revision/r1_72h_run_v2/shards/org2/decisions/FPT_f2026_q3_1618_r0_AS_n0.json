@@ -1,0 +1,88 @@
+{
+  "parent": {
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+    "asset_hash": "84811817e515b9941fe2c5c3e8dafe94279fcd4ef0b7c43c412963f671a13353",
+    "upstream_hash": "3fb54996ce6b7cb58817e0fee13f2b4dab303d4cd929a418bfeb6defbb4a97ef",
+    "node_hashes": [
+      "cb3f1993f2805b18cba0349065298124ac361fd5c60dbeaa4793ab58d5bcd95e",
+      "08f12037b25efdf2fa023c7fed5080b5d9d7f1c2d7f878a24d2feda347ad7e81",
+      "dd7fae0a9ec43c9266c5459d2c84d421a4dea3d8e2a879c7912cc1c0f1c20b6a"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "FPT_f2026_q3_1618",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "LONG",
+  "confidence": "Trung bình",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"LONG\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Trung bình\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"Trend analysis indicates bullish direction with price above support and approaching resistance at 69.5. Pattern analysis shows a V-shaped reversal confirming upward momentum.\",\n  \"evidence_against\": \"MACD remains below signal line and overall alpha factors suggest a downward bias.\",\n  \"justification\": \"Given the bullish trend and pattern confirmation, a long position is justified, but the negative MACD and alpha factors warrant caution. The expected profit margin after accounting for 0.7% total slippage and brokerage fee should exceed the risk, supporting a long trade.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: FPT; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Tăng.\n\n**Mức hỗ trợ:** 64.0.\n\n**Mức kháng cự:** 69.5.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Bật lên.\n\n**Phân tích chi tiết:** Nến xanh phiên gần nhất (07/01) đóng cửa vượt lên trên đường hỗ trợ màu xanh, xác nhận tín hiệu đảo chiều tăng. Giá đang di chuyển trong vùng giữa hai đường xu hướng, hướng tới vùng kháng cự màu đỏ.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục tăng trong 3 phiên tới (T+2.5) do động lượng bật lên từ hỗ trợ. Mục tiêu ngắn hạn là kiểm tra vùng kháng cự quanh 69.5.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Đảo chiều chữ V.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Giá giảm liên tục từ đỉnh 70.5 xuống đáy 64, nến xanh cuối cùng có thân dài vượt qua các nến đỏ trước đó.\n\n**Nến quan trọng:** Nến xanh ngày 01/07 với thân dài và bóng trên ngắn.\n\n**Hàm ý giao dịch:** Mua khi giá vượt qua kháng cự 66.5, ngừng lỗ dưới 64.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-0.4515**        | [-0.4511, -0.4974, -0.5567, -0.6112, -0.4515]                 |\n| Signal Line | **-0.3384**        | [-0.0686, -0.1544, -0.2348, -0.3101, -0.3384]                 |\n| Histogram   | **-0.1131**        | [-0.3824, -0.343, -0.3219, -0.3011, -0.1131]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.1131)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — FPT\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (1 TĂNG / 4 GIẢM / 0 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend analysis indicates bullish direction with price above support and approaching resistance at 69.5. Pattern analysis shows a V-shaped reversal confirming upward momentum.\",\"evidence_against\":\"MACD remains below signal line and overall alpha factors suggest a downward bias.\",\"justification\":\"Given the bullish trend and pattern confirmation, a long position is justified, but the negative MACD and alpha factors warrant caution. The expected profit margin after accounting for 0.7% total slippage and brokerage fee should exceed the risk, supporting a long trade.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 1179,
+              "prompt_tokens": 1567,
+              "total_tokens": 2746,
+              "completion_time": 1.356737227,
+              "completion_tokens_details": {
+                "reasoning_tokens": 1033
+              },
+              "prompt_time": 0.105676038,
+              "prompt_tokens_details": null,
+              "queue_time": 0.317337183,
+              "total_time": 1.462413265
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_565badff47",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19ba5-5dc8-7732-b57d-58c14555b1d3-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1567,
+            "output_tokens": 1179,
+            "total_tokens": 2746,
+            "output_token_details": {
+              "reasoning": 1033
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19ba5-5dc8-7732-b57d-58c14555b1d3"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19ba5-5dc8-7732-b57d-58c14555b1d3.request.json",
+      "sha256": "a89ce908a91155273ee945e82b8a302d23868c138e83880361b0003c1f4723d5"
+    },
+    {
+      "path": "calls/01a19ba5-5dc8-7732-b57d-58c14555b1d3.response.json",
+      "sha256": "68fd1cde2fe5a05233eed58a3c7c43e83bb72ec931c7d261da2daef5ff7c8e92"
+    }
+  ],
+  "sha256": "992eed0b4b55b9c1882a77d1f17519fa4c69d01c9134a19e95313ef43522c7b1"
+}

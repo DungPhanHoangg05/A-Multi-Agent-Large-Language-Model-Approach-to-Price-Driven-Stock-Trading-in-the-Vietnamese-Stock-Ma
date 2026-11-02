@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19cb1-5543-7650-90d1-3cc99fcb67a1",
+  "parent_request_hash": "a4a23c5dab581e860791837b26b51dd1cecead6b1e6cabc1bbcacf9de4bcbd01",
+  "ended_at_utc": "2026-11-02T14:37:12.326008+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis indicates a downtrend with support at 22.5 and resistance at 23.5. MACD shows negative momentum and histogram widening, confirming bearish bias.\",\"evidence_against\":\"None.\",\"justification\":\"The downtrend and negative MACD confirm a bearish bias. Shorting aligns with the strategy to avoid buying on a declining market.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis indicates a downtrend with support at 22.5 and resistance at 23.5. MACD shows negative momentum and histogram widening, confirming bearish bias.\",\"evidence_against\":\"None.\",\"justification\":\"The downtrend and negative MACD confirm a bearish bias. Shorting aligns with the strategy to avoid buying on a declining market.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 569,
+                "prompt_tokens": 1570,
+                "total_tokens": 2139,
+                "completion_time": 0.637084557,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 457
+                },
+                "prompt_time": 0.106418284,
+                "prompt_tokens_details": null,
+                "queue_time": 0.463405177,
+                "total_time": 0.743502841
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_f102a3179c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19cb1-5543-7650-90d1-3cc99fcb67a1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 569,
+        "prompt_tokens": 1570,
+        "total_tokens": 2139,
+        "completion_time": 0.637084557,
+        "completion_tokens_details": {
+          "reasoning_tokens": 457
+        },
+        "prompt_time": 0.106418284,
+        "prompt_tokens_details": null,
+        "queue_time": 0.463405177,
+        "total_time": 0.743502841
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_f102a3179c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c08-1381-7ab1-b268-932fef564685",
+  "parent_request_hash": "2d3895d7de89dd0b8eaa35800ab44468b3ec39b36efdcd49167b9578d326a57a",
+  "ended_at_utc": "2026-11-02T11:32:19.323400+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend bullish with support 118 and resistance 128. Pattern V reversal bullish and MACD bullish momentum confirm entry.\",\"evidence_against\":\"Price near resistance and slope decreasing may limit upside.\",\"justification\":\"Long position expected to reach 128 within 3 days, covering fees and slippage. Risk limited to 118 stop, ensuring net profit after fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend bullish with support 118 and resistance 128. Pattern V reversal bullish and MACD bullish momentum confirm entry.\",\"evidence_against\":\"Price near resistance and slope decreasing may limit upside.\",\"justification\":\"Long position expected to reach 128 within 3 days, covering fees and slippage. Risk limited to 118 stop, ensuring net profit after fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 912,
+                "prompt_tokens": 1406,
+                "total_tokens": 2318,
+                "completion_time": 1.115888092,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 798
+                },
+                "prompt_time": 0.09908891,
+                "prompt_tokens_details": null,
+                "queue_time": 0.388868891,
+                "total_time": 1.214977002
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c08-1381-7ab1-b268-932fef564685-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 912,
+        "prompt_tokens": 1406,
+        "total_tokens": 2318,
+        "completion_time": 1.115888092,
+        "completion_tokens_details": {
+          "reasoning_tokens": 798
+        },
+        "prompt_time": 0.09908891,
+        "prompt_tokens_details": null,
+        "queue_time": 0.388868891,
+        "total_time": 1.214977002
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

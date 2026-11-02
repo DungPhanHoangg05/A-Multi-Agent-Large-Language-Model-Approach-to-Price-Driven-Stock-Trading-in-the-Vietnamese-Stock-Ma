@@ -1,0 +1,95 @@
+{
+  "parent": {
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "node_hashes": [
+      "f6cda4f33ebe3eadf17aed397be990bc52cf9ce3c9e4c214c230eee482fe85e6",
+      "f86ba8b07ab1f832b948ac979f149ecfc0b034dc7d1a274bb71300ee4a916b69",
+      "0d1b823123be753762792b09ce3e3b5e907226addb19857e214471d55ab02723"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "realization": 0,
+    "variant": "A",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "SHORT",
+  "confidence": "Cao",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"SHORT\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"MACD shows a death cross (MACD below Signal) indicating a sell signal, and the overall alpha factors trend is negative (GIẢM).\",\n  \"evidence_against\": \"The flag up pattern has high confidence and suggests a potential breakout above resistance.\",\n  \"justification\": \"Given the bearish MACD signal and negative alpha consensus, a short position is preferred to preserve cash over the T+2.5 horizon. The pattern’s bullishness is outweighed by stronger negative indicators.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: VJC; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n4 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Đi ngang.\n\n**Mức hỗ trợ:** 130.5.\n\n**Mức kháng cự:** 142.5.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá dao động trong biên hẹp, bám sát đường hỗ trợ xanh và chưa có lực cầu đủ mạnh để tiếp cận đường kháng cự đỏ.\n\n**Dự đoán xu hướng:** Giá dự kiến đi ngang tích lũy trong 3 phiên tới do lực cầu yếu và thiếu động lực bứt phá.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Cờ tăng.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Giá tăng mạnh từ 132 lên 144, sau đó tích lũy trong hộp giá hẹp 138-141.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 04/06 xác nhận đà tăng.\n\n**Hàm ý giao dịch:** Mua khi giá vượt kháng cự 141, mục tiêu 145, ngừng lỗ dưới 138.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **0.907**        | [0.9534, 0.9742, 0.9235, 0.9292, 0.907]                 |\n| Signal Line | **0.9072**        | [0.8768, 0.8963, 0.9018, 0.9072, 0.9072]                 |\n| Histogram   | **-0.0002**        | [0.0765, 0.0779, 0.0218, 0.0219, -0.0002]                 |\n\n- Giao cắt: ⚡ DEATH CROSS: MACD cắt xuống dưới Signal → tín hiệu BÁN\n- Histogram xu hướng: THU HẸP (động lượng giảm)\n- MACD Line so với 0: Dương → vùng tăng\n[END\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — VJC\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (1 TĂNG / 4 GIẢM / 0 TRUNG TÍNH)**\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross (MACD below Signal) indicating a sell signal, and the overall alpha factors trend is negative (GIẢM).\",\"evidence_against\":\"The flag up pattern has high confidence and suggests a potential breakout above resistance.\",\"justification\":\"Given the bearish MACD signal and negative alpha consensus, a short position is preferred to preserve cash over the T+2.5 horizon. The pattern’s bullishness is outweighed by stronger negative indicators.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 671,
+              "prompt_tokens": 1470,
+              "total_tokens": 2141,
+              "completion_time": 0.745935512,
+              "completion_tokens_details": {
+                "reasoning_tokens": 534
+              },
+              "prompt_time": 0.659951711,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "queue_time": 0.211889142,
+              "total_time": 1.4058872230000001
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_a8c584dda7",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19c0b-41d8-7ab3-bdaa-29f1e1026a1d-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1470,
+            "output_tokens": 671,
+            "total_tokens": 2141,
+            "input_token_details": {
+              "cache_read": 256
+            },
+            "output_token_details": {
+              "reasoning": 534
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19c0b-41d8-7ab3-bdaa-29f1e1026a1d"
+  ],
+  "execution_epoch": "e2c4edd6034a110746bd386c4435f9313220273293c84c6ce6339956300985d1",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19c0b-41d8-7ab3-bdaa-29f1e1026a1d.request.json",
+      "sha256": "f101fae0343afe8c27500da93c91b59cd718e7694855375ba12cf06fa314922d"
+    },
+    {
+      "path": "calls/01a19c0b-41d8-7ab3-bdaa-29f1e1026a1d.response.json",
+      "sha256": "db444a6d531d2e662061d4734bec2e15de3861219954b912c3d3545f051bd2e1"
+    }
+  ],
+  "sha256": "07cb6e63f35ec0a06aa626d40fe9ed4c4dc9656c9df7c76a7622ecc58289d2aa"
+}

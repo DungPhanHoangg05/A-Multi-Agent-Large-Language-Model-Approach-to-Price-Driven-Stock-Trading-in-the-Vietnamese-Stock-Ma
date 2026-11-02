@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bbb-cfd9-7ca1-b71e-a2005d477053",
+  "parent_request_hash": "ba01be0115965478e4a7d87ed1968d177ab148e2e95fffe9b676d1360377a952",
+  "ended_at_utc": "2026-11-02T10:09:27.877387+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend tăng, MACD line trên signal và histogram tăng, pattern V đảo chiều cho thấy đà tăng. Đồng thời giá đã vượt kháng cự 20.65 và đang hướng tới mục tiêu 20.80-21.00.\",\"evidence_against\":\"Alpha majority negative (3/5) có thể báo đảo chiều sớm.\",\"justification\":\"Với tín hiệu mạnh từ trend, MACD và pattern, LONG được ưu tiên. Tuy nhiên alpha negative cần theo dõi sát.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend tăng, MACD line trên signal và histogram tăng, pattern V đảo chiều cho thấy đà tăng. Đồng thời giá đã vượt kháng cự 20.65 và đang hướng tới mục tiêu 20.80-21.00.\",\"evidence_against\":\"Alpha majority negative (3/5) có thể báo đảo chiều sớm.\",\"justification\":\"Với tín hiệu mạnh từ trend, MACD và pattern, LONG được ưu tiên. Tuy nhiên alpha negative cần theo dõi sát.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1708,
+                "prompt_tokens": 1566,
+                "total_tokens": 3274,
+                "completion_time": 1.991559166,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1559
+                },
+                "prompt_time": 0.092538111,
+                "prompt_tokens_details": null,
+                "queue_time": 1.630031638,
+                "total_time": 2.084097277
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_80501ff3a1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bbb-cfd9-7ca1-b71e-a2005d477053-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1708,
+        "prompt_tokens": 1566,
+        "total_tokens": 3274,
+        "completion_time": 1.991559166,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1559
+        },
+        "prompt_time": 0.092538111,
+        "prompt_tokens_details": null,
+        "queue_time": 1.630031638,
+        "total_time": 2.084097277
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_80501ff3a1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

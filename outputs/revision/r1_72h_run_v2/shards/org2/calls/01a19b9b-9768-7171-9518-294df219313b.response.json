@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b9b-9768-7171-9518-294df219313b",
+  "parent_request_hash": "72e115993add7ea4d39bd7bc1a75ae12508f99953ed85d604158bf1ef91f752e",
+  "ended_at_utc": "2026-11-02T09:34:17.838356+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is bearish with support at 75.5 and resistance at 78.5; MACD shows negative momentum.\",\"evidence_against\":\"Alpha factors are neutral, no strong bullish signals.\",\"justification\":\"Given bearish trend, negative MACD, and lack of bullish alpha, short position is optimal.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is bearish with support at 75.5 and resistance at 78.5; MACD shows negative momentum.\",\"evidence_against\":\"Alpha factors are neutral, no strong bullish signals.\",\"justification\":\"Given bearish trend, negative MACD, and lack of bullish alpha, short position is optimal.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 617,
+                "prompt_tokens": 1569,
+                "total_tokens": 2186,
+                "completion_time": 0.800959848,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 511
+                },
+                "prompt_time": 0.09805926,
+                "prompt_tokens_details": null,
+                "queue_time": 0.27625563,
+                "total_time": 0.899019108
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b9b-9768-7171-9518-294df219313b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 617,
+        "prompt_tokens": 1569,
+        "total_tokens": 2186,
+        "completion_time": 0.800959848,
+        "completion_tokens_details": {
+          "reasoning_tokens": 511
+        },
+        "prompt_time": 0.09805926,
+        "prompt_tokens_details": null,
+        "queue_time": 0.27625563,
+        "total_time": 0.899019108
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

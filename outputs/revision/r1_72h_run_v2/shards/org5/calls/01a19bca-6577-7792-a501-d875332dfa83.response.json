@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bca-6577-7792-a501-d875332dfa83",
+  "parent_request_hash": "d5cd9a4175cee7eba56a050f889ee95f5328845ed6e3dc9ad178eb6387b57092",
+  "ended_at_utc": "2026-11-02T10:25:24.080679+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is down with support at 26.5 and resistance at 28.0; MACD death cross signals a sell.\",\"evidence_against\":\"Alpha factors are neutral and sentiment is inconclusive.\",\"justification\":\"Shorting preserves cash until the next trading day; the trend and indicators confirm a likely decline or sideways movement.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is down with support at 26.5 and resistance at 28.0; MACD death cross signals a sell.\",\"evidence_against\":\"Alpha factors are neutral and sentiment is inconclusive.\",\"justification\":\"Shorting preserves cash until the next trading day; the trend and indicators confirm a likely decline or sideways movement.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 523,
+                "prompt_tokens": 1558,
+                "total_tokens": 2081,
+                "completion_time": 0.694355127,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 415
+                },
+                "prompt_time": 0.104009023,
+                "prompt_tokens_details": null,
+                "queue_time": 0.349667387,
+                "total_time": 0.79836415
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_feb9b278f1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bca-6577-7792-a501-d875332dfa83-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 523,
+        "prompt_tokens": 1558,
+        "total_tokens": 2081,
+        "completion_time": 0.694355127,
+        "completion_tokens_details": {
+          "reasoning_tokens": 415
+        },
+        "prompt_time": 0.104009023,
+        "prompt_tokens_details": null,
+        "queue_time": 0.349667387,
+        "total_time": 0.79836415
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_feb9b278f1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19c0e-2bfb-72d1-801c-08febdd00e5f",
+  "parent_request_hash": "b84a04e26c2ff8c541ad4bb14c2c002f3c9826eb73a38962c7bad5ef5e6a7887",
+  "ended_at_utc": "2026-11-02T11:38:59.771018+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD shows a death cross (MACD below Signal) indicating a bearish reversal, and the pattern analysis suggests a potential breakout but not yet confirmed.\",\"evidence_against\":\"Trend analysis indicates a sideways market with weak buying pressure, making a long position unlikely to achieve target.\",\"justification\":\"Given the bearish MACD signal and lack of upward momentum, a short position is preferred to preserve cash over the T+2.5 horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD shows a death cross (MACD below Signal) indicating a bearish reversal, and the pattern analysis suggests a potential breakout but not yet confirmed.\",\"evidence_against\":\"Trend analysis indicates a sideways market with weak buying pressure, making a long position unlikely to achieve target.\",\"justification\":\"Given the bearish MACD signal and lack of upward momentum, a short position is preferred to preserve cash over the T+2.5 horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 651,
+                "prompt_tokens": 1515,
+                "total_tokens": 2166,
+                "completion_time": 0.840561512,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 522
+                },
+                "prompt_time": 0.076283983,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.388139816,
+                "total_time": 0.916845495
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_bb6a356524",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c0e-2bfb-72d1-801c-08febdd00e5f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 651,
+        "prompt_tokens": 1515,
+        "total_tokens": 2166,
+        "completion_time": 0.840561512,
+        "completion_tokens_details": {
+          "reasoning_tokens": 522
+        },
+        "prompt_time": 0.076283983,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.388139816,
+        "total_time": 0.916845495
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_bb6a356524",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

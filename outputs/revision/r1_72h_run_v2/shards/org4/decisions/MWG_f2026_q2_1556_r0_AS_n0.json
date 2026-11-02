@@ -1,0 +1,93 @@
+{
+  "parent": {
+    "run_signature": "82ac2d59f1b12741dfafb6853ebb08802e07f1d1423f2a9592dfeaf828e68be5",
+    "asset_hash": "9987232eee2c12dc14b6d68c5731190902c33cc3520cca4ff860b8ef5c585d25",
+    "upstream_hash": "f3e850c08de8201f3b09826fb10e2322fbfb48d7b4b96ab063cae10feb4dd020",
+    "node_hashes": [
+      "ba00d6c231c4045c7a2c4a218bcecec73f5213dc45fb9f9e2a3357112843ab71",
+      "468fd1e139aa8b4b1b46c27aa5ed8234bf8c7da42e9a57a4c18dd975180d6f3a",
+      "e454d9a6627e45bfc812f8fb02aaefaa0445b4c7677c7843196662a20d2454d8"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "MWG_f2026_q2_1556",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "LONG",
+  "confidence": "Cao",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"LONG\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 1.86,\n  \"evidence_for\": \"Trend is upward with price near resistance 83.5 and MACD line above signal indicating bullish momentum. Pattern shows a double bottom and price above 78.0 with target 85.0.\",\n  \"evidence_against\": \"Four out of five alpha factors are decreasing, suggesting bearish pressure.\",\n  \"justification\": \"Given the bullish trend, positive MACD, and pattern confirmation, a LONG position is expected to yield a reward of ~1.86 times the risk within the 3-day horizon. The potential profit outweighs the risk after accounting for fees and slippage.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: MWG; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Tăng.\n\n**Mức hỗ trợ:** 78.5.\n\n**Mức kháng cự:** 83.5.\n\n**Độ dốc đường xu hướng:** Đang giảm.\n\n**Giá so với hỗ trợ:** Bật lên.\n\n**Phân tích chi tiết:** Giá đóng cửa liên tục duy trì trên đường hỗ trợ xanh và đang tiến sát đường kháng cự đỏ. Các nến xanh gần nhất cho thấy lực cầu đang chiếm ưu thế trong vùng giá 78-81.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục tăng trong 3 phiên tới để kiểm tra vùng kháng cự 83.5. Nếu vượt qua mốc này, xu hướng tăng sẽ được xác nhận rõ ràng hơn.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Đáy đôi.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Hai đáy gần bằng nhau quanh mức 72.5-73.0, giá đã vượt qua đỉnh cổ quanh 78.0.\n\n**Nến quan trọng:** Nến xanh ngày 01/04 xác nhận vượt qua kháng cự 78.0.\n\n**Hàm ý giao dịch:** Mua khi giá giữ trên 78.0, mục tiêu 85.0, ngừng lỗ dưới 75.0.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-1.7133**        | [-2.6903, -2.4491, -2.2482, -1.9869, -1.7133]                 |\n| Signal Line | **-2.0555**        | [-2.0908, -2.1624, -2.1796, -2.1411, -2.0555]                 |\n| Histogram   | **0.3422**        | [-0.5996, -0.2867, -0.0686, 0.1541, 0.3422]                 |\n\n- Giao cắt: MACD đang ở trên Signal (khoảng cách MACD−Signal = 0.3422)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm →\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — MWG\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (0 TĂNG / 4 GIẢM / 1 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.86,\"evidence_for\":\"Trend is upward with price near resistance 83.5 and MACD line above signal indicating bullish momentum. Pattern shows a double bottom and price above 78.0 with target 85.0.\",\"evidence_against\":\"Four out of five alpha factors are decreasing, suggesting bearish pressure.\",\"justification\":\"Given the bullish trend, positive MACD, and pattern confirmation, a LONG position is expected to yield a reward of ~1.86 times the risk within the 3-day horizon. The potential profit outweighs the risk after accounting for fees and slippage.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 1386,
+              "prompt_tokens": 1561,
+              "total_tokens": 2947,
+              "completion_time": 1.724290522,
+              "completion_tokens_details": {
+                "reasoning_tokens": 1228
+              },
+              "prompt_time": 1.691763814,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "queue_time": 0.349759115,
+              "total_time": 3.416054336
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_e189667b30",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a19bba-2387-71a2-9b7a-4397d79d8bc5-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1561,
+            "output_tokens": 1386,
+            "total_tokens": 2947,
+            "input_token_details": {
+              "cache_read": 256
+            },
+            "output_token_details": {
+              "reasoning": 1228
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a19bba-2387-71a2-9b7a-4397d79d8bc5"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bba-2387-71a2-9b7a-4397d79d8bc5.request.json",
+      "sha256": "666aca5a44f81a6504b8a4f6408f1cdb57050f1a770eed275d6ac1a7bf780858"
+    },
+    {
+      "path": "calls/01a19bba-2387-71a2-9b7a-4397d79d8bc5.response.json",
+      "sha256": "f54ad27208d0498dfde068696d913f0f2f0f809d70df5f007f2dc50d65c037e6"
+    }
+  ],
+  "sha256": "139a7f8c446e93cae527b430720b16a24d90ec73a4764dd75de6e43c0c74523a"
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c07-8f69-7d40-8d85-5da037a85ea1",
+  "parent_request_hash": "b08641c5e8bd54ebafec698203dd62d3e7cb01e54d014cda533822c90850fded",
+  "ended_at_utc": "2026-11-02T11:31:45.726245+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD histogram negative and below signal indicates weakening bullish momentum. Alpha factors overall negative trend suggests potential decline.\",\"evidence_against\":\"Price is currently near support level 57.5, which could hold.\",\"justification\":\"Given the bearish momentum and negative alpha signals, a short position is justified. The short will be closed at T+2.5 to comply with settlement rules.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD histogram negative and below signal indicates weakening bullish momentum. Alpha factors overall negative trend suggests potential decline.\",\"evidence_against\":\"Price is currently near support level 57.5, which could hold.\",\"justification\":\"Given the bearish momentum and negative alpha signals, a short position is justified. The short will be closed at T+2.5 to comply with settlement rules.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 407,
+                "prompt_tokens": 1508,
+                "total_tokens": 1915,
+                "completion_time": 0.457255758,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 284
+                },
+                "prompt_time": 0.124714724,
+                "prompt_tokens_details": null,
+                "queue_time": 0.348314301,
+                "total_time": 0.581970482
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c07-8f69-7d40-8d85-5da037a85ea1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 407,
+        "prompt_tokens": 1508,
+        "total_tokens": 1915,
+        "completion_time": 0.457255758,
+        "completion_tokens_details": {
+          "reasoning_tokens": 284
+        },
+        "prompt_time": 0.124714724,
+        "prompt_tokens_details": null,
+        "queue_time": 0.348314301,
+        "total_time": 0.581970482
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

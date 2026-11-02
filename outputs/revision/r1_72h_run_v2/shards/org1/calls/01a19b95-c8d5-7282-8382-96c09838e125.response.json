@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19b95-c8d5-7282-8382-96c09838e125",
+  "parent_request_hash": "f777030cdeb3299d582dfc5ac2b39b746862e76a77e92f016cfc5bdf6d746108",
+  "ended_at_utc": "2026-11-02T09:27:57.400138+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis predicts breakout above 49.2 in next 3 days.\",\"evidence_against\":\"MACD histogram negative and alpha factors indicate a decline.\",\"justification\":\"With bearish momentum and negative alpha, shorting preserves cash and mitigates risk of insufficient profit after fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis predicts breakout above 49.2 in next 3 days.\",\"evidence_against\":\"MACD histogram negative and alpha factors indicate a decline.\",\"justification\":\"With bearish momentum and negative alpha, shorting preserves cash and mitigates risk of insufficient profit after fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 976,
+                "prompt_tokens": 1568,
+                "total_tokens": 2544,
+                "completion_time": 1.049501627,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 873
+                },
+                "prompt_time": 0.079744577,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317985787,
+                "total_time": 1.129246204
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d3e146e1a5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19b95-c8d5-7282-8382-96c09838e125-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 976,
+        "prompt_tokens": 1568,
+        "total_tokens": 2544,
+        "completion_time": 1.049501627,
+        "completion_tokens_details": {
+          "reasoning_tokens": 873
+        },
+        "prompt_time": 0.079744577,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317985787,
+        "total_time": 1.129246204
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d3e146e1a5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

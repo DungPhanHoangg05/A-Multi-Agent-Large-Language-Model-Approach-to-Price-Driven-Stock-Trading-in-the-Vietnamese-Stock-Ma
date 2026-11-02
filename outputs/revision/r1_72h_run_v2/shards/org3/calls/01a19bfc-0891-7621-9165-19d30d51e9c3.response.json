@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19bfc-0891-7621-9165-19d30d51e9c3",
+  "parent_request_hash": "a08c3f5f863b1ea51f52e837329469944521902a43fb42a32e42a5ea773f871d",
+  "ended_at_utc": "2026-11-02T11:19:10.942116+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an uptrend and MACD shows bullish momentum with histogram positive.\",\"evidence_against\":\"Alpha factors overall suggest a downward bias.\",\"justification\":\"The bullish trend and MACD confirmation outweigh the negative alpha signals, supporting a long position within the 3‑day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an uptrend and MACD shows bullish momentum with histogram positive.\",\"evidence_against\":\"Alpha factors overall suggest a downward bias.\",\"justification\":\"The bullish trend and MACD confirmation outweigh the negative alpha signals, supporting a long position within the 3‑day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 805,
+                "prompt_tokens": 1587,
+                "total_tokens": 2392,
+                "completion_time": 0.979768783,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 706
+                },
+                "prompt_time": 0.092436508,
+                "prompt_tokens_details": null,
+                "queue_time": 0.516913604,
+                "total_time": 1.072205291
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_228717f27c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bfc-0891-7621-9165-19d30d51e9c3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 805,
+        "prompt_tokens": 1587,
+        "total_tokens": 2392,
+        "completion_time": 0.979768783,
+        "completion_tokens_details": {
+          "reasoning_tokens": 706
+        },
+        "prompt_time": 0.092436508,
+        "prompt_tokens_details": null,
+        "queue_time": 0.516913604,
+        "total_time": 1.072205291
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_228717f27c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

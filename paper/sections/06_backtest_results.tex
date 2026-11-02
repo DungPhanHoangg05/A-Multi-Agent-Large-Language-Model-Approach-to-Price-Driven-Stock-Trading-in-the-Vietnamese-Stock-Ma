@@ -1,7 +1,69 @@
 \section{Backtest Results}
 \label{sec:backtestresults}
 
-\subsection{Nine-Symbol Paired Benchmark}
+\subsection{New Common-Snapshot Baseline Comparison}
+\label{sec:r1_common_results}
+
+All 474 research decisions are complete, including all 102 main B/AS pairs,
+the 18-unit decision panel and the nine-unit upstream panel. Ten smoke
+decisions are excluded. The main support is 25 UP and 77 DOWN net outcomes;
+all nine classifiers use exactly these 102 units, with no excluded prediction.
+Tables~\ref{tab:r1_common_metrics} and \ref{tab:r1_common_classes} report the
+pooled comparison and both classes. \ref{app:r1_common_detail}
+reports equal-symbol macro results, every baseline for each symbol, and
+block/regime strata; complete per-class/confusion counts for all 189 groups
+are also available in the machine-readable release.
+
+\input{generated/r1_common_metrics.tex}
+\input{generated/r1_common_classes.tex}
+
+Full has TP/FN/TN/FP of 5/20/59/18 and Base 7/18/52/25.
+Full's 62.75\% raw accuracy exceeds Base's 57.84\%, but is below CASH and
+train-majority at 75.49\%. Its BA is 48.31\%, compared with Base at
+47.77\%, CASH at 50.00\%, price logistic at 55.61\% and market-input
+logistic at 52.42\%. Full's MCC is $-0.035$; neither a significant
+forecasting improvement nor superiority over these controls is established.
+Full issues 23 LONG calls versus Base's 32. Its lower LONG frequency
+coincides with higher raw accuracy in a DOWN-heavy sample; this does not
+identify useful factor information. Full UP precision/recall is
+21.74\%/20.00\%, and DOWN precision/recall is 74.68\%/76.62\%.
+Macro BA is 45.96\% for Full and 50.07\% for Base over eight defined
+symbols, unlike their pooled weighting; the macro table reports all defined
+denominators rather than filling undefined values with zero.
+
+Full's mean account return is $-0.88\%$, versus $-1.03\%$ for Base,
+$0.00\%$ for CASH, $-0.68\%$ for price logistic, $-3.00\%$ for always-LONG
+cycles and $-2.13\%$ for continuous hold. These are means over 51 separate
+accounts, not a portfolio return. The small relative loss reduction over
+Base establishes neither profitability nor isolated alpha value. Every
+account has a daily mark-to-market ledger with costs, turnover, exposure
+and daily-close drawdown; the same execution assumptions apply throughout.
+
+\input{generated/r1_common_intervals.tex}
+
+Full--Base BA differs by only 0.55 percentage points; its descriptive
+six-block interval spans $-5.91$ to $8.00$ percentage points.
+Full minus price-logistic BA is $-7.30$ points; its interval runs from
+$-18.70$ to $1.79$ points.
+No superiority claim is based on these few-block intervals. A separate
+gross-return diagnostic changes support to 32 UP/70 DOWN but keeps the
+same predictions elicited for the net target; Full gross BA is 47.23\%.
+It is not a newly trained gross-direction model or a replacement target.
+
+\input{generated/r1_common_panels.tex}
+
+The selected decision panel is substantially worse than the broad study:
+Full mean BA is 30.56\% with sample SD 10.49 points and 22.22\% pairwise
+prediction disagreement. Its BA advantage over B across repeats is
+$+4.17,-8.33,+20.83$ points; versus placebo P it is
+$-4.17,-8.33,+4.17$ points. These mixed contrasts do not establish factor
+or sentiment information value. The upstream panel has Full mean BA
+97.62\% versus Base 90.48\%, both with SD 4.12 points, on only nine
+units/three dates. Neither selected panel is pooled with the main study
+or used to choose a preferred checkpoint.
+
+\FloatBarrier
+\subsection{Legacy Nine-Symbol Paired Benchmark}
 
 The original 180 net labels contain 56 UP and 124 DOWN outcomes. Full has
 confusion counts TP/FN/TN/FP of 16/40/101/23, compared with 15/41/77/47 for
@@ -99,13 +161,14 @@ always-LONG cycles. Daily-close drawdown, turnover, fees and exposure are
 retained per symbol in the reanalysis ledgers; no daily Full ledger is inferred
 from mismatched reconstructed prices. The train-rate random control is not
 represented as matching Full's exposure. Accordingly, the newly implemented
-baselines do not by themselves close the common-snapshot and same-information
-requirements of a confirmatory baseline comparison.
+baselines alone do not establish a valid comparison with legacy Full.
+The newly frozen study in Section~\ref{sec:r1_common_results} supplies the
+actual common-snapshot LLM comparison, as historical exploratory evidence.
 
 \input{generated/r1_numeric_metrics.tex}
 \input{generated/r1_comparability.tex}
 
-\subsection{Robustness and Sensitivity}
+\subsection{Legacy Robustness and Sensitivity}
 
 Table~\ref{tab:robustness_results} reports all six completed sweeps. Each row contains 20 paired test points. Panel A changes the input window for both variants and therefore changes the No-Alpha information set. In Panels B and C, which intervene only on Alpha processing, the No-Alpha accuracy is exactly invariant within each symbol and panel: 45.0\% for both normalisation sweeps, 50.0\% for the FPT weight sweep, and 45.0\% for the VNM weight sweep.
 
@@ -144,9 +207,9 @@ VNM & Weighting & \texttt{ic\_heavy} & 60.0 & 45.0 & +15.0 & +2.70 & -5.19 \\
 \end{tabular}}
 \end{table}
 
-The stored alpha-enabled branch varies with configuration. These sweeps do not validate historical branch provenance or establish alpha information value: snapshot dates differ between experiments, repeats are absent, and the control may be weak. Their arithmetic is retained for traceability, while substantive robustness conclusions await a verified common-snapshot study.
+The stored alpha-enabled branch varies with configuration. These sweeps do not validate historical branch provenance or establish alpha information value: snapshot dates differ between experiments, repeats are absent, and the control may be weak. Their arithmetic is retained for traceability. The new study is frozen at one configuration and does not retrospectively authenticate these sweeps or establish configuration robustness.
 
-\subsection{Disentangled Alpha--Sentiment Ablation}
+\subsection{Unverified Legacy Alpha--Sentiment Ablation}
 
 Table~\ref{tab:disentangled_ablation} retains the legacy four-way summaries for traceability only. Identical prediction sequences across differently labelled FPT branches and missing request archives leave provenance unresolved. The numerical gaps in this table therefore cannot be called independent alpha or sentiment contributions. Its final column is the stored improvement over the best single component, not the factorial interaction.
 
@@ -186,4 +249,7 @@ VCB & -7.93\% & -2.75\% & -9.23\% & -11.34\% \\
 \end{tabular}
 \end{table}
 
-No component-information conclusion is drawn from these unverified summaries. Their presence preserves the audit trail; replacing them as confirmatory evidence requires verified factorial/placebo branches on common data and repeated runs, rather than interpreting arithmetic differences as information value.
+No component-information conclusion is drawn from these unverified summaries.
+Their presence preserves the audit trail. The newly archived common-data
+factorial/placebo panel is reported separately above; its mixed contrasts
+do not validate the legacy summaries or establish component information value.

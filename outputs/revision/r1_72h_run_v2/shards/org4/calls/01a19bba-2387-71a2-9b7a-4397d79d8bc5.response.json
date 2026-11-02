@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19bba-2387-71a2-9b7a-4397d79d8bc5",
+  "parent_request_hash": "4bd0dbd13c19b4b0181c3b6b55f63e536cdb118f1487c0be5828fe04fa6665df",
+  "ended_at_utc": "2026-11-02T10:07:13.681254+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.86,\"evidence_for\":\"Trend is upward with price near resistance 83.5 and MACD line above signal indicating bullish momentum. Pattern shows a double bottom and price above 78.0 with target 85.0.\",\"evidence_against\":\"Four out of five alpha factors are decreasing, suggesting bearish pressure.\",\"justification\":\"Given the bullish trend, positive MACD, and pattern confirmation, a LONG position is expected to yield a reward of ~1.86 times the risk within the 3-day horizon. The potential profit outweighs the risk after accounting for fees and slippage.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.86,\"evidence_for\":\"Trend is upward with price near resistance 83.5 and MACD line above signal indicating bullish momentum. Pattern shows a double bottom and price above 78.0 with target 85.0.\",\"evidence_against\":\"Four out of five alpha factors are decreasing, suggesting bearish pressure.\",\"justification\":\"Given the bullish trend, positive MACD, and pattern confirmation, a LONG position is expected to yield a reward of ~1.86 times the risk within the 3-day horizon. The potential profit outweighs the risk after accounting for fees and slippage.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1386,
+                "prompt_tokens": 1561,
+                "total_tokens": 2947,
+                "completion_time": 1.724290522,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1228
+                },
+                "prompt_time": 1.691763814,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.349759115,
+                "total_time": 3.416054336
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bba-2387-71a2-9b7a-4397d79d8bc5-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1386,
+        "prompt_tokens": 1561,
+        "total_tokens": 2947,
+        "completion_time": 1.724290522,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1228
+        },
+        "prompt_time": 1.691763814,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.349759115,
+        "total_time": 3.416054336
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19c04-69d2-7f83-b8e7-e0e6e0c42442",
+  "parent_request_hash": "63e56b3a134a1c7031f47970df5ee93af1b486afb2382105442d6108723cfa2b",
+  "ended_at_utc": "2026-11-02T11:28:19.287498+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an uptrend with price approaching resistance at 128, and MACD shows bullish momentum with histogram widening. Pattern analysis confirms a V reversal with bullish breakout above 120 and target 130, supported by positive sentiment score 0.675535.\",\"evidence_against\":\"The trend slope is decreasing, which could indicate a potential slowdown before the next resistance.\",\"justification\":\"Given the convergence of bullish trend, pattern, and MACD signals, a LONG position is justified with a target near 128-130. The risk reward ratio of 2.0 meets the minimum requirement, and the positive sentiment further supports the trade.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an uptrend with price approaching resistance at 128, and MACD shows bullish momentum with histogram widening. Pattern analysis confirms a V reversal with bullish breakout above 120 and target 130, supported by positive sentiment score 0.675535.\",\"evidence_against\":\"The trend slope is decreasing, which could indicate a potential slowdown before the next resistance.\",\"justification\":\"Given the convergence of bullish trend, pattern, and MACD signals, a LONG position is justified with a target near 128-130. The risk reward ratio of 2.0 meets the minimum requirement, and the positive sentiment further supports the trade.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 866,
+                "prompt_tokens": 1451,
+                "total_tokens": 2317,
+                "completion_time": 0.968951774,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 695
+                },
+                "prompt_time": 0.087619795,
+                "prompt_tokens_details": null,
+                "queue_time": 0.318640295,
+                "total_time": 1.056571569
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19c04-69d2-7f83-b8e7-e0e6e0c42442-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 866,
+        "prompt_tokens": 1451,
+        "total_tokens": 2317,
+        "completion_time": 0.968951774,
+        "completion_tokens_details": {
+          "reasoning_tokens": 695
+        },
+        "prompt_time": 0.087619795,
+        "prompt_tokens_details": null,
+        "queue_time": 0.318640295,
+        "total_time": 1.056571569
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}
