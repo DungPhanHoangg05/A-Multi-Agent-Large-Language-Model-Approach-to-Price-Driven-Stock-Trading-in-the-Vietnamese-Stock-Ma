@@ -31,6 +31,7 @@ from utils.graph_setup import ABLATION_CONFIGS  # noqa: E402
 from utils.statistical_tests import calculate_metrics_with_significance  # noqa: E402
 from utils.static_util import get_forecast_horizon  # noqa: E402
 from utils.account_risk import cycle_frequency, round_ratio  # noqa: E402
+from utils.target_contract import target_fields, validate_target_record  # noqa: E402
 
 
 VARIANTS = ("full", "alpha_only", "sentiment_only", "baseline")
@@ -102,6 +103,7 @@ def load_checkpoint(
 
     restored: List[Dict[str, Any]] = []
     for raw_point in list(payload.get("test_points", []))[:n_tests]:
+        validate_target_record(raw_point)
         if not _valid_completed_point(raw_point, len(restored) + 1):
             break
         restored.append(raw_point)
@@ -170,6 +172,9 @@ def _variant_test_points(
                 exit_time=point["exit_time"],
                 entry_bar_index=point.get("entry_bar_index"),
                 exit_bar_index=point.get("exit_bar_index"),
+                **{k: point[k] for k in ("decision_close", "gross_return", "net_return", "label_net", "label_gross",
+                    "decision_bar_index", "target_horizon_bars", "label_fee_each_side", "label_slippage_each_side",
+                    "label_contract_version") if k in point},
                 decision_source_full=str(result.get("decision_source", "")),
                 decision_source_no_alpha=str(result.get("decision_source", "")),
             )
@@ -424,6 +429,7 @@ def run_symbol(
             ).isoformat(),
             "variants": variant_results,
             "entry_bar_index": int(end_idx), "exit_bar_index": int(end_idx + lookahead - 1),
+            **target_fields(df, int(end_idx), int(lookahead), config["tx_cost"], config["slippage"]),
         }
         if not _valid_completed_point(point, test_index):
             raise RuntimeError(f"{symbol} test {test_index}: điểm ablation không hợp lệ")

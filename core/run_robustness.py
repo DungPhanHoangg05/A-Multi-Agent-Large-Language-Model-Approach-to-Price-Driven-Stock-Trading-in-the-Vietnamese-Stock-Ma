@@ -31,6 +31,7 @@ from core.realtime_loader import fetch_realtime_ohlcv
 from utils import static_util
 from utils.graph_setup import ABLATION_CONFIGS
 from utils.static_util import get_forecast_horizon
+from utils.target_contract import target_fields, validate_target_record
 
 
 DEFAULT_OUTPUT_DIR = Path("outputs/robustness/clean_a20")
@@ -215,6 +216,7 @@ def _load_checkpoint_points(
     allowed = {item.name for item in fields(TestPoint)}
     restored: List[TestPoint] = []
     for raw in list(payload.get("test_points", []))[:n_tests]:
+        validate_target_record(raw)
         values = {key: value for key, value in raw.items() if key in allowed}
         point = TestPoint(**values)
         if (
@@ -414,6 +416,9 @@ def run_shared_alpha_sweep(
                 decision_source_no_alpha=source_baseline,
                 decision_fallback_reason_full=reason_full,
                 decision_fallback_reason_no_alpha=reason_baseline,
+                **{k: v for k, v in target_fields(df, int(end_idx), int(lookahead),
+                    base_config.get("tx_cost", .0025), base_config.get("slippage", .001)).items()
+                   if k not in ("entry_open", "exit_close")},
             )
             points_by_scenario[scenario].append(point)
             partial = engine._compute_partial(points_by_scenario[scenario], timeframe=timeframe, step=step)

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Net-cycle evaluation fields, outside LangGraph inputs",
+  "type": "object",
+  "properties": {
+    "label_contract_version": {"enum": ["net_cycle_v1", "legacy_unverified"]},
+    "decision_close": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "entry_open": {"type": "number", "exclusiveMinimum": 0},
+    "exit_close": {"type": "number", "exclusiveMinimum": 0},
+    "gross_return": {"type": ["number", "null"], "description": "Fraction, not percent; target Close / entry Open - 1"},
+    "net_return": {"type": ["number", "null"], "description": "Fraction, not percent; candidate LONG after two-sided costs"},
+    "label_net": {"enum": ["UP", "DOWN", null]},
+    "label_gross": {"enum": ["UP", "DOWN", null]},
+    "decision_bar_index": {"type": ["integer", "null"], "minimum": 0},
+    "target_horizon_bars": {"type": ["integer", "null"], "minimum": 1},
+    "label_fee_each_side": {"type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 1},
+    "label_slippage_each_side": {"type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 1}
+  },
+  "allOf": [{
+    "if": {"required": ["label_contract_version"], "properties": {"label_contract_version": {"const": "net_cycle_v1"}}},
+    "then": {
+      "required": ["decision_close", "entry_open", "exit_close", "gross_return", "net_return", "label_net", "label_gross", "decision_bar_index", "target_horizon_bars", "label_fee_each_side", "label_slippage_each_side"],
+      "properties": {
+        "decision_close": {"type": "number"}, "gross_return": {"type": "number"}, "net_return": {"type": "number"},
+        "label_net": {"enum": ["UP", "DOWN"]}, "label_gross": {"enum": ["UP", "DOWN"]},
+        "decision_bar_index": {"type": "integer"}, "target_horizon_bars": {"type": "integer"},
+        "label_fee_each_side": {"type": "number"}, "label_slippage_each_side": {"type": "number"}
+      }
+    }
+  }],
+  "additionalProperties": true
+}

@@ -1,0 +1,384 @@
+{
+  "schema_version": "target_manuscript_release_v1",
+  "created_utc": "2026-11-03T08:59:48.847964+00:00",
+  "scope": "R11 target/schema appendix correction only; previous releases and scientific results retained",
+  "analysis_release": "outputs/revision/target_contract_v1/manifest.json",
+  "previous_release": "outputs/revision/r4_manuscript_v2/manifest.json",
+  "build_commands": [
+    "From extracted paper/: pdflatex -interaction=nonstopmode -halt-on-error main.tex",
+    "bibtex main",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex (twice)",
+    "Repeat with main_submit"
+  ],
+  "build_runtime": {
+    "pdflatex": "MiKTeX-pdfTeX 4.23 (MiKTeX 25.12)",
+    "bibtex": "MiKTeX-BibTeX 4.2 (MiKTeX 25.12)"
+  },
+  "pdf_qa": {
+    "main": {
+      "pages": 63,
+      "identical_text_prefix_against_r4": 17,
+      "physical_locators": {
+        "Decision Agent Prompt": [
+          50
+        ],
+        "Evaluation records and historical": [
+          55
+        ],
+        "Selected runtime": [
+          55
+        ],
+        "Canonical evaluation": [
+          56
+        ]
+      }
+    },
+    "main_submit": {
+      "pages": 63,
+      "identical_text_prefix_against_r4": 17,
+      "physical_locators": {
+        "Decision Agent Prompt": [
+          50
+        ],
+        "Evaluation records and historical": [
+          55
+        ],
+        "Selected runtime": [
+          55
+        ],
+        "Canonical evaluation": [
+          56
+        ]
+      }
+    },
+    "visual_review": "Rendered main physical pages 50-63 and submission pages 50-56; prompt, schema, continuation and end-matter visually checked; no clipping or body/table overflow",
+    "warnings": "Only inherited elsarticle footer overfull hbox 2.61049pt; no undefined citations/references or duplicate anchors",
+    "pre_appendix_difference": "Physical pages 1-49 match archived R4 extracted layout text except page 18 automatic Table F.38 -> F.39 cross-reference; R1-R4 page locators unchanged",
+    "table_labels": {
+      "state_schema": "Table C.36, physical 55, printed 53",
+      "target_schema": "Table C.37, physical 56, printed 54"
+    },
+    "decision_prompt": "Appendix B.1, physical 50-51, printed 48-49"
+  },
+  "sources": [
+    {
+      "path": ".gitattributes",
+      "sha256": "901e6e73945391d3e2cee0e434dc746fb17d3803825bfe60e05532c733f60868"
+    },
+    {
+      "path": "agents/agent_state.py",
+      "sha256": "5f976cd4f36de1e67c756553e68d9732a73b473ec148806e086f39492f38df9c"
+    },
+    {
+      "path": "agents/decision_agent.py",
+      "sha256": "e3383678a5b1ffc65470ab019699e19198939560ae2d445222830a34c8c19512"
+    },
+    {
+      "path": "core/alpha_compare.py",
+      "sha256": "b9b0419d93541f49837ab4cabffad13a6771e5aaea74561f1070fe7c2d1166bd"
+    },
+    {
+      "path": "core/backtest_engine.py",
+      "sha256": "b10b4aab6402657cb370af65c9d7ca3cda9a6f328230a3cada2526c90a821d1e"
+    },
+    {
+      "path": "core/run_robustness.py",
+      "sha256": "c61ba2e5a73cd0924a16957a15d6a24a783e5133ac0f036b6c60b8209c69210d"
+    },
+    {
+      "path": "paper/.gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "paper/elsarticle-num.bst",
+      "sha256": "0db2e53b2378cbe5815e436c1afe9dcac67123a32406fa8f11fad7978808e202"
+    },
+    {
+      "path": "paper/elsarticle.cls",
+      "sha256": "23a341acd0e35c20148c836fc6e9251549aa45b059fc1750356ca2f3f11f3cb0"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.png",
+      "sha256": "ce93ca2e80f33da49b8dba034f36007b6e9ff5fa1932fb234df54ad763d8dc4f"
+    },
+    {
+      "path": "paper/figs/backtest_BHN_20260917_1227.png",
+      "sha256": "1fdd500812ece8fa0d9b6b3bc205b7e171a1f5ecd149528836d0d092f3ab421f"
+    },
+    {
+      "path": "paper/figs/backtest_CMG_20260916_1110.png",
+      "sha256": "7351ffed0b0afcb6568d2cdae6004f9b23c0be512593bbe60c985109ba2c93de"
+    },
+    {
+      "path": "paper/figs/backtest_FPT_20260915_1458.png",
+      "sha256": "b772079e92c3d49e295439416c5456b8f20d9df1b4753123fcee98857ace9ab4"
+    },
+    {
+      "path": "paper/figs/backtest_HVN_20260916_1032.png",
+      "sha256": "ee84ba6bed88f5af8347006eeba9aa4394a4f92d50df4f9a90b133d4314e882d"
+    },
+    {
+      "path": "paper/figs/backtest_MBB_20260916_1129.png",
+      "sha256": "95f54e1f8f8398fc3473619110441e6d7ce6627324d2d40e6b3db2dc45ddea65"
+    },
+    {
+      "path": "paper/figs/backtest_MWG_20260916_1422.png",
+      "sha256": "2253a8844986d09c0fd67460b57fd8e90151a93681e35d85145329f9e9b4796d"
+    },
+    {
+      "path": "paper/figs/backtest_VCB_20260916_1337.png",
+      "sha256": "c2476a6242f3d3a440a64172cf890c93d1457db0584d97e620781eec5dfe81f7"
+    },
+    {
+      "path": "paper/figs/backtest_VJC_20260915_1542.png",
+      "sha256": "b6586b7368c04b88b1ac37dbf02720c63c2ceb8a01420753b248f9b68d290137"
+    },
+    {
+      "path": "paper/figs/backtest_VNM_20260915_1514.png",
+      "sha256": "442ab2fd645e332f3df1aef374d4a15bbb4b36cfa795ebc6a47f7280e8286aef"
+    },
+    {
+      "path": "paper/figs/decision_agent_pipeline.png",
+      "sha256": "48c454d1540f6897e300d828c04ca56a1e03aa2d9d15b78e11a87666eb94392a"
+    },
+    {
+      "path": "paper/figs/system_pipeline.png",
+      "sha256": "d02d7f971ed0778b33921fbdfd1b0e727b513adf15f6ab4655315dba4639ea70"
+    },
+    {
+      "path": "paper/figs/walkforward_protocol.png",
+      "sha256": "9953c5eabc41523db151caa5f56b20c707754eef41bfca7cc99755118c05b229"
+    },
+    {
+      "path": "paper/generated/.gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "paper/generated/r1_class_metrics.tex",
+      "sha256": "fc1784749010507589559bafcd012d34bc0f3510b11e84d1270b6d7c3a0bf1f2"
+    },
+    {
+      "path": "paper/generated/r1_common_classes.tex",
+      "sha256": "8fb3667efdbfa950de47d05178be4ac3e8e9bce9b2157ebf2f78b13e492805ce"
+    },
+    {
+      "path": "paper/generated/r1_common_intervals.tex",
+      "sha256": "1f00ebd36fc68952f775dee577d3f126d80750934693ee213439fc095774d841"
+    },
+    {
+      "path": "paper/generated/r1_common_macro.tex",
+      "sha256": "de41bcad16c175527b1238daaece14b9026e91612a89d698aa757c090296af9e"
+    },
+    {
+      "path": "paper/generated/r1_common_metrics.tex",
+      "sha256": "c578d76cf971687e618c2f8ca9222f5cb86341dcc44bf5bdfdd89980ab1d631d"
+    },
+    {
+      "path": "paper/generated/r1_common_panels.tex",
+      "sha256": "10aadc0a22d723ef7f095625d2ce83a3ba86c6372e5663aa72cc865070df2730"
+    },
+    {
+      "path": "paper/generated/r1_common_strata.tex",
+      "sha256": "f76bd041e44643c2b1ec733bc7470555bd514126f2ac425cf4ad30e9d410fa15"
+    },
+    {
+      "path": "paper/generated/r1_common_symbols.tex",
+      "sha256": "bfa27ac632d915429ac7b51de1c25329a615921b3cea0649b3b2086fc53948c1"
+    },
+    {
+      "path": "paper/generated/r1_comparability.tex",
+      "sha256": "2b3c89092e8d7c9efcddddadb15eeb284a529a5ae8e454c52514694c8913a5b7"
+    },
+    {
+      "path": "paper/generated/r1_legacy_metrics.tex",
+      "sha256": "d27c3ce568ac9220b8f077ee3a70974494538e54f539be35acea6f40f7364bdb"
+    },
+    {
+      "path": "paper/generated/r1_numeric_metrics.tex",
+      "sha256": "1d673c70d838dacf26f43b806a2f16eead0a31e56a1b715b56e2015d3389c1c1"
+    },
+    {
+      "path": "paper/generated/r2_coverage.tex",
+      "sha256": "5da68f9624de0231e3be21c329e8570d0c47c77c66598f3ab3270fe0ff3e3c1c"
+    },
+    {
+      "path": "paper/generated/r2_dependence.tex",
+      "sha256": "cdc74eb68c33af54ec0becb3741fcc36f403ca7c40acdf7cf9a1185d84f3e363"
+    },
+    {
+      "path": "paper/generated/r2_folds.tex",
+      "sha256": "915bd252f83a31f496f10fa227e839e7b59de72065cacb7229830ef570da1bdf"
+    },
+    {
+      "path": "paper/generated/r2_regimes.tex",
+      "sha256": "779e2a1c9e5afaaa5b811ceeb2ab1e1c9514f0b63d7dade89a6fa2cda47b6b39"
+    },
+    {
+      "path": "paper/generated/r3_classification.tex",
+      "sha256": "289bbaf4fb5e70ee704964aa8752a5a12732642f58a0dc363b591e8a4ff44358"
+    },
+    {
+      "path": "paper/generated/r3_contrasts.tex",
+      "sha256": "a2d1abf6967406f4acb91239f9c13b40222b50557c02f6bcd75be65e65e77f7f"
+    },
+    {
+      "path": "paper/generated/r3_returns.tex",
+      "sha256": "7d927f8128b7b5f1d6a334d94fd8c714b1f0a9788545a2140fee2e0e54f85aa7"
+    },
+    {
+      "path": "paper/generated/r3_variability.tex",
+      "sha256": "3524bda66c02c6040a060f2f9205ba84b5c48287ad323f81524ab37278e6165c"
+    },
+    {
+      "path": "paper/generated/r4_contrasts.tex",
+      "sha256": "fe8b3532acf5f6bc6c7f362e0867c24a78b160fdeaa2547987436cbc1aac899b"
+    },
+    {
+      "path": "paper/generated/r4_value_audit.tex",
+      "sha256": "8776d64f57048d0a434ef1377b67b1700d4a77699c6b497900fc04a62f35e4a8"
+    },
+    {
+      "path": "paper/generated/r4_value_contrasts.tex",
+      "sha256": "c0d0aae0ae41a275cee6704b6e1f84ead12cab02163baf1b358fa53dde1841b4"
+    },
+    {
+      "path": "paper/generated/r4_value_metrics.tex",
+      "sha256": "c8f0f6e8d116f6392c3882bd5b48b2b77a7746185e946cb1078966c777bb34bb"
+    },
+    {
+      "path": "paper/generated/target_prompt_excerpt.tex",
+      "sha256": "63a2bb5dda4ef4573c617414133743496e7eca5fa646ac4c1becfb6d0927e599"
+    },
+    {
+      "path": "paper/generated/target_schema_table.tex",
+      "sha256": "2ea70ede249ec2a651cf685f5e8542fd23937585dcbbdaa46198a956767ee325"
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "d05c7f2cffc9ddd0030b16c0ada80cf5db7b6eff12c5d03bd4df5c59a94d168a"
+    },
+    {
+      "path": "paper/main_submit.tex",
+      "sha256": "88e85142a89f7f589db3ae23edca029987a2d80cb8451505e7f20436c0fb2382"
+    },
+    {
+      "path": "paper/references.bib",
+      "sha256": "c188fb50f39c10ae0b3d4cc5f6fbbef2c20cb578c1c85e95d8e5c603985ef4e8"
+    },
+    {
+      "path": "paper/sections/01_introduction.tex",
+      "sha256": "7cb87030e7cdf5bb4ad9ffc4f97e6a04e17b7e0bae6406eef246a262bb25006d"
+    },
+    {
+      "path": "paper/sections/02_related_work.tex",
+      "sha256": "82bf1aec08f3a178041be1876eb4c237074b76baad0b248c6eb8abec602cd50c"
+    },
+    {
+      "path": "paper/sections/03_problem_formulation.tex",
+      "sha256": "32d34f23103209bb0ac2e3dde0b5b1a232f9b5dd9d33d3a9a7d0c07e4a95e050"
+    },
+    {
+      "path": "paper/sections/04_system_architecture.tex",
+      "sha256": "735fc08bc6c7f09312487fedcc0993e5c82aac340a4aeae801a46ed2162b73b1"
+    },
+    {
+      "path": "paper/sections/05_experimental_setup.tex",
+      "sha256": "bb0eff9051dedae3f792d565152916336dbde189a5610c9c79d22273c76e7cc3"
+    },
+    {
+      "path": "paper/sections/06_backtest_results.tex",
+      "sha256": "307d13563db9ef3c659f319b9c01126504d763dfffcd9d81e72a867a04a8c731"
+    },
+    {
+      "path": "paper/sections/07_limitations.tex",
+      "sha256": "6aaf6f023774b0e4083a60f78844c1aa3b2fbdc8695b8e1e280a78379c7a68c2"
+    },
+    {
+      "path": "paper/sections/08_conclusion.tex",
+      "sha256": "83e2f7d4da0adf7a7c68936e16e2fc9c0991f62d2959c07619db740980cca73d"
+    },
+    {
+      "path": "paper/sections/acknowledgments.tex",
+      "sha256": "144503e0908506d64cd52bb99480fd3082c63bc63831e66299e237007f868e9c"
+    },
+    {
+      "path": "paper/sections/appendices.tex",
+      "sha256": "b911a7e6b62e1b141c4603ed1bb660b0a569f63615cd27313d1709180f0132ed"
+    },
+    {
+      "path": "revision/requirements-r1.txt",
+      "sha256": "1a75d2f788b11c86a3bbf0b0cbf8bda15b3f72e5c279de321879dbd5f0338d0e"
+    },
+    {
+      "path": "revision/target_contract.md",
+      "sha256": "ea2dccb7f51e9f2a7149e22f0dc735e880d27c7b44c18755b1d85b7d1cf99e07"
+    },
+    {
+      "path": "revision/target_schema.json",
+      "sha256": "627fa5d69ce2bf5040acd9b8ccb2daec66aacbccf4d713db327799b7164bec56"
+    },
+    {
+      "path": "scripts/audit_target_contract.py",
+      "sha256": "58dd62b0e6bcbf171b95e6740bbfc3664c5f329ed819947b3627cbf6d843c9ea"
+    },
+    {
+      "path": "scripts/run_ablation_matrix.py",
+      "sha256": "6cf55da71abae9d36ba3bd1b436357c5f867c34ac3a5e9823deba4ac31231378"
+    },
+    {
+      "path": "tests/test_ablation_matrix.py",
+      "sha256": "f80ee62fd311d848ed587205cfe120b97bd3e7994a8ea035d1e4e85aee8ec9db"
+    },
+    {
+      "path": "tests/test_paired_protocol.py",
+      "sha256": "89306951a087daf55d3847366e9c9c0a777143cfea7f6f8ef394a7cf6d6d71f2"
+    },
+    {
+      "path": "tests/test_robustness_sweep.py",
+      "sha256": "38c56e2a71a63b1729a03e56fcc9ee4a061fd82bdeb381f7832bc289ffcd7192"
+    },
+    {
+      "path": "tests/test_target_contract.py",
+      "sha256": "c67b4c73b26ef9160be7e0ec7047fcb59775f9ac25f0c9f805881f32fdc4409f"
+    },
+    {
+      "path": "utils/target_contract.py",
+      "sha256": "fee60ff471ddc827b19af12688f353b7f950c119a4d4fd092acc1ee7071fca26"
+    },
+    {
+      "path": "outputs/revision/target_contract_v1/manifest.json",
+      "sha256": "08b132cad90cb0a6cf6b939b30b6fcc0fac92cb5693499efe7cc291629e721ce"
+    },
+    {
+      "path": "outputs/revision/r4_manuscript_v2/manifest.json",
+      "sha256": "d815c35476b81d6a37a71a9154573e8792a13150def7a867f7606c0e6e66302b"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "main.log",
+      "sha256": "b57a410a4ae5d77d7e7da35493e132058cf76d6df39a15e5a12be7aa5960945d"
+    },
+    {
+      "path": "main.pdf",
+      "sha256": "7966053ccffaffb99dcf7b18a0179aaeb8142b17203c4da5860239d25b2de259"
+    },
+    {
+      "path": "main_submit.log",
+      "sha256": "b13200e0a25eae07bcac08ed26977cd0d93c5927e5e08338b5f64ccbfaa0e78a"
+    },
+    {
+      "path": "main_submit.pdf",
+      "sha256": "2f547fffba9cd228307a4d0b3470b4136767f944d1664ad82d5a56f0a0416bee"
+    },
+    {
+      "path": "sources.zip",
+      "sha256": "976e2a08f23cd5b4920a79e780e17698461cafbc67c746ad3ea4447e8adab87a"
+    }
+  ],
+  "limits": [
+    "No new model inference or authenticated original legacy snapshot",
+    "Canonical outcomes stored after inference; archived requests and prompt builder unchanged",
+    "D2-05/D2-06 annualisation/statistics and D2-07 execution sensitivity manuscript integration remains separate"
+  ]
+}

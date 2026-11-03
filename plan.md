@@ -418,11 +418,13 @@ PASS; không chạy lại toàn suite/E2E/leakage vì runtime/PIT/prompt không 
 
 ### R11 — Label và trường actual_prev_close [P2, contract P0]
 
-- [ ] Thay label log Close-to-Close trong Table B.10 bằng đúng net next-Open-to-target-Close của Eq. 4; đồng bộ equation, pseudocode, prompt, alpha target và JSON schema.
-- [ ] Không rename toàn bộ legacy `actual_prev_close` một cách máy móc: ở benchmark FPT đã thấy nó bằng entry_open, nhưng checkpoint khác có giá trị khác entry_open. Tách rõ `decision_close`, `entry_open`, `exit_close`, `gross_return`, `net_return`, `label`; migration phải dựa vào snapshot hoặc đánh dấu legacy ambiguous.
-- [ ] Tạo kiểm thử với overnight gap lớn, zero net return, chi phí hai chiều, holiday và incomplete horizon; kiểm tra label từ đúng giá.
+- [x] Thay label log Close-to-Close trong Table B.10 bằng đúng net next-Open-to-target-Close của Eq. 4; đồng bộ equation, pseudocode, prompt, alpha target và JSON schema.
+- [x] Không rename toàn bộ legacy `actual_prev_close` một cách máy móc: ở benchmark FPT đã thấy nó bằng entry_open, nhưng checkpoint khác có giá trị khác entry_open. Tách rõ `decision_close`, `entry_open`, `exit_close`, `gross_return`, `net_return`, `label`; migration phải dựa vào snapshot hoặc đánh dấu legacy ambiguous.
+- [x] Tạo kiểm thử với overnight gap lớn, zero net return, chi phí hai chiều, holiday và incomplete horizon; kiểm tra label từ đúng giá.
 
 **Đạt khi:** mọi field có một nghĩa duy nhất và không sửa lịch sử bằng suy đoán. **Sửa tại:** state schema, engine/serializers, phụ lục B, section 03.
+
+**Đối soát 03/11/2026:** D2-08 hoàn tất; R11 addressed với giới hạn provenance tường minh. [Audit](outputs/revision/target_contract_v1/manifest.json): 102 units/918 labels, 600 legacy records và 760 archived Decision attempts. Canonical outcomes chỉ ghi sau inference; legacy decision Close null. [Bản thảo mới](outputs/revision/target_manuscript_v1/manifest.json): Appendix B.1 physical pp50–51, Tables C.36/C.37 physical pp55–56 trong cả hai PDF. 96 scoped tests, compile chín file, hash/runtime replay và PDF QA PASS; original snapshot/served-model provenance vẫn unknown. Các phần R5/R15 còn lại không được đóng thay.
 
 ### R12 — Indicator rules và thuật ngữ [P2]
 
@@ -607,7 +609,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-05 | Bổ sung NW/bootstrap phụ thuộc và bảng mới | D2-03 | done | [Release](outputs/revision/dependent_statistics_v1/manifest.json): legacy discordance/NW, fixed-universe HAC, 144 CBB rows/18 null rows/bốn bảng; 11 tests/compile/hash replay PASS | Giữ helpers và primary/repeat intervals; denominator/NA/degenerate rõ; không claim calibrated coverage; annualisation chuyển D2-06 |
 | D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | done | [Release](outputs/revision/account_annualisation_v1/manifest.json): cycle frequency/NA contract, 510 stored daily ledgers, 18 conditional legacy accounts; 68 scoped tests/compile/AST/hash replay PASS | Daily/cycle phân biệt; không dựng ledger lại hoặc đoán provenance; manuscript/R5 closure còn riêng |
 | D2-07 | Execution sensitivities R15 | D2-06 | done | [Release](outputs/revision/execution_sensitivity_v1/manifest.json): 12 scenarios/6.120 accounts; reference 510 khớp; 27 tests/compile/hash replay/table QA PASS | Pending/advance/cost/no-fill bounds có denominator và state riêng; source predictions/labels nguyên; R15 execution certification/manuscript còn mở |
-| D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | pending | Đã có target net/gross contract và baseline labels; legacy field còn ambiguous | Đồng bộ appendix/prompt/fields; không viết lại target hoặc đoán sửa lịch sử |
+| D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | done | [Audit](outputs/revision/target_contract_v1/manifest.json): 102 units/918 labels, 600 legacy records, 760 Decision attempts; 96 tests/compile/hash replay PASS; [hai PDF + sources](outputs/revision/target_manuscript_v1/manifest.json) QA PASS | Canonical outcomes ngoài graph inputs; primary net giữ nguyên; legacy decision Close null; prompt source/request không đổi; R11 addressed với giới hạn provenance |
 | D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | pending | Rule/formula code đã tồn tại; cần khớp mô tả và boundary evidence | Sửa phần lệch; giữ formula Alpha_4; không phát triển alpha mới |
 | D2-10 | Bổ sung đối chứng chart/prompt R14 | S0 | pending | Renderer/style có sẵn; chưa chứng nhận chart lịch sử bằng fixture | Nến/màu/prompt đúng; chỉ rerun nếu phát hiện thay đổi behavior |
 | D2-11 | Registry/selector R10 | D2-03 | pending | — | Retained/excluded; fixed/random numeric/stability |

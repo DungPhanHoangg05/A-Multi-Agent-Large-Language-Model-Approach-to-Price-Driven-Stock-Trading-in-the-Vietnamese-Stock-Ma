@@ -17,6 +17,7 @@ from data_manager.sentiment_cache import BacktestSentimentStore
 from utils.statistical_tests import calculate_metrics_with_significance
 from utils.graph_setup import ABLATION_CONFIGS
 from utils.account_risk import cycle_frequency, risk_ratios, round_ratio
+from utils.target_contract import require_prompt_costs, target_fields, validate_target_record
 
 
 ALPHA_HISTORY_CANDLES = 600
@@ -139,6 +140,16 @@ class TestPoint:
     decision_fallback_reason_no_alpha: str = ""
     entry_bar_index: Optional[int] = None
     exit_bar_index: Optional[int] = None
+    decision_close: Optional[float] = None
+    gross_return: Optional[float] = None
+    net_return: Optional[float] = None
+    label_net: Optional[str] = None
+    label_gross: Optional[str] = None
+    decision_bar_index: Optional[int] = None
+    target_horizon_bars: Optional[int] = None
+    label_fee_each_side: Optional[float] = None
+    label_slippage_each_side: Optional[float] = None
+    label_contract_version: str = "legacy_unverified"
 
 
 @dataclass
@@ -328,6 +339,8 @@ def compute_account_metrics(
         raise ValueError("initial_capital_vnd phải là số dương hữu hạn")
     if not np.isfinite(price_multiplier) or price_multiplier <= 0.0:
         raise ValueError("price_multiplier phải là số dương hữu hạn")
+    for point in test_points:
+        validate_target_record(asdict(point))
 
     def compute_variant(prediction_field: str, variant: str) -> AccountMetrics:
         cash_vnd = initial_capital_vnd
@@ -563,6 +576,7 @@ class BacktestEngine:
     # ── Graph initialization ───────────────────────────────────────────────────
 
     def _init_graphs(self):
+        require_prompt_costs(self.config)
         import os
         from langchain_groq import ChatGroq
         from utils.graph_setup import SetGraph
@@ -643,7 +657,7 @@ class BacktestEngine:
         Lấy nhãn kinh tế sau cửa sổ phân tích.
 
         Args:
-            end_idx   : index cuối cửa sổ (nến cuối cùng agent nhìn thấy)
+            end_idx   : boundary exclusive e; nến cuối nhìn thấy là e-1
             lookahead : số nến phía trước để đánh giá.
                         - 1 = entry Open[end_idx], exit Close[end_idx]
                         - 3 = entry Open[end_idx], exit Close[end_idx+2]
@@ -652,6 +666,8 @@ class BacktestEngine:
                  entry_open = open đầu kỳ thực thi (end_idx)
                  next_close = close của nến end_idx + lookahead - 1
         """
+        if any(not isinstance(v, (int, np.integer)) or isinstance(v, (bool, np.bool_)) or v < 1 for v in (end_idx, lookahead)):
+            raise ValueError("Boundary/horizon phải là integer dương")
         target_idx = end_idx + lookahead - 1
         if target_idx >= len(df):
             return "UNKNOWN", 0.0, 0.0, 0.0, 0.0
@@ -1171,6 +1187,9 @@ class BacktestEngine:
                 decision_source_no_alpha=source_n,
                 decision_fallback_reason_full=fallback_reason_f,
                 decision_fallback_reason_no_alpha=fallback_reason_n,
+                **{k: v for k, v in target_fields(df, int(end_idx), int(lookahead),
+                    self.config.get("tx_cost", .0025), self.config.get("slippage", .001)).items()
+                   if k not in ("entry_open", "exit_close")},
             )
             test_points.append(tp)
 

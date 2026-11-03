@@ -120,6 +120,8 @@ class AblationMatrixTests(unittest.TestCase):
                 def invoke(state):
                     calls[name] += 1
                     self.assertEqual(state["shared_marker"], "same-snapshot")
+                    for outcome_field in ("label_net", "net_return", "entry_open", "exit_close"):
+                        self.assertNotIn(outcome_field, state)
                     return {
                         **state,
                         "final_trade_decision": json.dumps({"decision": "LONG"}),
@@ -155,6 +157,11 @@ class AblationMatrixTests(unittest.TestCase):
                     n_tests=2,
                     config=config,
                 )
+                checkpoint = json.loads((Path(directory) / "checkpoint_ablation_FPT.json").read_text(encoding="utf-8"))
+                for point in checkpoint["test_points"]:
+                    self.assertEqual(point["label_contract_version"], "net_cycle_v1")
+                    self.assertEqual(point["label_net"], point["actual_direction"])
+                    self.assertEqual(point["decision_bar_index"] + 1, point["entry_bar_index"])
                 first_calls = dict(calls)
                 for key in calls:
                     calls[key] = 0

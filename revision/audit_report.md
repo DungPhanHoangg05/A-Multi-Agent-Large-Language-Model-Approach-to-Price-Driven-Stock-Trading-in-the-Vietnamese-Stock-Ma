@@ -452,3 +452,60 @@ official calendars, venue/date bands/auction/queue, actual fills, Volume units,
 broker rates/statutory taxes, corporate actions và L=5/10 evidence ngoài gói
 đã khóa. Manuscript/response hoàn chỉnh và PDF locators cũng chưa được chốt;
 không gán kết quả sensitivity thành execution certification hoặc profitability.
+
+
+## D2-08 — Hợp đồng nhãn, schema và appendix (03/11/2026)
+
+`utils/target_contract.py` và `revision/target_schema.json` định nghĩa
+`net_cycle_v1`: decision Close C[e-1], entry Open O[e], target Close C[e+L-1],
+gross/net return dạng fraction, hai labels với zero = DOWN, indices/horizon
+và phí label. Engine, shared robustness và ablation ghi outcomes sau inference;
+không thêm chúng vào graph inputs. Checkpoint/metrics từ chối canonical
+records thiếu hoặc tự mâu thuẫn; legacy vẫn `legacy_unverified`, không suy
+cutoff từ alias. Execution stress không relabel target. Graph-backed runs
+với phí khác prompt cố định 0,25%/0,10% mỗi chiều bị chặn trước khởi tạo
+client; offline stress vẫn được phép. Công thức target/alpha và builder không đổi.
+
+`outputs/revision/target_contract_v1/` giữ bảy outputs và khóa 822 sources.
+Tái tính từ đúng frozen frame cho 102 units khớp net/gross labels của 918
+predictions; bảy units khác nhãn gross/net. Audit 30 legacy JSON có 600 point
+records: 178 aliases bằng entry Open, nhưng decision Close cả 600 vẫn null
+vì thiếu authenticated original snapshot. Không sửa giá/label/prediction/cache
+lịch sử. Có net contract hai chiều trong 486 R1 và 274 R4 actual archived
+Decision attempts (gồm smoke, retry/errors; không phải 760 successes hoặc
+market observations độc lập). SHA-256 prompt source khớp R4. Không gọi API mới.
+
+Appendix bỏ label log Close-to-Close sai và fictional input fields, tách
+selected runtime state khỏi evaluation schema. English Decision example sinh
+từ compact builder chỉ là minh họa; actual Vietnamese requests lưu riêng.
+Token legacy `T+2.5` cho daily L=3 không chứng nhận settlement. Canonical
+returns là fractions; aliases `actual_pct_change`/`execution_pct_change` vẫn
+lần lượt là net/gross percent, khác realised executed-account return.
+
+`outputs/revision/target_manuscript_v1/` có hai PDF, hai logs và source ZIP
+(71 files), khóa 73 source/5 output hashes. Build pdflatex, bibtex, hai lượt
+pdflatex cuối cho mỗi entrypoint; cả hai có 63 physical pages. Appendix B.1
+physical pp50–51 (printed pp48–49), selected state Table C.36 physical p55
+(printed p53), target Table C.37 physical p56 (printed p54). Trang 1–49 giữ
+extracted layout text của R4, ngoại trừ cross-reference F.38 thành F.39 ở p18;
+R1–R4 page locators giữ nguyên. Render/visual main pp50–63 và submit pp50–56
+PASS; không undefined references/citations, duplicate anchors hay tràn body/
+table. Chỉ còn warning footer elsarticle 2,61049pt đã tồn tại. PDF/ZIP/logs R4
+cũ nguyên byte; phần manuscript R5/R15 còn riêng.
+
+96 tests trong chín modules liên quan PASS: target contract (11), account
+PnL/risk, paired protocol, ablation/robustness checkpoint, alpha-target,
+prompt/token và baseline PIT/leakage. Assertions mới kiểm metadata qua các
+caller và xác nhận outcomes không vào fake decision graph. Bao phủ gap,
+zero, phí hai chiều, holiday, incomplete horizon, JSON/native types, legacy,
+cost stress không relabel và canonical tampering. Lỗi shadow biến trong
+assertion test ablation mới được sửa; cả ba ablation tests chạy lại PASS.
+Chỉ compile chín Python đã đổi; không chạy toàn suite/E2E do phạm vi không
+đòi hỏi, không viện dẫn gate cũ cho runtime mới. `jsonschema==4.24.0` chỉ pin
+audit/test offline đang có; không cài/nâng dependency.
+
+Fresh-process `PYTHONHASHSEED=17` audit `--check` kiểm 829 hashes và tái sinh
+bảy outputs nguyên byte. Gói manuscript đối soát 78 hashes và mỗi entry ZIP
+với source bytes. R11 có thay đổi, artifact, manuscript locator và supporting
+response: addressed trong phạm vi label/fields với legacy provenance unknown
+công khai, không xác nhận ngược submission/model revision hoặc khả năng sinh lời.

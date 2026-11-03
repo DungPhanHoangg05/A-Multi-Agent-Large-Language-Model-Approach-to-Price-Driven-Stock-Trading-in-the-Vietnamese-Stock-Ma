@@ -170,6 +170,11 @@ class RobustnessSweepTests(unittest.TestCase):
                     output_dir=Path(directory),
                     mode="norm",
                 )
+                for checkpoint_path in Path(directory).glob("checkpoint_*.json"):
+                    for point in json.loads(checkpoint_path.read_text(encoding="utf-8"))["test_points"]:
+                        self.assertEqual(point["label_contract_version"], "net_cycle_v1")
+                        self.assertEqual(point["label_net"], point["actual_direction"])
+                        self.assertEqual(point["decision_bar_index"] + 1, point["entry_bar_index"])
                 first_calls = dict(calls)
                 calls.update({"upstream": 0, "baseline": 0, "full": 0})
                 resumed_rows = run_shared_alpha_sweep(
