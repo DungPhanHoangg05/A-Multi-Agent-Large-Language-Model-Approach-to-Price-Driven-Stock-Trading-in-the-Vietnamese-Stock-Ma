@@ -26,3 +26,7 @@ scripts/run_revision_r4.py text eol=lf
 tests/test_revision_r4_factorial.py text eol=lf
 scripts/finalize_revision_r4.py text eol=lf
 tests/test_revision_r4_finalize.py text eol=lf
+scripts/audit_revision_lineage.py text eol=lf
+tests/test_revision_lineage.py text eol=lf
+# Source blobs lịch sử giữ nguyên cả whitespace để đối soát SHA-256.
+outputs/revision/legacy_lineage_v1/historical_sources/** -whitespace

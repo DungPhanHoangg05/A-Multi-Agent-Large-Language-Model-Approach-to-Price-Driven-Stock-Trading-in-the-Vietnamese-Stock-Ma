@@ -296,11 +296,27 @@ Không cần chạy thêm API để nghiệm thu phạm vi R4 này. Lệnh `run 
 
 **Vấn đề:** đã xác nhận trùng toàn bộ chuỗi 20 prediction ở hai cặp FPT được nêu trong mục 1.2. Summary khớp arithmetic không chứng minh branch đã chạy đúng.
 
+**D1-16 hoàn tất audit ngày 03/11/2026:** [báo cáo](revision/audit_report.md),
+[release/hash](outputs/revision/legacy_lineage_v1/manifest.json): 47 artifacts,
+30 point JSON, 66 streams/1.320 variant rows; 573 cặp cùng mã có 20 cặp trùng
+prediction đủ 20 cutoff. Trong đó 12 cặp phù hợp thiết kế shared control nhưng
+thiếu parent ID; tám cặp còn lại gồm sáu treatment/control FPT quy về hai control,
+một Full/Full FPT và một Full/Full VNM. Confidence/RR/time không trùng hoàn toàn;
+root cause, actual request/flags/prompt/model revision và execution commit legacy
+vẫn `unknown`/`unverified`. Cả 31 JSON có nội dung bằng bản Git sớm nhất còn giữ;
+hash byte hiện tại và Git blob được ghi riêng, không chuẩn hóa artifacts cũ.
+Đã khảo sát save/load, deepcopy, variant mapping và sáu source blobs lịch sử.
+**R6 vẫn mở** cho phản hồi/đối chiếu nghiệm thu comment; bảng legacy đã giới hạn
+traceability, không dùng làm attribution confirmatory. R4 corrected là evidence
+mới riêng, không xác thực ngược legacy. D2-13 vẫn pending.
+Kiểm tra mới: 9 tests auditor, compile hai Python mới và hash/tái lập release
+PASS; không chạy lại toàn suite/E2E/leakage vì runtime/PIT/prompt không đổi.
+
 **Việc cần làm**
 
-- [ ] Hash và đóng băng toàn bộ artifacts hiện tại. So sánh từng row: date, prediction, confidence, risk/reward, thời gian, errors, labels, equity, checkpoint timestamps và code commit; kiểm tra cả các mã/nhánh khác.
-- [ ] Kiểm tra luồng save/load, biến mutable, deep-copy, cờ `enable_alpha_factors`/`enable_sentiment`, checkpoint key và mọi script tạo/chuyển đổi artifacts. Truy nguyên log gốc nếu có.
-- [ ] Phân biệt reuse hợp lệ của **cùng control** trong alpha-only parameter sweep với reuse sai của một control dưới tên **treatment**. Reuse được phép phải có parent artifact ID.
+- [x] Hash và đối soát artifacts legacy hiện có trên cả chín mã, từng row/field và metadata/Git history; missing equity/request timestamp/execution commit ghi null/unknown, không điền từ cấu hình hiện tại. Xem release D1-16.
+- [x] Khảo sát save/load, deepcopy, flags, checkpoint key và variant mapping ở source lịch sử đã khóa; không có log/request liên kết trong ba cây legacy, conversion ngoài Git chưa thể xác minh.
+- [x] Tách 12 cặp intended shared control khỏi tám cặp trùng chưa xác minh; legacy thiếu parent ID nên không chứng nhận reuse hợp lệ chỉ từ source hoặc prediction giống nhau.
 - [ ] Thiết kế cache key bao gồm data-content hash, full config, prompt template, branch, code/schema version, model revision, cutoff và repeat; từ chối resume thiếu hoặc khác hash. Chỉ so `data_start/data_end` không đủ để khóa snapshot.
 - [ ] Archive actual rendered prompt, reports đầu vào, raw response và parsed decision cho từng call; replay parser/metrics độc lập.
 - [ ] Nếu không đủ bằng chứng xác nhận legacy branches, ghi rõ không thể xác minh, bỏ bảng 9 khỏi confirmatory evidence và chạy lại toàn bộ ablation từ đầu. Không sửa label thủ công hoặc viện lý do “trùng ngẫu nhiên” khi thiếu log.
@@ -529,7 +545,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D1-13 | Test phần thay đổi và caller bị ảnh hưởng | D1-10/12 | done | 14 profile +8 four-way +14 leakage/ledger +3 token-budget PASS; scoped compile PASS | Bổ sung ca mới, chạy đúng phần chịu ảnh hưởng; không lặp toàn suite |
 | D1-14 | Smoke thật một cặp/org | D1-13 | done | Năm smoke markers/10 decisions thật đã replay; quota capacity/org identity không được suy đoán | 2 vision+2 Decision/org; xác nhận model/quota/tokens, không sửa key setup |
 | D1-15 | Freeze runtime, chạy lô 1 | D1-14 | done | Runtime/amendment giữ nguyên; đã đủ 474/474 research decisions | Source/input hashes cố định; jobs đăng ký |
-| D1-16 | Hoàn thiện audit duplication/lineage legacy | S0 | pending | Đã xác nhận hai cặp chuỗi FPT trùng; còn nguồn request/branch chưa rõ | Đối soát phần còn thiếu ở các nhánh; không nhận provenance bằng suy đoán |
+| D1-16 | Hoàn thiện audit duplication/lineage legacy | S0 | done | [Audit](revision/audit_report.md), [manifest](outputs/revision/legacy_lineage_v1/manifest.json): 47 artifacts/66 streams/573 cặp; 12 intended-control +8 unverified duplicates; 9 tests/compile/hash replay PASS | Audit đủ các nhánh/mã; request/branch root cause unknown được bàn giao rõ, không suy provenance; R6/D2-13 chưa đóng |
 | D2-01 | Kiểm lô 1/quota | D1-15 | done | Đã đối soát 384 attempts/8 errors và provider resets; bỏ cap nội bộ theo tác giả | Coverage/failure/shard; không đổi mẫu theo outcome |
 | D2-02 | Chạy lô 2/resume | D2-01 | done | Đã resume đủ các jobs, không gọi lại node/response thành công | Không lặp request thành công/repeats giả |
 | D2-03 | Tái dùng baseline, bổ sung input/fold cho 102 points | D1-07 | done | [numeric release](outputs/revision/r1_72h_bank_v2/numeric/manifest.json): 714 predictions/408 ledgers/420 hashes PASS | Trích subset còn khớp; refit/recompute chỉ fold, scorer hoặc input đã đổi |
