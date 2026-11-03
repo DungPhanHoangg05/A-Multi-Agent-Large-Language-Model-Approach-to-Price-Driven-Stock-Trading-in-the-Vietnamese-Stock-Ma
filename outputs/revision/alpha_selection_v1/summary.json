@@ -1,0 +1,79 @@
+{
+  "result": "PASS_NATIVE_DIAGNOSTIC_AUDIT",
+  "scope": "Native in-sample scores; không walk-forward/unbiased/confirmatory evidence",
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "scipy": "1.16.1",
+    "TA-Lib": "0.6.8"
+  },
+  "main_cutoffs": 102,
+  "symbols": 9,
+  "blocks": 6,
+  "registered_candidates": 85,
+  "registered_opportunities": 8670,
+  "diagnostic_eligible_opportunities": 8670,
+  "selected_slots_verified": 510,
+  "diagnostic_eligible_per_cutoff_range": [
+    85,
+    85
+  ],
+  "selected_negative_ic_slots": 133,
+  "selected_ineligible_slots": 0,
+  "handler_errors": 0,
+  "transitions": {
+    "within_block": 51,
+    "between_blocks": 42
+  },
+  "transition_scope_means": {
+    "within_block": {
+      "count": 51,
+      "basket_replacement_turnover": 0.38823529411764707,
+      "registry_spearman": 0.6819352638456204
+    },
+    "between_blocks": {
+      "count": 42,
+      "basket_replacement_turnover": 0.4714285714285714,
+      "registry_spearman": 0.6051267018435281
+    }
+  },
+  "pooled_mean_basket_replacement_turnover": 0.42580645161290326,
+  "pooled_mean_registry_spearman": 0.6472475261672561,
+  "macro_unweighted_symbols": {
+    "symbols": 9,
+    "basket_replacement_turnover": 0.4072727272727273,
+    "registry_spearman": 0.6580210547926006
+  },
+  "volume": {
+    "real_volume_cutoffs": 102,
+    "proxy_volume_cutoffs": 0,
+    "raw_volume_missing_observations": 0,
+    "raw_volume_zero_observations": 174,
+    "raw_price_missing_observations": 0,
+    "raw_volume_observation_opportunities": 61200
+  },
+  "price_provenance": {
+    "source": "vnstock/VCI",
+    "status": "new_retrieval_not_authenticated_historical_run_snapshot",
+    "adjustment_policy": "vendor_returned_series; action/dividend ledger unavailable",
+    "calendar_policy": "observed vendor daily sessions; not independently certified exchange calendar",
+    "price_unit": "vendor quote units; relative-return ledger uses consistent units"
+  },
+  "definitions": {
+    "diagnostic_eligible": "Handler không lỗi; >=20 raw-finite paired observations, raw không constant và Spearman normalized/label xác định. Chỉ mẫu số audit, không lọc/rerank native.",
+    "native_ranking": "Mọi registered candidate vẫn vào ranking; warm-up/zero-fill/constant-IC=0 và lỗi n=0 không bị che bằng diagnostic eligibility.",
+    "ic_sign": "Dấu IC native làm tròn bốn chữ số dùng cho flip; IC undefined ghi null dù native thay bằng zero.",
+    "frequency": "selected_count/cutoffs; share=selected_count/(5×cutoffs); selected_given_eligible có mẫu số eligible riêng.",
+    "rank_stability": "Spearman trên composites cùng universe, ties average; báo thêm common diagnostic-eligible support, constant/thiếu support=null.",
+    "basket_turnover": "1−|top5_prev∩top5_next|/5 giữa hai cutoffs liền kề cùng mã; within/between block tách riêng, không phải daily trading turnover.",
+    "history_turnover": "Tỷ lệ đổi trạng thái {-1,0,+1} và toggle LONG/CASH (oriented normalized >0.1) trên adjacent bars trong prefix. Không ledger, không đo fill, không annualize.",
+    "dependence": "Prefix600 và cutoffs chồng lấn; các transitions không độc lập, không p-value hoặc chứng minh stability phổ quát."
+  },
+  "limits": [
+    "Native row-wise causal gate T10 vẫn FAIL; outer-cutoff isolation không làm training-window scores thành out-of-sample.",
+    "Không chọn thresholds/hyperparameters/seed/cutoffs từ outcome, không dùng outer-test labels hoặc LLM predictions; không thay đầu vào queue.",
+    "Giá là snapshot tái thu thập đã khóa, không xác thực ngược submission hoặc corporate actions; volume shares/lots chưa xác thực.",
+    "T12/T13 phải khóa causal preprocessing/train-validation purge riêng; T11 không chứng minh selector tạo alpha/profitability hoặc LLM superiority."
+  ]
+}
