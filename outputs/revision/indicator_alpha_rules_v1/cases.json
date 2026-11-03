@@ -1,0 +1,598 @@
+{
+  "alpha4_cases": [
+    {
+      "id": "b0.25_z-1",
+      "legacy_interpretation": "BB %B=0.25, Z-Score(Vol, 5)=-1.00. Upper-band breakout confirmed by volume",
+      "pct_b": 0.25,
+      "signal": "TĂNG",
+      "value": 0.3584,
+      "vol_z5": -1
+    },
+    {
+      "id": "b0.25_z0",
+      "legacy_interpretation": "BB %B=0.25, Z-Score(Vol, 5)=+0.00. No clear band squeeze yet",
+      "pct_b": 0.25,
+      "signal": "TRUNG TÍNH",
+      "value": -0.0,
+      "vol_z5": 0
+    },
+    {
+      "id": "b0.25_z1",
+      "legacy_interpretation": "BB %B=0.25, Z-Score(Vol, 5)=+1.00. Lower-band pressure confirmed by volume",
+      "pct_b": 0.25,
+      "signal": "GIẢM",
+      "value": -0.3584,
+      "vol_z5": 1
+    },
+    {
+      "id": "b0.5_z-1",
+      "legacy_interpretation": "BB %B=0.50, Z-Score(Vol, 5)=-1.00. No clear band squeeze yet",
+      "pct_b": 0.5,
+      "signal": "TRUNG TÍNH",
+      "value": -0.0,
+      "vol_z5": -1
+    },
+    {
+      "id": "b0.5_z0",
+      "legacy_interpretation": "BB %B=0.50, Z-Score(Vol, 5)=+0.00. No clear band squeeze yet",
+      "pct_b": 0.5,
+      "signal": "TRUNG TÍNH",
+      "value": 0.0,
+      "vol_z5": 0
+    },
+    {
+      "id": "b0.5_z1",
+      "legacy_interpretation": "BB %B=0.50, Z-Score(Vol, 5)=+1.00. No clear band squeeze yet",
+      "pct_b": 0.5,
+      "signal": "TRUNG TÍNH",
+      "value": 0.0,
+      "vol_z5": 1
+    },
+    {
+      "id": "b0.75_z-1",
+      "legacy_interpretation": "BB %B=0.75, Z-Score(Vol, 5)=-1.00. Lower-band pressure confirmed by volume",
+      "pct_b": 0.75,
+      "signal": "GIẢM",
+      "value": -0.3584,
+      "vol_z5": -1
+    },
+    {
+      "id": "b0.75_z0",
+      "legacy_interpretation": "BB %B=0.75, Z-Score(Vol, 5)=+0.00. No clear band squeeze yet",
+      "pct_b": 0.75,
+      "signal": "TRUNG TÍNH",
+      "value": 0.0,
+      "vol_z5": 0
+    },
+    {
+      "id": "b0.75_z1",
+      "legacy_interpretation": "BB %B=0.75, Z-Score(Vol, 5)=+1.00. Upper-band breakout confirmed by volume",
+      "pct_b": 0.75,
+      "signal": "TĂNG",
+      "value": 0.3584,
+      "vol_z5": 1
+    },
+    {
+      "id": "small_z-0.01",
+      "legacy_interpretation": "BB %B=0.75, Z-Score(Vol, 5)=-0.01. No clear band squeeze yet",
+      "pct_b": 0.75,
+      "signal": "TRUNG TÍNH",
+      "value": -0.0037,
+      "vol_z5": -0.01
+    },
+    {
+      "id": "small_z0.01",
+      "legacy_interpretation": "BB %B=0.75, Z-Score(Vol, 5)=+0.01. No clear band squeeze yet",
+      "pct_b": 0.75,
+      "signal": "TRUNG TÍNH",
+      "value": 0.0037,
+      "vol_z5": 0.01
+    }
+  ],
+  "consensus_cases": [
+    {
+      "breakdown": {
+        "macd": "TRUNG_TÍNH",
+        "roc": "TRUNG_TÍNH",
+        "rsi": "TRUNG_TÍNH",
+        "stoch": "TRUNG_TÍNH",
+        "willr": "TRUNG_TÍNH"
+      },
+      "confidence": "Thấp",
+      "consensus": "HỖN HỢP",
+      "id": "neutral",
+      "n_giam": 0,
+      "n_tang": 0,
+      "n_trung": 5,
+      "total": 5
+    },
+    {
+      "breakdown": {
+        "macd": "TRUNG_TÍNH",
+        "roc": "GIẢM",
+        "rsi": "TĂNG",
+        "stoch": "TRUNG_TÍNH",
+        "willr": "TRUNG_TÍNH"
+      },
+      "confidence": "Thấp",
+      "consensus": "HỖN HỢP",
+      "id": "tie",
+      "n_giam": 1,
+      "n_tang": 1,
+      "n_trung": 3,
+      "total": 5
+    },
+    {
+      "breakdown": {
+        "macd": "TRUNG_TÍNH",
+        "roc": "TRUNG_TÍNH",
+        "rsi": "TĂNG",
+        "stoch": "TRUNG_TÍNH",
+        "willr": "TRUNG_TÍNH"
+      },
+      "confidence": "Thấp",
+      "consensus": "TĂNG",
+      "id": "plurality",
+      "n_giam": 0,
+      "n_tang": 1,
+      "n_trung": 4,
+      "total": 5
+    },
+    {
+      "breakdown": {
+        "macd": "TRUNG_TÍNH",
+        "roc": "TĂNG",
+        "rsi": "TĂNG",
+        "stoch": "TRUNG_TÍNH",
+        "willr": "TĂNG"
+      },
+      "confidence": "Trung bình",
+      "consensus": "TĂNG",
+      "id": "three",
+      "n_giam": 0,
+      "n_tang": 3,
+      "n_trung": 2,
+      "total": 5
+    },
+    {
+      "breakdown": {
+        "macd": "TRUNG_TÍNH",
+        "roc": "TĂNG",
+        "rsi": "TĂNG",
+        "stoch": "TĂNG",
+        "willr": "TĂNG"
+      },
+      "confidence": "Cao",
+      "consensus": "TĂNG",
+      "id": "four",
+      "n_giam": 0,
+      "n_tang": 4,
+      "n_trung": 1,
+      "total": 5
+    }
+  ],
+  "indicator_cases": [
+    {
+      "expected": "TĂNG",
+      "id": "rsi_29.9999",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_30",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_30.0001",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_44.9999",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_45",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "rsi_45.0001",
+      "indicator": "rsi",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "rsi_54.9999",
+      "indicator": "rsi",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_55",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_55.0001",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_69.9999",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_70",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_70.0001",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_mid_rise",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_mid_fall",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "rsi_mid_flat",
+      "indicator": "rsi",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "rsi_mid_short",
+      "indicator": "rsi",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "rsi_overbought_overrides_rise",
+      "indicator": "rsi",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_oversold_overrides_fall",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "rsi_clean_and_round",
+      "indicator": "rsi",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "macd_cross_up_over_negative",
+      "indicator": "macd",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "macd_cross_down_over_positive",
+      "indicator": "macd",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "macd_previous_equal_no_cross",
+      "indicator": "macd",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "macd_positive_expands",
+      "indicator": "macd",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "macd_positive_equal",
+      "indicator": "macd",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "macd_positive_contracts",
+      "indicator": "macd",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "macd_negative_expands",
+      "indicator": "macd",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "macd_negative_equal",
+      "indicator": "macd",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "macd_negative_contracts",
+      "indicator": "macd",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "macd_hist_zero",
+      "indicator": "macd",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "macd_short_hist_only",
+      "indicator": "macd",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "stoch_up_cross_overbought",
+      "indicator": "stoch",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "stoch_down_cross_oversold",
+      "indicator": "stoch",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "stoch_high_boundary",
+      "indicator": "stoch",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "stoch_low_boundary",
+      "indicator": "stoch",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "stoch_middle_above",
+      "indicator": "stoch",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "stoch_middle_below",
+      "indicator": "stoch",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "stoch_middle_equal",
+      "indicator": "stoch",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "stoch_zero_d_truthiness",
+      "indicator": "stoch",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "stoch_short_middle",
+      "indicator": "stoch",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "stoch_short_low",
+      "indicator": "stoch",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "stoch_short_high",
+      "indicator": "stoch",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "willr_-80.0001",
+      "indicator": "willr",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "willr_-80",
+      "indicator": "willr",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "willr_-79.9999",
+      "indicator": "willr",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "willr_-20.0001",
+      "indicator": "willr",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "willr_-20",
+      "indicator": "willr",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "willr_-19.9999",
+      "indicator": "willr",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "willr_middle_rise",
+      "indicator": "willr",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "willr_middle_fall",
+      "indicator": "willr",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "willr_middle_flat",
+      "indicator": "willr",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "willr_middle_short",
+      "indicator": "willr",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "GIẢM",
+      "id": "roc_-0.5001",
+      "indicator": "roc",
+      "observed": "GIẢM"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "roc_-0.5",
+      "indicator": "roc",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "roc_0",
+      "indicator": "roc",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "roc_0.5",
+      "indicator": "roc",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TĂNG",
+      "id": "roc_0.5001",
+      "indicator": "roc",
+      "observed": "TĂNG"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "roc_0.50004",
+      "indicator": "roc",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "macd_missing",
+      "indicator": "macd",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "macd_error",
+      "indicator": "macd",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "rsi_missing",
+      "indicator": "rsi",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "rsi_error",
+      "indicator": "rsi",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "roc_missing",
+      "indicator": "roc",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "roc_error",
+      "indicator": "roc",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "stoch_missing",
+      "indicator": "stoch",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "stoch_error",
+      "indicator": "stoch",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "willr_missing",
+      "indicator": "willr",
+      "observed": "TRUNG_TÍNH"
+    },
+    {
+      "expected": "TRUNG_TÍNH",
+      "id": "willr_error",
+      "indicator": "willr",
+      "observed": "TRUNG_TÍNH"
+    }
+  ],
+  "registry_cases": [
+    {
+      "expected_value": -0.6420739953087535,
+      "id": "negative",
+      "value": -0.6420739953087531,
+      "vol_z5": -1.2649110640673518
+    },
+    {
+      "expected_value": 0.0,
+      "id": "zero",
+      "value": 0.0,
+      "vol_z5": 0.0
+    },
+    {
+      "expected_value": 0.7706475945070886,
+      "id": "positive",
+      "value": 0.7706475945070881,
+      "vol_z5": 1.697056274847714
+    }
+  ]
+}

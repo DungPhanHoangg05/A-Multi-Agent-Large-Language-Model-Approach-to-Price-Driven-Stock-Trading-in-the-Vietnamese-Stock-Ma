@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Synthetic signed-volume examples for the unchanged custom $\alpha_4$.}
+\label{tab:alpha4_signed_cases}
+\begin{tabular}{rrrrl}\hline
+$\%B$ & $\mathrm{VolZ}_5$ & Raw product & $\tanh(\mathrm{raw})$ & Signal \\\hline
+0.25 & -1 & +0.375 & +0.3584 & BULLISH \\
+0.25 & +0 & -0.000 & -0.0000 & NEUTRAL \\
+0.25 & +1 & -0.375 & -0.3584 & BEARISH \\
+0.50 & -1 & -0.000 & -0.0000 & NEUTRAL \\
+0.50 & +0 & +0.000 & +0.0000 & NEUTRAL \\
+0.50 & +1 & +0.000 & +0.0000 & NEUTRAL \\
+0.75 & -1 & -0.375 & -0.3584 & BEARISH \\
+0.75 & +0 & +0.000 & +0.0000 & NEUTRAL \\
+0.75 & +1 & +0.375 & +0.3584 & BULLISH \\
+\hline\end{tabular}
+\par\smallskip\footnotesize Arithmetic fixtures, not market observations or performance estimates. Signals use the prototype's strict $\pm0.10$ thresholds before value rounding. Negative volume z-scores reverse sign; zero volume z-score or $\%B=0.5$ suppresses the interaction. No band-width squeeze gate is present.
+\end{table}

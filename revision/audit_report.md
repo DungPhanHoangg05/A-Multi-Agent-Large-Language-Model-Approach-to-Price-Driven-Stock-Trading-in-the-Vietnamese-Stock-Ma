@@ -509,3 +509,70 @@ bảy outputs nguyên byte. Gói manuscript đối soát 78 hashes và mỗi ent
 với source bytes. R11 có thay đổi, artifact, manuscript locator và supporting
 response: addressed trong phạm vi label/fields với legacy provenance unknown
 công khai, không xác nhận ngược submission/model revision hoặc khả năng sinh lời.
+
+
+## D2-09 — Indicator rules và custom Alpha_4 (03/11/2026)
+
+Phạm vi là prose, schema description, hình pipeline và bằng chứng biên;
+không sửa module runtime, công thức, toolkit, prompt hay đầu vào thí nghiệm.
+Chín nguồn indicator/alpha/state/Decision/registry/toolkit/graph/i18n/selector
+khớp SHA-256 R4. Giới hạn kiểm tra này chỉ áp dụng cho chín file được nêu,
+không tuyên bố toàn runtime hiện tại là phiên bản R4 cũ.
+
+Table 1 và Appendix E theo đúng ưu tiên classifier: RSI >=70 bearish,
+<=30 bullish, 55–70 bullish và 30–45 bearish với endpoints tường minh.
+Vùng 45<RSI<55 so giá trị hiện tại với giá trị retained thứ ba từ cuối,
+không mặc định neutral. Mỗi list lọc nonfinite và round bốn chữ số trước
+phân loại nên không gọi các retained samples là nến liền nhau khi thiếu dữ
+liệu. MACD crossover ưu tiên hơn histogram, equality không phải previous
+cross, histogram bằng nhau giữ hướng. Stochastic cross ưu tiên extreme;
+fallback giữa vùng giữ nguyên equality/zero-D truthiness legacy. Williams
+threshold ưu tiên trend; ROC strict ±0,5% và equality neutral. Missing/error
+neutral vẫn ở denominator năm; không coi đó là neutral market evidence.
+Consensus là directional plurality, tie MIXED; confidence không phải xác suất.
+
+Chạy toolkit thật trên OHLCV tổng hợp xác nhận chỉ năm compute tools được
+gọi, node chỉ trả `indicator_report`/`messages`, không ghi mảng numeric kể cả
+năm indicator. BB/ADX là declared slots, không là hai votes phụ; BB được
+tính riêng ở alpha, ADX không được node Indicator gọi/forward. Report counts
+được tạo bằng Python; backtest không gọi Indicator LLM, live prompt yêu cầu
+copy count nhưng không chứng nhận model tuân thủ hoàn hảo.
+
+Alpha_4 giữ `tanh((%B-0.5)*VolZ5*1.5)`: z âm đảo dấu, z=0 hoặc %B=0,5
+triệt tiêu. Không có gate band-width squeeze, temporal crossing hay positive
+volume expansion. Prototype threshold ±0,10 strict trước display rounding;
+registry có sample-SD preprocessing khác prototype population-SD/rounded
+features, được kiểm riêng bằng NumPy array oracle. Không đồng nhất mọi giá
+trị hai implementation. Tên/interpretation legacy còn nguyên trong metadata/
+prompts và được audit xuất rõ, không dùng các câu “confirmed by volume” để
+thay nghĩa công thức. Custom thay proprietary ở TeX, Figure 1 dùng vector
+LaTeX mới; PNG lịch sử không bị sửa. Flow/liquidity/pressure chỉ là OHLCV
+proxy, không có signed trades/order book/queue/institutional-flow inputs.
+
+Release `outputs/revision/indicator_alpha_rules_v1/` có ba outputs, 13 source
+hashes (16 hashes cả outputs). Fixture JSON gồm 67 indicator, năm consensus,
+11 prototype và ba registry cases, tổng 86 synthetic cases. Chúng là oracle
+số học/branch, không phải market observations hoặc predictive-performance
+mới. Bảy unit tests PASS, gồm fixture mismatch fail-closed, nguồn R4, tính
+tái lập, signed examples và toolkit/report-only path. Chỉ compile hai Python
+mới. Không chạy lại full suite/E2E/leakage vì không đổi runtime/data/PIT/
+retrieval; không dùng test thay bằng chứng LLM thực nghiệm.
+
+Release `outputs/revision/indicator_alpha_manuscript_v1/` có hai PDF, hai
+build logs và source ZIP 70 files, khóa 72 source/5 output hashes. Build
+pdflatex/bibtex/hai lượt pdflatex cuối mỗi entrypoint; main 65 physical pages,
+submit 64. Locators physical: Table 1 main14/submit13; custom prose/Table 2
+p15, vector Figure 1 p16 cả hai; state C.36 main56/submit55; Alpha_4 main58–59/
+submit57–58; signed Table D.38 main59/submit58; classifier Appendix E main59–60/
+submit58–59. Manifest có mapping printed/physical labels cho các nội dung cũ
+và mới; không tái gán locators của archived release vào PDF hiện tại.
+
+Render/visual main pp5–17/56–62 và submit pp13–16/55–61 PASS. Không clipping,
+body/table overflow, undefined references/citations hay duplicate anchors;
+chỉ còn footer overfull 2,61049pt elsarticle cũ. Text PDF không còn proprietary.
+Sources sections 01/05/06/07/08 khớp bản trước, không đổi kết quả/claims thực
+nghiệm. Các gói cũ được kiểm nguyên output hashes, không chỉnh artifacts.
+Fresh-process `PYTHONHASHSEED=17 --check` tái lập ba audit outputs; gói mới
+đối soát 77 hashes và 70 ZIP entries. R12/R13 có thay đổi, artifact, manuscript
+locators và response. Việc chứng minh alpha/novelty, registry selection R10,
+chart R14 và execution R15 vẫn là phạm vi riêng.

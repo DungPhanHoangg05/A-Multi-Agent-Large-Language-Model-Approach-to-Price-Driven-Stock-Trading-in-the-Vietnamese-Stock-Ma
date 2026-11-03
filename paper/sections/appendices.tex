@@ -304,7 +304,7 @@ Write the report using this template:
 \subsection{Alpha Agent LLM Reasoning Prompt}
 \label{app:prompt_alpha}
 
-After computing the five alpha factors programmatically, the Alpha Agent invokes the text LLM to synthesise a qualitative interpretation. The prompt template is:
+In live/prototype mode the Alpha Agent may invoke the text LLM after computing quantitative factors; the backtest uses deterministic factor evidence. The following legacy prompt illustration retains the words ``order flow as source wording. Its inputs are OHLCV proxies, not measured signed trades or order-book flow:
 
 \begin{framed}
 \begin{small}
@@ -361,7 +361,7 @@ The pipeline uses \texttt{IndicatorAgentState}, a Python \texttt{TypedDict}. Tab
 \texttt{pattern\_image} & \texttt{str} & Base64-encoded candlestick chart PNG \\
 \texttt{trend\_image} & \texttt{str} & Base64-encoded trendline-annotated chart PNG \\
 \hline
-\multicolumn{3}{|l|}{\textit{Indicator Agent outputs}} \\
+\multicolumn{3}{|l|}{\textit{Declared indicator arrays (not populated by this node)}} \\
 \hline
 \texttt{rsi} & \texttt{List[float]} & RSI values (period 14) \\
 \texttt{macd, macd\_signal, macd\_hist} & \texttt{List[float]} & MACD line, signal, histogram (12, 26, 9) \\
@@ -370,7 +370,10 @@ The pipeline uses \texttt{IndicatorAgentState}, a Python \texttt{TypedDict}. Tab
 \texttt{willr} & \texttt{List[float]} & Williams \%R (period 14) \\
 \texttt{bb\_upper, bb\_middle, bb\_lower} & \texttt{List[float]} & Bollinger Bands (20, 2) \\
 \texttt{adx, plus\_di, minus\_di} & \texttt{List[float]} & ADX and directional indicators \\
-\texttt{indicator\_report} & \texttt{str} & Markdown summary with consensus \\
+\hline
+\multicolumn{3}{|l|}{\textit{Actual Indicator Agent output}} \\
+\hline
+\texttt{indicator\_report} & \texttt{str} & Report with five-indicator consensus \\
 \hline
 \multicolumn{3}{|l|}{\textit{Alpha Agent outputs}} \\
 \hline
@@ -425,10 +428,10 @@ The DAG is constructed in \texttt{graph\_setup.py} using the LangGraph \texttt{S
 During evaluation, graph execution is split into a variant-independent upstream graph and variant-specific decision graphs. Indicator, Pattern, and Trend run once per exact cutoff; the resulting state is deep-copied into Full, Alpha-only, Sentiment-only, and Baseline branches as required by the experiment. This shared-artifact topology prevents Alpha settings from changing the No-Alpha evidence snapshot.
 
 
-\section{Proprietary Alpha Formula Implementation}
+\section{Custom Alpha Formula Implementation}
 \label{app:alpha_impl}
 
-This appendix provides the exact Python implementation of the five proprietary alpha formulas listed in Table~\ref{tab:proprietary_alphas}. All formulas operate on the technical variables extracted from the OHLCV window by the function \texttt{\_extract\_tech\_vars()}.
+This appendix shows the computational cores of the five custom alpha formulas listed in Table~\ref{tab:custom_alphas}; the snippets omit metadata and are not complete function declarations. All formulas operate on the technical variables extracted from the OHLCV window by the function \texttt{\_extract\_tech\_vars()}.
 
 \subsection{$\alpha_1$: Flow-Driven Momentum (FDM)}
 
@@ -486,7 +489,12 @@ def _alpha4_bfe(tv: dict) -> dict:
 \end{verbatim}
 \end{small}
 
-This formula fires when price breaks above/below the Bollinger midline ($\%B \ne 0.5$) with confirming volume expansion ($|Z_{\mathrm{vol}}| > 0$). The multiplicative interaction ensures both conditions must co-occur.
+This is a signed interaction, not a positive-volume confirmation gate. For $\%B>0.5$, positive $\mathrm{VolZ}_5$ yields a positive value and negative $\mathrm{VolZ}_5$ yields a negative value; for $\%B<0.5$ these directions reverse. Either $\%B=0.5$ or $\mathrm{VolZ}_5=0$ gives zero. Nonzero absolute volume z-score only means a deviation from its reference mean, not expansion. Neither band width nor a preceding crossing is tested. The prototype classifies the unrounded value as BULLISH if $v>0.10$, BEARISH if $v<-0.10$, and NEUTRAL otherwise, then displays four decimals.
+
+\input{generated/alpha4_signed_cases.tex}
+\FloatBarrier
+
+Both the prototype and registry retain this algebraic interaction. Their preprocessing differs: the prototype uses its own population-standard-deviation helpers and rounded extracted features, whereas the rolling registry uses sample standard deviations. The synthetic registry oracle checks that implementation separately; identical general preprocessing or all reported factor values is not claimed. Legacy breakout/squeeze wording in metadata or prompts does not override the signed formula. No formula or archived prediction has been changed.
 
 \subsection{$\alpha_5$: Order Flow Exhaustion (OFE)}
 
@@ -500,64 +508,31 @@ def _alpha5_ofe(tv: dict) -> dict:
 \end{verbatim}
 \end{small}
 
-Where \texttt{close\_pos} $\in [-0.5, 0.5]$ measures where the closing price falls within the intra-bar range, centred at zero. A positive \texttt{close\_pos} with positive momentum confirms buying pressure; the $\times 3.0$ amplification increases signal responsiveness.
+Where \texttt{close\_pos} $\in [-0.5, 0.5]$ measures where the closing price falls within the intra-bar range, centred at zero. A positive \texttt{close\_pos} with positive momentum produces a positive price-action proxy; it does not establish measured buying pressure; the $\times 3.0$ amplification increases signal responsiveness.
 
 
 \section{Indicator Signal Classification Logic}
 \label{app:indicator_classify}
 
-Section~\ref{sec:systemarchitecture} describes the Indicator Agent's deterministic signal classification. This appendix provides the exact classification logic implemented in Python (function \texttt{\_classify\_signals}), which is injected into the LLM prompt as immutable ground truth.
+The following rules describe \texttt{\_classify\_signals} in execution order. Lists are independently filtered to finite values and rounded to four decimals before classification. Subscripts below refer to the last retained values, not necessarily adjacent bars when inputs have missing values. Missing/error indicators vote NEUTRAL and remain in the five-vote denominator; this fallback is not evidence of neutral market conditions. The live prompt requires the supplied signals/counts to be copied, while the backtest uses the deterministic report directly.
 
 \subsection{MACD Classification}
-
-\begin{enumerate}
-\item \textbf{Priority 1 --- Crossover detection}: If $\mathrm{MACD}_{t-1} < \mathrm{Signal}_{t-1}$ and $\mathrm{MACD}_t \geq \mathrm{Signal}_t$, classify as BULLISH (Golden Cross). Conversely, classify as BEARISH (Death Cross).
-\item \textbf{Priority 2 --- Histogram direction}: If no crossover occurred, classify based on histogram sign and trend (expanding or contracting).
-\end{enumerate}
+First test $m_{-1}<s_{-1}$ and $m_0\geq s_0$ for BULLISH, then $m_{-1}>s_{-1}$ and $m_0\leq s_0$ for BEARISH. Equality on the previous value is not a crossover. Without a cross, $h_0>0$ is BULLISH only if $h_0\geq h_{-1}$ (or no previous histogram exists); $h_0<0$ is BEARISH only if $h_0\leq h_{-1}$. Contraction or zero is NEUTRAL. If fewer than two MACD/signal values exist, a finite histogram's sign alone is used. Missing histogram without a cross yields NEUTRAL.
 
 \subsection{RSI Classification}
-
-\begin{itemize}
-\item $\mathrm{RSI} \leq 30$: BULLISH (oversold bounce expected)
-\item $\mathrm{RSI} \geq 70$: BEARISH (overbought pullback expected)
-\item $55 \leq \mathrm{RSI} < 70$: BULLISH (positive momentum)
-\item $30 < \mathrm{RSI} \leq 45$: BEARISH (negative momentum)
-\item Otherwise: NEUTRAL
-\end{itemize}
+Test in order: $r_0\geq70$ gives BEARISH; $r_0\leq30$ gives BULLISH; $55\leq r_0<70$ gives BULLISH; $30<r_0\leq45$ gives BEARISH. In $45<r_0<55$, at least three retained values are required: compare $r_0$ with $r_{-2}$ for BULLISH/BEARISH when greater/less; equality or insufficient history gives NEUTRAL. The earlier ``otherwise NEUTRAL'' description omitted this trend fallback.
 
 \subsection{Stochastic Oscillator Classification}
-
-\begin{enumerate}
-\item \textbf{Priority 1 --- \%K/\%D crossover}: \%K crossing above \%D $\rightarrow$ BULLISH; \%K crossing below \%D $\rightarrow$ BEARISH.
-\item \textbf{Priority 2 --- Extreme zones}: $\%K \geq 80$ $\rightarrow$ BEARISH (overbought); $\%K \leq 20$ $\rightarrow$ BULLISH (oversold).
-\item \textbf{Otherwise}: Compare current \%K vs \%D position.
-\end{enumerate}
+With two K/D values, test $K_{-1}<D_{-1}$ and $K_0\geq D_0$ for BULLISH, then $K_{-1}>D_{-1}$ and $K_0\leq D_0$ for BEARISH. Crossovers override extreme zones. Otherwise test $K_0\geq80$ for BEARISH, then $K_0\leq20$ for BULLISH. In the middle zone, the current implementation returns BULLISH only when both current K/D are truthy and $K_0>D_0$; all other middle-zone cases, including equality or $D_0=0$, return BEARISH. This is a documented legacy fallback, not a recommended zero-handling convention. With fewer than two K/D values, only extreme-zone rules apply and the middle zone is NEUTRAL; absent K is NEUTRAL.
 
 \subsection{Williams \%R Classification}
-
-\begin{itemize}
-\item $\%R \geq -20$: BEARISH (overbought, near 0)
-\item $\%R \leq -80$: BULLISH (oversold, near $-100$)
-\item Neutral zone: Classify based on 3-bar trend direction (improving toward 0 $\rightarrow$ BULLISH; deteriorating toward $-100$ $\rightarrow$ BEARISH).
-\end{itemize}
+First $w_0\geq-20$ gives BEARISH, then $w_0\leq-80$ gives BULLISH. In $-80<w_0<-20$, compare $w_0$ and $w_{-2}$ when at least three retained values exist: greater gives BULLISH, less BEARISH; equality or insufficient history gives NEUTRAL. Extreme thresholds override this trend rule.
 
 \subsection{ROC Classification}
-
-\begin{itemize}
-\item $\mathrm{ROC} > +0.5\%$: BULLISH
-\item $\mathrm{ROC} < -0.5\%$: BEARISH
-\item Otherwise: NEUTRAL
-\end{itemize}
-
+ROC is in percentage units: $r_0>+0.5\%$ gives BULLISH; $r_0<-0.5\%$ gives BEARISH. Equality at either boundary, missing values and the interior interval give NEUTRAL. Four-decimal cleaning precedes the comparison.
 
 \subsection{Consensus Rule}
-
-The overall consensus is determined by majority vote over the five indicators:
-\begin{itemize}
-\item $\geq 4$ agreement $\rightarrow$ High confidence
-\item $3$ agreement $\rightarrow$ Medium confidence
-\item Otherwise $\rightarrow$ Low confidence
-\end{itemize}
+All five indicators contribute to the count, including missing/error NEUTRAL votes. More bullish than bearish votes gives BULLISH; more bearish gives BEARISH; equal counts give MIXED. A directional count of at least four gives High confidence, three Medium, and a smaller directional plurality Low. A tie always has Low confidence. These are deterministic labels, not calibrated probabilities. The release provides 67 indicator boundary/fallback cases, five consensus cases, eleven prototype Alpha\_4 cases and three independent registry oracles; these synthetic cases are not market-performance observations.
 
 \section{Software Dependencies and Reproducibility}
 \label{app:dependencies}

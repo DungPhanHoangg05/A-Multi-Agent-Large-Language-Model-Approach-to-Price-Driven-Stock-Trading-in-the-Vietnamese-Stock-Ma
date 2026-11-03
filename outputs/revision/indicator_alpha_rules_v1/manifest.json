@@ -1,0 +1,78 @@
+{
+  "outputs": [
+    {
+      "path": "cases.json",
+      "sha256": "3a86d1ee364d812bc6b5a8ea385d8090446052456c41cc8d19f11aacb32ad347"
+    },
+    {
+      "path": "report.json",
+      "sha256": "0fac2ff92ffed44c7bded2c31bd61a71aa8afc5a9a751fd82bf1a05a51e02c54"
+    },
+    {
+      "path": "alpha4_signed_cases.tex",
+      "sha256": "5ed8f6b54abf1198d21a9bd880dbf634c929452c0af1c16190df412dcb005303"
+    }
+  ],
+  "runtime": {
+    "langchain_core": "1.2.17",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "python": "3.13.5",
+    "talib": "0.6.8"
+  },
+  "schema_version": "indicator_alpha_rules_v1",
+  "sources": [
+    {
+      "path": "agents/indicator_agent.py",
+      "sha256": "a4518e502438dc7c10068020dd0d494410005287c0d1f3768daa96256134cb96"
+    },
+    {
+      "path": "agents/alpha_agent.py",
+      "sha256": "39cc608cecc0366e85ef15c19c2f21b77284212e0e408065c2423899320fae81"
+    },
+    {
+      "path": "agents/agent_state.py",
+      "sha256": "5f976cd4f36de1e67c756553e68d9732a73b473ec148806e086f39492f38df9c"
+    },
+    {
+      "path": "agents/decision_agent.py",
+      "sha256": "e3383678a5b1ffc65470ab019699e19198939560ae2d445222830a34c8c19512"
+    },
+    {
+      "path": "core/alpha_compare.py",
+      "sha256": "b9b0419d93541f49837ab4cabffad13a6771e5aaea74561f1070fe7c2d1166bd"
+    },
+    {
+      "path": "utils/graph_util.py",
+      "sha256": "5a8ea82f3112932d8df7677223a433d331e5a0212c42154e3b4c648a4cb24b6a"
+    },
+    {
+      "path": "utils/graph_setup.py",
+      "sha256": "f5ce6233ae59577229528c1326ac89976d54076d644a28528b79fe44643e5a10"
+    },
+    {
+      "path": "utils/i18n.py",
+      "sha256": "2b143b0582d0f7110d78ee3d740d267d3e2e16a78e156382d43bd7ddfca396b8"
+    },
+    {
+      "path": "utils/alpha_selector.py",
+      "sha256": "a8fcf575385805debb2a30b00cb946f8ab2a55bad7c94df4fa369b3f76c12323"
+    },
+    {
+      "path": "revision/indicator_alpha_cases.json",
+      "sha256": "8b6e3697a12c2db3c8a209ab8433593e69b73d74257f69ff4e3923ab3afb9e35"
+    },
+    {
+      "path": "scripts/audit_indicator_alpha_rules.py",
+      "sha256": "69fb9ba08280f7628a6a77ee3c0c7d66802c25fda06fd1f5fd94e572befd1fe4"
+    },
+    {
+      "path": "tests/test_indicator_alpha_rules.py",
+      "sha256": "f9a31cc03259d2a55dfaec03259af2562b37d485079838bfccb9bae2175b73bc"
+    },
+    {
+      "path": "outputs/revision/r4_value_bank_v1/manifest.json",
+      "sha256": "6ea80ee64283fe68b15c61e5ccbc0ca30d394e4d8544f7a41946e3b90a1deca4"
+    }
+  ]
+}

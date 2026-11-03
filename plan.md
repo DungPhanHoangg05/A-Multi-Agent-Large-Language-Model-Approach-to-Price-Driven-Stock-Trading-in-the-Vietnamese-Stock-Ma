@@ -428,19 +428,21 @@ PASS; không chạy lại toàn suite/E2E/leakage vì runtime/PIT/prompt không 
 
 ### R12 — Indicator rules và thuật ngữ [P2]
 
-- [ ] Table 1 dùng RSI bullish `<=30` hoặc `55<=RSI<70`; bearish `>=70` hoặc `30<RSI<=45`; trung tính phần còn lại. Ghi thứ tự ưu tiên như code, kiểm tra các biên 30/45/55/70 và crossover của các indicator khác.
-- [ ] Đổi “five momentum and volatility oscillators” thành mô tả momentum/trend phù hợp.
-- [ ] Xác định Bollinger Bands và ADX có được tính, truyền state hay dùng ở quyết định không; phân biệt schema fields có sẵn với năm indicator thực tế dùng cho consensus. Sửa Table B.10 hoặc mô tả supplementary features cho đúng.
+- [x] Table 1 dùng RSI bullish `<=30` hoặc `55<=RSI<70`; bearish `>=70` hoặc `30<RSI<=45`; vùng `45<RSI<55` xét xu hướng ba giá trị hợp lệ (bằng nhau/thiếu dữ liệu mới neutral). Ghi thứ tự ưu tiên như code, kiểm tra các biên 30/45/55/70 và crossover của các indicator khác.
+- [x] Đổi “five momentum and volatility oscillators” thành mô tả momentum/trend phù hợp.
+- [x] Xác định Bollinger Bands và ADX có được tính, truyền state hay dùng ở quyết định không; phân biệt schema fields có sẵn với năm indicator thực tế dùng cho consensus. Sửa Table B.10 hoặc mô tả supplementary features cho đúng.
 
 **Đạt khi:** table, appendix, prompt và deterministic classifier cùng rule. **Sửa tại:** indicator agent, static utilities, sections 04 và phụ lục B/D.
 
 ### R13 — Alpha_4 và tên custom/proprietary [P2]
 
-- [ ] Giải thích đúng `(%B−0.5)×VolZ5`: VolZ5 âm đảo dấu tín hiệu, VolZ5=0 triệt tiêu; `abs(VolZ)>0` không đồng nghĩa volume expansion.
-- [ ] Ưu tiên giữ công thức để replication và sửa diễn giải thành tương tác signed volume. Nếu mục tiêu thật sự là confirmation, định nghĩa phiên bản mới, ví dụ gate `max(VolZ5,0)`, đăng ký trước và đánh giá riêng; không sửa công thức rồi giữ kết quả cũ.
-- [ ] Đổi proprietary thành custom ở toàn bài; giải thích “order flow” chỉ là price/volume proxy nếu không có dữ liệu giao dịch/lệnh thực.
+- [x] Giải thích đúng `(%B−0.5)×VolZ5`: VolZ5 âm đảo dấu tín hiệu, VolZ5=0 triệt tiêu; `abs(VolZ)>0` không đồng nghĩa volume expansion.
+- [x] Ưu tiên giữ công thức để replication và sửa diễn giải thành tương tác signed volume. Nếu mục tiêu thật sự là confirmation, định nghĩa phiên bản mới, ví dụ gate `max(VolZ5,0)`, đăng ký trước và đánh giá riêng; không sửa công thức rồi giữ kết quả cũ.
+- [x] Đổi proprietary thành custom ở toàn bài; giải thích “order flow” chỉ là price/volume proxy nếu không có dữ liệu giao dịch/lệnh thực.
 
 **Đạt khi:** có ví dụ/test VolZ âm/0/dương và không mâu thuẫn tên–cơ chế–kết quả. **Sửa tại:** alpha registry/agent nếu đổi formula, section 04, phụ lục C.
+
+**Đối soát 03/11/2026 — D2-09:** R12/R13 addressed trong phạm vi mô tả implementation và boundary evidence. [Audit](outputs/revision/indicator_alpha_rules_v1/manifest.json): 67 indicator cases, 5 consensus, 11 prototype Alpha_4 và 3 registry oracles (86 synthetic cases); 7 tests/compile hai Python mới/hash replay PASS. Chín runtime/prompt sources nguyên byte R4; công thức, predictions và market inputs không đổi. [Bản thảo mới](outputs/revision/indicator_alpha_manuscript_v1/manifest.json): Table 1 physical main p14/submit p13; custom prose/Table 2 p15 và Figure 1 p16 cả hai; Alpha_4 main pp58–59/submit pp57–58; Table D.38 main p59/submit p58; Appendix E main pp59–60/submit pp58–59. Schema C.36 main p56/submit p55. Hai PDF render/QA PASS. Các locators cũ vẫn thuộc frozen releases tương ứng; mapping hiện hành trong manifest. Không suy synthetic examples thành alpha/inference evidence hoặc đóng thay R10/R14/R15.
 
 ### R14 — Quy ước màu chart [P2; rerun có điều kiện]
 
@@ -610,7 +612,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | done | [Release](outputs/revision/account_annualisation_v1/manifest.json): cycle frequency/NA contract, 510 stored daily ledgers, 18 conditional legacy accounts; 68 scoped tests/compile/AST/hash replay PASS | Daily/cycle phân biệt; không dựng ledger lại hoặc đoán provenance; manuscript/R5 closure còn riêng |
 | D2-07 | Execution sensitivities R15 | D2-06 | done | [Release](outputs/revision/execution_sensitivity_v1/manifest.json): 12 scenarios/6.120 accounts; reference 510 khớp; 27 tests/compile/hash replay/table QA PASS | Pending/advance/cost/no-fill bounds có denominator và state riêng; source predictions/labels nguyên; R15 execution certification/manuscript còn mở |
 | D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | done | [Audit](outputs/revision/target_contract_v1/manifest.json): 102 units/918 labels, 600 legacy records, 760 Decision attempts; 96 tests/compile/hash replay PASS; [hai PDF + sources](outputs/revision/target_manuscript_v1/manifest.json) QA PASS | Canonical outcomes ngoài graph inputs; primary net giữ nguyên; legacy decision Close null; prompt source/request không đổi; R11 addressed với giới hạn provenance |
-| D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | pending | Rule/formula code đã tồn tại; cần khớp mô tả và boundary evidence | Sửa phần lệch; giữ formula Alpha_4; không phát triển alpha mới |
+| D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | done | [Audit](outputs/revision/indicator_alpha_rules_v1/manifest.json): 86 fixtures/7 tests/compile/hash replay PASS; [hai PDF và source](outputs/revision/indicator_alpha_manuscript_v1/manifest.json) QA PASS | RSI/crossover/fallback khớp classifier; supplementary slots khác report thực; Alpha_4 signed-volume giữ nguyên; custom và OHLCV flow proxy rõ; R12/R13 addressed |
 | D2-10 | Bổ sung đối chứng chart/prompt R14 | S0 | pending | Renderer/style có sẵn; chưa chứng nhận chart lịch sử bằng fixture | Nến/màu/prompt đúng; chỉ rerun nếu phát hiện thay đổi behavior |
 | D2-11 | Registry/selector R10 | D2-03 | pending | — | Retained/excluded; fixed/random numeric/stability |
 | D2-12 | Xuất coverage từ audit/score đã khóa | D1-04/05 | pending | Count diagnostic cũ có sẵn nhưng không thay verified availability | Một nguồn CSV/TeX; missing khác neutral; domain validation còn mở |

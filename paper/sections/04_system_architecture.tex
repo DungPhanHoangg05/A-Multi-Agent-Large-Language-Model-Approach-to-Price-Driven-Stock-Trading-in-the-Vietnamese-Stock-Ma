@@ -5,7 +5,9 @@
 The implemented runtime is a LangGraph directed acyclic graph with five specialised agents and a shared typed state object. It acts as an explicit knowledge-integration layer over technical, quantitative, textual, and visual evidence. Its default configuration names \texttt{openai/gpt-oss-20b} for text and \texttt{qwen/qwen3.8-27b} for vision through Groq. The backtest path enforces point-in-time input windows, shared upstream reports for paired variants, structured binary decisions, and a separate compounded-account ledger.
 
 \subsection{Indicator Agent}
-The Indicator Agent computes five momentum and volatility oscillators using TA-Lib over the most recent OHLCV window, including MACD \cite{appel2005technical}, RSI \cite{wilder1978new}, Stochastic Oscillator \cite{lane1984stochastic}, Williams \%R \cite{williams1973trading}, and ROC-based momentum signals \cite{murphy1999technical}. Table~\ref{tab:indicator_conditions} lists each indicator with its parameters and signal classification rules. Signal classification is performed deterministically in Python before any LLM call, using hard thresholds and two-bar crossover detection. The classified counts-number of bullish, bearish, and neutral signals-are injected directly into the LLM prompt as immutable ground-truth constraints, preventing the model from hallucinating signal tallies. A majority rule then determines an overall consensus with an associated confidence level (High if four or more signals agree, Medium if three agree, Low otherwise).
+The Indicator Agent computes five momentum/trend indicators using TA-Lib over the observed OHLCV window: MACD \cite{appel2005technical}, RSI \cite{wilder1978new}, Stochastic Oscillator \cite{lane1984stochastic}, Williams \%R \cite{williams1973trading}, and ROC \cite{murphy1999technical}. Table~\ref{tab:indicator_conditions} summarises the ordered rules; Appendix~\ref{app:indicator_classify} gives equality, fallback and missing-data conventions. Classification and counts are computed in Python. The backtest sends a deterministic report without an Indicator LLM call; in live mode, the interpretive prompt instructs the LLM to copy the supplied signals/counts. This instruction is not a guarantee of model compliance. A directional plurality determines consensus; confidence is High for at least four agreeing signals, Medium for three, and Low otherwise. Equal bullish/bearish counts yield MIXED.
+
+Bollinger Bands, ADX and directional-index arrays are declared state slots, not additional votes. The current Indicator node invokes only the five tools above and returns \texttt{indicator\_report} plus \texttt{messages}; it does not populate even the declared five-indicator numeric arrays. Bollinger features are computed independently in the Alpha path and may enter selected alpha evidence. ADX is not called or forwarded by the Indicator node. A declared schema field alone does not establish that the Decision Agent received that feature.
 
 \begin{table}[htb]
 \centering
@@ -19,23 +21,23 @@ The Indicator Agent computes five momentum and volatility oscillators using TA-L
 \hline
 
 MACD & 12, 26, 9 &
-Golden cross or positive histogram expanding &
-Death cross or negative histogram expanding \\
+Cross up first; otherwise positive, nondecreasing histogram &
+Cross down first; otherwise negative, nonincreasing histogram \\
 \hline
 
 RSI & period = 14 &
-$\leq 30$ (oversold) or value $\geq 55$ &
-$\geq 70$ (overbought) or value $\leq 45$ \\
+$r\leq30$ or $55\leq r<70$; in $45<r<55$, rising three-value trend &
+$r\geq70$ or $30<r\leq45$; in $45<r<55$, falling three-value trend \\
 \hline
 
 Stochastic & 14, 3, 3 &
-\%K crosses above \%D, or \%K $\leq 20$ &
-\%K crosses below \%D, or \%K $\geq 80$ \\
+Cross up first; otherwise $K\leq20$, then middle-zone position rule &
+Cross down first; otherwise $K\geq80$, then middle-zone position rule \\
 \hline
 
 Williams \%R & period = 14 &
-\%R $\leq -80$ or trending toward 0 &
-\%R $\geq -20$ or trending toward $-100$ \\
+$w\leq-80$; otherwise $-80<w<-20$ with rising three-value trend &
+$w\geq-20$; otherwise $-80<w<-20$ with falling three-value trend \\
 \hline
 
 ROC & period = 10 &
@@ -51,7 +53,7 @@ ROC $< -0.5\%$ \\
 The Alpha Agent serves two explicitly separated functions: OHLCV-only quantitative factor evaluation and qualitative comparison with Vietnamese sentiment supplied as textual LLM context.
 
 \paragraph{Alpha selection.}
-An offline registry of exactly 85 candidate alpha functions is maintained, comprising five proprietary single-stock momentum and reversion formulas (Table~\ref{tab:proprietary_alphas}) and 80 adaptations drawn from the WorldQuant 101 Formulaic Alphas. Of the original 101 WorldQuant expressions, only 80 are retained because the remaining 21 cannot be translated into a meaningful single-stock OHLCV setting without introducing information that is unavailable in our pipeline or fundamentally altering the original operator semantics. In particular, these excluded expressions rely on cross-sectional ranking or neutralisation across multiple contemporaneous assets, industry or market-group information, or other inputs/operators that do not admit a defensible time-series-only surrogate under our single-symbol formulation. We therefore exclude them rather than force an arbitrary approximation. Consequently, 101 denotes the size of the original source catalogue, whereas 80 denotes the subset considered adaptable to our single-stock setting, and 85 denotes the final executable candidate registry after adding five proprietary factors.
+An offline registry of exactly 85 candidate alpha functions is maintained, comprising five custom single-stock momentum and reversion formulas (Table~\ref{tab:custom_alphas}) and 80 adaptations drawn from the WorldQuant 101 Formulaic Alphas. Of the original 101 WorldQuant expressions, only 80 are retained because the remaining 21 cannot be translated into a meaningful single-stock OHLCV setting without introducing information that is unavailable in our pipeline or fundamentally altering the original operator semantics. In particular, these excluded expressions rely on cross-sectional ranking or neutralisation across multiple contemporaneous assets, industry or market-group information, or other inputs/operators that do not admit a defensible time-series-only surrogate under our single-symbol formulation. We therefore exclude them rather than force an arbitrary approximation. Consequently, 101 denotes the size of the original source catalogue, whereas 80 denotes the subset considered adaptable to our single-stock setting, and 85 denotes the final executable candidate registry after adding five custom factors.
 
 For the retained expressions, cross-sectional operators are replaced by single-asset time-series surrogates as formalised in Eq.~\eqref{eq:ts_rank_localised}. This translation is heuristic: without contemporaneous peer dispersion, a rolling percentile answers where is this stock relative to its own recent history?'' rather than where is this stock relative to other stocks now?'' The adaptation can therefore change factor scale, persistence, turnover, and economic meaning. The present experiments do not estimate per-factor IC-decay curves, lagged signal autocorrelation, or turnover profiles, and do not claim that the adapted factors inherit the properties of their WorldQuant sources. When the volume series is unavailable or sparse, intra-bar price range is used as a proxy, creating an additional interpretation change for volume-dependent expressions.
 
@@ -74,8 +76,8 @@ Up to five eligible candidates are selected for the current prediction. When his
 
 \begin{table}[htb]
 \centering
-\caption{Five proprietary alpha formulas}
-\label{tab:proprietary_alphas}
+\caption{Five custom alpha formulas}
+\label{tab:custom_alphas}
 \renewcommand{\arraystretch}{1.25}
 
 \begin{tabularx}{\textwidth}{|c|l|X|}
@@ -115,6 +117,11 @@ $\tanh(\mathrm{ROC}(1)_{\mathrm{adj}} \times \mathrm{ClosePos} \times 3.0)$ \\
 \end{table}
 
 
+\paragraph{Custom-factor interpretation.}
+The five custom formulas are engineering heuristics, not evidence of ownership or independently validated novelty. Names such as Flow-Driven Momentum and Order Flow Exhaustion are retained identifiers. Here ``flow'', ``liquidity'' and ``buying pressure'' denote OHLCV price/volume proxies; there are no signed-trade, aggressor-side, order-book, queue or institutional-flow observations in these formulas. Intra-bar range substitution, when used, is a price proxy rather than measured share volume.
+
+For $\alpha_4$, $\mathrm{VolZ}_5$ is signed. A positive value preserves the sign of $\%B-0.5$, a negative value reverses it, and zero suppresses it. Thus $|\mathrm{VolZ}_5|>0$ does not establish volume expansion. The formula tests neither a temporal midline crossing nor a band-width squeeze. Appendix~\ref{app:alpha_impl} gives signed examples and the unchanged prototype thresholds. Legacy factor names and breakout/volume-confirmation wording are retained in runtime/prompt archives for replication; they must not be read as a validated mechanism. A positive-volume gate such as $\max(\mathrm{VolZ}_5,0)$ would be a different, separately registered experiment and is not substituted into the reported results.
+
 \paragraph{Sentiment integration.}
 Articles from CafeF are crawled for the target ticker and up to ten related companies identified by the LLM. The scorer supports four explicit backend policies: \texttt{auto}, \texttt{local}, \texttt{endpoint}, and \texttt{lexicon}. The default \texttt{auto} policy calls a user-provisioned Hugging Face Dedicated Inference Endpoint when \texttt{HF\_INFERENCE\_ENDPOINT\_URL} is configured and falls back to local Transformers inference if that call fails; without an endpoint URL, it selects local inference directly. The deprecated generic \texttt{hf-inference} serverless model route is not used. Local loading is lazy and thread-safe, uses the repository's \texttt{tokenizer.json} through \texttt{PreTrainedTokenizerFast}, truncates inference to 256 tokens, and selects CUDA when available unless the device is overridden. If the selected ViSoBERT path cannot produce a prediction, the versioned deterministic lexicon scorer is used. Every newly scored article stores the model/scorer name, the effective backend (local CPU/CUDA, dedicated endpoint host, lexicon, or empty-text handling), and a Boolean fallback flag.
 
@@ -126,7 +133,7 @@ In backtest mode, the live crawler is replaced by a pre-loaded historical sentim
 
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=0.9\textwidth]{figs/alpha_agent_pipeline.png}
+    \input{figs/alpha_agent_pipeline.tex}
     \caption{Internal data flow of the Alpha Agent}
     \label{fig:alpha_agent}
 \end{figure}
@@ -179,7 +186,7 @@ The Decision Agent synthesises all upstream reports into a single trading judgme
     \label{fig:decision_agent}
 \end{figure}
 
-The agent is prompted to reason through four sequential questions in a structured chain-of-thought process. It evaluates whether the price is near support or resistance while identifying the primary trend, checks if recent candles show reversal or continuation signals to ensure a low-risk entry, verifies whether technical oscillators like RSI and MACD confirm the price direction, and finally assesses if the quantitative alpha signals and sentiment align with or contradict the technical picture.
+The agent is prompted to reason through four sequential questions in a structured chain-of-thought process. It evaluates whether the price is near support or resistance while identifying the primary trend, checks if recent candles show reversal or continuation signals to ensure a low-risk entry, verifies whether momentum/trend indicators such as RSI and MACD confirm the price direction, and finally assesses if the quantitative alpha signals and sentiment align with or contradict the technical picture.
 
 Following this reasoning, the model must output a JSON object comprising a forced binary direction forecast (\texttt{LONG} or \texttt{SHORT}), the \texttt{forecast\_horizon}, the \texttt{confidence} level, a \texttt{risk\_reward\_ratio} clamped to $[1.0, 5.0]$, supporting and opposing evidence, and a final \texttt{justification} paragraph. A separate prompt instruction distinguishes this forecast label from an executed order.
 

@@ -1,0 +1,1161 @@
+{
+  "indicators": [
+    {
+      "id": "rsi_29.9999",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            29.9999
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_30",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            30
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_30.0001",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            30.0001
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_44.9999",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            44.9999
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_45",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            45
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_45.0001",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            45.0001
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "rsi_54.9999",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            54.9999
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "rsi_55",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            55
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_55.0001",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            55.0001
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_69.9999",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            69.9999
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_70",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            70
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_70.0001",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            70.0001
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_mid_rise",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            48,
+            49,
+            50
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_mid_fall",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            52,
+            51,
+            50
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_mid_flat",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            50,
+            49,
+            50
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "rsi_mid_short",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            49,
+            50
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "rsi_overbought_overrides_rise",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            68,
+            69,
+            70
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "rsi_oversold_overrides_fall",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            32,
+            31,
+            30
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "rsi_clean_and_round",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            null,
+            30.00004
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "macd_cross_up_over_negative",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            0,
+            1
+          ],
+          "macd_signal": [
+            1,
+            1
+          ],
+          "macd_hist": [
+            -2,
+            -3
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "macd_cross_down_over_positive",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            2,
+            1
+          ],
+          "macd_signal": [
+            1,
+            1
+          ],
+          "macd_hist": [
+            2,
+            3
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "macd_previous_equal_no_cross",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            1,
+            2
+          ],
+          "macd_signal": [
+            1,
+            1
+          ],
+          "macd_hist": [
+            2,
+            1
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "macd_positive_expands",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            2,
+            3
+          ],
+          "macd_signal": [
+            1,
+            1
+          ],
+          "macd_hist": [
+            1,
+            2
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "macd_positive_equal",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            2,
+            2
+          ],
+          "macd_signal": [
+            1,
+            1
+          ],
+          "macd_hist": [
+            1,
+            1
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "macd_positive_contracts",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            3,
+            2
+          ],
+          "macd_signal": [
+            1,
+            1
+          ],
+          "macd_hist": [
+            2,
+            1
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "macd_negative_expands",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            -1,
+            -2
+          ],
+          "macd_signal": [
+            0,
+            0
+          ],
+          "macd_hist": [
+            -1,
+            -2
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "macd_negative_equal",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            -1,
+            -1
+          ],
+          "macd_signal": [
+            0,
+            0
+          ],
+          "macd_hist": [
+            -1,
+            -1
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "macd_negative_contracts",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            -2,
+            -1
+          ],
+          "macd_signal": [
+            0,
+            0
+          ],
+          "macd_hist": [
+            -2,
+            -1
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "macd_hist_zero",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            1,
+            1
+          ],
+          "macd_signal": [
+            0,
+            0
+          ],
+          "macd_hist": [
+            0,
+            0
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "macd_short_hist_only",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "macd": [
+            2
+          ],
+          "macd_signal": [
+            1
+          ],
+          "macd_hist": [
+            1
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "stoch_up_cross_overbought",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            70,
+            90
+          ],
+          "stoch_d": [
+            80,
+            90
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "stoch_down_cross_oversold",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            30,
+            10
+          ],
+          "stoch_d": [
+            20,
+            10
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "stoch_high_boundary",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            79,
+            80
+          ],
+          "stoch_d": [
+            60,
+            60
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "stoch_low_boundary",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            21,
+            20
+          ],
+          "stoch_d": [
+            40,
+            40
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "stoch_middle_above",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            50,
+            60
+          ],
+          "stoch_d": [
+            40,
+            40
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "stoch_middle_below",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            40,
+            30
+          ],
+          "stoch_d": [
+            50,
+            50
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "stoch_middle_equal",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            50,
+            50
+          ],
+          "stoch_d": [
+            50,
+            50
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "stoch_zero_d_truthiness",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            30,
+            40
+          ],
+          "stoch_d": [
+            0,
+            0
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "stoch_short_middle",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            60
+          ],
+          "stoch_d": [
+            50
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "stoch_short_low",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            20
+          ],
+          "stoch_d": [
+            10
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "stoch_short_high",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "stoch_k": [
+            80
+          ],
+          "stoch_d": [
+            90
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "willr_-80.0001",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -80.0001
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "willr_-80",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -80
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "willr_-79.9999",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -79.9999
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "willr_-20.0001",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -20.0001
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "willr_-20",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -20
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "willr_-19.9999",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -19.9999
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "willr_middle_rise",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -60,
+            -55,
+            -50
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "willr_middle_fall",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -40,
+            -45,
+            -50
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "willr_middle_flat",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -50,
+            -60,
+            -50
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "willr_middle_short",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "willr": [
+            -60,
+            -50
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "roc_-0.5001",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "roc": [
+            -0.5001
+          ]
+        }
+      },
+      "expected": "GIẢM"
+    },
+    {
+      "id": "roc_-0.5",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "roc": [
+            -0.5
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "roc_0",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "roc": [
+            0
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "roc_0.5",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "roc": [
+            0.5
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "roc_0.5001",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "roc": [
+            0.5001
+          ]
+        }
+      },
+      "expected": "TĂNG"
+    },
+    {
+      "id": "roc_0.50004",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "roc": [
+            0.50004
+          ]
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "macd_missing",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {}
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "macd_error",
+      "indicator": "macd",
+      "inputs": {
+        "macd": {
+          "error": "synthetic_failure"
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "rsi_missing",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {}
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "rsi_error",
+      "indicator": "rsi",
+      "inputs": {
+        "rsi": {
+          "error": "synthetic_failure"
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "roc_missing",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {}
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "roc_error",
+      "indicator": "roc",
+      "inputs": {
+        "roc": {
+          "error": "synthetic_failure"
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "stoch_missing",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {}
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "stoch_error",
+      "indicator": "stoch",
+      "inputs": {
+        "stoch": {
+          "error": "synthetic_failure"
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "willr_missing",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {}
+      },
+      "expected": "TRUNG_TÍNH"
+    },
+    {
+      "id": "willr_error",
+      "indicator": "willr",
+      "inputs": {
+        "willr": {
+          "error": "synthetic_failure"
+        }
+      },
+      "expected": "TRUNG_TÍNH"
+    }
+  ],
+  "consensus": [
+    {
+      "id": "neutral",
+      "inputs": {},
+      "expected": {
+        "n_tang": 0,
+        "n_giam": 0,
+        "n_trung": 5,
+        "total": 5,
+        "consensus": "HỖN HỢP",
+        "confidence": "Thấp"
+      }
+    },
+    {
+      "id": "tie",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            55
+          ]
+        },
+        "roc": {
+          "roc": [
+            -1
+          ]
+        }
+      },
+      "expected": {
+        "n_tang": 1,
+        "n_giam": 1,
+        "n_trung": 3,
+        "total": 5,
+        "consensus": "HỖN HỢP",
+        "confidence": "Thấp"
+      }
+    },
+    {
+      "id": "plurality",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            55
+          ]
+        }
+      },
+      "expected": {
+        "n_tang": 1,
+        "n_giam": 0,
+        "n_trung": 4,
+        "total": 5,
+        "consensus": "TĂNG",
+        "confidence": "Thấp"
+      }
+    },
+    {
+      "id": "three",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            55
+          ]
+        },
+        "roc": {
+          "roc": [
+            1
+          ]
+        },
+        "willr": {
+          "willr": [
+            -80
+          ]
+        }
+      },
+      "expected": {
+        "n_tang": 3,
+        "n_giam": 0,
+        "n_trung": 2,
+        "total": 5,
+        "consensus": "TĂNG",
+        "confidence": "Trung bình"
+      }
+    },
+    {
+      "id": "four",
+      "inputs": {
+        "rsi": {
+          "rsi": [
+            55
+          ]
+        },
+        "roc": {
+          "roc": [
+            1
+          ]
+        },
+        "willr": {
+          "willr": [
+            -80
+          ]
+        },
+        "stoch": {
+          "stoch_k": [
+            20
+          ]
+        }
+      },
+      "expected": {
+        "n_tang": 4,
+        "n_giam": 0,
+        "n_trung": 1,
+        "total": 5,
+        "consensus": "TĂNG",
+        "confidence": "Cao"
+      }
+    }
+  ],
+  "alpha4": [
+    {
+      "id": "b0.25_z-1",
+      "pct_b": 0.25,
+      "vol_z5": -1,
+      "expected_signal": "TĂNG"
+    },
+    {
+      "id": "b0.25_z0",
+      "pct_b": 0.25,
+      "vol_z5": 0,
+      "expected_signal": "TRUNG TÍNH"
+    },
+    {
+      "id": "b0.25_z1",
+      "pct_b": 0.25,
+      "vol_z5": 1,
+      "expected_signal": "GIẢM"
+    },
+    {
+      "id": "b0.5_z-1",
+      "pct_b": 0.5,
+      "vol_z5": -1,
+      "expected_signal": "TRUNG TÍNH"
+    },
+    {
+      "id": "b0.5_z0",
+      "pct_b": 0.5,
+      "vol_z5": 0,
+      "expected_signal": "TRUNG TÍNH"
+    },
+    {
+      "id": "b0.5_z1",
+      "pct_b": 0.5,
+      "vol_z5": 1,
+      "expected_signal": "TRUNG TÍNH"
+    },
+    {
+      "id": "b0.75_z-1",
+      "pct_b": 0.75,
+      "vol_z5": -1,
+      "expected_signal": "GIẢM"
+    },
+    {
+      "id": "b0.75_z0",
+      "pct_b": 0.75,
+      "vol_z5": 0,
+      "expected_signal": "TRUNG TÍNH"
+    },
+    {
+      "id": "b0.75_z1",
+      "pct_b": 0.75,
+      "vol_z5": 1,
+      "expected_signal": "TĂNG"
+    },
+    {
+      "id": "small_z-0.01",
+      "pct_b": 0.75,
+      "vol_z5": -0.01,
+      "expected_signal": "TRUNG TÍNH"
+    },
+    {
+      "id": "small_z0.01",
+      "pct_b": 0.75,
+      "vol_z5": 0.01,
+      "expected_signal": "TRUNG TÍNH"
+    }
+  ],
+  "registry_alpha4": [
+    {
+      "id": "negative",
+      "last_five_volume": [
+        1,
+        2,
+        3,
+        4,
+        0
+      ],
+      "expected_sign": -1
+    },
+    {
+      "id": "zero",
+      "last_five_volume": [
+        1,
+        2,
+        4,
+        3,
+        2.5
+      ],
+      "expected_sign": 0
+    },
+    {
+      "id": "positive",
+      "last_five_volume": [
+        1,
+        2,
+        3,
+        4,
+        10
+      ],
+      "expected_sign": 1
+    }
+  ]
+}
