@@ -6,7 +6,7 @@ Ngày lập: 01/11/2026. Nhánh khảo sát: `fix`.
 
 ## 0. Kế hoạch 72 giờ — năm org Groq Free, có hiệu lực 02/11/2026
 
-**Trạng thái 03/11/2026: R1–R3 đã đóng trong phạm vi historical exploratory đã nêu ở từng mục.** Đủ **474/474 research decisions, 102/102 cặp B/AS**, panel Decision **18/18** và upstream **9/9**, thêm 10 smoke ngoài evaluation. [Analysis đã khóa](outputs/revision/r1_72h_run_v2/analysis/manifest.json), [release bản thảo cuối R1](outputs/revision/r1_manuscript_v2/manifest.json), [response](revision/response_to_reviewers.md). R4–R18 vẫn đánh giá riêng; không gọi đây là hồ sơ đã sẵn sàng nộp lại. **T0 lịch sử = 2026-11-02T11:31:24.452715+07:00**; các mốc/cap cũ bên dưới là dự toán lịch sử, đã được policy mới thay thế.
+**Trạng thái 03/11/2026: R1–R3 đã đóng trong phạm vi historical exploratory đã nêu ở từng mục.** Đủ **474/474 research decisions, 102/102 cặp B/AS**, panel Decision **18/18** và upstream **9/9**, thêm 10 smoke ngoài evaluation. [Analysis đã khóa](outputs/revision/r1_72h_run_v2/analysis/manifest.json), [release bản thảo cuối R1](outputs/revision/r1_manuscript_v2/manifest.json), [response](revision/response_to_reviewers.md). R4 đang xử lý, còn lượt corrected-value 0/270; R5–R18 vẫn đánh giá riêng; không gọi đây là hồ sơ đã sẵn sàng nộp lại. **T0 lịch sử = 2026-11-02T11:31:24.452715+07:00**; các mốc/cap cũ bên dưới là dự toán lịch sử, đã được policy mới thay thế.
 
 **Cập nhật vận hành theo yêu cầu tác giả 02/11/2026:** bỏ toàn bộ cap nội bộ (40 Decision/org/24h, 200 attempts/org, 600 Decision, 1.000 attempts toàn study) và bỏ tự dừng theo T0+60h. Những con số này ở các phần kế hoạch/manifest cũ chỉ còn là lịch sử dự toán. Policy hiện hành là [provider-only pool](revision/r1_provider_policy.json): dùng mọi key còn khả dụng cho model cần chạy, chờ rate-limit ngắn, chỉ pause các job khi không còn provider dùng được; các job khác có input cache/model khả dụng vẫn tiếp tục. Dừng bình thường khi đủ 474 research decisions. Lỗi integrity/schema/config được báo riêng, không điền prediction. Không đổi model/prompt/output-token caps/units/variants/repeats/donor hoặc target theo outcome.
 
@@ -244,20 +244,39 @@ Original run/analysis manifests và artifacts giữ nguyên byte, kể cả stat
 
 **Giới hạn đóng mục:** Ba executions/ba block mỗi panel chưa đủ precision/power; upstream panel không crossed 3×3 và chỉ có Decision repeat 0 trên upstream mới nên không định danh từng thành phần phương sai. Không lặp toàn bộ legacy hyperparameter sweeps; kết luận ổn định/tối ưu dựa vào các bảng đó đã rút lại, R6 vẫn riêng. Không xác thực immutable weights, clean prospective sample hoặc superiority. R4–R18 chưa đóng bởi task này.
 
+<a id="r4-progress"></a>
+
 ### R4 — Không tách alpha, sentiment và ảnh hưởng cấu trúc prompt [P0/P1]
 
-**Vấn đề:** No-Alpha hiện bỏ cả alpha và sentiment. Hai nhánh khác cả thông tin, độ dài và cấu trúc prompt. Four-way hiện chỉ ba mã, provenance chưa được xác nhận.
+**Trạng thái 03/11/2026: partial, chưa đóng; đã hoàn tất audit/offline và chuẩn bị lượt corrected-value, còn 0/270 Decision executions mới.** Không đổi byte R1–R3 hoặc gán response cũ thành response của prompt đã sửa. Các kết quả baseline/coverage/repeat R1–R3 vẫn mô tả các nhánh thực đã chạy; chúng không chứng minh đủ năm giá trị factor đã tới LLM.
 
-**Việc cần làm**
+- [x] Control hiện gọi **Base reports**; Full−Base là bundle effect, không đặt tên alpha-information lift. Đổi nhãn legacy `Synergy` thành **best-single gap**, tách interaction chuẩn `M(AS)−M(A)−M(S)+M(B)`.
+- [x] Audit actual factorial B/A/S/AS/P ×3 trên **18 units, tám mã, năm ngày, ba block, 6 UP/12 DOWN**, mọi unit có >=3 bài local-scored; công bố panel thực. **54/54** cutoff–repeat groups dùng cùng upstream parent/node hashes và cùng ba report sections. A/AS cùng alpha; S/AS/P cùng sentiment; A không có sentiment section và S không có alpha section. Rules chung vẫn nhắc alpha/sentiment cả ở B nên report-presence effects chưa tách khỏi information effects. Availability không phải xác nhận PIT hoặc financial-domain validity.
+- [ ] **Placebo có đủ factor values còn thiếu bằng chứng thực nghiệm.** Audit **270 panel prompts**, trong đó **162 alpha-bearing** đều có **0/5 factor rows**; mở rộng ra **474 research decisions** cho thấy **264 alpha-bearing prompts** đều mất rows. Nguyên nhân `_distill_report` split `---` ngay separator của bảng Markdown, chỉ giữ header + consensus. **6/54 AS/P pairs** có prompt giống hệt nhau sau nén. P cũ là perturbation consensus/report, không phải full-value placebo đủ để đóng R4.
+- [x] Donor map tái lập seed 20261102 + hash unit, donor thuộc train purged và label exit trước validation; whole rank-vector giữ joint values/signals/skill fields và schema/deep availability mask. **84/90 rank slots khác tên factor**: đây là rank-vector perturbation với tên treatment giữ lại, không bảo toàn covariance của từng named factor. Không shuffle outer-test/future values hoặc suy thông tin từ placeholder.
+- [x] Công bố bảy contrasts cùng mean/SD/median/range, CI mô tả và LONG-frequency/return diagnostics. BA A−B +5,56 pp; AS−S +2,78; S−B +2,78; AS−A ~0; **AS−P −2,78 (SD 6,36, interval [−19,23;+3,12])**; **interaction −2,78 (SD 6,36, [−22,92;+12,12])**. 10.000 joint block/run draws, 9.612 finite/388 undefined; joint seven-contrast max-deviation radius 19,44 pp, mọi envelope chứa 0. Interaction/joint family là phân tích thêm sau inference cũ; exact pre-registration của family cũ không được xác thực. Không báo p-value hay calibrated family-wise coverage.
+- [x] Chuẩn bị [bank corrected-value](outputs/revision/r4_value_bank_v1/manifest.json): **90 prompts /270 jobs**, cả năm rows ở A/AS/P, shared upstream/rules giữ nguyên, AS/P cùng headings/names/schema/placement/sentiment và budget; độ dài thực **3.244–4.228 ký tự**, dưới 6.500. Seven-contrast BA family, donor map, source/runtime hashes và order đã khóa trước API mới. Không gọi vision mới, không chọn lại unit theo outcome; không gọi là prospective confirmatory. Exact token-length matching không được nhận.
+- [ ] Chạy đủ **270 fresh Decision calls**, audit actual raw requests/responses của lượt mới, xuất contrasts/195 account executions và daily ledgers bằng CLI; cập nhật bản thảo/response theo kết quả. Không lấy test fixture, code hoặc old compressed prompts thay actual LLM evidence.
 
-- [ ] Đổi tên control lịch sử thành `No-factor/no-sentiment` hoặc `Base reports`; dùng `Full − Base` cho bundle effect.
-- [ ] Chạy factorial 2×2 trên **panel 18 units đủ điều kiện sentiment, 3 repeats**, công bố đúng mã/ngày/fold thực có: B=(0,0), A=(1,0), S=(0,1), AS=(1,1). Khi diễn giải alpha có sentiment, so sánh **AS−S**; alpha không sentiment là **A−B**. Tương tự sentiment: AS−A và S−B. Phân tích riêng strata sentiment available; không gọi missing-sentiment contrast là effect của tin tức.
-- [ ] Placebo bắt buộc P giữ nguyên headings, schema, vị trí, phong cách/token budget và sentiment như AS, thay alpha bằng vector quá khứ từ training pool trước cutoff, seed khóa. Đây là một control family đủ trực tiếp cho R4; neutral/random-value families khác là tùy chọn. Availability mask phải giống treatment để placebo không có thêm thông tin về missingness.
-- [ ] Không shuffle với giá trị từ tương lai của outer test; giữ cấu trúc tương quan factor hợp lý, lưu seed và permutation map. Giá trị placeholder không được tự mang tín hiệu tương lai.
-- [ ] Kiểm tra alpha reasoning report không rò sentiment vào A; sentiment branch không rò factor vào S. Shared Indicator/Pattern/Trend phải cùng hash tại mỗi `(cutoff, repeat)`.
-- [ ] Đăng ký trước contrast và multiplicity family. Bổ sung interaction factorial `M(AS) − M(A) − M(S) + M(B)`. Công thức “Synergy = Full − max(A,S)” hiện tại chỉ là improvement over best single component, không phải interaction chuẩn; nếu giữ thì đổi tên và tách hai đại lượng.
+**Artifact và bản thảo hiện hành:** [R4 audit](outputs/revision/r4_audit_v1/manifest.json) có chín artifacts, gồm toàn bộ prompt delivery coverage, paired isolation, donor/rank map, panel, full metric/contrast distributions, findings và TeX. [Release bản thảo audit R4](outputs/revision/r4_manuscript_v1/manifest.json) giữ trạng thái pending: main/submit 60/61 trang, §3 interaction pp12–13, §5.9 pp25–26, §6.4 p30, limitations pp35–36, conclusion pp37–38, Appendix A.3/Table A.32 p47. [Response R4](revision/response_to_reviewers.md) nêu rõ thiếu corrected inference; không chứng nhận resubmission-ready.
 
-**Đầu ra:** matrix factorial + placebo, prompt diffs, contrast estimates/CI. **Đạt khi:** effect information có thể phân biệt với extra prompt và thiên hướng CASH; nếu placebo ngang alpha thật thì thu hẹp hoặc bỏ claim thông tin alpha. **Sửa tại:** graph/alpha/decision agents, ablation runner, sections 03/05/06.
+**Kiểm tra đúng phạm vi:** 12 targeted tests PASS, gồm tái hiện mất table rows, actual-message delivery năm values, A/S isolation/shared upstream, deep mask/future-donor rejection, interaction vs best-single, correlated-cross-section invariance, callback/raw-response crash-resume/tamper guard và analysis fixture all-CASH (195 zero-return accounts, MCC null, reject incomplete panel). Compile năm file Python mới PASS; fresh-process `scripts/analyze_revision_r4.py --check` tái lập chín artifacts/TeX. `scripts/run_revision_r4.py status` PASS **0/270, 0 attempts**; không gọi API. Engine/R1–R3 runtime và inputs giữ nguyên, prior release hashes đối chiếu qua ZIP; không chạy lại full suite/E2E. Hai PDF build/render QA PASS; chỉ footer 2,61pt kế thừa.
+
+**Lệnh tác giả chạy từ root repo** (năm key `GROQ_ORG_1_API_KEY`…`GROQ_ORG_5_API_KEY` trong `.env`, không gửi qua chat):
+
+```powershell
+py -3.13 -X utf8 scripts/run_revision_r4.py run --all
+py -3.13 -X utf8 scripts/run_revision_r4.py status
+```
+
+Nếu hết quota, giữ checkpoint và chạy lại cùng lệnh `run --all` sau reset; pool dùng mọi key còn khả dụng cho cùng model, không có cap nội bộ. Lỗi schema/integrity/source-hash báo riêng, không tự fallback model/CASH. Sau đủ 270:
+
+```powershell
+py -3.13 -X utf8 scripts/run_revision_r4.py verify
+py -3.13 -X utf8 scripts/run_revision_r4.py analyze
+```
+
+Đầu ra mới: `outputs/revision/r4_value_run_v1/`; raw calls/decisions và analysis được bảo toàn, chỉ quota DB/provider locks/worker locks/usage runtime được ignore. R4 chỉ đóng sau khi đối soát kết quả mới và cập nhật bản thảo/response; R5–R18 vẫn riêng.
 
 ### R5 — Khoảng tin cậy, Newey–West, N và annualisation [P0]
 
@@ -532,7 +551,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D3-02 | Khóa result release | D3-01 | done | Inference completion + immutable analysis manifest; 484 raw-decision replay PASS | Raw/parents/completion/failures nhất quán |
 | D3-03 | Bảng Full/Base/non-LLM | D3-02/D2-03 | done | 102 common units; Tables 7–9, 918 predictions/510 accounts; R1 closed | Cùng input/target/cost/support |
 | D3-04 | Bảng repeats/upstream | D3-02 | done | Panels 18/9 complete, mean/SD/range/disagreement đúng support; Table 10 | Mean/SD/range/disagreement đúng panel |
-| D3-05 | Bảng factorial/placebo | D3-02 | partial | Factorial/placebo panel đủ và contrasts đổi dấu đã báo trong R1; R4 attribution/coverage audit riêng còn mở | Contrasts/support hợp lệ; Full-Base là bundle effect |
+| D3-05 | Bảng factorial/placebo | D3-02 | partial | R4 audit xác nhận 264 alpha-bearing prompts mất factor rows; corrected bank/runner đã khóa, còn 0/270 calls; không đóng attribution | Contrasts/support hợp lệ; Full-Base là bundle effect |
 | D3-06 | Chi phí hệ thống | D3-02 | done | system_costs.json: 756 attempts, 734 responses, 22 errors, token/latency thật; không suy billing | Tokens/calls/retries/latency/coverage thật |
 | D3-07 | Cập nhật bản thảo nháp bằng kết quả mới | D3-03/04/05/06 | partial | Đã cập nhật toàn bộ nội dung R1 bằng release thật; các sửa R2–R18 còn riêng | Chỉ bổ sung/thay phần có bằng chứng mới; giữ kết quả âm |
 | D3-08 | Đồng bộ front matter với release cuối | D3-07 | partial | Abstract/highlights/intro/conclusion R1 đồng bộ kết quả âm; metadata/claims comment khác chưa nghiệm thu | Cập nhật số liệu/title/claim chịu ảnh hưởng, không làm lại bản sửa ban đầu |

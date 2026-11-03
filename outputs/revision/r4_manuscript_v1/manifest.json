@@ -1,0 +1,408 @@
+{
+  "analysis_release": "outputs/revision/r4_audit_v1/manifest.json",
+  "corrected_bank": "outputs/revision/r4_value_bank_v1/manifest.json",
+  "corrected_bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+  "created_utc": "2026-11-03T03:45:33.031693+00:00",
+  "limitations": [
+    "R4 NOT CLOSED: repaired-prompt calls and final result-based manuscript/response update still required",
+    "Old alpha table rows removed by distillation; historical contrasts describe report/consensus interventions, not full-value information",
+    "Placebo is one joint past rank-vector with current names, not name-matched factor covariance; 84/90 names differ",
+    "Common rules/report-presence effects and CASH propensity are not isolated information effects",
+    "Old interaction/joint envelope post-inference; three runs/blocks and conditional draws do not provide calibrated coverage or FWER",
+    "Historical coverage-selected units; news PIT/domain validity and immutable served weights unverified; no prospective claim"
+  ],
+  "outputs": [
+    {
+      "path": "main.log",
+      "sha256": "2a13cf268ec864472e182f3184ff3fd84d56391a892adb8ebcda0866c40aa793"
+    },
+    {
+      "path": "main.pdf",
+      "sha256": "fc6bfb81f711949c8735a49c63d8b3ba0645ffd277a025c055806b227aebbc60"
+    },
+    {
+      "path": "main_submit.log",
+      "sha256": "d91fe607c047226e171ea2af2d5f337c709bb5e22680d1de46ea8947f6b4224d"
+    },
+    {
+      "path": "main_submit.pdf",
+      "sha256": "03e78f7c747b5d9592c5e84ffa77ab7c3f3e808e80b6382bbf0e0e18bfd45c26"
+    },
+    {
+      "path": "sources.zip",
+      "sha256": "a388b5cb9a29e870a2ba94db08dddb5627fa63f3a7b8a4390c2229b67e1dfb24"
+    }
+  ],
+  "pdf_qa": {
+    "inherited_warning": "One elsarticle footer overfull hbox 2.61049pt; no clipping; no body/table overflow",
+    "interaction_equation_physical_page": {
+      "main": 13,
+      "main_submit": 12
+    },
+    "main_pages": 60,
+    "main_submit_pages": 61,
+    "physical_locators_both": {
+      "appendix_A_3_and_table_A_32": [
+        47
+      ],
+      "conclusion": [
+        37,
+        38
+      ],
+      "limitations": [
+        35,
+        36
+      ],
+      "methods_5_9": [
+        25,
+        26
+      ],
+      "report_intervention_paragraph": [
+        12,
+        13
+      ],
+      "results_6_4": [
+        30
+      ]
+    },
+    "rendering": "All pages rendered; new/changed abstract, interaction, methods, results, limitations, conclusion and Appendix A.3/table inspected at readable scale",
+    "undefined_references_citations_duplicate_labels_anchors": false
+  },
+  "prior_manuscript_release": "outputs/revision/r3_manuscript_v1/manifest.json",
+  "prior_source_verification": "Current-document differences verified against exact historical source ZIPs; immutable output dependencies listed as sources are not duplicated in this ZIP",
+  "reviewer_comment_embedded_verbatim": "Reviewer 1 comment 4 exactly transcribed from author DOCX into response; DOCX unchanged and excluded",
+  "schema_version": "revision_r4_audit_manuscript_v1",
+  "scope": "Actual prompt-delivery audit, descriptive factorial/interaction results and separately frozen corrected-value run handoff",
+  "sources": [
+    {
+      "path": "core/revision_r2_panel.py",
+      "sha256": "bb20ee87009dba1bb8b8d28897c9d0d841f866322048a9367c3958326329006a"
+    },
+    {
+      "path": "core/revision_r3_repeats.py",
+      "sha256": "e461837c9c36603a2691d1f50549857ddc7b27c578bd502b862a30821c8c5aca"
+    },
+    {
+      "path": "core/revision_r4_factorial.py",
+      "sha256": "2e5d39372b34bc524ea8756ed458556272ee8f504a08aa32a2435a489a3005eb"
+    },
+    {
+      "path": "core/revision_r4_run.py",
+      "sha256": "beafb39a47e3cd82b2faa321133fa03e79591c54b86e67b9fba6f75c9c6db2b5"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/manifest.json",
+      "sha256": "11086bc888e78a457fee169ae54d9ba7607eb3615a78e07ca2529721619f556c"
+    },
+    {
+      "path": "outputs/revision/r1_manuscript_v2/sources.zip",
+      "sha256": "e04160b13d9dbba6c91b4d61121ce16faab5629187cb0355d611a902318da66f"
+    },
+    {
+      "path": "outputs/revision/r2_manuscript_v1/manifest.json",
+      "sha256": "d2af41b1957703cd5c675cf3829c383b41ed21a38503d9a357c4c73cadf6f147"
+    },
+    {
+      "path": "outputs/revision/r2_manuscript_v1/sources.zip",
+      "sha256": "0ff0ef88cbf709831b9674fa2870684596a9534ab6feedef796a3c534c1d5c18"
+    },
+    {
+      "path": "outputs/revision/r2_panel_v1/manifest.json",
+      "sha256": "52543e3bec797eb665cbd002b10f15bc8baa3d25010fc0b53a9ae2df680019bf"
+    },
+    {
+      "path": "outputs/revision/r3_manuscript_v1/manifest.json",
+      "sha256": "cfe6c351d01dcf2924b7883fc1786ba23c53fe16d21fd70ec1072acec2cceb4f"
+    },
+    {
+      "path": "outputs/revision/r3_manuscript_v1/sources.zip",
+      "sha256": "1d0f3e65493d6c3f7e8673ea3ce142054fdade5ac632b44ce485d7b48939e6ae"
+    },
+    {
+      "path": "outputs/revision/r3_repeats_v1/manifest.json",
+      "sha256": "57a2bc42f7fc666b4dbd5316a7c9c77e41ca5a720932bf728ff862cd196df3a9"
+    },
+    {
+      "path": "outputs/revision/r4_audit_v1/manifest.json",
+      "sha256": "78836bbdef6f2ac34f310f19df985089f5ea98b10b1e8ae18ae125aaa5b4c689"
+    },
+    {
+      "path": "outputs/revision/r4_value_bank_v1/manifest.json",
+      "sha256": "6ea80ee64283fe68b15c61e5ccbc0ca30d394e4d8544f7a41946e3b90a1deca4"
+    },
+    {
+      "path": "paper/elsarticle-num.bst",
+      "sha256": "0db2e53b2378cbe5815e436c1afe9dcac67123a32406fa8f11fad7978808e202"
+    },
+    {
+      "path": "paper/elsarticle.cls",
+      "sha256": "23a341acd0e35c20148c836fc6e9251549aa45b059fc1750356ca2f3f11f3cb0"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.png",
+      "sha256": "ce93ca2e80f33da49b8dba034f36007b6e9ff5fa1932fb234df54ad763d8dc4f"
+    },
+    {
+      "path": "paper/figs/backtest_BHN_20260917_1227.png",
+      "sha256": "1fdd500812ece8fa0d9b6b3bc205b7e171a1f5ecd149528836d0d092f3ab421f"
+    },
+    {
+      "path": "paper/figs/backtest_CMG_20260916_1110.png",
+      "sha256": "7351ffed0b0afcb6568d2cdae6004f9b23c0be512593bbe60c985109ba2c93de"
+    },
+    {
+      "path": "paper/figs/backtest_FPT_20260915_1458.png",
+      "sha256": "b772079e92c3d49e295439416c5456b8f20d9df1b4753123fcee98857ace9ab4"
+    },
+    {
+      "path": "paper/figs/backtest_HVN_20260916_1032.png",
+      "sha256": "ee84ba6bed88f5af8347006eeba9aa4394a4f92d50df4f9a90b133d4314e882d"
+    },
+    {
+      "path": "paper/figs/backtest_MBB_20260916_1129.png",
+      "sha256": "95f54e1f8f8398fc3473619110441e6d7ce6627324d2d40e6b3db2dc45ddea65"
+    },
+    {
+      "path": "paper/figs/backtest_MWG_20260916_1422.png",
+      "sha256": "2253a8844986d09c0fd67460b57fd8e90151a93681e35d85145329f9e9b4796d"
+    },
+    {
+      "path": "paper/figs/backtest_VCB_20260916_1337.png",
+      "sha256": "c2476a6242f3d3a440a64172cf890c93d1457db0584d97e620781eec5dfe81f7"
+    },
+    {
+      "path": "paper/figs/backtest_VJC_20260915_1542.png",
+      "sha256": "b6586b7368c04b88b1ac37dbf02720c63c2ceb8a01420753b248f9b68d290137"
+    },
+    {
+      "path": "paper/figs/backtest_VNM_20260915_1514.png",
+      "sha256": "442ab2fd645e332f3df1aef374d4a15bbb4b36cfa795ebc6a47f7280e8286aef"
+    },
+    {
+      "path": "paper/figs/decision_agent_pipeline.png",
+      "sha256": "48c454d1540f6897e300d828c04ca56a1e03aa2d9d15b78e11a87666eb94392a"
+    },
+    {
+      "path": "paper/figs/system_pipeline.png",
+      "sha256": "d02d7f971ed0778b33921fbdfd1b0e727b513adf15f6ab4655315dba4639ea70"
+    },
+    {
+      "path": "paper/figs/walkforward_protocol.png",
+      "sha256": "9953c5eabc41523db151caa5f56b20c707754eef41bfca7cc99755118c05b229"
+    },
+    {
+      "path": "paper/generated/r1_class_metrics.tex",
+      "sha256": "fc1784749010507589559bafcd012d34bc0f3510b11e84d1270b6d7c3a0bf1f2"
+    },
+    {
+      "path": "paper/generated/r1_common_classes.tex",
+      "sha256": "8fb3667efdbfa950de47d05178be4ac3e8e9bce9b2157ebf2f78b13e492805ce"
+    },
+    {
+      "path": "paper/generated/r1_common_intervals.tex",
+      "sha256": "1f00ebd36fc68952f775dee577d3f126d80750934693ee213439fc095774d841"
+    },
+    {
+      "path": "paper/generated/r1_common_macro.tex",
+      "sha256": "de41bcad16c175527b1238daaece14b9026e91612a89d698aa757c090296af9e"
+    },
+    {
+      "path": "paper/generated/r1_common_metrics.tex",
+      "sha256": "c578d76cf971687e618c2f8ca9222f5cb86341dcc44bf5bdfdd89980ab1d631d"
+    },
+    {
+      "path": "paper/generated/r1_common_panels.tex",
+      "sha256": "10aadc0a22d723ef7f095625d2ce83a3ba86c6372e5663aa72cc865070df2730"
+    },
+    {
+      "path": "paper/generated/r1_common_strata.tex",
+      "sha256": "f76bd041e44643c2b1ec733bc7470555bd514126f2ac425cf4ad30e9d410fa15"
+    },
+    {
+      "path": "paper/generated/r1_common_symbols.tex",
+      "sha256": "bfa27ac632d915429ac7b51de1c25329a615921b3cea0649b3b2086fc53948c1"
+    },
+    {
+      "path": "paper/generated/r1_comparability.tex",
+      "sha256": "2b3c89092e8d7c9efcddddadb15eeb284a529a5ae8e454c52514694c8913a5b7"
+    },
+    {
+      "path": "paper/generated/r1_legacy_metrics.tex",
+      "sha256": "d27c3ce568ac9220b8f077ee3a70974494538e54f539be35acea6f40f7364bdb"
+    },
+    {
+      "path": "paper/generated/r1_numeric_metrics.tex",
+      "sha256": "1d673c70d838dacf26f43b806a2f16eead0a31e56a1b715b56e2015d3389c1c1"
+    },
+    {
+      "path": "paper/generated/r2_coverage.tex",
+      "sha256": "5da68f9624de0231e3be21c329e8570d0c47c77c66598f3ab3270fe0ff3e3c1c"
+    },
+    {
+      "path": "paper/generated/r2_dependence.tex",
+      "sha256": "cdc74eb68c33af54ec0becb3741fcc36f403ca7c40acdf7cf9a1185d84f3e363"
+    },
+    {
+      "path": "paper/generated/r2_folds.tex",
+      "sha256": "915bd252f83a31f496f10fa227e839e7b59de72065cacb7229830ef570da1bdf"
+    },
+    {
+      "path": "paper/generated/r2_regimes.tex",
+      "sha256": "779e2a1c9e5afaaa5b811ceeb2ab1e1c9514f0b63d7dade89a6fa2cda47b6b39"
+    },
+    {
+      "path": "paper/generated/r3_classification.tex",
+      "sha256": "289bbaf4fb5e70ee704964aa8752a5a12732642f58a0dc363b591e8a4ff44358"
+    },
+    {
+      "path": "paper/generated/r3_contrasts.tex",
+      "sha256": "a2d1abf6967406f4acb91239f9c13b40222b50557c02f6bcd75be65e65e77f7f"
+    },
+    {
+      "path": "paper/generated/r3_returns.tex",
+      "sha256": "7d927f8128b7b5f1d6a334d94fd8c714b1f0a9788545a2140fee2e0e54f85aa7"
+    },
+    {
+      "path": "paper/generated/r3_variability.tex",
+      "sha256": "3524bda66c02c6040a060f2f9205ba84b5c48287ad323f81524ab37278e6165c"
+    },
+    {
+      "path": "paper/generated/r4_contrasts.tex",
+      "sha256": "fe8b3532acf5f6bc6c7f362e0867c24a78b160fdeaa2547987436cbc1aac899b"
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "d8e646a63f4210d1586fb45d96c83c50c450a183e3e424bd9562ea9d7539c47e"
+    },
+    {
+      "path": "paper/main_submit.tex",
+      "sha256": "c341b21a7eb15a5d12ae5d83bdb94309cbd52bbbc871520c5f18bc678cdd7df2"
+    },
+    {
+      "path": "paper/references.bib",
+      "sha256": "c188fb50f39c10ae0b3d4cc5f6fbbef2c20cb578c1c85e95d8e5c603985ef4e8"
+    },
+    {
+      "path": "paper/sections/01_introduction.tex",
+      "sha256": "7cb87030e7cdf5bb4ad9ffc4f97e6a04e17b7e0bae6406eef246a262bb25006d"
+    },
+    {
+      "path": "paper/sections/02_related_work.tex",
+      "sha256": "82bf1aec08f3a178041be1876eb4c237074b76baad0b248c6eb8abec602cd50c"
+    },
+    {
+      "path": "paper/sections/03_problem_formulation.tex",
+      "sha256": "32d34f23103209bb0ac2e3dde0b5b1a232f9b5dd9d33d3a9a7d0c07e4a95e050"
+    },
+    {
+      "path": "paper/sections/04_system_architecture.tex",
+      "sha256": "735fc08bc6c7f09312487fedcc0993e5c82aac340a4aeae801a46ed2162b73b1"
+    },
+    {
+      "path": "paper/sections/05_experimental_setup.tex",
+      "sha256": "8262e36b1c23cc373aa6fce8e8b881378409e6eb5adc2106acb5774a661e4eec"
+    },
+    {
+      "path": "paper/sections/06_backtest_results.tex",
+      "sha256": "7d368b5f259832167b8497d719494ede2c559006fdd7712c2b53f44f29e3cc59"
+    },
+    {
+      "path": "paper/sections/07_limitations.tex",
+      "sha256": "1885a205aec98747caba71abad4140fe4ca09b087ceaa41358289077adb186bc"
+    },
+    {
+      "path": "paper/sections/08_conclusion.tex",
+      "sha256": "cebf1fbbd7be78f326903927cfea6f8a8203430e7d522a4a6db87c5d0063f39e"
+    },
+    {
+      "path": "paper/sections/acknowledgments.tex",
+      "sha256": "144503e0908506d64cd52bb99480fd3082c63bc63831e66299e237007f868e9c"
+    },
+    {
+      "path": "paper/sections/appendices.tex",
+      "sha256": "e3f72e1b78382c72d811a23aebeb4d9790f396a6a1ec42ace95464b51c88bb01"
+    },
+    {
+      "path": "plan.md",
+      "sha256": "2f9dddbbd44b4826f92679250068713bc3fa9b105484f5fce2ed2e601d10e76b"
+    },
+    {
+      "path": "revision/README.md",
+      "sha256": "8eb04192ab95b393784797d801c9dfb36731cdf39208e834d1d14fd804a447a9"
+    },
+    {
+      "path": "revision/response_to_reviewers.md",
+      "sha256": "f80fcd03dc560b52acf9107824f552cbe00867534529397c7296488d17627388"
+    },
+    {
+      "path": "revision/reviewer_matrix.csv",
+      "sha256": "0fe94f1bd2a44d774915785ea136d4736467e5798ec313c614fc000cdb65b246"
+    },
+    {
+      "path": "scripts/analyze_revision_r2.py",
+      "sha256": "aa6a3c941f3a37f9a8d3211c2c1a5be2f02bb735ba4fe0682e0f99aa55f0477c"
+    },
+    {
+      "path": "scripts/analyze_revision_r3.py",
+      "sha256": "d3087643331c592fe68da93d5f937c295fe071ca9451016aaaf6fa57d8eabb65"
+    },
+    {
+      "path": "scripts/analyze_revision_r4.py",
+      "sha256": "763a6103682c4e1fcca74258e4f4f783bcb842a9758462c26ff70cec644cf591"
+    },
+    {
+      "path": "scripts/run_revision_r4.py",
+      "sha256": "dcee7842388769280352d80aa72fc2a1f9b410b9895e775fdc9ec921147969fd"
+    },
+    {
+      "path": "tests/test_revision_r2_leakage.py",
+      "sha256": "b1109ee2379ba8091f232b91f943170f0c4f5bb83e33634ab0aa069253fca384"
+    },
+    {
+      "path": "tests/test_revision_r3_repeats.py",
+      "sha256": "ef977a4d65d3ce26bb7e0303bfd978e61987aa8ff4b6d6b46b667df4d22696e6"
+    },
+    {
+      "path": "tests/test_revision_r4_factorial.py",
+      "sha256": "a7535f39a91533a036dddc8c4bfe360d6588bbbf3b7a0d7aa8a492030fc0aa38"
+    }
+  ],
+  "status": "R4 partial, not closed: corrected full-value Decision inference outstanding, 0/270 at release",
+  "validation": {
+    "AS_P_identical_prompt_pairs": 6,
+    "BA_joint_finite_draws": 9612,
+    "BA_joint_undefined_draws": 388,
+    "actual_panel_prompts": 270,
+    "actual_research_successful_decision_prompts": 474,
+    "alpha_bearing_panel_prompts_with_zero_factor_rows": 162,
+    "alpha_bearing_research_prompts_with_zero_factor_rows": 264,
+    "commands": [
+      "py -3.13 -X utf8 -W error::ResourceWarning -m unittest discover -s tests -p test_revision_r4_factorial.py -v",
+      "py -3.13 -X utf8 scripts/analyze_revision_r4.py --check",
+      "py -3.13 -X utf8 scripts/run_revision_r4.py verify"
+    ],
+    "compiled_files": [
+      "core/revision_r4_factorial.py",
+      "core/revision_r4_run.py",
+      "scripts/analyze_revision_r4.py",
+      "scripts/run_revision_r4.py",
+      "tests/test_revision_r4_factorial.py"
+    ],
+    "corrected_executions_complete": 0,
+    "corrected_executions_planned": 270,
+    "fresh_process_reproduction": "PYTHONHASHSEED=17: nine artifacts and generated TeX byte-identical",
+    "frozen_prompt_count": 90,
+    "frozen_source_hashes": 576,
+    "new_api_calls": 0,
+    "new_predictions": 0,
+    "new_primary_contrast_family_size": 7,
+    "new_tests_passed": 12,
+    "new_vision_calls_planned": 0,
+    "paired_groups_shared_upstream_isolated_sections": 54,
+    "prompt_chars_max": 4228,
+    "prompt_chars_min": 3244,
+    "rank_name_mismatches_out_of_90": 84,
+    "scope_note": "New isolated offline/statistical/runner path tested directly; no frozen engine/data/target/runtime changes, no full suite/E2E rerun. Fixtures do not substitute for real LLM evidence.",
+    "training_donors_checked": 18
+  }
+}

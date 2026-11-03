@@ -141,6 +141,33 @@ under identical inputs. The old window/normalisation/weight sweeps are not
 newly replicated here; their robustness and component-attribution claims
 remain withdrawn, and unresolved branch provenance is assessed separately.
 
+
+\subsection{Implemented Report Contrasts and Incomplete Value Control}
+\label{sec:r4_results}
+
+Table~\ref{tab:r4_contrasts} reports the factorial contrasts on the existing
+18-unit panel. Mean BA differences are +5.56 points for A--B, +2.78 for
+AS--S, +2.78 for S--B and approximately zero for AS--A. AS--P is
+$-2.78$ points (SD 6.36; descriptive interval $[-19.23,3.12]$), and the
+standard interaction AS--A--S+B is also $-2.78$ points (SD 6.36; interval
+$[-22.92,12.12]$). These statements concern the compressed reports actually
+sent to the model, not full numerical factor information.
+
+The seven-contrast BA joint max-deviation envelope has radius 19.44 points
+and includes zero for every contrast. It uses 9,612 finite joint draws;
+388 of 10,000 draws lose class support. This is a descriptive post-inference
+sensitivity envelope with three executions/blocks, not calibrated
+simultaneous confidence coverage. LONG-frequency contrasts are reported
+alongside BA, with all secondary metrics and panel-account returns in JSON;
+changes in CASH propensity are not removed by a positive classification gap.
+
+Most importantly, the request audit shows that the intended five factor-value
+rows were absent in every alpha-bearing prompt. The historical P branch
+therefore cannot answer the complete information-versus-structure question.
+No isolated alpha value, sentiment value or positive synergy is claimed.
+The repaired 270-call panel is prepared separately but not yet executed;
+these historical outcomes are not substituted for its missing evidence.
+
 \subsection{Legacy Nine-Symbol Paired Benchmark}
 
 The original 180 net labels contain 56 UP and 124 DOWN outcomes. Full has
@@ -303,7 +330,7 @@ Table~\ref{tab:disentangled_ablation} retains the legacy four-way summaries for 
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrrrr}
 \hline
-\textbf{Symbol} & \textbf{Full} & \textbf{Alpha-only} & \textbf{Sent.-only} & \textbf{Baseline} & \textbf{$\Delta\alpha$} & \textbf{$\Delta$Sent.} & \textbf{Synergy} \\
+\textbf{Symbol} & \textbf{Full} & \textbf{Alpha-only} & \textbf{Sent.-only} & \textbf{Baseline} & \textbf{$\Delta\alpha$} & \textbf{$\Delta$Sent.} & \textbf{\shortstack{Best-single\\gap}} \\
 \hline
 FPT & 55.0\% & 50.0\% & 45.0\% & 45.0\% & +5.0 pp & +0.0 pp & +5.0 pp \\
 VNM & 60.0\% & 50.0\% & 50.0\% & 45.0\% & +5.0 pp & +5.0 pp & +10.0 pp \\

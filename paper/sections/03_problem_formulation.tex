@@ -544,3 +544,20 @@ dilute either executed-trade denominator. Risk ratios are reported as zero when
 their dispersion denominator does not exceed the numerical tolerance. The
 cost rates are research allowances rather than a claim about a particular
 venue's realised fee schedule.
+
+\paragraph{Report interventions and interaction}
+Let $B,A,S,AS$ denote the absence/presence of the alpha and sentiment
+report sections, respectively, with shared upstream reports. For a metric
+$M$, the bundle contrast is $M(AS)-M(B)$; the alpha-report contrasts are
+$M(A)-M(B)$ without sentiment and $M(AS)-M(S)$ with sentiment. The
+sentiment-report contrasts are $M(S)-M(B)$ and $M(AS)-M(A)$. The factorial
+interaction is
+\begin{equation}
+ I_M=M(AS)-M(A)-M(S)+M(B).
+ \label{eq:factorial_interaction}
+\end{equation}
+These are interventions on implemented reports, not automatically isolated
+information effects: report structure, compressed content, rules and hosted
+decision variation can change the response. Information attribution requires
+a valid matched-content control and actual prompt inspection. A positive
+gap over the better single component is a different, nonlinear statistic.

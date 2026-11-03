@@ -1,0 +1,2468 @@
+[
+  {
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "cutoff": "2026-09-23",
+    "decision_index": 1002,
+    "donor_hash": "bfca8aa4e2c63e688da5a12260c5084c009dc9a03668822ce86fb7f3e2f74f9d",
+    "donor_index": 791,
+    "donor_label_exit_index": 794,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "Triple TsRank Product (WQ#35)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.5%",
+            "composite_score": 0.8976,
+            "ic": 0.1454
+          },
+          "signal": "GIẢM",
+          "value": -0.3284
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "60.7%",
+            "composite_score": 0.8987,
+            "ic": 0.1974
+          },
+          "signal": "TĂNG",
+          "value": 0.8356
+        }
+      },
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Triple TsRank Product (WQ#35)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.3%",
+            "composite_score": 0.8334,
+            "ic": 0.1426
+          },
+          "signal": "GIẢM",
+          "value": -0.4211
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "60.6%",
+            "composite_score": 0.8862,
+            "ic": 0.1901
+          },
+          "signal": "GIẢM",
+          "value": -0.3083
+        }
+      },
+      {
+        "current_name": "100-Day Slope Condition (WQ#24)",
+        "donor_name": "HL Ratio Volume Rank (WQ#83)",
+        "placebo": {
+          "components": {
+            "accuracy": "67.2%",
+            "composite_score": 0.7975,
+            "ic": 0.0885
+          },
+          "signal": "GIẢM",
+          "value": -0.2729
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.8%",
+            "composite_score": 0.8342,
+            "ic": 0.1997
+          },
+          "signal": "TĂNG",
+          "value": 0.2056
+        }
+      },
+      {
+        "current_name": "HL Ratio Volume Rank (WQ#83)",
+        "donor_name": "SignedPower TsRank Argmax (WQ#84)",
+        "placebo": {
+          "components": {
+            "accuracy": "69.1%",
+            "composite_score": 0.7749,
+            "ic": 0.069
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0662
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "63.8%",
+            "composite_score": 0.8236,
+            "ic": 0.1295
+          },
+          "signal": "GIẢM",
+          "value": -0.1047
+        }
+      },
+      {
+        "current_name": "SignedPower TsRank Argmax (WQ#84)",
+        "donor_name": "TsMax Corr Vol-High (WQ#26)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.0%",
+            "composite_score": 0.7737,
+            "ic": 0.1506
+          },
+          "signal": "GIẢM",
+          "value": -0.8629
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "65.4%",
+            "composite_score": 0.7807,
+            "ic": 0.0904
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0978
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 671732431,
+    "symbol": "BHN",
+    "train_last_index": 878,
+    "unit_id": "BHN_f2026_q3_1002",
+    "validation_first_index": 884
+  },
+  {
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "cutoff": "2026-09-23",
+    "decision_index": 1675,
+    "donor_hash": "3005358457a5407e806a19a3a9d7d570062c110f5f925ca88888ad76850a83e7",
+    "donor_index": 959,
+    "donor_label_exit_index": 962,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "Corr ADV20 Low Scaled (WQ#28)",
+        "donor_name": "Nested Rank Log (WQ#29)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.1%",
+            "composite_score": 0.8864,
+            "ic": -0.1424
+          },
+          "signal": "GIẢM",
+          "value": -0.8859
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "56.6%",
+            "composite_score": 0.8834,
+            "ic": 0.1418
+          },
+          "signal": "TĂNG",
+          "value": 0.3128
+        }
+      },
+      {
+        "current_name": "VWAP Argmax Decay (WQ#57)",
+        "donor_name": "Stochastic-Vol Corr Rev (WQ#55)",
+        "placebo": {
+          "components": {
+            "accuracy": "53.2%",
+            "composite_score": 0.788,
+            "ic": -0.1195
+          },
+          "signal": "TĂNG",
+          "value": 0.3784
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "63.0%",
+            "composite_score": 0.8162,
+            "ic": 0.0809
+          },
+          "signal": "TĂNG",
+          "value": 0.7274
+        }
+      },
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Price/Volume Divergence (WQ#2)",
+        "placebo": {
+          "components": {
+            "accuracy": "53.2%",
+            "composite_score": 0.7871,
+            "ic": -0.1285
+          },
+          "signal": "GIẢM",
+          "value": -0.4292
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "63.1%",
+            "composite_score": 0.7741,
+            "ic": 0.0629
+          },
+          "signal": "GIẢM",
+          "value": -0.3518
+        }
+      },
+      {
+        "current_name": "Decay Delta Corr Combo (WQ#31)",
+        "donor_name": "VWAP Argmax Decay (WQ#57)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.4%",
+            "composite_score": 0.7491,
+            "ic": 0.085
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0277
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "51.7%",
+            "composite_score": 0.7496,
+            "ic": 0.1314
+          },
+          "signal": "TĂNG",
+          "value": 0.7605
+        }
+      },
+      {
+        "current_name": "VWAP Min vs ADV180 Corr (WQ#61)",
+        "donor_name": "Body Scale vs Argmax (WQ#60)",
+        "placebo": {
+          "components": {
+            "accuracy": "51.8%",
+            "composite_score": 0.7289,
+            "ic": 0.1126
+          },
+          "signal": "TĂNG",
+          "value": 0.7813
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.4%",
+            "composite_score": 0.7249,
+            "ic": 0.1111
+          },
+          "signal": "TĂNG",
+          "value": 0.7556
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 975583281,
+    "symbol": "FPT",
+    "train_last_index": 1550,
+    "unit_id": "FPT_f2026_q3_1675",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "cutoff": "2026-04-01",
+    "decision_index": 1556,
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "donor_index": 932,
+    "donor_label_exit_index": 935,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "Max Decay Corr Rank (WQ#71)",
+        "donor_name": "Triple TsRank Product (WQ#35)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.0%",
+            "composite_score": 0.9007,
+            "ic": 0.141
+          },
+          "signal": "GIẢM",
+          "value": -0.1226
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "58.0%",
+            "composite_score": 0.8915,
+            "ic": -0.0991
+          },
+          "signal": "GIẢM",
+          "value": -0.6179
+        }
+      },
+      {
+        "current_name": "Corr Rank Threshold (WQ#27)",
+        "donor_name": "HL Ratio Volume Rank (WQ#83)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.5%",
+            "composite_score": 0.8385,
+            "ic": 0.0843
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0567
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.8%",
+            "composite_score": 0.881,
+            "ic": 0.1221
+          },
+          "signal": "GIẢM",
+          "value": -0.7803
+        }
+      },
+      {
+        "current_name": "Decay Corr Ratio (WQ#72)",
+        "donor_name": "Decay Delta Corr Combo (WQ#31)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.4%",
+            "composite_score": 0.8334,
+            "ic": -0.1336
+          },
+          "signal": "GIẢM",
+          "value": -0.9263
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "59.6%",
+            "composite_score": 0.7464,
+            "ic": 0.0557
+          },
+          "signal": "GIẢM",
+          "value": -0.2487
+        }
+      },
+      {
+        "current_name": "Corr ADV20 Low Scaled (WQ#28)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.0%",
+            "composite_score": 0.7312,
+            "ic": 0.06
+          },
+          "signal": "TĂNG",
+          "value": 0.5268
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.0%",
+            "composite_score": 0.7452,
+            "ic": 0.0983
+          },
+          "signal": "GIẢM",
+          "value": -0.6029
+        }
+      },
+      {
+        "current_name": "Min Condition Decay (WQ#92)",
+        "donor_name": "Volume Surge Momentum (WQ#7)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.5%",
+            "composite_score": 0.7197,
+            "ic": 0.0771
+          },
+          "signal": "GIẢM",
+          "value": -0.4864
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.1%",
+            "composite_score": 0.7394,
+            "ic": -0.1057
+          },
+          "signal": "TĂNG",
+          "value": 0.5335
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 1068378631,
+    "symbol": "HVN",
+    "train_last_index": 1493,
+    "unit_id": "HVN_f2026_q2_1556",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "cutoff": "2026-04-01",
+    "decision_index": 1556,
+    "donor_hash": "e53c4c8b2393f7a547498c812f0ac2ee733bae826a462cce0a3aa36f2831e2b0",
+    "donor_index": 1370,
+    "donor_label_exit_index": 1373,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "Scale + Corr 230 (WQ#32)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.5%",
+            "composite_score": 0.935,
+            "ic": 0.1293
+          },
+          "signal": "GIẢM",
+          "value": -0.2264
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "59.8%",
+            "composite_score": 0.889,
+            "ic": -0.0852
+          },
+          "signal": "GIẢM",
+          "value": -0.4907
+        }
+      },
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Weighted 5-Factor Combo (WQ#36)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.8%",
+            "composite_score": 0.8224,
+            "ic": 0.1504
+          },
+          "signal": "GIẢM",
+          "value": -0.1465
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "58.6%",
+            "composite_score": 0.8152,
+            "ic": 0.0659
+          },
+          "signal": "GIẢM",
+          "value": -0.2351
+        }
+      },
+      {
+        "current_name": "Long-Term Trend × Short Rev (WQ#19)",
+        "donor_name": "VWAP-Close Range × Volume (WQ#11)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.7%",
+            "composite_score": 0.7819,
+            "ic": 0.1379
+          },
+          "signal": "TĂNG",
+          "value": 0.4658
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "53.8%",
+            "composite_score": 0.8127,
+            "ic": 0.1112
+          },
+          "signal": "GIẢM",
+          "value": -0.7484
+        }
+      },
+      {
+        "current_name": "Bollinger Squeeze & Flow (BFE)",
+        "donor_name": "Min Decay Open Low High (WQ#88)",
+        "placebo": {
+          "components": {
+            "accuracy": "58.1%",
+            "composite_score": 0.7652,
+            "ic": 0.1067
+          },
+          "signal": "TĂNG",
+          "value": 0.6711
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "54.3%",
+            "composite_score": 0.7952,
+            "ic": 0.106
+          },
+          "signal": "TĂNG",
+          "value": 0.401
+        }
+      },
+      {
+        "current_name": "Corr Rank Power (WQ#78)",
+        "donor_name": "HL Ratio Volume Rank (WQ#83)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.1%",
+            "composite_score": 0.7498,
+            "ic": 0.1025
+          },
+          "signal": "TRUNG TÍNH",
+          "value": 0.0622
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.4%",
+            "composite_score": 0.7759,
+            "ic": -0.0927
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0641
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 4028319236,
+    "symbol": "MBB",
+    "train_last_index": 1493,
+    "unit_id": "MBB_f2026_q2_1556",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "cutoff": "2026-09-23",
+    "decision_index": 1675,
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "donor_index": 1370,
+    "donor_label_exit_index": 1373,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "TsMax Corr Vol-High (WQ#26)",
+        "donor_name": "TsMax Corr Rank Vol-VWAP (WQ#50)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.6%",
+            "composite_score": 0.9483,
+            "ic": 0.1463
+          },
+          "signal": "GIẢM",
+          "value": -0.7259
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "57.1%",
+            "composite_score": 0.9041,
+            "ic": 0.1425
+          },
+          "signal": "GIẢM",
+          "value": -0.4925
+        }
+      },
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "TsMax Corr Vol-High (WQ#26)",
+        "placebo": {
+          "components": {
+            "accuracy": "56.3%",
+            "composite_score": 0.845,
+            "ic": 0.168
+          },
+          "signal": "GIẢM",
+          "value": -0.868
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "57.1%",
+            "composite_score": 0.8761,
+            "ic": 0.1245
+          },
+          "signal": "GIẢM",
+          "value": -0.2748
+        }
+      },
+      {
+        "current_name": "Long-Term Trend × Short Rev (WQ#19)",
+        "donor_name": "Max Decay Corr ArgMax (WQ#96)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.5%",
+            "composite_score": 0.8323,
+            "ic": 0.1589
+          },
+          "signal": "GIẢM",
+          "value": -0.7125
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.3%",
+            "composite_score": 0.8485,
+            "ic": 0.1405
+          },
+          "signal": "GIẢM",
+          "value": -0.6046
+        }
+      },
+      {
+        "current_name": "TsRank Close × Body Ratio (WQ#38)",
+        "donor_name": "Corr Rank Threshold (WQ#27)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.6%",
+            "composite_score": 0.6796,
+            "ic": 0.1159
+          },
+          "signal": "TĂNG",
+          "value": 0.7609
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.6%",
+            "composite_score": 0.8468,
+            "ic": 0.1394
+          },
+          "signal": "GIẢM",
+          "value": -0.8751
+        }
+      },
+      {
+        "current_name": "High Volatility × Vol Corr (WQ#40)",
+        "donor_name": "100-Day Slope Condition (WQ#24)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.5%",
+            "composite_score": 0.67,
+            "ic": -0.0725
+          },
+          "signal": "TĂNG",
+          "value": 0.973
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "53.0%",
+            "composite_score": 0.8251,
+            "ic": 0.1667
+          },
+          "signal": "GIẢM",
+          "value": -0.8713
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 828304644,
+    "symbol": "MWG",
+    "train_last_index": 1550,
+    "unit_id": "MWG_f2026_q3_1675",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "cutoff": "2026-06-24",
+    "decision_index": 1613,
+    "donor_hash": "3873415cc50ea030ae34965d05f1229f9c456e4aea5e6b59c87cb9cd50f1b637",
+    "donor_index": 1175,
+    "donor_label_exit_index": 1178,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Corr Rank Threshold (WQ#27)",
+        "placebo": {
+          "components": {
+            "accuracy": "56.0%",
+            "composite_score": 0.8237,
+            "ic": -0.1265
+          },
+          "signal": "GIẢM",
+          "value": -0.8071
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "71.0%",
+            "composite_score": 0.9204,
+            "ic": 0.1753
+          },
+          "signal": "TĂNG",
+          "value": 0.9913
+        }
+      },
+      {
+        "current_name": "HL Ratio Volume Rank (WQ#83)",
+        "donor_name": "High Volatility × Vol Corr (WQ#40)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.0%",
+            "composite_score": 0.8223,
+            "ic": -0.0992
+          },
+          "signal": "GIẢM",
+          "value": -0.1333
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "59.5%",
+            "composite_score": 0.6903,
+            "ic": 0.1457
+          },
+          "signal": "GIẢM",
+          "value": -0.1833
+        }
+      },
+      {
+        "current_name": "VWAP Argmax Decay (WQ#57)",
+        "donor_name": "Decay Corr Difference (WQ#98)",
+        "placebo": {
+          "components": {
+            "accuracy": "53.1%",
+            "composite_score": 0.7987,
+            "ic": -0.1454
+          },
+          "signal": "TĂNG",
+          "value": 0.5795
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "65.9%",
+            "composite_score": 0.6856,
+            "ic": 0.1035
+          },
+          "signal": "TĂNG",
+          "value": 0.7033
+        }
+      },
+      {
+        "current_name": "100-Day Slope Condition (WQ#24)",
+        "donor_name": "Corr Power High-Vol (WQ#85)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.0%",
+            "composite_score": 0.7958,
+            "ic": -0.0934
+          },
+          "signal": "TĂNG",
+          "value": 0.9574
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "49.2%",
+            "composite_score": 0.6706,
+            "ic": 0.2071
+          },
+          "signal": "TĂNG",
+          "value": 0.1966
+        }
+      },
+      {
+        "current_name": "High-Vol Covariance Rev (WQ#16)",
+        "donor_name": "Return Delta × Open-Vol Corr (WQ#14)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.3%",
+            "composite_score": 0.7741,
+            "ic": -0.1114
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0434
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "54.9%",
+            "composite_score": 0.6151,
+            "ic": 0.1479
+          },
+          "signal": "GIẢM",
+          "value": -0.6318
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 193855830,
+    "symbol": "VCB",
+    "train_last_index": 1493,
+    "unit_id": "VCB_f2026_q2_1613",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "cutoff": "2026-04-01",
+    "decision_index": 1556,
+    "donor_hash": "eccb39a87243b96d387f255aa2e8ccd7397bec8c2f6050512f356ba77da58c1e",
+    "donor_index": 611,
+    "donor_label_exit_index": 614,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "VWAP Corr vs Open Rank (WQ#62)",
+        "donor_name": "Stochastic-Vol Corr Rev (WQ#55)",
+        "placebo": {
+          "components": {
+            "accuracy": "56.9%",
+            "composite_score": 0.8272,
+            "ic": 0.1093
+          },
+          "signal": "GIẢM",
+          "value": -0.5857
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "62.6%",
+            "composite_score": 0.833,
+            "ic": -0.0743
+          },
+          "signal": "TĂNG",
+          "value": 0.9513
+        }
+      },
+      {
+        "current_name": "Min Condition Decay (WQ#92)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "62.0%",
+            "composite_score": 0.827,
+            "ic": 0.0745
+          },
+          "signal": "GIẢM",
+          "value": -0.3081
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "48.1%",
+            "composite_score": 0.7742,
+            "ic": -0.1105
+          },
+          "signal": "GIẢM",
+          "value": -0.3082
+        }
+      },
+      {
+        "current_name": "Decay Corr Ratio (WQ#72)",
+        "donor_name": "TsMax Corr Vol-High (WQ#26)",
+        "placebo": {
+          "components": {
+            "accuracy": "58.7%",
+            "composite_score": 0.7732,
+            "ic": 0.088
+          },
+          "signal": "GIẢM",
+          "value": -0.8168
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "65.7%",
+            "composite_score": 0.7472,
+            "ic": 0.0534
+          },
+          "signal": "GIẢM",
+          "value": -0.2466
+        }
+      },
+      {
+        "current_name": "VWAP Min vs ADV180 Corr (WQ#61)",
+        "donor_name": "Weighted 5-Factor Combo (WQ#36)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.0%",
+            "composite_score": 0.7584,
+            "ic": 0.1041
+          },
+          "signal": "GIẢM",
+          "value": -0.5853
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.3%",
+            "composite_score": 0.7266,
+            "ic": -0.0854
+          },
+          "signal": "TĂNG",
+          "value": 0.7255
+        }
+      },
+      {
+        "current_name": "Open × Return Momentum (WQ#8)",
+        "donor_name": "TsMax Corr Rank Vol-VWAP (WQ#50)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.0%",
+            "composite_score": 0.7094,
+            "ic": 0.069
+          },
+          "signal": "GIẢM",
+          "value": -0.6435
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.1%",
+            "composite_score": 0.7252,
+            "ic": -0.093
+          },
+          "signal": "TĂNG",
+          "value": 0.6304
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 890699709,
+    "symbol": "VJC",
+    "train_last_index": 1493,
+    "unit_id": "VJC_f2026_q2_1556",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "cutoff": "2025-12-19",
+    "decision_index": 1490,
+    "donor_hash": "0090824c96cbebedd442f209b0c839653d0bc495cf456e157069addad10a2394",
+    "donor_index": 647,
+    "donor_label_exit_index": 650,
+    "fold": "f2025_q4",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Close Momentum × High Factor (WQ#47)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.3%",
+            "composite_score": 0.8439,
+            "ic": 0.1682
+          },
+          "signal": "TĂNG",
+          "value": 0.6395
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "68.2%",
+            "composite_score": 0.8171,
+            "ic": 0.0847
+          },
+          "signal": "GIẢM",
+          "value": -0.322
+        }
+      },
+      {
+        "current_name": "Decay Corr Ratio (WQ#72)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "67.7%",
+            "composite_score": 0.8172,
+            "ic": 0.0962
+          },
+          "signal": "GIẢM",
+          "value": -0.2971
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "70.2%",
+            "composite_score": 0.7603,
+            "ic": 0.0558
+          },
+          "signal": "GIẢM",
+          "value": -0.2509
+        }
+      },
+      {
+        "current_name": "Stochastic-Vol Corr Rev (WQ#55)",
+        "donor_name": "Sentiment-Flow Alpha (SFA)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.6%",
+            "composite_score": 0.7881,
+            "ic": -0.1667
+          },
+          "signal": "TĂNG",
+          "value": 0.8287
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "58.1%",
+            "composite_score": 0.7138,
+            "ic": 0.1014
+          },
+          "signal": "TĂNG",
+          "value": 0.5045
+        }
+      },
+      {
+        "current_name": "High Volatility × Vol Corr (WQ#40)",
+        "donor_name": "Liquidity Void Reversion (LVR)",
+        "placebo": {
+          "components": {
+            "accuracy": "52.8%",
+            "composite_score": 0.7443,
+            "ic": 0.177
+          },
+          "signal": "TĂNG",
+          "value": 0.8635
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "48.1%",
+            "composite_score": 0.7112,
+            "ic": 0.1382
+          },
+          "signal": "TĂNG",
+          "value": 0.4461
+        }
+      },
+      {
+        "current_name": "ArgMax SignedPower Rank (WQ#1)",
+        "donor_name": "Open Min vs Sum HL Corr (WQ#95)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.5%",
+            "composite_score": 0.7237,
+            "ic": 0.1164
+          },
+          "signal": "GIẢM",
+          "value": -0.6571
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "53.4%",
+            "composite_score": 0.687,
+            "ic": -0.1075
+          },
+          "signal": "TĂNG",
+          "value": 0.7641
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 2301043090,
+    "symbol": "VNM",
+    "train_last_index": 1364,
+    "unit_id": "VNM_f2025_q4_1490",
+    "validation_first_index": 1370
+  },
+  {
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "cutoff": "2026-06-24",
+    "decision_index": 1613,
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "donor_index": 884,
+    "donor_label_exit_index": 887,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "Scale + Corr 230 (WQ#32)",
+        "donor_name": "HL Ratio Volume Rank (WQ#83)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.5%",
+            "composite_score": 0.9119,
+            "ic": 0.1135
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0567
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "65.3%",
+            "composite_score": 1.0,
+            "ic": -0.1702
+          },
+          "signal": "GIẢM",
+          "value": -0.5064
+        }
+      },
+      {
+        "current_name": "Delay OC Corr Long (WQ#37)",
+        "donor_name": "Volume Surge Momentum (WQ#7)",
+        "placebo": {
+          "components": {
+            "accuracy": "61.4%",
+            "composite_score": 0.8793,
+            "ic": 0.1232
+          },
+          "signal": "GIẢM",
+          "value": -0.4919
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "56.9%",
+            "composite_score": 0.6509,
+            "ic": -0.1045
+          },
+          "signal": "TĂNG",
+          "value": 0.2803
+        }
+      },
+      {
+        "current_name": "Corr Rank Threshold (WQ#27)",
+        "donor_name": "Triple TsRank Product (WQ#35)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.7%",
+            "composite_score": 0.8654,
+            "ic": 0.1287
+          },
+          "signal": "GIẢM",
+          "value": -0.5406
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "54.8%",
+            "composite_score": 0.6004,
+            "ic": 0.1146
+          },
+          "signal": "GIẢM",
+          "value": -0.7789
+        }
+      },
+      {
+        "current_name": "Weighted 5-Factor Combo (WQ#36)",
+        "donor_name": "VWAP Argmax Decay (WQ#57)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.4%",
+            "composite_score": 0.8227,
+            "ic": 0.1193
+          },
+          "signal": "GIẢM",
+          "value": -0.6556
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.0%",
+            "composite_score": 0.5642,
+            "ic": 0.1023
+          },
+          "signal": "GIẢM",
+          "value": -0.6405
+        }
+      },
+      {
+        "current_name": "Open × Return Momentum (WQ#8)",
+        "donor_name": "Body Scale vs Argmax (WQ#60)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.9%",
+            "composite_score": 0.8166,
+            "ic": 0.1453
+          },
+          "signal": "GIẢM",
+          "value": -0.8695
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.1%",
+            "composite_score": 0.5605,
+            "ic": 0.1105
+          },
+          "signal": "TRUNG TÍNH",
+          "value": 0.0631
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 2418343711,
+    "symbol": "HVN",
+    "train_last_index": 1493,
+    "unit_id": "HVN_f2026_q2_1613",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "cutoff": "2026-06-24",
+    "decision_index": 1613,
+    "donor_hash": "e33b28088bda23e6803bd55dc3047f707e38c458eea482eba1aff1852a72a2d2",
+    "donor_index": 1310,
+    "donor_label_exit_index": 1313,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "59.0%",
+            "composite_score": 0.9085,
+            "ic": 0.1224
+          },
+          "signal": "TĂNG",
+          "value": 1.0
+        },
+        "rank": 1,
+        "same_factor_name": true,
+        "treatment": {
+          "components": {
+            "accuracy": "61.6%",
+            "composite_score": 0.9021,
+            "ic": 0.1015
+          },
+          "signal": "GIẢM",
+          "value": -0.2611
+        }
+      },
+      {
+        "current_name": "Slope Condition 0.25 (WQ#46)",
+        "donor_name": "Weighted 5-Factor Combo (WQ#36)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.3%",
+            "composite_score": 0.8713,
+            "ic": 0.1581
+          },
+          "signal": "TĂNG",
+          "value": 0.9876
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "56.2%",
+            "composite_score": 0.779,
+            "ic": 0.1094
+          },
+          "signal": "GIẢM",
+          "value": -0.606
+        }
+      },
+      {
+        "current_name": "Delta Decay Return (WQ#39)",
+        "donor_name": "Min Decay Open Low High (WQ#88)",
+        "placebo": {
+          "components": {
+            "accuracy": "58.6%",
+            "composite_score": 0.8429,
+            "ic": 0.1104
+          },
+          "signal": "GIẢM",
+          "value": -0.629
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.7%",
+            "composite_score": 0.777,
+            "ic": 0.133
+          },
+          "signal": "TĂNG",
+          "value": 0.5214
+        }
+      },
+      {
+        "current_name": "Bollinger Squeeze & Flow (BFE)",
+        "donor_name": "VWAP-Close Range × Volume (WQ#11)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.4%",
+            "composite_score": 0.8344,
+            "ic": 0.1436
+          },
+          "signal": "TĂNG",
+          "value": 0.9773
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "56.1%",
+            "composite_score": 0.7765,
+            "ic": 0.1158
+          },
+          "signal": "GIẢM",
+          "value": -0.3428
+        }
+      },
+      {
+        "current_name": "TsRank Close × Body Ratio (WQ#38)",
+        "donor_name": "VWAP-Vol vs Low-ADV50 Corr (WQ#75)",
+        "placebo": {
+          "components": {
+            "accuracy": "56.0%",
+            "composite_score": 0.8251,
+            "ic": -0.1352
+          },
+          "signal": "TĂNG",
+          "value": 0.7152
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.2%",
+            "composite_score": 0.7264,
+            "ic": 0.0977
+          },
+          "signal": "TĂNG",
+          "value": 0.8156
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 2058622149,
+    "symbol": "MBB",
+    "train_last_index": 1493,
+    "unit_id": "MBB_f2026_q2_1613",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "cutoff": "2026-07-01",
+    "decision_index": 1618,
+    "donor_hash": "92841529515e2f6f1ea74640f7363e2b22ca4bf2bb822d0ce83ccf408d6fe00a",
+    "donor_index": 1451,
+    "donor_label_exit_index": 1454,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "68.0%",
+            "composite_score": 0.7377,
+            "ic": 0.081
+          },
+          "signal": "TĂNG",
+          "value": 0.9947
+        },
+        "rank": 1,
+        "same_factor_name": true,
+        "treatment": {
+          "components": {
+            "accuracy": "70.9%",
+            "composite_score": 0.8898,
+            "ic": 0.1639
+          },
+          "signal": "GIẢM",
+          "value": -0.3033
+        }
+      },
+      {
+        "current_name": "100-Day Slope Condition (WQ#24)",
+        "donor_name": "100-Day Slope Condition (WQ#24)",
+        "placebo": {
+          "components": {
+            "accuracy": "51.9%",
+            "composite_score": 0.7367,
+            "ic": 0.2007
+          },
+          "signal": "TĂNG",
+          "value": 0.202
+        },
+        "rank": 2,
+        "same_factor_name": true,
+        "treatment": {
+          "components": {
+            "accuracy": "49.1%",
+            "composite_score": 0.6713,
+            "ic": 0.2137
+          },
+          "signal": "GIẢM",
+          "value": -0.3668
+        }
+      },
+      {
+        "current_name": "Open Min vs Sum HL Corr (WQ#95)",
+        "donor_name": "VWAP Argmax Decay (WQ#57)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.7%",
+            "composite_score": 0.5855,
+            "ic": 0.0399
+          },
+          "signal": "TĂNG",
+          "value": 0.8763
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "60.0%",
+            "composite_score": 0.6622,
+            "ic": 0.1355
+          },
+          "signal": "GIẢM",
+          "value": -0.646
+        }
+      },
+      {
+        "current_name": "VWAP Argmax Decay (WQ#57)",
+        "donor_name": "Scale + Corr 230 (WQ#32)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.7%",
+            "composite_score": 0.583,
+            "ic": -0.0385
+          },
+          "signal": "GIẢM",
+          "value": -0.5084
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "65.5%",
+            "composite_score": 0.6622,
+            "ic": 0.0988
+          },
+          "signal": "GIẢM",
+          "value": -0.9406
+        }
+      },
+      {
+        "current_name": "HL Ratio Volume Rank (WQ#83)",
+        "donor_name": "Corr Power High-Vol (WQ#85)",
+        "placebo": {
+          "components": {
+            "accuracy": "58.6%",
+            "composite_score": 0.5821,
+            "ic": -0.0909
+          },
+          "signal": "GIẢM",
+          "value": -0.7488
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "58.6%",
+            "composite_score": 0.6466,
+            "ic": 0.1359
+          },
+          "signal": "GIẢM",
+          "value": -0.9809
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 275449442,
+    "symbol": "VCB",
+    "train_last_index": 1550,
+    "unit_id": "VCB_f2026_q3_1618",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "cutoff": "2026-06-24",
+    "decision_index": 1613,
+    "donor_hash": "faa3dbaab887568dbf59a1066db0b84e44b1482cdeb97ad1d2b56fe201f2f57a",
+    "donor_index": 773,
+    "donor_label_exit_index": 776,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "Min Condition Decay (WQ#92)",
+        "donor_name": "Close-ADV30 vs High-Vol Corr (WQ#74)",
+        "placebo": {
+          "components": {
+            "accuracy": "58.0%",
+            "composite_score": 0.8779,
+            "ic": -0.1208
+          },
+          "signal": "TĂNG",
+          "value": 0.8074
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "49.6%",
+            "composite_score": 0.8069,
+            "ic": -0.1324
+          },
+          "signal": "GIẢM",
+          "value": -0.9881
+        }
+      },
+      {
+        "current_name": "Max Decay Corr Rank (WQ#71)",
+        "donor_name": "Close-Vol Covariance Rev (WQ#13)",
+        "placebo": {
+          "components": {
+            "accuracy": "56.8%",
+            "composite_score": 0.8255,
+            "ic": -0.1153
+          },
+          "signal": "GIẢM",
+          "value": -0.5472
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "58.1%",
+            "composite_score": 0.7833,
+            "ic": -0.0949
+          },
+          "signal": "GIẢM",
+          "value": -0.7601
+        }
+      },
+      {
+        "current_name": "VWAP Corr vs Open Rank (WQ#62)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "62.3%",
+            "composite_score": 0.7856,
+            "ic": 0.0638
+          },
+          "signal": "TĂNG",
+          "value": 0.9993
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "60.6%",
+            "composite_score": 0.7571,
+            "ic": -0.0627
+          },
+          "signal": "GIẢM",
+          "value": -0.5034
+        }
+      },
+      {
+        "current_name": "Decay Corr Ratio (WQ#72)",
+        "donor_name": "Scale + Corr 230 (WQ#32)",
+        "placebo": {
+          "components": {
+            "accuracy": "61.2%",
+            "composite_score": 0.785,
+            "ic": -0.0623
+          },
+          "signal": "GIẢM",
+          "value": -0.6499
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "62.4%",
+            "composite_score": 0.7261,
+            "ic": 0.0671
+          },
+          "signal": "GIẢM",
+          "value": -0.2679
+        }
+      },
+      {
+        "current_name": "Open × Return Momentum (WQ#8)",
+        "donor_name": "VWAP Min vs ADV180 Corr (WQ#61)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.6%",
+            "composite_score": 0.734,
+            "ic": 0.0978
+          },
+          "signal": "TĂNG",
+          "value": 0.8022
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.6%",
+            "composite_score": 0.7011,
+            "ic": -0.1001
+          },
+          "signal": "GIẢM",
+          "value": -0.908
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 2806541505,
+    "symbol": "VJC",
+    "train_last_index": 1493,
+    "unit_id": "VJC_f2026_q2_1613",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "cutoff": "2026-04-01",
+    "decision_index": 1556,
+    "donor_hash": "53f4332157d816999f4adc69e175027f0017b62db16d9e13733446d9a86375d8",
+    "donor_index": 1067,
+    "donor_label_exit_index": 1070,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "Stochastic-Vol Corr Rev (WQ#55)",
+        "donor_name": "Open Min vs Sum HL Corr (WQ#95)",
+        "placebo": {
+          "components": {
+            "accuracy": "64.0%",
+            "composite_score": 0.9878,
+            "ic": 0.1895
+          },
+          "signal": "TĂNG",
+          "value": 0.9013
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "60.2%",
+            "composite_score": 0.8474,
+            "ic": 0.1649
+          },
+          "signal": "TĂNG",
+          "value": 0.7071
+        }
+      },
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "65.2%",
+            "composite_score": 0.6854,
+            "ic": 0.0467
+          },
+          "signal": "TĂNG",
+          "value": 0.8551
+        },
+        "rank": 2,
+        "same_factor_name": true,
+        "treatment": {
+          "components": {
+            "accuracy": "68.2%",
+            "composite_score": 0.8076,
+            "ic": 0.0907
+          },
+          "signal": "GIẢM",
+          "value": -0.3143
+        }
+      },
+      {
+        "current_name": "Decay Corr Difference (WQ#98)",
+        "donor_name": "Max Decay Corr ArgMax (WQ#96)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.6%",
+            "composite_score": 0.6696,
+            "ic": 0.1016
+          },
+          "signal": "GIẢM",
+          "value": -0.7289
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.8%",
+            "composite_score": 0.7553,
+            "ic": -0.162
+          },
+          "signal": "TĂNG",
+          "value": 0.6549
+        }
+      },
+      {
+        "current_name": "Triple TsRank Product (WQ#35)",
+        "donor_name": "TsMax Corr Rank Vol-VWAP (WQ#50)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.1%",
+            "composite_score": 0.6647,
+            "ic": 0.1023
+          },
+          "signal": "GIẢM",
+          "value": -0.749
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "60.2%",
+            "composite_score": 0.6756,
+            "ic": 0.0912
+          },
+          "signal": "GIẢM",
+          "value": -0.3851
+        }
+      },
+      {
+        "current_name": "VWAP Argmax Decay (WQ#57)",
+        "donor_name": "VWAP Corr vs Open Rank (WQ#62)",
+        "placebo": {
+          "components": {
+            "accuracy": "62.6%",
+            "composite_score": 0.6636,
+            "ic": -0.0556
+          },
+          "signal": "GIẢM",
+          "value": -0.4819
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "65.5%",
+            "composite_score": 0.6581,
+            "ic": 0.0608
+          },
+          "signal": "GIẢM",
+          "value": -0.1405
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 1086178183,
+    "symbol": "VNM",
+    "train_last_index": 1493,
+    "unit_id": "VNM_f2026_q2_1556",
+    "validation_first_index": 1499
+  },
+  {
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "cutoff": "2026-07-01",
+    "decision_index": 1618,
+    "donor_hash": "3cd4121a8ee185c58eee95efdf9d2b653b84010227aaf5fc7eb2744e201a9af4",
+    "donor_index": 1442,
+    "donor_label_exit_index": 1445,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "Scale + Corr 230 (WQ#32)",
+        "donor_name": "VWAP Min vs ADV180 Corr (WQ#61)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.8%",
+            "composite_score": 0.954,
+            "ic": 0.126
+          },
+          "signal": "TĂNG",
+          "value": 0.8205
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "64.1%",
+            "composite_score": 1.0,
+            "ic": -0.1293
+          },
+          "signal": "GIẢM",
+          "value": -0.4489
+        }
+      },
+      {
+        "current_name": "Delay OC Corr Long (WQ#37)",
+        "donor_name": "Slope Condition 0.25 (WQ#46)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.6%",
+            "composite_score": 0.8881,
+            "ic": 0.121
+          },
+          "signal": "GIẢM",
+          "value": -0.9421
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "57.3%",
+            "composite_score": 0.7942,
+            "ic": -0.1087
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0419
+        }
+      },
+      {
+        "current_name": "Open × Return Momentum (WQ#8)",
+        "donor_name": "High-Price Vol Corr (WQ#44)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.0%",
+            "composite_score": 0.8542,
+            "ic": 0.1204
+          },
+          "signal": "TRUNG TÍNH",
+          "value": 0.0176
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.8%",
+            "composite_score": 0.7139,
+            "ic": 0.1191
+          },
+          "signal": "TĂNG",
+          "value": 0.214
+        }
+      },
+      {
+        "current_name": "Corr Rank Threshold (WQ#27)",
+        "donor_name": "Close-ADV30 vs High-Vol Corr (WQ#74)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.4%",
+            "composite_score": 0.8246,
+            "ic": 0.1141
+          },
+          "signal": "TĂNG",
+          "value": 0.7181
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "54.2%",
+            "composite_score": 0.6716,
+            "ic": 0.1048
+          },
+          "signal": "GIẢM",
+          "value": -0.7693
+        }
+      },
+      {
+        "current_name": "Corr ADV20 Low Scaled (WQ#28)",
+        "donor_name": "Slope Condition –0.05 (WQ#51)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.8%",
+            "composite_score": 0.806,
+            "ic": 0.1156
+          },
+          "signal": "TĂNG",
+          "value": 0.2911
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.3%",
+            "composite_score": 0.6565,
+            "ic": 0.0988
+          },
+          "signal": "TĂNG",
+          "value": 0.5955
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 2719716206,
+    "symbol": "HVN",
+    "train_last_index": 1550,
+    "unit_id": "HVN_f2026_q3_1618",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "cutoff": "2026-07-01",
+    "decision_index": 1618,
+    "donor_hash": "38b766630ab80233e80f7df0c46a8774ed07139c931e6f9f274f1991d08e3d4b",
+    "donor_index": 1001,
+    "donor_label_exit_index": 1004,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Decay Low-ADV10 vs VWAP Delta (WQ#89)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.1%",
+            "composite_score": 0.8484,
+            "ic": 0.1544
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0033
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "61.3%",
+            "composite_score": 0.868,
+            "ic": 0.0896
+          },
+          "signal": "GIẢM",
+          "value": -0.2578
+        }
+      },
+      {
+        "current_name": "Bollinger Squeeze & Flow (BFE)",
+        "donor_name": "Weighted 5-Factor Combo (WQ#36)",
+        "placebo": {
+          "components": {
+            "accuracy": "55.1%",
+            "composite_score": 0.7777,
+            "ic": 0.1718
+          },
+          "signal": "TĂNG",
+          "value": 0.8914
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "56.0%",
+            "composite_score": 0.7948,
+            "ic": 0.1175
+          },
+          "signal": "TĂNG",
+          "value": 0.982
+        }
+      },
+      {
+        "current_name": "Delta Decay Return (WQ#39)",
+        "donor_name": "Nested Rank Log (WQ#29)",
+        "placebo": {
+          "components": {
+            "accuracy": "58.6%",
+            "composite_score": 0.7673,
+            "ic": 0.1395
+          },
+          "signal": "TĂNG",
+          "value": 0.7384
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.7%",
+            "composite_score": 0.7645,
+            "ic": 0.1275
+          },
+          "signal": "TRUNG TÍNH",
+          "value": 0.0701
+        }
+      },
+      {
+        "current_name": "Long-Term Trend × Short Rev (WQ#19)",
+        "donor_name": "TsMin Return Volume (WQ#52)",
+        "placebo": {
+          "components": {
+            "accuracy": "60.3%",
+            "composite_score": 0.7292,
+            "ic": 0.0961
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0032
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "53.8%",
+            "composite_score": 0.7573,
+            "ic": 0.1153
+          },
+          "signal": "GIẢM",
+          "value": -0.5962
+        }
+      },
+      {
+        "current_name": "Slope Condition 0.25 (WQ#46)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "61.5%",
+            "composite_score": 0.7141,
+            "ic": 0.0589
+          },
+          "signal": "GIẢM",
+          "value": -0.2983
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "55.9%",
+            "composite_score": 0.755,
+            "ic": 0.1003
+          },
+          "signal": "GIẢM",
+          "value": -0.8949
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 2512255417,
+    "symbol": "MBB",
+    "train_last_index": 1550,
+    "unit_id": "MBB_f2026_q3_1618",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "cutoff": "2026-09-23",
+    "decision_index": 1675,
+    "donor_hash": "4e2da719bb1256968fe66505500d8f72a3405ff4c4cb1da0ff02c31de588c857",
+    "donor_index": 1508,
+    "donor_label_exit_index": 1511,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "68.0%",
+            "composite_score": 0.828,
+            "ic": 0.0848
+          },
+          "signal": "GIẢM",
+          "value": -0.3151
+        },
+        "rank": 1,
+        "same_factor_name": true,
+        "treatment": {
+          "components": {
+            "accuracy": "71.0%",
+            "composite_score": 0.8708,
+            "ic": 0.1417
+          },
+          "signal": "GIẢM",
+          "value": -0.3167
+        }
+      },
+      {
+        "current_name": "HL Ratio Volume Rank (WQ#83)",
+        "donor_name": "100-Day Slope Condition (WQ#24)",
+        "placebo": {
+          "components": {
+            "accuracy": "50.5%",
+            "composite_score": 0.7118,
+            "ic": 0.1322
+          },
+          "signal": "GIẢM",
+          "value": -0.9978
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "59.5%",
+            "composite_score": 0.6895,
+            "ic": 0.135
+          },
+          "signal": "TĂNG",
+          "value": 0.3236
+        }
+      },
+      {
+        "current_name": "100-Day Slope Condition (WQ#24)",
+        "donor_name": "Scale + Corr 230 (WQ#32)",
+        "placebo": {
+          "components": {
+            "accuracy": "67.4%",
+            "composite_score": 0.6797,
+            "ic": -0.0441
+          },
+          "signal": "TĂNG",
+          "value": 0.1904
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "49.6%",
+            "composite_score": 0.6809,
+            "ic": 0.1887
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0248
+        }
+      },
+      {
+        "current_name": "VWAP Argmax Decay (WQ#57)",
+        "donor_name": "VWAP Argmax Decay (WQ#57)",
+        "placebo": {
+          "components": {
+            "accuracy": "65.5%",
+            "composite_score": 0.6709,
+            "ic": 0.05
+          },
+          "signal": "GIẢM",
+          "value": -0.1077
+        },
+        "rank": 4,
+        "same_factor_name": true,
+        "treatment": {
+          "components": {
+            "accuracy": "64.8%",
+            "composite_score": 0.644,
+            "ic": 0.0866
+          },
+          "signal": "GIẢM",
+          "value": -0.1832
+        }
+      },
+      {
+        "current_name": "TsMin Return Volume (WQ#52)",
+        "donor_name": "Return Delta × Open-Vol Corr (WQ#14)",
+        "placebo": {
+          "components": {
+            "accuracy": "57.8%",
+            "composite_score": 0.664,
+            "ic": -0.0835
+          },
+          "signal": "TĂNG",
+          "value": 0.545
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "66.4%",
+            "composite_score": 0.6261,
+            "ic": 0.0765
+          },
+          "signal": "GIẢM",
+          "value": -0.2407
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 4310422728,
+    "symbol": "VCB",
+    "train_last_index": 1550,
+    "unit_id": "VCB_f2026_q3_1675",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "cutoff": "2026-07-01",
+    "decision_index": 1618,
+    "donor_hash": "d0ca25b57a00b177017e1beffe514caa07b89ee0d3e35269b94a9349d820179b",
+    "donor_index": 722,
+    "donor_label_exit_index": 725,
+    "fold": "f2026_q3",
+    "mapping": [
+      {
+        "current_name": "Min Condition Decay (WQ#92)",
+        "donor_name": "SignedPower TsRank Argmax (WQ#84)",
+        "placebo": {
+          "components": {
+            "accuracy": "65.9%",
+            "composite_score": 0.761,
+            "ic": 0.0522
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0574
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "48.7%",
+            "composite_score": 0.7868,
+            "ic": -0.125
+          },
+          "signal": "TĂNG",
+          "value": 0.6297
+        }
+      },
+      {
+        "current_name": "VWAP Corr vs Open Rank (WQ#62)",
+        "donor_name": "Open × Return Momentum (WQ#8)",
+        "placebo": {
+          "components": {
+            "accuracy": "52.1%",
+            "composite_score": 0.7321,
+            "ic": 0.1273
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.0939
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "61.3%",
+            "composite_score": 0.7825,
+            "ic": -0.0681
+          },
+          "signal": "GIẢM",
+          "value": -0.5014
+        }
+      },
+      {
+        "current_name": "Decay Corr Ratio (WQ#72)",
+        "donor_name": "Weighted 5-Factor Combo (WQ#36)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.1%",
+            "composite_score": 0.7113,
+            "ic": 0.11
+          },
+          "signal": "GIẢM",
+          "value": -0.7671
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "63.3%",
+            "composite_score": 0.7719,
+            "ic": 0.0754
+          },
+          "signal": "GIẢM",
+          "value": -0.2502
+        }
+      },
+      {
+        "current_name": "Max Decay Corr Rank (WQ#71)",
+        "donor_name": "VWAP Min vs ADV180 Corr (WQ#61)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.6%",
+            "composite_score": 0.6712,
+            "ic": 0.0968
+          },
+          "signal": "TĂNG",
+          "value": 0.7779
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "57.2%",
+            "composite_score": 0.7427,
+            "ic": -0.0872
+          },
+          "signal": "GIẢM",
+          "value": -0.157
+        }
+      },
+      {
+        "current_name": "Open × Return Momentum (WQ#8)",
+        "donor_name": "Decay VWAP Low Gap (WQ#66)",
+        "placebo": {
+          "components": {
+            "accuracy": "52.3%",
+            "composite_score": 0.6711,
+            "ic": 0.1043
+          },
+          "signal": "GIẢM",
+          "value": -0.8016
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "52.1%",
+            "composite_score": 0.6859,
+            "ic": -0.0968
+          },
+          "signal": "GIẢM",
+          "value": -0.3735
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 495229359,
+    "symbol": "VJC",
+    "train_last_index": 1550,
+    "unit_id": "VJC_f2026_q3_1618",
+    "validation_first_index": 1556
+  },
+  {
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "cutoff": "2026-06-24",
+    "decision_index": 1613,
+    "donor_hash": "e043ba0fc34a8f855f1dfd31285a06c9d96ac528f3db1fd66f3623d24d782a05",
+    "donor_index": 1325,
+    "donor_label_exit_index": 1328,
+    "fold": "f2026_q2",
+    "mapping": [
+      {
+        "current_name": "VWAP-Close Ratio (WQ#42)",
+        "donor_name": "Max Decay Delta VWAP (WQ#73)",
+        "placebo": {
+          "components": {
+            "accuracy": "54.7%",
+            "composite_score": 0.7711,
+            "ic": 0.0962
+          },
+          "signal": "GIẢM",
+          "value": -0.618
+        },
+        "rank": 1,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "68.7%",
+            "composite_score": 0.8087,
+            "ic": 0.0878
+          },
+          "signal": "GIẢM",
+          "value": -0.3183
+        }
+      },
+      {
+        "current_name": "Stochastic-Vol Corr Rev (WQ#55)",
+        "donor_name": "Decay Corr Ratio (WQ#72)",
+        "placebo": {
+          "components": {
+            "accuracy": "71.0%",
+            "composite_score": 0.7692,
+            "ic": 0.0421
+          },
+          "signal": "GIẢM",
+          "value": -0.2787
+        },
+        "rank": 2,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "59.7%",
+            "composite_score": 0.8044,
+            "ic": 0.1427
+          },
+          "signal": "GIẢM",
+          "value": -0.2933
+        }
+      },
+      {
+        "current_name": "Decay Delta Corr Combo (WQ#31)",
+        "donor_name": "VWAP-Close Ratio (WQ#42)",
+        "placebo": {
+          "components": {
+            "accuracy": "66.8%",
+            "composite_score": 0.7562,
+            "ic": 0.051
+          },
+          "signal": "GIẢM",
+          "value": -0.3744
+        },
+        "rank": 3,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "57.0%",
+            "composite_score": 0.7656,
+            "ic": 0.1512
+          },
+          "signal": "GIẢM",
+          "value": -0.1793
+        }
+      },
+      {
+        "current_name": "Decay Corr Difference (WQ#98)",
+        "donor_name": "ArgMax SignedPower Rank (WQ#1)",
+        "placebo": {
+          "components": {
+            "accuracy": "50.7%",
+            "composite_score": 0.7491,
+            "ic": -0.0987
+          },
+          "signal": "GIẢM",
+          "value": -0.9122
+        },
+        "rank": 4,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "54.5%",
+            "composite_score": 0.6808,
+            "ic": -0.1238
+          },
+          "signal": "GIẢM",
+          "value": -0.2233
+        }
+      },
+      {
+        "current_name": "HL Ratio Volume Rank (WQ#83)",
+        "donor_name": "TsMax Corr Rank Vol-VWAP (WQ#50)",
+        "placebo": {
+          "components": {
+            "accuracy": "56.7%",
+            "composite_score": 0.732,
+            "ic": 0.0821
+          },
+          "signal": "TRUNG TÍNH",
+          "value": -0.01
+        },
+        "rank": 5,
+        "same_factor_name": false,
+        "treatment": {
+          "components": {
+            "accuracy": "57.6%",
+            "composite_score": 0.6797,
+            "ic": 0.1008
+          },
+          "signal": "GIẢM",
+          "value": -0.1908
+        }
+      }
+    ],
+    "mask_equal": true,
+    "seed": 272953784,
+    "symbol": "VNM",
+    "train_last_index": 1493,
+    "unit_id": "VNM_f2026_q2_1613",
+    "validation_first_index": 1499
+  }
+]

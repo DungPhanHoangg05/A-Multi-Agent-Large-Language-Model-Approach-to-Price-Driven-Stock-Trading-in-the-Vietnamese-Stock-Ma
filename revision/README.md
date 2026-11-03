@@ -2,7 +2,13 @@
 
 Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt phản biện: `fix`; luồng KLTN trên `develop` được quản lý riêng.
 
-**Tiến độ hiện hành:** [R1](../plan.md#r1-progress), [R2](../plan.md#r2-progress) và [R3](../plan.md#r3-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release bản thảo R1–R3](../outputs/revision/r3_manuscript_v1/manifest.json). R4–R18 đánh giá riêng. Các mục bên dưới là nhật ký lịch sử, không phải checklist hiện tại.
+**Tiến độ hiện hành:** [R1](../plan.md#r1-progress), [R2](../plan.md#r2-progress) và [R3](../plan.md#r3-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release bản thảo R1–R3](../outputs/revision/r3_manuscript_v1/manifest.json). R4–R18 đánh giá riêng. R4 đang partial; [audit và lệnh chạy](../plan.md#r4-progress) ghi corrected-value 0/270. Các mục bên dưới là nhật ký lịch sử, không phải checklist hiện tại.
+
+## Audit và chuẩn bị R4 — 03/11/2026, chưa đóng
+
+[R4 audit](../outputs/revision/r4_audit_v1/manifest.json) xác nhận 264/264 alpha-bearing research prompts mất năm factor rows do split vào Markdown separator; các report/consensus contrasts cũ không thay full-value information control. 54 paired groups giữ upstream và isolation A/S, donor train-only/mask hợp lệ nhưng mapping là rank-vector (84/90 tên khác nhau). AS−P và interaction BA đều mean −2,78 pp, CI mô tả chứa 0; không nhận isolated alpha/sentiment value.
+
+[Bank mới](../outputs/revision/r4_value_bank_v1/manifest.json) khóa 90 prompts, 270 fresh Decision calls, không vision mới; đủ năm rows, 3.244–4.228 chars, same AS/P schema/headings/sentiment/budget. **0/270, 0 attempts**; chỉ tác giả chạy API theo [kế hoạch](../plan.md#r4-progress). R1–R3 giữ nguyên byte. 12 targeted tests + compile năm file mới + fresh-process chín-artifact reproduction PASS; không full suite/E2E hoặc API calls. [Bản thảo audit](../outputs/revision/r4_manuscript_v1/manifest.json) 60/61 trang và [response](response_to_reviewers.md) giữ R4 pending. Đây là bàn giao phần audit/runner, không nghiệm thu thông tin factor.
 
 ## Nghiệm thu R3 — 03/11/2026
 

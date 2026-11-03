@@ -1,4 +1,6 @@
-# Response to reviewers — R1–R3 addressed within stated scope, other comments pending
+# Response to reviewers — R1–R3 addressed within stated scope; R4 in progress
+
+**Current prompt-delivery correction (R4 audit, 03 November 2026):** All 264 alpha-bearing requests among the 474 research decisions omitted the five factor-value rows after compression. The archived results remain valid descriptions of implemented report/consensus branches, but do not establish full numerical-factor information delivery. R1–R3 releases remain immutable; the current manuscript discloses this additional limit. The corrected value-bearing panel is frozen but **0/270 calls** have executed. R4 remains pending.
 
 ## Reviewer 1, comment 1 — baselines and class imbalance
 
@@ -28,7 +30,7 @@ Offline checks replayed **484 real decisions** (474 research +10 smoke), checked
 
 ### Manuscript locations
 
-The R1-only release remains archived at `outputs/revision/r1_manuscript_v2/` (51/52 physical pages), and the R1/R2 release at `outputs/revision/r2_manuscript_v1/` (53/54 pages), each with its exact source ZIP. The current R1–R3 release is `outputs/revision/r3_manuscript_v1/`: both PDFs have **58 physical pages**. Current R1 locators in both are highlights p2; abstract p3; §5.6 pp21–22; §6.1 pp25–28; Tables 7–8 p26, Table 9 p27 and Table 10 p28; conclusion §8 p35. Appendix A/Tables A.18–A.23 occupy pp37–42 in main and pp36–41 in submit. All locators use physical PDF numbering. Undefined references/citations, duplicate labels and duplicate page anchors are absent; the inherited 2.61pt elsarticle footer warning has no visual clipping.
+The R1-only release remains archived at `outputs/revision/r1_manuscript_v2/` (51/52 pages), R1/R2 at `outputs/revision/r2_manuscript_v1/` (53/54), and R1–R3 at `outputs/revision/r3_manuscript_v1/` (58/58), with exact source ZIPs. Current audit release: `outputs/revision/r4_manuscript_v1/`, main/submit **60/61 physical pages**. R1 locators in both: highlights p2, abstract p3, §5.6 pp21–23, §6.1 pp26–29, Tables 7–8 p27, Table 9 p28, Table 10 p29, conclusion pp37–38, Appendix A/Tables A.18–A.23 pp39–43. All locators use physical numbering. Undefined references/citations, duplicate labels/anchors and body/table overflow are absent; the inherited elsarticle footer 2.61pt warning has no clipping.
 
 ### Scope of closure
 
@@ -63,7 +65,7 @@ Seven targeted tests check future-price/volume invariance, train-only threshold 
 
 ### Manuscript locations
 
-The current combined R1–R3 release has 58 physical pages in each PDF. R2 locations in both are §5.7 methods p23; §6.2 results p28; Section 7 L1 pp31–32; conclusion p35. Appendix A.1/Table A.24 is p42 in main and p41 in submit; Tables A.25–A.27 are p43/main and p42/submit. Source anchors are `sec:r2_protocol`, `sec:r2_results`, `app:r2_detail` and the four `tab:r2_*` labels. The earlier R2 PDF/source release remains immutable. Both current PDFs were rebuilt and visually checked, including new tables and changed page transitions.
+The current R4 audit release has 60/61 physical pages in main/submit. R2 locations in both: §5.7 p23; §6.2 p29; Section 7 L1 pp34–35; conclusion pp37–38; Appendix A.1/Table A.24 p43; Tables A.25–A.27 p44. Source anchors remain `sec:r2_protocol`, `sec:r2_results`, `app:r2_detail`. Earlier releases remain immutable; current PDFs were rebuilt and rendered for QA.
 
 ### Scope of closure
 
@@ -101,6 +103,42 @@ No API calls, new predictions, classifier refits or runtime/inference changes ar
 
 ### Manuscript locations and scope of closure
 
-Current release: `outputs/revision/r3_manuscript_v1/`, 58 physical pages in each PDF. In both versions: §5.8 p24, §6.3 pp28–29, Section 7 L4 p34 and §8 pp35–36. Appendix A.2 occupies pp43–45 in main and pp42–44 in submit; Tables A.28–A.29 are p44/main or p43/submit, and Tables A.30–A.31 p45/main or p44/submit. Anchors: `sec:r3_protocol`, `sec:r3_results`, `app:r3_detail`, `tab:r3_classification`, `tab:r3_variability`, `tab:r3_returns`, `tab:r3_contrasts`. Both complete PDFs were rendered and visually checked; new tables and page transitions were inspected at readable scale.
+Current R4 audit release: `outputs/revision/r4_manuscript_v1/`, 60/61 physical pages main/submit. In both: §5.8 p24, §6.3 pp29–30, Section 7 L4 pp35–36, conclusion pp37–38; Appendix A.2 pp44–46, Tables A.28–A.29 p45 and A.30–A.31 p46. Anchors remain `sec:r3_protocol`, `sec:r3_results`, `app:r3_detail` and `tab:r3_*`. R3's original PDFs/source ZIP remain unchanged. Prompt identity verified in R3 establishes sameness, not the completeness of planned factor-value content diagnosed below.
 
 R3 is addressed by matched repetitions of every variant used in the new attribution panel, explicit repeated-run uncertainty and withdrawal of stability/superiority claims unsupported by those distributions. This is not a repeat of every legacy window/normalisation/weight sweep, authentication of legacy defaults, or a full-grid variance decomposition. Legacy optimisation/robustness claims are not maintained; R6 remains separately assessed. Immutable served-weight reproducibility, sparse historical support and prospective validity remain limitations. R4–R18 are not closed by this task.
+
+## Reviewer 1, comment 4 — component information and prompt placebo
+
+**Status: R4 partially addressed; corrected full-value inference remains outstanding (0/270). This response is a progress record, not a claim of completed experimental closure.**
+
+> 4. The primary comparison does not isolate alpha information. According to Table 4 and Appendix A.1, the No-Alpha branch omits both the alpha section and the sentiment section of the prompt. "65.0% versus 51.1% without Alpha" (abstract, highlights) is therefore a comparison of alpha plus sentiment plus a longer prompt against neither. The four-way ablation addresses this only for three symbols, with different absolute results from Table 7 (see comment 3).In addition, the mere presence of an extra report may change the LLM's propensity to predict SHORT, independently of its content. Please add a placebo control: the same prompt sections filled with shuffled, time-permuted or random factor values. This would separate the effect of the information from the effect of the prompt structure.
+
+### Assessment and changes already made
+
+We agree. The legacy control removes both alpha and sentiment sections, so it is now called **Base reports**. Full−Base is a bundle/report contrast, not isolated alpha information. The legacy quantity Full−max(Alpha-only,Sentiment-only) is renamed **best-single gap**; the standard interaction is now explicitly defined as M(AS)−M(A)−M(S)+M(B). Existing legacy branch-provenance limits remain unresolved under R6, rather than being certified by renamed columns.
+
+The frozen new panel has 18 units, eight symbols, five dates, three blocks and 6 UP/12 DOWN outcomes, with three executions of each B/A/S/AS/P branch. All units meet the >=3 locally scored article gate; this is not independent news availability, publication-PIT or Vietnamese financial-domain validation. All 54 cutoff–repeat groups have identical upstream parent/node hashes and identical actual Indicator/Pattern/Trend sections. A and AS have the same alpha section, S/AS/P the same sentiment section, A no sentiment section and S no alpha section. The shared instruction rules still refer to alpha/sentiment even in B. Report-presence contrasts therefore retain context/instruction effects.
+
+The actual-request audit reveals a material defect in the intended information control: `_distill_report` splits the alpha report at `---`, including the Markdown table separator, removing all five factor-value rows. All 162 alpha-bearing panel prompts, and all **264 alpha-bearing prompts among the 474 research decisions**, contain zero factor rows; the numerical feature bank does not prove that those values reached the LLM. The remaining alpha section contains a header and signal-count consensus. Six of 54 AS/P prompt pairs are identical after this compression, despite separate real response IDs. Consequently the old P branch perturbs report/consensus content and is not represented as a valid full factor-value placebo. No old prediction, label, raw call or source archive is modified to conceal this limitation.
+
+The historical donor map is reproducible from seed 20261102 plus unit-ID hash. All 18 donors belong to purged train scopes and their three-session label exits precede validation. A whole five-position vector is reused jointly, with schema and deep availability masks checked. Mapping is by rank while current names are retained: **84/90 rank slots differ in donor name**. This preserves the donor rank vector, not named-factor covariance. That distinction is explicit in both the old audit and the new control specification.
+
+### Existing report-level results, not repaired-prompt evidence
+
+The audit retains all six previously reported pairwise contrasts and adds the standard factorial interaction. Mean BA differences (percentage points) are A−B +5.56, AS−S +2.78, S−B +2.78, AS−A approximately zero, and AS−P −2.78 (sample SD 6.36; descriptive interval [−19.23,+3.12]). The interaction is −2.78 (SD 6.36; [−22.92,+12.12]). Every metric also has three per-execution values, mean/SD/median/range and finite-draw counts. LONG-frequency contrasts and mean panel-account returns are retained, so a shift towards CASH is not described as isolated predictive information.
+
+The post-inference seven-contrast BA max-deviation envelope has radius 19.44 points and includes zero throughout. Whole-block and paired-execution-index resampling uses 10,000 draws, of which 9,612 are jointly finite and 388 lose class support. Three runs/blocks do not justify calibrated coverage or significance. Exact pre-inference registration of the old contrast multiplicity family cannot be authenticated from the frozen executable protocol. The interaction and joint envelope are explicitly additional descriptive analyses, with no uncorrected p-value or family-wise error-control claim.
+
+### Repair prepared; evidence still required
+
+A separate bank `outputs/revision/r4_value_bank_v1/manifest.json` now freezes 90 value-bearing prompts and **270 fresh Decision jobs** on the same 18 units. It reuses only archived upstream reports and frozen numerical assets, so there are **zero new vision calls**. The new renderer keeps all five explicit value rows, names, signals and skill fields visible; AS/P retain the same headings/schema/placement/current names, unchanged sentiment/upstream and common budget. The whole past donor vector is mapped by rank, with its semantic/covariance limits disclosed. Exact token-length equality is not asserted; all prompts are 3,244–4,228 characters, below 6,500. The BA seven-contrast family, source/runtime hashes, donor map and within-repeat order are frozen before the new calls. Prior exposure to this historical dataset means this is a repaired exploratory panel, not a prospective confirmation.
+
+The new runner preserves a distinct response/context/checkpoint for every execution, uses the existing provider-only five-key pool, archives failures, and resumes successful raw responses after interruption. It contains no model/CASH fallback or internal study cap. Quota pauses occur when no provider is available for the locked text model; schema/integrity errors are separate failures. No API calls are performed by this task, following the author's instruction to run real-key steps in their own terminal. The executable run/status/verify/analyze commands are recorded in `plan.md#r4-progress`.
+
+Twelve targeted tests pass for the observed Markdown-distillation defect, actual five-row message delivery, variant isolation, unchanged upstream/rules, training/purge and deep mask constraints, proper interaction, correlated-symbol replication, callback/raw-response crash-resume and tamper detection, incomplete-panel rejection, and all-CASH JSON/ledger behaviour. Five new Python files compile. The nine-artifact audit/TeX reproduces byte-for-byte in a fresh process; status verifies **0/270, zero attempts**. These fixture/code checks are not claimed as actual LLM evidence. R1–R3 source/output hashes are verified through their original source ZIPs without modifying historical artifacts. The full suite/E2E is not rerun because the frozen engine/inference paths are unchanged; the new isolated path is tested directly.
+
+### Manuscript locations and outstanding closure
+
+Audit release `outputs/revision/r4_manuscript_v1/`: main/submit 60/61 physical pages. Both contain the interaction definition in §3 pp12–13, methods §5.9 pp25–26, results §6.4 p30, limitations pp35–36, conclusion pp37–38, and Appendix A.3/Table A.32 p47. Anchors: `eq:factorial_interaction`, `sec:r4_protocol`, `sec:r4_results`, `app:r4_detail`, `tab:r4_contrasts`. Both PDFs were rebuilt/rendered and the changed pages/tables checked visually.
+
+**R4 remains open until all 270 repaired-prompt calls are archived, verified and analysed, and the manuscript/response is updated with their actual outcomes.** The old report-level results, negative/mixed effects and withdrawal of information claims do not substitute for the requested complete-value placebo experiment. R5–R18 remain separately assessed.

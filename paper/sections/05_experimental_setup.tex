@@ -65,7 +65,7 @@ The legacy benchmark compares Full with a control historically named No-Alpha, h
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|l|X|X|}
 \hline
-\textbf{Component} & \textbf{Full System} & \textbf{No-Alpha baseline} \\
+\textbf{Component} & \textbf{Full System} & \textbf{Base reports} \\
 \hline
 Indicator report & Shared upstream snapshot & Identical shared snapshot \\
 \hline
@@ -82,7 +82,7 @@ Final Decision Agent & Receives all enabled reports & Receives only shared upstr
 
 The legacy four-way experiment on FPT, VNM and VCB is intended to compare Full, Alpha-only, Sentiment-only and Base reports with shared upstream inputs. Its branch provenance remains unresolved, so its stored outcomes do not establish independent component contributions. The historical summary below measures improvement over the best single component, not a factorial interaction:
 \begin{equation}
- \mathrm{Synergy}
+ \mathrm{Gap}_{\mathrm{best\mbox{-}single}}
  =\mathrm{Acc}_{\mathrm{Full}}
  -\max\!\left(\mathrm{Acc}_{\mathrm{AlphaOnly}},
                \mathrm{Acc}_{\mathrm{SentimentOnly}}\right).
@@ -330,7 +330,7 @@ by design. Only one unit overlaps the panels, sharing its two r0 B/AS
 decisions; their union contains 322 unique decision executions. Each distinct
 execution has its own successful raw request ID. The 90 fixed-upstream
 unit--variant groups retain identical actual prompt hashes across all three
-Decision calls. Every variant in a realization has the same upstream parent.
+Decision calls. Hash identity establishes sameness, not completeness of the planned content; Section~\ref{sec:r4_protocol} audits that content. Every variant in a realization has the same upstream parent.
 Regenerated vision nodes have 88 distinct successful requests across the
 panel union. Repeated identical predictions are permitted, but copying a raw
 response into another repeat identity is rejected.
@@ -376,6 +376,68 @@ is not calibrated. No best run, seed or checkpoint is selected and no ensemble
 is substituted for the main r0 result. The different panels and lack of
 Decision repeats within every upstream realization preclude a crossed
 variance-component decomposition.
+
+
+\subsection{Factorial Report and Placebo Content Audit}
+\label{sec:r4_protocol}
+
+The same 18-unit, five-date, three-block Decision panel implements B=(0,0),
+A=(1,0), S=(0,1) and AS=(1,1), plus P with a training-donor alpha vector and
+the same sentiment as AS. All 18 units meet the three-locally-scored-article
+gate; this is source coverage, not independent publication-PIT or financial
+sentiment validation. Missing-sentiment units are not used as sentiment
+effects. The three repeats per branch are fresh archived Decision calls.
+
+Actual requests, rather than only branch flags, are audited. All 54
+cutoff--repeat groups share the same Indicator/Pattern/Trend parent hashes
+and the same three upstream text sections. A and AS share their alpha
+section; S, AS and P share their sentiment section. A contains no sentiment
+section, S contains no factor section, and the common priority rules still
+mention alpha and sentiment even for B. Thus these contrasts include report
+presence and resulting instruction/context effects; they do not isolate
+news information from prompt presence.
+
+The audit uncovers an important implementation limitation. The legacy
+alpha distiller splits on the string \texttt{---}, which also occurs inside
+the Markdown table separator. It retains the table header and signal-count
+consensus but drops all five factor-value rows. All 162 alpha-bearing
+panel prompts, and all 264 alpha-bearing prompts among the 474 research
+decisions, have zero such rows. The feature bank's numerical vectors were
+not the full numerical content delivered to the Decision Agent. Prior
+``Full'' and ``alpha-only'' names denote the implemented report branches,
+not proof of full factor-value transmission. Six of the 54 AS/P prompt
+pairs are identical after this compression, despite separate response IDs.
+
+The donor map is reproducible from seed 20261102 plus the unit-ID hash.
+Each donor is in the purged training set; its three-session label exit
+precedes validation. The whole five-position past vector is reused jointly,
+not independently shuffled scalar by scalar, with matching schema and
+availability mask. Values, signals and skill fields are mapped by rank while
+current factor names are retained: 84 of 90 rank slots have a different
+donor name. This is a rank-vector perturbation, not a name-matched
+per-factor covariance control. After compression the historical P branch
+principally perturbs signal consensus, so it is not represented as the
+requested complete factor-value placebo.
+
+We retain all six existing paired contrasts and add the standard interaction
+in Eq.~\ref{eq:factorial_interaction}. The interaction and joint seven-contrast
+max-deviation sensitivity envelope are post-inference analyses. An exact
+pre-inference multiplicity-family registration is not authenticated by the
+frozen executable protocol. The descriptive block/run procedure from
+Section~\ref{sec:r3_protocol} retains pairing and reports finite-draw counts;
+no unadjusted significance claim or calibrated family-wise coverage is made.
+
+A separate frozen replacement bank contains 90 prompts and 270 planned
+fresh text calls on the same 18 units, using the archived upstream reports
+and no new vision inference. Its alpha renderer retains all five explicit
+value rows; AS/P use the same headings, factor names, schema, placement and
+budget, with unchanged sentiment and upstream. Character lengths may differ,
+so exact token-length matching is not claimed. The seven-contrast BA family,
+donor map, source/runtime hashes and order are frozen before these new calls.
+This is a repair of a historical exploratory evaluation, not a clean
+prospective confirmation. At this release no corrected calls have run;
+R4 remains open pending their archived evidence. Old responses are never
+relabelled as responses to the repaired prompts.
 
 \subsection{Implementation Defaults and Legacy Robustness Design}
 
