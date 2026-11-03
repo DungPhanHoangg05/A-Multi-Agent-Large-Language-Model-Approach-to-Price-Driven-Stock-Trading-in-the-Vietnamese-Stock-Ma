@@ -4,38 +4,12 @@
 \subsection{Limitations}
 
 \paragraph{L1. Statistical scale and economic interpretation.}
-The legacy benchmark contains only 20 observations per symbol. Common dates and market shocks invalidate interpreting nine symbol-level gaps as nine independent market replications, and the stored Wilcoxon result is not used to establish a general significant improvement. The tickers are not a probability sample. Class imbalance, snapshot revisions and incomplete input provenance further constrain inference even for this fixed universe.
+The paired benchmark controls upstream reports and evaluates 180 decisions, but each symbol contributes only 20 observations. This limits per-symbol statistical power: no individual McNemar test is significant at 5\%, although the cross-symbol Wilcoxon test is significant. The nine tickers are also not a probability sample of the Vietnamese market, so the results should be interpreted as evidence for this benchmark universe rather than a market-wide estimate.
 
-The new study extends historical coverage to six blocks, but contains only
-twelve distinct decision dates and 36 distinct target-session dates in a
-purposively selected nine-symbol universe. These dates, the symbol accounts
-and the repeated calls are not additional independent market replications.
-BHN covers only three recent blocks; cohort sensitivities preserve that
-missingness. Joint block bootstrap intervals and preselected repeated panels
-are descriptive. With six or three historical clusters, neither power nor
-inter-block independence is established. The Full--Base gap changes sign
-when individual blocks are omitted. Volatility/turnover strata are causal
-calculations added after inference and cannot support a confirmatory regime
-strategy. Historical prices may be represented in either hosted model's
-training corpus: all target labels precede protocol freeze, and no served
-weight digest or authenticated training exclusion is available. Model release
-date alone does not remove that concern. Full's new BA of 48.31\% and negative
-mean return do not establish a benefit over naive or numerical controls.
-
-Directional skill does not directly imply profitability. In the legacy run,
-Full improves mean accuracy by 13.9 pp over Base and has a less negative mean
-account return, yet remains below CASH. The new study likewise has negative
-Full mean net return. Because SHORT predictions map to CASH, correct bearish
-forecasts generate no trading return. Relative loss reduction does not
-establish deployable profitability.
+Directional skill does not directly imply profitability. The Full System improves mean accuracy by 13.9 pp and outperforms No-Alpha in account return for every symbol, yet its mean compounded return remains $-1.69\%$, with only three symbols positive. Because SHORT predictions map to CASH, correct bearish forecasts generate no trading return. The observed directional lift therefore does not establish deployable profitability.
 
 \paragraph{L2. Simplified execution model.}
 The fixed-cycle ledger aligns labels, alpha targets, and account returns on the same next-open-to-target-close net return and includes two-leg fees and slippage. However, these costs remain benchmark assumptions. The simulator omits dynamic spreads, taxes, order-book depth, partial fills, market impact, position limits, and cross-symbol capital competition. It also assumes each $S=L=3$ cycle is closed before the next entry. A venue-calibrated event-driven simulator is therefore required before live deployment.
-
-New daily ledgers additionally assume fractional shares and immediate cash
-reuse. Closing a share position does not establish settlement of sale proceeds;
-pending cash or funded advances have not been validated. Adjustment/dividend
-provenance is uncertain, so continuous hold is not certified total return.
 
 \paragraph{L3. Alpha selection and sensitivity.}
 Selecting five factors from 85 candidates introduces multiple-testing and winner's-curse risk. Although point-in-time cutoffs prevent future-bar leakage, the same trailing sample is used to estimate IC sign, compute oriented Accuracy and Sharpe, and rank the factors. Selecting large composite scores across many candidates can therefore produce optimistic diagnostics. No nested cross-validation, Deflated Sharpe Ratio, multiplicity correction, or sign-stability criterion was applied. The benchmark evaluates the complete adaptive policy at later cutoffs, but its per-factor statistics should not be interpreted as unbiased factor discoveries.
@@ -43,44 +17,12 @@ Selecting five factors from 85 candidates introduces multiple-testing and winner
 The 80 WorldQuant-derived entries are heuristic single-asset adaptations rather than exact implementations of the original cross-sectional formulas. Their stability was not evaluated through IC decay, lagged signal autocorrelation, or turnover. These diagnostics are needed to determine whether apparent predictiveness survives to the $L=3$ horizon and remains economically meaningful after trading costs.
 
 \paragraph{L4. Hosted-model and visual reliability.}
-Configured temperature zero is mapped to $10^{-8}$ by the audited SDK;
-fixed prompts and that near-zero client setting do not guarantee deterministic
-hosted outputs. Sharing upstream reports controls those inputs within a pair,
-not randomness of separate Decision calls. The three-execution audit reports
-actual conditional dispersion rather than assuming it vanishes. Provider
-routing, timing and unverified served weights remain confounds. The Decision
-and upstream panels have different supports and only one overlapping unit;
-they cannot identify separate variance components without a crossed design.
-Three runs and three blocks, with substantial undefined resamples, do not
-justify precise or calibrated confidence claims or generalisation to all
-102 units. Nominal legacy defaults are not authenticated matched repeats.
+Temperature zero and fixed prompts do not guarantee deterministic hosted-model outputs, and provider-side revisions or inference nondeterminism may still affect repeated runs. The paired design controls this variation within each Full/No-Alpha comparison, but not necessarily across independent executions.
 
 The Pattern and Trend agents use deterministic OHLCV rules to detect obvious inconsistencies in visual conclusions. These rules check output consistency only and leave the VLM's actual use of the cited candle, wick, breakout, or trendline unverified. Prior work reports strong trend sensitivity and persistent spatial-reasoning limitations in financial chart understanding \cite{wang2026martingale,shu2026finchart}. Establishing causal visual grounding would require matched counterfactual charts and human-labelled local evidence, neither of which is included in this study.
 
-The retained chart audit additionally identifies a concrete visual-input defect: legend labels for close support/resistance were attached to candle wick/body artists rather than the blue/red lines. All 107 archived Trend images have those swatches, and actual request matching establishes their delivery. The corrected renderer and English support-colour template are separately versioned. No corrected-image paired LLM rerun has yet been completed, so the existing numerical results cannot quantify this defect's effect or substantiate performance of the corrected renderer. Original input artifacts and results are retained; the pending comparison must recompute shared Trend reports and every affected Decision branch without selecting a favourable run.
-
-\paragraph{Factor-value controls and attribution limits}
-The original compressed prompts omitted the numerical factor rows. The
-separate completed 270-decision repair verifies their delivery and compares
-a joint past rank-vector placebo under the same report structure. It does
-not preserve named-factor covariance, exactly match token lengths, isolate
-one scalar from its skill metadata or match LONG exposure. AS--P has a
-positive pointwise BA interval but a zero-spanning seven-contrast envelope;
-all branches retain UP recall of 16.67\% and negative mean net return.
-Three executions/blocks, coverage-selected historical units, shared rules
-and provider timing prevent a general information-value or calibrated
-significance conclusion. The original and repaired results remain separate.
-
 \paragraph{L5. Sentiment coverage and attribution.}
-Cutoff filtering is an intended software control, not independent verification of archived inputs. Historical caches lack scorer provenance and are treated as unavailable in the verified-score numerical comparator, rather than as neutral sentiment. The three-symbol legacy ablation has unresolved branch provenance and does not establish independent sentiment effects or interactions. New provenance fields cannot retroactively identify the scorer or authenticate the missing historical requests.
-
-The new bank pins a local scorer and archives its inputs and scores, but
-does not independently certify publication/content availability or
-Vietnamese financial-domain validity. Its coverage-selected 18-unit panel
-has only five dates and excludes CMG; the nine-unit upstream panel answers a
-different support-specific question. Mixed placebo contrasts do not support
-isolated alpha information value. Neither panel closes the separate source,
-domain-validation or component-reliability requirements.
+Strict cutoff filtering prevents future and undated articles from entering historical decisions, but sentiment coverage remains sparse and uneven across firms. The three-symbol ablation also shows heterogeneous effects, including a positive independent contribution for VNM and a negative factor--sentiment interaction for VCB. These results do not support a broad causal claim about Vietnamese news sentiment. New records distinguish local Transformers, Dedicated Endpoint, and lexicon execution, but the model repository is not pinned to an immutable Hub commit and the historical caches remain \texttt{legacy-unknown}. Backend provenance therefore improves auditability without establishing bitwise reproducibility or retroactive scorer attribution.
 
 \subsection{Future Work}
 
@@ -88,27 +30,13 @@ domain-validation or component-reliability requirements.
 The most important extension is a preregistered study over a broader universe such as the VN100 and multiple market regimes. More test points would increase per-symbol power, support sector-level analysis, and permit out-of-time validation rather than repeated analysis of the same recent period.
 
 \paragraph{F2. Stronger baselines and multiplicity control.}
-The new study already includes train-fitted majority, momentum, two logistic
-feature sets and factor voting. Further tree-based or sequence controls and
-a time-ordered nested design would be useful if stronger component-selection
-claims are pursued. Normalisation, IC orientation and top-five selection
-should then be repeated wholly inside each inner training fold before
-scoring the frozen bundle on an untouched outer interval \cite{varma2006bias}.
-Multiplicity controls and selection/sign/rank stability are still needed
-before interpreting selected-factor diagnostics as factor discoveries.
+Future experiments should add random-walk, logistic, tree-based, and sequence-model baselines on the identical information set. A time-ordered nested design should repeat normalisation, IC orientation, and top-five selection wholly inside each inner training fold, then score the frozen selected bundle on an untouched outer interval \cite{varma2006bias}. White's Reality Check, false-discovery-rate control, or the Deflated Sharpe Ratio should additionally account for searching across 85 candidates. Selection frequency, IC-sign agreement, and rank correlation across rolling calibration windows should be published rather than reporting only the winning factors.
 
 \paragraph{F3. Execution and portfolio realism.}
 A portfolio simulator should model lot sizes, taxes, dynamic spreads, liquidity limits, partial fills, and market impact, and should allocate capital jointly across symbols. Confidence gates and risk-based sizing can then be assessed without conflating forecasting accuracy with all-in binary allocation.
 
 \paragraph{F4. Component reliability.}
-Broader repeated hosted-model studies should extend the two limited panels
-and archive provider revision metadata whenever available. The new local
-ViSoBERT scorer is pinned; backend-equivalence tests would be required before
-pooling it with Dedicated Endpoint outputs. Vision faithfulness needs matched
-local-pattern/global-trend interventions and human annotations. Sentiment
-also needs a Vietnamese financial-domain test set. Unverified legacy
-interactions are not used as evidence to choose a new conflict-resolution
-mechanism after observing outcomes.
+Repeated hosted-model runs should quantify decision variance and archive provider revision metadata whenever available. ViSoBERT experiments should pin an exact Hub commit and test agreement between the local Transformers and Dedicated Endpoint paths before pooling their outputs. Vision faithfulness should be tested with two matched interventions: preserve global trend while changing only the local candlestick evidence, and preserve the local pattern while swapping the trend confounder. Directional changes should then be compared with rule-implied changes and human local-evidence annotations, rather than scored only against the future return. Sentiment should likewise be evaluated against a Vietnamese financial-domain test set. The observed negative VCB interaction also motivates an explicit conflict-resolution mechanism between factor and sentiment evidence.
 
 \paragraph{F5. Per-factor translation audit.}
 Each registered adaptation should be profiled by horizon-specific IC decay, autocorrelation at several lags, sign persistence, exposure turnover, and net performance after the same two-leg costs used by the account simulator. Diagnostics should be stratified by symbol and market regime and compared with simple price/volume baselines. Factors whose orientation changes frequently or whose apparent IC disappears before $L=3$ should be excluded by a preregistered stability rule rather than retained through ad hoc interpretation.

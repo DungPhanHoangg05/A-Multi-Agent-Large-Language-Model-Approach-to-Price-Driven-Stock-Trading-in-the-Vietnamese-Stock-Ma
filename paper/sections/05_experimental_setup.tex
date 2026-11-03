@@ -56,7 +56,7 @@ Random seeds & 42 & Python/NumPy and bootstrap reproducibility \\
 
 \subsection{Paired Baseline and Disentangled Ablations}
 
-The legacy benchmark compares Full with a control historically named No-Alpha, here called Base reports. The control removes both OHLCV factors and sentiment. The implemented paired shared-report protocol intends to deep-copy Indicator, Pattern and Trend reports within each pair; complete historical reports and requests have not been recovered to independently certify every archived pair. All 180 saved pairs contain valid binary decisions. Their accuracy difference is a Full--Base bundle gap, not an estimate isolating alpha information.
+The primary benchmark compares the Full System with a No-Alpha baseline under the implemented \texttt{paired\_shared\_reports} protocol. Indicator, Pattern, and Trend agents run once at each cutoff. Their immutable report snapshot is deep-copied into both decision branches, so only the Alpha bundle and the corresponding final decision differ. This eliminates upstream LLM and chart-generation variation within each pair. All 180 benchmark pairs produced valid binary decisions.
 
 \begin{table}[htb]
 \centering
@@ -65,7 +65,7 @@ The legacy benchmark compares Full with a control historically named No-Alpha, h
 \renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|l|X|X|}
 \hline
-\textbf{Component} & \textbf{Full System} & \textbf{Base reports} \\
+\textbf{Component} & \textbf{Full System} & \textbf{No-Alpha baseline} \\
 \hline
 Indicator report & Shared upstream snapshot & Identical shared snapshot \\
 \hline
@@ -80,9 +80,9 @@ Final Decision Agent & Receives all enabled reports & Receives only shared upstr
 \end{tabularx}
 \end{table}
 
-The legacy four-way experiment on FPT, VNM and VCB is intended to compare Full, Alpha-only, Sentiment-only and Base reports with shared upstream inputs. Its branch provenance remains unresolved, so its stored outcomes do not establish independent component contributions. The historical summary below measures improvement over the best single component, not a factorial interaction:
+To separate the two components bundled in the primary intervention, a second experiment uses the \texttt{four\_way\_shared\_upstream} protocol on FPT, VNM, and VCB. It evaluates Full (factors and sentiment), Alpha-only (factors), Sentiment-only (sentiment), and Baseline (neither). All four branches receive the same upstream snapshot at each test point. The independent directional contributions are defined relative to Baseline, while the interaction is
 \begin{equation}
- \mathrm{Gap}_{\mathrm{best\mbox{-}single}}
+ \mathrm{Synergy}
  =\mathrm{Acc}_{\mathrm{Full}}
  -\max\!\left(\mathrm{Acc}_{\mathrm{AlphaOnly}},
                \mathrm{Acc}_{\mathrm{SentimentOnly}}\right).
@@ -98,9 +98,9 @@ Each variant starts with VND~50,000,000 and is simulated independently. Every LO
  \label{eq:account_return_setup}
 \end{equation}
 
-The legacy files store Sharpe calculated with $\sqrt{252}$ on cycle returns; this frequency convention is under methodological correction and is not used here to support an investment claim. Their drawdown is cycle-end rather than daily mark-to-market. The new numerical ledger additionally marks holdings at every observed session close, records daily quoted-notional turnover divided by prior equity, and separates held-session fraction from close-of-day exposure. Continuous holding buys once at the first entry and sells once at the final exit, including inter-cycle gaps. It is a price-series comparator, not a verified total-return account: corporate-action/cash-dividend ledgers are unavailable. Fractional shares, immediately reusable cash, zero interest, and the stated two-sided costs remain idealised research assumptions, not a venue-calibrated execution model.
+Account Sharpe is the mean of the 20 cycle returns divided by their population standard deviation and annualised by $\sqrt{252}$; CASH cycles contribute zero. Maximum drawdown is computed from the compounded cycle-end equity curve anchored at $W_0$. These metrics describe the stated research simulation rather than a deployable execution strategy: spread variation, partial fills, taxes, liquidity limits, and market impact are outside the model.
 
-Legacy McNemar, bootstrap, Newey--West and cross-symbol Wilcoxon outputs are retained as historical diagnostics with their original assumptions. They are not used to assert general significance, since 20 observations per symbol and common market dates do not constitute nine independent replications. The numerical reconstruction is descriptive and reports no superiority test. Balanced accuracy is the primary predictive summary, with MCC, macro-F1, raw accuracy, class support and both classes' precision/recall/F1 also reported. Undefined denominators are NA rather than zero. Pooled metrics aggregate confusion counts; macro-over-symbol metrics weight each symbol equally and require each symbol's metric to be defined.
+Statistical inference is computed on paired common support. For each symbol, an exact two-sided McNemar test compares discordant correctness outcomes. A moving-block bootstrap with block length five, 1,000 replications, and seed 42 yields the 95\% interval for Alpha Lift. A Newey--West test is also stored for the paired correctness-difference series. Across the nine symbols, a two-sided Wilcoxon signed-rank test evaluates whether the symbol-level lifts are centred at zero.
 
 \begin{table}[htb]
 \centering
@@ -111,13 +111,9 @@ Legacy McNemar, bootstrap, Newey--West and cross-symbol Wilcoxon outputs are ret
 \hline
 \textbf{Metric} & \textbf{Definition} \\
 \hline
-Balanced accuracy & Mean of UP and DOWN recalls; both class supports must be nonzero. \\
-\hline
-MCC and class metrics & Matthews correlation; macro-F1; class supports and precision/recall/F1, with undefined values reported as NA. \\
-\hline
 Directional accuracy & Fraction of valid LONG/SHORT forecasts matching the net economic direction in Eq.~\eqref{eq:label}. \\
 \hline
-Legacy bundle gap & Full accuracy minus Base reports accuracy; not isolated alpha information value. \\
+Alpha Lift & Full accuracy minus the accuracy of its paired No-Alpha branch, in percentage points. \\
 \hline
 Account return & Compounded fixed-cycle return $W_K/W_0-1$; LONG executes and SHORT holds cash. \\
 \hline
@@ -130,357 +126,15 @@ Paired inference & Exact McNemar test, moving-block 95\% lift interval, Newey--W
 \end{tabularx}
 \end{table}
 
-\subsection{Exploratory Numerical Baselines and Comparability}
-\label{sec:r1_numeric_protocol}
+\subsection{Implementation and Robustness Design}
 
-The additional numerical evaluation freezes a newly retrieved VCI price series
-through 30 September 2026 and retains all 20 legacy cutoff dates for each
-symbol. This is a reconstruction, not an authenticated copy of the historical
-LLM input snapshot. Canonical entry/exit prices and net labels are compared
-before any Full comparison is permitted. The 74 mismatched endpoints and two
-changed labels prevent that comparison, even though pooled class counts happen
-to remain 56 UP and 124 DOWN.
-
-Training decisions end in 2025; validation begins in January 2026 and ends
-before each symbol's first test decision. Every training label exits strictly
-before the first validation decision, and every validation label exits strictly
-before the first test decision. Samples use three-session spacing and 300
-warm-up sessions. An invalid BHN OHLC row on 13 September 2022 has no verified
-replacement, so the numerical feature/training view starts at the valid suffix
-after that row; the raw file and all test dates remain unchanged.
-
-Baselines are constant DOWN/CASH, always-LONG cycles, train-fitted majority,
-fixed 20-session momentum, logistic regression on price/indicator features,
-logistic regression on the same price features plus 85 factors and verified
-sentiment/missingness, and equal factor voting with train-only orientation.
-Five factor formulas containing whole-prefix normalisation receive explicit
-expanding past-only adapters in the new baseline pipeline; the legacy registry
-is unchanged. The broader factor set, absent peer context and missing reports
-mean that the second logistic is an information-family comparator, not a
-verified reconstruction of Full's exact numerical/textual inputs. Unknown
-historical scorer provenance makes sentiment unavailable rather than neutral.
-
-Median imputation, missingness indicators and standardisation are fitted only
-on train during selection. The fixed regularisation grid is
-$C\in\{0.01,0.1,1,10\}$ and threshold grid is $\{0.5,0.4,0.6\}$, selected by
-validation balanced accuracy with fixed-order ties. Selected preprocessing and
-logistic models are then refitted on train plus matured validation. A seeded
-random control uses the training momentum LONG rate; it is explicitly not a
-Full-exposure-matched control, since historical Full train predictions are
-missing. Causal per-symbol regimes use the close/SMA60 gap (above $2\%$, below
-$-2\%$, or otherwise sideways). One deterministic numerical run is reported;
-it is not substituted for repeated LLM runs or multi-year LLM folds.
-
-\subsection{New Frozen Common-Snapshot Study}
-\label{sec:r1_common_protocol}
-
-The primary revision evidence is a new historical exploratory study, not a
-relabelled reconstruction of the legacy run. Its frozen bank contains 102
-symbol--date units from nine equities and twelve decision dates. There are
-two dates in each block: 3 July/22 September 2023, 1 July/20 September 2024,
-2 January/31 March 2025, 1 October/19 December 2025,
-1 April/24 June 2026, and 1 July/23 September 2026. The first three blocks
-contain eight symbols; BHN is eligible only in the last three after the
-documented OHLC exclusion. Thus eight symbols contribute twelve units each
-and BHN contributes six. No date or checkpoint is selected using LLM outcomes.
-The machine-readable bank schedule, rather than the older 20-point template,
-defines every train, validation and test index.
-
-Each unit uses the same frozen OHLCV, selected-factor features and sentiment
-availability for all numerical and LLM comparisons. The analysis window is
-45 sessions. The net target retains entry at the next open, exit at the third
-subsequent observed-session close, 0.25\% fee and 0.10\% slippage on each leg.
-Preprocessing, train-majority decisions, factor-vote orientation and logistic
-regularisation/threshold selection use purged chronological train/validation
-data; label exits precede the next split. Price logistic uses 225 price and
-indicator features. Market-input logistic adds 432 selected-factor,
-sentiment and missingness features from the same numerical input bank.
-It is an information-family comparator: numerical inputs are common, but
-neither chart pixels, report wording nor pretrained model knowledge is
-identical to the LLM representation. Fixed momentum, train-majority, constant
-CASH, always-LONG cycles and factor voting complete the classification
-controls. Continuous hold buys once and sells once within each symbol--block
-account and is an economic comparator, not a cycle classifier. No control is
-fitted to Full's test LONG rate; no Full-exposure-matched superiority claim
-is made.
-
-For this new bank, 154 eligible text excerpts from an audit of 180 records
-(177 URL/text identities) were rescored locally using the pinned
-\texttt{5CD-AI/Vietnamese-Sentiment-visobert} revision recorded in the bank.
-Scores use $P(\mathrm{POS})-P(\mathrm{NEG})$, a 256-token cap, date-only
-availability from the following day, deduplication, a 90-day window and a
-minimum of three articles; unavailable sentiment remains missing. Peer
-context is empty for all variants. This authenticates the new scoring
-process, not historical publication/content availability or financial-domain
-validity. Legacy sentiment remains unknown.
-
-The main comparison is B (Base reports) versus AS (Full), with the same
-Indicator, Pattern and Trend reports per unit. B removes factors and
-sentiment. A preselected 18-unit panel evaluates B/A/S/AS/P three times
-with fixed shared upstream; A and S enable only factors and only sentiment,
-respectively. P retains sentiment but replaces the selected factor vector
-with a preselected train-only past donor. A separate nine-unit panel
-regenerates upstream three times for B/AS. The base realization is shared
-with the main study, not called twice. These contracts require 474 research
-decisions; ten smoke decisions are outside evaluation. No incomplete job,
-fallback output or synthetic CASH prediction enters the release.
-
-New text/vision calls use \texttt{openai/gpt-oss-20b} and
-\texttt{qwen/qwen3.8-27b}, configured temperature zero and output caps 2,048/1,024,
-respectively. Requests, raw responses, parent hashes and runtime/source
-identities are archived. An author-authorised operational amendment replaces
-internal budget and deadline stops with routing across five provider keys;
-model, prompt, units, variants and targets remain frozen. There are 175
-research decisions before and 299 after this amendment, with one main pair
-crossing epochs. This is disclosed rather than assumed to be an immutable
-provider revision. There are 756 attempts, 734 successful responses and 22
-archived errors including smoke; 1,229,635 prompt and 420,761 completion
-tokens are SDK-observed successful usage, excluding unknown failed-call
-usage. No monetary cost is inferred.
-
-Class support, both-class metrics, pooled and equal-symbol macro summaries,
-and strata by symbol, block and causal regime use common support. Regimes
-use the decision-close gap from its trailing SMA60: above $2\%$ is bull,
-below $-2\%$ bear, and otherwise sideways. For paired BA contrasts, all
-symbols in each block are resampled together over six blocks, with 10,000
-bootstrap replicates and seed 20261102. The resulting few-block intervals
-are descriptive. Three-repeat dispersion is restricted to the selected
-panel, not assigned to the 102-unit one-pass study. The economic ledger
-uses fractional shares and immediate cash reuse. Means over 51 separate
-symbol--block accounts are not a joint portfolio, a certified settlement
-simulation or a dividend-adjusted total-return estimate.
-
-\subsection{Temporal Coverage and Dependent Panel Audit}
-\label{sec:r2_protocol}
-
-The temporal audit reuses the complete frozen prediction bank; it makes no
-new model calls or outcome-dependent changes to dates, units or predictions.
-Tables~\ref{tab:r2_coverage} and \ref{tab:r2_folds} detail its support.
-The period extends from 3 July 2023 to 23 September 2026, but is sparsely
-sampled: twelve decision dates and 36 distinct future target-session dates,
-not continuous daily evaluation across those years. There are 306 eligible
-symbol--target-session observations, which share calendar shocks and cannot
-be counted as independent replications. Separately funded account simulations
-likewise do not imply statistical independence.
-
-The snapshot contains 1,681 observed vendor sessions per symbol from
-2 January 2020 through 30 September 2026. A contradictory BHN bar on
-13 September 2022 requires the already frozen valid-suffix rule, excluding
-673 prefix rows while preserving their raw bytes. Its remaining history
-does not meet the 600-session warm-up in the first three blocks. The panel
-therefore has 102 eligible cells out of 108 date--symbol slots; the six
-missing BHN cells remain missing for every classifier. Predictions are joined
-on actual calendar date, symbol and variant, not a within-symbol test index.
-The full nine-classifier grid has 972 slots with 54 explicit missing cells.
-
-All 51 outer symbol--block scopes have expanding past training samples and
-chronological inner validation. Training label exits precede the first
-validation decision; validation label exits precede the first test decision.
-The first train cutoff has at least 600 observed history sessions. Depending
-on symbol and block, there are 32--318 training samples and 18--21 validation
-samples. Stored logistic imputation and scaling statistics were independently
-recomputed from exactly the purged training plus matured validation inputs
-and matched in every scope; classifiers were not refitted. Hyperparameter
-selection follows the frozen validation procedure. The LLM's adaptive factor
-selector remains the frozen causal 600-session policy at each cutoff, not
-a newly nested factor-discovery experiment; multiplicity and selector
-stability remain separate requirements.
-
-The original trend context is the close/SMA60 gap. To describe coverage more
-fully, two post-inference descriptive dimensions are added: trailing
-20-session close-return sample volatility and trailing 20-session mean
-Close$\times$Volume. Each high/low threshold is its symbol--fold median on
-train cutoffs only. These values use no future bars or test-label fitting,
-but the new stratification itself was not preregistered before inference.
-The turnover proxy retains vendor quote/volume units and is not a measure
-of spread, depth or executable liquidity. Context labels describe individual
-price paths, not an independently verified market-index regime.
-
-Group metrics report unit, class, symbol and distinct-date support alongside
-LONG frequency. Exposure is checked against the frozen daily ledgers over
-the three target sessions per unit; its denominator excludes the long cash
-gaps between selected decisions. It is not a calendar-wide portfolio exposure.
-Whole-block bootstrap draws keep all eligible symbols, both dates and every
-variant together, preserving contemporaneous dependence and the missing
-mask. Coverage-cohort and leave-one-block-out sensitivities are descriptive;
-three or six blocks do not establish inter-block independence or reliable
-small-sample precision. The cross-symbol legacy Wilcoxon value is not used
-as an inferential test for this study.
-
-This remains a purposively selected surviving nine-symbol universe. There
-is no authenticated point-in-time constituent, listing/delisting or
-suspension registry; zero volume does not certify suspension. All labels
-matured by 28 September 2026, before protocol freeze on 2 November 2026,
-so there are zero prospective test units. The served text/vision weight
-revision and training-corpus exclusion are unverified. Archived model names,
-release dates, temperature and request fingerprints do not prove absence
-of memorised historical prices. No contamination-free, market-wide or
-untouched prospective performance claim is made.
-
-\subsection{Matched Repeated Executions}
-\label{sec:r3_protocol}
-
-The repeated-run audit conditions on the two panels chosen before inference:
-18 units (six UP/twelve DOWN, eight symbols, five dates, three blocks) have
-three Decision executions for each B/A/S/AS/P variant with upstream fixed;
-nine units (two UP/seven DOWN, nine symbols, three dates, three blocks) have
-three regenerated upstream realizations for B/AS, each followed by one
-Decision execution. The base realization is reused from the main comparison
-by design. Only one unit overlaps the panels, sharing its two r0 B/AS
-decisions; their union contains 322 unique decision executions. Each distinct
-execution has its own successful raw request ID. The 90 fixed-upstream
-unit--variant groups retain identical actual prompt hashes across all three
-Decision calls. Hash identity establishes sameness, not completeness of the planned content; Section~\ref{sec:r4_protocol} audits that content. Every variant in a realization has the same upstream parent.
-Regenerated vision nodes have 88 distinct successful requests across the
-panel union. Repeated identical predictions are permitted, but copying a raw
-response into another repeat identity is rejected.
-
-The configuration audit records cutoff/asset/prompt hashes, frozen source
-identity, model aliases, SDK metadata, provider key slots, timestamps and
-every failure. All 756 attempted calls record the same SDK temperature
-$10^{-8}$: the pinned \texttt{langchain-groq} 1.1.2 adapter converts a
-configured zero to that value. This is observed client metadata, not an
-independent provider wire capture or weight-revision attestation. It corrects
-the shorthand ``temperature zero'' without implying deterministic hosted
-outputs. Output caps remain 2,048/1,024; no hosted decoding seed is supplied
-by the frozen caller. Source-byte hashes are authoritative where the model
-run's exact Git commit or served weight revision is unrecorded. The audit
-does not infer historical configuration from current defaults.
-
-Within-job successful call order matches all 98 registered panel-related
-jobs. However, r0 B/AS originates in the earlier main pair and the remaining
-A/S/P r0 calls occur later; r1/r2 rotate variant order. Quota interruptions,
-provider routing and timing are observed confounds, not a randomized provider
-experiment or a complete Latin-square counterbalance. All 22 archived errors
-remain in the 756-attempt inventory; valid decisions are structured model
-outputs without synthetic CASH or model fallback. The 734 successful calls
-include ten smoke decisions and their upstream calls, excluded from metrics.
-
-For each variant, accuracy, BA, MCC, macro-F1, LONG rate and account return
-are calculated separately for executions 0, 1 and 2. We report the mean,
-sample SD ($\mathrm{ddof}=1$), median, range and paired contrasts. Return is
-the mean of 13 decision-panel or nine upstream-panel symbol--block accounts
-containing only their selected cycles, under the frozen R1 costs and daily
-ledger. It is neither a pooled portfolio nor the broad 51-account return.
-Per-cutoff disagreement and the full three-prediction vector are retained.
-
-The descriptive interval procedure is an analysis added after inference,
-not a preregistered precision guarantee. Each of 10,000 draws (seed 20261102)
-resamples whole temporal blocks with their complete cross-section and also
-resamples the three execution indices, using the same draws for all variants.
-The statistic is the mean of the sampled per-execution scores, not pooled
-classification of $3N$ independent markets. Undefined class/dispersion draws
-are counted and intervals use only finite draws; all metric-specific counts
-are published. With only three runs and three blocks per panel, coverage
-is not calibrated. No best run, seed or checkpoint is selected and no ensemble
-is substituted for the main r0 result. The different panels and lack of
-Decision repeats within every upstream realization preclude a crossed
-variance-component decomposition.
-
-
-\subsection{Factorial Report and Placebo Content Audit}
-\label{sec:r4_protocol}
-
-The same 18-unit, five-date, three-block Decision panel implements B=(0,0),
-A=(1,0), S=(0,1) and AS=(1,1), plus P with a training-donor alpha vector and
-the same sentiment as AS. All 18 units meet the three-locally-scored-article
-gate; this is source coverage, not independent publication-PIT or financial
-sentiment validation. Missing-sentiment units are not used as sentiment
-effects. The original compressed-report and repaired full-value studies each have three fresh Decision executions per branch; they are analysed separately.
-
-Actual requests, rather than only branch flags, are audited. All 54
-cutoff--repeat groups share the same Indicator/Pattern/Trend parent hashes
-and the same three upstream text sections. A and AS share their alpha
-section; S, AS and P share their sentiment section. A contains no sentiment
-section, S contains no factor section, and the common priority rules still
-mention alpha and sentiment even for B. Thus these contrasts include report
-presence and resulting instruction/context effects; they do not isolate
-news information from prompt presence.
-
-The audit uncovers an important implementation limitation. The legacy
-alpha distiller splits on the string \texttt{---}, which also occurs inside
-the Markdown table separator. It retains the table header and signal-count
-consensus but drops all five factor-value rows. All 162 alpha-bearing
-panel prompts, and all 264 alpha-bearing prompts among the 474 research
-decisions, have zero such rows. The feature bank's numerical vectors were
-not the full numerical content delivered to the Decision Agent. Prior
-``Full'' and ``alpha-only'' names denote the implemented report branches,
-not proof of full factor-value transmission. Six of the 54 AS/P prompt
-pairs are identical after this compression, despite separate response IDs.
-
-The donor map is reproducible from seed 20261102 plus the unit-ID hash.
-Each donor is in the purged training set; its three-session label exit
-precedes validation. The whole five-position past vector is reused jointly,
-not independently shuffled scalar by scalar, with matching schema and
-availability mask. Values, signals and skill fields are mapped by rank while
-current factor names are retained: 84 of 90 rank slots have a different
-donor name. This is a rank-vector perturbation, not a name-matched
-per-factor covariance control. After compression the historical P branch
-principally perturbs signal consensus, so it is not represented as the
-requested complete factor-value placebo.
-
-For the original compressed-report study, the standard interaction and joint
-seven-contrast envelope were added after inference; exact earlier family
-registration is not authenticated. For the repaired study, the same seven
-BA contrasts, seed 20261102 and 10,000 block/run draws are explicitly locked
-before its calls. The family is AS--B, A--B, AS--S, S--B, AS--A, AS--P and
-the interaction in Eq.~\ref{eq:factorial_interaction}. Pointwise finite-draw
-percentiles and the joint maximum-absolute-deviation envelope are descriptive;
-three executions and three blocks do not establish calibrated simultaneous
-coverage or family-wise error control. Secondary endpoints are accuracy,
-MCC, macro-F1, both-class recall, LONG frequency and mean account return.
-Prior exposure to the historical sample precludes prospective confirmation.
-
-The repaired bank contains 90 distinct templates and 270 registered fresh
-Decision jobs on the same 18 units. It reuses archived upstream reports and
-requires no new vision calls. The bank's timestamp precedes the first new
-request (03:35 versus 03:51 UTC on 3 November 2026), and all 576 source/runtime
-pins verify. All 274 attempted calls retain the locked text-model alias,
-SDK temperature $10^{-8}$ and 2,048 output-token cap. Four provider
-\texttt{json\_validate\_failed} rejections are retained as errors and retried;
-none becomes a prediction. All four rejections concern S jobs, so the
-reported distributions condition on eventually schema-valid outputs. All
-270 distinct successful responses pass the
-native schema and checkpoint replay, with no model or synthetic CASH fallback.
-
-The actual-request audit independently parses all five values, signals and
-skill fields from each of the 162 alpha-bearing successful prompts and
-matches them against the frozen treatment or past donor by rank. It confirms
-54 paired groups with shared upstream text/parents/rules, matching A/AS
-alpha, matching S/AS/P sentiment, and AS/P differing only inside alpha
-content while retaining all five current names and the same schema/headings.
-Every within-group successful-call order matches the registered job sequence.
-Prompt lengths remain below 6,500 characters; exact token-length equality
-or complete order counterbalancing is not claimed. Provider routing/timing
-and unverified served weights remain observational confounds.
-
-No request ID or response is copied from the earlier study. The repaired
-renderer exposes the complete rank-vector control while preserving the old
-distiller, source archives and predictions byte-for-byte. It changes values,
-signals and skill metadata jointly, not one scalar in isolation; donor rank
-dependence is not named-factor covariance. Report-level sentiment contrasts
-still include section-presence effects. Neither a positive contrast nor
-repeated inference establishes isolated component information without these
-qualifications. Old and repaired distributions are not pooled or treated as
-a causal before/after estimate of the repair.
-
-\subsection{Implementation Defaults and Legacy Robustness Design}
-
-The legacy implementation description names text model
-\texttt{openai/gpt-oss-20b} and vision model \texttt{qwen/qwen3.8-27b},
-configured temperature zero, output caps 2,048/1,024 and up to three client
-retries. These are described defaults, not authenticated per-call provenance
-for the archived legacy artifacts. The new study's actual client metadata
-and provider-quota retry policy are audited separately in
-Section~\ref{sec:r3_protocol}. Python/NumPy seed 42 and legacy bootstrap seeds
-42--44 concern local utilities, not hosted decoding. A nominal zero setting
-and a local seed do not establish bitwise-deterministic hosted outputs.
+The text model is \texttt{openai/gpt-oss-20b} and the vision model is \texttt{qwen/qwen3.8-27b}; both use temperature zero in the reported runs. Text and vision output caps are 2,048 and 1,024 tokens, respectively, with at most three client retries and hidden reasoning format requested for supported reasoning models. Python and NumPy seed 42 controls local experiment ordering and deterministic utilities; the moving-block bootstrap uses seeds 42, 43, and 44 for Full, No-Alpha, and paired-lift resamples. No seed is passed to the hosted decoding API. Temperature zero therefore reduces sampling variation but does not imply bitwise determinism.
 
 The configured provider identifiers are recorded, but the Groq endpoint did not expose an immutable weight digest or provider-side revision in the archived run artifacts, and the aliases were not pinned to such a revision. Exact replay across a later provider update is therefore not guaranteed. This limitation is separate from checkpoint reproducibility: calls are executed sequentially with rate-limit pacing, and resuming a checkpoint preserves completed outputs instead of regenerating them. The legacy sentiment caches have an analogous, explicitly reported provenance limit: their article scores predate scorer metadata and are labelled \texttt{legacy-unknown} rather than attributed retrospectively to a ViSoBERT revision. The corrected runtime records \texttt{scorer}, \texttt{scorer\_backend}, and \texttt{is\_fallback} for newly scored articles, but this software change neither identifies the backend of historical cache entries nor changes any reported benchmark value.
 
 \begin{table}[htb]
 \centering
-\caption{Implementation defaults described with legacy experiments; not authenticated legacy per-call provenance.}
+\caption{Implementation configuration used by the reported experiments.}
 \label{tab:implementation_details}
 \renewcommand{\arraystretch}{1.16}
 \begin{tabularx}{\textwidth}{|l|X|}

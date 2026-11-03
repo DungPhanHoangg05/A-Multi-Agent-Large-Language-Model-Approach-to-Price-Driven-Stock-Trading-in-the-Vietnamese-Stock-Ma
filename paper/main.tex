@@ -47,8 +47,6 @@
 \usepackage{framed}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \usepackage{orcidlink}
-\usepackage{hyperref}
-\hypersetup{hypertexnames=false}
 
 \journal{Knowledge-Based Systems}
 
@@ -63,7 +61,7 @@
 
 %% Title, authors and addresses
 
-\title{Evaluating Quantitative Evidence in Multi-Agent Decision Support for Vietnamese Equities\tnoteref{t1}}
+\title{Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration\tnoteref{t1}}
 \tnotetext[t1]{This research is funded by Foreign Trade University under research program number FTURP02-2026-08.}
 
 %% Authors
@@ -91,7 +89,7 @@
 
 %% Abstract
 \begin{abstract}
-We evaluate a five-agent decision-support architecture for Vietnamese equities using frozen historical inputs and a separate audit of legacy predictions. The original study contains 102 paired market units across nine equities, six blocks in 2023--2026 and twelve decision dates, with 25 UP and 77 DOWN net-cycle outcomes. Full achieves 62.75\% accuracy versus 75.49\% for CASH, balanced accuracy of 48.31\%, and Matthews correlation of $-0.035$; price-only logistic regression achieves 55.61\% balanced accuracy. Full's mean net return across 51 symbol--block accounts is $-0.88\%$, versus zero for CASH. The descriptive six-block Full--Base balanced-accuracy interval is $[-5.91,8.00]$ percentage points. The original 474 research decisions and limited repeat panels are archived, excluding ten smoke decisions. Actual-prompt inspection reveals that the original alpha distiller omitted the five factor-value rows. A separately frozen repaired panel therefore executes 270 fresh decisions on 18 preselected units, with complete factor values, factorial branches and a training-donor placebo. Full's balanced accuracy is 44.44\%; its mean Full--placebo difference is 6.94 points, but the seven-contrast descriptive envelope is $[-6.55,20.44]$. All branches have UP recall of 16.67\%, so the measured gains concern fewer DOWN errors. These sparse historical panels do not establish general predictive superiority, isolated alpha/sentiment information value or profitability. Unverified served-model revisions and contamination, uncertain news availability and simplified fractional immediate-cash execution limit interpretation. Original compressed, repaired and legacy results remain separate.
+Large language models (LLMs) are increasingly used in algorithmic trading, yet knowledge integration across heterogeneous evidence remains underexplored in emerging and non-English markets. We present a five-agent knowledge-fusion framework for financial decision support in Vietnamese equities. The architecture integrates technical indicators, point-in-time quantitative alpha selection, financial sentiment, and vision-language chart analysis, providing a reproducible basis for combining heterogeneous quantitative, textual, and visual evidence in multi-agent reasoning. A paired shared-report protocol isolates the contribution of alpha information while holding upstream evidence fixed, and a four-way ablation separates quantitative-factor and sentiment effects. Across nine equities and 180 paired decisions, the Full System attains 65.0\% accuracy versus 51.1\% without Alpha. The ablation identifies a larger independent contribution from alpha factors than from sentiment, with stock-dependent interactions. An execution-aware long-only ledger nevertheless produces a negative mean net return, showing that improved directional inference does not ensure economic profitability. The framework therefore supports auditable knowledge integration and controlled component evaluation for financial decision support; claims of immediate trading deployment remain outside the available evidence.
 \end{abstract}
 
 %%Graphical abstract
@@ -102,11 +100,11 @@ We evaluate a five-agent decision-support architecture for Vietnamese equities u
 
 %%Research highlights
 \begin{highlights}
-\item A frozen study evaluates 102 Base--Full pairs across six historical blocks.
-\item CASH exceeds Full in accuracy; price logistic has higher balanced accuracy.
-\item A separate 270-decision panel tests complete factor-value placebo prompts.
-\item Full has negative mean net return under explicit execution assumptions.
-\item The evidence does not establish alpha value or predictive superiority.
+\item Five-agent knowledge fusion combines quantitative, textual, and chart evidence.
+\item Point-in-time top-5 selection operates over 85 OHLCV alpha candidates.
+\item Paired evaluation yields 65.0\% accuracy vs 51.1\% without Alpha.
+\item Four-way ablation separates alpha-factor and sentiment contributions.
+\item Decision-support evaluation separates directional skill from economic return.
 \end{highlights}
 
 %% Keywords

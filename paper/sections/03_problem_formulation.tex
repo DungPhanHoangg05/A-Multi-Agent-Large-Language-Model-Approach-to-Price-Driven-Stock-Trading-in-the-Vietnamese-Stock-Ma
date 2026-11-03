@@ -17,7 +17,7 @@ step size $S$
 
 \KwOut{
 Directional predictions $\hat{y}_{e,L}$,
-accuracy, Full--Base difference, and compounded account return
+accuracy, Alpha Lift, and compounded account return
 }
 
 Initialize results list $\mathcal{R} \leftarrow \emptyset$
@@ -144,14 +144,6 @@ decision:
 where $+1$ corresponds to a \texttt{LONG} signal and $-1$ to
 \texttt{SHORT}.
 
-For the reanalysis, the net economic target above is retained unchanged.
-A separate secondary target is $y^{\mathrm{gross}}=+1$ if
-$C_{e-1+L}/O_e-1>0$, and $-1$ otherwise. Gross-target metrics, where
-reported in the reanalysis package, use the same predictions and are not used
-to retune models or replace the net target. Thus the reported task is
-profitable-cycle classification, rather than an unqualified forecast of the
-sign of the close-to-close price change.
-
 \subsection{Alpha Factor Formalisation and Adaptation}
 
 An \emph{alpha factor} $\alpha^{(k)}$ is a measurable function that maps
@@ -163,7 +155,7 @@ a feature frame derived from $\mathbf{X}_e$ to a scalar signal:
 where $d$ is the number of engineered features and
 $T_{\mathrm{hist}}$ is the historical window used for computation.
 
-The executable registry contains 80 adaptations drawn from the WorldQuant-101 catalogue, not all 101 source expressions, plus five custom formulas. The source expressions were designed primarily for cross-sectional ranking across a broad, liquid equity universe. To apply the registered subset to a single Vietnamese stock, we use a \emph{semantic translation layer} that replaces cross-sectional operators with rolling time-series surrogates. This is an engineering heuristic rather than an invariance-preserving mathematical transformation.
+The executable registry contains 80 adaptations drawn from the WorldQuant-101 catalogue, not all 101 source expressions, plus five proprietary formulas. The source expressions were designed primarily for cross-sectional ranking across a broad, liquid equity universe. To apply the registered subset to a single Vietnamese stock, we use a \emph{semantic translation layer} that replaces cross-sectional operators with rolling time-series surrogates. This is an engineering heuristic rather than an invariance-preserving mathematical transformation.
 
 \paragraph{Operator Localisation.}
 The primary transformation involves the cross-sectional $\operatorname{rank}(x)$ operator, which denotes the relative percentile of a stock against its peers. A cross-sectional rank is localised to a 20-bar time-series percentile rank unless the source expression already specifies a time-series rank with its own window. Let $\mathcal{H}_{u,w}$ contain the available preceding observations in that rolling window and let $n_{u,w}=|\mathcal{H}_{u,w}|+1$. The implementation computes
@@ -469,10 +461,7 @@ retaining only values $e_i\geq W$ before reversing the list for execution.
 Thus $e=W$ is included whenever it is among the requested points, and every
 selected point satisfies the complete-window and complete-target conditions.
 Here $S$ is the step size between consecutive test points and
-$N_{\mathrm{test}} = 20$ in the legacy experiments. The new common-snapshot
-study instead uses the explicit block schedule in
-Section~\ref{sec:r1_common_protocol}; it does not treat 102 cross-symbol units
-as 102 independent dates.
+$N_{\mathrm{test}} = 20$ in our main experiments.
 
 The three primary evaluation metrics are:
 \begin{align}
@@ -504,9 +493,8 @@ The three primary evaluation metrics are:
     \frac{W_K}{W_0}-1,
     \label{eq:account_return}
 \end{align}
-where $\Delta\mathrm{Acc}$ is the Full--Base raw-accuracy difference, called
-\emph{Alpha Lift} only in legacy artifacts. Because Base removes both factors
-and sentiment, this difference cannot identify an isolated alpha effect. In the economic
+where $\Delta\mathrm{Acc}$ (\emph{Alpha Lift}) quantifies the improvement
+in directional accuracy attributable to the Alpha Agent. In the economic
 simulation, $a_e=1$ for \texttt{LONG} and $a_e=0$ for \texttt{SHORT}. Each
 LONG allocates all available cash at $O_e$, pays fee and slippage on the BUY
 leg, liquidates all shares at $C_{e-1+L}$, and pays the same rates on the SELL
@@ -544,20 +532,3 @@ dilute either executed-trade denominator. Risk ratios are reported as zero when
 their dispersion denominator does not exceed the numerical tolerance. The
 cost rates are research allowances rather than a claim about a particular
 venue's realised fee schedule.
-
-\paragraph{Report interventions and interaction}
-Let $B,A,S,AS$ denote the absence/presence of the alpha and sentiment
-report sections, respectively, with shared upstream reports. For a metric
-$M$, the bundle contrast is $M(AS)-M(B)$; the alpha-report contrasts are
-$M(A)-M(B)$ without sentiment and $M(AS)-M(S)$ with sentiment. The
-sentiment-report contrasts are $M(S)-M(B)$ and $M(AS)-M(A)$. The factorial
-interaction is
-\begin{equation}
- I_M=M(AS)-M(A)-M(S)+M(B).
- \label{eq:factorial_interaction}
-\end{equation}
-These are interventions on implemented reports, not automatically isolated
-information effects: report structure, compressed content, rules and hosted
-decision variation can change the response. Information attribution requires
-a valid matched-content control and actual prompt inspection. A positive
-gap over the better single component is a different, nonlinear statistic.

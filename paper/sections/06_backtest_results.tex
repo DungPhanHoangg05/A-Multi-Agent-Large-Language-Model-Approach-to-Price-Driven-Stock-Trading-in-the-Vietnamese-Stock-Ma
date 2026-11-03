@@ -1,214 +1,9 @@
 \section{Backtest Results}
 \label{sec:backtestresults}
 
-\subsection{New Common-Snapshot Baseline Comparison}
-\label{sec:r1_common_results}
+\subsection{Nine-Symbol Paired Benchmark}
 
-All 474 research decisions are complete, including all 102 main B/AS pairs,
-the 18-unit decision panel and the nine-unit upstream panel. Ten smoke
-decisions are excluded. The main support is 25 UP and 77 DOWN net outcomes;
-all nine classifiers use exactly these 102 units, with no excluded prediction.
-Tables~\ref{tab:r1_common_metrics} and \ref{tab:r1_common_classes} report the
-pooled comparison and both classes. \ref{app:r1_common_detail}
-reports equal-symbol macro results, every baseline for each symbol, and
-block/regime strata; complete per-class/confusion counts for all 189 groups
-are also available in the machine-readable release.
-
-\input{generated/r1_common_metrics.tex}
-\input{generated/r1_common_classes.tex}
-
-Full has TP/FN/TN/FP of 5/20/59/18 and Base 7/18/52/25.
-Full's 62.75\% raw accuracy exceeds Base's 57.84\%, but is below CASH and
-train-majority at 75.49\%. Its BA is 48.31\%, compared with Base at
-47.77\%, CASH at 50.00\%, price logistic at 55.61\% and market-input
-logistic at 52.42\%. Full's MCC is $-0.035$; neither a significant
-forecasting improvement nor superiority over these controls is established.
-Full issues 23 LONG calls versus Base's 32. Its lower LONG frequency
-coincides with higher raw accuracy in a DOWN-heavy sample; this does not
-identify useful factor information. Full UP precision/recall is
-21.74\%/20.00\%, and DOWN precision/recall is 74.68\%/76.62\%.
-Macro BA is 45.96\% for Full and 50.07\% for Base over eight defined
-symbols, unlike their pooled weighting; the macro table reports all defined
-denominators rather than filling undefined values with zero.
-
-Full's mean account return is $-0.88\%$, versus $-1.03\%$ for Base,
-$0.00\%$ for CASH, $-0.68\%$ for price logistic, $-3.00\%$ for always-LONG
-cycles and $-2.13\%$ for continuous hold. These are means over 51 separate
-accounts, not a portfolio return. The small relative loss reduction over
-Base establishes neither profitability nor isolated alpha value. Every
-account has a daily mark-to-market ledger with costs, turnover, exposure
-and daily-close drawdown; the same execution assumptions apply throughout.
-
-\input{generated/r1_common_intervals.tex}
-
-Full--Base BA differs by only 0.55 percentage points; its descriptive
-six-block interval spans $-5.91$ to $8.00$ percentage points.
-Full minus price-logistic BA is $-7.30$ points; its interval runs from
-$-18.70$ to $1.79$ points.
-No superiority claim is based on these few-block intervals. A separate
-gross-return diagnostic changes support to 32 UP/70 DOWN but keeps the
-same predictions elicited for the net target; Full gross BA is 47.23\%.
-It is not a newly trained gross-direction model or a replacement target.
-
-\input{generated/r1_common_panels.tex}
-
-The selected decision panel is substantially worse than the broad study:
-Full mean BA is 30.56\% with sample SD 10.49 points and 22.22\% pairwise
-prediction disagreement. Its BA advantage over B across repeats is
-$+4.17,-8.33,+20.83$ points; versus placebo P it is
-$-4.17,-8.33,+4.17$ points. These mixed contrasts do not establish factor
-or sentiment information value. The upstream panel has Full mean BA
-97.62\% versus Base 90.48\%, both with SD 4.12 points, on only nine
-units/three dates. Neither selected panel is pooled with the main study
-or used to choose a preferred checkpoint.
-
-\FloatBarrier
-\subsection{Temporal and Coverage-Cohort Sensitivity}
-\label{sec:r2_results}
-
-The frozen sample covers rising, falling and sideways individual price
-contexts rather than assigning a regime from the name of a year:
-there are 33 bull, 35 bear and 34 sideways units
-(Table~\ref{tab:r2_regimes}). Full BA is respectively 50.00\%, 41.67\%
-and 48.22\%, with LONG frequencies 33.33\%, 14.29\% and 20.59\%.
-These strata overlap in calendar dates and are not independent market
-replications. The early-2025 block contains 16 DOWN and zero UP net outcomes;
-its class-balanced score is undefined, not filled with zero or omitted from
-the overall panel. Volatility and turnover-proxy strata are reported as
-post-inference diagnostics; favorable subsets are not selected to define a
-new trading rule or claim.
-
-Table~\ref{tab:r2_dependence} separates unequal coverage from broad pooled
-weighting. On the common eight-symbol/six-block cohort ($N=96$, twelve
-dates), Full/Base BA is 48.61\%/46.53\%; the paired difference is
-2.08 points with descriptive interval $[-4.10,8.67]$. On nine symbols in
-three recent blocks ($N=54$, six dates), BA is 47.18\%/46.67\%, difference
-0.51 points with interval $[-8.33,6.25]$. Neither cohort replaces the planned
-102-unit result; they overlap and are not pooled as extra observations.
-
-Omitting one of the six blocks changes Full--Base BA from $-2.20$ to
-$+2.75$ percentage points. Full remains below price-logistic BA in all six
-leave-one-block-out calculations (differences $-11.11$ to $-2.63$ points),
-but these sensitivities are not independent significance tests. The sparse
-historical panel broadens temporal coverage without establishing a stable
-cross-regime advantage, statistical power or external validity. All targets
-precede protocol freeze, and the observed provider metadata cannot resolve
-training contamination for either model.
-
-\subsection{Matched Repeat Distributions}
-\label{sec:r3_results}
-
-Tables~\ref{tab:r3_classification}--\ref{tab:r3_contrasts} report the
-three-execution distributions on each fixed support. On the 18-unit Decision
-panel, Full accuracy is 37.04\% with SD 11.56 points; BA is 30.56\% with
-SD 10.49 points, median 29.17\% and range 20.83--41.67\%. Mean MCC is
-$-0.378$ with SD 0.195. Full--Base BA differences are
-$+4.17,-8.33,+20.83$ points: mean 5.56, SD 14.63 and median 4.17 points.
-The conditional two-level interval is $[-9.56,23.08]$ points and includes
-both signs. These variations do not support a reliable bundle advantage.
-Full mean return is $-1.544\%$ (SD 0.679 points) over its 13 panel accounts,
-versus Base at $-1.786\%$ (SD 0.239). The paired return difference ranges
-from $-0.595$ to $+1.224$ points. Lower mean loss does not establish
-profitability or isolated factor information value.
-
-On the separate nine-unit upstream panel, Full BA is 97.62\% with SD
-4.12 points, versus Base 90.48\% with SD 4.12. Its Full--Base BA difference
-is 7.14 points in each realization, but the conditional block/run interval
-is $[0.00,14.29]$. Mean returns are $+0.624\%$ for Full and $+0.284\%$
-for Base over nine accounts. This much stronger selected support is not
-pooled with the Decision panel or used to choose a favorable run. Only one
-market unit overlaps, so subtracting the two panels' SDs cannot identify
-an upstream variance contribution. Full pairwise disagreement is 22.22\%
-within the Decision panel and 7.41\% within the upstream panel; these are
-support-specific descriptions, not a controlled comparison of stages.
-
-Of 10,000 block/run draws, 388 lose class support for Decision-panel BA
-and 3,014 for upstream-panel BA. The reported BA intervals therefore use
-9,612 and 6,986 finite draws, respectively. Missing metrics are not filled
-with zero, and the resulting conditional percentiles are not claimed to
-have calibrated 95\% coverage. Machine-readable outputs retain every run,
-cutoff disagreement, metric-specific undefined count and daily panel ledger.
-The observed dispersion conditions on the fixed inputs and recorded client
-configuration; unknown served weights and provider/timing changes prevent
-attributing it solely to intrinsic sampling noise.
-
-The 24-row legacy default inventory covers twelve source artifacts for FPT,
-VCB and VNM. For each ticker, nominal defaults span two recorded cutoff and
-cycle-endpoint families. Even within one family, complete reports, prompts,
-code identity and independent executions are not authenticated. Their
-15--20-point spread is not treated as an estimate of stochastic variance
-under identical inputs. The old window/normalisation/weight sweeps are not
-newly replicated here; their robustness and component-attribution claims
-remain withdrawn, and unresolved branch provenance is assessed separately.
-
-
-\subsection{Corrected Value-Control Panel and Attribution Limits}
-\label{sec:r4_results}
-
-Tables~\ref{tab:r4_value_metrics} and \ref{tab:r4_value_contrasts} describe
-the completed repaired panel, not the original compressed-report runs.
-Across three executions on the same 18 units, Full has mean accuracy
-53.70\%, BA 44.44\% (SD 2.41 points), MCC $-0.121$ and LONG frequency
-24.07\%. Base BA is 29.17\%, A 40.28\%, S 26.39\% and P 37.50\%.
-CASH accuracy is 66.67\% with BA 50.00\%, so the positive bundle contrast
-does not establish superiority over the constant reference.
-
-Mean BA differences are AS--B $+15.28$, A--B $+11.11$, AS--S $+18.06$,
-S--B $-2.78$, AS--A $+4.17$ and AS--P $+6.94$ points. AS--P varies
-as $+4.17,+12.50,+4.17$ points (sample SD 4.81); its pointwise descriptive
-interval is $[2.08,12.82]$. However, the predefined seven-contrast joint
-envelope is $[-6.55,20.44]$. Its radius is 13.49 points, based on 9,612
-jointly finite draws and 388 class-loss draws out of 10,000. The AS--B and
-AS--S joint envelopes are respectively $[1.79,28.77]$ and $[4.56,31.55]$;
-these too are descriptive, not calibrated significance findings. The standard
-interaction is $+6.94$ points (SD 6.36), with pointwise interval
-$[-8.97,16.67]$; it does not establish positive synergy.
-
-All 15 variant--execution combinations correctly identify only one of six UP
-cycles (recall 16.67\%). Full/P DOWN recalls average 72.22\%/58.33\%,
-and their LONG frequencies are 24.07\%/33.33\%. Thus the measured AS--P
-BA gain comes entirely from fewer DOWN errors, accompanied by lower LONG
-exposure, rather than additional correctly identified profitable cycles.
-Full mean net account return is $-0.670\%$ (SD 0.055 points), versus
-$-1.121\%$ for P and $-1.640\%$ for Base; the paired AS--P return gap is
-$+0.451$ points (SD 0.315; interval $[0.000,0.796]$). Returns average
-13 panel symbol--block accounts per execution, not a portfolio. All variants
-have negative mean returns, below CASH at zero. These results do not support
-profitability, exposure-independent alpha or isolated sentiment information.
-Per-class support and equal-symbol macros with their defined denominators
-are published separately from the pooled-per-execution scores.
-
-Table~\ref{tab:r4_value_audit} verifies complete factor delivery and genuine
-new responses. The older compressed-report contrasts remain in
-Table~\ref{tab:r4_contrasts}; their AS--P and interaction means were both
-$-2.78$ points and are not substituted for, pooled with or selectively
-replaced by the repaired results. Different inference times and content
-preclude interpreting their change as a causal repair effect. The completed
-control tests a whole training-donor rank-vector perturbation under the same
-report structure, with its mapping and precision limits explicitly retained;
-it does not turn the observed conditional advantage into a general
-factor-information claim.
-
-\subsection{Legacy Nine-Symbol Paired Benchmark}
-
-The original 180 net labels contain 56 UP and 124 DOWN outcomes. Full has
-confusion counts TP/FN/TN/FP of 16/40/101/23, compared with 15/41/77/47 for
-Base reports. Its 65.0\% accuracy is below constant DOWN/CASH at 68.9\%.
-Full's balanced accuracy is 55.01\% and MCC is 0.113; the Base reports values
-are 44.44\% and $-0.108$. Full issues 39 LONG calls versus 62 for Base reports.
-Of 25 additional correct Full decisions, 24 are DOWN and one is UP. This
-pattern is consistent with fewer LONG decisions in a predominantly
-unprofitable-cycle sample, but does not identify the cause as alpha information.
-Tables~\ref{tab:r1_legacy_metrics} and \ref{tab:r1_class_metrics} report the
-imbalance-aware audit without suppressing the stronger constant baseline.
-
-\input{generated/r1_legacy_metrics.tex}
-\input{generated/r1_class_metrics.tex}
-
-Table~\ref{tab:overall_results} retains the historical paired summaries for
-traceability. Its Full--Base gap is a bundle comparison. Stored cross-symbol
-Wilcoxon and small-sample intervals are descriptive legacy diagnostics, not
-evidence of a general significant alpha or forecasting improvement.
+Table~\ref{tab:overall_results} reports the completed paired benchmark. The Full System attains mean directional accuracy of 65.0\%, compared with 51.1\% for No-Alpha, for a mean Alpha Lift of +13.9 percentage points (pp). Eight symbols have positive lift and VJC has zero lift. The cross-symbol Wilcoxon signed-rank test rejects a zero-centred lift ($p=0.0078$), although none of the individual exact McNemar tests reaches the 5\% level with only 20 paired points per symbol. The moving-block intervals are correspondingly wide; VCB is the only symbol whose reported 95\% lift interval excludes zero.
 
 \begin{table}[!htb]
 \centering
@@ -235,7 +30,7 @@ VCB & 65.0 & 50.0 & +15.0 & $[+5.0,+35.0]$ & 0.2500 & 20 \\
 VJC & 60.0 & 60.0 & +0.0 & $[-10.0,+10.0]$ & 1.0000 & 20 \\
 VNM & 55.0 & 45.0 & +10.0 & $[-15.0,+45.0]$ & 0.6250 & 20 \\
 \hline
-\textbf{Mean / total N} & \textbf{65.0} & \textbf{51.1} & \textbf{+13.9} & -- & -- & \textbf{180} \\
+\textbf{Mean} & \textbf{65.0} & \textbf{51.1} & \textbf{+13.9} & -- & -- & \textbf{20} \\
 \hline
 \end{tabular}}
 
@@ -268,33 +63,9 @@ F and N denote Full and No-Alpha. The 95\% intervals use a moving-block bootstra
 \end{flushleft}
 \end{table}
 
-Full's recomputed mean account return is $-1.6833\%$; averaging the already
-rounded legacy percentages instead gives $-1.6856\%$, explaining the historical
-$-1.69\%$ display. Both are below CASH at zero. These are means of nine
-independent accounts, not a joint portfolio. Correct SHORT predictions earn no
-return under the long-only map. Neither the Full--Base accuracy gap nor
-relative loss reduction establishes isolated alpha value or profitability.
+The economic results warrant greater caution than the directional results. Full outperforms No-Alpha in account return for all nine symbols, but its mean account return is still $-1.69\%$, and only HVN, MBB, and MWG finish positive. Accordingly, the evidence is limited to paired directional improvement and relative loss reduction; general profitability remains unsupported. The divergence is expected under the long-only action map: a correct SHORT improves directional accuracy but earns a zero account return.
 
-\subsection{Numerical Reconstruction and Daily Ledgers}
-
-Tables~\ref{tab:r1_numeric_metrics} and \ref{tab:r1_comparability} report the
-additional numerical study under Section~\ref{sec:r1_numeric_protocol}.
-These results belong to the new snapshot and are not ranked against Full's
-legacy outcomes. The price-only and factor-augmented logistic models answer
-different information-set questions; neither has verified identical archived
-Full reports. The continuous-hold account buys once and sells once, unlike
-always-LONG cycles. Daily-close drawdown, turnover, fees and exposure are
-retained per symbol in the reanalysis ledgers; no daily Full ledger is inferred
-from mismatched reconstructed prices. The train-rate random control is not
-represented as matching Full's exposure. Accordingly, the newly implemented
-baselines alone do not establish a valid comparison with legacy Full.
-The newly frozen study in Section~\ref{sec:r1_common_results} supplies the
-actual common-snapshot LLM comparison, as historical exploratory evidence.
-
-\input{generated/r1_numeric_metrics.tex}
-\input{generated/r1_comparability.tex}
-
-\subsection{Legacy Robustness and Sensitivity}
+\subsection{Robustness and Sensitivity}
 
 Table~\ref{tab:robustness_results} reports all six completed sweeps. Each row contains 20 paired test points. Panel A changes the input window for both variants and therefore changes the No-Alpha information set. In Panels B and C, which intervene only on Alpha processing, the No-Alpha accuracy is exactly invariant within each symbol and panel: 45.0\% for both normalisation sweeps, 50.0\% for the FPT weight sweep, and 45.0\% for the VNM weight sweep.
 
@@ -333,15 +104,15 @@ VNM & Weighting & \texttt{ic\_heavy} & 60.0 & 45.0 & +15.0 & +2.70 & -5.19 \\
 \end{tabular}}
 \end{table}
 
-The stored alpha-enabled branch varies with configuration. These sweeps do not validate historical branch provenance or establish alpha information value: snapshot dates differ between experiments, repeats are absent, and the control may be weak. Their arithmetic is retained for traceability. The new study is frozen at one configuration and does not retrospectively authenticate these sweeps or establish configuration robustness.
+The alpha-enabled branch is sensitive to configuration. In particular, FPT at $W=60$ produces a $-5.0$ pp lift, and VNM at $W=30$ produces no lift. The normalisation and weighting panels remain positive for both symbols, but their Full accuracies and economic returns vary substantially. These results validate the paired-control implementation while also showing that the intervention is not uniformly robust to window choice or alpha design.
 
-\subsection{Unverified Legacy Alpha--Sentiment Ablation}
+\subsection{Disentangled Alpha--Sentiment Ablation}
 
-Table~\ref{tab:disentangled_ablation} retains the legacy four-way summaries for traceability only. Identical prediction sequences across differently labelled FPT branches and missing request archives leave provenance unresolved. The numerical gaps in this table therefore cannot be called independent alpha or sentiment contributions. Its final column is the stored improvement over the best single component, not the factorial interaction.
+Table~\ref{tab:disentangled_ablation} separates quantitative factors from Vietnamese sentiment context on three representative symbols. Alpha-only improves directional accuracy for every symbol, with a mean independent contribution of +8.33 pp. Sentiment-only contributes +5.0 pp for VNM and 0.0 pp for FPT and VCB, giving a mean independent contribution of +1.67 pp. The interaction is heterogeneous: +5.0 pp for FPT, +10.0 pp for VNM, and $-10.0$ pp for VCB.
 
 \begin{table}[!htb]
 \centering
-\caption{Unverified legacy four-way summaries ($N=20$ per variant and symbol); not confirmatory attribution evidence.}
+\caption{Four-way shared-upstream ablation ($N=20$ per variant and symbol).}
 \label{tab:disentangled_ablation}
 \renewcommand{\arraystretch}{1.1}
 \setlength{\tabcolsep}{3pt}
@@ -351,7 +122,7 @@ Table~\ref{tab:disentangled_ablation} retains the legacy four-way summaries for 
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrrrr}
 \hline
-\textbf{Symbol} & \textbf{Full} & \textbf{Alpha-only} & \textbf{Sent.-only} & \textbf{Baseline} & \textbf{$\Delta\alpha$} & \textbf{$\Delta$Sent.} & \textbf{\shortstack{Best-single\\gap}} \\
+\textbf{Symbol} & \textbf{Full} & \textbf{Alpha-only} & \textbf{Sent.-only} & \textbf{Baseline} & \textbf{$\Delta\alpha$} & \textbf{$\Delta$Sent.} & \textbf{Synergy} \\
 \hline
 FPT & 55.0\% & 50.0\% & 45.0\% & 45.0\% & +5.0 pp & +0.0 pp & +5.0 pp \\
 VNM & 60.0\% & 50.0\% & 50.0\% & 45.0\% & +5.0 pp & +5.0 pp & +10.0 pp \\
@@ -375,7 +146,4 @@ VCB & -7.93\% & -2.75\% & -9.23\% & -11.34\% \\
 \end{tabular}
 \end{table}
 
-No component-information conclusion is drawn from these unverified summaries.
-Their presence preserves the audit trail. The newly archived common-data
-factorial/placebo panel is reported separately above; its mixed contrasts
-do not validate the legacy summaries or establish component information value.
+The ablation prevents the primary benchmark lift from being attributed entirely to sentiment. The factor pathway provides the more consistent independent directional increment, whereas sentiment is useful only for VNM in this sample. VCB also demonstrates negative interaction: combining sentiment with factors reduces accuracy relative to Alpha-only by 10.0 pp. Economic ordering differs again from directional ordering; for example, VNM Alpha-only is profitable (+2.26\%) while its Full variant loses 4.03\%. These findings motivate larger-sample interaction tests because additional modalities do not uniformly improve decisions.

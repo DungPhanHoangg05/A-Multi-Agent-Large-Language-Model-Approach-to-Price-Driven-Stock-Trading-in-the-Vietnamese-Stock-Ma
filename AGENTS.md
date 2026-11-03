@@ -10,7 +10,7 @@ Mục tiêu cốt lõi: **Nâng cấp tính năng mới mà tuyệt đối KHÔN
 ## 1. QUY TRÌNH PHÂN NHÁNH GIT & HỢP NHẤT (GIT WORKFLOW & BRANCHING)
 
 ### 1.1. Chọn kế hoạch, nhánh tích hợp và nhánh task
-- **Luồng phản biện bản thảo:** đọc [plan.md](plan.md) ở root, dùng nhánh tích hợp `fix`, nơi chứa phiên bản mã và artifacts được kế hoạch khảo sát. Tài liệu tiến độ/bằng chứng đặt trong `revision/`, kết quả mới đặt trong `outputs/revision/<run_id>/`.
+- **Luồng phản biện bản thảo:** đọc [plan.md](plan.md) ở root, dùng nhánh tích hợp `fix`. Tiến độ chỉ cập nhật trong `plan.md`; đặc tả và bằng chứng đặt trong `revision/`, kết quả mới đặt trong `outputs/revision/<run_id>/`. Không tạo thêm file tiến độ hoặc lịch sử sửa kế hoạch.
 - **Luồng KLTN:** dùng `develop` và `docs/plan/plan.md` khi làm việc thuộc kế hoạch đó. Không tự trộn hai luồng hoặc chuyển mã sang nhánh khác chỉ để thỏa quy ước.
 - Không commit trực tiếp trên nhánh tích hợp `fix`, `develop` hoặc `main`. Trước khi tạo nhánh, kiểm tra status, giữ nguyên thay đổi có sẵn của người dùng; fetch và chỉ cập nhật nhánh tích hợp bằng fast-forward. Không reset hoặc force-push.
 - Mỗi task phải thực hiện trên nhánh độc lập tách từ đúng nhánh tích hợp:
@@ -103,6 +103,14 @@ Mọi thông điệp commit **BẮT BUỘC** phải tuân thủ chuẩn Conventi
 
 ## 4. QUY TẮC QUẢN TRỊ TOKEN & TỐC ĐỘ GỌI LLM (TOKEN BUDGET & API GUARD)
 
+### 4.0. Quyền chạy API và thứ tự hoàn thiện bản thảo
+- **Codex không tự chạy bất kỳ bước gọi API nào trong luồng phản biện**, kể cả API Free, smoke, kiểm tra model/quota, inference, retry hoặc upload archive. Tác giả tự chạy. Việc đã cấu hình key hoặc từng cho phép chạy trước đây không thay thế quy tắc này.
+- Codex được chuẩn bị code, kiểm thử bằng mocks/offline và phân tích artifacts cục bộ. Với bước cần API, ghi lệnh PowerShell chính xác vào task tương ứng trong `plan.md`, nêu điều kiện chạy, đầu ra, số jobs và cách resume; không tự gọi lệnh, SDK, worker hoặc scheduler thay tác giả. Không in/lưu credentials.
+- **Hoàn thiện hệ thống và bằng chứng trước, sửa nguồn bài sau cùng.** Chỉ chỉnh `paper/`, sinh bảng/hình vào đó hoặc build PDF khi gate hệ thống trong `plan.md` đã đạt. Yêu cầu trực tiếp khôi phục bản gốc của tác giả là ngoại lệ cho thao tác rollback, không phải cho phép tiếp tục viết bài.
+- Trong giai đoạn hệ thống, xuất phân tích vào `outputs/revision/<release>/`. Kiểm tra tác dụng phụ trước khi chạy script: script audit/finalize ghi vào `paper/` phải được tách chế độ xuất độc lập và kiểm thử trước khi sử dụng. Không thay code đã freeze của run đang dở hoặc sửa manifest để vượt hash guard.
+- Bài chính và appendix chỉ giữ nội dung khoa học cần thiết; logs, audit chi tiết, registry đầy đủ, prompts nguyên bản và hướng dẫn Flask/tokenizer/API để repository hoặc supplementary phù hợp. Không đưa toàn bộ artifacts vào appendix, không lặp caveats giữa các section.
+- Khôi phục nguồn bài không xóa bằng chứng hệ thống. PDF/source ZIP/manifest đã khóa giữ nguyên như phiên bản lịch sử; locators và trạng thái đóng comment phải được kiểm lại ở lần sửa bài cuối, không coi PDF cũ là bản hiện hành.
+
 ### 4.1. Ngân sách Token Ngặt nghèo cho Prompt
 - Groq API có giới hạn tốc độ (TPM/RPM). Để tránh mã lỗi `HTTP 429` và hiện tượng "Lost in the Middle":
   - Giữ nguyên cơ chế rút gọn báo cáo `_distill_report` và cắt trần `_cap_report`.
@@ -122,7 +130,7 @@ Mọi thông điệp commit **BẮT BUỘC** phải tuân thủ chuẩn Conventi
 - **Runtime chuẩn**: Python **3.13.5** (đã ghim trong `.python-version`). Không sử dụng các tính năng không tương thích phiên bản này.
 - **Ngôn ngữ diễn giải**: Toàn bộ chú thích mã (comments), docstrings, nhật ký ghi log trên console và giải thích kỹ thuật phải viết bằng **tiếng Việt chuẩn mực, rõ ràng**. Tên hàm, tên biến, tên lớp và schema JSON giữ nguyên bằng tiếng Anh chuẩn.
 - **Vị trí tài liệu**: Luồng phản biện dùng `plan.md` và `revision/`; luồng KLTN dùng `docs/plan/plan.md` và `docs/plan/week<N>/` khi cây kế hoạch đó tồn tại. Không tạo cây tuần giả cho task phản biện. Khi chuyển file phải cập nhật đường dẫn script/test/Markdown, giữ nguyên byte bằng chứng đã đóng băng.
-- **Giữ tài liệu gọn**: Checklist/tiến độ phản biện đặt ở `revision/README.md`, luồng KLTN đặt ở README tuần. Chỉ tách Markdown khi cần hướng dẫn vận hành hoặc phương pháp độc lập; không tạo thêm receipt theo task nếu chỉ lặp kết quả đã ghi. Giữ schema, QA và fixture JSON mà code/test đọc; không tự di chuyển/đóng gói bằng chứng lịch sử ngoài phạm vi task.
+- **Giữ tài liệu gọn**: Checklist/tiến độ phản biện chỉ đặt ở `plan.md`, luồng KLTN đặt ở README tuần. Chỉ tách Markdown khi cần hướng dẫn vận hành hoặc phương pháp độc lập; không tạo thêm receipt theo task nếu chỉ lặp kết quả đã ghi. Giữ schema, QA và fixture JSON mà code/test đọc; không tự di chuyển/đóng gói bằng chứng lịch sử ngoài phạm vi task.
 - **README.md tổng (Root README)**: Viết 100% bằng tiếng Anh chuẩn, đóng vai trò tài liệu giới thiệu hệ thống, kiến trúc, cài đặt, kiểm thử và hướng dẫn vận hành. Không ghi tiến độ/checklist/biên bản thực nghiệm vào root README. Tiến độ nằm tại kế hoạch và tài liệu đúng luồng. Nội dung bản thảo tiếng Anh vẫn viết bằng tiếng Anh.
 
 ### 5.2. Tối ưu hóa Vector hóa (Vectorization First)

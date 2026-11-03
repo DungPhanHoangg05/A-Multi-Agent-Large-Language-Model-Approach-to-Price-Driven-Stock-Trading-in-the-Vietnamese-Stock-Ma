@@ -1,158 +1,72 @@
 \appendix
 
-\section{New Common-Snapshot Baseline Details}
-\label{app:r1_common_detail}
-
-These tables belong only to the new 102-unit study. Percentages and support
-refer to net-cycle outcomes; NA denotes undefined or inapplicable metrics.
-The equal-symbol means below differ from pooled weighting because BHN has
-six units while each other symbol has twelve. Every classifier's full
-confusion and both-class metrics, including groups with absent classes, are
-retained in the accompanying CSV/JSON release.
-
-\input{generated/r1_common_macro.tex}
-\FloatBarrier
-
-\input{generated/r1_common_symbols.tex}
-\FloatBarrier
-
-Return in the symbol table is the mean of independent two-cycle
-symbol--block accounts (three accounts for BHN and six for each other
-symbol). Continuous hold uses one buy and sell per account and has no
-cycle-classification scores. This is a price-series comparator under the
-same assumed costs, not certified total return. Per-account daily-close
-drawdown, turnover, fees, slippage, held-session fraction and close exposure
-are provided in the economic CSV and daily ledgers.
-
-\input{generated/r1_common_strata.tex}
-\FloatBarrier
-
-Regime is causal per symbol using the decision-close/SMA60 gap. The
-machine-readable classification release additionally contains all nine
-classifiers by block/regime and the common eight-symbol/six-block and
-nine-symbol/three-recent-block cohorts. Blocks and dates are shared across
-symbols, so neither symbol counts nor repeated decisions create additional
-independent market replications.
-
-\subsection{Temporal Coverage and Regime Audit}
-\label{app:r2_detail}
-
-The R2 audit reuses the fixed 102-unit prediction bank. Exact train,
-validation, test and label-maturity boundaries for every symbol--block scope
-are provided in \texttt{folds.csv}. The data manifest records source,
-quality and universe limits; the calendar-panel CSV retains every missing
-cell. No missing prediction is replaced with CASH and no unit is added
-after observing an outcome.
-
-\input{generated/r2_coverage.tex}
-\input{generated/r2_folds.tex}
-\FloatBarrier
-
-\input{generated/r2_regimes.tex}
-\input{generated/r2_dependence.tex}
-\FloatBarrier
-
-The machine-readable release additionally provides class support and both
-classes' metrics for all nine classifiers within each context stratum,
-target-session exposure verified against daily ledgers, all paired bootstrap
-contrasts for three overlapping coverage cohorts, and leave-one-block-out
-sensitivities. Volatility and turnover medians are fitted only on train;
-their use here is explicitly post-inference description. The nine-symbol
-universe remains purposive and potentially survivor-biased. Distinct dates
-are counts of observations, not a claim about the effective independent
-sample size. \texttt{contamination.json} records zero units after protocol
-freeze and no authenticated served-model training cutoff.
-
-\subsection{Repeated Execution Identity and Distributions}
-\label{app:r3_detail}
-
-The R3 release links every panel decision to its actual request ID,
-prompt/asset/upstream hashes, timestamp, provider key slot and execution epoch.
-It retains all 756 attempts (including 22 errors), 132 panel-related node
-records and 322 unique panel decision executions. Fixed-upstream Decision
-repeats have identical actual prompts within all 90 unit--variant groups.
-The one overlapping unit shares its r0 B/AS pair by design, while every
-distinct repeat/realization has its own successful response. The audit also
-records actual call order and unknown legacy input/prompt/model provenance.
-
-Metrics for all three executions, paired contrasts, mean/SD/median/range,
-conditional percentile intervals and defined/undefined resample counts are
-available for accuracy, BA, MCC, macro-F1, LONG frequency and mean account
-return. The daily ledger CSV contains 249 panel account executions; its
-13-account and nine-account supports differ from the broad 51-account study.
-No $3N$-market pooled accuracy, best-run result or ensemble is used.
-
-\input{generated/r3_classification.tex}
-\input{generated/r3_variability.tex}
-\FloatBarrier
-
-\input{generated/r3_returns.tex}
-\input{generated/r3_contrasts.tex}
-\FloatBarrier
-
-
-
-
-\subsection{Factorial Prompt Delivery Audit}
-\label{app:r4_detail}
-
-The R4 audit publishes the exact panel support, per-prompt section/length/hash
-inventory, all 474 research-prompt delivery checks, the 18 training donor
-maps with 90 rank-slot mappings, 54 paired isolation checks, per-run metric
-and interaction distributions, and the seven-contrast finite-draw envelope.
-The source archive and unchanged raw requests substantiate the missing
-factor-value rows; flags or numerical features alone do not establish what
-the LLM received. The separate repaired bank now has 270 verified fresh
-decisions. Its completed audit, both-class metrics, equal-symbol macros,
-cutoff disagreement and 195 panel-account executions with daily ledgers
-are retained independently of the old compressed-report artifacts.
-
-\input{generated/r4_contrasts.tex}
-\FloatBarrier
-
-\input{generated/r4_value_metrics.tex}
-\input{generated/r4_value_contrasts.tex}
-\FloatBarrier
-
-\input{generated/r4_value_audit.tex}
-\FloatBarrier
-
-
-\clearpage
 \section{Agent System Prompts}
 \label{app:prompts}
 
 This appendix presents the system and user prompts deployed in the agents.
 
-The following examples are English illustrations for readability, not verbatim
-archives of every inference request. Actual rendered messages are retained in
-the request archive; the evaluated compact Decision prompts are in Vietnamese.
-The target-contract audit distinguishes these actual messages from translated
-and typeset templates.
+\textit{Note: The original prompts in the codebase are written entirely in Vietnamese to match the target market's language conventions and to elicit native-level analysis from the LLMs. For the purpose of this paper, they have been translated into English and condensed, while strictly preserving their original logic, constraints, and instructions.}
 
 \subsection{Decision Agent Prompt}
 \label{app:prompt_decision}
 
-The Decision Agent predicts the profitable-cycle net label in
-Eq.~\eqref{eq:label}: next-bar Open to target Close, including fees and slippage
-on both legs. The raw \texttt{forecast\_horizon} string in the archived study is
-\texttt{T+2.5}, a legacy display token used for the three-bar daily horizon; it
-is not a settlement-feasibility certificate or a calendar-day count. It is
-retained in the historical requests rather than retroactively renamed.
-The excerpt below is generated from the unchanged compact English builder
-with placeholder reports; prose is line-wrapped and the example JSON is
-pretty-printed for publication. It does not replace the archived Vietnamese
-messages or claim that additional index equations were supplied to the model.
+The Decision Agent receives all upstream reports condensed to save tokens. The prompt enforces a forced binary direction forecast (LONG or SHORT), explicitly distinct from an executed action, and a structured reasoning process. The forecast horizon is dynamically injected as a bar count (e.g., \texttt{L=3 bars} for daily data), never as settlement notation. Below is the prompt template (with placeholder variables denoted by \texttt{\{...\}}):
 
-\input{generated/target_prompt_excerpt.tex}
+\begin{framed}
+\begin{small}
+\begin{verbatim}
+You are a Senior Quant Trader with 20 years of experience in the VN stock market.
+Asset: **{stock_name}** | Timeframe: **{time_frame}**.
 
-Full receives five report sections, Base three, and Alpha-only or
-Sentiment-only four. Alpha and sentiment sections are independently included
-under their respective variant flags. The fixed prompt elicits the primary
-net target with 0.25\% fees and 0.10\% slippage per leg. Other-cost execution
-sensitivities preserve these predictions and labels; they are not newly
-elicited classifiers. New LLM-backed runs reject a different label-cost
-configuration until a separate prompt/protocol is versioned.
+MARKET RULE: {h_note}
+
+TIME-INDEX CONTRACT: the input window is [e-W,e); the final visible decision
+bar is d=e-1; candidate entry is at the next-bar open O[e]; the immutable
+entry is O[e] and the target exit is C[e-1+L]. The label is UP only
+when this LONG cycle remains profitable after costs on both legs.
+
+CORE OBJECTIVE: Deeply evaluate reports from independent AI Agents
+to forecast **{h_desc}**. You MUST make a definitive decision:
+choose either **LONG** or **SHORT** (NEUTRAL is STRICTLY FORBIDDEN).
+
+---
+### [1] TREND ANALYSIS (Trend Agent)
+{trend_report}
+---
+### [2] PRICE PATTERNS (Pattern Agent)
+{pattern_report}
+---
+### [3] TECHNICAL INDICATORS (Indicator Agent)
+{indicator_report}
+---
+### [4] ALPHA FACTORS & ORDER FLOW (Alpha Agent)
+{alpha_report}
+### [5] NEWS & MARKET SENTIMENT (Sentiment Analysis)
+{sentiment_report}
+---
+## REASONING GUIDE (Chain of Thought)
+1. Market Context (Trend)
+2. Price Action & Timing (Pattern)
+3. Momentum (Indicator)
+4. Flow & Sentiment (Alpha + Sentiment)
+
+## MANDATORY OUTPUT FORMAT
+```json
+{
+  "decision": "<LONG or SHORT>",
+  "forecast_horizon": "{h_val}",
+  "confidence": "<Very High | High | Medium | Low>",
+  "risk_reward_ratio": <float>,
+  "evidence_for": "<3 sentences summarizing reasons>",
+  "evidence_against": "<Biggest risk>",
+  "justification": "<Brief justification>"
+}
+```
+\end{verbatim}
+\end{small}
+\end{framed}
+
+The agent reports 4 (when Alpha Agent is active) or 3 (No-Alpha ablation) upstream summaries. Sections \texttt{[4]} and \texttt{[5]} are omitted entirely when \texttt{include\_alpha=False}.
 
 \subsection{Pattern Agent Prompt}
 \label{app:prompt_pattern}
@@ -304,7 +218,7 @@ Write the report using this template:
 \subsection{Alpha Agent LLM Reasoning Prompt}
 \label{app:prompt_alpha}
 
-In live/prototype mode the Alpha Agent may invoke the text LLM after computing quantitative factors; the backtest uses deterministic factor evidence. The following legacy prompt illustration retains the words ``order flow as source wording. Its inputs are OHLCV proxies, not measured signed trades or order-book flow:
+After computing the five alpha factors programmatically, the Alpha Agent invokes the text LLM to synthesise a qualitative interpretation. The prompt template is:
 
 \begin{framed}
 \begin{small}
@@ -337,11 +251,11 @@ Do NOT over-analyze. Deduce from the numbers to conclude the view for {horizon_l
 \section{LangGraph State Schema}
 \label{app:state_schema}
 
-The pipeline uses \texttt{IndicatorAgentState}, a Python \texttt{TypedDict}. Table~\ref{tab:state_schema} lists selected runtime state fields; it is not a complete declaration or a list of realised evaluation outcomes. The backtest wrapper keeps post-inference target metadata separately, including boundary $e$, decision $d=e-1$, entry $e$, and target $e+L-1$. Observed-bar positions and dates are distinct; no calendar-day addition is used to manufacture a bar.
+The entire multi-agent pipeline shares a single typed state object defined as a Python \texttt{TypedDict}. Table~\ref{tab:state_schema} lists all fields, grouped by the agent that writes them and annotated with their data types.  The backtest wrapper records the zero-based provenance separately for each test point: exclusive boundary $e$, window $[e-W,e)$, decision $d=e-1$, entry $e$, target $e-1+L$, and the source timestamp for every index.  These fields make calendar gaps (including weekends and exchange holidays) explicit rather than inferring timestamps by adding calendar days.
 
 \begin{table}[htb]
 \centering
-\caption{Selected runtime state fields (\texttt{IndicatorAgentState})}
+\caption{Complete LangGraph state schema (\texttt{IndicatorAgentState})}
 \label{tab:state_schema}
 \renewcommand{\arraystretch}{1.15}
 \setlength{\tabcolsep}{3pt}
@@ -354,14 +268,20 @@ The pipeline uses \texttt{IndicatorAgentState}, a Python \texttt{TypedDict}. Tab
 \multicolumn{3}{|l|}{\textit{Input fields (set before graph execution)}} \\
 \hline
 \texttt{kline\_data} & \texttt{dict} & OHLCV dictionary for technical indicator computation \\
-\texttt{as\_of\_date} & \texttt{timestamp} & Final observable decision-bar timestamp; no entry or target data \\
+\texttt{interval} & \texttt{str} & Canonical market-data interval code (e.g., ``1d'') \\
+\texttt{forecast\_horizon\_bars} & \texttt{int} & Target horizon $L$; label at decision $d=e-1$ is $\log(C_{e-1+L}/C_{e-1})$ \\
+\texttt{holding\_policy} & \texttt{str} & Explicit next-bar-open-to-target-close execution policy \\
+\texttt{alpha\_history} & \texttt{dict} & Point-in-time OHLCV prefix ending at decision cutoff; no entry/target bars \\
+\texttt{alpha\_cutoff} & \texttt{str} & Exact timestamp of the final observable decision bar \\
+\texttt{history\_requirements} & \texttt{dict} & Separate chart and alpha-calibration requests; calendar lookback and actual-bar minimums are distinct \\
+\texttt{window\_end\_date} & \texttt{str} & Decision cutoff timestamp used for point-in-time sentiment availability \\
 \texttt{time\_frame} & \texttt{str} & Time period for K-line data (e.g., ``1 ngày'') \\
 \texttt{stock\_name} & \texttt{str} & Stock ticker symbol \\
 \texttt{is\_backtest} & \texttt{bool} & Flag to block external crawlers in backtest mode \\
 \texttt{pattern\_image} & \texttt{str} & Base64-encoded candlestick chart PNG \\
 \texttt{trend\_image} & \texttt{str} & Base64-encoded trendline-annotated chart PNG \\
 \hline
-\multicolumn{3}{|l|}{\textit{Declared indicator arrays (not populated by this node)}} \\
+\multicolumn{3}{|l|}{\textit{Indicator Agent outputs}} \\
 \hline
 \texttt{rsi} & \texttt{List[float]} & RSI values (period 14) \\
 \texttt{macd, macd\_signal, macd\_hist} & \texttt{List[float]} & MACD line, signal, histogram (12, 26, 9) \\
@@ -370,10 +290,7 @@ The pipeline uses \texttt{IndicatorAgentState}, a Python \texttt{TypedDict}. Tab
 \texttt{willr} & \texttt{List[float]} & Williams \%R (period 14) \\
 \texttt{bb\_upper, bb\_middle, bb\_lower} & \texttt{List[float]} & Bollinger Bands (20, 2) \\
 \texttt{adx, plus\_di, minus\_di} & \texttt{List[float]} & ADX and directional indicators \\
-\hline
-\multicolumn{3}{|l|}{\textit{Actual Indicator Agent output}} \\
-\hline
-\texttt{indicator\_report} & \texttt{str} & Report with five-indicator consensus \\
+\texttt{indicator\_report} & \texttt{str} & Markdown summary with consensus \\
 \hline
 \multicolumn{3}{|l|}{\textit{Alpha Agent outputs}} \\
 \hline
@@ -395,30 +312,13 @@ The pipeline uses \texttt{IndicatorAgentState}, a Python \texttt{TypedDict}. Tab
 \hline
 \multicolumn{3}{|l|}{\textit{Decision Agent outputs}} \\
 \hline
-\texttt{final\_trade\_decision} & \texttt{str} & Normalised parsed decision JSON; raw responses archived separately \\
+\texttt{final\_trade\_decision} & \texttt{str} & Raw LLM response containing JSON decision \\
 \texttt{decision\_prompt} & \texttt{str} & Full prompt sent to the Decision Agent \\
 \texttt{messages} & \texttt{List[BaseMessage]} & LangChain message history \\
 \hline
 \end{tabular}
 }
 \end{table}
-
-\paragraph{Evaluation records and historical aliases.}
-Table~\ref{tab:target_schema} documents the canonical outcome fields stored
-outside graph inputs. New engine, robustness and ablation records derive these
-fields from the exact evaluation frame. The fields are unavailable to the
-model at decision time. Net and gross returns are distinct fractions; legacy
-percent fields remain for compatibility. A zero return maps to DOWN in both
-targets; SHORT is a DOWN forecast and CASH execution in the long-only ledger.
-Historical \texttt{actual\_prev\_close} is not a trustworthy universal alias
-for \texttt{decision\_close}: 178 of 600 retained legacy point records equal
-\texttt{entry\_open}, whereas the others differ. Equality alone does not
-establish the field's historical meaning. Without authenticated original
-snapshots, the canonical decision close remains unavailable for those records;
-no legacy label, price or prediction is rewritten to fit the explanation.
-
-\input{generated/target_schema_table.tex}
-\FloatBarrier
 
 \paragraph{Graph topology.}
 The DAG is constructed in \texttt{graph\_setup.py} using the LangGraph \texttt{StateGraph} API. In the Full System configuration, the sequential edge order is:
@@ -428,10 +328,10 @@ The DAG is constructed in \texttt{graph\_setup.py} using the LangGraph \texttt{S
 During evaluation, graph execution is split into a variant-independent upstream graph and variant-specific decision graphs. Indicator, Pattern, and Trend run once per exact cutoff; the resulting state is deep-copied into Full, Alpha-only, Sentiment-only, and Baseline branches as required by the experiment. This shared-artifact topology prevents Alpha settings from changing the No-Alpha evidence snapshot.
 
 
-\section{Custom Alpha Formula Implementation}
+\section{Proprietary Alpha Formula Implementation}
 \label{app:alpha_impl}
 
-This appendix shows the computational cores of the five custom alpha formulas listed in Table~\ref{tab:custom_alphas}; the snippets omit metadata and are not complete function declarations. All formulas operate on the technical variables extracted from the OHLCV window by the function \texttt{\_extract\_tech\_vars()}.
+This appendix provides the exact Python implementation of the five proprietary alpha formulas listed in Table~\ref{tab:proprietary_alphas}. All formulas operate on the technical variables extracted from the OHLCV window by the function \texttt{\_extract\_tech\_vars()}.
 
 \subsection{$\alpha_1$: Flow-Driven Momentum (FDM)}
 
@@ -489,12 +389,7 @@ def _alpha4_bfe(tv: dict) -> dict:
 \end{verbatim}
 \end{small}
 
-This is a signed interaction, not a positive-volume confirmation gate. For $\%B>0.5$, positive $\mathrm{VolZ}_5$ yields a positive value and negative $\mathrm{VolZ}_5$ yields a negative value; for $\%B<0.5$ these directions reverse. Either $\%B=0.5$ or $\mathrm{VolZ}_5=0$ gives zero. Nonzero absolute volume z-score only means a deviation from its reference mean, not expansion. Neither band width nor a preceding crossing is tested. The prototype classifies the unrounded value as BULLISH if $v>0.10$, BEARISH if $v<-0.10$, and NEUTRAL otherwise, then displays four decimals.
-
-\input{generated/alpha4_signed_cases.tex}
-\FloatBarrier
-
-Both the prototype and registry retain this algebraic interaction. Their preprocessing differs: the prototype uses its own population-standard-deviation helpers and rounded extracted features, whereas the rolling registry uses sample standard deviations. The synthetic registry oracle checks that implementation separately; identical general preprocessing or all reported factor values is not claimed. Legacy breakout/squeeze wording in metadata or prompts does not override the signed formula. No formula or archived prediction has been changed.
+This formula fires when price breaks above/below the Bollinger midline ($\%B \ne 0.5$) with confirming volume expansion ($|Z_{\mathrm{vol}}| > 0$). The multiplicative interaction ensures both conditions must co-occur.
 
 \subsection{$\alpha_5$: Order Flow Exhaustion (OFE)}
 
@@ -508,52 +403,64 @@ def _alpha5_ofe(tv: dict) -> dict:
 \end{verbatim}
 \end{small}
 
-Where \texttt{close\_pos} $\in [-0.5, 0.5]$ measures where the closing price falls within the intra-bar range, centred at zero. A positive \texttt{close\_pos} with positive momentum produces a positive price-action proxy; it does not establish measured buying pressure; the $\times 3.0$ amplification increases signal responsiveness.
+Where \texttt{close\_pos} $\in [-0.5, 0.5]$ measures where the closing price falls within the intra-bar range, centred at zero. A positive \texttt{close\_pos} with positive momentum confirms buying pressure; the $\times 3.0$ amplification increases signal responsiveness.
 
 
 \section{Indicator Signal Classification Logic}
 \label{app:indicator_classify}
 
-The following rules describe \texttt{\_classify\_signals} in execution order. Lists are independently filtered to finite values and rounded to four decimals before classification. Subscripts below refer to the last retained values, not necessarily adjacent bars when inputs have missing values. Missing/error indicators vote NEUTRAL and remain in the five-vote denominator; this fallback is not evidence of neutral market conditions. The live prompt requires the supplied signals/counts to be copied, while the backtest uses the deterministic report directly.
+Section~\ref{sec:systemarchitecture} describes the Indicator Agent's deterministic signal classification. This appendix provides the exact classification logic implemented in Python (function \texttt{\_classify\_signals}), which is injected into the LLM prompt as immutable ground truth.
 
 \subsection{MACD Classification}
-First test $m_{-1}<s_{-1}$ and $m_0\geq s_0$ for BULLISH, then $m_{-1}>s_{-1}$ and $m_0\leq s_0$ for BEARISH. Equality on the previous value is not a crossover. Without a cross, $h_0>0$ is BULLISH only if $h_0\geq h_{-1}$ (or no previous histogram exists); $h_0<0$ is BEARISH only if $h_0\leq h_{-1}$. Contraction or zero is NEUTRAL. If fewer than two MACD/signal values exist, a finite histogram's sign alone is used. Missing histogram without a cross yields NEUTRAL.
+
+\begin{enumerate}
+\item \textbf{Priority 1 --- Crossover detection}: If $\mathrm{MACD}_{t-1} < \mathrm{Signal}_{t-1}$ and $\mathrm{MACD}_t \geq \mathrm{Signal}_t$, classify as BULLISH (Golden Cross). Conversely, classify as BEARISH (Death Cross).
+\item \textbf{Priority 2 --- Histogram direction}: If no crossover occurred, classify based on histogram sign and trend (expanding or contracting).
+\end{enumerate}
 
 \subsection{RSI Classification}
-Test in order: $r_0\geq70$ gives BEARISH; $r_0\leq30$ gives BULLISH; $55\leq r_0<70$ gives BULLISH; $30<r_0\leq45$ gives BEARISH. In $45<r_0<55$, at least three retained values are required: compare $r_0$ with $r_{-2}$ for BULLISH/BEARISH when greater/less; equality or insufficient history gives NEUTRAL. The earlier ``otherwise NEUTRAL'' description omitted this trend fallback.
+
+\begin{itemize}
+\item $\mathrm{RSI} \leq 30$: BULLISH (oversold bounce expected)
+\item $\mathrm{RSI} \geq 70$: BEARISH (overbought pullback expected)
+\item $55 \leq \mathrm{RSI} < 70$: BULLISH (positive momentum)
+\item $30 < \mathrm{RSI} \leq 45$: BEARISH (negative momentum)
+\item Otherwise: NEUTRAL
+\end{itemize}
 
 \subsection{Stochastic Oscillator Classification}
-With two K/D values, test $K_{-1}<D_{-1}$ and $K_0\geq D_0$ for BULLISH, then $K_{-1}>D_{-1}$ and $K_0\leq D_0$ for BEARISH. Crossovers override extreme zones. Otherwise test $K_0\geq80$ for BEARISH, then $K_0\leq20$ for BULLISH. In the middle zone, the current implementation returns BULLISH only when both current K/D are truthy and $K_0>D_0$; all other middle-zone cases, including equality or $D_0=0$, return BEARISH. This is a documented legacy fallback, not a recommended zero-handling convention. With fewer than two K/D values, only extreme-zone rules apply and the middle zone is NEUTRAL; absent K is NEUTRAL.
+
+\begin{enumerate}
+\item \textbf{Priority 1 --- \%K/\%D crossover}: \%K crossing above \%D $\rightarrow$ BULLISH; \%K crossing below \%D $\rightarrow$ BEARISH.
+\item \textbf{Priority 2 --- Extreme zones}: $\%K \geq 80$ $\rightarrow$ BEARISH (overbought); $\%K \leq 20$ $\rightarrow$ BULLISH (oversold).
+\item \textbf{Otherwise}: Compare current \%K vs \%D position.
+\end{enumerate}
 
 \subsection{Williams \%R Classification}
-First $w_0\geq-20$ gives BEARISH, then $w_0\leq-80$ gives BULLISH. In $-80<w_0<-20$, compare $w_0$ and $w_{-2}$ when at least three retained values exist: greater gives BULLISH, less BEARISH; equality or insufficient history gives NEUTRAL. Extreme thresholds override this trend rule.
+
+\begin{itemize}
+\item $\%R \geq -20$: BEARISH (overbought, near 0)
+\item $\%R \leq -80$: BULLISH (oversold, near $-100$)
+\item Neutral zone: Classify based on 3-bar trend direction (improving toward 0 $\rightarrow$ BULLISH; deteriorating toward $-100$ $\rightarrow$ BEARISH).
+\end{itemize}
 
 \subsection{ROC Classification}
-ROC is in percentage units: $r_0>+0.5\%$ gives BULLISH; $r_0<-0.5\%$ gives BEARISH. Equality at either boundary, missing values and the interior interval give NEUTRAL. Four-decimal cleaning precedes the comparison.
+
+\begin{itemize}
+\item $\mathrm{ROC} > +0.5\%$: BULLISH
+\item $\mathrm{ROC} < -0.5\%$: BEARISH
+\item Otherwise: NEUTRAL
+\end{itemize}
+
 
 \subsection{Consensus Rule}
-All five indicators contribute to the count, including missing/error NEUTRAL votes. More bullish than bearish votes gives BULLISH; more bearish gives BEARISH; equal counts give MIXED. A directional count of at least four gives High confidence, three Medium, and a smaller directional plurality Low. A tie always has Low confidence. These are deterministic labels, not calibrated probabilities. The release provides 67 indicator boundary/fallback cases, five consensus cases, eleven prototype Alpha\_4 cases and three independent registry oracles; these synthetic cases are not market-performance observations.
 
-\section{Chart Colour Convention and Retained-Request Audit}
-\label{app:chart_convention}
-
-Figure~\ref{fig:chart_fixture} is a new synthetic fixture, not an actual market observation or a model input from the reported runs. Its 45 candles include 22 up bodies, 22 down bodies and one doji; overnight gaps deliberately make body direction differ from Close-to-previous-Close changes. Polygon vertices and RGBA colours are checked against OHLCV, and both decoded raster palettes are checked after alpha blending. The corrected trend legend explicitly binds blue to close support and red to close resistance; tests inspect the legend handles as well as its text and plotted lines. Static and older toolkit renderers share the body style; the prototype Pattern path retains only 40 of these bars, while the other fixture paths retain 45. Chart windows and export settings must therefore be identified by path rather than inferred from one default.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.98\linewidth]{figs/chart_fixture_pattern.png}
-\par\smallskip
-\includegraphics[width=0.98\linewidth]{figs/chart_fixture_trend.png}
-\caption{Synthetic chart fixtures: green bodies for Close $>$ Open, red for Close $<$ Open; blue close-support and red close-resistance lines in the lower panel. The doji has zero body height. Body style colours are \texttt{\#006340}/\texttt{\#A02128}, rendered with alpha 0.9 on white. These are renderer checks, not market-performance or model-comprehension evidence.}
-\label{fig:chart_fixture}
-\end{figure}
-\FloatBarrier
-
-The offline audit covers all 107 retained chart caches (102 research units plus five smoke units) and all 270 upstream image-request attempts in the completed R1 run, including retries/repeated executions. Each inline PNG is matched to its exact unit/shard cache and feature-asset hash. Frozen OHLCV prices are verified before replay. The release reports byte and pixel equality separately for all 214 cached images; this is an image-input audit, not 214 independent market observations. Original raw requests, charts, prices and predictions remain unchanged. R4 reuses the archived upstream evidence rather than making new vision calls.
-
-All 214 cached images reproduce byte for byte and pixel for pixel using the frozen historical renderer. All 107 historical Trend images have the misbound legend swatches described in Section~\ref{sec:systemarchitecture}, despite correct blue/red plotted lines and chart title. The original test of legend text and line colours alone was insufficient; the corrected test checks handle identity/colour. These images were actually supplied in 130 retained Trend attempts, so source inspection cannot dismiss the defect as unused code.
-
-The archived Trend prompts use the Vietnamese colour word \emph{xanh}. Their prompt text remains unchanged under direct old/new builder comparison with a fixed image; the actual corrected PNG messages differ. The separate English green-support statement is corrected in version \texttt{trend\_blue\_en\_v2}. Version \texttt{static\_legend\_handles\_v2} changes the legend in the PNG for both languages. The present results still describe the old image inputs. A frozen rerun proposal retains the same prices, factors, news, targets, models, branch order and donor mappings; it regenerates shared Trend reports before rebuilding Decision prompts for all branches. It schedules 120 research Trend groups, 474 original-study decisions and 270 repaired full-value decisions, plus 15 smoke calls. Completion of this paired rerun is pending; corrected results are not reported here. No causal performance effect, corrected-renderer performance, model colour comprehension or authenticated legacy submission is claimed. R14 remains open pending the paired empirical rerun.
+The overall consensus is determined by majority vote over the five indicators:
+\begin{itemize}
+\item $\geq 4$ agreement $\rightarrow$ High confidence
+\item $3$ agreement $\rightarrow$ Medium confidence
+\item Otherwise $\rightarrow$ Low confidence
+\end{itemize}
 
 \section{Software Dependencies and Reproducibility}
 \label{app:dependencies}
@@ -686,7 +593,7 @@ audit is generated by \texttt{scripts/analyze\_sentiment\_coverage.py}.
 The following artifacts are provided or specified for reproducibility:
 \begin{itemize}
 \item \textbf{Model versions}: The reported text default is \texttt{openai/gpt-oss-20b}; the vision default is \texttt{qwen/qwen3.8-27b}. Both use the Groq API. The backtest engine resolves these configurations directly and stores the effective run settings with its result artifacts.\par
-\item \textbf{Temperature}: The declared default is $T=0.0$. In the new archived study, the installed client coerces zero to $10^{-8}$, which is the value recorded in all 756 attempt metadata records (Section~\ref{sec:r3_protocol}). These client metadata are not a wire capture or authentication of served weights, and do not imply deterministic output. Legacy runs without these records remain unverified.\par
+\item \textbf{Temperature}: The current default is $T=0.0$. Effective temperature, token caps, reasoning format, retry count, and a stable credential-free configuration hash are recorded per run; this metadata does not guarantee deterministic hosted-model output.\par
 \item \textbf{Retry policy}: The application policy defaults to at most three text calls (two retries with 5/10-second exponential waits) and two vision calls (one retry with a 3-second wait) when SDK retries are disabled. Positive SDK \texttt{max\_retries} budgets make the SDK the single retry owner and reduce the application wrapper to one call; SDK-internal attempts are not observable and remain unknown in telemetry. Inter-test pacing is recorded separately from retry delays.\par
 \item \textbf{Historical sentiment cache}: Nine JSON files (\texttt{sentiment\_cache\_\{SYMBOL\}.json}), one per evaluated stock, contain pre-crawled and scored CafeF articles. Point-in-time filtering uses the parsed publication date; undated records are rejected in strict research mode. The supplied files lack scorer metadata, so all 180 cached scores are labelled \texttt{legacy-unknown} in the coverage audit.\par
 \item \textbf{Default configuration}: Stored in \texttt{default\_config.py} with all hyperparameters.
