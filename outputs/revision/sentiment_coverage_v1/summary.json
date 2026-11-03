@@ -1,0 +1,767 @@
+{
+  "scope": "T06 coverage; không phải bằng chứng validation tài chính, PIT nội dung hoặc inference mới",
+  "runtime": {
+    "python": "3.13.5",
+    "langchain-core": "1.2.17",
+    "langchain-groq": "1.1.2",
+    "groq": "0.37.1",
+    "pydantic": "2.11.7",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "scipy": "1.16.1",
+    "scikit-learn": "1.7.2",
+    "TA-Lib": "0.6.8",
+    "python-dotenv": "1.2.2",
+    "matplotlib": "3.10.8",
+    "mplfinance": "0.12.10b0",
+    "Pillow": "11.0.0"
+  },
+  "legacy": {
+    "pooled": {
+      "cutoffs": 180,
+      "with_at_least_3_valid_articles": 0,
+      "missing": 180,
+      "coverage_pct": 0.0,
+      "available_neutral_cutoffs": 0,
+      "peer_available_cutoffs": 0,
+      "legacy_runtime_count_ge3_cutoffs": 116,
+      "legacy_same_day_article_memberships": 29
+    },
+    "per_symbol": [
+      {
+        "symbol": "BHN",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 4,
+        "legacy_same_day_article_memberships": 1
+      },
+      {
+        "symbol": "CMG",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 0,
+        "legacy_same_day_article_memberships": 0
+      },
+      {
+        "symbol": "FPT",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 3,
+        "legacy_same_day_article_memberships": 6
+      },
+      {
+        "symbol": "HVN",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 20,
+        "legacy_same_day_article_memberships": 4
+      },
+      {
+        "symbol": "MBB",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 20,
+        "legacy_same_day_article_memberships": 3
+      },
+      {
+        "symbol": "MWG",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 9,
+        "legacy_same_day_article_memberships": 3
+      },
+      {
+        "symbol": "VCB",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 20,
+        "legacy_same_day_article_memberships": 7
+      },
+      {
+        "symbol": "VJC",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 20,
+        "legacy_same_day_article_memberships": 3
+      },
+      {
+        "symbol": "VNM",
+        "cutoffs": 20,
+        "with_at_least_3_valid_articles": 0,
+        "missing": 20,
+        "coverage_pct": 0.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "legacy_runtime_count_ge3_cutoffs": 20,
+        "legacy_same_day_article_memberships": 2
+      }
+    ],
+    "macro_unweighted_symbol_coverage_pct": 0.0,
+    "denominator": "một cutoff/mã; không đếm repeats như thị trường độc lập"
+  },
+  "release": {
+    "main": {
+      "pooled": {
+        "cutoffs": 102,
+        "with_at_least_3_valid_articles": 23,
+        "missing": 79,
+        "coverage_pct": 22.54901960784314,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "normalizer_reliable_cutoffs": 9
+      },
+      "per_symbol": [
+        {
+          "symbol": "BHN",
+          "cutoffs": 6,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 5,
+          "coverage_pct": 16.666666666666668,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "CMG",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 12,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "FPT",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 11,
+          "coverage_pct": 8.333333333333334,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "HVN",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 4,
+          "missing": 8,
+          "coverage_pct": 33.333333333333336,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 2
+        },
+        {
+          "symbol": "MBB",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 4,
+          "missing": 8,
+          "coverage_pct": 33.333333333333336,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "MWG",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 11,
+          "coverage_pct": 8.333333333333334,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "VCB",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 3,
+          "missing": 9,
+          "coverage_pct": 25.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 3
+        },
+        {
+          "symbol": "VJC",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 4,
+          "missing": 8,
+          "coverage_pct": 33.333333333333336,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 2
+        },
+        {
+          "symbol": "VNM",
+          "cutoffs": 12,
+          "with_at_least_3_valid_articles": 5,
+          "missing": 7,
+          "coverage_pct": 41.666666666666664,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        }
+      ],
+      "macro_unweighted_symbol_coverage_pct": 22.22222222222222,
+      "denominator": "một cutoff/mã; không đếm repeats như thị trường độc lập"
+    },
+    "upstream": {
+      "pooled": {
+        "cutoffs": 9,
+        "with_at_least_3_valid_articles": 3,
+        "missing": 6,
+        "coverage_pct": 33.333333333333336,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "normalizer_reliable_cutoffs": 1
+      },
+      "per_symbol": [
+        {
+          "symbol": "BHN",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 1,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "CMG",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 1,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "FPT",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 1,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "HVN",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 1,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "MBB",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 1,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "MWG",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 0,
+          "missing": 1,
+          "coverage_pct": 0.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "VCB",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "VJC",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "VNM",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        }
+      ],
+      "macro_unweighted_symbol_coverage_pct": 33.333333333333336,
+      "denominator": "một cutoff/mã; không đếm repeats như thị trường độc lập"
+    },
+    "factorial": {
+      "pooled": {
+        "cutoffs": 9,
+        "with_at_least_3_valid_articles": 9,
+        "missing": 0,
+        "coverage_pct": 100.0,
+        "available_neutral_cutoffs": 0,
+        "peer_available_cutoffs": 0,
+        "normalizer_reliable_cutoffs": 4
+      },
+      "per_symbol": [
+        {
+          "symbol": "BHN",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "FPT",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "HVN",
+          "cutoffs": 2,
+          "with_at_least_3_valid_articles": 2,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "MBB",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "MWG",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "VCB",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 1
+        },
+        {
+          "symbol": "VJC",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        },
+        {
+          "symbol": "VNM",
+          "cutoffs": 1,
+          "with_at_least_3_valid_articles": 1,
+          "missing": 0,
+          "coverage_pct": 100.0,
+          "available_neutral_cutoffs": 0,
+          "peer_available_cutoffs": 0,
+          "normalizer_reliable_cutoffs": 0
+        }
+      ],
+      "macro_unweighted_symbol_coverage_pct": 100.0,
+      "denominator": "một cutoff/mã; không đếm repeats như thị trường độc lập"
+    }
+  },
+  "scorer_tables": {
+    "legacy_cache_records": {
+      "total": 180,
+      "counts": {
+        "visobert": 0,
+        "lexicon": 0,
+        "unknown": 180
+      },
+      "percentages": {
+        "visobert": 0.0,
+        "lexicon": 0.0,
+        "unknown": 100.0
+      }
+    },
+    "legacy_unique_identities": {
+      "total": 177,
+      "counts": {
+        "visobert": 0,
+        "lexicon": 0,
+        "unknown": 177
+      },
+      "percentages": {
+        "visobert": 0.0,
+        "lexicon": 0.0,
+        "unknown": 100.0
+      }
+    },
+    "frozen_news_symbol_article_records": {
+      "total": 155,
+      "counts": {
+        "visobert": 155,
+        "lexicon": 0,
+        "unknown": 0
+      },
+      "percentages": {
+        "visobert": 100.0,
+        "lexicon": 0.0,
+        "unknown": 0.0
+      }
+    },
+    "frozen_news_unique_identities": {
+      "total": 154,
+      "counts": {
+        "visobert": 154,
+        "lexicon": 0,
+        "unknown": 0
+      },
+      "percentages": {
+        "visobert": 100.0,
+        "lexicon": 0.0,
+        "unknown": 0.0
+      }
+    },
+    "legacy_per_symbol": [
+      {
+        "symbol": "BHN",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "CMG",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "FPT",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "HVN",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "MBB",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "MWG",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "VCB",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "VJC",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      },
+      {
+        "symbol": "VNM",
+        "total": 20,
+        "counts": {
+          "visobert": 0,
+          "lexicon": 0,
+          "unknown": 20
+        },
+        "percentages": {
+          "visobert": 0.0,
+          "lexicon": 0.0,
+          "unknown": 100.0
+        }
+      }
+    ],
+    "frozen_news_per_symbol": [
+      {
+        "symbol": "BHN",
+        "total": 19,
+        "counts": {
+          "visobert": 19,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "CMG",
+        "total": 16,
+        "counts": {
+          "visobert": 16,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "FPT",
+        "total": 16,
+        "counts": {
+          "visobert": 16,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "HVN",
+        "total": 19,
+        "counts": {
+          "visobert": 19,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "MBB",
+        "total": 17,
+        "counts": {
+          "visobert": 17,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "MWG",
+        "total": 16,
+        "counts": {
+          "visobert": 16,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "VCB",
+        "total": 19,
+        "counts": {
+          "visobert": 19,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "VJC",
+        "total": 17,
+        "counts": {
+          "visobert": 17,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      },
+      {
+        "symbol": "VNM",
+        "total": 16,
+        "counts": {
+          "visobert": 16,
+          "lexicon": 0,
+          "unknown": 0
+        },
+        "percentages": {
+          "visobert": 100.0,
+          "lexicon": 0.0,
+          "unknown": 0.0
+        }
+      }
+    ]
+  },
+  "rules": {
+    "availability": "date-only publication +1 ngày; explicit available_at giữ nguyên; timezone Asia/Ho_Chi_Minh",
+    "window": "[cutoff ngày 23:59:59 −90 ngày, cutoff ngày 23:59:59], inclusive",
+    "minimum": ">=3 identities khác nhau có scorer V/L tường minh và score hữu hạn trong [-1,1]",
+    "provenance": "V/L/U là metadata đã ghi, không tự chứng nhận chất lượng scorer hoặc PIT",
+    "missing": "score=null và state=missing; score=0 chỉ là neutral khi đủ >=3 bài hợp lệ",
+    "legacy_replay": "Giữ nguyên runtime same-day/unknown scorer/neutral fallback; diagnostic không sửa kết quả cũ",
+    "percentages": "Tính từ cùng counts/total; mẫu số zero xuất null; không pool legacy với release mới",
+    "peers": "Chỉ runtime related_companies/related_sentiment; aliases hoặc mã khác có cache không tạo peer evidence"
+  },
+  "limits": [
+    "Legacy chỉ replay cache hiện có, chưa xác minh cache hoặc peer payload của execution lịch sử.",
+    "Frozen news/data đủ 3 bài khác normalizer legacy is_reliable >=8; ghi riêng, không đổi prompt đang chạy.",
+    "Các số zero trong normalized feature khi missing không được coi là sentiment neutral/evidence.",
+    "T07 còn kiểm tokenizer/scorer và prompt thiếu tin; T08 còn domain validation; T06 không đóng các task đó."
+  ]
+}
