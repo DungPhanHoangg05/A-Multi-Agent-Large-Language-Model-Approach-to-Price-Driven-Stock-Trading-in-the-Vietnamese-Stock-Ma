@@ -1,0 +1,94 @@
+{
+  "schema_version": "numeric_controls_protocol_v1",
+  "protocol_id": "revision_numeric_controls_v1",
+  "study_type": "historical_exploratory_post_diagnostic_design_not_preregistered_confirmatory",
+  "scope": {
+    "queue": "outputs/revision/revision_minimal_v1/manifest.json",
+    "bank": "outputs/revision/r1_72h_bank_v2/manifest.json",
+    "main_units": 102,
+    "symbol_blocks": 51,
+    "registry_candidates": 85,
+    "top_n": 5,
+    "scope_policy": "Giữ nguyên train/validation/test trong bank; chỉ main whitelist, không nhân repeats hoặc chọn lại cutoffs."
+  },
+  "target": {
+    "horizon_observed_sessions": 3,
+    "entry": "Open[t+1]",
+    "exit": "Close[t+3]",
+    "fee_each_side": 0.0025,
+    "slippage_each_side": 0.001,
+    "positive_label": "net_return > 0",
+    "actions": "LONG=1, CASH=0; SHORT không phải short position",
+    "initial_capital_vnd": 50000000.0,
+    "ledger": "core.revision_baselines.daily_ledger: fractional, daily close MTM, phí/slippage hai chiều; không xác nhận settlement/fill/tax/corporate actions"
+  },
+  "features": {
+    "source": "core.revision_baselines.numerical_features: chỉ lấy 85 alpha columns, không price/sentiment/LLM reports",
+    "warmup_first_decision": 599,
+    "quality": "OHLC/Volume hữu hạn, giá dương, volume không âm; 600 nến đầu có tổng volume dương; không proxy hoặc missing raw input",
+    "history": "Feature tại mỗi dòng dùng quá khứ tới dòng đó; năm causal adapters riêng WQ28/29/31/32/60, không dùng features/scores được normalize cả native training window",
+    "version_scope": "Đường numeric causal riêng, không thay runtime/frozen assets hoặc tuyên bố tái lập native selector/LLM đầu vào y hệt"
+  },
+  "fit": {
+    "purge": "Mọi train label exit < first validation decision; mọi validation label exit < first test decision, theo từng symbol/block",
+    "minimum_train": 20,
+    "minimum_validation": 10,
+    "minimum_finite_train_per_factor": 20,
+    "imputer": "Median finite của train; factor thiếu support bị disable, không fit validation/test",
+    "normalizer": "Mean và sample-SD ddof=1 sau train-median imputation; tanh((x-mean)/sd); không refit trong validation/test",
+    "minimum_scale_exclusive": 1e-9,
+    "eligibility": "Ít nhất 20 finite train observations, raw train không constant, scale>1e-9, train IC xác định; chỉ train quyết định eligibility",
+    "orientation": "Spearman trên normalized train factor và continuous train net return; -1 khi IC<0, +1 khi IC>=0; inactive factor luôn abstain",
+    "selection_score": "Native compute_metrics/rank_alphas trên train đã normalize bằng train statistics: |IC|, accuracy với ngưỡng native 0.05 và native signed-return Sharpe proxy; proxy này không là realized long-only portfolio Sharpe",
+    "score_weights": {"ic": 0.4, "acc": 0.35, "sharpe": 0.25},
+    "tie_break": "Composite giảm dần, alpha_id tăng dần",
+    "validation_policy": "Báo diagnostics của toàn bộ strategies đã khóa; không chọn seed, danh sách, threshold, weights hoặc refit từ validation",
+    "test_policy": "Một fit train/symbol/block, giữ cố định cho cả hai test cutoffs; không dùng test prices/labels/distribution hoặc T11 frequency để fit",
+    "historical_reuse": "Một điểm từng là test ở block cũ có thể thuộc train của block sau nếu bank đã khóa như vậy và label đã trưởng thành; folds không độc lập"
+  },
+  "strategies": {
+    "fixed_custom5": {
+      "ids": ["CURRENT_1_FDM", "CURRENT_2_SFA", "CURRENT_3_LVR", "CURRENT_4_BFE", "CURRENT_5_OFE"],
+      "rationale": "Năm custom gốc có trước T11; không chọn theo test frequency, IC hoặc profitability",
+      "inactive_policy": "Giữ năm slots; factor không eligible từ train abstain=0 và báo rõ, không thay factor khác"
+    },
+    "random_eligible5": {
+      "seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      "selection": "Sort eligible IDs theo SHA256(UTF8(protocol_id|scope_id|seed|alpha_id)), tie alpha_id; lấy năm đầu không replacement",
+      "cadence": "Một set/seed/symbol/block, giữ nguyên qua validation và hai test cutoffs",
+      "reporting": "Xuất đủ 20 seeds, kể cả trùng sets hoặc thua controls; không resample để tránh duplicate và không chọn best seed"
+    },
+    "dynamic_train_top5": {
+      "selection": "Top-five theo composite train trong eligible universe; thay đổi theo mã/block, không cập nhật bằng nhãn trong outer-test block",
+      "cadence_limit": "Dynamic theo symbol/block, không phải replay native per-cutoff selector của LLM"
+    },
+    "dynamic_train_top5_no_flip": {
+      "selection": "Cùng IDs/imputer/scaler/composite với dynamic_train_top5",
+      "orientation": "Ép +1 cho eligible factors; chỉ bỏ sign flip, không rerank hoặc refit riêng"
+    }
+  },
+  "decision": {
+    "individual_threshold": 0.1,
+    "vote": "Năm votes {-1,0,+1} theo oriented normalized factor; equal weight 1/5; inactive abstain",
+    "long_rule": "LONG iff mean(votes)>0; ties CASH; không leverage hoặc short",
+    "common_support": "Tất cả 23 strategies phải đủ cùng 102 main units; thiếu feature/scope hoặc <5 eligible thì fail-closed, báo missing, không bỏ điểm âm thầm hoặc fallback CASH"
+  },
+  "evaluation": {
+    "primary": "balanced_accuracy trên target net",
+    "secondary": ["MCC", "macro_F1", "per_class_support", "accuracy", "LONG_rate", "daily_ledger_return", "max_drawdown"],
+    "undefined": "null trong JSON, NA trong bảng; không thay BA bằng accuracy nếu thiếu lớp",
+    "aggregation": "Per-symbol/block, pooled và macro theo mã với denominator/common support rõ",
+    "random_family": "Mean/SD/range và mọi trial của 20 seeds; random-family mean là summary, không thêm ensemble prediction hoặc chọn seed"
+  },
+  "inference": {
+    "primary_contrasts": ["dynamic_vs_fixed", "dynamic_vs_random_mean", "dynamic_vs_no_flip"],
+    "exploratory_contrasts": "dynamic_vs_random_seed_00 tới dynamic_vs_random_seed_19",
+    "multiplicity_family_size": 23,
+    "correction": "Holm trên cả 23 paired BA contrast p-values, alpha=0.05; không loại seed/contrast vì outcome",
+    "paired_sign_flip": "Exact 2^6=64 assignments, cùng dấu cho toàn bộ mã/cutoffs trong một market block; fixed pooled class-support weights, statistic là BA difference; two-sided count(|T_perm|>=|T_obs|-1e-12)/64",
+    "bootstrap": {"seed": 0, "draws": 10000, "unit": "Sáu whole market blocks, cùng draws cho mọi strategy/seed", "interval": "Percentile 95%; báo undefined draws và denominator"},
+    "limits": "Sáu blocks có phụ thuộc và chỉ 12 cutoff dates; block symmetry/exchangeability không được xác nhận. P-values/intervals chỉ diagnostic, không confirmatory/general superiority hoặc LLM ablation evidence"
+  },
+  "failure_policy": "Không thay protocol/hash để vượt lỗi; T13 báo đầy đủ unavailable/undefined. Muốn sửa thiết kế phải tạo version/amendment trước chạy tiếp, giữ mọi kết quả đã có",
+  "execution": {"api_calls": 0, "strategies": 23, "planned_random_draws": 1020, "planned_test_predictions": 2346, "T12": "Chỉ khóa thiết kế/metadata, không fit controls trên dữ liệu thật", "T13": "Chạy offline toàn bộ thiết kế, khóa code runner trước khi tính kết quả"}
+}
