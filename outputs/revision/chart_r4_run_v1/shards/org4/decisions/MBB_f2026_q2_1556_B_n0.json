@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "b129747dee958eb442d3850a248980270e1cb86dc4a05aa4948e5c8fb4972951",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "e8a95701ff4c1da43420b081508b88a99e46e2b573e0f17c85ad6a1706fe5102"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates price is above support 21.0 and approaching resistance 22.0, suggesting upward movement. MACD histogram is positive and MACD line is above signal, indicating bullish momentum.",
+    "evidence_against": "MACD line remains negative, indicating overall bearish bias.",
+    "justification": "Given the upward trend and bullish momentum signals, a LONG position is justified. However, the negative MACD line and low confidence pattern warrant caution and a tight stop at 21.0.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a12a-6e42-7d90-9035-5d7e4388d2f5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a12a-6e42-7d90-9035-5d7e4388d2f5.request.json",
+      "sha256": "23d1fba70e50a1a5328e1d6e577803f2612c4a2edac1871d01b7ab0a2e109586"
+    },
+    {
+      "path": "calls/01a1a12a-6e42-7d90-9035-5d7e4388d2f5.response.json",
+      "sha256": "5719a1d5cde1f2814fbf668697a284a9c1d51f631e5efa29e04e8905862afb80"
+    }
+  ],
+  "sha256": "812fe22ff4aaf6834cf8cf27b6d1ad26092af5d90381744f38760c24d41271cd"
+}

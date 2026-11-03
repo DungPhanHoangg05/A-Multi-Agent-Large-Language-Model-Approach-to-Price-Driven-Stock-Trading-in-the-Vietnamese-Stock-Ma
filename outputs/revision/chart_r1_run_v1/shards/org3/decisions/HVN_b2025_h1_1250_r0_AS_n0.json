@@ -1,0 +1,90 @@
+{
+  "parent": {
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+    "asset_hash": "4f2bcdd959607a9a34e4daabff43496bbb856f16f086094c4619ca6d99025d8e",
+    "upstream_hash": "365bed58b092d6c99aeee853419fa2d198edd6d64a23318ad9f2009f27091fbb",
+    "node_hashes": [
+      "8695d091578d91ca0ee129f0fcc33cf18726d049dea906b34b56760fc07b25b5",
+      "9f28a21305343455122514278a23e0814a12f59060717d47c7556cd78d3d29e2",
+      "e7855f5b64f1461d7b2e543f021562d4d0a9f56cbfd80e589728fd3bedff6b04"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "HVN_b2025_h1_1250",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "LONG",
+  "confidence": "Cao",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"LONG\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"Trend is up with support at 22 and resistance at 24.5, and MACD histogram is trending upward indicating increasing momentum.\",\n  \"evidence_against\": \"MACD line is below signal, suggesting bearish momentum.\",\n  \"justification\": \"Long position is expected to capture upward movement within 3 days, with potential profit exceeding transaction costs. Short position would not provide sufficient upside to cover costs given current trend.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: HVN; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Tăng.\n\n**Mức hỗ trợ:** 22.0.\n\n**Mức kháng cự:** 24.5.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Bật lên.\n\n**Phân tích chi tiết:** Giá đóng cửa phiên gần nhất nằm trên đường hỗ trợ và đang tiến sát đường kháng cự. Khoảng cách giữa hai đường xu hướng đang mở rộng, xác nhận đà tăng.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục tăng trong 3 phiên tới do quán tính từ đường hỗ trợ dốc lên. Mục tiêu ngắn hạn là kiểm tra lại vùng kháng cự 24.5.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Xu hướng tăng.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Chuỗi các đỉnh và đáy cao dần liên tục từ vùng 17 lên vùng 24, cấu trúc uptrend rõ ràng.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 19/12 phá vỡ vùng kháng cự cũ.\n\n**Hàm ý giao dịch:** Mua khi giá giữ trên vùng hỗ trợ 22, cắt lỗ nếu đóng cửa dưới 21.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **0.6749**        | [0.8079, 0.7851, 0.7271, 0.6829, 0.6749]                 |\n| Signal Line | **0.7451**        | [0.7994, 0.7965, 0.7826, 0.7627, 0.7451]                 |\n| Histogram   | **-0.0702**        | [0.0086, -0.0114, -0.0555, -0.0797, -0.0702]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.0702)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Dương → vùng t\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — HVN\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: TĂNG (4 TĂNG / 1 GIẢM / 0 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with support at 22 and resistance at 24.5, and MACD histogram is trending upward indicating increasing momentum.\",\"evidence_against\":\"MACD line is below signal, suggesting bearish momentum.\",\"justification\":\"Long position is expected to capture upward movement within 3 days, with potential profit exceeding transaction costs. Short position would not provide sufficient upside to cover costs given current trend.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 1349,
+              "prompt_tokens": 1550,
+              "total_tokens": 2899,
+              "completion_time": 1.42705288,
+              "completion_tokens_details": {
+                "reasoning_tokens": 1227
+              },
+              "prompt_time": 0.110447319,
+              "prompt_tokens_details": null,
+              "queue_time": 0.324898949,
+              "total_time": 1.5375001990000001
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_8d13edce1d",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a1a105-a069-7e12-a26e-d6d832b9745d-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1550,
+            "output_tokens": 1349,
+            "total_tokens": 2899,
+            "output_token_details": {
+              "reasoning": 1227
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a1a105-a069-7e12-a26e-d6d832b9745d"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a105-a069-7e12-a26e-d6d832b9745d.request.json",
+      "sha256": "ab9b582bdd4d8348669169077085f9c99b168a69d7938f3c975bc46411f3248a"
+    },
+    {
+      "path": "calls/01a1a105-a069-7e12-a26e-d6d832b9745d.response.json",
+      "sha256": "29844d96a68b68c40ec0e73265bb8b6f53ecf0cbb450c0f2614cd6d6662630a5"
+    }
+  ],
+  "sha256": "8b1c78acce830c2db6b9a758191a2589e9747805d9105cbb9b3183d3acdf1bbb"
+}

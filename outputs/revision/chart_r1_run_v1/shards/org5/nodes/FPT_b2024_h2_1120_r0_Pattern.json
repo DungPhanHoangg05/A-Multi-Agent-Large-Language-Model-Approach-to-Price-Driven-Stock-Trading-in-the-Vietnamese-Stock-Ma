@@ -1,0 +1,35 @@
+{
+  "parent": {
+    "input_hash": "09f8f20321e7190f2ac06bd27f3e43637eba96eea314510f88ab091d336dc547",
+    "asset_hash": "3d1b4c751f6497b7613f98dae47781ef6ae3f93dedaae5347697508e327c46b3",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "FPT_b2024_h2_1120",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Cờ tăng.\n\n**Độ tin cậy:** Thấp\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Giá tăng mạnh từ 80 lên 105, sau đó tích lũy trong vùng 98-102 tạo thành cờ tăng.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 11/06 đẩy giá lên đỉnh 105.\n\n**Hàm ý giao dịch:** Mua khi giá phá vỡ vùng tích lũy 102, mục tiêu 110, ngừng lỗ dưới 98.\n\n[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình tăng]",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19bad-eafb-7dd2-a277-d511bbed434b"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bad-eafb-7dd2-a277-d511bbed434b.request.json",
+      "sha256": "7ed6e0eb1c64604a31dee3428f7f57ced728951f2e36d086d9a4451510174891"
+    },
+    {
+      "path": "calls/01a19bad-eafb-7dd2-a277-d511bbed434b.response.json",
+      "sha256": "4eaf70168b1c7e2bed1fcd9622da1c672fbe45132d09ef69f17bb6112b291fce"
+    }
+  ],
+  "sha256": "426d31ba5705eee1b6d1b38a671b2c2f86598f16c39021799926991c90c227b3"
+}

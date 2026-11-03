@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a104-b4eb-7730-8d95-1d794e030766",
+  "parent_request_hash": "f7c930915a013554d410b0284da6f9e5f669cb698e81869fbc1664460cb7b280",
+  "ended_at_utc": "2026-11-03T10:46:44.340692+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum; overall alpha factors show a downward bias.\",\"evidence_against\":\"Trend is sideways with no clear breakout above resistance.\",\"justification\":\"Shorting aligns with bearish indicators and protects against potential downside; trend suggests limited upside.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum; overall alpha factors show a downward bias.\",\"evidence_against\":\"Trend is sideways with no clear breakout above resistance.\",\"justification\":\"Shorting aligns with bearish indicators and protects against potential downside; trend suggests limited upside.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 595,
+                "prompt_tokens": 1582,
+                "total_tokens": 2177,
+                "completion_time": 0.667601067,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 496
+                },
+                "prompt_time": 0.092348263,
+                "prompt_tokens_details": null,
+                "queue_time": 0.316734586,
+                "total_time": 0.75994933
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a104-b4eb-7730-8d95-1d794e030766-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 595,
+        "prompt_tokens": 1582,
+        "total_tokens": 2177,
+        "completion_time": 0.667601067,
+        "completion_tokens_details": {
+          "reasoning_tokens": 496
+        },
+        "prompt_time": 0.092348263,
+        "prompt_tokens_details": null,
+        "queue_time": 0.316734586,
+        "total_time": 0.75994933
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

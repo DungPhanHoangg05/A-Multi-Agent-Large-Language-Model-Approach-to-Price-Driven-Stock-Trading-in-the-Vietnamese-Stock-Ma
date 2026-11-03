@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a103-c45f-7bf0-a5d3-40690d37c780",
+  "parent_request_hash": "4b5c3b0e78ca9a5f39e637cc234a50da1b2f29d0a270ab391e93e357ced1fe64",
+  "ended_at_utc": "2026-11-03T10:45:43.691461+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price below resistance 38.5 and approaching support 34.5, indicating continued decline. MACD line is below signal line with negative histogram trending downward, confirming bearish momentum.\",\"evidence_against\":\"No bullish reversal pattern or strong support level has been identified to justify a long position.\",\"justification\":\"Given the bearish trend and negative MACD, a short position aligns with the market direction and maximizes potential profit while minimizing risk. The short trade will be closed at the next support level or when MACD crosses above signal, ensuring a controlled exit.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price below resistance 38.5 and approaching support 34.5, indicating continued decline. MACD line is below signal line with negative histogram trending downward, confirming bearish momentum.\",\"evidence_against\":\"No bullish reversal pattern or strong support level has been identified to justify a long position.\",\"justification\":\"Given the bearish trend and negative MACD, a short position aligns with the market direction and maximizes potential profit while minimizing risk. The short trade will be closed at the next support level or when MACD crosses above signal, ensuring a controlled exit.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 874,
+                "prompt_tokens": 1421,
+                "total_tokens": 2295,
+                "completion_time": 0.912625118,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 712
+                },
+                "prompt_time": 0.452658385,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.38820886,
+                "total_time": 1.3652835030000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a103-c45f-7bf0-a5d3-40690d37c780-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 874,
+        "prompt_tokens": 1421,
+        "total_tokens": 2295,
+        "completion_time": 0.912625118,
+        "completion_tokens_details": {
+          "reasoning_tokens": 712
+        },
+        "prompt_time": 0.452658385,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.38820886,
+        "total_time": 1.3652835030000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

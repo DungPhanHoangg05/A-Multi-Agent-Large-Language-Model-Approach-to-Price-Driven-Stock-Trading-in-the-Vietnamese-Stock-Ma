@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a105-1a27-70f2-bb14-cb344bf4ee8b",
+  "parent_request_hash": "57ef51288ec56862468a4cd9f1ca0411d1eeceb02a717ad737d041bf96a9e739",
+  "ended_at_utc": "2026-11-03T10:47:10.099819+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is upward with support at 16.0 and resistance at 17.2, and MACD shows bullish momentum with histogram expanding.\",\"evidence_against\":\"Resistance at 17.2 could temporarily stall the rally.\",\"justification\":\"The combination of an uptrend, bullish MACD, and breakout from a box pattern supports a long position, while the risk of resistance at 17.2 is mitigated by the expected breakout.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is upward with support at 16.0 and resistance at 17.2, and MACD shows bullish momentum with histogram expanding.\",\"evidence_against\":\"Resistance at 17.2 could temporarily stall the rally.\",\"justification\":\"The combination of an uptrend, bullish MACD, and breakout from a box pattern supports a long position, while the risk of resistance at 17.2 is mitigated by the expected breakout.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 641,
+                "prompt_tokens": 1449,
+                "total_tokens": 2090,
+                "completion_time": 0.710877172,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 511
+                },
+                "prompt_time": 0.215380755,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.343845314,
+                "total_time": 0.926257927
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e2cb7a84ec",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a105-1a27-70f2-bb14-cb344bf4ee8b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 641,
+        "prompt_tokens": 1449,
+        "total_tokens": 2090,
+        "completion_time": 0.710877172,
+        "completion_tokens_details": {
+          "reasoning_tokens": 511
+        },
+        "prompt_time": 0.215380755,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.343845314,
+        "total_time": 0.926257927
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e2cb7a84ec",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

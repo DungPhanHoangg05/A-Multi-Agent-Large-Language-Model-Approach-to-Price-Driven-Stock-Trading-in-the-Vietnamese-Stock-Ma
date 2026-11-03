@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "b129747dee958eb442d3850a248980270e1cb86dc4a05aa4948e5c8fb4972951",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "4efccfb24a60da715abe147b000eca64ed6f397e5c71bcbc3d3a060d294b2620"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows a clear downtrend with repeated lower highs and lows, confirming bearish bias. MACD is below signal with negative histogram, indicating weakening momentum.",
+    "evidence_against": "Trend analysis indicates a sideways market, which could reduce the probability of a sustained move.",
+    "justification": "Given the bearish pattern and negative momentum, a short position aligns with the strategy to avoid buying and hold cash. The expected price decline should cover transaction costs and slippage, providing a net profit.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a12a-6e53-7b50-849a-d9342a51436c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a12a-6e53-7b50-849a-d9342a51436c.request.json",
+      "sha256": "ec3e7451e11f45b59e39a11071f6579f42585cdc70396163b85bf53af8ce085a"
+    },
+    {
+      "path": "calls/01a1a12a-6e53-7b50-849a-d9342a51436c.response.json",
+      "sha256": "d1fa62df29fbaf2c257b0dbc674ce618a747fe580e83a088ee4ea0480f050897"
+    }
+  ],
+  "sha256": "0388ff8a0ec5c63fa5a495d5143471a39d202972756ede7af1ff2dd61f961776"
+}

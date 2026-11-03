@@ -1,0 +1,1510 @@
+{
+  "schema_version": "chart_manuscript_v1",
+  "created_utc": "2026-11-03T10:11:31.138416+00:00",
+  "status": "software_and_audit_complete_R14_partial_provider_quota_checkpoint",
+  "scope": "Chart/prompt audit, corrected legend renderer and English literals, disclosure and partial corrected-chart paired rerun; no new LLM performance results",
+  "analysis_release": "outputs/revision/chart_convention_v1/manifest.json",
+  "previous_release": "outputs/revision/indicator_alpha_manuscript_v1/manifest.json",
+  "build_commands": [
+    "From extracted paper/: pdflatex -interaction=nonstopmode -halt-on-error main.tex",
+    "bibtex main",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex (twice)",
+    "Repeat with main_submit"
+  ],
+  "pdf_qa": {
+    "main": {
+      "pages": 67,
+      "labels": {
+        "sec:relatedworks": {
+          "number": "2",
+          "printed_page": 3,
+          "physical_page": 5
+        },
+        "sec:formulation": {
+          "number": "3",
+          "printed_page": 4,
+          "physical_page": 6
+        },
+        "eq:time_index_contract": {
+          "number": "3",
+          "printed_page": 4,
+          "physical_page": 6
+        },
+        "alg:walkforward": {
+          "number": "1",
+          "printed_page": 5,
+          "physical_page": 7
+        },
+        "eq:label": {
+          "number": "4",
+          "printed_page": 5,
+          "physical_page": 7
+        },
+        "eq:ts_rank_localised": {
+          "number": "7",
+          "printed_page": 6,
+          "physical_page": 8
+        },
+        "eq:alpha_norm": {
+          "number": "8",
+          "printed_page": 6,
+          "physical_page": 8
+        },
+        "eq:ic": {
+          "number": "9",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:sharpe": {
+          "number": "12",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:candidate_minmax": {
+          "number": "13",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:composite": {
+          "number": "14",
+          "printed_page": 8,
+          "physical_page": 10
+        },
+        "eq:selection": {
+          "number": "15",
+          "printed_page": 8,
+          "physical_page": 10
+        },
+        "eq:sent_decay": {
+          "number": "20",
+          "printed_page": 8,
+          "physical_page": 10
+        },
+        "eq:relsent": {
+          "number": "21",
+          "printed_page": 8,
+          "physical_page": 10
+        },
+        "eq:ind": {
+          "number": "22",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:alpha_factor": {
+          "number": "23",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:sent_context": {
+          "number": "24",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:alpha": {
+          "number": "25",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:pat": {
+          "number": "26",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:trend": {
+          "number": "27",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:decision": {
+          "number": "28",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:testpoints": {
+          "number": "29",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:acc": {
+          "number": "30",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:lift": {
+          "number": "31",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:execution_return": {
+          "number": "32",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:wealth_update": {
+          "number": "33",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_return": {
+          "number": "34",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_sharpe": {
+          "number": "35",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_mdd": {
+          "number": "36",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_trade_metrics": {
+          "number": "37",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:factorial_interaction": {
+          "number": "38",
+          "printed_page": 11,
+          "physical_page": 13
+        },
+        "sec:systemarchitecture": {
+          "number": "4",
+          "printed_page": 11,
+          "physical_page": 13
+        },
+        "tab:indicator_conditions": {
+          "number": "1",
+          "printed_page": 12,
+          "physical_page": 14
+        },
+        "eq:composite_score": {
+          "number": "39",
+          "printed_page": 12,
+          "physical_page": 14
+        },
+        "tab:custom_alphas": {
+          "number": "2",
+          "printed_page": 13,
+          "physical_page": 15
+        },
+        "fig:alpha_agent": {
+          "number": "1",
+          "printed_page": 14,
+          "physical_page": 16
+        },
+        "fig:decision_agent": {
+          "number": "2",
+          "printed_page": 17,
+          "physical_page": 19
+        },
+        "sec:experimentalsetup": {
+          "number": "5",
+          "printed_page": 17,
+          "physical_page": 19
+        },
+        "eq:execution_return_setup": {
+          "number": "40",
+          "printed_page": 18,
+          "physical_page": 20
+        },
+        "fig:walkforward_protocol": {
+          "number": "3",
+          "printed_page": 18,
+          "physical_page": 20
+        },
+        "tab:backtest_hyperparameters": {
+          "number": "3",
+          "printed_page": 18,
+          "physical_page": 20
+        },
+        "tab:system_variants": {
+          "number": "4",
+          "printed_page": 19,
+          "physical_page": 21
+        },
+        "eq:ablation_synergy": {
+          "number": "41",
+          "printed_page": 19,
+          "physical_page": 21
+        },
+        "eq:account_return_setup": {
+          "number": "42",
+          "printed_page": 19,
+          "physical_page": 21
+        },
+        "tab:evaluation_metrics": {
+          "number": "5",
+          "printed_page": 20,
+          "physical_page": 22
+        },
+        "sec:r1_numeric_protocol": {
+          "number": "5.5",
+          "printed_page": 20,
+          "physical_page": 22
+        },
+        "sec:r1_common_protocol": {
+          "number": "5.6",
+          "printed_page": 21,
+          "physical_page": 23
+        },
+        "sec:r2_protocol": {
+          "number": "5.7",
+          "printed_page": 22,
+          "physical_page": 24
+        },
+        "sec:r3_protocol": {
+          "number": "5.8",
+          "printed_page": 23,
+          "physical_page": 25
+        },
+        "sec:r4_protocol": {
+          "number": "5.9",
+          "printed_page": 24,
+          "physical_page": 26
+        },
+        "tab:implementation_details": {
+          "number": "6",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "sec:backtestresults": {
+          "number": "6",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "sec:r1_common_results": {
+          "number": "6.1",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "tab:r1_common_metrics": {
+          "number": "7",
+          "printed_page": 27,
+          "physical_page": 29
+        },
+        "tab:r1_common_classes": {
+          "number": "8",
+          "printed_page": 27,
+          "physical_page": 29
+        },
+        "tab:r1_common_intervals": {
+          "number": "9",
+          "printed_page": 28,
+          "physical_page": 30
+        },
+        "tab:r1_common_panels": {
+          "number": "10",
+          "printed_page": 28,
+          "physical_page": 30
+        },
+        "sec:r2_results": {
+          "number": "6.2",
+          "printed_page": 29,
+          "physical_page": 31
+        },
+        "sec:r3_results": {
+          "number": "6.3",
+          "printed_page": 29,
+          "physical_page": 31
+        },
+        "sec:r4_results": {
+          "number": "6.4",
+          "printed_page": 30,
+          "physical_page": 32
+        },
+        "tab:r1_legacy_metrics": {
+          "number": "11",
+          "printed_page": 31,
+          "physical_page": 33
+        },
+        "tab:r1_class_metrics": {
+          "number": "12",
+          "printed_page": 31,
+          "physical_page": 33
+        },
+        "tab:overall_results": {
+          "number": "13",
+          "printed_page": 32,
+          "physical_page": 34
+        },
+        "tab:r1_numeric_metrics": {
+          "number": "14",
+          "printed_page": 33,
+          "physical_page": 35
+        },
+        "tab:r1_comparability": {
+          "number": "15",
+          "printed_page": 33,
+          "physical_page": 35
+        },
+        "sec:limitations_futurework": {
+          "number": "7",
+          "printed_page": 33,
+          "physical_page": 35
+        },
+        "tab:robustness_results": {
+          "number": "16",
+          "printed_page": 34,
+          "physical_page": 36
+        },
+        "tab:disentangled_ablation": {
+          "number": "17",
+          "printed_page": 34,
+          "physical_page": 36
+        },
+        "sec:conclusion": {
+          "number": "8",
+          "printed_page": 37,
+          "physical_page": 39
+        },
+        "app:r1_common_detail": {
+          "number": "Appendix~A",
+          "printed_page": 39,
+          "physical_page": 41
+        },
+        "tab:r1_common_macro": {
+          "number": "A.18",
+          "printed_page": 39,
+          "physical_page": 41
+        },
+        "tab:r1_common_symbols": {
+          "number": "A.19",
+          "printed_page": 40,
+          "physical_page": 42
+        },
+        "tab:r1_common_symbols_2": {
+          "number": "A.20",
+          "printed_page": 41,
+          "physical_page": 43
+        },
+        "tab:r1_common_symbols_3": {
+          "number": "A.21",
+          "printed_page": 42,
+          "physical_page": 44
+        },
+        "tab:r1_common_strata": {
+          "number": "A.22",
+          "printed_page": 43,
+          "physical_page": 45
+        },
+        "tab:r1_common_strata_2": {
+          "number": "A.23",
+          "printed_page": 44,
+          "physical_page": 46
+        },
+        "app:r2_detail": {
+          "number": "Appendix~A.1",
+          "printed_page": 44,
+          "physical_page": 46
+        },
+        "tab:r2_coverage": {
+          "number": "A.24",
+          "printed_page": 44,
+          "physical_page": 46
+        },
+        "tab:r2_folds": {
+          "number": "A.25",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "tab:r2_regimes": {
+          "number": "A.26",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "tab:r2_dependence": {
+          "number": "A.27",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "app:r3_detail": {
+          "number": "Appendix~A.2",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "tab:r3_classification": {
+          "number": "A.28",
+          "printed_page": 46,
+          "physical_page": 48
+        },
+        "tab:r3_variability": {
+          "number": "A.29",
+          "printed_page": 46,
+          "physical_page": 48
+        },
+        "tab:r3_returns": {
+          "number": "A.30",
+          "printed_page": 47,
+          "physical_page": 49
+        },
+        "tab:r3_contrasts": {
+          "number": "A.31",
+          "printed_page": 47,
+          "physical_page": 49
+        },
+        "app:r4_detail": {
+          "number": "Appendix~A.3",
+          "printed_page": 48,
+          "physical_page": 50
+        },
+        "tab:r4_contrasts": {
+          "number": "A.32",
+          "printed_page": 48,
+          "physical_page": 50
+        },
+        "tab:r4_value_metrics": {
+          "number": "A.33",
+          "printed_page": 48,
+          "physical_page": 50
+        },
+        "tab:r4_value_contrasts": {
+          "number": "A.34",
+          "printed_page": 49,
+          "physical_page": 51
+        },
+        "tab:r4_value_audit": {
+          "number": "A.35",
+          "printed_page": 49,
+          "physical_page": 51
+        },
+        "app:prompts": {
+          "number": "Appendix~B",
+          "printed_page": 50,
+          "physical_page": 52
+        },
+        "app:prompt_decision": {
+          "number": "Appendix~B.1",
+          "printed_page": 50,
+          "physical_page": 52
+        },
+        "app:prompt_pattern": {
+          "number": "Appendix~B.2",
+          "printed_page": 51,
+          "physical_page": 53
+        },
+        "app:prompt_trend": {
+          "number": "Appendix~B.3",
+          "printed_page": 52,
+          "physical_page": 54
+        },
+        "app:prompt_indicator": {
+          "number": "Appendix~B.4",
+          "printed_page": 52,
+          "physical_page": 54
+        },
+        "app:prompt_sentiment": {
+          "number": "Appendix~B.5",
+          "printed_page": 53,
+          "physical_page": 55
+        },
+        "app:prompt_alpha": {
+          "number": "Appendix~B.6",
+          "printed_page": 54,
+          "physical_page": 56
+        },
+        "app:state_schema": {
+          "number": "Appendix~C",
+          "printed_page": 55,
+          "physical_page": 57
+        },
+        "tab:state_schema": {
+          "number": "C.36",
+          "printed_page": 55,
+          "physical_page": 57
+        },
+        "tab:target_schema": {
+          "number": "C.37",
+          "printed_page": 56,
+          "physical_page": 58
+        },
+        "app:alpha_impl": {
+          "number": "Appendix~D",
+          "printed_page": 56,
+          "physical_page": 58
+        },
+        "tab:alpha4_signed_cases": {
+          "number": "D.38",
+          "printed_page": 58,
+          "physical_page": 60
+        },
+        "app:indicator_classify": {
+          "number": "Appendix~E",
+          "printed_page": 58,
+          "physical_page": 60
+        },
+        "app:chart_convention": {
+          "number": "Appendix~F",
+          "printed_page": 59,
+          "physical_page": 61
+        },
+        "fig:chart_fixture": {
+          "number": "F.4",
+          "printed_page": 60,
+          "physical_page": 62
+        },
+        "app:dependencies": {
+          "number": "Appendix~G",
+          "printed_page": 61,
+          "physical_page": 63
+        },
+        "tab:dependencies": {
+          "number": "G.39",
+          "printed_page": 62,
+          "physical_page": 64
+        },
+        "tab:ticker_sentiment_coverage": {
+          "number": "G.40",
+          "printed_page": 63,
+          "physical_page": 65
+        }
+      }
+    },
+    "main_submit": {
+      "pages": 68,
+      "labels": {
+        "sec:relatedworks": {
+          "number": "2",
+          "printed_page": 2,
+          "physical_page": 4
+        },
+        "sec:formulation": {
+          "number": "3",
+          "printed_page": 4,
+          "physical_page": 6
+        },
+        "eq:time_index_contract": {
+          "number": "3",
+          "printed_page": 4,
+          "physical_page": 6
+        },
+        "alg:walkforward": {
+          "number": "1",
+          "printed_page": 5,
+          "physical_page": 7
+        },
+        "eq:label": {
+          "number": "4",
+          "printed_page": 5,
+          "physical_page": 7
+        },
+        "eq:ts_rank_localised": {
+          "number": "7",
+          "printed_page": 6,
+          "physical_page": 8
+        },
+        "eq:alpha_norm": {
+          "number": "8",
+          "printed_page": 6,
+          "physical_page": 8
+        },
+        "eq:ic": {
+          "number": "9",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:sharpe": {
+          "number": "12",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:candidate_minmax": {
+          "number": "13",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:composite": {
+          "number": "14",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:selection": {
+          "number": "15",
+          "printed_page": 7,
+          "physical_page": 9
+        },
+        "eq:sent_decay": {
+          "number": "20",
+          "printed_page": 8,
+          "physical_page": 10
+        },
+        "eq:relsent": {
+          "number": "21",
+          "printed_page": 8,
+          "physical_page": 10
+        },
+        "eq:ind": {
+          "number": "22",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:alpha_factor": {
+          "number": "23",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:sent_context": {
+          "number": "24",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:alpha": {
+          "number": "25",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:pat": {
+          "number": "26",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:trend": {
+          "number": "27",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:decision": {
+          "number": "28",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:testpoints": {
+          "number": "29",
+          "printed_page": 9,
+          "physical_page": 11
+        },
+        "eq:acc": {
+          "number": "30",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:lift": {
+          "number": "31",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:execution_return": {
+          "number": "32",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:wealth_update": {
+          "number": "33",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_return": {
+          "number": "34",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_sharpe": {
+          "number": "35",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_mdd": {
+          "number": "36",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:account_trade_metrics": {
+          "number": "37",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "eq:factorial_interaction": {
+          "number": "38",
+          "printed_page": 10,
+          "physical_page": 12
+        },
+        "sec:systemarchitecture": {
+          "number": "4",
+          "printed_page": 11,
+          "physical_page": 13
+        },
+        "tab:indicator_conditions": {
+          "number": "1",
+          "printed_page": 11,
+          "physical_page": 13
+        },
+        "eq:composite_score": {
+          "number": "39",
+          "printed_page": 12,
+          "physical_page": 14
+        },
+        "tab:custom_alphas": {
+          "number": "2",
+          "printed_page": 13,
+          "physical_page": 15
+        },
+        "fig:alpha_agent": {
+          "number": "1",
+          "printed_page": 14,
+          "physical_page": 16
+        },
+        "fig:decision_agent": {
+          "number": "2",
+          "printed_page": 16,
+          "physical_page": 18
+        },
+        "sec:experimentalsetup": {
+          "number": "5",
+          "printed_page": 17,
+          "physical_page": 19
+        },
+        "eq:execution_return_setup": {
+          "number": "40",
+          "printed_page": 17,
+          "physical_page": 19
+        },
+        "fig:walkforward_protocol": {
+          "number": "3",
+          "printed_page": 18,
+          "physical_page": 20
+        },
+        "tab:backtest_hyperparameters": {
+          "number": "3",
+          "printed_page": 18,
+          "physical_page": 20
+        },
+        "tab:system_variants": {
+          "number": "4",
+          "printed_page": 19,
+          "physical_page": 21
+        },
+        "eq:ablation_synergy": {
+          "number": "41",
+          "printed_page": 19,
+          "physical_page": 21
+        },
+        "eq:account_return_setup": {
+          "number": "42",
+          "printed_page": 19,
+          "physical_page": 21
+        },
+        "tab:evaluation_metrics": {
+          "number": "5",
+          "printed_page": 20,
+          "physical_page": 22
+        },
+        "sec:r1_numeric_protocol": {
+          "number": "5.5",
+          "printed_page": 20,
+          "physical_page": 22
+        },
+        "sec:r1_common_protocol": {
+          "number": "5.6",
+          "printed_page": 21,
+          "physical_page": 23
+        },
+        "sec:r2_protocol": {
+          "number": "5.7",
+          "printed_page": 22,
+          "physical_page": 24
+        },
+        "sec:r3_protocol": {
+          "number": "5.8",
+          "printed_page": 23,
+          "physical_page": 25
+        },
+        "sec:r4_protocol": {
+          "number": "5.9",
+          "printed_page": 24,
+          "physical_page": 26
+        },
+        "tab:implementation_details": {
+          "number": "6",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "sec:backtestresults": {
+          "number": "6",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "sec:r1_common_results": {
+          "number": "6.1",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "tab:r1_common_metrics": {
+          "number": "7",
+          "printed_page": 26,
+          "physical_page": 28
+        },
+        "tab:r1_common_classes": {
+          "number": "8",
+          "printed_page": 27,
+          "physical_page": 29
+        },
+        "tab:r1_common_intervals": {
+          "number": "9",
+          "printed_page": 28,
+          "physical_page": 30
+        },
+        "tab:r1_common_panels": {
+          "number": "10",
+          "printed_page": 28,
+          "physical_page": 30
+        },
+        "sec:r2_results": {
+          "number": "6.2",
+          "printed_page": 30,
+          "physical_page": 32
+        },
+        "sec:r3_results": {
+          "number": "6.3",
+          "printed_page": 30,
+          "physical_page": 32
+        },
+        "sec:r4_results": {
+          "number": "6.4",
+          "printed_page": 31,
+          "physical_page": 33
+        },
+        "tab:r1_legacy_metrics": {
+          "number": "11",
+          "printed_page": 32,
+          "physical_page": 34
+        },
+        "tab:r1_class_metrics": {
+          "number": "12",
+          "printed_page": 32,
+          "physical_page": 34
+        },
+        "tab:overall_results": {
+          "number": "13",
+          "printed_page": 33,
+          "physical_page": 35
+        },
+        "tab:r1_numeric_metrics": {
+          "number": "14",
+          "printed_page": 34,
+          "physical_page": 36
+        },
+        "tab:r1_comparability": {
+          "number": "15",
+          "printed_page": 34,
+          "physical_page": 36
+        },
+        "sec:limitations_futurework": {
+          "number": "7",
+          "printed_page": 34,
+          "physical_page": 36
+        },
+        "tab:robustness_results": {
+          "number": "16",
+          "printed_page": 35,
+          "physical_page": 37
+        },
+        "tab:disentangled_ablation": {
+          "number": "17",
+          "printed_page": 35,
+          "physical_page": 37
+        },
+        "sec:conclusion": {
+          "number": "8",
+          "printed_page": 38,
+          "physical_page": 40
+        },
+        "app:r1_common_detail": {
+          "number": "Appendix~A",
+          "printed_page": 39,
+          "physical_page": 41
+        },
+        "tab:r1_common_macro": {
+          "number": "A.18",
+          "printed_page": 40,
+          "physical_page": 42
+        },
+        "tab:r1_common_symbols": {
+          "number": "A.19",
+          "printed_page": 40,
+          "physical_page": 42
+        },
+        "tab:r1_common_symbols_2": {
+          "number": "A.20",
+          "printed_page": 41,
+          "physical_page": 43
+        },
+        "tab:r1_common_symbols_3": {
+          "number": "A.21",
+          "printed_page": 42,
+          "physical_page": 44
+        },
+        "tab:r1_common_strata": {
+          "number": "A.22",
+          "printed_page": 43,
+          "physical_page": 45
+        },
+        "tab:r1_common_strata_2": {
+          "number": "A.23",
+          "printed_page": 44,
+          "physical_page": 46
+        },
+        "app:r2_detail": {
+          "number": "Appendix~A.1",
+          "printed_page": 44,
+          "physical_page": 46
+        },
+        "tab:r2_coverage": {
+          "number": "A.24",
+          "printed_page": 44,
+          "physical_page": 46
+        },
+        "tab:r2_folds": {
+          "number": "A.25",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "tab:r2_regimes": {
+          "number": "A.26",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "tab:r2_dependence": {
+          "number": "A.27",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "app:r3_detail": {
+          "number": "Appendix~A.2",
+          "printed_page": 45,
+          "physical_page": 47
+        },
+        "tab:r3_classification": {
+          "number": "A.28",
+          "printed_page": 46,
+          "physical_page": 48
+        },
+        "tab:r3_variability": {
+          "number": "A.29",
+          "printed_page": 46,
+          "physical_page": 48
+        },
+        "tab:r3_returns": {
+          "number": "A.30",
+          "printed_page": 47,
+          "physical_page": 49
+        },
+        "tab:r3_contrasts": {
+          "number": "A.31",
+          "printed_page": 47,
+          "physical_page": 49
+        },
+        "app:r4_detail": {
+          "number": "Appendix~A.3",
+          "printed_page": 48,
+          "physical_page": 50
+        },
+        "tab:r4_contrasts": {
+          "number": "A.32",
+          "printed_page": 48,
+          "physical_page": 50
+        },
+        "tab:r4_value_metrics": {
+          "number": "A.33",
+          "printed_page": 48,
+          "physical_page": 50
+        },
+        "tab:r4_value_contrasts": {
+          "number": "A.34",
+          "printed_page": 49,
+          "physical_page": 51
+        },
+        "tab:r4_value_audit": {
+          "number": "A.35",
+          "printed_page": 49,
+          "physical_page": 51
+        },
+        "app:prompts": {
+          "number": "Appendix~B",
+          "printed_page": 50,
+          "physical_page": 52
+        },
+        "app:prompt_decision": {
+          "number": "Appendix~B.1",
+          "printed_page": 50,
+          "physical_page": 52
+        },
+        "app:prompt_pattern": {
+          "number": "Appendix~B.2",
+          "printed_page": 51,
+          "physical_page": 53
+        },
+        "app:prompt_trend": {
+          "number": "Appendix~B.3",
+          "printed_page": 52,
+          "physical_page": 54
+        },
+        "app:prompt_indicator": {
+          "number": "Appendix~B.4",
+          "printed_page": 52,
+          "physical_page": 54
+        },
+        "app:prompt_sentiment": {
+          "number": "Appendix~B.5",
+          "printed_page": 53,
+          "physical_page": 55
+        },
+        "app:prompt_alpha": {
+          "number": "Appendix~B.6",
+          "printed_page": 54,
+          "physical_page": 56
+        },
+        "app:state_schema": {
+          "number": "Appendix~C",
+          "printed_page": 55,
+          "physical_page": 57
+        },
+        "tab:state_schema": {
+          "number": "C.36",
+          "printed_page": 55,
+          "physical_page": 57
+        },
+        "tab:target_schema": {
+          "number": "C.37",
+          "printed_page": 56,
+          "physical_page": 58
+        },
+        "app:alpha_impl": {
+          "number": "Appendix~D",
+          "printed_page": 56,
+          "physical_page": 58
+        },
+        "tab:alpha4_signed_cases": {
+          "number": "D.38",
+          "printed_page": 58,
+          "physical_page": 60
+        },
+        "app:indicator_classify": {
+          "number": "Appendix~E",
+          "printed_page": 58,
+          "physical_page": 60
+        },
+        "app:chart_convention": {
+          "number": "Appendix~F",
+          "printed_page": 59,
+          "physical_page": 61
+        },
+        "fig:chart_fixture": {
+          "number": "F.4",
+          "printed_page": 60,
+          "physical_page": 62
+        },
+        "app:dependencies": {
+          "number": "Appendix~G",
+          "printed_page": 61,
+          "physical_page": 63
+        },
+        "tab:dependencies": {
+          "number": "G.39",
+          "printed_page": 62,
+          "physical_page": 64
+        },
+        "tab:ticker_sentiment_coverage": {
+          "number": "G.40",
+          "printed_page": 63,
+          "physical_page": 65
+        }
+      }
+    }
+  },
+  "unchanged_numerical_source_sections": [
+    "paper/sections/01_introduction.tex",
+    "paper/sections/05_experimental_setup.tex",
+    "paper/sections/06_backtest_results.tex",
+    "paper/sections/08_conclusion.tex"
+  ],
+  "sources": [
+    {
+      "path": ".gitattributes",
+      "sha256": "0582c51b263c1bb159d09a46ed06d2ecf9c05020f9d004d4fa483c922bb22900"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "70ae31e5d7aac3e68b102683c3e02e86e967f2c00637e4490f8ecb71f011240f"
+    },
+    {
+      "path": "agents/pattern_agent.py",
+      "sha256": "864ef97b14dbd2d0648360c9344de9171b8bc63296ca89596c93e9b296c5b96c"
+    },
+    {
+      "path": "agents/trend_agent.py",
+      "sha256": "29a25ede1efd75b57b662f65ba3bbe1540fa8f18dc2e473d4c87218f7216fc8d"
+    },
+    {
+      "path": "core/backtest_engine.py",
+      "sha256": "b10b4aab6402657cb370af65c9d7ca3cda9a6f328230a3cada2526c90a821d1e"
+    },
+    {
+      "path": "core/revision72_run.py",
+      "sha256": "846904b533525abbf277e9ad49b7b0aca55890dcddc1342fef217af83c2c2aeb"
+    },
+    {
+      "path": "core/revision_baselines.py",
+      "sha256": "b6c0e05d62154c31a6fec387b68d6c6f875b1125a4115046d2e978de1b2ed6c5"
+    },
+    {
+      "path": "core/revision_common_study.py",
+      "sha256": "45eb777490667b5be7a3bd8a773b59d8289a7a68b8eb5bb1d139b9a169711ba5"
+    },
+    {
+      "path": "outputs/revision/chart_convention_v1/manifest.json",
+      "sha256": "641f8d52aca8119bc2bc13b6d6b272f05a3dfeb0da342e3a2ddaabe20d9031c9"
+    },
+    {
+      "path": "outputs/revision/chart_convention_v1/prior_sources/color_style.py",
+      "sha256": "3d32e049284f2114247ca2b94bf4e43f8686c9f40242ff903d9f36f46707b12f"
+    },
+    {
+      "path": "outputs/revision/chart_convention_v1/prior_sources/static_util.py",
+      "sha256": "8c52fe0663dd2fb8fa4fafd96361594d20aa83d0bf3fe1e0a957dcdff0167db4"
+    },
+    {
+      "path": "outputs/revision/chart_convention_v1/prior_sources/trend_agent.py",
+      "sha256": "d5ed2562e7f73048e47e5d9355e3ec477eed163f313c78fcd72c6132cedcad8f"
+    },
+    {
+      "path": "outputs/revision/chart_convention_v1/rerun_protocol.json",
+      "sha256": "3a4649c0d7bb0e8ad8d7187ec73d977e76589d7af903b8784ccb7188bbcc29e0"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/chart_rerun_preparation.json",
+      "sha256": "2bd1465000298898e7b1d4eab92fa81cdfd4c689710055541782aaf7ccb24323"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/run_manifest.json",
+      "sha256": "487d92694d96dace807471e7c83cd30fda4d312335b14759f262998fc8e5b086"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/runtime_history/frozen_runtime_sources.json",
+      "sha256": "5ff30be081923e040076391557ae20410a3d4ee10534c330ef1ce859c4eb9ff8"
+    },
+    {
+      "path": "outputs/revision/chart_r4_bank_v1/manifest.json",
+      "sha256": "ce8396557425b3de7d60a6ea7946571b49a76c7407e0d5494d6e4c96270cbaeb"
+    },
+    {
+      "path": "outputs/revision/indicator_alpha_manuscript_v1/manifest.json",
+      "sha256": "3ad18c1dca38b4992840bf9c427c59ee0389abe47626c6703a38d98ab6b9bfb7"
+    },
+    {
+      "path": "paper/.gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "paper/elsarticle-num.bst",
+      "sha256": "0db2e53b2378cbe5815e436c1afe9dcac67123a32406fa8f11fad7978808e202"
+    },
+    {
+      "path": "paper/elsarticle.cls",
+      "sha256": "23a341acd0e35c20148c836fc6e9251549aa45b059fc1750356ca2f3f11f3cb0"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.png",
+      "sha256": "ce93ca2e80f33da49b8dba034f36007b6e9ff5fa1932fb234df54ad763d8dc4f"
+    },
+    {
+      "path": "paper/figs/alpha_agent_pipeline.tex",
+      "sha256": "2a8edaef410c1c96759b3bc06d0d2942ab1fb2f243d93298a12ca02624509fc8"
+    },
+    {
+      "path": "paper/figs/backtest_BHN_20260917_1227.png",
+      "sha256": "1fdd500812ece8fa0d9b6b3bc205b7e171a1f5ecd149528836d0d092f3ab421f"
+    },
+    {
+      "path": "paper/figs/backtest_CMG_20260916_1110.png",
+      "sha256": "7351ffed0b0afcb6568d2cdae6004f9b23c0be512593bbe60c985109ba2c93de"
+    },
+    {
+      "path": "paper/figs/backtest_FPT_20260915_1458.png",
+      "sha256": "b772079e92c3d49e295439416c5456b8f20d9df1b4753123fcee98857ace9ab4"
+    },
+    {
+      "path": "paper/figs/backtest_HVN_20260916_1032.png",
+      "sha256": "ee84ba6bed88f5af8347006eeba9aa4394a4f92d50df4f9a90b133d4314e882d"
+    },
+    {
+      "path": "paper/figs/backtest_MBB_20260916_1129.png",
+      "sha256": "95f54e1f8f8398fc3473619110441e6d7ce6627324d2d40e6b3db2dc45ddea65"
+    },
+    {
+      "path": "paper/figs/backtest_MWG_20260916_1422.png",
+      "sha256": "2253a8844986d09c0fd67460b57fd8e90151a93681e35d85145329f9e9b4796d"
+    },
+    {
+      "path": "paper/figs/backtest_VCB_20260916_1337.png",
+      "sha256": "c2476a6242f3d3a440a64172cf890c93d1457db0584d97e620781eec5dfe81f7"
+    },
+    {
+      "path": "paper/figs/backtest_VJC_20260915_1542.png",
+      "sha256": "b6586b7368c04b88b1ac37dbf02720c63c2ceb8a01420753b248f9b68d290137"
+    },
+    {
+      "path": "paper/figs/backtest_VNM_20260915_1514.png",
+      "sha256": "442ab2fd645e332f3df1aef374d4a15bbb4b36cfa795ebc6a47f7280e8286aef"
+    },
+    {
+      "path": "paper/figs/chart_fixture_pattern.png",
+      "sha256": "643764499b3badfd15c9cc76e66ede2d2a55f49450306a2449b542b32deb384f"
+    },
+    {
+      "path": "paper/figs/chart_fixture_trend.png",
+      "sha256": "53fbf58464cb910425e5054fb642675421d74cb8dbbef8cd3cc39bfc45353a6d"
+    },
+    {
+      "path": "paper/figs/decision_agent_pipeline.png",
+      "sha256": "48c454d1540f6897e300d828c04ca56a1e03aa2d9d15b78e11a87666eb94392a"
+    },
+    {
+      "path": "paper/figs/system_pipeline.png",
+      "sha256": "d02d7f971ed0778b33921fbdfd1b0e727b513adf15f6ab4655315dba4639ea70"
+    },
+    {
+      "path": "paper/figs/walkforward_protocol.png",
+      "sha256": "9953c5eabc41523db151caa5f56b20c707754eef41bfca7cc99755118c05b229"
+    },
+    {
+      "path": "paper/generated/.gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "paper/generated/alpha4_signed_cases.tex",
+      "sha256": "5ed8f6b54abf1198d21a9bd880dbf634c929452c0af1c16190df412dcb005303"
+    },
+    {
+      "path": "paper/generated/r1_class_metrics.tex",
+      "sha256": "fc1784749010507589559bafcd012d34bc0f3510b11e84d1270b6d7c3a0bf1f2"
+    },
+    {
+      "path": "paper/generated/r1_common_classes.tex",
+      "sha256": "8fb3667efdbfa950de47d05178be4ac3e8e9bce9b2157ebf2f78b13e492805ce"
+    },
+    {
+      "path": "paper/generated/r1_common_intervals.tex",
+      "sha256": "1f00ebd36fc68952f775dee577d3f126d80750934693ee213439fc095774d841"
+    },
+    {
+      "path": "paper/generated/r1_common_macro.tex",
+      "sha256": "de41bcad16c175527b1238daaece14b9026e91612a89d698aa757c090296af9e"
+    },
+    {
+      "path": "paper/generated/r1_common_metrics.tex",
+      "sha256": "c578d76cf971687e618c2f8ca9222f5cb86341dcc44bf5bdfdd89980ab1d631d"
+    },
+    {
+      "path": "paper/generated/r1_common_panels.tex",
+      "sha256": "10aadc0a22d723ef7f095625d2ce83a3ba86c6372e5663aa72cc865070df2730"
+    },
+    {
+      "path": "paper/generated/r1_common_strata.tex",
+      "sha256": "f76bd041e44643c2b1ec733bc7470555bd514126f2ac425cf4ad30e9d410fa15"
+    },
+    {
+      "path": "paper/generated/r1_common_symbols.tex",
+      "sha256": "bfa27ac632d915429ac7b51de1c25329a615921b3cea0649b3b2086fc53948c1"
+    },
+    {
+      "path": "paper/generated/r1_comparability.tex",
+      "sha256": "2b3c89092e8d7c9efcddddadb15eeb284a529a5ae8e454c52514694c8913a5b7"
+    },
+    {
+      "path": "paper/generated/r1_legacy_metrics.tex",
+      "sha256": "d27c3ce568ac9220b8f077ee3a70974494538e54f539be35acea6f40f7364bdb"
+    },
+    {
+      "path": "paper/generated/r1_numeric_metrics.tex",
+      "sha256": "1d673c70d838dacf26f43b806a2f16eead0a31e56a1b715b56e2015d3389c1c1"
+    },
+    {
+      "path": "paper/generated/r2_coverage.tex",
+      "sha256": "5da68f9624de0231e3be21c329e8570d0c47c77c66598f3ab3270fe0ff3e3c1c"
+    },
+    {
+      "path": "paper/generated/r2_dependence.tex",
+      "sha256": "cdc74eb68c33af54ec0becb3741fcc36f403ca7c40acdf7cf9a1185d84f3e363"
+    },
+    {
+      "path": "paper/generated/r2_folds.tex",
+      "sha256": "915bd252f83a31f496f10fa227e839e7b59de72065cacb7229830ef570da1bdf"
+    },
+    {
+      "path": "paper/generated/r2_regimes.tex",
+      "sha256": "779e2a1c9e5afaaa5b811ceeb2ab1e1c9514f0b63d7dade89a6fa2cda47b6b39"
+    },
+    {
+      "path": "paper/generated/r3_classification.tex",
+      "sha256": "289bbaf4fb5e70ee704964aa8752a5a12732642f58a0dc363b591e8a4ff44358"
+    },
+    {
+      "path": "paper/generated/r3_contrasts.tex",
+      "sha256": "a2d1abf6967406f4acb91239f9c13b40222b50557c02f6bcd75be65e65e77f7f"
+    },
+    {
+      "path": "paper/generated/r3_returns.tex",
+      "sha256": "7d927f8128b7b5f1d6a334d94fd8c714b1f0a9788545a2140fee2e0e54f85aa7"
+    },
+    {
+      "path": "paper/generated/r3_variability.tex",
+      "sha256": "3524bda66c02c6040a060f2f9205ba84b5c48287ad323f81524ab37278e6165c"
+    },
+    {
+      "path": "paper/generated/r4_contrasts.tex",
+      "sha256": "fe8b3532acf5f6bc6c7f362e0867c24a78b160fdeaa2547987436cbc1aac899b"
+    },
+    {
+      "path": "paper/generated/r4_value_audit.tex",
+      "sha256": "8776d64f57048d0a434ef1377b67b1700d4a77699c6b497900fc04a62f35e4a8"
+    },
+    {
+      "path": "paper/generated/r4_value_contrasts.tex",
+      "sha256": "c0d0aae0ae41a275cee6704b6e1f84ead12cab02163baf1b358fa53dde1841b4"
+    },
+    {
+      "path": "paper/generated/r4_value_metrics.tex",
+      "sha256": "c8f0f6e8d116f6392c3882bd5b48b2b77a7746185e946cb1078966c777bb34bb"
+    },
+    {
+      "path": "paper/generated/target_prompt_excerpt.tex",
+      "sha256": "63a2bb5dda4ef4573c617414133743496e7eca5fa646ac4c1becfb6d0927e599"
+    },
+    {
+      "path": "paper/generated/target_schema_table.tex",
+      "sha256": "2ea70ede249ec2a651cf685f5e8542fd23937585dcbbdaa46198a956767ee325"
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "d05c7f2cffc9ddd0030b16c0ada80cf5db7b6eff12c5d03bd4df5c59a94d168a"
+    },
+    {
+      "path": "paper/main_submit.tex",
+      "sha256": "88e85142a89f7f589db3ae23edca029987a2d80cb8451505e7f20436c0fb2382"
+    },
+    {
+      "path": "paper/references.bib",
+      "sha256": "c188fb50f39c10ae0b3d4cc5f6fbbef2c20cb578c1c85e95d8e5c603985ef4e8"
+    },
+    {
+      "path": "paper/sections/01_introduction.tex",
+      "sha256": "7cb87030e7cdf5bb4ad9ffc4f97e6a04e17b7e0bae6406eef246a262bb25006d"
+    },
+    {
+      "path": "paper/sections/02_related_work.tex",
+      "sha256": "afab598b3df9e3a2a304b9b355f01e21b9c114cbb1b29b076c71531bd5493435"
+    },
+    {
+      "path": "paper/sections/03_problem_formulation.tex",
+      "sha256": "91a8e8ccb68f489227d4717e3db80d98cf33c0ae7862a53c5516449bb2ae64b9"
+    },
+    {
+      "path": "paper/sections/04_system_architecture.tex",
+      "sha256": "c0f24d48dc525d65de559f736a375e0703eb18d649f4321d89ca3dbc5d624fac"
+    },
+    {
+      "path": "paper/sections/05_experimental_setup.tex",
+      "sha256": "bb0eff9051dedae3f792d565152916336dbde189a5610c9c79d22273c76e7cc3"
+    },
+    {
+      "path": "paper/sections/06_backtest_results.tex",
+      "sha256": "307d13563db9ef3c659f319b9c01126504d763dfffcd9d81e72a867a04a8c731"
+    },
+    {
+      "path": "paper/sections/07_limitations.tex",
+      "sha256": "65142e47e2961d4e82b501f96afbcf2b559dd0ca5daa2307a269890b03dec54c"
+    },
+    {
+      "path": "paper/sections/08_conclusion.tex",
+      "sha256": "83e2f7d4da0adf7a7c68936e16e2fc9c0991f62d2959c07619db740980cca73d"
+    },
+    {
+      "path": "paper/sections/acknowledgments.tex",
+      "sha256": "144503e0908506d64cd52bb99480fd3082c63bc63831e66299e237007f868e9c"
+    },
+    {
+      "path": "paper/sections/appendices.tex",
+      "sha256": "757251eff3e56289a490ee0780dd4f10c19b0c95d0edb1d1882819092ac0b483"
+    },
+    {
+      "path": "revision/chart_convention_policy.json",
+      "sha256": "2b85c56524d03f90f0e5f74cb890717df5f26d186429ec9d8b7c6644d96a6bd6"
+    },
+    {
+      "path": "revision/r1_provider_policy.json",
+      "sha256": "7e242e605adfd8be6c033263f78ae4d95465b09b827dbebc29ea452f3fe6a658"
+    },
+    {
+      "path": "scripts/audit_chart_convention.py",
+      "sha256": "e8aabea6ff70013255c4d93e66175461e6176cf6b3b93be0b7aaad67cce9ab86"
+    },
+    {
+      "path": "scripts/prepare_chart_r4.py",
+      "sha256": "97e64864ab0ede8bf40d292033a3c6de31561fca72e9221b2d7a50e7adcd518d"
+    },
+    {
+      "path": "scripts/run_chart_rerun.py",
+      "sha256": "c3ce61d5ab95754d6cb16d2be1a067ba3071a3ea57059d39246ddffed687687a"
+    },
+    {
+      "path": "tests/test_chart_convention.py",
+      "sha256": "66906c1ac58d6653d115c489f167b7d5f243950211f51bae11ae9e1a3ea3c898"
+    },
+    {
+      "path": "tests/test_chart_rerun.py",
+      "sha256": "c50c528ea701760b58f64b25ee3f13bcc9005c9d8af400619de534ac6ffdbf5d"
+    },
+    {
+      "path": "tests/test_prepare_chart_r4.py",
+      "sha256": "55688c25f3ac81d13f5ac309018c6292b20ef7e3eb6b4f18bcee3e36bcad444c"
+    },
+    {
+      "path": "utils/color_style.py",
+      "sha256": "a9b4cb74a2fbce58e425e4d483f19bf424b9c0969ad4e7702e4a96e709f42f68"
+    },
+    {
+      "path": "utils/graph_util.py",
+      "sha256": "5a8ea82f3112932d8df7677223a433d331e5a0212c42154e3b4c648a4cb24b6a"
+    },
+    {
+      "path": "utils/i18n.py",
+      "sha256": "2b143b0582d0f7110d78ee3d740d267d3e2e16a78e156382d43bd7ddfca396b8"
+    },
+    {
+      "path": "utils/static_util.py",
+      "sha256": "b8b78e5ae7e231e960c09af790bf7b232d727833fdcf02db893c974be6f1a217"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "main.log",
+      "sha256": "8fe77beae352c7c20d01120fef57545268545bc1eb706e57929d9285fef31fea"
+    },
+    {
+      "path": "main.pdf",
+      "sha256": "3eeaf5d65683118c718ba96b874b60f40e4d16cb880a425565fc3b319a71a2c1"
+    },
+    {
+      "path": "main_submit.log",
+      "sha256": "16ba9a7f7cd79b344628d8eaa463bd84a0c4895f7d34f675cdf9eae339cdf91f"
+    },
+    {
+      "path": "main_submit.pdf",
+      "sha256": "bb07eff12ebcb908957c94df4b9642bb1ca34ea8ef3ada4f1c46646a721c7189"
+    },
+    {
+      "path": "sources.zip",
+      "sha256": "a483ba4ca6496d2db6a43dbbd6937dc1af4372d2d124ccf2d43651af4fb1fd46"
+    }
+  ],
+  "limits": [
+    "All 107 retained historical Trend images had misbound wick/body legend swatches; plotted lines and body colours were correct",
+    "New renderer changes VI and EN image inputs; captured VI prompt text is unchanged holding the image fixed",
+    "R14 and D2-10 remain partial: 138/474 research R1 and 6/270 R4 decisions saved at provider-quota checkpoints; five smokes and 120 research Trend groups complete",
+    "Existing numerical results describe old inputs; no corrected-renderer or corrected-English performance claim",
+    "879 scheduled calls before retries under existing five-org Free provider-only authorization; no internal attempt caps, quota purchase or model substitution",
+    "Legacy submission and hosted-model comprehension remain unverified; earlier releases preserved"
+  ]
+}

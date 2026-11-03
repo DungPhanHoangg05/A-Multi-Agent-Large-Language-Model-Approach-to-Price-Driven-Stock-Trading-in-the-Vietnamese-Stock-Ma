@@ -1,0 +1,63 @@
+{
+  "attempt_id": "01a19bf9-d601-7d50-9bfe-8bbb71566515",
+  "parent_request_hash": "45abf2149c05352563677a7d55d092efd13645ff5c069c2300c5ee5205c96984",
+  "ended_at_utc": "2026-11-02T11:16:45.446809+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "**Mô hình:** Xu hướng giảm\n**Độ tin cậy:** Cao\n**Thiên lệch dự báo:** Giảm\n**Bằng chứng:** Giá tạo đỉnh tại 64.5 (cuối tháng 5) và liên tục tạo các đỉnh thấp hơn (lower highs) cùng đáy thấp hơn (lower lows) về vùng 60.5\n**Nến quan trọng:** Nến đỏ thân dài ngày 28/05 phá vỡ cấu trúc tăng và nến đỏ ngày 24/06 xác nhận xu hướng giảm\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 61.5 - 62.0, cắt lỗ nếu vượt qua 62.5",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "**Mô hình:** Xu hướng giảm\n**Độ tin cậy:** Cao\n**Thiên lệch dự báo:** Giảm\n**Bằng chứng:** Giá tạo đỉnh tại 64.5 (cuối tháng 5) và liên tục tạo các đỉnh thấp hơn (lower highs) cùng đáy thấp hơn (lower lows) về vùng 60.5\n**Nến quan trọng:** Nến đỏ thân dài ngày 28/05 phá vỡ cấu trúc tăng và nến đỏ ngày 24/06 xác nhận xu hướng giảm\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 61.5 - 62.0, cắt lỗ nếu vượt qua 62.5",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 152,
+                "prompt_tokens": 2390,
+                "total_tokens": 2542,
+                "completion_time": 0.289079937,
+                "completion_tokens_details": null,
+                "prompt_time": 0.17018692,
+                "prompt_tokens_details": null,
+                "queue_time": 0.199348452,
+                "total_time": 0.459266857
+              },
+              "model_name": "qwen/qwen3.8-27b",
+              "system_fingerprint": "fp_fea14bdc83",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bf9-d601-7d50-9bfe-8bbb71566515-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 152,
+        "prompt_tokens": 2390,
+        "total_tokens": 2542,
+        "completion_time": 0.289079937,
+        "completion_tokens_details": null,
+        "prompt_time": 0.17018692,
+        "prompt_tokens_details": null,
+        "queue_time": 0.199348452,
+        "total_time": 0.459266857
+      },
+      "model_name": "qwen/qwen3.8-27b",
+      "system_fingerprint": "fp_fea14bdc83",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

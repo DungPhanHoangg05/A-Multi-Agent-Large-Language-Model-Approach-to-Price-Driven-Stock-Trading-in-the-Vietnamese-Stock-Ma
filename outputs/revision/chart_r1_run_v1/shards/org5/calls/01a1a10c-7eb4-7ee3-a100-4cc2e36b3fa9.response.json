@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a10c-7eb4-7ee3-a100-4cc2e36b3fa9",
+  "parent_request_hash": "100633ffa4feff45e002fab358f4504263aeba906d4e1dfbb27d336e4f6b2889",
+  "ended_at_utc": "2026-11-03T10:55:15.185704+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 18.3 and resistance at 20.5, MACD bullish with histogram expanding.\",\"evidence_against\":\"Alpha factors overall decreasing, indicating potential weakness.\",\"justification\":\"Price likely to continue upward trend to 20.5 within 3 sessions, but caution due to negative alpha signals.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 18.3 and resistance at 20.5, MACD bullish with histogram expanding.\",\"evidence_against\":\"Alpha factors overall decreasing, indicating potential weakness.\",\"justification\":\"Price likely to continue upward trend to 20.5 within 3 sessions, but caution due to negative alpha signals.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 991,
+                "prompt_tokens": 1565,
+                "total_tokens": 2556,
+                "completion_time": 1.3453838550000001,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 884
+                },
+                "prompt_time": 0.094068198,
+                "prompt_tokens_details": null,
+                "queue_time": 0.432317513,
+                "total_time": 1.4394520530000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_996f667773",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a10c-7eb4-7ee3-a100-4cc2e36b3fa9-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 991,
+        "prompt_tokens": 1565,
+        "total_tokens": 2556,
+        "completion_time": 1.3453838550000001,
+        "completion_tokens_details": {
+          "reasoning_tokens": 884
+        },
+        "prompt_time": 0.094068198,
+        "prompt_tokens_details": null,
+        "queue_time": 0.432317513,
+        "total_time": 1.4394520530000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_996f667773",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

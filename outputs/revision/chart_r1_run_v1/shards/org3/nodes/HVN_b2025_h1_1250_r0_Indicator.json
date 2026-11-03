@@ -1,0 +1,24 @@
+{
+  "parent": {
+    "input_hash": "a18f29f62e588cfe960a6a86f50e6e9e34b6b8818d45f900c4cdca73128ee231",
+    "asset_hash": "4f2bcdd959607a9a34e4daabff43496bbb856f16f086094c4619ca6d99025d8e",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "HVN_b2025_h1_1250",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Indicator Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false
+  },
+  "state": {
+    "indicator_report": "=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **0.6749**        | [0.8079, 0.7851, 0.7271, 0.6829, 0.6749]                 |\n| Signal Line | **0.7451**        | [0.7994, 0.7965, 0.7826, 0.7627, 0.7451]                 |\n| Histogram   | **-0.0702**        | [0.0086, -0.0114, -0.0555, -0.0797, -0.0702]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.0702)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Dương → vùng tăng\n[END MACD SECTION — giá trị Histogram=-0.0702 KHÔNG áp dụng cho chỉ báo khác]\n\n---\n=== RSI (14) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n- RSI mới nhất: **60.0507** → Vùng tăng mạnh (60.0507) → xu hướng tăng duy trì\n- Chuỗi 5 nến: [59.7841, 59.7841, 56.2717, 57.1068, 60.0507]\n- Xu hướng RSI: TĂNG\n- Ngưỡng theo dõi: 50 — ngưỡng phân chia tăng/giảm\n[END RSI SECTION — RSI=60.0507, KHÔNG dùng số này cho MACD hay Stochastic]\n\n---\n=== ROC — Rate of Change (10) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n- ROC mới nhất: **6.5771%** → Động lượng tăng RẤT MẠNH\n- Chuỗi 5 nến: [8.1913, 9.4349, 4.2227, 5.9099, 6.5771]\n- Gia tốc động lượng: TĂNG TỐC\n[END ROC SECTION — ROC=6.5771%, KHÔNG dùng số này cho chỉ báo khác]\n\n---\n=== STOCHASTIC OSCILLATOR (14,3,3) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n⚠️ Lưu ý: Stochastic KHÔNG có Histogram. Chỉ có %K và %D.\n| Chỉ số | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|--------|-----------------|----------------------|\n| %K     | **47.4957**        | [59.6917, 52.7476, 49.2368, 46.114, 47.4957]                 |\n| %D     | **47.6155**        | [71.6411, 60.6985, 53.892, 49.3661, 47.6155]                 |\n\n- Vùng: Trung tính (%K=47.4957)\n- Giao cắt %K/%D: Không có giao cắt mới (%K dưới %D)\n[END STOCHASTIC SECTION — %K=47.4957, %D=47.6155. KHÔNG nhầm với Histogram MACD=-0.0702]\n\n---\n=== WILLIAMS %R (14) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n⚠️ Thang đo: 0 = quá mua, -100 = quá bán. Tiến về 0 = cải thiện.\n- %R mới nhất: **-44.0415** → Trung tính (-44.0415)\n- Chuỗi 5 nến: [-45.8128, -48.1865, -58.2902, -55.1813, -44.0415]\n- Xu hướng %R: CẢI THIỆN (tiến về 0)\n[END WILLIAMS %R SECTION — %R=-44.0415]\n\n---\n=== TÓM TẮT GIÁ ===\n- Giá đóng cửa mới nhất: **23.01** (+0.43, 1.9%)\n- 5 phiên gần nhất: [22.85, 22.85, 22.46, 22.58, 23.01]\n- MA5=22.75  MA10=22.85  MA20=22.05\n- Vị trí giá: Trên tất cả MA → xu hướng TĂNG\n[END GIÁ SECTION]\n\n\n---\n\n## ⚠️ PHÂN LOẠI TÍN HIỆU — ĐÃ XÁC ĐỊNH BỞI HỆ THỐNG, KHÔNG THAY ĐỔI\n\n  - MACD (12,26,9): **TRUNG_TÍNH**  ← Histogram=-0.0702 (dương=MACD trên Signal, âm=MACD dưới Signal). MACD Line=0.6749, Signal Line=0.7451. KHÔNG dùng giá trị này cho chỉ báo khác.\n  - RSI (14): **TĂNG**  ← RSI=60.0507. Chỉ số này KHÔNG liên quan đến Histogram MACD.\n  - ROC (10): **TĂNG**  ← ROC=6.5771%. Đây là chỉ báo MOMENTUM, không phải dao động.\n  - Stochastic (14,3,3): **GIẢM**  ← %K=47.4957, %D=47.6155. Stochastic KHÔNG có Histogram. KHÔNG dùng giá trị MACD Histogram ở đây.\n  - Williams %R (14): **TĂNG**  ← %R=-44.0415. Thang đo -100 đến 0: gần 0=quá mua, gần -100=quá bán.\n\n## ⚠️ TỔNG HỢP — ĐÃ ĐẾM BỞI HỆ THỐNG, KHÔNG TỰ ĐẾM LẠI\n\n  - Số chỉ báo đồng thuận TĂNG : **3/5**\n  - Số chỉ báo đồng thuận GIẢM : **1/5**\n  - Số chỉ báo TRUNG TÍNH       : **1/5**\n  - Đồng thuận chủ đạo          : **TĂNG** — độ tin cậy **Trung bình**\n\nQuy tắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n",
+    "messages": []
+  },
+  "request_ids": [],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [],
+  "sha256": "8695d091578d91ca0ee129f0fcc33cf18726d049dea906b34b56760fc07b25b5"
+}

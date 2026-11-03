@@ -57,6 +57,8 @@ justify precise or calibrated confidence claims or generalisation to all
 
 The Pattern and Trend agents use deterministic OHLCV rules to detect obvious inconsistencies in visual conclusions. These rules check output consistency only and leave the VLM's actual use of the cited candle, wick, breakout, or trendline unverified. Prior work reports strong trend sensitivity and persistent spatial-reasoning limitations in financial chart understanding \cite{wang2026martingale,shu2026finchart}. Establishing causal visual grounding would require matched counterfactual charts and human-labelled local evidence, neither of which is included in this study.
 
+The retained chart audit additionally identifies a concrete visual-input defect: legend labels for close support/resistance were attached to candle wick/body artists rather than the blue/red lines. All 107 archived Trend images have those swatches, and actual request matching establishes their delivery. The corrected renderer and English support-colour template are separately versioned. No corrected-image paired LLM rerun has yet been completed, so the existing numerical results cannot quantify this defect's effect or substantiate performance of the corrected renderer. Original input artifacts and results are retained; the pending comparison must recompute shared Trend reports and every affected Decision branch without selecting a favourable run.
+
 \paragraph{Factor-value controls and attribution limits}
 The original compressed prompts omitted the numerical factor rows. The
 separate completed 270-decision repair verifies their delivery and compares

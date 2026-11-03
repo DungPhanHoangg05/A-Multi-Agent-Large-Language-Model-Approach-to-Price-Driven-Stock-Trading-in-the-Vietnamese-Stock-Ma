@@ -534,6 +534,27 @@ ROC is in percentage units: $r_0>+0.5\%$ gives BULLISH; $r_0<-0.5\%$ gives BEARI
 \subsection{Consensus Rule}
 All five indicators contribute to the count, including missing/error NEUTRAL votes. More bullish than bearish votes gives BULLISH; more bearish gives BEARISH; equal counts give MIXED. A directional count of at least four gives High confidence, three Medium, and a smaller directional plurality Low. A tie always has Low confidence. These are deterministic labels, not calibrated probabilities. The release provides 67 indicator boundary/fallback cases, five consensus cases, eleven prototype Alpha\_4 cases and three independent registry oracles; these synthetic cases are not market-performance observations.
 
+\section{Chart Colour Convention and Retained-Request Audit}
+\label{app:chart_convention}
+
+Figure~\ref{fig:chart_fixture} is a new synthetic fixture, not an actual market observation or a model input from the reported runs. Its 45 candles include 22 up bodies, 22 down bodies and one doji; overnight gaps deliberately make body direction differ from Close-to-previous-Close changes. Polygon vertices and RGBA colours are checked against OHLCV, and both decoded raster palettes are checked after alpha blending. The corrected trend legend explicitly binds blue to close support and red to close resistance; tests inspect the legend handles as well as its text and plotted lines. Static and older toolkit renderers share the body style; the prototype Pattern path retains only 40 of these bars, while the other fixture paths retain 45. Chart windows and export settings must therefore be identified by path rather than inferred from one default.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\linewidth]{figs/chart_fixture_pattern.png}
+\par\smallskip
+\includegraphics[width=0.98\linewidth]{figs/chart_fixture_trend.png}
+\caption{Synthetic chart fixtures: green bodies for Close $>$ Open, red for Close $<$ Open; blue close-support and red close-resistance lines in the lower panel. The doji has zero body height. Body style colours are \texttt{\#006340}/\texttt{\#A02128}, rendered with alpha 0.9 on white. These are renderer checks, not market-performance or model-comprehension evidence.}
+\label{fig:chart_fixture}
+\end{figure}
+\FloatBarrier
+
+The offline audit covers all 107 retained chart caches (102 research units plus five smoke units) and all 270 upstream image-request attempts in the completed R1 run, including retries/repeated executions. Each inline PNG is matched to its exact unit/shard cache and feature-asset hash. Frozen OHLCV prices are verified before replay. The release reports byte and pixel equality separately for all 214 cached images; this is an image-input audit, not 214 independent market observations. Original raw requests, charts, prices and predictions remain unchanged. R4 reuses the archived upstream evidence rather than making new vision calls.
+
+All 214 cached images reproduce byte for byte and pixel for pixel using the frozen historical renderer. All 107 historical Trend images have the misbound legend swatches described in Section~\ref{sec:systemarchitecture}, despite correct blue/red plotted lines and chart title. The original test of legend text and line colours alone was insufficient; the corrected test checks handle identity/colour. These images were actually supplied in 130 retained Trend attempts, so source inspection cannot dismiss the defect as unused code.
+
+The archived Trend prompts use the Vietnamese colour word \emph{xanh}. Their prompt text remains unchanged under direct old/new builder comparison with a fixed image; the actual corrected PNG messages differ. The separate English green-support statement is corrected in version \texttt{trend\_blue\_en\_v2}. Version \texttt{static\_legend\_handles\_v2} changes the legend in the PNG for both languages. The present results still describe the old image inputs. A frozen rerun proposal retains the same prices, factors, news, targets, models, branch order and donor mappings; it regenerates shared Trend reports before rebuilding Decision prompts for all branches. It schedules 120 research Trend groups, 474 original-study decisions and 270 repaired full-value decisions, plus 15 smoke calls. Completion of this paired rerun is pending; corrected results are not reported here. No causal performance effect, corrected-renderer performance, model colour comprehension or authenticated legacy submission is claimed. R14 remains open pending the paired empirical rerun.
+
 \section{Software Dependencies and Reproducibility}
 \label{app:dependencies}
 

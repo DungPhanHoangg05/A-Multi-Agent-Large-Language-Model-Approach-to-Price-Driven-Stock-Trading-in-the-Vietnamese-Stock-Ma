@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a104-a2a5-7c73-92e5-6e211bb12017",
+  "parent_request_hash": "0a95af5cfad568cbb68e8210087ab27054a0e13b26b1dcb6a81de9fbfc262d83",
+  "ended_at_utc": "2026-11-03T10:46:40.147893+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis indicates a sideways market with resistance at 117.5 and support at 115.0, suggesting limited upside potential. MACD is below the signal line, indicating bearish momentum, and the histogram is negative, further confirming lack of bullish breakout.\",\"evidence_against\":\"Pattern analysis shows an accumulation trend and a potential breakout above 116, but no breakout has occurred yet.\",\"justification\":\"Given the lack of a confirmed breakout and bearish MACD signals, the best strategy is to hold cash to avoid potential downside. This aligns with the rule to choose SHORT when the expected return does not cover transaction costs.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis indicates a sideways market with resistance at 117.5 and support at 115.0, suggesting limited upside potential. MACD is below the signal line, indicating bearish momentum, and the histogram is negative, further confirming lack of bullish breakout.\",\"evidence_against\":\"Pattern analysis shows an accumulation trend and a potential breakout above 116, but no breakout has occurred yet.\",\"justification\":\"Given the lack of a confirmed breakout and bearish MACD signals, the best strategy is to hold cash to avoid potential downside. This aligns with the rule to choose SHORT when the expected return does not cover transaction costs.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1263,
+                "prompt_tokens": 1437,
+                "total_tokens": 2700,
+                "completion_time": 1.427575173,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1097
+                },
+                "prompt_time": 0.139867932,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317271392,
+                "total_time": 1.567443105
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a104-a2a5-7c73-92e5-6e211bb12017-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1263,
+        "prompt_tokens": 1437,
+        "total_tokens": 2700,
+        "completion_time": 1.427575173,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1097
+        },
+        "prompt_time": 0.139867932,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317271392,
+        "total_time": 1.567443105
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

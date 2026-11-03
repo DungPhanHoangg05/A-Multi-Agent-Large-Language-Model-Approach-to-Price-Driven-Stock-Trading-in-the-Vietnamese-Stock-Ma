@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a106-08c8-7883-8b8f-70ec67f95096",
+  "parent_request_hash": "cf2db0be82e56392bac0ebf69efe9403147bc5c2ba7862ea3c8706826e30ef02",
+  "ended_at_utc": "2026-11-03T10:48:16.353684+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down with support at 55.2 and resistance at 57.0; MACD shows a golden cross but remains negative, indicating weak bullish momentum.\",\"evidence_against\":\"MACD golden cross suggests potential bullish reversal.\",\"justification\":\"Given the downtrend and weak bullish signals, shorting aligns with the trend and risk management; the expected price decline offers a favorable risk-reward profile.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down with support at 55.2 and resistance at 57.0; MACD shows a golden cross but remains negative, indicating weak bullish momentum.\",\"evidence_against\":\"MACD golden cross suggests potential bullish reversal.\",\"justification\":\"Given the downtrend and weak bullish signals, shorting aligns with the trend and risk management; the expected price decline offers a favorable risk-reward profile.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1040,
+                "prompt_tokens": 1580,
+                "total_tokens": 2620,
+                "completion_time": 1.192393147,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 919
+                },
+                "prompt_time": 1.135335569,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.391041895,
+                "total_time": 2.327728716
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a106-08c8-7883-8b8f-70ec67f95096-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1040,
+        "prompt_tokens": 1580,
+        "total_tokens": 2620,
+        "completion_time": 1.192393147,
+        "completion_tokens_details": {
+          "reasoning_tokens": 919
+        },
+        "prompt_time": 1.135335569,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.391041895,
+        "total_time": 2.327728716
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a100-e0f0-7202-bd58-c53f9e1d0875",
+  "parent_request_hash": "d870a284827549561fa8e6fe4004b7ad513b205ee3105a54b6b4d84b82d12d40",
+  "ended_at_utc": "2026-11-03T10:42:33.679419+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a downward trend with price approaching support at 64.0 and bearish candles. Pattern analysis shows a double top at 67 with a break below 65.5, confirming a bearish reversal.\",\"evidence_against\":\"MACD line is below signal, indicating weakening bullish momentum.\",\"justification\":\"Given the bearish trend, pattern, and indicator signals, shorting is the appropriate action to avoid potential losses. The short position allows us to preserve capital while waiting for further confirmation of the downtrend.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a downward trend with price approaching support at 64.0 and bearish candles. Pattern analysis shows a double top at 67 with a break below 65.5, confirming a bearish reversal.\",\"evidence_against\":\"MACD line is below signal, indicating weakening bullish momentum.\",\"justification\":\"Given the bearish trend, pattern, and indicator signals, shorting is the appropriate action to avoid potential losses. The short position allows us to preserve capital while waiting for further confirmation of the downtrend.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 835,
+                "prompt_tokens": 1436,
+                "total_tokens": 2271,
+                "completion_time": 0.958591557,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 691
+                },
+                "prompt_time": 0.086781725,
+                "prompt_tokens_details": null,
+                "queue_time": 0.344363901,
+                "total_time": 1.045373282
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e2cb7a84ec",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a100-e0f0-7202-bd58-c53f9e1d0875-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 835,
+        "prompt_tokens": 1436,
+        "total_tokens": 2271,
+        "completion_time": 0.958591557,
+        "completion_tokens_details": {
+          "reasoning_tokens": 691
+        },
+        "prompt_time": 0.086781725,
+        "prompt_tokens_details": null,
+        "queue_time": 0.344363901,
+        "total_time": 1.045373282
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e2cb7a84ec",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

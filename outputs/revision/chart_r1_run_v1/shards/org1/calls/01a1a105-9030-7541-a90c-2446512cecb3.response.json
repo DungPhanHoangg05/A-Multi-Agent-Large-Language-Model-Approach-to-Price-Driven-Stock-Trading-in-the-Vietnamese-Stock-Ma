@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a105-9030-7541-a90c-2446512cecb3",
+  "parent_request_hash": "b45bd105397b95835341bbaf3c6a17b5fe6a67ebad0032fa868477464ff4ca8c",
+  "ended_at_utc": "2026-11-03T10:47:40.436176+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is clearly downward with support at 55.2 and resistance at 57.0, and MACD shows a bullish golden cross with a positive histogram indicating increasing momentum.\",\"evidence_against\":\"MACD line remains below zero, confirming bearish momentum despite the golden cross.\",\"justification\":\"Given the prevailing downtrend and the support/resistance levels, a short position is justified. The MACD golden cross is not sufficient to override the bearish trend, so we opt for a short trade.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is clearly downward with support at 55.2 and resistance at 57.0, and MACD shows a bullish golden cross with a positive histogram indicating increasing momentum.\",\"evidence_against\":\"MACD line remains below zero, confirming bearish momentum despite the golden cross.\",\"justification\":\"Given the prevailing downtrend and the support/resistance levels, a short position is justified. The MACD golden cross is not sufficient to override the bearish trend, so we opt for a short trade.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 904,
+                "prompt_tokens": 1455,
+                "total_tokens": 2359,
+                "completion_time": 1.000563371,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 764
+                },
+                "prompt_time": 0.086644978,
+                "prompt_tokens_details": null,
+                "queue_time": 0.319950945,
+                "total_time": 1.087208349
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ef00694abe",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a105-9030-7541-a90c-2446512cecb3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 904,
+        "prompt_tokens": 1455,
+        "total_tokens": 2359,
+        "completion_time": 1.000563371,
+        "completion_tokens_details": {
+          "reasoning_tokens": 764
+        },
+        "prompt_time": 0.086644978,
+        "prompt_tokens_details": null,
+        "queue_time": 0.319950945,
+        "total_time": 1.087208349
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ef00694abe",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -269,8 +269,11 @@ def generate_trend_image(kline_data, timeframe: str = "1d") -> dict:
         fontsize=9, pad=5,
     )
 
+    # Gắn legend vào đúng hai đường; chỉ truyền labels sẽ chọn nhầm wick/body nến.
+    legend_lines = {line.get_label(): line for line in ax.lines}
     ax.legend(
-        ["Support (close)", "Resistance (close)"],
+        handles=[legend_lines["Support"], legend_lines["Resistance"]],
+        labels=["Support (close)", "Resistance (close)"],
         loc="upper left", fontsize=9, framealpha=0.7,
     )
 

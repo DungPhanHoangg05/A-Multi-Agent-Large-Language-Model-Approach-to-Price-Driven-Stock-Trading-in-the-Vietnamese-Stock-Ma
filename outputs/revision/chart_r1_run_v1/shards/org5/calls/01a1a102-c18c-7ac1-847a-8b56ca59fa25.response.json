@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a102-c18c-7ac1-847a-8b56ca59fa25",
+  "parent_request_hash": "26ab2f952fe78c9160fc3706bc5ba7b2142d61a1ea1f1e62d98e933327e3519f",
+  "ended_at_utc": "2026-11-03T10:44:36.439197+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates a downtrend with price approaching support at 48.0 and MACD below signal confirming bearish momentum. Pattern V reversal and recent red candle break support at 52 reinforce short bias.\",\"evidence_against\":\"Alpha factors overall increasing, suggesting some bullish pressure.\",\"justification\":\"Shorting aligns with trend, pattern, and indicator signals, while potential bullish alpha is outweighed by bearish confirmation. Target at 48 with stop above 53 ensures risk within acceptable range.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates a downtrend with price approaching support at 48.0 and MACD below signal confirming bearish momentum. Pattern V reversal and recent red candle break support at 52 reinforce short bias.\",\"evidence_against\":\"Alpha factors overall increasing, suggesting some bullish pressure.\",\"justification\":\"Shorting aligns with trend, pattern, and indicator signals, while potential bullish alpha is outweighed by bearish confirmation. Target at 48 with stop above 53 ensures risk within acceptable range.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 840,
+                "prompt_tokens": 1579,
+                "total_tokens": 2419,
+                "completion_time": 0.887684271,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 702
+                },
+                "prompt_time": 0.115521925,
+                "prompt_tokens_details": null,
+                "queue_time": 0.390798446,
+                "total_time": 1.003206196
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a102-c18c-7ac1-847a-8b56ca59fa25-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 840,
+        "prompt_tokens": 1579,
+        "total_tokens": 2419,
+        "completion_time": 0.887684271,
+        "completion_tokens_details": {
+          "reasoning_tokens": 702
+        },
+        "prompt_time": 0.115521925,
+        "prompt_tokens_details": null,
+        "queue_time": 0.390798446,
+        "total_time": 1.003206196
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

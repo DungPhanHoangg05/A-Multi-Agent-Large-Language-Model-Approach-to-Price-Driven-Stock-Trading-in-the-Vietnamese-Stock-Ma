@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a102-c534-7051-bc6c-4aecb293da92",
+  "parent_request_hash": "5f70679de50adaeebf7218ea52c5446ae36db40d9ed851e37fb16e5d9737f06c",
+  "ended_at_utc": "2026-11-03T10:44:37.427979+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is sideways with no breakout, pattern indicates box price and alpha factors overall decreasing, suggesting limited upside potential. MACD bullish momentum is decreasing, further reducing confidence in a profitable long trade.\",\"evidence_against\":\"MACD line above signal with positive histogram indicates bullish momentum.\",\"justification\":\"Given the lack of a clear breakout and decreasing alpha signals, holding cash mitigates risk of a potential downside while preserving capital for future opportunities. The expected net profit from a long trade may not cover transaction costs given the current market conditions.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is sideways with no breakout, pattern indicates box price and alpha factors overall decreasing, suggesting limited upside potential. MACD bullish momentum is decreasing, further reducing confidence in a profitable long trade.\",\"evidence_against\":\"MACD line above signal with positive histogram indicates bullish momentum.\",\"justification\":\"Given the lack of a clear breakout and decreasing alpha signals, holding cash mitigates risk of a potential downside while preserving capital for future opportunities. The expected net profit from a long trade may not cover transaction costs given the current market conditions.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 865,
+                "prompt_tokens": 1551,
+                "total_tokens": 2416,
+                "completion_time": 0.936272629,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 717
+                },
+                "prompt_time": 0.104996312,
+                "prompt_tokens_details": null,
+                "queue_time": 0.365945287,
+                "total_time": 1.041268941
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d3e146e1a5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a102-c534-7051-bc6c-4aecb293da92-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 865,
+        "prompt_tokens": 1551,
+        "total_tokens": 2416,
+        "completion_time": 0.936272629,
+        "completion_tokens_details": {
+          "reasoning_tokens": 717
+        },
+        "prompt_time": 0.104996312,
+        "prompt_tokens_details": null,
+        "queue_time": 0.365945287,
+        "total_time": 1.041268941
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d3e146e1a5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

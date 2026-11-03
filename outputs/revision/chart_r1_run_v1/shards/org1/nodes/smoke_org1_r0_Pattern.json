@@ -1,0 +1,35 @@
+{
+  "parent": {
+    "input_hash": "73956099897a9eb768df5927bc1bf807498119d97e63fa16d90aa8756f81635f",
+    "asset_hash": "7377d2beba8da83aad9a160dcf281556e440a0da963ca0b58d1432070c5363ff",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "smoke_org1",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": true
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Cờ tăng.\n\n**Độ tin cậy:** Thấp\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Nến xanh thân dài phá vỡ hộp giá 26-27, giá điều chỉnh trong vùng 28.5-29.5.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 06/06.\n\n**Hàm ý giao dịch:** Mua khi giá vượt đỉnh 29.5, ngừng lỗ dưới 28.5.\n\n[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình tăng]",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19b91-25b9-7dc1-a0a0-2b6d3754f90f"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19b91-25b9-7dc1-a0a0-2b6d3754f90f.request.json",
+      "sha256": "39013f5710752011434fb99d014178188391c96568429fc3199038d20029fedf"
+    },
+    {
+      "path": "calls/01a19b91-25b9-7dc1-a0a0-2b6d3754f90f.response.json",
+      "sha256": "19984a8f7a752d5d3b9b5f846fee227ad51638e94550637fd279e24cd8cf9457"
+    }
+  ],
+  "sha256": "eb32fecf57eb5a1b4240b3e59ddc8b3e22bf513212af80c0d42274703e7507b0"
+}

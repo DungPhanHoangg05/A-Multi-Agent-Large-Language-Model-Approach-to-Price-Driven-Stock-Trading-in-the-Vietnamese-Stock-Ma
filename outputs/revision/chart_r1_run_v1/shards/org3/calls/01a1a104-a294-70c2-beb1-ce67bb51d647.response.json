@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a104-a294-70c2-beb1-ce67bb51d647",
+  "parent_request_hash": "331d17688a4241c611c1333ce2f14ab420ab2572b20f806eea59f9ced7d478d2",
+  "ended_at_utc": "2026-11-03T10:46:39.519967+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates bullish momentum with support at 58.5 and resistance at 60.5.\",\"evidence_against\":\"MACD histogram is negative and MACD line is below signal, signaling bearish momentum.\",\"justification\":\"Pattern double top signals a potential reversal, and MACD confirms bearish momentum, so a short position is justified.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates bullish momentum with support at 58.5 and resistance at 60.5.\",\"evidence_against\":\"MACD histogram is negative and MACD line is below signal, signaling bearish momentum.\",\"justification\":\"Pattern double top signals a potential reversal, and MACD confirms bearish momentum, so a short position is justified.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 581,
+                "prompt_tokens": 1439,
+                "total_tokens": 2020,
+                "completion_time": 0.630756277,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 471
+                },
+                "prompt_time": 0.073410514,
+                "prompt_tokens_details": null,
+                "queue_time": 0.210037362,
+                "total_time": 0.704166791
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e23fc997ca",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a104-a294-70c2-beb1-ce67bb51d647-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 581,
+        "prompt_tokens": 1439,
+        "total_tokens": 2020,
+        "completion_time": 0.630756277,
+        "completion_tokens_details": {
+          "reasoning_tokens": 471
+        },
+        "prompt_time": 0.073410514,
+        "prompt_tokens_details": null,
+        "queue_time": 0.210037362,
+        "total_time": 0.704166791
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e23fc997ca",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

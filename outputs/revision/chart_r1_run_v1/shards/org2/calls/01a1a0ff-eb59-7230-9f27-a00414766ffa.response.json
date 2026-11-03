@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a0ff-eb59-7230-9f27-a00414766ffa",
+  "parent_request_hash": "41c116ddfe11259c9814cbec8e8036d4466e69f023187f702dc53c64b7eb4e22",
+  "ended_at_utc": "2026-11-03T10:41:30.046060+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal line indicates bearish momentum; pattern shows consolidation with potential reversal\",\"evidence_against\":\"Trend is up\",\"justification\":\"Bearish MACD and consolidation pattern suggest a short position is prudent; despite an uptrend, momentum is weak and reversal risk is high\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal line indicates bearish momentum; pattern shows consolidation with potential reversal\",\"evidence_against\":\"Trend is up\",\"justification\":\"Bearish MACD and consolidation pattern suggest a short position is prudent; despite an uptrend, momentum is weak and reversal risk is high\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 376,
+                "prompt_tokens": 1519,
+                "total_tokens": 1895,
+                "completion_time": 0.39181365,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 279
+                },
+                "prompt_time": 0.092746906,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391056805,
+                "total_time": 0.484560556
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_bb6a356524",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a0ff-eb59-7230-9f27-a00414766ffa-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 376,
+        "prompt_tokens": 1519,
+        "total_tokens": 1895,
+        "completion_time": 0.39181365,
+        "completion_tokens_details": {
+          "reasoning_tokens": 279
+        },
+        "prompt_time": 0.092746906,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391056805,
+        "total_time": 0.484560556
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_bb6a356524",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

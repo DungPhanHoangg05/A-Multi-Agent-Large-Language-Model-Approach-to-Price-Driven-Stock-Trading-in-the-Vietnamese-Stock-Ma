@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a109-3cd5-7082-bd26-5c36e7f22ddc",
+  "parent_request_hash": "c0425653d9126f227de761c2545ae2e0a4afa6c608c51ec4834281460ade6564",
+  "ended_at_utc": "2026-11-03T10:51:41.934736+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD line below signal and histogram trending negative indicates weakening bullish momentum. Alpha factors overall decreasing and trend analysis shows sideways movement with no breakout above resistance.\",\"evidence_against\":\"Price is currently near support 28.5, which could provide a short-term rebound.\",\"justification\":\"Given the bearish MACD, negative alpha, and lack of upward momentum, a short position is preferred to avoid potential losses. The short trade allows us to capture a potential pullback to support while limiting risk to the resistance level.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"MACD line below signal and histogram trending negative indicates weakening bullish momentum. Alpha factors overall decreasing and trend analysis shows sideways movement with no breakout above resistance.\",\"evidence_against\":\"Price is currently near support 28.5, which could provide a short-term rebound.\",\"justification\":\"Given the bearish MACD, negative alpha, and lack of upward momentum, a short position is preferred to avoid potential losses. The short trade allows us to capture a potential pullback to support while limiting risk to the resistance level.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1252,
+                "prompt_tokens": 1549,
+                "total_tokens": 2801,
+                "completion_time": 1.5778458629999998,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1106
+                },
+                "prompt_time": 0.090503911,
+                "prompt_tokens_details": null,
+                "queue_time": 0.349704728,
+                "total_time": 1.668349774
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a109-3cd5-7082-bd26-5c36e7f22ddc-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1252,
+        "prompt_tokens": 1549,
+        "total_tokens": 2801,
+        "completion_time": 1.5778458629999998,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1106
+        },
+        "prompt_time": 0.090503911,
+        "prompt_tokens_details": null,
+        "queue_time": 0.349704728,
+        "total_time": 1.668349774
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

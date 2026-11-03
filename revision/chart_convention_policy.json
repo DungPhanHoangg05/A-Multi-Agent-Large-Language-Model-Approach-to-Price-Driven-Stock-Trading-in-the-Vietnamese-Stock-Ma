@@ -1,0 +1,19 @@
+{
+  "schema_version": "chart_convention_v1",
+  "prior_source_commit": "3e195bc2",
+  "prior_source_manifest": "outputs/revision/r4_value_bank_v1/manifest.json",
+  "bank": "outputs/revision/r1_72h_bank_v2",
+  "run": "outputs/revision/r1_72h_run_v2",
+  "prompt_version": "trend_blue_en_v2",
+  "body_up": "#006340",
+  "body_down": "#A02128",
+  "support": "blue",
+  "resistance": "red",
+  "doji": "Close == Open uses down facecolor in mplfinance 0.12.10b0 but has zero-height body; not a bearish market forecast",
+  "archived_scope": "All chart caches and upstream image requests in the completed R1 run, including smoke, retries and repeated executions; R4 reuses archived upstream inputs",
+  "selection": "Exhaustive archive audit; synthetic fixture fixed without consulting predictions/outcomes",
+  "rerun_rule": "All 107 retained Trend charts have misbound legend handles. New static_legend_handles_v2 changes image inputs in VI and EN; corrected shared Trend must be re-inferred, then all affected Decision branches rerun. Use the existing author-authorized five-Free-org provider-only pool without internal caps; no quota purchase/model change. Never overwrite or relabel old artifacts.",
+  "renderer_version": "static_legend_handles_v2",
+  "free_pool_policy_ref": "revision/r1_provider_policy.json",
+  "quota_purchase_authorized": false
+}

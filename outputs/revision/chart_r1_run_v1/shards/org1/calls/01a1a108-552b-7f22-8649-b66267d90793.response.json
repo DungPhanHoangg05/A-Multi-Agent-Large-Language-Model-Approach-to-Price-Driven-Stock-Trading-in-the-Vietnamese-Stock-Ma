@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a108-552b-7f22-8649-b66267d90793",
+  "parent_request_hash": "2ec35499b0fa53f09ac3ed7da31ca05af358415e1b072d512ccee44601baffe4",
+  "ended_at_utc": "2026-11-03T10:50:43.839131+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend is bearish with support at 73.2 and MACD below signal indicating weakening momentum. Alpha factors overall increasing but not enough to override bearish trend.\",\"evidence_against\":\"Pattern V indicates potential reversal but current price still below key support.\",\"justification\":\"Shorting aligns with bearish trend and protects cash over horizon. Expected to capture decline to new low around 72.5-73.0.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend is bearish with support at 73.2 and MACD below signal indicating weakening momentum. Alpha factors overall increasing but not enough to override bearish trend.\",\"evidence_against\":\"Pattern V indicates potential reversal but current price still below key support.\",\"justification\":\"Shorting aligns with bearish trend and protects cash over horizon. Expected to capture decline to new low around 72.5-73.0.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 639,
+                "prompt_tokens": 1578,
+                "total_tokens": 2217,
+                "completion_time": 0.707890469,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 513
+                },
+                "prompt_time": 0.087884185,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317822838,
+                "total_time": 0.795774654
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a108-552b-7f22-8649-b66267d90793-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 639,
+        "prompt_tokens": 1578,
+        "total_tokens": 2217,
+        "completion_time": 0.707890469,
+        "completion_tokens_details": {
+          "reasoning_tokens": 513
+        },
+        "prompt_time": 0.087884185,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317822838,
+        "total_time": 0.795774654
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

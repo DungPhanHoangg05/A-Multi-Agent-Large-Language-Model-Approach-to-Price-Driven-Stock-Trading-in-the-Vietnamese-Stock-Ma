@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "b129747dee958eb442d3850a248980270e1cb86dc4a05aa4948e5c8fb4972951",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "8c573ed267ba42ff722501e285117dd91b716644cbbe99a9cbaf60ab852b140f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with price above resistance 62.5 and pattern flag up indicates continuation; MACD histogram trending up suggests increasing bullish momentum. Price has broken resistance and is consolidating near 63, supporting a short-term upside.",
+    "evidence_against": "MACD line below signal indicates potential bearish pressure.",
+    "justification": "Buying at open and selling at close within T+2.5 should yield net profit after 0.7% fees; target 64 gives ~1.6% move, exceeding fee cost. Pattern and trend confirm bullish bias, outweighing MACD's slight bearish signal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a12a-eac3-78e3-84e4-9bd81b18ece6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a12a-eac3-78e3-84e4-9bd81b18ece6.request.json",
+      "sha256": "167da3e61b61055d0acbff4dd699e9e22e2fb4286a11ac2f423bcb2986a41a0f"
+    },
+    {
+      "path": "calls/01a1a12a-eac3-78e3-84e4-9bd81b18ece6.response.json",
+      "sha256": "212fea09c6f0674f6e4f55516e4d71012dc7802e0b6d57175d79864779033fff"
+    }
+  ],
+  "sha256": "0422a4a4c1d5b7a68de7f3d1661bdcb4f8204f7eb067847e2bf8bdee40c1430f"
+}

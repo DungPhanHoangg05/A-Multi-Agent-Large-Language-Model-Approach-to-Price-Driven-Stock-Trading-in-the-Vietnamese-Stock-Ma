@@ -1,0 +1,63 @@
+{
+  "attempt_id": "01a19bb5-cb59-7d03-8abc-174c2526ee62",
+  "parent_request_hash": "16a7937f64f9e6a4980fd38c8ec3232bd0cf023f3be8161692347f6077cab958",
+  "ended_at_utc": "2026-11-02T10:02:26.313952+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "**Mô hình:** Xu hướng giảm\n**Độ tin cậy:** Cao\n**Thiên lệch dự báo:** Giảm\n**Bằng chứng:** Giá tạo đỉnh tại 23.5 (08/19) và liên tục tạo các đỉnh thấp hơn (lower highs) cùng đáy thấp hơn (lower lows) về vùng 21.0\n**Nến quan trọng:** Nến đỏ thân dài ngày 08/19 tạo đỉnh cao nhất và nến xanh hồi phục yếu ngày 09/25\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 21.5-22.0, cắt lỗ nếu vượt 22.5",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "**Mô hình:** Xu hướng giảm\n**Độ tin cậy:** Cao\n**Thiên lệch dự báo:** Giảm\n**Bằng chứng:** Giá tạo đỉnh tại 23.5 (08/19) và liên tục tạo các đỉnh thấp hơn (lower highs) cùng đáy thấp hơn (lower lows) về vùng 21.0\n**Nến quan trọng:** Nến đỏ thân dài ngày 08/19 tạo đỉnh cao nhất và nến xanh hồi phục yếu ngày 09/25\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 21.5-22.0, cắt lỗ nếu vượt 22.5",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 148,
+                "prompt_tokens": 2390,
+                "total_tokens": 2538,
+                "completion_time": 0.290130147,
+                "completion_tokens_details": null,
+                "prompt_time": 0.215093812,
+                "prompt_tokens_details": null,
+                "queue_time": 0.392265555,
+                "total_time": 0.505223959
+              },
+              "model_name": "qwen/qwen3.8-27b",
+              "system_fingerprint": "fp_4560dae850",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19bb5-cb59-7d03-8abc-174c2526ee62-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 148,
+        "prompt_tokens": 2390,
+        "total_tokens": 2538,
+        "completion_time": 0.290130147,
+        "completion_tokens_details": null,
+        "prompt_time": 0.215093812,
+        "prompt_tokens_details": null,
+        "queue_time": 0.392265555,
+        "total_time": 0.505223959
+      },
+      "model_name": "qwen/qwen3.8-27b",
+      "system_fingerprint": "fp_4560dae850",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

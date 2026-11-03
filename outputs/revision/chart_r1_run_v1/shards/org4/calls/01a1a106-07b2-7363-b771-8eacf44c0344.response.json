@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a106-07b2-7363-b771-8eacf44c0344",
+  "parent_request_hash": "167678aca52c8846ec8b764f8d0ba1861b840b2e76de38250a1a80a7808ae7b2",
+  "ended_at_utc": "2026-11-03T10:48:10.858461+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows a clear downtrend with support at 63 and resistance at 66, and the price is converging towards the support level. MACD indicator is below the signal line with a negative histogram trending downward, confirming bearish momentum.\",\"evidence_against\":\"The V-shaped reversal pattern suggests a potential short-term bounce, but the price has already broken the support level at 64.\",\"justification\":\"Given the confirmed downtrend, bearish momentum, and support break, a short position is justified to capture the expected decline. The risk-reward ratio of 2.5 provides a favorable trade setup with a stop above the recent resistance at 66.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend analysis shows a clear downtrend with support at 63 and resistance at 66, and the price is converging towards the support level. MACD indicator is below the signal line with a negative histogram trending downward, confirming bearish momentum.\",\"evidence_against\":\"The V-shaped reversal pattern suggests a potential short-term bounce, but the price has already broken the support level at 64.\",\"justification\":\"Given the confirmed downtrend, bearish momentum, and support break, a short position is justified to capture the expected decline. The risk-reward ratio of 2.5 provides a favorable trade setup with a stop above the recent resistance at 66.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 830,
+                "prompt_tokens": 1425,
+                "total_tokens": 2255,
+                "completion_time": 0.899472456,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 657
+                },
+                "prompt_time": 0.072399105,
+                "prompt_tokens_details": null,
+                "queue_time": 0.20875048,
+                "total_time": 0.971871561
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a106-07b2-7363-b771-8eacf44c0344-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 830,
+        "prompt_tokens": 1425,
+        "total_tokens": 2255,
+        "completion_time": 0.899472456,
+        "completion_tokens_details": {
+          "reasoning_tokens": 657
+        },
+        "prompt_time": 0.072399105,
+        "prompt_tokens_details": null,
+        "queue_time": 0.20875048,
+        "total_time": 0.971871561
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

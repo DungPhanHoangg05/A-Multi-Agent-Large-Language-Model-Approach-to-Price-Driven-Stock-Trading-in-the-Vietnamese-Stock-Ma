@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a108-5101-7a91-8bd7-fbc90a646165",
+  "parent_request_hash": "e5f7cdf8bc7ed8be1988a21aae37c4e4c059ee7743ff32f8b1fd801d8ac541cf",
+  "ended_at_utc": "2026-11-03T10:50:41.777180+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price below support 35.2 and MACD line below signal indicating bearish momentum. Alpha factors overall indicate a decrease (1 increase/4 decrease).\",\"evidence_against\":\"No bullish pattern or indicator suggests a reversal.\",\"justification\":\"Given the bearish trend, negative MACD, and overall negative alpha signals, shorting (holding cash) is the prudent choice to avoid potential losses. The risk is minimal as we avoid exposure to price movements.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price below support 35.2 and MACD line below signal indicating bearish momentum. Alpha factors overall indicate a decrease (1 increase/4 decrease).\",\"evidence_against\":\"No bullish pattern or indicator suggests a reversal.\",\"justification\":\"Given the bearish trend, negative MACD, and overall negative alpha signals, shorting (holding cash) is the prudent choice to avoid potential losses. The risk is minimal as we avoid exposure to price movements.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 843,
+                "prompt_tokens": 1572,
+                "total_tokens": 2415,
+                "completion_time": 1.12208143,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 703
+                },
+                "prompt_time": 0.111836245,
+                "prompt_tokens_details": null,
+                "queue_time": 0.344699407,
+                "total_time": 1.233917675
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a108-5101-7a91-8bd7-fbc90a646165-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 843,
+        "prompt_tokens": 1572,
+        "total_tokens": 2415,
+        "completion_time": 1.12208143,
+        "completion_tokens_details": {
+          "reasoning_tokens": 703
+        },
+        "prompt_time": 0.111836245,
+        "prompt_tokens_details": null,
+        "queue_time": 0.344699407,
+        "total_time": 1.233917675
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": {
+    "input_hash": "be7e564460ad7b2a846163d14b64185b54544fe03afa5e59c5517ee02cc1578d",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Đáy đôi.\n\n**Độ tin cậy:** Thấp\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Hai đáy gần bằng nhau quanh mức 59.5, đường cổ nằm ở vùng 62.5.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 08/10 xác nhận đà tăng và nến đỏ ngày 09/10 tạo đáy thứ hai.\n\n**Hàm ý giao dịch:** Mua khi giá vượt qua đường cổ 62.5, mục tiêu 64.5, ngừng lỗ dưới 61.\n\n[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình tăng]",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19bbe-3c76-7993-a97b-389794a7be09"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bbe-3c76-7993-a97b-389794a7be09.request.json",
+      "sha256": "6cf274ae74afb79968db2775c977e822688fe69fdee5f823af73efbd1520b888"
+    },
+    {
+      "path": "calls/01a19bbe-3c76-7993-a97b-389794a7be09.response.json",
+      "sha256": "df0324762f72a3c44d97a8c63eae5d379baf94096496fbc4911744a1d8f1f5cc"
+    }
+  ],
+  "sha256": "b52b156f5c9d12fb7913929777e4447b98f3ec03b9eab8f99225382a1a1902c6"
+}

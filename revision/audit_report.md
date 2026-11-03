@@ -576,3 +576,100 @@ Fresh-process `PYTHONHASHSEED=17 --check` tái lập ba audit outputs; gói mớ
 đối soát 77 hashes và 70 ZIP entries. R12/R13 có thay đổi, artifact, manuscript
 locators và response. Việc chứng minh alpha/novelty, registry selection R10,
 chart R14 và execution R15 vẫn là phạm vi riêng.
+
+
+## D2-10 — Màu nến, legend và actual chart delivery (03/11/2026)
+
+Style thực dùng up `#006340`, down `#A02128`, alpha=0,9, wick đen. Màu body
+so Close/Open cùng nến, không so previous Close/reference price. Doji chọn
+facecolor down trong mplfinance nhưng thân zero-height, không phải forecast
+bearish. Sửa comments bị ngược nghĩa và Section 4.4. Fixture 45 bars có 22
+up, 22 down, một doji và gap tách dấu body khỏi dấu Close/previous-Close.
+Kiểm polygon prices/RGBA theo NumPy vectorized, palette PNG sau blending;
+bốn đường static/prototype đều được thực thi, prototype Pattern giữ 40 bars.
+
+QA trực quan phát hiện lỗi ngoài comments: static `ax.legend(labels)` chọn
+wick/body artists, khiến swatch Support đen và Resistance lấy màu body nến dù các
+đường thật blue/red. Test chỉ kiểm text legend và line colours ban đầu chưa
+đủ; test cuối kiểm cả legend handles. `static_legend_handles_v2` dùng đúng
+handles từ hai đường. `trend_blue_en_v2` sửa hai literals English green-support
+thành blue; captured Vietnamese prompt text giữ nguyên khi cố định image. AST chỉ cho phép hai
+English literals, gắn legend handles và comments; không đổi hình học, giá,
+style values, alpha, token/retry/distill hoặc nhánh kinh tế. Static PNG path
+thực 150 DPI; 600 DPI của prototype không là metadata của ảnh study.
+
+`outputs/revision/chart_convention_v1/` lưu source pre-task, fixture CSV/hai
+PNG, report, inventory và protocol rerun. Blob LF/CRLF chỉ được khôi phục
+khi SHA-256 khớp byte nguồn R4 đã khóa, không gán Git commit thành execution
+commit. Dùng renderer lịch sử để tái lập đủ 214/214 PNG của 107 caches (102
+research +5 smoke): **byte và pixel đều khớp**. Body geometry/colours đúng,
+nhưng **107/107 Trend legends misbound**. Ghép 270 actual upstream attempts
+(140 Pattern, 130 Trend) với inline PNG đúng unit/shard/feature hash; gồm
+retry, smoke và repeat, không phải 270 observations độc lập. Tất cả Trend
+requests dùng tiếng Việt; source English lỗi là vấn đề riêng. Các files cũ
+nguyên byte. R4 full-value từng reuse upstream cũ, nên cũng chịu input limit.
+
+Vì thay legend làm đổi image input tiếng Việt, **R14 và D2-10 chưa chốt**
+trước empirical paired rerun. Proposal giữ nguyên universe/target/prices/news/
+factors/donors/models/order/repeats; tái tạo 120 shared Trend groups, 474 R1
+Decision và 270 repaired-value R4 Decision, cộng 15 smoke calls: 879 calls
+mới dự kiến trước retries. Pattern reports được replay từ raw thật khi và
+chỉ khi exact messages/context khớp; cache miss dừng trước SDK, không tạo
+Pattern response mới. Không trộn compressed-R1 và full-value-R4 policy.
+Không có corrected-English study hoặc causal legend-effect claim.
+
+Dùng policy năm org Free/provider-only đã được tác giả duyệt: không mua
+quota/đổi model và **không tái áp cap nội bộ**. `scripts/run_chart_rerun.py`
+có prepare/smoke/run/status/prepare-r4/run-r4. Run R1 riêng tại
+`outputs/revision/chart_r1_run_v1/`, market/numeric bank cũ chỉ đọc. Manifest
+khóa source/runtime trước API; prep receipt giữ origin/hash cho 405 raw files
+của 140 Pattern attempts. Copies không được đếm là calls mới. Ledger mới
+được bootstrap zero chỉ sau proof toàn calls là copies chưa có attempt mới;
+không reset ledger có sẵn. Pre-API receipt/CLI trước sửa initialization được
+lưu nguyên byte trong runtime_history. Đây không phải sửa prediction/history.
+
+**Kiểm thử:** 78 tests scoped PASS: chart 7, vision verification 10, paired
+protocol 8, token-budget 3, rerun guards/replay/ledger 4, native R4 capture 1 và 45 tests profile,
+R4-factorial, baseline PIT/daily-ledger liên quan. Chỉ compile chín Python đã
+đổi/thêm. Bao phủ real renderers, doji/gap, legend handles, exact raw replay,
+Pattern cache-miss fail-closed, source/copy tamper và ledger new-request guard.
+Không chạy full suite/E2E vì không đổi các đường ngoài phạm vi; leakage tests
+liên quan được chạy do thêm đường reuse/rerun. Không coi fake calls là LLM
+evidence.
+
+**Vận hành:** năm smoke đã PASS, 10/10 Decision mới từ 15 actual calls (5
+Trend, 10 Decision); Pattern chỉ replay. Research chạy trên các checkpoint
+mới; tiến độ realtime ghi tại plan.md/status CLI, không suy complete từ
+receipt cũ. Chỉ phân tích khi đủ support đã khóa; không chọn kết quả đẹp,
+không điền CASH/nhãn vào lỗi. Renderer/prompt fix đã kiểm, ảnh hưởng hiệu năng
+vẫn chờ kết quả đầy đủ.
+
+Bản thảo `outputs/revision/chart_manuscript_v1/` có main 67/submission 68
+physical pages, maps printed/physical labels trong manifest. Section 4.4–4.5
+physical pp16–18; disclosure L4 p38; Appendix F pp61–63; Figure F.4 p62 trong
+cả hai. Hai PDF render/QA PASS, swatches mới blue/red đúng đường; không
+clipping/overflow body, undefined refs/citations hoặc duplicate anchors. Còn
+footer elsarticle 2,61049pt cũ. Source/figures/PDFs trước giữ nguyên, các số
+thực nghiệm sections 05/06 chưa được thay bằng run đang dở.
+
+
+Cập nhật checkpoint cuối D2-10: 284 new R1 attempts (140 copied Pattern
+attempts được tách riêng), 138/474 research Decision +10 smoke và 120 research
+Trend groups +5 smoke. Native R1 raw/lineage replay xác minh 148 Decision
+checkpoints. R4 offline builder dùng ba corrected reports actual, dựng native
+prompt rồi dừng trước invoke bằng BaseException; không sinh prediction giả.
+Nó đối chiếu các actual AS prompts đã có và freeze đủ 90 prompts/270 jobs,
+bao gồm đúng five factor rows, donor và caps cũ. R4 đã có 6/270 checkpoints
+thật từ 10 attempts; collect/raw replay PASS. Các workers hiện đã thoát có
+checkpoint: provider TPD được ghi trong raw errors, không đổi model/không
+điền CASH. Không xuất bảng hiệu năng khi thiếu support.
+
+Code/API state được giữ riêng trong chart_r1_run_v1 và chart_r4_run_v1;
+compiled/tested source đã được snapshot 110 files nguyên byte trong R1
+runtime_history/frozen_runtime_sources.zip. Đây là source snapshot, không
+phải hosted-weight identity hay Git execution commit suy đoán. Resume chỉ
+trên source/runtime đã khóa, chạy R1/R4 tuần tự để không nhân đôi key leases
+qua hai ledgers. Provider-only Free policy đã duyệt được giữ nguyên; không
+cần mua quota hay đề xuất lại trần attempts. Phần mềm/audit/bản thảo sửa đã
+có; empirical completion, phân tích old/new và response/PDF closure của R14
+vẫn cần hoàn tất sau khi provider cho phép đủ 600 Decision successes còn lại.

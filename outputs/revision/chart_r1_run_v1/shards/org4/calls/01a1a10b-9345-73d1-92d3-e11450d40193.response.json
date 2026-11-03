@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a10b-9345-73d1-92d3-e11450d40193",
+  "parent_request_hash": "fa050a798499d41c964663df3b956c51b259af765eaed699b36a537a7f491881",
+  "ended_at_utc": "2026-11-03T10:54:14.153726+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows price below support 19.60 and moving towards lower lows; MACD histogram decreasing indicates weakening momentum.\",\"evidence_against\":\"MACD line above signal suggests potential reversal.\",\"justification\":\"Given the downtrend and weakening momentum, short position is favored; risk reward ratio of 2:1 aligns with expected move to 19.60.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows price below support 19.60 and moving towards lower lows; MACD histogram decreasing indicates weakening momentum.\",\"evidence_against\":\"MACD line above signal suggests potential reversal.\",\"justification\":\"Given the downtrend and weakening momentum, short position is favored; risk reward ratio of 2:1 aligns with expected move to 19.60.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 638,
+                "prompt_tokens": 1573,
+                "total_tokens": 2211,
+                "completion_time": 0.810336061,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 524
+                },
+                "prompt_time": 0.080445113,
+                "prompt_tokens_details": null,
+                "queue_time": 0.208737935,
+                "total_time": 0.890781174
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a10b-9345-73d1-92d3-e11450d40193-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 638,
+        "prompt_tokens": 1573,
+        "total_tokens": 2211,
+        "completion_time": 0.810336061,
+        "completion_tokens_details": {
+          "reasoning_tokens": 524
+        },
+        "prompt_time": 0.080445113,
+        "prompt_tokens_details": null,
+        "queue_time": 0.208737935,
+        "total_time": 0.890781174
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

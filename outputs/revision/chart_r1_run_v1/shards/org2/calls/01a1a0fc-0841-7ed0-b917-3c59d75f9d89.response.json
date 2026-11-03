@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a0fc-0841-7ed0-b917-3c59d75f9d89",
+  "parent_request_hash": "4207237434cbcfe2e4c0e63df7f9a6a75840dac4ea40ee42f2200cb43ac9c9ea",
+  "ended_at_utc": "2026-11-03T10:37:16.780472+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line (0.6111) is below Signal line (0.6926) with negative histogram, indicating weakening bullish momentum. Price is still below resistance 48.8, suggesting no breakout yet.\",\"evidence_against\":\"MACD below Signal line indicates bearish momentum.\",\"justification\":\"Given the MACD bearish signal and lack of breakout above resistance, a short position is preferred to avoid potential loss if price fails to break 48.8. The risk-reward ratio of 2.0 provides a balanced trade with acceptable risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line (0.6111) is below Signal line (0.6926) with negative histogram, indicating weakening bullish momentum. Price is still below resistance 48.8, suggesting no breakout yet.\",\"evidence_against\":\"MACD below Signal line indicates bearish momentum.\",\"justification\":\"Given the MACD bearish signal and lack of breakout above resistance, a short position is preferred to avoid potential loss if price fails to break 48.8. The risk-reward ratio of 2.0 provides a balanced trade with acceptable risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1144,
+                "prompt_tokens": 1439,
+                "total_tokens": 2583,
+                "completion_time": 1.310749751,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 991
+                },
+                "prompt_time": 0.097384686,
+                "prompt_tokens_details": null,
+                "queue_time": 0.68307964,
+                "total_time": 1.408134437
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a0fc-0841-7ed0-b917-3c59d75f9d89-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1144,
+        "prompt_tokens": 1439,
+        "total_tokens": 2583,
+        "completion_time": 1.310749751,
+        "completion_tokens_details": {
+          "reasoning_tokens": 991
+        },
+        "prompt_time": 0.097384686,
+        "prompt_tokens_details": null,
+        "queue_time": 0.68307964,
+        "total_time": 1.408134437
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

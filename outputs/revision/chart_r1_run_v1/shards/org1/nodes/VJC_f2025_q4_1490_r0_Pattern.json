@@ -1,0 +1,35 @@
+{
+  "parent": {
+    "input_hash": "230369a4c01af0cfda323514eb01629fe1f6dc50c762b9ea88fd26505bd4a41e",
+    "asset_hash": "d05e89b7af9d9d4b90b51be7e6b6645ba7ce4504865fa9aebf3b86660b41dd40",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "VJC_f2025_q4_1490",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Đỉnh đôi.\n\n**Độ tin cậy:** Thấp\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Hai đỉnh gần bằng nhau quanh mốc 168, giá đã phá vỡ đường cổ quanh mốc 150 và đang giao dịch dưới mức này.\n\n**Nến quan trọng:** Nến đỏ thân dài phá vỡ hỗ trợ 150 vào ngày 12/12.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 150-155, cắt lỗ nếu giá đóng cửa trên.\n\n[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình giảm]",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19bb0-ef8a-7b13-ae0c-9b9035817b4e"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19bb0-ef8a-7b13-ae0c-9b9035817b4e.request.json",
+      "sha256": "1e5f367d854026dc963ef01c196cff52a76e11a492e47416a30d6df9f9a8861f"
+    },
+    {
+      "path": "calls/01a19bb0-ef8a-7b13-ae0c-9b9035817b4e.response.json",
+      "sha256": "dc699276540728ee27e129ffc00cbbaebd1bad152fd31315e90434773d2b909d"
+    }
+  ],
+  "sha256": "c7ce7d7aa686afc2ca43f5172b7ae92875fdaaaf685083f307b8cf1648db8330"
+}

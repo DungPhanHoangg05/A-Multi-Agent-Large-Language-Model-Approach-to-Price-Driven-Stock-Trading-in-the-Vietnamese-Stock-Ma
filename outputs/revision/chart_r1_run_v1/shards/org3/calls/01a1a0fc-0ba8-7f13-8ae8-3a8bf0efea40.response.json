@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a0fc-0ba8-7f13-8ae8-3a8bf0efea40",
+  "parent_request_hash": "40bc763e36b5a2508a7deadf506b0f727db4faac8c03f3bee1db207cc9f90d30",
+  "ended_at_utc": "2026-11-03T10:37:16.409904+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.3,\"evidence_for\":\"Trend breakout above 11.25 confirms upward momentum; MACD golden cross indicates bullish momentum.\",\"evidence_against\":\"None.\",\"justification\":\"Entry above 10.80 with target 11.50 and stop 10.50 yields a 2.3:1 risk-reward; no downside risk beyond stop.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.3,\"evidence_for\":\"Trend breakout above 11.25 confirms upward momentum; MACD golden cross indicates bullish momentum.\",\"evidence_against\":\"None.\",\"justification\":\"Entry above 10.80 with target 11.50 and stop 10.50 yields a 2.3:1 risk-reward; no downside risk beyond stop.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 437,
+                "prompt_tokens": 1448,
+                "total_tokens": 1885,
+                "completion_time": 0.483355992,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 329
+                },
+                "prompt_time": 0.085397452,
+                "prompt_tokens_details": null,
+                "queue_time": 0.318594185,
+                "total_time": 0.568753444
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a0fc-0ba8-7f13-8ae8-3a8bf0efea40-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 437,
+        "prompt_tokens": 1448,
+        "total_tokens": 1885,
+        "completion_time": 0.483355992,
+        "completion_tokens_details": {
+          "reasoning_tokens": 329
+        },
+        "prompt_time": 0.085397452,
+        "prompt_tokens_details": null,
+        "queue_time": 0.318594185,
+        "total_time": 0.568753444
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

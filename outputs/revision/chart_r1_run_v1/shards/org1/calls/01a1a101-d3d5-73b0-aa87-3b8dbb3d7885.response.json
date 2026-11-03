@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a101-d3d5-73b0-aa87-3b8dbb3d7885",
+  "parent_request_hash": "37e469fa4d6926f616e39a703012ac3acf7d3d4af1875ee7579cecadcf256122",
+  "ended_at_utc": "2026-11-03T10:43:35.647962+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is up and bullish flag pattern indicates potential breakout above 65.\",\"evidence_against\":\"MACD line is below signal line with negative histogram, indicating weakening momentum.\",\"justification\":\"Given the weak momentum signals, a short position to hold cash is preferable to avoid potential reversal.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is up and bullish flag pattern indicates potential breakout above 65.\",\"evidence_against\":\"MACD line is below signal line with negative histogram, indicating weakening momentum.\",\"justification\":\"Given the weak momentum signals, a short position to hold cash is preferable to avoid potential reversal.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1071,
+                "prompt_tokens": 1435,
+                "total_tokens": 2506,
+                "completion_time": 1.16646991,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 972
+                },
+                "prompt_time": 0.085310056,
+                "prompt_tokens_details": null,
+                "queue_time": 0.209400499,
+                "total_time": 1.251779966
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a12402de73",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a101-d3d5-73b0-aa87-3b8dbb3d7885-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1071,
+        "prompt_tokens": 1435,
+        "total_tokens": 2506,
+        "completion_time": 1.16646991,
+        "completion_tokens_details": {
+          "reasoning_tokens": 972
+        },
+        "prompt_time": 0.085310056,
+        "prompt_tokens_details": null,
+        "queue_time": 0.209400499,
+        "total_time": 1.251779966
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a12402de73",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

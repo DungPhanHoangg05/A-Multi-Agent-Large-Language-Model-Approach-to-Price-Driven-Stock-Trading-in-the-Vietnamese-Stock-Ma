@@ -446,11 +446,15 @@ PASS; không chạy lại toàn suite/E2E/leakage vì runtime/PIT/prompt không 
 
 ### R14 — Quy ước màu chart [P2; rerun có điều kiện]
 
-- [ ] Đối chiếu style, hàm vẽ, chart archive và prompt; hiện code đặt up xanh/down đỏ nhưng comment và prose ngược nghĩa.
-- [ ] Tạo chart fixture có các nến tăng/giảm biết trước, kiểm tra màu và legend. Nêu candle color dựa trên Close vs Open; màu bảng điện thường dựa trên giá tham chiếu, không đồng nhất hai khái niệm.
+- [x] Đối chiếu style, hàm vẽ, chart archive và prompt; hiện code đặt up xanh/down đỏ nhưng comment và prose ngược nghĩa.
+- [x] Tạo chart fixture có các nến tăng/giảm biết trước, kiểm tra màu và legend. Nêu candle color dựa trên Close vs Open; màu bảng điện thường dựa trên giá tham chiếu, không đồng nhất hai khái niệm.
 - [ ] Nếu chỉ sai chú thích/prose, sửa và cung cấp fixture; nếu ảnh hoặc prompt lịch sử thực sự đảo màu, đánh giá ảnh hưởng, version renderer/prompt và chạy lại mọi branch liên quan với shared charts.
 
 **Đạt khi:** có bằng chứng hình ảnh kiểm tra đúng convention và provenance. **Sửa tại:** `utils/color_style.py`, chart utilities, prompts, section 04.4.
+
+**Chart rerun — T0 = 2026-11-03T10:25:06.441703+00:00**. Đây là mốc freeze run riêng sau sửa legend; không thay T0 hoặc receipts R1/R4 lịch sử. Tiếp tục provider-only trên năm org Free theo policy đã duyệt, không cap nội bộ/không mua quota. Audit tái lập 214 PNG nguyên byte/pixel, đối soát 270 actual image requests và phát hiện 107 Trend legends gắn sai artists. Renderer `static_legend_handles_v2`, prompt `trend_blue_en_v2`; R14/D2-10 còn partial cho đến khi paired rerun và phân tích đủ.
+
+**Checkpoint 03/11/2026 sau khi pool dừng:** [audit](outputs/revision/chart_convention_v1/manifest.json) và [bản thảo](outputs/revision/chart_manuscript_v1/manifest.json) đã có; 78 scoped tests/compile chín Python PASS. [R1 run mới](outputs/revision/chart_r1_run_v1/run_manifest.json): 15 calls cho đủ 10/10 smoke decisions; đủ 120 research Trend groups, **138/474 research Decision** (148 cả smoke), raw/lineage replay PASS. **284 attempts mới**, không tính 140 Pattern attempts được copy/replay nguyên byte. [R4 bank mới](outputs/revision/chart_r4_bank_v1/manifest.json) khóa 90 native-derived prompts/270 jobs từ ba reports actual, không cần prediction giả: **6/270 checkpoints** từ 10 attempts, raw replay PASS. Workers dừng với checkpoint khi không còn provider phù hợp/quota TPD; chưa phân tích hiệu năng trên run dở. Còn ít nhất 600 Decision successes, cộng retries nếu có. `R14` và `D2-10` giữ **partial**, không coi unit tests hay 214 image replays là empirical closure. `scripts/run_chart_rerun.py run --all` và `run-r4 --all` dùng tuần tự khi quota khả dụng; source/runtime phải khớp freeze. Source ZIP 110 files nằm trong R1 runtime_history để bảo toàn phiên bản thực nghiệm khi code về sau thay đổi. Không mua quota, không khôi phục cap/deadline nội bộ.
 
 ### R15 — Settlement, price limits và L=3 [P1]
 
@@ -613,7 +617,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-07 | Execution sensitivities R15 | D2-06 | done | [Release](outputs/revision/execution_sensitivity_v1/manifest.json): 12 scenarios/6.120 accounts; reference 510 khớp; 27 tests/compile/hash replay/table QA PASS | Pending/advance/cost/no-fill bounds có denominator và state riêng; source predictions/labels nguyên; R15 execution certification/manuscript còn mở |
 | D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | done | [Audit](outputs/revision/target_contract_v1/manifest.json): 102 units/918 labels, 600 legacy records, 760 Decision attempts; 96 tests/compile/hash replay PASS; [hai PDF + sources](outputs/revision/target_manuscript_v1/manifest.json) QA PASS | Canonical outcomes ngoài graph inputs; primary net giữ nguyên; legacy decision Close null; prompt source/request không đổi; R11 addressed với giới hạn provenance |
 | D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | done | [Audit](outputs/revision/indicator_alpha_rules_v1/manifest.json): 86 fixtures/7 tests/compile/hash replay PASS; [hai PDF và source](outputs/revision/indicator_alpha_manuscript_v1/manifest.json) QA PASS | RSI/crossover/fallback khớp classifier; supplementary slots khác report thực; Alpha_4 signed-volume giữ nguyên; custom và OHLCV flow proxy rõ; R12/R13 addressed |
-| D2-10 | Bổ sung đối chứng chart/prompt R14 | S0 | pending | Renderer/style có sẵn; chưa chứng nhận chart lịch sử bằng fixture | Nến/màu/prompt đúng; chỉ rerun nếu phát hiện thay đổi behavior |
+| D2-10 | Bổ sung đối chứng chart/prompt R14 | S0 | partial | 214 ảnh legacy tái lập nguyên byte/pixel; 270 actual requests khớp cache; phát hiện/sửa legend handles ở 107 Trend charts; 78 scoped tests PASS | Fixture, code và disclosure đã có; run riêng dùng pool Free provider-only để tái tạo shared Trend/all affected branches; chưa đóng R14 trước empirical rerun |
 | D2-11 | Registry/selector R10 | D2-03 | pending | — | Retained/excluded; fixed/random numeric/stability |
 | D2-12 | Xuất coverage từ audit/score đã khóa | D1-04/05 | pending | Count diagnostic cũ có sẵn nhưng không thay verified availability | Một nguồn CSV/TeX; missing khác neutral; domain validation còn mở |
 | D2-13 | Attribution/novelty R8 | D1-16 | pending | — | Reused/modified/new; MIT; claim phù hợp |

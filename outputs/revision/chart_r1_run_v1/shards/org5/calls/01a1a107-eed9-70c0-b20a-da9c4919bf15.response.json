@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a107-eed9-70c0-b20a-da9c4919bf15",
+  "parent_request_hash": "42ff0f84bc509cbccd85d622eb46f0b587931b4be1274d3d4d099366fa4f6a07",
+  "ended_at_utc": "2026-11-03T10:50:16.449804+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Support at 22.0 holds and MACD is below signal indicating weak bullish momentum.\",\"evidence_against\":\"Double top pattern at 24.0 suggests potential reversal if support breaks.\",\"justification\":\"Given the sideways trend and weak momentum, holding cash avoids potential losses from a break below support.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Support at 22.0 holds and MACD is below signal indicating weak bullish momentum.\",\"evidence_against\":\"Double top pattern at 24.0 suggests potential reversal if support breaks.\",\"justification\":\"Given the sideways trend and weak momentum, holding cash avoids potential losses from a break below support.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 529,
+                "prompt_tokens": 1429,
+                "total_tokens": 1958,
+                "completion_time": 0.574757656,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 426
+                },
+                "prompt_time": 0.090440871,
+                "prompt_tokens_details": null,
+                "queue_time": 0.39031793,
+                "total_time": 0.665198527
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8b41efc9a3",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a107-eed9-70c0-b20a-da9c4919bf15-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 529,
+        "prompt_tokens": 1429,
+        "total_tokens": 1958,
+        "completion_time": 0.574757656,
+        "completion_tokens_details": {
+          "reasoning_tokens": 426
+        },
+        "prompt_time": 0.090440871,
+        "prompt_tokens_details": null,
+        "queue_time": 0.39031793,
+        "total_time": 0.665198527
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8b41efc9a3",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

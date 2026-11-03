@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a100-ddb3-7800-a3da-d3184df5d373",
+  "parent_request_hash": "422e83ddeba5657cb9c0f98e41f06ee755c5706dc223dafd7ddac422689ab530",
+  "ended_at_utc": "2026-11-03T10:42:32.853351+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend is upward and MACD shows a bullish golden cross confirming momentum.\",\"evidence_against\":\"Pattern analysis suggests a potential reversal at 59.5, though confidence is low.\",\"justification\":\"The bullish trend and MACD signal outweigh the weak pattern warning, supporting a long position with a favorable risk‑reward profile.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend is upward and MACD shows a bullish golden cross confirming momentum.\",\"evidence_against\":\"Pattern analysis suggests a potential reversal at 59.5, though confidence is low.\",\"justification\":\"The bullish trend and MACD signal outweigh the weak pattern warning, supporting a long position with a favorable risk‑reward profile.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 786,
+                "prompt_tokens": 1434,
+                "total_tokens": 2220,
+                "completion_time": 0.998335817,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 680
+                },
+                "prompt_time": 0.072101506,
+                "prompt_tokens_details": null,
+                "queue_time": 0.216429709,
+                "total_time": 1.070437323
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e23fc997ca",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a100-ddb3-7800-a3da-d3184df5d373-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 786,
+        "prompt_tokens": 1434,
+        "total_tokens": 2220,
+        "completion_time": 0.998335817,
+        "completion_tokens_details": {
+          "reasoning_tokens": 680
+        },
+        "prompt_time": 0.072101506,
+        "prompt_tokens_details": null,
+        "queue_time": 0.216429709,
+        "total_time": 1.070437323
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e23fc997ca",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,6983 @@
+{
+  "before_api_requirements": [
+    "Use only the five author-asserted Free orgs under the existing provider-only authorization; never buy quota",
+    "Derived bank/source signatures and new run identities validated by existing guards",
+    "Keep request archive/checkpoint/rate/reset guards; no internal caps or automatic deadline; stop only when complete or all eligible providers unavailable",
+    "Review smoke delivery before research, without outcome-based protocol changes"
+  ],
+  "internal_attempt_caps": null,
+  "language": "vi",
+  "model_config": {
+    "decision": {
+      "max_tokens": 2048,
+      "model": "openai/gpt-oss-20b",
+      "prompt_chars_exclusive": 6500,
+      "temperature": 0
+    },
+    "trend": {
+      "max_tokens": 1024,
+      "model": "qwen/qwen3.8-27b",
+      "temperature": 0
+    }
+  },
+  "planned_smoke_calls": {
+    "r1_decisions": 10,
+    "trend": 5
+  },
+  "prompt_version": "trend_blue_en_v2",
+  "provider_policy_ref": "revision/r1_provider_policy.json",
+  "quota_purchase_authorized": false,
+  "r1_jobs": [
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "25d7290d67ab43ffe1a0",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "cf25942a9e6fee552746",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "9bb2fa452fe16c33f7b3",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "637558410f3620e98308",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "3b5c9f6766ca05468d3b",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "2b3f6521ff01038cbd5b",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "2b05614be37285a2acc4",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "0467a7da0b1c556ff628",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "3dd6e7cbf581327eecc7",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "91b749eb75933d8bba0a",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "6928d07f275865aca32f",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "639fa62f111410c90e0d",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "63191443a05ee1a68941",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "6c1f4183a2a161c299e5",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "d70e182a70ca77f93df6",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_b2023_h2_872"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "98c5563dec174cb4f735",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "ac161d62286a22479459",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "3af2d4b77c865db7ab36",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "24c9500f5480956917f1",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "4c93bb5efaf65d5e19f8",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "7367c7bfc6bc80b09a85",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "c8b5e95b52327262226d",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "7479f16cfa31abb13955",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "803ac8afae6e44efe12d",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "bd193bd8ad1bbd33f15a",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "c96d36c96ae2c57292d4",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "b8c2b7d88e19a337f0ed",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "59fdcd575cef97bf48f1",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "d00f7d865ae9535320ab",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "ca8de5592e84b477f4af",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "b4da81558b38f7c79a95",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_b2024_h2_1120"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "6d92a105413ed5ef72d9",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_b2024_h2_1177"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "71bcb011571590bdca61",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "15112264f226d3a10a41",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "918528c7dae88a06b63e",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "21adf797e84e1a276dd9",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "de2800ff6ea7d4722205",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "5b1a3d02b9b8dc4748df",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "d985728551966b854fdd",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "96d7471a1162e4d9ffde",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "5d2d82a2547b62b2e412",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "3478b937be80b69cdc8b",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "81eb292cb5f14e6bc8fe",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "38e5952e8e1834614931",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "49c64734d64c6d58e74b",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "cbe63a9e1aa91a32494a",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "489ac488c37dacb0a3f5",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_b2025_h1_1250"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "808e756a55221bfa5869",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_b2025_h1_1307"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "5512f21803e6d8ed917b",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "BHN_f2025_q4_760"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "146ebc7fe1aa2b824ca1",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "BHN_f2025_q4_817"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "3c37b3d847eccbb6f8d8",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "383967add40a498b9144",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "f8e4386cc9b103ec4a32",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "6a4830fd15e0fdc79ce3",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "51b3a22e62870f0320e2",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "687bb044e5a8b26a69da",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "3e7a2c529d4cde94c458",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "81243ec4177dd43dc586",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "10df0631469dfeef2409",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "c800486e373a31789b7c",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "8d3979bd0faefaf4b8fb",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "9077c252963870bbff25",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "83ac671bc75e56145a4e",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "1338d94bcb16a101c5bb",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "57dfc090092fa7cd82e5",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1433"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "4766a126c79fd67bb788",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "67f92e56a2e8f972ae73",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q2_883"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "7e9fc5780ba0123950fd",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q2_940"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "fa3f44f4ffea5e4d14db",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "0ee55d0ee48ce23e7c01",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "e5b98944bfb200d874c3",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "045a9a37e39c1b15c9ca",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "b899eeeaaae5b2a7a201",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "462d82ee9a742d575997",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "43a4df6193c8acdb7546",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "cad903298469b21dff3d",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "7fab48fcf05daf5fab91",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "c42edb7038337109d0e7",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "9d0df04ebc1f2769ec3f",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "309ef6d9566b3df30ba8",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "fea37f8071a3284c94bb",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "01f503ba985094109a83",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "7d667bfa73b5465612c1",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "841390c01aec81866fdc",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "9251ca22d585a1fad80f",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_945"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "03518836c2e5f767efe0",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_1002"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "d7ec3339ac91b19d976c",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "a42f9b7685b69fae21b2",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "CMG_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "dd68f85dabc71edaa0e3",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "dec82c3e26d422806254",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "ffa3a14aaad49902218d",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "1d1825fac1ee34a253c7",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "62df50438a64ace42f36",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "0eda0e466c3771a41360",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "23fbe036692f4bbc9b12",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "f944a218370a5ac3cbd6",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "47e163ca1436b1336794",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "92d3029848c6eebc7904",
+      "org": 3,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "5768707acefd03e15b60",
+      "org": 4,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "0fd2e2c29d9beabb04e7",
+      "org": 5,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "8e612e19eb2880462d6a",
+      "org": 1,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "34f1683d76aeb2d9ccb2",
+      "org": 2,
+      "phase": "main",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "1fb6105db218c9bfd299",
+      "org": 2,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "CMG_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "130698cc13fbdda4e890",
+      "org": 2,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "CMG_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "f0f4ab763e76d1684847",
+      "org": 4,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "FPT_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "ff579f9f11bf0008eaa3",
+      "org": 4,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "FPT_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "4d4eb317116c99265054",
+      "org": 1,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "HVN_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "13af4641f4a4dd2e7f7e",
+      "org": 1,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "HVN_b2023_h2_929"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "2c50e8e12ec9af592505",
+      "org": 5,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "BHN_f2025_q4_817"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "0566bd66e6c2d357dd0c",
+      "org": 5,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "BHN_f2025_q4_817"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "f185a0c43d2107f7c025",
+      "org": 3,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "MBB_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "112a0d6546563aea1709",
+      "org": 3,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "MBB_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "e5d34bef9ec8136d3938",
+      "org": 5,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "MWG_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "a729c6ff59acd5a5659b",
+      "org": 5,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "MWG_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "67af6867b2827a8a8134",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "0bf1367bc60e8ad46fc3",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "1161bcb6d0e4020e405e",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1490"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "999ced22e4acf93385d5",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "8d594a7821807a840a42",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "2cbbeffa5cc268813204",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "1061e6bdbea062abc102",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "a61225b06d7f65e2b096",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "57c764ea68253a6a42b9",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "e7dbd183eb50916a4d09",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "7ae78566af274a500f54",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "f82cc57aeb8a9dc1a7b0",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "92b142ea4b7942e84b06",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "e1133a3cf0789d90383d",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "5d5824a1edd354e490f9",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "0a9c1205907d985d7bf9",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "8f131f86623f17ad7d71",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "362dd15f6bb44a386118",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "ccb0ea8db975f8ffbe41",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "d3c35977dc72f874d759",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "ce7464b5f6370165af8a",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "279047506f74680e7510",
+      "org": 2,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "d20c5720cc58ecd87cac",
+      "org": 2,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "e272a8938c43a45afebe",
+      "org": 2,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "084bbd7e423e660bc76b",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "6a43904c35ee66f0c134",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "cc044abb3ce947824182",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1556"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "a9900894c90286dd2838",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "3ff9a41ff14a29db5887",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "f0b97bdcd3339c422beb",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1613"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "aa6589c811f69f5d4d5d",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_1002"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "d5c9b297da59d67a4602",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_1002"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "01673df5a6aafe0a29cf",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_1002"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "8fd7daade7965a2e8b61",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "ec6423ece99060437a98",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "86e24ec7c199e6bf5c8c",
+      "org": 5,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "ef7c7f665fe30ddc85a5",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "d22a4e224a8b42b545a3",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "2c6b233e89e27f8b1790",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "ba007d08002cc8065869",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "87eb070613d25f25e506",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "392b57f5bec8e0c02d29",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "e855f984946b7e78ad5e",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "12b513dda7d94676ec67",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "54caa02ed49f8e39a742",
+      "org": 1,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "e79f23ad44812320e9ea",
+      "org": 2,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "dc42284c42284cb20dc3",
+      "org": 2,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "8a896cc15e3e0769ceb0",
+      "org": 2,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "7764854196832412be80",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "0075e35affaea94241d3",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "fa13a79cf9e92d4127e6",
+      "org": 3,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "a9c7b12ddbd589a9bd23",
+      "org": 3,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "dec2cf2723af85ea569e",
+      "org": 3,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "A"
+        },
+        {
+          "repeat": 0,
+          "variant": "S"
+        },
+        {
+          "repeat": 0,
+          "variant": "P"
+        }
+      ],
+      "id": "6e2c03c1871092d314a7",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 1,
+          "variant": "A"
+        },
+        {
+          "repeat": 1,
+          "variant": "S"
+        },
+        {
+          "repeat": 1,
+          "variant": "AS"
+        },
+        {
+          "repeat": 1,
+          "variant": "P"
+        },
+        {
+          "repeat": 1,
+          "variant": "B"
+        }
+      ],
+      "id": "6be90e55f420673fe161",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 2,
+          "variant": "S"
+        },
+        {
+          "repeat": 2,
+          "variant": "AS"
+        },
+        {
+          "repeat": 2,
+          "variant": "P"
+        },
+        {
+          "repeat": 2,
+          "variant": "B"
+        },
+        {
+          "repeat": 2,
+          "variant": "A"
+        }
+      ],
+      "id": "0f48419417154260ffe1",
+      "org": 4,
+      "phase": "panel",
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1618"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "40b9cafde41bc42d04f8",
+      "org": 5,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "VJC_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "2154a091afce7e846e82",
+      "org": 5,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "VJC_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "B"
+        },
+        {
+          "repeat": 0,
+          "variant": "AS"
+        }
+      ],
+      "id": "1402345dd3a5ec595ee5",
+      "org": 2,
+      "phase": "upstream",
+      "realization": 1,
+      "unit_id": "VNM_f2026_q3_1675"
+    },
+    {
+      "decisions": [
+        {
+          "repeat": 0,
+          "variant": "AS"
+        },
+        {
+          "repeat": 0,
+          "variant": "B"
+        }
+      ],
+      "id": "25741591138d5c02b367",
+      "org": 2,
+      "phase": "upstream",
+      "realization": 2,
+      "unit_id": "VNM_f2026_q3_1675"
+    }
+  ],
+  "r4_jobs": [
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2025_q4_1490",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1556",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 3,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VNM_f2026_q2_1613",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 4,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "HVN_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MBB_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VJC_f2026_q3_1618",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "BHN_f2026_q3_1002",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 2,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "FPT_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 5,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "MWG_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 0,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "AS"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 1,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "P"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "B"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "A"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "S"
+    },
+    {
+      "model": "openai/gpt-oss-20b",
+      "node": "Decision Maker",
+      "org": 1,
+      "realization": 0,
+      "repeat": 2,
+      "smoke": false,
+      "stage": "decision",
+      "unit_id": "VCB_f2026_q3_1675",
+      "variant": "AS"
+    }
+  ],
+  "remaining_execution_work": "Use scripts/run_chart_rerun.py prepare/smoke/run with strict exact-message Pattern cache reuse; prepare-r4/run-r4 follows corrected upstream availability. Existing artifacts stay immutable.",
+  "renderer_version": "static_legend_handles_v2",
+  "research_calls": {
+    "r1_decisions": 474,
+    "r4_decisions": 270,
+    "trend": 120
+  },
+  "research_trend_groups": [
+    {
+      "realization": 0,
+      "unit_id": "BHN_f2025_q4_760"
+    },
+    {
+      "realization": 0,
+      "unit_id": "BHN_f2025_q4_817"
+    },
+    {
+      "realization": 1,
+      "unit_id": "BHN_f2025_q4_817"
+    },
+    {
+      "realization": 2,
+      "unit_id": "BHN_f2025_q4_817"
+    },
+    {
+      "realization": 0,
+      "unit_id": "BHN_f2026_q2_883"
+    },
+    {
+      "realization": 0,
+      "unit_id": "BHN_f2026_q2_940"
+    },
+    {
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_1002"
+    },
+    {
+      "realization": 0,
+      "unit_id": "BHN_f2026_q3_945"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_b2023_h2_929"
+    },
+    {
+      "realization": 1,
+      "unit_id": "CMG_b2023_h2_929"
+    },
+    {
+      "realization": 2,
+      "unit_id": "CMG_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "CMG_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_b2023_h2_929"
+    },
+    {
+      "realization": 1,
+      "unit_id": "FPT_b2023_h2_929"
+    },
+    {
+      "realization": 2,
+      "unit_id": "FPT_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "FPT_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_b2023_h2_929"
+    },
+    {
+      "realization": 1,
+      "unit_id": "HVN_b2023_h2_929"
+    },
+    {
+      "realization": 2,
+      "unit_id": "HVN_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "HVN_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_f2025_q4_1490"
+    },
+    {
+      "realization": 1,
+      "unit_id": "MBB_f2025_q4_1490"
+    },
+    {
+      "realization": 2,
+      "unit_id": "MBB_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MBB_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_f2025_q4_1490"
+    },
+    {
+      "realization": 1,
+      "unit_id": "MWG_f2025_q4_1490"
+    },
+    {
+      "realization": 2,
+      "unit_id": "MWG_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "MWG_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "realization": 1,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "realization": 2,
+      "unit_id": "VCB_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VJC_f2026_q3_1675"
+    },
+    {
+      "realization": 1,
+      "unit_id": "VJC_f2026_q3_1675"
+    },
+    {
+      "realization": 2,
+      "unit_id": "VJC_f2026_q3_1675"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_b2023_h2_872"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_b2023_h2_929"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_b2024_h2_1120"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_b2024_h2_1177"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_b2025_h1_1250"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_b2025_h1_1307"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1433"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_f2025_q4_1490"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1556"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_f2026_q2_1613"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_f2026_q3_1618"
+    },
+    {
+      "realization": 0,
+      "unit_id": "VNM_f2026_q3_1675"
+    },
+    {
+      "realization": 1,
+      "unit_id": "VNM_f2026_q3_1675"
+    },
+    {
+      "realization": 2,
+      "unit_id": "VNM_f2026_q3_1675"
+    }
+  ],
+  "reuse_policy": "Reuse exact OHLCV/news/numeric factors, donor maps, targets, models, branch order and unchanged Pattern reports by unit/realization. Recompute corrected Trend once per group and share it across all branches. Regenerate Decision prompts; never reuse old prompts embedding old Trend reports. Keep original compressed-R1 and full-value-R4 delivery policies separate.",
+  "scheduled_max_output_tokens": 1672192,
+  "scheduled_total_calls": 879,
+  "schema_version": "chart_paired_rerun_proposal_v1",
+  "source_hashes": [
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/manifest.json",
+      "sha256": "b1f9c9261b5220f5d33a5fd759ddb4d6e7c5dc13431ea88218eae312e4d35f97"
+    },
+    {
+      "path": "outputs/revision/r4_value_bank_v1/manifest.json",
+      "sha256": "6ea80ee64283fe68b15c61e5ccbc0ca30d394e4d8544f7a41946e3b90a1deca4"
+    },
+    {
+      "path": "revision/chart_convention_policy.json",
+      "sha256": "2b85c56524d03f90f0e5f74cb890717df5f26d186429ec9d8b7c6644d96a6bd6"
+    },
+    {
+      "path": "utils/static_util.py",
+      "sha256": "b8b78e5ae7e231e960c09af790bf7b232d727833fdcf02db893c974be6f1a217"
+    },
+    {
+      "path": "agents/trend_agent.py",
+      "sha256": "29a25ede1efd75b57b662f65ba3bbe1540fa8f18dc2e473d4c87218f7216fc8d"
+    }
+  ],
+  "status": "execution_pending_via_existing_free_provider_pool",
+  "write_policy": "New bank/run identities and output paths only. Old bank/run/checkpoints/receipts immutable. No best-run/seed/checkpoint selection. English correction not evaluated by this VI proposal."
+}

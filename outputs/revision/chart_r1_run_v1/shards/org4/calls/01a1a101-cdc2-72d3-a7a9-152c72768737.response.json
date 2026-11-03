@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a101-cdc2-72d3-a7a9-152c72768737",
+  "parent_request_hash": "1fb73e2ce68f638f7f80b642d18b6fce17b4fa5e136de28c3c8d9c620486b70e",
+  "ended_at_utc": "2026-11-03T10:43:33.517322+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up confirmed by support at 100.5 and resistance at 103.5. MACD line above signal with positive histogram indicates bullish momentum.\",\"evidence_against\":\"Price could face resistance at 103.5, potentially limiting upside.\",\"justification\":\"Buying at open and selling at close within the 3-day horizon should capture the expected upward move. The expected gain exceeds the 0.7% cost threshold, making the trade profitable.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up confirmed by support at 100.5 and resistance at 103.5. MACD line above signal with positive histogram indicates bullish momentum.\",\"evidence_against\":\"Price could face resistance at 103.5, potentially limiting upside.\",\"justification\":\"Buying at open and selling at close within the 3-day horizon should capture the expected upward move. The expected gain exceeds the 0.7% cost threshold, making the trade profitable.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 636,
+                "prompt_tokens": 1415,
+                "total_tokens": 2051,
+                "completion_time": 0.674572032,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 504
+                },
+                "prompt_time": 0.070630352,
+                "prompt_tokens_details": null,
+                "queue_time": 0.057251545,
+                "total_time": 0.745202384
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_92d51d08e5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a101-cdc2-72d3-a7a9-152c72768737-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 636,
+        "prompt_tokens": 1415,
+        "total_tokens": 2051,
+        "completion_time": 0.674572032,
+        "completion_tokens_details": {
+          "reasoning_tokens": 504
+        },
+        "prompt_time": 0.070630352,
+        "prompt_tokens_details": null,
+        "queue_time": 0.057251545,
+        "total_time": 0.745202384
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_92d51d08e5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

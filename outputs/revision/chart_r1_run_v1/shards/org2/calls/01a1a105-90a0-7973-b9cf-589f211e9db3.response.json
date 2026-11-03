@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a105-90a0-7973-b9cf-589f211e9db3",
+  "parent_request_hash": "d476e2e28e9b7299e369d4168585309312a80ba42891e933be1e3d0b1d126f92",
+  "ended_at_utc": "2026-11-03T10:47:42.113644+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"MACD line below signal indicates bearish momentum; double top pattern at 14.90 with break below 14.50 confirms potential decline.\",\"evidence_against\":\"Trend analysis shows sideways movement, which could reduce conviction.\",\"justification\":\"Shorting at 14.50 targets 14.00 with a 1:1 risk/reward; bearish indicators outweigh neutral trend.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"MACD line below signal indicates bearish momentum; double top pattern at 14.90 with break below 14.50 confirms potential decline.\",\"evidence_against\":\"Trend analysis shows sideways movement, which could reduce conviction.\",\"justification\":\"Shorting at 14.50 targets 14.00 with a 1:1 risk/reward; bearish indicators outweigh neutral trend.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 923,
+                "prompt_tokens": 1597,
+                "total_tokens": 2520,
+                "completion_time": 1.036502865,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 806
+                },
+                "prompt_time": 0.26138644,
+                "prompt_tokens_details": null,
+                "queue_time": 0.342673849,
+                "total_time": 1.297889305
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_84bb35977d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a105-90a0-7973-b9cf-589f211e9db3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 923,
+        "prompt_tokens": 1597,
+        "total_tokens": 2520,
+        "completion_time": 1.036502865,
+        "completion_tokens_details": {
+          "reasoning_tokens": 806
+        },
+        "prompt_time": 0.26138644,
+        "prompt_tokens_details": null,
+        "queue_time": 0.342673849,
+        "total_time": 1.297889305
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_84bb35977d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

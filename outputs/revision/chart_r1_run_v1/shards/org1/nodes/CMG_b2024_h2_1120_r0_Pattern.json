@@ -1,0 +1,35 @@
+{
+  "parent": {
+    "input_hash": "0801d7e57c9711d37bd2e38b2b4a7e77c706db485d504a99c503b2956a5411b7",
+    "asset_hash": "26a8579df5984425a6d0f15df15ded5069d28745d5835051c119b6f086cb0c32",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "CMG_b2024_h2_1120",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": false
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Đảo chiều chữ V.\n\n**Độ tin cậy:** Thấp\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Giá đạt đỉnh quanh 58 vào giữa tháng 6, sau đó giảm liên tục qua các nến đỏ để về vùng 50.\n\n**Nến quan trọng:** Nến đỏ thân dài xuất hiện ngay sau đỉnh 58, xác nhận sự đảo chiều.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng 53-54, cắt lỗ nếu vượt qua 58.\n\n[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình giảm]",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19b99-41b9-7131-85dc-6791b0afd8b1"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19b99-41b9-7131-85dc-6791b0afd8b1.request.json",
+      "sha256": "c96e44846f8d3b3d11553334917f8e4a7fd2466d0c946062483ee1354d211607"
+    },
+    {
+      "path": "calls/01a19b99-41b9-7131-85dc-6791b0afd8b1.response.json",
+      "sha256": "25070f0dc1ac503e0c0f1713ae53ba2b00a66b37861dd9c5442af0762b128db1"
+    }
+  ],
+  "sha256": "75e05344bc250ba09592c9b07968c44cf2dd2eadc9db9e2eb14b75aea95f695d"
+}

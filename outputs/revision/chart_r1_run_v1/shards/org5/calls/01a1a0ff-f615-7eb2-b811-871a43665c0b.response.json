@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a0ff-f615-7eb2-b811-871a43665c0b",
+  "parent_request_hash": "fb52905e0dc97426a293d34c21d01c751c47c2f55260c410528923d812985c80",
+  "ended_at_utc": "2026-11-03T10:41:33.117271+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern V reversal suggests potential upside to 33.0.\",\"evidence_against\":\"MACD below signal with widening negative histogram indicates bearish momentum.\",\"justification\":\"Trend is sideways with support at 31.2 and resistance at 33.0; pattern bullish but indicator bearish, so short to avoid risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern V reversal suggests potential upside to 33.0.\",\"evidence_against\":\"MACD below signal with widening negative histogram indicates bearish momentum.\",\"justification\":\"Trend is sideways with support at 31.2 and resistance at 33.0; pattern bullish but indicator bearish, so short to avoid risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 703,
+                "prompt_tokens": 1439,
+                "total_tokens": 2142,
+                "completion_time": 0.748317088,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 598
+                },
+                "prompt_time": 0.096884489,
+                "prompt_tokens_details": null,
+                "queue_time": 0.350011373,
+                "total_time": 0.845201577
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a0ff-f615-7eb2-b811-871a43665c0b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 703,
+        "prompt_tokens": 1439,
+        "total_tokens": 2142,
+        "completion_time": 0.748317088,
+        "completion_tokens_details": {
+          "reasoning_tokens": 598
+        },
+        "prompt_time": 0.096884489,
+        "prompt_tokens_details": null,
+        "queue_time": 0.350011373,
+        "total_time": 0.845201577
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

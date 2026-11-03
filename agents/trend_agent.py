@@ -843,7 +843,7 @@ def create_trend_agent(tool_llm, graph_llm, toolkit):
                 prompt_text = (
                     f"/no_think\n"
                     f"This is a {time_frame} candlestick (K-line) chart with automatic trendlines:\n"
-                    f"- **Green line** = support line (derived from closing prices)\n"
+                    f"- **Blue line** = support line (derived from closing prices)\n"
                     f"- **Red line** = resistance line (derived from closing prices)\n\n"
                     f"OBJECTIVE: Forecast {h_desc}.\n\n"
                     f"Return EXACTLY the 8 fields below and nothing else. "
@@ -866,7 +866,7 @@ def create_trend_agent(tool_llm, graph_llm, toolkit):
                     "**Resistance level:** 63400\n"
                     "**Trendline slope:** Rising\n"
                     "**Price vs support:** Bouncing\n"
-                    "**Detailed analysis:** Price holds above the green support line with higher lows. "
+                    "**Detailed analysis:** Price holds above the blue support line with higher lows. "
                     "Momentum slows as it approaches the red resistance.\n"
                     "**Trend forecast:** Continuation toward 63400 while support at 61200 holds.\n"
                     "**Confidence:** Medium"

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a117-e024-7a71-85d0-f48ee51175b6",
+  "parent_request_hash": "ec3175fdcb8dba13866f328572ec20e941d60da0f73f8de50406196ec7e63df2",
+  "ended_at_utc": "2026-11-03T11:07:41.742411+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis indicates price likely to reach resistance 155 within 3 days.\",\"evidence_against\":\"MACD and alpha factors suggest bearish momentum.\",\"justification\":\"Given the bearish indicators and negative alpha consensus, holding cash is safer; trend alone is insufficient to override these signals.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend analysis indicates price likely to reach resistance 155 within 3 days.\",\"evidence_against\":\"MACD and alpha factors suggest bearish momentum.\",\"justification\":\"Given the bearish indicators and negative alpha consensus, holding cash is safer; trend alone is insufficient to override these signals.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1556,
+                "prompt_tokens": 1568,
+                "total_tokens": 3124,
+                "completion_time": 2.111667551,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1453
+                },
+                "prompt_time": 0.079963643,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391908799,
+                "total_time": 2.191631194
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a117-e024-7a71-85d0-f48ee51175b6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1556,
+        "prompt_tokens": 1568,
+        "total_tokens": 3124,
+        "completion_time": 2.111667551,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1453
+        },
+        "prompt_time": 0.079963643,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391908799,
+        "total_time": 2.191631194
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

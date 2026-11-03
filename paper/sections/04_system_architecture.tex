@@ -142,9 +142,7 @@ In backtest mode, the live crawler is replaced by a pre-loaded historical sentim
 
 The Pattern Agent analyses a candlestick chart rendered from the current
 analysis window $[e-W,e)$ (45 candles in the main configuration). The chart is
-produced by \texttt{mplfinance} using a custom colour scheme (green bodies for
-bearish candles and red bodies for bullish candles, following Vietnamese market
-convention) and encoded as a base64 PNG before graph execution.
+produced by \texttt{mplfinance} and encoded as a base64 PNG before graph execution. Body colour compares Close with the same bar's Open: green (style \texttt{\#006340}) for Close $>$ Open and red (\texttt{\#A02128}) for Close $<$ Open. The earlier prose had these directions reversed. These OHLCV charts do not use a quote-board reference price; a falling Close versus the previous Close can still have a green body if Close exceeds Open. Equal Close/Open has a zero-height body; the library selects its down colour, which is not a bearish forecast. The style uses alpha 0.9, so raster colours blend with the white background. \ref{app:chart_convention} supplies synthetic gap/doji fixtures and the retained-request audit.
 
 The vision-language model is prompted to perform four sequential tasks. First, it identifies the dominant chart formation from a curated list of 16 classical patterns, such as head-and-shoulders inverse, double bottom, or various triangles and wedges. Second, it describes the three to five most recent candles in terms of body size, wick length, and relative position. Third, it assesses whether a breakout or breakdown is occurring. Finally, it commits to a directional bias (\texttt{bullish}, \texttt{bearish}, or \texttt{neutral}) alongside a confidence rating of \texttt{High}, \texttt{Medium}, or \texttt{Low}.
 
@@ -165,7 +163,9 @@ The first pair is derived from the closing price series alone. A linear regressi
 \paragraph{High-low channel.}
 The second pair uses the high and low price series to identify the highest and lowest deviation points, producing channel lines that bound the full intra-bar range.
 
-The support lines are drawn in blue, resistance lines in red, and rendered at 600 DPI to preserve legibility when compressed to base64.
+The visible close-support line is blue and close-resistance is red. The historical static renderer supplied legend labels without explicit handles, so the Support swatch attached to a black wick artist and the Resistance swatch to a candle-body artist. Version \texttt{static\_legend\_handles\_v2} binds those labels to the actual blue/red lines. This changes the image input, even though prices, candle colours and trendline coordinates are unchanged. The additional high/low segments are white in the current static renderer and are not two more coloured legend entries. The frozen study uses the static renderer's 150-DPI PNG path; a 600-DPI prototype export is not evidence of the actual study image resolution. \ref{app:chart_convention} distinguishes current static charts from the older toolkit paths.
+
+The archived study's Trend prompts are Vietnamese and call support ``the xanh line'' and resistance ``the red line''; the chart itself labels Blue = Support. The unused legacy English template incorrectly called support green. Version \texttt{trend\_blue\_en\_v2} corrects only the English support-colour instruction and matching example to blue; captured Vietnamese prompt text is unchanged when the image is held fixed. The archived requests are preserved. The legend defect is present in the retained Vietnamese image inputs as well. Corrected-renderer performance therefore requires re-inference of shared Trend reports and all affected Decision branches, with original and repaired factor-delivery studies kept separate. That paired rerun is pending; no corrected-renderer or corrected-English result is reported here.
 
 The vision-language model is prompted to assess the slope of each support and resistance line, evaluate the distance between the lines (indicating channel width and price compression), determine the position of the most recent candles relative to each boundary, and produce a directional forecast for the applicable prediction horizon. The required JSON output fields encompass the trend direction, numerical support and resistance levels, slope characterisation, and overall confidence.
 

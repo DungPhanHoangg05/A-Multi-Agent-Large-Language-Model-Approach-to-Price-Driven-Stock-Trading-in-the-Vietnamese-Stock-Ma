@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "b129747dee958eb442d3850a248980270e1cb86dc4a05aa4948e5c8fb4972951",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "0336e389f7d3f3c841974cb83f0384a9ab3de7013b92e605ab30b2ffbe599f53"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bullish with price near resistance 128 and MACD above signal indicating momentum. Pattern V reversal confirms upward breakout above 120 with target 130.",
+    "evidence_against": "None of the indicators suggest a reversal or downside risk within the horizon.",
+    "justification": "The combination of bullish trend, V reversal pattern, and MACD momentum supports a long position. Expected target 130 gives a favorable risk‑reward of about 2:1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a12a-6e72-7243-98ce-68d4de9389c2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a12a-6e72-7243-98ce-68d4de9389c2.request.json",
+      "sha256": "480642a3113299fe21c3ecbd676c0f2e6db9a33bc2e7d5cdd32660c1769d0649"
+    },
+    {
+      "path": "calls/01a1a12a-6e72-7243-98ce-68d4de9389c2.response.json",
+      "sha256": "fb0ca2679629da60ef524385b34030f3bee8ec1f8c66b73e41e6858edab6cfc2"
+    }
+  ],
+  "sha256": "c12bf12425832a18ea3f7fd8c43aca9680c184a477e348fc27566c2e08b97aa9"
+}

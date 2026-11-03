@@ -1,0 +1,35 @@
+{
+  "parent": {
+    "input_hash": "f643c7dd19dab4848d479de3a1ddcc1d15e528f3745c28ad8b1edab0cc36629e",
+    "asset_hash": "f3512a24b4702b7f4d158321d773086fc86eae33e47132cdd8e177dc51569227",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583"
+  },
+  "context": {
+    "unit_id": "smoke_org2",
+    "realization": 0,
+    "stage": "upstream",
+    "node": "Pattern Agent",
+    "model": "qwen/qwen3.8-27b",
+    "smoke": true
+  },
+  "state": {
+    "pattern_report": "**Mô hình:** Xu hướng tăng.\n\n**Độ tin cậy:** Thấp\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Chuỗi các đỉnh và đáy cao dần liên tục từ vùng 43 lên 48, giá đang kiểm tra vùng kháng cự 48.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 19/05 và nến đỏ thân dài ngày 23/06.\n\n**Hàm ý giao dịch:** Mua khi giá hồi về vùng hỗ trợ 47, cắt lỗ dưới 46.5.\n\n[Cảnh báo đối chiếu: Nến thực tế không khớp mẫu hình tăng]",
+    "messages": []
+  },
+  "request_ids": [
+    "01a19b91-25b9-72b2-9485-0e16f26f0a09"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19b91-25b9-72b2-9485-0e16f26f0a09.request.json",
+      "sha256": "93e5f5f9ce3e875d1e284c3e33ca39a45159b10a91973fa7d28febe1ebeaca40"
+    },
+    {
+      "path": "calls/01a19b91-25b9-72b2-9485-0e16f26f0a09.response.json",
+      "sha256": "c5614be38f9d23a2e4fd128b1ad0d604ab3f509b402e69defe854dd6babacc82"
+    }
+  ],
+  "sha256": "7214b4a894b2be3a5bab25ce533e55d6f4dd1d35d49e0246bfa38b0eec98358a"
+}

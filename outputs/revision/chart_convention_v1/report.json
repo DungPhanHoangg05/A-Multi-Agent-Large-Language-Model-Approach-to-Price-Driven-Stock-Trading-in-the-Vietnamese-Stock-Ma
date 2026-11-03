@@ -1,0 +1,114 @@
+{
+  "fixture_renderers": {
+    "prototype_pattern": {
+      "body_alpha": 0.9,
+      "body_geometry_and_colors_match": true,
+      "legend": [],
+      "legend_handle_colors": [],
+      "legend_handles_match_lines": true,
+      "line_colors": {},
+      "n_candles": 40,
+      "n_doji": 1,
+      "n_down": 20,
+      "n_up": 19,
+      "palette_pixel_counts": {
+        "#006340": 581485,
+        "#A02128": 600026
+      },
+      "png_sha256": "5964781ab6a0ac948036f1ebf9eb239420f2516c78d4625391096a1724410328"
+    },
+    "prototype_trend": {
+      "body_alpha": 0.9,
+      "body_geometry_and_colors_match": true,
+      "legend": [
+        "Close Support",
+        "Close Resistance"
+      ],
+      "legend_handle_colors": [
+        "#0000ff",
+        "#ff0000"
+      ],
+      "legend_handles_match_lines": true,
+      "line_colors": {
+        "Close Resistance": "#ff0000",
+        "Close Support": "#0000ff"
+      },
+      "n_candles": 45,
+      "n_doji": 1,
+      "n_down": 22,
+      "n_up": 22,
+      "palette_pixel_counts": {
+        "#006340": 12500,
+        "#A02128": 13248
+      },
+      "png_sha256": "1bf5f092290508f49ef3335b3305402c20c01c6fabe32c57eb2da9d83d54221d"
+    },
+    "static_pattern": {
+      "body_alpha": 0.9,
+      "body_geometry_and_colors_match": true,
+      "legend": [],
+      "legend_handle_colors": [],
+      "legend_handles_match_lines": true,
+      "line_colors": {},
+      "n_candles": 45,
+      "n_doji": 1,
+      "n_down": 22,
+      "n_up": 22,
+      "palette_pixel_counts": {
+        "#006340": 34949,
+        "#A02128": 34939
+      },
+      "png_sha256": "643764499b3badfd15c9cc76e66ede2d2a55f49450306a2449b542b32deb384f"
+    },
+    "static_trend": {
+      "body_alpha": 0.9,
+      "body_geometry_and_colors_match": true,
+      "legend": [
+        "Support (close)",
+        "Resistance (close)"
+      ],
+      "legend_handle_colors": [
+        "#0000ff",
+        "#ff0000"
+      ],
+      "legend_handles_match_lines": true,
+      "line_colors": {
+        "Resistance": "#ff0000",
+        "Support": "#0000ff"
+      },
+      "n_candles": 45,
+      "n_doji": 1,
+      "n_down": 22,
+      "n_up": 22,
+      "palette_pixel_counts": {
+        "#006340": 33784,
+        "#A02128": 34103
+      },
+      "png_sha256": "53fbf58464cb910425e5054fb642675421d74cb8dbbef8cd3cc39bfc45353a6d"
+    }
+  },
+  "limits": "Retained Trend images have misbound legend swatches although plotted support/resistance lines are blue/red. Corrected renderer changes historical VI inputs too; shared-upstream paired rerun required before corrected-result/R14 closure. No paid rerun or corrected performance claim. Legacy submission/model comprehension remain unverified.",
+  "n_actual_vision_attempts": 270,
+  "n_byte_equal_images": 214,
+  "n_chart_caches": 107,
+  "n_legacy_trend_images_with_misbound_legend": 107,
+  "n_new_api_calls": 0,
+  "n_pattern_attempts": 140,
+  "n_pixel_equal_images": 214,
+  "n_replayed_images": 214,
+  "n_trend_attempts": 130,
+  "paired_rerun_required": true,
+  "prompt": {
+    "comparison_holds_image_fixed": true,
+    "en_only_two_color_literals_changed": true,
+    "n_new_api_calls": 0,
+    "new_en_sha256": "c2b31ef3e8249bd2209bb690de4b66e9c958b21a0189963d4d047abaf0ffb75b",
+    "old_en_sha256": "5a6378e83fb69c1fa3f04a87f535d47425d497573917a747813667c56614aa16",
+    "version": "trend_blue_en_v2",
+    "vi_messages_unchanged": true,
+    "vi_prompt_text_sha256": "e350024825faea93e275a90533205d9fc7eef2bca7d3315d97afa1c2dbde42f0",
+    "vi_sha256": "77b710a1457121e54a3817ab5fcb4908e734b1d540e6946f3a4a75a3737164d9"
+  },
+  "renderer_version": "static_legend_handles_v2",
+  "scope": "All chart caches and upstream image requests in the completed R1 run, including smoke, retries and repeated executions; R4 reuses archived upstream inputs"
+}

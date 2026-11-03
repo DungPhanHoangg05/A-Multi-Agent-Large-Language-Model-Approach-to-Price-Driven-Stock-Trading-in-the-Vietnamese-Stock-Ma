@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a107-649b-7e82-9a17-9910a4991c8b",
+  "parent_request_hash": "16073dbd4b6746f0e096527c4447ca7673b23e1dea8bd2602c3c80cc82070eb7",
+  "ended_at_utc": "2026-11-03T10:49:40.326701+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is down with support at 82.5, MACD line below signal and histogram trending negative. Pattern confirms lower highs and lows.\",\"evidence_against\":\"No breakout above 85 to reverse the downtrend.\",\"justification\":\"Short position to capture expected decline, with stop above 86 to limit risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is down with support at 82.5, MACD line below signal and histogram trending negative. Pattern confirms lower highs and lows.\",\"evidence_against\":\"No breakout above 85 to reverse the downtrend.\",\"justification\":\"Short position to capture expected decline, with stop above 86 to limit risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 540,
+                "prompt_tokens": 1420,
+                "total_tokens": 1960,
+                "completion_time": 0.566525277,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 435
+                },
+                "prompt_time": 0.070688665,
+                "prompt_tokens_details": null,
+                "queue_time": 0.389712311,
+                "total_time": 0.637213942
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_bb6a356524",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a107-649b-7e82-9a17-9910a4991c8b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 540,
+        "prompt_tokens": 1420,
+        "total_tokens": 1960,
+        "completion_time": 0.566525277,
+        "completion_tokens_details": {
+          "reasoning_tokens": 435
+        },
+        "prompt_time": 0.070688665,
+        "prompt_tokens_details": null,
+        "queue_time": 0.389712311,
+        "total_time": 0.637213942
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_bb6a356524",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

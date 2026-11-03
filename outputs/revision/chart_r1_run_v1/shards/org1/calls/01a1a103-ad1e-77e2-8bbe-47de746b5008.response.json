@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a103-ad1e-77e2-8bbe-47de746b5008",
+  "parent_request_hash": "785ebd41f9caf420ec144a53230966a337c50ca71dd2977005b00f8f698b51ab",
+  "ended_at_utc": "2026-11-03T10:45:37.259097+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price breaking support at 9.20, indicating continued bearish pressure. MACD death cross and negative histogram confirm weakening momentum.\",\"evidence_against\":\"Pattern analysis suggests a potential reversal, but low confidence and lack of strong support weaken the case.\",\"justification\":\"Given the bearish trend and momentum indicators, a short position aligns with the 3-day horizon. The expected profit after fees and slippage remains positive if the price stays below 9.20.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with price breaking support at 9.20, indicating continued bearish pressure. MACD death cross and negative histogram confirm weakening momentum.\",\"evidence_against\":\"Pattern analysis suggests a potential reversal, but low confidence and lack of strong support weaken the case.\",\"justification\":\"Given the bearish trend and momentum indicators, a short position aligns with the 3-day horizon. The expected profit after fees and slippage remains positive if the price stays below 9.20.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 570,
+                "prompt_tokens": 1481,
+                "total_tokens": 2051,
+                "completion_time": 0.638202459,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 429
+                },
+                "prompt_time": 0.825993642,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.391211187,
+                "total_time": 1.464196101
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a103-ad1e-77e2-8bbe-47de746b5008-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 570,
+        "prompt_tokens": 1481,
+        "total_tokens": 2051,
+        "completion_time": 0.638202459,
+        "completion_tokens_details": {
+          "reasoning_tokens": 429
+        },
+        "prompt_time": 0.825993642,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.391211187,
+        "total_time": 1.464196101
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a103-3908-7463-8836-206a574a1757",
+  "parent_request_hash": "ba68be45a5f8218c43510a69ab5a04506bc0e64b4cc6a874c3295711ed591ee2",
+  "ended_at_utc": "2026-11-03T10:45:08.875550+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down and MACD death cross signals bearish momentum.\",\"evidence_against\":\"MACD line remains positive.\",\"justification\":\"Shorting aligns with bearish trend and technical signals; expected to capture downward movement within T+2.5 horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down and MACD death cross signals bearish momentum.\",\"evidence_against\":\"MACD line remains positive.\",\"justification\":\"Shorting aligns with bearish trend and technical signals; expected to capture downward movement within T+2.5 horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 568,
+                "prompt_tokens": 1606,
+                "total_tokens": 2174,
+                "completion_time": 0.65125222,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 479
+                },
+                "prompt_time": 0.094999559,
+                "prompt_tokens_details": null,
+                "queue_time": 0.210144716,
+                "total_time": 0.746251779
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e23fc997ca",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a103-3908-7463-8836-206a574a1757-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 568,
+        "prompt_tokens": 1606,
+        "total_tokens": 2174,
+        "completion_time": 0.65125222,
+        "completion_tokens_details": {
+          "reasoning_tokens": 479
+        },
+        "prompt_time": 0.094999559,
+        "prompt_tokens_details": null,
+        "queue_time": 0.210144716,
+        "total_time": 0.746251779
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e23fc997ca",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

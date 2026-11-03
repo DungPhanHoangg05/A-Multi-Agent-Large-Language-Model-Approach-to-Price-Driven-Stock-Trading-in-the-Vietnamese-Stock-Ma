@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a101-e555-78d3-bc0d-e12156ac3ddd",
+  "parent_request_hash": "2b5c56167a888d207c455e1b0c1a579e032f3a44b9f8ded3aa2b38ef65a3faf3",
+  "ended_at_utc": "2026-11-03T10:43:39.298409+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend tăng, pattern breakout, MACD golden cross, histogram positive. Support at 59.5, resistance 64.5, target 65.\",\"evidence_against\":\"Potential liquidity risk if volume insufficient.\",\"justification\":\"Long position expected to capture upside to 65 with 0.7% net profit after fees. Holding cash if not enough to cover fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend tăng, pattern breakout, MACD golden cross, histogram positive. Support at 59.5, resistance 64.5, target 65.\",\"evidence_against\":\"Potential liquidity risk if volume insufficient.\",\"justification\":\"Long position expected to capture upside to 65 with 0.7% net profit after fees. Holding cash if not enough to cover fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 397,
+                "prompt_tokens": 1417,
+                "total_tokens": 1814,
+                "completion_time": 0.433510858,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 279
+                },
+                "prompt_time": 0.071308211,
+                "prompt_tokens_details": null,
+                "queue_time": 0.048851367,
+                "total_time": 0.504819069
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a101-e555-78d3-bc0d-e12156ac3ddd-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 397,
+        "prompt_tokens": 1417,
+        "total_tokens": 1814,
+        "completion_time": 0.433510858,
+        "completion_tokens_details": {
+          "reasoning_tokens": 279
+        },
+        "prompt_time": 0.071308211,
+        "prompt_tokens_details": null,
+        "queue_time": 0.048851367,
+        "total_time": 0.504819069
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

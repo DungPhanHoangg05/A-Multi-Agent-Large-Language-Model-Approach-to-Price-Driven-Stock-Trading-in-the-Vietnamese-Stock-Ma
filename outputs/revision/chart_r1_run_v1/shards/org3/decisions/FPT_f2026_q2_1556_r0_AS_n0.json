@@ -1,0 +1,90 @@
+{
+  "parent": {
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+    "asset_hash": "a6c0e9caafb3619ce6cca878084af3af01caf2c31404bea61f719a1ae2512125",
+    "upstream_hash": "067fa783484275734be2f0372d4aec72091cf2b447963f007e009570e6b54991",
+    "node_hashes": [
+      "444d1da4b2bcb76516e05c4f58605e20e2f15401750598977d683ef5862aff80",
+      "a291701aaec817505f1d3d7301a826a9d3a1bdfdfdb900e971ee480c2f0f5913",
+      "728025d66e4e18d35a2141564cf750dca8221eb76be7a30c4310552fb877bd34"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "FPT_f2026_q2_1556",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "SHORT",
+  "confidence": "Trung bình",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"SHORT\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Trung bình\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"Trend analysis shows a downtrend with support at 68 and resistance at 72, while MACD line above signal and positive histogram indicate bullish momentum.\",\n  \"evidence_against\": \"Overall alpha factors are neutral and trend is down, reducing confidence in a sustained rally.\",\n  \"justification\": \"A short position aligns with the prevailing downtrend and neutral alpha, while the bullish MACD may offer a short-term entry if price approaches resistance.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: FPT; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Giảm.\n\n**Mức hỗ trợ:** 68.\n\n**Mức kháng cự:** 72.\n\n**Độ dốc đường xu hướng:** Đang giảm.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá dao động trong biên hẹp, bám sát đường kháng cự đỏ và nằm trên đường hỗ trợ xanh. Hai đường xu hướng đang hội tụ, cho thấy áp lực giảm đang chững lại.\n\n**Dự đoán xu hướng:** Giá có thể đi ngang hoặc hồi phục nhẹ trong 3 phiên tới do lực bán đã cạn. Nếu vượt qua kháng cự 72, xu hướng tăng sẽ được xác nhận.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Xu hướng giảm rõ rệt.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Chuỗi các đỉnh và đáy liên tục thấp dần từ vùng 95 xuống 67, cấu trúc nến đỏ chiếm ưu thế tuyệt đối.\n\n**Nến quan trọng:** Nến đỏ thân dài ngày 05/03 phá vỡ hỗ trợ 75 và nến đỏ ngày 19/03 tạo đáy mới.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng kháng cự 70-72, ngừng lỗ trên 75.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-4.2384**        | [-5.0913, -4.8124, -4.6891, -4.4888, -4.2384]                 |\n| Signal Line | **-4.9072**        | [-5.489, -5.3537, -5.2208, -5.0744, -4.9072]                 |\n| Histogram   | **0.6688**        | [0.3977, 0.5412, 0.5317, 0.5856, 0.6688]                 |\n\n- Giao cắt: MACD đang ở trên Signal (khoảng cách MACD−Signal = 0.6688)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm → vùng\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — FPT\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: TRUNG TÍNH (2 TĂNG / 2 GIẢM / 1 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend analysis shows a downtrend with support at 68 and resistance at 72, while MACD line above signal and positive histogram indicate bullish momentum.\",\"evidence_against\":\"Overall alpha factors are neutral and trend is down, reducing confidence in a sustained rally.\",\"justification\":\"A short position aligns with the prevailing downtrend and neutral alpha, while the bullish MACD may offer a short-term entry if price approaches resistance.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 1090,
+              "prompt_tokens": 1564,
+              "total_tokens": 2654,
+              "completion_time": 1.190733015,
+              "completion_tokens_details": {
+                "reasoning_tokens": 965
+              },
+              "prompt_time": 0.092255484,
+              "prompt_tokens_details": null,
+              "queue_time": 0.391506889,
+              "total_time": 1.282988499
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_5979a0e1b7",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a1a10b-8afb-7132-b608-6cdb34224cd0-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1564,
+            "output_tokens": 1090,
+            "total_tokens": 2654,
+            "output_token_details": {
+              "reasoning": 965
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a1a10b-8afb-7132-b608-6cdb34224cd0"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a10b-8afb-7132-b608-6cdb34224cd0.request.json",
+      "sha256": "97b43a42a3a91e5c6256947c083313baca4a392edc0023e766bf1844b58c0729"
+    },
+    {
+      "path": "calls/01a1a10b-8afb-7132-b608-6cdb34224cd0.response.json",
+      "sha256": "7f20f3e088b4aaf4536a94d3a02bc8fdf5974c2769c82d38b1a02cb6489011ca"
+    }
+  ],
+  "sha256": "05b79c4c0a7240987b88f5d0de977d1608537bfff30faa4e900b194681957b6e"
+}
