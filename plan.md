@@ -35,10 +35,25 @@ Làm từ trên xuống. Khi chờ tác giả/API, có thể làm task offline �
 
 | ID | Việc cần làm | Điều kiện hoàn thành | Trạng thái / dependency |
 |---|---|---|---|
-| T01 | Kiểm tra source/runtime hashes, checkpoints, raw lineage hai run chart và worker trùng. | Đúng run/bank, số jobs thiếu rõ; không API, không sửa manifest cũ. | Chưa làm |
-| T02 | **Tác giả** chạy tiếp 336 Decisions tập chính, dùng lệnh mục 4. | `chart_r1_run_v1` đủ 474 research +10 smoke; đủ 102 cặp và repeats. Không lấy run cũ lấp thiếu. | Chờ tác giả; sau T01 |
+| T01 | Kiểm tra source/runtime hashes, checkpoints, raw lineage hai run chart và worker trùng. | Đúng run/bank, số jobs thiếu rõ; không API, không sửa manifest cũ. | **Hoàn tất — PASS**; [audit](outputs/revision/chart_resume_audit_v1/report.json), [hash nguồn/đầu ra](outputs/revision/chart_resume_audit_v1/manifest.json), [jobs thiếu](outputs/revision/chart_resume_audit_v1/missing_jobs.json) |
+| T02 | **Tác giả** chạy tiếp 336 Decisions tập chính, dùng lệnh mục 4. | `chart_r1_run_v1` đủ 474 research +10 smoke; đủ 102 cặp và repeats. Không lấy run cũ lấp thiếu. | Chờ tác giả; T01 đã PASS |
 | T03 | **Tác giả** chạy tiếp 264 Decisions R4, dùng lệnh mục 4. | `chart_r4_run_v1` đủ 270/270; đúng Trend mới, donor/variants/repeats đã khóa. | Chờ tác giả; sau T02 |
 | T04 | Verify, khóa kết quả mới và phân tích offline. | Raw/parent/input hashes, completion và failures nhất quán; xuất release riêng, không ghi vào `paper/` hoặc đè release cũ. | Chưa làm; sau T03 |
+
+**Đối soát T01 lúc 21:05 ngày 03/11/2026 (Asia/Saigon):** Python 3.13.5 và dependency pins khớp; 54 source/input records của tập chính, 209 của R4 và 110 file trong source ZIP khớp SHA-256. [Mã audit offline](outputs/revision/chart_resume_audit_v1/audit.py) kiểm tra 1.948 file trước/sau, giữ nguyên byte artifacts; 10 lock files cũng giữ nguyên. Không sửa nguồn inference, inputs, manifest cũ hoặc `paper/`; không gọi API/đọc credentials. Không chạy lại unit/E2E/leakage suite vì chỉ phân tích bằng chứng hiện có và thêm công cụ audit độc lập; chạy trực tiếp audit để kiểm hash/runtime/lineage, dựng lại prompt và đối chiếu ledger, cùng hai lệnh status offline ở mục 4. Biên dịch riêng `audit.py` bằng `py_compile` và kiểm diff/liên kết/hash đầu ra đều PASS.
+
+| Shard lưu trữ | Tập chính đã có / còn thiếu | R4 đã có / còn thiếu |
+|---|---|---|
+| org1 | 31 / 64 | 1 / 59 |
+| org2 | 24 / 72 | 1 / 59 |
+| org3 | 27 / 67 | 1 / 59 |
+| org4 | 25 / 69 | 1 / 44 |
+| org5 | 31 / 64 | 2 / 43 |
+| **Tổng research Decisions** | **138 / 336** (mục tiêu 474) | **6 / 264** (mục tiêu 270) |
+
+- Tập chính có thêm **10/10 smoke**, hash năm smoke receipts và artifacts đều khớp; **67/102 cặp B/AS chính** đã đủ. Kiểm tra 375 node checkpoints, khôi phục parent/input của 125 upstream groups (120 research +5 smoke), dựng lại 148 prompt Decision và replay prediction từ raw. R4 giữ nguyên panel/donor/order/repeats, dựng lại đủ 90 prompts từ corrected reports và kiểm sáu checkpoint hiện có; không gộp outcome với run cũ.
+- Raw tập chính: **140 Pattern attempts tái dùng** (125 responses +15 errors), 405 file copy khớp origin; **284 attempts mới** (273 responses +11 errors). R4: **10 attempts mới** (6 responses +4 errors). Ledger chỉ đọc khớp đúng các attempts mới; không request chưa có response/error, raw orphan, request ID trùng giữa hai run hay checkpoint `.tmp`. Raw Decision prompts lớn nhất lần lượt 3.807 và 4.067 ký tự, đều <6.500.
+- Hai ảnh chụp tiến trình không có worker inference; cả **10 khóa OS** lấy được và đã nhả, không live lease. Đây là trạng thái tại thời điểm audit, cần kiểm lại trước resume; không suy từ `status.json` cũ rằng worker còn chạy. **Hai run có ledger/khóa riêng**, không khóa pool key xuyên run: chỉ chạy T02 rồi T03, không chạy song song. Quota hiện tại, provider org và immutable model revision vẫn chưa xác minh qua network. T01 không thay gate nghiệm thu kết quả T04 hoặc đóng R1–R18.
 
 ### B. Sentiment — R7 và phần sentiment của R4
 

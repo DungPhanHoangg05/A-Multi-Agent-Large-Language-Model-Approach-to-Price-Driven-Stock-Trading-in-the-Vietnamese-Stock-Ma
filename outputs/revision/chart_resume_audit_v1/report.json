@@ -1,0 +1,285 @@
+{
+  "schema_version": "chart_resume_audit_v1",
+  "started_utc": "2026-11-03T14:05:07.907109+00:00",
+  "finished_utc": "2026-11-03T14:05:38.275348+00:00",
+  "result": "PASS",
+  "scope": "T01: kiểm toán offline hai run chưa hoàn tất; không nghiệm thu kết quả nghiên cứu",
+  "network": "bị chặn bằng Python audit hook; không đọc credentials/khởi động worker",
+  "r1": {
+    "run": "outputs/revision/chart_r1_run_v1",
+    "bank_id": "bbb55305d4f21faefd695206e2afc186b1d8cc244b53579b93047ce057a2de5b",
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+    "runtime": {
+      "numpy": "2.1.2",
+      "pandas": "2.3.3",
+      "scipy": "1.16.1",
+      "scikit-learn": "1.7.2",
+      "TA-Lib": "0.6.8",
+      "groq": "0.37.1",
+      "langchain-groq": "1.1.2",
+      "langchain-core": "1.2.17",
+      "langgraph": "1.0.10",
+      "matplotlib": "3.10.8",
+      "mplfinance": "0.12.10b0",
+      "Pillow": "11.0.0",
+      "pydantic": "2.11.7",
+      "python-dotenv": "1.2.2",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.4.0",
+      "tokenizers": "0.22.2",
+      "python": "3.13.5"
+    },
+    "source_records": 54,
+    "archived_source_files": 110,
+    "pattern_copy_files": 405,
+    "expected_research": 474,
+    "research_complete": 138,
+    "research_missing": 336,
+    "smoke_complete": 10,
+    "complete_main_pairs": 67,
+    "expected_main_pairs": 102,
+    "nodes_checked": 375,
+    "complete_upstream_groups": 125,
+    "raw": {
+      "reused_pattern_attempts": 140,
+      "reused_responses": 125,
+      "reused_errors": 15,
+      "error_type_RateLimitError": 24,
+      "new_attempts": 284,
+      "new_responses": 273,
+      "max_decision_prompt_chars": 3807,
+      "new_errors": 11,
+      "error_type_BadRequestError": 1,
+      "error_type_APIConnectionError": 1
+    },
+    "ledger": {
+      "integrity": "PASS",
+      "identity": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+      "attempts": 284,
+      "live_leases": [],
+      "provider_states_at_audit": [
+        [
+          1,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793704335.6039057
+        ],
+        [
+          2,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793704255.6611075
+        ],
+        [
+          3,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793705366.8778138
+        ],
+        [
+          4,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793704207.3645446
+        ],
+        [
+          5,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793704388.5854487
+        ]
+      ],
+      "quota_availability": "unverified; chỉ đọc trạng thái cục bộ, không gọi provider"
+    }
+  },
+  "r4": {
+    "run": "outputs/revision/chart_r4_run_v1",
+    "bank_id": "b129747dee958eb442d3850a248980270e1cb86dc4a05aa4948e5c8fb4972951",
+    "runtime": {
+      "python": "3.13.5",
+      "langchain-core": "1.2.17",
+      "langchain-groq": "1.1.2",
+      "groq": "0.37.1",
+      "pydantic": "2.11.7",
+      "numpy": "2.1.2",
+      "pandas": "2.3.3"
+    },
+    "source_records": 209,
+    "prompt_reconstructions_checked": 90,
+    "expected": 270,
+    "complete": 6,
+    "missing": 264,
+    "raw": {
+      "new_attempts": 10,
+      "new_responses": 6,
+      "max_decision_prompt_chars": 4067,
+      "new_errors": 4,
+      "error_type_RateLimitError": 4
+    },
+    "ledger": {
+      "integrity": "PASS",
+      "identity": "b129747dee958eb442d3850a248980270e1cb86dc4a05aa4948e5c8fb4972951",
+      "attempts": 10,
+      "live_leases": [],
+      "provider_states_at_audit": [
+        [
+          1,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793705343.6241012
+        ],
+        [
+          2,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793706173.3638735
+        ],
+        [
+          3,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793705367.8778248
+        ],
+        [
+          4,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793705447.440888
+        ],
+        [
+          5,
+          "openai/gpt-oss-20b",
+          "quota",
+          1793706017.1097548
+        ]
+      ],
+      "quota_availability": "unverified; chỉ đọc trạng thái cục bộ, không gọi provider"
+    }
+  },
+  "shards": [
+    {
+      "org": 1,
+      "r1_complete": 31,
+      "r1_missing": 64,
+      "r4_complete": 1,
+      "r4_missing": 59
+    },
+    {
+      "org": 2,
+      "r1_complete": 24,
+      "r1_missing": 72,
+      "r4_complete": 1,
+      "r4_missing": 59
+    },
+    {
+      "org": 3,
+      "r1_complete": 27,
+      "r1_missing": 67,
+      "r4_complete": 1,
+      "r4_missing": 59
+    },
+    {
+      "org": 4,
+      "r1_complete": 25,
+      "r1_missing": 69,
+      "r4_complete": 1,
+      "r4_missing": 44
+    },
+    {
+      "org": 5,
+      "r1_complete": 31,
+      "r1_missing": 64,
+      "r4_complete": 2,
+      "r4_missing": 43
+    }
+  ],
+  "process_snapshots": [
+    {
+      "observed_utc": "2026-11-03T14:05:08.457609+00:00",
+      "runner_processes": [],
+      "inference_or_unknown_processes": []
+    },
+    {
+      "observed_utc": "2026-11-03T14:05:38.263362+00:00",
+      "runner_processes": [],
+      "inference_or_unknown_processes": []
+    }
+  ],
+  "worker_locks": [
+    {
+      "path": "outputs/revision/chart_r1_run_v1/shards/org1/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/shards/org2/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/shards/org3/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/shards/org4/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r1_run_v1/shards/org5/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r4_run_v1/shards/org1/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r4_run_v1/shards/org2/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r4_run_v1/shards/org3/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r4_run_v1/shards/org4/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    },
+    {
+      "path": "outputs/revision/chart_r4_run_v1/shards/org5/worker.lock",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+      "exclusive_probe": "PASS"
+    }
+  ],
+  "historical_artifacts_unchanged": true,
+  "inventory_files": 1948,
+  "temporary_checkpoints": [],
+  "checks": [
+    "source/runtime guards",
+    "byte archive/current source",
+    "Pattern copy/origin",
+    "checkpoint/raw hashes",
+    "raw parent/context/response digests",
+    "node input/upstream replay",
+    "raw prediction replay",
+    "smoke receipts",
+    "R4 panel/order/donor/prompt reconstruction",
+    "job/shard membership and missing identities",
+    "read-only ledger identity/attempts",
+    "request-ID isolation",
+    "process inventory and ten OS locks",
+    "before/after byte hashes"
+  ],
+  "limits": [
+    "Ảnh chụp tiến trình/khóa chỉ phản ánh thời điểm audit, phải kiểm lại trước resume.",
+    "Không xác minh quota/provider org/immutable model revision qua network.",
+    "Không chạy lại unit/E2E/leakage suite vì không đổi runtime/input; không đóng R1–R18.",
+    "Hai ledger là riêng từng run; khóa worker không ngăn hai run cùng dùng key. Tác giả phải chạy tuần tự T02 rồi T03."
+  ]
+}
