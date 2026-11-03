@@ -1,0 +1,88 @@
+{
+  "result": "PASS",
+  "scope": "T07 kiểm hợp đồng offline; không thay LLM inference hoặc domain validation T08",
+  "observed_utc": "2026-11-03T16:02:12.342124+00:00",
+  "recipe": {
+    "ast_digest": "9c69db03d2805e25ed2ed6f3342acafd0b000ed26973e2d7c7c76e4554b004dd",
+    "model": "5CD-AI/Vietnamese-Sentiment-visobert",
+    "revision": "d7738b85200272f10ba8b048d80236c8c582b581",
+    "mapping": {
+      "0": "NEG",
+      "1": "POS",
+      "2": "NEU"
+    },
+    "score": "P(POS)-P(NEG)",
+    "label": "id2label[argmax(probabilities)], ties chọn index đầu",
+    "max_length": 256,
+    "batch_size": 8,
+    "padding": true,
+    "truncation": true,
+    "special_tokens": {
+      "bos_token": "<s>",
+      "eos_token": "</s>",
+      "pad_token": "<pad>",
+      "unk_token": "<unk>",
+      "mask_token": "<mask>"
+    },
+    "model_input": "loại token_type_ids trước forward",
+    "forward_executed_by_audit": false
+  },
+  "runtime": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.4.0",
+    "tokenizers": "0.22.2"
+  },
+  "local_snapshot_files_matched": 6,
+  "saved_scores_validated": 154,
+  "max_score_formula_absolute_error": 2.9802322387695312e-08,
+  "tokenizer": {
+    "constructor": "PreTrainedTokenizerFast(tokenizer_file=local tokenizer.json, explicit special tokens)",
+    "explicit_max_length": 256,
+    "constructed_model_max_length_unused": "1000000000000000019884624838656",
+    "truncation_side": "right",
+    "padding_side": "right",
+    "special_tokens_added": 2,
+    "scored_excerpts": 154,
+    "max_excerpt_tokens": 100,
+    "truncated_excerpts": 0,
+    "long_fixture_tokens_before": 6002,
+    "long_fixture_tokens_after": 256,
+    "long_fixture_input_ids_digest": "d926caf2d6f73fa1427a0a30b7b4a2dc21c9df58c0dd58515899144848ef9b9e",
+    "model_forward_executed": false
+  },
+  "prompts": {
+    "planned_prompts_checked": 375,
+    "completed_jobs_observed": 208,
+    "actual_raw_requests_checked": 208,
+    "sentiment_sections": 201,
+    "sentiment_sections_missing_news": 91,
+    "sentiment_information_available_jobs": 110,
+    "available_jobs_with_normalizer_flag_false": 63,
+    "observed_raw_missing_sentiment_sections": 84,
+    "missing_cutoff_native_S_diagnostics": 79,
+    "factorial_S_jobs": 27,
+    "factorial_S_jobs_missing_news": 0,
+    "max_prompt_chars": 4187,
+    "by_phase": {
+      "main": {
+        "missing": 79,
+        "available": 23
+      },
+      "upstream": {
+        "missing": 12,
+        "available": 6
+      },
+      "factorial": {
+        "available": 81
+      }
+    }
+  },
+  "limits": [
+    "Hash files local khớp receipt rescore; không xác thực ngược scorer của 180 records legacy.",
+    "Không model forward/rescore/API; kiểm score bằng probabilities đã lưu và kiểm tokenizer bằng actual local files.",
+    "Native S tại các cutoffs thiếu tin chỉ là diagnostic prompt offline, không phải ablation inference.",
+    "Actual raw chỉ gồm checkpoints hoàn chỉnh quan sát được tại snapshot; jobs chưa xong không được coi là đã kiểm raw.",
+    "AS prompts có missing news không được dùng làm sentiment information-effect evidence; Full−Base vẫn là bundle contrast.",
+    "Normalizer >=8 khác availability >=3, không đổi prompt/input/freeze; cờ false không xóa score thật khi đủ ba bài."
+  ]
+}
