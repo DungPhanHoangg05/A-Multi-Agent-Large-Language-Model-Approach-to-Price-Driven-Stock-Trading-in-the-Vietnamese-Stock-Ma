@@ -440,7 +440,8 @@ class AccountPnlTests(unittest.TestCase):
             self.assertEqual(variant.total_return_pct, 0.0)
             self.assertEqual(variant.period_returns, [0.0, 0.0])
             self.assertEqual(variant.equity_curve, [1.0, 1.0, 1.0])
-            self.assertEqual(variant.sharpe_ratio, 0.0)
+            self.assertIsNone(variant.sharpe_ratio)
+            self.assertIsNone(variant.sortino_ratio)
             self.assertEqual(variant.max_drawdown_pct, 0.0)
 
     def test_drawdown_is_computed_from_compounded_equity_curve(self):

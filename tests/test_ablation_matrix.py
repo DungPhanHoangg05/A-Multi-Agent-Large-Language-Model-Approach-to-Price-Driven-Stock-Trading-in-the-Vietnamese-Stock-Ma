@@ -12,6 +12,7 @@ from scripts.run_ablation_matrix import (
     VARIANTS,
     load_checkpoint,
     run_symbol,
+    save_aggregate,
     summarize_symbol,
 )
 
@@ -98,6 +99,14 @@ class AblationMatrixTests(unittest.TestCase):
         self.assertGreater(summary["contributions"]["alpha_contribution_pp"], 0.0)
         self.assertIn("sentiment_contribution_pp", summary["contributions"])
         self.assertIn("synergy_pp", summary["contributions"])
+        self.assertIsNone(summary["rows"][0]["sharpe_ratio"])
+        self.assertEqual(summary["rows"][0]["risk_metrics"]["frequency_status"], "missing_bar_indices")
+        with tempfile.TemporaryDirectory() as directory:
+            csv_path, json_path = save_aggregate([summary], Path(directory))
+            saved = pd.read_csv(csv_path, keep_default_na=False)
+            self.assertEqual(saved.iloc[0]["sharpe_ratio"], "NA")
+            self.assertIsNone(json.loads(saved.iloc[0]["risk_metrics"])["periods_per_year"])
+            self.assertIsNone(json.loads(json_path.read_text(encoding="utf-8"))["summaries"][0]["rows"][0]["sharpe_ratio"])
 
     def test_one_upstream_drives_four_variants_and_checkpoint_resumes(self):
         calls = {"upstream": 0, **{variant: 0 for variant in VARIANTS}}
@@ -161,6 +170,7 @@ class AblationMatrixTests(unittest.TestCase):
         self.assertTrue(all(first_calls[variant] == 2 for variant in VARIANTS))
         self.assertTrue(all(value == 0 for value in calls.values()))
         self.assertEqual(first["rows"], resumed["rows"])
+        self.assertTrue(all(r["risk_metrics"]["periods_per_year"] == 84 for r in first["rows"]))
 
     def test_checkpoint_rejects_different_data_snapshot(self):
         with tempfile.TemporaryDirectory() as directory:

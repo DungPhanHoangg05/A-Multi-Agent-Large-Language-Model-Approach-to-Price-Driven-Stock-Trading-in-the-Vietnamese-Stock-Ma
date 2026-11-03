@@ -244,3 +244,98 @@ process mới với seed/hash/runtime đã khóa; source hashes bảo toàn inpu
 helpers cũ. Không chạy unit toàn hệ thống, E2E hoặc leakage vì không đổi
 engine/runtime dependency, PIT/retrieval/prompt, ledger hoặc contracts cũ.
 Thông tin runtime Python/NumPy/SciPy được lưu và kiểm lại, không gọi API.
+
+## Annualisation và risk contract — D2-06
+
+Ngày 03/11/2026; dependency D2-05 đã hoàn tất. [Release riêng](../outputs/revision/account_annualisation_v1/manifest.json)
+khóa sáu outputs và nguồn/runtime. Không gọi API, thay prediction/label hoặc
+dựng lại daily ledger. `before_sources.zip` giữ nguyên ba source files tại
+commit `c801af51` trước sửa; commit này chỉ là baseline code của task, không
+được gán thành execution commit của legacy inference.
+
+### Thay đổi runtime và caller
+
+`utils/account_risk.py` tách phép tính ratio khỏi chu kỳ mua/bán. Các điểm
+mới từ engine, robustness và ablation ghi `entry_bar_index`/`exit_bar_index`
+theo chính frame đã chạy. Chỉ công bố annualised cycle ratio khi daily bars
+có bước đều S, span L=S và ít nhất hai cycles. Hệ số là sqrt(252/S), tức
+sqrt(84) khi S=L=3; không suy phiên giao dịch từ chênh lệch ngày lịch, vì
+weekend/holiday làm calendar gap khác bar gap. Lịch có cash gap S>L, index
+thiếu/không đều hoặc timeframe chưa hỗ trợ trả ratio null, kèm reason; muốn
+annualise các trường hợp đó phải dùng ledger/tần suất được xác thực riêng.
+
+Giữ cách tính numerator và denominator của runtime cũ để tách riêng sửa
+tần suất: mean tất cả period returns, kể cả zero của CASH, risk-free/MAR=0,
+SD population (ddof=0). Trường `sortino_ratio` tiếp tục là **Sortino-like
+negative-subset SD diagnostic**: mean return / population SD của tập return
+âm, không phải downside RMS/lower partial moment. Metadata ghi rõ quy ước;
+không đổi tên thành canonical Sortino hoặc âm thầm thay denominator. Không
+downside, chỉ một negative return, constant returns hay variance <=1e-12:
+ratio không xác định → null trong JSON, NA trong CSV/bảng, không zero/Infinity.
+
+Partial/final summaries và bốn ablation variants dùng cùng helper; CSV
+robustness/ablation xuất metadata dưới dạng JSON hợp lệ và NA cho ratio thiếu.
+Resume checkpoint cũ thiếu bar index vẫn giữ quyết định đã có, nhưng không
+retrofit provenance để tạo ratio annualised. Các schema cũ giữ tên trường
+và bổ sung metadata, với ratio nay nullable theo hợp đồng undefined. Thay đổi
+0→null cho CASH/constant là có chủ ý; tests bao phủ caller và serialization.
+
+P&L, fees, shares, wealth, hit rate, average trade, target và parser không đổi:
+AST đối soát đoạn mua/bán/cập nhật point, cost validation, net-return formula,
+drawdown và các phương thức inference/parse với source trước task đều khớp.
+68 tests trong account/risk/ablation/robustness/significance/revision-baselines
+PASS, gồm oracle sqrt(3), population SD, weekend, schedule gap/missing index,
+cash/zero-variance, partial/final, CSV JSON/NA, resume và AST tamper. MDD của
+engine vẫn **cycle-end drawdown including initial wealth**, không được gọi
+là daily-close MDD; metadata ghi đúng basis.
+
+### Hai nguồn return được đối soát riêng
+
+1. **Legacy benchmark:** 18 accounts (Full/Base của chín mã), 20 cycles/account.
+   [Bảng](../outputs/revision/account_annualisation_v1/cycle_risk_table.tex) và
+   [CSV](../outputs/revision/account_annualisation_v1/legacy_cycle_ratios.csv)
+   giữ stored ratios, tái tính sai số tần suất sqrt(252) từ return đã lưu, rồi
+   xuất cột **conditional declared S=L=3** với sqrt(84). Không lấy stored
+   ratio đã làm tròn chia sqrt(3), mà tính từ period returns lưu (vốn đã làm
+   tròn tới 8 chữ số ở thang percent). Ví dụ BHN Full −3,63 → −2,093 chỉ có
+   ý nghĩa dưới giả định đó. Full chỉ có 1–7 LONG cycles/mã; CMG và HVN có
+   denominator downside suy biến, nên Sortino conditional là NA thay zero
+   đã lưu. Không dùng các tỷ lệ này để chứng minh profitability/alpha.
+2. **Daily MTM:** đọc đúng 102 LLM ledgers ở analysis cộng 408 numeric/holding
+   ledgers ở bank; kiểm hash nguồn và net return khớp economics cho đủ **510
+   accounts**. Return đầu tính so với initial capital đã khóa, các return
+   sau từ equity hiện tại/equity phiên trước −1; giữ nguyên mọi zero-return
+   CASH gap, không lọc riêng ngày giao dịch/LONG. Annualisation sqrt(252)
+   áp dụng trên return **observed daily vendor bars**, không trên sparse
+   cycle returns. Có 268 Sharpe và 234 negative-subset Sortino defined;
+   denominator còn lại là null/NA. Daily drawdown được dẫn nguyên từ ledger.
+   Không ghép accounts thành portfolio, không giả định market/calendar hay
+   execution đã được exchange chứng nhận.
+
+[Calendar crosscheck](../outputs/revision/account_annualisation_v1/calendar_crosscheck.csv)
+phân biệt sự hiện diện cục bộ với provenance của input legacy. So entry/exit
+trên snapshot giá hiện có thấy mismatch theo thứ tự BHN/CMG/FPT/HVN/MBB/MWG/
+VCB/VJC/VNM: **20/1/20/1/1/20/9/0/2** trên 20 cycles/mã. BHN có span 3/4 bars,
+steps 3/4/5 khi map timestamps sang calendar này; tám mã còn lại đều 3/3.
+Đây là bất nhất giữa snapshots, không đủ căn cứ chỉ ra snapshot nào đã tạo
+legacy inference hoặc chỉnh lại giá/nhãn. Ngay cả VJC khớp giá/ngày cũng không
+có call/input provenance để xác nhận snapshot đầy đủ. Vì vậy cột
+`authenticated_annualised_*` của cả 18 legacy accounts giữ null; conditional
+sqrt(84) không bị gán thành kết quả đã xác thực. Không chỉ chia mù mọi con
+số sqrt(252) trong repository; alpha-selection diagnostic riêng không đổi.
+
+### Nghiệm thu và giới hạn
+
+```powershell
+py -3.13 -X utf8 scripts/audit_account_annualisation.py --check
+```
+
+Lệnh kiểm nguồn/runtime/output hashes và tái tính outputs nguyên byte; source
+ZIP và nguyên 510 ledgers được giữ. Chỉ compile chín Python thay đổi. Không
+chạy toàn suite/E2E/leakage vì không đổi đường giá/PIT/retrieval/prompt/labels;
+scoped tests trực tiếp bao phủ hợp đồng kinh tế và các caller. Engine source
+đã đổi nên gate/runtime receipt cũ vẫn là lịch sử của source cũ, không được
+báo là đã nghiệm thu runtime mới; các source archive trước task được bảo toàn.
+Bảng annualisation đã build standalone và render QA một trang, không tràn/cắt.
+Paper/PDF R4 không được ghi lại trong task này; formula/wording/locators của
+R5 còn phải đồng bộ ở task manuscript. D2-06 done không đồng nghĩa R5 đã đóng.

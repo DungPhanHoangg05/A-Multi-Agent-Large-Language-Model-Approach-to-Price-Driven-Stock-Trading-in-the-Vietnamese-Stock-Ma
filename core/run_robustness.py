@@ -147,9 +147,13 @@ def _summary_to_result(summary: Any, n_tests: int) -> Dict[str, Any]:
         "alpha_lift": summary.alpha_lift,
         "pnl_full": summary.pnl_full,
         "sharpe_full": summary.sharpe_full,
+        "sortino_full": summary.sortino_full,
+        "risk_metrics_full": summary.risk_metrics_full,
         "mdd_full": summary.mdd_full,
         "pnl_no_alpha": summary.pnl_no_alpha,
         "sharpe_no_alpha": summary.sharpe_no_alpha,
+        "sortino_no_alpha": summary.sortino_no_alpha,
+        "risk_metrics_no_alpha": summary.risk_metrics_no_alpha,
         "mdd_no_alpha": summary.mdd_no_alpha,
         "mcnemar_p_value": summary.mcnemar_p_value,
         "alpha_lift_ci_95": json.dumps(summary.alpha_lift_ci_95),
@@ -405,13 +409,14 @@ def run_shared_alpha_sweep(
                 exit_time=pd.Timestamp(
                     df["Datetime"].iloc[end_idx + lookahead - 1]
                 ).isoformat(),
+                entry_bar_index=int(end_idx), exit_bar_index=int(end_idx + lookahead - 1),
                 decision_source_full=source_full,
                 decision_source_no_alpha=source_baseline,
                 decision_fallback_reason_full=reason_full,
                 decision_fallback_reason_no_alpha=reason_baseline,
             )
             points_by_scenario[scenario].append(point)
-            partial = engine._compute_partial(points_by_scenario[scenario])
+            partial = engine._compute_partial(points_by_scenario[scenario], timeframe=timeframe, step=step)
             engine._save(
                 str(checkpoint_paths[scenario]),
                 {
@@ -514,10 +519,11 @@ def save_results(
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_file = out_dir / f"{prefix}_{symbol}_{timestamp}.csv"
     public_rows = [
-        {key: value for key, value in row.items() if not key.startswith("_")}
+        {key: json.dumps(value, allow_nan=False) if key.startswith("risk_metrics_") else value
+         for key, value in row.items() if not key.startswith("_")}
         for row in results
     ]
-    pd.DataFrame(public_rows).to_csv(out_file, index=False)
+    pd.DataFrame(public_rows).to_csv(out_file, index=False, na_rep="NA")
     print(f"\n[OK] Robustness sweep đã lưu tại: {out_file}")
     return out_file
 

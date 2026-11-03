@@ -292,9 +292,25 @@ rows; primary R1/R2 và block×repeat R3/R4 giữ nguyên. Null audit có ba DGP
 85,00%/63,85%/41,34% conditional trên defined panels. Không coi là calibrated
 95% CI, không chọn length theo outcome. Có 13 outputs/bốn TeX tables đã
 build/render QA; 11 tests mới, scoped compile ba Python và hash/reproduction
-PASS. Không API hoặc sửa runtime/PIT/prompt/ledger cũ. **R5 còn mở** cho
-D2-06 annualisation và chốt bản thảo/response; phương pháp bổ sung là
+PASS. Không API hoặc sửa runtime/PIT/prompt/ledger cũ trong D2-05. **R5 còn mở** cho
+chốt bản thảo/response sau D2-06 bên dưới; phương pháp bổ sung là
 post-inference sensitivity, không gọi confirmatory.
+
+**D2-06 hoàn tất ngày 03/11/2026:** [release](outputs/revision/account_annualisation_v1/manifest.json),
+[audit](revision/audit_report.md#annualisation-và-risk-contract--d2-06).
+Engine/robustness/ablation mới chỉ dùng `sqrt(252/S)` khi có bar indices
+chứng minh daily cycles đều, liền nhau S=L (S=3 → sqrt(84)); thiếu provenance,
+lịch không đều/gap/khung chưa hỗ trợ hoặc mẫu số suy biến trả null/NA.
+Giữ SD population/downside negative-subset SD legacy, risk-free/MAR=0 và
+drawdown cycle-end có nhãn; không đổi P&L/fees/labels/parser (AST đối chiếu PASS).
+Đối soát nguyên 510 daily ledgers, gồm CASH gaps và initial anchor, tính risk
+với sqrt(252); 268 Sharpe/234 Sortino defined, không dựng ledger mới. Tỷ lệ
+legacy 18 accounts xuất riêng với giả định S=L=3, không xác thực snapshot
+lịch sử: giá hiện tại có mismatch và BHN calendar spans/steps không đều.
+68 scoped tests PASS, compile chín Python thay đổi, source/runtime/hash replay
+PASS; bảng mới đã build/render QA. Nguồn trước sửa giữ trong ZIP, artifacts
+cũ giữ nguyên. R5 vẫn mở cho manuscript/response/PDF locators; không nhận
+gate cũ bao phủ runtime mới hoặc claim profitability từ risk ratio.
 
 **Việc cần làm**
 
@@ -568,7 +584,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-03 | Tái dùng baseline, bổ sung input/fold cho 102 points | D1-07 | done | [numeric release](outputs/revision/r1_72h_bank_v2/numeric/manifest.json): 714 predictions/408 ledgers/420 hashes PASS | Trích subset còn khớp; refit/recompute chỉ fold, scorer hoặc input đã đổi |
 | D2-04 | Bổ sung numeric coverage lịch sử còn thiếu | D2-03 | done | R2 audit đủ 102 LLM units/6 block, common cohorts/mask, regime/exposure; N=540 numeric cũ vẫn riêng | Mở rộng support/regime; không tải lại giá, không gán là LLM evidence |
 | D2-05 | Bổ sung NW/bootstrap phụ thuộc và bảng mới | D2-03 | done | [Release](outputs/revision/dependent_statistics_v1/manifest.json): legacy discordance/NW, fixed-universe HAC, 144 CBB rows/18 null rows/bốn bảng; 11 tests/compile/hash replay PASS | Giữ helpers và primary/repeat intervals; denominator/NA/degenerate rõ; không claim calibrated coverage; annualisation chuyển D2-06 |
-| D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | pending | Baseline đã có daily MTM/cash gaps; engine còn dùng sqrt(252) ở account ratios | Kiểm chuỗi input là daily/cycle trước đổi; không dựng ledger lại |
+| D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | done | [Release](outputs/revision/account_annualisation_v1/manifest.json): cycle frequency/NA contract, 510 stored daily ledgers, 18 conditional legacy accounts; 68 scoped tests/compile/AST/hash replay PASS | Daily/cycle phân biệt; không dựng ledger lại hoặc đoán provenance; manuscript/R5 closure còn riêng |
 | D2-07 | Execution sensitivities R15 | D2-06 | pending | — | Pending cash/advance assumptions; cost/no-fill bounds |
 | D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | pending | Đã có target net/gross contract và baseline labels; legacy field còn ambiguous | Đồng bộ appendix/prompt/fields; không viết lại target hoặc đoán sửa lịch sử |
 | D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | pending | Rule/formula code đã tồn tại; cần khớp mô tả và boundary evidence | Sửa phần lệch; giữ formula Alpha_4; không phát triển alpha mới |

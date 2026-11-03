@@ -1,0 +1,27 @@
+{
+  "base_is_not_historical_execution_commit": true,
+  "base_source_commit": "c801af51b08b6b89e0aac5fbe9dedca7875075af",
+  "daily_frequency_assumption": "252 observed vendor daily bars/year; no exchange-session certification; CASH gaps retained",
+  "downside_convention": "population SD negative subset retained from legacy; not downside RMS",
+  "economics_and_inference_ast_unchanged": {
+    "_get_actual_direction": true,
+    "_parse_prediction": true,
+    "_run_ablation_variants": true,
+    "_run_paired_point": true,
+    "_validate_account_costs": true,
+    "buy_sell_fees_wealth_and_point_updates": true,
+    "compute_round_trip_net_return": true,
+    "drawdown_hit_rate_and_average_trade": true
+  },
+  "legacy_policy": "sqrt(84) outputs are conditional on declared S=L=3; original snapshot/bar-index provenance unavailable; authenticated ratios remain null",
+  "limits": "few trades; daily series are sparse evaluated accounts, not a pooled portfolio or profitability evidence; source PDFs remain historical until manuscript integration",
+  "n_daily_accounts": 510,
+  "n_daily_sharpe_defined": 268,
+  "n_daily_sortino_defined": 234,
+  "n_legacy_accounts": 18,
+  "n_new_api_calls": 0,
+  "n_new_predictions": 0,
+  "risk_free_and_mar": 0,
+  "scope": "D2-06 frequency correction; no ledger reconstruction, prediction or target changes",
+  "sd_ddof": 0
+}
