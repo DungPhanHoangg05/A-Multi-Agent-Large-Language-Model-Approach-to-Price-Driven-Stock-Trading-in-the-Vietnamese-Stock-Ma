@@ -1,0 +1,64 @@
+test_frozen_nine_metadata_units_and_outcome_invariance (test_revision_minimal.MetadataSelectionTests.test_frozen_nine_metadata_units_and_outcome_invariance) ... ok
+test_callback_refuses_outside_whitelist_before_reserve (test_revision_minimal.MinimalQueueTests.test_callback_refuses_outside_whitelist_before_reserve) ... ok
+test_callback_rejects_changed_model_parameters_and_message (test_revision_minimal.MinimalQueueTests.test_callback_rejects_changed_model_parameters_and_message) ... ok
+test_duplicate_coordinator_and_active_legacy_worker_are_blocked (test_revision_minimal.MinimalQueueTests.test_duplicate_coordinator_and_active_legacy_worker_are_blocked) ... ok
+test_format_retry_is_counted_and_keeps_repeat_identity (test_revision_minimal.MinimalQueueTests.test_format_retry_is_counted_and_keeps_repeat_identity) ... ok
+test_interruption_after_raw_replays_without_new_request (test_revision_minimal.MinimalQueueTests.test_interruption_after_raw_replays_without_new_request) ... ok
+test_missing_ledger_never_silently_resets (test_revision_minimal.MinimalQueueTests.test_missing_ledger_never_silently_resets) ... ok
+test_off_whitelist_checkpoint_and_partial_analysis_rejected (test_revision_minimal.MinimalQueueTests.test_off_whitelist_checkpoint_and_partial_analysis_rejected) ... ok
+test_one_key_shared_across_workers_and_origin_runs (test_revision_minimal.MinimalQueueTests.test_one_key_shared_across_workers_and_origin_runs) ... ok
+test_provider_quota_state_prevents_early_reset (test_revision_minimal.MinimalQueueTests.test_provider_quota_state_prevents_early_reset) ... ok
+test_real_chatgroq_callbacks_and_provider_error_with_mock_transport (test_revision_minimal.MinimalQueueTests.test_real_chatgroq_callbacks_and_provider_error_with_mock_transport) ... ok
+test_resigned_parent_mismatch_and_duplicate_repeat_ids_rejected (test_revision_minimal.MinimalQueueTests.test_resigned_parent_mismatch_and_duplicate_repeat_ids_rejected) ... ok
+test_resigned_wrong_context_does_not_replay (test_revision_minimal.MinimalQueueTests.test_resigned_wrong_context_does_not_replay) ... ok
+test_tampered_raw_and_parent_fail_closed (test_revision_minimal.MinimalQueueTests.test_tampered_raw_and_parent_fail_closed) ... ok
+test_temporary_checkpoint_recovers_without_calls (test_revision_minimal.MinimalQueueTests.test_temporary_checkpoint_recovers_without_calls) ... ok
+test_whitelist_execution_and_resume_skip_successes (test_revision_minimal.MinimalQueueTests.test_whitelist_execution_and_resume_skip_successes) ... ok
+test_exact_design_counts_and_feasible_shards (test_revision_72h.DesignTests.test_exact_design_counts_and_feasible_shards) ... ok
+test_future_mutation_keeps_date_selection (test_revision_72h.DesignTests.test_future_mutation_keeps_date_selection) ... ok
+test_purge_quality_and_train_only_donor (test_revision_72h.DesignTests.test_purge_quality_and_train_only_donor) ... ok
+test_variant_isolation_placebo_schema_and_no_mutation (test_revision_72h.DesignTests.test_variant_isolation_placebo_schema_and_no_mutation) ... ok
+test_format_repair_consumes_new_attempt_instead_of_replaying_same_bad_output (test_revision_72h.QuotaTests.test_format_repair_consumes_new_attempt_instead_of_replaying_same_bad_output) ... ok
+test_old_200_org_and_1000_total_limits_are_not_enforced (test_revision_72h.QuotaTests.test_old_200_org_and_1000_total_limits_are_not_enforced) ... ok
+test_old_40_decision_limit_and_deadline_do_not_stop_provider_mode (test_revision_72h.QuotaTests.test_old_40_decision_limit_and_deadline_do_not_stop_provider_mode) ... ok
+test_old_600_decision_limit_is_not_enforced (test_revision_72h.QuotaTests.test_old_600_decision_limit_is_not_enforced) ... ok
+test_one_key_cannot_have_two_inflight_requests_across_workers (test_revision_72h.QuotaTests.test_one_key_cannot_have_two_inflight_requests_across_workers) ... ok
+test_pool_stops_only_after_all_allowed_keys_report_long_quota (test_revision_72h.QuotaTests.test_pool_stops_only_after_all_allowed_keys_report_long_quota) ... ok
+test_provider_failure_is_archived_before_fallback_stop (test_revision_72h.QuotaTests.test_provider_failure_is_archived_before_fallback_stop) ... ok
+test_provider_pool_uses_another_key_after_one_exhausts_quota (test_revision_72h.QuotaTests.test_provider_pool_uses_another_key_after_one_exhausts_quota) ... ok
+test_response_resume_without_new_invoke_and_corruption_rejected (test_revision_72h.QuotaTests.test_response_resume_without_new_invoke_and_corruption_rejected) ... ok
+test_short_rate_wait_is_retried_without_global_pause (test_revision_72h.QuotaTests.test_short_rate_wait_is_retried_without_global_pause) ... ok
+test_all_five_values_reach_actual_human_message_and_budget_guard (test_revision_r4_factorial.PromptLeakageTests.test_all_five_values_reach_actual_human_message_and_budget_guard)
+Prompt gửi model phải thật sự chứa giá trị từng factor, không chỉ dữ liệu trong bank. ... ok
+test_all_variant_sections_and_actual_content_are_isolated (test_revision_r4_factorial.PromptLeakageTests.test_all_variant_sections_and_actual_content_are_isolated)
+A không nhận sentiment; S không nhận factor values; rules chung không bị nhận nhầm. ... ok
+test_donor_is_one_rank_vector_without_mutating_assets (test_revision_r4_factorial.PromptLeakageTests.test_donor_is_one_rank_vector_without_mutating_assets)
+Không shuffle riêng từng scalar hoặc sửa cache đã khóa. ... ok
+test_future_or_label_overlapping_donor_is_rejected (test_revision_r4_factorial.PromptLeakageTests.test_future_or_label_overlapping_donor_is_rejected)
+Train membership không đủ nếu label donor còn chồng lên validation/test. ... ok
+test_legacy_table_separator_removes_values_but_new_renderer_keeps_five_rows (test_revision_r4_factorial.PromptLeakageTests.test_legacy_table_separator_removes_values_but_new_renderer_keeps_five_rows)
+Fixture tái hiện splitter --- trong table separator của code đã khóa. ... ok
+test_nested_missingness_and_schema_mismatch_are_rejected (test_revision_r4_factorial.PromptLeakageTests.test_nested_missingness_and_schema_mismatch_are_rejected)
+Chỉ so set(keys) là chưa đủ để phát hiện thêm missingness signal. ... ok
+test_unexpected_message_history_is_rejected (test_revision_r4_factorial.PromptLeakageTests.test_unexpected_message_history_is_rejected)
+Không ghép chat history khác với prompt đã khóa. ... ok
+test_raw_response_resume_and_tamper_guard (test_revision_r4_factorial.ArchiveResumeTests.test_raw_response_resume_and_tamper_guard)
+Raw success trước checkpoint được replay, giữ count và source/schema đúng. ... ok
+test_native_capture_is_deterministic_and_contains_three_reports (test_prepare_chart_r4.PrepareChartR4Tests.test_native_capture_is_deterministic_and_contains_three_reports) ... ok
+test_exact_archived_pattern_request_replays_without_sdk (test_chart_rerun.ChartRerunTests.test_exact_archived_pattern_request_replays_without_sdk) ... ok
+test_ledger_bootstrap_rejects_unlisted_new_request (test_chart_rerun.ChartRerunTests.test_ledger_bootstrap_rejects_unlisted_new_request) ... ok
+test_pattern_cache_miss_stops_before_client_creation (test_chart_rerun.ChartRerunTests.test_pattern_cache_miss_stops_before_client_creation) ... ok
+test_preparation_rejects_changed_sources_and_raw_copies (test_chart_rerun.ChartRerunTests.test_preparation_rejects_changed_sources_and_raw_copies) ... ok
+test_future_prices_and_volumes_do_not_change_context (test_revision_r2_leakage.RegimeLeakageTests.test_future_prices_and_volumes_do_not_change_context)
+Mutation toàn bộ tương lai vẫn giữ features và ngưỡng của unit trước đó. ... ok
+test_no_history_or_zero_liquidity_is_unknown (test_revision_r2_leakage.RegimeLeakageTests.test_no_history_or_zero_liquidity_is_unknown)
+Không biến thiếu lịch sử hoặc mẫu train thanh khoản rỗng thành neutral/high. ... ok
+test_purge_rejects_label_touching_validation_or_test (test_revision_r2_leakage.RegimeLeakageTests.test_purge_rejects_label_touching_validation_or_test)
+Label exit đúng ngày split kế tiếp vẫn bị từ chối. ... ok
+test_validation_distribution_cannot_fit_thresholds (test_revision_r2_leakage.RegimeLeakageTests.test_validation_distribution_cannot_fit_thresholds)
+Thay validation sau train không được đổi median dùng phân nhóm test. ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 16.880s
+
+OK

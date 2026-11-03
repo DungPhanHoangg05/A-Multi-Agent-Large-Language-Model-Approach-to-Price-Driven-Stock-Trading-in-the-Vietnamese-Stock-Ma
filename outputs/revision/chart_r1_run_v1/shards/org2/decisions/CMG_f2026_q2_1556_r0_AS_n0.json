@@ -1,0 +1,100 @@
+{
+  "parent": {
+    "run_signature": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+    "asset_hash": "96507382aa2d9a9393a8c0e1b26908cd48f35c4cca99e76318bdc3d32a4d18e4",
+    "upstream_hash": "fc751c134a7598e2d64bb6a4f14e889fd0ca57a8403853c05fb099ac9e71eddc",
+    "node_hashes": [
+      "0c46e40edcb88d57243c9ce5269c1d25873cf877185ce8245441e61f4f7137e5",
+      "0cb284eea171b679c4b9db0333c72a53f5d452419a18af9ed3cb38d764d799c7",
+      "41272806c81fecd8afacaacb598db139d374342c5aa2ad65aeb21d2d5da7934d"
+    ],
+    "donor_hash": null
+  },
+  "context": {
+    "unit_id": "CMG_f2026_q2_1556",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "prediction": "SHORT",
+  "confidence": "Cao",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "state": {
+    "final_trade_decision": "{\n  \"decision\": \"SHORT\",\n  \"forecast_horizon\": \"T+2.5\",\n  \"confidence\": \"Cao\",\n  \"risk_reward_ratio\": 2.0,\n  \"evidence_for\": \"Model indicates clear downtrend with high confidence and alpha factors suggest a negative bias. MACD histogram is increasing, indicating momentum building, but MACD line remains negative, supporting a bearish stance.\",\n  \"evidence_against\": \"Trend analysis suggests a potential sideways or slight up movement if resistance at 29.5 is broken.\",\n  \"justification\": \"Given the overall negative consensus from model and alpha factors, a short position aligns with the expected price decline over the T+2.5 horizon. The risk reward ratio of 2.0 ensures potential upside outweighs the risk of a short squeeze.\",\n  \"decision_source\": \"llm_structured\",\n  \"fallback_reason\": \"\"\n}",
+    "decision_prompt": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: CMG; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Đi ngang.\n\n**Mức hỗ trợ:** 27.5.\n\n**Mức kháng cự:** 29.5.\n\n**Độ dốc đường xu hướng:** Đang giảm.\n\n**Giá so với hỗ trợ:** Nén lại.\n\n**Phân tích chi tiết:** Giá dao động trong biên hẹp, bám sát đường kháng cự đỏ và duy trì trên đường hỗ trợ xanh. Hai đường xu hướng đang hội tụ, cho thấy áp lực bán đã giảm và thị trường đang tích lũy.\n\n**Dự đoán xu hướng:** Giá có khả năng đi ngang hoặc tăng nhẹ trong 3 phiên tới do lực cầu bắt đáy xuất hiện khi giá chạm hỗ trợ. Nếu vượt qua kháng cự 29.5, xu hướng tăng sẽ được xác nhận.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Xu hướng giảm rõ rệt.\n\n**Độ tin cậy:** Cao.\n\n**Thiên lệch dự báo:** Giảm.\n\n**Bằng chứng:** Giá giảm liên tục từ đỉnh 38 xuống vùng 28, tạo các đỉnh thấp dần và đáy thấp dần.\n\n**Nến quan trọng:** Nến xanh mạnh ngày 03/12 và nến đỏ dài ngày 03/26.\n\n**Hàm ý giao dịch:** Bán khi giá hồi về vùng 30-31, ngừng lỗ trên 32.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **-1.2557**        | [-1.5566, -1.4705, -1.3942, -1.3385, -1.2557]                 |\n| Signal Line | **-1.4425**        | [-1.5823, -1.56, -1.5268, -1.4892, -1.4425]                 |\n| Histogram   | **0.1868**        | [0.0257, 0.0895, 0.1326, 0.1507, 0.1868]                 |\n\n- Giao cắt: MACD đang ở trên Signal (khoảng cách MACD−Signal = 0.1868)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Âm → vùng\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — CMG\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (1 TĂNG / 3 GIẢM / 1 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+    "messages": [
+      {
+        "type": "ai",
+        "data": {
+          "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Model indicates clear downtrend with high confidence and alpha factors suggest a negative bias. MACD histogram is increasing, indicating momentum building, but MACD line remains negative, supporting a bearish stance.\",\"evidence_against\":\"Trend analysis suggests a potential sideways or slight up movement if resistance at 29.5 is broken.\",\"justification\":\"Given the overall negative consensus from model and alpha factors, a short position aligns with the expected price decline over the T+2.5 horizon. The risk reward ratio of 2.0 ensures potential upside outweighs the risk of a short squeeze.\"}",
+          "additional_kwargs": {},
+          "response_metadata": {
+            "token_usage": {
+              "completion_tokens": 1230,
+              "prompt_tokens": 1562,
+              "total_tokens": 2792,
+              "completion_time": 1.419623525,
+              "completion_tokens_details": {
+                "reasoning_tokens": 1074
+              },
+              "prompt_time": 0.091789762,
+              "prompt_tokens_details": null,
+              "queue_time": 1.101771837,
+              "total_time": 1.5114132869999999
+            },
+            "model_name": "openai/gpt-oss-20b",
+            "system_fingerprint": "fp_816fc87d18",
+            "service_tier": "on_demand",
+            "finish_reason": "stop",
+            "logprobs": null,
+            "model_provider": "groq"
+          },
+          "type": "ai",
+          "name": null,
+          "id": "lc_run--01a1a1c1-9ba0-77f1-8730-089ee0036ecc-0",
+          "tool_calls": [],
+          "invalid_tool_calls": [],
+          "usage_metadata": {
+            "input_tokens": 1562,
+            "output_tokens": 1230,
+            "total_tokens": 2792,
+            "output_token_details": {
+              "reasoning": 1074
+            }
+          }
+        }
+      }
+    ]
+  },
+  "request_ids": [
+    "01a1a1c1-9ba0-77f1-8730-089ee0036ecc"
+  ],
+  "execution_epoch": "f3d2f53c1f751e3cfe1071ca13b3f12d08c888e875a4d0e8dc3f087b0309f583",
+  "failed_request_ids": [
+    "01a1a1c1-24ae-7b82-aa6b-4ecfefd9aada"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1c1-24ae-7b82-aa6b-4ecfefd9aada.request.json",
+      "sha256": "09dcf55eb84839dbd29172fbcd4d6c95681645c5dd5287fff577c12270eda729"
+    },
+    {
+      "path": "calls/01a1a1c1-24ae-7b82-aa6b-4ecfefd9aada.error.json",
+      "sha256": "3509c9d534637f8f2287b1bd41f3d801cda2fe484575c0720d4791229ac53893"
+    },
+    {
+      "path": "calls/01a1a1c1-9ba0-77f1-8730-089ee0036ecc.request.json",
+      "sha256": "54646c7dc8eff031ac9866f8f1301150d04088a2d80d1d141791ec0da58c0913"
+    },
+    {
+      "path": "calls/01a1a1c1-9ba0-77f1-8730-089ee0036ecc.response.json",
+      "sha256": "81243af419516c783ff95eecfae34fb10e654976c5a2cbdae50f0693fa5b1560"
+    }
+  ],
+  "sha256": "306afeaa7b7de14d18354bcd3bf9700312ccbb331ea328f7c48593b57aa3deb9"
+}

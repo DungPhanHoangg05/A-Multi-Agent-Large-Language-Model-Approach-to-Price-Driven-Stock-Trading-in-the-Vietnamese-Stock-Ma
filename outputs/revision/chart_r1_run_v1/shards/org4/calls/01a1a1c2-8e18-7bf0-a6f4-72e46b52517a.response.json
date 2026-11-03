@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c2-8e18-7bf0-a6f4-72e46b52517a",
+  "parent_request_hash": "90f2e254ed7d578a21b004d7854383c45da6548ab73001c3c6c5940ec229a6ce",
+  "ended_at_utc": "2026-11-03T14:14:09.562764+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD histogram positive indicates increasing bearish momentum; trend analysis shows price is consolidating near support, suggesting potential decline. Pattern indicates a downtrend, albeit with low confidence.\",\"evidence_against\":\"Trend is sideways and pattern confidence is low, which could lead to a neutral outcome.\",\"justification\":\"Given the bearish momentum and risk of not covering fees, a short position is preferred to preserve cash over the horizon. Shorting allows us to avoid potential losses if the price fails to break above resistance.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD histogram positive indicates increasing bearish momentum; trend analysis shows price is consolidating near support, suggesting potential decline. Pattern indicates a downtrend, albeit with low confidence.\",\"evidence_against\":\"Trend is sideways and pattern confidence is low, which could lead to a neutral outcome.\",\"justification\":\"Given the bearish momentum and risk of not covering fees, a short position is preferred to preserve cash over the horizon. Shorting allows us to avoid potential losses if the price fails to break above resistance.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 733,
+                "prompt_tokens": 1418,
+                "total_tokens": 2151,
+                "completion_time": 0.88454331,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 591
+                },
+                "prompt_time": 0.070956555,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391282917,
+                "total_time": 0.955499865
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c2-8e18-7bf0-a6f4-72e46b52517a-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 733,
+        "prompt_tokens": 1418,
+        "total_tokens": 2151,
+        "completion_time": 0.88454331,
+        "completion_tokens_details": {
+          "reasoning_tokens": 591
+        },
+        "prompt_time": 0.070956555,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391282917,
+        "total_time": 0.955499865
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c2-169f-7552-bb78-b37fc7d2b4fa",
+  "parent_request_hash": "5fb7cd47444c1c29cef2c8c86065311b5d915fba92c9eae291e931aef006560c",
+  "ended_at_utc": "2026-11-03T14:13:36.728994+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is bullish with support at 26.20 and resistance at 27.20, and MACD shows a golden cross confirming upward momentum.\",\"evidence_against\":\"The pattern V reversal suggests a potential pullback if price fails to hold above 26.75.\",\"justification\":\"The combination of bullish trend, pattern confirmation, and MACD signals supports a long position with a target near 27.50 and stop below 26.50.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is bullish with support at 26.20 and resistance at 27.20, and MACD shows a golden cross confirming upward momentum.\",\"evidence_against\":\"The pattern V reversal suggests a potential pullback if price fails to hold above 26.75.\",\"justification\":\"The combination of bullish trend, pattern confirmation, and MACD signals supports a long position with a target near 27.50 and stop below 26.50.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 319,
+                "prompt_tokens": 1429,
+                "total_tokens": 1748,
+                "completion_time": 0.35477369,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 187
+                },
+                "prompt_time": 0.101646154,
+                "prompt_tokens_details": null,
+                "queue_time": 1.094727715,
+                "total_time": 0.456419844
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c2-169f-7552-bb78-b37fc7d2b4fa-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 319,
+        "prompt_tokens": 1429,
+        "total_tokens": 1748,
+        "completion_time": 0.35477369,
+        "completion_tokens_details": {
+          "reasoning_tokens": 187
+        },
+        "prompt_time": 0.101646154,
+        "prompt_tokens_details": null,
+        "queue_time": 1.094727715,
+        "total_time": 0.456419844
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

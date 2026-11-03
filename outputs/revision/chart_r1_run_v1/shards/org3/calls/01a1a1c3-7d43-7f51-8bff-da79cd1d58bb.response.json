@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c3-7d43-7f51-8bff-da79cd1d58bb",
+  "parent_request_hash": "0bcc4a50c18143a903762115dbe50fc1786b064f2addcc63b44a8a75400ff860",
+  "ended_at_utc": "2026-11-03T14:15:08.797708+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is bullish with price near resistance 68.5 and accumulation pattern shows high confidence.\",\"evidence_against\":\"MACD indicates bearish momentum with negative histogram.\",\"justification\":\"Given bullish trend and accumulation pattern, a long position is justified despite weak momentum.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is bullish with price near resistance 68.5 and accumulation pattern shows high confidence.\",\"evidence_against\":\"MACD indicates bearish momentum with negative histogram.\",\"justification\":\"Given bullish trend and accumulation pattern, a long position is justified despite weak momentum.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 594,
+                "prompt_tokens": 1420,
+                "total_tokens": 2014,
+                "completion_time": 0.677638932,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 500
+                },
+                "prompt_time": 0.084306363,
+                "prompt_tokens_details": null,
+                "queue_time": 1.4129711710000001,
+                "total_time": 0.761945295
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ef00694abe",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c3-7d43-7f51-8bff-da79cd1d58bb-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 594,
+        "prompt_tokens": 1420,
+        "total_tokens": 2014,
+        "completion_time": 0.677638932,
+        "completion_tokens_details": {
+          "reasoning_tokens": 500
+        },
+        "prompt_time": 0.084306363,
+        "prompt_tokens_details": null,
+        "queue_time": 1.4129711710000001,
+        "total_time": 0.761945295
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ef00694abe",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

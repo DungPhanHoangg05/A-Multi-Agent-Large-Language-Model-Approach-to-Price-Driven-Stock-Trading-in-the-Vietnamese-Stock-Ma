@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c1-9f30-7e13-9cdd-0ffbcb7242ce",
+  "parent_request_hash": "ff6ae5430110d701fd2c9a641c55e6d24dcc14236a46703470f60200808e336e",
+  "ended_at_utc": "2026-11-03T14:13:06.780836+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Alpha factors show overall bearish trend (4/5 bearish). Pattern analysis indicates a clear downtrend.\",\"evidence_against\":\"Trend analysis indicates bullish direction.\",\"justification\":\"Shorting aligns with bearish alpha and pattern signals, mitigating risk of overexposure to bullish trend. Risk-reward ratio of 1:1 is acceptable given the support/resistance levels.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Alpha factors show overall bearish trend (4/5 bearish). Pattern analysis indicates a clear downtrend.\",\"evidence_against\":\"Trend analysis indicates bullish direction.\",\"justification\":\"Shorting aligns with bearish alpha and pattern signals, mitigating risk of overexposure to bullish trend. Risk-reward ratio of 1:1 is acceptable given the support/resistance levels.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1449,
+                "prompt_tokens": 1575,
+                "total_tokens": 3024,
+                "completion_time": 1.848505579,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1335
+                },
+                "prompt_time": 0.091896074,
+                "prompt_tokens_details": null,
+                "queue_time": 0.79973484,
+                "total_time": 1.940401653
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_bb6a356524",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c1-9f30-7e13-9cdd-0ffbcb7242ce-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1449,
+        "prompt_tokens": 1575,
+        "total_tokens": 3024,
+        "completion_time": 1.848505579,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1335
+        },
+        "prompt_time": 0.091896074,
+        "prompt_tokens_details": null,
+        "queue_time": 0.79973484,
+        "total_time": 1.940401653
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_bb6a356524",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

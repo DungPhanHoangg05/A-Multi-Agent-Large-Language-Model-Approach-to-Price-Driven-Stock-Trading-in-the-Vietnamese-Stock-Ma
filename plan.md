@@ -23,13 +23,13 @@
 | Audit branch trùng, thống kê phụ thuộc, annualisation và execution sensitivities | [Lineage](outputs/revision/legacy_lineage_v1/manifest.json), [statistics](outputs/revision/dependent_statistics_v1/manifest.json), [risk](outputs/revision/account_annualisation_v1/manifest.json), [execution](outputs/revision/execution_sensitivity_v1/manifest.json). Tái dùng và áp dụng đúng release cuối. |
 | Target/schema, indicator và Alpha_4 đã audit/test | [Target](outputs/revision/target_contract_v1/manifest.json), [indicator/alpha](outputs/revision/indicator_alpha_rules_v1/manifest.json). R11–R13 còn cần đồng bộ vào bài sau cùng. |
 | Article audit và local rescore | [Article audit](outputs/revision/r1_72h_bank_v2/article_audit.json), [scores](outputs/revision/r1_72h_bank_v2/local_scores.json): 180 records, 177 identities, 154 excerpts rescore; chưa xác thực nội dung PIT và chất lượng tài chính bằng người. |
-| Sửa legend Trend; dữ liệu hiện có | [Chart audit](outputs/revision/chart_convention_v1/manifest.json). Đủ 10 smoke, 120 research Trend groups. Inventory hiện tại: **187/204** Decisions chính, **2/36** upstream bổ sung, R4 **6/270** theo thiết kế cũ. Đây là số checkpoint, chưa thay verify raw mới; không tạo lại Pattern/Trend/smoke thành công. |
+| Sửa legend Trend; dữ liệu hiện có | [Chart audit](outputs/revision/chart_convention_v1/manifest.json). Đủ 10 smoke, 120 research Trend groups. T01a đã xác minh **187/204** Decisions chính, **2/36** upstream bổ sung và **4/135** của panel chung bằng raw/message/model/parameters/parent. Hai checkpoint R4 ngoài scope đã chuyển vào archive ngoài repo theo yêu cầu tác giả; xem [catalog dọn file](outputs/revision/revision_minimal_v1/cleanup.json). Không tạo lại Pattern/Trend/smoke thành công. |
 
 ### Ngân sách rút gọn: khoảng 182 Decisions mới
 
-Năm org × (20 Full +20 Base)/ngày = **200 Decisions/ngày theo ước lượng tác giả**. 600 Decisions tương đương ba ngày năng lực danh nghĩa; sáu ngày chỉ là kịch bản còn 100/ngày, không phải thời gian bắt buộc. Sau các calls tác giả mới chạy, thiết kế cũ còn 549 Decisions. Scope mới bỏ 367 jobs khỏi phần bắt buộc, không xóa artifacts.
+Năm org × (20 Full +20 Base)/ngày = **200 Decisions/ngày theo ước lượng tác giả**. 600 Decisions tương đương ba ngày năng lực danh nghĩa; sáu ngày chỉ là kịch bản còn 100/ngày, không phải thời gian bắt buộc. Snapshot trước dọn file có 549 Decisions còn thiếu theo thiết kế cũ. Scope mới loại 367 jobs chưa chạy và hai executions đã có khỏi phần bắt buộc; tám file của hai executions đó đã archive nguyên byte ngoài repo rồi xóa theo yêu cầu tác giả, không sửa manifests lịch sử.
 
-| Hạng mục bắt buộc | Tổng scope mới | Checkpoint có thể reuse | Cần thêm |
+| Hạng mục bắt buộc | Tổng scope mới | Checkpoint đã verify để reuse | Cần thêm |
 |---|---:|---:|---:|
 | 102 điểm × B/AS, realization 0/repeat 0 | 204 | 187 | **17** |
 | Upstream chín điểm, thêm hai realizations × B/AS | 36 | 2 | **34** |
@@ -41,7 +41,7 @@ Năm org × (20 Full +20 Base)/ngày = **200 Decisions/ngày theo ước lượn
 - Panel cố định: **BHN 23/09/2026; FPT 23/09/2026; HVN 01/04/2026; MBB 01/04/2026; MWG 23/09/2026; VCB 24/06/2026; VJC 01/04/2026; VNM 19/12/2025; HVN 24/06/2026**. Phủ tám mã, ba block gần đây, bốn ngày; không đại diện chín mã/sáu block. Bốn checkpoint R4 có thể reuse: B/repeat 0 tại VCB, VJC, VNM, MBB trong panel này.
 - Upstream chín điểm giữ danh sách đã khóa; main giữ đủ 102 điểm/sáu block. Broad main dùng prompt R1 rút gọn; factorial/repeat dùng prompt R4 đủ giá trị: báo riêng, không gộp metrics hoặc suy variance R4 cho cả main. Không bù thiếu bằng kết quả trước sửa chart.
 - Đây là **amendment giảm ngân sách sau một phần inference**, chỉ hỗ trợ historical exploratory; không gọi preregistered confirmatory. Khóa scope/repeats/contrasts trước calls tiếp theo. Run cũ giữ incomplete/superseded; không sửa mẫu số 474/270 trong manifest lịch sử hoặc đánh dấu complete giả.
-- Reuse chỉ sau kiểm message/model/parameters/input/parent và raw hashes; không sao chép final decision thành repeat. **182 là successes cần thêm, không phải attempts**. Nếu tác giả chạy thêm đúng jobs trước freeze thì cập nhật; artifact hỏng/không match phải tính lại ngân sách, không ép số.
+- Reuse đã PASS kiểm message/model/parameters/input/parent và raw hashes cho đủ 193 records; không sao chép final decision thành repeat. **182 là successes cần thêm, không phải attempts**. [Manifest mới](outputs/revision/revision_minimal_v1/manifest.json) đã khóa 375 jobs, panel/contrasts, 369 jobs bị loại và provenance; [dry-run](outputs/revision/revision_minimal_v1/dry_run.json) liệt kê đúng 182 jobs còn thiếu. Không thay whitelist/code/input đã freeze khi resume.
 - Không thêm vision/smoke mặc định: corrected upstream đã có, model/prompt không đổi. Nếu verify phát hiện thiếu/hỏng, báo số calls bổ sung và giao lệnh cho tác giả trước.
 - Dự toán **182 successes +khoảng 20% retry =219 attempts**. Ở 200 Decisions/ngày: khoảng 1,1 ngày năng lực, bố trí **hai cửa sổ quota**; ở 100/ngày: khoảng 2,2 ngày. Token/reset thực tế quyết định; đây không phải SLA. Không mua quota/đổi model/cắt prompt để đạt số ngày.
 - Giữ [provider-only policy](revision/r1_provider_policy.json), không tái áp cap nội bộ. **Giới hạn scope bằng whitelist jobs**, không chạy đến một con số rồi chọn kết quả. Năm key đã cấu hình; queue dùng shared locks, một request/key xuyên các nguồn run.
@@ -63,13 +63,17 @@ Làm từ trên xuống. Khi chờ tác giả/API, có thể làm task offline �
 | ID | Việc cần làm | Điều kiện hoàn thành | Trạng thái / dependency |
 |---|---|---|---|
 | T01 | Tái dùng audit integrity/resume đã xong. | [Audit](outputs/revision/chart_resume_audit_v1/report.json), [manifest](outputs/revision/chart_resume_audit_v1/manifest.json) PASS ở snapshot trước calls mới. Không chạy lại toàn audit chỉ để cập nhật plan. | Xong trong scope đã khóa; phần mới ở T01a |
-| T01a | Kiểm calls/checkpoints mới, khóa amendment/whitelist 375 jobs. | Main 204 +upstream 36 +R4 135; xác minh reuse 193 records hiện có hoặc cập nhật số thật; origin/hash/exclusions đầy đủ. Chọn panel chỉ bằng metadata. | Chưa làm |
-| T01b | Thêm adapter/CLI riêng chỉ chạy whitelist, xuất release mới. | Không sửa runtime frozen/manifests/counters cũ; reuse parser/retry/archive/node cache, giữ đúng model/messages. Jobs ngoài whitelist không được gọi; raw reuse có provenance. | Chưa làm; sau T01a |
-| T01c | Test offline adapter/resume/lock/quota. | Dry-run đúng missing jobs; raw tamper/mismatch fail; không lặp calls thành công; khóa key xuyên nguồn run; interrupt/resume và retries đếm đúng. Không viết lại engine. | Chưa làm; sau T01b |
-| T01d | Bàn giao lệnh đã kiểm thử cho tác giả. | CLI mục 4 executable, paths/version/counts đúng; không còn worker grid cũ; source checks PASS. | Chưa làm; sau T01c |
-| T02 | **Tác giả** chạy phần main/upstream của queue. | Main đủ 204, upstream bổ sung đủ 36; hiện thiếu 17+34=51 successes. Không chạy panel R1 234 Decisions. | Chờ T01d |
-| T03 | **Tác giả** chạy panel chung R3/R4 trong cùng queue. | Đủ 135 Decisions: chín điểm ×năm variants ×ba repeats; hiện thiếu 131. Corrected reports đã có, không cần chờ main xong. | Chờ T01d; cùng queue T02 |
+| T01a | Kiểm calls/checkpoints mới, khóa amendment/whitelist 375 jobs. | Main 204 +upstream 36 +R4 135; xác minh reuse 193 records hiện có hoặc cập nhật số thật; origin/hash/exclusions đầy đủ. Chọn panel chỉ bằng metadata. | **PASS**; [manifest](outputs/revision/revision_minimal_v1/manifest.json), reuse 187+2+4; thiếu 17+34+131 |
+| T01b | Thêm adapter/CLI riêng chỉ chạy whitelist, xuất release mới. | Không sửa runtime frozen/manifests/counters cũ; reuse parser/retry/archive/node cache, giữ đúng model/messages. Jobs ngoài whitelist không được gọi; raw reuse có provenance. | **PASS**; [bank](core/revision_minimal_bank.py), [queue](core/revision_minimal_run.py), [CLI](scripts/run_revision_minimal.py); release `revision_minimal_v1` |
+| T01c | Test offline adapter/resume/lock/quota. | Dry-run đúng missing jobs; raw tamper/mismatch fail; không lặp calls thành công; khóa key xuyên nguồn run; interrupt/resume và retries đếm đúng. Không viết lại engine. | **PASS**; 47 tests, [log](outputs/revision/revision_minimal_v1/validation.log), [dry-run 182 jobs](outputs/revision/revision_minimal_v1/dry_run.json); chỉ biên dịch bốn Python files mới |
+| T01d | Bàn giao lệnh đã kiểm thử cho tác giả. | CLI mục 4 executable, paths/version/counts đúng; không còn worker grid cũ; source checks PASS. | **PASS**; `prepare/verify/dry-run/status` đã chạy offline, network/credentials/SDK bị chặn; verify sau cleanup vẫn PASS; API attempts mới =0 |
+| T02 | **Tác giả** chạy phần main/upstream của queue. | Main đủ 204, upstream bổ sung đủ 36; hiện thiếu 17+34=51 successes. Không chạy panel R1 234 Decisions. | Chờ tác giả; T01d PASS; dùng lệnh chung mục 4 |
+| T03 | **Tác giả** chạy panel chung R3/R4 trong cùng queue. | Đủ 135 Decisions: chín điểm ×năm variants ×ba repeats; hiện thiếu 131. Corrected reports đã có, không cần chờ main xong. | Chờ tác giả; T01d PASS; cùng queue T02 |
 | T04 | Verify, khóa và phân tích release rút gọn riêng. | Đủ 375 research executions; scope/source/parent/raw/failures và reuse khớp. Không đóng hai run cũ hoặc đè analysis cũ, không ghi `paper/`. | Chưa làm; sau T02/T03 |
+
+Phạm vi kiểm tra T01c: `test_revision_minimal` (16), `test_revision_72h.DesignTests/QuotaTests` (14), `test_revision_r4_factorial.PromptLeakageTests/ArchiveResumeTests` (8), `test_prepare_chart_r4` (1), `test_chart_rerun` (4), `test_revision_r2_leakage.RegimeLeakageTests` (4). Bao phủ đúng đường adapter → native prompt/parser/retry/archive/cache/lease và PIT/donor được tái dùng; có callback/serializer ChatGroq thật với transport giả lập quota, không network. Không chạy toàn suite/E2E hoặc biên dịch lại code frozen vì không đổi các module đó. T01a khôi phục parent/input đủ 120 research upstream groups, dựng lại prompts và kiểm 193 checkpoint/raw; SHA-256 nguồn/runtime được khóa ở manifest mới. `analyze` chỉ xuất inventory cho T04, chưa phải metrics/baseline/contrasts cuối.
+
+Theo yêu cầu dọn các điểm không còn dùng: đã xóa hai checkpoint R4 của `MBB_f2026_q2_1613` (B/A, repeat 0) và sáu raw files đi kèm, sau khi xác minh ZIP nguyên byte ngoài repo ở `C:/Users/Legion/.codex/archives/revision-minimal-20261103/chart-excluded-904b838a4662.zip`. [Catalog](outputs/revision/revision_minimal_v1/cleanup.json) giữ hash ZIP/từng file; manifest lịch sử không sửa, audit T01 trước đó vẫn là snapshot trước calls mới và cleanup, không tuyên bố kiểm lại được toàn snapshot đó bằng cây file hiện tại. Những nguồn còn được manifest/tests/audit sử dụng được giữ lại; không xóa dữ liệu cần để tái lập hoặc sửa lịch sử Git.
 
 ### B. Sentiment — R7 và phần sentiment của R4
 
@@ -132,31 +136,31 @@ Làm từ trên xuống. Khi chờ tác giả/API, có thể làm task offline �
 
 **Chưa chạy tiếp hai lệnh grid cũ** `run_chart_rerun.py run --all` và `run-r4 --all`: chúng vẫn nhắm 474/270, chưa hiểu whitelist mới. Không sửa manifests để ép runner nhận grid nhỏ. Nếu worker cũ đang chạy, tác giả dừng có checkpoint trước khi chuyển; Codex không tự kill tiến trình hoặc gọi API.
 
-**Lượt này chỉ sửa plan, chưa triển khai adapter.** CLI dưới đây là giao diện phải tạo/kiểm thử tại T01b–T01d, **chưa tồn tại, chưa được chạy**. T01d phải thay bằng lệnh thực đã kiểm chứng nếu tên/flags đổi.
+**T01a–T01d đã PASS.** Adapter đã triển khai, freeze và kiểm thử offline; không còn worker grid cũ tại preflight. Chạy PowerShell tại root repo. **Một lệnh `run --all` chạy cả T02 và T03**, dùng năm worker/ledger chung; không mở hai queue riêng.
 
 ```powershell
-# DỰ KIẾN — chỉ dùng sau khi T01d hoàn tất
-# Offline: khóa/replay whitelist, không gọi API
-py -3.13 -X utf8 scripts/run_revision_minimal.py prepare
+# Offline: kiểm freeze/reuse trước khi tác giả chạy
 py -3.13 -X utf8 scripts/run_revision_minimal.py verify
 
-# API — CHỈ TÁC GIẢ TỰ CHẠY; một queue, năm worker
+# API T02 + T03 — CHỈ TÁC GIẢ TỰ CHẠY; một queue, năm worker
 py -3.13 -X utf8 scripts/run_revision_minimal.py run --all
 
-# Offline: đếm và phân tích scope mới
+# Offline: xem tiến độ; có thể dùng sau khi queue tạm dừng
 py -3.13 -X utf8 scripts/run_revision_minimal.py status
+
+# Offline: sau khi đủ 375, verify rồi xuất inventory phục vụ T04
+py -3.13 -X utf8 scripts/run_revision_minimal.py verify
 py -3.13 -X utf8 scripts/run_revision_minimal.py analyze
 ```
 
-Đầu ra dự kiến `outputs/revision/revision_minimal_v1/`. Queue trộn jobs T02/T03 theo tải/token dự kiến và org availability, giữ một request/key xuyên các nguồn. Không phân key cố định theo treatment, không bắt R4 chờ main. Chỉ reuse raw matching; mỗi response/repeat có identity thật. Đủ whitelist thì dừng, không chạy jobs bị loại.
+Đầu ra `outputs/revision/revision_minimal_v1/`; manifest signature `904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab`. Hiện có 193/375 executions hợp lệ, cần **182 successes mới** (T02:51, T03:131), không thêm vision/smoke. Queue phân shard theo độ dài prompt trước calls rồi trộn jobs T02/T03; mọi shard mượn key theo org availability, dùng ledger chung và khóa key tại cả nguồn run cũ. Không phân key cố định theo treatment, không bắt R4 chờ main. Mỗi response/repeat có identity riêng; đủ whitelist thì dừng. `prepare` đã chạy và gọi lại chỉ kiểm freeze hiện có; không xóa manifest/checkpoints/ledger để chuẩn bị lại.
 
 Hết quota: giữ inputs/code/checkpoints, đợi reset hợp lệ rồi tác giả chạy lại đúng `run --all`; không reset counters/đổi model/fallback CASH. Lỗi hash/schema dừng để xử lý, không bypass. `prepare/verify/status/analyze` phải offline, không ghi `paper/`.
 
-**Status hiện có, dùng được ngay và không gọi API:**
+**Kiểm tra danh sách 182 jobs thiếu, không gọi API:**
 
 ```powershell
-py -3.13 -X utf8 scripts/run_chart_rerun.py status
-py -3.13 -X utf8 scripts/run_revision_r4.py status --bank outputs/revision/chart_r4_bank_v1 --run outputs/revision/chart_r4_run_v1
+py -3.13 -X utf8 scripts/run_revision_minimal.py dry-run
 ```
 
-Status cũ vẫn theo grid cũ; không dùng 474/270 làm mẫu số nghiệm thu scope mới. Nếu artifact lỗi khiến cần thêm calls, cập nhật task/budget và giao lệnh cho tác giả; không tự mở rộng nghiên cứu.
+`dry-run --output <đường-dẫn-file-mới.json>` xuất đầy đủ job IDs/contexts; không ghi đè file cũ. Không dùng status grid cũ hoặc mẫu số 474/270 để nghiệm thu scope mới. Nếu artifact lỗi khiến cần thêm calls, dừng để cập nhật task/budget/version; không tự mở rộng nghiên cứu hoặc sửa freeze để bypass.

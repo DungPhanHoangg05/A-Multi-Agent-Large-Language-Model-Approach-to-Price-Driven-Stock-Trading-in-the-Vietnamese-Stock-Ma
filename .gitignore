@@ -40,3 +40,10 @@ tmp/
 /outputs/revision/chart_r4_run_v1/provider_locks/
 /outputs/revision/chart_r4_run_v1/shards/org*/worker.lock
 /outputs/revision/chart_r4_run_v1/shards/org*/usage.json
+
+# Trạng thái vận hành queue chung; manifest, raw và checkpoint vẫn được theo dõi.
+/outputs/revision/revision_minimal_v1/quota.sqlite3*
+/outputs/revision/revision_minimal_v1/runner.lock
+/outputs/revision/revision_minimal_v1/provider_locks/
+/outputs/revision/revision_minimal_v1/shards/org*/worker.lock
+/outputs/revision/revision_minimal_v1/shards/org*/usage.json

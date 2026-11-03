@@ -1,0 +1,2896 @@
+{
+  "expected": 375,
+  "complete": 193,
+  "missing": 182,
+  "reused": 193,
+  "phases": {
+    "main": {
+      "expected": 204,
+      "complete": 187,
+      "missing": 17
+    },
+    "upstream": {
+      "expected": 36,
+      "complete": 2,
+      "missing": 34
+    },
+    "factorial": {
+      "expected": 135,
+      "complete": 4,
+      "missing": 131
+    }
+  },
+  "new_calls": {
+    "new_attempts": 0,
+    "archived_requests": 0,
+    "responses": 0,
+    "errors": 0,
+    "interrupted_request_ids": [],
+    "reserved_before_archive_ids": []
+  },
+  "new_vision_calls": 0,
+  "temporary_checkpoints": [],
+  "missing_jobs": [
+    {
+      "id": "main__CMG_f2026_q3_1675_r0_B_n0",
+      "phase": "main",
+      "worker": 3,
+      "context": {
+        "unit_id": "CMG_f2026_q3_1675",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__FPT_f2026_q3_1618_r0_B_n0",
+      "phase": "main",
+      "worker": 4,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1618",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__FPT_f2026_q3_1618_r0_AS_n0",
+      "phase": "main",
+      "worker": 4,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1618",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__MBB_f2026_q3_1675_r0_AS_n0",
+      "phase": "main",
+      "worker": 1,
+      "context": {
+        "unit_id": "MBB_f2026_q3_1675",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__MBB_f2026_q3_1675_r0_B_n0",
+      "phase": "main",
+      "worker": 2,
+      "context": {
+        "unit_id": "MBB_f2026_q3_1675",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__MWG_f2026_q3_1618_r0_AS_n0",
+      "phase": "main",
+      "worker": 5,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1618",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VCB_f2026_q3_1618_r0_B_n0",
+      "phase": "main",
+      "worker": 1,
+      "context": {
+        "unit_id": "VCB_f2026_q3_1618",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VCB_f2026_q3_1618_r0_AS_n0",
+      "phase": "main",
+      "worker": 4,
+      "context": {
+        "unit_id": "VCB_f2026_q3_1618",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VCB_f2026_q3_1675_r0_B_n0",
+      "phase": "main",
+      "worker": 5,
+      "context": {
+        "unit_id": "VCB_f2026_q3_1675",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VJC_f2026_q3_1618_r0_B_n0",
+      "phase": "main",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1618",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VJC_f2026_q3_1618_r0_AS_n0",
+      "phase": "main",
+      "worker": 4,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1618",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VJC_f2026_q3_1675_r0_AS_n0",
+      "phase": "main",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1675",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VJC_f2026_q3_1675_r0_B_n0",
+      "phase": "main",
+      "worker": 3,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1675",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VNM_f2026_q3_1618_r0_B_n0",
+      "phase": "main",
+      "worker": 4,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1618",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VNM_f2026_q3_1618_r0_AS_n0",
+      "phase": "main",
+      "worker": 3,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1618",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VNM_f2026_q3_1675_r0_AS_n0",
+      "phase": "main",
+      "worker": 2,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1675",
+        "realization": 0,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "main__VNM_f2026_q3_1675_r0_B_n0",
+      "phase": "main",
+      "worker": 3,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1675",
+        "realization": 0,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__CMG_b2023_h2_929_r1_B_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "CMG_b2023_h2_929",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__CMG_b2023_h2_929_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "CMG_b2023_h2_929",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__CMG_b2023_h2_929_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 5,
+      "context": {
+        "unit_id": "CMG_b2023_h2_929",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__CMG_b2023_h2_929_r2_B_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "CMG_b2023_h2_929",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__FPT_b2023_h2_929_r1_B_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "FPT_b2023_h2_929",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__FPT_b2023_h2_929_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 5,
+      "context": {
+        "unit_id": "FPT_b2023_h2_929",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__FPT_b2023_h2_929_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "FPT_b2023_h2_929",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__FPT_b2023_h2_929_r2_B_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "FPT_b2023_h2_929",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__HVN_b2023_h2_929_r1_B_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_b2023_h2_929",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__HVN_b2023_h2_929_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_b2023_h2_929",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__HVN_b2023_h2_929_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_b2023_h2_929",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__HVN_b2023_h2_929_r2_B_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_b2023_h2_929",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__BHN_f2025_q4_817_r1_B_n0",
+      "phase": "upstream",
+      "worker": 4,
+      "context": {
+        "unit_id": "BHN_f2025_q4_817",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__BHN_f2025_q4_817_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 1,
+      "context": {
+        "unit_id": "BHN_f2025_q4_817",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__BHN_f2025_q4_817_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "BHN_f2025_q4_817",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__BHN_f2025_q4_817_r2_B_n0",
+      "phase": "upstream",
+      "worker": 4,
+      "context": {
+        "unit_id": "BHN_f2025_q4_817",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MBB_f2025_q4_1490_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 4,
+      "context": {
+        "unit_id": "MBB_f2025_q4_1490",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MBB_f2025_q4_1490_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "MBB_f2025_q4_1490",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MBB_f2025_q4_1490_r2_B_n0",
+      "phase": "upstream",
+      "worker": 4,
+      "context": {
+        "unit_id": "MBB_f2025_q4_1490",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MWG_f2025_q4_1490_r1_B_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "MWG_f2025_q4_1490",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MWG_f2025_q4_1490_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "MWG_f2025_q4_1490",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MWG_f2025_q4_1490_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 5,
+      "context": {
+        "unit_id": "MWG_f2025_q4_1490",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__MWG_f2025_q4_1490_r2_B_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "MWG_f2025_q4_1490",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VCB_f2026_q3_1675_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "VCB_f2026_q3_1675",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VCB_f2026_q3_1675_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 3,
+      "context": {
+        "unit_id": "VCB_f2026_q3_1675",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VCB_f2026_q3_1675_r2_B_n0",
+      "phase": "upstream",
+      "worker": 5,
+      "context": {
+        "unit_id": "VCB_f2026_q3_1675",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VJC_f2026_q3_1675_r1_B_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1675",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VJC_f2026_q3_1675_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 5,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1675",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VJC_f2026_q3_1675_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 4,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1675",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VJC_f2026_q3_1675_r2_B_n0",
+      "phase": "upstream",
+      "worker": 1,
+      "context": {
+        "unit_id": "VJC_f2026_q3_1675",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VNM_f2026_q3_1675_r1_B_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1675",
+        "realization": 1,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VNM_f2026_q3_1675_r1_AS_n0",
+      "phase": "upstream",
+      "worker": 2,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1675",
+        "realization": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VNM_f2026_q3_1675_r2_AS_n0",
+      "phase": "upstream",
+      "worker": 5,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1675",
+        "realization": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "upstream__VNM_f2026_q3_1675_r2_B_n0",
+      "phase": "upstream",
+      "worker": 1,
+      "context": {
+        "unit_id": "VNM_f2026_q3_1675",
+        "realization": 2,
+        "variant": "B",
+        "repeat": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_A_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_S_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_P_n0",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_S_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_P_n1",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_B_n1",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_A_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_P_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_B_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_A_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_S_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VNM_f2025_q4_1490_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VNM_f2025_q4_1490",
+        "org": 3,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_B_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "B",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_A_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_S_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_P_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_S_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_P_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_B_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_A_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_P_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_B_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_A_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_S_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1556_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1556",
+        "org": 3,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_A_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_S_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_P_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_S_n1",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_P_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_B_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_A_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_P_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_B_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_A_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_S_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MBB_f2026_q2_1556_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MBB_f2026_q2_1556",
+        "org": 4,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_A_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_S_n0",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_P_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_S_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_P_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_B_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_A_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_P_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_B_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_A_n2",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_S_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VJC_f2026_q2_1556_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VJC_f2026_q2_1556",
+        "org": 2,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_B_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "B",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_A_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_S_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_P_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_S_n1",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_P_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_B_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_A_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_P_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_B_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_A_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_S_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__HVN_f2026_q2_1613_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "HVN_f2026_q2_1613",
+        "org": 4,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_A_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_S_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_P_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_S_n1",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_P_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_B_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_A_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_P_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_B_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_A_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_S_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__VCB_f2026_q2_1613_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "VCB_f2026_q2_1613",
+        "org": 1,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_B_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "B",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_A_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_S_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_P_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_S_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_P_n1",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_B_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_A_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_P_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_B_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_A_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_S_n2",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__BHN_f2026_q3_1002_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "BHN_f2026_q3_1002",
+        "org": 1,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_B_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "B",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_A_n0",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_S_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_P_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_S_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_P_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_B_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_A_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_P_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_B_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_A_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_S_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__FPT_f2026_q3_1675_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "FPT_f2026_q3_1675",
+        "org": 2,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_B_n0",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "B",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_A_n0",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "A",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_S_n0",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "S",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_AS_n0",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "AS",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_P_n0",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "P",
+        "repeat": 0,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_S_n1",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "S",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_AS_n1",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "AS",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_P_n1",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "P",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_B_n1",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "B",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_A_n1",
+      "phase": "factorial",
+      "worker": 4,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "A",
+        "repeat": 1,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_P_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "P",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_B_n2",
+      "phase": "factorial",
+      "worker": 3,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "B",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_A_n2",
+      "phase": "factorial",
+      "worker": 5,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "A",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_S_n2",
+      "phase": "factorial",
+      "worker": 2,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "S",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    },
+    {
+      "id": "factorial__MWG_f2026_q3_1675_r0_AS_n2",
+      "phase": "factorial",
+      "worker": 1,
+      "context": {
+        "unit_id": "MWG_f2026_q3_1675",
+        "org": 5,
+        "variant": "AS",
+        "repeat": 2,
+        "realization": 0,
+        "stage": "decision",
+        "node": "Decision Maker",
+        "model": "openai/gpt-oss-20b",
+        "smoke": false
+      }
+    }
+  ]
+}

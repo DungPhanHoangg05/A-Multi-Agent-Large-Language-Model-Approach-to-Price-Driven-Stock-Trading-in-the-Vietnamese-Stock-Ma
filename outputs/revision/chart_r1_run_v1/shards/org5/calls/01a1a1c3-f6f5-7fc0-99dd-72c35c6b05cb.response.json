@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c3-f6f5-7fc0-99dd-72c35c6b05cb",
+  "parent_request_hash": "8fb2e884ef84b3a7e8e73be8ef373d52617c750b2e7ed69fb28b0cf530822422",
+  "ended_at_utc": "2026-11-03T14:15:42.891176+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD line above signal with positive histogram indicates bullish momentum. Pattern reversal V shape and trend analysis show price likely to reach resistance 128 within 3 days.\",\"evidence_against\":\"MACD line remains negative, suggesting possible short-term weakness.\",\"justification\":\"Long position aligns with bullish trend, pattern, and alpha consensus. Target 128 within 3 days offers favorable risk-reward.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD line above signal with positive histogram indicates bullish momentum. Pattern reversal V shape and trend analysis show price likely to reach resistance 128 within 3 days.\",\"evidence_against\":\"MACD line remains negative, suggesting possible short-term weakness.\",\"justification\":\"Long position aligns with bullish trend, pattern, and alpha consensus. Target 128 within 3 days offers favorable risk-reward.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 773,
+                "prompt_tokens": 1530,
+                "total_tokens": 2303,
+                "completion_time": 0.880920939,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 648
+                },
+                "prompt_time": 0.078549449,
+                "prompt_tokens_details": null,
+                "queue_time": 0.049393104,
+                "total_time": 0.959470388
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_80501ff3a1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c3-f6f5-7fc0-99dd-72c35c6b05cb-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 773,
+        "prompt_tokens": 1530,
+        "total_tokens": 2303,
+        "completion_time": 0.880920939,
+        "completion_tokens_details": {
+          "reasoning_tokens": 648
+        },
+        "prompt_time": 0.078549449,
+        "prompt_tokens_details": null,
+        "queue_time": 0.049393104,
+        "total_time": 0.959470388
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_80501ff3a1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

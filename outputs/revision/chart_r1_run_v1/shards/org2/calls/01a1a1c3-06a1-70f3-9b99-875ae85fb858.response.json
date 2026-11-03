@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c3-06a1-70f3-9b99-875ae85fb858",
+  "parent_request_hash": "697c852e868d1abdc816d3ca61ca0e63a557555cd21678a77ea24e1a21f6758c",
+  "ended_at_utc": "2026-11-03T14:14:38.390370+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern analysis shows a clear downtrend with successive lower highs and lows, confirming a bearish bias. MACD histogram is positive and increasing, indicating some bullish momentum but still within negative territory.\",\"evidence_against\":\"MACD line is above the signal line, suggesting a potential reversal that could undermine the bearish pattern.\",\"justification\":\"Given the dominant downtrend pattern, a short position aligns with the prevailing bias and mitigates the risk of missing the T+2.5 settlement window. The bullish momentum indicated by MACD is insufficient to override the trend, so staying short is prudent.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern analysis shows a clear downtrend with successive lower highs and lows, confirming a bearish bias. MACD histogram is positive and increasing, indicating some bullish momentum but still within negative territory.\",\"evidence_against\":\"MACD line is above the signal line, suggesting a potential reversal that could undermine the bearish pattern.\",\"justification\":\"Given the dominant downtrend pattern, a short position aligns with the prevailing bias and mitigates the risk of missing the T+2.5 settlement window. The bullish momentum indicated by MACD is insufficient to override the trend, so staying short is prudent.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 870,
+                "prompt_tokens": 1418,
+                "total_tokens": 2288,
+                "completion_time": 1.114036894,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 712
+                },
+                "prompt_time": 0.07244817,
+                "prompt_tokens_details": null,
+                "queue_time": 0.351960634,
+                "total_time": 1.186485064
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_feb9b278f1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c3-06a1-70f3-9b99-875ae85fb858-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 870,
+        "prompt_tokens": 1418,
+        "total_tokens": 2288,
+        "completion_time": 1.114036894,
+        "completion_tokens_details": {
+          "reasoning_tokens": 712
+        },
+        "prompt_time": 0.07244817,
+        "prompt_tokens_details": null,
+        "queue_time": 0.351960634,
+        "total_time": 1.186485064
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_feb9b278f1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

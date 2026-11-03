@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c4-e4ef-7cf0-86fd-8426f2e7f2f1",
+  "parent_request_hash": "85a65398d5515742b2896a657aa3cae609f94564020e6753611996f278261712",
+  "ended_at_utc": "2026-11-03T14:16:39.074589+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with price near resistance 74.5 and support 70.5, indicating potential breakout.\",\"evidence_against\":\"MACD line below signal and negative histogram suggest bearish momentum.\",\"justification\":\"Given the bullish trend and support levels, a long position is justified, but the bearish MACD signals caution.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with price near resistance 74.5 and support 70.5, indicating potential breakout.\",\"evidence_against\":\"MACD line below signal and negative histogram suggest bearish momentum.\",\"justification\":\"Given the bullish trend and support levels, a long position is justified, but the bearish MACD signals caution.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 706,
+                "prompt_tokens": 1431,
+                "total_tokens": 2137,
+                "completion_time": 0.787406764,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 599
+                },
+                "prompt_time": 0.088767789,
+                "prompt_tokens_details": null,
+                "queue_time": 0.048428617,
+                "total_time": 0.876174553
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c4-e4ef-7cf0-86fd-8426f2e7f2f1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 706,
+        "prompt_tokens": 1431,
+        "total_tokens": 2137,
+        "completion_time": 0.787406764,
+        "completion_tokens_details": {
+          "reasoning_tokens": 599
+        },
+        "prompt_time": 0.088767789,
+        "prompt_tokens_details": null,
+        "queue_time": 0.048428617,
+        "total_time": 0.876174553
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

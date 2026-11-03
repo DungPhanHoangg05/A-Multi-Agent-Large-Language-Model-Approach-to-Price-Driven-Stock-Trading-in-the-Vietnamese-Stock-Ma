@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c0-ac06-76c1-8fac-b90599435e70",
+  "parent_request_hash": "d6384c0342ccad99c9ba37eeb7cbfd9eeb029ce6f9f66a1a6dd6b9b55e401ad2",
+  "ended_at_utc": "2026-11-03T14:12:02.568535+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Pattern shows clear downtrend with declining highs and lows, and MACD line is below signal with negative histogram indicating bearish momentum.\",\"evidence_against\":\"Trend analysis indicates sideways movement, which could reduce conviction.\",\"justification\":\"Shorting aligns with bearish pattern and MACD confirmation; expected to capture downward move within T+2.5 horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Pattern shows clear downtrend with declining highs and lows, and MACD line is below signal with negative histogram indicating bearish momentum.\",\"evidence_against\":\"Trend analysis indicates sideways movement, which could reduce conviction.\",\"justification\":\"Shorting aligns with bearish pattern and MACD confirmation; expected to capture downward move within T+2.5 horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 520,
+                "prompt_tokens": 1448,
+                "total_tokens": 1968,
+                "completion_time": 0.646351689,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 410
+                },
+                "prompt_time": 0.086350838,
+                "prompt_tokens_details": null,
+                "queue_time": 0.344309805,
+                "total_time": 0.732702527
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c0-ac06-76c1-8fac-b90599435e70-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 520,
+        "prompt_tokens": 1448,
+        "total_tokens": 1968,
+        "completion_time": 0.646351689,
+        "completion_tokens_details": {
+          "reasoning_tokens": 410
+        },
+        "prompt_time": 0.086350838,
+        "prompt_tokens_details": null,
+        "queue_time": 0.344309805,
+        "total_time": 0.732702527
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

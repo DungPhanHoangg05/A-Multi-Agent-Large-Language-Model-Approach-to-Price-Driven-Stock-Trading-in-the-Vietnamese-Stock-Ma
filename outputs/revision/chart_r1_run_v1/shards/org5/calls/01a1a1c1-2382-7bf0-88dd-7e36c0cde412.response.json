@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c1-2382-7bf0-88dd-7e36c0cde412",
+  "parent_request_hash": "beba97dfc7547ad96c60c9a6077d9bfc675b49ee237e9cd50e818a0614a3ee93",
+  "ended_at_utc": "2026-11-03T14:12:34.432463+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is down with support at 26.5 and resistance at 28.0; MACD shows death cross indicating sell. The price is below resistance and moving towards support.\",\"evidence_against\":\"Alpha factors are neutral and sentiment not decisive.\",\"justification\":\"Shorting preserves cash due to insufficient upside to cover fees; trend and indicators confirm a bearish outlook.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is down with support at 26.5 and resistance at 28.0; MACD shows death cross indicating sell. The price is below resistance and moving towards support.\",\"evidence_against\":\"Alpha factors are neutral and sentiment not decisive.\",\"justification\":\"Shorting preserves cash due to insufficient upside to cover fees; trend and indicators confirm a bearish outlook.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 586,
+                "prompt_tokens": 1558,
+                "total_tokens": 2144,
+                "completion_time": 0.681367995,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 471
+                },
+                "prompt_time": 0.100171146,
+                "prompt_tokens_details": null,
+                "queue_time": 0.732677464,
+                "total_time": 0.781539141
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c1-2382-7bf0-88dd-7e36c0cde412-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 586,
+        "prompt_tokens": 1558,
+        "total_tokens": 2144,
+        "completion_time": 0.681367995,
+        "completion_tokens_details": {
+          "reasoning_tokens": 471
+        },
+        "prompt_time": 0.100171146,
+        "prompt_tokens_details": null,
+        "queue_time": 0.732677464,
+        "total_time": 0.781539141
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

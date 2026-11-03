@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c4-6365-7b12-8d88-502d6e3bc561",
+  "parent_request_hash": "57cf2093eb97b9bc7ae075bd8693c4dc7523be64f5092417469265d89995ca90",
+  "ended_at_utc": "2026-11-03T14:16:07.012474+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with support at 56.5 and resistance at 57.5, indicating potential price decline. MACD line is above signal but histogram is decreasing, confirming weakening bullish momentum.\",\"evidence_against\":\"MACD line is still above zero, suggesting some residual bullish pressure.\",\"justification\":\"Given the bearish trend and weakening momentum, a short position aligns with the strategy to avoid buying at open and selling at close. Holding cash mitigates risk of insufficient profit after fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows a clear downtrend with support at 56.5 and resistance at 57.5, indicating potential price decline. MACD line is above signal but histogram is decreasing, confirming weakening bullish momentum.\",\"evidence_against\":\"MACD line is still above zero, suggesting some residual bullish pressure.\",\"justification\":\"Given the bearish trend and weakening momentum, a short position aligns with the strategy to avoid buying at open and selling at close. Holding cash mitigates risk of insufficient profit after fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 603,
+                "prompt_tokens": 1454,
+                "total_tokens": 2057,
+                "completion_time": 0.66803136,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 460
+                },
+                "prompt_time": 0.139962011,
+                "prompt_tokens_details": null,
+                "queue_time": 0.313494811,
+                "total_time": 0.807993371
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c4-6365-7b12-8d88-502d6e3bc561-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 603,
+        "prompt_tokens": 1454,
+        "total_tokens": 2057,
+        "completion_time": 0.66803136,
+        "completion_tokens_details": {
+          "reasoning_tokens": 460
+        },
+        "prompt_time": 0.139962011,
+        "prompt_tokens_details": null,
+        "queue_time": 0.313494811,
+        "total_time": 0.807993371
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

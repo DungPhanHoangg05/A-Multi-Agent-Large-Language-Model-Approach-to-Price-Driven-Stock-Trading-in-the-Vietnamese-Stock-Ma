@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c1-9e31-7991-8bf7-8047e93ca234",
+  "parent_request_hash": "bb2f234204f0bb9090acbacdbc46fac54245734c214f9170997f0a9efa637b28",
+  "ended_at_utc": "2026-11-03T14:13:06.722934+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with support at 26.20 and resistance at 27.20, MACD golden cross indicates bullish momentum. V pattern confirms breakout above 26.75 with target 27.50 and stop 26.50.\",\"evidence_against\":\"Alpha factors overall decrease may signal potential reversal.\",\"justification\":\"Given bullish trend, pattern, and MACD, a LONG position is justified to capture target 27.50 within 3 days. Risk reward ratio is acceptable at 1.0 after accounting for fees and slippage.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with support at 26.20 and resistance at 27.20, MACD golden cross indicates bullish momentum. V pattern confirms breakout above 26.75 with target 27.50 and stop 26.50.\",\"evidence_against\":\"Alpha factors overall decrease may signal potential reversal.\",\"justification\":\"Given bullish trend, pattern, and MACD, a LONG position is justified to capture target 27.50 within 3 days. Risk reward ratio is acceptable at 1.0 after accounting for fees and slippage.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1059,
+                "prompt_tokens": 1554,
+                "total_tokens": 2613,
+                "completion_time": 1.238166397,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 905
+                },
+                "prompt_time": 0.097933511,
+                "prompt_tokens_details": null,
+                "queue_time": 1.357884183,
+                "total_time": 1.336099908
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c1-9e31-7991-8bf7-8047e93ca234-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1059,
+        "prompt_tokens": 1554,
+        "total_tokens": 2613,
+        "completion_time": 1.238166397,
+        "completion_tokens_details": {
+          "reasoning_tokens": 905
+        },
+        "prompt_time": 0.097933511,
+        "prompt_tokens_details": null,
+        "queue_time": 1.357884183,
+        "total_time": 1.336099908
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

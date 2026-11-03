@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1c5-59c0-7420-8947-48477dfd5de8",
+  "parent_request_hash": "72a829c8ec53ee561e4533cecfaa631ba29a7461735a4c66c46e9d8864d99f9e",
+  "ended_at_utc": "2026-11-03T14:17:10.816836+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Price has broken above resistance at 78.0 and MACD shows bullish momentum with histogram widening.\",\"evidence_against\":\"Breakout could fail if volume is insufficient.\",\"justification\":\"The accumulation pattern and bullish MACD confirm upward bias, while support at 75.5 provides a safety net. Target 80 with stop at 75.5 yields favorable risk-reward.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Price has broken above resistance at 78.0 and MACD shows bullish momentum with histogram widening.\",\"evidence_against\":\"Breakout could fail if volume is insufficient.\",\"justification\":\"The accumulation pattern and bullish MACD confirm upward bias, while support at 75.5 provides a safety net. Target 80 with stop at 75.5 yields favorable risk-reward.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 472,
+                "prompt_tokens": 1422,
+                "total_tokens": 1894,
+                "completion_time": 0.52865769,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 354
+                },
+                "prompt_time": 0.070203208,
+                "prompt_tokens_details": null,
+                "queue_time": 0.248823029,
+                "total_time": 0.598860898
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_80501ff3a1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1c5-59c0-7420-8947-48477dfd5de8-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 472,
+        "prompt_tokens": 1422,
+        "total_tokens": 1894,
+        "completion_time": 0.52865769,
+        "completion_tokens_details": {
+          "reasoning_tokens": 354
+        },
+        "prompt_time": 0.070203208,
+        "prompt_tokens_details": null,
+        "queue_time": 0.248823029,
+        "total_time": 0.598860898
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_80501ff3a1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}
