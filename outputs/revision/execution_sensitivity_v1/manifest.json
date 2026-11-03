@@ -1,0 +1,129 @@
+{
+  "created_utc": "2026-11-03T06:35:23.182489+00:00",
+  "outputs": [
+    {
+      "path": "policy.json",
+      "sha256": "c020b42211a2afc6672d8bd570b7eabbe6cdc2d1477c97855cefd23cdf894a0c"
+    },
+    {
+      "path": "report.json",
+      "sha256": "88be58521d60dacc3177f72e3ac2147401befbf0a894aa66b98dac34bb557cf5"
+    },
+    {
+      "path": "account_results.csv",
+      "sha256": "1b12fdc70943da831db6c24dc80ac01418a0553ee6f6790c8ce09a91043ce6a4"
+    },
+    {
+      "path": "scenario_summary.csv",
+      "sha256": "1911d9a1970c8508dd29c93c39c323c26378b529d229c391cdd13e4454515f96"
+    },
+    {
+      "path": "events.csv",
+      "sha256": "c011eca3c3b43204f2d9d4ce81e0e35cc7feb97bf880503e2b1002d8a91edada"
+    },
+    {
+      "path": "daily_ledger.csv.gz",
+      "sha256": "b5db309c52fc67bdbf44322650c9e077796189cdb8973ef2c5b38f8430e53185"
+    },
+    {
+      "path": "execution_table.tex",
+      "sha256": "af544bdbf2b13f78d4386319b81b30f65abcef3581150891733f90afb43863b3"
+    }
+  ],
+  "runtime": {
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "python": "3.13.5"
+  },
+  "schema_version": "execution_sensitivity_release_v1",
+  "sources": [
+    {
+      "path": "core/revision_baselines.py",
+      "sha256": "b6c0e05d62154c31a6fec387b68d6c6f875b1125a4115046d2e978de1b2ed6c5"
+    },
+    {
+      "path": "core/revision_execution.py",
+      "sha256": "5da72ff2a756f5d438f4045799fdd82b419939daa5346cfd3814d26f66555e2d"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/manifest.json",
+      "sha256": "b1f9c9261b5220f5d33a5fd759ddb4d6e7c5dc13431ea88218eae312e4d35f97"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/analysis/block_intervals.json",
+      "sha256": "8196bfc7990e851cfbb9cc34f0b99eca79d6905d9041d0bf2774fb87d95919c2"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/analysis/economics.csv",
+      "sha256": "b82a9dc7fb0a11a8061edf47a9132e1c7d772400acd17fd2bdba40f45083e2a7"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/analysis/manifest.json",
+      "sha256": "6d5317c32458a8da6e403eb178428288dae9d751dde090635568195c630f68db"
+    },
+    {
+      "path": "outputs/revision/r1_72h_run_v2/analysis/predictions.csv",
+      "sha256": "616f16ebf5ac3e9d0004c7e22e5f154be85da6c24e6c1fd1e089658a4d6c339b"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/BHN.csv",
+      "sha256": "19564bd9d81d1d730f1e52b7457c080a4172002f062630d0d32f45415bddc15c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/CMG.csv",
+      "sha256": "0df2267c3547d032b2adae6b36324b052a3e82a912d825629c3a71c0cef98fbc"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/FPT.csv",
+      "sha256": "b3734bd8a4e0af790d85dc44eec06e0454543097c777729446292a8db2019e0b"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/HVN.csv",
+      "sha256": "fbae86e08a0ae2df3165b0fb7e87064d810ddbfcd5615e580eb88965088c785c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/manifest.json",
+      "sha256": "d74896420c0dfd0db37a6e821b4c025ff6c9dc3fba9f27589fe566f3ad1ae0ec"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/MBB.csv",
+      "sha256": "70e9c89ce508eb38f0fe496dfcb2caf69ffcebcacfb4c47dcacf6a7b6b644dc7"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/MWG.csv",
+      "sha256": "3081843791152a151a40c4bc42611e0e6ca3414cc86703ba93f748c04f6d8a1c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VCB.csv",
+      "sha256": "fa324f48c7d0ff3710b727670f9e7eb523f43d4974136f0af5fcec1ddc3a2f10"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VJC.csv",
+      "sha256": "7a94bdd62ea0dd6044dc9846afc0d5a8a8923bef6133dc2addba1af73ee8c3db"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VNM.csv",
+      "sha256": "78e00d997b45e48ccc2aa76c41adf50e8ada350a0f58468a0d080480e8832d50"
+    },
+    {
+      "path": "revision/r15_execution_policy.json",
+      "sha256": "b86352284e1579c7bd8c67ee982c58e70e1e95a617ad23f2a6cada29677b15a5"
+    },
+    {
+      "path": "scripts/analyze_revision_execution.py",
+      "sha256": "96befc7ed8d6f524be3bfdae02c3d80bb0aae2298f625e8cf555af1fbdf976f1"
+    },
+    {
+      "path": "scripts/analyze_revision_statistics.py",
+      "sha256": "73bc3b24b6f6e4eac01d563b03d34eb0d866ffef9b6ed78f7c9e1fb525a330da"
+    },
+    {
+      "path": "scripts/finalize_revision_r1.py",
+      "sha256": "a59ec1a5369055df8c9a8594a39b7b9ae3e95d9f80539c9744272eabe6509fbd"
+    },
+    {
+      "path": "tests/test_revision_execution.py",
+      "sha256": "6464885d40d71dbd36496fb062533545adb151810de9e6211f37d5e226abf706"
+    }
+  ]
+}

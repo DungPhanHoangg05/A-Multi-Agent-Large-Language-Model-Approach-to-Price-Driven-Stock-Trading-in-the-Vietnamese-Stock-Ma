@@ -450,6 +450,27 @@ PASS; không chạy lại toàn suite/E2E/leakage vì runtime/PIT/prompt không 
 
 ### R15 — Settlement, price limits và L=3 [P1]
 
+**D2-07 hoàn tất execution sensitivities ngày 03/11/2026:**
+[policy](revision/r15_execution_policy.json),
+[audit](revision/audit_report.md#execution-sensitivities--d2-07),
+[release](outputs/revision/execution_sensitivity_v1/manifest.json).
+Khóa 12 scenarios sau inference, giữ 918 predictions/102 units, L=3 và labels
+gốc; đủ 6.120 scenario-account executions từ 510 accounts. Reference tái lập
+510 economics records; pending cash, on-demand/auto advance, cost/sell-charge,
+no-fill/delay proxy, lot/cap và combined bounds báo riêng. Daily state tách
+settled/pending cash, settled/unsettled shares; execution events có phase và
+timezone, clock_time null, không dùng 07:00 bar timestamp làm fill time.
+Mẫu chính cách 57 observed sessions nên pending/on-demand không đổi return;
+không suy thành bằng chứng fast-reuse settlement an toàn. Full mean return
+vẫn âm ở mọi scenario có fills (lower/higher cost: −0,707%/−1,279%; combined
+−1,154%); all-missed=CASH 0%, không phải predictive improvement. Có 8.420
+events/394.560 daily rows, không xem là market observations mới. 27 tests
+scoped execution/PIT/daily-ledger, compile ba Python mới, hash/reproduction
+và standalone table render QA PASS. Engine/ledgers/runtime cũ nguyên byte;
+không gọi API. **R15 vẫn mở**: calendar/venue/date rules, queues/price limits,
+Volume units/broker rates/taxes, corporate actions, horizon L=5/10 và final
+manuscript/response/PDF locators chưa được chứng nhận bằng task này.
+
 - [ ] Dùng trading calendar, entry ở open e và exit ở close e+2 cho L=3. Kiểm tra khả năng bán buổi chiều T+2 theo quy định có hiệu lực trong từng giai đoạn; thông báo VSD năm 2022 hỗ trợ mốc đó [S8], nhưng nghiên cứu nhiều năm phải xử lý các chế độ trước/sau thay đổi.
 - [ ] Giải thích L=3 là horizon được chọn phù hợp với giả định settlement ở giai đoạn tương ứng, không có nghĩa “ba ngày lịch” hoặc horizon tối ưu. Đăng ký sensitivity L=3/5/10 với lịch S và mẫu so sánh hợp lệ; L ngắn hơn cần tách task dự báo khỏi giao dịch có thể thực hiện.
 - [ ] Ghi quy tắc venue/date cho trần-sàn, auction/open, suspended/zero-volume, lot size, taxes/fees và fill feasibility. Không mặc định khớp ở open chỉ vì có OHLCV; daily bar không đủ chứng minh hàng chờ có thanh khoản.
@@ -585,7 +606,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-04 | Bổ sung numeric coverage lịch sử còn thiếu | D2-03 | done | R2 audit đủ 102 LLM units/6 block, common cohorts/mask, regime/exposure; N=540 numeric cũ vẫn riêng | Mở rộng support/regime; không tải lại giá, không gán là LLM evidence |
 | D2-05 | Bổ sung NW/bootstrap phụ thuộc và bảng mới | D2-03 | done | [Release](outputs/revision/dependent_statistics_v1/manifest.json): legacy discordance/NW, fixed-universe HAC, 144 CBB rows/18 null rows/bốn bảng; 11 tests/compile/hash replay PASS | Giữ helpers và primary/repeat intervals; denominator/NA/degenerate rõ; không claim calibrated coverage; annualisation chuyển D2-06 |
 | D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | done | [Release](outputs/revision/account_annualisation_v1/manifest.json): cycle frequency/NA contract, 510 stored daily ledgers, 18 conditional legacy accounts; 68 scoped tests/compile/AST/hash replay PASS | Daily/cycle phân biệt; không dựng ledger lại hoặc đoán provenance; manuscript/R5 closure còn riêng |
-| D2-07 | Execution sensitivities R15 | D2-06 | pending | — | Pending cash/advance assumptions; cost/no-fill bounds |
+| D2-07 | Execution sensitivities R15 | D2-06 | done | [Release](outputs/revision/execution_sensitivity_v1/manifest.json): 12 scenarios/6.120 accounts; reference 510 khớp; 27 tests/compile/hash replay/table QA PASS | Pending/advance/cost/no-fill bounds có denominator và state riêng; source predictions/labels nguyên; R15 execution certification/manuscript còn mở |
 | D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | pending | Đã có target net/gross contract và baseline labels; legacy field còn ambiguous | Đồng bộ appendix/prompt/fields; không viết lại target hoặc đoán sửa lịch sử |
 | D2-09 | Đồng bộ indicator/custom-alpha prose R12/R13 | S0 | pending | Rule/formula code đã tồn tại; cần khớp mô tả và boundary evidence | Sửa phần lệch; giữ formula Alpha_4; không phát triển alpha mới |
 | D2-10 | Bổ sung đối chứng chart/prompt R14 | S0 | pending | Renderer/style có sẵn; chưa chứng nhận chart lịch sử bằng fixture | Nến/màu/prompt đúng; chỉ rerun nếu phát hiện thay đổi behavior |

@@ -1,0 +1,25 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Execution sensitivities on fixed Full/Base decisions (percent).}
+\label{tab:d207_execution}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrrr}
+\hline
+Scenario & Base return & Full return & Full delta & Full BUY & Residual \\
+\hline
+reference & -1.031 & -0.884 & 0.000 & 23 & 0 \\
+pending\_t2 & -1.031 & -0.884 & 0.000 & 23 & 0 \\
+advance\_on\_demand & -1.031 & -0.884 & 0.000 & 23 & 0 \\
+advance\_auto & -1.091 & -0.923 & -0.039 & 23 & 0 \\
+lower\_cost & -0.786 & -0.707 & 0.177 & 23 & 0 \\
+higher\_cost & -1.579 & -1.279 & -0.395 & 23 & 0 \\
+sell\_charge\_10bp & -1.093 & -0.928 & -0.044 & 23 & 0 \\
+no\_fill\_proxy & -0.941 & -0.812 & 0.073 & 22 & 0 \\
+delayed\_proxy & -0.903 & -0.845 & 0.039 & 23 & 0 \\
+lot100\_cap1pct & -0.862 & -0.753 & 0.131 & 22 & 0 \\
+combined & -1.387 & -1.154 & -0.270 & 22 & 0 \\
+all\_entries\_missed & 0.000 & 0.000 & 0.884 & 0 & 0 \\
+\hline
+\end{tabular}
+\par\smallskip\footnotesize Returns average 51 separate symbol--block accounts, not a portfolio. Full delta is the change from the frozen reference, not predictive lift. Two decisions per account are 57 observed sessions apart, limiting information about fast cash reuse. Daily proxies do not identify price-limit queues or partial fills. Scenario rates, lots and participation are assumptions; source predictions, labels and L=3 remain fixed. Residual positions are MTM, not assumed liquidated. No profitability or execution-certification claim is made.
+\end{table}

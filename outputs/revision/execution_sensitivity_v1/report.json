@@ -1,0 +1,35 @@
+{
+  "event_clock_time": null,
+  "event_status_counts": {
+    "all_entries_missed_bound": 364,
+    "exit_above_planning_capacity": 38,
+    "filled": 7872,
+    "no_settled_cash_or_lot_capacity": 58,
+    "zero_volume_or_flat_bar_proxy": 88
+  },
+  "interpretation": "Scenario envelope không phải worst/best-case mathematical bound; bỏ fill có thể né lỗ hoặc bỏ lãi. Không nhận alpha/profitability hoặc venue-certified execution.",
+  "limits": [
+    "point-in-time venue/date price bands and reference prices",
+    "exchange-certified trading/settlement calendar",
+    "auction/order-book queues and partial fills",
+    "broker rates and statutory taxes",
+    "corporate actions/dividends",
+    "actual Volume units",
+    "L=5/10 forecast/inference evidence"
+  ],
+  "main_cycle_spacing_observed_sessions": [
+    57
+  ],
+  "n_account_executions": 6120,
+  "n_classification_predictions_unchanged": 918,
+  "n_daily_records": 394560,
+  "n_event_records": 8420,
+  "n_market_units": 102,
+  "n_new_api_calls": 0,
+  "n_new_predictions": 0,
+  "n_reference_accounts_reconciled": 510,
+  "n_scenarios": 12,
+  "scope": "D2-07 post-inference execution sensitivities; no execution certification or R15 closure",
+  "support": "51 symbol-block accounts per variant, 102 units; continuous hold is one cycle per account, not always-LONG cycles",
+  "timezone": "Asia/Ho_Chi_Minh"
+}

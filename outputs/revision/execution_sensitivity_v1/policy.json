@@ -1,0 +1,119 @@
+{
+  "analysis_timing": "Bổ sung sau inference; khóa toàn bộ scenarios trước tính kết quả D2-07, không chọn theo outcome.",
+  "calendar": "Dùng nguyên observed vendor date bars trong snapshot đã khóa; không coi là official exchange/settlement calendar. L=3 là entry open e tới exit close e+2 theo bar index, không phải ba ngày lịch hoặc horizon tối ưu.",
+  "capacity": "Whole-lot 100 và cap 1% trailing-20-session mean Volume, shift(1), là planning bounds; giả định một vendor Volume unit là một share. Chưa xác minh units/venue/date. Không suy partial fills thật từ daily OHLCV.",
+  "cash": "Pending sale receivable là tài sản nhưng không spendable; T+2 afternoon release, không dùng tại open cùng ngày. On-demand advance chuyển receivable thành cash trừ phí khi có BUY; auto advance áp dụng mọi sale; không đếm trùng receivable sau chuyển.",
+  "defaults": {
+    "advance_annual_rate": 0.15,
+    "all_entries_missed": false,
+    "block_proxy": false,
+    "cash_mode": "immediate",
+    "entry_delay": 0,
+    "fee_each_side": 0.0025,
+    "lot_size": 0,
+    "participation": null,
+    "sell_charge": 0.0,
+    "settlement_lag": 2,
+    "slippage_each_side": 0.001,
+    "stock_lag": 0,
+    "tail_sessions": 5
+  },
+  "event_time": "bar_date + open/close event_phase, timezone Asia/Ho_Chi_Minh, clock_time=null; không dùng 07:00 daily-bar timestamp làm thời điểm khớp.",
+  "financing": "15%/năm ACT/365 trên số ngày lịch từ advance tới T+2 observed-session date; tham số stress không phải broker quote hay pháp luật đã xác minh. Không tự dựng ngày nếu snapshot thiếu maturity date.",
+  "interpretation": "Scenario envelope không phải worst/best-case mathematical bound; bỏ fill có thể né lỗ hoặc bỏ lãi. Không nhận alpha/profitability hoặc venue-certified execution.",
+  "labels": "Không relabel theo cost/delay/no-fill; labels/predictions và support gốc giữ nguyên, chỉ thay economic outcomes. Repeats không thêm observations.",
+  "liquidity": "No-fill proxy = zero-volume hoặc OHLC một mức giá; chỉ ex-post feasibility screen, không xác nhận limit-locked/suspension/queue hay strategy biết trước tại open. Delay BUY tối đa hai observed sessions, SELL tới tail; còn vị thế thì MTM và báo residual, không ép CASH.",
+  "price_multiplier": 1000.0,
+  "price_units": "Quy ước giá snapshot nhân 1000 thành VND như engine hiện hành; volume-to-share và venue/date vẫn chưa xác thực cho participation bound.",
+  "scenarios": [
+    {
+      "id": "reference"
+    },
+    {
+      "cash_mode": "pending",
+      "id": "pending_t2",
+      "stock_lag": 2
+    },
+    {
+      "cash_mode": "advance_on_demand",
+      "id": "advance_on_demand",
+      "stock_lag": 2
+    },
+    {
+      "cash_mode": "advance_auto",
+      "id": "advance_auto",
+      "stock_lag": 2
+    },
+    {
+      "fee_each_side": 0.001,
+      "id": "lower_cost",
+      "slippage_each_side": 0.0005
+    },
+    {
+      "fee_each_side": 0.005,
+      "id": "higher_cost",
+      "slippage_each_side": 0.003
+    },
+    {
+      "id": "sell_charge_10bp",
+      "sell_charge": 0.001
+    },
+    {
+      "block_proxy": true,
+      "cash_mode": "pending",
+      "id": "no_fill_proxy",
+      "stock_lag": 2
+    },
+    {
+      "block_proxy": true,
+      "cash_mode": "pending",
+      "entry_delay": 2,
+      "id": "delayed_proxy",
+      "stock_lag": 2
+    },
+    {
+      "block_proxy": true,
+      "cash_mode": "pending",
+      "id": "lot100_cap1pct",
+      "lot_size": 100,
+      "participation": 0.01,
+      "stock_lag": 2
+    },
+    {
+      "block_proxy": true,
+      "cash_mode": "pending",
+      "entry_delay": 2,
+      "fee_each_side": 0.005,
+      "id": "combined",
+      "lot_size": 100,
+      "participation": 0.01,
+      "sell_charge": 0.001,
+      "slippage_each_side": 0.003,
+      "stock_lag": 2
+    },
+    {
+      "all_entries_missed": true,
+      "id": "all_entries_missed"
+    }
+  ],
+  "schema_version": "revision_execution_sensitivity_v1",
+  "scope": "102 units/chín classifiers và continuous-hold price comparator, 510 symbol-block accounts; predictions/target net/L=3 giữ nguyên. Không thêm LLM calls hoặc grid horizon.",
+  "source": {
+    "accessed": "2026-11-03",
+    "effective": "2022-08-29",
+    "limits": "Chỉ xác minh mốc 2022; không chứng nhận mọi quy định venue/date, thay đổi sau đó, broker service hoặc calendar lịch sử trong sample.",
+    "paraphrase": "Thông báo VSD nêu thanh toán T+2 hoàn tất 11h00–11h30, phân bổ cho khách trước 13h, có thể giao dịch phiên chiều T+2.",
+    "published": "2022-08-19",
+    "url": "https://vsdc.vn/vi/ad/152750"
+  },
+  "terminal": "Các scenarios cùng account window: first planned entry tới last planned exit +5 observed bars, giới hạn bởi snapshot. Outstanding receivable được tính trong wealth; residual shares MTM không trừ phí thanh lý giả. Báo liquid cash/pending/stock riêng.",
+  "unverified": [
+    "point-in-time venue/date price bands and reference prices",
+    "exchange-certified trading/settlement calendar",
+    "auction/order-book queues and partial fills",
+    "broker rates and statutory taxes",
+    "corporate actions/dividends",
+    "actual Volume units",
+    "L=5/10 forecast/inference evidence"
+  ]
+}

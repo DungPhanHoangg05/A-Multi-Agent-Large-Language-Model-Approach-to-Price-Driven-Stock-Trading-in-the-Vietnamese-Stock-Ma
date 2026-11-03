@@ -339,3 +339,116 @@ báo là đã nghiệm thu runtime mới; các source archive trước task đư
 Bảng annualisation đã build standalone và render QA một trang, không tràn/cắt.
 Paper/PDF R4 không được ghi lại trong task này; formula/wording/locators của
 R5 còn phải đồng bộ ở task manuscript. D2-06 done không đồng nghĩa R5 đã đóng.
+
+## Execution sensitivities — D2-07
+
+Ngày 03/11/2026, dependency D2-06 đã xong. [Policy](r15_execution_policy.json)
+khóa đủ 12 scenarios trước tính lượt sensitivity bổ sung; đây là phân tích
+sau inference, không confirmatory. [Release](../outputs/revision/execution_sensitivity_v1/manifest.json)
+giữ predictions/label net/cutoff/L=3, không gọi API hay sửa engine/ledger cũ.
+510 accounts =51 symbol–block scopes ×chín classifiers và continuous-hold
+price comparator. Reference tái lập net return, daily-close drawdown, orders,
+brokerage fees và slippage cho cả 510 records đã khóa. Tổng 6.120 scenario
+accounts không phải 6.120 độc lập hay market units mới; support vẫn 102 units,
+918 classifier predictions, mean return tính trên 51 accounts/variant,
+không portfolio. Continuous hold có một vòng mua/bán qua hai cutoff anchors,
+khác always-LONG mỗi cycle.
+
+### Settlement, ứng trước và thời điểm event
+
+[Thông báo VSD ngày 19/08/2022](https://vsdc.vn/vi/ad/152750), kiểm tra ngày
+03/11/2026, nêu mốc hiệu lực 29/08/2022, thanh toán T+2 vào buổi trưa và phân
+bổ cho khách trước 13h để giao dịch buổi chiều. Nguồn này hỗ trợ thiết kế
+assumption sau 2022, không xác nhận đầy đủ mọi rule/broker/venue/date trong
+giai đoạn 2023–2026. Calendar trong code vẫn là **observed vendor bars**,
+không được đổi nhãn thành official exchange/settlement calendar.
+
+Ledger event phân biệt open/close. Cổ phiếu mua tại e chỉ bán close từ e+2
+trong các scenarios stock_lag=2; tiền từ sale có T+2 afternoon release, nên
+không chi tại open của chính ngày đó. Tiền pending vẫn là receivable asset
+trong wealth, nhưng không buying power. Daily rows tách settled/pending cash,
+settled/unsettled shares và stock MTM, bảo toàn wealth=cash+receivable+stock.
+Không lấy chênh lệch ba ngày lịch thay ba sessions. Các event records có
+`date`, `phase`, `timezone=Asia/Ho_Chi_Minh`, `clock_time=null`; timestamp
+07:00 trong bar legacy không bị gán thành giờ khớp lệnh thật.
+
+On-demand advance chuyển receivable thành cash khi có BUY trước maturity,
+trừ phí và xóa đúng claim đó để không đếm hai lần. Auto advance chuyển mọi
+sale proceeds ngay khi bán, kể cả chưa cần mua tiếp. Cả hai dùng rate giả định
+15%/năm ACT/365 cho số ngày lịch tới T+2 observed-session date; không trình bày
+như báo giá broker. Không có maturity date trong snapshot thì giữ pending,
+ghi unavailable thay vì tự tạo ngày/fee. Các unit fixtures có cycles sát nhau
+kiểm tiền bị chặn, cùng-ngày settlement không chi tại open, weekend và phí
+ứng trước. Đây là bằng chứng kỹ thuật, không thêm empirical market units.
+
+**Kết quả trên mẫu thật:** hai cutoffs/account cách nhau 57 observed sessions,
+vì vậy pending_t2 và advance_on_demand đều có cùng return reference trong
+tolerance số học, không có on-demand fee. Không dùng kết quả này để nói
+settlement không quan trọng trong backtest 3-session spacing. Auto advance
+vẫn thu phí cho mọi sale: Full mean return từ −0,884135% xuống −0,923465%.
+
+### Chi phí, fill và capacity bounds
+
+Scenarios per-leg fee/slippage: lower=0,10%/0,05%; reference=0,25%/0,10%;
+higher=0,50%/0,30%. Một stress riêng cộng sell charge 10bp, **không nhận đó là
+thuế suất lịch sử đã xác minh**. Tất cả 510 fixed-fill accounts được kiểm
+return ordering higher-cost <=reference<=lower-cost. Không chỉnh prediction
+hoặc nhãn net theo cost mới để tăng accuracy; các kết quả mới chỉ là kinh tế.
+
+No-fill proxy dùng zero-volume hoặc flat OHLC bar; đây là **ex-post fill
+feasibility screen**, không phải signal đã biết tại open, cũng không xác nhận
+ceiling/floor lock hay suspension. Missing venue/reference-price/queue data
+ngăn chứng nhận fills từ OHLCV. Một scenario hủy BUY nếu proxy chặn; scenario
+delayed cho retry BUY tối đa hai bars, exit không trước stock maturity. SELL
+bị chặn thì giữ shares, thử lại tới common tail; không đổi thành CASH hoặc
+gán proceeds ở target date chưa bán được. Các scenarios cùng horizon báo cáo:
+last planned exit +5 observed bars, cắt tại snapshot end. Residual shares
+được MTM và báo riêng, không trừ phí thanh lý tưởng tượng.
+
+Lot100/cap1pct scenario dùng whole lots 100 và planning cap 1% trailing
+20-bar mean Volume **shift(1)**. Cap này là hạn mức kế hoạch theo ADV quá khứ,
+không phải chứng minh realized participation 1% hay fills thực; Volume unit
+được giả định là shares và giá snapshot nhân 1000 thành VND như engine.
+Không dùng volume ngày hiện tại để retroactively chọn partial-fill size.
+Exit vượt planning capacity giữ nguyên whole position, không tự suy partial
+fills. Các giả định units/lot/venue cần đối chiếu riêng trước execution claim.
+Combined thêm high-cost/sell-charge, pending, delay/proxy và lot/cap. Có một
+continuous-hold account còn residual stock trong mỗi scenario lot/cap và
+combined; các account Full/Base đều flat ở terminal. Scenario all_entries_missed
+giữ prediction nhưng mọi BUY không fill, nên wealth=CASH 0%.
+
+Full mean net account returns: reference −0,884%; lower-cost −0,707%;
+higher-cost −1,279%; no-fill proxy −0,812%; delayed proxy −0,845%;
+lot/cap −0,753%; combined −1,154%. Tất cả có fills vẫn âm. Việc ít lỗ hơn
+khi bỏ một trade không chứng minh dự báo tốt hơn hoặc alpha. Scenario
+envelope không phải guaranteed mathematical worst/best case: mất fill có thể
+bỏ lãi hoặc né lỗ. B/Full, mọi controls và continuous hold đều được xuất,
+không chọn scenario thuận lợi để thay reference đã khóa.
+
+### Đầu ra, kiểm tra và phần còn mở
+
+Bảy outputs: policy/report JSON, 6.120 account results, 120 scenario×variant
+summary rows, 8.420 events, 394.560 daily states (CSV gzip xác định mtime=0)
+và một bảng TeX Full/Base từ cùng source. Daily state và event logs có khóa
+scenario/symbol/fold/variant; fills nối đúng unit ID. Undefined clock time
+ghi null/NA, không giả millisecond execution timestamps. Bảng đã build
+standalone A4 đúng bề ngang bản thảo, render và kiểm trực quan không tràn/cắt.
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p test_revision_execution.py -v
+py -3.13 -X utf8 scripts/analyze_revision_execution.py --check
+```
+
+27 tests mới và liên quan PASS: 13 execution tests, 14 baseline PIT/daily-ledger
+tests. Bao phủ reference equivalence, pending/advance conservation, stock
+maturity, missing settlement date, proxy/delay/residual, whole lots, lagged
+capacity, future-poison invariance và snapshots fail-closed. Chỉ compile ba
+Python mới, đối soát hashes/runtime và tái lập mọi output nguyên byte ở process
+mới. Không chạy toàn unit suite/E2E hoặc gọi API; shared engine, original
+ledger helper, frozen prices, labels, raw responses và receipts không đổi.
+
+D2-07 done là hoàn tất sensitivity được kế hoạch yêu cầu, **R15 vẫn mở** cho
+official calendars, venue/date bands/auction/queue, actual fills, Volume units,
+broker rates/statutory taxes, corporate actions và L=5/10 evidence ngoài gói
+đã khóa. Manuscript/response hoàn chỉnh và PDF locators cũng chưa được chốt;
+không gán kết quả sensitivity thành execution certification hoặc profitability.
