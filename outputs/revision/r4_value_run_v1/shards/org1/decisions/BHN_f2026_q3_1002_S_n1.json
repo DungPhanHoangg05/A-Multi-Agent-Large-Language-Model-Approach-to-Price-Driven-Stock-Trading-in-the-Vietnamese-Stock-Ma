@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "0e8427fb9f83e31bc4ce11aed4f6200e3dc43e39eaf0fbee938af72246fdeaf6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up, price above support, V reversal pattern indicates potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram indicates bearish momentum.",
+    "justification": "Given MACD bearish signals, short position is preferred to avoid potential reversal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-3657-78e3-b428-01ca23c1f8a5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-3657-78e3-b428-01ca23c1f8a5.request.json",
+      "sha256": "16b23126bfe32e5603482d36015e591cfeff4dc2585bd6944828d9300dd1c9ec"
+    },
+    {
+      "path": "calls/01a19f99-3657-78e3-b428-01ca23c1f8a5.response.json",
+      "sha256": "43b5f02707fe55287f14585bb6b51490ea7ae7dc931831ffea27a3081f2bee51"
+    }
+  ],
+  "sha256": "3e5cb5304faef4d5c58493d414b31864f42b6be7a4c1cd967bc3c27afc42b8d9"
+}

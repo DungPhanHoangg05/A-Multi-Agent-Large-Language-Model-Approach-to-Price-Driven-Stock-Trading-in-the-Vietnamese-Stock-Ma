@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "aaad2adcb28a76c76ca35061c4df5e70b0bc3e0d59e8edee31e4106991b7acbf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support 26.5 and resistance 28.5, V-pattern suggests potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram indicate weakening momentum.",
+    "justification": "Alpha factors are mixed and MACD bearish; risk of not covering fees is high, so hold cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-08e1-7e61-979d-4143679dfd96"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-08e1-7e61-979d-4143679dfd96.request.json",
+      "sha256": "a6e9596ac6bc4e2ad1741d8c9db844f51af9521f81c5c5136c9efe423940dd1f"
+    },
+    {
+      "path": "calls/01a19f9c-08e1-7e61-979d-4143679dfd96.response.json",
+      "sha256": "30e007fc888195a5c01ac23322465b383ca364a038380323a0862e658c66e0cf"
+    }
+  ],
+  "sha256": "83768f5603397d1183c50022a64daf5bb9705b75747fe9a1b95f77dba5b8908e"
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9d-e884-7e51-a3af-a1e948bcebf3",
+  "parent_request_hash": "8ed2b30e8cd54af05e24301cbf32d80569ec306c1712405f86fe52dd11cec16e",
+  "ended_at_utc": "2026-11-03T04:14:52.212244+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is bullish with support at 65.5 and resistance at 68.5, and forecast predicts breakout above 66.5 within 3 days. Expected price increase exceeds transaction costs (~0.7%) ensuring positive net return.\",\"evidence_against\":\"MACD line below signal indicates bearish momentum, which could limit upside.\",\"justification\":\"Buying at open on T and selling at close on T+2 should capture the predicted breakout, yielding net profit after fees. Given the forecast horizon and cost structure, the trade meets the minimum return threshold.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is bullish with support at 65.5 and resistance at 68.5, and forecast predicts breakout above 66.5 within 3 days. Expected price increase exceeds transaction costs (~0.7%) ensuring positive net return.\",\"evidence_against\":\"MACD line below signal indicates bearish momentum, which could limit upside.\",\"justification\":\"Buying at open on T and selling at close on T+2 should capture the predicted breakout, yielding net profit after fees. Given the forecast horizon and cost structure, the trade meets the minimum return threshold.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1905,
+                "prompt_tokens": 1488,
+                "total_tokens": 3393,
+                "completion_time": 2.127203476,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1751
+                },
+                "prompt_time": 0.104767836,
+                "prompt_tokens_details": null,
+                "queue_time": 0.053989471,
+                "total_time": 2.231971312
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9d-e884-7e51-a3af-a1e948bcebf3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1905,
+        "prompt_tokens": 1488,
+        "total_tokens": 3393,
+        "completion_time": 2.127203476,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1751
+        },
+        "prompt_time": 0.104767836,
+        "prompt_tokens_details": null,
+        "queue_time": 0.053989471,
+        "total_time": 2.231971312
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

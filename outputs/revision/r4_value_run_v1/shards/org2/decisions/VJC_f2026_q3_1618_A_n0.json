@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "570ee3277a19ed3c74b9c611e7b86610bdea0d0dbffc177398a795c4839e6a3c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD shows a death cross indicating a sell signal; majority of alpha factors signal a downtrend.",
+    "evidence_against": "Trend analysis indicates a sideways market, which could support holding cash.",
+    "justification": "Given the death cross and majority negative alpha signals, shorting is justified; holding cash avoids potential losses if the market remains flat.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-d472-7f31-aee7-89e77c3c9c85"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-d472-7f31-aee7-89e77c3c9c85.request.json",
+      "sha256": "663d15ff5c5a40fc98383355e7eb2a8907d8fd6bfee3991d6161596ca6f73ee1"
+    },
+    {
+      "path": "calls/01a19f97-d472-7f31-aee7-89e77c3c9c85.response.json",
+      "sha256": "62fc69e4ce6279df7302340649df6a1af1564bd71a287baf1f067c8b59a2bae0"
+    }
+  ],
+  "sha256": "b0b25e18be3871710fc4529646f8003cb6dacd6ee4dcf1e54791a905b9c63520"
+}

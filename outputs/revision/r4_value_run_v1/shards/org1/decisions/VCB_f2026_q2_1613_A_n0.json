@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "1a9290d0672b30bdd7e2e6c07db969d785e10a7f5ad1cc0f9860fa1dd69f6623"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Pattern analysis indicates a bearish trend with high reliability, supported by repeated lower highs and lower lows. MACD shows a bearish crossover with negative histogram, confirming downward momentum.",
+    "evidence_against": "Trend analysis suggests a sideways movement, which could reduce the probability of a clear downward break.",
+    "justification": "Given the bearish confirmation from pattern and MACD, the short position aligns with the risk management rule to hold cash when the trend is not bullish. The risk reward ratio of 1.0 reflects the conservative approach of staying out of the market during uncertain sideways conditions.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-95e9-78a3-a691-61dde9cbf57a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-95e9-78a3-a691-61dde9cbf57a.request.json",
+      "sha256": "5cb13b5bfb77a4e5e6eb87c7cebb709ea5f1d90aad2b8d44bb3ea6fadbed4f0b"
+    },
+    {
+      "path": "calls/01a19f88-95e9-78a3-a691-61dde9cbf57a.response.json",
+      "sha256": "c9f03af459317c2514db38c34c6f98230fe316e7d18c00fdc557ba4b5d11552f"
+    }
+  ],
+  "sha256": "91bf8d6c25ab1fd9fe4c46004f239d9b5c1d1c2e7fcb62a832b4b1a17a798278"
+}

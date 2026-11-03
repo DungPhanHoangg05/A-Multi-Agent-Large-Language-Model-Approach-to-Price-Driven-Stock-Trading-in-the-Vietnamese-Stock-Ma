@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "f733d902f94334bd5995caa217b1257e6ed1184042876b5634d2e64b396b1b12"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bullish with price above support and MACD golden cross indicating upward momentum. Pattern shows V reversal with bullish breakout above 61.5 and target 63.5.",
+    "evidence_against": "Potential risk if price fails to reach resistance 64.5 within horizon.",
+    "justification": "Based on bullish trend, MACD golden cross, and V reversal pattern, LONG is justified. Expected target 64.5 within horizon and risk reward ratio acceptable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-7fb3-7202-a0b1-d440d28f199f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-7fb3-7202-a0b1-d440d28f199f.request.json",
+      "sha256": "31c40f443cedc7b03cf328ea600f6bf52511f92b8ac69bc1ddf70319e2e4dbe1"
+    },
+    {
+      "path": "calls/01a19f96-7fb3-7202-a0b1-d440d28f199f.response.json",
+      "sha256": "166f8a2c66d43146f12eb5ca50d6729593ffd30a85165f9ef4ed2ae10aeeefd3"
+    }
+  ],
+  "sha256": "0b4cccd0d67f7ac3fe8dfd8e0d30ed9aee8f58985002d3782cf96b3d78676b36"
+}

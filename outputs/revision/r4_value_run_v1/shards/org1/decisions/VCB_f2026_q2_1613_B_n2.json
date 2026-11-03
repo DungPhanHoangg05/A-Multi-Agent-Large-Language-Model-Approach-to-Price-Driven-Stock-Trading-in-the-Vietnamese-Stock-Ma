@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "69f74cef19547c68c899d4a9117130d5887c2ddd9cb2581946fa54a7a8329ce6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern analysis shows a clear bearish trend with successive lower highs and lower lows, confirming a downtrend. MACD indicator is below the signal line with a negative histogram, indicating weakening bullish momentum.",
+    "evidence_against": "Trend analysis indicates a sideways market, which could reduce the probability of a sustained decline.",
+    "justification": "Given the bearish pattern and negative MACD momentum, a short position is justified to capture potential downside. The sideways trend suggests limited upside, making a short trade more attractive within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-b73f-7553-bae4-da4a798741a6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-b73f-7553-bae4-da4a798741a6.request.json",
+      "sha256": "373fc5602b4516ad75df8cb875f550f70e3dbcbc691d9b8f18c2c864c293633d"
+    },
+    {
+      "path": "calls/01a19f8d-b73f-7553-bae4-da4a798741a6.response.json",
+      "sha256": "5095f44e1d2d5b0e4937e27b0c7af6a0be889b14ed43e40e3fdf24aa16a24628"
+    }
+  ],
+  "sha256": "cd3e23fd008bdb1e18542fb6df062de7a68aaa7013a880f5904e0fe9c7fa89f4"
+}

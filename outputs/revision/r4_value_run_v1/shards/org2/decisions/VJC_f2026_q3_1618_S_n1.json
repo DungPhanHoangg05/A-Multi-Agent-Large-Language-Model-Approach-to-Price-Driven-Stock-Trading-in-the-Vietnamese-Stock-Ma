@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "13af362d9e1d36c22a229d012d50dcdc4c95bc3d06081bf052564a9a769bc5fc"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD death cross indicates bearish momentum; trend shows sideways with no breakout.",
+    "evidence_against": "Pattern bullish flag suggests potential upside breakout.",
+    "justification": "Given MACD death cross and sideways trend, short position is preferred to avoid missing upside and to hold cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f98-d1f5-71b0-9086-a91b42aaeebe"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-d1f5-71b0-9086-a91b42aaeebe.request.json",
+      "sha256": "b9ad01919187160fb80f25697ca4a3f92e960c61f0b84c0ff03ee0339bd8b7bb"
+    },
+    {
+      "path": "calls/01a19f98-d1f5-71b0-9086-a91b42aaeebe.response.json",
+      "sha256": "0892402482a928d8764d028bced70ce4e0792f3f7e15e8487e4b78a1f53f54d3"
+    }
+  ],
+  "sha256": "8123d9c8eebb1044c6dd3eeaece2e76096728abdefaf83cbfcbd142bb8d7b3c0"
+}

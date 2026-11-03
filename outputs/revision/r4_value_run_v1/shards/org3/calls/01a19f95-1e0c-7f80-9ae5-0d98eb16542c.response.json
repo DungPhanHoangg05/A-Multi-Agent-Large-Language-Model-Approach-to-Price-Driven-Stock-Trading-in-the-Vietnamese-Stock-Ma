@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f95-1e0c-7f80-9ae5-0d98eb16542c",
+  "parent_request_hash": "faee877417dd4e446467dc2cb68f818f81d27f584f469829a4e5e4284b7823ed",
+  "ended_at_utc": "2026-11-03T04:05:14.906592+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Alpha factors overall indicate a decrease trend, and MACD shows bullish momentum but trend and alpha conflict.\",\"evidence_against\":\"Trend analysis predicts a slight upward movement toward resistance 23.5.\",\"justification\":\"Given the dominant negative alpha signals and the risk of a reversal, a short position protects cash over the horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Alpha factors overall indicate a decrease trend, and MACD shows bullish momentum but trend and alpha conflict.\",\"evidence_against\":\"Trend analysis predicts a slight upward movement toward resistance 23.5.\",\"justification\":\"Given the dominant negative alpha signals and the risk of a reversal, a short position protects cash over the horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 591,
+                "prompt_tokens": 1819,
+                "total_tokens": 2410,
+                "completion_time": 0.840761576,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 485
+                },
+                "prompt_time": 0.097902694,
+                "prompt_tokens_details": null,
+                "queue_time": 0.390732358,
+                "total_time": 0.93866427
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d23c14756c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f95-1e0c-7f80-9ae5-0d98eb16542c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 591,
+        "prompt_tokens": 1819,
+        "total_tokens": 2410,
+        "completion_time": 0.840761576,
+        "completion_tokens_details": {
+          "reasoning_tokens": 485
+        },
+        "prompt_time": 0.097902694,
+        "prompt_tokens_details": null,
+        "queue_time": 0.390732358,
+        "total_time": 0.93866427
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d23c14756c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

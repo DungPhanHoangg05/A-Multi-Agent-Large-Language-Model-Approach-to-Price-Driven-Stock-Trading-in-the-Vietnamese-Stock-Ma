@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "af4650c89d30e66ed12c96cb3c54dafe665fbbfc674e6bcd526a46ab04025419"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 4.0,
+    "evidence_for": "Trend is up with support at 118 and resistance at 128, and MACD line is above signal with positive histogram indicating bullish momentum. V reversal pattern confirms a bullish breakout above 120 with target 130.",
+    "evidence_against": "Trend slope is decreasing, which may limit upside potential.",
+    "justification": "Given bullish trend, V reversal, and MACD confirmation, a long position is justified. The target near 128 with stop at 118 yields a risk-reward ratio of 4.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-c8e8-75a1-8fab-d6a26af774f2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-c8e8-75a1-8fab-d6a26af774f2.request.json",
+      "sha256": "bfc232670e6e29fd9ad609ccf6d09275345fd8b4149f7000b4ac2c1abac82042"
+    },
+    {
+      "path": "calls/01a19f8c-c8e8-75a1-8fab-d6a26af774f2.response.json",
+      "sha256": "e98a04b0851c9d40fdef01deea22feb590d6599fe2729ec36a25e760c588b05d"
+    }
+  ],
+  "sha256": "93e91f853bb5a7ea193e02dbb8f4520f13d0b25ff4d7074c490bdead24b5a096"
+}

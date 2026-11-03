@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": "faa3dbaab887568dbf59a1066db0b84e44b1482cdeb97ad1d2b56fe201f2f57a",
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "fbbcd84b654dc32e05bebfa5441847af64a8fbb7107306dca537fe8da877566b"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is down with support at 130.5 and resistance at 141.5; MACD line above signal but histogram decreasing, indicating weakening bullish momentum. Alpha factors show net increase, but trend dominates.",
+    "evidence_against": "MACD remains positive and alpha factors overall are increasing.",
+    "justification": "Shorting aligns with the confirmed downtrend and expected price decline; risk reward ratio of 1.5 meets the minimum threshold for a viable trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-45a8-7912-b345-92ddddfd8905"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-45a8-7912-b345-92ddddfd8905.request.json",
+      "sha256": "3552ddfd5ab53ecb40dead02b6200843c33a19d87c199f74a5d5d0147c28684e"
+    },
+    {
+      "path": "calls/01a19f93-45a8-7912-b345-92ddddfd8905.response.json",
+      "sha256": "267599f1cc47b78abc5f4b42e708a9ec2383be360414a6191f9648e9d1d60db9"
+    }
+  ],
+  "sha256": "193cec828c0a73c6b87a6d177f6e809cc25fd5c74df1436b98e5028c8a6b11d9"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "9ba443921a43cd4cd27990b748ade22174eaa585aba13a7e810b8cf6ab3b7d99"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bearish with price below resistance and MACD line above signal but histogram decreasing, indicating weakening momentum. Support at 19.60 is tight and price is near it, suggesting potential further decline.",
+    "evidence_against": "MACD line is still above signal, which could indicate a potential reversal.",
+    "justification": "Given the bearish trend, weak momentum, and tight support, a short position aligns with the strategy to avoid buying and hold cash. The short trade allows capturing potential decline while avoiding the risk of buying at a high price and incurring fees that may not be covered.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-09cb-76f2-a54b-d5e93137b74a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-09cb-76f2-a54b-d5e93137b74a.request.json",
+      "sha256": "e59164f17b3e72a5856b960ed74fe32f254c61ce744bc0acb53270855a499e1f"
+    },
+    {
+      "path": "calls/01a19f89-09cb-76f2-a54b-d5e93137b74a.response.json",
+      "sha256": "570da6a44fa83716f50c436a9ff8f8eab2ea0fcee26eb65859267a92cffa5b02"
+    }
+  ],
+  "sha256": "1a2ffc11205ddb7aa45f4ebb0250359f420e7feec5c33f1887266310e5cadb35"
+}

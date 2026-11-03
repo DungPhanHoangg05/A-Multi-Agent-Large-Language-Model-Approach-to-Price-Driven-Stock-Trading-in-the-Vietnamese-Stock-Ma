@@ -142,31 +142,52 @@ newly replicated here; their robustness and component-attribution claims
 remain withdrawn, and unresolved branch provenance is assessed separately.
 
 
-\subsection{Implemented Report Contrasts and Incomplete Value Control}
+\subsection{Corrected Value-Control Panel and Attribution Limits}
 \label{sec:r4_results}
 
-Table~\ref{tab:r4_contrasts} reports the factorial contrasts on the existing
-18-unit panel. Mean BA differences are +5.56 points for A--B, +2.78 for
-AS--S, +2.78 for S--B and approximately zero for AS--A. AS--P is
-$-2.78$ points (SD 6.36; descriptive interval $[-19.23,3.12]$), and the
-standard interaction AS--A--S+B is also $-2.78$ points (SD 6.36; interval
-$[-22.92,12.12]$). These statements concern the compressed reports actually
-sent to the model, not full numerical factor information.
+Tables~\ref{tab:r4_value_metrics} and \ref{tab:r4_value_contrasts} describe
+the completed repaired panel, not the original compressed-report runs.
+Across three executions on the same 18 units, Full has mean accuracy
+53.70\%, BA 44.44\% (SD 2.41 points), MCC $-0.121$ and LONG frequency
+24.07\%. Base BA is 29.17\%, A 40.28\%, S 26.39\% and P 37.50\%.
+CASH accuracy is 66.67\% with BA 50.00\%, so the positive bundle contrast
+does not establish superiority over the constant reference.
 
-The seven-contrast BA joint max-deviation envelope has radius 19.44 points
-and includes zero for every contrast. It uses 9,612 finite joint draws;
-388 of 10,000 draws lose class support. This is a descriptive post-inference
-sensitivity envelope with three executions/blocks, not calibrated
-simultaneous confidence coverage. LONG-frequency contrasts are reported
-alongside BA, with all secondary metrics and panel-account returns in JSON;
-changes in CASH propensity are not removed by a positive classification gap.
+Mean BA differences are AS--B $+15.28$, A--B $+11.11$, AS--S $+18.06$,
+S--B $-2.78$, AS--A $+4.17$ and AS--P $+6.94$ points. AS--P varies
+as $+4.17,+12.50,+4.17$ points (sample SD 4.81); its pointwise descriptive
+interval is $[2.08,12.82]$. However, the predefined seven-contrast joint
+envelope is $[-6.55,20.44]$. Its radius is 13.49 points, based on 9,612
+jointly finite draws and 388 class-loss draws out of 10,000. The AS--B and
+AS--S joint envelopes are respectively $[1.79,28.77]$ and $[4.56,31.55]$;
+these too are descriptive, not calibrated significance findings. The standard
+interaction is $+6.94$ points (SD 6.36), with pointwise interval
+$[-8.97,16.67]$; it does not establish positive synergy.
 
-Most importantly, the request audit shows that the intended five factor-value
-rows were absent in every alpha-bearing prompt. The historical P branch
-therefore cannot answer the complete information-versus-structure question.
-No isolated alpha value, sentiment value or positive synergy is claimed.
-The repaired 270-call panel is prepared separately but not yet executed;
-these historical outcomes are not substituted for its missing evidence.
+All 15 variant--execution combinations correctly identify only one of six UP
+cycles (recall 16.67\%). Full/P DOWN recalls average 72.22\%/58.33\%,
+and their LONG frequencies are 24.07\%/33.33\%. Thus the measured AS--P
+BA gain comes entirely from fewer DOWN errors, accompanied by lower LONG
+exposure, rather than additional correctly identified profitable cycles.
+Full mean net account return is $-0.670\%$ (SD 0.055 points), versus
+$-1.121\%$ for P and $-1.640\%$ for Base; the paired AS--P return gap is
+$+0.451$ points (SD 0.315; interval $[0.000,0.796]$). Returns average
+13 panel symbol--block accounts per execution, not a portfolio. All variants
+have negative mean returns, below CASH at zero. These results do not support
+profitability, exposure-independent alpha or isolated sentiment information.
+Per-class support and equal-symbol macros with their defined denominators
+are published separately from the pooled-per-execution scores.
+
+Table~\ref{tab:r4_value_audit} verifies complete factor delivery and genuine
+new responses. The older compressed-report contrasts remain in
+Table~\ref{tab:r4_contrasts}; their AS--P and interaction means were both
+$-2.78$ points and are not substituted for, pooled with or selectively
+replaced by the repaired results. Different inference times and content
+preclude interpreting their change as a causal repair effect. The completed
+control tests a whole training-donor rank-vector perturbation under the same
+report structure, with its mapping and precision limits explicitly retained;
+it does not turn the observed conditional advantage into a general
+factor-information claim.
 
 \subsection{Legacy Nine-Symbol Paired Benchmark}
 

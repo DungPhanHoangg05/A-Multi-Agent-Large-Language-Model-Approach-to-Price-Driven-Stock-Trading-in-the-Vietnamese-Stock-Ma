@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "56c0362f48a0cf033134b998a9309e9282ea1f77ee50725b92fd82dcc4a6bf0c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 4.0,
+    "evidence_for": "Trend shows increasing channel with support at 65.5 and resistance at 68.5, and pattern indicates accumulation with higher highs and higher lows.",
+    "evidence_against": "MACD line below signal indicates weakening bullish momentum.",
+    "justification": "Buy at breakout above 66.5 targeting 68.5 with stop at 66.0 yields risk/reward of 4, exceeding fee cost; indicator suggests caution but trend/pattern dominate.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-47af-7cd0-92ef-f94bc5e7e5cf"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-47af-7cd0-92ef-f94bc5e7e5cf.request.json",
+      "sha256": "774a32890cddc816a0f0f7d98c8f3d848d3e45016ae01d2c3f45ca2fdebf24bf"
+    },
+    {
+      "path": "calls/01a19f9f-47af-7cd0-92ef-f94bc5e7e5cf.response.json",
+      "sha256": "7d344e64cd02825d9863ada72b759bfeba80a13a5c4c62bc031c7b5833c4fd00"
+    }
+  ],
+  "sha256": "dc3c71c45a835c98cdca95ef3a18e09a59d59bc7e89fa7bbcdfa28fb103c0fd5"
+}

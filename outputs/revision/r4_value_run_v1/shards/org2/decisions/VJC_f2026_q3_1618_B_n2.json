@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "50be2369cac7e972e6f617527732c48b43c6d72aeb75bf1f9fa0779c8c45fe8d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD death cross and negative histogram indicate bearish momentum.",
+    "evidence_against": "Pattern 'Cờ tăng' suggests a potential breakout.",
+    "justification": "Sideways trend with bearish MACD signals a likely decline; shorting protects against potential downside while avoiding missed fees.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-98b9-7ee2-ad26-a77f34fd67e0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-98b9-7ee2-ad26-a77f34fd67e0.request.json",
+      "sha256": "06d767aed9121f920d0ec9b3bc07a840369310a28f5972b7cfdd6c4a8efdf9f3"
+    },
+    {
+      "path": "calls/01a19f9a-98b9-7ee2-ad26-a77f34fd67e0.response.json",
+      "sha256": "606402fb80d815e6bbce53c12cc382af20410b17bfeba9d6793c138f0fd91607"
+    }
+  ],
+  "sha256": "96820bc31813e53cc12dfb5472155bce894f649a16291f13cc47e427863f1a6e"
+}

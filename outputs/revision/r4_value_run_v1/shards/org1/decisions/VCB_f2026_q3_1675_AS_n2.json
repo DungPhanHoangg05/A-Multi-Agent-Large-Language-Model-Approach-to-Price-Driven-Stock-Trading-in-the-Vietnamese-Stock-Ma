@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "54c8c0e3a92c0ab467627b27dfe8e820d314b7b34a455265b787a4827a87cdce"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates sideways with resistance at 60.0 and MACD below signal confirming bearish momentum. Alpha factors show majority negative signals, supporting a short position.",
+    "evidence_against": "No strong bullish pattern or positive alpha signals to justify a long.",
+    "justification": "Shorting aligns with the bearish trend and negative indicators, ensuring potential profit while limiting exposure to upside risk. The short position will be closed by T+2.5, complying with the settlement rule.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa0-ad3a-75c0-8ef6-173ea55ddb5d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19fa0-ad3a-75c0-8ef6-173ea55ddb5d.request.json",
+      "sha256": "a62ea3d3f41af82bb9c051d0985bc60367359eb200086fbb1c33123cb34d6f39"
+    },
+    {
+      "path": "calls/01a19fa0-ad3a-75c0-8ef6-173ea55ddb5d.response.json",
+      "sha256": "96d856ae73f99a2db1bc0ecf546d387aee99ed6c45b7d3c4c6cca3f0a91f2e69"
+    }
+  ],
+  "sha256": "5ab2f211c2f92680d5ba4dd0aa45b07de6bea2ef9086e99ef789bb676f4497c7"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "64bd1fcb2eba46da4f6bb0ff2b270a43892f9f5d00866c14ea3ed90086b84346"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.3,
+    "evidence_for": "Trend up with support 65.5 and resistance 68.5, alpha factors majority positive, forecast breakout above 66.5 in 3 days.",
+    "evidence_against": "MACD below signal indicating bearish momentum.",
+    "justification": "Buy at open expecting breakout to 68.5, sell at close with net profit >0.70% after fees; stop loss at 65 to maintain risk/reward >1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-517d-7753-a20a-4c085a670dff"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-517d-7753-a20a-4c085a670dff.request.json",
+      "sha256": "88741051a7485140b93dc3ff0ab0e0040250fc02d0f49ea276e434964e9b6056"
+    },
+    {
+      "path": "calls/01a19f9e-517d-7753-a20a-4c085a670dff.response.json",
+      "sha256": "e46010eca177c6e88d9e2682e7ea4b077edc2618757b54124fe403340051eb85"
+    }
+  ],
+  "sha256": "9ead65e2cf256d602647853b3ca734ec595e27d27ac47316be7c4232f95c3e13"
+}

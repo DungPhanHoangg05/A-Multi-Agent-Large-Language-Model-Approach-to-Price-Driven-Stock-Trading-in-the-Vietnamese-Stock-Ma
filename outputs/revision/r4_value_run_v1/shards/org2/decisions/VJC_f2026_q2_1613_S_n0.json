@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "1c62b5421c161d9815ea58f62d48ff63fd7a02cab617c55b6c5984a771e39601"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is downwards with price near support 130.5, and MACD indicates bullish momentum but overall trend remains bearish.",
+    "evidence_against": "MACD is above signal line, suggesting potential bullish reversal.",
+    "justification": "Given the downtrend and price approaching support, a short position is preferred to avoid potential losses from a continued decline. The bullish MACD signal is insufficient to override the prevailing bearish trend.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-140f-7e50-91c0-317a2c5e6d53"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-140f-7e50-91c0-317a2c5e6d53.request.json",
+      "sha256": "6be3937af9d03b4033d0d49195fe55900179da65de968f90c86125b8efb9cd05"
+    },
+    {
+      "path": "calls/01a19f8f-140f-7e50-91c0-317a2c5e6d53.response.json",
+      "sha256": "031b7a4d30141affbb05e94a3a290eda98d305fed5b65aa6ece1f49ca23b9a62"
+    }
+  ],
+  "sha256": "69fe0624a7f322aec42f700571a10c9b6bf151233b00b956516dcac8577f752c"
+}

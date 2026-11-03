@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "0735fe88bb653cd064bbe4c1c9ff80150975bd0de9ef67833d2af216b712a12c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows price above support 26.5 and approaching resistance 28.5, indicating bullish momentum. Pattern analysis confirms a V reversal with bullish candles, supporting a continuation of the uptrend.",
+    "evidence_against": "MACD indicator is below signal line with negative histogram, suggesting weakening momentum.",
+    "justification": "Given the higher priority of trend and pattern signals, a long position is justified despite bearish MACD. The expected target of 28.5 within the T+2.5 horizon offers a favorable risk-reward ratio.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-f50c-78e2-9af3-57bc56b10bc3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-f50c-78e2-9af3-57bc56b10bc3.request.json",
+      "sha256": "ff04ca0b20cba5eac12b01900878f485f8977f03fd980355fe7225569a70575f"
+    },
+    {
+      "path": "calls/01a19f96-f50c-78e2-9af3-57bc56b10bc3.response.json",
+      "sha256": "ec0732f7639df2e36d431c0b84e24c9384bad0c98c81d503ee757470747c585b"
+    }
+  ],
+  "sha256": "81d0e06aa99728c2f06d0deb178efd2f7610dc83107f90955998de67e5618c21"
+}

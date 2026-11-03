@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": "d0ca25b57a00b177017e1beffe514caa07b89ee0d3e35269b94a9349d820179b",
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "5d306bf55984fe313772c355380c31700566ee5c9fbc32756a3e21d8a7efd2c8"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD death cross signals a sell opportunity; overall alpha factors indicate a downward bias.",
+    "evidence_against": "Trend is sideways, which could imply a neutral stance.",
+    "justification": "Shorting aligns with bearish indicators and protects against potential decline; it also avoids holding cash during the T+2.5 settlement period.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-32d9-7642-bf35-eb8112abfa7f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-32d9-7642-bf35-eb8112abfa7f.request.json",
+      "sha256": "455a8ff957b7e21d88876bdddd1dc81d2bd93786da1d897fa50b6492cdf054f6"
+    },
+    {
+      "path": "calls/01a19f9a-32d9-7642-bf35-eb8112abfa7f.response.json",
+      "sha256": "2ee200b324bcc50488f39830f1b9b23abf5ce05c08951a5551df7e227c61adc8"
+    }
+  ],
+  "sha256": "49c79eedaca509ae03254058b525ff9b705ca3337055095bfa2313095efba124"
+}

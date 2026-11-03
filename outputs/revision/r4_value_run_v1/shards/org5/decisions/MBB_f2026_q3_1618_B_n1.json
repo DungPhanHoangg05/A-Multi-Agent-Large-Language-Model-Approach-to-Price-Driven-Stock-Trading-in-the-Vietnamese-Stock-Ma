@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "9aeebd60656304bef442598847213eb85cf8af49a194113113c227ead03e09bb"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Trend is bullish with price above support 19.70 and breaking resistance 20.65; MACD line is above signal with positive histogram indicating bullish momentum.",
+    "evidence_against": "Trend slope is decreasing, which could signal a potential slowdown.",
+    "justification": "Based on bullish trend, pattern, and MACD confirmation, a long position is expected to reach the target 21.00 within the horizon, covering transaction costs. The risk reward ratio of 1.2 indicates acceptable risk relative to potential gain.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-f757-7672-a16c-1e0752168be3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-f757-7672-a16c-1e0752168be3.request.json",
+      "sha256": "58ef8ea48ca587d23c17fdd512cdb625c4eb4cf8645a923692f24b96a58118c8"
+    },
+    {
+      "path": "calls/01a19f90-f757-7672-a16c-1e0752168be3.response.json",
+      "sha256": "49a25336ed3bd4329de11255dec1fbf446682cea4dcfaa3552d566d5533bb189"
+    }
+  ],
+  "sha256": "976338e62b2f630b48892088d414f19a8fcfb799256f99d69f1a9d58234b6615"
+}

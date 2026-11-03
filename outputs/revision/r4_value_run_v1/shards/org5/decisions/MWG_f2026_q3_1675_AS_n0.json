@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "7c982f9b3e3ef1ca16a3f313441d8366db4c2bca07f61910945316ddedb3fd43"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows price above support 70.5 and approaching resistance 74.5, indicating potential reversal. All five alpha factors signal a decrease, suggesting weakening momentum.",
+    "evidence_against": "Trend remains upward, which could support a long position.",
+    "justification": "Given the bearish signals from MACD and alpha factors, a short trade is justified to capture potential reversal before the resistance at 74.5. The risk reward ratio of 2.0 ensures a favorable trade if the price retraces below support 70.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-dd18-7272-84e4-a1849aaf2537"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-dd18-7272-84e4-a1849aaf2537.request.json",
+      "sha256": "881c64aea581fbfe6e2bf83c49d261592bae65b5a4280dc0e5c38324fce7d50c"
+    },
+    {
+      "path": "calls/01a19f97-dd18-7272-84e4-a1849aaf2537.response.json",
+      "sha256": "c2478af8f136414aeb646bee508054c0100601784b06b1ea51a833a84d5aee18"
+    }
+  ],
+  "sha256": "e99f2a35d968ee8713c74b1c91e4feb6a917ce21f769b2cf8f45afec7ae07e82"
+}

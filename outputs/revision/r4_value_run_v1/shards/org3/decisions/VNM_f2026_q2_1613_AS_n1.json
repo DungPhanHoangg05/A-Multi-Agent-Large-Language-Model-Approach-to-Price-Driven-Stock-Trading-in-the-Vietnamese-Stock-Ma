@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "7e2c572d433a79162e68aab3acd8dd27fc0cff9da2a59f6539b7767fbdee4915"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is down with support at 56.5 and resistance at 57.5; all 5 alpha factors signal decrease and MACD line is below signal line.",
+    "evidence_against": "MACD histogram is still positive but declining, indicating weakening momentum.",
+    "justification": "Shorting aligns with the prevailing bearish trend and quantitative signals; the risk-reward ratio of 2.5 offers acceptable upside relative to the downside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-aa31-7791-a320-9c8f78fb538f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-aa31-7791-a320-9c8f78fb538f.request.json",
+      "sha256": "136e5e5febe1cf73ab08ef237a72aa45127ec4d95340a2150a15569ecb4c33d3"
+    },
+    {
+      "path": "calls/01a19f9f-aa31-7791-a320-9c8f78fb538f.response.json",
+      "sha256": "c44c3d1dfcbb880303597117b1febd8f2f0669106bb5ac4c9e34f69b4ba9e809"
+    }
+  ],
+  "sha256": "0e0c76bf7d7b4b533914fdaf2c89e462e401f96dfb8eefa5d6ce660ddd4ef0ac"
+}

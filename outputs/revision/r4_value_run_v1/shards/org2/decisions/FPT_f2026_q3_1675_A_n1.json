@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "b0f1cd3b5f9e0fbb25fd05b2787f8c0043c3d4c39ad181813b762b17cfabddc1"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a breakout above 66.5 within 3 days, supported by bullish alpha factors and accumulation pattern. MACD shows bearish momentum, but the overall bullish consensus outweighs this signal.",
+    "evidence_against": "MACD line below signal indicates potential reversal.",
+    "justification": "Given the expected price increase above 66.5, the 0.7% total fee and slippage can be covered, making a LONG trade viable. The bullish alpha and pattern signals provide additional confirmation, outweighing the bearish MACD.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-d82d-7153-b96a-af66cc6cf270"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-d82d-7153-b96a-af66cc6cf270.request.json",
+      "sha256": "287a67da164127915ab60f1b101058674321d29dadca5394861f91a950f0979f"
+    },
+    {
+      "path": "calls/01a19f9e-d82d-7153-b96a-af66cc6cf270.response.json",
+      "sha256": "9cab10ec2fcd0e4b9bff16a67e2e263460d5d18880ba3df9ac9c22a034762a0b"
+    }
+  ],
+  "sha256": "69ba5d9f3b70af5358e07047b8b78e5f17fd75f5d525f596812f0f28f4d200ed"
+}

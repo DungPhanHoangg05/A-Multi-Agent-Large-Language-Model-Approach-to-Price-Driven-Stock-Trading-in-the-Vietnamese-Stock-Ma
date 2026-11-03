@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "f0fe001ee46df5e58361ee31b952987e75af3f65345c622751f903d223f50e80"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern analysis indicates a downtrend with repeated lower highs and lower lows. MACD is below signal with negative histogram, confirming bearish momentum.",
+    "evidence_against": "Trend analysis suggests a sideways movement, which could reduce the probability of a sustained decline.",
+    "justification": "Given the bearish pattern and negative MACD, a short position aligns with the expected price decline over the T+2.5 horizon. The risk of holding cash is higher than the potential reward from a short trade, especially with the 0.7% two-way slippage considered.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-0c41-7fd3-9867-31742ebea5b4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-0c41-7fd3-9867-31742ebea5b4.request.json",
+      "sha256": "ffea5cb9d3fca71eee4f993d42e76123e87cfb3933ccc8c09b481f1da2dfe356"
+    },
+    {
+      "path": "calls/01a19f89-0c41-7fd3-9867-31742ebea5b4.response.json",
+      "sha256": "49e4d71631a697e6a355c7e9bb423e964a94395626b981d5c40de050d043c082"
+    }
+  ],
+  "sha256": "15a64fd83b14ee904aed0fb5570bdae6d6228d5be3dcd7c303fc2010060a5d4d"
+}

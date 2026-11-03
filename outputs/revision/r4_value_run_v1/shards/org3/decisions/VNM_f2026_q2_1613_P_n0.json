@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": "e043ba0fc34a8f855f1dfd31285a06c9d96ac528f3db1fd66f3623d24d782a05",
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "65c5378828a1e5bd58b9ad82e840c7848942a7c3d247c567d83af4010c856176"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 56.5 and resistance at 57.5; Alpha factors show 4 out of 5 negative signals and MACD line is below zero with decreasing momentum.",
+    "evidence_against": "MACD line is above its signal line, indicating a potential short‑term reversal.",
+    "justification": "Given the prevailing downtrend, negative alpha consensus, and decreasing momentum, a short position aligns with the risk‑reward profile; the short horizon allows capture before the T+2.5 settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-47c4-7903-a072-ae08ecbb073d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-47c4-7903-a072-ae08ecbb073d.request.json",
+      "sha256": "860bd0016ae5599a34dfdbcbfae6de562c74cdc1a5e76bdeab7290e0eb03561d"
+    },
+    {
+      "path": "calls/01a19f9f-47c4-7903-a072-ae08ecbb073d.response.json",
+      "sha256": "028d0c7ee6ab1fd94b0e9ceed25c581988ae5b2f2e429c7019a340fcfa37c528"
+    }
+  ],
+  "sha256": "9bddae8277f94c5d53d5758c585fd09211244ceff69dc7f9a0aa9ebe97bad9d8"
+}

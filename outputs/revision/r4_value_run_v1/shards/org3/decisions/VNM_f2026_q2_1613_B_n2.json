@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "eccb2055bd36c374f068fcf6888fbeaee3503683ff1487c761f4eac466eacb38"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a sustained downtrend with support at 56.5 and resistance at 57.5, and MACD indicates bearish momentum with a positive histogram declining.",
+    "evidence_against": "None",
+    "justification": "The combination of trend, pattern, and indicator signals a clear bearish bias, making a short position optimal for the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa1-123c-7293-86ae-3c77df32c25b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19fa1-123c-7293-86ae-3c77df32c25b.request.json",
+      "sha256": "3816a8305d467f6c548a2577df1d32162f1127305943a29f5c83a15824731c26"
+    },
+    {
+      "path": "calls/01a19fa1-123c-7293-86ae-3c77df32c25b.response.json",
+      "sha256": "8d0e6464e11f1b9e0a0333040cda9845daed8f83f1b415334af9f50f81d141f8"
+    }
+  ],
+  "sha256": "a8c6c5227ff0d8973b50dde401534757ae2f31dda6b4354146980ebb8c4009ca"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "8482498d993d147a5d3acd6fa49ebd7d0d7c6f36613e6cf9374b8679bd963e6e"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Trend up with support 19.70 and resistance 20.65, MACD above signal with positive histogram, V reversal pattern indicates bullish breakout.",
+    "evidence_against": "Negative sentiment score -0.084308 indicates slight bearish mood.",
+    "justification": "Given bullish trend, pattern, and MACD confirmation, a long position is justified, with target 21.00 and stop 20.25 to manage risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-ff03-7e40-a06e-4bc619b17e44"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-ff03-7e40-a06e-4bc619b17e44.request.json",
+      "sha256": "9851c837db1fffbbf3469bfc1d6e070c3cfb929e31351ec67dc77d3109a4382a"
+    },
+    {
+      "path": "calls/01a19f8f-ff03-7e40-a06e-4bc619b17e44.response.json",
+      "sha256": "6804dfa9b4e55c8bef518b28cf4fd3814fb27cf59e0d4530faf22325e3a75539"
+    }
+  ],
+  "sha256": "fa38642455d5149d6186f9be9876344ef3fbdbb391638ded3578764c40936d23"
+}

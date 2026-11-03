@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "d434e1476b6b1730af62e188e95698ab553a896af3544aef901ac780fab87cb3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.7,
+    "evidence_for": "Trend up with price above support 70.5 and approaching resistance 74.5, pattern indicates bullish continuation. Potential return of ~2.5% exceeds fee cost of ~0.7%.",
+    "evidence_against": "MACD line below signal and negative histogram indicates bearish momentum.",
+    "justification": "Long position expected to capture upward movement to resistance within 3 days, with net profit after fees. MACD bearish signal reduces confidence but trend and potential return justify the trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-5d9d-7412-a84c-fb612c4e228f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-5d9d-7412-a84c-fb612c4e228f.request.json",
+      "sha256": "8eb014a70257057f9a56cb60590185fcf3295c19c7e369ac1d10d0768a91d325"
+    },
+    {
+      "path": "calls/01a19f9d-5d9d-7412-a84c-fb612c4e228f.response.json",
+      "sha256": "d4c944418147580c331fc8f0fb78222986a311b375bc252fea42bbe65f43d58e"
+    }
+  ],
+  "sha256": "c739ce937e44086db4b1b3dffdbf5106850c08b4beaaadee5ee77012df694699"
+}

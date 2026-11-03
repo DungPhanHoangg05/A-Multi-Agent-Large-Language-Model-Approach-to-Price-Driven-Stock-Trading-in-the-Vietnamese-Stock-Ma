@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "c261dd74e477dcc28508f3440993261f44b02aa130229661cc2649a2afe4b8a0"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis shows persistent decline below resistance 23.5 and alpha factors overall negative, supporting a short position.",
+    "evidence_against": "MACD line above signal but histogram decreasing indicates weakening bullish momentum, not strong enough for a long.",
+    "justification": "Short aligns with the downtrend, negative alpha consensus, and protects cash over the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-4f83-7001-9933-9c118b8af2d0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-4f83-7001-9933-9c118b8af2d0.request.json",
+      "sha256": "a27bacf353ec97917cda2592a7e6c83cf9976f386ddc89dee160775b2f22035f"
+    },
+    {
+      "path": "calls/01a19f92-4f83-7001-9933-9c118b8af2d0.response.json",
+      "sha256": "e976679871f805829adfca287d8df3ae928198d441cef8e2fd7eeeeea2babe7e"
+    }
+  ],
+  "sha256": "14ad533eb43032d6c9ad8ae25ca6741fa187e0b030cafb7d3295cf3b3889e216"
+}

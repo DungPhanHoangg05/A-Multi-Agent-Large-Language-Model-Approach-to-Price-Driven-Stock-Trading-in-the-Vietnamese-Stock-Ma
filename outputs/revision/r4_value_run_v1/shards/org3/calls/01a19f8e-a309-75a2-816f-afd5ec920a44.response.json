@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8e-a309-75a2-816f-afd5ec920a44",
+  "parent_request_hash": "1b3986b99a58d900a4906a75ef4e95dd33f0e6fb76804aba7f6df1d077bc609a",
+  "ended_at_utc": "2026-11-03T03:58:09.455043+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"Pattern flag rising and price near resistance 62.5 with target 63.5; MACD histogram trending up indicating increasing momentum.\",\"evidence_against\":\"MACD line below signal line suggests bearish momentum.\",\"justification\":\"Trend and pattern confirm bullish direction; target 63.5 gives >1.8% net profit after fees, risk reward ratio 1.2.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"Pattern flag rising and price near resistance 62.5 with target 63.5; MACD histogram trending up indicating increasing momentum.\",\"evidence_against\":\"MACD line below signal line suggests bearish momentum.\",\"justification\":\"Trend and pattern confirm bullish direction; target 63.5 gives >1.8% net profit after fees, risk reward ratio 1.2.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1006,
+                "prompt_tokens": 1451,
+                "total_tokens": 2457,
+                "completion_time": 1.087763506,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 888
+                },
+                "prompt_time": 0.093942518,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391344965,
+                "total_time": 1.181706024
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_5979a0e1b7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8e-a309-75a2-816f-afd5ec920a44-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1006,
+        "prompt_tokens": 1451,
+        "total_tokens": 2457,
+        "completion_time": 1.087763506,
+        "completion_tokens_details": {
+          "reasoning_tokens": 888
+        },
+        "prompt_time": 0.093942518,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391344965,
+        "total_time": 1.181706024
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_5979a0e1b7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

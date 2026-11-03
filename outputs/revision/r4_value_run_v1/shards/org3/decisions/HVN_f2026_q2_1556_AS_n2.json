@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "7110f06820fec30fe2b940cd940aafba5add9572a7eb09af89a66e6236f12b44"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Alpha factors overall indicate a decrease trend, and MACD shows bullish momentum but trend and alpha conflict.",
+    "evidence_against": "Trend analysis predicts a slight upward movement toward resistance 23.5.",
+    "justification": "Given the dominant negative alpha signals and the risk of a reversal, a short position protects cash over the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-1e0c-7f80-9ae5-0d98eb16542c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-1e0c-7f80-9ae5-0d98eb16542c.request.json",
+      "sha256": "c9ed034d363d2e70776971ef3589bd4db394557f09755fa577355e48860d3a18"
+    },
+    {
+      "path": "calls/01a19f95-1e0c-7f80-9ae5-0d98eb16542c.response.json",
+      "sha256": "f7a36b8c6d3fdb91863d8f0f5a099aa71e2294f287480f92ede7283981082691"
+    }
+  ],
+  "sha256": "92d436ad1449e48aea08ec555afc7be44602e3abc39d73b39cdef7233f953c6f"
+}

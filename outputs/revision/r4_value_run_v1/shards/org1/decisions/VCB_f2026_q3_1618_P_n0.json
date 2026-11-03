@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": "92841529515e2f6f1ea74640f7363e2b22ca4bf2bb822d0ce83ccf408d6fe00a",
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "5c5dec252a88e73c067dc71f42504eff1cc1dc2184e183970d78b03194fd3715"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "MACD golden cross and positive histogram confirm bullish momentum; V-shaped pattern with price above 61.5 and target 63.5 supports entry.",
+    "evidence_against": "None of the alpha factors strongly contradict the bullish view.",
+    "justification": "Entry at open with target 63.5 and stop 60.5 yields a 1:1.2 risk-reward; bullish indicators outweigh any negative signals.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-6da8-7c01-91dc-0b96365bf1e4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-6da8-7c01-91dc-0b96365bf1e4.request.json",
+      "sha256": "df88276351256bb502fcc4482f4fbde0755503058e84aa6228adcca55e0f4731"
+    },
+    {
+      "path": "calls/01a19f91-6da8-7c01-91dc-0b96365bf1e4.response.json",
+      "sha256": "7cab9c10fcf7fefb1a779fe79d420e212ed5a27cd31364cb30454e08cfc659a1"
+    }
+  ],
+  "sha256": "6eda61ac3b38602348a18bbdba2bff958f32fea7bd7c4501be30590ace074b62"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "6e251b7199a1b3a5292565a4a72bd171f4f48e1c07254ef03533726ae4a6ce9c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support at 21.0 and resistance at 22.0, MACD histogram positive indicating increasing momentum.",
+    "evidence_against": "Alpha factors overall indicate a down trend and MACD line remains negative, suggesting potential reversal.",
+    "justification": "Given mixed signals and risk of not covering fees, holding cash is safer for the 3‑day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-94c6-7e13-a8ca-b55002adedc4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-94c6-7e13-a8ca-b55002adedc4.request.json",
+      "sha256": "1fc8fbfcafa930c8d2d511aa1031076f6ae55f5d518e964463dff3b1881c92eb"
+    },
+    {
+      "path": "calls/01a19f88-94c6-7e13-a8ca-b55002adedc4.response.json",
+      "sha256": "e8a324f326a9b2f23954bad0aee82881e8134f5ebedab767b93111cd5c0fda68"
+    }
+  ],
+  "sha256": "0ca5b24b69f8b32b20ad3721d8dde20d8752db10d1d56acca6b0162bd0e8a074"
+}

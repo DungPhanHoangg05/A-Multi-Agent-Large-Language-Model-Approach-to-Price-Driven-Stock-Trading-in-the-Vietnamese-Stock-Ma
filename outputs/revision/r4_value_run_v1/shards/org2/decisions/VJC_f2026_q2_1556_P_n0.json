@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": "eccb39a87243b96d387f255aa2e8ccd7397bec8c2f6050512f356ba77da58c1e",
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "32060087407f3766c9826fc7cbffba0e427eab056e1c56fee16c07ab9d02163d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support at 118 and resistance at 128, MACD bullish momentum.",
+    "evidence_against": "All 5 alpha factors indicate decrease, suggesting potential reversal.",
+    "justification": "Trend suggests upward but alpha signals negative, risk of reversal; better hold cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-8935-7751-b805-1edb6ef371ff"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-8935-7751-b805-1edb6ef371ff.request.json",
+      "sha256": "0cce9d144829e6294318d39d36bc27833e723366298b23a2899ca524d1781df9"
+    },
+    {
+      "path": "calls/01a19f89-8935-7751-b805-1edb6ef371ff.response.json",
+      "sha256": "41341a07dfb550cd3d6fdb3cc5b2119e331c272a16edb710210d7264704a7ece"
+    }
+  ],
+  "sha256": "d82dc30e6ae5a700c2202b650d1a2a622fc1af46ee66504fe55c04d4a976ce57"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "7945220b1a80a8c25231cf47560179059f1ca98050771264acb532c993e36672"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear uptrend with price above resistance and MACD line above signal indicating bullish momentum. V-shaped reversal pattern confirms a strong reversal and supports a long entry.",
+    "evidence_against": "Two alpha factors indicate a decrease, suggesting some downside risk.",
+    "justification": "Given the bullish trend, strong MACD confirmation, and V-pattern reversal, a long position is justified. However, mixed alpha signals warrant caution and a tight stop at 22.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-215f-7a20-9a11-89366a6a3425"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-215f-7a20-9a11-89366a6a3425.request.json",
+      "sha256": "2619bcd8f47957985bb7eb361e012280b8c01ad5ec6205e204aa50a8f1603ca4"
+    },
+    {
+      "path": "calls/01a19f9b-215f-7a20-9a11-89366a6a3425.response.json",
+      "sha256": "878fbb861db5609d35acc60ba667f49c34337aaebcf3b2ffc2184c6a70631119"
+    }
+  ],
+  "sha256": "11379db69c8dd564285aa73d1411ef2aab278f352c660a99e78439d64784316e"
+}

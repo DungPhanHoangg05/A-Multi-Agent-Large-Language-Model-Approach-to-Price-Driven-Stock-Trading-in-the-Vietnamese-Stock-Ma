@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "d88594ce4cd7b5534c1883515f7072b4d630a4326688d366aa970f50b599d990"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum; majority of alpha factors signal a decline.",
+    "evidence_against": "Trend analysis indicates sideways movement, which could support a neutral stance.",
+    "justification": "Given the bearish MACD, negative alpha consensus, and lack of bullish confirmation, a short position is prudent; holding cash avoids potential losses if the price stalls.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-ed25-7d50-a7fc-ba9a81adf4de"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-ed25-7d50-a7fc-ba9a81adf4de.request.json",
+      "sha256": "944abec4913f5686e91dcf1b6d9057397be02de44c385c2fe5fe915198d64e42"
+    },
+    {
+      "path": "calls/01a19f9c-ed25-7d50-a7fc-ba9a81adf4de.response.json",
+      "sha256": "bede3990650769bdb18903e21e2a42bdef31e29297b25b32d1cd4d5591555ea9"
+    }
+  ],
+  "sha256": "f8e244dab1706f6af0aa6401420f60735196ba26f96a56a322fa0f42346d4f44"
+}

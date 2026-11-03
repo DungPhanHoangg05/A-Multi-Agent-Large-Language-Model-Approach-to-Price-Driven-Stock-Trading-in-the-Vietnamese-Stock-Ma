@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "c2c898c8b71e8f64e75cc5f13d602dd1f56bc4e7c9d011ec23b94290f2030ae3"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows continuous decline over last 3 days and support at 130.5; Alpha factors unanimously signal decrease.",
+    "evidence_against": "MACD line above signal suggests short‑term bullish momentum.",
+    "justification": "Given the prevailing downtrend and negative alpha consensus, a short position aligns with risk management; the short‑term bullish signal is insufficient to override the broader bearish context.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-6b37-7921-ba61-7c45ffb24add"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-6b37-7921-ba61-7c45ffb24add.request.json",
+      "sha256": "ef1705118bc98afc5febcc90f1639bec85653e6c7453d6e64a8c730f0a28230b"
+    },
+    {
+      "path": "calls/01a19f97-6b37-7921-ba61-7c45ffb24add.response.json",
+      "sha256": "43603cf0e8ad3cd961033bc4e28e3cf7cfbad4954591aed5128fb27cf9747607"
+    }
+  ],
+  "sha256": "a709286871d47490966bec7ada7404cbd967990b86644beac4a387b1b2f5cb58"
+}

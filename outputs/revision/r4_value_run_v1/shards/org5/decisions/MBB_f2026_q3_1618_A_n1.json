@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "0aa9886da48f5ac3508624b8dafe9de6cf46e752291aff3885d7213e02653187"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bullish with price above support 19.70 and breaking resistance 20.65. MACD line is above signal with positive histogram indicating momentum.",
+    "evidence_against": "Three out of five alpha factors indicate a downward bias, outweighing bullish signals.",
+    "justification": "Given the negative alpha consensus, shorting aligns with risk management and preserves cash over the T+2.5 horizon. The bullish indicators are insufficient to offset the alpha-driven bearish outlook.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-4d3b-7172-98f6-c5c132de8783"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-4d3b-7172-98f6-c5c132de8783.request.json",
+      "sha256": "b3cf94fcaf83a95bbc4a96cd5f41949b61681fde96d722a884530a7f8cb352ce"
+    },
+    {
+      "path": "calls/01a19f92-4d3b-7172-98f6-c5c132de8783.response.json",
+      "sha256": "31b00767a60be30d4047186ef53e3158d6fbf65197256c88fe881e3900dd9682"
+    }
+  ],
+  "sha256": "c81847446fa80a56bb2358b2fab705bf91a3b917880ca8d7acf43f204839cd46"
+}

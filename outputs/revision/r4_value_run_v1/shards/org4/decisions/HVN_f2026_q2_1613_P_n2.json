@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "920775ed3ce40e543ade8ad3f257d451da711bf9786098b34c4716bd1d2070ed"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a downtrend with price below resistance and approaching support at 21.0. Alpha factors show 4 out of 5 negative signals, confirming bearish bias.",
+    "evidence_against": "MACD line is above signal, suggesting bullish momentum.",
+    "justification": "Given the bearish trend, negative alpha consensus, and support level at 21.0, a short position is justified. The bullish MACD is outweighed by stronger bearish indicators and the risk of a reversal is low.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-bb75-7b91-8cab-4488e4153fcb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-bb75-7b91-8cab-4488e4153fcb.request.json",
+      "sha256": "ab414ed7d489219057db3b3dce41cc4287d973457cdac30efd3a1465e1653ad2"
+    },
+    {
+      "path": "calls/01a19f93-bb75-7b91-8cab-4488e4153fcb.response.json",
+      "sha256": "50e1b0616f0c829ea61c1cd03caa801fc932da1a1de77798ed6e1c561ba335e5"
+    }
+  ],
+  "sha256": "dec1a5a563408451be0bb53ed8feef77f9347035a7c2f506412036de47e5577e"
+}

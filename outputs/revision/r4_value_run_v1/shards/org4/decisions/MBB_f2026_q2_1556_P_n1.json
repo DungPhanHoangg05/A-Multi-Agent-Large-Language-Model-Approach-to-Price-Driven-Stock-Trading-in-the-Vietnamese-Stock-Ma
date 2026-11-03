@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": "e53c4c8b2393f7a547498c812f0ac2ee733bae826a462cce0a3aa36f2831e2b0",
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "2a5c33191fdbb2cb45062318fe044465cc81ce92955e3809b7f7ccfa70c4a42d"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend is up with price near support 21.0 and approaching resistance 22.0; pattern indicates potential breakout to 22.5.",
+    "evidence_against": "MACD line is below signal, suggesting bearish momentum.",
+    "justification": "Expect price to reach 22.5 before T+2.5, generating ~4% return after fees; risk is limited to 0.7% of trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-d828-7830-9e5d-9b78c6032f07"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-d828-7830-9e5d-9b78c6032f07.request.json",
+      "sha256": "94bbfdc14c890965f790fda5a0b5d1fca8ace3957ebafd4e905fe20e1569df0e"
+    },
+    {
+      "path": "calls/01a19f8b-d828-7830-9e5d-9b78c6032f07.response.json",
+      "sha256": "c7d21c42fd3185b4037029b35b652338d25262421e7b964574911319b5caa870"
+    }
+  ],
+  "sha256": "d5924fce54200e432903c867175ed069cfe288e2f86e5af6825283cc7534813f"
+}

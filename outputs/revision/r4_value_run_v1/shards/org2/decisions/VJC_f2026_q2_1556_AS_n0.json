@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "9a6bc343b501e60591e26848df8e6eca4e13ed5f19cab1dab48362d476823f3a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend up with support at 118 and resistance at 128, MACD bullish crossover and positive histogram. Alpha factors show 3 out of 5 positive signals and overall upward bias.",
+    "evidence_against": "Potential downside if price fails to break resistance at 128 within horizon.",
+    "justification": "Buy at open on T, target near 128, stop at 118; expected net profit >0.7% after fees. Given bullish indicators and alpha consensus, LONG is preferred over SHORT.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-8239-7981-98d3-c4df8c2e4850"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-8239-7981-98d3-c4df8c2e4850.request.json",
+      "sha256": "fe226c7373ab211b9e0f0f8e6c82f9893fd10aca441bb316e13c3ea874ffaba7"
+    },
+    {
+      "path": "calls/01a19f89-8239-7981-98d3-c4df8c2e4850.response.json",
+      "sha256": "a8e794277871e501cad70426ba28073980e4ac13e9d0cc5fa892b73e2ea20c3a"
+    }
+  ],
+  "sha256": "0cda981d724b8bc88a4dc810b0cbf65ce7c00da61fe0c0ef6eb631c070eb54ba"
+}

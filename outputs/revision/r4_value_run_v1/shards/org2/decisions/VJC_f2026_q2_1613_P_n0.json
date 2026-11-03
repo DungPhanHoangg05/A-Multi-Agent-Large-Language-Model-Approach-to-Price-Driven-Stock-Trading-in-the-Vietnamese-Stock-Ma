@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": "faa3dbaab887568dbf59a1066db0b84e44b1482cdeb97ad1d2b56fe201f2f57a",
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "fbbcd84b654dc32e05bebfa5441847af64a8fbb7107306dca537fe8da877566b"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis shows a downtrend with price near support, indicating potential for further decline. MACD line above signal but histogram decreasing suggests weakening bullish momentum, supporting a short position.",
+    "evidence_against": "Alpha factors include 3 positive signals, which could indicate a potential reversal.",
+    "justification": "Given the downtrend and weakening bullish momentum, a short position aligns with the forecast horizon of T+2.5. The risk-reward ratio of 2.5 provides a favorable trade setup while adhering to the 0.70% two-way slippage and commission constraints.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-63a7-7351-8121-60fa403b6309"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-63a7-7351-8121-60fa403b6309.request.json",
+      "sha256": "28e9c628c84e77ffb2e5054370b8e3da5ea3d4d7045e30a9c8e6043334e5905e"
+    },
+    {
+      "path": "calls/01a19f91-63a7-7351-8121-60fa403b6309.response.json",
+      "sha256": "47082b4d02409f77521b247fda2a53804a46bb7b7217ff2034df16fc280cf909"
+    }
+  ],
+  "sha256": "1e2abc213c6176080beea26140ddbd70101ae0ae2d7bbc06a8e5adfb30dcebb1"
+}

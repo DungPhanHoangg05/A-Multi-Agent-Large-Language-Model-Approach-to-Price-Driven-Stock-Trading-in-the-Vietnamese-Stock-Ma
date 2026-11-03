@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19fa1-31a6-7ff0-9f95-3da70b4a417c",
+  "parent_request_hash": "c31907db2d0881bb28e0fc0d6e619d650e81b767616877702b9cea7c6c848202",
+  "ended_at_utc": "2026-11-03T04:18:26.365152+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is bearish with support at 56.5 and resistance at 57.5, alpha factors all signal decline.\",\"evidence_against\":\"MACD histogram shows decreasing momentum, but still above zero.\",\"justification\":\"Shorting aligns with trend and alpha consensus, ensuring cash holding until T+2.5 settlement. The risk‑reward ratio of 2 balances potential upside against the 0.70% two‑way slippage and 0.25% broker fee.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is bearish with support at 56.5 and resistance at 57.5, alpha factors all signal decline.\",\"evidence_against\":\"MACD histogram shows decreasing momentum, but still above zero.\",\"justification\":\"Shorting aligns with trend and alpha consensus, ensuring cash holding until T+2.5 settlement. The risk‑reward ratio of 2 balances potential upside against the 0.70% two‑way slippage and 0.25% broker fee.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 402,
+                "prompt_tokens": 1801,
+                "total_tokens": 2203,
+                "completion_time": 0.478558886,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 266
+                },
+                "prompt_time": 1.315089771,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.351068084,
+                "total_time": 1.7936486569999999
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19fa1-31a6-7ff0-9f95-3da70b4a417c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 402,
+        "prompt_tokens": 1801,
+        "total_tokens": 2203,
+        "completion_time": 0.478558886,
+        "completion_tokens_details": {
+          "reasoning_tokens": 266
+        },
+        "prompt_time": 1.315089771,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.351068084,
+        "total_time": 1.7936486569999999
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "38d515bad5a1fe23b1549c3d823ff6ebe54f74d39188a660689ef13b267568bf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up, price near resistance 74.5, support 70.5.",
+    "evidence_against": "MACD below signal, histogram negative.",
+    "justification": "Trend suggests potential upside but MACD indicates bearish momentum, so short to avoid risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-805e-7290-84ab-1c3f815665eb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-805e-7290-84ab-1c3f815665eb.request.json",
+      "sha256": "c72884a7c52b3a4ce3a7dbca273cf7c8e53127be0b521349d23a0ee812493f7a"
+    },
+    {
+      "path": "calls/01a19f9c-805e-7290-84ab-1c3f815665eb.response.json",
+      "sha256": "9eee9bd2f582ecee7145d56e6bcae95a00c68502f54019d72bba57fb64a2ce6c"
+    }
+  ],
+  "sha256": "c431483a9bdd6c443b4f2ecbc8039072a680086872edffdbde91098e4ad6d8e9"
+}

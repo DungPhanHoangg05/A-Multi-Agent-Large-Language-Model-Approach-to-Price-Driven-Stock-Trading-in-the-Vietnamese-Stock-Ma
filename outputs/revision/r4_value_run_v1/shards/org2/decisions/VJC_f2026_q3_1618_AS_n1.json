@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "164f987bb0b7f238a8c7e7291bfb40726873f0d46d219569cf9e8301d7728609"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD death cross signals bearish momentum; majority of alpha factors indicate a downtrend.",
+    "evidence_against": "Pattern suggests a breakout above 141 could occur.",
+    "justification": "Trend is sideways with weak demand, and bearish indicators outweigh bullish signals; shorting preserves cash until clearer upside emerges.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-49fd-7a72-807e-0698f2b7a6a5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-49fd-7a72-807e-0698f2b7a6a5.request.json",
+      "sha256": "6aecf7aabd6d43a1d696df80fbf487aad8b2c1838c4837fc32f25a4d48fa24e6"
+    },
+    {
+      "path": "calls/01a19f99-49fd-7a72-807e-0698f2b7a6a5.response.json",
+      "sha256": "38f5e76d2623996ed64bcdef153d547e41d6ca0fd7fffb37fa7871d40791a7de"
+    }
+  ],
+  "sha256": "5fce1e219ca40e1451742cb795e9bd4341b0a5b7118e8388becf0b5961fe1fde"
+}

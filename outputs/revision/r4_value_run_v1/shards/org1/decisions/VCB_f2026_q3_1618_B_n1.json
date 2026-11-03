@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "f927d70f48da89921275d227f021761b6102b447ef9f6784e8da048027f10295"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is bullish with support at 60.5 and resistance at 64.5, and price has broken above 61.5. MACD shows a golden cross and positive histogram, confirming upward momentum.",
+    "evidence_against": "The upside potential may be limited to 64.5, which could be insufficient to fully cover transaction costs if the price does not reach that level.",
+    "justification": "Given the bullish trend, pattern reversal, and MACD confirmation, a LONG position is justified. The expected reward exceeds the cost of fees and slippage, providing a favorable risk‑reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-c185-7b11-a60a-7d5242cc2226"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-c185-7b11-a60a-7d5242cc2226.request.json",
+      "sha256": "3ab851f1a3db869d29112ce5146fa953700b0fa99a0d9ffd62e350b07d80cef2"
+    },
+    {
+      "path": "calls/01a19f92-c185-7b11-a60a-7d5242cc2226.response.json",
+      "sha256": "9390e689647ea436ccae7c85ebace113e22ee4d3fb71452d1e3dd616fb6b7ae2"
+    }
+  ],
+  "sha256": "57d60e4e04ba63ff0be6f0e160aadc9784bb698b4548decd1cefe38608b7fb86"
+}

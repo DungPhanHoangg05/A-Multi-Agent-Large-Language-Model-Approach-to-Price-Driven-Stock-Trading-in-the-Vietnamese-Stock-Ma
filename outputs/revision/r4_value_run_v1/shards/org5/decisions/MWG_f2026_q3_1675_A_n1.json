@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "48dc4a8bfb0864aa3ce1dc0e4aaf26414a5175d52abebdac7b10bb378b562a98"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram indicates bearish momentum.",
+    "evidence_against": "Trend is up but alpha factors all negative.",
+    "justification": "Alpha factors all negative and MACD bearish, so short is safer.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-fc38-73c2-9b38-ed5a570fdf67"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-fc38-73c2-9b38-ed5a570fdf67.request.json",
+      "sha256": "453c0cc49aab5279bfd762fb73fae2c413ed57c3911416de87ab3a159c80c42c"
+    },
+    {
+      "path": "calls/01a19f9b-fc38-73c2-9b38-ed5a570fdf67.response.json",
+      "sha256": "bbf88f5a959332c9a96864494e634bb01d835332a3f059dc5a38ac55c2e7579d"
+    }
+  ],
+  "sha256": "691b835d41540ff912e60c3f9ab82d5e5d13176b97ef53198e9c8ea36177b86f"
+}

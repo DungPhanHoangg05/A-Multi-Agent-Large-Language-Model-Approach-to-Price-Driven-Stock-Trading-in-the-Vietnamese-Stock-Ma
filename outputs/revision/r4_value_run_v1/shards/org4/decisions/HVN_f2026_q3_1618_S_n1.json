@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "8c203cd7bc97627b5065adaced32d6f4ad22092e434ceb1837f05a49bc24a175"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bullish with price above support and near resistance, pattern confirms reversal, MACD bullish.",
+    "evidence_against": "Potential risk if price fails to break resistance at 24.5.",
+    "justification": "Long position justified by bullish trend, reversal pattern, and MACD confirmation, targeting 24.5-25.0 with stop at 22.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-f114-7622-9f25-3b9542577546"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-f114-7622-9f25-3b9542577546.request.json",
+      "sha256": "75539bb6c7f884b8fd1579c483caa16103b30740824bd8d14350d5f0c143d6e5"
+    },
+    {
+      "path": "calls/01a19f96-f114-7622-9f25-3b9542577546.response.json",
+      "sha256": "f7aa0b90e43718734137cbbdb009e04723a7453b23e0bf385d36c06bcb404a55"
+    }
+  ],
+  "sha256": "05a793c35ce919cfba09dc3197cc934f00f9fe0f10a168d5c581af534090878e"
+}

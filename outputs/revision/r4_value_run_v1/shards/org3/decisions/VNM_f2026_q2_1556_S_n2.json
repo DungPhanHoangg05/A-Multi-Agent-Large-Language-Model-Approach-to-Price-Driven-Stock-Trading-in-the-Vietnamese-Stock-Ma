@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "5a342aafeec01c9119debdf4ae4c5764c9f7f49b1fc9041a28efb8d60ae3ff7e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD histogram positive indicates bullish momentum.",
+    "evidence_against": "Trend and pattern analysis show a downtrend with negative sentiment.",
+    "justification": "Short trade to avoid potential losses from a downtrend and negative sentiment, while capturing any short-term pullback.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-0b11-7820-98ef-d771121b8f8d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-0b11-7820-98ef-d771121b8f8d.request.json",
+      "sha256": "6a15071b3276a778ff217f5d4227f14a05f72b7243c764137901a575f0bcff8c"
+    },
+    {
+      "path": "calls/01a19f9c-0b11-7820-98ef-d771121b8f8d.response.json",
+      "sha256": "6312fc3dcc7d7617a86ef7eef81f9f7688f52e8c36ce2ea0b3e2016a1742a2f4"
+    }
+  ],
+  "sha256": "5213e23b980ff71e4439c4664f95fc85429012bd4566a4f73efdd61ae45607df"
+}

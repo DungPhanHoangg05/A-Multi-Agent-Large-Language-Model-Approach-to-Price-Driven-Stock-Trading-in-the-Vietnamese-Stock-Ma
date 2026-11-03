@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": "53f4332157d816999f4adc69e175027f0017b62db16d9e13733446d9a86375d8",
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "b4420504c6b9fc010004ebe9bd513c1774584db07742cc2b9e013ac5d38dcf71"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a flat to slightly declining pattern with support at 58.5 and resistance at 61.5; MACD histogram is positive while MACD line remains below zero, indicating bearish momentum. Alpha factors overall indicate a downward bias with 3 out of 5 factors negative.",
+    "evidence_against": "Trend analysis indicates a sideways market, lacking a clear break below support.",
+    "justification": "Shorting aligns with the bearish consensus from trend, alpha, and sentiment data, maximizing potential upside while minimizing exposure to a likely decline. The risk-reward ratio of 2:1 provides a favorable trade-off given the expected price movement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-7b32-7783-b542-6af8659614fc"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-7b32-7783-b542-6af8659614fc.request.json",
+      "sha256": "5369a6ec09446e3c3762e9a8a514c60f141a9964da59b41acc0a41a1dadd7f12"
+    },
+    {
+      "path": "calls/01a19f96-7b32-7783-b542-6af8659614fc.response.json",
+      "sha256": "f2d1e4f7be856b6f38f3dbddbd0fb1802c4ba2450ce52d16eb245ec15529825c"
+    }
+  ],
+  "sha256": "a6b773f840344fbbff792f34530614947b7b0035ab29c54cf956f11cd57b578f"
+}

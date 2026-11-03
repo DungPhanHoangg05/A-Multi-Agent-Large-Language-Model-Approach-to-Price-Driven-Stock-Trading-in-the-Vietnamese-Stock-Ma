@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "6d6a0c0789ae790c0606163805e06b83916c51882827908a72b3bbfc9aeb4023"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is upward and MACD line is above signal with positive histogram, indicating bullish momentum.",
+    "evidence_against": "Four out of five alpha factors are negative, suggesting potential downside.",
+    "justification": "Given the bullish trend and MACD, we expect price to rise enough to cover the 0.7% cost, but alpha signals caution, so we take a moderate stance.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-0aa7-73a0-b321-66ac86d2316b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-0aa7-73a0-b321-66ac86d2316b.request.json",
+      "sha256": "7bfe6e1a2bb51194e8d70408f35af5d425ca9333edd583022d2db320202d4592"
+    },
+    {
+      "path": "calls/01a19f90-0aa7-73a0-b321-66ac86d2316b.response.json",
+      "sha256": "f7fa69ab5b94867b4fc4114758357698711518e369957b4a3c06eacfd261dc16"
+    }
+  ],
+  "sha256": "23541d0498f1ab27da177e8aaea843c1fd9d079a220b66e9cc947eb1b24c2e62"
+}

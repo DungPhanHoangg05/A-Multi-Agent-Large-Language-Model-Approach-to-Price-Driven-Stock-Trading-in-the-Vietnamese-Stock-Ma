@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "8482498d993d147a5d3acd6fa49ebd7d0d7c6f36613e6cf9374b8679bd963e6e"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is bullish with support at 19.70 and resistance at 20.65, and price has broken above resistance. MACD line is above signal with positive histogram, indicating bullish momentum.",
+    "evidence_against": "Sentiment score is slightly negative, but has low weight.",
+    "justification": "Based on bullish trend, reversal pattern, and MACD confirmation, a LONG position is justified. The expected target of 21.00 with stop at 20.25 yields a risk-reward ratio of at least 1.0.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-197d-7a01-93d8-43f3595f7b81"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-197d-7a01-93d8-43f3595f7b81.request.json",
+      "sha256": "80b040bfbacc058ab93f26ce917a8aa8a7883e9ed844d86eafd69209b31226db"
+    },
+    {
+      "path": "calls/01a19f8f-197d-7a01-93d8-43f3595f7b81.response.json",
+      "sha256": "6d212cf796be4b1798ebd931080d769a035ac15321b57f6949a28fb4ac5ccee9"
+    }
+  ],
+  "sha256": "4919cdf7699707a350fb437f3ca5e4722b155b40a5dcdd648bdb136c5fca8c20"
+}

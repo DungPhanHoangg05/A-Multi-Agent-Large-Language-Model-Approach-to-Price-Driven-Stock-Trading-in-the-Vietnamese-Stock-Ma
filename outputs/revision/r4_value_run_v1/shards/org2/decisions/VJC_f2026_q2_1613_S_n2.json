@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "1c62b5421c161d9815ea58f62d48ff63fd7a02cab617c55b6c5984a771e39601"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 130.5 and pattern indicates a V reversal; MACD is above signal but momentum is decreasing, suggesting a potential pullback.",
+    "evidence_against": "MACD line is positive and sentiment score is above 0.6, indicating some bullish bias.",
+    "justification": "Shorting aligns with the confirmed downtrend and pattern signals, and the risk-reward ratio of 2:1 is acceptable given the expected price movement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-0dc2-78f3-8baa-45c2d47585d3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-0dc2-78f3-8baa-45c2d47585d3.request.json",
+      "sha256": "06ac8fb80a6ddda799026baa5e40e17ef975d69fb9c48d1056f84790fd04817b"
+    },
+    {
+      "path": "calls/01a19f96-0dc2-78f3-8baa-45c2d47585d3.response.json",
+      "sha256": "fca8091cb2d6bebc9ff69f2e73b1195ed8a1930f0bb3bca849058136b0ef3043"
+    }
+  ],
+  "sha256": "2e8601cc768d6d37e233537f395ed3d639888919c432a3b3e6a1c4f643adb47f"
+}

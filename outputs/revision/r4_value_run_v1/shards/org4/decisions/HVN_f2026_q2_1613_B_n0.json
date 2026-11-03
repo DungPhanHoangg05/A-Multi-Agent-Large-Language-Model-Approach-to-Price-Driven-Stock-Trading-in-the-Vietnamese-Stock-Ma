@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "6a01df0ef73ad7ee43c9ac257417320ea76966989707d7f8a0cec0c23b73994d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with price below resistance and MACD line above signal but histogram decreasing.",
+    "evidence_against": "Pattern suggests potential reversal but low confidence.",
+    "justification": "Short position to capture downward movement; trend and MACD confirm bearish momentum.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-19b4-7d22-8fa7-25af196a21b6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-19b4-7d22-8fa7-25af196a21b6.request.json",
+      "sha256": "3935b5d66e6b254dd66b209886ccd889984f14b1431138738a6b68408178cf58"
+    },
+    {
+      "path": "calls/01a19f8f-19b4-7d22-8fa7-25af196a21b6.response.json",
+      "sha256": "8193608b816212eac97975a3d2e2db1445ea88900982efa082da3c1625b349da"
+    }
+  ],
+  "sha256": "21f5434950ad15636e14d0f816b8bba2104e2f230b56db6644a441d80b7e316a"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "0605169b80d081c607834466b9386b485e0ef03b134ecfce0d17af472521a4e7"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 130.5 and resistance at 141.5; all 5 alpha factors signal decrease.",
+    "evidence_against": "MACD line is above signal but histogram is falling, indicating weakening momentum.",
+    "justification": "Shorting aligns with the prevailing downtrend and weak bullish signals; potential profit if price stays below support.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f94-9cb9-7c42-8783-47798a83dceb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f94-9cb9-7c42-8783-47798a83dceb.request.json",
+      "sha256": "50f58eef99a79ebac1aeb1e4f8fc8f74ee275f26b178296aa026e9f4fdf7a3f4"
+    },
+    {
+      "path": "calls/01a19f94-9cb9-7c42-8783-47798a83dceb.response.json",
+      "sha256": "6eb9a2b5ff972a3ba1e20da109078d79bffaf08e17da42838f1d459015590c8c"
+    }
+  ],
+  "sha256": "fa3d93c43fef23b411180d94c4a34fd6e667f321d7a0cfc25f074fd6f6bfb80d"
+}

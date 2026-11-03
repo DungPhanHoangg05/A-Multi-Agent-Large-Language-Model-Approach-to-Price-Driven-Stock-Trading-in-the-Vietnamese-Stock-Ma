@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "fe72be2197ecfc4331ff7664bf12b5ae934b61263b24d2fe46d136bde8337599"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend analysis shows sideways with potential slight decline. Pattern confirms clear downtrend and MACD line below zero with positive histogram indicates bearish momentum.",
+    "evidence_against": "Positive histogram suggests increasing momentum, which could hint at a reversal.",
+    "justification": "Given the bearish trend, pattern, and MACD confirmation, shorting (holding cash) is the prudent choice. The risk reward ratio of 1.0 reflects the expectation of minimal movement within the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-2a2f-7721-b881-1a68d61877c0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-2a2f-7721-b881-1a68d61877c0.request.json",
+      "sha256": "3ea19e7dc4a9b3a7f9373085b7768a17f8b24753ca4e5c7637b94036517f644a"
+    },
+    {
+      "path": "calls/01a19f9a-2a2f-7721-b881-1a68d61877c0.response.json",
+      "sha256": "3aaa94c9537ba892df15aabfabad4021ac92e62cca2463aa64b1428d816b3997"
+    }
+  ],
+  "sha256": "2cf1b6a0bb68f14a35400f4e5740ed77f27ed74a84ce553797332e0feb5eb9b1"
+}

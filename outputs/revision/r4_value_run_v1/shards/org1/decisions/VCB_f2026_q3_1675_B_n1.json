@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "5e7259bf6dced99aff3c51b834dbc78f9cc279bf16f677965e703f8f543528eb"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Thấp",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "MACD line below signal and histogram negative indicate weakening momentum; trend analysis shows sideways movement with price near support, suggesting limited upside. Pattern confidence is low and recent candles show weak buying pressure, reinforcing the decision to hold cash.",
+    "evidence_against": "MACD bearish and trend indicates no breakout, making a long position unlikely to cover transaction costs.",
+    "justification": "Given the lack of bullish confirmation and the risk of not covering fees, we opt to hold cash for the T+2.5 horizon. Shorting is not allowed, so the only viable action is to stay out of the market.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-bf3b-7bc2-a858-0a42078eafc4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-bf3b-7bc2-a858-0a42078eafc4.request.json",
+      "sha256": "5aa24f25019dd767f3ffd56bd6829ac874b087f187fca1d5d2e699c6c0be904a"
+    },
+    {
+      "path": "calls/01a19f9e-bf3b-7bc2-a858-0a42078eafc4.response.json",
+      "sha256": "d07ae67039815b9b7d1663bab78030edee46c4a47196f21194f0dde4a0c35fc9"
+    }
+  ],
+  "sha256": "5c97113f4a1dbe24e068096d4f6b7d096357c856d51fe4028949418993e78de7"
+}

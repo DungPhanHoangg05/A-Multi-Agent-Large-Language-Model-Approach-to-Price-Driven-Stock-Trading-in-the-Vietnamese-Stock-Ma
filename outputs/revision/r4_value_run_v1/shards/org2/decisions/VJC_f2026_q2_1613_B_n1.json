@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "32e83c9876ab6f48ed5f07076a8f152303807f741df2536476aa58c759b66faf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is downwards with support at 130.5 and resistance at 141.5, and price has been consistently closing lower for 3 days. MACD line is above signal but histogram is decreasing, indicating weakening bullish momentum, supporting a short position.",
+    "evidence_against": "MACD line remains positive, suggesting some bullish bias.",
+    "justification": "Given the downtrend and V reversal pattern, a short trade aligns with the prevailing bearish bias. The weakening MACD histogram confirms that bullish momentum is fading, reinforcing the short entry.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-aeca-70f3-bd49-c2369c151092"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-aeca-70f3-bd49-c2369c151092.request.json",
+      "sha256": "e6c725961de996d97a2a2a40dda584b017887aa662bff6674c74c96844af1ef4"
+    },
+    {
+      "path": "calls/01a19f93-aeca-70f3-bd49-c2369c151092.response.json",
+      "sha256": "6c9dfce9c7734917b7fd3cd0f22a5a8e9dcf340af5b5aed42ed03a40e2da0b9e"
+    }
+  ],
+  "sha256": "981416b0db7a5f7bfd5cd80fda036c1daeb0cbcca0b68a86ab6e7f7c14b52637"
+}

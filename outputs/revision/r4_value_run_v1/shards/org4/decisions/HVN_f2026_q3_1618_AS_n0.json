@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "7945220b1a80a8c25231cf47560179059f1ca98050771264acb532c993e36672"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend up with support at 21.0 and resistance at 24.5, MACD bullish with histogram expanding, V-reversal pattern confirms upward momentum.",
+    "evidence_against": "Alpha factors are mixed with equal up and down signals.",
+    "justification": "Expect to buy at open and sell at close within 3 days, net profit after 0.7% total fees should exceed break-even, aligning with bullish indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-83d1-74b0-9ffb-b87cd4403f88"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-83d1-74b0-9ffb-b87cd4403f88.request.json",
+      "sha256": "a3b827025d5ccc921d7818712a495a54f1360df022e8ad22851c67a010d4a053"
+    },
+    {
+      "path": "calls/01a19f96-83d1-74b0-9ffb-b87cd4403f88.response.json",
+      "sha256": "8afc34f0923dbd0bb816f0ac9bc8d076bd4cef4db7d96fd502685c06b815c621"
+    }
+  ],
+  "sha256": "e71b49e1ffda9ceffa07662e7f6bac8ff3f5388c81fc3785457a5bfba6c130df"
+}

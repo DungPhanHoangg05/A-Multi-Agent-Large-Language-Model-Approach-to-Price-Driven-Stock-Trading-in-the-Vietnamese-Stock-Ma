@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": "3873415cc50ea030ae34965d05f1229f9c456e4aea5e6b59c87cb9cd50f1b637",
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "bb7dd1a4a05d1439443e2a732fbf9726939f51d92b85e608b9afc5dad99c0a70"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Pattern bearish with repeated lower highs and lower lows, MACD below signal indicating bearish momentum.",
+    "evidence_against": "Trend analysis indicates sideways movement, which could reduce probability of a clear downward move.",
+    "justification": "Short trade aligns with bearish pattern and MACD, providing a risk reward ratio of 1.5; trend neutrality suggests caution.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-6349-7610-9245-3e4ec08896ab"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-6349-7610-9245-3e4ec08896ab.request.json",
+      "sha256": "c5703d70ba22a958c2e9f7ebebced177b571b4b639d3e89cdb55feacbb02e93b"
+    },
+    {
+      "path": "calls/01a19f8b-6349-7610-9245-3e4ec08896ab.response.json",
+      "sha256": "60e69f131b42d992dcf6cc9210ae3a34468af21a5e32e90f79ad3f3620946500"
+    }
+  ],
+  "sha256": "0a77c353eadc114c7d206cd74c8e71d93a465f7a06cf02ad50274befbd2ba37e"
+}

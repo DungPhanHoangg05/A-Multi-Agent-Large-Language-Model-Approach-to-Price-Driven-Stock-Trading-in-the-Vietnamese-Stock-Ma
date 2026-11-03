@@ -1,0 +1,59 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "13af362d9e1d36c22a229d012d50dcdc4c95bc3d06081bf052564a9a769bc5fc"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Pattern cờ tăng với breakout 141 và mục tiêu 145, hỗ trợ 138",
+    "evidence_against": "MACD death cross (0.907 vs 0.9072) báo bán",
+    "justification": "Trend sideways nhưng pattern bullish, nhưng MACD bearish nên chọn SHORT để tránh rủi ro",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f98-57de-7092-b48d-635d808d5ad0"
+  ],
+  "failed_request_ids": [
+    "01a19f98-49b9-7bb2-8974-b35996e076d9"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-49b9-7bb2-8974-b35996e076d9.request.json",
+      "sha256": "f9cc7fc0a2287fa2570a9df1e49b80fee060110e1c3908969fe9cc4b06040db7"
+    },
+    {
+      "path": "calls/01a19f98-49b9-7bb2-8974-b35996e076d9.error.json",
+      "sha256": "b56175a68ce1d820d882bd75357e43f344c2fd1a4b1142e2de21907c0dff9e88"
+    },
+    {
+      "path": "calls/01a19f98-57de-7092-b48d-635d808d5ad0.request.json",
+      "sha256": "850b291c8e9fbc2892051ced567bdcdd0ef7cbd9a344b3d7d2084b0db460fd83"
+    },
+    {
+      "path": "calls/01a19f98-57de-7092-b48d-635d808d5ad0.response.json",
+      "sha256": "33b87b96ec03decda978a4510896dda897f61c2593da12e15004830c7c988298"
+    }
+  ],
+  "sha256": "f5da2d7efe7aa6bc4996b147cf2c6be26d8721dae263ce1e949f807f6f795cd5"
+}

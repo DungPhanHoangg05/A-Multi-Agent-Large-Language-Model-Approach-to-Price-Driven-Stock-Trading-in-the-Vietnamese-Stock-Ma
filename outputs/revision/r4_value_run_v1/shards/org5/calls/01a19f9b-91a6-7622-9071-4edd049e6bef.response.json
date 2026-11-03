@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9b-91a6-7622-9071-4edd049e6bef",
+  "parent_request_hash": "e0b830358f1e5693d1de9faf880f0978c2e141579648c5bfa8b7013a81fb45a4",
+  "ended_at_utc": "2026-11-03T04:12:17.302981+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with price near resistance 74.5, MACD histogram widening suggests potential reversal.\",\"evidence_against\":\"MACD line below signal line indicates bearish momentum.\",\"justification\":\"Given conflicting signals, shorting is safer to avoid potential reversal. Holding cash preserves capital until trend confirms.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with price near resistance 74.5, MACD histogram widening suggests potential reversal.\",\"evidence_against\":\"MACD line below signal line indicates bearish momentum.\",\"justification\":\"Given conflicting signals, shorting is safer to avoid potential reversal. Holding cash preserves capital until trend confirms.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 658,
+                "prompt_tokens": 1420,
+                "total_tokens": 2078,
+                "completion_time": 0.740545286,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 557
+                },
+                "prompt_time": 0.137624875,
+                "prompt_tokens_details": null,
+                "queue_time": 0.466698815,
+                "total_time": 0.878170161
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9b-91a6-7622-9071-4edd049e6bef-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 658,
+        "prompt_tokens": 1420,
+        "total_tokens": 2078,
+        "completion_time": 0.740545286,
+        "completion_tokens_details": {
+          "reasoning_tokens": 557
+        },
+        "prompt_time": 0.137624875,
+        "prompt_tokens_details": null,
+        "queue_time": 0.466698815,
+        "total_time": 0.878170161
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

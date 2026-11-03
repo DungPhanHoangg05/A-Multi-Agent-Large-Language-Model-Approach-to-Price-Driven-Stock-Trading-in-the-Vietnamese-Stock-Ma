@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "3176546076ee69c16d67b0a166432e2ebb80b11681d72b079423798088effa35"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support at 21.0 and resistance at 22.0, MACD histogram shows widening momentum.",
+    "evidence_against": "Majority of alpha factors signal a downtrend, with 3 out of 5 indicating decrease.",
+    "justification": "Given the mixed signals and predominant negative alpha indicators, a short position is preferred to preserve cash over the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-8249-74f2-b013-38800c568a71"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-8249-74f2-b013-38800c568a71.request.json",
+      "sha256": "5d225566f923d83aa643d805f5685b9ca422b2aa3102fbbb1bb93bea3af37371"
+    },
+    {
+      "path": "calls/01a19f89-8249-74f2-b013-38800c568a71.response.json",
+      "sha256": "321300b2855441b2bf574a5c68f3b9390eb69e04c51a23a76c264e9e3ddf2703"
+    }
+  ],
+  "sha256": "5f18428d9b04a78709cfde35b3111693649a506ca9793daec817c00a79aab812"
+}

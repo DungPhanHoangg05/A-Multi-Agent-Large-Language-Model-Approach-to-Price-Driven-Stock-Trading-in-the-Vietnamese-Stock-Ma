@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": "38b766630ab80233e80f7df0c46a8774ed07139c931e6f9f274f1991d08e3d4b",
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "c31fbac8150ace41aac64b4a7e8b04212e164f58640e0e2a8a8fa6dde27e407f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support 19.70 and resistance 20.65, MACD above signal and histogram expanding. Alpha factors overall up with 2 positive, 1 negative, 2 neutral, supporting bullish bias.",
+    "evidence_against": "No significant bearish alpha signals or negative sentiment.",
+    "justification": "Buy at open when price breaks 20.75, target 21.00, stop 20.25. Expected to capture 0.70% net profit after fees within 3 days.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-74ae-72c0-8c39-6270e52e78ef"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-74ae-72c0-8c39-6270e52e78ef.request.json",
+      "sha256": "3e543e3e28cb551dc2ba57571d1258d3d694722900bbf41ababa8d314c2df73d"
+    },
+    {
+      "path": "calls/01a19f90-74ae-72c0-8c39-6270e52e78ef.response.json",
+      "sha256": "27c9b018387059908b0de9409c370d7c7bb68e9b8ceabd14c6461a55b7d9c600"
+    }
+  ],
+  "sha256": "3033f5599b48ea5caa66a6cba89d0658202c9ffa44576f8a1c157b4e2277df8a"
+}

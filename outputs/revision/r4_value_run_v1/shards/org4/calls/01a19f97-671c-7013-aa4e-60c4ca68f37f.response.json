@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f97-671c-7013-aa4e-60c4ca68f37f",
+  "parent_request_hash": "7a226fcb9ba56da221fa53983f749653c7ca11fbc5c614110b4b443dfbf0e9f9",
+  "ended_at_utc": "2026-11-03T04:07:43.387375+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows price above resistance 23.8 and MACD bullish with histogram expanding, indicating strong upward momentum. Alpha factors majority positive with high IC and score, supporting a bullish outlook.\",\"evidence_against\":\"No significant downside support below 22.5, but limited liquidity could cause slippage.\",\"justification\":\"The combination of bullish trend, positive alpha consensus, and MACD confirmation justifies a long position. Expected target near 24.5 with stop below 22.5 aligns with risk-reward ratio of 2:1.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis shows price above resistance 23.8 and MACD bullish with histogram expanding, indicating strong upward momentum. Alpha factors majority positive with high IC and score, supporting a bullish outlook.\",\"evidence_against\":\"No significant downside support below 22.5, but limited liquidity could cause slippage.\",\"justification\":\"The combination of bullish trend, positive alpha consensus, and MACD confirmation justifies a long position. Expected target near 24.5 with stop below 22.5 aligns with risk-reward ratio of 2:1.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 487,
+                "prompt_tokens": 1814,
+                "total_tokens": 2301,
+                "completion_time": 0.61277423,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 335
+                },
+                "prompt_time": 0.128570567,
+                "prompt_tokens_details": null,
+                "queue_time": 0.316969172,
+                "total_time": 0.741344797
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f97-671c-7013-aa4e-60c4ca68f37f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 487,
+        "prompt_tokens": 1814,
+        "total_tokens": 2301,
+        "completion_time": 0.61277423,
+        "completion_tokens_details": {
+          "reasoning_tokens": 335
+        },
+        "prompt_time": 0.128570567,
+        "prompt_tokens_details": null,
+        "queue_time": 0.316969172,
+        "total_time": 0.741344797
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

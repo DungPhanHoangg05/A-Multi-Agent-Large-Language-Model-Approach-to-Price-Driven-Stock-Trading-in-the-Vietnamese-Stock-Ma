@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "eed7fa8a1d8907d0e89c4224e2260ea139241121fa68d769b2dab88c81b23722"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up with support at 59 and resistance at 62.5, pattern shows bullish flag and majority of alpha factors are positive.",
+    "evidence_against": "MACD line is below signal, indicating potential bearish momentum.",
+    "justification": "Bullish trend and alpha consensus outweigh the bearish MACD signal, making a long position favorable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-89ab-7530-881f-78269bb6c6b0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-89ab-7530-881f-78269bb6c6b0.request.json",
+      "sha256": "518da6684f59aff7a42aa5302f596a8838c879244c1e6df449a04bbb5bfc0126"
+    },
+    {
+      "path": "calls/01a19f8f-89ab-7530-881f-78269bb6c6b0.response.json",
+      "sha256": "9c661fc761e7eb4ec637526947f9a0eec324e8448b266ea8071a8ce70b6ad565"
+    }
+  ],
+  "sha256": "236c25634da5b9d80d2e85d94fe1d60dcab7f49868b64ddf7768c9d35a4ab3e3"
+}

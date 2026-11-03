@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "aaad2adcb28a76c76ca35061c4df5e70b0bc3e0d59e8edee31e4106991b7acbf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates price above support 26.5 and approaching resistance 28.5, suggesting upward momentum. Pattern analysis confirms a V reversal with buy signal above 27.0 and target 28.5.",
+    "evidence_against": "MACD shows bearish crossover with histogram negative, indicating weakening momentum.",
+    "justification": "Given the bearish MACD and mixed alpha signals, the probability of reaching the target within the 3-day horizon is uncertain, risking insufficient profit after fees. Therefore, a short position to preserve cash is the safer strategy.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-6312-7ba3-bd1d-5e245345e070"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-6312-7ba3-bd1d-5e245345e070.request.json",
+      "sha256": "2b4a2df30806f8895a933a2e718fc17d9f65fab7ac2a548d0cf88aaa72acd83e"
+    },
+    {
+      "path": "calls/01a19f97-6312-7ba3-bd1d-5e245345e070.response.json",
+      "sha256": "281e7c765e71994c2e8e7ddac10439d23d389f240d21d31082048477e9e42f25"
+    }
+  ],
+  "sha256": "87eeb125c6ee1da59818e456bb54d234bafc6c91682ab8137dbd1325f3d6f505"
+}

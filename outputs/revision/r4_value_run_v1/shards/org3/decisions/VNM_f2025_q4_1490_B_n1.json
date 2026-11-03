@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "871d0a8f4cc3ae80540b3e5a51f32bc883c6564dbfccf1ea2fdc1532dd3f5265"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend bullish with price near resistance 62.5 and pattern flag up indicates potential breakout. MACD histogram trending upward suggests momentum may turn positive.",
+    "evidence_against": "MACD line below signal indicates bearish bias.",
+    "justification": "Given bullish trend and pattern but weak MACD confirmation, a short position protects against potential reversal while awaiting clearer bullish signals. Shorting allows cash holding until T+2.5 settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-4b4a-7722-a55a-0fd51afc5ceb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-4b4a-7722-a55a-0fd51afc5ceb.request.json",
+      "sha256": "b5e30fccfd1cde0af33a737b2cdd6f0c47a8ad04ea97d260e39afb3e5a04382b"
+    },
+    {
+      "path": "calls/01a19f8c-4b4a-7722-a55a-0fd51afc5ceb.response.json",
+      "sha256": "709561fdaf669ab133bdd4678e37a75273c982eeb81b4c1da4bddb31a16fd24b"
+    }
+  ],
+  "sha256": "33052ebf4c454f1a8f4afdce858c9765468e6b57421a976c0284838ddb782e9f"
+}

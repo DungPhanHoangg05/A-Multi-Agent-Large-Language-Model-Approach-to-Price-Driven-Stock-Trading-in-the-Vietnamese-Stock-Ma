@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9f-3491-7281-9d31-f5d35786dc53",
+  "parent_request_hash": "9619c9b6ddb7627ba2a1560075853273278ce367f7c1940c0b1c1254d9fa93cf",
+  "ended_at_utc": "2026-11-03T04:16:18.305715+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend tăng, hỗ trợ 65.5, mô hình tích luỹ, alpha trung bình\",\"evidence_against\":\"MACD dưới Signal, histogram giảm\",\"justification\":\"MACD tiêu cực và tỷ lệ rủi ro/điểm lợi nhuận thấp, nên giữ tiền mặt\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend tăng, hỗ trợ 65.5, mô hình tích luỹ, alpha trung bình\",\"evidence_against\":\"MACD dưới Signal, histogram giảm\",\"justification\":\"MACD tiêu cực và tỷ lệ rủi ro/điểm lợi nhuận thấp, nên giữ tiền mặt\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1093,
+                "prompt_tokens": 1806,
+                "total_tokens": 2899,
+                "completion_time": 1.308156502,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 990
+                },
+                "prompt_time": 0.128548297,
+                "prompt_tokens_details": null,
+                "queue_time": 0.088089259,
+                "total_time": 1.436704799
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9f-3491-7281-9d31-f5d35786dc53-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1093,
+        "prompt_tokens": 1806,
+        "total_tokens": 2899,
+        "completion_time": 1.308156502,
+        "completion_tokens_details": {
+          "reasoning_tokens": 990
+        },
+        "prompt_time": 0.128548297,
+        "prompt_tokens_details": null,
+        "queue_time": 0.088089259,
+        "total_time": 1.436704799
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

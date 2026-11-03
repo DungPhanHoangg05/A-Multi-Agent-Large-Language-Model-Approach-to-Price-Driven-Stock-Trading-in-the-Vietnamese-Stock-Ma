@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f8d-b6bc-7470-95c2-43e3b7a24049",
+  "parent_request_hash": "0d6a7026f99652a852a6e830921c5fcfaacc1f450b34ea2247136418374921fa",
+  "ended_at_utc": "2026-11-03T03:57:08.836165+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with support 118 and resistance 128, MACD bullish and pattern V indicates breakout above 120.\",\"evidence_against\":\"No significant bearish signals detected.\",\"justification\":\"The convergence of trend, pattern, MACD, and majority alpha signals supports a long position with a target near 128 and stop below 118.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with support 118 and resistance 128, MACD bullish and pattern V indicates breakout above 120.\",\"evidence_against\":\"No significant bearish signals detected.\",\"justification\":\"The convergence of trend, pattern, MACD, and majority alpha signals supports a long position with a target near 128 and stop below 118.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 926,
+                "prompt_tokens": 1716,
+                "total_tokens": 2642,
+                "completion_time": 1.025656077,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 817
+                },
+                "prompt_time": 0.090145825,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.350568929,
+                "total_time": 1.115801902
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8d-b6bc-7470-95c2-43e3b7a24049-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 926,
+        "prompt_tokens": 1716,
+        "total_tokens": 2642,
+        "completion_time": 1.025656077,
+        "completion_tokens_details": {
+          "reasoning_tokens": 817
+        },
+        "prompt_time": 0.090145825,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.350568929,
+        "total_time": 1.115801902
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

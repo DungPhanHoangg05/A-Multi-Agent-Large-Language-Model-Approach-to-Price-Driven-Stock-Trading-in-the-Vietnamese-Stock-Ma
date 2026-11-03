@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "0e8427fb9f83e31bc4ce11aed4f6200e3dc43e39eaf0fbee938af72246fdeaf6"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.4,
+    "evidence_for": "Trend is up with price above support 26.5 and approaching resistance 28.5. V-reversal pattern confirms bullish reversal.",
+    "evidence_against": "MACD line below signal and negative histogram indicate weakening momentum, and sentiment score is negative.",
+    "justification": "Given the bullish trend and pattern, a LONG position is justified; however, MACD bearish signals warrant caution, so a tight stop at 26.8 is advised.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-d900-7630-83e4-210adbe3718a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-d900-7630-83e4-210adbe3718a.request.json",
+      "sha256": "4a59c4cc1a9043defab8f6dbccd3fb18785955d22d737f9ce27b9dd1979e3186"
+    },
+    {
+      "path": "calls/01a19f97-d900-7630-83e4-210adbe3718a.response.json",
+      "sha256": "99fa543bd28b5fa0f4ff6a9e8d9fcec795622359c47a9ce29e23ec32b65a03d9"
+    }
+  ],
+  "sha256": "d52d4337bfdfd106612af72d7a8ba7f9caa0c697ae6368c948e1478389e50301"
+}

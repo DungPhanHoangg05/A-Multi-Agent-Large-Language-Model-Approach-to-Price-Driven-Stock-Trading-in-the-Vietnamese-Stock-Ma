@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "c2c898c8b71e8f64e75cc5f13d602dd1f56bc4e7c9d011ec23b94290f2030ae3"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 130.5 and resistance at 141.5; all 5 alpha factors indicate a decrease.",
+    "evidence_against": "MACD line is above signal, suggesting bullish momentum.",
+    "justification": "Given the negative trend and alpha consensus, a short position is optimal; the bullish MACD is insufficient to override the broader bearish signals.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-74c6-7e42-84ac-7daa852d1e5b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-74c6-7e42-84ac-7daa852d1e5b.request.json",
+      "sha256": "a2d622daa5238f2f8da0d1afbd0e3a57a1ffc64ddb8be49b3be52ebfe6ec00d5"
+    },
+    {
+      "path": "calls/01a19f90-74c6-7e42-84ac-7daa852d1e5b.response.json",
+      "sha256": "51152ff6f8caab0e8e9a54d77bc2d915cf321d8bf2bed95064aabbc992d63021"
+    }
+  ],
+  "sha256": "17d39eaf0b78c2e7334550cb8ffcf929a2913b18cc908195a029f45ec1abe3b9"
+}

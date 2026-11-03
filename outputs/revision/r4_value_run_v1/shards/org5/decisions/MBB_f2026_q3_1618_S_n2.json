@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "8482498d993d147a5d3acd6fa49ebd7d0d7c6f36613e6cf9374b8679bd963e6e"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates an uptrend with price above support and expected to continue rising to 20.80-21.00. MACD shows bullish momentum with histogram expanding.",
+    "evidence_against": "Sentiment score is slightly negative, but it has low weight and does not override price and alpha signals.",
+    "justification": "Based on the convergence of trend, pattern, and indicator signals, a LONG position is justified. The expected target exceeds the risk threshold, providing a favorable risk-reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-af1d-7213-98f1-e3ecf0daa150"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-af1d-7213-98f1-e3ecf0daa150.request.json",
+      "sha256": "5fd6db10157792e0721b388e24f84328aa8ba33d90a2e5375197a805700c832c"
+    },
+    {
+      "path": "calls/01a19f93-af1d-7213-98f1-e3ecf0daa150.response.json",
+      "sha256": "417964b8077d4a340ebcff8425d4166544bb5dc445c9cafce1c57257f0284994"
+    }
+  ],
+  "sha256": "6edf9af29eb002c4f32d94504c50dc7ebfe4396b6198882e6c78f8dc0ad84021"
+}

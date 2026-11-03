@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f89-8249-74f2-b013-38800c568a71",
+  "parent_request_hash": "4969a942b30693f9dc2db85b5bb7f9c3f1082b0b80492b7b6b66e81139f9d6d9",
+  "ended_at_utc": "2026-11-03T03:52:32.674078+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 21.0 and resistance at 22.0, MACD histogram shows widening momentum.\",\"evidence_against\":\"Majority of alpha factors signal a downtrend, with 3 out of 5 indicating decrease.\",\"justification\":\"Given the mixed signals and predominant negative alpha indicators, a short position is preferred to preserve cash over the horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 21.0 and resistance at 22.0, MACD histogram shows widening momentum.\",\"evidence_against\":\"Majority of alpha factors signal a downtrend, with 3 out of 5 indicating decrease.\",\"justification\":\"Given the mixed signals and predominant negative alpha indicators, a short position is preferred to preserve cash over the horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 307,
+                "prompt_tokens": 1803,
+                "total_tokens": 2110,
+                "completion_time": 0.387326523,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 190
+                },
+                "prompt_time": 0.146581985,
+                "prompt_tokens_details": null,
+                "queue_time": 0.341403742,
+                "total_time": 0.533908508
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_34cb00738d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f89-8249-74f2-b013-38800c568a71-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 307,
+        "prompt_tokens": 1803,
+        "total_tokens": 2110,
+        "completion_time": 0.387326523,
+        "completion_tokens_details": {
+          "reasoning_tokens": 190
+        },
+        "prompt_time": 0.146581985,
+        "prompt_tokens_details": null,
+        "queue_time": 0.341403742,
+        "total_time": 0.533908508
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_34cb00738d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

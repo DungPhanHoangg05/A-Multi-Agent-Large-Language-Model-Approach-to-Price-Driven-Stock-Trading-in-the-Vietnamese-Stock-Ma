@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8e-2d3b-7e61-a1e0-e609a6632a54",
+  "parent_request_hash": "193bbfa2166ffe1eb14070ddd6ed9722fa1a6ad4a271f1eb47e1f1a9ffe41b42",
+  "ended_at_utc": "2026-11-03T03:57:38.499121+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend up with support at 59 and resistance at 62.5, price breaking above 62.\",\"evidence_against\":\"MACD below signal indicates potential weakness.\",\"justification\":\"Pattern and alpha factors confirm bullish momentum; risk reward ratio favorable.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend up with support at 59 and resistance at 62.5, price breaking above 62.\",\"evidence_against\":\"MACD below signal indicates potential weakness.\",\"justification\":\"Pattern and alpha factors confirm bullish momentum; risk reward ratio favorable.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 360,
+                "prompt_tokens": 1717,
+                "total_tokens": 2077,
+                "completion_time": 0.390068909,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 268
+                },
+                "prompt_time": 0.086551134,
+                "prompt_tokens_details": null,
+                "queue_time": 0.209000543,
+                "total_time": 0.476620043
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e23fc997ca",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8e-2d3b-7e61-a1e0-e609a6632a54-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 360,
+        "prompt_tokens": 1717,
+        "total_tokens": 2077,
+        "completion_time": 0.390068909,
+        "completion_tokens_details": {
+          "reasoning_tokens": 268
+        },
+        "prompt_time": 0.086551134,
+        "prompt_tokens_details": null,
+        "queue_time": 0.209000543,
+        "total_time": 0.476620043
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e23fc997ca",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

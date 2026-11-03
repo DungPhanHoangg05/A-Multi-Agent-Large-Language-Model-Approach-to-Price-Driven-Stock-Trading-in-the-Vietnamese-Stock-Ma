@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "13af362d9e1d36c22a229d012d50dcdc4c95bc3d06081bf052564a9a769bc5fc"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD death cross signals sell; pattern bullish flag but lacks breakout momentum.",
+    "evidence_against": "Trend is sideways with no clear support for a breakout.",
+    "justification": "Short to avoid potential loss from weak momentum and MACD sell signal; holding cash preserves capital until clearer trend emerges.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-1f54-7e73-b658-2e9065e03b91"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-1f54-7e73-b658-2e9065e03b91.request.json",
+      "sha256": "89381360f4f0508d7b3827112bebc5ee9107d5111620074c19c56fbaeeb25840"
+    },
+    {
+      "path": "calls/01a19f9b-1f54-7e73-b658-2e9065e03b91.response.json",
+      "sha256": "7818fe3e97512909c24f812a550d49b029a30b4c84fc5aeb52b606539dcdcc03"
+    }
+  ],
+  "sha256": "5f66570e03cf4ef32069e3c1d9df0ea278f6b07ce0da8f7e207c54c867908b45"
+}

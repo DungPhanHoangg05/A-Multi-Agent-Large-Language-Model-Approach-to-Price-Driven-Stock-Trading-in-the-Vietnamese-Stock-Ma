@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "f733d902f94334bd5995caa217b1257e6ed1184042876b5634d2e64b396b1b12"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD golden cross and bullish V pattern confirm upward momentum. Support at 60.5 and resistance at 64.5 indicate potential breakout.",
+    "evidence_against": "Sentiment score is low, but bullish indicators outweigh negative sentiment.",
+    "justification": "Entry above 61.5 with target 63.5 aligns with trend and pattern. Expected net profit after 0.7% total fee is positive, justifying a LONG position.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-d571-7630-9962-120d4b5fd7c6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-d571-7630-9962-120d4b5fd7c6.request.json",
+      "sha256": "7ed8f6dfa19e4c2338e9666f14dced8f0bde08a45a0b73c6ef41212cca47a155"
+    },
+    {
+      "path": "calls/01a19f91-d571-7630-9962-120d4b5fd7c6.response.json",
+      "sha256": "7b219f936ceb6265228523bbe8a0c56130a2791dcbde1bfd60aa189f761b80cd"
+    }
+  ],
+  "sha256": "de3bb045d9f881daa4f169bd0260da5a7ebd017d24089b6516e19eafb275c4db"
+}

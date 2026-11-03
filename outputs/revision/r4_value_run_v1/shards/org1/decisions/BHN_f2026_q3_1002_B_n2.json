@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "0735fe88bb653cd064bbe4c1c9ff80150975bd0de9ef67833d2af216b712a12c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend shows bullish direction with price above support 26.5 and approaching resistance 28.5. Pattern V reversal indicates strong bullish momentum with green candles confirming breakout.",
+    "evidence_against": "MACD line below signal and negative histogram indicate weakening momentum, suggesting potential reversal.",
+    "justification": "Given the bullish trend and pattern, but bearish MACD signals, a short position is prudent to hedge against possible reversal within the T+2.5 horizon. The short trade allows capturing potential downside while avoiding overexposure to the bullish bias.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-8c4f-7f03-beb8-0b2c21e7f5c2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-8c4f-7f03-beb8-0b2c21e7f5c2.request.json",
+      "sha256": "40c1436468e5adf008a29c996d7cc5b9ad5e30fd8fcb0e62d66be5cf68805684"
+    },
+    {
+      "path": "calls/01a19f9b-8c4f-7f03-beb8-0b2c21e7f5c2.response.json",
+      "sha256": "ce705e5b13450a41bd3d7cb8b7b7cbd96a4bf9a3b5bbdf5ded7e95744cee66e4"
+    }
+  ],
+  "sha256": "7f1082a9170e87e09cde511e9cfb244a7eaba446053cbb9e2083ae4960edebe8"
+}

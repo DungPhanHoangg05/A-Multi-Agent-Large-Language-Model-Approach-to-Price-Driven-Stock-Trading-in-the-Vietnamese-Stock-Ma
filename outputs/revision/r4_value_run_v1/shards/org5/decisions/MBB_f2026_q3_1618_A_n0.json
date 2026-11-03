@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "0aa9886da48f5ac3508624b8dafe9de6cf46e752291aff3885d7213e02653187"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 5.0,
+    "evidence_for": "Trend is bullish with price above support 19.70 and MACD line above signal indicating positive momentum. Price has broken resistance 20.65, suggesting upward continuation.",
+    "evidence_against": "Majority of alpha factors indicate a downward bias, with 4 out of 5 showing negative signals.",
+    "justification": "Given the bullish trend but negative alpha consensus, a short position aligns with the strategy to avoid buying into a potentially overvalued move. Shorting allows us to capture potential reversal while limiting exposure to the 3‑day holding period.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-11b2-7572-b8d6-3b8290645d12"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-11b2-7572-b8d6-3b8290645d12.request.json",
+      "sha256": "d068563d8eab4642705855834a6d2337f18e7749ab5ace9492bdb8b6785a066d"
+    },
+    {
+      "path": "calls/01a19f8f-11b2-7572-b8d6-3b8290645d12.response.json",
+      "sha256": "7adb22ff0865bf214fbe8a44fe916d5b75f6b9133b9ce62680d8c7399d48a9e8"
+    }
+  ],
+  "sha256": "c762adab51356910b86c088b6503ecb15b5355d5b32a5dd625671287c2c139c4"
+}

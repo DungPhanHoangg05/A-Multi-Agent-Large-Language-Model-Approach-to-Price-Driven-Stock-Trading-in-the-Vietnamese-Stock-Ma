@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "e975cc9dc90136cb7639564bb699e3a92bb5b75e9f925b4f0e9e0a82e122a4d1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Alpha factors overall positive with 3 out of 5 up, supporting potential upside if trend reverses.",
+    "evidence_against": "Pattern analysis indicates a bearish trend with confirmed lower highs and lows.",
+    "justification": "Given the bearish pattern and sideways trend, shorting protects cash and aligns with risk management; target risk/reward ratio of 1.5 is acceptable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-e5bf-7b63-be75-489b011ee563"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-e5bf-7b63-be75-489b011ee563.request.json",
+      "sha256": "38e6545429031eb17cc7f083dc3b492c6a48db0cc04f4903b31f6d0cd6f7c829"
+    },
+    {
+      "path": "calls/01a19f8a-e5bf-7b63-be75-489b011ee563.response.json",
+      "sha256": "fa4c6139b1dd3a2dc4a186a18f965922b37be07de6b5a10244f643e7dc056f5f"
+    }
+  ],
+  "sha256": "73cbf84c45ee57787d9ceb4fd50004c7d3ccf205fbb6092ed87ce629b475acd9"
+}

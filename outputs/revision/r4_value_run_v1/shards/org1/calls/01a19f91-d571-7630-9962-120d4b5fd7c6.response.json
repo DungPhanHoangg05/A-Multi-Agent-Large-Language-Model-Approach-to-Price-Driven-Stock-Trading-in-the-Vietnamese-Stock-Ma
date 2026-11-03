@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f91-d571-7630-9962-120d4b5fd7c6",
+  "parent_request_hash": "3365baf18a54762a58826ad51af71707818c702c69bd3bb97460e6e0be267c03",
+  "ended_at_utc": "2026-11-03T04:01:39.113561+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD golden cross and bullish V pattern confirm upward momentum. Support at 60.5 and resistance at 64.5 indicate potential breakout.\",\"evidence_against\":\"Sentiment score is low, but bullish indicators outweigh negative sentiment.\",\"justification\":\"Entry above 61.5 with target 63.5 aligns with trend and pattern. Expected net profit after 0.7% total fee is positive, justifying a LONG position.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD golden cross and bullish V pattern confirm upward momentum. Support at 60.5 and resistance at 64.5 indicate potential breakout.\",\"evidence_against\":\"Sentiment score is low, but bullish indicators outweigh negative sentiment.\",\"justification\":\"Entry above 61.5 with target 63.5 aligns with trend and pattern. Expected net profit after 0.7% total fee is positive, justifying a LONG position.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 889,
+                "prompt_tokens": 1482,
+                "total_tokens": 2371,
+                "completion_time": 1.115451702,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 759
+                },
+                "prompt_time": 0.602351661,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.052465158,
+                "total_time": 1.717803363
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e99e93f2ac",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f91-d571-7630-9962-120d4b5fd7c6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 889,
+        "prompt_tokens": 1482,
+        "total_tokens": 2371,
+        "completion_time": 1.115451702,
+        "completion_tokens_details": {
+          "reasoning_tokens": 759
+        },
+        "prompt_time": 0.602351661,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.052465158,
+        "total_time": 1.717803363
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e99e93f2ac",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

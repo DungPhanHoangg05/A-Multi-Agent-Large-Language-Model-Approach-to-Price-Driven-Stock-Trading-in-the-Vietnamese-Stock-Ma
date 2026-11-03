@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "9aeebd60656304bef442598847213eb85cf8af49a194113113c227ead03e09bb"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bullish with price above support 19.70 and breaking resistance 20.65; MACD line above signal and positive histogram confirm bullish momentum.",
+    "evidence_against": "Trend slope is decreasing, which could indicate a potential pullback.",
+    "justification": "Given the bullish trend, reversal pattern, and positive MACD signals, a LONG position is justified; the expected upside exceeds transaction costs, ensuring a positive risk‑reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-390d-7a41-9803-3a8a148d1de8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-390d-7a41-9803-3a8a148d1de8.request.json",
+      "sha256": "615317fb32eed81e094ed2c05c68b0bebf9053fd511b42dafaee839d7fc6b2c5"
+    },
+    {
+      "path": "calls/01a19f93-390d-7a41-9803-3a8a148d1de8.response.json",
+      "sha256": "99337daec34899a639b6803f830395419c0eb152b476818ec2511cec055c95d1"
+    }
+  ],
+  "sha256": "b7fedaba70b09c075f3e2c57915ca72038179bcba82570e99260675f41dbc7c7"
+}

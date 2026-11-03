@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "faa097dee87429a4d2c80e5442455f2f290f5fc43a7ea4927ecdb9165f62822f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 4.0,
+    "evidence_for": "MACD line above signal with positive histogram indicates bullish momentum; V‑shaped reversal pattern shows price breaking above 120 with target 130 and stop 118.",
+    "evidence_against": "None",
+    "justification": "Buy at 120, target 128 within 3 days, stop 118 gives 4:1 risk‑reward; bullish indicators confirm trend.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-2369-7103-aaa8-d810ddb4f631"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-2369-7103-aaa8-d810ddb4f631.request.json",
+      "sha256": "18c4a7b3f474cc2553da83be1d90cdfb386385f48ec04732a2e765ca28496507"
+    },
+    {
+      "path": "calls/01a19f8e-2369-7103-aaa8-d810ddb4f631.response.json",
+      "sha256": "0dfa59511ed4daaa9023573236aec30e3efbc977e3716c8a941b11fbaf47c90d"
+    }
+  ],
+  "sha256": "a26421aed21bfd22b6b8dcebeaead2754d88c1d845c5271cefae8df2330cd3fb"
+}

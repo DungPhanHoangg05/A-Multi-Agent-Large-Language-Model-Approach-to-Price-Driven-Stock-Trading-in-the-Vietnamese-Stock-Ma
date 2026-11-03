@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "65fde0353d64438f4aacf9af9b4470b9a6a49ea4c643d84549b65e2a9c05914e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "MACD line above signal with decreasing histogram confirms weakening momentum; alpha factors overall bearish with 3 out of 5 negative signals.",
+    "evidence_against": "Potential for a short squeeze if price rebounds above 20.20.",
+    "justification": "Given the downtrend, support at 19.60, and bearish alpha signals, a short position aligns with the forecast horizon of T+2.5; the risk-reward ratio of 1:1 is acceptable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-9427-7ea1-a700-aab30b975619"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-9427-7ea1-a700-aab30b975619.request.json",
+      "sha256": "f51d5d0061a540a2de8e5d5c177c6f8a4b69d0168598604842c76aead486a9fd"
+    },
+    {
+      "path": "calls/01a19f88-9427-7ea1-a700-aab30b975619.response.json",
+      "sha256": "a909ea07ab01ceea89a5f2b960e24513c7d96011a1a3dfe8a0388271950e82aa"
+    }
+  ],
+  "sha256": "fbf53c082def06b5bf9160495a58fd72bf26893a007644230788314ccf325a90"
+}

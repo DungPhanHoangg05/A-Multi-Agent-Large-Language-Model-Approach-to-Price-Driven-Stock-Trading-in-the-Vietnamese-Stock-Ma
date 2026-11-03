@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "b0f1cd3b5f9e0fbb25fd05b2787f8c0043c3d4c39ad181813b762b17cfabddc1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 65.5 and resistance at 68.5, alpha factors mostly positive indicating bullish bias.",
+    "evidence_against": "MACD below signal and negative histogram suggest weakening momentum, increasing risk of not reaching target.",
+    "justification": "Given the bearish momentum signals, shorting protects cash over the 3-day horizon. The expected return may not cover transaction costs if the price fails to break out.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-c066-79e1-b77b-2486d535b5f8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-c066-79e1-b77b-2486d535b5f8.request.json",
+      "sha256": "8d877632fdf06bd929704c902123815298ef1bc70ee73c6beca9b0740b07a303"
+    },
+    {
+      "path": "calls/01a19f9f-c066-79e1-b77b-2486d535b5f8.response.json",
+      "sha256": "a825bf567292045519883f36e0b26a1413f908a8e45f50657a1c051a285e7aae"
+    }
+  ],
+  "sha256": "ca7f33092bbb585ba6190e24980558755badd0c0a29e55a2c5a7bc103e8f127c"
+}

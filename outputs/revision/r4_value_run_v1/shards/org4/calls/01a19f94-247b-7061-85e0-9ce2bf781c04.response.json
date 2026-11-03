@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f94-247b-7061-85e0-9ce2bf781c04",
+  "parent_request_hash": "49df20b894cde6fc7e89d9b7371d0a70b59ff338c35ecd232971a65b6550d918",
+  "ended_at_utc": "2026-11-03T04:04:09.909313+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down with price below resistance and MACD line above signal indicating bullish momentum but decreasing histogram.\",\"evidence_against\":\"Pattern V reversal has low confidence and does not match actual candles.\",\"justification\":\"Given the downtrend and lack of strong reversal signals, a short position is preferred to avoid potential losses.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is down with price below resistance and MACD line above signal indicating bullish momentum but decreasing histogram.\",\"evidence_against\":\"Pattern V reversal has low confidence and does not match actual candles.\",\"justification\":\"Given the downtrend and lack of strong reversal signals, a short position is preferred to avoid potential losses.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 697,
+                "prompt_tokens": 1450,
+                "total_tokens": 2147,
+                "completion_time": 0.805417641,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 590
+                },
+                "prompt_time": 0.071917422,
+                "prompt_tokens_details": null,
+                "queue_time": 0.351315301,
+                "total_time": 0.877335063
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_feb9b278f1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f94-247b-7061-85e0-9ce2bf781c04-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 697,
+        "prompt_tokens": 1450,
+        "total_tokens": 2147,
+        "completion_time": 0.805417641,
+        "completion_tokens_details": {
+          "reasoning_tokens": 590
+        },
+        "prompt_time": 0.071917422,
+        "prompt_tokens_details": null,
+        "queue_time": 0.351315301,
+        "total_time": 0.877335063
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_feb9b278f1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

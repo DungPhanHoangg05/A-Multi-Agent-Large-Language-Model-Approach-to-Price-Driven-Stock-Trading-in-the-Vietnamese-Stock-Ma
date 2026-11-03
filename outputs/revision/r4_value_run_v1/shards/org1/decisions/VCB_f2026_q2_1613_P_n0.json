@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": "3873415cc50ea030ae34965d05f1229f9c456e4aea5e6b59c87cb9cd50f1b637",
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "bb7dd1a4a05d1439443e2a732fbf9726939f51d92b85e608b9afc5dad99c0a70"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Pattern shows repeated lower highs and lows confirming a downtrend; MACD is below signal line indicating bearish momentum.",
+    "evidence_against": "Trend analysis indicates a sideways market, which may limit clear directional moves.",
+    "justification": "Shorting aligns with bearish signals and protects against potential losses; expected profit after fees remains positive.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-f937-7951-be52-6df39e9dc204"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-f937-7951-be52-6df39e9dc204.request.json",
+      "sha256": "b5ade87b7fd2942a972b3f817a7546f39c7d330e05efca130de374ab7fa1434f"
+    },
+    {
+      "path": "calls/01a19f89-f937-7951-be52-6df39e9dc204.response.json",
+      "sha256": "6557d84f9c8ddcea3cf8a6c737887d3d15e673fcf5ec5bb3b4497e1fc1b431b5"
+    }
+  ],
+  "sha256": "a6ba3a5d0121417751971da064cc4a4dd66ff371cc7ac59a58248433f4d3fa10"
+}

@@ -1,0 +1,68 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "b9b8eaec0953a9f6670249e90e5cb833ecef51e3022884ebd977bf7178fe87c6"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bullish with support at 65.5 and resistance at 68.5, forecast breakout above 66.5 in next 3 days.",
+    "evidence_against": "MACD line below signal indicates bearish momentum.",
+    "justification": "Buying at open near support and selling at close near resistance yields net profit >0 after fees, meeting risk/reward criteria.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa0-2cc1-7331-8b03-161d3264b867"
+  ],
+  "failed_request_ids": [
+    "01a19f9f-c7a2-7671-a0ad-1945ea88a6bc",
+    "01a19fa0-2183-7680-a89d-47158f0344ba"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-c7a2-7671-a0ad-1945ea88a6bc.request.json",
+      "sha256": "4cd3f1a71cd85602b0173a41867f2c443351e2bf91a3834a5b959c41fc534868"
+    },
+    {
+      "path": "calls/01a19f9f-c7a2-7671-a0ad-1945ea88a6bc.error.json",
+      "sha256": "b312a771244b23ec819c46c25a0c73ed52ae88a52c6c6d72b34375f093b2288c"
+    },
+    {
+      "path": "calls/01a19fa0-2183-7680-a89d-47158f0344ba.request.json",
+      "sha256": "5b5c030ad781cb6bdd5ea59ea8a1f444e5cbc2e7bdaaee6629ea1261980c3a86"
+    },
+    {
+      "path": "calls/01a19fa0-2183-7680-a89d-47158f0344ba.error.json",
+      "sha256": "bb3539f3789611670ae628d90fec10d3c06645939374dcce3c2321e32b476547"
+    },
+    {
+      "path": "calls/01a19fa0-2cc1-7331-8b03-161d3264b867.request.json",
+      "sha256": "2d7488297a3e1ba04dd73666c0e16a6ca83622b549d26f833c6b9e525eb72a07"
+    },
+    {
+      "path": "calls/01a19fa0-2cc1-7331-8b03-161d3264b867.response.json",
+      "sha256": "c26941e9fa3af02e3e5678abf4765a849d6c78fa43d8d49681147673c7d8d328"
+    }
+  ],
+  "sha256": "6010514e2176a2572ac78a6b91f5908dc3525a3ae5a3b759a6ed9a766734dbc4"
+}

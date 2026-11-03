@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "1a9290d0672b30bdd7e2e6c07db969d785e10a7f5ad1cc0f9860fa1dd69f6623"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows consistent lower highs and lower lows with support at 60.5 and resistance at 64.3, indicating a downtrend. MACD line is below signal with negative histogram, confirming bearish momentum.",
+    "evidence_against": "Alpha factors overall trend is positive, suggesting some bullish bias.",
+    "justification": "Given the bearish trend, pattern, and MACD, a short position is justified to capture potential decline. The risk reward ratio of 2.0 aligns with the expected move within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-23c1-7b71-bb8c-583006ed8c2c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-23c1-7b71-bb8c-583006ed8c2c.request.json",
+      "sha256": "ccf86d59c4a1a155dc676ed73d3aba97e529e9628c5bdb06459f1eede2ad4a1a"
+    },
+    {
+      "path": "calls/01a19f8e-23c1-7b71-bb8c-583006ed8c2c.response.json",
+      "sha256": "f11b8cca539cb9ebc11e23c535969450c2b1c41d99227fd5ef24018f5e29056e"
+    }
+  ],
+  "sha256": "981566d84839f0e3733639c6a1afb1654454ba76254c957c91d71a9d5a5cf33a"
+}

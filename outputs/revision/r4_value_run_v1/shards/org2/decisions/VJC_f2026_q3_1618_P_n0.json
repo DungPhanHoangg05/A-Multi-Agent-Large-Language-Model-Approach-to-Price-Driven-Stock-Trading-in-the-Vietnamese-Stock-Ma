@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": "d0ca25b57a00b177017e1beffe514caa07b89ee0d3e35269b94a9349d820179b",
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "5d306bf55984fe313772c355380c31700566ee5c9fbc32756a3e21d8a7efd2c8"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "MACD shows a death cross indicating a sell signal; overall alpha factors trend toward decrease.",
+    "evidence_against": "Trend analysis indicates a sideways market, which could limit downward movement.",
+    "justification": "Short position is chosen to capture potential decline while maintaining cash; risk reward ratio of 2.5 balances potential profit against risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f98-c0f1-7241-9648-84fe83b7bc09"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-c0f1-7241-9648-84fe83b7bc09.request.json",
+      "sha256": "64e5424e9b1dfef5f8d8675f3a61c2b0f5dad7bc18acaa7157a04490fc7e311b"
+    },
+    {
+      "path": "calls/01a19f98-c0f1-7241-9648-84fe83b7bc09.response.json",
+      "sha256": "12f2086b525ddef33ee2ab7b9d908eec14e370a017458cfa37d8d6150b056e92"
+    }
+  ],
+  "sha256": "6eecca04bb278f7d074b8375e9a8ffba36f0049016ad8f25207b6bd6c7e2caaa"
+}

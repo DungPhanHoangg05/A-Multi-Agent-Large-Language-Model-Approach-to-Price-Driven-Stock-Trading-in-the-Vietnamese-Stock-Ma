@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "7945220b1a80a8c25231cf47560179059f1ca98050771264acb532c993e36672"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is up with support at 21.0 and resistance at 24.5, MACD bullish with histogram expanding, and V‑reversal pattern confirms upward momentum.",
+    "evidence_against": "Alpha factors are mixed with two down signals, indicating some uncertainty.",
+    "justification": "We expect to buy at open and sell at close within the 3‑day horizon, achieving net profit after 0.70% total fees. The bullish indicators outweigh the mixed alpha signals, supporting a LONG position.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-f94c-71d1-9ad6-8df692736de7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-f94c-71d1-9ad6-8df692736de7.request.json",
+      "sha256": "7e0f0753e96a0e34ca0e4565c237bd00d25c8204b24eb7cb7ab0761076d66368"
+    },
+    {
+      "path": "calls/01a19f96-f94c-71d1-9ad6-8df692736de7.response.json",
+      "sha256": "5c64ccc7475542a8263df3f50571e6dad80a4fa39d23cd9a38cafe3f516d4a83"
+    }
+  ],
+  "sha256": "09e494b7034e1fb3ae99c6ef10733894d3db7a19c74550f75c02192f6103128b"
+}

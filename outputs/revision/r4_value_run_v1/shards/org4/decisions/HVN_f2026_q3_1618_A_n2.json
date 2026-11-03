@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "efb37fb68607e57913cd144c70fe6b53eed0c1c29d08da6f3867867bb59f928d"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend analysis shows price above resistance 23.8 and moving upward. MACD line above signal with widening histogram confirms bullish momentum.",
+    "evidence_against": "Alpha factor 1 indicates a negative trend signal, suggesting potential reversal risk.",
+    "justification": "Given the bullish trend, pattern confirmation, and MACD support, a long position is justified. The risk of breaching support at 22.5 is mitigated by the strong upward momentum.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-3630-7c41-8e70-7b02b56d31d7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-3630-7c41-8e70-7b02b56d31d7.request.json",
+      "sha256": "5eae920de5386deeea0ff3ae0ca9700b29e47361983da52d4a824dde71588c6b"
+    },
+    {
+      "path": "calls/01a19f9a-3630-7c41-8e70-7b02b56d31d7.response.json",
+      "sha256": "f0705dd4909a7510ac12b131cc3029aab8b6dcf6024c08e304c7ca8926df508e"
+    }
+  ],
+  "sha256": "270dba5c140742d27c11dbf8ac51e9876d4ccddc0710651c1636aa27e6b83fb5"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": "3005358457a5407e806a19a3a9d7d570062c110f5f925ca88888ad76850a83e7",
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "ae3c9d527dd8e85bdae0a95545d9e00207af59ef969bc09e2e7c6ff11ca5a4c1"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend tăng với mức hỗ trợ 65.5 và dự đoán breakout trên 66.5, pattern accumulation với mục tiêu 68.5.",
+    "evidence_against": "MACD đang dưới Signal, histogram giảm, cho tín hiệu giảm động lượng.",
+    "justification": "Với dự đoán tăng >0.7% hai chiều, LONG có thể sinh lợi sau phí, nhưng MACD bearish làm giảm độ tin cậy.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-c804-7272-85c0-8cb940c7e080"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-c804-7272-85c0-8cb940c7e080.request.json",
+      "sha256": "720a8dd90c271d7eae40e738293bd1cb72a5ad1e09477f400185e939bd820fcc"
+    },
+    {
+      "path": "calls/01a19f9e-c804-7272-85c0-8cb940c7e080.response.json",
+      "sha256": "b4367b737cfff931f67478cbaf359e1557967230dbc34937fab562af4d949e25"
+    }
+  ],
+  "sha256": "a4b11179f3a55266999aefb83141e5b1135d8a9eb861c26be35928ec192d5f90"
+}

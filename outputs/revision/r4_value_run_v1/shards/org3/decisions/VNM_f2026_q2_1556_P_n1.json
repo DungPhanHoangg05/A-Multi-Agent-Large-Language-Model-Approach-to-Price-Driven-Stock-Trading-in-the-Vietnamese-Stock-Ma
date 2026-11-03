@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": "53f4332157d816999f4adc69e175027f0017b62db16d9e13733446d9a86375d8",
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "b4420504c6b9fc010004ebe9bd513c1774584db07742cc2b9e013ac5d38dcf71"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates sideways with support at 58.5 and resistance at 61.5, suggesting limited upside. Alpha factors overall indicate a downward bias with 3 out of 5 factors negative.",
+    "evidence_against": "MACD histogram positive indicates some bullish momentum.",
+    "justification": "Given the bearish consensus from trend, alpha, and sentiment, a short position aligns with the strategy to preserve cash over the horizon. The expected short trade should capture the anticipated decline while mitigating fee impact.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-40a5-7c21-ba25-d21b7e222574"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-40a5-7c21-ba25-d21b7e222574.request.json",
+      "sha256": "b010434353ab4fd3634b516c838c881a8200df52e2f590fc64fde30c0f195153"
+    },
+    {
+      "path": "calls/01a19f99-40a5-7c21-ba25-d21b7e222574.response.json",
+      "sha256": "53f5b47628a47ab3364192fdcd2be769b745f01313970bc4505b86a5ecf060e2"
+    }
+  ],
+  "sha256": "c0fc4c57194cdb05da4c26835cd387c228fbf8bcc9ae11728d76a8888e1012e0"
+}

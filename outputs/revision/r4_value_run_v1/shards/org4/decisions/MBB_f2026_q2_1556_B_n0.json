@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "809b4506318ee4b2acaa000b0c307fc21679b453b02a0c2d9c0aac868b0f3bbb"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is upward with price near resistance 22.0 and MACD histogram positive indicating bullish momentum. MACD line above Signal suggests potential reversal.",
+    "evidence_against": "Pattern V reversal confidence is low and MACD line remains negative, indicating overall bearish bias.",
+    "justification": "Given moderate confidence and risk of not covering transaction costs, holding cash is safer. Shorting would expose to potential losses if price fails to recover.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-1eb5-7093-b378-3ef9371def6f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-1eb5-7093-b378-3ef9371def6f.request.json",
+      "sha256": "d7ede9055c4f2696881001456ef76738d700db86c3f36a8a9700faf98cb04eaf"
+    },
+    {
+      "path": "calls/01a19f88-1eb5-7093-b378-3ef9371def6f.response.json",
+      "sha256": "13fb4b8f03c4a538d813c2389a537e4662a557bbb4f1afa7c04721b0d3b7bfbd"
+    }
+  ],
+  "sha256": "b5d4504b5009ede843482ac3a4670b7b890c85bbf8f1435a669372e4c0b28bbd"
+}

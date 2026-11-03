@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "48dc4a8bfb0864aa3ce1dc0e4aaf26414a5175d52abebdac7b10bb378b562a98"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Alpha factors unanimously indicate a decreasing trend, and MACD shows bearish momentum. Thus, shorting (holding cash) is prudent to avoid potential losses.",
+    "evidence_against": "Trend analysis suggests a potential rise to resistance at 74.5.",
+    "justification": "Given the strong bearish signals from MACD and all alpha factors, the risk of a reversal outweighs the modest upside potential. Holding cash mitigates risk while awaiting clearer direction.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-055a-79d0-bdc9-e71361fdfd5b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-055a-79d0-bdc9-e71361fdfd5b.request.json",
+      "sha256": "7c307ed19da0b73a56063fefbedb3d4af0d949ee6d48138c11589da662afbf52"
+    },
+    {
+      "path": "calls/01a19f96-055a-79d0-bdc9-e71361fdfd5b.response.json",
+      "sha256": "4c3feff7baf3e4b67d871505b200e37d283eca560bb5875f18a12f0a74fab6ec"
+    }
+  ],
+  "sha256": "8186e0f6397285f79409524a61f137a158eaed4bad9b6d54e5a6d6a67238a62b"
+}

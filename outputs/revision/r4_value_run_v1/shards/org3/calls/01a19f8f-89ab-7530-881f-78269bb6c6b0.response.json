@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8f-89ab-7530-881f-78269bb6c6b0",
+  "parent_request_hash": "8d3ceb6fb009da39bcc2b3305f253ed28215f29a3f60938b695c070929ba9ef6",
+  "ended_at_utc": "2026-11-03T03:59:07.894149+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with support at 59 and resistance at 62.5, pattern shows bullish flag and majority of alpha factors are positive.\",\"evidence_against\":\"MACD line is below signal, indicating potential bearish momentum.\",\"justification\":\"Bullish trend and alpha consensus outweigh the bearish MACD signal, making a long position favorable.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend is up with support at 59 and resistance at 62.5, pattern shows bullish flag and majority of alpha factors are positive.\",\"evidence_against\":\"MACD line is below signal, indicating potential bearish momentum.\",\"justification\":\"Bullish trend and alpha consensus outweigh the bearish MACD signal, making a long position favorable.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 526,
+                "prompt_tokens": 1762,
+                "total_tokens": 2288,
+                "completion_time": 0.575637775,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 417
+                },
+                "prompt_time": 0.113807937,
+                "prompt_tokens_details": null,
+                "queue_time": 0.318021557,
+                "total_time": 0.689445712
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ef00694abe",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8f-89ab-7530-881f-78269bb6c6b0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 526,
+        "prompt_tokens": 1762,
+        "total_tokens": 2288,
+        "completion_time": 0.575637775,
+        "completion_tokens_details": {
+          "reasoning_tokens": 417
+        },
+        "prompt_time": 0.113807937,
+        "prompt_tokens_details": null,
+        "queue_time": 0.318021557,
+        "total_time": 0.689445712
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ef00694abe",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": "e53c4c8b2393f7a547498c812f0ac2ee733bae826a462cce0a3aa36f2831e2b0",
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "2a5c33191fdbb2cb45062318fe044465cc81ce92955e3809b7f7ccfa70c4a42d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support 21 and resistance 22, MACD histogram positive indicating expanding momentum",
+    "evidence_against": "MACD line below signal and negative, suggesting bearish momentum",
+    "justification": "Trend suggests potential rise but momentum weak and alpha signals mixed, so short to avoid risk",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-3761-74a1-a256-aa5446688974"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-3761-74a1-a256-aa5446688974.request.json",
+      "sha256": "26711ef4ba19bfb4ab8b8c327f6fa24fa48261218f47be08d66948a4e6d59680"
+    },
+    {
+      "path": "calls/01a19f8d-3761-74a1-a256-aa5446688974.response.json",
+      "sha256": "e079403ef2bfdb314346588536ddf4ef0d17d71270bee09f8104854081ea4b7c"
+    }
+  ],
+  "sha256": "a4a0243216d764b5061784e825eb2274f47e0ddcf69e3d2de7fcd48b2c21a380"
+}

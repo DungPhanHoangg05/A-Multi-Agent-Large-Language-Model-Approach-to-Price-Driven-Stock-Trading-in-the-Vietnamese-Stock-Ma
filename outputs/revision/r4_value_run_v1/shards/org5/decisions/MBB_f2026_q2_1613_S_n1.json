@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "9ba443921a43cd4cd27990b748ade22174eaa585aba13a7e810b8cf6ab3b7d99"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bearish with price near support 19.60 and MACD line above signal line, indicating downward momentum. Price has been consistently below resistance 20.60 and forming lower highs and lows.",
+    "evidence_against": "MACD histogram is still positive, suggesting some remaining bullish momentum.",
+    "justification": "Short trade aligns with bearish trend and MACD signals, providing a clear exit at resistance 20.60 with acceptable risk reward. The forecast horizon of T+2.5 allows for potential reversal but short position protects cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-72cd-7841-988f-fdb4f0c599b3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-72cd-7841-988f-fdb4f0c599b3.request.json",
+      "sha256": "56922403f9bf588bc195d290f38563967b3a2c37ffedbdc89033a626b18e958b"
+    },
+    {
+      "path": "calls/01a19f8a-72cd-7841-988f-fdb4f0c599b3.response.json",
+      "sha256": "1e08278694ee3205c13250e6aded8619b0349c95e77c4f0c9fa21cbc3f0650ab"
+    }
+  ],
+  "sha256": "b21167853fcf5348e5d58496502c825c3742ef9b0362016d7780117114f7a886"
+}

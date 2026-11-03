@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "b636e0ee76c3b86db195d1770c21c9f5c7423d239a76ee56ad41d74d2c28c43c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates an upward direction with price above support and approaching resistance. MACD shows bullish momentum with MACD line above signal and positive histogram.",
+    "evidence_against": "Pattern analysis suggests a weak downward trend, but confidence is low.",
+    "justification": "Given the bullish trend and positive MACD, a long position is justified. The risk of missing the upside is outweighed by the potential reward within the 3-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-fc5c-7f41-9bb3-5e32fecf4e5b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-fc5c-7f41-9bb3-5e32fecf4e5b.request.json",
+      "sha256": "5a0230fc7d76aeec3e10c4def7e93147073765a2a29a117bb3a3ed0d3101ebef"
+    },
+    {
+      "path": "calls/01a19f8f-fc5c-7f41-9bb3-5e32fecf4e5b.response.json",
+      "sha256": "80f3a8253dbb44f1d28f5f5291777ff8e3455d456cf22d15e3b039c6449dd8d0"
+    }
+  ],
+  "sha256": "59a25b3efeb92a41b63e7cbb0711ecec80e316dac6da666f2f9f83152702f6e2"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "b3e3a69c911ada86e65ec652aa15e37db6c38982ad3ee2a8de702678b34e8e4e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 19.70 and resistance at 20.65, MACD line above signal indicating bullish momentum. Pattern V-shape reversal suggests potential breakout.",
+    "evidence_against": "Three out of five alpha factors indicate a downward bias.",
+    "justification": "Given the bullish trend and MACD confirmation, a short position is chosen to avoid potential reversal indicated by majority negative alpha, while holding cash until T+2.5. This strategy ensures net profit after fees if price remains flat or declines.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-066d-78d3-b934-bd17913cfcae"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-066d-78d3-b934-bd17913cfcae.request.json",
+      "sha256": "f825497f6039c530b2813a73040c1166d0a843b3dd9ad06598dd812d14f5e606"
+    },
+    {
+      "path": "calls/01a19f90-066d-78d3-b934-bd17913cfcae.response.json",
+      "sha256": "bfe891e0ac10489fa7c431588510c6465268bebd57f96945bcc9cdd68312e39c"
+    }
+  ],
+  "sha256": "862122e061b9b206c4484a3659f014e1436f7eb2a683395bcac7540b7c5da0fc"
+}

@@ -1,0 +1,59 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "d434e1476b6b1730af62e188e95698ab553a896af3544aef901ac780fab87cb3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is up with price above support 70.5 and approaching resistance 74.5; MACD histogram is trending upward indicating increasing momentum.",
+    "evidence_against": "MACD line is below signal, showing weak bullish momentum.",
+    "justification": "Entry near 72 with target 75 and stop 70 gives a 1.5 risk/reward ratio, and expected profit exceeds transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-3c49-7551-bed8-3dad2e9123e8"
+  ],
+  "failed_request_ids": [
+    "01a19f98-539e-7281-82ce-a8b247d48e25"
+  ],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-539e-7281-82ce-a8b247d48e25.request.json",
+      "sha256": "e3fd6c01728465fa118f15ce33c5656e97233f1a5d56d5c2dd65f58db122eab9"
+    },
+    {
+      "path": "calls/01a19f98-539e-7281-82ce-a8b247d48e25.error.json",
+      "sha256": "abbbd6f48d5d9f3ec13066d9c8405f2cf441620a14ccc7ce5ad6bf2e375100d6"
+    },
+    {
+      "path": "calls/01a19f99-3c49-7551-bed8-3dad2e9123e8.request.json",
+      "sha256": "d32c3032af151eb9815681c093a8729c6e5874759a4e7c05a6950ebeb339dcb0"
+    },
+    {
+      "path": "calls/01a19f99-3c49-7551-bed8-3dad2e9123e8.response.json",
+      "sha256": "677200be77021239ad324dc79c001063dcbda6eb9a4e4cdd1279075f01b3326f"
+    }
+  ],
+  "sha256": "a3bd0ced43cb051321b3c125b5a883003dfd72208aac0fab5bc0e8a290d1496e"
+}

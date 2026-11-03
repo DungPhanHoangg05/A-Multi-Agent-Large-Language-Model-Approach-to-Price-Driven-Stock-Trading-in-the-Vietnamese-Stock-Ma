@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "8c72623b52aa42a1dd547b54773a8dd8f2d8fee86b7170bef990f5f0b53746d4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with V-shaped reversal and MACD golden cross indicate bullish momentum; support at 60.5 and resistance at 64.5 suggest potential breakout.",
+    "evidence_against": "All five alpha factors signal a decrease, indicating possible weakening of the trend.",
+    "justification": "Given the negative alpha consensus, the risk of reversal outweighs the bullish signals; thus a short position preserves cash and mitigates potential loss.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-e71b-7b00-a3e8-ed8f72e9a84d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-e71b-7b00-a3e8-ed8f72e9a84d.request.json",
+      "sha256": "0d0e60ff4beca135786d1edc540bcdc237cad6fc52d3b3032f9b64e26edb6d88"
+    },
+    {
+      "path": "calls/01a19f96-e71b-7b00-a3e8-ed8f72e9a84d.response.json",
+      "sha256": "02eaa70968aa51462b6eafb2f070e0ad30f8b77fe148290ba691b3c2ba2e14bc"
+    }
+  ],
+  "sha256": "9bf87f675480e70bb7961bdcd3fc3f287b256afbd2e065bcc8c85a84a49d84ef"
+}

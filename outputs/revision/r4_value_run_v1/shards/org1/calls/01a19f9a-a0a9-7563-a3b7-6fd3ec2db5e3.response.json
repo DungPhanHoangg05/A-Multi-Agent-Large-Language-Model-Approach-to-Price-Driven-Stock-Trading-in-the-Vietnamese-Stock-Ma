@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9a-a0a9-7563-a3b7-6fd3ec2db5e3",
+  "parent_request_hash": "c533b8d86615bbb06bf1d5ec2aa23bf8e8d58a37ee362f5e9c831dd27aa1ea03",
+  "ended_at_utc": "2026-11-03T04:11:16.308668+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend up with price above support 26.5 and V pattern indicates reversal; target 28.5 gives upside of ~1.5.\",\"evidence_against\":\"MACD below signal and negative histogram show weakening momentum.\",\"justification\":\"Long if expected return covers fees and risk reward ratio >1; otherwise hold cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":3.0,\"evidence_for\":\"Trend up with price above support 26.5 and V pattern indicates reversal; target 28.5 gives upside of ~1.5.\",\"evidence_against\":\"MACD below signal and negative histogram show weakening momentum.\",\"justification\":\"Long if expected return covers fees and risk reward ratio >1; otherwise hold cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1776,
+                "prompt_tokens": 1449,
+                "total_tokens": 3225,
+                "completion_time": 2.181416818,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1668
+                },
+                "prompt_time": 0.074409786,
+                "prompt_tokens_details": null,
+                "queue_time": 0.392223771,
+                "total_time": 2.255826604
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9a-a0a9-7563-a3b7-6fd3ec2db5e3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1776,
+        "prompt_tokens": 1449,
+        "total_tokens": 3225,
+        "completion_time": 2.181416818,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1668
+        },
+        "prompt_time": 0.074409786,
+        "prompt_tokens_details": null,
+        "queue_time": 0.392223771,
+        "total_time": 2.255826604
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

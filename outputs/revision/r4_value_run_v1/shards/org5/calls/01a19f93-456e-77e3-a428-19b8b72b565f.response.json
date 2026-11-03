@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f93-456e-77e3-a428-19b8b72b565f",
+  "parent_request_hash": "c7641448d6e63705bf985fc13fb980a4478fa3a8440f8e66817985f193e7d4f3",
+  "ended_at_utc": "2026-11-03T04:03:13.269693+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is bullish with support at 19.70 and resistance at 20.65, MACD shows bullish momentum with MACD above Signal and positive histogram, and a V‑shape reversal pattern indicates a breakout above 20.75 toward 21.00.\",\"evidence_against\":\"Three out of five alpha factors signal a decline, suggesting potential reversal.\",\"justification\":\"The bullish trend, MACD confirmation, and breakout pattern support a long position with a target of 21.00 and a risk/reward ratio of 1:1, but the negative alpha signals warrant caution.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend is bullish with support at 19.70 and resistance at 20.65, MACD shows bullish momentum with MACD above Signal and positive histogram, and a V‑shape reversal pattern indicates a breakout above 20.75 toward 21.00.\",\"evidence_against\":\"Three out of five alpha factors signal a decline, suggesting potential reversal.\",\"justification\":\"The bullish trend, MACD confirmation, and breakout pattern support a long position with a target of 21.00 and a risk/reward ratio of 1:1, but the negative alpha signals warrant caution.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1202,
+                "prompt_tokens": 1759,
+                "total_tokens": 2961,
+                "completion_time": 1.34400308,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1037
+                },
+                "prompt_time": 0.092114207,
+                "prompt_tokens_details": null,
+                "queue_time": 0.210152055,
+                "total_time": 1.436117287
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_75c733514d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f93-456e-77e3-a428-19b8b72b565f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1202,
+        "prompt_tokens": 1759,
+        "total_tokens": 2961,
+        "completion_time": 1.34400308,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1037
+        },
+        "prompt_time": 0.092114207,
+        "prompt_tokens_details": null,
+        "queue_time": 0.210152055,
+        "total_time": 1.436117287
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_75c733514d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

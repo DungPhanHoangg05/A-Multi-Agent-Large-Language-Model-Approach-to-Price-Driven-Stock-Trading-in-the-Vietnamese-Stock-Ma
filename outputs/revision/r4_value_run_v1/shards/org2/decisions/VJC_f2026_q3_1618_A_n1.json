@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "570ee3277a19ed3c74b9c611e7b86610bdea0d0dbffc177398a795c4839e6a3c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is sideways, MACD shows death cross, alpha factors mostly negative.",
+    "evidence_against": "Pattern indicates possible breakout above 141 to 145.",
+    "justification": "Trend is flat, MACD death cross signals sell, alpha factors mostly negative, so short is preferred. Shorting avoids potential losses from failed breakout and covers fees.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-bf64-7a51-b830-73c1ccb03e3e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-bf64-7a51-b830-73c1ccb03e3e.request.json",
+      "sha256": "f9c06118206c3b34eac437e77ad99f90a5a9806499b6f639a19207aeed69632f"
+    },
+    {
+      "path": "calls/01a19f99-bf64-7a51-b830-73c1ccb03e3e.response.json",
+      "sha256": "c3a16fca6aeea36c782e65a3cce3e19762bf9f9034affce07bd307e878e27178"
+    }
+  ],
+  "sha256": "68efb9e1ea6586c1b930f083b7f75f64c4fc6b39cf05e39a6de7a83f9f9e3f0e"
+}

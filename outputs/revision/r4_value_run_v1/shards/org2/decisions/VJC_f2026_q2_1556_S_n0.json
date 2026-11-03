@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "faa097dee87429a4d2c80e5442455f2f290f5fc43a7ea4927ecdb9165f62822f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend and pattern analysis indicate a bullish reversal with price near resistance 128, and MACD confirms bullish momentum. All indicators align with a long position.",
+    "evidence_against": "No significant bearish signals or downside risk identified.",
+    "justification": "Given the bullish trend, V reversal pattern, and positive MACD, a long position is justified. The expected profit exceeds transaction costs and slippage.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-0be4-7cc2-9394-3c6e8a20a6b6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-0be4-7cc2-9394-3c6e8a20a6b6.request.json",
+      "sha256": "4c84e1d7c9e72aa7bfa99900b21e3615fa710e0d49bcc77eeabea1c5eb69ea4b"
+    },
+    {
+      "path": "calls/01a19f89-0be4-7cc2-9394-3c6e8a20a6b6.response.json",
+      "sha256": "6db059fd27e58d21c7ea3c881c562ca0d3cafb0531193a574ed369642370b35b"
+    }
+  ],
+  "sha256": "227cbd18ad3f697cf6e228507135d424e5115d711957cac472dd7f19cf0c0cff"
+}

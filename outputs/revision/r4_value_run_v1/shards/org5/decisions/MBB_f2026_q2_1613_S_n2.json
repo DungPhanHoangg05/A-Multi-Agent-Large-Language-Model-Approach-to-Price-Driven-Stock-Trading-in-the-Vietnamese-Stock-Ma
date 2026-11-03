@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "9ba443921a43cd4cd27990b748ade22174eaa585aba13a7e810b8cf6ab3b7d99"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is bearish with price below resistance and approaching support; MACD line above signal but histogram decreasing indicates weakening momentum.",
+    "evidence_against": "MACD line still above signal suggests some bullish momentum, but overall trend remains bearish.",
+    "justification": "Given the bearish trend and weakening momentum, a short position aligns with the strategy to avoid buying and to hold cash during the horizon; the support level at 19.60 provides a potential entry point with a clear risk threshold.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-36fb-7aa2-af90-5924675cce9e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-36fb-7aa2-af90-5924675cce9e.request.json",
+      "sha256": "321616f7607b8821b5650924221b3ac68ae216a8b6c2da414da600bc8485f292"
+    },
+    {
+      "path": "calls/01a19f8d-36fb-7aa2-af90-5924675cce9e.response.json",
+      "sha256": "3b45e4e59fe7a67d0824316532bcd990ce3fbefe43314f22a9751877411ca606"
+    }
+  ],
+  "sha256": "77806a4ce2c63840031f085a6c018b55d9fa1f6e3088d639577b47353cb85729"
+}

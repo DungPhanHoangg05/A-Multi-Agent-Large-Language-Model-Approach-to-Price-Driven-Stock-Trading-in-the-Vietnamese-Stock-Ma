@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "8c72623b52aa42a1dd547b54773a8dd8f2d8fee86b7170bef990f5f0b53746d4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 60.5 and resistance at 64.5, MACD golden cross and V‑shape reversal confirm bullish momentum.",
+    "evidence_against": "All five alpha factors signal a decrease, indicating potential reversal.",
+    "justification": "Given the bullish trend but bearish alpha consensus, shorting protects against a possible reversal while holding cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-e134-72c2-a08b-04ef919a8f65"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-e134-72c2-a08b-04ef919a8f65.request.json",
+      "sha256": "2821459bf3da16d44b06b1be3ce8bf3f9c1f9eb85e3e6e9f58073410065e0cfb"
+    },
+    {
+      "path": "calls/01a19f91-e134-72c2-a08b-04ef919a8f65.response.json",
+      "sha256": "43d69deea45cb0bf693484562dd3cf246b0b67260a2d119e266dc8c8f71a4478"
+    }
+  ],
+  "sha256": "426fc7446b95b7f05e49aeb0d528b00c555d43fa3b511aae675e8777807ca133"
+}

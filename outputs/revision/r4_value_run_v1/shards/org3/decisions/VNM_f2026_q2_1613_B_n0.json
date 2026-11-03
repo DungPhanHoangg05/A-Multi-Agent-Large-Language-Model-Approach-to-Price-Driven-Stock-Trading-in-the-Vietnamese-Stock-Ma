@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "eccb2055bd36c374f068fcf6888fbeaee3503683ff1487c761f4eac466eacb38"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is down with support at 56.5 and resistance at 57.5; pattern shows successive lower highs and lows, confirming bearish bias.",
+    "evidence_against": "MACD line still above signal suggests potential short-term reversal.",
+    "justification": "Given bearish trend and weakening momentum, short position aligns with risk management; buying would expose to further downside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-e2fb-76a3-bb2b-957e2325c1a8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-e2fb-76a3-bb2b-957e2325c1a8.request.json",
+      "sha256": "f56ab85fcd904e392e60bbd5408f8eaf8fa93156e81e7777a07409a466068359"
+    },
+    {
+      "path": "calls/01a19f9d-e2fb-76a3-bb2b-957e2325c1a8.response.json",
+      "sha256": "687cec5015dcc38c54481dce0fb1eb3f494d6f842602b9d0947c7fc73d40a95b"
+    }
+  ],
+  "sha256": "034cbb9443902aa1d65b1be377ff2643a272f176f89abd88adf5bdefbe484863"
+}

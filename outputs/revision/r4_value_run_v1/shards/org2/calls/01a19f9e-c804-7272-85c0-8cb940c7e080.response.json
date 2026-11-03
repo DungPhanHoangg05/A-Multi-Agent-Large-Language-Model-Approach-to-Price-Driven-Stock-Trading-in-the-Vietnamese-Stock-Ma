@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9e-c804-7272-85c0-8cb940c7e080",
+  "parent_request_hash": "c5a3aae103f10607935dded52e7f09cd9be0d7587497f4f7139cb526f3dd0ae0",
+  "ended_at_utc": "2026-11-03T04:15:48.100190+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend tăng với mức hỗ trợ 65.5 và dự đoán breakout trên 66.5, pattern accumulation với mục tiêu 68.5.\",\"evidence_against\":\"MACD đang dưới Signal, histogram giảm, cho tín hiệu giảm động lượng.\",\"justification\":\"Với dự đoán tăng >0.7% hai chiều, LONG có thể sinh lợi sau phí, nhưng MACD bearish làm giảm độ tin cậy.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend tăng với mức hỗ trợ 65.5 và dự đoán breakout trên 66.5, pattern accumulation với mục tiêu 68.5.\",\"evidence_against\":\"MACD đang dưới Signal, histogram giảm, cho tín hiệu giảm động lượng.\",\"justification\":\"Với dự đoán tăng >0.7% hai chiều, LONG có thể sinh lợi sau phí, nhưng MACD bearish làm giảm độ tin cậy.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1202,
+                "prompt_tokens": 1806,
+                "total_tokens": 3008,
+                "completion_time": 1.452546141,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1071
+                },
+                "prompt_time": 0.107989562,
+                "prompt_tokens_details": null,
+                "queue_time": 0.656934645,
+                "total_time": 1.560535703
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_976a85d17a",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9e-c804-7272-85c0-8cb940c7e080-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1202,
+        "prompt_tokens": 1806,
+        "total_tokens": 3008,
+        "completion_time": 1.452546141,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1071
+        },
+        "prompt_time": 0.107989562,
+        "prompt_tokens_details": null,
+        "queue_time": 0.656934645,
+        "total_time": 1.560535703
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_976a85d17a",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

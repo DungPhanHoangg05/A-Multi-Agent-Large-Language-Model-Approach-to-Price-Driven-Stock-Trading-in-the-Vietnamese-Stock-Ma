@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "6a01df0ef73ad7ee43c9ac257417320ea76966989707d7f8a0cec0c23b73994d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with price below resistance 23.5 and support at 21.0. MACD line above signal but histogram decreasing indicates weakening bullish momentum.",
+    "evidence_against": "MACD line above signal suggests bullish momentum.",
+    "justification": "Given the downtrend and weakening momentum, a short position is preferred to capture potential decline. The support level at 21.0 provides a target for exit.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-cd8f-7662-b255-b6c6d35b074c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-cd8f-7662-b255-b6c6d35b074c.request.json",
+      "sha256": "99aecb5d38d7efb6fa0a3cc207ba73915f92075047f32f84aacda459279c0460"
+    },
+    {
+      "path": "calls/01a19f92-cd8f-7662-b255-b6c6d35b074c.response.json",
+      "sha256": "d5b451ea048be4080cae32bd772db037309368a82538b539105122f667b70a30"
+    }
+  ],
+  "sha256": "1ae24d85138257e116591d4088cc7c042acf88cc2358c496adcfcc356e12c3d1"
+}

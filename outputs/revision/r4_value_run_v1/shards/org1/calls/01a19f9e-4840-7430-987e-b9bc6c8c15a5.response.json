@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9e-4840-7430-987e-b9bc6c8c15a5",
+  "parent_request_hash": "4f171ac3f79455586d76a922c7856cb59d3b753466eb3ad11c8ed75f5a11bd84",
+  "ended_at_utc": "2026-11-03T04:15:15.501925+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram confirm bearish momentum.\",\"evidence_against\":\"Trend is sideways, no clear breakout.\",\"justification\":\"Majority of alpha factors are negative and sentiment score is negative, supporting a short position.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram confirm bearish momentum.\",\"evidence_against\":\"Trend is sideways, no clear breakout.\",\"justification\":\"Majority of alpha factors are negative and sentiment score is negative, supporting a short position.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 459,
+                "prompt_tokens": 1790,
+                "total_tokens": 2249,
+                "completion_time": 0.721272067,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 372
+                },
+                "prompt_time": 0.099096448,
+                "prompt_tokens_details": null,
+                "queue_time": 0.428627553,
+                "total_time": 0.820368515
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_84bb35977d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9e-4840-7430-987e-b9bc6c8c15a5-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 459,
+        "prompt_tokens": 1790,
+        "total_tokens": 2249,
+        "completion_time": 0.721272067,
+        "completion_tokens_details": {
+          "reasoning_tokens": 372
+        },
+        "prompt_time": 0.099096448,
+        "prompt_tokens_details": null,
+        "queue_time": 0.428627553,
+        "total_time": 0.820368515
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_84bb35977d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

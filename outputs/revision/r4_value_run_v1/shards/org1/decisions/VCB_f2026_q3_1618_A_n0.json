@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "cb994c32f4fe2822f7451cb0c4125783aff115ba87c5d0728c5d1692f571b4e1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Pattern V-shaped reversal and MACD golden cross indicate bullish momentum.",
+    "evidence_against": "All five alpha factors signal a decreasing trend, suggesting potential reversal.",
+    "justification": "Given the bullish technical signals but negative alpha consensus, a short position is prudent to avoid potential reversal and protect cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-fcc6-7632-acd9-947f6be5ddd3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-fcc6-7632-acd9-947f6be5ddd3.request.json",
+      "sha256": "78c3b863f860eff89574b888bf201a7fb7ef1af085012a44fe345323086df812"
+    },
+    {
+      "path": "calls/01a19f8f-fcc6-7632-acd9-947f6be5ddd3.response.json",
+      "sha256": "ba28bae569476e326a1144cdf556e4de0894278fcd3e221e6290912cdddb367b"
+    }
+  ],
+  "sha256": "c56faa7ad102729ea6eb552292f05ed1a6278611fc5938d3cf94987e9c0540c2"
+}

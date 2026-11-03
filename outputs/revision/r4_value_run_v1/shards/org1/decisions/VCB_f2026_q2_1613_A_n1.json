@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "1a9290d0672b30bdd7e2e6c07db969d785e10a7f5ad1cc0f9860fa1dd69f6623"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern analysis confirms a downtrend with repeated lower highs and lows. MACD is below signal line indicating bearish momentum.",
+    "evidence_against": "Alpha factors overall bullish, but trend and pattern signals dominate.",
+    "justification": "Given the bearish trend, pattern, and MACD, a short position is justified to capture potential decline. Risk reward ratio of 2.0 aligns with expected move.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-3bbe-7933-9b80-ca1db9fe6583"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-3bbe-7933-9b80-ca1db9fe6583.request.json",
+      "sha256": "73c44b6f7d4628fe04cd4dfae4bf295a74cd5c573617732961af9d7c99308307"
+    },
+    {
+      "path": "calls/01a19f8d-3bbe-7933-9b80-ca1db9fe6583.response.json",
+      "sha256": "5811aec39a972986f1800d71a9848d8ee1e0ede1f907f74b1e108faf554d46ff"
+    }
+  ],
+  "sha256": "5f8c16dc1f4787f70183fa50fd4e31835c7cb5846572cf9bb08e0d7ac9a4e4f3"
+}

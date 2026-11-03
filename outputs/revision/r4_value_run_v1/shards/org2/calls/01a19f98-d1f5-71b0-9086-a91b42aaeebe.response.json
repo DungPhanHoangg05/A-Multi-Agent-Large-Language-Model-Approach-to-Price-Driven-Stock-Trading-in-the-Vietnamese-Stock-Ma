@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f98-d1f5-71b0-9086-a91b42aaeebe",
+  "parent_request_hash": "8bf83b126988ae91c8dc9e461b61634a769d2fa8149faeaf54a5628d4ad6abfd",
+  "ended_at_utc": "2026-11-03T04:09:16.607943+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD death cross indicates bearish momentum; trend shows sideways with no breakout.\",\"evidence_against\":\"Pattern bullish flag suggests potential upside breakout.\",\"justification\":\"Given MACD death cross and sideways trend, short position is preferred to avoid missing upside and to hold cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD death cross indicates bearish momentum; trend shows sideways with no breakout.\",\"evidence_against\":\"Pattern bullish flag suggests potential upside breakout.\",\"justification\":\"Given MACD death cross and sideways trend, short position is preferred to avoid missing upside and to hold cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 647,
+                "prompt_tokens": 1440,
+                "total_tokens": 2087,
+                "completion_time": 0.882248468,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 551
+                },
+                "prompt_time": 0.072476537,
+                "prompt_tokens_details": null,
+                "queue_time": 0.389737628,
+                "total_time": 0.954725005
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8b41efc9a3",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f98-d1f5-71b0-9086-a91b42aaeebe-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 647,
+        "prompt_tokens": 1440,
+        "total_tokens": 2087,
+        "completion_time": 0.882248468,
+        "completion_tokens_details": {
+          "reasoning_tokens": 551
+        },
+        "prompt_time": 0.072476537,
+        "prompt_tokens_details": null,
+        "queue_time": 0.389737628,
+        "total_time": 0.954725005
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8b41efc9a3",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

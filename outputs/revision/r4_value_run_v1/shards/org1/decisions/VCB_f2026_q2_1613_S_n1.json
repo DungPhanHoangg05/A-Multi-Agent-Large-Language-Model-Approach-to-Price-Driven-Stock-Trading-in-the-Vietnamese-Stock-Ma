@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "f0fe001ee46df5e58361ee31b952987e75af3f65345c622751f903d223f50e80"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern analysis indicates a downtrend with repeated lower highs and lower lows. MACD is below signal with negative histogram, confirming bearish momentum.",
+    "evidence_against": "Trend analysis suggests a sideways movement, which could reduce the probability of a clear downtrend.",
+    "justification": "Given the bearish pattern and negative MACD, a short position aligns with the expected price decline over the T+2.5 horizon. The risk of holding cash is higher than the potential reward from a short trade, especially with the 0.7% two-way slippage and 0.25% commission.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-7040-7aa3-af28-4db61660d43f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-7040-7aa3-af28-4db61660d43f.request.json",
+      "sha256": "e71ac2714640809b23d23a02ba02cec5cd40026a94c945ae8abb8abe4ce12351"
+    },
+    {
+      "path": "calls/01a19f8a-7040-7aa3-af28-4db61660d43f.response.json",
+      "sha256": "cfb285a47589398875280b38c98367a443d5b811b1b4fba3a37771f68445e2eb"
+    }
+  ],
+  "sha256": "7d2368e116e0198bcf5e2345de9e954a769a36d4806adefd44f407e9194d6d5e"
+}

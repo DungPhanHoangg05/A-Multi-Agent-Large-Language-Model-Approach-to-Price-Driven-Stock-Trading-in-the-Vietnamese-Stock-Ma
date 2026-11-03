@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "cb994c32f4fe2822f7451cb0c4125783aff115ba87c5d0728c5d1692f571b4e1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bullish with a V-shaped reversal and MACD shows a golden cross, indicating upward momentum for the next three days.",
+    "evidence_against": "All five alpha factors signal a downward bias, suggesting potential weakness.",
+    "justification": "Given the conflict between bullish trend signals and bearish alpha consensus, a short position protects cash while awaiting clearer confirmation. This strategy aligns with the rule to avoid long positions when alpha indicates a reversal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-8e98-7eb1-a627-92c65d1bae25"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-8e98-7eb1-a627-92c65d1bae25.request.json",
+      "sha256": "09f3e3e0a2eef66409f6869d1154c281f0f30a3f49d4f28a6a47737792bf665e"
+    },
+    {
+      "path": "calls/01a19f95-8e98-7eb1-a627-92c65d1bae25.response.json",
+      "sha256": "48906afea0faab4b4ee4bbbb034625bce9ebbf84e763b6d26a07cecaf0834922"
+    }
+  ],
+  "sha256": "642b86b07516a57580f334c985b7b48c4131a261325f8f92c20a9a3f4d8b1a57"
+}

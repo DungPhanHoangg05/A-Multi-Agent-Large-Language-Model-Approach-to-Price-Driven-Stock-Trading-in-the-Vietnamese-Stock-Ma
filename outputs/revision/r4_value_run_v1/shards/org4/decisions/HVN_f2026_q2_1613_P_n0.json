@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "920775ed3ce40e543ade8ad3f257d451da711bf9786098b34c4716bd1d2070ed"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a downward move with support at 21.0 and resistance at 23.5; Alpha factors show 4 out of 5 negative signals confirming a bearish bias.",
+    "evidence_against": "MACD line is above signal, suggesting bullish momentum.",
+    "justification": "Shorting aligns with the prevailing bearish consensus and protects cash over the horizon; the negative alpha signals outweigh the bullish MACD indication.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-5efa-7f72-bf2f-3bdba214fea3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-5efa-7f72-bf2f-3bdba214fea3.request.json",
+      "sha256": "3ff4fd9cc67171a5399a2c7720363de4149a36bf09c3a985422b20805aec0b92"
+    },
+    {
+      "path": "calls/01a19f91-5efa-7f72-bf2f-3bdba214fea3.response.json",
+      "sha256": "df44c913d04880c2c9f3b6bb0c20cd323c5f7c171ffedcf5fa28ad0172dfab32"
+    }
+  ],
+  "sha256": "bd0c1f06924b3786cb39077106c372e60f493eda40206c41b66135cca4864018"
+}

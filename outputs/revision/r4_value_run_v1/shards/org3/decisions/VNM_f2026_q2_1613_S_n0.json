@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "abc14173009384db54f967150933352a73b0b4a7ef170fc1361813a75eb9cbfe"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bearish with support at 56.5 and resistance at 57.5; MACD shows negative line above signal indicating weakening momentum.",
+    "evidence_against": "No contrary signals.",
+    "justification": "Shorting aligns with the confirmed downtrend and avoids buying at a high; risk is limited to the support level with potential reward if price falls to 56.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-60b5-7950-8a3d-6f3c0c0a3ba4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-60b5-7950-8a3d-6f3c0c0a3ba4.request.json",
+      "sha256": "9250b1776ce9ff6f340a7040001beef9dddfbdd9b9c4a1812d94cd25155659e1"
+    },
+    {
+      "path": "calls/01a19f9e-60b5-7950-8a3d-6f3c0c0a3ba4.response.json",
+      "sha256": "37caaf1818981d0c2745ab738621fa50f9a42002e9de22d82fd4de4e4afe213e"
+    }
+  ],
+  "sha256": "96bb8c96ff54a1047d7decbb7dcd51cdb4c85d4d71fdf9a81e3a6532753806bc"
+}

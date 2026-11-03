@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "f927d70f48da89921275d227f021761b6102b447ef9f6784e8da048027f10295"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 4.0,
+    "evidence_for": "Trend is bullish with price above support 60.5 and approaching resistance 64.5. MACD shows a golden cross and positive histogram indicating increasing momentum.",
+    "evidence_against": "Pattern V reversal could indicate a potential pullback if the breakout fails.",
+    "justification": "Given the bullish trend, pattern confirmation, and MACD momentum, a LONG position is justified. The expected upside of ~4% exceeds the combined fee and slippage cost, providing a favorable risk‑reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-905d-7a11-8138-d50c66696402"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-905d-7a11-8138-d50c66696402.request.json",
+      "sha256": "d58395a315df5ae3a66125ad0e683e0467b506681ce2d081b8dc09e64c68d25a"
+    },
+    {
+      "path": "calls/01a19f8f-905d-7a11-8138-d50c66696402.response.json",
+      "sha256": "a7ae71cb10fc6bea61aab88c32eadcb1c7fc0f25f9245dfd1704b399560035ea"
+    }
+  ],
+  "sha256": "725efc049e44a2297eac328653940c8372e41c6b51dc81dfce4ff4c28a159800"
+}

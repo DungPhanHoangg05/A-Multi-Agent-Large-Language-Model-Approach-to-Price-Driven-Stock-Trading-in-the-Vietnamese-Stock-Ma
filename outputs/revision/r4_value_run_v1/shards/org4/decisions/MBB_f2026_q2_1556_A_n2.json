@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "6e251b7199a1b3a5292565a4a72bd171f4f48e1c07254ef03533726ae4a6ce9c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Thấp",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up, price above support 21.0",
+    "evidence_against": "MACD negative, majority alpha negative",
+    "justification": "Momentum weak and alpha signals bearish, risk of reversal high, better to hold cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-ad15-74c0-b259-cf8d9099b1a3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-ad15-74c0-b259-cf8d9099b1a3.request.json",
+      "sha256": "575ff6f83cc775ea2f020ad0f3aaf4ad284b6bc95ecaddd2ffeee7dea47e3eae"
+    },
+    {
+      "path": "calls/01a19f8d-ad15-74c0-b259-cf8d9099b1a3.response.json",
+      "sha256": "b640106e118c3e571a7f2bd701b9fc1705620fc0f260d7d0a306699535568bf0"
+    }
+  ],
+  "sha256": "c2966fd6d2f420dd6da8bb1d69b8d102c5937321ea914fb58377b7a10eadaf1b"
+}

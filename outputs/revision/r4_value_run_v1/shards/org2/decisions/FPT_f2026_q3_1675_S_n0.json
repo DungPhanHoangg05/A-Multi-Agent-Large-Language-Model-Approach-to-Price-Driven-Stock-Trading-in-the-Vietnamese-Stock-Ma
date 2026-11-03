@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "b9b8eaec0953a9f6670249e90e5cb833ecef51e3022884ebd977bf7178fe87c6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend shows upward channel with support at 65.5 and resistance at 68.5, and accumulation pattern indicates potential breakout.",
+    "evidence_against": "MACD line below signal and negative histogram indicate bearish momentum, contradicting the bullish trend.",
+    "justification": "Given the bearish MACD signal and lack of strong bullish confirmation, a short position is preferred to avoid potential reversal. The short trade will be entered at resistance 68.5 with stop above 70 and target near 65.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-6488-7a02-84f7-53456ec1e823"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-6488-7a02-84f7-53456ec1e823.request.json",
+      "sha256": "4d11893758cd339d947d143f75cdb3ee9311e76b2987296f67bbe146690df45c"
+    },
+    {
+      "path": "calls/01a19f9d-6488-7a02-84f7-53456ec1e823.response.json",
+      "sha256": "e2bdd05e919efd1021007ae3cfd5a5601183b393a9c4cde75f4684362445aeb0"
+    }
+  ],
+  "sha256": "dbad465895344ba7183f310c7b2473fee60ecba8175a14167489379bb9446372"
+}

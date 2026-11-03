@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": "faa3dbaab887568dbf59a1066db0b84e44b1482cdeb97ad1d2b56fe201f2f57a",
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "fbbcd84b654dc32e05bebfa5441847af64a8fbb7107306dca537fe8da877566b"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis shows continuous decline over the last 3 days, approaching support at 130.5. MACD line above signal with decreasing histogram indicates weakening bullish momentum, supporting a short position.",
+    "evidence_against": "Alpha factors show 3 out of 5 indicators trending upward, which could suggest potential upside.",
+    "justification": "Given the confirmed downtrend and pattern, a short trade aligns with the risk management rules. The short position will be entered at the next open and closed at the close of T+2, capturing the expected decline while limiting exposure to the 0.7% two‑way slippage.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-1ff9-7f42-b8df-c066bac1d513"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-1ff9-7f42-b8df-c066bac1d513.request.json",
+      "sha256": "a5aa3c7029e5830fa52df2a4726a7638d8916152e4c4ab285093915560681fb3"
+    },
+    {
+      "path": "calls/01a19f95-1ff9-7f42-b8df-c066bac1d513.response.json",
+      "sha256": "11298af6174942afaf7876ef048b7a64013f31901383c41ec514a9bed6a96f80"
+    }
+  ],
+  "sha256": "8af09e8c6ca076c6a0980076de76346fcc0e74e64b15dfc6f38c20bf127aad0b"
+}

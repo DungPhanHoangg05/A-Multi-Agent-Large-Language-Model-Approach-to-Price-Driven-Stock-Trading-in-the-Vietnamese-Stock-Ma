@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "5a342aafeec01c9119debdf4ae4c5764c9f7f49b1fc9041a28efb8d60ae3ff7e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear downward pattern with lower highs and lows, and MACD histogram is expanding, indicating potential reversal to the downside. Negative sentiment score of -0.705545 further supports a bearish outlook.",
+    "evidence_against": "MACD line above signal indicates possible bullish momentum.",
+    "justification": "Given the bearish trend confirmation, negative sentiment, and MACD expansion, a short position aligns with the strategy to avoid buying and selling within the T+2.5 horizon. The risk of missing the buy target due to fees and slippage makes short the safer choice.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-00e0-73d1-857d-6195da953979"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-00e0-73d1-857d-6195da953979.request.json",
+      "sha256": "ec832ed5637a7a372362a537e6cee90dd9fb2195c5e3553b9183d0fcfbaad364"
+    },
+    {
+      "path": "calls/01a19f96-00e0-73d1-857d-6195da953979.response.json",
+      "sha256": "c056bc934aa5f493dfb64e79392c5c1c580b0ab441a873828ae69d6cacf21e0e"
+    }
+  ],
+  "sha256": "0dda9d2d7704f38f41dc4d746da650858d95662673f193abcbb0441ab688b1ca"
+}

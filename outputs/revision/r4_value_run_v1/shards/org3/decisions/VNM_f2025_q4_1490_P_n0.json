@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": "0090824c96cbebedd442f209b0c839653d0bc495cf456e157069addad10a2394",
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "93f4458fc58ce07b26bd599fd64a894c794859e6968b731132377cc7be82f01c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend bullish with support at 59 and resistance at 62.5, pattern shows breakout above 62, alpha factors majority bullish.",
+    "evidence_against": "MACD line below signal suggests potential reversal.",
+    "justification": "Buy at open if price stays above 62, target 64, stop loss below 61. Expected net profit after fees ~0.7% per side, meeting risk-reward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-72d6-7b30-b5fd-195721496263"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-72d6-7b30-b5fd-195721496263.request.json",
+      "sha256": "bf01cd7e7b73ee72a82107dfe2d17082761734eea3d3ac8a2d87732288cdbf56"
+    },
+    {
+      "path": "calls/01a19f8a-72d6-7b30-b5fd-195721496263.response.json",
+      "sha256": "b785bb34ae0ac20cdba2090da874b4c469634a4baa8c7f1059724beaf6bd4da8"
+    }
+  ],
+  "sha256": "ee98f0285ca3df4412ee7a2f1b6da7ceae8a43ca1355cda975617aaad75a5742"
+}

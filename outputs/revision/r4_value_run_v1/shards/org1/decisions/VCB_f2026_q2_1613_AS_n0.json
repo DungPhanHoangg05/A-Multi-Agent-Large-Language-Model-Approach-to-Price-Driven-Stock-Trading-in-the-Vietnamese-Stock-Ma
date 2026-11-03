@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "e975cc9dc90136cb7639564bb699e3a92bb5b75e9f925b4f0e9e0a82e122a4d1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "MACD line below signal and histogram negative indicate weakening momentum; price has made lower highs and lower lows, confirming a downtrend.",
+    "evidence_against": "Trend analysis indicates a sideways movement, which could reduce the probability of a clear downward break.",
+    "justification": "Given the bearish MACD, downtrend pattern, and price action below support, a short position aligns with the contract rules; the risk-reward ratio of 2.5 offers a favorable trade setup.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-8185-7422-9ae2-97d118b7530e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-8185-7422-9ae2-97d118b7530e.request.json",
+      "sha256": "84ffca530db89e2a8b0744b1a4b3cc00cc08561e63d49bedcbb059edea1c74ff"
+    },
+    {
+      "path": "calls/01a19f89-8185-7422-9ae2-97d118b7530e.response.json",
+      "sha256": "b9ac8094a7cb8644676c93608e8461c072230691b68d4df5479bb8be382ab3a8"
+    }
+  ],
+  "sha256": "df77dfa323e66f2ddf832fde159165cb8a75c4cc5023bf5ce9a629f4a14183ea"
+}

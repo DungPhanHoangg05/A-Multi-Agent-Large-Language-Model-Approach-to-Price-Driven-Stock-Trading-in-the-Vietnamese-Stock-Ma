@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "48dc4a8bfb0864aa3ce1dc0e4aaf26414a5175d52abebdac7b10bb378b562a98"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 5.0,
+    "evidence_for": "Trend is up with support at 70.5 and resistance at 74.5, indicating potential upside. MACD histogram is trending up, suggesting increasing momentum despite MACD below signal.",
+    "evidence_against": "All alpha factors indicate a decrease, signaling potential weakness.",
+    "justification": "Buying at open and selling at close near 74.5 should yield net profit after fees. Given the forecast horizon of T+2.5, holding cash if short would not be optimal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-e82b-7f20-8bb5-d705edbf180b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-e82b-7f20-8bb5-d705edbf180b.request.json",
+      "sha256": "b0b0f0ed04d32f8cfda4cd01c9f0ba0d49e680d6cbb3fb51411923b4f350dc3d"
+    },
+    {
+      "path": "calls/01a19f9c-e82b-7f20-8bb5-d705edbf180b.response.json",
+      "sha256": "3b3efda38ccb475b9226994eab1b67adc743830dd6f9a7befd47d9bef84688dd"
+    }
+  ],
+  "sha256": "f0a939e001aeea0363c333e81d2a5b327218ffe4f4fca3914fe09b29948fcf9a"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": "0090824c96cbebedd442f209b0c839653d0bc495cf456e157069addad10a2394",
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "93f4458fc58ce07b26bd599fd64a894c794859e6968b731132377cc7be82f01c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend bullish with support at 59 and resistance at 62.5, pattern shows breakout above 62 and MACD histogram trending up.",
+    "evidence_against": "MACD line below signal suggests potential reversal.",
+    "justification": "Alpha factors majority bullish and pattern confirms breakout, so long position expected to capture upside before T+2.5. Risk reward ratio of 2.5 aligns with target 63.5 and stop at 61.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-d665-7e80-97fa-5fddfe16931d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-d665-7e80-97fa-5fddfe16931d.request.json",
+      "sha256": "14c8efc589794c0d062fe06d381a563b2691d7d376933603c4f493baa9bd67b8"
+    },
+    {
+      "path": "calls/01a19f8b-d665-7e80-97fa-5fddfe16931d.response.json",
+      "sha256": "67ed3e6726f0952ce3a9e47d6ac5c3c4b985351fe3edde5e3a14d28f9b56c528"
+    }
+  ],
+  "sha256": "6da3ac5995a6de3a4c20f6c686a2cb717fef11b2a4c709ce6f3076437f53f8b9"
+}

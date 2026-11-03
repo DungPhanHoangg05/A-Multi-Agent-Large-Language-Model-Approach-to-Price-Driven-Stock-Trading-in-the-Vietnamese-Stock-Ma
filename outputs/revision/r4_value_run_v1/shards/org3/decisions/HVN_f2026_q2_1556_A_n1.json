@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "6d6a0c0789ae790c0606163805e06b83916c51882827908a72b3bbfc9aeb4023"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up and MACD line above Signal with positive histogram, indicating bullish momentum. The support level is 21.5 and price is above it, reinforcing the uptrend.",
+    "evidence_against": "Four out of five alpha factors signal a downtrend, raising caution.",
+    "justification": "The bullish trend and MACD confirmation outweigh the negative alpha signals, supporting a LONG position for the T+2.5 horizon. The price is above support and near resistance, offering a clear target.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-cee3-7681-97ff-78e256d58901"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-cee3-7681-97ff-78e256d58901.request.json",
+      "sha256": "7fc74ccfc8b632ef3bc227d4a3a134c610fcc251a7aa6734a7dfa70e82815552"
+    },
+    {
+      "path": "calls/01a19f92-cee3-7681-97ff-78e256d58901.response.json",
+      "sha256": "29660c426dd6aa02dbc537ef9ed74f11d42e5900f9ad3ee82f2a49407c0fc817"
+    }
+  ],
+  "sha256": "23df3222fba7f4981af95bbe192682f942b1338a919d02adfb1a646df6f91855"
+}

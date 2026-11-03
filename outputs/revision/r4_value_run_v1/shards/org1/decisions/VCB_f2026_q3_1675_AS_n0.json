@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "54c8c0e3a92c0ab467627b27dfe8e820d314b7b34a455265b787a4827a87cdce"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates sideways with resistance at 60.0 and MACD below signal confirming bearish momentum. Alpha factors show majority negative signals, supporting a short position.",
+    "evidence_against": "No strong bullish pattern or positive alpha signals to justify a long.",
+    "justification": "Shorting aligns with the bearish trend and negative indicators, ensuring potential profit while limiting exposure to upside risk. The short position also satisfies the holding period requirement and avoids holding the stock beyond T+2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-706d-76a1-be7b-21ade9950245"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-706d-76a1-be7b-21ade9950245.request.json",
+      "sha256": "369abb35074e9783201f1a91dc8e7a2abe835e505fa0446599c82ee303ebaa4a"
+    },
+    {
+      "path": "calls/01a19f9d-706d-76a1-be7b-21ade9950245.response.json",
+      "sha256": "cbedd4edd707d8e1c948e4026b3c9166ad8e62a6305879efab744835f437e7bf"
+    }
+  ],
+  "sha256": "90dcaa9405a42736416ab056a659f6f0fde2976e75b88c684209d03734c986e2"
+}

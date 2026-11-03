@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "164f987bb0b7f238a8c7e7291bfb40726873f0d46d219569cf9e8301d7728609"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD shows death cross indicating sell signal; 4 out of 5 alpha factors signal decline.",
+    "evidence_against": "Pattern suggests potential breakout to 145.",
+    "justification": "Trend is sideways with weak momentum; MACD bearish and majority alpha negative support a short position.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f98-5b69-7e20-aad0-b9f8c9cea665"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-5b69-7e20-aad0-b9f8c9cea665.request.json",
+      "sha256": "04f5d990f91fc40af14e3c80bfe7877e24a3a6945aeeb6b12094c23c7e80d30c"
+    },
+    {
+      "path": "calls/01a19f98-5b69-7e20-aad0-b9f8c9cea665.response.json",
+      "sha256": "6de7b54ee556da3b534acd9442d92a22eebb7ccc9db7ea250a9b5148edf8fd39"
+    }
+  ],
+  "sha256": "025020ec4123e8b5a442453cc40c667f149f643c17cc82ec682f96035979c627"
+}

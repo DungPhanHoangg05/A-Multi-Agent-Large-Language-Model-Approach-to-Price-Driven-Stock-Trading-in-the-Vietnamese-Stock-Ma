@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f99-b267-7ae1-91f5-5e625527ff64",
+  "parent_request_hash": "6a9cb654fff73de478ab8a89f3b50f878e46e7955387f32390fea22b2f99d303",
+  "ended_at_utc": "2026-11-03T04:10:13.646883+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross, signaling a sell; Alpha factors overall indicate a downward trend.\",\"evidence_against\":\"Pattern analysis suggests a potential breakout to 145, but lacks confirmation.\",\"justification\":\"The bearish MACD and negative alpha consensus support a short position; the risk‑reward ratio of 2:1 aligns with the expected move within the T+2.5 horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD shows a death cross, signaling a sell; Alpha factors overall indicate a downward trend.\",\"evidence_against\":\"Pattern analysis suggests a potential breakout to 145, but lacks confirmation.\",\"justification\":\"The bearish MACD and negative alpha consensus support a short position; the risk‑reward ratio of 2:1 aligns with the expected move within the T+2.5 horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 467,
+                "prompt_tokens": 1752,
+                "total_tokens": 2219,
+                "completion_time": 0.571809499,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 347
+                },
+                "prompt_time": 0.093381022,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317737711,
+                "total_time": 0.665190521
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f99-b267-7ae1-91f5-5e625527ff64-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 467,
+        "prompt_tokens": 1752,
+        "total_tokens": 2219,
+        "completion_time": 0.571809499,
+        "completion_tokens_details": {
+          "reasoning_tokens": 347
+        },
+        "prompt_time": 0.093381022,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317737711,
+        "total_time": 0.665190521
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "38d515bad5a1fe23b1549c3d823ff6ebe54f74d39188a660689ef13b267568bf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with price near resistance 74.5, MACD histogram widening suggests potential reversal.",
+    "evidence_against": "MACD line below signal line indicates bearish momentum.",
+    "justification": "Given conflicting signals, shorting is safer to avoid potential reversal. Holding cash preserves capital until trend confirms.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-91a6-7622-9071-4edd049e6bef"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-91a6-7622-9071-4edd049e6bef.request.json",
+      "sha256": "11eaaa0d45fb7cb846eee23604db18f3ccabc6246b8d5ae9ed0f05f4912e34b4"
+    },
+    {
+      "path": "calls/01a19f9b-91a6-7622-9071-4edd049e6bef.response.json",
+      "sha256": "3039e5f0a251f5495fe873ee7e1e71edf567337323dc112f8f6fd587d08b8a71"
+    }
+  ],
+  "sha256": "a10273e527505a003728019c32d96c1999760fbcdc9b4845565c060883c09dc8"
+}

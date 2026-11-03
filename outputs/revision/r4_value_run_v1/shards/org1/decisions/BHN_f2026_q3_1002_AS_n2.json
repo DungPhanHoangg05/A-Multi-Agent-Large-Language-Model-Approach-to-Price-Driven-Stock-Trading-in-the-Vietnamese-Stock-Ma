@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "eafc4caa0a816b750b978b0b6a4c54f71932578da3cc1b5dc1d2a12ec30f6aa3"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is up with support at 26.5 and resistance at 28.5, indicating potential breakout. Pattern V suggests a bullish reversal, supporting a short position if breakout fails.",
+    "evidence_against": "MACD is below signal and histogram negative, indicating weakening momentum.",
+    "justification": "Given the bearish MACD and negative sentiment, a short position mitigates risk of reversal. The short strategy preserves cash until the 3-day horizon, aligning with the contract rules.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-7f1b-7090-9c75-ad5af7215115"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-7f1b-7090-9c75-ad5af7215115.request.json",
+      "sha256": "5cd1090f20dde20de33cbe58d8f22cb541336cf48c8187391248947ebad2def1"
+    },
+    {
+      "path": "calls/01a19f9c-7f1b-7090-9c75-ad5af7215115.response.json",
+      "sha256": "96eae08d038351f82c468300b6649a1430775df295bda5a4f4b4556c88d76e3a"
+    }
+  ],
+  "sha256": "3fcf2d41e1aa165feba7f7323f5c1a9ca75576740c3bfd815badd015a5755e6b"
+}

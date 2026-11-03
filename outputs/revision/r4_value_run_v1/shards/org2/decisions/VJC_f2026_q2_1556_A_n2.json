@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "b9637a5519deccc2a2fc0cde6807f94ef6dddf9b9fbe3ca1748803d0d98057ea"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support 118 and resistance 128, MACD bullish and pattern V indicates breakout above 120.",
+    "evidence_against": "No significant bearish signals detected.",
+    "justification": "The convergence of trend, pattern, MACD, and majority alpha signals supports a long position with a target near 128 and stop below 118.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-b6bc-7470-95c2-43e3b7a24049"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-b6bc-7470-95c2-43e3b7a24049.request.json",
+      "sha256": "9d0f2b8d040e4d362745cd0b7718411a46e18d727cacd61c83b80a98b2c3c2e0"
+    },
+    {
+      "path": "calls/01a19f8d-b6bc-7470-95c2-43e3b7a24049.response.json",
+      "sha256": "7a86616f4f113d24595567156a526240db447e10e23fcba4c2c648e2ed3505df"
+    }
+  ],
+  "sha256": "5e4924353a8fea4fde676e6cf3845e05dc774687ed2e7dc28df225329814725c"
+}

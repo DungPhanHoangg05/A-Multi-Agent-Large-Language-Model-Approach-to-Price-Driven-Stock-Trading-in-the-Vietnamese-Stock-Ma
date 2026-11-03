@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "0605169b80d081c607834466b9386b485e0ef03b134ecfce0d17af472521a4e7"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 130.5 and resistance at 141.5, and all five alpha factors indicate a decrease. MACD line is above signal but histogram is declining, suggesting weakening momentum.",
+    "evidence_against": "MACD line above signal indicates potential bullish reversal.",
+    "justification": "Given the downtrend and negative alpha signals, a short position aligns with the strategy to preserve cash when upside is unlikely. The bullish MACD is insufficient to override the broader negative indicators, so shorting remains the prudent choice.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-fbbb-7071-aeb1-b5dd3ef92a60"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-fbbb-7071-aeb1-b5dd3ef92a60.request.json",
+      "sha256": "d0b039621a930c0112740f3819d2beeadb56d8854e0425f993c2d5b657bafe8f"
+    },
+    {
+      "path": "calls/01a19f95-fbbb-7071-aeb1-b5dd3ef92a60.response.json",
+      "sha256": "9efa394f94ade4eeefaab03606453c1bf8a2314f6ba096cf60dc5ffd5ad1578f"
+    }
+  ],
+  "sha256": "044800e406d3f09d42886469bde738e9f0ccdd0eefa04e5036355439e43842ce"
+}

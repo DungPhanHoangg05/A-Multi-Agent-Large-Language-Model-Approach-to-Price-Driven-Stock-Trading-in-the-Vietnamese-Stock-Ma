@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "7e2c572d433a79162e68aab3acd8dd27fc0cff9da2a59f6539b7767fbdee4915"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a sustained downtrend with support at 56.5 and resistance at 57.5, indicating potential further decline. All five alpha factors signal a decrease, confirming bearish bias.",
+    "evidence_against": "MACD histogram shows a slight positive trend, but overall momentum remains weak.",
+    "justification": "Shorting aligns with the bearish trend and alpha consensus, maximizing potential upside while minimizing exposure to upward price movement. The risk reward ratio of 2.0 reflects the expected decline to 56.5 against the cost of shorting.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-d107-77e1-821f-7dca911fc271"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-d107-77e1-821f-7dca911fc271.request.json",
+      "sha256": "b5ec8823101581225d6273b391bd49f0aed77a94f1001fe7e7534e2354a3f408"
+    },
+    {
+      "path": "calls/01a19f9e-d107-77e1-821f-7dca911fc271.response.json",
+      "sha256": "747d8b65f7b123d49c582da71bbd58beec651daa617c566bfe0d5afad091da44"
+    }
+  ],
+  "sha256": "f0f4a0c763cafee0084df0d77e00422c499b8087e1ed30b787d9f90be1c4ba22"
+}

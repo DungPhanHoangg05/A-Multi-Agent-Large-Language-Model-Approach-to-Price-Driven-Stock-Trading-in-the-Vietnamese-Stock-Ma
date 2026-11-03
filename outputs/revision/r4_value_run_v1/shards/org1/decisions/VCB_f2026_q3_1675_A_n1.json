@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "d88594ce4cd7b5534c1883515f7072b4d630a4326688d366aa970f50b599d990"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum. Majority of alpha factors signal a decrease.",
+    "evidence_against": "Trend analysis shows sideways, not a clear downward breakout.",
+    "justification": "Given bearish momentum and negative alpha consensus, a short position is justified. Holding cash avoids potential losses if price remains flat.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-3f79-7992-b7cc-c0323e0e2227"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-3f79-7992-b7cc-c0323e0e2227.request.json",
+      "sha256": "59fe0a52361c6c428bd3cc19279d05aa7c6166950b8b2cbf9f4bbd0d65ea53ca"
+    },
+    {
+      "path": "calls/01a19f9f-3f79-7992-b7cc-c0323e0e2227.response.json",
+      "sha256": "d6681c813a658da60d474d3474b01be014d58a2f9814c15ded97a9b1c7c5e47d"
+    }
+  ],
+  "sha256": "bd3ee0a4bbea2b6e21c7869eee255a0195068aa91de7622e50c6fc5df9267479"
+}

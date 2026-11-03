@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": "e53c4c8b2393f7a547498c812f0ac2ee733bae826a462cce0a3aa36f2831e2b0",
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "2a5c33191fdbb2cb45062318fe044465cc81ce92955e3809b7f7ccfa70c4a42d"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend is up with price near support 21.0 and approaching resistance 22.0; pattern suggests buying above 21.5 with target 22.5.",
+    "evidence_against": "MACD line is below signal, indicating bearish momentum.",
+    "justification": "Buying at open near 21.5 and selling at close near 22.5 yields ~4% return after fees; trend and pattern support a bullish move.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-fb0b-7be0-a79b-c12d5f2e36ff"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-fb0b-7be0-a79b-c12d5f2e36ff.request.json",
+      "sha256": "12976b70130a20ff62b195cbc739bfd32a69a595bcb3b4efa001b97da5fe5b45"
+    },
+    {
+      "path": "calls/01a19f89-fb0b-7be0-a79b-c12d5f2e36ff.response.json",
+      "sha256": "f63726ca2f33277ac7b5aff96a4a095d13f8e78fcf2f1f9ebf5a6cea03a637ca"
+    }
+  ],
+  "sha256": "1e09d3e1527f5d1318188f220720af6e9a98b5878da6340050ee5bb54b341033"
+}

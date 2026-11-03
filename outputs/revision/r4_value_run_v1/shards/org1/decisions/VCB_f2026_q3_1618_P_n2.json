@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": "92841529515e2f6f1ea74640f7363e2b22ca4bf2bb822d0ce83ccf408d6fe00a",
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "5c5dec252a88e73c067dc71f42504eff1cc1dc2184e183970d78b03194fd3715"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is up with support at 60.5 and resistance at 64.5, and price has broken above support. MACD golden cross and bullish V pattern confirm momentum.",
+    "evidence_against": "Alpha factors 4 and 5 are negative, but majority positive.",
+    "justification": "Given bullish trend, pattern, and MACD, LONG is justified; risk reward ratio 2.5 meets criteria.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f94-329a-7742-b997-3569cf2a0b26"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f94-329a-7742-b997-3569cf2a0b26.request.json",
+      "sha256": "e1b697b3d781ca4e956375b306252c72599f4b7a4788deebc3cecae83e6a7e5e"
+    },
+    {
+      "path": "calls/01a19f94-329a-7742-b997-3569cf2a0b26.response.json",
+      "sha256": "debe3afb6900c4920063b1d80cffab0703333ec82dd94bd9ec4a14dea76c0caf"
+    }
+  ],
+  "sha256": "8a3f1f40d7e82d73cd70c366a779f748bf1541af0b82609233af11ff2c6679a1"
+}

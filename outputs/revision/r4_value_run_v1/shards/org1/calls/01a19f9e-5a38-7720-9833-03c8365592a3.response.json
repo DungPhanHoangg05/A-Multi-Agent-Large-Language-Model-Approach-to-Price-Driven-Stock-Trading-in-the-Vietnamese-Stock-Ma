@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9e-5a38-7720-9833-03c8365592a3",
+  "parent_request_hash": "e5bba93c878d5402f107a7fd5ee033282cde4fb8ee0d125e271044c426f55879",
+  "ended_at_utc": "2026-11-03T04:15:20.307275+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal with negative histogram indicates bearish momentum; 3 out of 5 alpha factors signal a decrease.\",\"evidence_against\":\"Pattern analysis hints at a potential breakout above 60, but confidence is low.\",\"justification\":\"Shorting aligns with bearish momentum and negative alpha signals; risk reward ratio of 1.5 is acceptable for the 3‑day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD below signal with negative histogram indicates bearish momentum; 3 out of 5 alpha factors signal a decrease.\",\"evidence_against\":\"Pattern analysis hints at a potential breakout above 60, but confidence is low.\",\"justification\":\"Shorting aligns with bearish momentum and negative alpha signals; risk reward ratio of 1.5 is acceptable for the 3‑day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 742,
+                "prompt_tokens": 1788,
+                "total_tokens": 2530,
+                "completion_time": 0.952146013,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 624
+                },
+                "prompt_time": 0.090639634,
+                "prompt_tokens_details": null,
+                "queue_time": 0.675205132,
+                "total_time": 1.042785647
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9e-5a38-7720-9833-03c8365592a3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 742,
+        "prompt_tokens": 1788,
+        "total_tokens": 2530,
+        "completion_time": 0.952146013,
+        "completion_tokens_details": {
+          "reasoning_tokens": 624
+        },
+        "prompt_time": 0.090639634,
+        "prompt_tokens_details": null,
+        "queue_time": 0.675205132,
+        "total_time": 1.042785647
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

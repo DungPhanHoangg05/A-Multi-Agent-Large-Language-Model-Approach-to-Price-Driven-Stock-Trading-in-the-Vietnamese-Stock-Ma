@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "69f74cef19547c68c899d4a9117130d5887c2ddd9cb2581946fa54a7a8329ce6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Pattern shows declining highs and lows, confirming a downtrend; MACD line below signal indicates bearish momentum.",
+    "evidence_against": "Trend analysis suggests a sideways market, but pattern and indicator dominate.",
+    "justification": "Shorting aligns with the confirmed downtrend and bearish momentum, while holding cash mitigates risk of a reversal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-52a0-7460-9562-9509edf0642c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-52a0-7460-9562-9509edf0642c.request.json",
+      "sha256": "ea21325309f213167e09a8da39b3c279f52b4bef51586afd4cf4233381fff0cf"
+    },
+    {
+      "path": "calls/01a19f8c-52a0-7460-9562-9509edf0642c.response.json",
+      "sha256": "c717e1b4c2bc129affd84d0f1c18d08bbd20b7b658fba5033a3f7cce3ed53818"
+    }
+  ],
+  "sha256": "a73e295191b820afb1c99d50cc352ea4b223327f8dfc4c829119e5dd17030b9a"
+}

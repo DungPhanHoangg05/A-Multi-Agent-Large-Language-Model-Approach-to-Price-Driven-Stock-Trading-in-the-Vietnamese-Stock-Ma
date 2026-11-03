@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8c-4bf9-7ac0-bd7f-a3e118f88733",
+  "parent_request_hash": "e961721facad8fe7d31af8c61572ec1b2be40af53c45420367c3312d38d691ee",
+  "ended_at_utc": "2026-11-03T03:55:36.193130+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.7,\"evidence_for\":\"Trend shows upward movement with price above support and approaching resistance; MACD line is above signal line indicating bullish crossover. Pattern breakout above 21.5 suggests potential target of 22.5.\",\"evidence_against\":\"MACD line remains negative, indicating overall bearish momentum.\",\"justification\":\"We expect net profit exceeding transaction costs with a target of 22.5 from current price, providing a reward that outweighs the risk to support level. However, the negative MACD line signals caution, so we maintain a moderate confidence level.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.7,\"evidence_for\":\"Trend shows upward movement with price above support and approaching resistance; MACD line is above signal line indicating bullish crossover. Pattern breakout above 21.5 suggests potential target of 22.5.\",\"evidence_against\":\"MACD line remains negative, indicating overall bearish momentum.\",\"justification\":\"We expect net profit exceeding transaction costs with a target of 22.5 from current price, providing a reward that outweighs the risk to support level. However, the negative MACD line signals caution, so we maintain a moderate confidence level.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1105,
+                "prompt_tokens": 1448,
+                "total_tokens": 2553,
+                "completion_time": 1.17947828,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 955
+                },
+                "prompt_time": 0.096310553,
+                "prompt_tokens_details": null,
+                "queue_time": 0.388361153,
+                "total_time": 1.275788833
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8c-4bf9-7ac0-bd7f-a3e118f88733-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1105,
+        "prompt_tokens": 1448,
+        "total_tokens": 2553,
+        "completion_time": 1.17947828,
+        "completion_tokens_details": {
+          "reasoning_tokens": 955
+        },
+        "prompt_time": 0.096310553,
+        "prompt_tokens_details": null,
+        "queue_time": 0.388361153,
+        "total_time": 1.275788833
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

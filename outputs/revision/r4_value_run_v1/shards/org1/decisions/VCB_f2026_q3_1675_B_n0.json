@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "5e7259bf6dced99aff3c51b834dbc78f9cc279bf16f677965e703f8f543528eb"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below signal and histogram decreasing indicates bearish momentum. Trend analysis shows sideways with potential decline to support.",
+    "evidence_against": "Pattern suggests upside if price above 60, but low confidence and mismatch.",
+    "justification": "Shorting avoids buying into potential decline and preserves cash over the horizon. MACD bearish signal confirms downside risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-8380-78e3-b3b3-8fddbcc7a60e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-8380-78e3-b3b3-8fddbcc7a60e.request.json",
+      "sha256": "e71d429aaeaed157423551d968c0aae919c8e8c8065baa34e4f4689a34344507"
+    },
+    {
+      "path": "calls/01a19f9c-8380-78e3-b3b3-8fddbcc7a60e.response.json",
+      "sha256": "f9581ebac2f3cea5e5836817706e5ff7a1772062e39694efe84c4e9bf548672e"
+    }
+  ],
+  "sha256": "f88a099499fb20478e554145904f8607eda3370f191f486cc610ca7b09e76a13"
+}

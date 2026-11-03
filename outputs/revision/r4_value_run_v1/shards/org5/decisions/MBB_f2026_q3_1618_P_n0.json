@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": "38b766630ab80233e80f7df0c46a8774ed07139c931e6f9f274f1991d08e3d4b",
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "c31fbac8150ace41aac64b4a7e8b04212e164f58640e0e2a8a8fa6dde27e407f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is up with support at 19.70 and resistance at 20.65, and price has broken the 20.75 resistance indicating a bullish reversal. MACD line is above signal with widening histogram, and 4 out of 5 alpha factors indicate an upward bias.",
+    "evidence_against": "MACD line is below zero, suggesting overall bearish momentum.",
+    "justification": "Given the bullish trend, reversal pattern, positive alpha signals, and expected price target exceeding the 0.70% fee threshold, a LONG position is justified. The risk reward ratio of 1.5 meets the required threshold, and the forecast horizon aligns with the T+2.5 settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-92fb-7f72-a24a-0d95b0a51f47"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-92fb-7f72-a24a-0d95b0a51f47.request.json",
+      "sha256": "f6839728cfe82ccf01e3719b7e272e50320777864a6f6f64952fa5718e605a17"
+    },
+    {
+      "path": "calls/01a19f8f-92fb-7f72-a24a-0d95b0a51f47.response.json",
+      "sha256": "07a5be5577f2ac01c026dc39b4687d0e36c7c3ee509b6f17895f31181f6c799e"
+    }
+  ],
+  "sha256": "8eb012d98d9915f792c8c5abacfc10b40eeeb219caac0c45b639ef1dd8fe9c4d"
+}

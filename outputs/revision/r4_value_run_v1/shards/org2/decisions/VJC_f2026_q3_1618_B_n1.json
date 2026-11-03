@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "50be2369cac7e972e6f617527732c48b43c6d72aeb75bf1f9fa0779c8c45fe8d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD shows a death cross with histogram trending negative, indicating bearish momentum. Trend analysis indicates sideways movement with no strong support for breakout, reinforcing a short position.",
+    "evidence_against": "Pattern analysis suggests a potential breakout to 145, which could be a bullish signal.",
+    "justification": "Given the bearish MACD signal and lack of clear upward momentum, a short position aligns with the risk management rules. The short position also avoids the risk of holding cash for the T+2.5 settlement period.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-b73c-7281-b758-e87eee450eea"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-b73c-7281-b758-e87eee450eea.request.json",
+      "sha256": "53b12a347579b7d5da1050463218bc1d4b01967791d64d8c54835b2a2e1978b2"
+    },
+    {
+      "path": "calls/01a19f99-b73c-7281-b758-e87eee450eea.response.json",
+      "sha256": "91d2d9868cb10ed944cbef4555f13b547184e975525b0994a985a4f621532377"
+    }
+  ],
+  "sha256": "3dbf82de5b7af586d2c95de7438f4232f56a740ca6d19ccc1176751ed9b4d231"
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9c-77d4-7fb1-ac15-c8cc79397d45",
+  "parent_request_hash": "eb20fe0227322b20c94b67d4a2d08213b1a3a310d380fe3b929bae68e6b48c20",
+  "ended_at_utc": "2026-11-03T04:13:16.031632+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend shows an upward channel with support at 65.5 and resistance at 68.5, and the accumulation pattern indicates higher highs and higher lows.\",\"evidence_against\":\"MACD histogram negative and MACD below signal suggest weakening momentum, raising risk of reversal.\",\"justification\":\"Given the strong trend and accumulation pattern, a long position is justified, but the bearish MACD signals warrant caution and a tight stop at 62. The risk-reward ratio of 2:1 aligns with the target of 68 against the stop at 62.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend shows an upward channel with support at 65.5 and resistance at 68.5, and the accumulation pattern indicates higher highs and higher lows.\",\"evidence_against\":\"MACD histogram negative and MACD below signal suggest weakening momentum, raising risk of reversal.\",\"justification\":\"Given the strong trend and accumulation pattern, a long position is justified, but the bearish MACD signals warrant caution and a tight stop at 62. The risk-reward ratio of 2:1 aligns with the target of 68 against the stop at 62.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 568,
+                "prompt_tokens": 1443,
+                "total_tokens": 2011,
+                "completion_time": 0.615088968,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 415
+                },
+                "prompt_time": 0.083631562,
+                "prompt_tokens_details": null,
+                "queue_time": 1.008950016,
+                "total_time": 0.69872053
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9c-77d4-7fb1-ac15-c8cc79397d45-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 568,
+        "prompt_tokens": 1443,
+        "total_tokens": 2011,
+        "completion_time": 0.615088968,
+        "completion_tokens_details": {
+          "reasoning_tokens": 415
+        },
+        "prompt_time": 0.083631562,
+        "prompt_tokens_details": null,
+        "queue_time": 1.008950016,
+        "total_time": 0.69872053
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

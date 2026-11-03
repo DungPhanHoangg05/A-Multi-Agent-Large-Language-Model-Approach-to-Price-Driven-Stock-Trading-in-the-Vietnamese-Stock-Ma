@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": "4e2da719bb1256968fe66505500d8f72a3405ff4c4cb1da0ff02c31de588c857",
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "a56d8773a9d32adc2bf8289426ccaa8f8f9d949368690e48a3e1ebe8a0635d49"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD line below signal and histogram negative indicates bearish momentum. Majority of alpha factors signal a decline.",
+    "evidence_against": "Trend analysis indicates a neutral sideways pattern, which could reduce the probability of a downward move.",
+    "justification": "Given the bearish MACD, negative alpha consensus, and neutral trend, a short position is preferred to preserve capital over the T+2.5 horizon. The short trade will capture potential downside while avoiding the risk of missing a breakout due to limited liquidity.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-b684-7471-9da6-9f674419ac28"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-b684-7471-9da6-9f674419ac28.request.json",
+      "sha256": "7b956e3b409e4184c960417aeeae88f7d3029d48e31b88149a2846781b350d88"
+    },
+    {
+      "path": "calls/01a19f9f-b684-7471-9da6-9f674419ac28.response.json",
+      "sha256": "1558160118dfd63f242edcacc2f2681234b297b68a24a7641b4d93111ae14b50"
+    }
+  ],
+  "sha256": "9ed00a279b53c173faa38382bae8846fe978b37d460d4eb9670c939cf8ec7390"
+}

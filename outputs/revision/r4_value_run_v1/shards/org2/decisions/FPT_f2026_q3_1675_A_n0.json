@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "b0f1cd3b5f9e0fbb25fd05b2787f8c0043c3d4c39ad181813b762b17cfabddc1"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows bullish channel with support at 65.5 and resistance at 68.5, and alpha factors predominantly positive (4/5).",
+    "evidence_against": "MACD indicator is below signal with negative histogram, suggesting weakening momentum.",
+    "justification": "Given the bullish trend and majority positive alpha signals, a long position is justified, while the bearish MACD indicates caution but not enough to override the trend.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-f525-7e82-a613-4fa3498b4249"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-f525-7e82-a613-4fa3498b4249.request.json",
+      "sha256": "9021fba0f6d8fe0cc066da661ea4906526e700e8a4487df244d8b70f7e39a430"
+    },
+    {
+      "path": "calls/01a19f9c-f525-7e82-a613-4fa3498b4249.response.json",
+      "sha256": "20935c133ba9c25c4f864b68b39db3c2ea795c2c1a4a91a68a720667467607c8"
+    }
+  ],
+  "sha256": "60257aab480d5a50b4f0d98120f08b574ea6cae32ad37ae23dfdf94f345f23b6"
+}

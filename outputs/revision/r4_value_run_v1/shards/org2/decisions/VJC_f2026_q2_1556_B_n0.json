@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "af4650c89d30e66ed12c96cb3c54dafe665fbbfc674e6bcd526a46ab04025419"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.6,
+    "evidence_for": "Trend is bullish with support at 118 and resistance at 128, and MACD line is above signal with positive histogram indicating increasing momentum. V‑shaped reversal pattern confirms a breakout above 120, suggesting a potential move toward 128 within the 3‑day horizon.",
+    "evidence_against": "The trend slope is decreasing, which could limit upside momentum.",
+    "justification": "Buying at open and selling at close within T+2.5 can capture the expected 8‑point move while covering transaction costs. The bullish MACD and V‑pattern provide confirmation that the price will likely reach the 128 resistance before the horizon ends.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-1eb6-7070-a7ad-63b281661cc8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-1eb6-7070-a7ad-63b281661cc8.request.json",
+      "sha256": "54edc6879730d2f5ab8625a3593943f8e021714ce99a205101f06051e92f826d"
+    },
+    {
+      "path": "calls/01a19f88-1eb6-7070-a7ad-63b281661cc8.response.json",
+      "sha256": "b2061121206abd9338f7b4954084f6f275529fb40a28c33a8d33e89a009f5d22"
+    }
+  ],
+  "sha256": "9c9ae7945ff58a881ca35befae83c5448958276c386956d304060dc10aaeac83"
+}

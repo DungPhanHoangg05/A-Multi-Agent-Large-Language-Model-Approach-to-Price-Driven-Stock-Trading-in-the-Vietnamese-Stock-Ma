@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "6e251b7199a1b3a5292565a4a72bd171f4f48e1c07254ef03533726ae4a6ce9c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD shows bullish crossover and trend analysis indicates upward movement.",
+    "evidence_against": "Three out of five alpha factors signal a decrease, suggesting limited upside.",
+    "justification": "Shorting preserves cash as expected gains likely insufficient to cover transaction costs; negative alpha consensus outweighs bullish indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-c14e-70f1-b8df-5cbb42cae708"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-c14e-70f1-b8df-5cbb42cae708.request.json",
+      "sha256": "9d5709ab661ecbfb2f5920a7682858ecf42e588ec9428d64f8563c396c42b108"
+    },
+    {
+      "path": "calls/01a19f8c-c14e-70f1-b8df-5cbb42cae708.response.json",
+      "sha256": "ae24cbd8b946b4270d420d7511bcd9a69bf2fd5b422899a050e78f53e919d5aa"
+    }
+  ],
+  "sha256": "7c921c8111510e87f467532cb9b3904e033ebbc3fb53008d850be87468e3dc43"
+}

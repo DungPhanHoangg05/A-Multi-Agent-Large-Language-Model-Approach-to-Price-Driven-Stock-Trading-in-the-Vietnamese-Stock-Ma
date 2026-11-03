@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "0884fbae3445ef62305d4927708002c8b09d4b5f9dd32c73b10b13f30b4137e4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a downtrend with support at 21.0 and resistance at 23.5, and alpha factors show majority negative signals.",
+    "evidence_against": "MACD line is above signal, suggesting bullish momentum.",
+    "justification": "Given the consensus of downtrend and negative alpha signals, a short position aligns with the expected price decline over the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-3d14-7682-9715-6cbc1732fcb6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-3d14-7682-9715-6cbc1732fcb6.request.json",
+      "sha256": "f25e944c6677a4a31addacda6310a29b8d6cbea66493b52556e1502babe5bfa4"
+    },
+    {
+      "path": "calls/01a19f93-3d14-7682-9715-6cbc1732fcb6.response.json",
+      "sha256": "d83f3a6e506d43747329047dad52e945414ec4791efcc885b60d3340175afb5b"
+    }
+  ],
+  "sha256": "79fe01ab871490ea824e0432233488835eebbf0b96167776b5e1bc6e33e7a269"
+}

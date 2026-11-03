@@ -1,0 +1,94 @@
+{
+  "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+  "attempt_id": "01a19f9a-ac0f-7152-b05f-87dff211a39b",
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false,
+    "provider_org": 2,
+    "execution_epoch": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a"
+  },
+  "started_at_utc": "2026-11-03T04:11:16.372238+00:00",
+  "model_metadata": {
+    "ls_provider": "groq",
+    "ls_model_name": "openai/gpt-oss-20b",
+    "ls_temperature": 1e-08,
+    "ls_max_tokens": 2048,
+    "langgraph_node": "Decision Maker"
+  },
+  "invocation_parameters": {
+    "stop": null,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "TradeDecisionOutput",
+        "schema": {
+          "title": "TradeDecisionOutput",
+          "description": "Schema nhị phân bắt buộc cho Groq Structured Outputs.",
+          "properties": {
+            "decision": {
+              "description": "Mandatory binary trading decision. Never neutral.",
+              "enum": [
+                "LONG",
+                "SHORT"
+              ],
+              "type": "string"
+            },
+            "forecast_horizon": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "string"
+            },
+            "risk_reward_ratio": {
+              "maximum": 5.0,
+              "minimum": 1.0,
+              "type": "number"
+            },
+            "evidence_for": {
+              "type": "string"
+            },
+            "evidence_against": {
+              "type": "string"
+            },
+            "justification": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "decision",
+            "forecast_horizon",
+            "confidence",
+            "risk_reward_ratio",
+            "evidence_for",
+            "evidence_against",
+            "justification"
+          ],
+          "type": "object"
+        }
+      }
+    }
+  },
+  "messages": [
+    [
+      {
+        "type": "human",
+        "data": {
+          "content": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: BHN; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n4 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Tăng.\n\n**Mức hỗ trợ:** 26.5.\n\n**Mức kháng cự:** 28.5.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Bật lên.\n\n**Phân tích chi tiết:** Giá đóng cửa duy trì trên đường hỗ trợ xanh và đang tiến sát đường kháng cự đỏ. Các phiên gần nhất xuất hiện nến xanh dương cho thấy lực cầu đang chiếm ưu thế.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục tăng trong 3 phiên tới do động lượng tích cực. Mục tiêu ngắn hạn là vượt qua vùng kháng cự 28.5.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Đảo chiều chữ V.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Giá tạo đáy sâu quanh 26.0 vào ngày 08/17, sau đó hồi phục mạnh liên tục 3 phiên, đóng cửa trên vùng kháng cự 27.0.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 08/24 phá vỡ vùng nén giá và Nến xanh ngày 09/23 xác nhận đà tăng.\n\n**Hàm ý giao dịch:** Mua khi giá giữ trên 27.0, mục tiêu 28.5, ngừng lỗ dưới 26.8.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **0.0551**        | [0.2301, 0.1691, 0.1274, 0.1212, 0.0551]                 |\n| Signal Line | **0.2108**        | [0.3582, 0.3204, 0.2818, 0.2497, 0.2108]                 |\n| Histogram   | **-0.1557**        | [-0.1281, -0.1513, -0.1544, -0.1285, -0.1557]                 |\n\n- Giao cắt: MACD đang ở dưới Signal (khoảng cách MACD−Signal = -0.1557)\n- Histogram xu hướng: THU HẸP (động lượng giảm)\n- MACD Line so với 0: Dương → vùng\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — BHN\n| # | Alpha | Giá trị | Tín hiệu | IC | Acc | Score |\n| : | : | : | : | : | : | : |\n| 1 | Triple TsRank Product (WQ#35) | +0.8356 | TĂNG | +0.1974 | 60.7% | +0.8987 |\n| 2 | VWAP-Close Ratio (WQ#42) | -0.3083 | GIẢM | +0.1901 | 60.6% | +0.8862 |\n| 3 | 100-Day Slope Condition (WQ#24) | +0.2056 | TĂNG | +0.1997 | 55.8% | +0.8342 |\n| 4 | HL Ratio Volume Rank (WQ#83) | -0.1047 | GIẢM | +0.1295 | 63.8% | +0.8236 |\n| 5 | SignedPower TsRank Argmax (WQ#84) | -0.0978 | TRUNG TÍNH | +0.0904 | 65.4% | +0.7807 |\n**TỔNG HỢP: TRUNG TÍNH (2 TĂNG / 2 GIẢM / 1 TRUNG TÍNH)**\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+          "additional_kwargs": {},
+          "response_metadata": {},
+          "type": "human",
+          "name": null,
+          "id": null
+        }
+      }
+    ]
+  ],
+  "sha256": "402631a56d41f4bc7d0ca6b8af3af6b48d390e91d82fcd9fe262d9ad9b9d6f9f"
+}

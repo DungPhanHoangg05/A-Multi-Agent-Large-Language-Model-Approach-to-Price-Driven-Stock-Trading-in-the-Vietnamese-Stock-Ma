@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f98-57de-7092-b48d-635d808d5ad0",
+  "parent_request_hash": "de86e0b2a6b0c1cafb67f68f451341eddea5344ddae9e88762c6204c36c48205",
+  "ended_at_utc": "2026-11-03T04:08:44.571437+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern cờ tăng với breakout 141 và mục tiêu 145, hỗ trợ 138\",\"evidence_against\":\"MACD death cross (0.907 vs 0.9072) báo bán\",\"justification\":\"Trend sideways nhưng pattern bullish, nhưng MACD bearish nên chọn SHORT để tránh rủi ro\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern cờ tăng với breakout 141 và mục tiêu 145, hỗ trợ 138\",\"evidence_against\":\"MACD death cross (0.907 vs 0.9072) báo bán\",\"justification\":\"Trend sideways nhưng pattern bullish, nhưng MACD bearish nên chọn SHORT để tránh rủi ro\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 431,
+                "prompt_tokens": 1440,
+                "total_tokens": 1871,
+                "completion_time": 0.466877653,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 324
+                },
+                "prompt_time": 0.109350702,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.048699105,
+                "total_time": 0.576228355
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_c5a89987dc",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f98-57de-7092-b48d-635d808d5ad0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 431,
+        "prompt_tokens": 1440,
+        "total_tokens": 1871,
+        "completion_time": 0.466877653,
+        "completion_tokens_details": {
+          "reasoning_tokens": 324
+        },
+        "prompt_time": 0.109350702,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.048699105,
+        "total_time": 0.576228355
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_c5a89987dc",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

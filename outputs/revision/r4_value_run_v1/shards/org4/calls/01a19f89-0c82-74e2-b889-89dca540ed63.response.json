@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f89-0c82-74e2-b889-89dca540ed63",
+  "parent_request_hash": "f7a005bcffe506e458f5868b698b34bd6edaf04fee1bc4fdba336c5648124a79",
+  "ended_at_utc": "2026-11-03T03:52:04.413452+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend analysis shows an uptrend with price near resistance 22.0, and MACD histogram is expanding, indicating bullish momentum. The price has broken above the 21.5 level, supporting a potential target of 22.5.\",\"evidence_against\":\"Pattern confidence is low and MACD line remains negative, suggesting caution.\",\"justification\":\"The expected upside of ~4.7% exceeds the 0.7% fee threshold, and the stop loss at 21.0 provides a risk reward ratio of 2:1. Given the moderate confidence and bullish indicators, a LONG position is recommended to capture the anticipated trend continuation.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend analysis shows an uptrend with price near resistance 22.0, and MACD histogram is expanding, indicating bullish momentum. The price has broken above the 21.5 level, supporting a potential target of 22.5.\",\"evidence_against\":\"Pattern confidence is low and MACD line remains negative, suggesting caution.\",\"justification\":\"The expected upside of ~4.7% exceeds the 0.7% fee threshold, and the stop loss at 21.0 provides a risk reward ratio of 2:1. Given the moderate confidence and bullish indicators, a LONG position is recommended to capture the anticipated trend continuation.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1976,
+                "prompt_tokens": 1493,
+                "total_tokens": 3469,
+                "completion_time": 2.372339385,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1801
+                },
+                "prompt_time": 0.088677818,
+                "prompt_tokens_details": null,
+                "queue_time": 0.316075556,
+                "total_time": 2.461017203
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f89-0c82-74e2-b889-89dca540ed63-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1976,
+        "prompt_tokens": 1493,
+        "total_tokens": 3469,
+        "completion_time": 2.372339385,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1801
+        },
+        "prompt_time": 0.088677818,
+        "prompt_tokens_details": null,
+        "queue_time": 0.316075556,
+        "total_time": 2.461017203
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

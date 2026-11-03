@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "8c203cd7bc97627b5065adaced32d6f4ad22092e434ceb1837f05a49bc24a175"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is bullish with price above support and near resistance, pattern confirms reversal, MACD bullish.",
+    "evidence_against": "Potential risk if price fails to break resistance at 24.5.",
+    "justification": "Long position expected to capture upside to 25.0 with stop at 22.5, aligning with risk reward ratio of 1.0.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-0992-7821-b844-545b2977420e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-0992-7821-b844-545b2977420e.request.json",
+      "sha256": "de820371049e137a0bbf9a461c23964af4d162f526536c7dc5f86e4d8288d36b"
+    },
+    {
+      "path": "calls/01a19f96-0992-7821-b844-545b2977420e.response.json",
+      "sha256": "6688d1e44c458ee5e3ea9e83f9e8caa76c5dd37604260bf4ee0710cb405345e8"
+    }
+  ],
+  "sha256": "277f261e61b461479a543811b2979a308453034ef419bd0f0a263786bcea2a3d"
+}

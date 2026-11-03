@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f96-83d1-74b0-9ffb-b87cd4403f88",
+  "parent_request_hash": "40f4ec379b7d708eece7d76f232de734748a13272692a77071e60a9eedfcd414",
+  "ended_at_utc": "2026-11-03T04:06:45.455459+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend up with support at 21.0 and resistance at 24.5, MACD bullish with histogram expanding, V-reversal pattern confirms upward momentum.\",\"evidence_against\":\"Alpha factors are mixed with equal up and down signals.\",\"justification\":\"Expect to buy at open and sell at close within 3 days, net profit after 0.7% total fees should exceed break-even, aligning with bullish indicators.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend up with support at 21.0 and resistance at 24.5, MACD bullish with histogram expanding, V-reversal pattern confirms upward momentum.\",\"evidence_against\":\"Alpha factors are mixed with equal up and down signals.\",\"justification\":\"Expect to buy at open and sell at close within 3 days, net profit after 0.7% total fees should exceed break-even, aligning with bullish indicators.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 635,
+                "prompt_tokens": 1816,
+                "total_tokens": 2451,
+                "completion_time": 0.798261712,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 507
+                },
+                "prompt_time": 0.090834268,
+                "prompt_tokens_details": null,
+                "queue_time": 0.421030361,
+                "total_time": 0.88909598
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f96-83d1-74b0-9ffb-b87cd4403f88-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 635,
+        "prompt_tokens": 1816,
+        "total_tokens": 2451,
+        "completion_time": 0.798261712,
+        "completion_tokens_details": {
+          "reasoning_tokens": 507
+        },
+        "prompt_time": 0.090834268,
+        "prompt_tokens_details": null,
+        "queue_time": 0.421030361,
+        "total_time": 0.88909598
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

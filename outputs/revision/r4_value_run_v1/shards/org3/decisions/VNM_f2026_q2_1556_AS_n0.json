@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "b7ae27a1e220e283d6122081d652065ea2ea38ddb003ce6b23b3efecf8b6e399"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "MACD line above signal with positive histogram indicates bearish momentum; alpha factors overall negative and trend analysis shows sideways/declining.",
+    "evidence_against": "MACD line is still below zero, indicating potential for reversal.",
+    "justification": "Given the bearish MACD, negative alpha consensus, and sideways trend, a short position aligns with risk management rules. The expected profit after fees is achievable within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-7138-7900-8ff9-35fd305a4211"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-7138-7900-8ff9-35fd305a4211.request.json",
+      "sha256": "1f3ba1afbbb65528c4dd6a73d4541baf68b9082dd388094593d2998a4fe9e1b2"
+    },
+    {
+      "path": "calls/01a19f96-7138-7900-8ff9-35fd305a4211.response.json",
+      "sha256": "82192b2fbd292f4d3de2d19ee27d68af4ba3b90262a3cb331e63031c5bcb5778"
+    }
+  ],
+  "sha256": "84598fb890feabfeb84db9f22eaff6e667c1d99aedd54cff775a2cffae9996e8"
+}

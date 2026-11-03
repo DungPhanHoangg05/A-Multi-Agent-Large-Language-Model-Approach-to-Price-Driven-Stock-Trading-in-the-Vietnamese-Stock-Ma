@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "7110f06820fec30fe2b940cd940aafba5add9572a7eb09af89a66e6236f12b44"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up and MACD bullish (MACD above signal, positive histogram).",
+    "evidence_against": "All 5 alpha factors indicate a downtrend, outweighing the bullish MACD signal.",
+    "justification": "Shorting protects cash over the horizon due to negative alpha consensus and potential fee erosion; bullish MACD is insufficient to override the overall negative signal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-eac2-7462-ab5a-760dbafd9d32"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-eac2-7462-ab5a-760dbafd9d32.request.json",
+      "sha256": "e9307757be0704e8d322a6b7680a65f6a9b958c4f44d07f3150e1e94f7c062b8"
+    },
+    {
+      "path": "calls/01a19f90-eac2-7462-ab5a-760dbafd9d32.response.json",
+      "sha256": "db3b1c3fd3e7029f171b15e93d6443a8e90b1cce20c454d6ebdd4f59d998cd50"
+    }
+  ],
+  "sha256": "3f2297bb0b64a093ed3966d8bbd1f9c15e69137284cfdbe29a82aee30816144e"
+}

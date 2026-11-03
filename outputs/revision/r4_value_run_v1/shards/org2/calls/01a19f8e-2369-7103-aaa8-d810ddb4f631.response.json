@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8e-2369-7103-aaa8-d810ddb4f631",
+  "parent_request_hash": "50e0b71bc429d0a6171a07c0b547ba186ab59e72f2cf301e4bae06fafe4ccb84",
+  "ended_at_utc": "2026-11-03T03:57:36.462006+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":4,\"evidence_for\":\"MACD line above signal with positive histogram indicates bullish momentum; V‑shaped reversal pattern shows price breaking above 120 with target 130 and stop 118.\",\"evidence_against\":\"None\",\"justification\":\"Buy at 120, target 128 within 3 days, stop 118 gives 4:1 risk‑reward; bullish indicators confirm trend.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":4,\"evidence_for\":\"MACD line above signal with positive histogram indicates bullish momentum; V‑shaped reversal pattern shows price breaking above 120 with target 130 and stop 118.\",\"evidence_against\":\"None\",\"justification\":\"Buy at 120, target 128 within 3 days, stop 118 gives 4:1 risk‑reward; bullish indicators confirm trend.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 628,
+                "prompt_tokens": 1451,
+                "total_tokens": 2079,
+                "completion_time": 0.658140777,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 515
+                },
+                "prompt_time": 0.099073072,
+                "prompt_tokens_details": null,
+                "queue_time": 0.496046163,
+                "total_time": 0.757213849
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d23c14756c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8e-2369-7103-aaa8-d810ddb4f631-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 628,
+        "prompt_tokens": 1451,
+        "total_tokens": 2079,
+        "completion_time": 0.658140777,
+        "completion_tokens_details": {
+          "reasoning_tokens": 515
+        },
+        "prompt_time": 0.099073072,
+        "prompt_tokens_details": null,
+        "queue_time": 0.496046163,
+        "total_time": 0.757213849
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d23c14756c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

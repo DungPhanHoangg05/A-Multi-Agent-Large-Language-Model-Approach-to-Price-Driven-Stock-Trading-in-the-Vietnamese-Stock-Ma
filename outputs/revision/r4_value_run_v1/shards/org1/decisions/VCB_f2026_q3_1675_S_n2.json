@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "1abf641b38d460d2aaf195cf95a54b241e14b852ab744f1cc21f90384d8d3e81"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum; sentiment score is negative.",
+    "evidence_against": "Trend analysis shows sideways movement, not a clear downtrend.",
+    "justification": "Given bearish indicators and lack of bullish confirmation, shorting aligns with risk management; expected to capture downward movement within the 2.5-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa0-9974-7933-9c7b-f149b1036fdb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19fa0-9974-7933-9c7b-f149b1036fdb.request.json",
+      "sha256": "402968aef3f3e8323c287b59317c54888491eecb55eb1003bc40211d29447e17"
+    },
+    {
+      "path": "calls/01a19fa0-9974-7933-9c7b-f149b1036fdb.response.json",
+      "sha256": "8877a679d6a00f513e7aa800b634db685a673cc6b5cc97c19ab4966960ef9035"
+    }
+  ],
+  "sha256": "30ae6081365b8be65156af1f57680f525b6fe5ae1d20c4bba1a3b722b88dbfd0"
+}

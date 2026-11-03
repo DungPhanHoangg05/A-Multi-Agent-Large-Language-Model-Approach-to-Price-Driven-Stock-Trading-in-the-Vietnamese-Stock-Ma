@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": "eccb39a87243b96d387f255aa2e8ccd7397bec8c2f6050512f356ba77da58c1e",
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "32060087407f3766c9826fc7cbffba0e427eab056e1c56fee16c07ab9d02163d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend indicates upward movement with support at 118 and resistance at 128. MACD histogram shows widening bullish momentum.",
+    "evidence_against": "All five alpha factors signal a decrease, indicating potential reversal.",
+    "justification": "Trend and MACD suggest bullish, but alpha consensus indicates downside risk; shorting preserves capital.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-e8f5-73c1-be7e-62899e0a1740"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-e8f5-73c1-be7e-62899e0a1740.request.json",
+      "sha256": "a0a652d4b16f3bdd9bc62ba55a9116b942efe4843ece919208563399ce6de3b0"
+    },
+    {
+      "path": "calls/01a19f8a-e8f5-73c1-be7e-62899e0a1740.response.json",
+      "sha256": "90d946201c5267d655d0fbdbcd0039d6f47f30037b4b76196c0286fcefba6101"
+    }
+  ],
+  "sha256": "bb57a382eaa44bddf1581bd540cbe163aba61cc3b281dc3df78d8d4819375fe3"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "abc14173009384db54f967150933352a73b0b4a7ef170fc1361813a75eb9cbfe"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD shows bearish crossover with MACD line above signal line and histogram trending down, confirming downward momentum; trend analysis indicates price is below resistance 57.5 and approaching support 56.5, suggesting continuation of decline.",
+    "evidence_against": "Histogram remains positive, indicating some residual bullish momentum.",
+    "justification": "The combination of a confirmed downtrend, bearish MACD signals, and support/resistance structure supports a short position; the risk reward ratio of 2:1 aligns with expected price movement within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9f-5082-7c50-8b5e-537ffadb9a3f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9f-5082-7c50-8b5e-537ffadb9a3f.request.json",
+      "sha256": "12fd9c1c8cc949a4fb190088712b9d10b6032e4608d8f72c8fe390947e002f87"
+    },
+    {
+      "path": "calls/01a19f9f-5082-7c50-8b5e-537ffadb9a3f.response.json",
+      "sha256": "1691efbf9057d7483776aadf37e855dcaaeb88153f870f45a03e2b219429c167"
+    }
+  ],
+  "sha256": "8f0bd525e267d6f1791402cb00e2795990acb11cb4fe35cf6f58edff30b75600"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": "92841529515e2f6f1ea74640f7363e2b22ca4bf2bb822d0ce83ccf408d6fe00a",
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "5c5dec252a88e73c067dc71f42504eff1cc1dc2184e183970d78b03194fd3715"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis indicates an uptrend with price above support and approaching resistance at 64.5. MACD shows a golden cross and positive histogram, confirming bullish momentum.",
+    "evidence_against": "Two alpha factors are negative, indicating some caution.",
+    "justification": "Given the bullish trend, pattern reversal, and MACD confirmation, a LONG position is justified. The expected target of 64.5 with stop at 60.5 yields a risk-reward ratio of approximately 2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-58a9-7182-8732-067d690964ad"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-58a9-7182-8732-067d690964ad.request.json",
+      "sha256": "828dfe231181b089ac20e19cd80f21a7d7a1f58ce2f5ee4c7b0a9f58c1710c22"
+    },
+    {
+      "path": "calls/01a19f92-58a9-7182-8732-067d690964ad.response.json",
+      "sha256": "a9433bd410c9a7460e6566cbb29e036df92ce225d4aebe6d83861725cc40f196"
+    }
+  ],
+  "sha256": "55e5807e12877d51dafcdf9fb3efa6a855cdda6081f540ab4be80888abc01d01"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "81dee6b1d27c0c28f5f2b4136ed030c44968dba8be3806111c1ae75826a89be6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD histogram positive indicates increasing momentum, but MACD line remains negative, confirming bearish bias. Alpha factors overall indicate decrease, with 3 out of 5 factors signaling decline.",
+    "evidence_against": "Trend analysis shows sideways movement, which could limit short potential.",
+    "justification": "Given the bearish alpha consensus and negative MACD line, a short position aligns with the expected downward pressure. Sideways trend suggests limited upside, making a short more attractive.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-977f-7d52-a32e-58d762573f4b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-977f-7d52-a32e-58d762573f4b.request.json",
+      "sha256": "5fd062b22e7c91f1025e9725c101a7edeb3c32f9fcb21a867168e28871faad3f"
+    },
+    {
+      "path": "calls/01a19f95-977f-7d52-a32e-58d762573f4b.response.json",
+      "sha256": "a5533fd6d207ef7d5f0134ec6c1213875eb8138635da254a948e5235fb487986"
+    }
+  ],
+  "sha256": "93fcbfe63709fa360b3e2abaca426e69327c672542f5346cd0e8580cdfdac3b5"
+}

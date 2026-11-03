@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "3518a830097913f3011ddd5054da12dc9927731f1a1af2b7db8020d30ecca578"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend up with support at 59 and resistance at 62.5, bullish flag pattern, MACD histogram trending up.",
+    "evidence_against": "MACD line below signal indicates potential weakness.",
+    "justification": "Buy at breakout above 62, target 64, stop 61. Alpha factors mostly positive reinforce bullish bias.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-5245-7f70-8b05-7bf0c1e9ede4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-5245-7f70-8b05-7bf0c1e9ede4.request.json",
+      "sha256": "093b4fe822b6991bd39a7c04c379fc01e60fa6c62afb4ce334d5a7d2108cc518"
+    },
+    {
+      "path": "calls/01a19f8c-5245-7f70-8b05-7bf0c1e9ede4.response.json",
+      "sha256": "3e03157c8e3b01577f700ab3192f13970d59921a6ecd722d56795c3a871894e9"
+    }
+  ],
+  "sha256": "2e85a33aa3017065cec3adabcc44173dcebc2baffadfc986e15530dc340c9b38"
+}

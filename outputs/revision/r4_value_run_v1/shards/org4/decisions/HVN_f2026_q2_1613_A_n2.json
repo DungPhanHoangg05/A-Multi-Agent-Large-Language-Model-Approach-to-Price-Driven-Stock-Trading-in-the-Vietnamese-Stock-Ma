@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "0884fbae3445ef62305d4927708002c8b09d4b5f9dd32c73b10b13f30b4137e4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear downtrend with price below resistance and alpha factors predominantly negative. MACD line above signal confirms bullish momentum but histogram decreasing indicates weakening strength.",
+    "evidence_against": "MACD bullish signal could suggest short-term upside.",
+    "justification": "Short position aligns with bearish consensus from trend, alpha, and pattern analysis, aiming to capture potential decline within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f94-3235-7471-9788-01af427d217d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f94-3235-7471-9788-01af427d217d.request.json",
+      "sha256": "3f44e822b7e144ef922f5347928fbc9bc9c4336bbbcf11d87cf4c20a58d6b40d"
+    },
+    {
+      "path": "calls/01a19f94-3235-7471-9788-01af427d217d.response.json",
+      "sha256": "3ce241409278dc8945de0201c3546e31ea35c03f0fd19546dbb2eb91b4649d2d"
+    }
+  ],
+  "sha256": "5dfff9124b46ca7d3a03f82f0da2655e937f1a59ec400f22200386215c1a5925"
+}

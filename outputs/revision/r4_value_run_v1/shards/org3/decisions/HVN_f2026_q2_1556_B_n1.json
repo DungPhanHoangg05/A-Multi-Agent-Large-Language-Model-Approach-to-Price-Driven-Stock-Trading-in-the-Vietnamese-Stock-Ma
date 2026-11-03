@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "b636e0ee76c3b86db195d1770c21c9f5c7423d239a76ee56ad41d74d2c28c43c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates an upward bias with price above support 21.5 and approaching resistance 23.5. MACD shows bullish momentum with MACD above Signal and positive histogram.",
+    "evidence_against": "Pattern analysis suggests a declining trend, but its low reliability weakens its impact.",
+    "justification": "Given the primary trend and bullish MACD, a LONG position aligns with the expected price movement over the T+2.5 horizon. The risk of missing the 3-day window is mitigated by the support level and potential breakout at resistance.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-c5ad-74b0-9f0b-8a94e3fd3e50"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-c5ad-74b0-9f0b-8a94e3fd3e50.request.json",
+      "sha256": "5fbe8fe524fce59cd081a8ca8b90c225bfc463a01a4ac23b61dd93ce61c93f59"
+    },
+    {
+      "path": "calls/01a19f92-c5ad-74b0-9f0b-8a94e3fd3e50.response.json",
+      "sha256": "32994129bdb7b062eeae796e46ab77238ba059dda991d6cc29b799b4d0225c42"
+    }
+  ],
+  "sha256": "4daa870e7af7d06233656a7bb56f25d336c0647f6414ff515c552393ac80210a"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "eafc4caa0a816b750b978b0b6a4c54f71932578da3cc1b5dc1d2a12ec30f6aa3"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support 26.5 and resistance 28.5, pattern V indicates potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram indicate weakening momentum.",
+    "justification": "Trend suggests potential upside but bearish MACD and negative sentiment increase risk of reversal; short protects cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-449c-7702-bdc1-b815050c21d1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-449c-7702-bdc1-b815050c21d1.request.json",
+      "sha256": "e098c12edbd6bc819b2980b9f7930cd79c013c45e7f5069c252cbbe77164336b"
+    },
+    {
+      "path": "calls/01a19f99-449c-7702-bdc1-b815050c21d1.response.json",
+      "sha256": "77eb504c3a3642f5315a532bcb60dd08c2b1629335533deee568bb4bc8fd5043"
+    }
+  ],
+  "sha256": "7b8386eaef291f1b762d6113370172ad5fb4c9e206881235d2477c0663faefb9"
+}

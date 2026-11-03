@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "fe72be2197ecfc4331ff7664bf12b5ae934b61263b24d2fe46d136bde8337599"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a sideways market and pattern shows a clear downtrend, suggesting potential price decline.",
+    "evidence_against": "MACD histogram is positive, indicating bullish momentum.",
+    "justification": "Given the neutral to bearish trend and downtrend pattern, a short position is preferred; the bullish MACD signal is not strong enough to override the overall bearish bias.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-865d-73c2-9ac9-234aa08969db"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-865d-73c2-9ac9-234aa08969db.request.json",
+      "sha256": "0d27e3ebc418703dba829986741668361b82b1ce6cc7ea71fdae2319737c562a"
+    },
+    {
+      "path": "calls/01a19f95-865d-73c2-9ac9-234aa08969db.response.json",
+      "sha256": "4c314311df063dccfb31ddd72a530d03351e6eb64b28fc7f5ab7910a9ada087e"
+    }
+  ],
+  "sha256": "121055f90d0187532345614a765cab0707c1e8a853b62bbb786b2e55678c6616"
+}

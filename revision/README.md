@@ -2,7 +2,13 @@
 
 Kế hoạch chính: [../plan.md](../plan.md). Nhánh tích hợp của đợt phản biện: `fix`; luồng KLTN trên `develop` được quản lý riêng.
 
-**Tiến độ hiện hành:** [R1](../plan.md#r1-progress), [R2](../plan.md#r2-progress) và [R3](../plan.md#r3-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release bản thảo R1–R3](../outputs/revision/r3_manuscript_v1/manifest.json). R4–R18 đánh giá riêng. R4 đang partial; [audit và lệnh chạy](../plan.md#r4-progress) ghi corrected-value 0/270. Các mục bên dưới là nhật ký lịch sử, không phải checklist hiện tại.
+**Tiến độ hiện hành:** [R1](../plan.md#r1-progress), [R2](../plan.md#r2-progress), [R3](../plan.md#r3-progress) và [R4](../plan.md#r4-progress) đã xử lý trong phạm vi historical exploratory ngày 03/11/2026; xem [response](response_to_reviewers.md) và [release R4 cuối](../outputs/revision/r4_manuscript_v2/manifest.json). R5–R18 đánh giá riêng. Những mục dưới đây là nhật ký lịch sử, không phải checklist hiện tại.
+
+## Nghiệm thu R4 — 03/11/2026
+
+Đã đủ 270 fresh Decision executions, 274 attempts/4 provider JSON rejections được retry; không vision mới. [Final audit](../outputs/revision/r4_final_v1/manifest.json) xác minh 162/162 alpha-bearing successes có đủ năm rows, 54 shared-content/order groups, 576 source/runtime pins và 195 panel-account executions. Không copy responses từ study cũ; raw requests/responses/errors/digests/checkpoints giữ nguyên. [Native analysis](../outputs/revision/r4_value_run_v1/analysis/manifest.json) và final artifacts tái lập byte-identical ở tiến trình mới. Bốn tests finalizer + compile hai file mới PASS; 12 tests runner trước được viện dẫn đúng source pin, không chạy lại full suite/E2E hoặc gọi API khi chốt.
+
+Full–placebo BA mean +6,94 pp, SD 4,81, nhưng joint envelope [−6,55;20,44]; UP recall mọi nhánh vẫn 16,67%. Full BA 44,44% và return −0,670% thấp hơn CASH. Rank-vector control không bảo toàn named-factor covariance hoặc match exposure; không nhận isolated alpha/sentiment value, positive synergy hay profitability. Old compressed panel giữ riêng. Hai PDF cuối 62/63 trang đã build/render QA; các release R1–R3 và R4 pending cũ nguyên byte, source cũ đối soát qua ZIP. Kế hoạch/response ghi đủ giới hạn và lệnh offline; không cần API thêm để chốt R4.
 
 ## Audit và chuẩn bị R4 — 03/11/2026, chưa đóng
 

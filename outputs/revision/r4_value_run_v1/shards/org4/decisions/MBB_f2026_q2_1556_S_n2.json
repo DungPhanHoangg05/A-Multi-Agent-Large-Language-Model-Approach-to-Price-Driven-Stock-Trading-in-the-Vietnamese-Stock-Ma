@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "d550fb2466c2469a1548d0636c8643afac9d348e526be0139699bf43f2df7840"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "MACD line above signal with positive histogram indicates bullish momentum; price has broken above 21.5 support and is approaching resistance at 22.0.",
+    "evidence_against": "Price is still near the 21.0 support level, risking a pullback.",
+    "justification": "Trend is upward with bullish MACD confirmation; target 22.5 with stop 21.0 gives a 1:1 risk/reward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-b27d-76e1-bf08-0704c8fab44a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-b27d-76e1-bf08-0704c8fab44a.request.json",
+      "sha256": "a8bc6f8c4b0e46d7e5cc3f85a6b1976ef87deeb7e2f4e82c71422a30cae4763b"
+    },
+    {
+      "path": "calls/01a19f8d-b27d-76e1-bf08-0704c8fab44a.response.json",
+      "sha256": "f4d9b76d4e0e6eed743eb317f40fc7d961274199685d6d83e430fec85a563774"
+    }
+  ],
+  "sha256": "642e74da62490f533d26e94cbc23190c88e467106675677843e9352d9752fc63"
+}

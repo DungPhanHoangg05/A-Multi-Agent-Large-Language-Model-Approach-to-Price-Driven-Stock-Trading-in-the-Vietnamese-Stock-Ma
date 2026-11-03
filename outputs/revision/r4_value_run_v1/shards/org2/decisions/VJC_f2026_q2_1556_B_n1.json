@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "af4650c89d30e66ed12c96cb3c54dafe665fbbfc674e6bcd526a46ab04025419"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is upward with support at 118 and resistance at 128, and MACD shows bullish momentum with histogram positive. Pattern V reversal indicates entry above 120 with target 130 and stop 118.",
+    "evidence_against": "Price may not reach the target 128 within the T+2.5 horizon, risking insufficient profit to cover fees.",
+    "justification": "Based on bullish trend, positive MACD, and V pattern, a LONG position is justified. The expected profit exceeds transaction costs, making the trade viable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-5b2b-7eb0-b13c-ad67f1f9d3b5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-5b2b-7eb0-b13c-ad67f1f9d3b5.request.json",
+      "sha256": "6e15fc1f121e12e364965eb9a412fdc3b3fe69041fbdca1d120c79f5ddaadca7"
+    },
+    {
+      "path": "calls/01a19f8b-5b2b-7eb0-b13c-ad67f1f9d3b5.response.json",
+      "sha256": "aeeecb94cf7a5778fd08856937197da4ad41255f1a31348ac20b8e10b0d183ee"
+    }
+  ],
+  "sha256": "1ec5c58c54aa7d64de34df446b82a12d7afb8a1f85dca6f898429b50332bd897"
+}

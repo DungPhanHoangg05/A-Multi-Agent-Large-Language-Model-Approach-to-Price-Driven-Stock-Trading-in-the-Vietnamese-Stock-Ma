@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "dab554d500ab4d4da70d7a652aff20ca786ee6d132648f9547c232bf32374683"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis shows a clear downtrend with support at 56.5 and resistance at 57.5, while all five alpha factors confirm a bearish bias. MACD line is below signal with a decreasing histogram, indicating weakening momentum.",
+    "evidence_against": "The price is currently near the support level 56.5, which could temporarily hold.",
+    "justification": "Shorting aligns with the prevailing bearish consensus and protects cash over the T+2.5 horizon. The risk‑reward ratio of 2.5 offers a favorable upside if the downtrend continues.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-5a3f-7590-bd93-1955c731e361"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-5a3f-7590-bd93-1955c731e361.request.json",
+      "sha256": "5dbed0aaceefc3485ca243bdb5c9595890200339913039ecde57a693363b6499"
+    },
+    {
+      "path": "calls/01a19f9e-5a3f-7590-bd93-1955c731e361.response.json",
+      "sha256": "fb8e68d6fbecc4266201b7cc17b163f63b2677bb41e5815d35cab71eb445c500"
+    }
+  ],
+  "sha256": "6c348f2ab927e26063849ad9c79db227ffe077e763388adaa4317b4846e71037"
+}

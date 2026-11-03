@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": "3cd4121a8ee185c58eee95efdf9d2b653b84010227aaf5fc7eb2744e201a9af4",
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "e0ccdfc10bcc91079928243f5fe460c73397b5dff9488dfcfdc93909072f3ab7"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows price above resistance 23.8 and MACD bullish with histogram expanding, indicating strong upward momentum. Alpha factors majority positive with high IC and score, supporting a bullish outlook.",
+    "evidence_against": "No significant downside support below 22.5, but limited liquidity could cause slippage.",
+    "justification": "The combination of bullish trend, positive alpha consensus, and MACD confirmation justifies a long position. Expected target near 24.5 with stop below 22.5 aligns with risk-reward ratio of 2:1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-671c-7013-aa4e-60c4ca68f37f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-671c-7013-aa4e-60c4ca68f37f.request.json",
+      "sha256": "75ba11398cb68e36443063f124645c9590c33a28b012cd0dbff2ee11669b44a1"
+    },
+    {
+      "path": "calls/01a19f97-671c-7013-aa4e-60c4ca68f37f.response.json",
+      "sha256": "39a8cee9b5cbb87d6390465fbacc99b7bc8a6daba5830bef6ad5ebf23cf30b38"
+    }
+  ],
+  "sha256": "e5c953e8a811f71877a70503a63c7b8a1edc3958022d99fcfb142c6323340f9e"
+}

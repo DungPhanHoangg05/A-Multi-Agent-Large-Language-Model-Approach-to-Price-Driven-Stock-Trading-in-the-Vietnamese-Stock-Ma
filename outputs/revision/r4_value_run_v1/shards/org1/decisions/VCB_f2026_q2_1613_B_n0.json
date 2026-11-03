@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "69f74cef19547c68c899d4a9117130d5887c2ddd9cb2581946fa54a7a8329ce6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram confirm bearish momentum; pattern shows lower highs and lows.",
+    "evidence_against": "Trend analysis indicates sideways movement, not a clear downtrend.",
+    "justification": "Pattern and indicator confirm bearish trend; shorting aligns with risk management and fee coverage.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-1eb6-7430-bcfc-be3fb901d5a0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-1eb6-7430-bcfc-be3fb901d5a0.request.json",
+      "sha256": "33507b40156670ed9e3be24bac626e1775a97f95e8304b293fe851b6d96145af"
+    },
+    {
+      "path": "calls/01a19f88-1eb6-7430-bcfc-be3fb901d5a0.response.json",
+      "sha256": "cd5f1449773614279ad77b50d7124306aa1e3a38759b57f6a1d39f55615bdcad"
+    }
+  ],
+  "sha256": "1c89103700c78e18501681f8558317887ccea3b901d40963c8cd8bcd054bc37b"
+}

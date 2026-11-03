@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "3176546076ee69c16d67b0a166432e2ebb80b11681d72b079423798088effa35"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up with support at 21.0 and resistance at 22.0, indicating potential upside movement.",
+    "evidence_against": "Four out of five alpha factors signal a decline, suggesting weak upside momentum.",
+    "justification": "Given the negative alpha consensus and the risk of insufficient upside to cover fees, a short position is preferred to preserve cash over the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-d508-7081-b8f9-bce80d998196"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-d508-7081-b8f9-bce80d998196.request.json",
+      "sha256": "3c2f1f17546b8f6ab94b93de7c0e0f08c31bae39d8498c4ffe4942e63bb79785"
+    },
+    {
+      "path": "calls/01a19f8b-d508-7081-b8f9-bce80d998196.response.json",
+      "sha256": "ece49aa17520a46e7d8307a8aaa3f33c7d35800480ba5da08798544c7b602778"
+    }
+  ],
+  "sha256": "e5fb2af1e0fa658f5617e9017c8ec08dcd34172d5a0e9f82a28e2788e14abaa6"
+}

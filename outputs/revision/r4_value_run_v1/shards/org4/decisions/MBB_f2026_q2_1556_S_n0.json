@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "d550fb2466c2469a1548d0636c8643afac9d348e526be0139699bf43f2df7840"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows an uptrend with price near resistance 22.0, and MACD histogram is expanding, indicating bullish momentum. The price has broken above the 21.5 level, supporting a potential target of 22.5.",
+    "evidence_against": "Pattern confidence is low and MACD line remains negative, suggesting caution.",
+    "justification": "The expected upside of ~4.7% exceeds the 0.7% fee threshold, and the stop loss at 21.0 provides a risk reward ratio of 2:1. Given the moderate confidence and bullish indicators, a LONG position is recommended to capture the anticipated trend continuation.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-0c82-74e2-b889-89dca540ed63"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-0c82-74e2-b889-89dca540ed63.request.json",
+      "sha256": "3eaf8f90efa743d3bc3ffe5c5df3861c2efd2e16b2ba1b6cb43dbe636ae8c75a"
+    },
+    {
+      "path": "calls/01a19f89-0c82-74e2-b889-89dca540ed63.response.json",
+      "sha256": "afd17052d875363ce3b2c06d5716a60528c136ae3ad44161279c18093217fae0"
+    }
+  ],
+  "sha256": "3856f8e70a32458b4504436fac3f101028c057fa7f1ca3a8a40361016f6323c7"
+}

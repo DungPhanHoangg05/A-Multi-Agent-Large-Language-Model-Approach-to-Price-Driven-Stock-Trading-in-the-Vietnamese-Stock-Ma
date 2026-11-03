@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8d-4068-7122-a221-c93e4b2f8823",
+  "parent_request_hash": "8c551cf47d54beb180193d1fa4250e1847991fd11fe4d92ed78a7d46442c960f",
+  "ended_at_utc": "2026-11-03T03:56:38.259342+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with price above support 59 and approaching resistance 62.5; flag pattern indicates bullish continuation.\",\"evidence_against\":\"MACD line below signal suggests bearish momentum.\",\"justification\":\"Trend and pattern bullish outweigh MACD bearish; potential upside to 64 with manageable risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with price above support 59 and approaching resistance 62.5; flag pattern indicates bullish continuation.\",\"evidence_against\":\"MACD line below signal suggests bearish momentum.\",\"justification\":\"Trend and pattern bullish outweigh MACD bearish; potential upside to 64 with manageable risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 811,
+                "prompt_tokens": 1406,
+                "total_tokens": 2217,
+                "completion_time": 0.909443764,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 711
+                },
+                "prompt_time": 0.083309115,
+                "prompt_tokens_details": null,
+                "queue_time": 0.209195171,
+                "total_time": 0.992752879
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a12402de73",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8d-4068-7122-a221-c93e4b2f8823-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 811,
+        "prompt_tokens": 1406,
+        "total_tokens": 2217,
+        "completion_time": 0.909443764,
+        "completion_tokens_details": {
+          "reasoning_tokens": 711
+        },
+        "prompt_time": 0.083309115,
+        "prompt_tokens_details": null,
+        "queue_time": 0.209195171,
+        "total_time": 0.992752879
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a12402de73",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

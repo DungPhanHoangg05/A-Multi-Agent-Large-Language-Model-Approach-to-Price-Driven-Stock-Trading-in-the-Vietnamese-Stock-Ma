@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "b9637a5519deccc2a2fc0cde6807f94ef6dddf9b9fbe3ca1748803d0d98057ea"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.6,
+    "evidence_for": "MACD shows bullish momentum with rising histogram, confirming upward trend. Pattern reversal V indicates entry above 120 with target near 128, supported by trend analysis.",
+    "evidence_against": "Slope of trend line is decreasing, indicating potential slowdown.",
+    "justification": "Given bullish MACD, V-pattern reversal, and upward trend, a LONG position is justified. Target 128 with stop 118 yields a risk-reward ratio of ~3.6, exceeding the minimum 1:1 requirement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-6293-79f2-b03d-92f44fd77a1f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-6293-79f2-b03d-92f44fd77a1f.request.json",
+      "sha256": "fbd0d39625cee67a13d3fff5e961a2cd803ff1f9b65da70c750eee701d45c671"
+    },
+    {
+      "path": "calls/01a19f8b-6293-79f2-b03d-92f44fd77a1f.response.json",
+      "sha256": "5bfc4320fa51340b2038c5bfb5168eb42e906e9d7aed35ad05e93fec457eb00f"
+    }
+  ],
+  "sha256": "159ce3e7b63b92d48ba29b4c167ef292e9d8ff9fa4ef4a6c93d02f4d40eb8f07"
+}

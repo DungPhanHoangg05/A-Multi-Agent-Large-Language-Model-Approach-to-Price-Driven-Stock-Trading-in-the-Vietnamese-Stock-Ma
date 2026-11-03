@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f88-94c6-7e13-a8ca-b55002adedc4",
+  "parent_request_hash": "b2a7bd1891421c6a7e67a271658311664f638ca7c5137cb2fa4c2de059f0bdbe",
+  "ended_at_utc": "2026-11-03T03:51:32.311621+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with support at 21.0 and resistance at 22.0, MACD histogram positive indicating increasing momentum.\",\"evidence_against\":\"Alpha factors overall indicate a down trend and MACD line remains negative, suggesting potential reversal.\",\"justification\":\"Given mixed signals and risk of not covering fees, holding cash is safer for the 3‑day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with support at 21.0 and resistance at 22.0, MACD histogram positive indicating increasing momentum.\",\"evidence_against\":\"Alpha factors overall indicate a down trend and MACD line remains negative, suggesting potential reversal.\",\"justification\":\"Given mixed signals and risk of not covering fees, holding cash is safer for the 3‑day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 830,
+                "prompt_tokens": 1758,
+                "total_tokens": 2588,
+                "completion_time": 0.899081278,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 709
+                },
+                "prompt_time": 0.103639444,
+                "prompt_tokens_details": null,
+                "queue_time": 0.317222871,
+                "total_time": 1.002720722
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f88-94c6-7e13-a8ca-b55002adedc4-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 830,
+        "prompt_tokens": 1758,
+        "total_tokens": 2588,
+        "completion_time": 0.899081278,
+        "completion_tokens_details": {
+          "reasoning_tokens": 709
+        },
+        "prompt_time": 0.103639444,
+        "prompt_tokens_details": null,
+        "queue_time": 0.317222871,
+        "total_time": 1.002720722
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

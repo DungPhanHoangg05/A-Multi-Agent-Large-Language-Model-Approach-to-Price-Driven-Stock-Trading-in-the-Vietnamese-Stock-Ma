@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": "3cd4121a8ee185c58eee95efdf9d2b653b84010227aaf5fc7eb2744e201a9af4",
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "e0ccdfc10bcc91079928243f5fe460c73397b5dff9488dfcfdc93909072f3ab7"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows price above resistance and MACD bullish with positive histogram, confirming upward momentum. Alpha factors predominantly positive with 3 out of 5 indicating increase.",
+    "evidence_against": "None of the alpha factors suggest a reversal and no bearish pattern is present.",
+    "justification": "The combination of bullish trend, strong MACD signal, and majority positive alpha factors supports a long position. The expected target near 24.5 aligns with resistance breakout and risk-reward ratio is favorable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f96-ebf1-7b20-88b0-22adaf2f1c4d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f96-ebf1-7b20-88b0-22adaf2f1c4d.request.json",
+      "sha256": "baf491394e9472ff4134c57295756548fc37923225e0160f9482a20c2a0e8ae7"
+    },
+    {
+      "path": "calls/01a19f96-ebf1-7b20-88b0-22adaf2f1c4d.response.json",
+      "sha256": "06df37bd06707144f7ffd6eed115ea34c686e983193d5a21aa76543ffd34e4da"
+    }
+  ],
+  "sha256": "161f1dca037a29ed1a71c9cde7952d657560c7c5c4dee0c1051e38dd0f138025"
+}

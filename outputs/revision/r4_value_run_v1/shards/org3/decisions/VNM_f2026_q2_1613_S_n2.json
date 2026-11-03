@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "abc14173009384db54f967150933352a73b0b4a7ef170fc1361813a75eb9cbfe"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend and pattern confirm a downtrend; MACD line below signal with decreasing histogram indicates weakening momentum.",
+    "evidence_against": "None",
+    "justification": "Shorting aligns with bearish signals and protects against potential losses from holding cash; expected net profit after fees and slippage is positive.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa1-2854-7e90-a05e-da6530bf1e4e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19fa1-2854-7e90-a05e-da6530bf1e4e.request.json",
+      "sha256": "2ce9aa9c5050bed94c6b07f84e4987012b7ad98a0d893870fa1a121ecabfa162"
+    },
+    {
+      "path": "calls/01a19fa1-2854-7e90-a05e-da6530bf1e4e.response.json",
+      "sha256": "02a8f921591782b6a4c6a8763a178b8426b69be38419f27683de1c0837043a8d"
+    }
+  ],
+  "sha256": "a72b2f7a81939391680c0ea25eead2e701ede9f8be35a5f744a91542e279cd82"
+}

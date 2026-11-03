@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "b3e3a69c911ada86e65ec652aa15e37db6c38982ad3ee2a8de702678b34e8e4e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates upward movement with support at 19.70 and resistance at 20.65, and MACD shows bullish momentum. V reversal pattern confirms breakout above 20.65.",
+    "evidence_against": "Four out of five alpha factors signal a bearish trend, outweighing bullish indicators.",
+    "justification": "Given the dominance of bearish alpha signals and negative sentiment, a short position is preferred to mitigate risk over the T+2.5 horizon. Holding cash avoids potential losses if the bullish trend fails to materialize.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-86e8-7832-92ea-ecadc1a7f393"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-86e8-7832-92ea-ecadc1a7f393.request.json",
+      "sha256": "206ad84dead442ad514d9e13ed709d72dfb8b60c09cb168b5a9f853536f46032"
+    },
+    {
+      "path": "calls/01a19f8f-86e8-7832-92ea-ecadc1a7f393.response.json",
+      "sha256": "9a0ca827a3817128e056effec8e95c2641f5e1bf0e9934b3b03dd8cd783310d4"
+    }
+  ],
+  "sha256": "9c518b3a250fb6f37e53e6f1cffd737b44c5da2896a3a68fe886fe87930fc0e9"
+}

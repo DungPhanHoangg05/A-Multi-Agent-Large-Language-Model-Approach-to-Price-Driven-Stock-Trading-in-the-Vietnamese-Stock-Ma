@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "f2a4a27192efe7bf25456a5cec97d4e8aee9ac8b786f398e8e1d8613cd5be09a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis indicates an upward bias with price above support and approaching resistance 23.5 within 3 days. MACD shows bullish momentum with MACD line above signal and positive histogram.",
+    "evidence_against": "Alpha factors overall suggest a downward bias, which could indicate potential reversal.",
+    "justification": "Given the bullish trend and MACD confirmation, a LONG position is justified despite the alpha warning. The expected target is resistance 23.5, with stop below support 21.5, yielding a risk-reward ratio of approximately 2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-613f-7923-bde3-c44ef6d331ba"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-613f-7923-bde3-c44ef6d331ba.request.json",
+      "sha256": "9c3dfef4d42d487f864c8fe9fe2d77c2ef10d455d4b4f658e1493720f58c8d75"
+    },
+    {
+      "path": "calls/01a19f91-613f-7923-bde3-c44ef6d331ba.response.json",
+      "sha256": "99d49bb8646ea560f0a5b9e1e29c64e0743983d5f3e636d9a7ab46654334ce2b"
+    }
+  ],
+  "sha256": "9099f79c49e3fed8b5fa04ec6f63bc9ab69c8dc2827b91d536b9f00b77d74a30"
+}

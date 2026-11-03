@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "d02f268a5c0a35266f1d0635f5dbd420dac98c80c52bf0b6b302606b2ac34101"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bearish with support at 19.60 and resistance at 20.60; MACD shows bullish crossover but histogram declining, confirming weak momentum.",
+    "evidence_against": "Alpha factors overall indicate a downtrend with 3 out of 5 negative signals.",
+    "justification": "Shorting aligns with the prevailing bearish trend and alpha consensus; holding cash avoids potential losses if the price fails to break below support.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-e8a2-7ad3-886f-f74e66386e0f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-e8a2-7ad3-886f-f74e66386e0f.request.json",
+      "sha256": "982a604a3435f22fced284716335ce725f433d89f6f37a1b152c94512f348986"
+    },
+    {
+      "path": "calls/01a19f8a-e8a2-7ad3-886f-f74e66386e0f.response.json",
+      "sha256": "5e2f9360284f3886120931ae8b32cf3e83c67d262d894c3ce9fd8ad501cc09f7"
+    }
+  ],
+  "sha256": "aa8c37bc817ae9de79ddc83a0b7e36b5b7b56174fee1dde15e7c2db368b85eff"
+}

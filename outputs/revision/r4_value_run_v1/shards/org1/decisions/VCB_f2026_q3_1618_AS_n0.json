@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "8c72623b52aa42a1dd547b54773a8dd8f2d8fee86b7170bef990f5f0b53746d4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bullish with support at 60.5 and resistance at 64.5, and MACD shows a golden cross indicating buying momentum.",
+    "evidence_against": "All five alpha factors signal a decrease, suggesting potential reversal.",
+    "justification": "Given the negative alpha consensus and low sentiment, a short position is safer to preserve cash over the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-ea5b-7813-909f-9ec15e1aea1c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-ea5b-7813-909f-9ec15e1aea1c.request.json",
+      "sha256": "43a2c8a93492edae852414ca1a286b019782cdf641281bbe9e357dc471cadd7e"
+    },
+    {
+      "path": "calls/01a19f90-ea5b-7813-909f-9ec15e1aea1c.response.json",
+      "sha256": "7777c93078742f2458132f1f205a907ba395fe3ce469664ac62f114853debf27"
+    }
+  ],
+  "sha256": "4222291df23827d9127b5ccc85e8429c019fd898ea6f07c6658dd92f6e1ab9e1"
+}

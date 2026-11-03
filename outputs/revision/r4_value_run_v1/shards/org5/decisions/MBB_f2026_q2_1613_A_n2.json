@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "65fde0353d64438f4aacf9af9b4470b9a6a49ea4c643d84549b65e2a9c05914e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with decreasing histogram indicates weakening momentum; trend analysis shows price below resistance and approaching support, confirming downward bias.",
+    "evidence_against": "MACD histogram still positive, but trend dominates.",
+    "justification": "Given the consensus of 3 out of 5 alpha factors signaling decline and the trend/indicator alignment, a short position aligns with the risk‑reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-c8af-75c1-ad89-4219a2e8fea9"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-c8af-75c1-ad89-4219a2e8fea9.request.json",
+      "sha256": "c2562d6ab5c5c54f8765aaeeb14fd267e0ee3a3d84e6cc4fb0747ce2c5e8bdf2"
+    },
+    {
+      "path": "calls/01a19f8c-c8af-75c1-ad89-4219a2e8fea9.response.json",
+      "sha256": "13fd9f522a6517f82697eb5deff1fc5a052b72c9697eff14e696acf4d710803f"
+    }
+  ],
+  "sha256": "daa1c75dbedefa7f4dfc978c3d021690502b33251c7b8420b220a25debe601ad"
+}

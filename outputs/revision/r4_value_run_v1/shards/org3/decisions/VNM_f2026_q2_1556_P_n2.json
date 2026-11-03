@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": "53f4332157d816999f4adc69e175027f0017b62db16d9e13733446d9a86375d8",
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "b4420504c6b9fc010004ebe9bd513c1774584db07742cc2b9e013ac5d38dcf71"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is sideways with support at 58.5 and resistance at 61.5, alpha factors overall decreasing, and MACD histogram expanding indicating potential reversal. Negative sentiment score and lack of bullish alpha signals reinforce a short stance.",
+    "evidence_against": "MACD line is still below zero, suggesting bearish momentum persists.",
+    "justification": "Given the lack of upward breakout and the risk of fees outweighing potential gains, a short position preserves capital. The forecast horizon of T+2.5 aligns with the regulatory holding period, allowing a clear exit strategy.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-170d-7633-9a63-ecc31d3ff796"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-170d-7633-9a63-ecc31d3ff796.request.json",
+      "sha256": "609bf06c19a20b77ffbbed9bba241bc85982ef4c4426ee141babd5c0bfe67ed8"
+    },
+    {
+      "path": "calls/01a19f9b-170d-7633-9a63-ecc31d3ff796.response.json",
+      "sha256": "23140ad5ef9398e7cdae97d4acd607af200aaad5942b298d259781751464a8e6"
+    }
+  ],
+  "sha256": "da70b0fd903e5aa38678aafd6adf96a77f5301bdbd8cf231e38a3e81d8eaa2ae"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "eafc4caa0a816b750b978b0b6a4c54f71932578da3cc1b5dc1d2a12ec30f6aa3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support 26.5 and resistance 28.5, alpha factors show 2 increasing signals.",
+    "evidence_against": "MACD histogram negative indicating bearish momentum.",
+    "justification": "Trend and alpha suggest potential upside, but MACD bearish warns of possible reversal; proceed with caution.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-e40e-7960-98a7-3011e85e3a05"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-e40e-7960-98a7-3011e85e3a05.request.json",
+      "sha256": "8aaeeb0c052d492512698df0cfecb6ddf30a6aeb9aa93ac4984185ec8745a8b0"
+    },
+    {
+      "path": "calls/01a19f97-e40e-7960-98a7-3011e85e3a05.response.json",
+      "sha256": "1245f1fc1d1cf7cbdde49b25f741abe6852f308f400356063bc0837c17ac26f8"
+    }
+  ],
+  "sha256": "e3b9fd329ddb29659a69342a7f1117fbd46d0ed1bc36b1b7ad52907f1f2dd6bc"
+}

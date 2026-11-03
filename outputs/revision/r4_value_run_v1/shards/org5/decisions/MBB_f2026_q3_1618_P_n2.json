@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": "38b766630ab80233e80f7df0c46a8774ed07139c931e6f9f274f1991d08e3d4b",
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "c31fbac8150ace41aac64b4a7e8b04212e164f58640e0e2a8a8fa6dde27e407f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.4,
+    "evidence_for": "Trend is up with support 19.70 and resistance 20.65, and a V reversal pattern indicates a bullish breakout. MACD shows bullish momentum and alpha factors are predominantly positive.",
+    "evidence_against": "Sentiment score is slightly negative, but low weight.",
+    "justification": "Long position expected to capture upside to 21.00 with stop at 20.50, achieving risk-reward ratio >1. Fees and slippage are covered by the projected gain.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-c39d-79c2-8ca8-1c6c78f6d633"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-c39d-79c2-8ca8-1c6c78f6d633.request.json",
+      "sha256": "20eddc64e7030f4584d6b148f1cc5972298de54bf0b6b31497ac3ee4d599395d"
+    },
+    {
+      "path": "calls/01a19f92-c39d-79c2-8ca8-1c6c78f6d633.response.json",
+      "sha256": "b9085bf796f28663a0a0b899f76d2b28bd61f060b828c115d41f8beb054fa238"
+    }
+  ],
+  "sha256": "0ddc1ae412850ff798fa16c15faf839ee882a3d9c2b6b5679580ea74a468afe5"
+}

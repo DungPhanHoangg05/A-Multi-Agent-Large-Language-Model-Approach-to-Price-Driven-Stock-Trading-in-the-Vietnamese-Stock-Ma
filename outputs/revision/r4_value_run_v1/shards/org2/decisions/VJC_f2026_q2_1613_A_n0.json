@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "0605169b80d081c607834466b9386b485e0ef03b134ecfce0d17af472521a4e7"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is down with support at 130.5 and resistance at 141.5; all five alpha factors signal a decrease.",
+    "evidence_against": "MACD line is above signal but histogram is declining, indicating weakening bullish momentum.",
+    "justification": "Shorting aligns with the confirmed downtrend and negative alpha signals; a 2.5:1 risk‑reward ratio offers a favorable trade setup.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-9e87-7223-8252-ee13b9ae2889"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-9e87-7223-8252-ee13b9ae2889.request.json",
+      "sha256": "eac918f08f58e683d901da73c8d753c4f8cd7b56911d10886d774d9813c934e1"
+    },
+    {
+      "path": "calls/01a19f8e-9e87-7223-8252-ee13b9ae2889.response.json",
+      "sha256": "ea5da639981f5a22fbeb7dab63cdab9d9172ade33bf5644b4abea5f2578195c9"
+    }
+  ],
+  "sha256": "c23b81a6a1e2088eeb26d57f06133e98779acfa285ef415c1c5d1d02531c6879"
+}

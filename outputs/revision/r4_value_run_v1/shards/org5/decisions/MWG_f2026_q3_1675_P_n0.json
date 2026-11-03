@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "7b54aa412fcdcbee869ae84363ab165a1e71e70eabbe0d22a68d0cb54378f010"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up with price above support 70.5 and approaching resistance 74.5, indicating potential continuation.",
+    "evidence_against": "MACD is below signal line and histogram is negative, and majority of alpha factors suggest a downtrend.",
+    "justification": "Given the bearish MACD and negative alpha signals, a short position is preferred to preserve cash over the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f98-4e5e-7661-ac94-2063f2b67a1a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-4e5e-7661-ac94-2063f2b67a1a.request.json",
+      "sha256": "15e5f5e41d243d55d0bc3ed9c6d84686e63f5a47ce7afea8ae0bb627cc169bd2"
+    },
+    {
+      "path": "calls/01a19f98-4e5e-7661-ac94-2063f2b67a1a.response.json",
+      "sha256": "a63e31cfe752215eb861ac4f8f4bfb3b3ad8794ff4a4bf5a7f3639c0a9d55794"
+    }
+  ],
+  "sha256": "43045c7cb7c03aa47715b5d587467381f734ae4fde75627a49baf1f81e9a7488"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "f2a4a27192efe7bf25456a5cec97d4e8aee9ac8b786f398e8e1d8613cd5be09a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "MACD bullish with positive histogram indicates upward momentum; trend analysis predicts a test of resistance at 23.5 within 3 days.",
+    "evidence_against": "Majority of alpha factors signal a downtrend, raising risk of reversal.",
+    "justification": "The expected upside exceeds the 0.7% cost, justifying a long position; however, the bearish alpha signals warrant caution and a moderate confidence level.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-bbd4-7b92-bda5-a9ae118aa3b8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-bbd4-7b92-bda5-a9ae118aa3b8.request.json",
+      "sha256": "bfec8066d4a356cbfcc1cf2b0c1c084b13386e58bc81a08109322c5cb8c4f6ed"
+    },
+    {
+      "path": "calls/01a19f93-bbd4-7b92-bda5-a9ae118aa3b8.response.json",
+      "sha256": "c7a8b792680fb43ea90c23d989420341e7cb0e0bc494eab689ad76752cd597a5"
+    }
+  ],
+  "sha256": "7e00e9af92145dc1a79df77496036e11ed5c0105f5aa1f96cb6e7713449f1003"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "3518a830097913f3011ddd5054da12dc9927731f1a1af2b7db8020d30ecca578"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend up with support at 59 and resistance at 62.5, price breaking above 62.",
+    "evidence_against": "MACD below signal indicates potential weakness.",
+    "justification": "Pattern and alpha factors confirm bullish momentum; risk reward ratio favorable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-2d3b-7e61-a1e0-e609a6632a54"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-2d3b-7e61-a1e0-e609a6632a54.request.json",
+      "sha256": "760ab343f79d639cf84b4fdd8efed62931e9827d9d08df0484b6422879395185"
+    },
+    {
+      "path": "calls/01a19f8e-2d3b-7e61-a1e0-e609a6632a54.response.json",
+      "sha256": "ad7cca45bef6260f44113c59f64bd593d5b61645e6abdd2fa045c9725bc5d1ed"
+    }
+  ],
+  "sha256": "2334da9847824232d9d4126f0eb06b41a4508016c1c63d50dcbabc35a0d12632"
+}

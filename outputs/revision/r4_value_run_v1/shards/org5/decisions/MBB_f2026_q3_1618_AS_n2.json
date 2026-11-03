@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "b3e3a69c911ada86e65ec652aa15e37db6c38982ad3ee2a8de702678b34e8e4e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up, MACD bullish, V‑reversal pattern.",
+    "evidence_against": "Four of five alpha factors signal a decline, sentiment negative.",
+    "justification": "Given the negative alpha consensus and potential fee burden, a short position preserves cash over the horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f94-261b-7840-9691-b11eccd9dc57"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f94-261b-7840-9691-b11eccd9dc57.request.json",
+      "sha256": "91a1365972cac17585ea391f186df1ad54b9374a2e69912e5f576b6772ea385e"
+    },
+    {
+      "path": "calls/01a19f94-261b-7840-9691-b11eccd9dc57.response.json",
+      "sha256": "7a03a8c5a2cbe1a74ef15f13f8d9965d48e5d4acfcf1f8dbc9831f9d375676a9"
+    }
+  ],
+  "sha256": "a82b88b5c32d9467f844c0bda45370a23407eb4b68843b10120586debcc426af"
+}

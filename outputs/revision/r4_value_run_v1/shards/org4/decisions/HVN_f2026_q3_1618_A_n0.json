@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "efb37fb68607e57913cd144c70fe6b53eed0c1c29d08da6f3867867bb59f928d"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows price above resistance and MACD bullish with positive histogram. Pattern V reversal confirms upward momentum and alpha factors indicate mixed but some positive signals.",
+    "evidence_against": "Alpha factor 1 and 4 suggest potential downward pressure, but overall trend remains bullish.",
+    "justification": "Long position aligns with bullish trend, pattern, and MACD confirmation, expecting price to reach 24.5-25.0 within T+2.5. Risk reward ratio of 1.5 meets criteria and allows for fee and slippage.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-8a98-74c1-932d-ae3814cbbd76"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-8a98-74c1-932d-ae3814cbbd76.request.json",
+      "sha256": "b935c2856bdec5f9344d4ae6ef15f7dbfc887beac2db597542d8d4672103968d"
+    },
+    {
+      "path": "calls/01a19f95-8a98-74c1-932d-ae3814cbbd76.response.json",
+      "sha256": "472be12f3c5d49232d981e1fb13e84c948822e2785da7e28eb01fb3cafb0ba72"
+    }
+  ],
+  "sha256": "7ac27a50fb8be0c7f61f1a939a34c74c540a529de042dfd8c519f36f3df7af7a"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "5a342aafeec01c9119debdf4ae4c5764c9f7f49b1fc9041a28efb8d60ae3ff7e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows sideways/slight decline with support at 58.5 and resistance at 61.5, and negative sentiment score -0.705545.",
+    "evidence_against": "MACD histogram positive (0.2259) indicates bullish momentum.",
+    "justification": "The weak trend and negative sentiment outweigh the bullish MACD signal, making a short position safer for the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-5ddc-7ae1-8052-513f94fe4c2b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-5ddc-7ae1-8052-513f94fe4c2b.request.json",
+      "sha256": "badd4ae98459eb4b371883e51782d37f3d156bf621b8d2a51b821dedd40855c3"
+    },
+    {
+      "path": "calls/01a19f97-5ddc-7ae1-8052-513f94fe4c2b.response.json",
+      "sha256": "0ded568fa25589b4df0e0d0829d38179a9115a54b2903fa59c85ecec8284ca8b"
+    }
+  ],
+  "sha256": "fb6b5f805ccc60769c089eef7298c1b94e8b19d24ba85f5cd1b31b6b623d9512"
+}

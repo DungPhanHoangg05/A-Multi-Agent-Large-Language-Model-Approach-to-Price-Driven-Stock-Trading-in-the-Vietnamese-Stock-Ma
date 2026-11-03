@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f89-8239-7981-98d3-c4df8c2e4850",
+  "parent_request_hash": "14bf1c9b0cfd423230a8b59007d265de2901a4277b20a0ee85e13b6b27bb52f4",
+  "ended_at_utc": "2026-11-03T03:52:33.301385+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend up with support at 118 and resistance at 128, MACD bullish crossover and positive histogram. Alpha factors show 3 out of 5 positive signals and overall upward bias.\",\"evidence_against\":\"Potential downside if price fails to break resistance at 128 within horizon.\",\"justification\":\"Buy at open on T, target near 128, stop at 118; expected net profit >0.7% after fees. Given bullish indicators and alpha consensus, LONG is preferred over SHORT.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend up with support at 118 and resistance at 128, MACD bullish crossover and positive histogram. Alpha factors show 3 out of 5 positive signals and overall upward bias.\",\"evidence_against\":\"Potential downside if price fails to break resistance at 128 within horizon.\",\"justification\":\"Buy at open on T, target near 128, stop at 118; expected net profit >0.7% after fees. Given bullish indicators and alpha consensus, LONG is preferred over SHORT.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 504,
+                "prompt_tokens": 1761,
+                "total_tokens": 2265,
+                "completion_time": 0.541585976,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 363
+                },
+                "prompt_time": 0.388725457,
+                "prompt_tokens_details": null,
+                "queue_time": 0.603498579,
+                "total_time": 0.930311433
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f89-8239-7981-98d3-c4df8c2e4850-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 504,
+        "prompt_tokens": 1761,
+        "total_tokens": 2265,
+        "completion_time": 0.541585976,
+        "completion_tokens_details": {
+          "reasoning_tokens": 363
+        },
+        "prompt_time": 0.388725457,
+        "prompt_tokens_details": null,
+        "queue_time": 0.603498579,
+        "total_time": 0.930311433
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

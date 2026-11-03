@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "f2a4a27192efe7bf25456a5cec97d4e8aee9ac8b786f398e8e1d8613cd5be09a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with positive histogram shows bullish momentum.",
+    "evidence_against": "Three out of five alpha factors indicate a downtrend.",
+    "justification": "Trend is up and MACD bullish, outweighing bearish alpha signals; a LONG position is justified with moderate risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-4acf-7033-addd-f43fbe86f595"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-4acf-7033-addd-f43fbe86f595.request.json",
+      "sha256": "8eba9b01ba73202ff959b1bced846902d2171182418ece8aeff6296d0e5e05fa"
+    },
+    {
+      "path": "calls/01a19f92-4acf-7033-addd-f43fbe86f595.response.json",
+      "sha256": "d6e628b864e22216bd216ca731183cb080cf8b266f2b0c4b84e2e857973df43b"
+    }
+  ],
+  "sha256": "87acafc732a24e728a7ef1209459050bc5768ad0ea2b0fd17dcdc400fa33230a"
+}

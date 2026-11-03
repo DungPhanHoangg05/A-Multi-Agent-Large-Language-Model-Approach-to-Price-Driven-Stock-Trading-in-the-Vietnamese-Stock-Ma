@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "f0fe001ee46df5e58361ee31b952987e75af3f65345c622751f903d223f50e80"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Pattern shows a clear downtrend with lower highs and lower lows, and MACD is below signal with negative histogram indicating bearish momentum. Support at 60.5 and resistance at 64.3 suggest potential downside to 61.5-62.0.",
+    "evidence_against": "Trend analysis indicates a horizontal movement, which could reduce the probability of a sustained decline.",
+    "justification": "Given the bearish pattern and negative MACD, a short position is justified to capture potential downside within the T+2.5 horizon. The risk-reward ratio of 2.5 supports the trade with acceptable risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-10ef-7883-8caf-bde0fa15fd31"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-10ef-7883-8caf-bde0fa15fd31.request.json",
+      "sha256": "6d9e15848411c1155e92290b2b7897129dbffa0abf6425f3415d1b8e59ede3ca"
+    },
+    {
+      "path": "calls/01a19f8f-10ef-7883-8caf-bde0fa15fd31.response.json",
+      "sha256": "6e9817e732b73bb3d3ed814c5ac4083327f7303cd806531cdb22c8f083c1e04b"
+    }
+  ],
+  "sha256": "97a8540c7b8fac07f5b06c17a2b1e5742933766db32f7a5686503edf8587eabc"
+}

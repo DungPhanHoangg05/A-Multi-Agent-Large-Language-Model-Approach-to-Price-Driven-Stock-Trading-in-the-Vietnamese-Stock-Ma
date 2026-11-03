@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9a-98b9-7ee2-ad26-a77f34fd67e0",
+  "parent_request_hash": "686af38f9c7e1d78598b435f7076a7aecdb92e74fdcbbb52af4de0bae205855b",
+  "ended_at_utc": "2026-11-03T04:11:12.728169+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD death cross and negative histogram indicate bearish momentum.\",\"evidence_against\":\"Pattern 'Cờ tăng' suggests a potential breakout.\",\"justification\":\"Sideways trend with bearish MACD signals a likely decline; shorting protects against potential downside while avoiding missed fees.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD death cross and negative histogram indicate bearish momentum.\",\"evidence_against\":\"Pattern 'Cờ tăng' suggests a potential breakout.\",\"justification\":\"Sideways trend with bearish MACD signals a likely decline; shorting protects against potential downside while avoiding missed fees.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 622,
+                "prompt_tokens": 1395,
+                "total_tokens": 2017,
+                "completion_time": 0.686408253,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 526
+                },
+                "prompt_time": 0.101456928,
+                "prompt_tokens_details": null,
+                "queue_time": 0.208925697,
+                "total_time": 0.787865181
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a12402de73",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9a-98b9-7ee2-ad26-a77f34fd67e0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 622,
+        "prompt_tokens": 1395,
+        "total_tokens": 2017,
+        "completion_time": 0.686408253,
+        "completion_tokens_details": {
+          "reasoning_tokens": 526
+        },
+        "prompt_time": 0.101456928,
+        "prompt_tokens_details": null,
+        "queue_time": 0.208925697,
+        "total_time": 0.787865181
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a12402de73",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

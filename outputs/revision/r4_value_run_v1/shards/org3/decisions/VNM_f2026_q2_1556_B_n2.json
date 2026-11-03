@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "fe72be2197ecfc4331ff7664bf12b5ae934b61263b24d2fe46d136bde8337599"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a sideways to slight downtrend with support at 58.5 and resistance at 61.5, and pattern analysis confirms a clear downtrend with lower highs and lows. MACD shows negative line above signal with positive histogram, indicating increasing bearish momentum.",
+    "evidence_against": "MACD line is still below zero, suggesting overall negative bias.",
+    "justification": "Given the bearish trend, pattern, and increasing negative momentum, a short position is justified to capture potential decline. The short position aligns with the 3-day holding period and avoids holding the stock beyond T+2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-95a9-7871-b4c9-9389072643fb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-95a9-7871-b4c9-9389072643fb.request.json",
+      "sha256": "b9cfc1c2c4e0e7bba422df690639998f4c532b2088eb17e04045b059adab0f7b"
+    },
+    {
+      "path": "calls/01a19f9b-95a9-7871-b4c9-9389072643fb.response.json",
+      "sha256": "84ba5a5e65b9921747b28b00d355a20ab8be787f6f02ca5409af8b38cf2faa39"
+    }
+  ],
+  "sha256": "4fb970f99c0b10fefdd4ee434b79d47647a4dd86066f2342ed35815548ae30b8"
+}

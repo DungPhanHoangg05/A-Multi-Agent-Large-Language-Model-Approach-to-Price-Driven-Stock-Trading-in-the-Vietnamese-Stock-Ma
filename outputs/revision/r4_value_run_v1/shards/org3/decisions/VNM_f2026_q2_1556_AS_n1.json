@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "b7ae27a1e220e283d6122081d652065ea2ea38ddb003ce6b23b3efecf8b6e399"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with positive histogram shows increasing bearish momentum; alpha factors overall indicate a downward bias.",
+    "evidence_against": "MACD line remains in negative territory, suggesting overall bearish sentiment.",
+    "justification": "Given the bearish alpha consensus and negative MACD line, a short position aligns with the expected price decline over the T+2.5 horizon. The sideways trend and lack of breakout support further justify avoiding a long trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f98-c5d9-7283-9f00-3213512e7b42"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f98-c5d9-7283-9f00-3213512e7b42.request.json",
+      "sha256": "4c14e80726b333eb7e56d0ff42086011d9ae1d3e88aac1dbfa80abcd738de1fb"
+    },
+    {
+      "path": "calls/01a19f98-c5d9-7283-9f00-3213512e7b42.response.json",
+      "sha256": "b4308416ab657268dd0de87c195bff8c6b4251ab47be180bc3c6b841daa58bb0"
+    }
+  ],
+  "sha256": "b3f14cb39bc2ec79d791f0352861e45905b4ef8588fdc0f2570bcc8ede67a358"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "f1e50ce8b4a9238e6c50c0128a9f579f36bd2f7d372dd5bd3f1c1a564b8f566a",
+    "prompt_hash": "e975cc9dc90136cb7639564bb699e3a92bb5b75e9f925b4f0e9e0a82e122a4d1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Alpha factors overall positive (3 up, 2 down) indicating potential upside, but trend is sideways and pattern bearish.",
+    "evidence_against": "Pattern analysis shows a clear bearish trend with lower highs and lower lows.",
+    "justification": "Given the bearish pattern and sideways trend, a short position is preferred to avoid holding the stock; risk reward ratio of 1.2 reflects modest upside potential if price declines.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8f-877c-7430-aebe-dcb074c588a0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8f-877c-7430-aebe-dcb074c588a0.request.json",
+      "sha256": "ef07472066ba3686af6b9e1343beb0729bdabf0c08f0e94f560ec6cb13cb643c"
+    },
+    {
+      "path": "calls/01a19f8f-877c-7430-aebe-dcb074c588a0.response.json",
+      "sha256": "17c869e8c23e5c348a495515d783aa0cd391ce6284146abb3c7e3ba09c2a96f8"
+    }
+  ],
+  "sha256": "c741af5c793156bcd26bbf3e59eac52588b216fa6bfff38417cdd3fb471786cc"
+}

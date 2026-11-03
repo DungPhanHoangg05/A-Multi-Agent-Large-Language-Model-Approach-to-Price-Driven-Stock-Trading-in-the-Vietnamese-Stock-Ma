@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "7c982f9b3e3ef1ca16a3f313441d8366db4c2bca07f61910945316ddedb3fd43"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support 70.5 and resistance 74.5, MACD below signal indicating bearish momentum.",
+    "evidence_against": "All 5 alpha factors signal decrease.",
+    "justification": "Alpha consensus indicates reversal, trend may not sustain, so short is safer.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-6bdc-7f00-b92e-6b99dd304995"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-6bdc-7f00-b92e-6b99dd304995.request.json",
+      "sha256": "9fc8b1e2f083e36f718ebc19c3b84b57b855f31a83e8568095c090784a909c96"
+    },
+    {
+      "path": "calls/01a19f9d-6bdc-7f00-b92e-6b99dd304995.response.json",
+      "sha256": "b3076f9efa011a0642533dae8c9ad2d3278fa313351a300b6e12b0df7ecff6a4"
+    }
+  ],
+  "sha256": "b5db0df8fb70eda4b9e8f1b1c7a0eaf451becb0ba935344047f2423b76ed6a8a"
+}

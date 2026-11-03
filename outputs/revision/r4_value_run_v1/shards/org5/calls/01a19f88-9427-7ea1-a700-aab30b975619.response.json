@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f88-9427-7ea1-a700-aab30b975619",
+  "parent_request_hash": "e9cb4966e6886b83bc864ff0e712791c1ec5726df058da1d80ddb0078419b225",
+  "ended_at_utc": "2026-11-03T03:51:32.622159+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"MACD line above signal with decreasing histogram confirms weakening momentum; alpha factors overall bearish with 3 out of 5 negative signals.\",\"evidence_against\":\"Potential for a short squeeze if price rebounds above 20.20.\",\"justification\":\"Given the downtrend, support at 19.60, and bearish alpha signals, a short position aligns with the forecast horizon of T+2.5; the risk-reward ratio of 1:1 is acceptable.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"MACD line above signal with decreasing histogram confirms weakening momentum; alpha factors overall bearish with 3 out of 5 negative signals.\",\"evidence_against\":\"Potential for a short squeeze if price rebounds above 20.20.\",\"justification\":\"Given the downtrend, support at 19.60, and bearish alpha signals, a short position aligns with the forecast horizon of T+2.5; the risk-reward ratio of 1:1 is acceptable.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 905,
+                "prompt_tokens": 1764,
+                "total_tokens": 2669,
+                "completion_time": 0.944924249,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 765
+                },
+                "prompt_time": 0.102740943,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391029096,
+                "total_time": 1.047665192
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_bb6a356524",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f88-9427-7ea1-a700-aab30b975619-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 905,
+        "prompt_tokens": 1764,
+        "total_tokens": 2669,
+        "completion_time": 0.944924249,
+        "completion_tokens_details": {
+          "reasoning_tokens": 765
+        },
+        "prompt_time": 0.102740943,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391029096,
+        "total_time": 1.047665192
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_bb6a356524",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8d-4121-7fc2-a926-8be170ffcb21",
+  "parent_request_hash": "936011e53bc013c484881d7e7a08b5259cc9b25705cf5dc5fd65306f1e0a7092",
+  "ended_at_utc": "2026-11-03T03:56:38.535146+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates upward movement with price above support and approaching resistance at 22.0. MACD histogram shows widening, suggesting increasing bullish momentum despite negative MACD line.\",\"evidence_against\":\"MACD line remains negative, indicating overall bearish momentum.\",\"justification\":\"Given the bullish trend and improving momentum, a LONG position is justified, aiming to capture the potential breakout above 22.0. The risk reward ratio of 1.5 balances potential upside against the moderate uncertainty.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates upward movement with price above support and approaching resistance at 22.0. MACD histogram shows widening, suggesting increasing bullish momentum despite negative MACD line.\",\"evidence_against\":\"MACD line remains negative, indicating overall bearish momentum.\",\"justification\":\"Given the bullish trend and improving momentum, a LONG position is justified, aiming to capture the potential breakout above 22.0. The risk reward ratio of 1.5 balances potential upside against the moderate uncertainty.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 799,
+                "prompt_tokens": 1448,
+                "total_tokens": 2247,
+                "completion_time": 0.92180656,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 660
+                },
+                "prompt_time": 0.072918478,
+                "prompt_tokens_details": null,
+                "queue_time": 0.320630617,
+                "total_time": 0.994725038
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d3e146e1a5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8d-4121-7fc2-a926-8be170ffcb21-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 799,
+        "prompt_tokens": 1448,
+        "total_tokens": 2247,
+        "completion_time": 0.92180656,
+        "completion_tokens_details": {
+          "reasoning_tokens": 660
+        },
+        "prompt_time": 0.072918478,
+        "prompt_tokens_details": null,
+        "queue_time": 0.320630617,
+        "total_time": 0.994725038
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d3e146e1a5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

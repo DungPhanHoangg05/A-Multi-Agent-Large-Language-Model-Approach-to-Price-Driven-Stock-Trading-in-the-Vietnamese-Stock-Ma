@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "1d23fe4cffe09eb54cfe1e2ddf191345ca9638af6868f82ba57357d19fe0db41"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Pattern flag rising and price near resistance 62.5 with target 63.5 suggests bullish continuation; histogram trending upward indicates increasing momentum.",
+    "evidence_against": "MACD line below signal line signals bearish momentum.",
+    "justification": "Given the expected net profit >0.70% and bullish pattern, a LONG position is justified; however, MACD bearish signal warrants caution.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-e9be-7242-aaff-054fdb5d4ea7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-e9be-7242-aaff-054fdb5d4ea7.request.json",
+      "sha256": "76c9d77df0c05011077640def37535b20a722989d47effa594da065acacf56c0"
+    },
+    {
+      "path": "calls/01a19f8a-e9be-7242-aaff-054fdb5d4ea7.response.json",
+      "sha256": "19fe55c99d720e73af4fe5e2ac5ec4751a601b79f271a3396ad8e1aeff60323e"
+    }
+  ],
+  "sha256": "d34d38c5f7467d68067f6a313f85f09beb23498d28322ac8a8a46c4687e23364"
+}

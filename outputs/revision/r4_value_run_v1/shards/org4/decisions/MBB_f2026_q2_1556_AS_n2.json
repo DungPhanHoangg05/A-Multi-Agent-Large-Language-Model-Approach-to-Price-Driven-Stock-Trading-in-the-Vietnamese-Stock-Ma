@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "3176546076ee69c16d67b0a166432e2ebb80b11681d72b079423798088effa35"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows price approaching resistance at 22.0 with MACD histogram expanding, indicating potential upward momentum.",
+    "evidence_against": "Alpha factors overall negative and MACD line below zero suggest bearish bias.",
+    "justification": "Given the negative alpha consensus and bearish MACD signal, shorting preserves capital while awaiting a clearer reversal. The short position aligns with the rule to hold cash when costs cannot be covered by a bullish trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-2902-75d0-b5e8-b9d3a7489172"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-2902-75d0-b5e8-b9d3a7489172.request.json",
+      "sha256": "6e4567c4e86a173534d1fb720104adff18633d74824140c40e41efb8fbed497f"
+    },
+    {
+      "path": "calls/01a19f8e-2902-75d0-b5e8-b9d3a7489172.response.json",
+      "sha256": "3b85c3869ba70bdb41d287ab65a9e1cb22339c03e5b884b3446f4edf572fdebe"
+    }
+  ],
+  "sha256": "c58d7ac490e4c28d446896def98517a1f00903d9eb6d46f46f98f0f5cfe2f5b5"
+}

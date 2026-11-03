@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "3518a830097913f3011ddd5054da12dc9927731f1a1af2b7db8020d30ecca578"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.6,
+    "evidence_for": "Trend analysis indicates an uptrend with price near resistance and expected breakout to 63.5. Alpha factors show 3 positive signals out of 5, supporting bullish bias.",
+    "evidence_against": "MACD line remains below signal, indicating potential bearish momentum.",
+    "justification": "Given the bullish trend, pattern confirmation, and majority positive alpha signals, a LONG position is justified. The risk-reward ratio of approximately 3.6 supports the trade within the 1-5 range.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-9435-7a90-bb7f-cdffa147c37b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-9435-7a90-bb7f-cdffa147c37b.request.json",
+      "sha256": "58ae2021c78b4ddfe4bdfc6271778b5020826fd42e821bd4f293b60ba6b6a50b"
+    },
+    {
+      "path": "calls/01a19f88-9435-7a90-bb7f-cdffa147c37b.response.json",
+      "sha256": "4195cb7c29c4c7ae3c7dd7b6569e1689ba9056aadad1d5f05a6bdcd91cde7dd4"
+    }
+  ],
+  "sha256": "e25b6501054fb18ae80cbf3a5b071a30dde43bb7b74f1f457f89644b4c3806f4"
+}

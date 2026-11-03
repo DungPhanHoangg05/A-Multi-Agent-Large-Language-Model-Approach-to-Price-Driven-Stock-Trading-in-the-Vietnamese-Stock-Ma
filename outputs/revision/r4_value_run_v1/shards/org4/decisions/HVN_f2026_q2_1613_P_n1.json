@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "920775ed3ce40e543ade8ad3f257d451da711bf9786098b34c4716bd1d2070ed"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear downward bias with support at 21.0 and resistance at 23.5, and alpha factors predominantly signal a decline. MACD line above signal indicates bullish momentum but histogram decreasing suggests weakening, aligning with a short setup.",
+    "evidence_against": "MACD line above signal could hint at potential reversal, but overall trend and alpha consensus outweigh this.",
+    "justification": "Short position aligns with trend, alpha consensus, and risk management; expected to capture decline within T+2.5 horizon. Profit target set near 21.0 support with stop above 23.5 to maintain risk/reward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f92-57c6-7e22-8b42-b3262cbe58dc"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f92-57c6-7e22-8b42-b3262cbe58dc.request.json",
+      "sha256": "735f9b174313775ebdff3707e6a877e631971094e7beaf4b0bf6d6db6606e533"
+    },
+    {
+      "path": "calls/01a19f92-57c6-7e22-8b42-b3262cbe58dc.response.json",
+      "sha256": "16a7016cf587f6b961c11b656c9bf92a9f5b7ecf91ce50963653f8c97b023910"
+    }
+  ],
+  "sha256": "38535f53acc67493dc623606118dde522ca7957f8c0934cabbb0628fd1541624"
+}

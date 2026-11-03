@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8a-72d6-7b30-b5fd-195721496263",
+  "parent_request_hash": "c7cdc98df78d533951133ed14da2baf793820f63e0863492bc8863f402d500ec",
+  "ended_at_utc": "2026-11-03T03:53:34.396145+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend bullish with support at 59 and resistance at 62.5, pattern shows breakout above 62, alpha factors majority bullish.\",\"evidence_against\":\"MACD line below signal suggests potential reversal.\",\"justification\":\"Buy at open if price stays above 62, target 64, stop loss below 61. Expected net profit after fees ~0.7% per side, meeting risk-reward.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend bullish with support at 59 and resistance at 62.5, pattern shows breakout above 62, alpha factors majority bullish.\",\"evidence_against\":\"MACD line below signal suggests potential reversal.\",\"justification\":\"Buy at open if price stays above 62, target 64, stop loss below 61. Expected net profit after fees ~0.7% per side, meeting risk-reward.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 513,
+                "prompt_tokens": 1762,
+                "total_tokens": 2275,
+                "completion_time": 0.560923844,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 389
+                },
+                "prompt_time": 0.145766652,
+                "prompt_tokens_details": null,
+                "queue_time": 0.350723644,
+                "total_time": 0.706690496
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8a-72d6-7b30-b5fd-195721496263-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 513,
+        "prompt_tokens": 1762,
+        "total_tokens": 2275,
+        "completion_time": 0.560923844,
+        "completion_tokens_details": {
+          "reasoning_tokens": 389
+        },
+        "prompt_time": 0.145766652,
+        "prompt_tokens_details": null,
+        "queue_time": 0.350723644,
+        "total_time": 0.706690496
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

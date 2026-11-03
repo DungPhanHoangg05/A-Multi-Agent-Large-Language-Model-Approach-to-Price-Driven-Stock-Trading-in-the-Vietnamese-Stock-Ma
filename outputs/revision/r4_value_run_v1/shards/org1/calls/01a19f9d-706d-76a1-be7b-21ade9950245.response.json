@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f9d-706d-76a1-be7b-21ade9950245",
+  "parent_request_hash": "db05644e7207b6a6cd8e49d41b67eb203ae262f5e5d2cb41dc4662c0c3ca3e87",
+  "ended_at_utc": "2026-11-03T04:14:19.879795+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates sideways with resistance at 60.0 and MACD below signal confirming bearish momentum. Alpha factors show majority negative signals, supporting a short position.\",\"evidence_against\":\"No strong bullish pattern or positive alpha signals to justify a long.\",\"justification\":\"Shorting aligns with the bearish trend and negative indicators, ensuring potential profit while limiting exposure to upside risk. The short position also satisfies the holding period requirement and avoids holding the stock beyond T+2.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates sideways with resistance at 60.0 and MACD below signal confirming bearish momentum. Alpha factors show majority negative signals, supporting a short position.\",\"evidence_against\":\"No strong bullish pattern or positive alpha signals to justify a long.\",\"justification\":\"Shorting aligns with the bearish trend and negative indicators, ensuring potential profit while limiting exposure to upside risk. The short position also satisfies the holding period requirement and avoids holding the stock beyond T+2.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 453,
+                "prompt_tokens": 1790,
+                "total_tokens": 2243,
+                "completion_time": 0.733905089,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 318
+                },
+                "prompt_time": 0.582005403,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.351386942,
+                "total_time": 1.315910492
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9d-706d-76a1-be7b-21ade9950245-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 453,
+        "prompt_tokens": 1790,
+        "total_tokens": 2243,
+        "completion_time": 0.733905089,
+        "completion_tokens_details": {
+          "reasoning_tokens": 318
+        },
+        "prompt_time": 0.582005403,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.351386942,
+        "total_time": 1.315910492
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

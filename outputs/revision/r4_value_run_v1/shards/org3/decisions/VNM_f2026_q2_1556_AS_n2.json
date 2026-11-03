@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "73b9eddf0e9bcaa52eccf3a7fbad1b9c9e1496088d624dcd6e0202ff6547b6b1",
+    "donor_hash": null,
+    "upstream_hash": "38943125fe166ec4fb4cd07e399032b9e9858f907e6345cde5535378e08c0693",
+    "prompt_hash": "b7ae27a1e220e283d6122081d652065ea2ea38ddb003ce6b23b3efecf8b6e399"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD histogram positive indicates increasing momentum. Alpha factors overall decreasing and trend pattern shows downtrend.",
+    "evidence_against": "Trend analysis indicates sideways movement, not a strong downtrend.",
+    "justification": "Given the bearish signals from MACD, alpha factors, and sentiment, a short position is appropriate. The risk-reward ratio of 2:1 aligns with the forecast horizon of T+2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-f95e-7d83-aada-5946fd0473ff"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-f95e-7d83-aada-5946fd0473ff.request.json",
+      "sha256": "561d54082b16c7d9befe03dc95c59833f4ddc6faed2e49417986607d86bf2a81"
+    },
+    {
+      "path": "calls/01a19f9c-f95e-7d83-aada-5946fd0473ff.response.json",
+      "sha256": "0561c58692ec32b7005421f1f72e6d56fbff385f1dc0d821a0cbcf11538eb6c2"
+    }
+  ],
+  "sha256": "b2c07f3d0b11433d8e5b634bc3eda93b076db9682c22bd716a0aa4761c950d6f"
+}

@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f9a-21fd-71a3-bb5c-5b916c3da5f2",
+  "parent_request_hash": "e55affc9b2ad9868e6fc114914e114a9a00926719e4d5284f04beea4280ded2c",
+  "ended_at_utc": "2026-11-03T04:10:43.303656+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend bullish with support at 26.5 and resistance at 28.5, V‑reversal pattern suggests potential breakout.\",\"evidence_against\":\"MACD below signal and negative histogram, majority alpha factors negative, sentiment negative.\",\"justification\":\"Bearish indicators outweigh bullish trend, so holding cash is prudent.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend bullish with support at 26.5 and resistance at 28.5, V‑reversal pattern suggests potential breakout.\",\"evidence_against\":\"MACD below signal and negative histogram, majority alpha factors negative, sentiment negative.\",\"justification\":\"Bearish indicators outweigh bullish trend, so holding cash is prudent.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1097,
+                "prompt_tokens": 1806,
+                "total_tokens": 2903,
+                "completion_time": 1.299191846,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 988
+                },
+                "prompt_time": 0.332606209,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.38948178,
+                "total_time": 1.631798055
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_816fc87d18",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9a-21fd-71a3-bb5c-5b916c3da5f2-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1097,
+        "prompt_tokens": 1806,
+        "total_tokens": 2903,
+        "completion_time": 1.299191846,
+        "completion_tokens_details": {
+          "reasoning_tokens": 988
+        },
+        "prompt_time": 0.332606209,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.38948178,
+        "total_time": 1.631798055
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_816fc87d18",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

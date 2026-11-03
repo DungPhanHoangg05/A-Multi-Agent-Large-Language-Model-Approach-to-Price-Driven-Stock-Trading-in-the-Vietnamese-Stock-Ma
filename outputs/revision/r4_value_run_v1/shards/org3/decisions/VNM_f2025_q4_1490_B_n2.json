@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "871d0a8f4cc3ae80540b3e5a51f32bc883c6564dbfccf1ea2fdc1532dd3f5265"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with price above support 59 and approaching resistance 62.5; flag pattern indicates bullish continuation.",
+    "evidence_against": "MACD line below signal suggests bearish momentum.",
+    "justification": "Trend and pattern bullish outweigh MACD bearish; potential upside to 64 with manageable risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-4068-7122-a221-c93e4b2f8823"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-4068-7122-a221-c93e4b2f8823.request.json",
+      "sha256": "d7754a4d1b8134b0abaa5560de3ad8f55f5320de095c5f9011e4e3df502c1819"
+    },
+    {
+      "path": "calls/01a19f8d-4068-7122-a221-c93e4b2f8823.response.json",
+      "sha256": "220b3819a01567f0da72579ead1f4cd6ffe05611e51c85694b0b48d60a4488eb"
+    }
+  ],
+  "sha256": "53d3a297ec2bfe033414135387c78640d1950d0e7dd31ac66bd53993dafb80c0"
+}

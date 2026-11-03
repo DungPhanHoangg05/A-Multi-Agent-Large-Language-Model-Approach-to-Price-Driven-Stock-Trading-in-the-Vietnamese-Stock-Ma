@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "164f987bb0b7f238a8c7e7291bfb40726873f0d46d219569cf9e8301d7728609"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend indicates sideways, pattern suggests potential breakout but MACD signals sell, and majority of alpha factors are negative.",
+    "evidence_against": "Pattern indicates bullish breakout potential.",
+    "justification": "Given the bearish consensus from MACD death cross and negative alpha signals, shorting is prudent to avoid potential loss from a failed breakout. Holding cash aligns with the rule to avoid holding shares beyond T+2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-96c5-7f93-8604-dc091030a72c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-96c5-7f93-8604-dc091030a72c.request.json",
+      "sha256": "0bc670f74f25ef31d3f15f9a4117c778edbe64081f10a080548d0362815f2f79"
+    },
+    {
+      "path": "calls/01a19f9b-96c5-7f93-8604-dc091030a72c.response.json",
+      "sha256": "c4a4140dd45b24c5f9718cef69a34bdf9570be7717ac59bdd17c803b59eefd56"
+    }
+  ],
+  "sha256": "4a0289f28e62383368527bf060c1ed1a42ae4349494ea8dfbc2914479dabef29"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": "3005358457a5407e806a19a3a9d7d570062c110f5f925ca88888ad76850a83e7",
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "ae3c9d527dd8e85bdae0a95545d9e00207af59ef969bc09e2e7c6ff11ca5a4c1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 65.5 and resistance at 68.5 indicates potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram show weakening momentum.",
+    "justification": "Alpha factors mixed and momentum weak, so short to avoid risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-d2ef-70f1-b90d-aad5e5046a51"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-d2ef-70f1-b90d-aad5e5046a51.request.json",
+      "sha256": "d2462f8d3e9bb65cd62e70722bdd3d42c8cb7d47e7be4e260d8f0cf6b37f011d"
+    },
+    {
+      "path": "calls/01a19f9d-d2ef-70f1-b90d-aad5e5046a51.response.json",
+      "sha256": "2b17d225935c4b9d152c660a91fea1831d2b3ac36d594efbf9ceb318f389681d"
+    }
+  ],
+  "sha256": "47491f05af869802616d21691580008beb1e34e1d13196967cacff769b677971"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "1c62b5421c161d9815ea58f62d48ff63fd7a02cab617c55b6c5984a771e39601"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend and pattern confirm a downtrend; MACD shows bullish momentum but decreasing, indicating potential reversal.",
+    "evidence_against": "MACD histogram is shrinking, suggesting weakening bullish momentum.",
+    "justification": "Given the downtrend confirmation and weakening bullish momentum, a short position is preferred to capture potential decline while avoiding the risk of missing the buy target. Shorting also aligns with the rule to avoid long when trend is down unless strong reversal signals are present.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-d7b4-7931-a65f-2da494228a35"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-d7b4-7931-a65f-2da494228a35.request.json",
+      "sha256": "b31b0441f757656e10a0d63169536dd39908e9c06121acc84b4369e5d2d2d343"
+    },
+    {
+      "path": "calls/01a19f91-d7b4-7931-a65f-2da494228a35.response.json",
+      "sha256": "7d156e1291489b729e3ea26bddabdd31fa5b3f0b97490c3ba17f46138660550e"
+    }
+  ],
+  "sha256": "c911e2ad1b42d58a5c0466438a48e1946e338938a87c825f00870d54ddc78905"
+}

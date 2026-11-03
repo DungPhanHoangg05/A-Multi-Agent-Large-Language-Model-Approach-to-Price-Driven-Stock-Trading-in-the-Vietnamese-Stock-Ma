@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f8c-c14e-70f1-b8df-5cbb42cae708",
+  "parent_request_hash": "031c66a2c811e1dd7cd65f28d1d490a71c677d34f44696dd79d3e8685fad03e6",
+  "ended_at_utc": "2026-11-03T03:56:05.404216+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD shows bullish crossover and trend analysis indicates upward movement.\",\"evidence_against\":\"Three out of five alpha factors signal a decrease, suggesting limited upside.\",\"justification\":\"Shorting preserves cash as expected gains likely insufficient to cover transaction costs; negative alpha consensus outweighs bullish indicators.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD shows bullish crossover and trend analysis indicates upward movement.\",\"evidence_against\":\"Three out of five alpha factors signal a decrease, suggesting limited upside.\",\"justification\":\"Shorting preserves cash as expected gains likely insufficient to cover transaction costs; negative alpha consensus outweighs bullish indicators.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 586,
+                "prompt_tokens": 1758,
+                "total_tokens": 2344,
+                "completion_time": 0.735763776,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 482
+                },
+                "prompt_time": 0.08897721,
+                "prompt_tokens_details": null,
+                "queue_time": 0.054159491,
+                "total_time": 0.824740986
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_80501ff3a1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8c-c14e-70f1-b8df-5cbb42cae708-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 586,
+        "prompt_tokens": 1758,
+        "total_tokens": 2344,
+        "completion_time": 0.735763776,
+        "completion_tokens_details": {
+          "reasoning_tokens": 482
+        },
+        "prompt_time": 0.08897721,
+        "prompt_tokens_details": null,
+        "queue_time": 0.054159491,
+        "total_time": 0.824740986
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_80501ff3a1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

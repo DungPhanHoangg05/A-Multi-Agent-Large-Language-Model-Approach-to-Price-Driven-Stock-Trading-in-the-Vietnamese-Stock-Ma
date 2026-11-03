@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "9586bf8f5348f92c2e70fb9c97b82940b66f496c0f14df4aeb019db5f7e50d3a",
+    "prompt_hash": "9a6bc343b501e60591e26848df8e6eca4e13ed5f19cab1dab48362d476823f3a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend up with support at 118 and resistance at 128, MACD bullish and alpha factors mostly positive. V-shaped pattern indicates reversal and momentum supports target near 128.",
+    "evidence_against": "Potential slippage and transaction costs could erode profit if price fails to reach resistance.",
+    "justification": "Long position aligns with bullish trend, pattern, and alpha consensus. Expected target 128 with stop at 118 yields risk/reward ~3:1 after accounting for fees.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-2d5c-70e3-9d91-29ec959789bd"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-2d5c-70e3-9d91-29ec959789bd.request.json",
+      "sha256": "ff42ee62742e9bfd8ef75dd093c06002b1c3aef693f667a61adb872f2488f442"
+    },
+    {
+      "path": "calls/01a19f8e-2d5c-70e3-9d91-29ec959789bd.response.json",
+      "sha256": "dd0e4c4b847d97bc955eb03a385eb7f25b8f917d446ab5f0f0e22d152536c3bd"
+    }
+  ],
+  "sha256": "0954d1649a8ebe6742626f4e6dd0a7fa811e61c5ea5e01d8b5564d1da264d1ef"
+}

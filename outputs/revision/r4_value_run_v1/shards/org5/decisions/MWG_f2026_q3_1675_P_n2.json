@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "7b54aa412fcdcbee869ae84363ab165a1e71e70eabbe0d22a68d0cb54378f010"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 70.5 and resistance at 74.5.",
+    "evidence_against": "MACD below signal and histogram negative indicating weakening momentum.",
+    "justification": "Alpha factors overall decreasing and sentiment low, so short is safer.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-0cf5-7760-8e6d-24eab7939fab"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-0cf5-7760-8e6d-24eab7939fab.request.json",
+      "sha256": "76f73adc55400aca757bc90eabf56d1f235932441803582e96fe4a1369ce46eb"
+    },
+    {
+      "path": "calls/01a19f9c-0cf5-7760-8e6d-24eab7939fab.response.json",
+      "sha256": "a11da312230365d6e47b65696dc57e8d35a9cf76c0ce6db1467cf4a5791961c6"
+    }
+  ],
+  "sha256": "ef749d9c5550a796700d7c9ccf207202dab4f943545001c8965eb4037e802009"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "bee31fa1d108412c6a3a2bddff554832f9b555290befb09162f7dc0edbb2e66f",
+    "prompt_hash": "809b4506318ee4b2acaa000b0c307fc21679b453b02a0c2d9c0aac868b0f3bbb"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates upward movement with price above support and approaching resistance at 22.0. MACD histogram shows widening, suggesting increasing bullish momentum despite negative MACD line.",
+    "evidence_against": "MACD line remains negative, indicating overall bearish momentum.",
+    "justification": "Given the bullish trend and improving momentum, a LONG position is justified, aiming to capture the potential breakout above 22.0. The risk reward ratio of 1.5 balances potential upside against the moderate uncertainty.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8d-4121-7fc2-a926-8be170ffcb21"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8d-4121-7fc2-a926-8be170ffcb21.request.json",
+      "sha256": "c08bebcfd2e4d2516cd1516a4086f781327753870195a04b7b97f78f71aa8cdb"
+    },
+    {
+      "path": "calls/01a19f8d-4121-7fc2-a926-8be170ffcb21.response.json",
+      "sha256": "6067bbbe0ca5d97435b617fc599a51d220463e02e9286d2cd5a8065297f4b852"
+    }
+  ],
+  "sha256": "ee96ca6176ca503a6d41ec958362e1e4253d0e42c21f081428217d078f780657"
+}

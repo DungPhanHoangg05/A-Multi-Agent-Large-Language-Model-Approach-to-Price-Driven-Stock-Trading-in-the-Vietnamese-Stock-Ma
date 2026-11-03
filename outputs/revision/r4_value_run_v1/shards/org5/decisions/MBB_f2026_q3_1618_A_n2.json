@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "0aa9886da48f5ac3508624b8dafe9de6cf46e752291aff3885d7213e02653187"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is bullish with support at 19.70 and resistance at 20.65, MACD shows bullish momentum with MACD above Signal and positive histogram, and a V‑shape reversal pattern indicates a breakout above 20.75 toward 21.00.",
+    "evidence_against": "Three out of five alpha factors signal a decline, suggesting potential reversal.",
+    "justification": "The bullish trend, MACD confirmation, and breakout pattern support a long position with a target of 21.00 and a risk/reward ratio of 1:1, but the negative alpha signals warrant caution.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-456e-77e3-a428-19b8b72b565f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-456e-77e3-a428-19b8b72b565f.request.json",
+      "sha256": "595e077264a046662c6be46f5da9c3328b1714cc8049a60f0c6739b2cab66e10"
+    },
+    {
+      "path": "calls/01a19f93-456e-77e3-a428-19b8b72b565f.response.json",
+      "sha256": "aca50a6fa61497d20fc5b7fe5eb3753a861019f9efbf1c40469a957d8649ad27"
+    }
+  ],
+  "sha256": "1c8419622997299eba6686c583863d77cb3f5bc70b28b2f2ee0700ad2f6795b8"
+}

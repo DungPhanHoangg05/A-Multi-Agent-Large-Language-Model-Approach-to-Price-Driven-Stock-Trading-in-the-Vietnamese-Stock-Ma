@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f97-d472-7f31-aee7-89e77c3c9c85",
+  "parent_request_hash": "9c9dd598d67bcc2dabfec73b73944ec583d492982fdf22b2ede61cdc62a5f777",
+  "ended_at_utc": "2026-11-03T04:08:15.002046+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD shows a death cross indicating a sell signal; majority of alpha factors signal a downtrend.\",\"evidence_against\":\"Trend analysis indicates a sideways market, which could support holding cash.\",\"justification\":\"Given the death cross and majority negative alpha signals, shorting is justified; holding cash avoids potential losses if the market remains flat.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"MACD shows a death cross indicating a sell signal; majority of alpha factors signal a downtrend.\",\"evidence_against\":\"Trend analysis indicates a sideways market, which could support holding cash.\",\"justification\":\"Given the death cross and majority negative alpha signals, shorting is justified; holding cash avoids potential losses if the market remains flat.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 442,
+                "prompt_tokens": 1703,
+                "total_tokens": 2145,
+                "completion_time": 0.487230347,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 333
+                },
+                "prompt_time": 2.850508804,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.316485873,
+                "total_time": 3.337739151
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d3e146e1a5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f97-d472-7f31-aee7-89e77c3c9c85-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 442,
+        "prompt_tokens": 1703,
+        "total_tokens": 2145,
+        "completion_time": 0.487230347,
+        "completion_tokens_details": {
+          "reasoning_tokens": 333
+        },
+        "prompt_time": 2.850508804,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.316485873,
+        "total_time": 3.337739151
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d3e146e1a5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

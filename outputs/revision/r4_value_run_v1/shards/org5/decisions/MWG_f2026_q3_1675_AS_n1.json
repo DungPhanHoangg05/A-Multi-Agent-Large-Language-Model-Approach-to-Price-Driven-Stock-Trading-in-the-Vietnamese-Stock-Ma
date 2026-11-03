@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "7c982f9b3e3ef1ca16a3f313441d8366db4c2bca07f61910945316ddedb3fd43"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support at 70.5 and resistance at 74.5, MACD below signal indicating bearish momentum.",
+    "evidence_against": "All five alpha factors signal a decrease, suggesting a potential reversal.",
+    "justification": "Trend appears bullish but alpha signals bearish, so short to avoid risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-bbea-75c3-82b2-c74149ff5c46"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-bbea-75c3-82b2-c74149ff5c46.request.json",
+      "sha256": "0edefe29228c6fe96c8c5c35920120a23574a1a56c622d5330f2c09cd8e3f758"
+    },
+    {
+      "path": "calls/01a19f99-bbea-75c3-82b2-c74149ff5c46.response.json",
+      "sha256": "81fa1323ecf6a5ef544e02431f453cf60af12ad72b579817fb249b38d064ea5d"
+    }
+  ],
+  "sha256": "2941eb63389da8ef97ad4449ffc9c71b5e1c2f762c6df3107685a83a7f28997a"
+}

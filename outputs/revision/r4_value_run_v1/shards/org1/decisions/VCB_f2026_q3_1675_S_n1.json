@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "1abf641b38d460d2aaf195cf95a54b241e14b852ab744f1cc21f90384d8d3e81"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and histogram trending negative indicate weakening bullish momentum. Price is near support at 57.5 with bearish sentiment score -0.086625, suggesting potential downside.",
+    "evidence_against": "Pattern analysis indicates a potential bullish breakout above 60, though confidence is low.",
+    "justification": "Given bearish MACD and price near support, a short position is favored to capture potential decline within the T+2.5 horizon. The short trade aligns with the rule to avoid buying if fees cannot be covered and to hold cash during sideways or downtrend.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-e2e1-7732-b940-7a94f3663c3a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-e2e1-7732-b940-7a94f3663c3a.request.json",
+      "sha256": "8b857cecbc80b39c715eb5f8518928932e1f8c65929b76d1bd107a3c36980f66"
+    },
+    {
+      "path": "calls/01a19f9d-e2e1-7732-b940-7a94f3663c3a.response.json",
+      "sha256": "92e5d026d07d8305ce4d2124c8715b6df2d657a72e75d0158f7336d013a57e7f"
+    }
+  ],
+  "sha256": "643e03a6c087b33dc0c105ea389f11efe04fe4d5e11e98b314326b648a67b3a6"
+}

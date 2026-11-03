@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "1d23fe4cffe09eb54cfe1e2ddf191345ca9638af6868f82ba57357d19fe0db41"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Pattern flag rising and price near resistance 62.5 with target 63.5; MACD histogram trending up indicating increasing momentum.",
+    "evidence_against": "MACD line below signal line suggests bearish momentum.",
+    "justification": "Trend and pattern confirm bullish direction; target 63.5 gives >1.8% net profit after fees, risk reward ratio 1.2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-a309-75a2-816f-afd5ec920a44"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-a309-75a2-816f-afd5ec920a44.request.json",
+      "sha256": "2269389f4814f5c14e6ee0996077e4ab5e3c3e51b9f61ec0c23bf83ffa8395f7"
+    },
+    {
+      "path": "calls/01a19f8e-a309-75a2-816f-afd5ec920a44.response.json",
+      "sha256": "51eea1cd82c381907c487537fd9d9108f18928de9c78b6d6895b8dbb4c2c4401"
+    }
+  ],
+  "sha256": "c67d5300661eece805e9229c5a3e082df4f97d5a1b03debd6b18d86deb2a60ab"
+}

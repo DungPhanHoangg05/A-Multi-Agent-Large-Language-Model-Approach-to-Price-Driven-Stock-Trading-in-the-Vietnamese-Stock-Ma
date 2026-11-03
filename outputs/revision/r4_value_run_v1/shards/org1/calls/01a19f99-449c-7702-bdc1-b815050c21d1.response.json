@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f99-449c-7702-bdc1-b815050c21d1",
+  "parent_request_hash": "df0a5a4accea2a1629336112da8fc45318e35c7df69bfec667d742049f53ef7a",
+  "ended_at_utc": "2026-11-03T04:09:45.824614+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support 26.5 and resistance 28.5, pattern V indicates potential breakout.\",\"evidence_against\":\"MACD below signal and negative histogram indicate weakening momentum.\",\"justification\":\"Trend suggests potential upside but bearish MACD and negative sentiment increase risk of reversal; short protects cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support 26.5 and resistance 28.5, pattern V indicates potential breakout.\",\"evidence_against\":\"MACD below signal and negative histogram indicate weakening momentum.\",\"justification\":\"Trend suggests potential upside but bearish MACD and negative sentiment increase risk of reversal; short protects cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 527,
+                "prompt_tokens": 1808,
+                "total_tokens": 2335,
+                "completion_time": 0.705489939,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 424
+                },
+                "prompt_time": 0.111213996,
+                "prompt_tokens_details": null,
+                "queue_time": 0.390892496,
+                "total_time": 0.816703935
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f99-449c-7702-bdc1-b815050c21d1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 527,
+        "prompt_tokens": 1808,
+        "total_tokens": 2335,
+        "completion_time": 0.705489939,
+        "completion_tokens_details": {
+          "reasoning_tokens": 424
+        },
+        "prompt_time": 0.111213996,
+        "prompt_tokens_details": null,
+        "queue_time": 0.390892496,
+        "total_time": 0.816703935
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

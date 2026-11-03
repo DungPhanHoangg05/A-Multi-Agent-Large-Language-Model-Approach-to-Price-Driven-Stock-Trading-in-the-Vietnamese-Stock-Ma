@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": "e33b28088bda23e6803bd55dc3047f707e38c458eea482eba1aff1852a72a2d2",
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "b6d40563e36c6445120411e61532cbb64db6272a27754e72bd5825d8b1735836"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is down with support at 19.60 and resistance at 20.60; MACD line above signal indicates bearish momentum.",
+    "evidence_against": "Alpha factor 3 indicates a slight negative signal.",
+    "justification": "Shorting aligns with bearish trend and momentum; risk covered by holding cash until T+2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8a-ed0f-7100-aa35-d21a8c312e64"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8a-ed0f-7100-aa35-d21a8c312e64.request.json",
+      "sha256": "19a4881125c5a38d4eb88e2316d60e585c23998089842ec7fb442f377679af47"
+    },
+    {
+      "path": "calls/01a19f8a-ed0f-7100-aa35-d21a8c312e64.response.json",
+      "sha256": "040fdca407fc166f2f222638edfefd42b607a1617f3d38e06b70a2866080ab0e"
+    }
+  ],
+  "sha256": "42348ee0358543db9cc50dd22fea66fc5d73c4c5d916d45bf61af5d576e1b8fc"
+}

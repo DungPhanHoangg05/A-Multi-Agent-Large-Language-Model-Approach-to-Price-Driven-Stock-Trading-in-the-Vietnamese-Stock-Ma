@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": "0090824c96cbebedd442f209b0c839653d0bc495cf456e157069addad10a2394",
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "93f4458fc58ce07b26bd599fd64a894c794859e6968b731132377cc7be82f01c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support at 59 and resistance at 62.5, bullish flag pattern breaking resistance at 62. MACD histogram trending up indicates increasing momentum despite MACD line below signal.",
+    "evidence_against": "MACD line below signal suggests potential bearish reversal.",
+    "justification": "Buy at open when price stays above 62, target 64, stop loss below 61. Expected net profit after 0.7% slippage and 0.25% commission meets risk-reward ratio of 2:1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-c0cf-7bf3-b9f6-a054f9b1e05a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-c0cf-7bf3-b9f6-a054f9b1e05a.request.json",
+      "sha256": "a8417be55fa9900469c8fb358c9bb63c8d26579df0cdb8491364abb423c77ea7"
+    },
+    {
+      "path": "calls/01a19f8c-c0cf-7bf3-b9f6-a054f9b1e05a.response.json",
+      "sha256": "33343d79d1574b57889a4714bc6a92992bf586037c6ac64dae0a0ad8f44be691"
+    }
+  ],
+  "sha256": "c173ed917f15e83a1ee6a2b43498dc4c4de94483356031beb149e6f9b37a4be7"
+}

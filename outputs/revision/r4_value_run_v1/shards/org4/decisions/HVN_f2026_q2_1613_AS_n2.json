@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "c261dd74e477dcc28508f3440993261f44b02aa130229661cc2649a2afe4b8a0"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 21.0 and majority of alpha factors signal decrease. MACD line above signal indicates bullish momentum but histogram declining.",
+    "evidence_against": "MACD bullish signal suggests potential reversal.",
+    "justification": "Short position aligns with prevailing downtrend and negative alpha consensus. MACD bullishness is outweighed by trend and alpha signals.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f94-a807-7592-8ab2-81de30c69436"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f94-a807-7592-8ab2-81de30c69436.request.json",
+      "sha256": "3dedac92a116d1fec32480fec8322830f349d7779a81eb175041d4608f0cefe3"
+    },
+    {
+      "path": "calls/01a19f94-a807-7592-8ab2-81de30c69436.response.json",
+      "sha256": "480727e6cf535250be196bbcfe8252ab8d80c3af02bd215ee45615e7cfb52a1b"
+    }
+  ],
+  "sha256": "405eef9e4598b2450ff09e3811f147666cf596520a821f4904853e47f40f5176"
+}

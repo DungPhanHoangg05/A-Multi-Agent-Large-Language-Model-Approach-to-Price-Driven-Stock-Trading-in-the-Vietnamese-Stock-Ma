@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q3_1618",
+    "org": 4,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "0c8eaccd3589696deadb128033b8e6a028fcf09da14013ea3ac103b30d44c464",
+    "donor_hash": null,
+    "upstream_hash": "d1c4c05f019133eb0be27e707b5fd6a2969cca3b5f1ff6de79b11ce9d373a281",
+    "prompt_hash": "3b86f4ed8fe0fbc1bf74215abcfdb86ad78e66e57322fc2f7ae70dcc16c68d66"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bullish with price above resistance 23.8 and MACD above signal indicating momentum. Pattern V reversal confirms support at 21.0 and potential target 24.5.",
+    "evidence_against": "None of the indicators suggest a reversal within the next 3 days.",
+    "justification": "The combination of bullish trend, V pattern, and MACD confirmation supports a long position. The target 24.5 is reachable before the T+2.5 settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-e1c5-7e90-af4c-745c12fe84bd"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-e1c5-7e90-af4c-745c12fe84bd.request.json",
+      "sha256": "ea85a9f517707fa303a753d7717e8e91cb781962e6289c7e04d3ae3ddbb9720d"
+    },
+    {
+      "path": "calls/01a19f97-e1c5-7e90-af4c-745c12fe84bd.response.json",
+      "sha256": "154c64101424188b455cc7b159bfd631f5c132af12658097110e5a6b79514a90"
+    }
+  ],
+  "sha256": "43561cad22aeae0cd580d5822c491a032a8d291ed8fdb47efa71782d37eb8305"
+}

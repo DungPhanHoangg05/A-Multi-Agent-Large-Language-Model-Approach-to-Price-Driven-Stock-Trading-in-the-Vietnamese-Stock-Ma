@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "c261dd74e477dcc28508f3440993261f44b02aa130229661cc2649a2afe4b8a0"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 21.0 and resistance at 23.5, and alpha factors overall indicate a bearish bias.",
+    "evidence_against": "MACD line is above signal but histogram shows decreasing momentum.",
+    "justification": "Shorting aligns with the prevailing bearish consensus and preserves capital over the 3‑day horizon; holding cash avoids potential losses if the trend continues downward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-f4ec-71c1-907e-a89af52d3eed"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-f4ec-71c1-907e-a89af52d3eed.request.json",
+      "sha256": "0c43ad4ea57901627d3abd02745f4fee3b8271268251a71037f24c46f710a716"
+    },
+    {
+      "path": "calls/01a19f90-f4ec-71c1-907e-a89af52d3eed.response.json",
+      "sha256": "737d189de798a32cb6afb4dafc9227e6e6c3ea661a333b223f238d13e86b9760"
+    }
+  ],
+  "sha256": "d701ec5f44053d9f852e768781d0531917a75b964c6b12796fe1df1e9405829c"
+}

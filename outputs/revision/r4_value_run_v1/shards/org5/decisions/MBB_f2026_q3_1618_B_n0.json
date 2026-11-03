@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1618",
+    "org": 5,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "f8d5a14ead29484f261352dcf80360402981641b31a6337f5cc9d619f6b4d749",
+    "donor_hash": null,
+    "upstream_hash": "e6a3e581a783bc5533f7726a746e331360228cee3a754b0c23a29b46cc5305ab",
+    "prompt_hash": "9aeebd60656304bef442598847213eb85cf8af49a194113113c227ead03e09bb"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is upward with price above support 19.70 and breaking resistance 20.65; MACD line is above signal with positive histogram indicating bullish momentum; V‑reversal pattern confirms a bullish reversal.",
+    "evidence_against": "Price could fail to sustain above resistance, limiting upside.",
+    "justification": "Long position aligns with bullish trend, pattern reversal, and MACD confirmation, offering upside that exceeds transaction costs; risk is mitigated by holding cash if trend reverses.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-a2d6-7680-8738-2ae5fe95522a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-a2d6-7680-8738-2ae5fe95522a.request.json",
+      "sha256": "a4ad2a802b846b62b7797f0c76f6033628859bc55a34444fe495b578e02e13ca"
+    },
+    {
+      "path": "calls/01a19f8e-a2d6-7680-8738-2ae5fe95522a.response.json",
+      "sha256": "9b9b569e9c16f307ee070ca3f070f286ad354a19e070e8886ad6597d7c8aabe1"
+    }
+  ],
+  "sha256": "bd70f32c7bb06b9de56f689c30671ab0f0bf39774e97bcbb71138b91e4c0b87d"
+}

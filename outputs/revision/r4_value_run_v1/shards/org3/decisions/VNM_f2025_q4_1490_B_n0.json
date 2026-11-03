@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "871d0a8f4cc3ae80540b3e5a51f32bc883c6564dbfccf1ea2fdc1532dd3f5265"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up with price near resistance 62.5 and bullish flag pattern indicates potential breakout. Price has been above support 59 and shows increasing momentum.",
+    "evidence_against": "MACD line below signal line indicates bearish momentum.",
+    "justification": "We take LONG expecting breakout above 62.5 to reach target 63.5 within T+2.5 horizon. Risk reward ratio of 2:1 is acceptable given the trend and pattern confirmation.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-1eb5-7f01-9b86-2836e5e032f6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-1eb5-7f01-9b86-2836e5e032f6.request.json",
+      "sha256": "3590b74dabdd4ca9e1771bd2931832ec3505574a1d3ab189a14235a1a5e01b25"
+    },
+    {
+      "path": "calls/01a19f88-1eb5-7f01-9b86-2836e5e032f6.response.json",
+      "sha256": "c42f85d67ba2a9a1fe764b421dcf8f9f3c8b5f21924953a02e937592c8311c93"
+    }
+  ],
+  "sha256": "f49543ae59f584f949f0a78ed2b2b00050d2f0b7ab18981bb11682ab8e4e6390"
+}

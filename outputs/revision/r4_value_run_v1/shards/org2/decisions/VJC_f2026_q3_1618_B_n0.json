@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "50be2369cac7e972e6f617527732c48b43c6d72aeb75bf1f9fa0779c8c45fe8d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal line indicates bearish momentum; histogram trending negative confirms weakening buying pressure.",
+    "evidence_against": "Pattern flag up suggests possible breakout to 145.",
+    "justification": "Given bearish MACD and negative histogram, short is preferred; trend is sideways and pattern bullish but not confirmed by momentum, so risk of missing breakout is high.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f97-6ed3-7652-81bb-00e0543bc9b9"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f97-6ed3-7652-81bb-00e0543bc9b9.request.json",
+      "sha256": "abdb22c8466b9a5f925b962751cd459c2be6f3f7bfb6947ac4189e63362eb328"
+    },
+    {
+      "path": "calls/01a19f97-6ed3-7652-81bb-00e0543bc9b9.response.json",
+      "sha256": "f1d5e60a94a7375afc6b1e6e63365cb7c4122a1037c33b8281c3baa599b969c7"
+    }
+  ],
+  "sha256": "cdfce9a41e080ff6781ae4aa0f4f60875140290d4df0077ec6fa6da57f969d65"
+}

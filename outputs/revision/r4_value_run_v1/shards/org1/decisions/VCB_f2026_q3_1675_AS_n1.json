@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "54c8c0e3a92c0ab467627b27dfe8e820d314b7b34a455265b787a4827a87cdce"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below signal and negative histogram confirm bearish momentum.",
+    "evidence_against": "Trend is sideways, no clear breakout.",
+    "justification": "Majority of alpha factors are negative and sentiment score is negative, supporting a short position.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-4840-7430-987e-b9bc6c8c15a5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-4840-7430-987e-b9bc6c8c15a5.request.json",
+      "sha256": "d51add58c919ab6208f29efd3f4b3980d2d5de46b56dba85d49ac5f8e1db43e2"
+    },
+    {
+      "path": "calls/01a19f9e-4840-7430-987e-b9bc6c8c15a5.response.json",
+      "sha256": "cc1c66143129b39ec438aaca96bc81b1eded809de95a1d8a7d175d600565fbc8"
+    }
+  ],
+  "sha256": "4f711b74469cfbf41ba32535b854abffdaac3823851f4156305bb04745c8dcd4"
+}

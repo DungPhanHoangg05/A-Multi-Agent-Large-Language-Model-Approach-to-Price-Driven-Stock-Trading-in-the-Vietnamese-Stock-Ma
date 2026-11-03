@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "65fde0353d64438f4aacf9af9b4470b9a6a49ea4c643d84549b65e2a9c05914e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with decreasing histogram indicates weakening momentum in a downtrend; alpha factors show majority bearish signals. Trend analysis confirms price below support and approaching resistance, supporting a short entry.",
+    "evidence_against": "MACD histogram remains positive, suggesting residual bullish momentum.",
+    "justification": "Shorting aligns with the prevailing downtrend and alpha consensus; holding cash avoids potential losses if the trend reverses.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-dadc-7f02-ac70-2ca810e4007c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-dadc-7f02-ac70-2ca810e4007c.request.json",
+      "sha256": "845d01502592c2247435618bcf9865e4b1b00500260fca61c320f2493795910c"
+    },
+    {
+      "path": "calls/01a19f8b-dadc-7f02-ac70-2ca810e4007c.response.json",
+      "sha256": "06e00dc7937bdab4fb122d03ffc71636c3c4820e2253c5d2c2eba512276781ce"
+    }
+  ],
+  "sha256": "16ab01ff550709abefa8f729fc2ceca1128cbc914052558f3a330619bf43b02d"
+}

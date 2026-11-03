@@ -1,0 +1,1955 @@
+{
+  "metrics": {
+    "BA_family": {
+      "descriptive_envelopes": {
+        "A-B": [
+          -0.023809523809523767,
+          0.24603174603174588
+        ],
+        "AS-A": [
+          -0.09325396825396817,
+          0.1765873015873015
+        ],
+        "AS-B": [
+          0.017857142857142905,
+          0.28769841269841256
+        ],
+        "AS-P": [
+          -0.0654761904761904,
+          0.20436507936507925
+        ],
+        "AS-S": [
+          0.04563492063492067,
+          0.31547619047619035
+        ],
+        "S-B": [
+          -0.16269841269841262,
+          0.10714285714285704
+        ],
+        "interaction": [
+          -0.06547619047619037,
+          0.2043650793650793
+        ]
+      },
+      "max_absolute_deviation_radius": 0.13492063492063483,
+      "n_contrasts": 7,
+      "n_joint_finite_draws": 9612,
+      "n_joint_undefined_draws": 388,
+      "scope": "joint finite-draw max-deviation sensitivity envelope; no calibrated simultaneous coverage or significance claim"
+    },
+    "contrasts": [
+      {
+        "by_execution": {
+          "accuracy": [
+            0.16666666666666669,
+            0.22222222222222227,
+            0.22222222222222227
+          ],
+          "balanced_accuracy": [
+            0.12499999999999994,
+            0.16666666666666663,
+            0.16666666666666663
+          ],
+          "long_rate": [
+            -0.16666666666666663,
+            -0.2222222222222222,
+            -0.2222222222222222
+          ],
+          "macro_f1": [
+            0.1122077922077922,
+            0.14745254745254743,
+            0.14745254745254743
+          ],
+          "mcc": [
+            0.21987310365964155,
+            0.30079358926874056,
+            0.30079358926874056
+          ],
+          "mean_account_net_return_pct": [
+            0.8516687142566224,
+            0.9058002712382875,
+            1.150109288539162
+          ]
+        },
+        "contrast": "AS-B",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.3333333333333333,
+              0.29333333333333333
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.047619047619047644,
+              0.21568627450980388
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.29333333333333333,
+              0.33333333333333337
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 9716,
+            "n_resamples": 10000,
+            "n_undefined": 284,
+            "percentile_95": [
+              0.017460317460317454,
+              0.232900432900433
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.07234568102819716,
+              0.4204301411396853
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -1.4737325999335749,
+              1.4991058661035046
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.22222222222222227,
+            "mean": 0.20370370370370372,
+            "median": 0.22222222222222227,
+            "min": 0.16666666666666669,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "balanced_accuracy": {
+            "max": 0.16666666666666663,
+            "mean": 0.15277777777777773,
+            "median": 0.16666666666666663,
+            "min": 0.12499999999999994,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.024056261216234418
+          },
+          "long_rate": {
+            "max": -0.16666666666666663,
+            "mean": -0.2037037037037037,
+            "median": -0.2222222222222222,
+            "min": -0.2222222222222222,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "macro_f1": {
+            "max": 0.14745254745254743,
+            "mean": 0.13570429570429568,
+            "median": 0.14745254745254743,
+            "min": 0.1122077922077922,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.020348568928081907
+          },
+          "mcc": {
+            "max": 0.30079358926874056,
+            "mean": 0.27382009406570756,
+            "median": 0.30079358926874056,
+            "min": 0.21987310365964155,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04671946414936855
+          },
+          "mean_account_net_return_pct": {
+            "max": 1.150109288539162,
+            "mean": 0.9691927580113573,
+            "median": 0.9058002712382875,
+            "min": 0.8516687142566224,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.15899889820051702
+          }
+        },
+        "weights": {
+          "AS": 1,
+          "B": -1
+        }
+      },
+      {
+        "by_execution": {
+          "accuracy": [
+            0.16666666666666669,
+            0.16666666666666669,
+            0.1111111111111111
+          ],
+          "balanced_accuracy": [
+            0.12499999999999994,
+            0.12499999999999994,
+            0.08333333333333331
+          ],
+          "long_rate": [
+            -0.16666666666666663,
+            -0.16666666666666663,
+            -0.1111111111111111
+          ],
+          "macro_f1": [
+            0.1122077922077922,
+            0.1122077922077922,
+            0.07629870129870131
+          ],
+          "mcc": [
+            0.21987310365964155,
+            0.21987310365964155,
+            0.14528470752104738
+          ],
+          "mean_account_net_return_pct": [
+            0.5698330389864055,
+            0.5281814748227354,
+            0.7321619889698416
+          ]
+        },
+        "contrast": "A-B",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.3333333333333333,
+              0.33333333333333337
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.02380952380952378,
+              0.2179487179487179
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.3333333333333333,
+              0.33333333333333337
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 9716,
+            "n_resamples": 10000,
+            "n_undefined": 284,
+            "percentile_95": [
+              -0.017460317460317454,
+              0.26203007518797
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.036172840514098525,
+              0.3975880067868778
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -1.4737325999335749,
+              0.9740017811705461
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.16666666666666669,
+            "mean": 0.14814814814814817,
+            "median": 0.16666666666666669,
+            "min": 0.1111111111111111,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "balanced_accuracy": {
+            "max": 0.12499999999999994,
+            "mean": 0.11111111111111106,
+            "median": 0.12499999999999994,
+            "min": 0.08333333333333331,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.024056261216234383
+          },
+          "long_rate": {
+            "max": -0.1111111111111111,
+            "mean": -0.1481481481481481,
+            "median": -0.16666666666666663,
+            "min": -0.16666666666666663,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497919
+          },
+          "macro_f1": {
+            "max": 0.1122077922077922,
+            "mean": 0.10023809523809524,
+            "median": 0.1122077922077922,
+            "min": 0.07629870129870131,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.02073212330271837
+          },
+          "mcc": {
+            "max": 0.21987310365964155,
+            "mean": 0.19501030494677685,
+            "median": 0.21987310365964155,
+            "min": 0.14528470752104738,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04306363058903978
+          },
+          "mean_account_net_return_pct": {
+            "max": 0.7321619889698416,
+            "mean": 0.6100588342596608,
+            "median": 0.5698330389864055,
+            "min": 0.5281814748227354,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.10777568599621087
+          }
+        },
+        "weights": {
+          "A": 1,
+          "B": -1
+        }
+      },
+      {
+        "by_execution": {
+          "accuracy": [
+            0.16666666666666669,
+            0.2777777777777778,
+            0.2777777777777778
+          ],
+          "balanced_accuracy": [
+            0.12499999999999994,
+            0.20833333333333331,
+            0.20833333333333331
+          ],
+          "long_rate": [
+            -0.16666666666666663,
+            -0.2777777777777778,
+            -0.2777777777777778
+          ],
+          "macro_f1": [
+            0.1122077922077922,
+            0.189010989010989,
+            0.189010989010989
+          ],
+          "mcc": [
+            0.21987310365964155,
+            0.37691340253872485,
+            0.37691340253872485
+          ],
+          "mean_account_net_return_pct": [
+            0.8302557120544398,
+            1.3087406163884545,
+            1.3087406163884545
+          ]
+        },
+        "contrast": "AS-S",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.35294117647058826
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.10416666666666669,
+              0.23529411764705876
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.35294117647058826,
+              0.0
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.27836257309941526
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.17480136936129656,
+              0.45648294212849
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              1.7577543638150388
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.2777777777777778,
+            "mean": 0.24074074074074078,
+            "median": 0.2777777777777778,
+            "min": 0.16666666666666669,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.06415002990995841
+          },
+          "balanced_accuracy": {
+            "max": 0.20833333333333331,
+            "mean": 0.1805555555555555,
+            "median": 0.20833333333333331,
+            "min": 0.12499999999999994,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.048112522432468836
+          },
+          "long_rate": {
+            "max": -0.16666666666666663,
+            "mean": -0.24074074074074073,
+            "median": -0.2777777777777778,
+            "min": -0.2777777777777778,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.06415002990995845
+          },
+          "macro_f1": {
+            "max": 0.189010989010989,
+            "mean": 0.1634099234099234,
+            "median": 0.189010989010989,
+            "min": 0.1122077922077922,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.044342346348949485
+          },
+          "mcc": {
+            "max": 0.37691340253872485,
+            "mean": 0.3245666362456971,
+            "median": 0.37691340253872485,
+            "min": 0.21987310365964155,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.09066725883145803
+          },
+          "mean_account_net_return_pct": {
+            "max": 1.3087406163884545,
+            "mean": 1.1492456482771163,
+            "median": 1.3087406163884545,
+            "min": 0.8302557120544398,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.27625338832041574
+          }
+        },
+        "weights": {
+          "AS": 1,
+          "S": -1
+        }
+      },
+      {
+        "by_execution": {
+          "accuracy": [
+            0.0,
+            -0.055555555555555525,
+            -0.055555555555555525
+          ],
+          "balanced_accuracy": [
+            0.0,
+            -0.041666666666666685,
+            -0.041666666666666685
+          ],
+          "long_rate": [
+            0.0,
+            0.05555555555555558,
+            0.05555555555555558
+          ],
+          "macro_f1": [
+            0.0,
+            -0.04155844155844157,
+            -0.04155844155844157
+          ],
+          "mcc": [
+            0.0,
+            -0.07611981326998424,
+            -0.07611981326998424
+          ],
+          "mean_account_net_return_pct": [
+            0.021413002202182563,
+            -0.40294034515016697,
+            -0.15863132784929257
+          ]
+        },
+        "contrast": "S-B",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.3333333333333333,
+              0.05882352941176472
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.10416666666666669,
+              0.038461538461538436
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.05882352941176461,
+              0.33333333333333337
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 9716,
+            "n_resamples": 10000,
+            "n_undefined": 284,
+            "percentile_95": [
+              -0.10725385725385722,
+              0.047468029046976445
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.1841971993640038,
+              0.06825805735781258
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -1.4737325999335749,
+              0.27795492118053233
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.0,
+            "mean": -0.037037037037037014,
+            "median": -0.055555555555555525,
+            "min": -0.055555555555555525,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497919
+          },
+          "balanced_accuracy": {
+            "max": 0.0,
+            "mean": -0.02777777777777779,
+            "median": -0.041666666666666685,
+            "min": -0.041666666666666685,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.024056261216234418
+          },
+          "long_rate": {
+            "max": 0.05555555555555558,
+            "mean": 0.037037037037037056,
+            "median": 0.05555555555555558,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "macro_f1": {
+            "max": 0.0,
+            "mean": -0.027705627705627716,
+            "median": -0.04155844155844157,
+            "min": -0.04155844155844157,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.02399377742086757
+          },
+          "mcc": {
+            "max": 0.0,
+            "mean": -0.050746542179989494,
+            "median": -0.07611981326998424,
+            "min": -0.07611981326998424,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.043947794682089446
+          },
+          "mean_account_net_return_pct": {
+            "max": 0.021413002202182563,
+            "mean": -0.180052890265759,
+            "median": -0.15863132784929257,
+            "min": -0.40294034515016697,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.21298615765950116
+          }
+        },
+        "weights": {
+          "B": -1,
+          "S": 1
+        }
+      },
+      {
+        "by_execution": {
+          "accuracy": [
+            0.0,
+            0.05555555555555558,
+            0.11111111111111116
+          ],
+          "balanced_accuracy": [
+            0.0,
+            0.041666666666666685,
+            0.08333333333333331
+          ],
+          "long_rate": [
+            0.0,
+            -0.05555555555555558,
+            -0.1111111111111111
+          ],
+          "macro_f1": [
+            0.0,
+            0.03524475524475523,
+            0.07115384615384612
+          ],
+          "mcc": [
+            0.0,
+            0.08092048560909904,
+            0.1555088817476932
+          ],
+          "mean_account_net_return_pct": [
+            0.2818356752702169,
+            0.3776187964155522,
+            0.4179472995693203
+          ]
+        },
+        "contrast": "AS-A",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.07843137254901966,
+              0.1111111111111111
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.05128205128205121,
+              0.10000000000000009
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.1111111111111111,
+              0.0784313725490196
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.06171863563167912,
+              0.06899601946041578
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.10079411619602144,
+              0.16186367771691956
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.11068271776794311,
+              0.9818088706804363
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.11111111111111116,
+            "mean": 0.05555555555555558,
+            "median": 0.05555555555555558,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.05555555555555558
+          },
+          "balanced_accuracy": {
+            "max": 0.08333333333333331,
+            "mean": 0.041666666666666664,
+            "median": 0.041666666666666685,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04166666666666666
+          },
+          "long_rate": {
+            "max": 0.0,
+            "mean": -0.05555555555555556,
+            "median": -0.05555555555555558,
+            "min": -0.1111111111111111,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.05555555555555555
+          },
+          "macro_f1": {
+            "max": 0.07115384615384612,
+            "mean": 0.03546620046620045,
+            "median": 0.03524475524475523,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.035577439960048786
+          },
+          "mcc": {
+            "max": 0.1555088817476932,
+            "mean": 0.07880978911893075,
+            "median": 0.08092048560909904,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.07777592400839552
+          },
+          "mean_account_net_return_pct": {
+            "max": 0.4179472995693203,
+            "mean": 0.35913392375169645,
+            "median": 0.3776187964155522,
+            "min": 0.2818356752702169,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.06991324234638449
+          }
+        },
+        "weights": {
+          "A": -1,
+          "AS": 1
+        }
+      },
+      {
+        "by_execution": {
+          "accuracy": [
+            0.05555555555555558,
+            0.16666666666666669,
+            0.05555555555555558
+          ],
+          "balanced_accuracy": [
+            0.04166666666666663,
+            0.125,
+            0.041666666666666685
+          ],
+          "long_rate": [
+            -0.055555555555555525,
+            -0.16666666666666669,
+            -0.05555555555555558
+          ],
+          "macro_f1": [
+            0.03590909090909089,
+            0.1083612040133779,
+            0.03524475524475523
+          ],
+          "mcc": [
+            0.07458839613859417,
+            0.22783806735784531,
+            0.08092048560909904
+          ],
+          "mean_account_net_return_pct": [
+            0.37996514887628496,
+            0.7956018465063424,
+            0.1773076957390809
+          ]
+        },
+        "contrast": "AS-P",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.1960784313725491
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.02083333333333337,
+              0.1282051282051282
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.19607843137254904,
+              0.0
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.14880952380952384
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.03402069087198859,
+              0.24105560925785896
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.7956018465063424
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.16666666666666669,
+            "mean": 0.09259259259259262,
+            "median": 0.05555555555555558,
+            "min": 0.05555555555555558,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.06415002990995841
+          },
+          "balanced_accuracy": {
+            "max": 0.125,
+            "mean": 0.06944444444444443,
+            "median": 0.041666666666666685,
+            "min": 0.04166666666666663,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.048112522432468816
+          },
+          "long_rate": {
+            "max": -0.055555555555555525,
+            "mean": -0.0925925925925926,
+            "median": -0.05555555555555558,
+            "min": -0.16666666666666669,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.06415002990995843
+          },
+          "macro_f1": {
+            "max": 0.1083612040133779,
+            "mean": 0.05983835005574134,
+            "median": 0.03590909090909089,
+            "min": 0.03524475524475523,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04202333699998516
+          },
+          "mcc": {
+            "max": 0.22783806735784531,
+            "mean": 0.12778231636851284,
+            "median": 0.08092048560909904,
+            "min": 0.07458839613859417,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.08670864327617576
+          },
+          "mean_account_net_return_pct": {
+            "max": 0.7956018465063424,
+            "mean": 0.45095823037390276,
+            "median": 0.37996514887628496,
+            "min": 0.1773076957390809,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.3152014077278968
+          }
+        },
+        "weights": {
+          "AS": 1,
+          "P": -1
+        }
+      },
+      {
+        "by_execution": {
+          "accuracy": [
+            0.0,
+            0.1111111111111111,
+            0.16666666666666669
+          ],
+          "balanced_accuracy": [
+            0.0,
+            0.08333333333333337,
+            0.125
+          ],
+          "long_rate": [
+            0.0,
+            -0.11111111111111116,
+            -0.16666666666666674
+          ],
+          "macro_f1": [
+            0.0,
+            0.0768031968031968,
+            0.1127122877122877
+          ],
+          "mcc": [
+            0.0,
+            0.15704029887908322,
+            0.23162869501767747
+          ],
+          "mean_account_net_return_pct": [
+            0.26042267306803435,
+            0.7805591415657194,
+            0.5765786274186131
+          ]
+        },
+        "contrast": "interaction",
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.13725490196078438,
+              0.3333333333333333
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.0897435897435897,
+              0.1666666666666667
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.33333333333333337,
+              0.13725490196078421
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 9716,
+            "n_resamples": 10000,
+            "n_undefined": 284,
+            "percentile_95": [
+              -0.10918666467865557,
+              0.15609390609390605
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.169052173553834,
+              0.2892023372707312
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -0.3653367260151873,
+              1.7281738916705924
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.16666666666666669,
+            "mean": 0.0925925925925926,
+            "median": 0.1111111111111111,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.0848625128695526
+          },
+          "balanced_accuracy": {
+            "max": 0.125,
+            "mean": 0.06944444444444446,
+            "median": 0.08333333333333337,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.06364688465216445
+          },
+          "long_rate": {
+            "max": 0.0,
+            "mean": -0.09259259259259263,
+            "median": -0.11111111111111116,
+            "min": -0.16666666666666674,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.08486251286955263
+          },
+          "macro_f1": {
+            "max": 0.1127122877122877,
+            "mean": 0.06317182817182816,
+            "median": 0.0768031968031968,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.05757929843622251
+          },
+          "mcc": {
+            "max": 0.23162869501767747,
+            "mean": 0.12955633129892022,
+            "median": 0.15704029887908322,
+            "min": 0.0,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.11823489097706585
+          },
+          "mean_account_net_return_pct": {
+            "max": 0.7805591415657194,
+            "mean": 0.5391868140174556,
+            "median": 0.5765786274186131,
+            "min": 0.26042267306803435,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.262076510293046
+          }
+        },
+        "weights": {
+          "A": -1,
+          "AS": 1,
+          "B": 1,
+          "S": -1
+        }
+      }
+    ],
+    "variants": {
+      "A": {
+        "by_execution": {
+          "accuracy": [
+            0.5,
+            0.5,
+            0.4444444444444444
+          ],
+          "balanced_accuracy": [
+            0.41666666666666663,
+            0.41666666666666663,
+            0.375
+          ],
+          "long_rate": [
+            0.2777777777777778,
+            0.2777777777777778,
+            0.3333333333333333
+          ],
+          "macro_f1": [
+            0.4109090909090909,
+            0.4109090909090909,
+            0.375
+          ],
+          "mcc": [
+            -0.17541160386140583,
+            -0.17541160386140583,
+            -0.25
+          ],
+          "mean_account_net_return_pct": [
+            -1.0160561362786944,
+            -1.0160561362786944,
+            -1.0563846394324625
+          ]
+        },
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.7083333333333334
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.21428571428571427,
+              0.638888888888889
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.2222222222222222,
+              1.0
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.6323232323232324
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.5714285714285714,
+              0.27191262172221753
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -4.421197799800725,
+              0.0793360401438382
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.5,
+            "mean": 0.48148148148148145,
+            "median": 0.5,
+            "min": 0.4444444444444444,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "balanced_accuracy": {
+            "max": 0.41666666666666663,
+            "mean": 0.40277777777777773,
+            "median": 0.41666666666666663,
+            "min": 0.375,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.024056261216234387
+          },
+          "long_rate": {
+            "max": 0.3333333333333333,
+            "mean": 0.2962962962962963,
+            "median": 0.2777777777777778,
+            "min": 0.2777777777777778,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497919
+          },
+          "macro_f1": {
+            "max": 0.4109090909090909,
+            "mean": 0.3989393939393939,
+            "median": 0.4109090909090909,
+            "min": 0.375,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.02073212330271837
+          },
+          "mcc": {
+            "max": -0.17541160386140583,
+            "mean": -0.20027440257427057,
+            "median": -0.17541160386140583,
+            "min": -0.25,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04306363058903978
+          },
+          "mean_account_net_return_pct": {
+            "max": -1.0160561362786944,
+            "mean": -1.0294989706632838,
+            "median": -1.0160561362786944,
+            "min": -1.0563846394324625,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.0232836721518427
+          }
+        }
+      },
+      "AS": {
+        "by_execution": {
+          "accuracy": [
+            0.5,
+            0.5555555555555556,
+            0.5555555555555556
+          ],
+          "balanced_accuracy": [
+            0.41666666666666663,
+            0.4583333333333333,
+            0.4583333333333333
+          ],
+          "long_rate": [
+            0.2777777777777778,
+            0.2222222222222222,
+            0.2222222222222222
+          ],
+          "macro_f1": [
+            0.4109090909090909,
+            0.4461538461538461,
+            0.4461538461538461
+          ],
+          "mcc": [
+            -0.17541160386140583,
+            -0.0944911182523068,
+            -0.0944911182523068
+          ],
+          "mean_account_net_return_pct": [
+            -0.7342204610084775,
+            -0.6384373398631422,
+            -0.6384373398631422
+          ]
+        },
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.7083333333333334
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.2857142857142857,
+              0.638888888888889
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.1111111111111111,
+              1.0
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.6323232323232324
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.4629100498862757,
+              0.27191262172221753
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -4.421197799800725,
+              0.04500699091096314
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.5555555555555556,
+            "mean": 0.5370370370370371,
+            "median": 0.5555555555555556,
+            "min": 0.5,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "balanced_accuracy": {
+            "max": 0.4583333333333333,
+            "mean": 0.4444444444444444,
+            "median": 0.4583333333333333,
+            "min": 0.41666666666666663,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.024056261216234418
+          },
+          "long_rate": {
+            "max": 0.2777777777777778,
+            "mean": 0.24074074074074073,
+            "median": 0.2222222222222222,
+            "min": 0.2222222222222222,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "macro_f1": {
+            "max": 0.4461538461538461,
+            "mean": 0.4344055944055944,
+            "median": 0.4461538461538461,
+            "min": 0.4109090909090909,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.020348568928081907
+          },
+          "mcc": {
+            "max": -0.0944911182523068,
+            "mean": -0.1214646134553398,
+            "median": -0.0944911182523068,
+            "min": -0.17541160386140583,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04671946414936857
+          },
+          "mean_account_net_return_pct": {
+            "max": -0.6384373398631422,
+            "mean": -0.6703650469115873,
+            "median": -0.6384373398631422,
+            "min": -0.7342204610084775,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.05530041077708185
+          }
+        }
+      },
+      "B": {
+        "by_execution": {
+          "accuracy": [
+            0.3333333333333333,
+            0.3333333333333333,
+            0.3333333333333333
+          ],
+          "balanced_accuracy": [
+            0.2916666666666667,
+            0.2916666666666667,
+            0.2916666666666667
+          ],
+          "long_rate": [
+            0.4444444444444444,
+            0.4444444444444444,
+            0.4444444444444444
+          ],
+          "macro_f1": [
+            0.2987012987012987,
+            0.2987012987012987,
+            0.2987012987012987
+          ],
+          "mcc": [
+            -0.3952847075210474,
+            -0.3952847075210474,
+            -0.3952847075210474
+          ],
+          "mean_account_net_return_pct": [
+            -1.5858891752650999,
+            -1.5442376111014298,
+            -1.7885466284023042
+          ]
+        },
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.21212121212121213,
+              0.4666666666666666
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.19047619047619047,
+              0.47222222222222215
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.2807017543859649,
+              0.6666666666666666
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 9716,
+            "n_resamples": 10000,
+            "n_undefined": 284,
+            "percentile_95": [
+              0.173992673992674,
+              0.42536630036630035
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.6324555320336759,
+              -0.049690399499995326
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -2.9923602395065174,
+              -0.8946657410267079
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.3333333333333333,
+            "mean": 0.3333333333333333,
+            "median": 0.3333333333333333,
+            "min": 0.3333333333333333,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.0
+          },
+          "balanced_accuracy": {
+            "max": 0.2916666666666667,
+            "mean": 0.2916666666666667,
+            "median": 0.2916666666666667,
+            "min": 0.2916666666666667,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.0
+          },
+          "long_rate": {
+            "max": 0.4444444444444444,
+            "mean": 0.4444444444444444,
+            "median": 0.4444444444444444,
+            "min": 0.4444444444444444,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.0
+          },
+          "macro_f1": {
+            "max": 0.2987012987012987,
+            "mean": 0.2987012987012987,
+            "median": 0.2987012987012987,
+            "min": 0.2987012987012987,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.0
+          },
+          "mcc": {
+            "max": -0.3952847075210474,
+            "mean": -0.39528470752104744,
+            "median": -0.3952847075210474,
+            "min": -0.3952847075210474,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 6.798699777552591e-17
+          },
+          "mean_account_net_return_pct": {
+            "max": -1.5442376111014298,
+            "mean": -1.639557804922945,
+            "median": -1.5858891752650999,
+            "min": -1.7885466284023042,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.1306979928715162
+          }
+        }
+      },
+      "P": {
+        "by_execution": {
+          "accuracy": [
+            0.4444444444444444,
+            0.3888888888888889,
+            0.5
+          ],
+          "balanced_accuracy": [
+            0.375,
+            0.3333333333333333,
+            0.41666666666666663
+          ],
+          "long_rate": [
+            0.3333333333333333,
+            0.3888888888888889,
+            0.2777777777777778
+          ],
+          "macro_f1": [
+            0.375,
+            0.3377926421404682,
+            0.4109090909090909
+          ],
+          "mcc": [
+            -0.25,
+            -0.3223291856101521,
+            -0.17541160386140583
+          ],
+          "mean_account_net_return_pct": [
+            -1.1141856098847625,
+            -1.4340391863694846,
+            -0.8157450356022231
+          ]
+        },
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.5882352941176471
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.21428571428571427,
+              0.5576923076923077
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.1851851851851852,
+              1.0
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.5313131313131313
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.5714285714285714,
+              0.09944903161976938
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -4.421197799800725,
+              -0.38006792491330343
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.5,
+            "mean": 0.4444444444444444,
+            "median": 0.4444444444444444,
+            "min": 0.3888888888888889,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.05555555555555555
+          },
+          "balanced_accuracy": {
+            "max": 0.41666666666666663,
+            "mean": 0.375,
+            "median": 0.375,
+            "min": 0.3333333333333333,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.04166666666666666
+          },
+          "long_rate": {
+            "max": 0.3888888888888889,
+            "mean": 0.3333333333333333,
+            "median": 0.3333333333333333,
+            "min": 0.2777777777777778,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.05555555555555555
+          },
+          "macro_f1": {
+            "max": 0.4109090909090909,
+            "mean": 0.37456724434985306,
+            "median": 0.375,
+            "min": 0.3377926421404682,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03656014535287307
+          },
+          "mcc": {
+            "max": -0.17541160386140583,
+            "mean": -0.24924692982385266,
+            "median": -0.25,
+            "min": -0.3223291856101521,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.07346168588279565
+          },
+          "mean_account_net_return_pct": {
+            "max": -0.8157450356022231,
+            "mean": -1.12132327728549,
+            "median": -1.1141856098847625,
+            "min": -1.4340391863694846,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.3092088678226982
+          }
+        }
+      },
+      "S": {
+        "by_execution": {
+          "accuracy": [
+            0.3333333333333333,
+            0.2777777777777778,
+            0.2777777777777778
+          ],
+          "balanced_accuracy": [
+            0.2916666666666667,
+            0.25,
+            0.25
+          ],
+          "long_rate": [
+            0.4444444444444444,
+            0.5,
+            0.5
+          ],
+          "macro_f1": [
+            0.2987012987012987,
+            0.2571428571428571,
+            0.2571428571428571
+          ],
+          "mcc": [
+            -0.3952847075210474,
+            -0.4714045207910316,
+            -0.4714045207910316
+          ],
+          "mean_account_net_return_pct": [
+            -1.5644761730629173,
+            -1.9471779562515967,
+            -1.9471779562515967
+          ]
+        },
+        "intervals": {
+          "accuracy": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.43137254901960786
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "balanced_accuracy": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              0.14285714285714285,
+              0.4551282051282051
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "long_rate": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.3333333333333333,
+              1.0
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "macro_f1": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              0.0,
+              0.4076601760812287
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mcc": {
+            "n_defined": 9612,
+            "n_resamples": 10000,
+            "n_undefined": 388,
+            "percentile_95": [
+              -0.6900655593423543,
+              -0.07868974351526369
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          },
+          "mean_account_net_return_pct": {
+            "n_defined": 10000,
+            "n_resamples": 10000,
+            "n_undefined": 0,
+            "percentile_95": [
+              -4.421197799800725,
+              -0.8337675245929396
+            ],
+            "scope": "conditional finite-draw descriptive percentiles, only three runs/blocks; no p-value or calibrated coverage claim"
+          }
+        },
+        "summary": {
+          "accuracy": {
+            "max": 0.3333333333333333,
+            "mean": 0.29629629629629634,
+            "median": 0.2777777777777778,
+            "min": 0.2777777777777778,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497919
+          },
+          "balanced_accuracy": {
+            "max": 0.2916666666666667,
+            "mean": 0.2638888888888889,
+            "median": 0.25,
+            "min": 0.25,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.024056261216234418
+          },
+          "long_rate": {
+            "max": 0.5,
+            "mean": 0.48148148148148145,
+            "median": 0.5,
+            "min": 0.4444444444444444,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.03207501495497923
+          },
+          "macro_f1": {
+            "max": 0.2987012987012987,
+            "mean": 0.27099567099567096,
+            "median": 0.2571428571428571,
+            "min": 0.2571428571428571,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.02399377742086757
+          },
+          "mcc": {
+            "max": -0.3952847075210474,
+            "mean": -0.44603124970103686,
+            "median": -0.4714045207910316,
+            "min": -0.4714045207910316,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.043947794682089446
+          },
+          "mean_account_net_return_pct": {
+            "max": -1.5644761730629173,
+            "mean": -1.8196106951887037,
+            "median": -1.9471779562515967,
+            "min": -1.9471779562515967,
+            "n_defined": 3,
+            "n_planned": 3,
+            "sd": 0.22095297754333387
+          }
+        }
+      }
+    }
+  },
+  "n_executions": 270,
+  "n_units": 18,
+  "policy": {
+    "contrast_family": {
+      "A-B": {
+        "A": 1,
+        "B": -1
+      },
+      "AS-A": {
+        "A": -1,
+        "AS": 1
+      },
+      "AS-B": {
+        "AS": 1,
+        "B": -1
+      },
+      "AS-P": {
+        "AS": 1,
+        "P": -1
+      },
+      "AS-S": {
+        "AS": 1,
+        "S": -1
+      },
+      "S-B": {
+        "B": -1,
+        "S": 1
+      },
+      "interaction": {
+        "A": -1,
+        "AS": 1,
+        "B": 1,
+        "S": -1
+      }
+    },
+    "executions": "18 units x B/A/S/AS/P x 3 fresh Decision calls = 270; zero new vision calls",
+    "limits": "three runs/three blocks; coverage-selected panel; unverified served weights/news PIT/domain validity; prompt/consensus and CASH propensity can still confound information claims",
+    "multiplicity": "seven BA contrasts declared together before new calls; descriptive joint finite-draw max-deviation envelope, no p-values or calibrated family-wise coverage claim; old interaction added after old inference",
+    "other_metrics": "accuracy/MCC/macro-F1/LONG frequency/account return are descriptive secondary endpoints, not additional significance discoveries",
+    "placebo": "one whole past training donor rank-vector, no per-factor independent shuffle; same current names/headings/schema, donor values/signals/skill fields by rank; not name-matched factor covariance",
+    "primary_metric": "balanced_accuracy",
+    "prompt": "five explicit factor rows bypass legacy alpha distillation; same AS/P skeleton and limits, exact token length not asserted",
+    "reuse": "only archived upstream reports, numerical assets and donor map; every Decision response is new in this study",
+    "schema_version": "revision_r4_value_control_v1",
+    "scope": "new historical exploratory value-control panel; not prospective confirmation",
+    "seed": 20261102,
+    "units": "same frozen 18 sentiment-available units; no outcome-based reselection"
+  },
+  "status": "corrected value-bearing panel complete; historical exploratory only"
+}

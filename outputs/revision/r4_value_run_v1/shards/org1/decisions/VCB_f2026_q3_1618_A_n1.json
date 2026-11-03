@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "org": 1,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "d848b5aa4da0ee37e6bde3cbf978c3c8e0fee61a3629f5b0117fa89a4f834195",
+    "prompt_hash": "cb994c32f4fe2822f7451cb0c4125783aff115ba87c5d0728c5d1692f571b4e1"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is up, V-shaped reversal pattern, and MACD golden cross indicate bullish momentum.",
+    "evidence_against": "All five alpha factors signal a decreasing trend, contradicting the bullish indicators.",
+    "justification": "Given the conflict between bullish trend signals and negative alpha consensus, holding cash (SHORT) mitigates risk over the 3-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-b394-7a91-8a55-f1be9022b5a4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-b394-7a91-8a55-f1be9022b5a4.request.json",
+      "sha256": "7b97f43cbb18d66b7a6f54d91776c172fe95e685b093de2b533474e8c2d38ff2"
+    },
+    {
+      "path": "calls/01a19f93-b394-7a91-8a55-f1be9022b5a4.response.json",
+      "sha256": "4518884f8d5d4ec9eeaa5ba14b602f8a3b1cf757f56ea633b1256657205e1365"
+    }
+  ],
+  "sha256": "e68332dab601cc2ef8ca0a988dfee128163c6078f7e99e66db3a9707fd6063b7"
+}

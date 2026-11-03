@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": "e043ba0fc34a8f855f1dfd31285a06c9d96ac528f3db1fd66f3623d24d782a05",
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "65c5378828a1e5bd58b9ad82e840c7848942a7c3d247c567d83af4010c856176"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Trend analysis shows a sustained downtrend with support at 56.5 and resistance at 57.5, indicating potential price decline. Alpha factors consensus indicates a negative bias (4 out of 5 factors negative) and MACD signals a bearish momentum.",
+    "evidence_against": "No strong bullish alpha signals or positive sentiment to override the bearish trend.",
+    "justification": "Shorting aligns with the prevailing downtrend and negative alpha consensus, maximizing potential upside while minimizing exposure to upward price movement. The risk reward ratio of 1.2 reflects the expected price decline to 56.5 against the current price, accounting for transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa0-b639-7743-a3f9-4ebde979f4ad"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19fa0-b639-7743-a3f9-4ebde979f4ad.request.json",
+      "sha256": "d9b87c5a1a431befbfa635020c0309e04fffdd7defca71e82f3553d7fee1de24"
+    },
+    {
+      "path": "calls/01a19fa0-b639-7743-a3f9-4ebde979f4ad.response.json",
+      "sha256": "9cb628bea74bde8f6214df0e42dc4443211db9a219bc03d7cd6739ff2fc5d620"
+    }
+  ],
+  "sha256": "6123bcc021cc2d28a22cf59cd847bafa118c9d52403d065991490004ed686289"
+}

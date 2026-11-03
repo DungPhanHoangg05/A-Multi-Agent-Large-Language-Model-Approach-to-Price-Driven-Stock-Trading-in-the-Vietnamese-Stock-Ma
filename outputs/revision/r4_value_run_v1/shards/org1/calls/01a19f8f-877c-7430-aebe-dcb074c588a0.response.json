@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a19f8f-877c-7430-aebe-dcb074c588a0",
+  "parent_request_hash": "971e3c24dba27c0352ee0b54ea0d324d8d0637cfe8333a1ac3be033226f8d094",
+  "ended_at_utc": "2026-11-03T03:59:07.339257+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"Alpha factors overall positive (3 up, 2 down) indicating potential upside, but trend is sideways and pattern bearish.\",\"evidence_against\":\"Pattern analysis shows a clear bearish trend with lower highs and lower lows.\",\"justification\":\"Given the bearish pattern and sideways trend, a short position is preferred to avoid holding the stock; risk reward ratio of 1.2 reflects modest upside potential if price declines.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.2,\"evidence_for\":\"Alpha factors overall positive (3 up, 2 down) indicating potential upside, but trend is sideways and pattern bearish.\",\"evidence_against\":\"Pattern analysis shows a clear bearish trend with lower highs and lower lows.\",\"justification\":\"Given the bearish pattern and sideways trend, a short position is preferred to avoid holding the stock; risk reward ratio of 1.2 reflects modest upside potential if price declines.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 625,
+                "prompt_tokens": 1817,
+                "total_tokens": 2442,
+                "completion_time": 0.649307592,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 502
+                },
+                "prompt_time": 0.007280562,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1792
+                },
+                "queue_time": 0.349878683,
+                "total_time": 0.656588154
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f8f-877c-7430-aebe-dcb074c588a0-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 625,
+        "prompt_tokens": 1817,
+        "total_tokens": 2442,
+        "completion_time": 0.649307592,
+        "completion_tokens_details": {
+          "reasoning_tokens": 502
+        },
+        "prompt_time": 0.007280562,
+        "prompt_tokens_details": {
+          "cached_tokens": 1792
+        },
+        "queue_time": 0.349878683,
+        "total_time": 0.656588154
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

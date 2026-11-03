@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "c2c898c8b71e8f64e75cc5f13d602dd1f56bc4e7c9d011ec23b94290f2030ae3"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows continuous decline and alpha factors unanimously signal decrease. MACD is above signal but histogram indicates weakening momentum.",
+    "evidence_against": "MACD line is positive, suggesting potential short‑term bullish bias.",
+    "justification": "Given the prevailing downtrend and negative alpha consensus, a short position aligns with risk management. The weak bullish MACD does not override the broader negative indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f93-3775-7670-93f5-347a23d14fa3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f93-3775-7670-93f5-347a23d14fa3.request.json",
+      "sha256": "16eca228ce55892c9df5a580a086ec8fcf48bcd9d431c9c73ee4985de39d8972"
+    },
+    {
+      "path": "calls/01a19f93-3775-7670-93f5-347a23d14fa3.response.json",
+      "sha256": "498557000c6f1f3cd955e1c0d88a2510d76dbba59d403e4edfec9fc358b7c8e1"
+    }
+  ],
+  "sha256": "ff14dd135f817227c6eb05662c16b4a5ce533e0cc8271ea6b58503abbe34eb61"
+}

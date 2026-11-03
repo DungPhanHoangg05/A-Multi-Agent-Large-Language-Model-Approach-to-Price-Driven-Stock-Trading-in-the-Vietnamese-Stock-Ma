@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f90-73a3-7ea0-b24d-23428e050aed",
+  "parent_request_hash": "6bb3018a8b0d3cb42c7f735668754cbd17e063e664750668f397e6709c7947bb",
+  "ended_at_utc": "2026-11-03T04:00:07.930537+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is up with price above support and MACD bullish.\",\"evidence_against\":\"Pattern suggests potential reversal but confidence low.\",\"justification\":\"Long position expected to capture upside to resistance 23.5 within 3 days, with risk managed by selling at close. Short position would miss upside and only hold cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend is up with price above support and MACD bullish.\",\"evidence_against\":\"Pattern suggests potential reversal but confidence low.\",\"justification\":\"Long position expected to capture upside to resistance 23.5 within 3 days, with risk managed by selling at close. Short position would miss upside and only hold cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 599,
+                "prompt_tokens": 1512,
+                "total_tokens": 2111,
+                "completion_time": 0.642582768,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 494
+                },
+                "prompt_time": 0.088690445,
+                "prompt_tokens_details": null,
+                "queue_time": 0.391445273,
+                "total_time": 0.731273213
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d23c14756c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f90-73a3-7ea0-b24d-23428e050aed-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 599,
+        "prompt_tokens": 1512,
+        "total_tokens": 2111,
+        "completion_time": 0.642582768,
+        "completion_tokens_details": {
+          "reasoning_tokens": 494
+        },
+        "prompt_time": 0.088690445,
+        "prompt_tokens_details": null,
+        "queue_time": 0.391445273,
+        "total_time": 0.731273213
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d23c14756c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

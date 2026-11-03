@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "b4618753995b52eedf8ddfc044d15ab26592097a2df7e4240f4e7afec838a8ea"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is bearish with price below support and MACD line negative while histogram is decreasing, confirming weakening momentum.",
+    "evidence_against": "None",
+    "justification": "Shorting aligns with the confirmed downtrend and negative momentum; holding cash avoids potential losses if the trend persists.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8c-c4e9-7710-8faf-3ae145a5e341"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8c-c4e9-7710-8faf-3ae145a5e341.request.json",
+      "sha256": "da704e3f54caa0088f512a2f8799aace4441ed0999689827371be9a69af563cd"
+    },
+    {
+      "path": "calls/01a19f8c-c4e9-7710-8faf-3ae145a5e341.response.json",
+      "sha256": "87bc4705ca48e9d03e2d667d5c4722fd49a41867e7e0a92ef3fdc55ddca7c78b"
+    }
+  ],
+  "sha256": "b4d18998fbce4ceff21f798fed33229bda06098b2037f9ab3f017de310087212"
+}

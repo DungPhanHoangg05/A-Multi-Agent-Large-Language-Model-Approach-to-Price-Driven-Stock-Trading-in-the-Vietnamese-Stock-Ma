@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "upstream_hash": "63af13712781ba34c2114b32bd8d28096b59826315560b7bea54deb71602899a",
+    "prompt_hash": "7b54aa412fcdcbee869ae84363ab165a1e71e70eabbe0d22a68d0cb54378f010"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 70.5 and resistance at 74.5; alpha factors show 2 out of 5 increasing, indicating potential reversal. MACD below signal suggests weakening momentum, supporting a short position.",
+    "evidence_against": "MACD histogram is negative and widening, indicating bearish momentum.",
+    "justification": "Given the weak bullish momentum and bearish MACD signals, a short trade aligns with risk management rules. The short position allows us to avoid holding the stock beyond T+2, complying with the contract.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-a8b8-7022-8d43-d96d8c8c79ba"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-a8b8-7022-8d43-d96d8c8c79ba.request.json",
+      "sha256": "070d9c11c4756e8e6b06774288d0e76960b67f54506f3faa23662252263d095a"
+    },
+    {
+      "path": "calls/01a19f9a-a8b8-7022-8d43-d96d8c8c79ba.response.json",
+      "sha256": "3f2ba9e1e5d74ba396a9fcc6b349c695cb37287d67c5f58a33fd8a3e4c961e18"
+    }
+  ],
+  "sha256": "b620a733f466bfbd2e5bb4b96b50362042164832c80b1fee80ce69e9bdb6f04d"
+}

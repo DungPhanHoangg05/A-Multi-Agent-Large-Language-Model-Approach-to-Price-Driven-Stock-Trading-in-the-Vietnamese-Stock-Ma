@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19f9c-0211-7582-8b6d-62faa7a2ecd8",
+  "parent_request_hash": "6015e33b1c69d681db2b441dd50596404370e6340dedd61fc133ab6c2c09fbc4",
+  "ended_at_utc": "2026-11-03T04:12:46.187967+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD histogram is positive and MACD line is above signal, indicating bullish momentum. Alpha factors overall suggest a downtrend with 3 out of 5 negative signals.\",\"evidence_against\":\"Trend analysis shows a clear downtrend and MACD line is negative, indicating bearish pressure.\",\"justification\":\"Shorting aligns with the bearish trend, negative MACD line, and majority negative alpha signals. This strategy avoids buying when expected returns cannot cover fees and complies with the T+2.5 settlement rule.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD histogram is positive and MACD line is above signal, indicating bullish momentum. Alpha factors overall suggest a downtrend with 3 out of 5 negative signals.\",\"evidence_against\":\"Trend analysis shows a clear downtrend and MACD line is negative, indicating bearish pressure.\",\"justification\":\"Shorting aligns with the bearish trend, negative MACD line, and majority negative alpha signals. This strategy avoids buying when expected returns cannot cover fees and complies with the T+2.5 settlement rule.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 589,
+                "prompt_tokens": 1730,
+                "total_tokens": 2319,
+                "completion_time": 0.722376357,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 446
+                },
+                "prompt_time": 0.090664753,
+                "prompt_tokens_details": null,
+                "queue_time": 0.978356295,
+                "total_time": 0.81304111
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e2cb7a84ec",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19f9c-0211-7582-8b6d-62faa7a2ecd8-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 589,
+        "prompt_tokens": 1730,
+        "total_tokens": 2319,
+        "completion_time": 0.722376357,
+        "completion_tokens_details": {
+          "reasoning_tokens": 446
+        },
+        "prompt_time": 0.090664753,
+        "prompt_tokens_details": null,
+        "queue_time": 0.978356295,
+        "total_time": 0.81304111
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e2cb7a84ec",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": "4e2da719bb1256968fe66505500d8f72a3405ff4c4cb1da0ff02c31de588c857",
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "a56d8773a9d32adc2bf8289426ccaa8f8f9d949368690e48a3e1ebe8a0635d49"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD below signal with negative histogram indicates bearish momentum; 3 out of 5 alpha factors signal a decrease.",
+    "evidence_against": "Pattern analysis hints at a potential breakout above 60, but confidence is low.",
+    "justification": "Shorting aligns with bearish momentum and negative alpha signals; risk reward ratio of 1.5 is acceptable for the 3‑day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9e-5a38-7720-9833-03c8365592a3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9e-5a38-7720-9833-03c8365592a3.request.json",
+      "sha256": "fcf8622f754f5ab3086492bfea93fd6ddab49e1a064e653ae953f65640d0e1b9"
+    },
+    {
+      "path": "calls/01a19f9e-5a38-7720-9833-03c8365592a3.response.json",
+      "sha256": "48becbe206eb21b116b9d01c09b02cf66e0cbf7a2b4887d8c5f0cd18618b9d0a"
+    }
+  ],
+  "sha256": "17e2e833e2732037fb61f18014fafbda0e4b56616f2b5cb4ead55edad7566655"
+}

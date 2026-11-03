@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a19fa0-2cc1-7331-8b03-161d3264b867",
+  "parent_request_hash": "4aab15b38ee0b8f86eaefc884ab920517bdd3f4afeb85c5bc184b95aa07f7f13",
+  "ended_at_utc": "2026-11-03T04:17:19.652850+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is bullish with support at 65.5 and resistance at 68.5, forecast breakout above 66.5 in next 3 days.\",\"evidence_against\":\"MACD line below signal indicates bearish momentum.\",\"justification\":\"Buying at open near support and selling at close near resistance yields net profit >0 after fees, meeting risk/reward criteria.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend is bullish with support at 65.5 and resistance at 68.5, forecast breakout above 66.5 in next 3 days.\",\"evidence_against\":\"MACD line below signal indicates bearish momentum.\",\"justification\":\"Buying at open near support and selling at close near resistance yields net profit >0 after fees, meeting risk/reward criteria.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1484,
+                "prompt_tokens": 1488,
+                "total_tokens": 2972,
+                "completion_time": 1.980914536,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1363
+                },
+                "prompt_time": 0.074636161,
+                "prompt_tokens_details": null,
+                "queue_time": 0.392113441,
+                "total_time": 2.055550697
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a19fa0-2cc1-7331-8b03-161d3264b867-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1484,
+        "prompt_tokens": 1488,
+        "total_tokens": 2972,
+        "completion_time": 1.980914536,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1363
+        },
+        "prompt_time": 0.074636161,
+        "prompt_tokens_details": null,
+        "queue_time": 0.392113441,
+        "total_time": 2.055550697
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

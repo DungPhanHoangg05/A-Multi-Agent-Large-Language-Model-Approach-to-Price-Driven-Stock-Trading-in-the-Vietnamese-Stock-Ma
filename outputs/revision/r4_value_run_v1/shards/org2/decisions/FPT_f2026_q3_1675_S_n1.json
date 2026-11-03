@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "c55bb3861ddbbf781970efaa23983df0c51f57c3c665744f1aae653732c286e0",
+    "prompt_hash": "b9b8eaec0953a9f6670249e90e5cb833ecef51e3022884ebd977bf7178fe87c6"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bullish with support at 65.5 and resistance at 68.5, and forecast predicts breakout above 66.5 within 3 days. Expected price increase exceeds transaction costs (~0.7%) ensuring positive net return.",
+    "evidence_against": "MACD line below signal indicates bearish momentum, which could limit upside.",
+    "justification": "Buying at open on T and selling at close on T+2 should capture the predicted breakout, yielding net profit after fees. Given the forecast horizon and cost structure, the trade meets the minimum return threshold.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9d-e884-7e51-a3af-a1e948bcebf3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9d-e884-7e51-a3af-a1e948bcebf3.request.json",
+      "sha256": "0e2d9d14057674e78fffb886845092e73506a3f9367ceaaca3c656be24058395"
+    },
+    {
+      "path": "calls/01a19f9d-e884-7e51-a3af-a1e948bcebf3.response.json",
+      "sha256": "0f5cbfad5b157421019a5100aa982ffc2db60163525cdfac42fcf339528685b5"
+    }
+  ],
+  "sha256": "c3710e762d01aa1002933891b8c2ca548914d7d32ed4971068496fda588cbafb"
+}

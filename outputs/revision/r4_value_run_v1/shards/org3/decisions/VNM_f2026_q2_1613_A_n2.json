@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q2_1613",
+    "org": 3,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "11ffde6ef6972aa4abe1cd847af3504391b2d6ef963191fdea05085da048ada0",
+    "donor_hash": null,
+    "upstream_hash": "9680476f44a1e3d906fd83d7a0dbed9ae03c8eae663e10ed621612949576bed0",
+    "prompt_hash": "dab554d500ab4d4da70d7a652aff20ca786ee6d132648f9547c232bf32374683"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 56.5 and resistance at 57.5; all alpha factors indicate decrease.",
+    "evidence_against": "MACD histogram shows decreasing momentum, but still negative.",
+    "justification": "Shorting at current price will capture expected decline to support level. Risk limited by stop at resistance 57.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19fa1-1d88-7801-9548-c987ce9ff80c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19fa1-1d88-7801-9548-c987ce9ff80c.request.json",
+      "sha256": "9b0984162faeef7901f6d378d2d18d530e3cbad8b04f8dff9f10e7447be2973b"
+    },
+    {
+      "path": "calls/01a19fa1-1d88-7801-9548-c987ce9ff80c.response.json",
+      "sha256": "8ef881590f407737f4c085594c9a82b4eca4b45ec27ca2ac48e163796d84de3f"
+    }
+  ],
+  "sha256": "dd8ecd8d34f4c186d682013bedb6c06917d292b918cdc3face3b9814fe75aba5"
+}

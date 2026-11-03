@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "0735fe88bb653cd064bbe4c1c9ff80150975bd0de9ef67833d2af216b712a12c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend up with price above support 26.5 and V pattern indicates reversal; target 28.5 gives upside of ~1.5.",
+    "evidence_against": "MACD below signal and negative histogram show weakening momentum.",
+    "justification": "Long if expected return covers fees and risk reward ratio >1; otherwise hold cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-a0a9-7563-a3b7-6fd3ec2db5e3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-a0a9-7563-a3b7-6fd3ec2db5e3.request.json",
+      "sha256": "7837a11dd67c11b3ac006a89e6b718a09065757cd51423b7ea909bf8509bfc1c"
+    },
+    {
+      "path": "calls/01a19f9a-a0a9-7563-a3b7-6fd3ec2db5e3.response.json",
+      "sha256": "32bf9bc742c81046c1bd849ce2db02dc41222d71de5b319dbf3cff771d1f97e7"
+    }
+  ],
+  "sha256": "675af099c00d7acb39bd9fad5bf171aeca089e661bd98e25a1831a0aa11a80fb"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "b4618753995b52eedf8ddfc044d15ab26592097a2df7e4240f4e7afec838a8ea"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is bearish with support at 19.60 and resistance at 20.60; MACD line above signal with decreasing histogram confirms weakening momentum.",
+    "evidence_against": "MACD histogram remains positive, suggesting lingering bullish pressure.",
+    "justification": "Given the bearish trend and weakening momentum, a short position aligns with the forecast horizon of T+2.5. The risk-reward ratio of 2.5 balances potential upside against the cost of holding cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f88-1eb5-7753-b607-715761ee69b6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f88-1eb5-7753-b607-715761ee69b6.request.json",
+      "sha256": "20519d905c5aeb95d9e3317c3221890415b0053c4ef5a2b48682aa3549012d0d"
+    },
+    {
+      "path": "calls/01a19f88-1eb5-7753-b607-715761ee69b6.response.json",
+      "sha256": "1c963bdbb0ac067f4fdb01328ee120980711fb2580e5b8a5bdbe7e0dab4d5964"
+    }
+  ],
+  "sha256": "41f08a4b130edf43d3c7bd5e052ec9b4b6ace534213de205c132f51022a76875"
+}

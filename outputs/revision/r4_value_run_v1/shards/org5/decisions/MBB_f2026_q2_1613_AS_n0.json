@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "d02f268a5c0a35266f1d0635f5dbd420dac98c80c52bf0b6b302606b2ac34101"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear downtrend with support at 19.60 and resistance at 20.60; Alpha factors indicate majority negative signals.",
+    "evidence_against": "MACD line is negative, suggesting bearish momentum.",
+    "justification": "Given the downtrend, negative alpha consensus, and bearish MACD, a short position aligns with the risk-reward framework.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-12b6-7a82-a972-6055a9adcee5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-12b6-7a82-a972-6055a9adcee5.request.json",
+      "sha256": "4984298fcff63adfd413a224fa9230ec5308979fb33e9144b2170d6c025355c2"
+    },
+    {
+      "path": "calls/01a19f89-12b6-7a82-a972-6055a9adcee5.response.json",
+      "sha256": "f2f638428220d6208335f0b4edf8e892e3b7779f7a40d5a99cc695fc72d6ff62"
+    }
+  ],
+  "sha256": "5b242f14853a1bfa55bb81cd5faf55480f0becfd349a9446a57f5ae670a87328"
+}

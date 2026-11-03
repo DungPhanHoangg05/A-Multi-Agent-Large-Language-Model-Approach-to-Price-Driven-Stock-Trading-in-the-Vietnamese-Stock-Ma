@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "b636e0ee76c3b86db195d1770c21c9f5c7423d239a76ee56ad41d74d2c28c43c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend shows upward movement and MACD indicates bullish momentum.",
+    "evidence_against": "Pattern analysis suggests a potential downward trend.",
+    "justification": "Bullish trend and MACD alignment outweigh bearish pattern signals, supporting a long position.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f94-2a3e-77e2-b598-41658fe0e765"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f94-2a3e-77e2-b598-41658fe0e765.request.json",
+      "sha256": "46529fabf76ea7b8ce3d11659c8a918165efe2fece482404333e9087b4f7dca1"
+    },
+    {
+      "path": "calls/01a19f94-2a3e-77e2-b598-41658fe0e765.response.json",
+      "sha256": "3a5617977aa0d8192c186a0d2bc2021d3ffdeb82eba7658503064442232c6dcf"
+    }
+  ],
+  "sha256": "7da48c930e5a9c4a48ca33fe8f20212101a85cd33b04b185bc7ef1dd8f9907d5"
+}

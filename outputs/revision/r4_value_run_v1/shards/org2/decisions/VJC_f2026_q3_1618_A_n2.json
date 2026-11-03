@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "570ee3277a19ed3c74b9c611e7b86610bdea0d0dbffc177398a795c4839e6a3c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "MACD death cross signals sell; Alpha factors overall negative (4/5).",
+    "evidence_against": "Pattern indicates possible breakout above 141.",
+    "justification": "Short aligns with bearish trend and indicators; no breakout confirmed yet.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9b-1b54-74e2-bec6-c3643ca9f9b2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9b-1b54-74e2-bec6-c3643ca9f9b2.request.json",
+      "sha256": "73563283d40964f77ffdb0e9fc077fb325a7e49e8e8f9491a22a3e1e2dc8c9ca"
+    },
+    {
+      "path": "calls/01a19f9b-1b54-74e2-bec6-c3643ca9f9b2.response.json",
+      "sha256": "9e6e42f88e34bc4c4875d9cd29c61c71a0dd5e17d61e8eceba973800ca7727ec"
+    }
+  ],
+  "sha256": "418e7a486eec501897e98ceb13490b4e397622fbed2e2c397478a48fa3a18984"
+}

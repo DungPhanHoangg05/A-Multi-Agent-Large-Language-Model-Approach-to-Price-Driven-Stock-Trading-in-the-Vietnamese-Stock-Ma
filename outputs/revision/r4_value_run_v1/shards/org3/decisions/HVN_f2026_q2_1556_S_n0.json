@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "68a73e09efb06d61ee679b7f9955ae9860256f7f2843487cf2b4304dc6a47e6c"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is up with price above support and MACD bullish.",
+    "evidence_against": "Pattern suggests potential reversal but confidence low.",
+    "justification": "Long position expected to capture upside to resistance 23.5 within 3 days, with risk managed by selling at close. Short position would miss upside and only hold cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f90-73a3-7ea0-b24d-23428e050aed"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f90-73a3-7ea0-b24d-23428e050aed.request.json",
+      "sha256": "2b1efecd0fd349cbbfd935b535c60c4c7b3e8cbfd4453bcec21a6ae5459b8883"
+    },
+    {
+      "path": "calls/01a19f90-73a3-7ea0-b24d-23428e050aed.response.json",
+      "sha256": "520856fd7936fb6c91d6e81b58adb8da5a7889252bbff6525f334cb709c9e612"
+    }
+  ],
+  "sha256": "d016df52f3f0dd2d115a716ed3aff03906df518e744e2f87cb333b1eeaf92cc0"
+}

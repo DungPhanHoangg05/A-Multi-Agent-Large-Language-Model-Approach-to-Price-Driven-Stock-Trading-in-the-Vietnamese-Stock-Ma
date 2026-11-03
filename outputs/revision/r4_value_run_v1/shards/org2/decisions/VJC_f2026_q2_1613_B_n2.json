@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "32e83c9876ab6f48ed5f07076a8f152303807f741df2536476aa58c759b66faf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is downwards with support at 130.5 and resistance at 141.5, price has been consistently closing lower for 3 days. MACD line is above signal with positive histogram but decreasing, confirming weakening bullish momentum.",
+    "evidence_against": "Pattern V reversal suggests potential reversal but lacks strong bullish confirmation.",
+    "justification": "Shorting aligns with the prevailing downtrend and weak bullish momentum. Target price near support 130.5 with stop above 141.5 yields favorable risk-reward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f95-9382-7171-9c0b-daa328dee30a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f95-9382-7171-9c0b-daa328dee30a.request.json",
+      "sha256": "2c1ab137833fee287d8d8e2c325ba801fd0115aa0dd7d8ebbac713fae7fc4160"
+    },
+    {
+      "path": "calls/01a19f95-9382-7171-9c0b-daa328dee30a.response.json",
+      "sha256": "26d11f35306dc6fa4783b9d30e6536cc0d43691ba6253e7592310c5fe67cdbad"
+    }
+  ],
+  "sha256": "6c0a0267789c7a6ea433a186f8e458d018c2f9e97d20b38165d2edeb28449452"
+}

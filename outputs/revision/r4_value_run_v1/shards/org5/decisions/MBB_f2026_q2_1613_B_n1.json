@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1613",
+    "org": 5,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "dfdf1fd2b27b0a09a8af23e8691e3e44f953ad1110e4bba0738ed2b318e8f02b",
+    "donor_hash": null,
+    "upstream_hash": "72e40b7ba31040538f0e66122962cd8a1a4028e511ca124b9d3a37f6bd1cae81",
+    "prompt_hash": "b4618753995b52eedf8ddfc044d15ab26592097a2df7e4240f4e7afec838a8ea"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis shows a clear downtrend with price below resistance 20.60 and approaching support 19.60. MACD line is above signal line but histogram is decreasing, indicating weakening momentum.",
+    "evidence_against": "MACD line above signal line suggests a potential bullish reversal.",
+    "justification": "Given the confirmed downtrend and weakening momentum, a short position aligns with the forecast horizon of T+2.5. The risk-reward ratio of 2.5 provides a favorable trade setup while maintaining acceptable risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-5e9f-7831-a025-0e5f43a62ec0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-5e9f-7831-a025-0e5f43a62ec0.request.json",
+      "sha256": "18d37eb4388d5776f4e78defd2c89d620bd58061197b91bd131d5c2055417ccc"
+    },
+    {
+      "path": "calls/01a19f8b-5e9f-7831-a025-0e5f43a62ec0.response.json",
+      "sha256": "9e2e33c95a9ac6344166375683565e77104303f1da80e0ff0995b21ab24d3861"
+    }
+  ],
+  "sha256": "1530f73f21f2223eebc8afa127ca919e9f4e8f02436f0f5f687089f7a7ee48f4"
+}

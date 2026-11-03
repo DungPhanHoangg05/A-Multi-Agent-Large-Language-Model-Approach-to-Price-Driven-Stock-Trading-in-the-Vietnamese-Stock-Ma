@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "aaad2adcb28a76c76ca35061c4df5e70b0bc3e0d59e8edee31e4106991b7acbf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support at 26.5 and resistance at 28.5, and recent bullish candles.",
+    "evidence_against": "MACD below signal and negative histogram indicating weakening momentum.",
+    "justification": "Momentum weakening suggests risk of reversal; holding cash mitigates risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-ac0f-7152-b05f-87dff211a39b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-ac0f-7152-b05f-87dff211a39b.request.json",
+      "sha256": "90b62882e8c97674d5e2de3ca16554e9b49a651cc060161bc94366712c617a9a"
+    },
+    {
+      "path": "calls/01a19f9a-ac0f-7152-b05f-87dff211a39b.response.json",
+      "sha256": "2930cfff35bd6be6fa1318ed47a66fca18b2ea6a8ed4de4264a691e16288fc8e"
+    }
+  ],
+  "sha256": "4314ffda51881f6189714855c31ebd7c685c5c0bc90af3cefffcc84ff478af03"
+}

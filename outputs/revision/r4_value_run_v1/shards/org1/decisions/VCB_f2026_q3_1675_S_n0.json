@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "org": 1,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "b5968220f4b4a39ec0a829c86568f91921a334d598dc281b94b2c10ac8944182",
+    "prompt_hash": "1abf641b38d460d2aaf195cf95a54b241e14b852ab744f1cc21f90384d8d3e81"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD below signal and histogram negative indicates bearish momentum; trend analysis shows sideways with selling pressure.",
+    "evidence_against": "Pattern suggests potential upside if price breaks above 60, but confidence is low.",
+    "justification": "Given bearish MACD and lack of strong bullish confirmation, shorting (cash) avoids potential losses; fees likely exceed any upside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9c-f654-7b81-99a7-29b92419a381"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9c-f654-7b81-99a7-29b92419a381.request.json",
+      "sha256": "ea0f826cb875bcf6e610af4194e5cf6251afe6215ca54ff8b7a0e5c769af8cc5"
+    },
+    {
+      "path": "calls/01a19f9c-f654-7b81-99a7-29b92419a381.response.json",
+      "sha256": "3fb7f503b20fab2dc92cabb0b0155833792d4d6a78ee844293740926db166374"
+    }
+  ],
+  "sha256": "8c973c5ecc0730f498d72c3ef26317faebf1c0f49d581e8f3da10edab5441f72"
+}

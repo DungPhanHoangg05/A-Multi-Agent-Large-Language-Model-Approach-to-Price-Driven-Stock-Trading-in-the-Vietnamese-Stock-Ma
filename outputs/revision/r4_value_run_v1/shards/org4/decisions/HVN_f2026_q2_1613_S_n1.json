@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "d1aa8eb66795f827a8b7130052f2df630636a76b432f5ce860fce5fe165b36a6",
+    "prompt_hash": "0feef80d311ac6e40ee333ce42fb6778638553a796edb63d8f63dec7aa0f3775"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows price below resistance and support narrowing, indicating potential further decline. MACD line above signal but histogram decreasing suggests weakening bullish momentum, supporting a short position.",
+    "evidence_against": "Pattern analysis suggests a potential reversal, but confidence is low and actual candle does not match the pattern.",
+    "justification": "Given the downtrend and weakening bullish momentum, a short position is favored. Risk reward ratio of 2.0 is set to capture potential decline while limiting exposure.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-6b26-7b93-b0ad-e342c9ff441b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-6b26-7b93-b0ad-e342c9ff441b.request.json",
+      "sha256": "6b8016dfdb00556fa405891b619d65cf18d162c25688f2f337545e2e5dfff810"
+    },
+    {
+      "path": "calls/01a19f91-6b26-7b93-b0ad-e342c9ff441b.response.json",
+      "sha256": "45100d4f32071835d302d7c8a81fdb0e3e8d57e33fc65b792ce812fd3d014086"
+    }
+  ],
+  "sha256": "ceca54475b38eded2e582af8495fb1f5eec6ed9bd7cf56d99187ee659cf6fc70"
+}

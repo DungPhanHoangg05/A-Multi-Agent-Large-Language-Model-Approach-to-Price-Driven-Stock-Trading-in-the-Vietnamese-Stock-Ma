@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "afa636cda6c9ab483e1b029c52bcca1cb826ea670102bb9df97f4c6fa7fbd2fd",
+    "prompt_hash": "7110f06820fec30fe2b940cd940aafba5add9572a7eb09af89a66e6236f12b44"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal and positive histogram show bullish momentum.",
+    "evidence_against": "Overall alpha factors indicate a downward bias.",
+    "justification": "Trend is up but alpha signals suggest reversal; shorting protects against potential loss over the 3-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f91-e325-7992-bef1-f434d45629a9"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f91-e325-7992-bef1-f434d45629a9.request.json",
+      "sha256": "bdccf6d16a628c5a5f002494498648a3b2adf4e05c38bf544e13ea7705efd90a"
+    },
+    {
+      "path": "calls/01a19f91-e325-7992-bef1-f434d45629a9.response.json",
+      "sha256": "d2503fc8baa83ff8c28c94d0eff2ebb30cdf16e5ee610c3a02fe82f4124132cd"
+    }
+  ],
+  "sha256": "186c5dfd30684ecba41445094980e2744eef4bc11e82f886c709abdf07740ca2"
+}

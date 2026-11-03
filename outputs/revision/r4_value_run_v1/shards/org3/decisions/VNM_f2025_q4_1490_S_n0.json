@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "1d23fe4cffe09eb54cfe1e2ddf191345ca9638af6868f82ba57357d19fe0db41"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend analysis indicates upward movement with price approaching resistance at 62.5 and pattern suggests a bullish flag with breakout above 62. MACD histogram is widening, indicating increasing momentum despite MACD line below signal.",
+    "evidence_against": "MACD line below signal suggests bearish momentum, which could counter the bullish trend.",
+    "justification": "Given the expected profit exceeds transaction costs and the risk reward ratio can be managed within acceptable limits, a LONG position is justified. However, the bearish MACD signal introduces uncertainty, so the decision is taken with moderate confidence.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f89-f7d4-7f70-ac80-64df996b0c27"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f89-f7d4-7f70-ac80-64df996b0c27.request.json",
+      "sha256": "e0e529d7f5ed03ef330dc7eedc0b64b87413490efe8142cd3e96f921413cba9e"
+    },
+    {
+      "path": "calls/01a19f89-f7d4-7f70-ac80-64df996b0c27.response.json",
+      "sha256": "795f76084830b053c4f68b5b8911e3b8f9acea7515bb46b60be96d0703ad5430"
+    }
+  ],
+  "sha256": "3bd4056eb5914e6a567b07971031ba584f2a23583f6885d12207b256a8dba2bd"
+}

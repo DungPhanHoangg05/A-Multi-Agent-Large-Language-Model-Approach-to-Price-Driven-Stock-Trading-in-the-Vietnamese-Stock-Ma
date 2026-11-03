@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "2156487e4714645e45c64a889379464b9ae5e8eebf16b26f3cfeb8b992c26e58",
+    "prompt_hash": "eed7fa8a1d8907d0e89c4224e2260ea139241121fa68d769b2dab88c81b23722"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is up with price near resistance 62.5 and moving towards target 63.5. Alpha factors show majority bullish signals and pattern confirms breakout.",
+    "evidence_against": "MACD line below signal indicates potential short-term reversal.",
+    "justification": "Buying at open when price above 62.5 and selling at close near 64 should yield net profit after fees. The bullish trend and alpha consensus outweigh the bearish MACD warning.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8b-62e3-7990-af39-6f44b549f018"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8b-62e3-7990-af39-6f44b549f018.request.json",
+      "sha256": "e670e05be48702010aea5a2b0d88a65c1f8d08ffb33e1f81873b0cab74aaeeef"
+    },
+    {
+      "path": "calls/01a19f8b-62e3-7990-af39-6f44b549f018.response.json",
+      "sha256": "ba57dd0a4be7bacd47eca00380d002abdfe0e4a7818668a02e10fd25ac49279b"
+    }
+  ],
+  "sha256": "5d1b23dc6435eb471c73e3828b189761f3add0d9aab7d235f3b120e0dba0fa75"
+}

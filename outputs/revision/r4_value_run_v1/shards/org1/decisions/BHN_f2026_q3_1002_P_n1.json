@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": "bfca8aa4e2c63e688da5a12260c5084c009dc9a03668822ce86fb7f3e2f74f9d",
+    "upstream_hash": "b44ca76dfaa5e83b174c0c24f147a0f60ccd19f078ddd46f40699ad4c1d97915",
+    "prompt_hash": "5040c6f8113b9d26e02fcd2d5380f90123789dd7dd853b6c4b6690cb0196e469"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend bullish with support at 26.5 and resistance at 28.5, V‑reversal pattern suggests potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram, majority alpha factors negative, sentiment negative.",
+    "justification": "Bearish indicators outweigh bullish trend, so holding cash is prudent.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f9a-21fd-71a3-bb5c-5b916c3da5f2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f9a-21fd-71a3-bb5c-5b916c3da5f2.request.json",
+      "sha256": "95454c1be9b34bf6b75c674d4d0a8d95c0412a57e6565140a088e34425c87f32"
+    },
+    {
+      "path": "calls/01a19f9a-21fd-71a3-bb5c-5b916c3da5f2.response.json",
+      "sha256": "899ccc2d02f5c6840bfa69b2d7cf5d00c9800e22f5d80e9cfbc372ce61b10874"
+    }
+  ],
+  "sha256": "e2d63a54571bcf11180c9209f8c8d84dd3cc9120cae17d999fbf9664a916f671"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1613",
+    "org": 2,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "9688188ea07663544c5423671f748c461da4009adb484dc079f716dc04be33ab",
+    "donor_hash": null,
+    "upstream_hash": "ce57341c55edec26aace1cdb091b01530f1245b6946a91bb66b0f3b12cc00de8",
+    "prompt_hash": "32e83c9876ab6f48ed5f07076a8f152303807f741df2536476aa58c759b66faf"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is down with support at 130.5 and resistance at 141.5, and price has been consistently closing lower for 3 days. MACD line is above signal but histogram is decreasing, indicating weakening bullish momentum, supporting a short position.",
+    "evidence_against": "MACD line is still positive, suggesting some bullish bias.",
+    "justification": "Given the downtrend, V reversal pattern, and weakening bullish momentum, a short trade is justified. The short trade will be entered at the current price with a stop at 141.5 and target near 130.5, aiming for a risk-reward ratio of 2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f8e-98e5-7d53-a4ff-50d2707912e4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f8e-98e5-7d53-a4ff-50d2707912e4.request.json",
+      "sha256": "b155fb60e3501981d450b736b11c58d55190af00b30a34b9d1d9659d015c8a34"
+    },
+    {
+      "path": "calls/01a19f8e-98e5-7d53-a4ff-50d2707912e4.response.json",
+      "sha256": "a038203cd17dc61676c55040ceabc818e5c6c6fc6a92f0e72385da7e7b418e46"
+    }
+  ],
+  "sha256": "b1ece0a473ab8ba2abea0f980087abc466b11be9403ed1e14ce0c908a6e22567"
+}

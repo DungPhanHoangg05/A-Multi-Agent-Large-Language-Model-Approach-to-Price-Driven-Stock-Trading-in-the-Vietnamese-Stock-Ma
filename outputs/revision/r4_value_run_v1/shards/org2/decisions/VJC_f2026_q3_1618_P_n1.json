@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "org": 2,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "3452469ff710212f87d9f3be0fbef12e9629e00dcda9cd3c0cbceea0a4caf30a",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": "d0ca25b57a00b177017e1beffe514caa07b89ee0d3e35269b94a9349d820179b",
+    "upstream_hash": "9ca36174147edd4dfcdc6a50c12c50c7e5efc66bfcd37240fdfb7034ebdb1802",
+    "prompt_hash": "5d306bf55984fe313772c355380c31700566ee5c9fbc32756a3e21d8a7efd2c8"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD shows a death cross, signaling a sell; Alpha factors overall indicate a downward trend.",
+    "evidence_against": "Pattern analysis suggests a potential breakout to 145, but lacks confirmation.",
+    "justification": "The bearish MACD and negative alpha consensus support a short position; the risk‑reward ratio of 2:1 aligns with the expected move within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a19f99-b267-7ae1-91f5-5e625527ff64"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a19f99-b267-7ae1-91f5-5e625527ff64.request.json",
+      "sha256": "6f83a7b6845c577d6be4831c6bab9002b7b80e4cffd951e6ec6e396ab79b8993"
+    },
+    {
+      "path": "calls/01a19f99-b267-7ae1-91f5-5e625527ff64.response.json",
+      "sha256": "5bef5a4c6bac1d3aaff5d0cc4fe4d6a4c1fc5c15760828f47d56bb4ee9ccdac3"
+    }
+  ],
+  "sha256": "2130de200055978ef1d4e6e29b0f6bef1de4eb8e18fa6ac35909ea6b074fe574"
+}
