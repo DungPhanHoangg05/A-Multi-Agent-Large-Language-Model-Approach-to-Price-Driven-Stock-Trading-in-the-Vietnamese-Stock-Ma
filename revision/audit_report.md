@@ -1,4 +1,4 @@
-# Audit duplication và lineage legacy
+# Audit bằng chứng legacy và thống kê phụ thuộc
 
 Phạm vi D1-16, ngày 03/11/2026; dependency S0 của `plan.md`. Đây là audit
 legacy, không phải thực nghiệm LLM mới hoặc xác nhận snapshot submission.
@@ -136,3 +136,111 @@ runtime, inputs hoặc predictions. Các gate cũ không được báo là chạ
 Sáu source blobs lịch sử giữ nguyên trailing whitespace và byte Git gốc;
 `.gitattributes` miễn riêng whitespace check cho các bản lưu này, pin LF cho
 hai Python của auditor để checkout Windows không làm sai source hash.
+
+## Thống kê phụ thuộc — D2-05
+
+Ngày 03/11/2026, dependency D2-03 đã hoàn tất. Đặc tả
+[r5_statistics_policy.json](r5_statistics_policy.json) được khóa trước chạy
+phân tích bổ sung; việc thêm phương pháp diễn ra **sau inference**, không gọi
+là preregistration hoặc confirmatory. Release riêng tại
+[dependent_statistics_v1](../outputs/revision/dependent_statistics_v1/manifest.json).
+Không gọi LLM, đổi prediction/label, fit classifier hoặc sửa helper thống kê
+legacy. Annualisation engine vẫn là D2-06; R5 chưa đóng bởi D2-05.
+
+### Estimands và support
+
+- Legacy: 180 paired points, chín mã ×20, 53 cutoff dates khác nhau; **không
+  có cutoff chung cho cả chín mã**. Pooled accuracy và equal-symbol macro
+  accuracy trùng vì cùng 20 points/mã; không có 180 independent replications.
+  Bảng mới ghi hai hướng discordance và exact two-sided conditional binomial
+  diagnostic, với giả định independent discordant pairs chưa được xác thực.
+  Full-only/Base-only pooled =32/7; pooled exact p=0,0000703 chỉ là diagnostic
+  với independence giả định, không phải bằng chứng general significance.
+- Study mới: chín classifiers trên cùng 102 units. Giữ pooled accuracy/BA
+  theo unit, không trộn equal-symbol macro. Ba cohort báo riêng:
+  all-102 (12 dates/sáu blocks), common-eight 96 (12/sáu) và recent-nine 54
+  (sáu/ba). Chúng chồng lấn, không cộng support thành mẫu mới.
+- HAC cross-section dùng correctness difference AS−B, mean theo ngày với
+  trọng số mỗi mã cố định 1/8 hoặc 1/9 trong hai cohort chữ nhật. Không HAC
+  chuỗi flatten 180 rows legacy, không gọi 102-unit cohort có universe thay
+  đổi là fixed-nine-symbol date series. BA giữ là estimand primary cho
+  bootstrap; HAC accuracy chỉ so với accuracy, không diễn giải p-value
+  accuracy thành kiểm định BA hoặc return.
+
+### Newey–West và undefined
+
+Tái dùng nguyên `newey_west_mean_test`: Bartlett kernel, autocovariance mẫu
+số n, SE=sqrt(LRV/n), tham chiếu t(n−1), không small-sample correction. Chín
+legacy p-value tái lập đúng với lag tự động 2, nay xuất cả statistic/SE/lag.
+Ví dụ MWG p=0,04927 nhưng exact McNemar p=0,125; không chọn kết quả thuận lợi,
+không gọi một p dưới 0,05 giữa nhiều phép thử là chứng minh hiệu quả.
+
+Wrapper mới từ chối nonfinite input thay vì bỏ ngày; n<2 hoặc SE gần zero
+cho statistic/p/CI `null` (`NA` trong bảng), không kế thừa p=1 của helper để
+diễn giải như xác nhận null. Không đổi schema/hành vi helper cho caller cũ.
+
+Cross-section common-eight: accuracy gap +5,208 pp, SE 3,296–3,595 pp, p
+0,142–0,175 trên lags 0/1/2; recent-nine: +3,704 pp, SE 2,982–3,381 pp, p
+0,269–0,323. Chỉ có 12 hoặc sáu dates. Lag là **selected-date index** có
+calendar gaps không đều, không phải consecutive daily/trading-session lag.
+t reference chưa được hiệu chuẩn cho sample này; không gán significance.
+
+### Block sensitivity và null simulations
+
+Giữ nguyên intervals whole-block R1/R2 và joint block×paired-execution
+intervals R3/R4. Bổ sung circular study-block bootstrap, 10.000 draws, seed
+20261103, lengths 1/2/3. Mỗi draw giữ đồng bộ hai cutoff trong block, mọi mã,
+eligibility mask và cả chín classifiers. Length đo bằng **study block** theo
+thứ tự thời gian đã đăng ký; wrap và dependence qua những block cách xa nhau
+là giả định sensitivity, không khẳng định stationarity. Xuất đủ tám contrasts
+AS−control ×hai metrics ×ba lengths ×ba cohorts =144 rows, không chọn length
+hoặc cohort theo outcome.
+
+All-102 AS−B BA gap +0,545 pp, CBB intervals theo lengths 1/2/3 lần lượt
+[−5,908;+7,866], [−4,871;+7,500], [−2,564;+3,728] pp; cả ba chứa zero. Đây
+không thay interval primary R1 [−5,908;+8,000] pp. Recent-nine length 3 lấy
+nguyên cả ba blocks nên interval bằng point estimate; artifact gắn
+`degenerate_full_cohort`, không dùng khoảng zero-width đó làm bằng chứng precision.
+Mọi draw mất class được báo riêng n_defined/n_undefined, không điền zero.
+
+Null DGP đã khóa gồm ba scenarios (AR phi/common variance share =0/0,
+0,6/0,7 và 0,9/0,9); mỗi scenario 1.000 panels độc lập, geometry 12 selected
+dates/chín mã/sáu blocks, mask BHN thiếu sáu dates đầu. Hai arms exchangeable,
+Gaussian stationary AR với shared market, arm-specific common và idiosyncratic
+factors, truth riêng có marginal 30% UP. Không fit DGP lên outcome thật.
+Mỗi panel/length có 1.000 draws, cùng thuật toán pooled BA/accuracy và cùng
+mask/variant pairing như sensitivity thật.
+
+Ở length 1, BA zero-coverage conditional trên defined panels là **85,00%**
+(Wilson MC 95% [82,65%;87,08%]) khi độc lập; **63,85%** (993/1.000 panels
+có BA defined) khi phụ thuộc vừa; **41,34%** (803/1.000 defined) khi phụ thuộc
+mạnh. Xuất đầy đủ 18 scenario/length/metric rows, mọi class-loss draw và MC
+intervals. Các Wilson intervals condition trên bootstrap-weight bank cố định;
+chúng không cộng thêm uncertainty của finite bootstrap Monte Carlo. Coverage
+thấp ngay dưới null là bằng chứng giới hạn của các khoảng percentile sample
+nhỏ, **không phải chứng nhận coverage 95% của dữ liệu thật**, không hiệu chỉnh
+hoặc chọn khoảng thật sau khi nhìn simulation. Không suy coverage của repeat
+panels R3/R4 từ DGP không có repeat layer này.
+
+### Bàn giao và kiểm tra
+
+Release có 13 outputs: policy/report, legacy discordance/HAC, date scores,
+144 block sensitivity rows (JSON/CSV), 18 null rows (JSON/CSV) và bốn bảng TeX
+`legacy_discordance`, `block_sensitivity`, `panel_hac`, `null_coverage`.
+Các bảng dùng số liệu từ cùng source và NA đúng hợp đồng; đã build standalone
+bốn trang tại đúng bề ngang A4/margins bản thảo, render và kiểm trực quan đủ
+bốn bảng, không tràn/cắt/overlap. Không chèn bảng hoặc build lại PDF R4 đã khóa;
+phần tích hợp bản thảo/response cuối thuộc task tiếp theo.
+
+```powershell
+py -3.13 -X utf8 -m unittest discover -s tests -p test_revision_dependent_statistics.py -v
+py -3.13 -X utf8 scripts/analyze_revision_statistics.py --check
+```
+
+11 tests mới PASS: oracle Bartlett/discordance, degeneracy/NA, mask/pairing,
+class loss, symbol-replication invariance, shared draws, null arm-swap và
+probability contract. Chỉ compile ba Python mới. Tái lập toàn bộ outputs ở
+process mới với seed/hash/runtime đã khóa; source hashes bảo toàn inputs và
+helpers cũ. Không chạy unit toàn hệ thống, E2E hoặc leakage vì không đổi
+engine/runtime dependency, PIT/retrieval/prompt, ledger hoặc contracts cũ.
+Thông tin runtime Python/NumPy/SciPy được lưu và kiểm lại, không gọi API.

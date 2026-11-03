@@ -1,0 +1,31 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Stylized-null zero-coverage sensitivity (percent).}
+\label{tab:d205_null}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrr}
+\hline
+Scenario & Metric & Length & Defined panels & Coverage & MC interval \\
+\hline
+independent & BA & 1 & 1000 & 85.000 & [82.653, 87.079] \\
+independent & Acc. & 1 & 1000 & 88.200 & [86.053, 90.055] \\
+independent & BA & 2 & 1000 & 78.600 & [75.951, 81.030] \\
+independent & Acc. & 2 & 1000 & 81.600 & [79.079, 83.879] \\
+independent & BA & 3 & 1000 & 66.900 & [63.924, 69.747] \\
+independent & Acc. & 3 & 1000 & 70.700 & [67.804, 73.437] \\
+moderate\_dependence & BA & 1 & 993 & 63.847 & [60.811, 66.777] \\
+moderate\_dependence & Acc. & 1 & 1000 & 67.500 & [64.535, 70.331] \\
+moderate\_dependence & BA & 2 & 993 & 63.444 & [60.402, 66.382] \\
+moderate\_dependence & Acc. & 2 & 1000 & 66.100 & [63.109, 68.967] \\
+moderate\_dependence & BA & 3 & 993 & 53.072 & [49.962, 56.158] \\
+moderate\_dependence & Acc. & 3 & 1000 & 55.200 & [52.104, 58.256] \\
+strong\_dependence & BA & 1 & 803 & 41.345 & [37.988, 44.784] \\
+strong\_dependence & Acc. & 1 & 1000 & 47.700 & [44.619, 50.799] \\
+strong\_dependence & BA & 2 & 803 & 44.085 & [40.687, 47.539] \\
+strong\_dependence & Acc. & 2 & 1000 & 51.400 & [48.303, 54.486] \\
+strong\_dependence & BA & 3 & 803 & 36.613 & [33.352, 40.001] \\
+strong\_dependence & Acc. & 3 & 1000 & 41.400 & [38.386, 44.480] \\
+\hline
+\end{tabular}
+\par\smallskip\footnotesize 1,000 independent simulated panels per scenario and 1,000 paired bootstrap draws per panel/length. Intervals are Wilson Monte Carlo intervals, conditional on defined panels; machine-readable artifacts report every undefined draw. This is not validation of the market DGP or repeat-panel coverage. All additions are post-inference descriptive sensitivities; no superiority or calibrated-significance claim. Undefined values are NA.
+\end{table}

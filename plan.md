@@ -279,6 +279,23 @@ Không cần chạy thêm API để nghiệm thu phạm vi R4 này. Lệnh `run 
 
 **Vấn đề:** bootstrap 20 điểm/block 5 rất ít thông tin; percentile CI khó tin khi chỉ một discordant pair. McNemar và bootstrap khác giả định nên bất đồng không tự chứng minh code sai, nhưng không được chọn kết quả thuận lợi. `N=20` ở hàng Mean gây hiểu sai; account Sharpe/Sortino dùng sai tần suất.
 
+**D2-05 hoàn tất ngày 03/11/2026:** [đặc tả](revision/r5_statistics_policy.json),
+[audit](revision/audit_report.md#thống-kê-phụ-thuộc--d2-05),
+[release](outputs/revision/dependent_statistics_v1/manifest.json). Tái tính
+discordance/exact diagnostic và NW statistic/SE/lag/p cho chín mã legacy;
+pooled support =180, 53 dates, không có common-date rectangle đủ chín mã nên
+không tạo pooled HAC từ 180 rows. Fixed-universe date-level HAC mới báo đủ
+lags 0/1/2 cho common-eight 96 units/12 dates và recent-nine 54/sáu dates.
+CBB lengths 1/2/3 giữ toàn cross-section/mask/variants, đủ 144 contrasts/metric
+rows; primary R1/R2 và block×repeat R3/R4 giữ nguyên. Null audit có ba DGP
+đã khóa, mỗi DGP 1.000 panels, 1.000 draws/length; BA coverage length 1 chỉ
+85,00%/63,85%/41,34% conditional trên defined panels. Không coi là calibrated
+95% CI, không chọn length theo outcome. Có 13 outputs/bốn TeX tables đã
+build/render QA; 11 tests mới, scoped compile ba Python và hash/reproduction
+PASS. Không API hoặc sửa runtime/PIT/prompt/ledger cũ. **R5 còn mở** cho
+D2-06 annualisation và chốt bản thảo/response; phương pháp bổ sung là
+post-inference sensitivity, không gọi confirmatory.
+
 **Việc cần làm**
 
 - [ ] Với benchmark cũ, trình bày discordant counts, exact McNemar như chẩn đoán với giả định độc lập cần nêu; bỏ tuyên bố significant chung từ Wilcoxon 9 mã và CI nhỏ mẫu. Tăng số bootstrap đơn thuần không chữa thiếu dữ liệu.
@@ -550,7 +567,7 @@ Trạng thái dùng `pending`, `in_progress`, `done`, `partial`, `blocked`; ch�
 | D2-02 | Chạy lô 2/resume | D2-01 | done | Đã resume đủ các jobs, không gọi lại node/response thành công | Không lặp request thành công/repeats giả |
 | D2-03 | Tái dùng baseline, bổ sung input/fold cho 102 points | D1-07 | done | [numeric release](outputs/revision/r1_72h_bank_v2/numeric/manifest.json): 714 predictions/408 ledgers/420 hashes PASS | Trích subset còn khớp; refit/recompute chỉ fold, scorer hoặc input đã đổi |
 | D2-04 | Bổ sung numeric coverage lịch sử còn thiếu | D2-03 | done | R2 audit đủ 102 LLM units/6 block, common cohorts/mask, regime/exposure; N=540 numeric cũ vẫn riêng | Mở rộng support/regime; không tải lại giá, không gán là LLM evidence |
-| D2-05 | Bổ sung NW/bootstrap phụ thuộc và bảng mới | D2-03 | partial | R1/R2 block/cohort/leave-one-out và panel dispersion thật đã xuất; annualisation/NW của R5 còn riêng | Giữ helpers đã kiểm; block/repeat uncertainty, denominator và NA đúng |
+| D2-05 | Bổ sung NW/bootstrap phụ thuộc và bảng mới | D2-03 | done | [Release](outputs/revision/dependent_statistics_v1/manifest.json): legacy discordance/NW, fixed-universe HAC, 144 CBB rows/18 null rows/bốn bảng; 11 tests/compile/hash replay PASS | Giữ helpers và primary/repeat intervals; denominator/NA/degenerate rõ; không claim calibrated coverage; annualisation chuyển D2-06 |
 | D2-06 | Sửa/đối soát annualisation còn lệch | D2-05 | pending | Baseline đã có daily MTM/cash gaps; engine còn dùng sqrt(252) ở account ratios | Kiểm chuỗi input là daily/cycle trước đổi; không dựng ledger lại |
 | D2-07 | Execution sensitivities R15 | D2-06 | pending | — | Pending cash/advance assumptions; cost/no-fill bounds |
 | D2-08 | Đồng bộ label/schema/bản thảo phần còn lệch | D2-03 | pending | Đã có target net/gross contract và baseline labels; legacy field còn ambiguous | Đồng bộ appendix/prompt/fields; không viết lại target hoặc đoán sửa lịch sử |

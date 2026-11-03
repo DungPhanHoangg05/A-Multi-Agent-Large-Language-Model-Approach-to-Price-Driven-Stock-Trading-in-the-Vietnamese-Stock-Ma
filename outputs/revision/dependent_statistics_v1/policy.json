@@ -1,0 +1,62 @@
+{
+  "analysis_timing": "Đặc tả bổ sung sau inference; khóa trước chạy phân tích D2-05, không gọi là preregistration hoặc confirmatory.",
+  "block_lengths": [
+    1,
+    2,
+    3
+  ],
+  "bootstrap_draws": 10000,
+  "bootstrap_method": "Circular moving blocks trên thứ tự sáu hoặc ba historical study blocks; lấy đủ số blocks gốc, giữ hai cutoff, toàn cross-section, mask và variants cùng nhau. Độ dài đo bằng study block, không phải số phiên giao dịch; wrap là giả định sensitivity.",
+  "claims": "Tất cả intervals/p-values mới là descriptive/sensitivity; không kiểm định superiority, alpha, profitability hoặc FWER. Không đổi frozen R1-R4 artifacts/bảng chính.",
+  "cohorts": [
+    "all_102",
+    "common_eight_96",
+    "recent_nine_54"
+  ],
+  "contrasts": "AS trừ từng control trong chín classifiers đã khóa; BA primary và accuracy secondary, pooled unit-weighted trong đúng cohort; không gộp các cohort chồng lấn.",
+  "hac": {
+    "lags": [
+      0,
+      1,
+      2
+    ],
+    "legacy": "Giữ helper Bartlett HAC gốc để tái tính correctness difference theo cutoff từng mã; không flatten 180 rows và không HAC pooled nếu thiếu fixed-universe common dates.",
+    "new_panel": "Mean correctness difference theo ngày trên fixed-universe common-eight và recent-nine; mỗi mã trọng số 1/S; HAC theo thứ tự ngày được lấy mẫu, không theo trading-day spacing.",
+    "reference": "Long-run variance dùng covariance mẫu số n, không correction n/(n-k); SE=sqrt(LRV/n); tham chiếu t(n-1) của helper là sensitivity chưa hiệu chuẩn với 6 hoặc 12 ngày.",
+    "undefined": "n<2 hoặc SE xấp xỉ zero: statistic, p-value và CI là null/NA, không coi p=1 là chứng minh null. Từ chối nonfinite input thay vì bỏ ngày."
+  },
+  "legacy_mcnemar": "Exact two-sided binomial conditional on discordance, báo Full-only/Base-only; per-symbol và pooled chỉ là diagnostic giả định independence chưa được xác nhận; không chọn p-value thuận lợi.",
+  "null_simulation": {
+    "blocks": 6,
+    "bootstrap_draws": 1000,
+    "dates": 12,
+    "dgp": "Gaussian stationary AR(1) theo selected-date index. Truth có common factor riêng, threshold cho 30% UP. Correctness hai arms có shared market factor, arm-specific common factor và idiosyncratic factor; common component=(shared+arm)/sqrt(2). Hai arms exchangeable, không có expected accuracy/BA effect. Innovations và panels độc lập; không fit tham số lên outcome thật.",
+    "limits": "Mô phỏng stylized theo design, không xác nhận DGP thật, stationarity qua lịch nhiều năm, coverage của BA trên thị trường thật hoặc coverage của repeat panels.",
+    "mask": "BHN thiếu sáu ngày đầu như study chính; tám mã khác đủ, 102 cells.",
+    "panels": 1000,
+    "report": "Cho mọi scenario/length/metric, báo n_defined/undefined panels, finite/undefined bootstrap draws, zero-coverage và zero-exclusion conditional trên defined panels, Wilson 95% Monte Carlo CI và mean observed effect; không hiệu chuẩn hoặc chọn interval thật bằng simulation.",
+    "scenarios": [
+      {
+        "ar_phi": 0.0,
+        "common_variance_share": 0.0,
+        "name": "independent"
+      },
+      {
+        "ar_phi": 0.6,
+        "common_variance_share": 0.7,
+        "name": "moderate_dependence"
+      },
+      {
+        "ar_phi": 0.9,
+        "common_variance_share": 0.9,
+        "name": "strong_dependence"
+      }
+    ],
+    "symbols": 9,
+    "up_probability": 0.3
+  },
+  "primary_evidence": "Giữ nguyên whole-block intervals R1/R2 và joint block/repeat intervals R3/R4; CBB mới chỉ là sensitivity, không thay interval chính theo outcome.",
+  "schema_version": "revision_dependent_statistics_policy_v1",
+  "scope": "Chỉ thêm thống kê phụ thuộc cho predictions đã khóa; annualisation engine thuộc D2-06; không đổi target, prediction hoặc helper legacy.",
+  "seed": 20261103
+}
