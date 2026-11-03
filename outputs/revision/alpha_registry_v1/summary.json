@@ -1,0 +1,166 @@
+{
+  "result": "PASS",
+  "scope": "T09 registry nguồn và sai lệch; T10/T11 chưa thực hiện",
+  "counts": {
+    "worldquant_catalogue": 101,
+    "worldquant_retained": 80,
+    "worldquant_excluded": 21,
+    "custom": 5,
+    "runtime_candidates": 85
+  },
+  "count_contract_80_21_5_matches": true,
+  "excluded_worldquant_ids": [
+    48,
+    56,
+    58,
+    59,
+    63,
+    64,
+    67,
+    68,
+    69,
+    70,
+    76,
+    79,
+    80,
+    81,
+    82,
+    87,
+    90,
+    91,
+    93,
+    97,
+    100
+  ],
+  "excluded_dependency_classes": {
+    "industry_neutralization": 17,
+    "market_cap": 1,
+    "unexplained_price_volume_omission": 3
+  },
+  "reviewed_findings": [
+    {
+      "id": "custom_display_formula",
+      "entries": [
+        "CURRENT_1_FDM",
+        "CURRENT_2_SFA"
+      ],
+      "finding": "Template CURRENT_1 mô tả MACD trong khi handler dùng ROC_adj×Vol_Surge×0.5; template CURRENT_2 mô tả SENT_Z/LVR trong khi handler registry chỉ dùng MACD proxy và ROC_adj.",
+      "action": "T10 kiểm fixtures và xác định ảnh hưởng trước mọi sửa đổi; không đổi template/prompt đã freeze."
+    },
+    {
+      "id": "prototype_is_distinct",
+      "entries": [
+        "CURRENT_1_FDM",
+        "CURRENT_2_SFA",
+        "CURRENT_3_LVR",
+        "CURRENT_4_BFE",
+        "CURRENT_5_OFE"
+      ],
+      "finding": "Dynamic dùng handler registry rồi normalize và flip theo IC; năm prototype fallback có preprocessing/threshold riêng. Backtest không chọn được dynamic thì dừng, không fallback. SFA prototype có nhánh sentiment còn registry SFA không đọc sentiment.",
+      "action": "Không coi công thức/template/prototype là ba cách biểu diễn tương đương."
+    },
+    {
+      "id": "rank_header_not_uniform",
+      "worldquant_ids": [
+        2,
+        3,
+        7,
+        13,
+        16,
+        20,
+        25,
+        27
+      ],
+      "finding": "Comment chung rank→ts_rank(20) không bao quát mọi handler: có rank window 5/6/10/30; WQ7 docstring ghi 60 nhưng thực thi 30.",
+      "action": "Dùng operator_calls từng entry làm nguồn, kiểm window/ties ở T10."
+    },
+    {
+      "id": "fractional_windows",
+      "worldquant_ids": [
+        61,
+        62,
+        65,
+        66,
+        71,
+        72,
+        73,
+        74,
+        75,
+        77,
+        78,
+        84,
+        85,
+        86,
+        88,
+        89,
+        92,
+        94,
+        95,
+        96,
+        98,
+        99
+      ],
+      "finding": "Nguồn gốc định nghĩa floor(d); nhiều integer windows code khác floor, ví dụ WQ61 correlation 17.9282→18, WQ65 sum 8.6911→9. Không gán chung là floor hoặc coi là exact replication.",
+      "action": "Giữ nguyên số thực gốc và biểu thức code; T10 chọn fixtures window quan trọng."
+    },
+    {
+      "id": "structural_translation",
+      "worldquant_ids": [
+        29,
+        54,
+        89
+      ],
+      "finding": "WQ29 rút gọn chuỗi min/product/rank/log; WQ54 dùng lũy thừa open/close 2 thay 5; WQ89 bỏ IndNeutralize(vwap,industry). WQ89 vẫn retained dù 17 mục excluded khác có neutralization.",
+      "action": "Không mô tả 21 exclusions đều do neutralization hoặc mọi retained đều là bản dịch nguyên vẹn."
+    },
+    {
+      "id": "boolean_encoding",
+      "worldquant_ids": [
+        61,
+        62,
+        65,
+        74,
+        75,
+        86,
+        95,
+        99
+      ],
+      "finding": "Các comparisons được mã hóa hai phía ±1; nguồn gốc là boolean 0/1 hoặc -1×boolean. Đây là đổi biên độ/offset và có thể đổi tín hiệu sau normalize.",
+      "action": "T10 kiểm polarity/threshold, không sửa kết quả đã khóa."
+    },
+    {
+      "id": "scale_and_history",
+      "worldquant_ids": [
+        28,
+        29,
+        31,
+        32,
+        60
+      ],
+      "finding": "scale nguồn là cross-sectional L1; code gọi normalize_alpha zscore/tanh trên cả Series. delay dùng shift().bfill(); warm-up được điền hoặc dùng partial windows. Đây chưa phải chứng nhận causal per-row preprocessing.",
+      "action": "T10 kiểm operator/warm-up/NaN và leakage liên quan; không đổi dữ liệu run đang dở."
+    },
+    {
+      "id": "price_volume_proxies",
+      "entries": [
+        "all_retained"
+      ],
+      "finding": "VWAP là typical price (H+L+C)/3; ADV là rolling volume/price-range proxy, khác dollar volume gốc. returns thực là pct_change, khác comment log return; volume thật chỉ khi >40% nonmissing và tổng dương, nếu không dùng High−Low.",
+      "action": "Không suy đo order flow/order book hoặc dòng tổ chức; profile proxy ở T11."
+    },
+    {
+      "id": "signed_alpha4",
+      "entries": [
+        "CURRENT_4_BFE"
+      ],
+      "finding": "Alpha_4 giữ tanh((%B−0.5)×VolZ5×1.5), volume z-score có dấu; không có squeeze gate hay crossing test. Registry dùng sample-SD, prototype có preprocessing khác.",
+      "action": "Giữ nguyên công thức; tái dùng evidence R13 và kiểm tiếp ở T10."
+    }
+  ],
+  "limits": [
+    "Không chạy formula/selector trên market data; không đo IC/turnover hoặc tạo LLM predictions ở T09.",
+    "Code/templates/docstrings được xuất tách biệt; equivalence chưa được chứng minh bằng fixtures T10.",
+    "Lý do lựa chọn lịch sử unknown; dependency của công thức không chứng minh nguyên nhân loại.",
+    "Không đổi runtime, inputs, prompt hoặc source hashes frozen của T02/T03; chưa sửa paper hoặc response."
+  ]
+}
