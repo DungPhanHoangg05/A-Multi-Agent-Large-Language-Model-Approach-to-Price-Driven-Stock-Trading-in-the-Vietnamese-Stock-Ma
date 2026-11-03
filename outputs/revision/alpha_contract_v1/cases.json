@@ -1,0 +1,643 @@
+{
+  "operators": [
+    {
+      "id": "rank_ties_strict",
+      "operator": "ts_rank",
+      "expected": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "observed": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "rank_nan_denominator",
+      "operator": "ts_rank",
+      "expected": [
+        null,
+        null,
+        0.5,
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "observed": [
+        null,
+        null,
+        0.5,
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "min_partial",
+      "operator": "ts_min",
+      "expected": [
+        null,
+        2,
+        2
+      ],
+      "observed": [
+        null,
+        2.0,
+        2.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "max_partial",
+      "operator": "ts_max",
+      "expected": [
+        null,
+        2,
+        4
+      ],
+      "observed": [
+        null,
+        2.0,
+        4.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "sum_nan_zero",
+      "operator": "ts_sum",
+      "expected": [
+        0,
+        2,
+        6
+      ],
+      "observed": [
+        0.0,
+        2.0,
+        6.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "mean_partial",
+      "operator": "ts_mean",
+      "expected": [
+        0,
+        2,
+        3
+      ],
+      "observed": [
+        0.0,
+        2.0,
+        3.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "std_sample",
+      "operator": "ts_std",
+      "expected": [
+        0,
+        0.7071067811865476,
+        1
+      ],
+      "observed": [
+        0.0,
+        0.7071067811865476,
+        1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "corr_warmup",
+      "operator": "ts_corr",
+      "expected": [
+        0,
+        1,
+        0.9819805060619656,
+        0.8660254037844386
+      ],
+      "observed": [
+        0.0,
+        1.0,
+        0.9819805060619659,
+        0.866025403784438
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "cov_sample",
+      "operator": "ts_cov",
+      "expected": [
+        0,
+        1,
+        3,
+        2
+      ],
+      "observed": [
+        0.0,
+        1.0,
+        3.0,
+        1.9999999999999982
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "decay_partial_weights",
+      "operator": "decay_linear",
+      "expected": [
+        1,
+        1.6,
+        2.8333333333333335
+      ],
+      "observed": [
+        1.0,
+        1.6,
+        2.833333333333333
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "delta_fill_zero",
+      "operator": "delta",
+      "expected": [
+        0,
+        2,
+        -1
+      ],
+      "observed": [
+        0.0,
+        2.0,
+        -1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "delay_bfill",
+      "operator": "delay",
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "observed": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "delay_leading_nan",
+      "operator": "delay",
+      "expected": [
+        2,
+        2,
+        2,
+        3
+      ],
+      "observed": [
+        2.0,
+        2.0,
+        2.0,
+        3.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "safe_nonfinite",
+      "operator": "_safe_series",
+      "expected": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "observed": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "signed_power_scalar",
+      "operator": "signed_power",
+      "expected": [
+        -4,
+        0,
+        4
+      ],
+      "observed": [
+        -4.0,
+        0.0,
+        4.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "signed_power_vector",
+      "operator": "signed_power",
+      "expected": [
+        -4,
+        0,
+        1.4142135623730951
+      ],
+      "observed": [
+        -4.0,
+        0.0,
+        1.4142135623730951
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "sign_threshold",
+      "operator": "sign",
+      "expected": [
+        -1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "observed": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "normalize_zscore_sample",
+      "operator": "normalize_alpha",
+      "expected": [
+        -0.7028301608340959,
+        -0.21481884330151088,
+        0.7972754327197947
+      ],
+      "observed": [
+        -0.7028301608340959,
+        -0.21481884330151088,
+        0.7972754327197947
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "normalize_minmax",
+      "operator": "normalize_alpha",
+      "expected": [
+        -1,
+        -0.3333333333333333,
+        1
+      ],
+      "observed": [
+        -1.0,
+        -0.33333333333333337,
+        1.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "normalize_rank_average",
+      "operator": "normalize_alpha",
+      "expected": [
+        0.6666666666666666,
+        0.6666666666666666,
+        -0.3333333333333333
+      ],
+      "observed": [
+        0.6666666666666667,
+        0.6666666666666667,
+        -0.33333333333333337
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "normalize_constant_zero",
+      "operator": "normalize_alpha",
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "observed": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": "PASS"
+    },
+    {
+      "id": "normalize_nonfinite_to_zero",
+      "operator": "normalize_alpha",
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "observed": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "result": "PASS"
+    }
+  ],
+  "features": [
+    {
+      "id": "real_volume",
+      "result": "PASS",
+      "real_volume": true,
+      "volume": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "adv20": [
+        10.0,
+        15.0,
+        20.0,
+        25.0,
+        30.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    },
+    {
+      "id": "absent_volume",
+      "result": "PASS",
+      "real_volume": false,
+      "volume": [
+        2.0,
+        4.0,
+        6.0,
+        8.0,
+        10.0
+      ],
+      "adv20": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    },
+    {
+      "id": "zero_volume",
+      "result": "PASS",
+      "real_volume": false,
+      "volume": [
+        2.0,
+        4.0,
+        6.0,
+        8.0,
+        10.0
+      ],
+      "adv20": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    },
+    {
+      "id": "forty_percent_boundary",
+      "result": "PASS",
+      "real_volume": false,
+      "volume": [
+        2.0,
+        4.0,
+        6.0,
+        8.0,
+        10.0
+      ],
+      "adv20": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    },
+    {
+      "id": "above_forty_percent",
+      "result": "PASS",
+      "real_volume": true,
+      "volume": [
+        10.0,
+        20.0,
+        30.0,
+        0.0,
+        0.0
+      ],
+      "adv20": [
+        10.0,
+        15.0,
+        20.0,
+        15.0,
+        12.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    },
+    {
+      "id": "negative_total",
+      "result": "PASS",
+      "real_volume": false,
+      "volume": [
+        2.0,
+        4.0,
+        6.0,
+        8.0,
+        10.0
+      ],
+      "adv20": [
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    },
+    {
+      "id": "zero_log_ffill",
+      "result": "PASS",
+      "real_volume": true,
+      "volume": [
+        0,
+        20,
+        0,
+        40,
+        50
+      ],
+      "adv20": [
+        0.0,
+        10.0,
+        6.666666666666667,
+        15.0,
+        22.0
+      ],
+      "units": "Đơn vị Volume do caller cung cấp, chưa xác thực shares/lots; proxy High−Low có đơn vị giá; ADV không nhân giá nên không là dollar volume."
+    }
+  ],
+  "translations": [
+    {
+      "id": "CURRENT_1_FDM",
+      "oracle": "Đại số của handler registry, sample-SD; không dùng display template hoặc prototype làm oracle.",
+      "expected": -0.5347494671132186,
+      "observed": -0.5347494671132187,
+      "result": "PASS"
+    },
+    {
+      "id": "CURRENT_2_SFA",
+      "oracle": "Đại số của handler registry, sample-SD; không dùng display template hoặc prototype làm oracle.",
+      "expected": -0.7717591830290714,
+      "observed": -0.7717591830290715,
+      "result": "PASS"
+    },
+    {
+      "id": "CURRENT_3_LVR",
+      "oracle": "Đại số của handler registry, sample-SD; không dùng display template hoặc prototype làm oracle.",
+      "expected": 0.5343639698299272,
+      "observed": 0.534363969829926,
+      "result": "PASS"
+    },
+    {
+      "id": "CURRENT_4_BFE",
+      "oracle": "Đại số của handler registry, sample-SD; không dùng display template hoặc prototype làm oracle.",
+      "expected": -0.8099829336906319,
+      "observed": -0.8099829336906224,
+      "result": "PASS"
+    },
+    {
+      "id": "CURRENT_5_OFE",
+      "oracle": "Đại số của handler registry, sample-SD; không dùng display template hoặc prototype làm oracle.",
+      "expected": -0.02082255254161153,
+      "observed": -0.020822552541611535,
+      "result": "PASS"
+    },
+    {
+      "id": "WQ6",
+      "expected": 0.536696234310293,
+      "observed": 0.5366962343103683,
+      "result": "PASS"
+    },
+    {
+      "id": "WQ7",
+      "expected": 0.5172413793103449,
+      "observed": 0.5172413793103449,
+      "native_rank_window": 30,
+      "source_rank_window": 60,
+      "source_window_counterfactual": 0.5932203389830508,
+      "result": "PASS"
+    },
+    {
+      "id": "WQ54",
+      "expected": -0.5143245665427402,
+      "observed": -0.5143245665427402,
+      "original_power5_counterfactual": -0.5111708012445636,
+      "result": "PASS"
+    },
+    {
+      "id": "WQ61",
+      "expected": -1.0,
+      "observed": -1.0,
+      "native_corr_window": 18,
+      "source_corr_floor": 17,
+      "original_boolean_on_native_inputs": false,
+      "result": "PASS"
+    },
+    {
+      "id": "WQ65",
+      "expected": 1.0,
+      "observed": 1.0,
+      "native_adv_sum_window": 9,
+      "source_adv_sum_floor": 8,
+      "original_negative_boolean_on_native_inputs": 0,
+      "result": "PASS"
+    },
+    {
+      "id": "WQ89",
+      "expected": -0.07142857142857142,
+      "observed": -0.07142857142857142,
+      "neutralization": "Không có ngành/universe; oracle kiểm adaptation không neutralize, không chứng minh tương đương bản gốc.",
+      "result": "PASS"
+    }
+  ],
+  "prototype": [
+    {
+      "id": "prototype_SFA_reliable_False",
+      "expected": 0.3766,
+      "observed": 0.3766,
+      "scope": "Prototype có nhánh sentiment; registry SFA chỉ MACD proxy, không gộp hai đường.",
+      "result": "PASS"
+    },
+    {
+      "id": "prototype_SFA_reliable_True",
+      "expected": 0.8005,
+      "observed": 0.8005,
+      "scope": "Prototype có nhánh sentiment; registry SFA chỉ MACD proxy, không gộp hai đường.",
+      "result": "PASS"
+    },
+    {
+      "id": "prototype_Alpha4_0.099996",
+      "unrounded_value": 0.099996,
+      "observed_display": 0.1,
+      "expected_signal": "TRUNG TÍNH",
+      "observed_signal": "TRUNG TÍNH",
+      "result": "PASS"
+    },
+    {
+      "id": "prototype_Alpha4_0.100004",
+      "unrounded_value": 0.100004,
+      "observed_display": 0.1,
+      "expected_signal": "TĂNG",
+      "observed_signal": "TĂNG",
+      "result": "PASS"
+    },
+    {
+      "id": "prototype_Alpha4_-0.099996",
+      "unrounded_value": -0.099996,
+      "observed_display": -0.1,
+      "expected_signal": "TRUNG TÍNH",
+      "observed_signal": "TRUNG TÍNH",
+      "result": "PASS"
+    },
+    {
+      "id": "prototype_Alpha4_-0.100004",
+      "unrounded_value": -0.100004,
+      "observed_display": -0.1,
+      "expected_signal": "GIẢM",
+      "observed_signal": "GIẢM",
+      "result": "PASS"
+    }
+  ],
+  "surrogates": [
+    {
+      "id": "rank_surrogate",
+      "native_time_rank": 1.0,
+      "cross_sectional_ranks_with_changed_peer": [
+        0.5,
+        1.0
+      ],
+      "result": "PASS",
+      "scope": "Cùng lịch giá mã hiện tại, peer thay đổi rank xuyên mã nhưng không đổi ts_rank; hai định nghĩa không tương đương."
+    },
+    {
+      "id": "WQ89_no_industry_inputs",
+      "result": "PASS",
+      "scope": "Thêm industry/peer data không đổi handler; không có phép cross-sectional demean. Không chứng minh output gốc khi thiếu universe."
+    }
+  ]
+}

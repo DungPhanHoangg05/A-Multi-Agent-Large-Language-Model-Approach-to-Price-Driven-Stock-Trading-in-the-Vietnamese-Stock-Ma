@@ -1,0 +1,93 @@
+{
+  "rowwise": {
+    "diagnostic_result": "PASS_DETECTION",
+    "native_rowwise_causal_gate": "FAIL",
+    "delay_bfill_changes_past": true,
+    "normalization": {
+      "zscore_tanh": {
+        "historical_values_changed": true,
+        "prefix": [
+          -0.8216564906947734,
+          -0.3690288114810386,
+          0.3690288114810386,
+          0.8216564906947734
+        ],
+        "extended_prefix": [
+          -0.44740923214876366,
+          -0.42888528422883976,
+          -0.40999349796268536,
+          -0.3907432502918543
+        ]
+      },
+      "minmax": {
+        "historical_values_changed": true,
+        "prefix": [
+          -1.0,
+          -0.33333333333333337,
+          0.33333333333333326,
+          1.0
+        ],
+        "extended_prefix": [
+          -1.0,
+          -0.9797979797979798,
+          -0.9595959595959596,
+          -0.9393939393939394
+        ]
+      },
+      "rank": {
+        "historical_values_changed": true,
+        "prefix": [
+          -0.5,
+          0.0,
+          0.5,
+          1.0
+        ],
+        "extended_prefix": [
+          -0.6,
+          -0.19999999999999996,
+          0.19999999999999996,
+          0.6000000000000001
+        ]
+      }
+    },
+    "global_volume_branch_changes_past": true,
+    "scope": "Dữ liệu sau một dòng nhưng vẫn trong prefix quyết định thay đổi giá trị lịch sử. Đây là hạn chế selection diagnostics native, chưa chứng minh outer-test leakage.",
+    "required_action": "Không dùng native full-Series scores làm walk-forward/unbiased evidence. T11 báo đúng diagnostic; T12/T13 dùng fit train/validation đã purge và adapters nhân quả riêng. Không sửa code/input frozen hoặc ghi zero-leakage toàn runtime."
+  },
+  "outer_cutoff": {
+    "result": "PASS",
+    "synthetic_only": true,
+    "actual_native_backtest_runs": 2,
+    "candidates_per_run": 85,
+    "selected_factor_names": [
+      "Open × Return Momentum (WQ#8)",
+      "Triple Rank Acceleration (WQ#17)",
+      "Sum High-Vol Corr (WQ#15)",
+      "Flow-Driven Momentum (FDM)",
+      "Liquidity Void Reversion (LVR)"
+    ],
+    "captured_history": [
+      {
+        "rows": 600,
+        "max_date": "2022-06-28 00:00:00",
+        "min_date": "2020-03-11 00:00:00",
+        "minimum_candidate_support": 597
+      },
+      {
+        "rows": 600,
+        "max_date": "2022-06-28 00:00:00",
+        "min_date": "2020-03-11 00:00:00",
+        "minimum_candidate_support": 597
+      }
+    ],
+    "scope": "Poison sau cutoff không đổi top-five/values/IC-derived orientation/metadata; không chứng nhận row-wise causality của training-window scores."
+  },
+  "numeric_adapters": {
+    "result": "PASS",
+    "synthetic_only": true,
+    "alpha_columns": 85,
+    "poison_checked_rows": 51,
+    "prefix_cutoff_row": 400,
+    "scope": "Đường numerical_features có năm causal adapters riêng; kiểm sau warm-up trên Volume đầy đủ. Không thay code/score của native selector và không xác thực mọi lịch sử hoặc đơn vị volume."
+  }
+}
