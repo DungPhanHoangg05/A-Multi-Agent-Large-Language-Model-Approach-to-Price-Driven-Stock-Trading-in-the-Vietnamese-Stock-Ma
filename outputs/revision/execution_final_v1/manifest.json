@@ -1,0 +1,240 @@
+{
+  "outputs": [
+    {
+      "path": "policy.json",
+      "sha256": "c020b42211a2afc6672d8bd570b7eabbe6cdc2d1477c97855cefd23cdf894a0c"
+    },
+    {
+      "path": "report.json",
+      "sha256": "0faec26af37be228ff1863926c778ff6910d4aff39d3c476ef6123a60112882c"
+    },
+    {
+      "path": "account_results.csv",
+      "sha256": "474bceebe041c32e53d268a1c24a4e8281acdc0b935421488d4947c9a0f9b0d0"
+    },
+    {
+      "path": "scenario_summary.csv",
+      "sha256": "89cf353e5499aa5e14d3f3322224ff7288ac5754b1d906f715fd7a88bb36aa92"
+    },
+    {
+      "path": "events.csv",
+      "sha256": "b5538422be6fe4ff38ab939224db3418faccdb6f015978625423789766cf640d"
+    },
+    {
+      "path": "daily_ledger.csv.gz",
+      "sha256": "65c673bf456a83dab53bb58976ebeeadbbaf8fe30af0fd62bc8e20c31081f81d"
+    },
+    {
+      "path": "report.md",
+      "sha256": "70959d2a0f701e8d21bc614a21b46fc23fea777d02ec7a46291271deb2cf0fd0"
+    }
+  ],
+  "runtime": {
+    "Pillow": "11.0.0",
+    "TA-Lib": "0.6.8",
+    "groq": "0.37.1",
+    "langchain-core": "1.2.17",
+    "langchain-groq": "1.1.2",
+    "matplotlib": "3.10.8",
+    "mplfinance": "0.12.10b0",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "pydantic": "2.11.7",
+    "python": "3.13.5",
+    "python-dotenv": "1.2.2",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.1"
+  },
+  "schema_version": "execution_final_manifest_v1",
+  "sha256": "6eecb001a9a4ef72536b215f473ed311d5f811c91a0c0ad5a4e404c2de604f9d",
+  "sources": [
+    {
+      "path": ".python-version",
+      "sha256": "d7d7dbce2874cbcac948bc8db4cc29d07959351bd30bc2ed3cbc3bf9de8b6060"
+    },
+    {
+      "path": "core/revision72_run.py",
+      "sha256": "846904b533525abbf277e9ad49b7b0aca55890dcddc1342fef217af83c2c2aeb"
+    },
+    {
+      "path": "core/revision_baselines.py",
+      "sha256": "b6c0e05d62154c31a6fec387b68d6c6f875b1125a4115046d2e978de1b2ed6c5"
+    },
+    {
+      "path": "core/revision_call_archive.py",
+      "sha256": "c6d9a816f680791eed0c185a3f1c232519200e822f794fff0b163bfde21be7f0"
+    },
+    {
+      "path": "core/revision_common_study.py",
+      "sha256": "45eb777490667b5be7a3bd8a773b59d8289a7a68b8eb5bb1d139b9a169711ba5"
+    },
+    {
+      "path": "core/revision_execution.py",
+      "sha256": "5da72ff2a756f5d438f4045799fdd82b419939daa5346cfd3814d26f66555e2d"
+    },
+    {
+      "path": "core/revision_execution_final.py",
+      "sha256": "8e38d1d30b879f67b681e42dab0f300ca67fd113ee90fecdda4109bc2405d32c"
+    },
+    {
+      "path": "core/revision_minimal_analysis.py",
+      "sha256": "6229726963e7bb6503e84c48391405e6f174bbaaaec69d4131db89909c9b3808"
+    },
+    {
+      "path": "core/revision_minimal_bank.py",
+      "sha256": "252ef4e88be19da1694d6bc0cee7a862943157febafe1f70377d5cd666cb83f3"
+    },
+    {
+      "path": "outputs/revision/execution_evidence_v1/calendar.json",
+      "sha256": "b66703410b214b063b9ecbbd9eb4e1b8bc239e2d43998e08bbf8ebdb2cffe8c1"
+    },
+    {
+      "path": "outputs/revision/execution_evidence_v1/manifest.json",
+      "sha256": "0b2b1645db4eea97426c5d54fc7cea513efcc448797ed83c6c939ed181575328"
+    },
+    {
+      "path": "outputs/revision/execution_evidence_v1/report.md",
+      "sha256": "008bbb475968d1c1ce20498a9cd856b97b439cdeef8e9defebea136095e59f2a"
+    },
+    {
+      "path": "outputs/revision/execution_evidence_v1/sample_audit.json",
+      "sha256": "14f59d7aa3ce9d3df9f7c10c63eade0e35b080416e1ad2c3e845997a4d9436bd"
+    },
+    {
+      "path": "outputs/revision/execution_evidence_v1/sources.json",
+      "sha256": "81f285ee3e22229d29dcb19d76a3ad5059d4042a77643b662d7bdafeeaa42768"
+    },
+    {
+      "path": "outputs/revision/r1_72h_bank_v2/manifest.json",
+      "sha256": "b1f9c9261b5220f5d33a5fd759ddb4d6e7c5dc13431ea88218eae312e4d35f97"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/BHN.csv",
+      "sha256": "19564bd9d81d1d730f1e52b7457c080a4172002f062630d0d32f45415bddc15c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/CMG.csv",
+      "sha256": "0df2267c3547d032b2adae6b36324b052a3e82a912d825629c3a71c0cef98fbc"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/FPT.csv",
+      "sha256": "b3734bd8a4e0af790d85dc44eec06e0454543097c777729446292a8db2019e0b"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/HVN.csv",
+      "sha256": "fbae86e08a0ae2df3165b0fb7e87064d810ddbfcd5615e580eb88965088c785c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/manifest.json",
+      "sha256": "d74896420c0dfd0db37a6e821b4c025ff6c9dc3fba9f27589fe566f3ad1ae0ec"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/MBB.csv",
+      "sha256": "70e9c89ce508eb38f0fe496dfcb2caf69ffcebcacfb4c47dcacf6a7b6b644dc7"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/MWG.csv",
+      "sha256": "3081843791152a151a40c4bc42611e0e6ca3414cc86703ba93f748c04f6d8a1c"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VCB.csv",
+      "sha256": "fa324f48c7d0ff3710b727670f9e7eb523f43d4974136f0af5fcec1ddc3a2f10"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VJC.csv",
+      "sha256": "7a94bdd62ea0dd6044dc9846afc0d5a8a8923bef6133dc2addba1af73ee8c3db"
+    },
+    {
+      "path": "outputs/revision/r1_prices_v1/VNM.csv",
+      "sha256": "78e00d997b45e48ccc2aa76c41adf50e8ada350a0f58468a0d080480e8832d50"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/accounts.json",
+      "sha256": "2092b7da2808a2c1f878763770d7ecbb059d7f879660e7d4de36bab28f1a2740"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/attempts.json",
+      "sha256": "5323ea436d2f6fd3f023de2e16bf7fddecc1e5d172c8ec6fed8cc372126d50a9"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/completion.json",
+      "sha256": "6ddc1ae726bdf6a35b59d685cb2e76090a06ffbb27ec3d1507ab129234c7cfb6"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/costs.json",
+      "sha256": "d6a682ac947c959f2d4f96ef25fc478afdc2611fe3cb5ad2a2e87589ed6b77bd"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/daily_ledgers.json.gz",
+      "sha256": "9ad125d470e7a22fa8dcba5693209ddb3506ea78544fe3de74803b704a0a264b"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/factorial_panel.json",
+      "sha256": "96c764161add5b389c05f7661f175ca11ae37cf5e14a42e95dfc7cddbe8311b2"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/gross_diagnostic.json",
+      "sha256": "7395059c3cfafa543c9be4833229fbbd6f79730d91d1313f75f1f4aa3ab682a9"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/ledger_snapshot.json",
+      "sha256": "9bfc609b0ae8a479922657e7402210d85331041379371958fff24e22da171e4e"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/lineage.json",
+      "sha256": "11ff03d51dfdd72e2f908f3cbe387f1e7863b8cbb0697f783878913eb6421626"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/main_cohorts.json",
+      "sha256": "68eafd80dfa067b31d9f6cfdafdb536f82109d9bc8c8244b374bde6b4007e5d6"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/main_predictions.json",
+      "sha256": "1e9e0bd1803e1f243734dc79c7ad4834d823f2b042c1daca2cada9e11ffe6840"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/manifest.json",
+      "sha256": "5ccb426ab41088a7ff3956e229802a3a8e8c23a9980db93be602c9499d9279f1"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/numeric_provenance.json",
+      "sha256": "e523da2272b442cffcc04187b220e0b737c29e7fababf26e41b9638dc5c427d2"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/pairing.json",
+      "sha256": "aa6eb54cfb0c7931876a1ede1cfabaddc9ace2eeace340acb806c56a96c03c0b"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/price_quality.json",
+      "sha256": "610e03c180adf5221a9a52b997cac10e03a43d1a9d61fac2fff6c4c1c304ea86"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/records.json",
+      "sha256": "2d93cc34301da9910d7debd57c069f713c6942699cc833cc1804086d2bbcd793"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/resampling.npz",
+      "sha256": "3de46d5a9245ab188293133346f9a1c2928c5fff323298d7870d6332700f96fe"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/summary.json",
+      "sha256": "46782716a0770c9589056fbcf499b60f738c7243647e9a378f91e01656c04299"
+    },
+    {
+      "path": "outputs/revision/revision_minimal_final_v1/upstream_panel.json",
+      "sha256": "7d0ac52afd8d5090cb76e998ac26a42dcb18ab6dc8a7a8c40f6edd7845f3c08f"
+    },
+    {
+      "path": "revision/r15_execution_policy.json",
+      "sha256": "b86352284e1579c7bd8c67ee982c58e70e1e95a617ad23f2a6cada29677b15a5"
+    },
+    {
+      "path": "scripts/analyze_revision_execution_final.py",
+      "sha256": "510230b9d303f4e8f931aa2120efb93cc17d31fa6f3b1977977e0e6ecf2ee22a"
+    },
+    {
+      "path": "tests/test_revision_execution_final.py",
+      "sha256": "c6d22d5d8bef08920a38fcf2a619563a878008deab7d3bfd4d83a21d69e04520"
+    }
+  ]
+}

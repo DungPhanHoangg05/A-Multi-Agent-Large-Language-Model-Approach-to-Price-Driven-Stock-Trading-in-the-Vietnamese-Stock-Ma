@@ -1,0 +1,44 @@
+{
+  "analysis_timing": "Sensitivity mô tả sau inference T04, không confirmatory.",
+  "calendar": "T18 đã đối soát observed bars trong toàn cửa sổ entry–tail; oracle kiểm maturity theo ngày VSD/VSDC cho mọi fill. Ngoài snapshot giữ pending theo policy cũ, không sinh bar/giá.",
+  "cycle_spacing_observed_sessions": [
+    57
+  ],
+  "event_status_counts": {
+    "all_entries_missed_bound": 362,
+    "exit_above_planning_capacity": 38,
+    "filled": 7828,
+    "no_settled_cash_or_lot_capacity": 57,
+    "zero_volume_or_flat_bar_proxy": 90
+  },
+  "limits": [
+    "Tái dùng đầy đủ assumptions/giới hạn T18; policy gốc giữ nguyên byte và những mục unverified lịch sử.",
+    "Tiền về chiều T+2 không dùng ở open sáng đó; stock maturity được kiểm trước close SELL.",
+    "HVN giữ mọi unit/scenario, cờ cần kiểm không phải failed fill được xác nhận. Bar phase không là giờ khớp.",
+    "Zero-volume/flat OHLC là proxy ex-post; không đo queue/partial fill. Không chọn tham số theo outcomes.",
+    "Volume units, giá ×1000 và corporate-action adjustment/eligibility chưa xác minh; cap/quantity chỉ có điều kiện.",
+    "Phí/slippage/15% ACT365 là tham số; sell_charge_10bp xét cá nhân cư trú giả định, reference chưa sau mọi thuế.",
+    "Envelope và all_entries_missed không là worst/best mathematical bounds hoặc chứng minh alpha/profitability."
+  ],
+  "n_account_executions": 6120,
+  "n_event_records": 8375,
+  "n_execution_certified_fills": 0,
+  "n_hvn_scope_reviews": 6,
+  "n_hvn_unit_reviews": 10,
+  "n_market_units": 102,
+  "n_oracle_daily_rows_reconciled": 394560,
+  "n_prediction_rows_unchanged": 918,
+  "n_reference_accounts_reconciled": 510,
+  "n_reference_daily_rows_reconciled": 30600,
+  "n_scenarios": 12,
+  "new_api_jobs": 0,
+  "new_predictions": 0,
+  "parent_hashes_verified": {
+    "T04": 3524,
+    "T18": 24
+  },
+  "reference_window": "So daily T04 tới planned exit; tail tối đa năm observed bars chỉ nối cash/settlement/MTM, giới hạn bởi snapshot. Reference tail phải flat.",
+  "schema_version": "execution_final_v1",
+  "support": "51 symbol–block accounts/variant, mỗi account 50 triệu VND riêng; mean không là portfolio. Hold có một cycle/account, không là always-LONG hai cycles.",
+  "target": "Giữ nguyên Open[t+1] → Close[t+3] net và SHORT=CASH. L=3 là horizon cố định, không claim tối ưu; không tạo L=5/10."
+}
