@@ -4,9 +4,9 @@ Working response aligned to the final historical evaluation and the author-confi
 
 This response covers all eighteen comments and all 87 indexed requests. The short request descriptions below are paraphrases, not quotations. A written answer or disclosed shortfall is not acceptance or closure. Native row-wise causal construction still fails; financial-news domain/PIT validation, fixed/random factors through the hosted LLM, public rights/PID and some historical version identities remain missing. Stronger claims have been withdrawn rather than certified by implementation tests.
 
-Locations refer to **current source anchors/lines**, checked against the post-T33 source snapshot, and to scientific companions S1-S4. Both final PDFs have not yet been built/visually checked; final page/line locators remain null and will be added after that check. Earlier response/PDF locators and closure statements apply only to their named historical versions. The previous response is preserved byte-for-byte in [previous_response.zip](../outputs/revision/reviewer_response_v1/previous_response.zip), not silently overwritten as evidence.
+Locations refer to the **verified T35 PDFs** and current source anchors, with scientific companions S1-S4 identified separately. Main has 22 physical pages and submit 21, including the separate unnumbered highlights sheet. Physical page 2 is the title/abstract page; subsequent visible page numbers are one lower than physical pages. The PDFs do not print line numbers, so locators use physical pages, visible page numbers where present, sections and tables; JSON bounding boxes identify the exact rendered text rather than inventing printed line numbers. Earlier response/PDF locators and closure statements apply only to their named historical versions. The previous response is preserved byte-for-byte in [previous_response.zip](../outputs/revision/reviewer_response_v1/previous_response.zip), not silently overwritten as evidence.
 
-The [request-level mapping](../outputs/revision/reviewer_response_v1/response_map.json) records each request, actual answer, evidence hashes, source anchors and outstanding limits. [Archive instructions](archive_runbook.md) describe a private final-evidence package; it has no PID and is not authorized for public release. No API/provider/upload calls are made by this revision task.
+The [request-level mapping](../outputs/revision/final_pdf_v1/response_map.json) records each request, actual answer, evidence hashes, source anchors and outstanding limits. [Archive instructions](archive_runbook.md) describe a private final-evidence package; it has no PID and is not authorized for public release. No API/provider/upload calls are made by this revision task.
 
 
 ## R1 — Baselines, class imbalance and economic interpretation
@@ -50,8 +50,18 @@ We withdrew profitability, broad superiority and information-specific alpha conc
 Evidence: [outputs/revision/final_baselines_v1/baseline_contracts.json](../outputs/revision/final_baselines_v1/baseline_contracts.json); [outputs/revision/final_baselines_v1/classification.csv](../outputs/revision/final_baselines_v1/classification.csv); [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/per_class.csv](../outputs/revision/final_baselines_v1/per_class.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_repeats_v1/contrasts.csv](../outputs/revision/final_repeats_v1/contrasts.csv).
 
 
-Current source locations (not PDF locators): [paper/sections/06_backtest_results.tex:5](../paper/sections/06_backtest_results.tex) (`Table~\ref{tab:classification}`); [paper/generated/t02_classification.tex:6](../paper/generated/t02_classification.tex) (`\label{tab:classification}`); [paper/generated/t03_accounts.tex:6](../paper/generated/t03_accounts.tex) (`\label{tab:accounts}`).
+Current source locations (PDF positions are listed separately): [paper/sections/06_backtest_results.tex:5](../paper/sections/06_backtest_results.tex) (`Table~\ref{tab:classification}`); [paper/generated/t02_classification.tex:6](../paper/generated/t02_classification.tex) (`\label{tab:classification}`); [paper/generated/t03_accounts.tex:6](../paper/generated/t03_accounts.tex) (`\label{tab:accounts}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R1.1**: main physical pp. 9,12,13; submit physical pp. 9,12,13.
+- **R1.2**: main physical pp. 12,13; submit physical pp. 12,13.
+- **R1.3**: main physical pp. 12,13; submit physical pp. 12,13.
+- **R1.4**: main physical pp. 12,13; submit physical pp. 12,13.
+- **R1.5**: main physical pp. 12,13; submit physical pp. 12,13.
+- **R1.6**: main physical pp. 12,13; submit physical pp. 12,13.
+- **R1.7**: main physical pp. 1,2,12,13,17; submit physical pp. 1,2,12,13,17.
 
 ## R2 — Historical coverage and cross-sectional dependence
 
@@ -79,8 +89,15 @@ The effective number of independent market replications is not 102, nor the coun
 Evidence: [outputs/revision/final_temporal_v1/calendar_panel.csv](../outputs/revision/final_temporal_v1/calendar_panel.csv); [outputs/revision/final_temporal_v1/folds.csv](../outputs/revision/final_temporal_v1/folds.csv); [outputs/revision/final_temporal_v1/panel_hac.csv](../outputs/revision/final_temporal_v1/panel_hac.csv); [outputs/revision/final_temporal_v1/report.md](../outputs/revision/final_temporal_v1/report.md); [outputs/revision/final_temporal_v1/stratified_metrics.json](../outputs/revision/final_temporal_v1/stratified_metrics.json).
 
 
-Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:7](../paper/sections/05_experimental_setup.tex) (`Six blocks cover`); [paper/generated/t05_temporal.tex:6](../paper/generated/t05_temporal.tex) (`\label{tab:temporal}`).
+Current source locations (PDF positions are listed separately): [paper/sections/05_experimental_setup.tex:7](../paper/sections/05_experimental_setup.tex) (`Six blocks cover`); [paper/generated/t05_temporal.tex:6](../paper/generated/t05_temporal.tex) (`\label{tab:temporal}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R2.1**: main physical pp. 9,15; submit physical pp. 8,9,15.
+- **R2.2**: main physical pp. 9,15; submit physical pp. 8,15.
+- **R2.3**: main physical pp. 9,15; submit physical pp. 8,15.
+- **R2.4**: main physical pp. 9,15; submit physical pp. 8,9,15.
 
 ## R3 — Repeated executions and variability
 
@@ -108,8 +125,15 @@ Repeated-panel contrasts use joint block/paired-execution resampling, with undef
 Evidence: [outputs/revision/final_repeats_v1/contrasts.csv](../outputs/revision/final_repeats_v1/contrasts.csv); [outputs/revision/final_repeats_v1/disagreement.csv](../outputs/revision/final_repeats_v1/disagreement.csv); [outputs/revision/final_repeats_v1/pairing.csv](../outputs/revision/final_repeats_v1/pairing.csv); [outputs/revision/final_repeats_v1/repeat_summary.csv](../outputs/revision/final_repeats_v1/repeat_summary.csv); [outputs/revision/final_repeats_v1/report.md](../outputs/revision/final_repeats_v1/report.md).
 
 
-Current source locations (not PDF locators): [paper/sections/06_backtest_results.tex:19](../paper/sections/06_backtest_results.tex) (`Table~\ref{tab:repeats}`); [paper/generated/t04_repeats.tex:6](../paper/generated/t04_repeats.tex) (`\label{tab:repeats}`).
+Current source locations (PDF positions are listed separately): [paper/sections/06_backtest_results.tex:19](../paper/sections/06_backtest_results.tex) (`Table~\ref{tab:repeats}`); [paper/generated/t04_repeats.tex:6](../paper/generated/t04_repeats.tex) (`\label{tab:repeats}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R3.1**: main physical pp. 10,14; submit physical pp. 10,14.
+- **R3.2**: main physical pp. 10,14; submit physical pp. 10,14.
+- **R3.3**: main physical pp. 10,14; submit physical pp. 10,14.
+- **R3.4**: main physical pp. 10,14; submit physical pp. 10,14.
 
 ## R4 — Bundle ablation, factorial contrasts and placebo
 
@@ -142,8 +166,16 @@ We distinguish interaction AS-A-S+B (mean +14.29 pp) from the post-hoc gap betwe
 Evidence: [outputs/revision/final_baselines_v1/baseline_contracts.json](../outputs/revision/final_baselines_v1/baseline_contracts.json); [outputs/revision/final_repeats_v1/contrasts.csv](../outputs/revision/final_repeats_v1/contrasts.csv); [outputs/revision/final_repeats_v1/donors.csv](../outputs/revision/final_repeats_v1/donors.csv); [outputs/revision/final_repeats_v1/pairing.csv](../outputs/revision/final_repeats_v1/pairing.csv); [outputs/revision/final_repeats_v1/report.md](../outputs/revision/final_repeats_v1/report.md); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json).
 
 
-Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:24](../paper/sections/05_experimental_setup.tex) (`P retains`); [paper/generated/t01_scope.tex:6](../paper/generated/t01_scope.tex) (`\label{tab:scope}`); [paper/generated/t04_repeats.tex:6](../paper/generated/t04_repeats.tex) (`\label{tab:repeats}`).
+Current source locations (PDF positions are listed separately): [paper/sections/05_experimental_setup.tex:24](../paper/sections/05_experimental_setup.tex) (`P retains`); [paper/generated/t01_scope.tex:6](../paper/generated/t01_scope.tex) (`\label{tab:scope}`); [paper/generated/t04_repeats.tex:6](../paper/generated/t04_repeats.tex) (`\label{tab:repeats}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R4.1**: main physical pp. 10,14; submit physical pp. 9,10,14.
+- **R4.2**: main physical pp. 10,14; submit physical pp. 9,10,14.
+- **R4.3**: main physical pp. 10,14; submit physical pp. 9,10,14.
+- **R4.4**: main physical pp. 10,14; submit physical pp. 9,10,14.
+- **R4.5**: main physical pp. 10,14; submit physical pp. 9,10,14.
 
 ## R5 — Uncertainty, HAC and risk conventions
 
@@ -176,8 +208,16 @@ We disclose few trades, long CASH gaps and separate account funding. Main cutoff
 Evidence: [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md); [outputs/revision/final_contracts_v1/risk_cycles.csv](../outputs/revision/final_contracts_v1/risk_cycles.csv); [outputs/revision/final_temporal_v1/calendar_panel.csv](../outputs/revision/final_temporal_v1/calendar_panel.csv); [outputs/revision/final_temporal_v1/panel_hac.csv](../outputs/revision/final_temporal_v1/panel_hac.csv); [outputs/revision/final_temporal_v1/report.md](../outputs/revision/final_temporal_v1/report.md).
 
 
-Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:27](../paper/sections/05_experimental_setup.tex) (`BA averages`); [paper/generated/t05_temporal.tex:6](../paper/generated/t05_temporal.tex) (`\label{tab:temporal}`).
+Current source locations (PDF positions are listed separately): [paper/sections/05_experimental_setup.tex:27](../paper/sections/05_experimental_setup.tex) (`BA averages`); [paper/generated/t05_temporal.tex:6](../paper/generated/t05_temporal.tex) (`\label{tab:temporal}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R5.1**: main physical pp. 11,15; submit physical pp. 10,15.
+- **R5.2**: main physical pp. 11,15; submit physical pp. 10,13,15.
+- **R5.3**: main physical pp. 11,15; submit physical pp. 10,15.
+- **R5.4**: main physical pp. 11,15; submit physical pp. 10,15.
+- **R5.5**: main physical pp. 11,15; submit physical pp. 10,15.
 
 ## R6 — Legacy lineage and duplicated results
 
@@ -200,8 +240,14 @@ Repeated legacy return values such as -7.85/-7.38 are not treated as proof of ma
 Evidence: [outputs/revision/final_repeats_v1/pairing.csv](../outputs/revision/final_repeats_v1/pairing.csv); [outputs/revision/legacy_lineage_v1/comparisons.json](../outputs/revision/legacy_lineage_v1/comparisons.json); [outputs/revision/legacy_lineage_v1/report.json](../outputs/revision/legacy_lineage_v1/report.json).
 
 
-Current source locations (not PDF locators): [paper/sections/07_limitations.tex:5](../paper/sections/07_limitations.tex) (`Byte-level duplication`).
+Current source locations (PDF positions are listed separately): [paper/sections/07_limitations.tex:5](../paper/sections/07_limitations.tex) (`Byte-level duplication`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R6.1**: main physical pp. 16; submit physical pp. 16.
+- **R6.2**: main physical pp. 16; submit physical pp. 16.
+- **R6.3**: main physical pp. 16; submit physical pp. 16.
 
 ## R7 — Sentiment counts, provenance and domain validation
 
@@ -249,8 +295,19 @@ Date-only content is made available the following day by an explicit conservativ
 Evidence: [outputs/revision/legacy_lineage_v1/report.json](../outputs/revision/legacy_lineage_v1/report.json); [outputs/revision/reference_audit_v1/reference_audit.json](../outputs/revision/reference_audit_v1/reference_audit.json); [outputs/revision/sentiment_contract_v1/scorer_tokenizer.json](../outputs/revision/sentiment_contract_v1/scorer_tokenizer.json); [outputs/revision/sentiment_contract_v1/summary.json](../outputs/revision/sentiment_contract_v1/summary.json); [outputs/revision/sentiment_coverage_v1/coverage.json](../outputs/revision/sentiment_coverage_v1/coverage.json); [outputs/revision/sentiment_coverage_v1/summary.json](../outputs/revision/sentiment_coverage_v1/summary.json); [outputs/revision/sentiment_inventory_v1/inventory.json](../outputs/revision/sentiment_inventory_v1/inventory.json); [outputs/revision/sentiment_inventory_v1/summary.json](../outputs/revision/sentiment_inventory_v1/summary.json).
 
 
-Current source locations (not PDF locators): [paper/sections/03_problem_formulation.tex:37](../paper/sections/03_problem_formulation.tex) (`Legacy inventory`).
+Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:37](../paper/sections/03_problem_formulation.tex) (`Legacy inventory`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R7.1**: main physical pp. 5; submit physical pp. 5.
+- **R7.2**: main physical pp. 5; submit physical pp. 5.
+- **R7.3**: main physical pp. 5; submit physical pp. 5.
+- **R7.4**: main physical pp. 5; submit physical pp. 5.
+- **R7.5**: main physical pp. 5; submit physical pp. 5.
+- **R7.6**: main physical pp. 5; submit physical pp. 5.
+- **R7.7**: main physical pp. 5,16; submit physical pp. 5,16.
+- **R7.8**: main physical pp. 5; submit physical pp. 5.
 
 ## R8 — Attribution and the meaning of aggregation
 
@@ -283,8 +340,16 @@ We replaced the stronger knowledge-fusion framing with prompt-level report aggre
 Evidence: [LICENSES/QuantAgent-MIT.txt](../LICENSES/QuantAgent-MIT.txt); [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/quantagent_attribution_v1/attribution.json](../outputs/revision/quantagent_attribution_v1/attribution.json); [outputs/revision/quantagent_attribution_v1/prompt_inventory.json](../outputs/revision/quantagent_attribution_v1/prompt_inventory.json); [outputs/revision/quantagent_attribution_v1/provenance.json](../outputs/revision/quantagent_attribution_v1/provenance.json).
 
 
-Current source locations (not PDF locators): [paper/sections/02_related_work.tex:5](../paper/sections/02_related_work.tex) (`QuantAgent`); [paper/sections/04_system_architecture.tex:7](../paper/sections/04_system_architecture.tex) (`QuantAgent`).
+Current source locations (PDF positions are listed separately): [paper/sections/02_related_work.tex:5](../paper/sections/02_related_work.tex) (`QuantAgent`); [paper/sections/04_system_architecture.tex:7](../paper/sections/04_system_architecture.tex) (`QuantAgent`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R8.1**: main physical pp. 3,6; submit physical pp. 3,6.
+- **R8.2**: main physical pp. 3,6; submit physical pp. 3,6.
+- **R8.3**: main physical pp. 3,6; submit physical pp. 3,6.
+- **R8.4**: main physical pp. 3,6; submit physical pp. 3,6.
+- **R8.5**: main physical pp. 3,6; submit physical pp. 3,6.
 
 ## R9 — Reproducibility, model provenance and public archive
 
@@ -322,8 +387,17 @@ The existing no-network package-only replay reproduced 375 saved predictions, 68
 Evidence: [outputs/revision/clean_replay_v1/metrics_qa.json](../outputs/revision/clean_replay_v1/metrics_qa.json); [outputs/revision/final_cost_integrity_v1/report.json](../outputs/revision/final_cost_integrity_v1/report.json); [outputs/revision/final_regression_v1/report.json](../outputs/revision/final_regression_v1/report.json); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/reproducibility_v1/manifest.json](../outputs/revision/reproducibility_v1/manifest.json); [outputs/revision/reproducibility_v1/rights.json](../outputs/revision/reproducibility_v1/rights.json); [outputs/revision/sentiment_inventory_v1/summary.json](../outputs/revision/sentiment_inventory_v1/summary.json).
 
 
-Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:34](../paper/sections/05_experimental_setup.tex) (`Archived SDK aliases`); [paper/sections/availability.tex:1](../paper/sections/availability.tex) (`\section`).
+Current source locations (PDF positions are listed separately): [paper/sections/05_experimental_setup.tex:34](../paper/sections/05_experimental_setup.tex) (`Archived SDK aliases`); [paper/sections/availability.tex:1](../paper/sections/availability.tex) (`\section`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R9.1**: main physical pp. 11,18; submit physical pp. 11,17.
+- **R9.2**: main physical pp. 11,18; submit physical pp. 11,17.
+- **R9.3**: main physical pp. 11,18; submit physical pp. 11,17.
+- **R9.4**: main physical pp. 11,18; submit physical pp. 11,17.
+- **R9.5**: main physical pp. 11,18; submit physical pp. 11,17.
+- **R9.6**: main physical pp. 11,18; submit physical pp. 11,17.
 
 ## R10 — Selection diagnostics and auxiliary numeric controls
 
@@ -361,8 +435,17 @@ Each retained expression is linked to the actual handler, operator calls, window
 Evidence: [outputs/revision/alpha_contract_v1/leakage.json](../outputs/revision/alpha_contract_v1/leakage.json); [outputs/revision/alpha_contract_v1/summary.json](../outputs/revision/alpha_contract_v1/summary.json); [outputs/revision/alpha_registry_v1/registry.json](../outputs/revision/alpha_registry_v1/registry.json); [outputs/revision/alpha_registry_v1/summary.json](../outputs/revision/alpha_registry_v1/summary.json); [outputs/revision/alpha_selection_v1/aggregate.json](../outputs/revision/alpha_selection_v1/aggregate.json); [outputs/revision/alpha_selection_v1/transitions.json](../outputs/revision/alpha_selection_v1/transitions.json); [outputs/revision/numeric_controls_v1/inference.json](../outputs/revision/numeric_controls_v1/inference.json); [outputs/revision/numeric_controls_v1/summary.json](../outputs/revision/numeric_controls_v1/summary.json); [revision/numeric_controls_protocol.json](../revision/numeric_controls_protocol.json).
 
 
-Current source locations (not PDF locators): [paper/sections/03_problem_formulation.tex:23](../paper/sections/03_problem_formulation.tex) (`The native row-wise causal gate fails.`); [paper/generated/t06_numeric.tex:6](../paper/generated/t06_numeric.tex) (`\label{tab:numeric}`).
+Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:23](../paper/sections/03_problem_formulation.tex) (`The native row-wise causal gate fails.`); [paper/generated/t06_numeric.tex:6](../paper/generated/t06_numeric.tex) (`\label{tab:numeric}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R10.1**: main physical pp. 5,15,16; submit physical pp. 5,15.
+- **R10.2**: main physical pp. 5,16; submit physical pp. 5,15.
+- **R10.3**: main physical pp. 5,16; submit physical pp. 5,15.
+- **R10.4**: main physical pp. 5,16; submit physical pp. 5,15.
+- **R10.5**: main physical pp. 5,16; submit physical pp. 5,15.
+- **R10.6**: main physical pp. 5,16; submit physical pp. 5,15.
 
 ## R11 — Target definition and the legacy price alias
 
@@ -380,20 +463,25 @@ Canonical exports distinguish decision Close, entry Open and exit Close. The leg
 Evidence: [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md); [outputs/revision/final_contracts_v1/targets.json](../outputs/revision/final_contracts_v1/targets.json); [revision/target_schema.json](../revision/target_schema.json).
 
 
-Current source locations (not PDF locators): [paper/sections/03_problem_formulation.tex:14](../paper/sections/03_problem_formulation.tex) (`actual\_prev\_close`).
+Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:14](../paper/sections/03_problem_formulation.tex) (`actual\_prev\_close`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R11.1**: main physical pp. 4; submit physical pp. 4.
+- **R11.2**: main physical pp. 4; submit physical pp. 4.
 
 ## R12 — Indicator identities and priority rules
 
 
 ### R12.1
 
-Appendix A1 gives ordered RSI rules: RSI>=70 is bearish first; RSI<=30 bullish; 55<=RSI<70 bullish; 30<RSI<=45 bearish. The interior 45<RSI<55 uses change against the third retained sample rather than being automatically neutral. Order and boundaries prevent RSI>=70 satisfying both directions. We describe the implemented rule rather than claiming RSI independently predicts profitable returns.
+Table A.1 gives ordered RSI rules: RSI>=70 is bearish first; RSI<=30 bullish; 55<=RSI<70 bullish; 30<RSI<=45 bearish. The interior 45<RSI<55 uses change against the third retained sample rather than being automatically neutral. Order and boundaries prevent RSI>=70 satisfying both directions. We describe the implemented rule rather than claiming RSI independently predicts profitable returns.
 
 
 ### R12.2
 
-The five actual Indicator votes are MACD, RSI, Stochastic, Williams %R and ROC, described as momentum/trend indicators rather than five volatility oscillators. Their exact ordered thresholds and missing/error convention are in Appendix A1 and the frozen indicator contract. The backtest node is deterministic, not an extra Indicator LLM call.
+The five actual Indicator votes are MACD, RSI, Stochastic, Williams %R and ROC, described as momentum/trend indicators rather than five volatility oscillators. Their exact ordered thresholds and missing/error convention are in Table A.1 and the frozen indicator contract. The backtest node is deterministic, not an extra Indicator LLM call.
 
 
 ### R12.3
@@ -403,14 +491,21 @@ We distinguish declared BB/ADX state slots from numeric arrays/reports actually 
 
 ### R12.4
 
-The architecture, shared methods and Appendix A1 now use one five-vote contract with the same priority boundaries. Missing/error votes remain in the denominator of five rather than renormalizing only available indicators. Consensus/report text is not represented as a full numeric state-array payload, and the old contradictory indicator table is replaced.
+The architecture, shared methods and Table A.1 now use one five-vote contract with the same priority boundaries. Missing/error votes remain in the denominator of five rather than renormalizing only available indicators. Consensus/report text is not represented as a full numeric state-array payload, and the old contradictory indicator table is replaced.
 
 
 Evidence: [outputs/revision/final_contracts_v1/indicators.json](../outputs/revision/final_contracts_v1/indicators.json); [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md).
 
 
-Current source locations (not PDF locators): [paper/generated/a01_rules.tex:6](../paper/generated/a01_rules.tex) (`\label{tab:indicator_rules}`).
+Current source locations (PDF positions are listed separately): [paper/generated/a01_rules.tex:6](../paper/generated/a01_rules.tex) (`\label{tab:indicator_rules}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R12.1**: main physical pp. 19; submit physical pp. 18.
+- **R12.2**: main physical pp. 19; submit physical pp. 18.
+- **R12.3**: main physical pp. 6,19; submit physical pp. 6,18.
+- **R12.4**: main physical pp. 19; submit physical pp. 18.
 
 ## R13 — Signed-volume custom factor descriptions
 
@@ -427,14 +522,20 @@ We withdrew unsupported volume-expansion and squeeze gating descriptions and dis
 
 ### R13.3
 
-The scientific text now calls the five formulas custom, not proprietary, and distinguishes source adaptations from new-to-this-comparison implementation choices. No order-flow measurement, protected formula, mathematical source equivalence or investment alpha is inferred from the custom labels. Full definitions remain in Appendix A2 and the registry.
+The scientific text now calls the five formulas custom, not proprietary, and distinguishes source adaptations from new-to-this-comparison implementation choices. No order-flow measurement, protected formula, mathematical source equivalence or investment alpha is inferred from the custom labels. Full definitions remain in Table A.2 and the registry.
 
 
 Evidence: [outputs/revision/alpha_contract_v1/summary.json](../outputs/revision/alpha_contract_v1/summary.json); [outputs/revision/alpha_registry_v1/registry.json](../outputs/revision/alpha_registry_v1/registry.json); [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md).
 
 
-Current source locations (not PDF locators): [paper/generated/a02_custom.tex:6](../paper/generated/a02_custom.tex) (`\label{tab:custom_definitions}`).
+Current source locations (PDF positions are listed separately): [paper/generated/a02_custom.tex:6](../paper/generated/a02_custom.tex) (`\label{tab:custom_definitions}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R13.1**: main physical pp. 19; submit physical pp. 18.
+- **R13.2**: main physical pp. 19; submit physical pp. 18.
+- **R13.3**: main physical pp. 19; submit physical pp. 18.
 
 ## R14 — Chart conventions, corrected inputs and visual limits
 
@@ -446,7 +547,7 @@ We withdrew the green-bearish/red-bullish claim. Actual candle bodies are green 
 
 ### R14.2
 
-The final integrity audit rerendered 204 PNGs for 102 frozen windows byte/pixel exactly and checked 240 actual vision requests against cached images/templates. Geometry, body colour, support/resistance handles and legend agree. The source figure labelled fig:charts uses exact PNG bytes for the earliest eligible unit (CMG, 3 July 2023), selected chronologically rather than by outcome; its final PDF number awaits build. Legacy wrong-legend images remain historical evidence and are not overwritten.
+The final integrity audit rerendered 204 PNGs for 102 frozen windows byte/pixel exactly and checked 240 actual vision requests against cached images/templates. Geometry, body colour, support/resistance handles and legend agree. Figure 2 (source label fig:charts) uses exact PNG bytes for the earliest eligible unit (CMG, 3 July 2023), selected chronologically rather than by outcome; its caption and inputs have been checked in both rendered PDFs. Legacy wrong-legend images remain historical evidence and are not overwritten.
 
 
 ### R14.3
@@ -457,8 +558,14 @@ The final whitelist has real corrected-Trend and Decision calls with original Pa
 Evidence: [outputs/revision/final_cost_integrity_v1/actual_images.csv](../outputs/revision/final_cost_integrity_v1/actual_images.csv); [outputs/revision/final_cost_integrity_v1/chart_replay.json](../outputs/revision/final_cost_integrity_v1/chart_replay.json); [outputs/revision/final_cost_integrity_v1/report.json](../outputs/revision/final_cost_integrity_v1/report.json); [outputs/revision/final_cost_integrity_v1/report.md](../outputs/revision/final_cost_integrity_v1/report.md).
 
 
-Current source locations (not PDF locators): [paper/sections/04_system_architecture.tex:17](../paper/sections/04_system_architecture.tex) (`Candle bodies are green`).
+Current source locations (PDF positions are listed separately): [paper/sections/04_system_architecture.tex:17](../paper/sections/04_system_architecture.tex) (`Candle bodies are green`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R14.1**: main physical pp. 7,8; submit physical pp. 6,7.
+- **R14.2**: main physical pp. 7,8; submit physical pp. 6,7.
+- **R14.3**: main physical pp. 7,8; submit physical pp. 6,7.
 
 ## R15 — Execution, settlement and horizon assumptions
 
@@ -481,8 +588,14 @@ L=3 is a fixed observed-bar protocol choice: buy on d+1 and exit on d+3, two obs
 Evidence: [outputs/revision/execution_evidence_v1/report.md](../outputs/revision/execution_evidence_v1/report.md); [outputs/revision/execution_evidence_v1/sample_audit.json](../outputs/revision/execution_evidence_v1/sample_audit.json); [outputs/revision/execution_evidence_v1/sources.json](../outputs/revision/execution_evidence_v1/sources.json); [outputs/revision/execution_final_v1/report.md](../outputs/revision/execution_final_v1/report.md); [outputs/revision/final_contracts_v1/targets.json](../outputs/revision/final_contracts_v1/targets.json).
 
 
-Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:31](../paper/sections/05_experimental_setup.tex) (`Shares are assumed`); [paper/generated/a04_execution.tex:6](../paper/generated/a04_execution.tex) (`\label{tab:execution}`).
+Current source locations (PDF positions are listed separately): [paper/sections/05_experimental_setup.tex:31](../paper/sections/05_experimental_setup.tex) (`Shares are assumed`); [paper/generated/a04_execution.tex:6](../paper/generated/a04_execution.tex) (`\label{tab:execution}`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R15.1**: main physical pp. 11,21; submit physical pp. 10,20.
+- **R15.2**: main physical pp. 11,21; submit physical pp. 10,20.
+- **R15.3**: main physical pp. 11,21; submit physical pp. 10,20.
 
 ## R16 — Bibliographic corrections and unresolved historical numbering
 
@@ -514,12 +627,12 @@ The Tsantekidis citation is described as limit-order-book forecasting rather tha
 
 ### R16.6
 
-Deng metadata uses the 2017 issue publication while distinguishing 2016 online-first timing. Keys, year and claim scope follow the audited version rather than silently assigning one date to both events. The current bibliography has forty entries and eighteen cited keys; final numbering is still pending PDF build.
+Deng metadata uses the 2017 issue publication while distinguishing 2016 online-first timing. Keys, year and claim scope follow the audited version rather than silently assigning one date to both events. The current bibliography has forty entries and eighteen cited keys; current numbering is recorded from the built PDFs, while historical reviewed-version numbering remains unresolved. The corrected Deng entry is uncited in the rewritten article and therefore has no rendered reference number; its source entry is retained for audit.
 
 
 ### R16.7
 
-For reviewer reference [14], its identity in the reviewed PDF has not been authenticated from the available version records. We audited all 41 original entries, removed three wrong-identity DOI entries and replaced an unverified herding entry with a separately identified source. We cannot assert which revised key equals historical [14] or invent its DOI; reviewed-version mapping remains unresolved, and final numbering awaits PDF QA.
+For reviewer reference [14], its identity in the reviewed PDF has not been authenticated from the available version records. We audited all 41 original entries, removed three wrong-identity DOI entries and replaced an unverified herding entry with a separately identified source. We cannot assert which revised key equals historical [14] or invent its DOI; reviewed-version mapping remains unresolved, and current numbering is verified separately and does not authenticate the historical reference identity.
 
 
 ### R16.8
@@ -534,14 +647,27 @@ The same limitation applies separately to reviewer reference [22]. We provide th
 
 ### R16.10
 
-For reviewer reference [23], historical numbering/title identity is also unverified. All current citations have defined keys in source QA, but source-key integrity does not authenticate the reviewer's [23] or prove rendered numbering. We retain this unresolved version-mapping requirement for final reference/PDF checks instead of declaring the whole comment closed.
+For reviewer reference [23], historical numbering/title identity is also unverified. All current citations have defined keys in source QA, but the separately verified current rendered numbering does not authenticate the reviewer's historical [23]. We retain this unresolved version-mapping requirement for final reference/PDF checks instead of declaring the whole comment closed.
 
 
 Evidence: [outputs/revision/reference_audit_v1/changes.csv](../outputs/revision/reference_audit_v1/changes.csv); [outputs/revision/reference_audit_v1/inventory.json](../outputs/revision/reference_audit_v1/inventory.json); [outputs/revision/reference_audit_v1/reference_audit.json](../outputs/revision/reference_audit_v1/reference_audit.json); [outputs/revision/sentiment_contract_v1/scorer_tokenizer.json](../outputs/revision/sentiment_contract_v1/scorer_tokenizer.json).
 
 
-Current source locations (not PDF locators): [paper/sections/02_related_work.tex:5](../paper/sections/02_related_work.tex) (`Tsantekidis`); [paper/references.bib:1](../paper/references.bib) (`@`).
+Current source locations (PDF positions are listed separately): [paper/sections/02_related_work.tex:5](../paper/sections/02_related_work.tex) (`Tsantekidis`); [paper/references.bib:1](../paper/references.bib) (`@`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R16.1**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.2**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.3**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.4**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.5**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.6**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.7**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.8**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.9**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
+- **R16.10**: main physical pp. 3,21,22; submit physical pp. 3,20,21.
 
 ## R17 — Presentation and scope
 
@@ -553,12 +679,12 @@ Flask serialization, tokenizer/Hugging Face endpoint routing, API/retry/checkpoi
 
 ### R17.2
 
-We rewrote eight shared sections around one methods/results structure and a consolidated limitations discussion. Six main tables, three main figures and four appendix tables replace the old repeated float blocks; complete registry/audits remain outside the article. These are source dispositions, not a certified page count or readable rendered layout; both PDF variants still require visual QA.
+We rewrote eight shared sections around one methods/results structure and a consolidated limitations discussion. Six main tables, three main figures and four appendix tables replace the old repeated float blocks; complete registry/audits remain outside the article. Both final layouts have now passed visual QA (22 physical pages main, 21 submit, including the separate highlights sheet). This does not certify journal page-limit or anonymity requirements.
 
 
 ### R17.3
 
-The rewritten paragraph headings are checked for the double-period pattern, and the old heading is not retained as current prose. This is a source check, not a claim that all printed punctuation is verified; typeset headings/captions will be checked in both final PDFs.
+The rewritten paragraph headings are checked for the double-period pattern, and the old heading is not retained as current prose. The current typeset headings and captions have also been checked in both final PDFs; this does not authenticate the exact historical sentence that the reviewer read.
 
 
 ### R17.4
@@ -568,7 +694,7 @@ The quoted sub-tasks-market wording was already absent from the recovered source
 
 ### R17.5
 
-Section structure and chart-agent prose have been rewritten, with standard LaTeX quotation pairs in current source. The exact historical Section 4.3 quotation defect is not authenticated as a current occurrence. Opening/closing quotation rendering and section numbering remain part of the two-PDF visual check, so this presentation point is not declared closed from source parsing alone.
+Section structure and chart-agent prose have been rewritten, with standard LaTeX quotation pairs in current source. The exact historical Section 4.3 quotation defect is not authenticated as a current occurrence. Current opening/closing quotations and section numbering have been checked visually in both PDFs. The exact historical occurrence remains unverified; no reviewer-acceptance conclusion follows.
 
 
 ### R17.6
@@ -579,8 +705,17 @@ Both entrypoints now use Multi-Agent LLM Decision Support for Vietnamese Equitie
 Evidence: [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_regression_v1/report.json](../outputs/revision/final_regression_v1/report.json); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/reference_audit_v1/inventory.json](../outputs/revision/reference_audit_v1/inventory.json); [outputs/revision/reproducibility_v1/manifest.json](../outputs/revision/reproducibility_v1/manifest.json).
 
 
-Current source locations (not PDF locators): [paper/sections/appendices.tex:1](../paper/sections/appendices.tex) (`\appendix`); [paper/main.tex:58](../paper/main.tex) (`\title{`); [revision/implementation_notes.md:1](../revision/implementation_notes.md) (`#`).
+Current source locations (PDF positions are listed separately): [paper/sections/appendices.tex:2](../paper/sections/appendices.tex) (`\appendix`); [paper/main.tex:61](../paper/main.tex) (`\title{`); [revision/implementation_notes.md:1](../revision/implementation_notes.md) (`#`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R17.1**: main physical pp. 2,5,18; submit physical pp. 2,5,17.
+- **R17.2**: main physical pp. 2,5,18; submit physical pp. 2,5,17.
+- **R17.3**: main physical pp. 2,5,18; submit physical pp. 2,5,17.
+- **R17.4**: main physical pp. 2,5,18; submit physical pp. 2,5,17.
+- **R17.5**: main physical pp. 2,5,18; submit physical pp. 2,5,17.
+- **R17.6**: main physical pp. 1,2,5,17,18; submit physical pp. 1,2,5,17.
 
 ## R18 — Author metadata
 
@@ -597,17 +732,23 @@ Under the same confirmation, Van-Tang Nguyen is retained consistently in the aut
 
 ### R18.3
 
-The author explicitly confirmed Phuong-Thai Nguyen's ORCID as 0009-0006-2033-7788. We changed exactly one commented submit ORCID to match main, preserving other names/order, affiliations, CRediT, funding and declarations. The new 46-file source snapshot is separate from T32. Manuscript ID, editor decision letter and blind/nonblind route remain unavailable; no submission permission, independent ORCID ownership audit or individual signed approval record is asserted.
+The author explicitly confirmed Phuong-Thai Nguyen's ORCID as 0009-0006-2033-7788. We changed exactly one commented submit ORCID to match main, preserving other names/order, affiliations, CRediT, funding and declarations. The 46-file metadata snapshot remains separate from T32; T35 adds the later layout/source and PDF version without changing those historical archives. Manuscript ID, editor decision letter and blind/nonblind route remain unavailable; no submission permission, independent ORCID ownership audit or individual signed approval record is asserted.
 
 
 Evidence: [outputs/revision/author_metadata_v1/manifest.json](../outputs/revision/author_metadata_v1/manifest.json); [revision/author_metadata.md](../revision/author_metadata.md); [revision/reviewer_matrix.csv](../revision/reviewer_matrix.csv).
 
 
-Current source locations (not PDF locators): [paper/main.tex:62](../paper/main.tex) (`\author[`); [paper/main_submit.tex:62](../paper/main_submit.tex) (`\author[`).
+Current source locations (PDF positions are listed separately): [paper/main.tex:65](../paper/main.tex) (`\author[`); [paper/main_submit.tex:65](../paper/main_submit.tex) (`\author[`).
 
+
+Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
+
+- **R18.1**: main physical pp. 2,18; submit: author block not rendered.
+- **R18.2**: main physical pp. 2,17; submit: author block not rendered.
+- **R18.3**: main physical pp. 2,18; submit: author block not rendered.
 
 ## Remaining release requirements
 
 The public-archive/PID request remains incomplete; no placeholder is presented as a DOI. Author contact and editorial route remain missing. Financial-domain labels, independently authenticated news availability, a repaired native causal LLM study, full-grid controlled repeats and the hosted fixed/random factor experiment were not supplied by this revision. Historical references [14]/[21]/[22]/[23] cannot be mapped by current BibTeX order. Claim withdrawal/disclosure limits what the revised study asserts; it does not fulfill experiments that were not done.
 
-Two-PDF build, visual verification, final reference numbering and page/line locations are still required. Accordingly **zero of eighteen comments is certified closed by this response**. Scientific and editorial adequacy remain for the reviewers/editor to assess. No upload, submission or publication has been performed.
+Both PDFs have been built and visually checked, and current reference numbering and physical-page locators are recorded. Historical reviewed-reference identities, public rights/PID and the missing scientific/editorial evidence above remain unresolved. Accordingly **zero of eighteen comments is certified closed by this response**. Scientific and editorial adequacy remain for the reviewers/editor to assess. No upload, submission or publication has been performed.

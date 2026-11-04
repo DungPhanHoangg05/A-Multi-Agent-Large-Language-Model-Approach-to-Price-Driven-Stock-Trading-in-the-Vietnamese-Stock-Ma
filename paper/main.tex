@@ -1,4 +1,5 @@
 % Nguồn bài historical exploratory theo gate T30; metadata tác giả chờ T33.
+\PassOptionsToPackage{pdfusetitle=false,hypertexnames=false,hidelinks}{hyperref}
 \documentclass[preprint,12pt]{elsarticle}
 
 \usepackage[
@@ -25,20 +26,22 @@
 %% Packages required by the original manuscript content (tables,
 %% algorithms, float placement) -- preserved from the source document.
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[utf8]{inputenc}
-\usepackage[vietnamese, english]{babel}
+\usepackage[english]{babel}
 \usepackage{xcolor}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{float}
-\usepackage{placeins}
+\usepackage[section]{placeins}
 
 
 \usepackage{orcidlink}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
 \usepackage{hyperref}
+\input{manuscript_layout.tex}
 
 \journal{Knowledge-Based Systems}
 
@@ -103,9 +106,6 @@ Multi-agent LLM \sep Vietnamese equities \sep Historical evaluation \sep Class i
 \end{keyword}
 
 \end{frontmatter}
-% The elsarticle preprint footer exceeds its output box by 2.61pt.
-% Visual inspection confirms no clipping; use a 3pt output tolerance.
-\global\hfuzz=3pt
 
 %% main text
 \input{sections/01_introduction.tex}
@@ -134,7 +134,7 @@ Multi-agent LLM \sep Vietnamese equities \sep Historical evaluation \sep Class i
 
 \textbf{Hong-Viet Tran:} Conceptualization (C); Methodology (M); Software (So); Validation (Va); Formal analysis (Fo); Data curation (D); Original draft preparation (O); Writing-review and editing (E); Project administration (P).
 
-\section*{CONFLICT OF INTEREST STATEMENT (mandatory)}
+\section*{Declaration of competing interest}
 Authors state no conflict of interest.
 
 % \section*{INFORMED CONSENT (if applicable)}

@@ -1,0 +1,19 @@
+% Kiểu trình bày chung; không thay giá trị thực nghiệm hoặc metadata tác giả.
+\hypersetup{pdftitle={Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation}}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.65}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+% Footer trung tính, không suy rằng bản thảo đã được gửi tới tạp chí.
+\date{5 November 2026}
+\makeatletter
+\pdfstringdefDisableCommands{\let\orcidlink\@gobble\let\corref\@gobble\def\,{ }\let\cnotenum\@empty\let\@corref\@empty}
+\def\ps@pprintTitle{%
+  \let\@oddhead\@empty
+  \let\@evenhead\@empty
+  \def\@oddfoot{\footnotesize\itshape Historical evaluation manuscript\hfill\@date}%
+  \let\@evenfoot\@oddfoot}
+\makeatother

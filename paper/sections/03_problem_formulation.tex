@@ -6,7 +6,7 @@ Let $d$ be the last observed session at a decision cutoff, $e=d+1$ the planned e
 \begin{equation}
  r^{net}_d=\frac{Close_{d+3}}{Open_{d+1}}
  \frac{(1-f)(1-s)}{(1+f)(1+s)}-1,
- \qquad y_d=\mathbb{1}[r^{net}_d>0].
+ \qquad y_d=\mathbf{1}[r^{net}_d>0].
  \label{eq:netlabel}
 \end{equation}
 UP means a strictly positive candidate LONG net return; zero belongs to DOWN. Gross return is a separate diagnostic on the same net-elicited predictions, not a replacement label or an additional inference experiment. The seven gross/net label disagreements are retained. Decision Close differs from entry Open at 65 of the 102 units, so a close-to-close label is not equivalent.
@@ -22,7 +22,7 @@ The default score is $0.40\,m(|IC|)+0.35\,m(Accuracy)+0.25\,m(Sharpe)$, where $m
 
 \textbf{The native row-wise causal gate fails.} Counterexamples show that \texttt{delay().bfill()}, whole-Series normalization and the full-frame volume-availability branch can change earlier row values when later rows are extended or altered. In contrast, synthetic outer-cutoff probes found that poisoning data after the supplied 600-bar prefix did not change the native outputs. These are different properties: cutoff isolation in a fixture does not make all rows within the prefix causal, certify news PIT, or remove selection bias. We have not repaired the historical native inputs and then attributed the same saved LLM outcomes to a corrected mechanism.
 
-Custom definitions are summarized in Appendix~\ref{app:signals}. For example, native BFE uses $\tanh(1.5(\%B-0.5)VolZ_5)$: negative volume z-score reverses the sign and zero cancels it. There is no volume-expansion or squeeze gate. Native registry and prototype/fallback paths have different preprocessing, including sample versus population SD and rounded technical variables. A selected-factor display rank is not a permanent factor ID. Six selected metadata slots on six main units disagree with handler descriptions; the affected actual prompts did not contain the literal wrong formula. Their semantic effect on the LLM has not been measured separately. Handler identity, descriptions and frozen outcomes remain distinguishable.
+Custom definitions are summarized in \ref{app:signals}. For example, native BFE uses $\tanh(1.5(\%B-0.5)VolZ_5)$: negative volume z-score reverses the sign and zero cancels it. There is no volume-expansion or squeeze gate. Native registry and prototype/fallback paths have different preprocessing, including sample versus population SD and rounded technical variables. A selected-factor display rank is not a permanent factor ID. Six selected metadata slots on six main units disagree with handler descriptions; the affected actual prompts did not contain the literal wrong formula. Their semantic effect on the LLM has not been measured separately. Handler identity, descriptions and frozen outcomes remain distinguishable.
 
 \subsection{Sentiment recipe and availability}
 The archived local scoring recipe identifies \texttt{5CD-AI/Vietnamese-Sentiment-visobert} at revision \texttt{d7738b85200272f10ba8b048d80236c8c582b581}, with labels NEG/POS/NEU and article score $P(POS)-P(NEG)$. Tokenization uses an explicit 256-token limit, batch size eight, padding and truncation; tokenizer checks and saved probability/score checks do not constitute a new model evaluation. The released scorer is distinct from the ViSoBERT backbone citation \cite{nguyen2023visobert,hf5cdsentiment}.

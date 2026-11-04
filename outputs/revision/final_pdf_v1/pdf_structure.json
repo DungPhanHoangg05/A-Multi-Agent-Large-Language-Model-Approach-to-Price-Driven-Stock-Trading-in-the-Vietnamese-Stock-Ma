@@ -1,0 +1,574 @@
+{
+  "main": {
+    "citations": {
+      "araci2019finbert": 14,
+      "bailey2014deflated": 10,
+      "han2023chartllama": 5,
+      "harvey2016": 8,
+      "hf5cdsentiment": 13,
+      "kakushadze2016formulaic": 7,
+      "nguyen2023visobert": 12,
+      "openai2025gptoss": 15,
+      "talib_rsi_docs": 16,
+      "talib_willr_docs": 17,
+      "tradingagents2024": 4,
+      "tsantekidis2017lob": 6,
+      "varma2006bias": 9,
+      "vsd2022settlement": 18,
+      "white2000reality": 11,
+      "wu2023bloomberggpt": 2,
+      "xiong2025quantagent": 1,
+      "yang2023fingpt": 3
+    },
+    "labels": {
+      "app:additional": {
+        "logical_page": 19,
+        "number": "Appendix~B",
+        "physical_page": 20
+      },
+      "app:signals": {
+        "logical_page": 17,
+        "number": "Appendix~A",
+        "physical_page": 18
+      },
+      "eq:netlabel": {
+        "logical_page": 3,
+        "number": "1",
+        "physical_page": 4
+      },
+      "eq:sentiment": {
+        "logical_page": 4,
+        "number": "2",
+        "physical_page": 5
+      },
+      "fig:calendar": {
+        "logical_page": 8,
+        "number": "3",
+        "physical_page": 9
+      },
+      "fig:charts": {
+        "logical_page": 7,
+        "number": "2",
+        "physical_page": 8
+      },
+      "fig:flow": {
+        "logical_page": 5,
+        "number": "1",
+        "physical_page": 6
+      },
+      "sec:backtestresults": {
+        "logical_page": 10,
+        "number": "6",
+        "physical_page": 11
+      },
+      "sec:conclusion": {
+        "logical_page": 16,
+        "number": "8",
+        "physical_page": 17
+      },
+      "sec:experimentalsetup": {
+        "logical_page": 8,
+        "number": "5",
+        "physical_page": 9
+      },
+      "sec:formulation": {
+        "logical_page": 3,
+        "number": "3",
+        "physical_page": 4
+      },
+      "sec:introduction": {
+        "logical_page": 1,
+        "number": "1",
+        "physical_page": 2
+      },
+      "sec:limitations": {
+        "logical_page": 15,
+        "number": "7",
+        "physical_page": 16
+      },
+      "sec:relatedworks": {
+        "logical_page": 2,
+        "number": "2",
+        "physical_page": 3
+      },
+      "sec:systemarchitecture": {
+        "logical_page": 5,
+        "number": "4",
+        "physical_page": 6
+      },
+      "tab:accounts": {
+        "logical_page": 12,
+        "number": "3",
+        "physical_page": 13
+      },
+      "tab:classification": {
+        "logical_page": 11,
+        "number": "2",
+        "physical_page": 12
+      },
+      "tab:custom_definitions": {
+        "logical_page": 18,
+        "number": "A.2",
+        "physical_page": 19
+      },
+      "tab:execution": {
+        "logical_page": 20,
+        "number": "B.2",
+        "physical_page": 21
+      },
+      "tab:indicator_rules": {
+        "logical_page": 18,
+        "number": "A.1",
+        "physical_page": 19
+      },
+      "tab:numeric": {
+        "logical_page": 15,
+        "number": "6",
+        "physical_page": 16
+      },
+      "tab:repeats": {
+        "logical_page": 13,
+        "number": "4",
+        "physical_page": 14
+      },
+      "tab:scope": {
+        "logical_page": 9,
+        "number": "1",
+        "physical_page": 10
+      },
+      "tab:symbol_results": {
+        "logical_page": 19,
+        "number": "B.1",
+        "physical_page": 20
+      },
+      "tab:temporal": {
+        "logical_page": 14,
+        "number": "5",
+        "physical_page": 15
+      }
+    },
+    "metadata": {
+      "author": "Hong-Viet Tran ; Hoang-Dung Phan ; Thanh-Tam Do Thi ; Phuong-Thai Nguyen ; Van-Tang Nguyen ; ",
+      "creationDate": "D:20261105004605+07'00'",
+      "creator": "LaTeX with hyperref",
+      "encryption": null,
+      "format": "PDF 1.5",
+      "keywords": "",
+      "modDate": "D:20261105004605+07'00'",
+      "producer": "MiKTeX pdfTeX-1.40.28",
+      "subject": "",
+      "title": "Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation",
+      "trapped": ""
+    },
+    "outline": [
+      [
+        1,
+        "Introduction",
+        2
+      ],
+      [
+        1,
+        "Related work",
+        3
+      ],
+      [
+        1,
+        "Forecasting task and signal construction",
+        4
+      ],
+      [
+        2,
+        "Decision, target and account action",
+        4
+      ],
+      [
+        2,
+        "Native factor path and its causal defect",
+        4
+      ],
+      [
+        2,
+        "Sentiment recipe and availability",
+        5
+      ],
+      [
+        1,
+        "Implemented multi-agent system",
+        6
+      ],
+      [
+        2,
+        "Roles and actual information flow",
+        6
+      ],
+      [
+        2,
+        "Charts and aggregation",
+        7
+      ],
+      [
+        1,
+        "Historical evaluation protocol",
+        9
+      ],
+      [
+        2,
+        "Snapshot, calendar and scope amendment",
+        9
+      ],
+      [
+        2,
+        "Comparators, repeats and placebo",
+        10
+      ],
+      [
+        2,
+        "Metrics, dependence and execution assumptions",
+        11
+      ],
+      [
+        2,
+        "Models and reproducibility",
+        11
+      ],
+      [
+        1,
+        "Results",
+        11
+      ],
+      [
+        2,
+        "Main class-aware comparison",
+        11
+      ],
+      [
+        2,
+        "Account outcomes and exposure",
+        13
+      ],
+      [
+        2,
+        "Repeated executions and factorial contrasts",
+        13
+      ],
+      [
+        2,
+        "Temporal and dependence diagnostics",
+        14
+      ],
+      [
+        2,
+        "Auxiliary numeric selector controls",
+        15
+      ],
+      [
+        1,
+        "Discussion and limitations",
+        16
+      ],
+      [
+        1,
+        "Conclusion",
+        17
+      ],
+      [
+        1,
+        "Signal definitions and implementation distinctions",
+        18
+      ],
+      [
+        1,
+        "Additional account and symbol results",
+        20
+      ]
+    ],
+    "pages": 22,
+    "sha256": "af4fadebb5e3f12492fdaf8f70c776c11b97bb01c7264d606274705112744073"
+  },
+  "main_submit": {
+    "citations": {
+      "araci2019finbert": 14,
+      "bailey2014deflated": 10,
+      "han2023chartllama": 5,
+      "harvey2016": 8,
+      "hf5cdsentiment": 13,
+      "kakushadze2016formulaic": 7,
+      "nguyen2023visobert": 12,
+      "openai2025gptoss": 15,
+      "talib_rsi_docs": 16,
+      "talib_willr_docs": 17,
+      "tradingagents2024": 4,
+      "tsantekidis2017lob": 6,
+      "varma2006bias": 9,
+      "vsd2022settlement": 18,
+      "white2000reality": 11,
+      "wu2023bloomberggpt": 2,
+      "xiong2025quantagent": 1,
+      "yang2023fingpt": 3
+    },
+    "labels": {
+      "app:additional": {
+        "logical_page": 18,
+        "number": "Appendix~B",
+        "physical_page": 19
+      },
+      "app:signals": {
+        "logical_page": 16,
+        "number": "Appendix~A",
+        "physical_page": 17
+      },
+      "eq:netlabel": {
+        "logical_page": 3,
+        "number": "1",
+        "physical_page": 4
+      },
+      "eq:sentiment": {
+        "logical_page": 4,
+        "number": "2",
+        "physical_page": 5
+      },
+      "fig:calendar": {
+        "logical_page": 8,
+        "number": "3",
+        "physical_page": 9
+      },
+      "fig:charts": {
+        "logical_page": 6,
+        "number": "2",
+        "physical_page": 7
+      },
+      "fig:flow": {
+        "logical_page": 5,
+        "number": "1",
+        "physical_page": 6
+      },
+      "sec:backtestresults": {
+        "logical_page": 10,
+        "number": "6",
+        "physical_page": 11
+      },
+      "sec:conclusion": {
+        "logical_page": 16,
+        "number": "8",
+        "physical_page": 17
+      },
+      "sec:experimentalsetup": {
+        "logical_page": 7,
+        "number": "5",
+        "physical_page": 8
+      },
+      "sec:formulation": {
+        "logical_page": 3,
+        "number": "3",
+        "physical_page": 4
+      },
+      "sec:introduction": {
+        "logical_page": 1,
+        "number": "1",
+        "physical_page": 2
+      },
+      "sec:limitations": {
+        "logical_page": 15,
+        "number": "7",
+        "physical_page": 16
+      },
+      "sec:relatedworks": {
+        "logical_page": 2,
+        "number": "2",
+        "physical_page": 3
+      },
+      "sec:systemarchitecture": {
+        "logical_page": 5,
+        "number": "4",
+        "physical_page": 6
+      },
+      "tab:accounts": {
+        "logical_page": 12,
+        "number": "3",
+        "physical_page": 13
+      },
+      "tab:classification": {
+        "logical_page": 11,
+        "number": "2",
+        "physical_page": 12
+      },
+      "tab:custom_definitions": {
+        "logical_page": 17,
+        "number": "A.2",
+        "physical_page": 18
+      },
+      "tab:execution": {
+        "logical_page": 19,
+        "number": "B.2",
+        "physical_page": 20
+      },
+      "tab:indicator_rules": {
+        "logical_page": 17,
+        "number": "A.1",
+        "physical_page": 18
+      },
+      "tab:numeric": {
+        "logical_page": 14,
+        "number": "6",
+        "physical_page": 15
+      },
+      "tab:repeats": {
+        "logical_page": 13,
+        "number": "4",
+        "physical_page": 14
+      },
+      "tab:scope": {
+        "logical_page": 8,
+        "number": "1",
+        "physical_page": 9
+      },
+      "tab:symbol_results": {
+        "logical_page": 18,
+        "number": "B.1",
+        "physical_page": 19
+      },
+      "tab:temporal": {
+        "logical_page": 14,
+        "number": "5",
+        "physical_page": 15
+      }
+    },
+    "metadata": {
+      "author": "",
+      "creationDate": "D:20261105004611+07'00'",
+      "creator": "LaTeX with hyperref",
+      "encryption": null,
+      "format": "PDF 1.5",
+      "keywords": "",
+      "modDate": "D:20261105004611+07'00'",
+      "producer": "MiKTeX pdfTeX-1.40.28",
+      "subject": "",
+      "title": "Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation",
+      "trapped": ""
+    },
+    "outline": [
+      [
+        1,
+        "Introduction",
+        2
+      ],
+      [
+        1,
+        "Related work",
+        3
+      ],
+      [
+        1,
+        "Forecasting task and signal construction",
+        4
+      ],
+      [
+        2,
+        "Decision, target and account action",
+        4
+      ],
+      [
+        2,
+        "Native factor path and its causal defect",
+        4
+      ],
+      [
+        2,
+        "Sentiment recipe and availability",
+        5
+      ],
+      [
+        1,
+        "Implemented multi-agent system",
+        6
+      ],
+      [
+        2,
+        "Roles and actual information flow",
+        6
+      ],
+      [
+        2,
+        "Charts and aggregation",
+        6
+      ],
+      [
+        1,
+        "Historical evaluation protocol",
+        8
+      ],
+      [
+        2,
+        "Snapshot, calendar and scope amendment",
+        8
+      ],
+      [
+        2,
+        "Comparators, repeats and placebo",
+        8
+      ],
+      [
+        2,
+        "Metrics, dependence and execution assumptions",
+        10
+      ],
+      [
+        2,
+        "Models and reproducibility",
+        11
+      ],
+      [
+        1,
+        "Results",
+        11
+      ],
+      [
+        2,
+        "Main class-aware comparison",
+        11
+      ],
+      [
+        2,
+        "Account outcomes and exposure",
+        11
+      ],
+      [
+        2,
+        "Repeated executions and factorial contrasts",
+        12
+      ],
+      [
+        2,
+        "Temporal and dependence diagnostics",
+        13
+      ],
+      [
+        2,
+        "Auxiliary numeric selector controls",
+        14
+      ],
+      [
+        1,
+        "Discussion and limitations",
+        16
+      ],
+      [
+        1,
+        "Conclusion",
+        17
+      ],
+      [
+        1,
+        "Signal definitions and implementation distinctions",
+        17
+      ],
+      [
+        1,
+        "Additional account and symbol results",
+        19
+      ]
+    ],
+    "pages": 21,
+    "sha256": "4c21fa6e1ccc379f0b84cbdc890248e901502a64a95b157f409ecf8b319dddfe"
+  }
+}

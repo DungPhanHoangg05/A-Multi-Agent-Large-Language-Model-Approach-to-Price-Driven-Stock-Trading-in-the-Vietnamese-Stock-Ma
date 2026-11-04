@@ -2,15 +2,15 @@
 \begin{tikzpicture}[
   role/.style={draw,rounded corners,align=center,text width=2.6cm,minimum height=0.85cm,font=\small},
   link/.style={-{Latex[length=2mm]},thick}]
-\node[role,fill=gray!10] (price) at (0,-1.3) {Frozen OHLCV\\600-bar prefixes\\45-bar charts};
-\node[role,fill=gray!10] (news) at (0,-3.9) {Frozen news scores\\Domain/PIT validity\\not established};
-\node[role] (ind) at (4,0) {Indicator\\Deterministic report};
-\node[role] (pat) at (4,-1.3) {Pattern\\Vision report/replay};
-\node[role] (trend) at (4,-2.6) {Trend\\Corrected chart/report};
-\node[role] (alpha) at (4,-3.9) {Alpha role\\Numeric factors and\\sentiment context};
-\node[role,fill=blue!5,minimum height=1.6cm] (prompt) at (8,-1.9) {Shared I/P/T reports\\Enabled sections\\Heuristic prompt\\instructions};
-\node[role] (decision) at (12,-1.9) {Decision LLM\\Structured LONG\\or SHORT};
-\node[role,fill=gray!10] (ledger) at (12,-3.9) {Account simulation\\SHORT maps to CASH};
+\node[role,fill=gray!10] (price) at (0,0) {Frozen OHLCV\\600-bar prefixes\\45-bar charts};
+\node[role,fill=gray!10] (news) at (0,-5.7) {Frozen news scores\\Domain/PIT validity\\not established};
+\node[role] (ind) at (4,1.8) {Indicator\\Deterministic report};
+\node[role] (pat) at (4,0) {Pattern\\Vision report/replay};
+\node[role] (trend) at (4,-1.8) {Trend\\Corrected chart/report};
+\node[role] (alpha) at (4,-5.7) {Alpha role\\Numeric factors and\\sentiment context};
+\node[role,fill=blue!5,minimum height=1.6cm] (prompt) at (8,-0.9) {Shared I/P/T reports\\Enabled sections\\Heuristic prompt\\instructions};
+\node[role] (decision) at (12,-0.9) {Decision LLM\\Structured LONG\\or SHORT};
+\node[role,fill=gray!10] (ledger) at (12,-5.7) {Account simulation\\SHORT maps to CASH};
 \draw[link] (price.east) -- (ind.west);
 \draw[link] (price.east) -- (pat.west);
 \draw[link] (price.east) -- (trend.west);
@@ -22,5 +22,5 @@
 \draw[link,dashed] (alpha.east) -- (prompt.south west);
 \draw[link] (prompt.east) -- (decision.west);
 \draw[link] (decision.south) -- (ledger.north);
-\node[align=center,font=\small,text width=4.3cm] at (8,-3.9) {Base omits factor and sentiment sections;\\no learned fusion module};
+\node[align=center,font=\small,text width=2.9cm] at (8,-5.7) {Base omits factor and sentiment sections;\\no learned fusion module};
 \end{tikzpicture}

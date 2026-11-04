@@ -570,8 +570,8 @@ R16 tái dùng audit **41 bibliography entries** và câu dẫn T21; ba DOI sai 
 | T32 | Sửa đồng bộ LaTeX một lượt — R1–R17. | Target/indicators/custom alpha/chart/baseline/statistics/attribution/references/execution khớp release cuối; abstract/highlights/title/conclusion không claim quá evidence; caveats giải thích đầy đủ một chỗ. | **Hoàn tất sửa nguồn — PDF/locators chờ T35**; [report](outputs/revision/manuscript_rewrite_v1/report.md), [QA](outputs/revision/manuscript_rewrite_v1/qa.json), [87 actions](outputs/revision/manuscript_rewrite_v1/changes.json), [companions](outputs/revision/manuscript_rewrite_v1/supplement/README.md), [101 hashes](outputs/revision/manuscript_rewrite_v1/manifest.json). Tám tests exporter PASS; metadata/PID/route vẫn pending T33/T34, 0 comments đóng |
 | T33 | Tác giả xác nhận metadata và route nộp lại — R18. | Master record tên/thứ tự/ORCID/affiliation/email/CRediT đã xác nhận; xử lý tên/ORCID lệch; kiểm decision letter/quyền nộp lại. Có thể thu thập sớm, không tự đoán. | **Đã nhận xác nhận thứ tự/ORCID và chỉ dẫn giữ nguyên metadata còn lại; thiếu email/decision letter/route**; [master record](revision/author_metadata.md), [snapshot/QA](outputs/revision/author_metadata_v1/manifest.json). Đã đồng bộ ORCID Phuong-Thai ở submit; R18 còn response/locator |
 | T34 | Response đủ R1–R18 và archive — R9. | Action/evidence/locator/giới hạn từng yêu cầu. Tác giả tự publish lấy PID thật khi có quyền chia sẻ; Codex chuẩn bị package/lệnh, không tự gọi API upload. Thiếu PID giữ pending. | **Hoàn tất response/private archive; public rights/PID còn thiếu**; [response](revision/response_to_reviewers.md), [87 answers](outputs/revision/reviewer_response_v1/response_map.json), [report/QA](outputs/revision/reviewer_response_v1/report.md), [runbook](revision/archive_runbook.md). Tám tests mới PASS; 0 comments đóng, PDF locators chờ T35 |
-| T35 | Build/QA hai PDF và chốt locators. | Không undefined refs/citations; tables/totals/captions/figures đúng release; main/submission nhất quán. Kiểm trực quan appendix, bỏ trùng và chi tiết vận hành; không tăng độ dài để chứa mọi artifact. | Chờ T34 |
-| T36 | Nghiệm thu, commit/merge và bàn giao. | Comment chỉ đóng khi đủ thay đổi/evidence/vị trí bài/response. Thiếu gì ghi đúng; merge `fix`, xóa task branch local; không push/submit. | Chờ T35 |
+| T35 | Build/QA hai PDF và chốt locators. | Không undefined refs/citations; tables/totals/captions/figures đúng release; main/submission nhất quán. Kiểm trực quan appendix, bỏ trùng và chi tiết vận hành; không tăng độ dài để chứa mọi artifact. | **PASS — main 22/submit 21 trang vật lý, đủ 87 locators**; [PDF/QA report](outputs/revision/final_pdf_v1/report.md), [mapping](outputs/revision/final_pdf_v1/response_map.json), [manifest](outputs/revision/final_pdf_v1/manifest.json). 43 trang kiểm trực quan, 130 cells mỗi PDF, zero undefined refs/cites/overfull; không suy quyền/PID/route hoặc đóng comment |
+| T36 | Nghiệm thu, commit/merge và bàn giao. | Comment chỉ đóng khi đủ thay đổi/evidence/vị trí bài/response. Thiếu gì ghi đúng; merge `fix`, xóa task branch local; không push/submit. | Chờ nghiệm thu cuối; T35 đã PASS trong scope tài liệu, public/PID/route và scientific shortfalls vẫn mở |
 
 **T31 — đặc tả bố cục đã chốt.** [Blueprint](revision/manuscript_blueprint.md) chọn title **“Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation”** cho cả hai entrypoints, bỏ framing enhancement/profitable trading/novel learned fusion. Giữ tám source sections: Introduction; Related work; Forecasting task and signal construction; Implemented multi-agent system; Historical evaluation protocol; Results; Discussion and limitations; Conclusion. Mục tiêu nội bộ **khoảng 5.750 từ prose gồm abstract 180–220 từ**, không tính bibliography/tables/captions/equations; không nhận là journal limit đã xác nhận hoặc số trang đã render. Metadata/ORCID/route vẫn chờ tác giả T33.
 
@@ -670,3 +670,62 @@ py -3.13 -X utf8 scripts/package_revision_response.py check --archive-only
 **Phần chưa hoàn tất:** [rights](outputs/revision/reviewer_response_v1/rights.json) vẫn `public_release_authorized=false`, `pid=null`; tác giả chưa cấp quyền từng nhóm hoặc publish lấy PID thật. Không chuẩn bị DOI/record/upload lệnh suy đoán khi chưa có quyền/account/record; nếu cần redaction phải tạo public version riêng có mapping/hash và giới hạn replay. Email/decision letter/route T33 vẫn thiếu; T35 còn build/render hai PDF, reference numbering và final page/line locators. **T34 hoàn tất response/private archive, public/PID và bản nộp cuối còn pending; mọi `comment_closed=false`, 0/18 comments đóng.** Chưa upload/publish/submit hoặc liên hệ editor. Các snapshot/receipt đã khóa giữ nguyên; sửa tiếp ở T35 cần source/QA phiên bản mới.
 
 Transcript `tests.log` giữ nguyên stdout/stderr CRLF Windows; không sửa bytes log sau khi khóa. Diff task được kiểm bằng `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --cached --check`, nhận diện CR cuối dòng và vẫn kiểm trailing spaces/blank EOF/space-before-tab. Không thay cấu hình Git của người dùng hoặc attributes của các receipts cũ.
+
+**T35 — hai PDF và locators đã chốt trong phạm vi build/QA tài liệu.** [Main](outputs/revision/final_pdf_v1/main.pdf) có **22 trang vật lý**, [submit](outputs/revision/final_pdf_v1/main_submit.pdf) **21**, tính cả highlights sheet riêng không đánh số. [Report](outputs/revision/final_pdf_v1/report.md), [QA](outputs/revision/final_pdf_v1/qa.json), [structure](outputs/revision/final_pdf_v1/pdf_structure.json), [visual record](outputs/revision/final_pdf_v1/visual_review.json) và [43 rendered PNGs](outputs/revision/final_pdf_v1/rendered_pages.zip) kiểm đủ hai cây cuối. Tám lệnh final pdflatex/BibTeX chạy thành công với installer tắt; final logs zero warnings/undefined refs/citations/overfull/missing glyph, không Type3 fonts hoặc spans vượt trang. Console reminder cập nhật MiKTeX giữ trong transcript, không chạy update hoặc coi đó là lỗi bài. Runtime/212 external TeX-font input hashes được ghi ở [runtime](outputs/revision/final_pdf_v1/latex_runtime.json); Python/dependencies nghiên cứu vẫn khớp T28.
+
+Đã sửa lỗi escape `%R` làm BibTeX dừng, bảo vệ acronym/title case và tách ghi chú version khỏi arXiv IDs; nguồn không có năm ghi `n.d.`, không suy publication year từ ngày truy cập. Latin Modern, glyph bold-1 của indicator function, URL hiển thị gọn, ngắt đoạn HAC và metadata/link PDF được chỉnh để render đúng. Sơ đồ hết chồng node/chữ; floats không dồn xuống sau references; appendix dùng **A.1/A.2/B.1/B.2**, bỏ “Appendix Appendix …”. Footer trung tính không tự khẳng định đã submit; declaration heading bỏ chữ template, mọi names/order/ORCID/affiliations/CRediT/funding/conflict content giữ nguyên. Không bật author block submit, không chứng nhận blind compliance khi route chưa có.
+
+**Dữ liệu giữ nguyên:** mười table payload/captions/notes khớp byte trước T35, chỉ đổi placement option; 130 instrumented cells T2/T3 được tìm thấy đúng trong mỗi PDF. Hai bản có cùng abstract chuẩn hóa, 25 labels/18 cited keys và reference numbers, sáu main tables/bốn appendix tables/ba figures. Macro values và ba PNG giữ byte; ảnh nhúng khớp pixel nguồn ở cả hai PDF. Kiểm trực quan đủ 43 trang, gồm tables/captions/quotes/heading punctuation/appendix/references; 19 trang main không đổi raster so vòng kiểm ngay trước, ba trang glyph/references được xem lại và submit xem đủ 21 trang cuối. Không coi kiểm PDF hoặc pixel là chart/news semantic validation, domain labels hoặc native causal repair.
+
+[Response](revision/response_to_reviewers.md) cập nhật locators thực cho **87/87 requests** trong [mapping](outputs/revision/final_pdf_v1/response_map.json), source SHA/anchors và vị trí bounding boxes; sửa câu pending-build không còn đúng. Không có số dòng được in nên không invent line numbers: dùng trang vật lý, số trang nhìn thấy/section/table/figure. Physical page 2 là title/abstract không in số trang, từ page 3 số in nhỏ hơn một. Source-only repository content, commented submit authors và uncited Deng entry ghi rõ không có rendered location. R16 current numbering [1]–[18] đã xác minh, không map ngược các số historical [14]/[21]/[22]/[23] chưa xác thực.
+
+[Original source ZIP](outputs/revision/final_pdf_v1/original_sources.zip) giữ **47 members** trước task (46 paper files T33 +response T34), [current source ZIP](outputs/revision/final_pdf_v1/sources.zip) giữ **48 members** (47 paper files có shared layout +response cuối). [Manifest](outputs/revision/final_pdf_v1/manifest.json) khóa **5.139 current sources +30 outputs =5.169 hashes**, giữ **59 historical references**: 38 kế thừa đã khóa và 21 T34 paper/response refs đối chiếu đúng ZIP/member/hash mới. T34 5.137 refs =5.116 current +21 historical PASS; không fallback runtime/data, sửa receipts/raw/labels/cache hoặc biến private bundle T34 thành gói current T35. [Delivery descriptor](outputs/revision/final_pdf_v1/delivery.json) nối parent bundle nguyên hash với delta T35; bàn giao đầy đủ cần cả hai releases, không upload archive cũ như thể chứa PDF/layout mới.
+
+Task chỉ sửa LaTeX/BibTeX/response: không đổi Python/runtime nghiên cứu, schema hoặc data producers nên không compile Python, chạy lại unit/E2E/leakage/full regression, scorer, clean replay, bootstrap/fit hoặc inference. Kiểm áp dụng là build hai PDF, refs/citations/metadata/source/data/hash và visual QA; không gán suite cũ thành mới chạy. **T35 PASS trong scope này; 0 comments đóng.** Native causal gate vẫn FAIL, domain/news PIT validation và các thí nghiệm thiếu giữ đúng trong response. Email/editorial decision letter/route T33, quyền public/PID T34 và historical reference identities vẫn pending; chưa upload/publish/submit hoặc tự xác nhận journal readiness.
+
+Đối soát snapshot T35 hiện tại (offline; sau một sửa nguồn mới phải tạo phiên bản khác):
+
+```powershell
+@'
+from pathlib import Path
+from zipfile import ZipFile
+from core.revision_reproducibility import read, file_hash, digest, check_self_digest
+root = Path('.')
+folder = root / 'outputs/revision/final_pdf_v1'
+m = read(folder / 'manifest.json')
+assert check_self_digest(m)
+for group, base in [('sources', root), ('outputs', folder)]:
+    for row in m[group]:
+        assert file_hash(base / row['path']) == row['sha256'], row['path']
+for row in m['historical_references']:
+    with ZipFile(root / row['archive']) as archive:
+        assert archive.namelist().count(row['member']) == 1
+        assert digest(archive.read(row['member'])) == row['sha256']
+print('PASS: 5169 current source/output hashes and 59 historical references')
+'@ | py -3.13 -X utf8 -
+```
+
+Tái build tài liệu vào đích mới từ current `paper/` (không sửa outputs/receipts; không gọi API, không cam kết metadata timestamp PDF sẽ byte-identical trên host khác):
+
+```powershell
+$pdfBuildRoot = Join-Path (Get-Location) 'tmp/pdfs/t35_author_rebuild_v1'
+if (Test-Path -LiteralPath $pdfBuildRoot) { throw 'Cần đích build mới' }
+New-Item -ItemType Directory -Path $pdfBuildRoot | Out-Null
+foreach ($pdfStem in @('main', 'main_submit')) {
+    $pdfBuildDir = Join-Path $pdfBuildRoot $pdfStem
+    Copy-Item -LiteralPath paper -Destination $pdfBuildDir -Recurse
+    Push-Location -LiteralPath $pdfBuildDir
+    try {
+        pdflatex --disable-installer -halt-on-error -interaction=nonstopmode -file-line-error -recorder "$pdfStem.tex"
+        if ($LASTEXITCODE -ne 0) { throw 'LaTeX pass 1 lỗi' }
+        bibtex --disable-installer $pdfStem
+        if ($LASTEXITCODE -ne 0) { throw 'BibTeX lỗi' }
+        1..2 | ForEach-Object {
+            pdflatex --disable-installer -halt-on-error -interaction=nonstopmode -file-line-error -recorder "$pdfStem.tex"
+            if ($LASTEXITCODE -ne 0) { throw 'LaTeX final pass lỗi' }
+        }
+    } finally { Pop-Location }
+}
+```
+
+Các build logs/aux trong receipt T35 giữ nguyên whitespace/CRLF do TeX sinh, không chỉnh transcript sau khóa. Diff tài liệu PASS bằng cấu hình `cr-at-eol` như T34, với `:(exclude)outputs/revision/final_pdf_v1/build_logs/**` chỉ cho kiểm whitespace; toàn bộ raw logs vẫn được kiểm SHA trong 5.169 hashes. Không loại chúng khỏi kiểm integrity hoặc thay cấu hình Git của người dùng.
