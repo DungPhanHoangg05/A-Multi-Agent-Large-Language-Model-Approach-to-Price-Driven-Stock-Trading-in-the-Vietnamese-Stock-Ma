@@ -1,0 +1,68 @@
+{
+  "files": [
+    {
+      "path": "assets/sentiment/d7738b85200272f10ba8b048d80236c8c582b581/config.json",
+      "sha256": "04499fbdf5bb3ff5c93abf63c845670387485fdd16e9472847f1168a5dda102b",
+      "size_bytes": 958
+    },
+    {
+      "path": "assets/sentiment/d7738b85200272f10ba8b048d80236c8c582b581/model.safetensors",
+      "sha256": "2d4ffc61ec021f6a366a84c8f5eea93b55047a24fcdae8b9763fd16bd0a3f24b",
+      "size_bytes": 390297116
+    },
+    {
+      "path": "assets/sentiment/d7738b85200272f10ba8b048d80236c8c582b581/sentencepiece.bpe.model",
+      "sha256": "02aaf05cda4db99e86b7c76eba6258867ce4d043da0fed19c87a7d46c8b53a65",
+      "size_bytes": 470732
+    },
+    {
+      "path": "assets/sentiment/d7738b85200272f10ba8b048d80236c8c582b581/special_tokens_map.json",
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835",
+      "size_bytes": 964
+    },
+    {
+      "path": "assets/sentiment/d7738b85200272f10ba8b048d80236c8c582b581/tokenizer.json",
+      "sha256": "aec0ca8948acb11682e26487719297f9ea011756fd24d5564b8f51cf01ea7c8a",
+      "size_bytes": 1095547
+    },
+    {
+      "path": "assets/sentiment/d7738b85200272f10ba8b048d80236c8c582b581/tokenizer_config.json",
+      "sha256": "501416f1ad045eb23ac90401dcf14f6b64fc1317372e23714991f3e45e3186eb",
+      "size_bytes": 1279
+    }
+  ],
+  "hosted_models": {
+    "immutable_served_revision": null,
+    "seed_observed": null,
+    "text": "openai/gpt-oss-20b",
+    "vision": "qwen/qwen3.8-27b"
+  },
+  "model_id": "5CD-AI/Vietnamese-Sentiment-visobert",
+  "recipe": {
+    "ast_digest": "9c69db03d2805e25ed2ed6f3342acafd0b000ed26973e2d7c7c76e4554b004dd",
+    "batch_size": 8,
+    "forward_executed_by_audit": false,
+    "label": "id2label[argmax(probabilities)], ties chọn index đầu",
+    "mapping": {
+      "0": "NEG",
+      "1": "POS",
+      "2": "NEU"
+    },
+    "max_length": 256,
+    "model": "5CD-AI/Vietnamese-Sentiment-visobert",
+    "model_input": "loại token_type_ids trước forward",
+    "padding": true,
+    "revision": "d7738b85200272f10ba8b048d80236c8c582b581",
+    "score": "P(POS)-P(NEG)",
+    "special_tokens": {
+      "bos_token": "<s>",
+      "eos_token": "</s>",
+      "mask_token": "<mask>",
+      "pad_token": "<pad>",
+      "unk_token": "<unk>"
+    },
+    "truncation": true
+  },
+  "revision": "d7738b85200272f10ba8b048d80236c8c582b581",
+  "scope": "Local snapshot khớp T07; weights sidecar riêng. Hosted alias không là immutable weights; không gọi model API hoặc forward."
+}

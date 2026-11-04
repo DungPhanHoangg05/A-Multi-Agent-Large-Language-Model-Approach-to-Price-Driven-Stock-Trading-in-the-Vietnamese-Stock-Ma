@@ -1,0 +1,1100 @@
+{
+  "frozen_T04_runtime": {
+    "Pillow": "11.0.0",
+    "TA-Lib": "0.6.8",
+    "groq": "0.37.1",
+    "langchain-core": "1.2.17",
+    "langchain-groq": "1.1.2",
+    "matplotlib": "3.10.8",
+    "mplfinance": "0.12.10b0",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "pydantic": "2.11.7",
+    "python": "3.13.5",
+    "python-dotenv": "1.2.2",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.1"
+  },
+  "frozen_T07_runtime": {
+    "tokenizers": "0.22.2",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.4.0"
+  },
+  "observed_at_utc": "2026-11-04T09:14:06.453392+00:00",
+  "replay": {
+    "dependency_edges": [
+      {
+        "installed_version": "1.9.0",
+        "parent": "flask",
+        "requirement": "blinker>=1.9.0"
+      },
+      {
+        "installed_version": "8.2.1",
+        "parent": "flask",
+        "requirement": "click>=8.1.3"
+      },
+      {
+        "installed_version": "2.2.0",
+        "parent": "flask",
+        "requirement": "itsdangerous>=2.2.0"
+      },
+      {
+        "installed_version": "3.1.6",
+        "parent": "flask",
+        "requirement": "jinja2>=3.1.2"
+      },
+      {
+        "installed_version": "3.0.2",
+        "parent": "flask",
+        "requirement": "markupsafe>=2.1.1"
+      },
+      {
+        "installed_version": "3.1.6",
+        "parent": "flask",
+        "requirement": "werkzeug>=3.1.0"
+      },
+      {
+        "installed_version": "3.0.2",
+        "parent": "werkzeug",
+        "requirement": "markupsafe>=2.1.1"
+      },
+      {
+        "installed_version": "3.0.2",
+        "parent": "jinja2",
+        "requirement": "MarkupSafe>=2.0"
+      },
+      {
+        "installed_version": "0.4.6",
+        "parent": "click",
+        "requirement": "colorama; platform_system == \"Windows\""
+      },
+      {
+        "installed_version": "2.7",
+        "parent": "beautifulsoup4",
+        "requirement": "soupsieve>1.2"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "beautifulsoup4",
+        "requirement": "typing-extensions>=4.0.0"
+      },
+      {
+        "installed_version": "2.32.4",
+        "parent": "vnstock",
+        "requirement": "requests"
+      },
+      {
+        "installed_version": "4.13.4",
+        "parent": "vnstock",
+        "requirement": "beautifulsoup4"
+      },
+      {
+        "installed_version": "2.3.3",
+        "parent": "vnstock",
+        "requirement": "pandas"
+      },
+      {
+        "installed_version": "0.13.2",
+        "parent": "vnstock",
+        "requirement": "seaborn"
+      },
+      {
+        "installed_version": "3.1.5",
+        "parent": "vnstock",
+        "requirement": "openpyxl"
+      },
+      {
+        "installed_version": "2.11.7",
+        "parent": "vnstock",
+        "requirement": "pydantic"
+      },
+      {
+        "installed_version": "7.0.0",
+        "parent": "vnstock",
+        "requirement": "psutil"
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "vnstock",
+        "requirement": "packaging>=20.0"
+      },
+      {
+        "installed_version": "8.7.1",
+        "parent": "vnstock",
+        "requirement": "importlib-metadata>=1.0"
+      },
+      {
+        "installed_version": "9.1.2",
+        "parent": "vnstock",
+        "requirement": "tenacity"
+      },
+      {
+        "installed_version": "2.6.2",
+        "parent": "vnstock",
+        "requirement": "vnai>=2.6.0"
+      },
+      {
+        "installed_version": "1.0.2",
+        "parent": "vnstock",
+        "requirement": "vnstock_ezchart>=1.0.2"
+      },
+      {
+        "installed_version": "2025.2",
+        "parent": "vnstock",
+        "requirement": "pytz"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "vnstock-ezchart",
+        "requirement": "numpy<2.3,>=1.24"
+      },
+      {
+        "installed_version": "2.3.3",
+        "parent": "vnstock-ezchart",
+        "requirement": "pandas<3,>=1.4.0"
+      },
+      {
+        "installed_version": "3.10.8",
+        "parent": "vnstock-ezchart",
+        "requirement": "matplotlib>=3.5.0"
+      },
+      {
+        "installed_version": "0.13.2",
+        "parent": "vnstock-ezchart",
+        "requirement": "seaborn>=0.11.0"
+      },
+      {
+        "installed_version": "2.32.4",
+        "parent": "vnstock-ezchart",
+        "requirement": "requests>=2.25.0"
+      },
+      {
+        "installed_version": "4.0.9",
+        "parent": "vnstock-ezchart",
+        "requirement": "vnstock>=4.0.3"
+      },
+      {
+        "installed_version": "3.1.5",
+        "parent": "vnstock-ezchart",
+        "requirement": "openpyxl>=3.0.0"
+      },
+      {
+        "installed_version": "0.12.1",
+        "parent": "vnstock-ezchart",
+        "requirement": "cycler>=0.10.0"
+      },
+      {
+        "installed_version": "0.12.10b0",
+        "parent": "vnstock-ezchart",
+        "requirement": "mplfinance>=0.12.9b5"
+      },
+      {
+        "installed_version": "3.10.8",
+        "parent": "mplfinance",
+        "requirement": "matplotlib"
+      },
+      {
+        "installed_version": "2.3.3",
+        "parent": "mplfinance",
+        "requirement": "pandas"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "pandas",
+        "requirement": "numpy>=1.26.0; python_version >= \"3.12\""
+      },
+      {
+        "installed_version": "2.9.0.post0",
+        "parent": "pandas",
+        "requirement": "python-dateutil>=2.8.2"
+      },
+      {
+        "installed_version": "2025.2",
+        "parent": "pandas",
+        "requirement": "pytz>=2020.1"
+      },
+      {
+        "installed_version": "2025.3",
+        "parent": "pandas",
+        "requirement": "tzdata>=2022.7"
+      },
+      {
+        "installed_version": "1.17.0",
+        "parent": "python-dateutil",
+        "requirement": "six>=1.5"
+      },
+      {
+        "installed_version": "1.3.3",
+        "parent": "matplotlib",
+        "requirement": "contourpy>=1.0.1"
+      },
+      {
+        "installed_version": "0.12.1",
+        "parent": "matplotlib",
+        "requirement": "cycler>=0.10"
+      },
+      {
+        "installed_version": "4.61.1",
+        "parent": "matplotlib",
+        "requirement": "fonttools>=4.22.0"
+      },
+      {
+        "installed_version": "1.4.9",
+        "parent": "matplotlib",
+        "requirement": "kiwisolver>=1.3.1"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "matplotlib",
+        "requirement": "numpy>=1.23"
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "matplotlib",
+        "requirement": "packaging>=20.0"
+      },
+      {
+        "installed_version": "11.0.0",
+        "parent": "matplotlib",
+        "requirement": "pillow>=8"
+      },
+      {
+        "installed_version": "3.3.2",
+        "parent": "matplotlib",
+        "requirement": "pyparsing>=3"
+      },
+      {
+        "installed_version": "2.9.0.post0",
+        "parent": "matplotlib",
+        "requirement": "python-dateutil>=2.7"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "contourpy",
+        "requirement": "numpy>=1.25"
+      },
+      {
+        "installed_version": "2.0.0",
+        "parent": "openpyxl",
+        "requirement": "et-xmlfile"
+      },
+      {
+        "installed_version": "3.4.2",
+        "parent": "requests",
+        "requirement": "charset_normalizer<4,>=2"
+      },
+      {
+        "installed_version": "3.10",
+        "parent": "requests",
+        "requirement": "idna<4,>=2.5"
+      },
+      {
+        "installed_version": "2.6.3",
+        "parent": "requests",
+        "requirement": "urllib3<3,>=1.21.1"
+      },
+      {
+        "installed_version": "2025.6.15",
+        "parent": "requests",
+        "requirement": "certifi>=2017.4.17"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "seaborn",
+        "requirement": "numpy!=1.24.0,>=1.20"
+      },
+      {
+        "installed_version": "2.3.3",
+        "parent": "seaborn",
+        "requirement": "pandas>=1.2"
+      },
+      {
+        "installed_version": "3.10.8",
+        "parent": "seaborn",
+        "requirement": "matplotlib!=3.6.1,>=3.4"
+      },
+      {
+        "installed_version": "2.32.4",
+        "parent": "vnai",
+        "requirement": "requests>=2.25.0"
+      },
+      {
+        "installed_version": "7.0.0",
+        "parent": "vnai",
+        "requirement": "psutil>=5.8.0"
+      },
+      {
+        "installed_version": "2.0.0",
+        "parent": "vnai",
+        "requirement": "cffi>=1.17.1"
+      },
+      {
+        "installed_version": "2.3.3",
+        "parent": "vnai",
+        "requirement": "pandas>=1.5.0"
+      },
+      {
+        "installed_version": "2.22",
+        "parent": "cffi",
+        "requirement": "pycparser; implementation_name != \"PyPy\""
+      },
+      {
+        "installed_version": "3.23.0",
+        "parent": "importlib-metadata",
+        "requirement": "zipp>=3.20"
+      },
+      {
+        "installed_version": "0.7.0",
+        "parent": "pydantic",
+        "requirement": "annotated-types>=0.6.0"
+      },
+      {
+        "installed_version": "2.33.2",
+        "parent": "pydantic",
+        "requirement": "pydantic-core==2.33.2"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "pydantic",
+        "requirement": "typing-extensions>=4.12.2"
+      },
+      {
+        "installed_version": "0.4.1",
+        "parent": "pydantic",
+        "requirement": "typing-inspection>=0.4.0"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "typing-inspection",
+        "requirement": "typing-extensions>=4.12.0"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "pydantic-core",
+        "requirement": "typing-extensions!=4.7.0,>=4.6.0"
+      },
+      {
+        "installed_version": "4.9.0",
+        "parent": "groq",
+        "requirement": "anyio<5,>=3.5.0"
+      },
+      {
+        "installed_version": "1.9.0",
+        "parent": "groq",
+        "requirement": "distro<2,>=1.7.0"
+      },
+      {
+        "installed_version": "0.28.1",
+        "parent": "groq",
+        "requirement": "httpx<1,>=0.23.0"
+      },
+      {
+        "installed_version": "2.11.7",
+        "parent": "groq",
+        "requirement": "pydantic<3,>=1.9.0"
+      },
+      {
+        "installed_version": "1.3.1",
+        "parent": "groq",
+        "requirement": "sniffio"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "groq",
+        "requirement": "typing-extensions<5,>=4.10"
+      },
+      {
+        "installed_version": "4.9.0",
+        "parent": "httpx",
+        "requirement": "anyio"
+      },
+      {
+        "installed_version": "2025.6.15",
+        "parent": "httpx",
+        "requirement": "certifi"
+      },
+      {
+        "installed_version": "1.0.9",
+        "parent": "httpx",
+        "requirement": "httpcore==1.*"
+      },
+      {
+        "installed_version": "3.10",
+        "parent": "httpx",
+        "requirement": "idna"
+      },
+      {
+        "installed_version": "2025.6.15",
+        "parent": "httpcore",
+        "requirement": "certifi"
+      },
+      {
+        "installed_version": "0.16.0",
+        "parent": "httpcore",
+        "requirement": "h11>=0.16"
+      },
+      {
+        "installed_version": "3.10",
+        "parent": "anyio",
+        "requirement": "idna>=2.8"
+      },
+      {
+        "installed_version": "1.3.1",
+        "parent": "anyio",
+        "requirement": "sniffio>=1.1"
+      },
+      {
+        "installed_version": "1.2.17",
+        "parent": "langgraph",
+        "requirement": "langchain-core>=0.1"
+      },
+      {
+        "installed_version": "4.0.1",
+        "parent": "langgraph",
+        "requirement": "langgraph-checkpoint<5.0.0,>=2.1.0"
+      },
+      {
+        "installed_version": "1.0.8",
+        "parent": "langgraph",
+        "requirement": "langgraph-prebuilt<1.1.0,>=1.0.8"
+      },
+      {
+        "installed_version": "0.3.9",
+        "parent": "langgraph",
+        "requirement": "langgraph-sdk<0.4.0,>=0.3.0"
+      },
+      {
+        "installed_version": "2.11.7",
+        "parent": "langgraph",
+        "requirement": "pydantic>=2.7.4"
+      },
+      {
+        "installed_version": "3.6.0",
+        "parent": "langgraph",
+        "requirement": "xxhash>=3.5.0"
+      },
+      {
+        "installed_version": "0.28.1",
+        "parent": "langgraph-sdk",
+        "requirement": "httpx>=0.25.2"
+      },
+      {
+        "installed_version": "3.11.7",
+        "parent": "langgraph-sdk",
+        "requirement": "orjson>=3.11.5"
+      },
+      {
+        "installed_version": "1.2.17",
+        "parent": "langgraph-prebuilt",
+        "requirement": "langchain-core>=1.0.0"
+      },
+      {
+        "installed_version": "4.0.1",
+        "parent": "langgraph-prebuilt",
+        "requirement": "langgraph-checkpoint<5.0.0,>=2.1.0"
+      },
+      {
+        "installed_version": "1.2.17",
+        "parent": "langgraph-checkpoint",
+        "requirement": "langchain-core>=0.2.38"
+      },
+      {
+        "installed_version": "1.12.2",
+        "parent": "langgraph-checkpoint",
+        "requirement": "ormsgpack>=1.12.0"
+      },
+      {
+        "installed_version": "1.33",
+        "parent": "langchain-core",
+        "requirement": "jsonpatch<2.0.0,>=1.33.0"
+      },
+      {
+        "installed_version": "0.7.10",
+        "parent": "langchain-core",
+        "requirement": "langsmith<1.0.0,>=0.3.45"
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "langchain-core",
+        "requirement": "packaging>=23.2.0"
+      },
+      {
+        "installed_version": "2.11.7",
+        "parent": "langchain-core",
+        "requirement": "pydantic<3.0.0,>=2.7.4"
+      },
+      {
+        "installed_version": "6.0.2",
+        "parent": "langchain-core",
+        "requirement": "pyyaml<7.0.0,>=5.3.0"
+      },
+      {
+        "installed_version": "9.1.2",
+        "parent": "langchain-core",
+        "requirement": "tenacity!=8.4.0,<10.0.0,>=8.1.0"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "langchain-core",
+        "requirement": "typing-extensions<5.0.0,>=4.7.0"
+      },
+      {
+        "installed_version": "0.14.1",
+        "parent": "langchain-core",
+        "requirement": "uuid-utils<1.0,>=0.12.0"
+      },
+      {
+        "installed_version": "0.28.1",
+        "parent": "langsmith",
+        "requirement": "httpx<1,>=0.23.0"
+      },
+      {
+        "installed_version": "3.11.7",
+        "parent": "langsmith",
+        "requirement": "orjson>=3.9.14; platform_python_implementation != \"PyPy\""
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "langsmith",
+        "requirement": "packaging>=23.2"
+      },
+      {
+        "installed_version": "2.11.7",
+        "parent": "langsmith",
+        "requirement": "pydantic<3,>=2"
+      },
+      {
+        "installed_version": "1.0.0",
+        "parent": "langsmith",
+        "requirement": "requests-toolbelt>=1.0.0"
+      },
+      {
+        "installed_version": "2.32.4",
+        "parent": "langsmith",
+        "requirement": "requests>=2.0.0"
+      },
+      {
+        "installed_version": "0.14.1",
+        "parent": "langsmith",
+        "requirement": "uuid-utils<1.0,>=0.12.0"
+      },
+      {
+        "installed_version": "3.6.0",
+        "parent": "langsmith",
+        "requirement": "xxhash>=3.0.0"
+      },
+      {
+        "installed_version": "0.25.0",
+        "parent": "langsmith",
+        "requirement": "zstandard>=0.23.0"
+      },
+      {
+        "installed_version": "2.32.4",
+        "parent": "requests-toolbelt",
+        "requirement": "requests<3.0.0,>=2.0.1"
+      },
+      {
+        "installed_version": "3.0.0",
+        "parent": "jsonpatch",
+        "requirement": "jsonpointer>=1.9"
+      },
+      {
+        "installed_version": "0.37.1",
+        "parent": "langchain-groq",
+        "requirement": "groq<1.0.0,>=0.30.0"
+      },
+      {
+        "installed_version": "1.2.17",
+        "parent": "langchain-groq",
+        "requirement": "langchain-core<2.0.0,>=1.2.8"
+      },
+      {
+        "installed_version": "1.2.17",
+        "parent": "langchain",
+        "requirement": "langchain-core<2.0.0,>=1.2.10"
+      },
+      {
+        "installed_version": "1.0.10",
+        "parent": "langchain",
+        "requirement": "langgraph<1.1.0,>=1.0.8"
+      },
+      {
+        "installed_version": "2.11.7",
+        "parent": "langchain",
+        "requirement": "pydantic<3.0.0,>=2.7.4"
+      },
+      {
+        "installed_version": "25.3.0",
+        "parent": "jsonschema",
+        "requirement": "attrs>=22.2.0"
+      },
+      {
+        "installed_version": "2025.4.1",
+        "parent": "jsonschema",
+        "requirement": "jsonschema-specifications>=2023.03.6"
+      },
+      {
+        "installed_version": "0.36.2",
+        "parent": "jsonschema",
+        "requirement": "referencing>=0.28.4"
+      },
+      {
+        "installed_version": "0.26.0",
+        "parent": "jsonschema",
+        "requirement": "rpds-py>=0.7.1"
+      },
+      {
+        "installed_version": "25.3.0",
+        "parent": "referencing",
+        "requirement": "attrs>=22.2.0"
+      },
+      {
+        "installed_version": "0.26.0",
+        "parent": "referencing",
+        "requirement": "rpds-py>=0.7.0"
+      },
+      {
+        "installed_version": "0.36.2",
+        "parent": "jsonschema-specifications",
+        "requirement": "referencing>=0.31.0"
+      },
+      {
+        "installed_version": "1.4.0",
+        "parent": "ta-lib",
+        "requirement": "build"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "ta-lib",
+        "requirement": "numpy"
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "build",
+        "requirement": "packaging>=24.0"
+      },
+      {
+        "installed_version": "1.2.0",
+        "parent": "build",
+        "requirement": "pyproject_hooks"
+      },
+      {
+        "installed_version": "0.4.6",
+        "parent": "build",
+        "requirement": "colorama; os_name == \"nt\""
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "scikit-learn",
+        "requirement": "numpy>=1.22.0"
+      },
+      {
+        "installed_version": "1.16.1",
+        "parent": "scikit-learn",
+        "requirement": "scipy>=1.8.0"
+      },
+      {
+        "installed_version": "1.5.1",
+        "parent": "scikit-learn",
+        "requirement": "joblib>=1.2.0"
+      },
+      {
+        "installed_version": "3.6.0",
+        "parent": "scikit-learn",
+        "requirement": "threadpoolctl>=3.1.0"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "scipy",
+        "requirement": "numpy<2.6,>=1.25.2"
+      }
+    ],
+    "distributions": {
+      "annotated-types": "0.7.0",
+      "anyio": "4.9.0",
+      "attrs": "25.3.0",
+      "beautifulsoup4": "4.13.4",
+      "blinker": "1.9.0",
+      "build": "1.4.0",
+      "certifi": "2025.6.15",
+      "cffi": "2.0.0",
+      "charset-normalizer": "3.4.2",
+      "click": "8.2.1",
+      "colorama": "0.4.6",
+      "contourpy": "1.3.3",
+      "cycler": "0.12.1",
+      "distro": "1.9.0",
+      "et-xmlfile": "2.0.0",
+      "flask": "3.1.3",
+      "fonttools": "4.61.1",
+      "groq": "0.37.1",
+      "h11": "0.16.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "idna": "3.10",
+      "importlib-metadata": "8.7.1",
+      "itsdangerous": "2.2.0",
+      "jinja2": "3.1.6",
+      "joblib": "1.5.1",
+      "jsonpatch": "1.33",
+      "jsonpointer": "3.0.0",
+      "jsonschema": "4.24.0",
+      "jsonschema-specifications": "2025.4.1",
+      "kiwisolver": "1.4.9",
+      "langchain": "1.2.10",
+      "langchain-core": "1.2.17",
+      "langchain-groq": "1.1.2",
+      "langgraph": "1.0.10",
+      "langgraph-checkpoint": "4.0.1",
+      "langgraph-prebuilt": "1.0.8",
+      "langgraph-sdk": "0.3.9",
+      "langsmith": "0.7.10",
+      "markupsafe": "3.0.2",
+      "matplotlib": "3.10.8",
+      "mplfinance": "0.12.10b0",
+      "numpy": "2.1.2",
+      "openpyxl": "3.1.5",
+      "orjson": "3.11.7",
+      "ormsgpack": "1.12.2",
+      "packaging": "25.0",
+      "pandas": "2.3.3",
+      "pillow": "11.0.0",
+      "psutil": "7.0.0",
+      "pycparser": "2.22",
+      "pydantic": "2.11.7",
+      "pydantic-core": "2.33.2",
+      "pyparsing": "3.3.2",
+      "pyproject-hooks": "1.2.0",
+      "python-dateutil": "2.9.0.post0",
+      "python-dotenv": "1.2.2",
+      "pytz": "2025.2",
+      "pyyaml": "6.0.2",
+      "referencing": "0.36.2",
+      "requests": "2.32.4",
+      "requests-toolbelt": "1.0.0",
+      "rpds-py": "0.26.0",
+      "scikit-learn": "1.7.2",
+      "scipy": "1.16.1",
+      "seaborn": "0.13.2",
+      "six": "1.17.0",
+      "sniffio": "1.3.1",
+      "soupsieve": "2.7",
+      "ta-lib": "0.6.8",
+      "tenacity": "9.1.2",
+      "threadpoolctl": "3.6.0",
+      "typing-extensions": "4.15.0",
+      "typing-inspection": "0.4.1",
+      "tzdata": "2025.3",
+      "urllib3": "2.6.3",
+      "uuid-utils": "0.14.1",
+      "vnai": "2.6.2",
+      "vnstock": "4.0.9",
+      "vnstock-ezchart": "1.0.2",
+      "werkzeug": "3.1.6",
+      "xxhash": "3.6.0",
+      "zipp": "3.23.0",
+      "zstandard": "0.25.0"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "roots": [
+      "numpy",
+      "pandas",
+      "scipy",
+      "scikit-learn",
+      "TA-Lib",
+      "jsonschema",
+      "langchain",
+      "langchain-core",
+      "langchain-groq",
+      "langgraph",
+      "groq",
+      "pydantic",
+      "python-dotenv",
+      "matplotlib",
+      "mplfinance",
+      "Pillow",
+      "requests",
+      "vnstock",
+      "beautifulsoup4",
+      "Flask"
+    ],
+    "scope": "Quan sát lúc đóng gói trên Windows, không suy execution versions từ môi trường hiện tại; không wheelhouse/interpreter bundle."
+  },
+  "scorer": {
+    "dependency_edges": [
+      {
+        "installed_version": "1.8.0",
+        "parent": "tokenizers",
+        "requirement": "huggingface-hub<2.0,>=0.16.4"
+      },
+      {
+        "installed_version": "3.18.0",
+        "parent": "huggingface-hub",
+        "requirement": "filelock>=3.10.0"
+      },
+      {
+        "installed_version": "2025.5.1",
+        "parent": "huggingface-hub",
+        "requirement": "fsspec>=2023.5.0"
+      },
+      {
+        "installed_version": "1.4.2",
+        "parent": "huggingface-hub",
+        "requirement": "hf-xet<2.0.0,>=1.4.2; platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"AMD64\" or platform_machine == \"arm64\" or platform_machine == \"aarch64\""
+      },
+      {
+        "installed_version": "0.28.1",
+        "parent": "huggingface-hub",
+        "requirement": "httpx<1,>=0.23.0"
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "huggingface-hub",
+        "requirement": "packaging>=20.9"
+      },
+      {
+        "installed_version": "6.0.2",
+        "parent": "huggingface-hub",
+        "requirement": "pyyaml>=5.1"
+      },
+      {
+        "installed_version": "4.67.1",
+        "parent": "huggingface-hub",
+        "requirement": "tqdm>=4.42.1"
+      },
+      {
+        "installed_version": "0.16.0",
+        "parent": "huggingface-hub",
+        "requirement": "typer"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "huggingface-hub",
+        "requirement": "typing-extensions>=4.1.0"
+      },
+      {
+        "installed_version": "8.2.1",
+        "parent": "typer",
+        "requirement": "click>=8.0.0"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "typer",
+        "requirement": "typing-extensions>=3.7.4.3"
+      },
+      {
+        "installed_version": "1.5.4",
+        "parent": "typer",
+        "requirement": "shellingham>=1.3.0"
+      },
+      {
+        "installed_version": "14.1.0",
+        "parent": "typer",
+        "requirement": "rich>=10.11.0"
+      },
+      {
+        "installed_version": "3.0.0",
+        "parent": "rich",
+        "requirement": "markdown-it-py>=2.2.0"
+      },
+      {
+        "installed_version": "2.19.2",
+        "parent": "rich",
+        "requirement": "pygments<3.0.0,>=2.13.0"
+      },
+      {
+        "installed_version": "0.1.2",
+        "parent": "markdown-it-py",
+        "requirement": "mdurl~=0.1"
+      },
+      {
+        "installed_version": "0.4.6",
+        "parent": "click",
+        "requirement": "colorama; platform_system == \"Windows\""
+      },
+      {
+        "installed_version": "0.4.6",
+        "parent": "tqdm",
+        "requirement": "colorama; platform_system == \"Windows\""
+      },
+      {
+        "installed_version": "4.9.0",
+        "parent": "httpx",
+        "requirement": "anyio"
+      },
+      {
+        "installed_version": "2025.6.15",
+        "parent": "httpx",
+        "requirement": "certifi"
+      },
+      {
+        "installed_version": "1.0.9",
+        "parent": "httpx",
+        "requirement": "httpcore==1.*"
+      },
+      {
+        "installed_version": "3.10",
+        "parent": "httpx",
+        "requirement": "idna"
+      },
+      {
+        "installed_version": "2025.6.15",
+        "parent": "httpcore",
+        "requirement": "certifi"
+      },
+      {
+        "installed_version": "0.16.0",
+        "parent": "httpcore",
+        "requirement": "h11>=0.16"
+      },
+      {
+        "installed_version": "3.10",
+        "parent": "anyio",
+        "requirement": "idna>=2.8"
+      },
+      {
+        "installed_version": "1.3.1",
+        "parent": "anyio",
+        "requirement": "sniffio>=1.1"
+      },
+      {
+        "installed_version": "1.8.0",
+        "parent": "transformers",
+        "requirement": "huggingface-hub<2.0,>=1.5.0"
+      },
+      {
+        "installed_version": "2.1.2",
+        "parent": "transformers",
+        "requirement": "numpy>=1.17"
+      },
+      {
+        "installed_version": "25.0",
+        "parent": "transformers",
+        "requirement": "packaging>=20.0"
+      },
+      {
+        "installed_version": "6.0.2",
+        "parent": "transformers",
+        "requirement": "pyyaml>=5.1"
+      },
+      {
+        "installed_version": "2026.2.28",
+        "parent": "transformers",
+        "requirement": "regex>=2025.10.22"
+      },
+      {
+        "installed_version": "0.22.2",
+        "parent": "transformers",
+        "requirement": "tokenizers<=0.23.0,>=0.22.0"
+      },
+      {
+        "installed_version": "0.16.0",
+        "parent": "transformers",
+        "requirement": "typer"
+      },
+      {
+        "installed_version": "0.7.0",
+        "parent": "transformers",
+        "requirement": "safetensors>=0.4.3"
+      },
+      {
+        "installed_version": "4.67.1",
+        "parent": "transformers",
+        "requirement": "tqdm>=4.27"
+      },
+      {
+        "installed_version": "3.18.0",
+        "parent": "torch",
+        "requirement": "filelock"
+      },
+      {
+        "installed_version": "4.15.0",
+        "parent": "torch",
+        "requirement": "typing-extensions>=4.10.0"
+      },
+      {
+        "installed_version": "80.9.0",
+        "parent": "torch",
+        "requirement": "setuptools<82"
+      },
+      {
+        "installed_version": "1.14.0",
+        "parent": "torch",
+        "requirement": "sympy>=1.13.3"
+      },
+      {
+        "installed_version": "3.5",
+        "parent": "torch",
+        "requirement": "networkx>=2.5.1"
+      },
+      {
+        "installed_version": "3.1.6",
+        "parent": "torch",
+        "requirement": "jinja2"
+      },
+      {
+        "installed_version": "2025.5.1",
+        "parent": "torch",
+        "requirement": "fsspec>=0.8.5"
+      },
+      {
+        "installed_version": "3.0.2",
+        "parent": "jinja2",
+        "requirement": "MarkupSafe>=2.0"
+      },
+      {
+        "installed_version": "1.3.0",
+        "parent": "sympy",
+        "requirement": "mpmath<1.4,>=1.1.0"
+      }
+    ],
+    "distributions": {
+      "anyio": "4.9.0",
+      "certifi": "2025.6.15",
+      "click": "8.2.1",
+      "colorama": "0.4.6",
+      "filelock": "3.18.0",
+      "fsspec": "2025.5.1",
+      "h11": "0.16.0",
+      "hf-xet": "1.4.2",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "huggingface-hub": "1.8.0",
+      "idna": "3.10",
+      "jinja2": "3.1.6",
+      "markdown-it-py": "3.0.0",
+      "markupsafe": "3.0.2",
+      "mdurl": "0.1.2",
+      "mpmath": "1.3.0",
+      "networkx": "3.5",
+      "numpy": "2.1.2",
+      "packaging": "25.0",
+      "pygments": "2.19.2",
+      "pyyaml": "6.0.2",
+      "regex": "2026.2.28",
+      "rich": "14.1.0",
+      "safetensors": "0.7.0",
+      "sentencepiece": "0.2.1",
+      "setuptools": "80.9.0",
+      "shellingham": "1.5.4",
+      "sniffio": "1.3.1",
+      "sympy": "1.14.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.11.0+cu128",
+      "tqdm": "4.67.1",
+      "transformers": "5.4.0",
+      "typer": "0.16.0",
+      "typing-extensions": "4.15.0"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5",
+    "roots": [
+      "torch",
+      "transformers",
+      "tokenizers",
+      "sentencepiece"
+    ],
+    "scope": "Quan sát lúc đóng gói trên Windows, không suy execution versions từ môi trường hiện tại; không wheelhouse/interpreter bundle."
+  }
+}

@@ -47,3 +47,6 @@ tmp/
 /outputs/revision/revision_minimal_v1/provider_locks/
 /outputs/revision/revision_minimal_v1/shards/org*/worker.lock
 /outputs/revision/revision_minimal_v1/shards/org*/usage.json
+
+# Sidecar weights cục bộ của package; manifest giữ hash, không đưa weights lớn vào Git.
+/outputs/revision/reproducibility*/model_weights.zip
