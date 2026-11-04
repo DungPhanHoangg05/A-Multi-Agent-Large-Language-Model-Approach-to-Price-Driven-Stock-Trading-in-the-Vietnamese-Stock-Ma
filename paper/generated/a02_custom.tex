@@ -1,0 +1,20 @@
+\begin{table}[p]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Custom native factor definitions and implementation distinctions.}
+\label{tab:custom_definitions}
+\textbf{Before global normalization and IC orientation}\par\smallskip
+\begin{tabular}{lp{8.0cm}p{5.0cm}}
+\hline
+ID & Native handler expression & Distinction \\
+\hline
+FDM & $\tanh(0.5\,a_t V_t/ADV_{20,t})$ & Native uses adjusted one-bar return, not the MACD display template. \\
+SFA & $\tanh(1.5\tanh(H_t/(0.005C_t+\epsilon))+0.5a_t)$ & Native uses MACD histogram and return, not sentiment; prototype has a distinct sentiment branch. \\
+LVR & $\tanh(-0.8\,z_{20}((C_t-SMA_{5,t})/C_t))$ & Rolling mean/SD conventions and partial windows are implementation-specific. \\
+BFE & $\tanh(1.5(\%B_t-0.5)\,VolZ_{5,t})$ & Negative VolZ reverses the sign; zero cancels. No squeeze or volume-expansion gate. \\
+OFE & $\tanh(3a_t\,CP_t)$ & OHLCV proxy, not measured signed order flow. \\
+\hline
+\end{tabular}\par\medskip
+\begin{minipage}{\textwidth}\footnotesize $a_t$ is one-bar pct-change divided by rolling 20-bar sample SD (minimum five); $H_t$ is MACD(12,26,9) histogram; $CP_t$ is close location relative to the bar midpoint/range; ADV is mean Volume, not dollar volume. Guarded denominators and fills follow the registry. BFE registry sample-SD preprocessing differs from the rounded/population-SD prototype. Six selected metadata slots differ from their handler description, without the literal wrong formula in the affected prompts. A display rank of four does not identify BFE. Full expressions, guards and counterexamples are in the companion registry.\end{minipage}
+\end{table}

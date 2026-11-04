@@ -1,0 +1,28 @@
+\begin{table}[p]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Overlapping temporal cohorts and observed trend strata. Small-block intervals and calendar-aligned HAC diagnostics are descriptive rather than calibrated significance tests.}
+\label{tab:temporal}
+\textbf{A. Cohorts: BA percent; difference/interval in pp}\par\smallskip
+\begin{tabular}{lrrrrrrr}
+\hline
+Cohort & $N$ & Dates & Blocks & Full & Base & $\Delta$ & Interval \\
+\hline
+All & 102 & 12 & 6 & 52.96 & 49.71 & 3.25 & [-1.18, 8.13] \\
+Common eight & 96 & 12 & 6 & 50.69 & 48.61 & 2.08 & [-1.20, 5.26] \\
+Recent nine & 54 & 6 & 3 & 53.08 & 46.67 & 6.41 & [0.00, 12.50] \\
+\hline
+\end{tabular}\par\medskip
+\textbf{B. Observed per-security trend contexts (percent)}\par\smallskip
+\begin{tabular}{lrrrrrr}
+\hline
+Trend & $N$ & UP/DOWN & Full BA & Base BA & Full LONG & Base LONG \\
+\hline
+Bear & 35 & 5/30 & 43.33 & 41.67 & 11.43 & 14.29 \\
+Bull & 33 & 9/24 & 47.92 & 53.47 & 36.36 & 39.39 \\
+Sideways & 34 & 11/23 & 59.49 & 46.25 & 23.53 & 32.35 \\
+\hline
+\end{tabular}\par\medskip
+\begin{minipage}{\textwidth}\footnotesize Cohorts overlap and are not pooled as extra samples. Trend uses past Close/SMA60 with strict +/-2\% thresholds; it is not an index-regime policy. Primary intervals retain both dates, full cross-sections and pairing within blocks. HAC concerns accuracy rather than BA and is reported for both fixed-universe panels at lags 0/1/2 in S4.\end{minipage}
+\end{table}

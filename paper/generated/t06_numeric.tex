@@ -1,0 +1,29 @@
+\begin{table}[p]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Train-fit numeric selector controls using separate causal adapters. These auxiliary results neither repeat the native LLM selector experiment nor repair its row-wise causal defect.}
+\label{tab:numeric}
+\textbf{A. Pooled numeric results; random mean (SD)}\par\smallskip
+\begin{tabular}{lrrrrr}
+\hline
+Strategy & Trials & Acc. (\%) & BA (\%) & MCC & Random BA range \\
+\hline
+Fixed custom five & 1 & 49.02 & 39.22 & -0.193 & -- \\
+Dynamic train top-five & 1 & 62.75 & 55.06 & 0.093 & -- \\
+Same IDs, no flip & 1 & 50.98 & 48.62 & -0.024 & -- \\
+Random eligible five & 20 & 51.27 (5.32) & 47.74 (5.38) & -0.039 (0.094) & [37.97, 57.17] \\
+\hline
+\end{tabular}\par\medskip
+\textbf{B. Three primary contrasts; multiplicity family = 23}\par\smallskip
+\begin{tabular}{lrrrr}
+\hline
+Contrast & $\Delta$BA (pp) & Percentile interval & Exact $p$ & Holm $p$ \\
+\hline
+Dynamic - fixed & 15.84 & [6.82, 25.22] & 0.0625 & 1.0000 \\
+Dynamic - random mean & 7.33 & [0.57, 13.75] & 0.1250 & 1.0000 \\
+Dynamic - no flip & 6.44 & [-10.93, 20.26] & 0.5312 & 1.0000 \\
+\hline
+\end{tabular}\par\medskip
+\begin{minipage}{\textwidth}\footnotesize $N=102$, UP/DOWN=25/77, 51 train-fit scopes. Numeric adapters/preprocessing are separate from the native LLM pipeline. All 20 random trials and all 23 contrasts remain in S3. Exact tests have 64 six-block sign assignments; percentile intervals are unadjusted, Holm uses the full 23-hypothesis family. No contrast rejects at 0.05.\end{minipage}
+\end{table}

@@ -1,149 +1,40 @@
-\section{Backtest Results}
+\section{Results}
 \label{sec:backtestresults}
 
-\subsection{Nine-Symbol Paired Benchmark}
+\subsection{Main class-aware comparison}
+Table~\ref{tab:classification} uses all 102 main units, not the 180-point legacy study. Full accuracy is \FullAccuracy\%, Base \BaseAccuracy\%, and CASH/train-majority \CashAccuracy\%. Because 77/102 outcomes are DOWN, ordinary accuracy alone favours conservatism. Full BA is \FullBA\%, Base \BaseBA\%, and logistic-price \LogisticPriceBA\%; the Full--Base BA difference is \DeltaBA\ percentage points. All comparators, including less favourable ones, remain in the table. Undefined constant-rule MCC is NA.
 
-Table~\ref{tab:overall_results} reports the completed paired benchmark. The Full System attains mean directional accuracy of 65.0\%, compared with 51.1\% for No-Alpha, for a mean Alpha Lift of +13.9 percentage points (pp). Eight symbols have positive lift and VJC has zero lift. The cross-symbol Wilcoxon signed-rank test rejects a zero-centred lift ($p=0.0078$), although none of the individual exact McNemar tests reaches the 5\% level with only 20 paired points per symbol. The moving-block intervals are correspondingly wide; VCB is the only symbol whose reported 95\% lift interval excludes zero.
+Full and Base each identify seven of 25 UP outcomes. Full issues 24 LONG forecasts, with 17 false positives, versus Base's 29 LONG forecasts and 22 false positives. Thus the observed BA difference accompanies improved DOWN recall rather than additional captured UP cases. This pattern is compatible with a shift towards CASH; it does not identify why the shift occurred or establish information-specific alpha. Neither a higher score than Base nor a smaller loss than an always-invested rule is sufficient evidence of profitability or broad superiority.
 
-\begin{table}[!htb]
-\centering
-\caption{Paired benchmark over nine equities ($N=20$ per symbol, $W=45$, $S=3$, $L=3$). Panel A reports directional inference; Panel B reports compounded long-only account outcomes.}
-\label{tab:overall_results}
-\renewcommand{\arraystretch}{1.12}
-\setlength{\tabcolsep}{3.2pt}
-\footnotesize
+Pooled and macro values are different estimands. BHN contributes six eligible units, the other eight symbols twelve; missing class support reduces some macro denominators. Table~\ref{tab:symbol_results} reports Full/Base by symbol. Companion S1 includes all 81 symbol--classifier rows, both-class metrics and all pooled/macro denominators, so comparator reporting is not restricted to selected symbols or the main table's aggregate.
+\input{generated/t02_classification.tex}
 
-\textit{Panel A: Directional accuracy and paired inference}
+\subsection{Account outcomes and exposure}
+Full mean net account return is \FullReturn\%, versus Base \BaseReturn\% and CASH zero (Table~\ref{tab:accounts}). Full therefore does not even outperform Base on this main economic mean, despite its higher BA. Always-LONG cycles and continuous hold have different costs and gap exposure, and neither is substituted for the other. The held-session fractions include the long CASH gaps between the two cutoffs in each block; their low values should not be confused with LONG percentages over scheduled decision units.
 
-\resizebox{0.95\columnwidth}{!}{%
-\begin{tabular}{lrrrrrr}
-\hline
-\textbf{Symbol} & \textbf{Full (\%)} & \textbf{No-$\alpha$ (\%)} & \textbf{Lift (pp)} & \textbf{95\% CI (pp)} & \textbf{McNemar $p$} & \textbf{$N$} \\
-\hline
-BHN & 55.0 & 45.0 & +10.0 & $[+0.0,+15.0]$ & 0.6875 & 20 \\
-CMG & 75.0 & 70.0 & +5.0 & $[+0.0,+5.0]$ & 1.0000 & 20 \\
-FPT & 65.0 & 45.0 & +20.0 & $[-5.0,+35.0]$ & 0.2188 & 20 \\
-HVN & 70.0 & 50.0 & +20.0 & $[+0.0,+35.0]$ & 0.2188 & 20 \\
-MBB & 70.0 & 45.0 & +25.0 & $[+0.0,+55.0]$ & 0.1250 & 20 \\
-MWG & 70.0 & 50.0 & +20.0 & $[+0.0,+40.0]$ & 0.1250 & 20 \\
-VCB & 65.0 & 50.0 & +15.0 & $[+5.0,+35.0]$ & 0.2500 & 20 \\
-VJC & 60.0 & 60.0 & +0.0 & $[-10.0,+10.0]$ & 1.0000 & 20 \\
-VNM & 55.0 & 45.0 & +10.0 & $[-15.0,+45.0]$ & 0.6250 & 20 \\
-\hline
-\textbf{Mean} & \textbf{65.0} & \textbf{51.1} & \textbf{+13.9} & -- & -- & \textbf{20} \\
-\hline
-\end{tabular}}
+Returns and drawdowns summarize separate accounts, not one portfolio, total-return index or certified executable strategy. Risk ratios cannot recover evidence of profitability from sparse trades. The main schedules have 57 observed sessions between cutoffs, so pending-cash/on-demand-advance equivalence on these accounts provides little evidence about rapid capital reuse. All twelve economic sensitivities are reported in Table~\ref{tab:execution}. The all-entries-missed scenario gives zero but is not a mathematical worst-return bound; other assumptions may introduce unfilled entries, delays, pending balances or residual shares. Predictions and classification labels are unchanged across these sensitivities.
+\input{generated/t03_accounts.tex}
 
-\vspace{0.7em}
-\textit{Panel B: Compounded account metrics}
-\footnotesize
+\subsection{Repeated executions and factorial contrasts}
+Table~\ref{tab:repeats} retains all three executions, sample SD, range and cutoff-level prediction disagreement summaries. The two panels have nine market units each but different symbols, dates and prompt families. Their means and SDs are not transferable to the broad 102-unit main study. Zero metric SD does not imply identical predictions: factorial S has unchanged aggregate BA but nonzero disagreement. Return means use nine upstream or eight factorial symbol--block accounts per variant/execution.
 
-\resizebox{0.95\columnwidth}{!}{%
-\begin{tabular}{lrrrrrr}
-\hline
-\textbf{Symbol} & \textbf{Return F (\%)} & \textbf{Return N (\%)} & \textbf{Sharpe F} & \textbf{Sharpe N} & \textbf{MDD F (\%)} & \textbf{MDD N (\%)} \\
-\hline
-BHN & -4.20 & -5.76 & -3.63 & -2.64 & 4.80 & 8.31 \\
-CMG & -2.66 & -5.60 & -3.64 & -5.28 & 2.66 & 5.60 \\
-FPT & -1.56 & -10.37 & -0.86 & -6.41 & 6.30 & 10.37 \\
-HVN & +2.89 & -15.64 & +1.19 & -4.27 & 5.27 & 20.06 \\
-MBB & +5.21 & -7.78 & +2.36 & -4.22 & 3.50 & 9.89 \\
-MWG & +0.39 & -6.42 & +0.41 & -3.93 & 1.92 & 8.17 \\
-VCB & -8.34 & -10.49 & -5.98 & -7.78 & 8.92 & 10.49 \\
-VJC & -6.05 & -6.26 & -5.22 & -5.38 & 6.05 & 6.26 \\
-VNM & -0.85 & -7.51 & -0.41 & -4.91 & 3.40 & 7.51 \\
-\hline
-\textbf{Mean} & \textbf{-1.69} & \textbf{-8.43} & \textbf{-1.75} & \textbf{-4.98} & \textbf{4.76} & \textbf{9.63} \\
-\hline
-\end{tabular}}
+On the factorial panel the AS--B BA mean is $-9.52$ pp and AS--P is $-11.90$ pp. Interaction $AS-A-S+B$ is $+14.29$ pp, whereas the gap of mean BA between AS and the observed best single component is zero. These are different quantities. All seven descriptive BA family envelopes contain zero; only 6,986 of 10,000 BA draws retain both classes and 3,014 are undefined. Conditional intervals are not zero-imputed or advertised as calibrated familywise coverage. All factorial mean account returns are negative.
 
-\vspace{0.4em}
-\begin{flushleft}\footnotesize
-F and N denote Full and No-Alpha. The 95\% intervals use a moving-block bootstrap (block length 5; 1,000 replications). The two-sided cross-symbol Wilcoxon result is $p=0.0078125$ (nine symbol-level lifts; median lift $=15.0$ pp). Returns are compounded from VND~50,000,000 independent accounts under Eq.~\eqref{eq:account_return}; SHORT forecasts remain in cash.
-\end{flushleft}
-\end{table}
+The upstream AS--B mean BA difference is $+4.76$ pp, with conditional percentile interval $[0,10]$ pp. This higher-performing small panel does not replace the main or factorial outcomes. Actual shared reports and paired prompt contents match their frozen parents, but 40 of 147 groups have a successful-call order different from the listed job order, and nine span execution epochs. Routing/quota/resume did not implement full counterbalancing. We retain every outcome and disclose the resulting time/order confounding rather than selecting a clean-looking subset or repairing it retrospectively.
+\input{generated/t04_repeats.tex}
 
-The economic results warrant greater caution than the directional results. Full outperforms No-Alpha in account return for all nine symbols, but its mean account return is still $-1.69\%$, and only HVN, MBB, and MWG finish positive. Accordingly, the evidence is limited to paired directional improvement and relative loss reduction; general profitability remains unsupported. The divergence is expected under the long-only action map: a correct SHORT improves directional accuracy but earns a zero account return.
+\subsection{Temporal and dependence diagnostics}
+Table~\ref{tab:temporal} keeps the all-102 primary cohort and two overlapping structural cohorts. The primary Full--Base BA interval is $[\PrimaryLow,\PrimaryHigh]$ pp. The common-eight cohort has 96 units over twelve dates; recent-nine has 54 over six dates. They are sensitivity views, not independent replications or grounds for choosing a more favourable headline. The six-block sample includes an all-DOWN early-2025 block: within-block BA without both classes is undefined rather than fabricated.
 
-\subsection{Robustness and Sensitivity}
+Past Close/SMA60 contexts distinguish bull, bear and sideways observations. These are per-security descriptions, not validated market-wide index regimes or a regime-conditioned trading policy. Additional volatility and turnover-proxy thresholds are fitted on purged training data, but their post-inference stratification remains descriptive. Close times Volume is in vendor units, not measured spread/depth liquidity. Exposure based on three target sessions differs from whole-calendar exposure with gaps.
 
-Table~\ref{tab:robustness_results} reports all six completed sweeps. Each row contains 20 paired test points. Panel A changes the input window for both variants and therefore changes the No-Alpha information set. In Panels B and C, which intervene only on Alpha processing, the No-Alpha accuracy is exactly invariant within each symbol and panel: 45.0\% for both normalisation sweeps, 50.0\% for the FPT weight sweep, and 45.0\% for the VNM weight sweep.
+Calendar-aligned HAC accuracy effects for common-eight/recent-nine are $+3.125/+9.259$ pp. At lags 0/1/2, common-eight SEs are 0.026042/0.023146/0.020172 with $p=0.255346/0.204107/0.149610$; recent-nine SEs are 0.040713/0.047112/0.045710 with $p=0.072051/0.106554/0.098654$. These are accuracy, not BA, effects on twelve/six selected dates. Companion S4 retains all six rows, the calendar masks, all regime strata, block-length sensitivities and leave-one-block-out diagnostics. Few clusters and irregular dates prevent reliable significance, null-effect or calibrated-coverage conclusions.
+\input{generated/t05_temporal.tex}
 
-\begin{table}[!htb]
-\centering
-\caption{Robustness sweep on FPT and VNM ($N=20$ per row). Returns are compounded account returns.}
-\label{tab:robustness_results}
-\renewcommand{\arraystretch}{1.08}
-\setlength{\tabcolsep}{2.8pt}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lllrrrrr}
-\hline
-\textbf{Symbol} & \textbf{Panel} & \textbf{Scenario} & \textbf{Full (\%)} & \textbf{No-$\alpha$ (\%)} & \textbf{Lift (pp)} & \textbf{Return F (\%)} & \textbf{Return N (\%)} \\
-\hline
-FPT & Window & $W=30$ & 55.0 & 40.0 & +15.0 & -2.63 & -10.27 \\
-FPT & Window & $W=45$ & 65.0 & 50.0 & +15.0 & -2.21 & -6.86 \\
-FPT & Window & $W=60$ & 40.0 & 45.0 & -5.0 & -8.04 & -4.38 \\
-VNM & Window & $W=30$ & 40.0 & 40.0 & +0.0 & -7.81 & -7.51 \\
-VNM & Window & $W=45$ & 55.0 & 40.0 & +15.0 & -3.59 & -7.06 \\
-VNM & Window & $W=60$ & 65.0 & 55.0 & +10.0 & +5.20 & -0.84 \\
-\hline
-FPT & Normalisation & \texttt{zscore\_tanh} & 50.0 & 45.0 & +5.0 & -4.72 & -7.38 \\
-FPT & Normalisation & \texttt{minmax} & 55.0 & 45.0 & +10.0 & -5.63 & -7.38 \\
-FPT & Normalisation & \texttt{rank} & 60.0 & 45.0 & +15.0 & -4.36 & -7.38 \\
-VNM & Normalisation & \texttt{zscore\_tanh} & 60.0 & 45.0 & +15.0 & +2.70 & -2.22 \\
-VNM & Normalisation & \texttt{minmax} & 65.0 & 45.0 & +20.0 & +3.89 & -2.22 \\
-VNM & Normalisation & \texttt{rank} & 55.0 & 45.0 & +10.0 & -2.01 & -2.22 \\
-\hline
-FPT & Weighting & \texttt{default} & 60.0 & 50.0 & +10.0 & -1.99 & -7.85 \\
-FPT & Weighting & \texttt{equal\_weight} & 60.0 & 50.0 & +10.0 & -0.36 & -7.85 \\
-FPT & Weighting & \texttt{ic\_heavy} & 65.0 & 50.0 & +15.0 & -2.21 & -7.85 \\
-VNM & Weighting & \texttt{default} & 65.0 & 45.0 & +20.0 & +6.17 & -5.19 \\
-VNM & Weighting & \texttt{equal\_weight} & 50.0 & 45.0 & +5.0 & -4.57 & -5.19 \\
-VNM & Weighting & \texttt{ic\_heavy} & 60.0 & 45.0 & +15.0 & +2.70 & -5.19 \\
-\hline
-\end{tabular}}
-\end{table}
+\subsection{Auxiliary numeric selector controls}
+Table~\ref{tab:numeric} is a separate numeric study, not an LLM factor-selector ablation. Causal adapters and train-only eligibility, imputation, scaling, orientation and ranking are fitted once per symbol--block scope, then retained through validation/test. Fixed custom five, dynamic train top-five, the same IDs without sign flip, and all twenty random eligible-five trials produce 2,346 predictions on the same 102 units. No random seed is selected after observing results.
 
-The alpha-enabled branch is sensitive to configuration. In particular, FPT at $W=60$ produces a $-5.0$ pp lift, and VNM at $W=30$ produces no lift. The normalisation and weighting panels remain positive for both symbols, but their Full accuracies and economic returns vary substantially. These results validate the paired-control implementation while also showing that the intervention is not uniformly robust to window choice or alpha design.
+Dynamic-minus-fixed, dynamic-minus-random-family and dynamic-minus-no-flip BA differences are respectively $+15.84$, $+7.33$ and $+6.44$ pp. Exact six-block two-sided sign-flip values are 0.0625, 0.125 and 0.53125; Holm correction over all 23 declared hypotheses gives adjusted $p=1$ throughout. Unadjusted percentile intervals and the entire random dispersion remain visible. Positive point differences do not establish superiority, and the no-flip contrast does not identify sign-flip value inside the LLM pipeline.
 
-\subsection{Disentangled Alpha--Sentiment Ablation}
-
-Table~\ref{tab:disentangled_ablation} separates quantitative factors from Vietnamese sentiment context on three representative symbols. Alpha-only improves directional accuracy for every symbol, with a mean independent contribution of +8.33 pp. Sentiment-only contributes +5.0 pp for VNM and 0.0 pp for FPT and VCB, giving a mean independent contribution of +1.67 pp. The interaction is heterogeneous: +5.0 pp for FPT, +10.0 pp for VNM, and $-10.0$ pp for VCB.
-
-\begin{table}[!htb]
-\centering
-\caption{Four-way shared-upstream ablation ($N=20$ per variant and symbol).}
-\label{tab:disentangled_ablation}
-\renewcommand{\arraystretch}{1.1}
-\setlength{\tabcolsep}{3pt}
-
-\textit{Panel A: Directional decomposition}
-
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrrrrrr}
-\hline
-\textbf{Symbol} & \textbf{Full} & \textbf{Alpha-only} & \textbf{Sent.-only} & \textbf{Baseline} & \textbf{$\Delta\alpha$} & \textbf{$\Delta$Sent.} & \textbf{Synergy} \\
-\hline
-FPT & 55.0\% & 50.0\% & 45.0\% & 45.0\% & +5.0 pp & +0.0 pp & +5.0 pp \\
-VNM & 60.0\% & 50.0\% & 50.0\% & 45.0\% & +5.0 pp & +5.0 pp & +10.0 pp \\
-VCB & 45.0\% & 55.0\% & 40.0\% & 40.0\% & +15.0 pp & +0.0 pp & -10.0 pp \\
-\hline
-\textbf{Mean} & \textbf{53.33\%} & \textbf{51.67\%} & \textbf{45.00\%} & \textbf{43.33\%} & \textbf{+8.33 pp} & \textbf{+1.67 pp} & \textbf{+1.67 pp} \\
-\hline
-\end{tabular}}
-
-\vspace{0.7em}
-\textit{Panel B: Compounded account return}
-
-\begin{tabular}{lrrrr}
-\hline
-\textbf{Symbol} & \textbf{Full} & \textbf{Alpha-only} & \textbf{Sentiment-only} & \textbf{Baseline} \\
-\hline
-FPT & -4.61\% & -7.85\% & -7.38\% & -6.09\% \\
-VNM & -4.03\% & +2.26\% & -5.86\% & -3.96\% \\
-VCB & -7.93\% & -2.75\% & -9.23\% & -11.34\% \\
-\hline
-\end{tabular}
-\end{table}
-
-The ablation prevents the primary benchmark lift from being attributed entirely to sentiment. The factor pathway provides the more consistent independent directional increment, whereas sentiment is useful only for VNM in this sample. VCB also demonstrates negative interaction: combining sentiment with factors reduces accuracy relative to Alpha-only by 10.0 pp. Economic ordering differs again from directional ordering; for example, VNM Alpha-only is profitable (+2.26\%) while its Full variant loses 4.03\%. These findings motivate larger-sample interaction tests because additional modalities do not uniformly improve decisions.
+Native diagnostics separately account for 102 cutoffs, 8,670 candidate opportunities and 510 selected slots. WQ42 occurs at 52/102 cutoffs (52/510 slots); adjacent nonzero IC signs flip 1,282 times over 7,894 eligible transition pairs. These are dependent in-sample diagnostics, not out-of-sample alpha stability. Complete per-factor frequency, eligible denominators, IC signs, windows and all 21 exclusions are retained in the registry companion. Numeric controls do not repair native row-wise noncausality, provide the missing fixed/random LLM experiment, or certify original-expression equivalence.
+\input{generated/t06_numeric.tex}

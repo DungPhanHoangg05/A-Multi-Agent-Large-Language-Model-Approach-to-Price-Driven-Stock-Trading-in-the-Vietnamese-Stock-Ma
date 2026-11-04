@@ -1,15 +1,4 @@
-%%
-%% viQuantAgent / QuantAgent VN -- Academic Paper
-%% Converted to the Elsevier elsarticle (numbered-citation) template,
-%% based on elsarticle-template-num.tex, for submission to
-%% Knowledge-Based Systems (KBS).
-%%
-%% FORMAT CONVERSION ONLY: the scientific content is unchanged from the
-%% original cas-sc source (DKE_2026.tex); only front-matter markup and
-%% class-specific macros (\credit, \printcredits, [pos=...] float
-%% placement, \begin{keywords}, \tnotemark/\fnmark/\cormark, natbib
-%% \citep) have been adapted to elsarticle conventions.
-%%
+% Nguồn bài historical exploratory theo gate T30; metadata tác giả chờ T33.
 \documentclass[preprint,12pt]{elsarticle}
 
 \usepackage[
@@ -44,16 +33,21 @@
 \usepackage{tabularx}
 \usepackage{float}
 \usepackage{placeins}
-\usepackage{framed}
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+
 \usepackage{orcidlink}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{hyperref}
 
 \journal{Knowledge-Based Systems}
 
 %% Figures live under figures/figs/... in this project; original
 %% \includegraphics calls use the relative path "figs/..." as in the
 %% source manuscript, so we add "figures/" to the graphics search path.
-\graphicspath{{figures/}}
+\graphicspath{{./}}
+
+\input{generated/summary_numbers.tex}
 
 \begin{document}
 
@@ -61,7 +55,7 @@
 
 %% Title, authors and addresses
 
-\title{Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration\tnoteref{t1}}
+\title{Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation\tnoteref{t1}}
 \tnotetext[t1]{This research is funded by Foreign Trade University under research program number FTURP02-2026-08.}
 
 %% Authors
@@ -89,27 +83,23 @@
 
 %% Abstract
 \begin{abstract}
-Large language models (LLMs) are increasingly used in algorithmic trading, yet knowledge integration across heterogeneous evidence remains underexplored in emerging and non-English markets. We present a five-agent knowledge-fusion framework for financial decision support in Vietnamese equities. The architecture integrates technical indicators, point-in-time quantitative alpha selection, financial sentiment, and vision-language chart analysis, providing a reproducible basis for combining heterogeneous quantitative, textual, and visual evidence in multi-agent reasoning. A paired shared-report protocol isolates the contribution of alpha information while holding upstream evidence fixed, and a four-way ablation separates quantitative-factor and sentiment effects. Across nine equities and 180 paired decisions, the Full System attains 65.0\% accuracy versus 51.1\% without Alpha. The ablation identifies a larger independent contribution from alpha factors than from sentiment, with stock-dependent interactions. An execution-aware long-only ledger nevertheless produces a negative mean net return, showing that improved directional inference does not ensure economic profitability. The framework therefore supports auditable knowledge integration and controlled component evaluation for financial decision support; claims of immediate trading deployment remain outside the available evidence.
+We evaluate a multi-agent LLM implementation for Vietnamese equity decision support using frozen historical calls and class-aware numerical controls. The study covers 102 market units across nine equities, twelve selected dates and six blocks, with 25 UP and 77 DOWN net-return labels. Its Full--Base comparison changes both factor and sentiment sections and is treated as a bundle contrast. Full balanced accuracy is \FullBA\%, compared with \BaseBA\% for Base and \LogisticPriceBA\% for a price-only logistic comparator. CASH has ordinary accuracy \CashAccuracy\% but balanced accuracy 50\%. Mean separate-account net returns are \FullReturn\% for Full and \BaseReturn\% for Base. Scope was amended after partial inference, making the study exploratory. Two distinct nine-unit panels retain three executions and a past-donor factorial placebo, with small support and ordering/epoch confounds. An auxiliary train-fit numeric study does not repair the native selector's row-wise causal defect. Financial-news domain validity, historical news availability and immutable hosted-model revisions remain unverified. We archive inputs, requests and outcomes for saved-prediction replay, while public distribution rights and a persistent identifier remain pending. The evidence supports a bounded historical implementation assessment, not causal alpha attribution, general predictive superiority or deployable profitability.
 \end{abstract}
 
 %%Graphical abstract
-\begin{graphicalabstract}
-\centering
-\includegraphics[width=0.95\textwidth]{figs/system_pipeline.png}
-\end{graphicalabstract}
+
 
 %%Research highlights
 \begin{highlights}
-\item Five-agent knowledge fusion combines quantitative, textual, and chart evidence.
-\item Point-in-time top-5 selection operates over 85 OHLCV alpha candidates.
-\item Paired evaluation yields 65.0\% accuracy vs 51.1\% without Alpha.
-\item Four-way ablation separates alpha-factor and sentiment contributions.
-\item Decision-support evaluation separates directional skill from economic return.
+\item Frozen calls support an auditable historical LLM evaluation.
+\item Class-aware baselines contextualize results on 102 market units.
+\item Repeated executions expose variability and ordering limitations.
+\item Negative account returns limit economic and deployment claims.
 \end{highlights}
 
 %% Keywords
 \begin{keyword}
-Multi-agent LLM \sep Knowledge fusion \sep Knowledge integration \sep Financial decision support \sep Alpha factor selection
+Multi-agent LLM \sep Vietnamese equities \sep Historical evaluation \sep Class imbalance \sep Reproducibility
 \end{keyword}
 
 \end{frontmatter}
@@ -154,8 +144,7 @@ Authors state no conflict of interest.
 % When papers talk about using people or animals, authors should make it clear that the research followed all national rules and institutional policies, and it was approved by the authors' institutional review board or a similar committee. The Helsinki Declaration's tenets must guide all investigations involving human subjects. Authors must also identify the committee or review board approving the experiments and provide a statement indicating approval of the research. Incorporate the following (or a similar) statement: The research related to human use has been complied with all the relevant national regulations and institutional policies in accordance with the tenets of the Helsinki Declaration and has been approved by the authors' institutional review board or equivalent committee; or: The research related to animal use has been complied with all the relevant national regulations and institutional policies for the care and use of animals.
 
 
-\section*{CODE AVAILABILITY}
-The source code and demonstration implementation of the proposed framework are available in the \href{https://github.com/DungPhanHoangg05/A-Multi-Agent-Large-Language-Model-Approach-to-Price-Driven-Stock-Trading-in-the-Vietnamese-Stock-Ma.git}{project repository}.
+\input{sections/availability.tex}
 
 \input{sections/acknowledgments.tex}
 

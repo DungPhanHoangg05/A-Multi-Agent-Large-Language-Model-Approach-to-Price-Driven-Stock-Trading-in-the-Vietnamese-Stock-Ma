@@ -1,186 +1,31 @@
-\section{System architecture}
+\section{Implemented multi-agent system}
 \label{sec:systemarchitecture}
-\subsection{Overview}
 
-The implemented runtime is a LangGraph directed acyclic graph with five specialised agents and a shared typed state object. It acts as an explicit knowledge-integration layer over technical, quantitative, textual, and visual evidence. Its default configuration names \texttt{openai/gpt-oss-20b} for text and \texttt{qwen/qwen3.8-27b} for vision through Groq. The backtest path enforces point-in-time input windows, shared upstream reports for paired variants, structured binary decisions, and a separate compounded-account ledger.
+\subsection{Roles and actual information flow}
+Figure~\ref{fig:flow} describes the implementation evaluated here. Indicator Agent computes and renders five deterministic TA-Lib-based votes: MACD, RSI, Stochastic, Williams \%R and ROC. They are momentum/trend indicators, not five volatility oscillators. Its backtest node returns a report and messages, without calling an LLM or forwarding the declared state schema's complete numeric arrays. Bollinger variables can be computed on the alpha path; BB/ADX state declarations do not create two additional Indicator votes. Appendix~\ref{app:signals} specifies the ordered boundaries and missing-data convention \cite{talib_rsi_docs,talib_willr_docs}.
 
-\subsection{Indicator Agent}
-The Indicator Agent computes five momentum and volatility oscillators using TA-Lib over the most recent OHLCV window, including MACD \cite{appel2005technical}, RSI \cite{wilder1978new}, Stochastic Oscillator \cite{lane1984stochastic}, Williams \%R \cite{williams1973trading}, and ROC-based momentum signals \cite{murphy1999technical}. Table~\ref{tab:indicator_conditions} lists each indicator with its parameters and signal classification rules. Signal classification is performed deterministically in Python before any LLM call, using hard thresholds and two-bar crossover detection. The classified counts-number of bullish, bearish, and neutral signals-are injected directly into the LLM prompt as immutable ground-truth constraints, preventing the model from hallucinating signal tallies. A majority rule then determines an overall consensus with an associated confidence level (High if four or more signals agree, Medium if three agree, Low otherwise).
+The Alpha role supplies native selected-factor and sentiment context. In the evaluated backtest its numerical/report path bypasses an additional alpha-reasoning LLM invocation. Pattern and Trend read their respective cached chart images through the vision model, and Decision receives condensed Indicator, Pattern and Trend reports plus the enabled factor/sentiment sections. Indicator, Pattern, Trend and Decision roles, shared state, chart tools and trendline procedure reuse or modify QuantAgent code; the upstream MIT notice is preserved in the repository \cite{xiong2025quantagent}. Domain adaptation, input processing and the evaluation protocol should be distinguished from the reused architecture.
 
-\begin{table}[htb]
+\begin{figure}[htbp]
 \centering
-\caption{Technical indicators and trading signal conditions}
-\label{tab:indicator_conditions}
-\renewcommand{\arraystretch}{1.2}
-
-\begin{tabularx}{\textwidth}{|l|l|X|X|}
-\hline
-\textbf{Indicator} & \textbf{Parameters} & \textbf{Bullish condition} & \textbf{Bearish condition} \\
-\hline
-
-MACD & 12, 26, 9 &
-Golden cross or positive histogram expanding &
-Death cross or negative histogram expanding \\
-\hline
-
-RSI & period = 14 &
-$\leq 30$ (oversold) or value $\geq 55$ &
-$\geq 70$ (overbought) or value $\leq 45$ \\
-\hline
-
-Stochastic & 14, 3, 3 &
-\%K crosses above \%D, or \%K $\leq 20$ &
-\%K crosses below \%D, or \%K $\geq 80$ \\
-\hline
-
-Williams \%R & period = 14 &
-\%R $\leq -80$ or trending toward 0 &
-\%R $\geq -20$ or trending toward $-100$ \\
-\hline
-
-ROC & period = 10 &
-ROC $> +0.5\%$ &
-ROC $< -0.5\%$ \\
-\hline
-
-\end{tabularx}
-\end{table}
-
-\subsection{Alpha Agent}
-
-The Alpha Agent serves two explicitly separated functions: OHLCV-only quantitative factor evaluation and qualitative comparison with Vietnamese sentiment supplied as textual LLM context.
-
-\paragraph{Alpha selection.}
-An offline registry of exactly 85 candidate alpha functions is maintained, comprising five proprietary single-stock momentum and reversion formulas (Table~\ref{tab:proprietary_alphas}) and 80 adaptations drawn from the WorldQuant 101 Formulaic Alphas. Of the original 101 WorldQuant expressions, only 80 are retained because the remaining 21 cannot be translated into a meaningful single-stock OHLCV setting without introducing information that is unavailable in our pipeline or fundamentally altering the original operator semantics. In particular, these excluded expressions rely on cross-sectional ranking or neutralisation across multiple contemporaneous assets, industry or market-group information, or other inputs/operators that do not admit a defensible time-series-only surrogate under our single-symbol formulation. We therefore exclude them rather than force an arbitrary approximation. Consequently, 101 denotes the size of the original source catalogue, whereas 80 denotes the subset considered adaptable to our single-stock setting, and 85 denotes the final executable candidate registry after adding five proprietary factors.
-
-For the retained expressions, cross-sectional operators are replaced by single-asset time-series surrogates as formalised in Eq.~\eqref{eq:ts_rank_localised}. This translation is heuristic: without contemporaneous peer dispersion, a rolling percentile answers where is this stock relative to its own recent history?'' rather than where is this stock relative to other stocks now?'' The adaptation can therefore change factor scale, persistence, turnover, and economic meaning. The present experiments do not estimate per-factor IC-decay curves, lagged signal autocorrelation, or turnover profiles, and do not claim that the adapted factors inherit the properties of their WorldQuant sources. When the volume series is unavailable or sparse, intra-bar price range is used as a proxy, creating an additional interpretation change for volume-dependent expressions.
-
-For a given symbol and timeframe, the available point-in-time history is truncated to at most 600 bars ending at the decision cutoff. Features (returns, log-volume, VWAP proxy, and ADV20) are then constructed. Candidate metrics use only matured net Open-to-Close labels within this snapshot; the final $L$ rows are excluded because their targets are unavailable at the cutoff. A zero net return is assigned \texttt{DOWN}, consistent with the requirement that a LONG must remain profitable after costs.
-
-The selector computes Spearman Information Coefficient (IC), directional accuracy on signals above the configured absolute threshold, and a horizon Sharpe diagnostic. Long-only win rate and other economic summaries are retained for diagnosis but do not enter the composite score.
-
-A candidate is eligible only when it has at least 20 finite observations and finite ranking metrics. Ineligible candidates are removed \emph{before} the per-metric min--max bounds are computed. Using $\mathcal{N}_{\mathcal{V}}$ from Equation~\eqref{eq:candidate_minmax}, the default composite score is:
-
-\begin{equation}
-S = 0.40\mathcal{N}_{\mathcal{V}}(|IC|)
-  + 0.35\mathcal{N}_{\mathcal{V}}(Acc)
-  + 0.25\mathcal{N}_{\mathcal{V}}(Sharpe)
-\label{eq:composite_score}
-\end{equation}
-
-If a metric is constant across the eligible set, its normalised value is $0.5$ for every candidate. The displayed coefficients are the default runtime weights; robustness configurations replace them with recorded alternatives. Long-only accuracy is excluded from ranking to avoid rewarding a factor solely because the historical sample trends upward.
-
-Up to five eligible candidates are selected for the current prediction. When historical IC is negative, the signal is multiplied by $-1$ for metric computation and current inference. All observations used for this orientation precede the decision cutoff, which prevents lookahead into the evaluated trade. It does not eliminate selection bias: the same trailing observations determine the IC sign, score all 85 candidates, and choose the five winners. A noisy negative IC can therefore be converted into an apparently useful positive orientation, and the maximum over many noisy scores is optimistic even when every timestamp is cutoff-safe. No nested inner-selection/outer-evaluation loop, Deflated Sharpe Ratio, or rolling inclusion/sign-stability diagnostic is applied in the reported study. Candidate IC and Sharpe values are consequently descriptive ranking statistics, not multiplicity-adjusted evidence that a particular factor is genuinely profitable. Nested validation that repeats orientation and top-five selection inside every training fold~\cite{varma2006bias}, together with Deflated Sharpe or false-discovery control~\cite{bailey2014deflated,harvey2016}, is required for stronger factor-level claims.
-
-\begin{table}[htb]
-\centering
-\caption{Five proprietary alpha formulas}
-\label{tab:proprietary_alphas}
-\renewcommand{\arraystretch}{1.25}
-
-\begin{tabularx}{\textwidth}{|c|l|X|}
-\hline
-\textbf{Alpha} & \textbf{Name} & \textbf{Formula} \\
-\hline
-
-$\alpha_1$ &
-Flow-Driven Momentum &
-$\tanh(\mathrm{ROC}(1)_{\mathrm{adj}} \times \mathrm{VolSurge} \times 0.5)$ \\
-\hline
-
-$\alpha_2$ &
-MACD-Flow Proxy &
-$\tanh(\mathrm{MACDHist}_{\mathrm{norm}} + \mathrm{ROC}(1)_{\mathrm{adj}} \times 0.5)$ \\
-\hline
-
-$\alpha_3$ &
-Liquidity Void Reversion &
-$\tanh\!\left(-0.8 \times \mathrm{ZScore}\!\left(\frac{\mathrm{Close} - \mathrm{SMA}_5}{\mathrm{Close}}\right)\right)$ \\
-\hline
-
-$\alpha_4$ &
-Bollinger Squeeze \& Flow &
-$\tanh((\%B - 0.5) \times \mathrm{VolZ}_5 \times 1.5)$ \\
-\hline
-
-$\alpha_5$ &
-Order Flow Exhaustion &
-$\tanh(\mathrm{ROC}(1)_{\mathrm{adj}} \times \mathrm{ClosePos} \times 3.0)$ \\
-\hline
-
-\end{tabularx}
-
-\vspace{0.5em}
-
-\end{table}
-
-
-\paragraph{Sentiment integration.}
-Articles from CafeF are crawled for the target ticker and up to ten related companies identified by the LLM. The scorer supports four explicit backend policies: \texttt{auto}, \texttt{local}, \texttt{endpoint}, and \texttt{lexicon}. The default \texttt{auto} policy calls a user-provisioned Hugging Face Dedicated Inference Endpoint when \texttt{HF\_INFERENCE\_ENDPOINT\_URL} is configured and falls back to local Transformers inference if that call fails; without an endpoint URL, it selects local inference directly. The deprecated generic \texttt{hf-inference} serverless model route is not used. Local loading is lazy and thread-safe, uses the repository's \texttt{tokenizer.json} through \texttt{PreTrainedTokenizerFast}, truncates inference to 256 tokens, and selects CUDA when available unless the device is overridden. If the selected ViSoBERT path cannot produce a prediction, the versioned deterministic lexicon scorer is used. Every newly scored article stores the model/scorer name, the effective backend (local CPU/CUDA, dedicated endpoint host, lexicon, or empty-text handling), and a Boolean fallback flag.
-
-Two point-in-time context variables are constructed. $S_{\mathrm{decay}}$ is the exponentially time-weighted mean of all valid dated-and-scored articles in the 90-day window, with a 30-day half-life and strict exclusion of post-cutoff observations. $Rel_{\mathrm{sent}}$ is the difference between the target's time-decayed score and the mean time-decayed score of related companies having at least three valid observations. Either value is marked unavailable when its observation requirement is not met; missing data is not encoded as neutral zero. The full compact observation set is used for these calculations, while the 15-article slice is display-only.
-
-Neither variable is injected into $\alpha_2$, any other registry formula, or factor ranking. They and the per-company related sentiment values are rendered in a separate prompt section that the LLM uses only for qualitative comparison with the OHLCV factor report.
-
-In backtest mode, the live crawler is replaced by a pre-loaded historical sentiment store keyed by symbol and decision timestamp. Inclusion is based on timezone-aware \texttt{available\_at}, not merely a publication date: date-only CafeF records become available at 00:00 on the next day in \texttt{Asia/}\allowbreak\texttt{Ho\_Chi\_Minh}, and undated records are rejected rather than used as fallback.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.9\textwidth]{figs/alpha_agent_pipeline.png}
-    \caption{Internal data flow of the Alpha Agent}
-    \label{fig:alpha_agent}
+\input{figs/final_flow.tex}
+\caption{Implemented information flow and shared-report comparison. Aggregation uses prompt instructions rather than a learned fusion module. Indicator and alpha backtest reports do not require additional reasoning-model calls.}
+\label{fig:flow}
 \end{figure}
 
-\subsection{Pattern Agent}
+\subsection{Charts and aggregation}
+Figure~\ref{fig:charts} shows the earliest chronologically eligible main unit, chosen by date then symbol/unit ID without inspecting outcomes. Images are exact archived PNGs: Pattern is replayed from its original request, while Trend uses the corrected legend. Candle bodies are green when Close exceeds Open and red otherwise, including a doji; this is an Open--Close body rule, not the exchange price board's reference-price rule. Support is blue and resistance red. The original claim of green bearish/red bullish candles following Vietnamese market convention is withdrawn.
 
-The Pattern Agent analyses a candlestick chart rendered from the current
-analysis window $[e-W,e)$ (45 candles in the main configuration). The chart is
-produced by \texttt{mplfinance} using a custom colour scheme (green bodies for
-bearish candles and red bodies for bullish candles, following Vietnamese market
-convention) and encoded as a base64 PNG before graph execution.
-
-The vision-language model is prompted to perform four sequential tasks. First, it identifies the dominant chart formation from a curated list of 16 classical patterns, such as head-and-shoulders inverse, double bottom, or various triangles and wedges. Second, it describes the three to five most recent candles in terms of body size, wick length, and relative position. Third, it assesses whether a breakout or breakdown is occurring. Finally, it commits to a directional bias (\texttt{bullish}, \texttt{bearish}, or \texttt{neutral}) alongside a confidence rating of \texttt{High}, \texttt{Medium}, or \texttt{Low}.
-
-The prompt is explicitly structured to discourage non-committal answers and encourage a directional interpretation whenever sufficient evidence is present.
-
-After inference, a deterministic verifier compares the reported bias with the final candlestick body and the direction of the last five closes. An obvious contradiction is appended to the report and downgrades its confidence. If the vision model fails or no chart image is available, the agent falls back to a text-only analysis of raw OHLCV values using the text LLM.
-
-
-\subsection{Trend Agent}
-
-The Trend Agent receives a separate chart in which support and resistance lines have been fitted algorithmically before LLM invocation.
-
-Two trendline pairs are computed.
-
-\paragraph{Close-price trend channel.}
-The first pair is derived from the closing price series alone. A linear regression line is fitted to all 45 candles in $[e-W,e)$, and the upper and lower deviations from this line identify the resistance and support pivots respectively. The slopes are then refined by minimising squared deviations subject to two constraints: the support line must not intersect any closing price from above, and the resistance line must not intersect any closing price from below.
-
-\paragraph{High-low channel.}
-The second pair uses the high and low price series to identify the highest and lowest deviation points, producing channel lines that bound the full intra-bar range.
-
-The support lines are drawn in blue, resistance lines in red, and rendered at 600 DPI to preserve legibility when compressed to base64.
-
-The vision-language model is prompted to assess the slope of each support and resistance line, evaluate the distance between the lines (indicating channel width and price compression), determine the position of the most recent candles relative to each boundary, and produce a directional forecast for the applicable prediction horizon. The required JSON output fields encompass the trend direction, numerical support and resistance levels, slope characterisation, and overall confidence.
-
-After inference, a deterministic verifier checks the reported trend against price relative to SMA20, the availability of SMA50, and the recent price slope. Contradictory claims are flagged and their confidence is reduced. If the vision-language model fails or no rendered chart is available, the agent falls back to a text-only analysis of raw OHLCV data, mirroring the strategy used by the Pattern Agent.
-
-\paragraph{Scope of visual verification.}
-The two deterministic checks are \emph{output-consistency gates}: they test whether the final directional statement contradicts a small set of OHLCV-derived facts. They cannot reveal which image region caused the model's answer, verify every claimed candle or trendline coordinate, or demonstrate sensitivity to the purported local pattern. A model that simply extrapolates the global trend can pass both gates whenever the shortcut and the rules agree. This distinction matters because observational financial charts couple local evidence with trend, making ordinary accuracy unable to identify grounding; controlled evidence interventions are needed to separate a grounded responder from a trend-shortcut responder \cite{wang2026martingale}. Accordingly, the evidence establishes reduced obvious contradiction, while audited visual faithfulness remains an open question. A direct audit would require matched charts that preserve global trend while altering only local candlestick semantics, complementary trend swaps that preserve the local pattern, and measurement of whether the model's direction changes in the rule-implied way. FinChart-Bench further cautions that current models remain unreliable on spatial and instruction-following aspects of financial charts \cite{shu2026finchart}.
-
-
-\subsection{Decision Agent}
-
-The Decision Agent synthesises all upstream reports into a single trading judgment. To remain within the Groq token-per-minute limit, each report is condensed before being passed to the prompt: the Indicator report is trimmed to its consensus summary block, the Alpha report retains only the factor table and LLM reasoning paragraph, and the Sentiment report drops the per-article listing.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figs/decision_agent_pipeline.png}
-    \caption{Decision Agent reasoning pipeline}
-    \label{fig:decision_agent}
+\begin{figure}[p]
+\centering
+\includegraphics[width=0.90\textwidth]{figs/final_pattern.png}\par\smallskip
+\includegraphics[width=0.90\textwidth]{figs/final_trend.png}
+\caption{Actual Pattern and corrected Trend inputs for CMG on 3 July 2023, the first chronologically eligible main unit. Bodies compare Close with Open; the Trend legend maps blue to support and red to resistance. These are historical inputs, not synthetic fixtures or evidence of validated visual understanding.}
+\label{fig:charts}
 \end{figure}
 
-The agent is prompted to reason through four sequential questions in a structured chain-of-thought process. It evaluates whether the price is near support or resistance while identifying the primary trend, checks if recent candles show reversal or continuation signals to ensure a low-risk entry, verifies whether technical oscillators like RSI and MACD confirm the price direction, and finally assesses if the quantitative alpha signals and sentiment align with or contradict the technical picture.
+The renderer audit matched 204 images across 102 units byte for byte and pixel for pixel, and 240 actual vision requests matched their image caches and Vietnamese templates. It verified body geometry, colour and legend handles. It did not establish what the vision model attended to. In particular, the Vietnamese word \emph{xanh} is less colour-specific than the corrected English ``blue'' wording. Inherited high-frequency/K-line prompt language also remains distinguishable from the daily-bar application. Deterministic consistency flags can catch obvious output contradictions but cannot certify visual grounding.
 
-Following this reasoning, the model must output a JSON object comprising a forced binary direction forecast (\texttt{LONG} or \texttt{SHORT}), the \texttt{forecast\_horizon}, the \texttt{confidence} level, a \texttt{risk\_reward\_ratio} clamped to $[1.0, 5.0]$, supporting and opposing evidence, and a final \texttt{justification} paragraph. A separate prompt instruction distinguishes this forecast label from an executed order.
+Reports are distilled and capped before Decision. The observed successful Decision prompts are at most 4,187 characters, below the 6,500-character guard. Priority and conflict instructions prefer price/chart evidence, allow quantitative factors to challenge it, and give sentiment lower priority. These are prompt heuristics, not learned/calibrated weights, an explicit knowledge representation, or guaranteed conflict resolution. The system performs prompt-level report aggregation; no separate experiment validates a new reasoning or knowledge-fusion algorithm. Complete actual prompts and consistency rules belong to the companion archive, not lengthy article appendices.
 
-The forced binary constraint supports direction classification only. Downstream account logic independently maps predictions to actions: \texttt{SHORT} maps to \texttt{CASH}, whereas \texttt{LONG} invests all available cash at the next open and closes the position at the configured target close after applying costs on both legs.
+Base retains the same upstream report content and general instructions but removes both alpha and sentiment sections. Thus general instructions may still mention those concepts. Main/upstream prompts use a compact factor representation, whereas the factorial panel delivers five explicit value rows. We retain this representation difference in component comparisons rather than assuming identical information delivery across prompt families.

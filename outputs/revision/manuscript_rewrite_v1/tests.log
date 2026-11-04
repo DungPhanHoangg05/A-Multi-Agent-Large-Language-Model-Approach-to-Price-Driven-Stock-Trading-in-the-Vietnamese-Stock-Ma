@@ -1,0 +1,17 @@
+Observed execution transcript: unified exec session 21381.
+Command: py -3.13 -X utf8 -m unittest discover -s tests -p test_revision_manuscript.py -v
+Scope: offline manuscript exporter only; no full suite, inference or market experiment.
+
+test_archive_cannot_hide_changed_runtime (test_revision_manuscript.ManuscriptExportTests.test_archive_cannot_hide_changed_runtime) ... ok
+test_build_refuses_existing_generation_before_writes (test_revision_manuscript.ManuscriptExportTests.test_build_refuses_existing_generation_before_writes) ... ok
+test_historical_paper_needs_exact_archive_member (test_revision_manuscript.ManuscriptExportTests.test_historical_paper_needs_exact_archive_member) ... ok
+test_interval_never_fills_missing_endpoint (test_revision_manuscript.ManuscriptExportTests.test_interval_never_fills_missing_endpoint) ... ok
+test_metric_scale_na_and_nonfinite (test_revision_manuscript.ManuscriptExportTests.test_metric_scale_na_and_nonfinite) ... ok
+test_receipt_checker_catches_source_output_and_extra_file (test_revision_manuscript.ManuscriptExportTests.test_receipt_checker_catches_source_output_and_extra_file) ... ok
+test_release_path_cannot_target_paper_or_nested_directory (test_revision_manuscript.ManuscriptExportTests.test_release_path_cannot_target_paper_or_nested_directory) ... ok
+test_tex_escapes_source_ids_and_rejects_misaligned_columns (test_revision_manuscript.ManuscriptExportTests.test_tex_escapes_source_ids_and_rejects_misaligned_columns) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 7.794s
+
+OK

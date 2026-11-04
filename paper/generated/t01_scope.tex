@@ -1,0 +1,30 @@
+\begin{table}[p]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Evaluation scopes and prompt variants in the frozen historical study. Shared main/upstream executions are counted once.}
+\label{tab:scope}
+\textbf{A. Recorded supports}\par\smallskip
+\begin{tabular}{lrrrrrrr}
+\hline
+Scope & $N$/exec. & Symbols & Dates & Blocks & UP/DOWN & Exec. & Decisions \\
+\hline
+Main & 102 & 9 & 12 & 6 & 25/77 & 1 & 204 \\
+Upstream & 9 & 9 & 3 & 3 & 2/7 & 3 & 54 \\
+Factorial & 9 & 8 & 4 & 3 & 2/7 & 3 & 135 \\
+\hline
+\end{tabular}\par\medskip
+\textbf{B. Prompt sections}\par\smallskip
+\begin{tabular}{llll}
+\hline
+Variant & Factors & Sentiment & Representation \\
+\hline
+B & -- & -- & Shared price reports \\
+A & Current & -- & Five-row factorial \\
+S & -- & Current & Factorial \\
+AS & Current & Current & Compact main / five-row factorial \\
+P & Past donor & Current & Five-row factorial \\
+\hline
+\end{tabular}\par\medskip
+\begin{minipage}{\textwidth}\footnotesize Main uses B/AS; upstream uses B/AS; factorial uses B/A/S/AS/P. Class counts are per execution. Upstream includes 18 main r0 calls: 204+54+135-18=375 unique Decisions. P preserves current names/schema/missingness and sentiment, replacing factor values/signals/skill metadata by one past train-only rank-vector donor.\end{minipage}
+\end{table}

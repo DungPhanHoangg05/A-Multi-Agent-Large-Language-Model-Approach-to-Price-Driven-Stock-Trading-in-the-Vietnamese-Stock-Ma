@@ -1,0 +1,20 @@
+\begin{table}[p]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Indicator signal rules and missing-data conventions.}
+\label{tab:indicator_rules}
+\textbf{Five deterministic votes}\par\smallskip
+\begin{tabular}{lp{7.1cm}p{5.2cm}}
+\hline
+Signal & Priority and boundaries & Qualification \\
+\hline
+MACD & Previous strict/current inclusive crossing first; otherwise histogram sign and change. & 12/26/9; no Stochastic histogram. \\
+RSI & $\ge70$: bear; $\le30$: bull; $55\le x<70$: bull; $30<x\le45$: bear. & 45--55 uses change against the third retained sample. \\
+Stochastic & Crossing precedes $\ge80$ bear / $\le20$ bull; interior fallback retained. & Legacy equality/zero-D truthiness is disclosed. \\
+Williams \%R & $\ge-20$: bear; $\le-80$: bull; otherwise retained-sample direction. & Not a volatility vote. \\
+ROC & $>+0.5\%$: bull; $<-0.5\%$: bear; equality neutral. & Thresholds follow four-decimal rounding. \\
+\hline
+\end{tabular}\par\medskip
+\begin{minipage}{\textwidth}\footnotesize None/nonfinite values are removed, zero retained; rounding is to four decimals before classification. Retained samples need not be consecutive if missing. Missing/error gives a neutral vote within denominator five. Directional plurality, ties MIXED, and confidence are heuristics, not calibrated probabilities.\end{minipage}
+\end{table}
