@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "end_codepoint": 2681,
+      "paragraph_index": 2,
+      "reviewer": "R1",
+      "start_codepoint": 1169,
+      "text": "1. A trivial majority-class baseline outperforms the proposed system. The label is UP only if a 3-bar Open-to-Close LONG cycle is profitable after roughly 0.7% round-trip costs (Eq. 4). Under this definition DOWN is the majority class. In the committed results, the share of DOWN labels is 55% (BHN), 80% (CMG), 65% (FPT), 65% (HVN), 70% (MBB), 65% (MWG), 75% (VCB), 75% (VJC) and 70% (VNM), i.e., 68.9% on average.A constant SHORT/CASH rule therefore achieves 68.9% mean accuracy, higher than the Full System's 65.0%. It also achieves a 0% account return, higher than the Full System's mean of -1.69%. The Full System exceeds this rule only for HVN and MWG; it ties for BHN, FPT and MBB, and is below it for CMG, VCB, VJC and VNM.Pooled over the 180 points, the Full System has a balanced accuracy of 55.0% and an MCC of 0.11. The No-Alpha control has a balanced accuracy of 44.4% and an MCC of -0.11, i.e., it is anti-predictive. The Full System issued 39 LONG calls (precision 41.0%) against 62 for No-Alpha (precision 24.2%). Most of the reported \"Alpha Lift\" therefore reflects the Full branch predicting LONG less often in a period when LONG was usually wrong.Please report class balance, balanced accuracy, MCC and precision/recall for both classes. Please include majority-class, always-cash, buy-and-hold and simple non-LLM baselines (e.g., momentum and logistic regression on the same features) for every symbol. The abstract, highlights and conclusions should be revised in light of these comparisons.",
+      "text_sha256": "c20d3005cf52cae29276c048063db5c51404c771afbca783961b7ce30a480a39"
+    },
+    {
+      "end_codepoint": 3547,
+      "paragraph_index": 2,
+      "reviewer": "R2",
+      "start_codepoint": 2681,
+      "text": "2. Sample size and market regime. All test points fall between mid-June and mid-September 2026: 20 points per symbol at 3-bar spacing, i.e., about three months of a single regime. In that window, a LONG on every cycle loses money for all nine symbols (compounded -5% to -30% from the committed data). In such a regime, any intervention that shifts decisions towards CASH will raise both accuracy and relative account return. This is consistent with Table 7, Panel B.The cross-symbol Wilcoxon test (p = 0.0078) treats nine symbol-level lifts as independent. Yet they share the same dates and market factor, so the effective sample is much smaller than nine independent replications. Please extend the evaluation substantially in time, covering multiple years and both rising and falling regimes. Please also use inference that accounts for cross-sectional dependence.",
+      "text_sha256": "bf503210080ad28fd33a4e158b92b3f9a097d5ff81bff5a7cb14964514605638"
+    },
+    {
+      "end_codepoint": 4468,
+      "paragraph_index": 2,
+      "reviewer": "R3",
+      "start_codepoint": 3547,
+      "text": "3. Run-to-run variability is of the same size as the claimed effect. The same default configuration (W = 45, zscore_tanh, default weights) appears several times in the paper with different outcomes:- FPT, Full accuracy: 65% (Table 7), 65% (Table 8, W = 45), 50% (Table 8, zscore_tanh), 60% (Table 8, default weights) and 55% (Table 9).- FPT, No-Alpha/Baseline accuracy under the same configuration: 45%, 50%, 45%, 50% and 45%.- VCB, Full accuracy: 65% in Table 7 but 45% in Table 9; No-Alpha 50% vs Baseline 40%.- VNM, Full accuracy: 55%, 55%, 60%, 65% and 60%.A spread of 15-20 pp under identical settings is comparable to the reported mean lift of 13.9 pp. The paired design controls upstream variation within a pair, but not variation in the Decision Agent itself. Please run each configuration several times, report the mean and dispersion of accuracy and lift across repeats, and base inference on the repeated runs.",
+      "text_sha256": "ac335b4762e40be7e28b3e57a295f94f6676891e37679dd56477e817fcb1ea80"
+    },
+    {
+      "end_codepoint": 5263,
+      "paragraph_index": 2,
+      "reviewer": "R4",
+      "start_codepoint": 4468,
+      "text": "4. The primary comparison does not isolate alpha information. According to Table 4 and Appendix A.1, the No-Alpha branch omits both the alpha section and the sentiment section of the prompt. \"65.0% versus 51.1% without Alpha\" (abstract, highlights) is therefore a comparison of alpha plus sentiment plus a longer prompt against neither. The four-way ablation addresses this only for three symbols, with different absolute results from Table 7 (see comment 3).In addition, the mere presence of an extra report may change the LLM's propensity to predict SHORT, independently of its content. Please add a placebo control: the same prompt sections filled with shuffled, time-permuted or random factor values. This would separate the effect of the information from the effect of the prompt structure.",
+      "text_sha256": "f22079d9290ca081bd4d267f8f41e2a2164ebca4670993cc844dab8d94eb66cb"
+    },
+    {
+      "end_codepoint": 6110,
+      "paragraph_index": 2,
+      "reviewer": "R5",
+      "start_codepoint": 5263,
+      "text": "5. Statistical reporting. Several bootstrap intervals are inconsistent with the exact tests, suggesting that a moving-block bootstrap with block length 5 on 20 points is unreliable:- VCB's interval [+5, +35] excludes zero while its exact McNemar p = 0.25.- CMG's interval [+0, +5] has the point estimate at its upper bound, with a single discordant pair.Please justify the bootstrap or replace it. Please report the Newey-West results that Section 5.4 says are computed. The Mean row of Table 7 should show N = 180.The account Sharpe (Eq. 35) annualises 3-bar cycle returns by sqrt(252), whereas Eq. (12) correctly uses sqrt(252/L). The account Sharpe values are therefore overstated by about sqrt(3). With only 1-7 executed trades per symbol (from the committed files), they are not informative and should be reported with that caveat or omitted.",
+      "text_sha256": "991d97d0b04b07664bb2acb91b9e57b9cdc36500c48193cfba8fb803e69456ae"
+    },
+    {
+      "end_codepoint": 6481,
+      "paragraph_index": 2,
+      "reviewer": "R6",
+      "start_codepoint": 6110,
+      "text": "6. Possible branch mislabelling. For FPT, the Alpha-only return in Table 9 (-7.85%) equals the No-Alpha return of the FPT weighting panel in Table 8 (-7.85%). The Sentiment-only return (-7.38%) equals the No-Alpha return of the FPT normalisation panel (-7.38%). Please explain whether checkpoints were reused across experiments and confirm that branch labels are correct.",
+      "text_sha256": "b8b5e95220165677601d4e4b2feed129e66434648e866010da250d4e6f8733ba"
+    },
+    {
+      "end_codepoint": 7796,
+      "paragraph_index": 2,
+      "reviewer": "R7",
+      "start_codepoint": 6481,
+      "text": "7. Sentiment data and coverage audit. The reported coverage figures are internally inconsistent:- Section 3.5 states that \"all 8180 articles in the nine supplied cache artifacts contain parseable dates\". Section 5.1 and Appendix E refer to 180 articles. In outputs/sentiment_coverage/sentiment_coverage.csv, \"total_articles\" equals the number of test points (20) for every symbol, which suggests the audit counts test points rather than articles.- Table E.12 reports V/L/U = 20/0/0 for every symbol, i.e., all verified ViSoBERT. The text states that 0 of 180 are verified and all are legacy-unknown. The CSV contradicts itself in the same way: its count columns give 20 verified ViSoBERT articles, while its percentage columns give 0% ViSoBERT and 100% unknown.Please correct the audit script and report the true number of articles per symbol. With mean 90-day counts of 0.85-1.45 for BHN, CMG and FPT, and S_decay requiring at least three articles, the sentiment variable must be \"unavailable\" at almost every test point for these symbols. This should be stated explicitly, and it affects the interpretation of the FPT Sentiment-only branch in Table 9.Please also cite ViSoBERT. Please acknowledge that the 5CD-AI classifier was trained on social-media text and has not been validated on Vietnamese financial news.",
+      "text_sha256": "f79165a5dca8418053fe650a95781a6d306b883a7881f959d90b1208d171a5b9"
+    },
+    {
+      "end_codepoint": 8744,
+      "paragraph_index": 2,
+      "reviewer": "R8",
+      "start_codepoint": 7796,
+      "text": "8. Novelty and relation to QuantAgent. The Indicator, Pattern, Trend and Decision agents, the shared state, the chart utilities and the trendline-fitting procedure of Section 4.5 closely follow the open-source QuantAgent implementation [1]. Several prompts in Appendix A still refer to \"high-frequency trading\" and \"K-line\" analysis, although the study uses daily bars.The manuscript should state explicitly which components are reused from QuantAgent and which are new. In my reading, the original contributions are the alpha registry and selector, the sentiment pipeline and the evaluation protocol. The repository should include the licence and copyright notice required by QuantAgent's MIT licence.Given the scope of Knowledge-Based Systems, please also clarify what \"knowledge fusion\" means beyond concatenating condensed text reports into a prompt. Is there any explicit knowledge representation, conflict resolution or weighting of evidence?",
+      "text_sha256": "bbe846e74f3afb200780c6440cd47725f468e22cb0c67e0a9e125b441b3e0b05"
+    },
+    {
+      "end_codepoint": 9417,
+      "paragraph_index": 2,
+      "reviewer": "R9",
+      "start_codepoint": 8744,
+      "text": "9. Reproducibility. The manuscript states that the nine historical sentiment cache files are provided, but they are not in the repository. OHLCV data are fetched live through vnstock and may change. Package versions in Table E.11 are listed as \"latest\". The raw upstream reports and Decision Agent responses for each test point are not archived; the committed files contain only final decisions. The model identifier \"qwen/qwen3.8-27b\" should be checked against the provider's catalogue and stated exactly.Please archive the exact data snapshot, sentiment caches, pinned dependency versions and all prompts and LLM responses with a persistent identifier (e.g., Zenodo DOI).",
+      "text_sha256": "997b1390773909e8db65f1a858d33e5da591d5b2810e43a6c661c08d1bb9c92d"
+    },
+    {
+      "end_codepoint": 9891,
+      "paragraph_index": 2,
+      "reviewer": "R10",
+      "start_codepoint": 9417,
+      "text": "10. Alpha selection. The authors acknowledge the multiplicity problem (selecting 5 of 85 candidates and inferring sign orientation on the same sample) but leave it untreated. Please at minimum report:- how often each factor is selected;- the stability of IC sign across cutoffs;- results for a fixed, pre-specified factor set and for randomly selected factors;- the list of the 21 excluded WorldQuant expressions and the exact translation of each retained one.MINOR COMMENTS",
+      "text_sha256": "b58ec2ba1dfda3d9f0b925306f8ea9ddf5bd6dd8daa595a3248872def7272658"
+    },
+    {
+      "end_codepoint": 10187,
+      "paragraph_index": 2,
+      "reviewer": "R11",
+      "start_codepoint": 9891,
+      "text": "11. Table B.10 describes the label as log(C_{e-1+L}/C_{e-1}), which contradicts the net Open-to-Close label of Eq. (4). The committed results follow Eq. (4); please correct the table. In the result files, the field actual_prev_close equals entry_open at many points; please rename or document it.",
+      "text_sha256": "eb5560045c797da721aea42c5bf3907b8c6e22e71d5f1bfc539bfa03284475b3"
+    },
+    {
+      "end_codepoint": 10564,
+      "paragraph_index": 2,
+      "reviewer": "R12",
+      "start_codepoint": 10187,
+      "text": "12. Table 1 is inconsistent with Appendix D.2. In Table 1, RSI >= 70 satisfies both the bullish condition (>= 55) and the bearish condition (>= 70); Appendix D.2 resolves this with 55 <= RSI < 70. Section 4.2 calls the five indicators \"momentum and volatility oscillators\", but none measures volatility. Table B.10 lists Bollinger Bands and ADX, which do not appear in Table 1.",
+      "text_sha256": "9135a1129e27b24e2d8e9c7cc18d3363487c1bc03745e766cdf9fdf731db1852"
+    },
+    {
+      "end_codepoint": 10853,
+      "paragraph_index": 2,
+      "reviewer": "R13",
+      "start_codepoint": 10564,
+      "text": "13. Appendix C.4: when the 5-period volume z-score is negative (below-average volume), alpha_4 reverses the sign of the %B signal. This contradicts the description \"confirming volume expansion\". The five formulas are fully disclosed and are better described as \"custom\" than \"proprietary\".",
+      "text_sha256": "533ba6796595b021511f38b5cf54b180975f55fc1e15bbd2ce071b701a26d121"
+    },
+    {
+      "end_codepoint": 11167,
+      "paragraph_index": 2,
+      "reviewer": "R14",
+      "start_codepoint": 10853,
+      "text": "14. Section 4.4: on Vietnamese price boards, green conventionally denotes a price increase and red a decrease. Please verify the claim that the charts use green for bearish candles \"following Vietnamese market convention\". Inverted colours may also confuse a vision model trained mostly on the opposite convention.",
+      "text_sha256": "4390f7570e0921d22cdc9ca4774851a9e54351174aabcc735bf7504d7d6f1d00"
+    },
+    {
+      "end_codepoint": 11374,
+      "paragraph_index": 2,
+      "reviewer": "R15",
+      "start_codepoint": 11167,
+      "text": "15. Execution assumptions. Please state the settlement rule assumed (shares bought on day e become sellable on the afternoon of e+2), how daily price limits are handled at the open, and why L = 3 was chosen.",
+      "text_sha256": "86776a1e7705311cbeb2f03dba32322251765d43bfd7bec1f87d03c5bdcc5dda"
+    },
+    {
+      "end_codepoint": 11797,
+      "paragraph_index": 2,
+      "reviewer": "R16",
+      "start_codepoint": 11374,
+      "text": "16. References:- Kakushadze's 101 Formulaic Alphas, ViSoBERT and White's Reality Check are mentioned in the text without references.- [5]: the authors of TradingAgents are given as \"T. Research\".- [6] concerns limit-order-book forecasting, not candlestick pattern recognition.- [7] was published in 2017, not 2016.- I could not locate [14], [21], [22] or [23] from their titles. Please check these entries and provide DOIs.",
+      "text_sha256": "3a8efebdf904c292dc7b430d37eae1bff914319f1d1b5dcfecc02770cd6a06d3"
+    },
+    {
+      "end_codepoint": 12468,
+      "paragraph_index": 2,
+      "reviewer": "R17",
+      "start_codepoint": 11797,
+      "text": "17. Presentation:- Appendix E contains implementation details that do not belong in a research article (Flask JSON serialisation, Hugging Face endpoint routing, tokenizer files); please move them to the repository documentation.- The text repeats the same caveats many times across sections. Condensing these would improve readability.- Paragraph headings end with double periods (\"Operator Localisation..\").- Hyphens are used instead of dashes in \"sub-tasks-market perception, reflection, and decision-to\".- Opening quotation marks are missing in Section 4.3.- The title emphasises \"Stock Trading\", while the paper itself concludes that profitability is not established.",
+      "text_sha256": "f25999b47b97fdef7eb7f063c4964d7fa84f10bdcc7c85fea804ad8baa06225b"
+    },
+    {
+      "end_codepoint": 12620,
+      "paragraph_index": 2,
+      "reviewer": "R18",
+      "start_codepoint": 12468,
+      "text": "18. Author names are inconsistent across the title page and manuscript (\"Do Thi Thanh-Tam\" / \"Thanh-Tam Do Thi\"; \"Tang-Van Nguyen\" / \"Van-Tang Nguyen\").",
+      "text_sha256": "15a28777a85f6b36bbb1af071a26bb613118a49dccc05a11228e92c8895fab08"
+    }
+  ],
+  "extraction": "Nối nguyên w:t theo thứ tự XML; offsets Unicode trong paragraph, không là trang Word/PDF.",
+  "intro_limit": "Reviewer nói model release loại memorised prices; T25 không xác nhận suy luận này. Snapshot historical không là prospective/contamination-free.",
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "Comments for author"
+    },
+    {
+      "index": 1,
+      "text": "Reviewer 1 - Initial submission, October 24"
+    },
+    {
+      "index": 2,
+      "text": "The manuscript proposes a five-agent LLM framework for Vietnamese equities that combines technical indicators, a point-in-time selection of alpha factors from an 85-candidate registry, Vietnamese news sentiment, and vision-language chart analysis. A paired \"shared report\" protocol compares a Full System with a No-Alpha branch over nine stocks (20 test points each), reporting 65.0% versus 51.1% directional accuracy, and a four-way ablation on three stocks separates factor and sentiment effects. The point-in-time engineering is careful, the authors are commendably explicit about several limitations, and the result files are public. The test period also lies after the release of the text model, which removes concerns about memorised prices.I examined the public repository and recomputed the main results from the committed per-test-point files (outputs/backtest_result). The computations reproduce the reported tables exactly. However, they also reveal problems that, in my view, undermine the central claim. These concern the choice of baselines, the sample, run-to-run variability, and the attribution of the effect. My detailed comments follow.MAJOR COMMENTS1. A trivial majority-class baseline outperforms the proposed system. The label is UP only if a 3-bar Open-to-Close LONG cycle is profitable after roughly 0.7% round-trip costs (Eq. 4). Under this definition DOWN is the majority class. In the committed results, the share of DOWN labels is 55% (BHN), 80% (CMG), 65% (FPT), 65% (HVN), 70% (MBB), 65% (MWG), 75% (VCB), 75% (VJC) and 70% (VNM), i.e., 68.9% on average.A constant SHORT/CASH rule therefore achieves 68.9% mean accuracy, higher than the Full System's 65.0%. It also achieves a 0% account return, higher than the Full System's mean of -1.69%. The Full System exceeds this rule only for HVN and MWG; it ties for BHN, FPT and MBB, and is below it for CMG, VCB, VJC and VNM.Pooled over the 180 points, the Full System has a balanced accuracy of 55.0% and an MCC of 0.11. The No-Alpha control has a balanced accuracy of 44.4% and an MCC of -0.11, i.e., it is anti-predictive. The Full System issued 39 LONG calls (precision 41.0%) against 62 for No-Alpha (precision 24.2%). Most of the reported \"Alpha Lift\" therefore reflects the Full branch predicting LONG less often in a period when LONG was usually wrong.Please report class balance, balanced accuracy, MCC and precision/recall for both classes. Please include majority-class, always-cash, buy-and-hold and simple non-LLM baselines (e.g., momentum and logistic regression on the same features) for every symbol. The abstract, highlights and conclusions should be revised in light of these comparisons.2. Sample size and market regime. All test points fall between mid-June and mid-September 2026: 20 points per symbol at 3-bar spacing, i.e., about three months of a single regime. In that window, a LONG on every cycle loses money for all nine symbols (compounded -5% to -30% from the committed data). In such a regime, any intervention that shifts decisions towards CASH will raise both accuracy and relative account return. This is consistent with Table 7, Panel B.The cross-symbol Wilcoxon test (p = 0.0078) treats nine symbol-level lifts as independent. Yet they share the same dates and market factor, so the effective sample is much smaller than nine independent replications. Please extend the evaluation substantially in time, covering multiple years and both rising and falling regimes. Please also use inference that accounts for cross-sectional dependence.3. Run-to-run variability is of the same size as the claimed effect. The same default configuration (W = 45, zscore_tanh, default weights) appears several times in the paper with different outcomes:- FPT, Full accuracy: 65% (Table 7), 65% (Table 8, W = 45), 50% (Table 8, zscore_tanh), 60% (Table 8, default weights) and 55% (Table 9).- FPT, No-Alpha/Baseline accuracy under the same configuration: 45%, 50%, 45%, 50% and 45%.- VCB, Full accuracy: 65% in Table 7 but 45% in Table 9; No-Alpha 50% vs Baseline 40%.- VNM, Full accuracy: 55%, 55%, 60%, 65% and 60%.A spread of 15-20 pp under identical settings is comparable to the reported mean lift of 13.9 pp. The paired design controls upstream variation within a pair, but not variation in the Decision Agent itself. Please run each configuration several times, report the mean and dispersion of accuracy and lift across repeats, and base inference on the repeated runs.4. The primary comparison does not isolate alpha information. According to Table 4 and Appendix A.1, the No-Alpha branch omits both the alpha section and the sentiment section of the prompt. \"65.0% versus 51.1% without Alpha\" (abstract, highlights) is therefore a comparison of alpha plus sentiment plus a longer prompt against neither. The four-way ablation addresses this only for three symbols, with different absolute results from Table 7 (see comment 3).In addition, the mere presence of an extra report may change the LLM's propensity to predict SHORT, independently of its content. Please add a placebo control: the same prompt sections filled with shuffled, time-permuted or random factor values. This would separate the effect of the information from the effect of the prompt structure.5. Statistical reporting. Several bootstrap intervals are inconsistent with the exact tests, suggesting that a moving-block bootstrap with block length 5 on 20 points is unreliable:- VCB's interval [+5, +35] excludes zero while its exact McNemar p = 0.25.- CMG's interval [+0, +5] has the point estimate at its upper bound, with a single discordant pair.Please justify the bootstrap or replace it. Please report the Newey-West results that Section 5.4 says are computed. The Mean row of Table 7 should show N = 180.The account Sharpe (Eq. 35) annualises 3-bar cycle returns by sqrt(252), whereas Eq. (12) correctly uses sqrt(252/L). The account Sharpe values are therefore overstated by about sqrt(3). With only 1-7 executed trades per symbol (from the committed files), they are not informative and should be reported with that caveat or omitted.6. Possible branch mislabelling. For FPT, the Alpha-only return in Table 9 (-7.85%) equals the No-Alpha return of the FPT weighting panel in Table 8 (-7.85%). The Sentiment-only return (-7.38%) equals the No-Alpha return of the FPT normalisation panel (-7.38%). Please explain whether checkpoints were reused across experiments and confirm that branch labels are correct.7. Sentiment data and coverage audit. The reported coverage figures are internally inconsistent:- Section 3.5 states that \"all 8180 articles in the nine supplied cache artifacts contain parseable dates\". Section 5.1 and Appendix E refer to 180 articles. In outputs/sentiment_coverage/sentiment_coverage.csv, \"total_articles\" equals the number of test points (20) for every symbol, which suggests the audit counts test points rather than articles.- Table E.12 reports V/L/U = 20/0/0 for every symbol, i.e., all verified ViSoBERT. The text states that 0 of 180 are verified and all are legacy-unknown. The CSV contradicts itself in the same way: its count columns give 20 verified ViSoBERT articles, while its percentage columns give 0% ViSoBERT and 100% unknown.Please correct the audit script and report the true number of articles per symbol. With mean 90-day counts of 0.85-1.45 for BHN, CMG and FPT, and S_decay requiring at least three articles, the sentiment variable must be \"unavailable\" at almost every test point for these symbols. This should be stated explicitly, and it affects the interpretation of the FPT Sentiment-only branch in Table 9.Please also cite ViSoBERT. Please acknowledge that the 5CD-AI classifier was trained on social-media text and has not been validated on Vietnamese financial news.8. Novelty and relation to QuantAgent. The Indicator, Pattern, Trend and Decision agents, the shared state, the chart utilities and the trendline-fitting procedure of Section 4.5 closely follow the open-source QuantAgent implementation [1]. Several prompts in Appendix A still refer to \"high-frequency trading\" and \"K-line\" analysis, although the study uses daily bars.The manuscript should state explicitly which components are reused from QuantAgent and which are new. In my reading, the original contributions are the alpha registry and selector, the sentiment pipeline and the evaluation protocol. The repository should include the licence and copyright notice required by QuantAgent's MIT licence.Given the scope of Knowledge-Based Systems, please also clarify what \"knowledge fusion\" means beyond concatenating condensed text reports into a prompt. Is there any explicit knowledge representation, conflict resolution or weighting of evidence?9. Reproducibility. The manuscript states that the nine historical sentiment cache files are provided, but they are not in the repository. OHLCV data are fetched live through vnstock and may change. Package versions in Table E.11 are listed as \"latest\". The raw upstream reports and Decision Agent responses for each test point are not archived; the committed files contain only final decisions. The model identifier \"qwen/qwen3.8-27b\" should be checked against the provider's catalogue and stated exactly.Please archive the exact data snapshot, sentiment caches, pinned dependency versions and all prompts and LLM responses with a persistent identifier (e.g., Zenodo DOI).10. Alpha selection. The authors acknowledge the multiplicity problem (selecting 5 of 85 candidates and inferring sign orientation on the same sample) but leave it untreated. Please at minimum report:- how often each factor is selected;- the stability of IC sign across cutoffs;- results for a fixed, pre-specified factor set and for randomly selected factors;- the list of the 21 excluded WorldQuant expressions and the exact translation of each retained one.MINOR COMMENTS11. Table B.10 describes the label as log(C_{e-1+L}/C_{e-1}), which contradicts the net Open-to-Close label of Eq. (4). The committed results follow Eq. (4); please correct the table. In the result files, the field actual_prev_close equals entry_open at many points; please rename or document it.12. Table 1 is inconsistent with Appendix D.2. In Table 1, RSI >= 70 satisfies both the bullish condition (>= 55) and the bearish condition (>= 70); Appendix D.2 resolves this with 55 <= RSI < 70. Section 4.2 calls the five indicators \"momentum and volatility oscillators\", but none measures volatility. Table B.10 lists Bollinger Bands and ADX, which do not appear in Table 1.13. Appendix C.4: when the 5-period volume z-score is negative (below-average volume), alpha_4 reverses the sign of the %B signal. This contradicts the description \"confirming volume expansion\". The five formulas are fully disclosed and are better described as \"custom\" than \"proprietary\".14. Section 4.4: on Vietnamese price boards, green conventionally denotes a price increase and red a decrease. Please verify the claim that the charts use green for bearish candles \"following Vietnamese market convention\". Inverted colours may also confuse a vision model trained mostly on the opposite convention.15. Execution assumptions. Please state the settlement rule assumed (shares bought on day e become sellable on the afternoon of e+2), how daily price limits are handled at the open, and why L = 3 was chosen.16. References:- Kakushadze's 101 Formulaic Alphas, ViSoBERT and White's Reality Check are mentioned in the text without references.- [5]: the authors of TradingAgents are given as \"T. Research\".- [6] concerns limit-order-book forecasting, not candlestick pattern recognition.- [7] was published in 2017, not 2016.- I could not locate [14], [21], [22] or [23] from their titles. Please check these entries and provide DOIs.17. Presentation:- Appendix E contains implementation details that do not belong in a research article (Flask JSON serialisation, Hugging Face endpoint routing, tokenizer files); please move them to the repository documentation.- The text repeats the same caveats many times across sections. Condensing these would improve readability.- Paragraph headings end with double periods (\"Operator Localisation..\").- Hyphens are used instead of dashes in \"sub-tasks-market perception, reflection, and decision-to\".- Opening quotation marks are missing in Section 4.3.- The title emphasises \"Stock Trading\", while the paper itself concludes that profitability is not established.18. Author names are inconsistent across the title page and manuscript (\"Do Thi Thanh-Tam\" / \"Thanh-Tam Do Thi\"; \"Tang-Van Nguyen\" / \"Van-Tang Nguyen\")."
+    },
+    {
+      "index": 3,
+      "text": ""
+    }
+  ],
+  "review_heading": "Reviewer 1 - Initial submission, October 24",
+  "review_year": null,
+  "source_path": "Reviewer Comments for author.docx",
+  "source_sha256": "614f6d6fee623ed1eb124019fed3489d432d93a1316a4b3714266d15c706f15a",
+  "tables_in_original": 0,
+  "word_document_xml_sha256": "f712c9b879b42aba2349b5b4857abbebc5d2f0a061ade930ace6ed729ed0ef76"
+}

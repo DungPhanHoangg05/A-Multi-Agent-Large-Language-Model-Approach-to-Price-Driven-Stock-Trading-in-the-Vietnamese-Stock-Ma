@@ -1,0 +1,141 @@
+{
+  "canonical_record_confirmed": false,
+  "final_pdf_locators": null,
+  "needed_master_record": [
+    "Tên chuẩn và thứ tự mọi tác giả",
+    "Xác nhận ORCID của từng người",
+    "Affiliations, email và corresponding author",
+    "CRediT và đồng thuận mọi tác giả",
+    "Journal, decision letter và route blind/nonblind submission"
+  ],
+  "observations": [
+    {
+      "observed_lines": [
+        {
+          "commented": false,
+          "line": 68,
+          "text": "\\author[1]{Hong-Viet Tran\\,\\orcidlink{0000-0002-4675-2123}}"
+        },
+        {
+          "commented": false,
+          "line": 69,
+          "text": "\\author[1]{Hoang-Dung Phan\\,\\orcidlink{0009-0003-6859-0852}}"
+        },
+        {
+          "commented": false,
+          "line": 70,
+          "text": "\\author[1,2]{Thanh-Tam Do Thi\\,\\orcidlink{0000-0002-7594-276X}}"
+        },
+        {
+          "commented": false,
+          "line": 71,
+          "text": "\\author[1]{Phuong-Thai Nguyen\\,\\orcidlink{0009-0006-2033-7788}}"
+        },
+        {
+          "commented": false,
+          "line": 72,
+          "text": "\\author[3]{Van-Tang Nguyen\\,\\corref{cor1}\\orcidlink{0009-0009-7266-2437}}"
+        },
+        {
+          "commented": false,
+          "line": 75,
+          "text": "\\affiliation[1]{organization={Institute for Artificial Intelligence, University of Engineering and Technology, Vietnam National University},"
+        },
+        {
+          "commented": false,
+          "line": 79,
+          "text": "\\affiliation[2]{organization={Faculty of Economic Information System and E-Commerce, Thuongmai University},"
+        },
+        {
+          "commented": false,
+          "line": 83,
+          "text": "\\affiliation[3]{organization={Faculty of Technology and Data Science, Foreign Trade University},"
+        },
+        {
+          "commented": false,
+          "line": 87,
+          "text": "\\cortext[cor1]{Corresponding author}"
+        }
+      ],
+      "path": "paper/main.tex"
+    },
+    {
+      "observed_lines": [
+        {
+          "commented": true,
+          "line": 68,
+          "text": "% \\author[1]{Hong-Viet Tran\\,\\orcidlink{0000-0002-4675-2123}}"
+        },
+        {
+          "commented": true,
+          "line": 69,
+          "text": "% \\author[1]{Hoang-Dung Phan\\,\\orcidlink{0009-0003-6859-0852}}"
+        },
+        {
+          "commented": true,
+          "line": 70,
+          "text": "% \\author[1,2]{Thanh-Tam Do Thi\\,\\orcidlink{0000-0002-7594-276X}}"
+        },
+        {
+          "commented": true,
+          "line": 71,
+          "text": "% \\author[1]{Phuong-Thai Nguyen\\,\\orcidlink{0009-2063-7338-7789}}"
+        },
+        {
+          "commented": true,
+          "line": 72,
+          "text": "% \\author[3]{Van-Tang Nguyen\\,\\corref{cor1}\\orcidlink{0009-0009-7266-2437}}"
+        },
+        {
+          "commented": true,
+          "line": 75,
+          "text": "% \\affiliation[1]{organization={Institute for Artificial Intelligence, University of Engineering and Technology, Vietnam National University},"
+        },
+        {
+          "commented": true,
+          "line": 79,
+          "text": "% \\affiliation[2]{organization={Faculty of Economic Information System and E-Commerce, Thuongmai University},"
+        },
+        {
+          "commented": true,
+          "line": 83,
+          "text": "% \\affiliation[3]{organization={Faculty of Technology and Data Science, Foreign Trade University},"
+        },
+        {
+          "commented": true,
+          "line": 87,
+          "text": "% \\cortext[cor1]{Corresponding author}"
+        }
+      ],
+      "path": "paper/main_submit.tex"
+    }
+  ],
+  "orcid_mismatch_observed": {
+    "main": "0009-0006-2033-7788",
+    "ownership_verified": false,
+    "person_label_in_source": "Phuong-Thai Nguyen",
+    "submit_commented": "0009-2063-7338-7789"
+  },
+  "other_external_dependencies": [
+    {
+      "missing": "Nhãn tài chính/news PIT/domain validation",
+      "reviewers": [
+        "R7"
+      ],
+      "route": "Đã chốt claim withdrawal T08, không tự gọi là validated."
+    },
+    {
+      "missing": "Quyền public/PID và historical model attestation",
+      "reviewers": [
+        "R9"
+      ],
+      "route": "Tác giả xử lý T34; thiếu PID giữ pending."
+    }
+  ],
+  "reviewer": "R18",
+  "reviewer_observed_variants": [
+    "Do Thi Thanh-Tam / Thanh-Tam Do Thi",
+    "Tang-Van Nguyen / Van-Tang Nguyen"
+  ],
+  "status": "AUTHOR_CONFIRMATION_PENDING_T33"
+}

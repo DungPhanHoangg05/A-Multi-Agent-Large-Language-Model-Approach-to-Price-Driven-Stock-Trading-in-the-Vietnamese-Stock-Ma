@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "all_18_ordered_source_spans_match": true,
+    "all_closed_flags_false": true,
+    "all_current_line_anchors_match": true,
+    "all_evidence_files_exist_and_hashed": true,
+    "all_final_pdf_locators_null": true,
+    "all_paper_bytes_unchanged": true,
+    "all_subrequirement_anchors_match": true,
+    "every_comment_has_evidence_limits_actions_current_locators": true,
+    "json_finite_csv_roundtrip": true,
+    "original_docx_bytes_unchanged": true,
+    "parent_receipt_hashes_unchanged": true
+  },
+  "not_run": {
+    "api_inference": "Không network/API/inference mới.",
+    "paper_build": "Chưa T30, không sửa paper hoặc build PDF.",
+    "tests_compile_e2e_leakage": "Tài liệu/phân tích, không đổi code/runtime/data; viện dẫn48caT28, không chạy lại."
+  },
+  "original_comments": 18,
+  "status": "PASS_DOCUMENTARY_CROSSWALK",
+  "subrequirements": 87
+}
