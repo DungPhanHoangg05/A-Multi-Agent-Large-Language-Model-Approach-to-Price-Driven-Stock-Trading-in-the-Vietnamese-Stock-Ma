@@ -1,0 +1,20 @@
+{
+  "analysis_timing": "Post-inference, không preregistered.",
+  "regime": {
+    "bootstrap": {
+      "repeats": 10000,
+      "seed": 20261102,
+      "unit": "whole historical block with every eligible symbol/date/variant together"
+    },
+    "degenerate_threshold": "nonpositive/nonfinite train median or unavailable history => unknown, never inferred from test",
+    "independence": "distinct dates/sessions are counted, not asserted statistically independent; symbol or repeat counts do not increase independent market replications",
+    "join": "calendar decision date x symbol x variant; missing eligibility retained as NA, never CASH",
+    "liquidity_proxy": "trailing 20-session mean of Close*Volume in vendor quote/volume units; high if >= the symbol/fold train-only median, otherwise low",
+    "new_strata_status": "volatility/liquidity definitions are post-inference descriptive additions; no confirmatory or regime-strategy claim",
+    "schema_version": "revision_r2_panel_v1",
+    "scope": "retrospective descriptive audit of the complete frozen R1 study; no new model selection or LLM calls",
+    "trend": "decision Close / trailing SMA60 - 1; bull >0.02, bear <-0.02, otherwise sideways; original R1 rule",
+    "volatility": "sample SD of 20 past close-to-close simple returns, ddof=1; high if >= the symbol/fold train-only median, otherwise low"
+  },
+  "statistics_policy_sha256": "a606c879f2fcfe59f8182dc2c825732332fd0570418bd94f7c2a74a89d36fa9d"
+}
