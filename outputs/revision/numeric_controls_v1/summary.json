@@ -1,0 +1,280 @@
+{
+  "result": "PASS_EXPLORATORY_NUMERIC_CONTROLS",
+  "main_units": 102,
+  "strategies": 23,
+  "test_predictions": 2346,
+  "fit_scopes": 51,
+  "validation_prediction_memberships": 22862,
+  "random_draws": 1020,
+  "class_support": {
+    "UP": 25,
+    "DOWN": 77
+  },
+  "protocol_digest": "b2d07bc0faac2e4c84554c0b75a67cdecadda92889fcbd1a25f0e31196600091",
+  "api_calls": 0,
+  "eligible_train_range": [
+    85,
+    85
+  ],
+  "fixed_inactive_slots": 0,
+  "headline": [
+    {
+      "strategy": "fixed_custom5",
+      "pooled": {
+        "n_input": 102,
+        "n_valid": 102,
+        "n_excluded": 0,
+        "confusion": {
+          "tp": 5,
+          "fn": 20,
+          "tn": 45,
+          "fp": 32
+        },
+        "accuracy": 0.49019607843137253,
+        "balanced_accuracy": 0.3922077922077922,
+        "mcc": -0.19287466707848702,
+        "macro_f1": 0.3975465697410268,
+        "long_rate": 0.3627450980392157,
+        "per_class": {
+          "UP": {
+            "support": 25,
+            "predicted": 37,
+            "precision": 0.13513513513513514,
+            "recall": 0.2,
+            "f1": 0.16129032258064516
+          },
+          "DOWN": {
+            "support": 77,
+            "predicted": 65,
+            "precision": 0.6923076923076923,
+            "recall": 0.5844155844155844,
+            "f1": 0.6338028169014085
+          }
+        }
+      },
+      "macro_symbol_BA": {
+        "n_planned": 9,
+        "n_defined": 8,
+        "n_undefined": 1,
+        "mean": 0.37356150793650794,
+        "sd": 0.14385652690732262,
+        "median": 0.41160714285714284,
+        "min": 0.1,
+        "max": 0.55
+      },
+      "mean_symbol_return_pct": -8.653357190122284
+    },
+    {
+      "strategy": "dynamic_train_top5",
+      "pooled": {
+        "n_input": 102,
+        "n_valid": 102,
+        "n_excluded": 0,
+        "confusion": {
+          "tp": 10,
+          "fn": 15,
+          "tn": 54,
+          "fp": 23
+        },
+        "accuracy": 0.6274509803921569,
+        "balanced_accuracy": 0.5506493506493506,
+        "mcc": 0.09314032073734826,
+        "macro_f1": 0.5422768068020785,
+        "long_rate": 0.3235294117647059,
+        "per_class": {
+          "UP": {
+            "support": 25,
+            "predicted": 33,
+            "precision": 0.30303030303030304,
+            "recall": 0.4,
+            "f1": 0.3448275862068966
+          },
+          "DOWN": {
+            "support": 77,
+            "predicted": 69,
+            "precision": 0.782608695652174,
+            "recall": 0.7012987012987013,
+            "f1": 0.7397260273972602
+          }
+        }
+      },
+      "macro_symbol_BA": {
+        "n_planned": 9,
+        "n_defined": 8,
+        "n_undefined": 1,
+        "mean": 0.5274553571428572,
+        "sd": 0.19776433002336857,
+        "median": 0.4785714285714286,
+        "min": 0.2,
+        "max": 0.85
+      },
+      "mean_symbol_return_pct": -5.648282693833049
+    },
+    {
+      "strategy": "dynamic_train_top5_no_flip",
+      "pooled": {
+        "n_input": 102,
+        "n_valid": 102,
+        "n_excluded": 0,
+        "confusion": {
+          "tp": 11,
+          "fn": 14,
+          "tn": 41,
+          "fp": 36
+        },
+        "accuracy": 0.5098039215686274,
+        "balanced_accuracy": 0.48623376623376624,
+        "mcc": -0.02375911332203774,
+        "macro_f1": 0.4633838383838384,
+        "long_rate": 0.46078431372549017,
+        "per_class": {
+          "UP": {
+            "support": 25,
+            "predicted": 47,
+            "precision": 0.23404255319148937,
+            "recall": 0.44,
+            "f1": 0.3055555555555556
+          },
+          "DOWN": {
+            "support": 77,
+            "predicted": 55,
+            "precision": 0.7454545454545455,
+            "recall": 0.5324675324675324,
+            "f1": 0.6212121212121212
+          }
+        }
+      },
+      "macro_symbol_BA": {
+        "n_planned": 9,
+        "n_defined": 8,
+        "n_undefined": 1,
+        "mean": 0.5232886904761904,
+        "sd": 0.22450825341883224,
+        "median": 0.53125,
+        "min": 0.16666666666666666,
+        "max": 0.9
+      },
+      "mean_symbol_return_pct": -7.6082395242930545
+    }
+  ],
+  "random_family": {
+    "balanced_accuracy": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": 0.47737662337662334,
+      "sd": 0.05376830742168295,
+      "median": 0.47597402597402594,
+      "min": 0.3797402597402597,
+      "max": 0.5716883116883117
+    },
+    "mcc": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": -0.03877131650437886,
+      "sd": 0.09401573124686946,
+      "median": -0.04167351655968839,
+      "min": -0.209510305672771,
+      "max": 0.12531222601513498
+    },
+    "macro_f1": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": 0.45915951165653335,
+      "sd": 0.04771710048237784,
+      "median": 0.46294832381788903,
+      "min": 0.3823529411764706,
+      "max": 0.5495882563551737
+    },
+    "accuracy": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": 0.5127450980392158,
+      "sd": 0.05323467168804849,
+      "median": 0.5098039215686274,
+      "min": 0.43137254901960786,
+      "max": 0.6372549019607843
+    },
+    "long_rate": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": 0.4421568627450981,
+      "sd": 0.05312051572031619,
+      "median": 0.4362745098039216,
+      "min": 0.3137254901960784,
+      "max": 0.5490196078431373
+    },
+    "mean_symbol_return_pct": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": -8.097010033010463,
+      "sd": 1.4042332155463693,
+      "median": -8.130911477219891,
+      "min": -10.413990652191536,
+      "max": -5.536541510402941
+    },
+    "mean_symbol_drawdown_pct": {
+      "n_planned": 20,
+      "n_defined": 20,
+      "n_undefined": 0,
+      "mean": 10.075585671935752,
+      "sd": 1.1187039850347373,
+      "median": 9.977199638417046,
+      "min": 8.072740396312081,
+      "max": 12.175089171418438
+    }
+  },
+  "primary_contrasts": [
+    {
+      "contrast": "dynamic_vs_fixed",
+      "balanced_accuracy_difference": 0.15844155844155844,
+      "p_exact_two_sided": 0.0625,
+      "p_holm_family_23": 1.0,
+      "reject_holm_0_05": false,
+      "bootstrap_percentile_95": [
+        0.06816961889425657,
+        0.25217391304347825
+      ],
+      "bootstrap_defined": 10000,
+      "bootstrap_undefined": 0
+    },
+    {
+      "contrast": "dynamic_vs_random_mean",
+      "balanced_accuracy_difference": 0.07327272727272727,
+      "p_exact_two_sided": 0.125,
+      "p_holm_family_23": 1.0,
+      "reject_holm_0_05": false,
+      "bootstrap_percentile_95": [
+        0.005669737774627925,
+        0.13748051948051945
+      ],
+      "bootstrap_defined": 10000,
+      "bootstrap_undefined": 0
+    },
+    {
+      "contrast": "dynamic_vs_no_flip",
+      "balanced_accuracy_difference": 0.06441558441558441,
+      "p_exact_two_sided": 0.53125,
+      "p_holm_family_23": 1.0,
+      "reject_holm_0_05": false,
+      "bootstrap_percentile_95": [
+        -0.1093189964157706,
+        0.2026266416510319
+      ],
+      "bootstrap_defined": 10000,
+      "bootstrap_undefined": 0
+    }
+  ],
+  "holm_rejections": 0,
+  "limits": [
+    "Historical exploratory, sáu blocks/12 dates phụ thuộc; p/CI chỉ diagnostic và mọi seed giữ nguyên.",
+    "Dynamic train/mã/block khác native per-cutoff selector; numeric evidence không thay LLM ablation hoặc sửa causal gate T10.",
+    "Mean symbol returns là bình quân accounts khác khoảng lịch, không market portfolio; ledger chưa xác nhận execution/settlement/corporate actions.",
+    "Không chọn best seed/threshold/checkpoint, không suy accuracy hoặc thua ít hơn là alpha/profitability."
+  ]
+}
