@@ -1,0 +1,24 @@
+> py -3.13 -W error -m py_compile scripts/package_revision_response.py tests/test_revision_response_package.py
+
+> py -3.13 -X utf8 -m unittest discover -s tests -p test_revision_response_package.py -v
+test_archive_only_does_not_claim_current_sources (test_revision_response_package.ResponsePackageTests.test_archive_only_does_not_claim_current_sources)
+Gói độc lập vẫn check được khi nguồn workspace đã thay đổi. ... ok
+test_archive_tamper_rejected (test_revision_response_package.ResponsePackageTests.test_archive_tamper_rejected)
+Hash container bảo vệ cả dữ liệu và member set. ... ok
+test_case_alias_and_traversal_rejected (test_revision_response_package.ResponsePackageTests.test_case_alias_and_traversal_rejected)
+ZIP không được dùng alias Windows hoặc thoát root. ... ok
+test_closure_rejected_despite_valid_manifest (test_revision_response_package.ResponsePackageTests.test_closure_rejected_despite_valid_manifest)
+Hash hợp lệ không thay bằng chứng đóng comment hoặc PDF locator. ... ok
+test_credential_pattern_rejected (test_revision_response_package.ResponsePackageTests.test_credential_pattern_rejected)
+Chỉ fixture giả, không đọc/in credentials của máy. ... ok
+test_roundtrip_and_no_overwrite (test_revision_response_package.ResponsePackageTests.test_roundtrip_and_no_overwrite)
+Byte archive khớp, build lần hai bị chặn. ... ok
+test_source_tamper_stops_before_archive (test_revision_response_package.ResponsePackageTests.test_source_tamper_stops_before_archive)
+Nguồn không khớp hash không được tạo artifact dở. ... ok
+test_symlink_rejected_even_with_matching_hash (test_revision_response_package.ResponsePackageTests.test_symlink_rejected_even_with_matching_hash)
+Metadata symlink không được thông qua chỉ vì bytes khớp. ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.130s
+
+OK

@@ -1,255 +1,613 @@
-# Response to reviewers — R1–R4 and R11–R13 addressed within stated limits; other comments separately assessed
+# Response to reviewer comments
 
-**Current chart-audit draft (03 November 2026):** `outputs/revision/chart_manuscript_v1/` corrects renderer/prose and discloses a retained-image legend defect. R14 remains open pending the corrected-chart paired rerun; existing numerical results remain descriptions of the old image inputs. New locations in both PDFs: Sections 4.4–4.5 physical pp16–18, L4 p38, Appendix F pp61–63, Figure F.4 p62. Earlier locators apply to their named frozen packages; current printed/physical mappings are in the new manifest. R5/R15 integration remains separate.
+Working response aligned to the final historical evaluation and the author-confirmed metadata update of 5 November 2026. Thank you for the detailed assessment. We agree that the earlier manuscript overstated performance, component attribution and several aspects of provenance. We have rewritten the scientific text and report the completed 375-job corrected-chart whitelist separately from legacy/superseded studies. The primary evidence is the 102-unit main panel; auxiliary panels and numeric controls have their own support. This is a historical exploratory evaluation after a scope amendment, not a preregistered confirmatory or prospective trial.
 
-**Current prompt-delivery correction and completed repair (03 November 2026):** The original 264 alpha-bearing requests among 474 research decisions omitted five factor-value rows. Original R1–R3 results remain descriptions of the implemented report/consensus branches. A separately frozen repaired panel now has **270/270 fresh decisions**, with complete numeric delivery, factorial/placebo comparisons and actual response lineage. Its AS–P mean BA gap is +6.94 points, but the joint descriptive envelope spans zero and UP recall does not improve; isolated alpha/sentiment-information and profitability claims remain unsupported. Prior compressed, repaired and legacy results are not pooled.
+This response covers all eighteen comments and all 87 indexed requests. The short request descriptions below are paraphrases, not quotations. A written answer or disclosed shortfall is not acceptance or closure. Native row-wise causal construction still fails; financial-news domain/PIT validation, fixed/random factors through the hosted LLM, public rights/PID and some historical version identities remain missing. Stronger claims have been withdrawn rather than certified by implementation tests.
 
-## Reviewer 1, comment 1 — baselines and class imbalance
+Locations refer to **current source anchors/lines**, checked against the post-T33 source snapshot, and to scientific companions S1-S4. Both final PDFs have not yet been built/visually checked; final page/line locators remain null and will be added after that check. Earlier response/PDF locators and closure statements apply only to their named historical versions. The previous response is preserved byte-for-byte in [previous_response.zip](../outputs/revision/reviewer_response_v1/previous_response.zip), not silently overwritten as evidence.
 
-**Status: R1 addressed on 03 November 2026 within the stated historical exploratory scope. R2 and R3 are addressed separately below; R5–R18 remain separately assessed. This does not certify submission readiness.**
+The [request-level mapping](../outputs/revision/reviewer_response_v1/response_map.json) records each request, actual answer, evidence hashes, source anchors and outstanding limits. [Archive instructions](archive_runbook.md) describe a private final-evidence package; it has no PID and is not authorized for public release. No API/provider/upload calls are made by this revision task.
 
-> 1. A trivial majority-class baseline outperforms the proposed system. The label is UP only if a 3-bar Open-to-Close LONG cycle is profitable after roughly 0.7% round-trip costs (Eq. 4). Under this definition DOWN is the majority class. In the committed results, the share of DOWN labels is 55% (BHN), 80% (CMG), 65% (FPT), 65% (HVN), 70% (MBB), 65% (MWG), 75% (VCB), 75% (VJC) and 70% (VNM), i.e., 68.9% on average.A constant SHORT/CASH rule therefore achieves 68.9% mean accuracy, higher than the Full System's 65.0%. It also achieves a 0% account return, higher than the Full System's mean of -1.69%. The Full System exceeds this rule only for HVN and MWG; it ties for BHN, FPT and MBB, and is below it for CMG, VCB, VJC and VNM.Pooled over the 180 points, the Full System has a balanced accuracy of 55.0% and an MCC of 0.11. The No-Alpha control has a balanced accuracy of 44.4% and an MCC of -0.11, i.e., it is anti-predictive. The Full System issued 39 LONG calls (precision 41.0%) against 62 for No-Alpha (precision 24.2%). Most of the reported "Alpha Lift" therefore reflects the Full branch predicting LONG less often in a period when LONG was usually wrong.Please report class balance, balanced accuracy, MCC and precision/recall for both classes. Please include majority-class, always-cash, buy-and-hold and simple non-LLM baselines (e.g., momentum and logistic regression on the same features) for every symbol. The abstract, highlights and conclusions should be revised in light of these comparisons.
 
-### Assessment
+## R1 — Baselines, class imbalance and economic interpretation
 
-We agree. Raw accuracy of 65.0% in the archived benchmark and improvement over a weaker Base reports control did not establish predictive superiority, isolated alpha information value or profitability. We have removed those claims. We now report a completed new common-snapshot LLM–baseline experiment rather than compare newly reconstructed numerical prices with unauthenticated historical Full inputs. The new results are negative and are retained in the abstract, highlights, results and conclusion.
 
-### Actions and evidence
+### R1.1
 
-1. **Preserved and audited the legacy evidence.** All original predictions/labels remain unchanged. The 180 archived points contain 56 UP/124 DOWN. Full TP/FN/TN/FP is 16/40/101/23, BA 55.01%, MCC 0.113; CASH accuracy is 68.89%. The newly retrieved prices differ at 74 cycles and change two labels, so these legacy results remain separate. The original manuscript is in `revision/manuscript_original.zip`; the preceding revised manuscript sources are preserved in `outputs/revision/r1_manuscript_v2/prior_manuscript_sources.zip`.
-2. **Completed the frozen common-snapshot experiment.** There are 102 paired units across nine symbols, six historical blocks (2023–2026) and twelve decision dates. BHN has six units/three recent blocks; each other symbol has twelve/six blocks. All 474 planned research decisions are complete, including the preselected repeated panels; ten smoke decisions are excluded. Each classifier uses exactly the same 102 units, input hashes, net labels, entry/exit schedule and costs. We retain the net-cycle target and long-only SHORT→CASH map.
-3. **Added the requested baselines for every symbol.** Constant CASH, always-LONG cycles, train-fitted majority, fixed momentum, price-only logistic, market-input logistic and factor-only voting are evaluated. Continuous hold buys once and sells once per symbol–block account and is reported as an economic comparator, not given invented classification scores. Preprocessing, logistic regularisation/threshold selection, factor-vote orientation and majority fit only chronological train/validation data with purged label overlap. Market-input logistic uses the common selected-factor/sentiment/missingness numerical bank; it is an information-family comparator, not identical chart/report wording or pretrained knowledge. No baseline is fitted to test outcomes or Full's test LONG rate.
-4. **Reported imbalance-aware metrics and all denominators.** Net support is 25 UP/77 DOWN. Full TP/FN/TN/FP is 5/20/59/18, accuracy 62.75%, BA 48.31%, MCC −0.035, macro-F1 48.24%, LONG rate 23/102 (22.55%). Base has 7/18/52/25, accuracy 57.84%, BA 47.77%, MCC −0.041 and LONG rate 32/102 (31.37%). Full UP precision/recall is 21.74%/20.00%; DOWN precision/recall is 74.68%/76.62%. CASH and train-majority accuracy is 75.49%, BA 50.00%; price logistic BA is 55.61%, MCC 0.114. The release includes both classes' precision/recall/F1/support, confusion matrices, pooled and equal-symbol macro scores, every symbol/block/causal regime and two common-universe cohorts. Undefined metrics are null in JSON and NA in CSV/TeX. Full macro BA is 45.96% over eight defined symbols, versus Base 50.07%; this weighting is explicitly distinguished from pooled BA.
-5. **Reported daily economic results under common assumptions.** The 510 symbol–block/variant accounts include 102 new B/AS daily ledgers and 408 numerical/control ledgers. Full mean net return is −0.8841%, Base −1.0314%, CASH 0%, price logistic −0.6831%, always-LONG cycles −3.00% and continuous hold −2.1275%. Return is a mean over 51 separate symbol–block accounts, not a joint portfolio. Costs, turnover, fees, slippage, held-session/close exposure and daily-close drawdown remain in each ledger. Fractional shares, immediate cash reuse and uncertain corporate-action/dividend handling prevent a certified execution or total-return claim. Full training predictions were not generated to manufacture an exposure match; no Full-exposure-matched or exposure-independent alpha claim is made.
-6. **Disclosed uncertainty, repeats and operational history.** The Full–Base pooled BA difference is +0.55 percentage points; its descriptive joint six-block bootstrap interval is [−5.91,+8.00] points (10,000 resamples, seed 20261102). Full minus price logistic is −7.30 points, interval [−18.70,+1.79]. All intervals are descriptive with only six blocks. The 18-unit decision panel has three repeats of B/A/S/AS/P on five dates/eight symbols; Full BA mean/SD is 30.56%/10.49 points. Full–placebo contrasts change sign. The separate nine-unit upstream panel has three realizations on three dates and much higher support-specific scores; it is not substituted for the broad study or used to choose a preferred run. There are 175 research decisions before and 299 after the author-authorised provider-routing amendment, with one cross-epoch main pair. Model/prompt/target/sample contracts stayed fixed; immutable provider weight revision remains unknown.
-7. **Revised the interpretation throughout.** Full does not beat CASH on accuracy/return or price logistic on BA in this experiment. A smaller loss than Base and fewer LONG calls do not demonstrate alpha value. Gross-direction metrics are a separately labelled diagnostic of the same net-elicited predictions (32 UP/70 DOWN; Full BA 47.23%), not a relabelled primary target. Abstracts, highlights, introduction, metric definitions, new methods/results, limitations, conclusion and appendix all reflect these findings.
+We replaced the 180-point legacy headline with the completed common-support historical study: 102 eligible symbol-cutoff units, 25 UP and 77 DOWN, over twelve dates and six blocks. Full and Base use identical truths and eligibility. Table 2 and companion S1 report pooled, symbol and block support; six unavailable early BHN cells remain excluded rather than becoming CASH predictions.
 
-### Reproducible evidence
 
-The immutable analysis is `outputs/revision/r1_72h_run_v2/analysis/`: `predictions.csv`, `classification.json`, `macro_by_symbol.json`, `economics.csv`, `daily/`, `block_intervals.json`, `decision_panel.json`, `upstream_panel.json`, `gross_diagnostic.json`, `system_costs.json` and the source/output hash manifest. Numerical/control daily ledgers are in `outputs/revision/r1_72h_bank_v2/numeric/daily/`. Raw calls, checkpoints, parent hashes and completion markers are retained in the run directory; the new manuscript release adds a 90-row all-baseline symbol CSV and a 378-row both-class/group CSV.
+### R1.2
 
-Offline checks replayed **484 real decisions** (474 research +10 smoke), checked **3,752 source/output hashes**, recomputed all **189 metric groups**, checked common input/label support and all **510 ledger returns/order counts**, and verified both repeated panels are complete. `scripts/finalize_revision_r1.py --check` reproduces the seven generated TeX files and two presentation CSVs without API calls. The analysis/source artifacts are preserved; their earlier `pending_manuscript` status is a historical generator status, superseded by the manuscript release manifest rather than overwritten.
+Table 2 reports BA, MCC, accuracy, LONG rate and precision/recall for both classes. Full BA is 52.96%, MCC 0.060 and accuracy 65.69%; Base BA is 49.71%, MCC -0.005 and accuracy 60.78%. Both identify seven of 25 UP outcomes; Full has 17 false LONG forecasts versus 22 for Base. Undefined metrics are NA/null, and unweighted symbol macro summaries retain their planned and defined denominators in S1.
 
-### Manuscript locations
 
-The R1-only release remains archived at `outputs/revision/r1_manuscript_v2/` (51/52 pages), R1/R2 at `outputs/revision/r2_manuscript_v1/` (53/54), R1–R3 at `outputs/revision/r3_manuscript_v1/` (58/58), and the R4 pending audit at `outputs/revision/r4_manuscript_v1/` (60/61), each with its exact source ZIP. Current completed release: `outputs/revision/r4_manuscript_v2/`, main/submit **62/63 physical pages**. R1 locators in both: highlights p2, abstract p3, §5.6 pp22–23, §6.1 pp27–29, Tables 7–8 p28, Tables 9–10 p29, conclusion pp38–39, Appendix A/Tables A.18–A.23 pp39–44. Physical numbering is used throughout. Current PDFs have no undefined references/citations, duplicate anchors/labels or body/table overflow; the inherited 2.61pt elsarticle footer warning has no clipping.
+### R1.3
 
-### Scope of closure
+Always-CASH and a majority rule fitted on purged historical training data are both included on every eligible test unit and by symbol in S1. They coincide on this test set, with 75.49% pooled accuracy, BA 50% and undefined MCC; the training rule was not fitted to the observed test majority. A correct DOWN forecast is a CASH decision and earns no short-sale return.
 
-R1's baseline, class-imbalance and claim-correction requirements are addressed by the actual common-snapshot comparison, complete metrics and revised claims. This does not authenticate the missing submission snapshot or establish an exact textual-information/exposure-matched superiority result. The R2 temporal extension is addressed separately below; broad independent validation, authenticated model/input provenance, financial-domain sentiment, certified execution, component attribution and author/submission metadata remain substantive limits or separate requirements. We make no predictive-superiority, isolated-alpha or profitability claim that would require those unavailable controls.
 
+### R1.4
 
-## Reviewer 1, comment 2 — sample size, regimes and cross-sectional dependence
+Table 3 compares the mean over 51 separately funded symbol-block accounts: Full -0.797%, Base -0.750%, CASH zero and continuous price-only hold -2.128%. Always-LONG three-bar cycles (-3.000%) are reported separately from continuous hold, which retains exposure through calendar gaps. These are account means under explicit fill/cost assumptions, not a pooled executable portfolio or total-return index.
 
-**Status: addressed within the revised historical exploratory scope on 03 November 2026. The wider calendar span does not establish a large independent sample or resolve training contamination.**
 
-> 2. Sample size and market regime. All test points fall between mid-June and mid-September 2026: 20 points per symbol at 3-bar spacing, i.e., about three months of a single regime. In that window, a LONG on every cycle loses money for all nine symbols (compounded -5% to -30% from the committed data). In such a regime, any intervention that shifts decisions towards CASH will raise both accuracy and relative account return. This is consistent with Table 7, Panel B.The cross-symbol Wilcoxon test (p = 0.0078) treats nine symbol-level lifts as independent. Yet they share the same dates and market factor, so the effective sample is much smaller than nine independent replications. Please extend the evaluation substantially in time, covering multiple years and both rising and falling regimes. Please also use inference that accounts for cross-sectional dependence.
+### R1.5
 
-### Assessment
+Momentum-20, train-fitted logistic-price, logistic with matched numerical market inputs, and deterministic factor vote are retained alongside the constants and LLM branches. Logistic-price BA is 55.61%, above Full. Fits and preprocessing use purged chronological training data, with validation/test kept separate. Numerical inputs do not match chart/report representations or pretrained knowledge, so these comparisons do not identify a controlled information-only effect.
 
-We agree that nine equities sharing calendar dates and market shocks are not nine independent replications. We no longer use the legacy symbol-level Wilcoxon p-value as evidence of general improvement. We extended the actual common-snapshot LLM evaluation to six historical blocks from July 2023 to September 2026 and now report its exact sparse-date support, causal contexts and synchronized-panel sensitivities. This broadens temporal coverage; it does not increase the number of independent dates by multiplying symbols or repeats, establish statistical power, or supply a contamination-free prospective holdout.
 
-### Actions and evidence
+### R1.6
 
-1. **Extended the actual LLM evaluation, using frozen inputs.** The completed R1 bank provides 102 Base–Full pairs, with two decision dates per block in 2023 H2, 2024 H2, 2025 H1, 2025 Q4, 2026 Q2 and 2026 Q3. All nine classifiers use the same 102 units. There are twelve distinct decision dates, 36 distinct target-session dates and 306 eligible symbol–target-session observations. These are counts, not independent replications. The audit reuses all predictions without new API calls, date selection or model refitting.
-2. **Audited the snapshot, exclusions and universe.** All nine raw series retain 1,681 vendor sessions from 2 January 2020 to 30 September 2026. The frozen BHN quality rule excludes 673 prefix rows after the contradictory 13 September 2022 bar; insufficient valid-suffix warm-up excludes BHN from the three early blocks. No raw price is corrected or target shortened. The universe remains purposive and potentially survivor-biased: point-in-time constituent/listing/delisting and suspension records are unverified. We make no market-wide external-validity claim and do not interpret zero volume as certified suspension.
-3. **Checked all 51 chronological symbol–block scopes.** Every train label exits strictly before validation begins; every validation label exits strictly before the first test decision. All first training cutoffs have at least 600 valid observed history sessions. The frozen scopes contain 32–318 train and 18–21 validation samples. Recomputed imputation/scaling statistics from precisely train plus matured validation match both stored logistic fits in all scopes. Classifiers are not refitted and no test distribution is used to fit preprocessing. The LLM's separately specified adaptive 600-session causal factor policy is retained; this is not claimed as nested factor-discovery validation, which remains part of R10.
-4. **Reported actual contexts and exposure rather than naming regimes by year.** The frozen close/SMA60 rule gives 33 bull, 35 bear and 34 sideways units, with Full BA 50.00%, 41.67% and 48.22%; Full LONG rates are 33.33%, 14.29% and 20.59%. These are per-security contexts, not certified index-level market regimes, and their dates overlap. Additional volatility and turnover-proxy strata use trailing 20-session measurements and symbol–fold train-only median thresholds. Their calculation is causal, but adding these dimensions after inference is explicitly descriptive, not preregistered confirmatory analysis or a fitted regime strategy. Turnover proxy is Close×Volume in vendor units, not spread/depth liquidity. Both-class/support metrics and exposure verified against the original daily ledgers are provided for all nine classifiers. Target-session exposure uses three sessions per unit; it excludes the cash gaps between selected decisions and is not a whole-calendar portfolio metric.
-5. **Preserved calendar alignment, dependence and missing eligibility.** The full date×symbol×classifier grid has 972 slots: 918 observed predictions and 54 missing slots corresponding to six excluded BHN date×symbol cells. Missing cells remain NA, never synthetic CASH. Join keys are actual date, symbol and variant, not test index. Whole-block resampling retains both dates, the full cross-section, all variants and eligibility mask together. The 10,000-resample/seed-20261102 main BA intervals reproduce the frozen R1 analysis exactly. With only six blocks, these are descriptive intervals; we do not claim independent blocks or a known effective sample size.
-6. **Published structural cohort and block sensitivities.** The common eight-symbol/six-block cohort has N=96 and twelve dates: Full/Base BA is 48.61%/46.53%, with difference +2.08 points and descriptive interval [−4.10,+8.67]. The nine-symbol/three-recent-block cohort has N=54 and six dates: 47.18%/46.67%, difference +0.51 points, interval [−8.33,+6.25]. The planned all-102 result remains primary. These overlapping cohorts are not pooled as extra samples. Leaving out one block moves Full–Base BA from −2.20 to +2.75 points, so even the sign is unstable. No favorable cohort, date or checkpoint is selected for a superiority claim. The all-DOWN early-2025 block is retained, with its within-block BA reported as undefined.
-7. **Separated historical extension from clean prospective evaluation.** All labels matured by 28 September 2026, before protocol freeze on 2 November 2026; zero test units are prospective. The archive records actual text/vision model names and 41 reported system-fingerprint strings, but neither these metadata nor a release date authenticates the served weight revision, training corpus or exclusion of historical prices. Contamination remains possible for both models. The response does not rely on a model release date as proof of clean evaluation. A genuine prospective study requires a separately frozen identity/protocol and later matured outcomes; no retrospective sample is renamed as such.
+Full makes 24/102 LONG decisions and Base 29/102, while both recover the same seven UP cases. Their BA difference therefore accompanies higher DOWN recall and is compatible with a shift toward CASH. We report scheduled LONG propensity and calendar held-session fractions separately; Full-Base is not exposure matched and cannot establish why the propensity changed.
 
-### Evidence and validation
 
-`outputs/revision/r2_panel_v1/` contains `data_manifest.json`, `folds.csv`, `regime_labels.csv`, `prediction_panel.csv`, `target_sessions.csv`, `stratified_metrics.json`, `exposure_by_regime.csv`, `dependence.json`, `contamination.json`, `report.json`, the declared descriptive policy, four generated TeX tables and source/output hashes. Existing R1 inputs, model responses and numerical predictions are preserved. Earlier manuscript source hashes are checked against the frozen R1 `sources.zip` when the current manuscript has changed.
+### R1.7
 
-Seven targeted tests check future-price/volume invariance, train-only threshold fitting, unavailable/degenerate context, purge at label boundaries, missing-calendar masks, duplicate/missing inference rejection, and synchronized resampling under perfectly correlated symbol replication. Three new Python files compile. The actual-data audit checks 3,752 R1 analysis/numerical hashes, all 51 fold/preprocessing scopes and original daily-ledger exposure; these tests do not replace the archived LLM evidence. No model/API calls or classifier refits are performed.
+We withdrew profitability, broad superiority and information-specific alpha conclusions from the title, abstract, highlights, introduction and conclusion. Full loses more than Base on the main account mean and underperforms CASH economically and logistic-price on BA. The remaining contribution is an auditable historical decision-support implementation and bounded empirical comparison; favourable small-panel results do not override these main outcomes.
 
-### Manuscript locations
 
-The current completed R4 release has 62/63 physical pages in main/submit. R2 locations in both: §5.7 pp23–24; §6.2 p30; Section 7 L1 pp34–36; conclusion pp38–39; Appendix A.1/Table A.24 p44; Tables A.25–A.27 p45. Source anchors remain `sec:r2_protocol`, `sec:r2_results`, `app:r2_detail`. All previous PDF/source releases remain immutable.
+Evidence: [outputs/revision/final_baselines_v1/baseline_contracts.json](../outputs/revision/final_baselines_v1/baseline_contracts.json); [outputs/revision/final_baselines_v1/classification.csv](../outputs/revision/final_baselines_v1/classification.csv); [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/per_class.csv](../outputs/revision/final_baselines_v1/per_class.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_repeats_v1/contrasts.csv](../outputs/revision/final_repeats_v1/contrasts.csv).
 
-### Scope of closure
 
-R2 is addressed by the actual multi-year extension, explicit regime/support/exposure report, calendar-preserving cross-sectional analysis and withdrawal of claims requiring independent symbols or clean prospective evaluation. The sparse sample, purposive/surviving universe, unknown training contamination and few temporal clusters remain substantive limitations, rather than being represented as solved by code or a longer date range. Prospective validity, market-wide generalisation and nested factor-discovery claims are not made. R5–R18 remain independently assessed; no journal acceptance or submission-readiness conclusion follows.
+Current source locations (not PDF locators): [paper/sections/06_backtest_results.tex:5](../paper/sections/06_backtest_results.tex) (`Table~\ref{tab:classification}`); [paper/generated/t02_classification.tex:6](../paper/generated/t02_classification.tex) (`\label{tab:classification}`); [paper/generated/t03_accounts.tex:6](../paper/generated/t03_accounts.tex) (`\label{tab:accounts}`).
 
-## Reviewer 1, comment 3 — repeated executions and variability
 
-**Status: R3 addressed on 03 November 2026 on the two preselected historical panels. The limited repeat support does not establish a stable advantage, calibrated confidence coverage or full-grid variance decomposition.**
+## R2 — Historical coverage and cross-sectional dependence
 
-> 3. Run-to-run variability is of the same size as the claimed effect. The same default configuration (W = 45, zscore_tanh, default weights) appears several times in the paper with different outcomes:- FPT, Full accuracy: 65% (Table 7), 65% (Table 8, W = 45), 50% (Table 8, zscore_tanh), 60% (Table 8, default weights) and 55% (Table 9).- FPT, No-Alpha/Baseline accuracy under the same configuration: 45%, 50%, 45%, 50% and 45%.- VCB, Full accuracy: 65% in Table 7 but 45% in Table 9; No-Alpha 50% vs Baseline 40%.- VNM, Full accuracy: 55%, 55%, 60%, 65% and 60%.A spread of 15-20 pp under identical settings is comparable to the reported mean lift of 13.9 pp. The paired design controls upstream variation within a pair, but not variation in the Decision Agent itself. Please run each configuration several times, report the mean and dispersion of accuracy and lift across repeats, and base inference on the repeated runs.
 
-### Assessment and changes
+### R2.1
 
-We agree that shared upstream reports do not control Decision Agent variability. We withdraw any interpretation of the legacy table-to-table spread as an isolated treatment effect or evidence of a stable optimal setting. The new legacy inventory contains 24 Full/Base rows from 12 original FPT/VCB/VNM artifacts. For each symbol it identifies two different cutoff-sequence/recorded-endpoint families. Missing actual prompt, complete input, code-commit and model-revision provenance remain unknown, including within a matching date family. Nominal default labels cannot authenticate matched repeats. Original files are unchanged.
+The final study contains real archived hosted decisions at twelve selected dates across six historical blocks rather than extending the sample with synthetic predictions. Nine securities contribute 102 eligible units, with 96 units on the common-eight universe and 54 on the recent-nine universe. The calendar and all outcomes are in S4. This is sparse historical coverage, not a continuous multi-year strategy or an untouched prospective evaluation.
 
-1. **Audited actual configuration and call identity.** The completed frozen study uses W=45, zscore_tanh and default/null alpha weights. Its configuration/request records link actual cutoff, asset, prompt and frozen source hashes to model aliases, output caps, provider key slots, timestamps, retries/errors and fallback status. The full archive contains 756 attempts, 734 successful responses and 22 errors, including ten smoke decisions and their upstream calls outside evaluation. All 474 research decisions have structured real responses without synthetic CASH or model fallback. The model-run Git commit and immutable served weights are not authenticated; source-byte hashes are retained rather than retrospectively inferring a commit. Provider key-slot mapping is author-confirmed, not immutable provider attestation.
-2. **Corrected the temperature description.** Every attempt records SDK temperature 1e-8, although the protocol declares zero. The installed langchain-groq 1.1.2 adapter explicitly converts zero to 1e-8; its module hash and transformation are recorded. This is observed client metadata, not a provider wire capture. Text/vision output caps remain 2,048/1,024. No hosted seed is supplied in the frozen caller, and neither the local bootstrap seed nor this near-zero temperature implies deterministic hosted inference.
-3. **Used matched, genuinely repeated calls.** The Decision panel contains 18 units (6 UP/12 DOWN; eight symbols, five dates, three blocks), each with B/A/S/AS/P and three Decision executions under fixed upstream. All 90 unit–variant groups retain identical actual prompts across three distinct successful requests. The upstream panel contains nine units (2 UP/7 DOWN; nine symbols, three dates, three blocks), B/AS under three regenerated upstream realizations and one Decision execution per realization. One market unit overlaps the panels, sharing two B/AS r0 calls by design. Their union has 322 unique Decision executions, 132 node records and 88 distinct successful vision requests. Every distinct execution has its own context/checkpoint/response identity; r0 reuse is explicit and is not called new inference.
-4. **Disclosed ordering and stage limits.** All 98 registered within-job orders match observed successful-call timestamps. Repeats 1/2 rotate variant order. However, r0 B/AS was executed in earlier main pairs, while A/S/P r0 was executed later; quota pauses, routing and calendar time remain confounds. We do not claim complete counterbalancing, randomized providers or fixed served-weight revisions. The panels differ in support and lack a crossed upstream×Decision 3×3 grid. Their SDs cannot be subtracted to identify separate variance components. The upstream distribution describes combined regenerated-upstream/Decision sensitivity on its own nine units.
-5. **Reported distributions and based interpretation on them.** Every metric and paired contrast has per-execution values, mean, sample SD (ddof=1), median and range. Machine-readable reports include accuracy, BA, MCC, macro-F1, LONG rate and return; the four new manuscript tables summarize these distributions. The Decision Full accuracy is 37.04% (SD 11.56 points), BA 30.56% (SD 10.49), and MCC −0.378 (SD 0.195). Full–Base BA differences are +4.17, −8.33 and +20.83 points: mean +5.56, SD 14.63, median +4.17 and range [−8.33,+20.83]. Thus the observed dispersion exceeds the mean contrast and its sign varies across executions. Full mean pairwise disagreement is 22.22%, versus 11.11% for Base; all cutoff-level three-prediction vectors and disagreement/indicator variances are retained.
-6. **Kept economics and support explicit.** Returns average 13 Decision-panel or nine upstream-panel symbol–block accounts per execution, using only panel cycles and the frozen daily-ledger costs/prices. They are not a pooled portfolio or the main 51-account result. Decision Full return is −1.544% (SD 0.679 points), versus Base −1.786% (SD 0.239); a smaller loss is not profitability. On the different upstream panel, Full BA is 97.62% (SD 4.12) versus Base 90.48% (SD 4.12), and their BA difference is +7.14 points in each realization. Full/Base mean returns are +0.624%/+0.284%. These nine-unit outcomes neither override the poorer 18-unit results nor establish general superiority; both panels are reported without favorable selection.
-7. **Resampled dependence at the recorded levels.** A descriptive procedure added after inference uses 10,000 joint whole-block and paired-execution-index resamples, seed 20261102, retaining full cross-sections and variant pairing. The statistic is the mean of sampled per-execution scores, not pooled classification of 3N independent markets. The Full–Base BA interval is [−9.56,+23.08] points on the Decision panel and [0,+14.29] upstream. Only 9,612/10,000 and 6,986/10,000 BA draws respectively are defined; 388 and 3,014 draws lose class support. Intervals are conditional on finite draws, with metric-specific denominators disclosed, never zero-imputed. Three executions and three blocks per panel do not guarantee precision, calibrated coverage or significance. All repeats remain in the analysis; no best run/seed/checkpoint or ensemble replaces the broad one-pass evaluation.
 
-### Evidence and validation
+### R2.2
 
-`outputs/revision/r3_repeats_v1/` contains 16 hashed artifacts: policy/configuration, all-attempt inventory, Decision/upstream lineage, call-order audit, legacy default inventory, 21 per-execution metric rows, 249 account records and their daily ledgers, 108 cutoff–variant disagreement groups, full distributions/paired intervals, and four generated TeX tables. Existing raw calls, labels, predictions, checkpoints and R1/R2 releases retain their original bytes. Historical manuscript sources are verified through their frozen source ZIPs as the current document evolves.
+We report all observed bull/bear/sideways, volatility and turnover-proxy strata with class support, defined counts, scores and exposure. Trend is each security's Close/SMA60 context; other thresholds use purged training medians. These post-inference descriptions are not validated index regimes, an ex ante regime-aware policy or evidence of robust performance across market conditions. An all-DOWN block has undefined within-block BA.
 
-Ten targeted tests pass for vectorized metric equivalence/undefined support, sample SD/denominators, synchronized block/run pairing, correlated-symbol replication, class-loss counts, changed support/truth rejection, missing/duplicate execution rejection, fixed-prompt identity and upstream parents. Three new Python files compile. The actual-data audit replays all 484 archived decisions and validates 3,752 source/output hashes, 918 numerical predictions, 189 metric groups and 510 daily ledgers. A fresh process with PYTHONHASHSEED=17 reproduces all 16 R3 artifacts and four manuscript TeX files byte-for-byte:
 
-```powershell
-py -3.13 -X utf8 scripts/analyze_revision_r3.py --check
-```
+### R2.3
 
-No API calls, new predictions, classifier refits or runtime/inference changes are made. The full system suite/E2E is not rerun because this task adds an offline reader/statistical audit and documentation; the targeted tests cover the changed path.
+Whole-block resampling retains dates, the complete eligible cross-section, variants and paired outcomes together. The two fixed-universe cohorts also have six calendar-aligned Bartlett HAC accuracy rows at lags 0/1/2; these are accuracy differences, not BA estimates. Twelve or six selected dates and irregular gaps do not support calibrated significance, coverage or an independence claim.
 
-### Manuscript locations and scope of closure
 
-Current completed R4 release: `outputs/revision/r4_manuscript_v2/`, 62/63 physical pages main/submit. In both: §5.8 pp24–25, §6.3 pp30–31, Section 7 L4 pp36–37, conclusion pp38–39, Appendix A.2 pp45–47; Tables A.28–A.29 p46 and A.30–A.31 p47. Anchors remain `sec:r3_protocol`, `sec:r3_results`, `app:r3_detail`, `tab:r3_*`. R3's original PDFs/source ZIP are unchanged. Original prompt identity verifies sameness; the separate corrected R4 study below verifies complete factor delivery without changing R3 outcomes.
+### R2.4
 
-R3 is addressed by matched repetitions of every variant used in the new attribution panel, explicit repeated-run uncertainty and withdrawal of stability/superiority claims unsupported by those distributions. This is not a repeat of every legacy window/normalisation/weight sweep, authentication of legacy defaults, or a full-grid variance decomposition. Legacy optimisation/robustness claims are not maintained; R6 remains separately assessed. Immutable served-weight reproducibility, sparse historical support and prospective validity remain limitations. R4 completion is reported below; R5–R18 are not closed by this task.
+The effective number of independent market replications is not 102, nor the count after multiplying by classifiers, repeats or bootstrap draws. The primary support has twelve dates/six blocks; overlapping cohorts and correlated securities share outcomes. Purposive/surviving-universe selection, unverified listing/suspension membership and possible training contamination remain explicit limitations.
 
-## Reviewer 1, comment 4 — component information and prompt placebo
 
-**Status: R4 addressed on 03 November 2026 with a completed separately frozen full-value control panel and explicitly bounded historical exploratory claims. All 270 fresh executions are verified; no further API calls are required for this scope. This does not certify general alpha value or submission readiness.**
+Evidence: [outputs/revision/final_temporal_v1/calendar_panel.csv](../outputs/revision/final_temporal_v1/calendar_panel.csv); [outputs/revision/final_temporal_v1/folds.csv](../outputs/revision/final_temporal_v1/folds.csv); [outputs/revision/final_temporal_v1/panel_hac.csv](../outputs/revision/final_temporal_v1/panel_hac.csv); [outputs/revision/final_temporal_v1/report.md](../outputs/revision/final_temporal_v1/report.md); [outputs/revision/final_temporal_v1/stratified_metrics.json](../outputs/revision/final_temporal_v1/stratified_metrics.json).
 
-> 4. The primary comparison does not isolate alpha information. According to Table 4 and Appendix A.1, the No-Alpha branch omits both the alpha section and the sentiment section of the prompt. "65.0% versus 51.1% without Alpha" (abstract, highlights) is therefore a comparison of alpha plus sentiment plus a longer prompt against neither. The four-way ablation addresses this only for three symbols, with different absolute results from Table 7 (see comment 3).In addition, the mere presence of an extra report may change the LLM's propensity to predict SHORT, independently of its content. Please add a placebo control: the same prompt sections filled with shuffled, time-permuted or random factor values. This would separate the effect of the information from the effect of the prompt structure.
 
-### Corrected comparison and independent actual-input audit
+Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:7](../paper/sections/05_experimental_setup.tex) (`Six blocks cover`); [paper/generated/t05_temporal.tex:6](../paper/generated/t05_temporal.tex) (`\label{tab:temporal}`).
 
-We agree that the legacy No-Alpha control omitted both alpha and sentiment and changed report structure. It is consistently called **Base reports**, and Full−Base is a bundle/report contrast. The old Full−max(Alpha-only,Sentiment-only) quantity is renamed **best-single gap**. The factorial interaction is M(AS)−M(A)−M(S)+M(B); the two quantities are not interchangeable. Unverified legacy branch provenance remains separately assessed under R6.
 
-The original raw-request audit found that the alpha distiller split at the Markdown table separator and removed all five numeric factor rows from 264 alpha-bearing research prompts, including 162 on the repeated panel. Its P branch therefore tested compressed report/consensus perturbation, not complete numerical information. Six of 54 old AS/P pairs became identical after compression. Those raw calls and outcomes remain unchanged and are not represented as repaired evidence.
+## R3 — Repeated executions and variability
 
-We have now completed a **separate 270-decision repaired study**: 18 preselected units × B/A/S/AS/P × three fresh executions, with six UP/twelve DOWN outcomes per execution, eight symbols, five dates and three blocks. Every unit satisfies the >=3 locally scored article gate. This is availability of the local scorer input, not independent publication-PIT, news-domain validation or a neutral assignment for unavailable sentiment. No new vision calls are needed: all branches reuse the archived upstream reports on their identical support.
 
-All **162/162 alpha-bearing successful actual requests contain five numeric rows**, independently parsed against the frozen treatment or donor for every value, signal, IC, accuracy and score. All **54/54** cutoff–repeat groups share actual upstream text/parent/rules; A/AS have identical alpha sections and S/AS/P identical sentiment sections. A receives no sentiment section, S no alpha section. AS/P differ only inside alpha content while retaining current names, headings, schema, placement, sentiment and common prompt/output budgets. Prompt lengths are 3,244–4,228 characters, below 6,500; exact token-length equality is not claimed. Shared rules still mention alpha and sentiment even in B, so presence contrasts remain interventions on implemented report context, not pure news information effects.
+### R3.1
 
-The whole five-position donor vector is sampled deterministically from purged train, with its three-session label exit before validation. Seed, mapping and deep availability masks are retained. It jointly changes values, signals and skill fields by rank while keeping current factor names. **84/90 rank slots have different donor names**, so it preserves a whole past rank vector rather than named-factor covariance or one scalar in isolation. The control addresses same-structure content perturbation with that explicit semantic/distributional limit; it is not asserted to be an information-free oracle. No outer-test/future values are shuffled into it.
+The legacy default labels and matching prediction sequences cannot authenticate equal actual prompts, served weights, executed code or independent runs. We retain those artifacts for lineage audit and no longer interpret their table-to-table differences as treatment effects or stable defaults. The final response uses the completed corrected-chart release, not the superseded 474/270-job grids or earlier 18-unit repeat panel.
 
-### Freeze, raw calls and paired execution
 
-The repaired bank freezes 90 templates, 270 jobs and the seven-contrast BA family before the new calls; its recorded creation is 03:35 UTC and first request 03:51 UTC on 3 November. All **576 source/runtime pins** verify. All **274 attempts** record the same model alias `openai/gpt-oss-20b`, SDK temperature 1e-8 and output cap 2,048. These are client metadata, not immutable served weights or a wire attestation. Four provider `json_validate_failed` rejections, all on S jobs, are retained and retried; no failed generation becomes a prediction. Inference distributions consequently condition on eventually schema-valid outputs.
+### R3.2
 
-All **270 successful responses have distinct real IDs**, valid schema, exact prompt/context hashes and checkpoint lineage. No successful request is reused from the original study; there is no model or synthetic CASH fallback. Successful within-group order matches all 54 registered sequences. Rotation is not a complete Latin-square balance, and provider routing, timing and unverified weights remain observational confounds. The earlier error-status episode did not establish a quota cap: five existing workers retained shard locks and continued progressing while duplicate launches were rejected. It did not delete or duplicate research decisions.
+We report two separate nine-unit panels, each with two UP/seven DOWN and three real executions. One regenerates upstream inputs for B/AS; the other fixes upstream reports and repeats Decision over B/A/S/AS/P. They have different dates/symbols and prompt representations. We did not repeat every main-grid configuration or cross upstream and Decision in a full factorial variance design; that part of the request remains unfulfilled.
 
-### Completed factorial/placebo results and interpretation
 
-Each score pools the same 18 units within an execution and then averages its three execution scores; repeats are not 54 independent market observations. Mean B/A/S/AS/P balanced accuracies are **29.17%/40.28%/26.39%/44.44%/37.50%**. Full accuracy is 53.70%, MCC −0.121, BA SD 2.41 points and LONG frequency 24.07%. CASH accuracy is 66.67% with BA 50.00%, so a positive Full−Base contrast does not establish superiority over the constant reference. Per-class support and equal-symbol macro metrics are provided with defined denominators; Full's equal-symbol macro BA is 43.75%, defined on four of eight symbols, rather than presented as an eight-symbol complete-class average.
+### R3.3
 
-The predefined mean BA contrasts in percentage points are AS−B **+15.28**, A−B **+11.11**, AS−S **+18.06**, S−B **−2.78**, AS−A **+4.17**, AS−P **+6.94**, and interaction **+6.94**. The three AS−P values are +4.17, +12.50 and +4.17 (sample SD 4.81); its pointwise descriptive interval is [2.08,12.82], but its **seven-contrast envelope is [−6.55,20.44]**. The interaction has SD 6.36 and pointwise interval [−8.97,16.67], so positive synergy is not established. Full distributions retain all per-execution values, mean/SD/median/range and metric-specific undefined counts, without best-run/seed/checkpoint selection or an ensemble replacing a run.
+Table 4 and S2 retain all 21 variant-execution metric rows, all 48 contrast-metric rows, sample SD (ddof=1), median/range and 63 cutoff-level disagreement rows. Aggregate score equality is not equated with identical predictions. Return summaries use nine upstream or eight factorial accounts per variant/execution, not the main 51-account support; favourable executions are not selected.
 
-The joint max-deviation radius is 13.49 points, calculated with 10,000 synchronized whole-block and paired-run draws, seed 20261102. There are 9,612 jointly finite BA draws and 388 class-loss draws; missing values are never zero-imputed. AS−B and AS−S joint envelopes are [1.79,28.77] and [4.56,31.55], respectively. Even these zero-excluding descriptive envelopes are not calibrated significance results with only three runs/blocks. No p-value or family-wise error-control claim is made. The seven-contrast family was fixed for the repaired calls; the original interaction/envelope remains explicitly post-inference, and prior exposure to historical outcomes prevents calling this prospective confirmation.
 
-All **15 variant–execution groups detect only one of six UP cycles (recall 16.67%)**. Full/P DOWN recalls average 72.22%/58.33%, while LONG rates are 24.07%/33.33%. Hence the measured AS−P BA difference comes entirely from fewer DOWN errors with lower LONG exposure, rather than additional correctly classified profitable-UP cycles. Full mean net return is **−0.670%** (SD 0.055 points), versus P −1.121% and Base −1.640%. The AS−P mean return gap is +0.451 points (SD 0.315; descriptive interval [0.000,0.796]). Returns average 13 separate panel symbol–block accounts per execution, giving 195 account executions/daily ledgers, not a pooled portfolio. Every variant has negative mean return, below CASH at zero. The results do not establish isolated alpha information independent of exposure, independent sentiment value, synergy or profitability.
+### R3.4
 
-### Evidence, validation and manuscript locations
+Repeated-panel contrasts use joint block/paired-execution resampling, with undefined draws retained in the denominator report. Only 6,986/10,000 BA draws are defined; 3,014 lack class support. Three executions do not certify stable variance or calibrated inference. Across the complete pairing audit, 40/147 groups differ from listed successful-call order and nine cross epochs; quota/routing/resume did not implement complete counterbalancing, and immutable served weights remain unknown.
 
-`outputs/revision/r4_value_run_v1/` retains all raw requests/responses/errors/digests, 270 signed checkpoints and the native analysis. `outputs/revision/r4_final_v1/` locks 11 additional audit/table artifacts: full attempt inventory, paired actual-content checks, order, 15 per-execution metric rows, class/equal-symbol metrics, class/exposure contrast decomposition, cutoff disagreement and three corrected TeX tables. The source/runtime bank, original compressed audit and pending-stage manuscript/source ZIP remain byte-exact. Old AS−P/interaction means of −2.78 points are still visible separately; changed content and inference time do not identify a causal before/after repair effect.
 
-Four new targeted audit tests and compilation of the two new finalizer/test files pass. They reject wrong actual scalars even if a template hash agrees, wrong context/model/temperature/caps, missing rows and duplicate row ranks. The earlier twelve runner/PIT/interaction/resume tests remain valid under unchanged source/runtime pins and are cited rather than claimed as rerun. Actual-data verification checks all 270 responses, 274 attempts, 54 paired content/order groups and 195 account executions. A fresh process with PYTHONHASHSEED=17 reproduces both native analysis and all 11 final artifacts/three TeX files byte-for-byte. No new API calls or full suite/E2E runs occur during finalization; the frozen inference/target/input paths are unchanged.
+Evidence: [outputs/revision/final_repeats_v1/contrasts.csv](../outputs/revision/final_repeats_v1/contrasts.csv); [outputs/revision/final_repeats_v1/disagreement.csv](../outputs/revision/final_repeats_v1/disagreement.csv); [outputs/revision/final_repeats_v1/pairing.csv](../outputs/revision/final_repeats_v1/pairing.csv); [outputs/revision/final_repeats_v1/repeat_summary.csv](../outputs/revision/final_repeats_v1/repeat_summary.csv); [outputs/revision/final_repeats_v1/report.md](../outputs/revision/final_repeats_v1/report.md).
 
-The completed release is `outputs/revision/r4_manuscript_v2/`, **62/63 physical pages** main/submit. In both: interaction definition §3 pp12–13; methods §5.9 pp25–26; corrected results §6.4 p31; limitations pp36–37; conclusion pp38–39; Appendix A.3 pp48–49. Table A.32 preserves old compressed contrasts, A.33 corrected metrics p48, and A.34 corrected contrasts plus A.35 actual-call audit p49. Anchors remain `eq:factorial_interaction`, `sec:r4_protocol`, `sec:r4_results`, `app:r4_detail`, with new `tab:r4_value_metrics`, `tab:r4_value_contrasts` and `tab:r4_value_audit`. Both complete PDFs were rebuilt, rendered and inspected, including the new tables and updated abstracts.
 
-**Scope of closure:** R4 is addressed by the actual completed value-bearing factorial/placebo control, verified delivery/isolation and appropriately restricted interpretation. Rank-vector semantics, exact token lengths, exposure matching, few dependent dates, sentiment validity and immutable served weights remain limitations, not resolved by repeated calls. Original compressed, repaired and legacy outcomes remain distinct; no general component-information or submission-readiness claim follows. R5–R18 remain separately assessed.
+Current source locations (not PDF locators): [paper/sections/06_backtest_results.tex:19](../paper/sections/06_backtest_results.tex) (`Table~\ref{tab:repeats}`); [paper/generated/t04_repeats.tex:6](../paper/generated/t04_repeats.tex) (`\label{tab:repeats}`).
 
 
-## Supporting analysis for Reviewer 1, comment 5 — dependent statistical diagnostics
+## R4 — Bundle ablation, factorial contrasts and placebo
 
-**Status: D2-05 and D2-06 completed on 03 November 2026; comment 5 remains open for final manuscript/response integration and verified PDF locations. Additional inferential methods are post-inference descriptive sensitivities.**
 
-The new `outputs/revision/dependent_statistics_v1/` release reports both discordance directions, exact conditional McNemar diagnostics, and Bartlett Newey-West statistic, standard error, lag and p-value for all nine legacy symbols. Their stored HAC p-values reproduce exactly at lag two. Total support is 180 paired points, 20 per symbol, with 53 distinct cutoff dates and no date common to all nine symbols. The pooled Full-only/Base-only discordances are 32/7. Its small exact-binomial p-value assumes independent discordances and is retained only as a diagnostic, not general significance evidence. We do not flatten the 180 rows into a pooled HAC time series or select MWG's HAC p=0.0493 while ignoring its exact McNemar p=0.125 and the other comparisons.
+### R4.1
 
-For the new study, date-level accuracy differences average symbols at fixed weights 1/8 on the 96-unit common-eight cohort and 1/9 on the 54-unit recent-nine cohort. At lags 0/1/2, the former has a +5.208-point accuracy gap with p=0.142–0.175; the latter +3.704 points with p=0.269–0.323. These t-reference sensitivities have only twelve/six sampled dates with irregular gaps, not adjacent daily returns; they are not tests of balanced accuracy, profitability or independent market replications. Insufficient or zero-variance HAC inputs yield null/NA statistics and p-values. Existing helper and caller behavior is unchanged.
+We agree that Base removes both alpha and sentiment, not alpha alone. The manuscript now defines Full as AS and Base as B and describes Full-Base as a bundle difference including report/prompt content and possible CASH propensity. The general instructions can still mention concepts whose sections have been removed; the actual prompts, not branch names alone, define delivered content.
 
-Frozen R1/R2 whole-block and R3/R4 joint block/paired-execution intervals remain intact. Circular study-block sensitivity lengths 1/2/3 preserve the full cross-section, eligibility masks and variant pairing, producing 144 rows across all eight controls, two metrics and three overlapping cohorts. All-102 Full–Base BA differences remain +0.545 points, with all three new descriptive intervals including zero. The recent-cohort full-length resample is explicitly flagged degenerate, rather than interpreting its zero-width interval as precision.
 
-The analysis policy fixed three stylized null scenarios before this added computation, with 1,000 panels per scenario and 1,000 paired resamples per length. Independent, moderate and strong AR/common-factor scenarios give length-one BA zero-coverages of 85.00%, 63.85% and 41.34%, conditional on 1,000/993/803 defined panels respectively. Every undefined draw and Monte Carlo interval is disclosed. The poor coverage limits percentile-interval interpretation even under the stylized independent null; it does not calibrate the actual market DGP or the separate repeated panels. No favorable length, p-value or cohort replaces the original analysis, and no coverage, FWER or superiority claim is made.
+### R4.2
 
-Eleven targeted D2-05 tests, compilation of its three new Python files and fresh-process byte reproduction pass. Four standalone TeX tables were built, rendered and visually checked; they have not yet been integrated into the frozen R4 manuscript/PDF, so no new manuscript page locator or complete R5 closure is claimed. See `revision/audit_report.md` and `revision/r5_statistics_policy.json` for estimands, covariance conventions, simulation design and residual limitations. No API calls or old prediction edits occur. The separate D2-06 correction follows.
+The explicit factorial panel includes B, A, S, AS and P on the same nine units and three paired Decision executions. Frozen reports, five numeric factor rows, signals, skills and parent identities are checked against actual requests. This representation differs from compact main/upstream prompts, so the factorial is not pooled into the 102-unit main comparison or treated as its identical mechanism.
 
-### Annualisation correction and limits (D2-06)
 
-New engine, robustness and ablation outputs record actual entry/exit bar indices and annualise regular contiguous daily cycles with $\sqrt{252/S}$, giving $\sqrt{84}$ at S=L=3. Missing index provenance, irregular or gapped cycles and unsupported timeframes yield null annualised ratios instead of inferring trading sessions from calendar gaps. Cash/constant or degenerate denominators also yield null/NA. Partial/final summaries and CSV callers retain this contract. Risk-free/MAR remain zero, SD uses ddof=0, and the stored Sortino-like diagnostic explicitly retains population SD of negative returns, rather than silently replacing it with downside RMS. Engine drawdown remains labelled cycle-end and includes initial wealth.
+### R4.3
 
-The new `outputs/revision/account_annualisation_v1/` release reads all 510 existing daily ledgers, including zero-return CASH gaps and the initial-capital anchor, without rebuilding them. Applying $\sqrt{252}$ to actual daily MTM returns gives 268 defined Sharpe and 234 defined negative-subset Sortino diagnostics; remaining denominators are reported as null/NA. These are separate sparse symbol/block accounts, not a pooled portfolio or execution-certified profitability result.
+P preserves current names, headings, schema/missingness and sentiment while replacing scalar/signal/skill fields with one predetermined earlier train-only rank-vector donor; donor label exits precede validation/test. This supplies a reproducible structured replacement control, but not name-matched covariance, exposure matching or a distribution of placebo interventions. We report that limitation rather than describing it as a perfect information-only placebo.
 
-For the 18 legacy accounts, the release retains stored values and provides conditional $\sqrt{84}$ diagnostics from saved period returns under declared S=L=3. Authenticated annualised values remain unavailable. Mapping timestamps to the current price snapshot produces price mismatches in eight symbols and nonuniform BHN spans/steps, while even VJC's matching dates/prices do not authenticate complete historical inputs. We therefore do not divide every legacy ratio by $\sqrt{3}$ and call the result validated. Original prices, labels, predictions and artifacts remain unchanged; the 1–7 Full LONG cycles per symbol do not justify a profitability claim.
 
-Sixty-eight scoped account/risk/ablation/robustness/significance/baseline tests pass, including schedule and undefined-value regressions, CSV JSON/NA and resume behavior. Nine changed Python files compile. AST checks preserve buying/selling, costs, wealth, target/label and inference/parser calculations; pre-task source files are archived separately. Hash/runtime checks reproduce the new outputs and retain all daily ledgers. A standalone conditional-ratio table was rendered and visually checked. Old full-system receipts apply to their archived source, not this changed engine. Full manuscript/formula/response/PDF integration remains pending; no new PDF location or full R5 closure is claimed.
+### R4.4
 
-## Supporting audit for Reviewer 1, comment 6 — legacy duplication and checkpoint lineage
+Actual-content integrity establishes delivery, not that the LLM used a factor semantically or that sentiment/alpha caused the decision. In the factorial panel mean AS-B BA is -9.52 pp and AS-P -11.90 pp; all seven descriptive BA family envelopes include zero, and all factorial account means are negative. We withdrew independent-alpha, sentiment-information and semantic-reasoning benefit claims.
 
-**Status: D1-16 audit completed on 03 November 2026; comment 6 remains open for its complete point-by-point response and manuscript/PDF closure. This audit does not authenticate legacy branch execution.**
 
-The new immutable `outputs/revision/legacy_lineage_v1/` release hashes all 47 artifacts in the benchmark, robustness and ablation trees. Thirty point-level JSON files yield 66 prediction streams and 1,320 variant records across nine symbols. Joining on actual symbol/cutoff, rather than row index or rounded accuracy, audits 573 within-symbol stream pairs. Twenty pairs share all 20 predictions: twelve are consistent with the documented within-sweep shared-control design, while eight remain unverified. The latter comprise Alpha-only FPT versus the three shared weights controls, Sentiment-only FPT versus the three shared normalisation controls, Full FPT w45 versus Full FPT ic_heavy, and Full VNM zscore_tanh versus Full VNM ic_heavy. The six FPT treatment/control pairs reduce to two underlying control streams, not six independent findings.
+### R4.5
 
-Confidence, risk/reward and elapsed times differ across the eight unverified pairs. Identical predictions, derived correctness/equity and stored `llm_structured` strings therefore establish neither record copying nor independent model requests. Actual prompts, responses, parent request IDs, served-model revisions and execution commits remain unknown. All 31 JSON artifacts have the same parsed content as their earliest retained Git blobs; current byte hashes and historical blob hashes are recorded separately. A file's Git commit is not represented as its execution commit.
+We distinguish interaction AS-A-S+B (mean +14.29 pp) from the post-hoc gap between AS mean BA and the observed best single component (zero here). A positive interaction in this small dependent panel is not validated synergy; every family envelope spans zero. The upstream AS-B mean of +4.76 pp on different support is retained separately and cannot replace the negative factorial or bounded main result.
 
-The audit preserves six historical runner/engine/graph source blobs and examines checkpoint loading, saving, deepcopy and variant flags. The source describes intentional reuse of a control within alpha-parameter sweeps but provides no parent request ID; legacy resume checks also lack complete data/config/prompt/model/code/repeat identity. The retained ablation runner selects each named variant from its own returned state, without a recorded import of robustness controls. No call-linked raw archive is present in the three legacy trees. These observations leave the historical cause unverified rather than assigning a cause by inference.
 
-The existing manuscript's `tab:disentangled_ablation` in `paper/sections/06_backtest_results.tex` already labels legacy four-way summaries unverified, retained for traceability and excluded from confirmatory attribution. It is unchanged in this audit. Corrected R4's 270 fresh decisions remain separate evidence and cannot repair missing legacy lineage retrospectively. No new PDF/page locator is claimed here. See `revision/audit_report.md` for field-level results, historical source locations and residual limits.
+Evidence: [outputs/revision/final_baselines_v1/baseline_contracts.json](../outputs/revision/final_baselines_v1/baseline_contracts.json); [outputs/revision/final_repeats_v1/contrasts.csv](../outputs/revision/final_repeats_v1/contrasts.csv); [outputs/revision/final_repeats_v1/donors.csv](../outputs/revision/final_repeats_v1/donors.csv); [outputs/revision/final_repeats_v1/pairing.csv](../outputs/revision/final_repeats_v1/pairing.csv); [outputs/revision/final_repeats_v1/report.md](../outputs/revision/final_repeats_v1/report.md); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json).
 
-Nine targeted auditor tests and compilation of its two new Python files pass; the offline check verifies source/output hashes and reproduces the audit in a fresh process. No API calls, historical-artifact edits or runtime/PIT/prompt changes occur, so full-suite/E2E/leakage reruns are not required for this task. D2-13's component/upstream/license attribution remains pending.
 
+Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:24](../paper/sections/05_experimental_setup.tex) (`P retains`); [paper/generated/t01_scope.tex:6](../paper/generated/t01_scope.tex) (`\label{tab:scope}`); [paper/generated/t04_repeats.tex:6](../paper/generated/t04_repeats.tex) (`\label{tab:repeats}`).
 
-## Supporting analysis for Reviewer 1, comment 15 - execution sensitivities
 
-**Status: D2-07 completed on 03 November 2026; R15 remains open for venue/date/calendar certification, the separate horizon study and final manuscript/response/PDF integration.**
+## R5 — Uncertainty, HAC and risk conventions
 
-The new `outputs/revision/execution_sensitivity_v1/` release evaluates twelve declared scenarios on the same 102 units, 918 fixed classifier predictions and 510 symbol-block accounts, including the continuous-hold price comparator. All 510 reference accounts reproduce the frozen return, drawdown, orders, fees and slippage. The 6,120 scenario-account executions are not new independent market observations. Results average 51 separate accounts per variant, not a pooled portfolio; source labels, L=3 and model decisions are unchanged.
 
-The model separates settled cash, pending receivables and settled/unsettled shares, with open/close event phases and no fabricated clock time from the 07:00 daily-bar timestamp. It models pending T+2 proceeds, on-demand or automatic advance at an assumed 15% ACT/365 rate, lower/higher transaction costs and a separate 10bp sell-charge stress. The dated VSD source and the assumptions are recorded in `revision/r15_execution_policy.json`; the source does not certify every rule or broker service in the multi-year sample. Because the two decisions per account are 57 observed sessions apart, pending and on-demand advance do not change empirical returns. Dense synthetic schedules test the cash-reuse boundary without being presented as empirical settlement evidence.
+### R5.1
 
-Zero-volume/flat-bar screens, delayed orders, whole lots of 100 and a planning cap of 1% trailing-20-session mean Volume are explicit sensitivity bounds. Daily proxies are ex-post fill screens, not knowledge available to a strategy at open, certified limit locks or evidence of partial fills. The cap uses past volume only and assumes vendor volume units equal shares; it does not certify actual participation or queue priority. Blocked sales retain MTM stock rather than synthetic liquidation. One continuous-hold account remains unliquidated in each lot/cap and combined scenario and is flagged; Full/Base terminal positions are flat.
+Primary main BA inference is a descriptive 10,000-draw paired whole-block interval: Full-Base +3.25 pp, interval [-1.18,8.13] pp. Exact discordance is a separate accuracy diagnostic (9 Full-only versus 4 Base-only correct; nominal p=0.266846), whose independence assumption is not certified. Neither procedure is presented as proof of significance or a zero effect; block/null diagnostics show that nominal coverage is not calibrated.
 
-Full mean account return is -0.884% in the reference, -0.707% with lower costs, -1.279% with higher costs, -0.923% with automatic advance and -1.154% in the combined scenario. Every scenario with Full fills remains negative. The all-missed endpoint yields CASH at zero; avoiding losing trades does not establish predictive improvement, alpha or profitability, and scenario minima/maxima are not guaranteed mathematical bounds. All controls and scenarios are reported without selecting a favorable replacement for the original results.
 
-The release retains 8,420 events and 394,560 daily state records, with support and residual positions explicit. Twenty-seven scoped tests pass (13 execution and 14 baseline PIT/daily-ledger tests), three new Python files compile, and source/runtime checks reproduce all outputs. A standalone table was rendered and checked; the frozen R4 manuscript/PDF is unchanged, so no new manuscript locator or full R15 closure is claimed. Official historical calendars, venue/date price-band and auction rules, queue/fill data, volume units, statutory taxes, broker tariffs, corporate actions and L=5/10 inference remain unverified or separate work. No API calls or historical-artifact edits occur.
+### R5.2
 
+S4 includes all six actual HAC rows. Common-eight mean accuracy difference is +3.125 pp, with lag-0/1/2 SEs 0.026042/0.023146/0.020172 and p=0.255346/0.204107/0.149610. Recent-nine is +9.259 pp, SEs 0.040713/0.047112/0.045710 and p=0.072051/0.106554/0.098654. Lags count selected dates, not consecutive sessions; Bartlett estimates with a t(dates-1) reference remain small-sample sensitivity diagnostics.
 
-## Supporting response for R11 — target definition and evaluation schema
 
-**Status: D2-08 completed on 03 November 2026; R11 addressed with explicit legacy-provenance limits.** The current schema revision is released separately in `outputs/revision/target_manuscript_v1/` (both PDFs, logs and source archive). Earlier frozen releases remain unchanged. R1–R4 page locators are retained; the new table changes the automatic Appendix F table reference on physical page 18. Separate R5/R15 manuscript work remains pending.
+### R5.3
 
-We corrected the state table's log Close-to-Close label description. The primary outcome remains Eq. (4): candidate next-Open-to-target-Close LONG return after the 0.25% fee and 0.10% slippage on each leg, UP only when strictly positive. Zero maps to DOWN. Gross return and its label are separate secondary fields. SHORT forecasts DOWN and executes CASH in the long-only ledger; it is not a short sale or a zero market label. A complete observed-bar horizon is required; holidays use bar positions rather than fabricated calendar dates.
+We separate pooled confusion-cell metrics from unweighted means over symbols and from 51-account economic means. Every export retains planned/defined counts and class support; undefined BA/MCC/risk ratios remain NA/null. BHN has six eligible units rather than twelve, and overlapping 102/96/54 cohorts are not added. A table Mean is never represented as an extra pooled independent observation.
 
-New engine, robustness and ablation evaluation records store decision Close, entry Open, target Close, gross/net return, both labels, positions/horizon and immutable label costs under `net_cycle_v1`. These realised outcomes are created after inference, outside model inputs. Percent aliases remain for compatibility; canonical returns are fractions and need not equal executed account returns. Incomplete or contradictory canonical records are rejected. Execution stress does not replace label costs or relabel the target. A graph-backed run with costs different from the frozen prompt contract fails before client initialization until a separately versioned prompt/protocol is provided.
 
-We do not mechanically rename historical `actual_prev_close`. Of 600 legacy point records, 178 equal entry Open; equality alone cannot establish the original field meaning. All 600 audited legacy decision closes remain null/unverified without authenticated original snapshots. The original records remain byte for byte. The audit reconstructs 102 targets from their known frozen frame and reconciles 918 stored net/gross labels; seven units differ between net and gross. This arithmetic check does not retrospectively authenticate the legacy submission.
+### R5.4
 
-The appendix separates selected runtime fields from the evaluation schema. The Decision example is an English illustration generated from the unchanged compact builder, not a claimed actual request or strict translation of archived Vietnamese prompts. All 760 archived Decision attempts inspected (486 R1, 274 R4, including smoke and failed/retried attempts) contain the two-sided net-cost instruction. The legacy daily `T+2.5` display string denotes L=3 in that interface, not a verified settlement guarantee. Prompt source matches its archived R4 hash. There is no new inference or outcome-dependent target selection.
+We removed annualized cycle Sharpe/Sortino claims for irregular, gapped schedules. Where daily-ledger ratios are supplied, Sharpe uses population daily SD, a 252-session convention and zero risk-free rate; retained Sortino uses SD of negative daily observations rather than downside RMS. Daily-close drawdown includes an initial-capital anchor. These explicit conventions do not make sparse risk estimates reliable investment-quality evidence.
 
-Locations in both new PDFs: Appendix B.1, physical pages 50–51 (printed 48–49); selected state Table C.36 and alias discussion, physical page 55 (printed 53); canonical evaluation Table C.37, physical page 56 (printed 54). Eq. (4) and numerical target/alpha calculations are unchanged. The audit locks 822 source/seven output hashes; fresh-process replay reproduces all seven outputs. Ninety-six scoped tests and compilation of nine changed Python files pass, including gap/zero/cost/holiday/incomplete-horizon cases, checkpoint propagation, outcome exclusion from model inputs and relevant PIT/leakage regressions. Both 63-page PDFs were built; affected pages were rendered and visually checked. Original snapshot/model-serving provenance and separate execution-certification questions remain explicitly unverified.
 
+### R5.5
 
-## Supporting response for R12 — deterministic indicator rules and actual feature path
+We disclose few trades, long CASH gaps and separate account funding. Main cutoffs within blocks are 57 observed sessions apart, so comparable pending-cash/advance results are weak evidence about rapid capital reuse. Negative account means and poorly identified risk ratios cannot demonstrate deployable profitability; raw account/ledger rows and twelve sensitivities remain available privately.
 
-**Status: D2-09 completed on 03 November 2026; R12 addressed within the implemented-rule scope.** We corrected Table 1 and Appendix E to match the ordered classifier, including RSI thresholds and its middle-zone trend fallback. RSI >=70 is bearish, <=30 bullish, 55<=RSI<70 bullish and 30<RSI<=45 bearish. For 45<RSI<55, the current retained value is compared with the third-from-last when three values exist; equality or insufficient history is neutral. The previous “otherwise neutral” statement was incomplete. All lists are independently cleaned and rounded to four decimals before classification, so retained samples need not be adjacent bars with missing input values.
 
-The revised appendix also specifies crossover precedence, equality, histogram expansion/contraction, Stochastic's legacy equality/zero-D fallback, Williams thresholds/trends and strict ROC ±0.5% boundaries. Missing/error indicators remain neutral votes in the denominator of five; this is an implementation fallback, not evidence of neutral markets. Consensus is a directional plurality with MIXED ties. Confidence categories are deterministic labels rather than calibrated probabilities. The wording now calls these momentum/trend indicators.
+Evidence: [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md); [outputs/revision/final_contracts_v1/risk_cycles.csv](../outputs/revision/final_contracts_v1/risk_cycles.csv); [outputs/revision/final_temporal_v1/calendar_panel.csv](../outputs/revision/final_temporal_v1/calendar_panel.csv); [outputs/revision/final_temporal_v1/panel_hac.csv](../outputs/revision/final_temporal_v1/panel_hac.csv); [outputs/revision/final_temporal_v1/report.md](../outputs/revision/final_temporal_v1/report.md).
 
-The Indicator node invokes only MACD, RSI, ROC, Stochastic and Williams tools and returns a report plus messages. It does not populate the declared numeric arrays. Bollinger/ADX state declarations therefore do not establish an additional indicator vote or delivery to the Decision Agent. Bollinger features are computed separately for alpha evidence; the Indicator node does not call/forward ADX. In backtests, the report is deterministic without an Indicator LLM call. The live prompt instructs copying the Python labels/counts; we do not claim perfect model compliance.
 
-The new offline release contains 67 indicator cases and five consensus cases, with explicit expected outcomes, plus a real-toolkit synthetic path check. It makes no new empirical prediction claim. Locations: Section 4.1 and Table 1, main physical pp13–14 / submission p13; selected state Table C.36, main p56 / submission p55; Appendix E, main pp59–60 / submission pp58–59. Current printed/physical mappings are retained in the manuscript manifest.
+Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:27](../paper/sections/05_experimental_setup.tex) (`BA averages`); [paper/generated/t05_temporal.tex:6](../paper/generated/t05_temporal.tex) (`\label{tab:temporal}`).
 
-## Supporting response for R13 — signed-volume Alpha_4 and custom-factor terminology
 
-**Status: D2-09 completed on 03 November 2026; R13 addressed without changing the evaluated formula or prompts.** Alpha_4 remains tanh((%B-0.5) * VolZ5 * 1.5). A negative volume z-score reverses the price-position sign; zero z-score or %B=0.5 makes the interaction zero. Absolute nonzero z-score does not establish expansion. The formula contains neither a band-width squeeze gate nor a temporal crossing test. Prototype signal thresholds are strictly above +0.10 or below -0.10 before display rounding. Nine signed examples and two small-magnitude neutral cases make these distinctions explicit; three further array-based oracles separately check the rolling registry, whose sample-SD preprocessing differs from the prototype's population-SD/rounded-feature path.
+## R6 — Legacy lineage and duplicated results
 
-We replaced proprietary with custom in the article and replaced the pipeline illustration with editable LaTeX using “5 Custom”; the historical PNG remains unchanged. Flow-Driven Momentum, Bollinger Squeeze & Flow and Order Flow Exhaustion remain legacy identifiers. “Flow”, “liquidity” and “pressure” refer to OHLCV proxies, not measured aggressor-side trades, order-book queues or institutional flows. Legacy breakout/volume-confirmation text in runtime metadata and prompt archives is preserved for replication and explicitly qualified in the manuscript. A gate such as max(VolZ5,0) would be a distinct preregistered experiment; it has not been substituted into existing results.
 
-Locations: custom formulas and interpretation in Section 4.2/Table 2, physical p15 in both versions; Figure 1, p16; Appendix D Alpha_4, main pp58–59 / submission pp57–58; signed Table D.38, main p59 / submission p58. Seven scoped tests cover 86 total synthetic cases across R12/R13 and the toolkit path. Compilation of two new Python files, source/runtime hash checks and fresh-process byte reproduction pass. Nine scoped runtime/prompt sources match the frozen R4 hashes; no evaluated formula, model prompt, prediction or market input was changed, and no API was called. Both new PDFs were built and affected pages visually checked. These arithmetic cases do not establish predictive alpha, ownership, novelty or profitability; registry/selection, chart and execution questions remain separately assessed.
+### R6.1
 
+The legacy audit compares 47 artifacts, 66 streams and 573 pairs; twenty pairs have complete duplicated sequences, including eight execution-unverified cases and twelve intended-shared-control cases with unverified parents. Byte/prediction matching and early Git matches are traceability evidence only. No authenticated original request set establishes the executed root cause, which remains unknown.
 
-## Supporting response for R14 — chart convention, legend and actual image inputs
 
-**Status: software, fixture and archive audit completed; R14 remains open for the empirical corrected-chart paired rerun.** We corrected the inverted comments and prose: green style #006340 is Close > Open, red #A02128 is Close < Open. Body colours do not use a quote-board reference price or previous Close. Doji has zero body height; its library-selected down facecolour is not a bearish forecast. The PNG blends alpha 0.9 on white. The study used the static renderer's 150-DPI path, rather than the separately available 600-DPI prototype export.
+### R6.2
 
-The audit found a further historical input defect. Although the plotted close-support/resistance lines and chart title are blue/red, the static renderer passed labels without handles and attached the Support/Resistance legend swatches to black wick/candle-body artists. All 107 retained Trend images have those swatches. Testing legend text and plotted line colours alone was insufficient; the corrected regression inspects legend handles as well. Renderer version `static_legend_handles_v2` now binds the two actual lines. English template version `trend_blue_en_v2` also replaces its incorrect green-support instruction and example with blue. Vietnamese prompt text is unchanged when the image is held fixed; actual corrected image messages differ.
+We cannot retrospectively certify the old Full/No-Alpha/ablation branch labels or independent execution. We have not relabelled, edited or regenerated old outcomes to match a narrative. Those legacy tables no longer support causal component attribution or robustness claims. Final comparisons instead have distinct stored request/response identities and checked parents, while retaining their own order/epoch limitations.
 
-The release reproduces all 214 retained images byte for byte and pixel for pixel from the authenticated frozen prices and historical renderer source. It matches all 270 actual upstream image attempts (140 Pattern, 130 Trend, including retries, smoke and repeated executions) to the correct unit/shard cache and feature hash. Thus the legend issue cannot be dismissed as unused source code. All 130 Trend attempts use the Vietnamese template; its nonspecific word xanh is interpreted in the presence of the image title and swatches. We cannot infer what the hosted model understood or quantify the effect from source/fixtures alone. Unknown legacy-submission inputs remain unauthenticated. Original images, requests, responses, prices and predictions remain unchanged.
 
-The 45-bar synthetic fixture contains known gap/up/down/doji cases and is checked through four real rendering paths. Seventy-eight targeted tests, compilation of nine Python files and the full offline image replay pass. New figures, prose and the explicit limitation were built into both PDFs and visually checked. Locations: Sections 4.4–4.5 physical pp16–18, L4 p38, Appendix F pp61–63 and Figure F.4 p62 in both versions. See `outputs/revision/chart_convention_v1/` for raw-source copies, inventories, PNG fixtures and the frozen rerun protocol.
+### R6.3
 
-Because the legend repair changes the actual Vietnamese image input, a fresh shared-upstream comparison is required. The separate run preserves prices, market units, targets, factors, news, donors, models, branch order and repeat counts. Unchanged Pattern calls replay only on exact request/context equality; a miss stops before network. Corrected Trend is recomputed once per shared realization, then all affected Decision branches are rerun. The original compressed-report study and repaired full-value policy remain distinct. The proposal schedules 120 research Trend calls, 474 R1 decisions and 270 R4 decisions, plus 15 smoke calls; retries remain under the author-authorized Free provider-only routing, without restored internal caps, quota purchases or model substitutions. The new run has passed all five smokes (15 fresh calls, ten decisions), and research checkpointing has reached 138/474 R1 decisions and 6/270 R4 decisions before the workers stopped with provider-quota checkpoints. All 120 research Trend groups are complete. The R1 run has 284 new attempts plus separately identified copied/replayed Pattern inputs; R4 has ten attempts. Full raw/lineage checks pass for the saved decisions. A 110-file source snapshot preserves the frozen execution code for later resume. No corrected-renderer performance analysis is substituted for the old results, no corrected-English result is claimed, and R14 is not closed from tests or a partial run.
+Repeated legacy return values such as -7.85/-7.38 are not treated as proof of matched controls, independent repeats or a specific caching bug. The audit records exact duplicated streams without inferring an unobserved execution. New paired/factorial results use their own frozen support and requests; neither their completion nor unit tests authenticate the historical duplicates.
+
+
+Evidence: [outputs/revision/final_repeats_v1/pairing.csv](../outputs/revision/final_repeats_v1/pairing.csv); [outputs/revision/legacy_lineage_v1/comparisons.json](../outputs/revision/legacy_lineage_v1/comparisons.json); [outputs/revision/legacy_lineage_v1/report.json](../outputs/revision/legacy_lineage_v1/report.json).
+
+
+Current source locations (not PDF locators): [paper/sections/07_limitations.tex:5](../paper/sections/07_limitations.tex) (`Byte-level duplication`).
+
+
+## R7 — Sentiment counts, provenance and domain validation
+
+
+### R7.1
+
+We withdraw the claim of 8,180 authenticated news articles. The retained legacy files contain 180 article records but 177 unique identities, with three excess duplicate identities; these are article records, not 180 independent prediction cutoffs or validated sentiment labels. All 180 historical scorer identities are unknown. The separate 102-unit evaluation and 154 rescored excerpts have distinct provenance scopes.
+
+
+### R7.2
+
+The inventory provides article identities/counts by symbol; the cutoff coverage export separately records eligible, missing and available-neutral states and unique article memberships. Under corrected strict scorer-provenance/availability rules none of the 180 legacy cutoffs has an accepted three-article set. This is a rule/provenance outcome, not evidence that no historical news existed; main frozen-report delivery is audited separately.
+
+
+### R7.3
+
+We separate raw records, unique identities, dated records, accepted provenance and cutoff memberships instead of reusing one percentage for incompatible denominators. Of 180 legacy date records, 155 agree with the frozen date audit and 25 do not; date parsing alone does not verify original publication. Unknown legacy scorer provenance is not reclassified as ViSoBERT or lexicon output. Repaired scoring does not overwrite the historical cache.
+
+
+### R7.4
+
+Availability requires at least three distinct accepted-provenance finite-score articles in a 90-day window; missing is not an observed neutral value. The frozen weighted score has a 30-day half-life. The normalizer receives empty article-detail/peer lists on this path, so its z-score/relative fields are zero; its >=8 reliability flag differs from >=3 report availability. We do not equate a false reliability flag with an unavailable weighted report.
+
+
+### R7.5
+
+The legacy FPT Sentiment-only result cannot authenticate a sentiment-information benefit: counts are sparse, strict provenance/availability is unresolved and branch execution is unverified. It is removed as evidence of component value. The actual S/AS factorial report presence and outcomes are described separately; delivering a sentiment section does not establish that its content is correct or causal.
+
+
+### R7.6
+
+The text cites the ViSoBERT backbone and separately identifies 5CD-AI/Vietnamese-Sentiment-visobert at revision d7738b85200272f10ba8b048d80236c8c582b581. It reports NEG/POS/NEU, P(POS)-P(NEG), a 256-token limit and the saved scoring recipe. The XLM-R-derived social-media backbone is not conflated with the downstream classifier or a model trained/validated on Vietnamese financial news.
+
+
+### R7.7
+
+No independently labelled financial-news set, agreement/adjudication study or domain test performance is available. We therefore withdraw financial-domain accuracy/reliability claims and explicitly disclose social-media domain mismatch. Offline probability/tokenizer checks on 154 saved rescores are implementation checks, not domain validation. This requested validation remains unfulfilled; it has not been replaced by labels invented by an LLM.
+
+
+### R7.8
+
+Date-only content is made available the following day by an explicit conservative rule, but neither that rule nor URL/content hashes authenticate original content or publication availability. The corpus is not claimed to be PIT certified. Independent news provenance/domain validation remains missing, so sentiment delivery, coverage and Full-Base differences cannot certify historical information effects.
+
+
+Evidence: [outputs/revision/legacy_lineage_v1/report.json](../outputs/revision/legacy_lineage_v1/report.json); [outputs/revision/reference_audit_v1/reference_audit.json](../outputs/revision/reference_audit_v1/reference_audit.json); [outputs/revision/sentiment_contract_v1/scorer_tokenizer.json](../outputs/revision/sentiment_contract_v1/scorer_tokenizer.json); [outputs/revision/sentiment_contract_v1/summary.json](../outputs/revision/sentiment_contract_v1/summary.json); [outputs/revision/sentiment_coverage_v1/coverage.json](../outputs/revision/sentiment_coverage_v1/coverage.json); [outputs/revision/sentiment_coverage_v1/summary.json](../outputs/revision/sentiment_coverage_v1/summary.json); [outputs/revision/sentiment_inventory_v1/inventory.json](../outputs/revision/sentiment_inventory_v1/inventory.json); [outputs/revision/sentiment_inventory_v1/summary.json](../outputs/revision/sentiment_inventory_v1/summary.json).
+
+
+Current source locations (not PDF locators): [paper/sections/03_problem_formulation.tex:37](../paper/sections/03_problem_formulation.tex) (`Legacy inventory`).
+
+
+## R8 — Attribution and the meaning of aggregation
+
+
+### R8.1
+
+The architecture and related work now attribute Indicator, Pattern, Trend and Decision roles, shared state, chart tools and trendline procedures to reused/modified QuantAgent components. The repository attribution inventory distinguishes reuse, modifications and additions. The figure follows implemented roles; it does not add a learned fusion module to make a novelty claim.
+
+
+### R8.2
+
+We restrict contributions to daily Vietnamese-equity adaptation, the implemented factor/sentiment path, protocol and auditable historical comparisons. Neither an added component nor a registered factor catalogue by itself establishes scientific novelty, improved reasoning or profitable trading. Native causal defects, domain uncertainty and negative/bounded comparisons qualify the contribution explicitly.
+
+
+### R8.3
+
+The repository includes LICENSES/QuantAgent-MIT.txt and THIRD_PARTY_NOTICES.md with upstream attribution and the scoped MIT notice. This does not license all author additions, data, news, models or hosted outputs for public redistribution. The archive rights register keeps those permissions pending rather than applying the upstream MIT licence to the whole package.
+
+
+### R8.4
+
+We acknowledge inherited high-frequency/K-line wording in actual frozen prompts despite using daily bars. The manuscript states this mismatch and retains exact original prompts in the private evidence package rather than silently editing them and attributing the old predictions to a new prompt. Application frequency is not represented as identical to the upstream HFT setting.
+
+
+### R8.5
+
+We replaced the stronger knowledge-fusion framing with prompt-level report aggregation. Distilled/capped reports and heuristic precedence instructions prefer price/chart evidence, allow factors to challenge it and give sentiment lower priority. There is no separately validated explicit knowledge representation, learned/calibrated evidence weighting or guaranteed conflict-resolution algorithm. The observed Decision prompt maximum is 4,187 characters under the 6,500 guard.
+
+
+Evidence: [LICENSES/QuantAgent-MIT.txt](../LICENSES/QuantAgent-MIT.txt); [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/quantagent_attribution_v1/attribution.json](../outputs/revision/quantagent_attribution_v1/attribution.json); [outputs/revision/quantagent_attribution_v1/prompt_inventory.json](../outputs/revision/quantagent_attribution_v1/prompt_inventory.json); [outputs/revision/quantagent_attribution_v1/provenance.json](../outputs/revision/quantagent_attribution_v1/provenance.json).
+
+
+Current source locations (not PDF locators): [paper/sections/02_related_work.tex:5](../paper/sections/02_related_work.tex) (`QuantAgent`); [paper/sections/04_system_architecture.tex:7](../paper/sections/04_system_architecture.tex) (`QuantAgent`).
+
+
+## R9 — Reproducibility, model provenance and public archive
+
+
+### R9.1
+
+A byte-indexed private package retains reconstructed OHLCV/news inputs, saved sentiment artifacts and model/tokenizer metadata; the T34 package adds final analyses, source snapshots and S1-S4. These are reconstructed research inputs, not an authenticated submission-time snapshot. Publication/content provenance remains bounded, and missing rights prevent claiming that the exact private package is publicly available.
+
+
+### R9.2
+
+Pinned runtime/dependency manifests replace latest-based reproducibility claims. The T23 replay used Python 3.13.5 and NumPy 2.1.2 from a hashed runtime image in a fresh isolated venv without pip/network/user-site access. Installed interpreter/stdlib are shared, and the Windows pins/runtime clone are not original wheels or a portability proof for other OS/CUDA environments.
+
+
+### R9.3
+
+The private evidence preserves prompts/images, upstream reports, requests, responses/errors, parse/checkpoints and call identities. Final closure accounting has 649 attempts, 615 successes, 34 errors, 1,063,328 observed prompt tokens and 340,736 completion tokens. The 120 original Pattern calls are replayed shared dependencies, not 120 new calls; successful latency sums are not wall-clock time, and error usage/latency and monetary billing remain unknown.
+
+
+### R9.4
+
+We state exactly the archived SDK aliases openai/gpt-oss-20b (text) and qwen/qwen3.8-27b (vision), not an independently attested catalogue entry or immutable served revision. Forty response fingerprints and near-zero SDK temperature do not certify fixed weights; no hosted seed is recorded. Ninety-one original Pattern requests lack epoch/org fields. Historical provider-catalogue/weight attestation is unavailable; no new provider probe was run to fill it.
+
+
+### R9.5
+
+The final archive remains a local private draft: PID is null and public release is not authorized. Author-addition licensing, OHLCV redistribution, CafeF excerpts, model assets and hosted-output sharing terms require decisions; the QuantAgent notice alone is insufficient. We prepared offline verification/assembly instructions and an itemized rights register. We cannot provide a genuine DOI until the author has permission and publishes a suitable version; this request remains incomplete.
+
+
+### R9.6
+
+The existing no-network package-only replay reproduced 375 saved predictions, 684 T04 accounts and 37 tensors from the archived inputs, with zero unexpected external reads/network/process attempts in its isolation report. T34 verifies bytes and round-trip archive contents; it does not rerun that replay, inference, scoring or model fitting. The archive distinguishes original base evidence, the NumPy runtime image and the final response/source overlay so versions are not silently substituted.
+
+
+Evidence: [outputs/revision/clean_replay_v1/metrics_qa.json](../outputs/revision/clean_replay_v1/metrics_qa.json); [outputs/revision/final_cost_integrity_v1/report.json](../outputs/revision/final_cost_integrity_v1/report.json); [outputs/revision/final_regression_v1/report.json](../outputs/revision/final_regression_v1/report.json); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/reproducibility_v1/manifest.json](../outputs/revision/reproducibility_v1/manifest.json); [outputs/revision/reproducibility_v1/rights.json](../outputs/revision/reproducibility_v1/rights.json); [outputs/revision/sentiment_inventory_v1/summary.json](../outputs/revision/sentiment_inventory_v1/summary.json).
+
+
+Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:34](../paper/sections/05_experimental_setup.tex) (`Archived SDK aliases`); [paper/sections/availability.tex:1](../paper/sections/availability.tex) (`\section`).
+
+
+## R10 — Selection diagnostics and auxiliary numeric controls
+
+
+### R10.1
+
+Native frequency diagnostics cover all 85 candidates at all 102 cutoffs: 8,670 opportunities and 510 selected slots. WQ42 appears at 52/102 cutoffs (52/510 slots). Full per-factor eligible/opportunity denominators and zero selections remain in the registry diagnostics. These dependent in-sample counts are not out-of-sample discoveries or evidence that selecting five eliminated multiplicity.
+
+
+### R10.2
+
+We report 1,282 adjacent nonzero-IC sign flips over 7,894 eligible transition pairs, alongside per-factor sign/support and basket turnover. Native orientation/ranking is fitted on the trailing diagnostic sample. Row-wise causal probes fail for delay-bfill, whole-Series normalization and the full-frame volume branch; an outer-cutoff fixture passing does not cure that failure or make sign stability causal.
+
+
+### R10.3
+
+We provide a separate train-fitted numeric fixed-custom-five control, with eligibility, imputation, scaling and orientation fitted only on purged training data. Dynamic-minus-fixed BA is +15.84 pp, nominal six-block sign-flip p=0.0625. This is not the requested fixed-factor hosted-LLM experiment and does not retrospectively repair native LLM inputs; that stronger experiment remains unperformed and the corresponding claims are withdrawn.
+
+
+### R10.4
+
+All twenty predeclared random eligible-five trials are retained, giving 23 numeric strategies and 2,346 predictions on 102 units. Dynamic-minus-random-family and dynamic-minus-no-flip BA differences are +7.33/+6.44 pp with exact six-block p=0.125/0.53125. Holm over all 23 declared hypotheses gives adjusted p=1 throughout. No seed is chosen by test outcome, and these controls do not constitute a completed Reality Check, Deflated Sharpe analysis or fixed/random LLM test.
+
+
+### R10.5
+
+The complete registry lists all 101 source WorldQuant expressions, 80 retained adaptations, five custom handlers and 21 omissions. Seventeen omissions involve industry neutralization, one market capitalization and three price/volume omissions lack an authenticated selection rationale. We retain those unknown reasons rather than presenting all omissions as necessary or mathematically justified.
+
+
+### R10.6
+
+Each retained expression is linked to the actual handler, operator calls, windows, tie/fill conventions and divergences, with separate fixtures and causal probes. The implemented time-series/proxy adaptations are not claimed equivalent to every source cross-sectional expression. Native leakage/normalization defects and custom registry-versus-prototype differences remain explicit; causal numeric adapters are a separate path, not a retroactive certificate for frozen native inputs.
+
+
+Evidence: [outputs/revision/alpha_contract_v1/leakage.json](../outputs/revision/alpha_contract_v1/leakage.json); [outputs/revision/alpha_contract_v1/summary.json](../outputs/revision/alpha_contract_v1/summary.json); [outputs/revision/alpha_registry_v1/registry.json](../outputs/revision/alpha_registry_v1/registry.json); [outputs/revision/alpha_registry_v1/summary.json](../outputs/revision/alpha_registry_v1/summary.json); [outputs/revision/alpha_selection_v1/aggregate.json](../outputs/revision/alpha_selection_v1/aggregate.json); [outputs/revision/alpha_selection_v1/transitions.json](../outputs/revision/alpha_selection_v1/transitions.json); [outputs/revision/numeric_controls_v1/inference.json](../outputs/revision/numeric_controls_v1/inference.json); [outputs/revision/numeric_controls_v1/summary.json](../outputs/revision/numeric_controls_v1/summary.json); [revision/numeric_controls_protocol.json](../revision/numeric_controls_protocol.json).
+
+
+Current source locations (not PDF locators): [paper/sections/03_problem_formulation.tex:23](../paper/sections/03_problem_formulation.tex) (`The native row-wise causal gate fails.`); [paper/generated/t06_numeric.tex:6](../paper/generated/t06_numeric.tex) (`\label{tab:numeric}`).
+
+
+## R11 — Target definition and the legacy price alias
+
+
+### R11.1
+
+The text and exported contract now use the net Open[d+1]-to-Close[d+3] candidate-LONG target with fee 0.0025 and slippage 0.001 on each leg, UP iff net return >0. The old close-to-close state-schema description is not used as the truth definition. Seven gross/net label disagreements are disclosed; saved net-elicited decisions and labels are not altered to fit the correction.
+
+
+### R11.2
+
+Canonical exports distinguish decision Close, entry Open and exit Close. The legacy actual_prev_close field has unresolved semantics and is not authenticated as decision Close because it matches entry Open. The two prices differ at 65/102 final units. We document the alias and preserve raw legacy records instead of silently renaming a historical number or recomputing its labels.
+
+
+Evidence: [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md); [outputs/revision/final_contracts_v1/targets.json](../outputs/revision/final_contracts_v1/targets.json); [revision/target_schema.json](../revision/target_schema.json).
+
+
+Current source locations (not PDF locators): [paper/sections/03_problem_formulation.tex:14](../paper/sections/03_problem_formulation.tex) (`actual\_prev\_close`).
+
+
+## R12 — Indicator identities and priority rules
+
+
+### R12.1
+
+Appendix A1 gives ordered RSI rules: RSI>=70 is bearish first; RSI<=30 bullish; 55<=RSI<70 bullish; 30<RSI<=45 bearish. The interior 45<RSI<55 uses change against the third retained sample rather than being automatically neutral. Order and boundaries prevent RSI>=70 satisfying both directions. We describe the implemented rule rather than claiming RSI independently predicts profitable returns.
+
+
+### R12.2
+
+The five actual Indicator votes are MACD, RSI, Stochastic, Williams %R and ROC, described as momentum/trend indicators rather than five volatility oscillators. Their exact ordered thresholds and missing/error convention are in Appendix A1 and the frozen indicator contract. The backtest node is deterministic, not an extra Indicator LLM call.
+
+
+### R12.3
+
+We distinguish declared BB/ADX state slots from numeric arrays/reports actually delivered by the Indicator node. Their presence in an old schema does not imply two additional Indicator votes or an observed volatility signal. Bollinger-derived values on the alpha path are a separate computation; missing numeric state is not invented to match a table.
+
+
+### R12.4
+
+The architecture, shared methods and Appendix A1 now use one five-vote contract with the same priority boundaries. Missing/error votes remain in the denominator of five rather than renormalizing only available indicators. Consensus/report text is not represented as a full numeric state-array payload, and the old contradictory indicator table is replaced.
+
+
+Evidence: [outputs/revision/final_contracts_v1/indicators.json](../outputs/revision/final_contracts_v1/indicators.json); [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md).
+
+
+Current source locations (not PDF locators): [paper/generated/a01_rules.tex:6](../paper/generated/a01_rules.tex) (`\label{tab:indicator_rules}`).
+
+
+## R13 — Signed-volume custom factor descriptions
+
+
+### R13.1
+
+We now describe native BFE/SignedVolZAlpha4 as tanh(1.5*(%B-0.5)*VolZ5). Negative VolZ5 reverses sign and zero cancels the signal, so it cannot be described as merely confirming volume expansion. The frozen handler/output is not edited to make the previous prose correct.
+
+
+### R13.2
+
+We withdrew unsupported volume-expansion and squeeze gating descriptions and disclose signed multiplication, proxy inputs and registry/prototype preprocessing differences. The custom appendix separates handler IDs from display rank: selected slot four is not necessarily BFE. Six selected metadata slots disagree with handler descriptions; their actual prompts omit the literal wrong formula, but a semantic effect is not ruled out.
+
+
+### R13.3
+
+The scientific text now calls the five formulas custom, not proprietary, and distinguishes source adaptations from new-to-this-comparison implementation choices. No order-flow measurement, protected formula, mathematical source equivalence or investment alpha is inferred from the custom labels. Full definitions remain in Appendix A2 and the registry.
+
+
+Evidence: [outputs/revision/alpha_contract_v1/summary.json](../outputs/revision/alpha_contract_v1/summary.json); [outputs/revision/alpha_registry_v1/registry.json](../outputs/revision/alpha_registry_v1/registry.json); [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md).
+
+
+Current source locations (not PDF locators): [paper/generated/a02_custom.tex:6](../paper/generated/a02_custom.tex) (`\label{tab:custom_definitions}`).
+
+
+## R14 — Chart conventions, corrected inputs and visual limits
+
+
+### R14.1
+
+We withdrew the green-bearish/red-bullish claim. Actual candle bodies are green when Close>Open and red otherwise, including doji; the price-board reference-price convention is a different comparison. Corrected Trend maps support to blue and resistance to red. The manuscript now states actual render rules rather than invoking an inaccurate national convention.
+
+
+### R14.2
+
+The final integrity audit rerendered 204 PNGs for 102 frozen windows byte/pixel exactly and checked 240 actual vision requests against cached images/templates. Geometry, body colour, support/resistance handles and legend agree. The source figure labelled fig:charts uses exact PNG bytes for the earliest eligible unit (CMG, 3 July 2023), selected chronologically rather than by outcome; its final PDF number awaits build. Legacy wrong-legend images remain historical evidence and are not overwritten.
+
+
+### R14.3
+
+The final whitelist has real corrected-Trend and Decision calls with original Pattern raw-response replay; only its 375 complete jobs enter final results, not incomplete superseded grids. This is not a randomized old/new-image-only effect experiment. Pixel/template agreement does not validate visual comprehension, and Vietnamese xanh remains ambiguous. Counterfactual charts or human local-evidence annotations were not performed; stronger semantic claims are withdrawn.
+
+
+Evidence: [outputs/revision/final_cost_integrity_v1/actual_images.csv](../outputs/revision/final_cost_integrity_v1/actual_images.csv); [outputs/revision/final_cost_integrity_v1/chart_replay.json](../outputs/revision/final_cost_integrity_v1/chart_replay.json); [outputs/revision/final_cost_integrity_v1/report.json](../outputs/revision/final_cost_integrity_v1/report.json); [outputs/revision/final_cost_integrity_v1/report.md](../outputs/revision/final_cost_integrity_v1/report.md).
+
+
+Current source locations (not PDF locators): [paper/sections/04_system_architecture.tex:17](../paper/sections/04_system_architecture.tex) (`Candle bodies are green`).
+
+
+## R15 — Execution, settlement and horizon assumptions
+
+
+### R15.1
+
+The reference ledger assumes shares become sellable in the afternoon of T+2 conditional on allocation/fill, and sale proceeds remain pending until the specified settlement phase. We distinguish marked wealth, liquidated cash, pending receivables and advances/fees. The historical settlement source is cited, but an assumed phase convention is not proof that an actual opening/closing order would fill.
+
+
+### R15.2
+
+The paper reports all twelve cost, pending-cash, advance, tax/charge, no-fill/delay and lot/capacity scenarios on unchanged predictions. Daily OHLC/vendor-volume proxies do not authenticate opening auction queues, price-limit availability, partial fills or units. Ten HVN venue/calendar unit flags remain flagged; they are not silently excluded or converted to certified trades. The all-missed zero result is not a mathematical worst-return bound.
+
+
+### R15.3
+
+L=3 is a fixed observed-bar protocol choice: buy on d+1 and exit on d+3, two observed sessions after entry, with three bars including entry. We do not infer horizon optimality from settlement or claim it dominates alternatives. Costs and executable-price assumptions are stated separately from the classification target and its unchanged saved decisions.
+
+
+Evidence: [outputs/revision/execution_evidence_v1/report.md](../outputs/revision/execution_evidence_v1/report.md); [outputs/revision/execution_evidence_v1/sample_audit.json](../outputs/revision/execution_evidence_v1/sample_audit.json); [outputs/revision/execution_evidence_v1/sources.json](../outputs/revision/execution_evidence_v1/sources.json); [outputs/revision/execution_final_v1/report.md](../outputs/revision/execution_final_v1/report.md); [outputs/revision/final_contracts_v1/targets.json](../outputs/revision/final_contracts_v1/targets.json).
+
+
+Current source locations (not PDF locators): [paper/sections/05_experimental_setup.tex:31](../paper/sections/05_experimental_setup.tex) (`Shares are assumed`); [paper/generated/a04_execution.tex:6](../paper/generated/a04_execution.tex) (`\label{tab:execution}`).
+
+
+## R16 — Bibliographic corrections and unresolved historical numbering
+
+
+### R16.1
+
+We added an explicit Kakushadze 101 Formulaic Alphas citation at the catalogue/adaptation description. Metadata follows the audited primary publication/version; the registry documents deviations instead of implying all 101 expressions are implemented exactly. The source citation is not evidence of profitable alphas in this study.
+
+
+### R16.2
+
+We added the audited ViSoBERT paper citation and retained a separate model-card reference for the 5CD-AI classifier. The text distinguishes backbone architecture/pretraining domain from downstream labels and the unvalidated financial-news use. The classifier version/revision is not assigned retrospectively to legacy records with unknown scorer identity.
+
+
+### R16.3
+
+White (2000) is cited for data-snooping methodology, alongside a clearly prospective discussion of additional selection-aware evidence. We do not claim a completed White Reality Check or Deflated Sharpe analysis: the completed numeric family uses the explicitly described block/sign-flip/Holm diagnostics.
+
+
+### R16.4
+
+TradingAgents is attributed to the four audited authors Xiao, Sun, Luo and Wang, with the reviewed arXiv version/year distinguished from first posting. The organizational placeholder is removed. The related-work claim is limited to that system rather than establishing novelty for multi-agent trading architectures.
+
+
+### R16.5
+
+The Tsantekidis citation is described as limit-order-book forecasting rather than candlestick image recognition. The paragraph no longer treats that task as a chart-image benchmark or evidence that our Pattern Agent improves candlestick understanding.
+
+
+### R16.6
+
+Deng metadata uses the 2017 issue publication while distinguishing 2016 online-first timing. Keys, year and claim scope follow the audited version rather than silently assigning one date to both events. The current bibliography has forty entries and eighteen cited keys; final numbering is still pending PDF build.
+
+
+### R16.7
+
+For reviewer reference [14], its identity in the reviewed PDF has not been authenticated from the available version records. We audited all 41 original entries, removed three wrong-identity DOI entries and replaced an unverified herding entry with a separately identified source. We cannot assert which revised key equals historical [14] or invent its DOI; reviewed-version mapping remains unresolved, and final numbering awaits PDF QA.
+
+
+### R16.8
+
+The historical identity of reviewer reference [21] likewise remains unresolved; current BibTeX order is not evidence of the reviewer's numbering. The complete entry-by-entry audit and applied replacement/removal actions are supplied. No unverified DOI is retained as authenticated, but we cannot claim that a specific revised entry answers historical [21] without the correct reviewed reference list.
+
+
+### R16.9
+
+The same limitation applies separately to reviewer reference [22]. We provide the audited titles, version-specific metadata and applied bibliography actions, rather than mapping [22] by current key position. The identity/DOI requested for that historical number has not been independently established and remains an explicit shortfall.
+
+
+### R16.10
+
+For reviewer reference [23], historical numbering/title identity is also unverified. All current citations have defined keys in source QA, but source-key integrity does not authenticate the reviewer's [23] or prove rendered numbering. We retain this unresolved version-mapping requirement for final reference/PDF checks instead of declaring the whole comment closed.
+
+
+Evidence: [outputs/revision/reference_audit_v1/changes.csv](../outputs/revision/reference_audit_v1/changes.csv); [outputs/revision/reference_audit_v1/inventory.json](../outputs/revision/reference_audit_v1/inventory.json); [outputs/revision/reference_audit_v1/reference_audit.json](../outputs/revision/reference_audit_v1/reference_audit.json); [outputs/revision/sentiment_contract_v1/scorer_tokenizer.json](../outputs/revision/sentiment_contract_v1/scorer_tokenizer.json).
+
+
+Current source locations (not PDF locators): [paper/sections/02_related_work.tex:5](../paper/sections/02_related_work.tex) (`Tsantekidis`); [paper/references.bib:1](../paper/references.bib) (`@`).
+
+
+## R17 — Presentation and scope
+
+
+### R17.1
+
+Flask serialization, tokenizer/Hugging Face endpoint routing, API/retry/checkpoint instructions, full prompts and state/code listings are moved out of the scientific appendix into repository implementation notes/runbooks and the rights-qualified private package. The appendix retains four methodological/results tables; S1-S4 retain the complete scientific row sets, not an implementation-log dump.
+
+
+### R17.2
+
+We rewrote eight shared sections around one methods/results structure and a consolidated limitations discussion. Six main tables, three main figures and four appendix tables replace the old repeated float blocks; complete registry/audits remain outside the article. These are source dispositions, not a certified page count or readable rendered layout; both PDF variants still require visual QA.
+
+
+### R17.3
+
+The rewritten paragraph headings are checked for the double-period pattern, and the old heading is not retained as current prose. This is a source check, not a claim that all printed punctuation is verified; typeset headings/captions will be checked in both final PDFs.
+
+
+### R17.4
+
+The quoted sub-tasks-market wording was already absent from the recovered sources and is not attributed to a new isolated fix. The replacement prose avoids that construction and uses explicit LaTeX dash conventions where needed. We do not claim to have located/repaired the exact historical rendered sentence without the reviewed version.
+
+
+### R17.5
+
+Section structure and chart-agent prose have been rewritten, with standard LaTeX quotation pairs in current source. The exact historical Section 4.3 quotation defect is not authenticated as a current occurrence. Opening/closing quotation rendering and section numbering remain part of the two-PDF visual check, so this presentation point is not declared closed from source parsing alone.
+
+
+### R17.6
+
+Both entrypoints now use Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation. Abstract, highlights and conclusion match that decision-support scope and the negative/bounded results; they no longer promise profitable stock trading or a novel validated fusion algorithm. This title change does not certify journal fit or a submission route.
+
+
+Evidence: [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_regression_v1/report.json](../outputs/revision/final_regression_v1/report.json); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/reference_audit_v1/inventory.json](../outputs/revision/reference_audit_v1/inventory.json); [outputs/revision/reproducibility_v1/manifest.json](../outputs/revision/reproducibility_v1/manifest.json).
+
+
+Current source locations (not PDF locators): [paper/sections/appendices.tex:1](../paper/sections/appendices.tex) (`\appendix`); [paper/main.tex:58](../paper/main.tex) (`\title{`); [revision/implementation_notes.md:1](../revision/implementation_notes.md) (`#`).
+
+
+## R18 — Author metadata
+
+
+### R18.1
+
+The author confirmed the displayed order and instructed that the remaining metadata be kept. We retain Thanh-Tam Do Thi consistently in the main author line, the commented submit line and CRediT, with the current affiliation mapping. We do not invent a given/family split for a submission portal; that separate field is not supplied.
+
+
+### R18.2
+
+Under the same confirmation, Van-Tang Nguyen is retained consistently in the author line, commented submit line and CRediT, with the existing corresponding-author marker. We do not change it to the historical Tang-Van variant or infer a new identity. The corresponding email has not been supplied.
+
+
+### R18.3
+
+The author explicitly confirmed Phuong-Thai Nguyen's ORCID as 0009-0006-2033-7788. We changed exactly one commented submit ORCID to match main, preserving other names/order, affiliations, CRediT, funding and declarations. The new 46-file source snapshot is separate from T32. Manuscript ID, editor decision letter and blind/nonblind route remain unavailable; no submission permission, independent ORCID ownership audit or individual signed approval record is asserted.
+
+
+Evidence: [outputs/revision/author_metadata_v1/manifest.json](../outputs/revision/author_metadata_v1/manifest.json); [revision/author_metadata.md](../revision/author_metadata.md); [revision/reviewer_matrix.csv](../revision/reviewer_matrix.csv).
+
+
+Current source locations (not PDF locators): [paper/main.tex:62](../paper/main.tex) (`\author[`); [paper/main_submit.tex:62](../paper/main_submit.tex) (`\author[`).
+
+
+## Remaining release requirements
+
+The public-archive/PID request remains incomplete; no placeholder is presented as a DOI. Author contact and editorial route remain missing. Financial-domain labels, independently authenticated news availability, a repaired native causal LLM study, full-grid controlled repeats and the hosted fixed/random factor experiment were not supplied by this revision. Historical references [14]/[21]/[22]/[23] cannot be mapped by current BibTeX order. Claim withdrawal/disclosure limits what the revised study asserts; it does not fulfill experiments that were not done.
+
+Two-PDF build, visual verification, final reference numbering and page/line locations are still required. Accordingly **zero of eighteen comments is certified closed by this response**. Scientific and editorial adequacy remain for the reviewers/editor to assess. No upload, submission or publication has been performed.

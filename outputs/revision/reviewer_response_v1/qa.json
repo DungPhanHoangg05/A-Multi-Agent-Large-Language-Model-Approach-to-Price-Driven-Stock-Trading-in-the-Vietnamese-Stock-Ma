@@ -1,0 +1,94 @@
+{
+  "api_calls": 0,
+  "archive_bytes": 114784275,
+  "archive_member_bytes_verified": true,
+  "archive_members": 542,
+  "byte_exact_rebuild": {
+    "archive_sha256": "a89cade9cb3086ce7281d54cc46f6f04f688c6e22ae45478cb9060ef4b59cf17",
+    "byte_exact": true,
+    "members": 542,
+    "status": "PASS"
+  },
+  "comments": 18,
+  "comments_closed": 0,
+  "compiled_python_files": [
+    "scripts/package_revision_response.py",
+    "tests/test_revision_response_package.py"
+  ],
+  "distribution": "local_private_draft_only",
+  "final_pdf_locators": null,
+  "historical_reference_count": 38,
+  "markdown_links_checked": 133,
+  "model_forwards": 0,
+  "model_weights_verified": false,
+  "new_predictions": 0,
+  "new_scoped_tests_passed": 8,
+  "paper_files_unchanged_from_t33": 46,
+  "parent_checks": {
+    "author_metadata_v1": {
+      "current": 105,
+      "historical": 0,
+      "total": 105
+    },
+    "final_regression_v1": {
+      "current": 5007,
+      "historical": 12,
+      "total": 5019
+    },
+    "manuscript_blueprint_v1": {
+      "current": 63,
+      "historical": 12,
+      "total": 75
+    },
+    "manuscript_rewrite_v1": {
+      "current": 100,
+      "historical": 1,
+      "total": 101
+    },
+    "reviewer_crosswalk_v1": {
+      "current": 89,
+      "historical": 13,
+      "total": 102
+    }
+  },
+  "pdf_build": false,
+  "pending": [
+    "public redistribution rights and actual PID",
+    "corresponding email and editorial route",
+    "two-PDF visual QA and final locators",
+    "reviewed reference-number mapping",
+    "missing experiments/domain/PIT validation disclosed in response"
+  ],
+  "pid": null,
+  "public_release_authorized": false,
+  "requests": 87,
+  "runtime": {
+    "Pillow": "11.0.0",
+    "TA-Lib": "0.6.8",
+    "groq": "0.37.1",
+    "jsonschema": "4.24.0",
+    "langchain-core": "1.2.17",
+    "langchain-groq": "1.1.2",
+    "matplotlib": "3.10.8",
+    "mplfinance": "0.12.10b0",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "pydantic": "2.11.7",
+    "python": "3.13.5",
+    "python-dotenv": "1.2.2",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.1"
+  },
+  "runtime_matches_t28": true,
+  "secret_pattern_scan_findings": 0,
+  "statistical_refits": 0,
+  "status": "PASS",
+  "tests_not_rerun": [
+    "full unit suite",
+    "full compileall",
+    "E2E",
+    "leakage suites",
+    "T23 metrics replay",
+    "T28 regression suite"
+  ]
+}

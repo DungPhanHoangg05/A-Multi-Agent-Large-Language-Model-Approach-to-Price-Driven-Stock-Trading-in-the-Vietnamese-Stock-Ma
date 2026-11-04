@@ -50,3 +50,6 @@ tmp/
 
 # Sidecar weights cục bộ của package; manifest giữ hash, không đưa weights lớn vào Git.
 /outputs/revision/reproducibility*/model_weights.zip
+
+# Gói tổng hợp nội bộ lớn; index, hashes và QA vẫn được theo dõi trong Git.
+/outputs/revision/reviewer_response_v1/private_bundle.zip
