@@ -1,0 +1,202 @@
+{
+  "actual_vision_requests": 240,
+  "api_calls": 0,
+  "billing_cost": null,
+  "complete_jobs": 375,
+  "completion": {
+    "complete": 375,
+    "expected": 375,
+    "missing": 0,
+    "new_calls": {
+      "archived_requests": 194,
+      "errors": 12,
+      "interrupted_request_ids": [],
+      "new_attempts": 194,
+      "reserved_before_archive_ids": [],
+      "responses": 182
+    },
+    "new_vision_calls": 0,
+    "phases": {
+      "factorial": {
+        "complete": 135,
+        "expected": 135,
+        "missing": 0
+      },
+      "main": {
+        "complete": 204,
+        "expected": 204,
+        "missing": 0
+      },
+      "upstream": {
+        "complete": 36,
+        "expected": 36,
+        "missing": 0
+      }
+    },
+    "reused": 193,
+    "temporary_checkpoints": []
+  },
+  "cross_epoch_paired_groups": 9,
+  "dependent_decisions": 375,
+  "failed_attempts_before_success": 34,
+  "fixtures": {
+    "pattern": {
+      "body_alpha": 0.9,
+      "body_geometry_and_colors_match": true,
+      "legend": [],
+      "legend_handle_colors": [],
+      "legend_handles_match_lines": true,
+      "line_colors": {},
+      "n_candles": 45,
+      "n_doji": 1,
+      "n_down": 22,
+      "n_up": 22,
+      "palette_pixel_counts": {
+        "#006340": 34949,
+        "#A02128": 34939
+      },
+      "png_sha256": "643764499b3badfd15c9cc76e66ede2d2a55f49450306a2449b542b32deb384f"
+    },
+    "trend": {
+      "body_alpha": 0.9,
+      "body_geometry_and_colors_match": true,
+      "legend": [
+        "Support (close)",
+        "Resistance (close)"
+      ],
+      "legend_handle_colors": [
+        "#0000ff",
+        "#ff0000"
+      ],
+      "legend_handles_match_lines": true,
+      "line_colors": {
+        "Resistance": "#ff0000",
+        "Support": "#0000ff"
+      },
+      "n_candles": 45,
+      "n_doji": 1,
+      "n_down": 22,
+      "n_up": 22,
+      "palette_pixel_counts": {
+        "#006340": 33784,
+        "#A02128": 34103
+      },
+      "png_sha256": "53fbf58464cb910425e5054fb642675421d74cb8dbbef8cd3cc39bfc45353a6d"
+    }
+  },
+  "groups_with_retries": 24,
+  "limits": [
+    "Usage calls lỗi và latency lỗi không có raw; null, không zero. Latency là tổng/quantiles thời gian request thành công, không walltime hoặc sleep.",
+    "Pattern tokens/latency thuộc call gốc, không replay lookup. Mỗi request chỉ tính một lần dù shared nhiều Decisions; không là toàn bộ chi phí dự án/smoke/archive.",
+    "91 Pattern requests thiếu epoch/org; alias/fingerprint không xác minh immutable served weights. Không suy org từ shard hoặc ngân sách tiền từ token counts.",
+    "Fixture xác minh màu thân Close/Open: green #006340, red #A02128, doji red; không phải màu so previous Close hay forecast. Support blue #0000ff, Resistance red #ff0000, legend handles đúng.",
+    "Actual Vision dùng template Việt: từ xanh không phân biệt blue/green rõ bằng English. Kiểm pixel/template không xác thực cách VLM hiểu ngữ nghĩa. Không sửa hồi tố raw hoặc ảnh legacy có legend sai.",
+    "Chỉ whitelist cuối 375 jobs đầy đủ; không tuyên bố hoàn tất các grid legacy 474/270. R9/R14 còn response/locator/quyền public/PID T34, T30 chưa đạt."
+  ],
+  "minimal_reservations_verified": 194,
+  "missing_jobs": 0,
+  "model_forwards": 0,
+  "paired_order_mismatches": 40,
+  "parents_checked_hashes": {
+    "clean_replay_v1": 14,
+    "final_repeats_v1": 631,
+    "revision_minimal_final_v1": 3524
+  },
+  "pattern_replay_files_verified": 240,
+  "rerendered_images": 204,
+  "retry_groups": 615,
+  "scope_costs": {
+    "closure_total": {
+      "attempts": 649,
+      "completion_tokens_n_missing": 34,
+      "completion_tokens_n_observed": 615,
+      "completion_tokens_observed_sum": 340736,
+      "errors": 34,
+      "latency_seconds_n_missing": 34,
+      "latency_seconds_n_observed": 615,
+      "latency_seconds_observed_sum": 1362.679084,
+      "latency_seconds_p50": 1.752484,
+      "latency_seconds_p95": 4.638492599999995,
+      "monetary_cost": null,
+      "prompt_tokens_n_missing": 34,
+      "prompt_tokens_n_observed": 615,
+      "prompt_tokens_observed_sum": 1063328,
+      "successes": 615
+    },
+    "corrected_chart_requests_excluding_replayed_pattern": {
+      "attempts": 529,
+      "completion_tokens_n_missing": 34,
+      "completion_tokens_n_observed": 495,
+      "completion_tokens_observed_sum": 325028,
+      "errors": 34,
+      "latency_seconds_n_missing": 34,
+      "latency_seconds_n_observed": 495,
+      "latency_seconds_observed_sum": 1134.68211,
+      "latency_seconds_p50": 1.85794,
+      "latency_seconds_p95": 4.638492599999995,
+      "monetary_cost": null,
+      "prompt_tokens_n_missing": 34,
+      "prompt_tokens_n_observed": 495,
+      "prompt_tokens_observed_sum": 821584,
+      "successes": 495
+    },
+    "corrected_chart_source": {
+      "attempts": 335,
+      "completion_tokens_n_missing": 22,
+      "completion_tokens_n_observed": 313,
+      "completion_tokens_observed_sum": 166867,
+      "errors": 22,
+      "latency_seconds_n_missing": 22,
+      "latency_seconds_n_observed": 313,
+      "latency_seconds_observed_sum": 759.378047,
+      "latency_seconds_p50": 2.0116,
+      "latency_seconds_p95": 5.103704199999993,
+      "monetary_cost": null,
+      "prompt_tokens_n_missing": 22,
+      "prompt_tokens_n_observed": 313,
+      "prompt_tokens_observed_sum": 527699,
+      "successes": 313
+    },
+    "minimal_continuation": {
+      "attempts": 194,
+      "completion_tokens_n_missing": 12,
+      "completion_tokens_n_observed": 182,
+      "completion_tokens_observed_sum": 158161,
+      "errors": 12,
+      "latency_seconds_n_missing": 12,
+      "latency_seconds_n_observed": 182,
+      "latency_seconds_observed_sum": 375.304063,
+      "latency_seconds_p50": 1.762401,
+      "latency_seconds_p95": 3.23849195,
+      "monetary_cost": null,
+      "prompt_tokens_n_missing": 12,
+      "prompt_tokens_n_observed": 182,
+      "prompt_tokens_observed_sum": 293885,
+      "successes": 182
+    },
+    "pattern_replay_original_request": {
+      "attempts": 120,
+      "completion_tokens_n_missing": 0,
+      "completion_tokens_n_observed": 120,
+      "completion_tokens_observed_sum": 15708,
+      "errors": 0,
+      "latency_seconds_n_missing": 0,
+      "latency_seconds_n_observed": 120,
+      "latency_seconds_observed_sum": 227.996974,
+      "latency_seconds_p50": 1.213769,
+      "latency_seconds_p95": 2.8555995999999904,
+      "monetary_cost": null,
+      "prompt_tokens_n_missing": 0,
+      "prompt_tokens_n_observed": 120,
+      "prompt_tokens_observed_sum": 241744,
+      "successes": 120
+    }
+  },
+  "served_weight_revision": null,
+  "status": "PASS_FINAL_COST_INTEGRITY_AUDIT",
+  "system_fingerprints": 40,
+  "unique_unit_charts": 102,
+  "unknown_epoch_attempts": 91,
+  "unknown_provider_org_attempts": 91,
+  "upstream_realizations": 120
+}
