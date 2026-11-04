@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2025_q4_817",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__BHN_f2025_q4_817_r2_B_n0",
+    "asset_hash": "05f90e65a256b946bb643d522f4e567ca06b725370daad7bc5b621d7f3233eb7",
+    "donor_hash": null,
+    "upstream_hash": "25ed30b0b35edf7738e8c6751dece6e1f93624501b32508265fae2af3d8c5e1b",
+    "prompt_hash": "13bb22fe8d4850ab9c144693cb3aca90303f05f8bc32aef62f79243fc97c6495"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Pattern V reversal shows price peaked at 30.8 and fell to 29.0-29.5, indicating potential downside. MACD below signal and negative histogram confirm bearish momentum.",
+    "evidence_against": "Trend analysis indicates sideways movement, which could limit downside potential.",
+    "justification": "Given the bearish pattern and indicator signals, a short position is justified. The expected price decline to 28.5 within the T+2.5 horizon supports the short trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-de83-76e2-b611-5c64841c5644"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-de83-76e2-b611-5c64841c5644.request.json",
+      "sha256": "004df312ec7a090e559d06af843382a9694a7f17258bac5e2eaaceb99aed9848"
+    },
+    {
+      "path": "calls/01a1a1e6-de83-76e2-b611-5c64841c5644.response.json",
+      "sha256": "53fc57faabb9b908f47f58d4f10b61500dda845ae59810810185fd98b4c6fac7"
+    }
+  ],
+  "sha256": "bb12fbd2571adad4aa8c38c1fc367a396e0d5d21208e3595f20f8537ee2e422a"
+}

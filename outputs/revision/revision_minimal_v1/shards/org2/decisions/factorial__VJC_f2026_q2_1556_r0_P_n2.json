@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_P_n2",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": "eccb39a87243b96d387f255aa2e8ccd7397bec8c2f6050512f356ba77da58c1e",
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "08f0349ce702ab62a8387c7cf6e73b9d9d62b6ee8ad8ce68a17d1e73b15b6571"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "All five alpha factors signal a bearish bias, suggesting a potential reversal. MACD bullish momentum may be overextended, indicating a possible pullback.",
+    "evidence_against": "Trend analysis and V-shaped pattern indicate bullish continuation.",
+    "justification": "Given the conflict between bullish trend signals and unanimous bearish alpha factors, a short position is preferred to hedge against a potential reversal. The short will be held until T+2.5, with a risk-reward ratio of 2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-26da-7360-a047-51eec1bd5b78"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-26da-7360-a047-51eec1bd5b78.request.json",
+      "sha256": "893178d181e422d045cf83523ec0478277efbaa77ca33a38227a3f88c94f9588"
+    },
+    {
+      "path": "calls/01a1a46c-26da-7360-a047-51eec1bd5b78.response.json",
+      "sha256": "53f052ac8946a7fd8c2f025710d6291bce886995723f0151013e4661e4d512ad"
+    }
+  ],
+  "sha256": "683b6d6816b9547b0055fac4647d3b9583e586add26f4a9d4b0cd1a5d8e430f6"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_S_n2",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "3ae578d722f6a3ba4aa393d05a0c5b99d9431ebbcb5f2bd3298ed2eade3d9324"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below Signal and negative histogram indicates bearish momentum; sentiment score negative suggests market pessimism.",
+    "evidence_against": "Trend and pattern bullish, suggesting potential upside.",
+    "justification": "Given conflicting signals and lack of majority bullish alpha, shorting preserves cash and avoids potential loss; shorting aligns with risk management.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-30db-73c3-a4b8-e5548a2b6939"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-30db-73c3-a4b8-e5548a2b6939.request.json",
+      "sha256": "239237ca6a13bed868715e982133d7e331fbdd7c50e90dddbbeb635bd021498c"
+    },
+    {
+      "path": "calls/01a1a471-30db-73c3-a4b8-e5548a2b6939.response.json",
+      "sha256": "8846f0faa58902ffba00c1d6ab2307bf1452a78f61a0fd76012335492ce1a5ea"
+    }
+  ],
+  "sha256": "a51b62d2bdb953a4f24e25f74ae1057636758295ef69d1860e14fe4c3224bd9f"
+}

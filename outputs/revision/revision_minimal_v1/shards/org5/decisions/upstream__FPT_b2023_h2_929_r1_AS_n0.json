@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_b2023_h2_929",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__FPT_b2023_h2_929_r1_AS_n0",
+    "asset_hash": "05c835291e10c9661fc2dfb3c11d27966e66f64aece10a63efd950917c4ddefc",
+    "donor_hash": null,
+    "upstream_hash": "431ae6d9864aeda5de81420807ad4eb3eb6282c0eff5a833a56e20f8ef615411",
+    "prompt_hash": "656bab796c8d8f90dfbc8ecf75aa5ebba4543008b9bdf04b56a0a461bf0f98eb"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend analysis indicates upward movement with price near support and resistance at 69.5. MACD line positive but below signal, suggesting potential reversal.",
+    "evidence_against": "MACD histogram negative and overall alpha factors suggest bearish bias.",
+    "justification": "Expected price increase to 69.5 yields net profit after fees, justifying a LONG position despite bearish momentum signals.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-dcb7-71c2-826e-1840e516e932"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-dcb7-71c2-826e-1840e516e932.request.json",
+      "sha256": "3bed628547d5d32515d494b606dfc2da8f8c76015835701b7b991fe0e8cd7142"
+    },
+    {
+      "path": "calls/01a1a1e6-dcb7-71c2-826e-1840e516e932.response.json",
+      "sha256": "0e9fd138a670541f9831e554bb268d14cd1173acc3ea9066ec8d0c850618aac5"
+    }
+  ],
+  "sha256": "309e3d6890b39710941560980630fb75b218b161c35378aec758fcd22a588094"
+}

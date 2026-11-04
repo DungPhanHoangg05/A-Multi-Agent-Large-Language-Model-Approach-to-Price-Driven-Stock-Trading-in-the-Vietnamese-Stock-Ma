@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a469-5aa6-7d01-9b3d-5d60caef8bd6",
+  "parent_request_hash": "6e1d75c074b9ac090990cc69c671e17b7f0a46f79a7ddd959f26c505f43db987",
+  "ended_at_utc": "2026-11-04T02:35:32.620530+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Alpha factors show 4 out of 5 indicating a downward trend, and the pattern analysis confirms a decreasing trend. The MACD indicator, while bullish, is outweighed by the strong alpha consensus and trend analysis.\",\"evidence_against\":\"MACD bullish signal suggests potential upward movement.\",\"justification\":\"Given the strong alpha consensus for a downward trend and the pattern analysis confirming a decline, a short position is preferred to avoid potential losses. The short horizon of T+2.5 aligns with the expected price decline within the next three trading days.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Alpha factors show 4 out of 5 indicating a downward trend, and the pattern analysis confirms a decreasing trend. The MACD indicator, while bullish, is outweighed by the strong alpha consensus and trend analysis.\",\"evidence_against\":\"MACD bullish signal suggests potential upward movement.\",\"justification\":\"Given the strong alpha consensus for a downward trend and the pattern analysis confirming a decline, a short position is preferred to avoid potential losses. The short horizon of T+2.5 aligns with the expected price decline within the next three trading days.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1379,
+                "prompt_tokens": 1762,
+                "total_tokens": 3141,
+                "completion_time": 1.568439063,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1227
+                },
+                "prompt_time": 0.129698618,
+                "prompt_tokens_details": null,
+                "queue_time": 0.363864773,
+                "total_time": 1.698137681
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_f102a3179c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a469-5aa6-7d01-9b3d-5d60caef8bd6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1379,
+        "prompt_tokens": 1762,
+        "total_tokens": 3141,
+        "completion_time": 1.568439063,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1227
+        },
+        "prompt_time": 0.129698618,
+        "prompt_tokens_details": null,
+        "queue_time": 0.363864773,
+        "total_time": 1.698137681
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_f102a3179c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

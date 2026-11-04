@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1e6-de83-76e2-b611-5c64841c5644",
+  "parent_request_hash": "5a95d9b9b7bc0d59aacaab2c13501adbdad47416e8f19febe07280ac1ef6084b",
+  "ended_at_utc": "2026-11-03T14:53:46.748647+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Pattern V reversal shows price peaked at 30.8 and fell to 29.0-29.5, indicating potential downside. MACD below signal and negative histogram confirm bearish momentum.\",\"evidence_against\":\"Trend analysis indicates sideways movement, which could limit downside potential.\",\"justification\":\"Given the bearish pattern and indicator signals, a short position is justified. The expected price decline to 28.5 within the T+2.5 horizon supports the short trade.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Pattern V reversal shows price peaked at 30.8 and fell to 29.0-29.5, indicating potential downside. MACD below signal and negative histogram confirm bearish momentum.\",\"evidence_against\":\"Trend analysis indicates sideways movement, which could limit downside potential.\",\"justification\":\"Given the bearish pattern and indicator signals, a short position is justified. The expected price decline to 28.5 within the T+2.5 horizon supports the short trade.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 687,
+                "prompt_tokens": 1425,
+                "total_tokens": 2112,
+                "completion_time": 0.765261965,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 551
+                },
+                "prompt_time": 0.087863475,
+                "prompt_tokens_details": null,
+                "queue_time": 0.595589505,
+                "total_time": 0.85312544
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_3023a70d60",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1e6-de83-76e2-b611-5c64841c5644-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 687,
+        "prompt_tokens": 1425,
+        "total_tokens": 2112,
+        "completion_time": 0.765261965,
+        "completion_tokens_details": {
+          "reasoning_tokens": 551
+        },
+        "prompt_time": 0.087863475,
+        "prompt_tokens_details": null,
+        "queue_time": 0.595589505,
+        "total_time": 0.85312544
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_3023a70d60",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2025_q4_1490",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__MWG_f2025_q4_1490_r2_AS_n0",
+    "asset_hash": "d3728c5370b1fafe7a7b01ed4a2c8d5938b10f76390cee1122a3813bf3f7b20f",
+    "donor_hash": null,
+    "upstream_hash": "f2e2124a6b1c3a81e0c18d4ba929b0b97124e4bbc929dd6f72cf76465ef1f850",
+    "prompt_hash": "a9e0044e9be6df455b00a831bad845956d0ed3baaf1c3285b204f4d81e5e7b25"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend analysis indicates upward movement toward resistance 83.5 within 3 days. MACD golden cross confirms bullish momentum.",
+    "evidence_against": "No significant downside support below 78, but risk of reversal exists.",
+    "justification": "Long position aligns with trend, pattern, and alpha consensus. Expected profit after fees and slippage meets risk-reward target.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-1ac6-7532-b279-4c399af5c155"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-1ac6-7532-b279-4c399af5c155.request.json",
+      "sha256": "306a61048500dac0f34fd283b46ad0cda3ae2484528386692ee4fe09a4ff7f80"
+    },
+    {
+      "path": "calls/01a1a466-1ac6-7532-b279-4c399af5c155.response.json",
+      "sha256": "e752a85a24ae03502d72ff43ac4eecd856cb648c567820275f57502886df8a33"
+    }
+  ],
+  "sha256": "99b4c4bad4cea6bd553772388c455969af16534826653d4b4e330f5df57df778"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_AS_n0",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "75b33dae650dfce3967f8b0920036afd95eec147ea3e85eaefd73b7f4241c171"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Alpha factors overall positive with 3 out of 5 indicators bullish, suggesting potential upside if trend reverses. MACD shows bearish momentum, but alpha signals could support a reversal.",
+    "evidence_against": "Pattern analysis indicates a clear bearish trend with repeated lower highs and lows, and MACD is below signal line, confirming downside pressure.",
+    "justification": "Given the bearish pattern and MACD confirmation, a short position aligns with the risk management rule to hold cash when upside is uncertain. The alpha factors' bullish signals are outweighed by the trend and momentum indicators, so shorting is the safer choice.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-e827-7a91-aaa4-374912e11036"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-e827-7a91-aaa4-374912e11036.request.json",
+      "sha256": "02df86500c8da7581ccf6f66ab0f989aab16e3e6c6788476e3e3a251fcc8b882"
+    },
+    {
+      "path": "calls/01a1a468-e827-7a91-aaa4-374912e11036.response.json",
+      "sha256": "d9ecc61fd9c63c85d97638a2d43cf9ed0d83d8ac29075d477edb9beed765755d"
+    }
+  ],
+  "sha256": "d4d475639b655d88f361e161166da545eca4f6e4dfb2a91d7778eeecec6d81f0"
+}

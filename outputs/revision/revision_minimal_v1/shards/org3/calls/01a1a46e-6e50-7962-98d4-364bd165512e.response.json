@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46e-6e50-7962-98d4-364bd165512e",
+  "parent_request_hash": "7e5ea7f3015c71b103d66824987f62bf954fcdde8a2a372c764016251225e5f0",
+  "ended_at_utc": "2026-11-04T02:41:04.230985+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend analysis shows a downward bias with support at 21.0 and resistance at 23.6; alpha factors indicate 3 out of 5 signals are negative.\",\"evidence_against\":\"MACD line is above signal but histogram is declining, suggesting weakening momentum.\",\"justification\":\"The prevailing bearish trend and majority negative alpha signals outweigh the short‑term bullish MACD indication; a short position aligns with the 3‑day horizon and risk‑reward target.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend analysis shows a downward bias with support at 21.0 and resistance at 23.6; alpha factors indicate 3 out of 5 signals are negative.\",\"evidence_against\":\"MACD line is above signal but histogram is declining, suggesting weakening momentum.\",\"justification\":\"The prevailing bearish trend and majority negative alpha signals outweigh the short‑term bullish MACD indication; a short position aligns with the 3‑day horizon and risk‑reward target.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 558,
+                "prompt_tokens": 1799,
+                "total_tokens": 2357,
+                "completion_time": 0.700843851,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 422
+                },
+                "prompt_time": 0.106449873,
+                "prompt_tokens_details": null,
+                "queue_time": 0.157617948,
+                "total_time": 0.807293724
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e23fc997ca",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46e-6e50-7962-98d4-364bd165512e-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 558,
+        "prompt_tokens": 1799,
+        "total_tokens": 2357,
+        "completion_time": 0.700843851,
+        "completion_tokens_details": {
+          "reasoning_tokens": 422
+        },
+        "prompt_time": 0.106449873,
+        "prompt_tokens_details": null,
+        "queue_time": 0.157617948,
+        "total_time": 0.807293724
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e23fc997ca",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

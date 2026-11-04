@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_P_n1",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": "3005358457a5407e806a19a3a9d7d570062c110f5f925ca88888ad76850a83e7",
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "c2c26a02b74749db2adf8042f8ab0a0fcf503046b6ed4ffd86b84445d57b7eee"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Thấp",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "MACD line below signal and negative histogram indicate weakening momentum",
+    "evidence_against": "Trend analysis shows upward movement with support at 65.5 and resistance at 68.5",
+    "justification": "MACD bearish and mixed alpha signals suggest potential reversal; holding cash mitigates risk",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-bb3c-7991-9244-fc579b05d89e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-bb3c-7991-9244-fc579b05d89e.request.json",
+      "sha256": "37c73991dc0d37aefe8ba1bcb12a9d1555ad3b7ad26c3debb81a3dd2dd01a13b"
+    },
+    {
+      "path": "calls/01a1a470-bb3c-7991-9244-fc579b05d89e.response.json",
+      "sha256": "c942b99d81d6f4265939786fee3f982e90fb9ee2d0ff39e4da05b5485ee779b6"
+    }
+  ],
+  "sha256": "74b2e3b4fa02336186750cfd096e076e26cd4aa87f8813612c6277828667c654"
+}

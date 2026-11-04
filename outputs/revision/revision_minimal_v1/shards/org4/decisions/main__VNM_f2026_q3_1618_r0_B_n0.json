@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1618",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VNM_f2026_q3_1618_r0_B_n0",
+    "asset_hash": "8fc32d5a4798ec1b6c820b8802123cd49e537f181c64dbc6af241a52c7f192e5",
+    "donor_hash": null,
+    "upstream_hash": "d250f874dc01884777296b14156fc50abfcbe246cc28a4232d02f86db3de666a",
+    "prompt_hash": "76008bfb3de2d26f848010a81d27ea991e22d4e621bee439425aa70df1d09ce2"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a clear downtrend with support at 54.8 and resistance at 57.0, and the latest close broke the support level. MACD and histogram show negative momentum and decreasing trend, confirming bearish bias.",
+    "evidence_against": "No strong bullish reversal signals are present in the current data.",
+    "justification": "Given the bearish trend and negative momentum, a short position aligns with the strategy to capture potential decline. The short position will be closed at T+2.5, ensuring compliance with the T+2.5 settlement rule.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-8f3d-73a0-bda0-e48c8bf5a850"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-8f3d-73a0-bda0-e48c8bf5a850.request.json",
+      "sha256": "409ed6ac52e27514050c44e341720f119053201da758c7f3a4a9564989444b11"
+    },
+    {
+      "path": "calls/01a1a46d-8f3d-73a0-bda0-e48c8bf5a850.response.json",
+      "sha256": "4820181fbaff1851d8022bb4217f03e68fc81d35f0ef9ea4868b015a4af94e7e"
+    }
+  ],
+  "sha256": "8d2767835a70c7078913eb63735beedde843d804eae155b045e1f195840e4db5"
+}

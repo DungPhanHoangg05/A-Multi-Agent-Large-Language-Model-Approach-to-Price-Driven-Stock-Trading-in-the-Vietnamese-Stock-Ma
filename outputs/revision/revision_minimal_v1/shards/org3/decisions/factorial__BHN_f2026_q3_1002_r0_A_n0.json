@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_A_n0",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "058848a268f505e07c69fef20739f93614c895e5e5403ceff021208a01e2d5e8"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum. Alpha factors are mixed, suggesting uncertainty.",
+    "evidence_against": "Trend and pattern are bullish, indicating potential upside.",
+    "justification": "Given weak momentum and mixed alpha signals, shorting to preserve cash is prudent. Target 28.5 may not be reached within 3 days.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-c333-7e82-a68e-82c8a249e18a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-c333-7e82-a68e-82c8a249e18a.request.json",
+      "sha256": "ce86fd5ca8840f225a14e88675393a32f746e115fc1219863930cdc80449526c"
+    },
+    {
+      "path": "calls/01a1a470-c333-7e82-a68e-82c8a249e18a.response.json",
+      "sha256": "76c071b6b175032b4745261a4ba0403bbd179b4d3bca3d9b4fb0d541c19fa5fa"
+    }
+  ],
+  "sha256": "6ace4e37b5dfc1bf5cf20ef44b3f47a52b47d9919757c15c3e23cc4aab146640"
+}

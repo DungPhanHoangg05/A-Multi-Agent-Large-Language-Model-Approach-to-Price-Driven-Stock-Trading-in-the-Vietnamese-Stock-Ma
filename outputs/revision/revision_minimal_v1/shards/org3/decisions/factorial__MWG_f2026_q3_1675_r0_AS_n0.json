@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_AS_n0",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "cfa919b04a218fc8a0a480e64d2b75b5ac3ea389ece30f696d7e76766c46f486"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Alpha factors all negative indicating expected price decline; MACD line below signal line shows bearish momentum.",
+    "evidence_against": "Trend analysis indicates an upward trend.",
+    "justification": "Given the strong negative alpha signals and bearish MACD, a short position is justified despite the trend; the risk-reward ratio of 2:1 balances potential upside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-1f3f-7282-a26e-367d4f87850a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-1f3f-7282-a26e-367d4f87850a.request.json",
+      "sha256": "71d17bef64e2e13fdb75322a315abdceb1d134c5d28c4e769b711bfabffb3c60"
+    },
+    {
+      "path": "calls/01a1a472-1f3f-7282-a26e-367d4f87850a.response.json",
+      "sha256": "b38107a5adc32b53ed8734442e941db7dff64e913f2e4ec6d80d46bf8ccc7ae4"
+    }
+  ],
+  "sha256": "26cff83410522b94801e98c77bbcef7473c627f0090b41288f22a0cd5a6ba499"
+}

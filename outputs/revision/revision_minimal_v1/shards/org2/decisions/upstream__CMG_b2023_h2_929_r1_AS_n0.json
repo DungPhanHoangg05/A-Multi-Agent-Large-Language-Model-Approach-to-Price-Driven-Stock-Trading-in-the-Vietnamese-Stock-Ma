@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "CMG_b2023_h2_929",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__CMG_b2023_h2_929_r1_AS_n0",
+    "asset_hash": "cdbcf49d3d6a5fe8e1d19eb3a59c9a77ecbfbad398693eec24573f20fb494f24",
+    "donor_hash": null,
+    "upstream_hash": "2e6a92ce22a739d0c67e5c4033470bd67aeb5d8e497c6d7df5471dbed8524f9f",
+    "prompt_hash": "fa322c81245cfff53e498cf81a1dab4c7947ee679697191c36951d710361b852"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram show bearish momentum.",
+    "evidence_against": "V reversal pattern indicates potential bullish breakout.",
+    "justification": "Trend is sideways, alpha factors negative, and MACD bearish, so short is preferred.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-66fa-7ca2-b741-4bf315f5b6d6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-66fa-7ca2-b741-4bf315f5b6d6.request.json",
+      "sha256": "62409c8fe152f2b02bb1938a5c2a8441b79f65db09e4e58ab7213e21341129ce"
+    },
+    {
+      "path": "calls/01a1a1e6-66fa-7ca2-b741-4bf315f5b6d6.response.json",
+      "sha256": "eba373f519769a3066e2eefeba3af493572ef2ecaddd96869e7caae4a378bf23"
+    }
+  ],
+  "sha256": "e918a302bfb043cab0ea924ac2cfaa110d24c0aef6195669aee6ba00a7919be8"
+}

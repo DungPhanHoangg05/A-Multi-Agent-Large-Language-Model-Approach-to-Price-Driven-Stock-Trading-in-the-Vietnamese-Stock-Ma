@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_A_n0",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "6af0eadb8b66418f96bdb7d3fd27b7a3c50f639ebfdd67e887266409ceae24ad"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend up with support 112 and resistance 128, MACD bullish with histogram positive, alpha factors majority positive. Pattern V shape indicates breakout potential above 120 with target 130.",
+    "evidence_against": "Potential resistance at 128 could cap upside.",
+    "justification": "Long entry at open with target 130, stop below 118 to manage risk. Expected net profit after fees exceeds 0.7% threshold.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-818b-7953-b719-18e3a7d914df"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-818b-7953-b719-18e3a7d914df.request.json",
+      "sha256": "e0a4ea6170b24e372568645588c976d4ab8415b795eafc74cccf7ab3663dacae"
+    },
+    {
+      "path": "calls/01a1a467-818b-7953-b719-18e3a7d914df.response.json",
+      "sha256": "3f9d2d18d8eddea9ea1a37f10d7a7435552756acbff68936508a28feff476ea0"
+    }
+  ],
+  "sha256": "37e957a164d88e7c2d4832329f143c1dc97acc5ba233db74687dff025718c8be"
+}

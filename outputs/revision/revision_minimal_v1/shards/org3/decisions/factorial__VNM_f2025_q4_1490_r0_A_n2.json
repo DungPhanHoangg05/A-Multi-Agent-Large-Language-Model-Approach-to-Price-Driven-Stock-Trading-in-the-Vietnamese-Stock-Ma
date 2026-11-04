@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_A_n2",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "852a3ebef864dad1873238a121f576223d11a38fa028007664856ba0f4def20a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support at 59 and resistance at 62.5, pattern flag up indicates bullish breakout potential. Alpha factors show 3 out of 5 positive signals, reinforcing bullish bias.",
+    "evidence_against": "MACD line below signal suggests potential short-term pullback.",
+    "justification": "Bullish trend and pattern support a long entry. Alpha consensus and potential upside exceed transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a469-6329-70f2-8c6b-be56361b90c1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a469-6329-70f2-8c6b-be56361b90c1.request.json",
+      "sha256": "17d76de067e5da51f5c2145d1154a66369119bf310b07ee5fa1f7ae2d8591a44"
+    },
+    {
+      "path": "calls/01a1a469-6329-70f2-8c6b-be56361b90c1.response.json",
+      "sha256": "4fb63d43bddc968735f6b8bb900880bbf84493e501d3b9f038e72b804d492648"
+    }
+  ],
+  "sha256": "ef4d621f6dc8e1c13a9ab58e31f57596a0d0bc3cedca6a1ec7afec75d1de1ab4"
+}

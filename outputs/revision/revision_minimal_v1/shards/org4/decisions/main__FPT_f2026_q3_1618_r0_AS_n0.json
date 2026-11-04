@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1618",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__FPT_f2026_q3_1618_r0_AS_n0",
+    "asset_hash": "84811817e515b9941fe2c5c3e8dafe94279fcd4ef0b7c43c412963f671a13353",
+    "donor_hash": null,
+    "upstream_hash": "030c133aa36bd0177ce875cabdbf7a3979592f3b0cd18a414ae2b578f1ce919c",
+    "prompt_hash": "6400b67201682e004a67b15765c29517146c8ba85bb575f9a836be026b509eec"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bullish with price above support 64 and approaching resistance 69.5; pattern indicates potential upside.",
+    "evidence_against": "MACD and alpha factors signal bearish momentum, contradicting the trend.",
+    "justification": "Given the bearish MACD and negative alpha consensus, a short position is preferred to avoid potential losses; the short will be held until T+2.5 to capture any reversal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-ab29-76e0-9a84-0b33f1cc4abd"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-ab29-76e0-9a84-0b33f1cc4abd.request.json",
+      "sha256": "89738ca6741f0a4e34f061de29c6928356a3b3a0bc3e79c3a1f0e541be43afaf"
+    },
+    {
+      "path": "calls/01a1a46b-ab29-76e0-9a84-0b33f1cc4abd.response.json",
+      "sha256": "79320bd7adf6009572bcfd53fe4a2884ea8c8a9fbe89c4d52781ced98640bade"
+    }
+  ],
+  "sha256": "4e0e9a5ca7e0cf08d1b55e85d5b7c950b67253b9147c5ef9d2140c1ead6d0c0c"
+}

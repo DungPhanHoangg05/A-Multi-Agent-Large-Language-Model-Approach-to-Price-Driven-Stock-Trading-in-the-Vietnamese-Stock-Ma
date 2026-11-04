@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_AS_n2",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "c0ba10731281071282a5ca943214133074abdb4a125f7c7c6b9b470b0f9ec889"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support 65.5 and resistance 68.5, alpha factors mostly positive. Price is above support and approaching resistance, indicating potential breakout.",
+    "evidence_against": "MACD line below signal and negative histogram indicate bearish momentum.",
+    "justification": "Given the strong alpha signals and trend, a long position is justified, but MACD warns of potential reversal. Thus, we proceed with caution, setting tight stop-loss below support.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-058f-7ef0-b941-8bb87954568b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-058f-7ef0-b941-8bb87954568b.request.json",
+      "sha256": "dd31b0c3a9be40d768b24c132ddb67e81f92a0603792c5e4ea3103c4d9fe3554"
+    },
+    {
+      "path": "calls/01a1a474-058f-7ef0-b941-8bb87954568b.response.json",
+      "sha256": "085245cc35b324aaa14375ff10e1389a8e1c1e921285da57879c8f3f8c293c93"
+    }
+  ],
+  "sha256": "cf8e2f5b3d383ea6418de3cf2f8ecc32d2e7138897859d8082a6a52c01cf5d8f"
+}

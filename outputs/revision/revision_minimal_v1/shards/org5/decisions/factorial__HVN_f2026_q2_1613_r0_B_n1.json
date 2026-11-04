@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_B_n1",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "f03241d7395c9379646ddae0742887ddc67b6165f8370eb9afef3f3387d7fb34"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is down with support at 21.0 and resistance at 23.6; MACD line above signal indicates bullish momentum but histogram decreasing suggests weakening.",
+    "evidence_against": "MACD bullish signal could hint at a reversal, but trend and pattern confirm a downtrend.",
+    "justification": "Given the downtrend and weak pattern, a short position aligns with risk management; the bullish MACD is insufficient to override the trend.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-9672-79b0-b603-42f112011a71"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-9672-79b0-b603-42f112011a71.request.json",
+      "sha256": "438f5252b25c97f29ebc6b57990af56ec0a070d1ac17875c77c3bbe48aead416"
+    },
+    {
+      "path": "calls/01a1a46c-9672-79b0-b603-42f112011a71.response.json",
+      "sha256": "40940de7df9151d2c484406f2057f3be193354a5c26644c298d2c99ef9b51d99"
+    }
+  ],
+  "sha256": "bf317287bdd044496124d1ff790191bf22f651f57da0a4f586a31dc869f2a41a"
+}

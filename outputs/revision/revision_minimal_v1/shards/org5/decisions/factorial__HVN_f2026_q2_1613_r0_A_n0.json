@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_A_n0",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "2c1d38e892bc08cda7408b4fe929cfdf4941d43a10826be6a8bbbb573ff31ae6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis indicates a downtrend with support at 21.0 and resistance at 23.6. Alpha factors show majority negative signals, supporting a short position.",
+    "evidence_against": "MACD line is above signal, suggesting bullish momentum.",
+    "justification": "Given the downtrend and negative alpha consensus, a short trade aligns with the risk-reward profile. The bullish MACD is outweighed by the overall bearish indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-276a-7101-ae4a-be7fffa323ce"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-276a-7101-ae4a-be7fffa323ce.request.json",
+      "sha256": "0a13ac86fad3ff852e054681cd7dfa07a7b9ae7c345950c010bf547d547c4c1e"
+    },
+    {
+      "path": "calls/01a1a46c-276a-7101-ae4a-be7fffa323ce.response.json",
+      "sha256": "2ee1400ef4b60a8c36d1e1a3afd4dfa3b38a308473d462ecae2d8b72e790b09a"
+    }
+  ],
+  "sha256": "57ce23f89c49d8dbac84c536a75e6f4af43836ea9f5ee9a99cf71881bff1ea4f"
+}

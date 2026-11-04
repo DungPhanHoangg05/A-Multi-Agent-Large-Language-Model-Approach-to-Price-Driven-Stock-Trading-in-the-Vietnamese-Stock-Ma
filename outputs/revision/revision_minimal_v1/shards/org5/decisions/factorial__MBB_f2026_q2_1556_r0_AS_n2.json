@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_AS_n2",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "ff6a7122389fd4a5e3eb7857c67a8db8131550d10d1eef0afbe41760938d1083"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Trend up with price near resistance 22.0 and MACD line above signal indicating increasing momentum. Alpha factors show one positive but majority negative, so evidence is mixed.",
+    "evidence_against": "Alpha factors majority negative and MACD line remains negative, indicating bearish momentum.",
+    "justification": "Shorting is chosen due to weak bullish signals and risk of reversal. The trend is still up but the risk of not covering the fees outweighs potential upside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-4667-7ab3-a6d4-b87ef3ac990d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-4667-7ab3-a6d4-b87ef3ac990d.request.json",
+      "sha256": "875e09ed5390d5a10439ef1a49070ef2f87a919f4b724e0f107cddcbe14b04bf"
+    },
+    {
+      "path": "calls/01a1a46a-4667-7ab3-a6d4-b87ef3ac990d.response.json",
+      "sha256": "a9411a2ddd5b422f84a54361159c6a36556f78026141b2538bb415aab6947904"
+    }
+  ],
+  "sha256": "a66c98739cd3687a35e7374ac7626d4ec6669bf6831ea0a50ccd11a115fa59b1"
+}

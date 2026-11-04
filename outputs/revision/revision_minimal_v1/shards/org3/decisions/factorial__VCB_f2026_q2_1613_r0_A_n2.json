@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_A_n2",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "13d286044cebcefa3d437b23b795a9011c62b4bff71ca18603a9905f3c512820"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Pattern indicates bearish trend with high confidence; MACD shows bearish momentum.",
+    "evidence_against": "Trend analysis suggests sideways movement, which could reduce short potential.",
+    "justification": "Given the bearish pattern and MACD signals, shorting aligns with the trend; risk is limited by holding cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-6899-7d91-96be-8bfe9d2a32b0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-6899-7d91-96be-8bfe9d2a32b0.request.json",
+      "sha256": "6d307045c2e5c1a0f834e1ca5175c7b0921cb2d0cdf83eb1a3e3336bea3e2a43"
+    },
+    {
+      "path": "calls/01a1a46f-6899-7d91-96be-8bfe9d2a32b0.response.json",
+      "sha256": "9a78e304a6cbde2954857b89af592b9175bfd575e65518f1ab0e5ae9a53f93e4"
+    }
+  ],
+  "sha256": "0be9838e0e8df64bbbd112f34f29290a3349bd97617a4972fe2791b29a551f7f"
+}

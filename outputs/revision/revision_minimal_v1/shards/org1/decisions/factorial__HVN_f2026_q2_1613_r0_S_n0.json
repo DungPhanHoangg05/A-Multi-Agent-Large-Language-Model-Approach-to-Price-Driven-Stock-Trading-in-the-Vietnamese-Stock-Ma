@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_S_n0",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "c617fcc82bc657dda392f48bc50383eb737ea3f056170d1836476f002a5d8d6c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a downtrend with price below resistance and selling pressure; MACD above signal but histogram decreasing indicates weakening bullish momentum.",
+    "evidence_against": "Pattern suggests a V reversal but confidence is low and actual candle does not match.",
+    "justification": "Given the confirmed downtrend and weak bullish signals, a short position is appropriate; the risk-reward ratio is acceptable with expected price decline.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-b5eb-7861-821d-3a0f0c306dd9"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-b5eb-7861-821d-3a0f0c306dd9.request.json",
+      "sha256": "036107f22a814d5f9e069ed075fce3f6990728a0d046b240a1196234fcd24abb"
+    },
+    {
+      "path": "calls/01a1a46b-b5eb-7861-821d-3a0f0c306dd9.response.json",
+      "sha256": "83c377f3776efb3d59cbe7d9411d0105f28655e557e7aeadebb25510a991ef1f"
+    }
+  ],
+  "sha256": "186687cd7c1281755ec0687b1f0a36f783513609d0b5dbd0b9e5dd7d2c9a8759"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_P_n0",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": "3005358457a5407e806a19a3a9d7d570062c110f5f925ca88888ad76850a83e7",
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "c2c26a02b74749db2adf8042f8ab0a0fcf503046b6ed4ffd86b84445d57b7eee"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 5.0,
+    "evidence_for": "Trend is up with price near resistance 68.5 and potential upside of ~3 points; alpha factors show 2 positive signals.",
+    "evidence_against": "MACD is below signal indicating bearish momentum.",
+    "justification": "The expected upside exceeds transaction costs, but momentum is weak; still choose LONG due to trend confirmation.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-6768-7a11-8a14-81f95f32142b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-6768-7a11-8a14-81f95f32142b.request.json",
+      "sha256": "2138e2c48108cf67306f367646f01832a621be5028b517ff0ae17a4797ecee76"
+    },
+    {
+      "path": "calls/01a1a46f-6768-7a11-8a14-81f95f32142b.response.json",
+      "sha256": "834d5e8a630b531762e6dac3c6059e2f7e551ef359bf70ab9e583a73087eb03a"
+    }
+  ],
+  "sha256": "37c47d1be1436fa903dbabedb7aa6e925462caa2ac9c4cc142906e60b6f16e90"
+}

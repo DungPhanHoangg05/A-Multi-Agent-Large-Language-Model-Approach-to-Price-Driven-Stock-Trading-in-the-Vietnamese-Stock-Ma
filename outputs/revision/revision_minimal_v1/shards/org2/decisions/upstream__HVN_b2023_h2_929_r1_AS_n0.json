@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_b2023_h2_929",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__HVN_b2023_h2_929_r1_AS_n0",
+    "asset_hash": "47fc83202a1ef4e84cd78ff8a989357aa27cad3ebeb08f391c65b9ee15a76ef8",
+    "donor_hash": null,
+    "upstream_hash": "fb341bd0c6de51db082c8e45e191d5ea4a3b5b337e34e6bbd04e8f0875cf84df",
+    "prompt_hash": "27efdf758122f64eadfe0a5548e3aed5ceb5072a4e3f550557f50ae644f505f2"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "MACD and histogram are negative, confirming bearish momentum. Pattern V reversal indicates potential further decline below support 9.65.",
+    "evidence_against": "Trend analysis shows moderate confidence, but overall market sentiment is neutral.",
+    "justification": "Given the bearish indicators and pattern, a short position aligns with the strategy to avoid buying on a downtrend. The risk/reward ratio is acceptable at 1:1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1f1-d26d-7563-b983-ee6c557e09b6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1f1-d26d-7563-b983-ee6c557e09b6.request.json",
+      "sha256": "253b761d5cbc58b9d3d7cac8d3b716833fe4cde32b9a7332b895c0884acfe2c4"
+    },
+    {
+      "path": "calls/01a1a1f1-d26d-7563-b983-ee6c557e09b6.response.json",
+      "sha256": "cbd79a3d78799c11efce1d1334921e2cbea9affc5e329b59c00966594cd2ea6c"
+    }
+  ],
+  "sha256": "79219e1846babc35f17315297b112fa78ce8a7ac2837c0660749788cefd2b303"
+}

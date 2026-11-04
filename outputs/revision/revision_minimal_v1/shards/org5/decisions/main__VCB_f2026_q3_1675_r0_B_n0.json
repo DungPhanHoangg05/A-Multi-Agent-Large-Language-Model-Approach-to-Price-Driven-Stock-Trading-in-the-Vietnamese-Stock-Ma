@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VCB_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "f3bd53b57dc4f4a0fde3c3a65e0f0dad9ab22c3119093db52b24fec559afd0ec",
+    "prompt_hash": "e1fe0e8ec568cfce300400247b4d4aa1578bff74a2a13599900b596e72d1bd94"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD line below signal and histogram negative indicates bearish momentum. Trend analysis shows sideways with support at 57.5 and resistance at 59.8, suggesting no breakout.",
+    "evidence_against": "Pattern indicates potential bullish breakout but low confidence.",
+    "justification": "Given bearish momentum and lack of breakout, shorting is prudent. Holding cash avoids potential loss if price moves sideways.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-f1fa-7992-8a44-27b57255e21c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-f1fa-7992-8a44-27b57255e21c.request.json",
+      "sha256": "a00d203dbfbc8b19227dcb2b50a1df242a793b103a7fcd4c762373228762032c"
+    },
+    {
+      "path": "calls/01a1a46e-f1fa-7992-8a44-27b57255e21c.response.json",
+      "sha256": "468049de2a657f64180bc04bd9b0a7e90603038dd6c8c84106e1a22539e239c1"
+    }
+  ],
+  "sha256": "7a65ed2530a97b0a0e834a654bf4f75d0d19f9434ce7ee0dbd902ed22449c829"
+}

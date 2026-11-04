@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VNM_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "donor_hash": null,
+    "upstream_hash": "f9125474a395bdef515d3d1970f9211212fab00b83cfe4a61915bde7a7dfb4e3",
+    "prompt_hash": "cd56c9e9828099b263def0c345932942a4381d49c184df6581bf8d2631732f67"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is sideways with price near support, MACD line below signal indicating bearish momentum, and double bottom pattern weak.",
+    "evidence_against": "MACD below signal and histogram negative suggest no bullish breakout.",
+    "justification": "Shorting preserves cash as long trade unlikely to cover fees; risk-reward ratio acceptable given market uncertainty.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-0bd2-7d53-9c08-c4d6661bf50f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-0bd2-7d53-9c08-c4d6661bf50f.request.json",
+      "sha256": "ebfe13ad67fdcb29148fd7cc6c28a5f65d5e5f70fdb2f3e8db6a63146a0a272c"
+    },
+    {
+      "path": "calls/01a1a473-0bd2-7d53-9c08-c4d6661bf50f.response.json",
+      "sha256": "887cba39b19090b3c16ab9d7080725af70127725ad1fd1348d54112c84f6ca4d"
+    }
+  ],
+  "sha256": "3cfa954678294ce87a75b2d0c28bf586202a2c6f4ba2aa49bd912706c1c71121"
+}

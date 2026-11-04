@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_S_n1",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "0c03841cf2765b5a6e2aca941e43b022a69901455e2c99b0be7e3128b4acaa6f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates an upward direction with price approaching resistance at 23.5, and MACD shows bullish momentum with MACD above Signal and positive histogram.",
+    "evidence_against": "Pattern analysis suggests a clear downtrend, which conflicts with the bullish signals.",
+    "justification": "Given the higher reliability of trend and bullish MACD, a LONG position is justified, expecting a price move towards resistance within the 3-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-f9fd-7f13-bbe2-523b20d4ca44"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-f9fd-7f13-bbe2-523b20d4ca44.request.json",
+      "sha256": "b033403f6ca61df0e8f7de1d23515d9ffcf7ca657ee203ca338be6495f7c2874"
+    },
+    {
+      "path": "calls/01a1a467-f9fd-7f13-bbe2-523b20d4ca44.response.json",
+      "sha256": "203a45639e8f3569e7bb6b422375184f3f3604dc890cd7323613eb3e729e6a15"
+    }
+  ],
+  "sha256": "0005a91927cc8a587ebe160c2dd1fb0e50e80fa2e7023ac7c0620c22adbf8df6"
+}

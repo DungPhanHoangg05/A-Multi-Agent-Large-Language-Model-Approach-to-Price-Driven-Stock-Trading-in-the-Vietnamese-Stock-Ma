@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_P_n0",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "0e4e369fdf3e81db6f97722d0e937e5ab9fc2fd1833ed15cc02ffc2d6a2c1ed5"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a downward move with support at 21.0 and resistance at 23.6; Alpha factors show 4 out of 5 negative signals confirming a bearish bias.",
+    "evidence_against": "MACD line is above signal but histogram is declining, suggesting weakening momentum.",
+    "justification": "Given the consensus of bearish indicators and the risk of insufficient profit to cover fees, a short position preserves capital over the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-b000-78c3-8523-3beeb4275d60"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-b000-78c3-8523-3beeb4275d60.request.json",
+      "sha256": "866b4b941f90188cd29560465fbdc3154930bd46a54a62d8c89beb9b698507e2"
+    },
+    {
+      "path": "calls/01a1a46b-b000-78c3-8523-3beeb4275d60.response.json",
+      "sha256": "98f29e39166821bfb80850c42060ac3cd4edc103221d6a9ce31b73f0888fa1b9"
+    }
+  ],
+  "sha256": "9759906a069ea630b539dd2cb1e0f224a289a6451ede7fbd950d698b213ed26c"
+}

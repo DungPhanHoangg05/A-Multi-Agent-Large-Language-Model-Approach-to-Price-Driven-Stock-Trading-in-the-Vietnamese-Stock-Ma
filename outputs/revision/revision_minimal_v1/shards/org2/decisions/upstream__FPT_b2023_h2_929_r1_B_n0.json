@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_b2023_h2_929",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__FPT_b2023_h2_929_r1_B_n0",
+    "asset_hash": "05c835291e10c9661fc2dfb3c11d27966e66f64aece10a63efd950917c4ddefc",
+    "donor_hash": null,
+    "upstream_hash": "431ae6d9864aeda5de81420807ad4eb3eb6282c0eff5a833a56e20f8ef615411",
+    "prompt_hash": "65a1b2f12dc2da96e1a6ebd81c502566ff3f9a4f16e0cd4af7b0c83204aeb230"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend is up with support at 63.5 and resistance at 69.5, and the flag pattern confirms a bullish breakout with target 68 and stop 63.",
+    "evidence_against": "MACD is below the signal line, indicating bearish momentum.",
+    "justification": "The trend and pattern strongly support a bullish move, but the bearish MACD suggests caution. A long position with tight stop at 63 offers a favorable risk‑reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e7-556f-7952-89e4-fccc3f142e94"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e7-556f-7952-89e4-fccc3f142e94.request.json",
+      "sha256": "3738eccbe326b4fe8214e686f540c1c5a61272c0510bb74a2651b0ae16cb55d4"
+    },
+    {
+      "path": "calls/01a1a1e7-556f-7952-89e4-fccc3f142e94.response.json",
+      "sha256": "5ee81463d81eeaf82cf444d6526285ce3100bc5a2e750647273f70d357ea5e8c"
+    }
+  ],
+  "sha256": "cd13a42d3c16844b25bb8d57972f7acbe1eb93a7ea849794824d523fa800d8ca"
+}

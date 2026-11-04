@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_P_n2",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": "bfca8aa4e2c63e688da5a12260c5084c009dc9a03668822ce86fb7f3e2f74f9d",
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "96a11032871d37ec40d90f4c8d526cf754c485401ca712fa0f3b6fbe9f1fde40"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum; majority of alpha factors signal a decrease.",
+    "evidence_against": "Trend analysis shows an upward direction.",
+    "justification": "Given the bearish momentum from MACD and alpha signals, a short position is preferred to capture potential decline; the trend alone is insufficient to override these indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-95c1-7a23-a566-a6dd3b2431b3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-95c1-7a23-a566-a6dd3b2431b3.request.json",
+      "sha256": "fa5796e86d79ddb1b0a4c904413e5f7af0fcde64e96f47d25d046a6a8f6db97c"
+    },
+    {
+      "path": "calls/01a1a473-95c1-7a23-a566-a6dd3b2431b3.response.json",
+      "sha256": "589da3e3bb03c1733f7b52def1b0b2e827c348d7ccca8d0693aefda1e8c7ecd9"
+    }
+  ],
+  "sha256": "3d2c789f67c3bd7470b6f3de44ee9b3a195b8c55bb44e5a2318d71b41a88164e"
+}

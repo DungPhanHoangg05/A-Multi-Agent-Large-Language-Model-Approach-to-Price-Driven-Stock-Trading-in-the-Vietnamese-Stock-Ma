@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46f-d5ea-7512-819d-fdb36a63b096",
+  "parent_request_hash": "548915bd8e2f80dafad1c57355f5c20dc4542b85d7f4c264ca4ede1c426cef07",
+  "ended_at_utc": "2026-11-04T02:42:36.694759+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern shows a clear downtrend with repeated lower highs and lows, and MACD is below signal with negative histogram indicating bearish momentum. Trend analysis indicates a horizontal range with no clear upward breakout, reinforcing a bearish stance.\",\"evidence_against\":\"Trend analysis suggests a neutral sideways movement, which could allow a short-term upside.\",\"justification\":\"Given the bearish pattern and negative MACD, a short (cash) position is prudent to avoid potential losses. The neutral trend does not provide a strong case for a long entry.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Pattern shows a clear downtrend with repeated lower highs and lows, and MACD is below signal with negative histogram indicating bearish momentum. Trend analysis indicates a horizontal range with no clear upward breakout, reinforcing a bearish stance.\",\"evidence_against\":\"Trend analysis suggests a neutral sideways movement, which could allow a short-term upside.\",\"justification\":\"Given the bearish pattern and negative MACD, a short (cash) position is prudent to avoid potential losses. The neutral trend does not provide a strong case for a long entry.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 935,
+                "prompt_tokens": 1460,
+                "total_tokens": 2395,
+                "completion_time": 1.150051554,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 790
+                },
+                "prompt_time": 0.073412461,
+                "prompt_tokens_details": null,
+                "queue_time": 0.15425717,
+                "total_time": 1.223464015
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a12402de73",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46f-d5ea-7512-819d-fdb36a63b096-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 935,
+        "prompt_tokens": 1460,
+        "total_tokens": 2395,
+        "completion_time": 1.150051554,
+        "completion_tokens_details": {
+          "reasoning_tokens": 790
+        },
+        "prompt_time": 0.073412461,
+        "prompt_tokens_details": null,
+        "queue_time": 0.15425717,
+        "total_time": 1.223464015
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a12402de73",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

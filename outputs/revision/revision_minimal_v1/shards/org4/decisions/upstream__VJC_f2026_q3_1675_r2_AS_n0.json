@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1675",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VJC_f2026_q3_1675_r2_AS_n0",
+    "asset_hash": "7b3c107a5b4e15f9c6e6663e7b2749e879349495ba7a996777cd4b55e77aa764",
+    "donor_hash": null,
+    "upstream_hash": "134b390b992bba0039d88882759bc16c263b5614defa508e69c92b737adbcf0e",
+    "prompt_hash": "365324fa0a02e66237e6f754c0d71e8150b0177bf04eb439a779dff992131a9d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with positive histogram indicates bullish momentum. V-shaped pattern suggests potential reversal with support near 133.5.",
+    "evidence_against": "Trend analysis indicates a downtrend with low confidence, and overall alpha factors are negative.",
+    "justification": "Given the conflicting signals, the dominant trend and negative alpha outweigh the bullish indicators, so a short position is preferred to preserve cash over the T+2.5 horizon. The short trade allows us to avoid potential losses if the downtrend persists.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-b4c7-7120-847c-c780c1cf7b15"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-b4c7-7120-847c-c780c1cf7b15.request.json",
+      "sha256": "a0e44f78154ac1086f5824aec103e3617e8e1334fd2deac17262589afcc4c757"
+    },
+    {
+      "path": "calls/01a1a471-b4c7-7120-847c-c780c1cf7b15.response.json",
+      "sha256": "2ef298b4b1ac25b5a238ea44672457300ebccd2ad7ef0ff7141842aaffb0ede6"
+    }
+  ],
+  "sha256": "1d77bcddf8fd203b25f0d2f996c20d4509e1b40f153e941a142c8a7b39da2c4c"
+}

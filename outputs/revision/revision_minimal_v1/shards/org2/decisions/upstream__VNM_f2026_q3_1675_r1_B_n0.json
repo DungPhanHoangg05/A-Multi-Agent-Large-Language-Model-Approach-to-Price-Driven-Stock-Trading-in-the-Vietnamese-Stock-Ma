@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VNM_f2026_q3_1675_r1_B_n0",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "donor_hash": null,
+    "upstream_hash": "91b22089c02906e3cc1cd3d855687210d34400ceaaaf5850760f2b3640639b00",
+    "prompt_hash": "6da7c5d1953801f66de51ec943eefdd8285d0b09c233d8ab6d3332a653176b39"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD line below signal and widening negative histogram signal bearish momentum. Price is near support level 59.5 with no breakout above resistance 63.5.",
+    "evidence_against": "Trend analysis indicates sideways or slight up, not clear bearish breakout.",
+    "justification": "Given bearish MACD and price near support, short position is preferred to avoid potential loss if price fails to break resistance. Holding cash avoids risk of holding stock beyond T+2 due to regulatory constraints.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-8b32-7831-b41f-bf158040e0d7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-8b32-7831-b41f-bf158040e0d7.request.json",
+      "sha256": "0c1a6b92623f3b1e028461023ac578866430e8dbca578563b160be85f298c8b2"
+    },
+    {
+      "path": "calls/01a1a473-8b32-7831-b41f-bf158040e0d7.response.json",
+      "sha256": "f6edd0666be10649f3a2483d8aa851d85d5c7f89359f35b96248a0cc14190f61"
+    }
+  ],
+  "sha256": "979181274d5ad7ca3487e9f30491a659a874ed045e2c32f912849d298a773a7a"
+}

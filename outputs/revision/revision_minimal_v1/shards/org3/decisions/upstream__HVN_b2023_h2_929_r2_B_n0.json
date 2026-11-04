@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_b2023_h2_929",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__HVN_b2023_h2_929_r2_B_n0",
+    "asset_hash": "47fc83202a1ef4e84cd78ff8a989357aa27cad3ebeb08f391c65b9ee15a76ef8",
+    "donor_hash": null,
+    "upstream_hash": "fb341bd0c6de51db082c8e45e191d5ea4a3b5b337e34e6bbd04e8f0875cf84df",
+    "prompt_hash": "11b245862f60ec86fdeb7ca2a98173aa7f02be3d0568619337f7e7d50978c8ed"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is downwards with support at 9.65 and resistance at 10.10, price consistently below resistance. MACD is below signal with negative histogram trending down, confirming bearish momentum.",
+    "evidence_against": "Pattern indicates a V reversal, which could suggest a potential bounce.",
+    "justification": "Given the bearish trend, negative MACD, and price below key resistance, a short position is justified. The V reversal pattern and MACD confirmation support a short entry with target near 9.6 and stop above 10.2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-19a4-7d11-a56a-ca37b5dc19f1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-19a4-7d11-a56a-ca37b5dc19f1.request.json",
+      "sha256": "09e4460313ab53064e94358889df51d48975d580fc3a972bfcdef9335474831a"
+    },
+    {
+      "path": "calls/01a1a466-19a4-7d11-a56a-ca37b5dc19f1.response.json",
+      "sha256": "89679ae05c6fbadcd1aabb7630f6c5694ed7aeb67a0709e14798b4f8f6017c47"
+    }
+  ],
+  "sha256": "51132a993661e3760304fd2fc43f534ae05a7a5a139410a37150032835634a51"
+}

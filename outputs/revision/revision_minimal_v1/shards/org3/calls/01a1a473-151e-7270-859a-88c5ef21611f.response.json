@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a473-151e-7270-859a-88c5ef21611f",
+  "parent_request_hash": "cd6709d3b4af3382c64e4ebd80abc6ccb71e8765a680714fd59717baa83f9d1f",
+  "ended_at_utc": "2026-11-04T02:46:09.291137+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum.\",\"evidence_against\":\"Trend analysis shows sideways movement with no breakout.\",\"justification\":\"Overall alpha signals are negative and sentiment is slightly bearish, so shorting is the preferred strategy to avoid potential losses.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD below signal and negative histogram indicate bearish momentum.\",\"evidence_against\":\"Trend analysis shows sideways movement with no breakout.\",\"justification\":\"Overall alpha signals are negative and sentiment is slightly bearish, so shorting is the preferred strategy to avoid potential losses.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 450,
+                "prompt_tokens": 1554,
+                "total_tokens": 2004,
+                "completion_time": 0.653672078,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 357
+                },
+                "prompt_time": 0.149926685,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.365089286,
+                "total_time": 0.803598763
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e11c8bbf69",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a473-151e-7270-859a-88c5ef21611f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 450,
+        "prompt_tokens": 1554,
+        "total_tokens": 2004,
+        "completion_time": 0.653672078,
+        "completion_tokens_details": {
+          "reasoning_tokens": 357
+        },
+        "prompt_time": 0.149926685,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.365089286,
+        "total_time": 0.803598763
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e11c8bbf69",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_B_n2",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "aa7d09471271811a12d6994ec360d4aca62e60d0051e25e17025f7c521767ed2"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows continuous lower highs and lows, indicating a downtrend. MACD histogram is positive and rising, suggesting increasing bullish momentum but still below zero, indicating potential reversal.",
+    "evidence_against": "Trend analysis indicates an uptrend with price above support and approaching resistance.",
+    "justification": "Given the conflicting signals, the downtrend pattern and MACD histogram suggest a potential reversal, so a short position is prudent. The risk of holding long is higher due to the pattern and MACD line still negative.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a469-d949-7e21-bb40-232f84f99e03"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a469-d949-7e21-bb40-232f84f99e03.request.json",
+      "sha256": "4fe8b1e2c374f822efed7bafc459580cec9be3c8bd1c2c40418c26f9a4da1a72"
+    },
+    {
+      "path": "calls/01a1a469-d949-7e21-bb40-232f84f99e03.response.json",
+      "sha256": "629b24ae56f7a2c118a9ed437eed8d0e6d575153d3982ac2ff782ed3a8bba5a9"
+    }
+  ],
+  "sha256": "87fa24b1abca0f381c9a13ad88e66471b9cf9ada38a333d5bcf3bd5c5c889509"
+}

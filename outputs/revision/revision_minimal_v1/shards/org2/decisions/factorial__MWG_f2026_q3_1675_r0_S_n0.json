@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_S_n0",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "0a5f4f7c70bcf74d113f9f874b0797df5fac696bd19291540319bebca2dad7f1"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.2,
+    "evidence_for": "Trend up with support at 70.5 and resistance at 74.5, price above support and approaching resistance; pattern shows accumulation with higher highs and MACD histogram trending up indicating potential reversal.",
+    "evidence_against": "MACD line below signal and histogram negative suggests bearish momentum.",
+    "justification": "Long position expected to capture upside to 75 with stop at 70, risk reward ratio ~1.2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-3e73-7fd0-ae47-021c38a3f180"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-3e73-7fd0-ae47-021c38a3f180.request.json",
+      "sha256": "12e3b26d17e2a96b4d9b1311e0fc6fcd65dd7b0da8045728c1c507dc74eaf571"
+    },
+    {
+      "path": "calls/01a1a471-3e73-7fd0-ae47-021c38a3f180.response.json",
+      "sha256": "72582d5ff6eaf6a5d7d691ff7463cbd35f52ddb27ec875c142ea0f8854bd9c6f"
+    }
+  ],
+  "sha256": "2d72f0c99568b0708d1098e970e2c163237083e5a4f07ddde7e5de670215589e"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2025_q4_1490",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__MWG_f2025_q4_1490_r2_B_n0",
+    "asset_hash": "d3728c5370b1fafe7a7b01ed4a2c8d5938b10f76390cee1122a3813bf3f7b20f",
+    "donor_hash": null,
+    "upstream_hash": "f2e2124a6b1c3a81e0c18d4ba929b0b97124e4bbc929dd6f72cf76465ef1f850",
+    "prompt_hash": "3ac7609026e9f7fb427ef0e0fabd88a81db3cf5672d9fe41dda6b8157e25fe7b"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 75.8 and resistance at 83.5; MACD golden cross confirms bullish momentum.",
+    "evidence_against": "Potential liquidity constraints could limit breakout execution.",
+    "justification": "Buy at open on T, target 83, stop 78; expected profit > 0.7% after fees. Shorting would miss upside and incur no profit.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-6bd7-7e52-9924-fcda0d3064e8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-6bd7-7e52-9924-fcda0d3064e8.request.json",
+      "sha256": "475d937d46adb6829b01e253ea68c5b3e88742d6f1d87ca77f7e87bdc0fa9b3f"
+    },
+    {
+      "path": "calls/01a1a468-6bd7-7e52-9924-fcda0d3064e8.response.json",
+      "sha256": "3feae21d839172b8351e2344719780a6ec8c93f34a574f7ff965b3f89a38ee21"
+    }
+  ],
+  "sha256": "7b286092509b9c4735b312cef24b12a0c37bc3877f4002ba608dccac751001be"
+}

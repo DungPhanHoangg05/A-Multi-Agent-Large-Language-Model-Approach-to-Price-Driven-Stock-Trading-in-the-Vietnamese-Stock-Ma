@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2025_q4_1490",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__MWG_f2025_q4_1490_r1_AS_n0",
+    "asset_hash": "d3728c5370b1fafe7a7b01ed4a2c8d5938b10f76390cee1122a3813bf3f7b20f",
+    "donor_hash": null,
+    "upstream_hash": "f2e2124a6b1c3a81e0c18d4ba929b0b97124e4bbc929dd6f72cf76465ef1f850",
+    "prompt_hash": "a9e0044e9be6df455b00a831bad845956d0ed3baaf1c3285b204f4d81e5e7b25"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis indicates upward movement toward resistance 83.5, supported by a V reversal pattern and a MACD golden cross. Alpha factors unanimously signal an increase, reinforcing the bullish outlook.",
+    "evidence_against": "No contrary signals detected.",
+    "justification": "Given the convergence of trend, pattern, indicator, and alpha signals, a long position is justified with expected target 83.5 and acceptable risk-reward. The forecast horizon of T+2.5 aligns with the payment schedule, ensuring timely exit.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-8032-7e23-a882-ac9392217bec"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-8032-7e23-a882-ac9392217bec.request.json",
+      "sha256": "17de72da6e0959b604401a947bd73245251dc69e92bda45bf422b3bcb5e581b1"
+    },
+    {
+      "path": "calls/01a1a467-8032-7e23-a882-ac9392217bec.response.json",
+      "sha256": "95978c60adaa95b8a905286e6f244dc10ed5b27c614787c0e387f1e0806c3b01"
+    }
+  ],
+  "sha256": "b3e7378fe27a478c51f5d524a25a02827653f9b7868367ebe05834adc0082120"
+}

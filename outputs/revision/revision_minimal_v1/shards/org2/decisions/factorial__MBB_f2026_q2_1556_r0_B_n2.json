@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_B_n2",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "e8a95701ff4c1da43420b081508b88a99e46e2b573e0f17c85ad6a1706fe5102"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates an upward movement with price above support and approaching resistance. MACD histogram is positive, showing increasing momentum.",
+    "evidence_against": "MACD line remains negative, indicating bearish momentum.",
+    "justification": "Given the conflicting signals and negative MACD line, a short position is prudent to avoid potential reversal. Shorting allows capital to be preserved until the next trading day, aligning with the T+2.5 settlement rule.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-bdea-7be3-8c7a-7c49c74c8da2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-bdea-7be3-8c7a-7c49c74c8da2.request.json",
+      "sha256": "a14d429e39473175c4c50edfd4e958c7b254db14e0f8eeae13644e2908f53a1b"
+    },
+    {
+      "path": "calls/01a1a46a-bdea-7be3-8c7a-7c49c74c8da2.response.json",
+      "sha256": "b610ce1b32124005c74c402b003439e2e794c3074ee95fc83d1b1b84d5c436fb"
+    }
+  ],
+  "sha256": "94d0654b37af2a974c3f532887a928a3e2a82563f0617971d2075fef7f74e27a"
+}

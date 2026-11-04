@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_A_n0",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "13d286044cebcefa3d437b23b795a9011c62b4bff71ca18603a9905f3c512820"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows consistent lower highs and lower lows with a clear downtrend, and MACD is below signal line indicating bearish momentum. Alpha factors overall trend is positive but only 3 out of 5, while two are negative, supporting a cautious stance.",
+    "evidence_against": "Trend analysis indicates a sideways market, which could reduce the probability of a sustained decline.",
+    "justification": "Given the bearish pattern and MACD confirmation, a short position aligns with the strategy to avoid buying and selling within the T+2.5 horizon. The risk reward ratio of 2.0 reflects a moderate expectation of price decline while covering transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-2b6f-7b03-bc5b-0ef41c637d02"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-2b6f-7b03-bc5b-0ef41c637d02.request.json",
+      "sha256": "6f8f4855ba7d0c8ba64846127592a8bc7b67e1f38071b2ec64b4bac048683d42"
+    },
+    {
+      "path": "calls/01a1a46c-2b6f-7b03-bc5b-0ef41c637d02.response.json",
+      "sha256": "299148568f43685a94a189ab68fe66088651a800351769b91557472cc74339b5"
+    }
+  ],
+  "sha256": "a2624b0fd4cb709ab2ce520f53971212cd2f65f86897cdaafe1806b557fe445d"
+}

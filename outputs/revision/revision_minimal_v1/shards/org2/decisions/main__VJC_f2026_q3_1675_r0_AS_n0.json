@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1675",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VJC_f2026_q3_1675_r0_AS_n0",
+    "asset_hash": "7b3c107a5b4e15f9c6e6663e7b2749e879349495ba7a996777cd4b55e77aa764",
+    "donor_hash": null,
+    "upstream_hash": "134b390b992bba0039d88882759bc16c263b5614defa508e69c92b737adbcf0e",
+    "prompt_hash": "365324fa0a02e66237e6f754c0d71e8150b0177bf04eb439a779dff992131a9d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD bullish with widening histogram; pattern suggests potential reversal but not confirmed.",
+    "evidence_against": "Trend analysis shows downward trend with recent 3 candle closes below 130.",
+    "justification": "Short position to capture downward movement until T+2.5, with stop at 133.5 to limit loss.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-b4cc-7a52-8d54-c4a4d27134f2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-b4cc-7a52-8d54-c4a4d27134f2.request.json",
+      "sha256": "e19bd2e99d0e1460f6c830d8446d9c4fe03800c7d5cfc872584c87fe3af2661e"
+    },
+    {
+      "path": "calls/01a1a471-b4cc-7a52-8d54-c4a4d27134f2.response.json",
+      "sha256": "ae2d4c1fcacee19dcd82ba4cf44f8a1f13e0b9770439e9312a08bd7b22bdf813"
+    }
+  ],
+  "sha256": "1a917022ca736cdbf386a6176ed7641c65ad10b0eee8c4e5ab372297e4ca62b6"
+}

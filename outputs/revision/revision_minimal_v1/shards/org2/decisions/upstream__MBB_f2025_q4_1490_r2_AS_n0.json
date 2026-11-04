@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2025_q4_1490",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__MBB_f2025_q4_1490_r2_AS_n0",
+    "asset_hash": "f1d82d15d78e24a9400db4ad76385237d0398c9cbf42135403f76672543cdb36",
+    "donor_hash": null,
+    "upstream_hash": "a26379204556e37d07acd1ffe508a19cbea21b5e5454b31a25a659210c9a2d25",
+    "prompt_hash": "77d55a39c60e3a879facb33526ce839cc82a8ada1cf6253bdbb07f6a2bafda49"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support at 18.3 and resistance at 20.5; MACD bullish with histogram expanding.",
+    "evidence_against": "Alpha factors overall decreasing may indicate weakening momentum.",
+    "justification": "Long position expected to capture upside to resistance 20.5 within T+2.5 horizon; risk-reward ratio of 2:1 justified by target and stop at support. MACD and pattern support bullish bias.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-1aa3-7dc0-9614-b4dc6d0e5e00"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-1aa3-7dc0-9614-b4dc6d0e5e00.request.json",
+      "sha256": "b4e912c0a92e0353dab41b1b8f0744aa50a7816988067968ce91b4067797d75e"
+    },
+    {
+      "path": "calls/01a1a466-1aa3-7dc0-9614-b4dc6d0e5e00.response.json",
+      "sha256": "1381a221ce1943758b3792f60582fec10b14fba2161ec63268fb2f5f796a74e6"
+    }
+  ],
+  "sha256": "999d7a14e873b45c9a973d719e671b6e31729f219bf0795c14f5e70516969f9a"
+}

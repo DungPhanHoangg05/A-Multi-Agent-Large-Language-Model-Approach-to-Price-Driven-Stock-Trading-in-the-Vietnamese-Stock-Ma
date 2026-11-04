@@ -1,0 +1,18 @@
+{
+  "attempt_id": "01a1a1e7-521c-7461-a477-be254710b2a5",
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false,
+    "provider_org": 5,
+    "execution_epoch": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab"
+  },
+  "type": "RateLimitError",
+  "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m6c2jrxdeb1v2d3bardad2g0` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199906, Requested 1973. Please try again in 13m31.728s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+}

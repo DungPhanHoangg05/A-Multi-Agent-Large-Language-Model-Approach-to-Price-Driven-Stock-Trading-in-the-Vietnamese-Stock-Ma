@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_B_n0",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "f03241d7395c9379646ddae0742887ddc67b6165f8370eb9afef3f3387d7fb34"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear downward bias and MACD line above signal with decreasing histogram, indicating weakening momentum. Support level at 21.0 is below current price, suggesting potential further decline.",
+    "evidence_against": "V reversal pattern confidence is low, and no strong bullish signals are present.",
+    "justification": "Shorting aligns with the prevailing bearish trend and momentum indicators, maximizing risk-reward. A long position would likely fail to cover costs and miss the expected decline.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-9e8c-7f62-b308-45c7373ca1f5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-9e8c-7f62-b308-45c7373ca1f5.request.json",
+      "sha256": "b3f7d43d8d1303c11ce5f28d96337434670be7ba2597e20cfdf79977425b0028"
+    },
+    {
+      "path": "calls/01a1a46c-9e8c-7f62-b308-45c7373ca1f5.response.json",
+      "sha256": "19b7aef873e971de7902239b101ae97a2a7ec006aed46772a177b11520f581cb"
+    }
+  ],
+  "sha256": "f2b8a8f49a286db31fba8bd10ad5ec55fba941e2655c439db66430a01774c299"
+}

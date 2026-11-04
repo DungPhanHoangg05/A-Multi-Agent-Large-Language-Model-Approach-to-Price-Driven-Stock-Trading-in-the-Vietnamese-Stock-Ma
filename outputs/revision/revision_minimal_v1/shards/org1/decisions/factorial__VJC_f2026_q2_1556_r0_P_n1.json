@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_P_n1",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": "eccb39a87243b96d387f255aa2e8ccd7397bec8c2f6050512f356ba77da58c1e",
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "08f0349ce702ab62a8387c7cf6e73b9d9d62b6ee8ad8ce68a17d1e73b15b6571"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "All five alpha factors signal a decrease, indicating a potential reversal. Trend analysis shows bullish but alpha consensus suggests bearish.",
+    "evidence_against": "MACD line above signal and positive histogram suggest bullish momentum.",
+    "justification": "Alpha consensus indicates a likely reversal, outweighing bullish trend signals. Therefore, short position is recommended to preserve cash over the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-4daf-7103-b20a-04217b0c8c44"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-4daf-7103-b20a-04217b0c8c44.request.json",
+      "sha256": "d041eba8e688ea3f02cbe84b0a2ed2a8e86a252497902ad6bb198d0f4f13246e"
+    },
+    {
+      "path": "calls/01a1a46a-4daf-7103-b20a-04217b0c8c44.response.json",
+      "sha256": "2e78de32ebeaabc21894d14a338b44ba5be816f754016cd59c124c3af7f87e85"
+    }
+  ],
+  "sha256": "fe3892db29d84f296f960c9c9cac9e0befbc557df53af72939fbfaa940bf596f"
+}

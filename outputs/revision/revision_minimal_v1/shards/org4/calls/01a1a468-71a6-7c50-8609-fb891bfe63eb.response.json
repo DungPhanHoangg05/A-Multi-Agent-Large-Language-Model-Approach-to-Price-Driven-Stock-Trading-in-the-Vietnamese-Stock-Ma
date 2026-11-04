@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a468-71a6-7c50-8609-fb891bfe63eb",
+  "parent_request_hash": "b3982f378b7479be8b556a1be4ba6e32dad215742eed9ed100c53e586654cafd",
+  "ended_at_utc": "2026-11-04T02:34:33.366085+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an upward direction with price approaching resistance 22.0 and MACD above signal line showing bullish momentum.\",\"evidence_against\":\"Pattern confidence is low and MACD line remains negative, indicating potential weakness.\",\"justification\":\"The trend is upward, MACD indicates bullish momentum, and the pattern suggests a breakout above 21.5. Therefore, a LONG trade is recommended with a target of 22.5 and stop at 21.0.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend analysis indicates an upward direction with price approaching resistance 22.0 and MACD above signal line showing bullish momentum.\",\"evidence_against\":\"Pattern confidence is low and MACD line remains negative, indicating potential weakness.\",\"justification\":\"The trend is upward, MACD indicates bullish momentum, and the pattern suggests a breakout above 21.5. Therefore, a LONG trade is recommended with a target of 22.5 and stop at 21.0.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1592,
+                "prompt_tokens": 1494,
+                "total_tokens": 3086,
+                "completion_time": 2.080771515,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1457
+                },
+                "prompt_time": 0.087404402,
+                "prompt_tokens_details": null,
+                "queue_time": 0.291575439,
+                "total_time": 2.168175917
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a468-71a6-7c50-8609-fb891bfe63eb-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1592,
+        "prompt_tokens": 1494,
+        "total_tokens": 3086,
+        "completion_time": 2.080771515,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1457
+        },
+        "prompt_time": 0.087404402,
+        "prompt_tokens_details": null,
+        "queue_time": 0.291575439,
+        "total_time": 2.168175917
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VCB_f2026_q3_1675_r2_AS_n0",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "4c2e1a0db5f0f8c1fc44d7845b1a7ff47c07acfafd040cf6d65b766b6ba44ec4",
+    "prompt_hash": "32375c39281673f6343c5d5be0159ad5ff7132a2bde2739a92c1db40a188a83c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum.",
+    "evidence_against": "Trend analysis shows sideways movement with no breakout.",
+    "justification": "Overall alpha signals are negative and sentiment is slightly bearish, so shorting is the preferred strategy to avoid potential losses.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-151e-7270-859a-88c5ef21611f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-151e-7270-859a-88c5ef21611f.request.json",
+      "sha256": "d98f8f943d84d5ad5ba82d152ee7f8f190863aaf9a16bd9844b71df30f1d2fae"
+    },
+    {
+      "path": "calls/01a1a473-151e-7270-859a-88c5ef21611f.response.json",
+      "sha256": "0ad2065e5e788f3b5ad0eb0aa7018ff22339389720330617ddd4bc18da15ad58"
+    }
+  ],
+  "sha256": "fff6370f5f0ba53b74f8e817b43692aa238a602a707b5af6481614c7126d9b41"
+}

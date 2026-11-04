@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1675",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__MBB_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "bc07502be64f0d53ad3ebe3cb0ae5369763edf78f72e5ccfc01035409ec57152",
+    "donor_hash": null,
+    "upstream_hash": "fc7024662e63b83c2ef74c186954bf5f0e366d1a3f57c16f474d0f2a89092e9d",
+    "prompt_hash": "3224fa7176d0fa1fc9a0ab259998b870a3411d0b2a26bc6f7bc47645ab7a93dc"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "MACD below signal and negative histogram confirm bearish momentum",
+    "evidence_against": "Pattern indicates bullish trend",
+    "justification": "Trend is sideways and MACD bearish, so short protects cash; bullish pattern not strong enough to overcome bearish momentum",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-a898-71a2-8903-dff5156db595"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-a898-71a2-8903-dff5156db595.request.json",
+      "sha256": "bb1214edbe10493701647a9972a47535fa8ce543db5e92d79a4ae880bc1a2bad"
+    },
+    {
+      "path": "calls/01a1a471-a898-71a2-8903-dff5156db595.response.json",
+      "sha256": "b3a4be5512e858edd2a85efa407ef2fe37799a0de6edcac49bafc8821d5a1a25"
+    }
+  ],
+  "sha256": "614261089cf5df5bc44da9d298e5321538ef82405cf12db79545b281f62331b7"
+}

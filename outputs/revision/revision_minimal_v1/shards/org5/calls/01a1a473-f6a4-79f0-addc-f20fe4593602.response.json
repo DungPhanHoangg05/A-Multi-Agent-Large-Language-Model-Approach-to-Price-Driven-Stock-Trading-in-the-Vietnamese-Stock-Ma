@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a473-f6a4-79f0-addc-f20fe4593602",
+  "parent_request_hash": "3720eaa0eeac1a3ca27bb4eec15b0a88982573493f348dec2ffad3fe9098733c",
+  "ended_at_utc": "2026-11-04T02:47:07.071661+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 70.5 and resistance at 74.5, MACD below signal indicating bearish momentum.\",\"evidence_against\":\"All five alpha factors signal a decrease, indicating potential reversal.\",\"justification\":\"Given the negative alpha consensus and bearish MACD, shorting aligns with risk management and preserves cash.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 70.5 and resistance at 74.5, MACD below signal indicating bearish momentum.\",\"evidence_against\":\"All five alpha factors signal a decrease, indicating potential reversal.\",\"justification\":\"Given the negative alpha consensus and bearish MACD, shorting aligns with risk management and preserves cash.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 781,
+                "prompt_tokens": 1745,
+                "total_tokens": 2526,
+                "completion_time": 0.841471635,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 669
+                },
+                "prompt_time": 0.103676553,
+                "prompt_tokens_details": null,
+                "queue_time": 0.291020888,
+                "total_time": 0.945148188
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_8d13edce1d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a473-f6a4-79f0-addc-f20fe4593602-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 781,
+        "prompt_tokens": 1745,
+        "total_tokens": 2526,
+        "completion_time": 0.841471635,
+        "completion_tokens_details": {
+          "reasoning_tokens": 669
+        },
+        "prompt_time": 0.103676553,
+        "prompt_tokens_details": null,
+        "queue_time": 0.291020888,
+        "total_time": 0.945148188
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_8d13edce1d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

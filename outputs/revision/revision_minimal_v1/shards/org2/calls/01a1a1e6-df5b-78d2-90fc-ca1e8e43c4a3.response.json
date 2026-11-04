@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1e6-df5b-78d2-90fc-ca1e8e43c4a3",
+  "parent_request_hash": "21008df089ab1682fb4d618ff1beff20bbe9890f7edd26681c1930fb31e181fe",
+  "ended_at_utc": "2026-11-03T14:53:46.085032+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"V reversal at 29.8 with strong green candle on 2023-09-21 suggests potential upside.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate bearish momentum.\",\"justification\":\"Trend is sideways with price near support, and bearish indicator outweighs bullish pattern, so short to avoid risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"V reversal at 29.8 with strong green candle on 2023-09-21 suggests potential upside.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate bearish momentum.\",\"justification\":\"Trend is sideways with price near support, and bearish indicator outweighs bullish pattern, so short to avoid risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 547,
+                "prompt_tokens": 1416,
+                "total_tokens": 1963,
+                "completion_time": 0.725614767,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 439
+                },
+                "prompt_time": 0.108033213,
+                "prompt_tokens_details": null,
+                "queue_time": 0.366277688,
+                "total_time": 0.83364798
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1e6-df5b-78d2-90fc-ca1e8e43c4a3-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 547,
+        "prompt_tokens": 1416,
+        "total_tokens": 1963,
+        "completion_time": 0.725614767,
+        "completion_tokens_details": {
+          "reasoning_tokens": 439
+        },
+        "prompt_time": 0.108033213,
+        "prompt_tokens_details": null,
+        "queue_time": 0.366277688,
+        "total_time": 0.83364798
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

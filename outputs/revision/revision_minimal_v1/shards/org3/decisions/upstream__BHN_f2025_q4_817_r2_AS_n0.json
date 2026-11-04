@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2025_q4_817",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__BHN_f2025_q4_817_r2_AS_n0",
+    "asset_hash": "05f90e65a256b946bb643d522f4e567ca06b725370daad7bc5b621d7f3233eb7",
+    "donor_hash": null,
+    "upstream_hash": "25ed30b0b35edf7738e8c6751dece6e1f93624501b32508265fae2af3d8c5e1b",
+    "prompt_hash": "d27f5f177a04a075b35e460a4be93666ba1cfa6d2d1f54c781e064d718e784c8"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern V reversal suggests a short opportunity; MACD below signal line indicates bearish momentum.",
+    "evidence_against": "Trend analysis indicates a sideways market, which could support a neutral stance.",
+    "justification": "Alpha factors overall indicate a decrease, reinforcing the bearish outlook; shorting aligns with the pattern and MACD signals while avoiding holding cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-08ef-7c60-856d-b0258f109fae"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-08ef-7c60-856d-b0258f109fae.request.json",
+      "sha256": "7d13f119016b826414ce53b8cc60f2a632866320e31b018512684d4ab49fb510"
+    },
+    {
+      "path": "calls/01a1a467-08ef-7c60-856d-b0258f109fae.response.json",
+      "sha256": "b9cc3fcd43345776e33e00fdce2225b1eb74b975dc60901c1d0262bcca5f1e8c"
+    }
+  ],
+  "sha256": "b3f403854646ce7dba1764e2875ae7a6c3d913af5b47b59a752b9d6423491bf1"
+}

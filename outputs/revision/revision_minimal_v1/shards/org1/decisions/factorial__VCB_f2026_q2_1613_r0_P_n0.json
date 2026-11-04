@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_P_n0",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": "3873415cc50ea030ae34965d05f1229f9c456e4aea5e6b59c87cb9cd50f1b637",
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "9008d54827e30292ab3021681d58d1470404571ee79b67652e16800f91eccfe4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows consistent lower highs and lower lows with a recent red candle breaking the uptrend structure. MACD line is below signal and histogram negative, confirming bearish momentum.",
+    "evidence_against": "Trend analysis indicates sideways movement, which could reduce the probability of a sustained decline.",
+    "justification": "Given the bearish pattern and negative MACD, a short position aligns with the expected downward movement over the T+2.5 horizon. The risk reward ratio of 2.0 offers a favorable risk profile while accounting for transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-a37f-72d0-b6ba-4f008f5e7346"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-a37f-72d0-b6ba-4f008f5e7346.request.json",
+      "sha256": "55ae8dabbd352c6646ff8907777681727814550e1748637eb72708e88a03f826"
+    },
+    {
+      "path": "calls/01a1a46c-a37f-72d0-b6ba-4f008f5e7346.response.json",
+      "sha256": "62a03fc856dae008f93060a6f5f1be8f09fc3eccf37269c28d5d8b44b945be3d"
+    }
+  ],
+  "sha256": "49610e2131fb6a07d913154fb6149ffc13f09b794b2d36bd6cd3e00aafc19ddb"
+}

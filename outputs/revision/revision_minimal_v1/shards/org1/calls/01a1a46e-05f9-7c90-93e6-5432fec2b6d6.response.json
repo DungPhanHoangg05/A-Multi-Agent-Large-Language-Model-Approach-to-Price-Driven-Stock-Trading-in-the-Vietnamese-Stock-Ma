@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46e-05f9-7c90-93e6-5432fec2b6d6",
+  "parent_request_hash": "e015a2ae72eec9546bdf7146374f7db9fd550b49b2523ee929889176595f005d",
+  "ended_at_utc": "2026-11-04T02:40:38.347394+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern uptrend and overall alpha up\",\"evidence_against\":\"MACD bearish and trend sideways\",\"justification\":\"Price likely insufficient to cover ~0.7% cost, so short to preserve cash\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Pattern uptrend and overall alpha up\",\"evidence_against\":\"MACD bearish and trend sideways\",\"justification\":\"Price likely insufficient to cover ~0.7% cost, so short to preserve cash\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1346,
+                "prompt_tokens": 1571,
+                "total_tokens": 2917,
+                "completion_time": 1.5606391309999998,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1263
+                },
+                "prompt_time": 0.080875786,
+                "prompt_tokens_details": null,
+                "queue_time": 0.156558511,
+                "total_time": 1.6415149169999999
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46e-05f9-7c90-93e6-5432fec2b6d6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1346,
+        "prompt_tokens": 1571,
+        "total_tokens": 2917,
+        "completion_time": 1.5606391309999998,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1263
+        },
+        "prompt_time": 0.080875786,
+        "prompt_tokens_details": null,
+        "queue_time": 0.156558511,
+        "total_time": 1.6415149169999999
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

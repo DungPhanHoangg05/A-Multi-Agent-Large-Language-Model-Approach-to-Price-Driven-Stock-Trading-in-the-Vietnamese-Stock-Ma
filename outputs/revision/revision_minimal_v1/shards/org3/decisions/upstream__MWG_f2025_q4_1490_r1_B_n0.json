@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2025_q4_1490",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__MWG_f2025_q4_1490_r1_B_n0",
+    "asset_hash": "d3728c5370b1fafe7a7b01ed4a2c8d5938b10f76390cee1122a3813bf3f7b20f",
+    "donor_hash": null,
+    "upstream_hash": "f2e2124a6b1c3a81e0c18d4ba929b0b97124e4bbc929dd6f72cf76465ef1f850",
+    "prompt_hash": "3ac7609026e9f7fb427ef0e0fabd88a81db3cf5672d9fe41dda6b8157e25fe7b"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support at 75.8 and resistance at 83.5, price above support and moving towards resistance. MACD golden cross and positive histogram confirm bullish momentum.",
+    "evidence_against": "Potential liquidity constraints could limit breakout execution.",
+    "justification": "Buying at open and selling at close within horizon should capture upside before resistance. Risk of reversal exists but bullish signals outweigh.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-f563-7d33-a3dc-247f97fed0b8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-f563-7d33-a3dc-247f97fed0b8.request.json",
+      "sha256": "d477525d796760a21401f7e7d874d0f04dd7f2826f14b69afb8792dfab732dc1"
+    },
+    {
+      "path": "calls/01a1a467-f563-7d33-a3dc-247f97fed0b8.response.json",
+      "sha256": "92937e1bc40b8574efb21edf0ccdcbb5fbebda0b8e9bdf7fe2614dce154828e0"
+    }
+  ],
+  "sha256": "0863ae91acc32b4638f7406c135745d6544cdc1ec1bd58a908bc67c647600752"
+}

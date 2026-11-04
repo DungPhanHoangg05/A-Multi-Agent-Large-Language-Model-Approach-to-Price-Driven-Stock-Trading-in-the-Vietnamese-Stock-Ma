@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_S_n0",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "82bddbff5f0d8cfa23f760cadc5bf993ff4c9f6d464c5d700018fdc42d9c2b69"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with support 65.5 and resistance 68.5, price above support and approaching resistance.",
+    "evidence_against": "MACD below signal and negative histogram indicating weakening momentum.",
+    "justification": "Momentum weakening suggests potential reversal; short trade preserves cash if price fails to reach target.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-7b6c-7542-9eb6-a4c5f022085c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-7b6c-7542-9eb6-a4c5f022085c.request.json",
+      "sha256": "f563954540cdf3e334cab81b50ebbd25d63b2c37f3185e16c58c17049312f31d"
+    },
+    {
+      "path": "calls/01a1a46e-7b6c-7542-9eb6-a4c5f022085c.response.json",
+      "sha256": "6dac4ffa336370b129c726eeda85c9a5df939cb2d3db9d391e7a2d17c5b381fb"
+    }
+  ],
+  "sha256": "2f6957630af4aed919e4ec96d33b28aede63a47e1456fe319bf2f7ea91b03d0d"
+}

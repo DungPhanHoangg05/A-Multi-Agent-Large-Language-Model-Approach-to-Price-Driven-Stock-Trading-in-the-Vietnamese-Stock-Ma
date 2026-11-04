@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VNM_f2026_q3_1675_r1_AS_n0",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "donor_hash": null,
+    "upstream_hash": "91b22089c02906e3cc1cd3d855687210d34400ceaaaf5850760f2b3640639b00",
+    "prompt_hash": "c9a19a92e4a51a56a8e77058fd733d39f327c2d94d7b8bc274601bd7a37b8b71"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is sideways with support at 59.5 and resistance at 63.5, and MACD indicates bearish momentum.",
+    "evidence_against": "MACD histogram is widening, indicating potential bullish reversal.",
+    "justification": "Overall alpha factors indicate a negative outlook, and the trend lacks a clear upward breakout, so shorting preserves cash.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-816b-7853-b8e0-a0f6869353a6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-816b-7853-b8e0-a0f6869353a6.request.json",
+      "sha256": "e826191e8f82bf790617debf6cd34e6f9c0759ba158ab241bb5ad3bf2571b752"
+    },
+    {
+      "path": "calls/01a1a473-816b-7853-b8e0-a0f6869353a6.response.json",
+      "sha256": "736214f5cea8fea480545bc51fd7a59b5da48456867406c858871e1bf1bd9642"
+    }
+  ],
+  "sha256": "341078eaecbc02c70b100ddaeab0020e34f96bebf653c319bfdf88a32503b7c5"
+}

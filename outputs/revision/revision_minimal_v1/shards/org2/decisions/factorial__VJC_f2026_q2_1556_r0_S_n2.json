@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_S_n2",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "a11ea9dbe17e07d88658bf7fec2a6b760a4c83fca0209e6ae1dd8664a8c16cda"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates upward movement with price approaching resistance 128, and MACD shows bullish momentum with histogram expanding. Pattern analysis confirms a V‑reversal with price breaking above 120, supporting a bullish entry.",
+    "evidence_against": "Price is close to resistance 128, posing a risk of a short‑term pullback.",
+    "justification": "Given the bullish trend, positive MACD signals, and V‑reversal pattern, a long position is justified. The risk‑reward ratio of 2:1 aligns with the expected move toward resistance while accounting for potential pullback.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-198d-7cc1-be5c-ccb59372b578"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-198d-7cc1-be5c-ccb59372b578.request.json",
+      "sha256": "eed39acbec17ff45d30de23fe9f3b14fd6d61eb4c61f808b34ee427988b1cceb"
+    },
+    {
+      "path": "calls/01a1a46d-198d-7cc1-be5c-ccb59372b578.response.json",
+      "sha256": "808c109755cf7d4261a77d3d8d7aae2a2c418b170178a52651f6a85bf8185626"
+    }
+  ],
+  "sha256": "993def6ae1bf24d24efc88ea6a699a0d8b0d6b079e9cbe8798c6729adb7384ff"
+}

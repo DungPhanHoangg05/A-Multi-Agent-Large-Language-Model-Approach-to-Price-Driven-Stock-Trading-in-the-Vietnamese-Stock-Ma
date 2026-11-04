@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "CMG_b2023_h2_929",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__CMG_b2023_h2_929_r1_B_n0",
+    "asset_hash": "cdbcf49d3d6a5fe8e1d19eb3a59c9a77ecbfbad398693eec24573f20fb494f24",
+    "donor_hash": null,
+    "upstream_hash": "2e6a92ce22a739d0c67e5c4033470bd67aeb5d8e497c6d7df5471dbed8524f9f",
+    "prompt_hash": "ba8ee855f998056c9ada92fd2507aeca0e46b86d0840225607731e6c19205da2"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend indicates potential slight upside with support at 31.2 and resistance at 33.0. Pattern V reversal confirms bullish momentum with key green candles on 24/08 and 21/09.",
+    "evidence_against": "MACD shows bearish momentum with negative line below signal and negative histogram.",
+    "justification": "Given the bullish trend and pattern, a LONG position is justified if the price stays above 31.0 and reaches 33.0 before T+2.5. However, the bearish MACD suggests caution and the trade should be exited if the price falls below 30.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-66f9-7671-89d2-e3c8f4012a65"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-66f9-7671-89d2-e3c8f4012a65.request.json",
+      "sha256": "bec251c40cf4663ea11276ec757f138963fe62290393133bf1efe9514828102b"
+    },
+    {
+      "path": "calls/01a1a1e6-66f9-7671-89d2-e3c8f4012a65.response.json",
+      "sha256": "5361f832df2d648bffce82d17f7bde3094812e65f34a152a578ee9e65a4449a2"
+    }
+  ],
+  "sha256": "8015e6f57156299b60983882d92f4956eb73ee19bd44d436f59af83ffc1b651f"
+}

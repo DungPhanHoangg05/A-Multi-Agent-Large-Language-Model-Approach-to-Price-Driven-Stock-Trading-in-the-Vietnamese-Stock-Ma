@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_A_n1",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "46a4a375234daad60ae74759e997b44afc8994b5ed895a38953f09d516c6daa3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is up with price near support 70.5 and approaching resistance 74.5. MACD histogram trending up indicates increasing bullish momentum.",
+    "evidence_against": "All alpha factors indicate decreasing trend, suggesting potential reversal.",
+    "justification": "Buying at 72 with target 75 should cover fees and yield net profit. Trend and MACD support bullish outlook, but alpha factors caution.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-950d-7d51-a2d2-d381450ff1d9"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-950d-7d51-a2d2-d381450ff1d9.request.json",
+      "sha256": "10a54ee10eaaa62c4b4a6fd555679d094bb67f680f18fde7f63185737bca3b69"
+    },
+    {
+      "path": "calls/01a1a472-950d-7d51-a2d2-d381450ff1d9.response.json",
+      "sha256": "4d07e05ba7f001a4bf4d16c1e6b39ff0a648c7a9c6b0828cf04435dd46144e9d"
+    }
+  ],
+  "sha256": "4a022fb6f94d5cead87a0a57c317f1948fc5c205d51d0fb57a9e0b8c9de6a7c5"
+}

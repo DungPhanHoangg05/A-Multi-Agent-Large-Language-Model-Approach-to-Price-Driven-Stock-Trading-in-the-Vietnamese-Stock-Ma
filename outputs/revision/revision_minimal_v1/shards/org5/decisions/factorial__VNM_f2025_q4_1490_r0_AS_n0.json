@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_AS_n0",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "6885fdf6db60f4fa3cfff65dc905820aa951b7703889fe46b4eb19af753341c3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.8,
+    "evidence_for": "Trend analysis shows price above support 59 and approaching resistance 62.5 with bullish flag pattern; Alpha factors majority (3/5) indicate upward bias. MACD histogram trending upward suggests increasing momentum despite line below signal.",
+    "evidence_against": "MACD line below signal indicates potential bearish reversal.",
+    "justification": "Given the bullish trend, supportive alpha signals, and potential breakout above 62.5, a LONG position is justified. The expected reward (~1.8% net) outweighs the risk (~1% stop), yielding a risk-reward ratio of 1.8.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a465-a32d-7153-b97b-b8641f1d0601"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a465-a32d-7153-b97b-b8641f1d0601.request.json",
+      "sha256": "4f4027d19f11e15d2846b93d2a031d0eb95ee5141b70dcb20b2d673f210aec45"
+    },
+    {
+      "path": "calls/01a1a465-a32d-7153-b97b-b8641f1d0601.response.json",
+      "sha256": "6eba302628b0aab6401579c0e3d01df16dcc5cf80c38859fb2768ccdb118c28f"
+    }
+  ],
+  "sha256": "1602f75a2c8b270acead2392166e22d19689a6f5106c0731eb7454b89dd91651"
+}

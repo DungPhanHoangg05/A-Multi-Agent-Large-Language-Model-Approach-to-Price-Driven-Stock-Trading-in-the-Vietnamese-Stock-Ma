@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_B_n2",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "8c573ed267ba42ff722501e285117dd91b716644cbbe99a9cbaf60ab852b140f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis indicates an uptrend with price above support and approaching resistance, and the flag pattern confirms bullish continuation. MACD histogram is widening upward, suggesting increasing bullish momentum despite the line being below the signal.",
+    "evidence_against": "MACD line remains below the signal line, indicating a potential bearish bias.",
+    "justification": "Given the bullish trend and pattern, a LONG position is justified, expecting a breakout above 62.5 to target 64 within the 3‑day horizon. The expected upside (~2.4%) exceeds the combined fee and slippage (~0.7%), ensuring a positive risk‑reward ratio.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-0a6a-7522-bec2-c7bdab0413c6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-0a6a-7522-bec2-c7bdab0413c6.request.json",
+      "sha256": "68e9292a630e635b71ae3983a34a0e58987323921099eb929644018a8cb33ee8"
+    },
+    {
+      "path": "calls/01a1a467-0a6a-7522-bec2-c7bdab0413c6.response.json",
+      "sha256": "2686eba082ce2111c846a89c03e3562316868e86b1ef3d5df16020ae2f5b375e"
+    }
+  ],
+  "sha256": "0f26f2371b143a2c46fb491aa68c64cb163c3a929959c3dde95c5bbf4d5352d9"
+}

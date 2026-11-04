@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_P_n0",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": "bfca8aa4e2c63e688da5a12260c5084c009dc9a03668822ce86fb7f3e2f74f9d",
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "96a11032871d37ec40d90f4c8d526cf754c485401ca712fa0f3b6fbe9f1fde40"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD below signal and negative histogram indicate weakening momentum; alpha factors show 4/5 negative signals. Trend is up but resistance at 28.5 may be breached; however negative indicators outweigh bullish trend.",
+    "evidence_against": "Trend is up and price approaching resistance 28.5.",
+    "justification": "Given the bearish MACD and negative alpha signals, shorting BHN is prudent to avoid potential loss from a failed breakout. The short position allows us to preserve cash if the price fails to reach the resistance within the 3-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-0029-7e22-8db0-b0235bc51086"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-0029-7e22-8db0-b0235bc51086.request.json",
+      "sha256": "012be01359579c4574aec2e8983090b5be988742762ce5876d61df12c89a5bd8"
+    },
+    {
+      "path": "calls/01a1a46e-0029-7e22-8db0-b0235bc51086.response.json",
+      "sha256": "8c0c263b87cfd5af5dc036cb3aabe0554ad9f6b5bab822ea9a36d0d2a5cf083d"
+    }
+  ],
+  "sha256": "901e8d4b92c0377d124618f8073ca582583c05e05854c3419c9255a41abfa09e"
+}

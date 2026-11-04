@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VNM_f2026_q3_1675_r2_AS_n0",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "donor_hash": null,
+    "upstream_hash": "51ec2bebe436d8e014fed580b57fb93081416941d49807eb8b4e79639251134e",
+    "prompt_hash": "866ddc2bb54d988fab9c3b9daa783e0fed1ba14f5f3b915625dcd9c5cb80b7e7"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram show bearish momentum. Alpha factors overall negative indicate downward bias.",
+    "evidence_against": "Trend analysis indicates sideways movement, lacking clear upward breakout.",
+    "justification": "Given bearish MACD and negative alpha, shorting aligns with risk/reward; trend neutrality supports no upside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-3977-72d3-a473-2c781d715d3d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-3977-72d3-a473-2c781d715d3d.request.json",
+      "sha256": "3ce459750adf9e09ed033b498626984e268235353504c832b363df3723be26a5"
+    },
+    {
+      "path": "calls/01a1a471-3977-72d3-a473-2c781d715d3d.response.json",
+      "sha256": "b33c648e1fef453ed44e50a19e02c8754555df09afb4e2d81e037f11bae80759"
+    }
+  ],
+  "sha256": "69309b7dc6e484b2edbf20d6ccc8a8b7348305f9daa54fc5fc60a83fe2788fb0"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_A_n1",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "852a3ebef864dad1873238a121f576223d11a38fa028007664856ba0f4def20a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows upward momentum with price above support and approaching resistance. Pattern confirms a bullish flag breakout at 62.5.",
+    "evidence_against": "MACD line below signal suggests potential short-term weakness.",
+    "justification": "Given bullish trend, pattern breakout, and positive alpha signals, a LONG position is justified. Expected target beyond 62.5 with risk-reward ratio of 2:1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-9205-7210-a36f-bb6a8a7e22c1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-9205-7210-a36f-bb6a8a7e22c1.request.json",
+      "sha256": "8895327f5eed6a9503dd8de571bf78d65e0edde6848bcbae68bd2dfac2be9824"
+    },
+    {
+      "path": "calls/01a1a466-9205-7210-a36f-bb6a8a7e22c1.response.json",
+      "sha256": "b34f62f8cb138e88838f58b50d9ce4c3165c16d006fb910a831109035c05550d"
+    }
+  ],
+  "sha256": "607e45a7f7c1c1e3b350f2526e8ad0ba2d99f0d81df2fb3f99b7f53b5264bcde"
+}

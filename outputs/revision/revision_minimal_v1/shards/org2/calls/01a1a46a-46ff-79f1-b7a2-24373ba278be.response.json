@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a46a-46ff-79f1-b7a2-24373ba278be",
+  "parent_request_hash": "28fcee78be2269507e5aad19886979909b47f77189e6211432a45b2121b88fe6",
+  "ended_at_utc": "2026-11-04T02:36:33.616105+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend bullish with support at 21.5 and resistance at 23.5; MACD shows bullish momentum with histogram positive.\",\"evidence_against\":\"Majority of alpha factors indicate a downward bias.\",\"justification\":\"Bullish trend and MACD support a buy at open with expected close near resistance; alpha signals caution but not enough to override trend.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"Trend bullish with support at 21.5 and resistance at 23.5; MACD shows bullish momentum with histogram positive.\",\"evidence_against\":\"Majority of alpha factors indicate a downward bias.\",\"justification\":\"Bullish trend and MACD support a buy at open with expected close near resistance; alpha signals caution but not enough to override trend.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1185,
+                "prompt_tokens": 1809,
+                "total_tokens": 2994,
+                "completion_time": 1.393896776,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1071
+                },
+                "prompt_time": 0.843614783,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.289967819,
+                "total_time": 2.237511559
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46a-46ff-79f1-b7a2-24373ba278be-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1185,
+        "prompt_tokens": 1809,
+        "total_tokens": 2994,
+        "completion_time": 1.393896776,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1071
+        },
+        "prompt_time": 0.843614783,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.289967819,
+        "total_time": 2.237511559
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

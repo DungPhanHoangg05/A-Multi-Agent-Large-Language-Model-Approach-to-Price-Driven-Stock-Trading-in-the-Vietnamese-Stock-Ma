@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1618",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__FPT_f2026_q3_1618_r0_B_n0",
+    "asset_hash": "84811817e515b9941fe2c5c3e8dafe94279fcd4ef0b7c43c412963f671a13353",
+    "donor_hash": null,
+    "upstream_hash": "030c133aa36bd0177ce875cabdbf7a3979592f3b0cd18a414ae2b578f1ce919c",
+    "prompt_hash": "949ce418155be1e67fb4a864281ab7b2549fc6adc67cd6c57bfd8192c991ee72"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend shows upward movement with price above support 64 and approaching resistance 69.5; V‑shaped pattern confirms reversal and bullish entry.",
+    "evidence_against": "MACD remains below signal line indicating lingering bearish momentum.",
+    "justification": "Buy at open and target close within 3 days; expected price rise should offset 0.7% transaction cost.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-9d73-7e02-a53a-85baeed4c24b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-9d73-7e02-a53a-85baeed4c24b.request.json",
+      "sha256": "d52b0b13da93d3d41a5cf275df94a5abcc0285e9f40ac2b65d4c0c75df74078c"
+    },
+    {
+      "path": "calls/01a1a46c-9d73-7e02-a53a-85baeed4c24b.response.json",
+      "sha256": "825ec584e39ad6aee53e9deef8854c9a793b89a7d1991372d13900388017b333"
+    }
+  ],
+  "sha256": "13745667c1a6ca8cdebc4553d9d0f19411a71de5d51f40f35f18641df4da7f74"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_B_n1",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "1e304a16d8b88304277af5a5d74351f8ad1d41fc0ed238cd2dc6612b02f8d29b"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend shows upward movement with price near resistance 74.5, pattern indicates accumulation.",
+    "evidence_against": "MACD line below signal and negative histogram suggest bearish momentum.",
+    "justification": "Given the bearish MACD signal, a short position is preferred to avoid potential reversal. The short trade will be entered at the current price with a target near support 70.5 and stop above 74.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-7732-76f1-92fa-e02d42370edc"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-7732-76f1-92fa-e02d42370edc.request.json",
+      "sha256": "74e07f11de897774589cfa38f79267dcc2d05804807a03c9728f6f4845e15635"
+    },
+    {
+      "path": "calls/01a1a474-7732-76f1-92fa-e02d42370edc.response.json",
+      "sha256": "2cf53e929424dc6a281729c77375d6c7da253757d6b2753ef03f840707760818"
+    }
+  ],
+  "sha256": "83ab5fecc074f1d6bb2a62aad51b0ee7cc4c42e45558c50088f18e767e8d9606"
+}

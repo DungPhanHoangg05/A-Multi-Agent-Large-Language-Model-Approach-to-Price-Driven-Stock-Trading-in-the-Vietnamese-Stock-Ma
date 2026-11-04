@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_AS_n1",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "c90ce0877aa393ed2c48a4a6ad846b91391f5b5da4a711d211de6c06331a7c05"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates a bullish direction with price approaching resistance 128, MACD histogram is positive and increasing, and 3 out of 5 alpha factors signal upward movement. Sentiment score of 0.6755 further supports a positive outlook.",
+    "evidence_against": "Price is close to resistance 128, which could limit upside potential.",
+    "justification": "Given the bullish indicators and expected price rise above 128, a LONG position is justified. The projected gain exceeds the combined fee and slippage threshold, making the trade viable within the 3‑day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-33d1-7313-9625-8913194ced18"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-33d1-7313-9625-8913194ced18.request.json",
+      "sha256": "fb482a7866d4bcb53669020fb8e5f54d91f7a6c6aa32d2391d877028bfd64371"
+    },
+    {
+      "path": "calls/01a1a46b-33d1-7313-9625-8913194ced18.response.json",
+      "sha256": "3bceb12f65de95693e2b541ff5d28eb76590b52da6b73c74b0fbe97f9c395c36"
+    }
+  ],
+  "sha256": "72f8843a2c193e284dcd76eb6f8cd79d1b017b1d939d3fc49fa90b44dfce0783"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_B_n1",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "02ac7975bbefd75079c07e3c5c58210bf0b3fdf6d2609bf83c1f784b06005b2e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD histogram negative and MACD below signal indicates bearish momentum; price approaching resistance 28.5 with limited upside potential.",
+    "evidence_against": "Trend and pattern indicate bullish continuation.",
+    "justification": "Given the bearish momentum from MACD and price approaching resistance, a short position is prudent to capture potential reversal within the T+2.5 horizon. The risk reward ratio of 2:1 is acceptable for the short-term target.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-45f0-7ea3-be19-49711682c6c0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-45f0-7ea3-be19-49711682c6c0.request.json",
+      "sha256": "48c3ed07a938efa6d36997160ae864c9a6ad54dbae5c14d5eb8a785a11c9e609"
+    },
+    {
+      "path": "calls/01a1a470-45f0-7ea3-be19-49711682c6c0.response.json",
+      "sha256": "1cb5fcd6b7c43b513488379ef2051929805b146c4c58e4f772c1f840faf82a4c"
+    }
+  ],
+  "sha256": "2e72276982d1795eda9e39a2aff709937f4daace5ee539f01ecfc6358e913a28"
+}

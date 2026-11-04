@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_S_n1",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "3ae578d722f6a3ba4aa393d05a0c5b99d9431ebbcb5f2bd3298ed2eade3d9324"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Thấp",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support 26.5 and resistance 28.5, V reversal pattern indicates potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram show weakening momentum.",
+    "justification": "Momentum is weak and may not cover transaction costs, so holding cash is safer.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-019c-7802-9365-c2c01b99cfb7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-019c-7802-9365-c2c01b99cfb7.request.json",
+      "sha256": "5144986bd54ad20d95ec3eeef67cc7e5ef2e1b2c3b203eec49d8fe6b93f3df60"
+    },
+    {
+      "path": "calls/01a1a474-019c-7802-9365-c2c01b99cfb7.response.json",
+      "sha256": "df34abad2456c80facb6c8aa41bad17897824779b115398e75bc2f0711e04ea7"
+    }
+  ],
+  "sha256": "0174dcddedea50aba863bbead4b68336dc108d45be31878d772ff02873c89eb0"
+}

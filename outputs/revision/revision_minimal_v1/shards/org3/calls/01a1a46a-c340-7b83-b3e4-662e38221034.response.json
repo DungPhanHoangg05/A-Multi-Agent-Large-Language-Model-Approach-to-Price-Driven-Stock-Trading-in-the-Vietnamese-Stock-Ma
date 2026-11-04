@@ -1,0 +1,71 @@
+{
+  "attempt_id": "01a1a46a-c340-7b83-b3e4-662e38221034",
+  "parent_request_hash": "2bf0c75ab4c0418a2744662b3f5fb5b656b0035c9ba69133bcc5164cd614b99b",
+  "ended_at_utc": "2026-11-04T02:37:04.324493+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD histogram positive and increasing indicates bullish momentum. Alpha factors show 3 out of 5 increasing, supporting an uptrend.\",\"evidence_against\":\"Price is approaching resistance at 128, which could trigger a pullback.\",\"justification\":\"Given the bullish MACD and majority of alpha factors positive, a long position is justified. The risk of hitting resistance is mitigated by the strong momentum and the short horizon of 3 days.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.5,\"evidence_for\":\"MACD histogram positive and increasing indicates bullish momentum. Alpha factors show 3 out of 5 increasing, supporting an uptrend.\",\"evidence_against\":\"Price is approaching resistance at 128, which could trigger a pullback.\",\"justification\":\"Given the bullish MACD and majority of alpha factors positive, a long position is justified. The risk of hitting resistance is mitigated by the strong momentum and the short horizon of 3 days.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 607,
+                "prompt_tokens": 1765,
+                "total_tokens": 2372,
+                "completion_time": 0.666144991,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 477
+                },
+                "prompt_time": 0.43806972,
+                "prompt_tokens_details": {
+                  "cached_tokens": 256
+                },
+                "queue_time": 0.361476782,
+                "total_time": 1.104214711
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d23c14756c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46a-c340-7b83-b3e4-662e38221034-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 607,
+        "prompt_tokens": 1765,
+        "total_tokens": 2372,
+        "completion_time": 0.666144991,
+        "completion_tokens_details": {
+          "reasoning_tokens": 477
+        },
+        "prompt_time": 0.43806972,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "queue_time": 0.361476782,
+        "total_time": 1.104214711
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d23c14756c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_P_n1",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": "0090824c96cbebedd442f209b0c839653d0bc495cf456e157069addad10a2394",
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "050d690934ae7ddcffd8f6ce833450e1ff744e75f4688de8738de4828e98712f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend is up with price above support and approaching resistance; pattern indicates bullish flag with breakout above 62.",
+    "evidence_against": "MACD line below signal suggests potential bearish reversal.",
+    "justification": "Given the bullish trend, pattern, and majority of alpha factors, a LONG position is justified; risk is mitigated by stop at 61 and target 64.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a469-5abe-7673-97e2-97ffdd65b2e1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a469-5abe-7673-97e2-97ffdd65b2e1.request.json",
+      "sha256": "92825db9ff045a668bd77fd7dcfafc721af6655203b433d1a2671dcd45782eb4"
+    },
+    {
+      "path": "calls/01a1a469-5abe-7673-97e2-97ffdd65b2e1.response.json",
+      "sha256": "5b0c75e4c34e8a7b5c3bdbc2c5db23f8226ee7be33d6f885cbafc74136461d25"
+    }
+  ],
+  "sha256": "c84c57a354dddd014cb785599799f436cd0ef0f636cd74a76b26de7eceb7968c"
+}

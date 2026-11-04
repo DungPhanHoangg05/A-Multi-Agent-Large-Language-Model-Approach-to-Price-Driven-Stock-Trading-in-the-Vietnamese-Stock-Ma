@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_A_n2",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "6af0eadb8b66418f96bdb7d3fd27b7a3c50f639ebfdd67e887266409ceae24ad"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support 112 and resistance 128, MACD bullish with histogram positive. Alpha factors majority positive indicating upward momentum.",
+    "evidence_against": "Potential risk if breakout fails and price stalls below resistance.",
+    "justification": "Long entry at open with target near resistance 128, expected to cover fees and yield net profit. Holding cash if not enough upside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-c7a5-7821-9fc2-91bee8f20b95"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-c7a5-7821-9fc2-91bee8f20b95.request.json",
+      "sha256": "8fe61d39de82ac572cce84c4b98ac4cd891bf91bfb17c9d33b12d44487251ea1"
+    },
+    {
+      "path": "calls/01a1a46a-c7a5-7821-9fc2-91bee8f20b95.response.json",
+      "sha256": "1d51657743390aca1df7b2a1410e225ad685fe2e64123447798a080074858dd4"
+    }
+  ],
+  "sha256": "e2a4f26c05d84bc3c9695c35ddc124fbed9ee7268afc0a17ad4abed18426a1ab"
+}

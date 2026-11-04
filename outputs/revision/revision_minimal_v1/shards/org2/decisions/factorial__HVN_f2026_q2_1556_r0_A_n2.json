@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_A_n2",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "a61dbaa90fde86d1fbeffb58505447446104f1aedffa0606e6bab1cb14c25212"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Alpha factors show 4 out of 5 indicating a downward trend, and the pattern analysis confirms a decreasing trend. The MACD indicator, while bullish, is outweighed by the strong alpha consensus and trend analysis.",
+    "evidence_against": "MACD bullish signal suggests potential upward movement.",
+    "justification": "Given the strong alpha consensus for a downward trend and the pattern analysis confirming a decline, a short position is preferred to avoid potential losses. The short horizon of T+2.5 aligns with the expected price decline within the next three trading days.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a469-5aa6-7d01-9b3d-5d60caef8bd6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a469-5aa6-7d01-9b3d-5d60caef8bd6.request.json",
+      "sha256": "4e0caab46752853b25505343ce2a3aa89418ae9001e96e43405a7ee5177f1722"
+    },
+    {
+      "path": "calls/01a1a469-5aa6-7d01-9b3d-5d60caef8bd6.response.json",
+      "sha256": "40596f181412159495235cd30934846f7af50c2f4736a214f9f0cb98844af928"
+    }
+  ],
+  "sha256": "567e19ac58755b93372d735b695441eddbcc6f4967997a1e21483194ac4e48b6"
+}

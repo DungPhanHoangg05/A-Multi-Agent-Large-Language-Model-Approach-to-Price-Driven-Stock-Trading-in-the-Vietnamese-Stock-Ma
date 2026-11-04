@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_AS_n1",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "36c8830b3bfebeb36f6ae684a3af1bdc68dbe07a42c813bc7c5b7717d4d44f92"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support 21.5 and resistance 23.5, MACD above signal indicating bullish momentum.",
+    "evidence_against": "Alpha factors overall negative, suggesting potential reversal.",
+    "justification": "Price is approaching resistance and MACD confirms bullish momentum; risk reward ratio is favorable for a short-term trade.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-709b-7bd0-818e-329662f8d2d8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-709b-7bd0-818e-329662f8d2d8.request.json",
+      "sha256": "38240f75ad869bde96801c30c50c5e8cc9272fe56b97489ef7664e42a6a26784"
+    },
+    {
+      "path": "calls/01a1a468-709b-7bd0-818e-329662f8d2d8.response.json",
+      "sha256": "2c3d1e2e6b4bd269efafc47e6dbf7b7ddb023c67f3f43a9f82c6f80893537298"
+    }
+  ],
+  "sha256": "c433182adf8f2df2599480d3db9da936ec697e247458c1fc8317a5eee2899973"
+}

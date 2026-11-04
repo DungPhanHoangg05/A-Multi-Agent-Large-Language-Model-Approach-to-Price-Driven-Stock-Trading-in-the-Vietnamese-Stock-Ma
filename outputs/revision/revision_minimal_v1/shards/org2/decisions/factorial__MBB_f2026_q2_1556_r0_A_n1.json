@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_A_n1",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "5c531927523e70a36369f785621340e9ef636429c4c23862d71ba0c15b7b3f84"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows price above support 21.0 and approaching resistance 22.0, indicating potential upward movement. MACD histogram is positive, suggesting increasing momentum.",
+    "evidence_against": "Alpha factors overall indicate a downward bias with 3 out of 5 signals negative, reducing confidence in a sustained uptrend.",
+    "justification": "Given the mixed signals and the risk of not covering transaction costs, holding cash via a SHORT position is prudent. This strategy aligns with the requirement to avoid short selling and maintain cash until the T+2.5 settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-e7a2-7562-a68d-bf6a47d574d1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-e7a2-7562-a68d-bf6a47d574d1.request.json",
+      "sha256": "1beddd0794fd635568f767e01d9d1f353eb00527ac711b3a7900790981684dbd"
+    },
+    {
+      "path": "calls/01a1a468-e7a2-7562-a68d-bf6a47d574d1.response.json",
+      "sha256": "3febdd69fc9769b4dd57081babcd6c4614ac8258b115225034adba2086105621"
+    }
+  ],
+  "sha256": "c4a130b81e48e28351af49cdf2fb60d65a8c2f81b626c939f1787975827d8130"
+}

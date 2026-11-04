@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a474-7732-76f1-92fa-e02d42370edc",
+  "parent_request_hash": "b0803ee379bae035edbc20ab79d664da6cacd0313301e4085d824bd25a64d00a",
+  "ended_at_utc": "2026-11-04T02:47:39.941165+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend shows upward movement with price near resistance 74.5, pattern indicates accumulation.\",\"evidence_against\":\"MACD line below signal and negative histogram suggest bearish momentum.\",\"justification\":\"Given the bearish MACD signal, a short position is preferred to avoid potential reversal. The short trade will be entered at the current price with a target near support 70.5 and stop above 74.5.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend shows upward movement with price near resistance 74.5, pattern indicates accumulation.\",\"evidence_against\":\"MACD line below signal and negative histogram suggest bearish momentum.\",\"justification\":\"Given the bearish MACD signal, a short position is preferred to avoid potential reversal. The short trade will be entered at the current price with a target near support 70.5 and stop above 74.5.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 682,
+                "prompt_tokens": 1431,
+                "total_tokens": 2113,
+                "completion_time": 0.703491891,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 558
+                },
+                "prompt_time": 0.076557838,
+                "prompt_tokens_details": null,
+                "queue_time": 0.360907584,
+                "total_time": 0.780049729
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_5979a0e1b7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a474-7732-76f1-92fa-e02d42370edc-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 682,
+        "prompt_tokens": 1431,
+        "total_tokens": 2113,
+        "completion_time": 0.703491891,
+        "completion_tokens_details": {
+          "reasoning_tokens": 558
+        },
+        "prompt_time": 0.076557838,
+        "prompt_tokens_details": null,
+        "queue_time": 0.360907584,
+        "total_time": 0.780049729
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_5979a0e1b7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

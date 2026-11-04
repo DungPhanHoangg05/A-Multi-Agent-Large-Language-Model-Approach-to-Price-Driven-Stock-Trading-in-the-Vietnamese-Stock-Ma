@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "CMG_b2023_h2_929",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__CMG_b2023_h2_929_r2_AS_n0",
+    "asset_hash": "cdbcf49d3d6a5fe8e1d19eb3a59c9a77ecbfbad398693eec24573f20fb494f24",
+    "donor_hash": null,
+    "upstream_hash": "3d74e14cd66631138a2487806a3f046f5e43772d45fb4494966d34ed17db22a6",
+    "prompt_hash": "d8bb75fece95efd7fad4621397cdf6f19412b3148a4441c3816ff732e1ce0d9d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is sideways with price near support at 31.2, and MACD shows bearish momentum.",
+    "evidence_against": "Alpha factors indicate a decrease.",
+    "justification": "Shorting aligns with the negative outlook and protects against potential downside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-66f8-7500-a7d0-5cf7776400e6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-66f8-7500-a7d0-5cf7776400e6.request.json",
+      "sha256": "cb2e95c364b7dfe75f7b401d33a90aca5404b4cb58eb468fbd8b7168a9e4bcb5"
+    },
+    {
+      "path": "calls/01a1a1e6-66f8-7500-a7d0-5cf7776400e6.response.json",
+      "sha256": "2d1e94a9645ca0e2bcec281922227ab4ea641394112068ef33a1234234f97fac"
+    }
+  ],
+  "sha256": "23c5193c33ca3cc3db0e224f83b3b5c8bcf0089b39a352a76fef7c757b720ef5"
+}

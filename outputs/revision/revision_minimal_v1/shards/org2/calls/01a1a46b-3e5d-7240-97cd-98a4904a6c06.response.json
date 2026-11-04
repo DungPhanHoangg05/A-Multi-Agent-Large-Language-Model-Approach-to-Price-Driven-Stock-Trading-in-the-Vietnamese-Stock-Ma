@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46b-3e5d-7240-97cd-98a4904a6c06",
+  "parent_request_hash": "0b51606478d0a78159fe9a53611384dca53aeca98f1fe416d518b2c055bf1bbc",
+  "ended_at_utc": "2026-11-04T02:37:37.209099+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with price above support 21.0 and MACD bullish (above signal, positive histogram).\",\"evidence_against\":\"Pattern V inverted has low confidence and alpha factors are neutral.\",\"justification\":\"Buy when price stays above 21.5, target 22.5, stop 21.0; aligns with trend and momentum.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with price above support 21.0 and MACD bullish (above signal, positive histogram).\",\"evidence_against\":\"Pattern V inverted has low confidence and alpha factors are neutral.\",\"justification\":\"Buy when price stays above 21.5, target 22.5, stop 21.0; aligns with trend and momentum.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 917,
+                "prompt_tokens": 1806,
+                "total_tokens": 2723,
+                "completion_time": 1.029831391,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 804
+                },
+                "prompt_time": 0.121090797,
+                "prompt_tokens_details": null,
+                "queue_time": 0.665965294,
+                "total_time": 1.150922188
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ed70b23331",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46b-3e5d-7240-97cd-98a4904a6c06-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 917,
+        "prompt_tokens": 1806,
+        "total_tokens": 2723,
+        "completion_time": 1.029831391,
+        "completion_tokens_details": {
+          "reasoning_tokens": 804
+        },
+        "prompt_time": 0.121090797,
+        "prompt_tokens_details": null,
+        "queue_time": 0.665965294,
+        "total_time": 1.150922188
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ed70b23331",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1675",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VJC_f2026_q3_1675_r1_AS_n0",
+    "asset_hash": "7b3c107a5b4e15f9c6e6663e7b2749e879349495ba7a996777cd4b55e77aa764",
+    "donor_hash": null,
+    "upstream_hash": "7a6da640343f3fb9b3e9c2417a1174b41fcf7f9d704ec4779961da05938791fd",
+    "prompt_hash": "83a3f6a8dc168127335d270d5e2387924bf81dc558166bddb3501f26b3620ad0"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis indicates a bearish direction with low confidence, and alpha factors overall suggest a decrease.",
+    "evidence_against": "MACD bullish signals indicate potential upward momentum.",
+    "justification": "The bearish trend and alpha consensus outweigh the bullish MACD signals, making a short position more prudent. We anticipate a decline within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-c87c-7db3-b19e-444aeadd47a0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-c87c-7db3-b19e-444aeadd47a0.request.json",
+      "sha256": "31579a0ea6d40d04411653b9761e9fd50e08cbf33b39f435a73985d4cb4b1d5e"
+    },
+    {
+      "path": "calls/01a1a470-c87c-7db3-b19e-444aeadd47a0.response.json",
+      "sha256": "02dd7ec023b9af7d6587b1401c59569bb58a62e5dde4fc08483a34d85a81b80a"
+    }
+  ],
+  "sha256": "41803ea52ba1f62599d257ceda364ec4d152eeb8df159d64d14daf7d1c66fb93"
+}

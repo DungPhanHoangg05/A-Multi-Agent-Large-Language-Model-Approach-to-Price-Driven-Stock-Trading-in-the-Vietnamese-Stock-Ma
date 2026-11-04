@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VCB_f2026_q3_1618_r0_AS_n0",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "3b487545a7e8511e50ce9bc10ea78a7ff1e5c396a98bb8f0286ad6bae432eda8",
+    "prompt_hash": "5609cf2c6d3f81a9110e88044bd3a67f036d84868127f5cbb597906b133264fe"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD shows golden cross with positive histogram, confirming bullish momentum. Trend analysis indicates price above support 60.5 and approaching resistance 64.5, supporting a short‑term uptrend.",
+    "evidence_against": "None of the alpha factors indicate a reversal; all are neutral or negative.",
+    "justification": "The bullish signals from trend, pattern, and MACD justify a long position with expected profit exceeding transaction costs. The risk‑reward ratio of 2:1 meets the required threshold.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-a338-75d1-88b0-35ce79041daa"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-a338-75d1-88b0-35ce79041daa.request.json",
+      "sha256": "5536d15aeadfca18e1cbeaf896c6058f2ee66d9e9ba9e3d2789df57114a41ce1"
+    },
+    {
+      "path": "calls/01a1a46c-a338-75d1-88b0-35ce79041daa.response.json",
+      "sha256": "45fc18e19c7dcbfa23efbe6637217b0b3fdb213144a5c14d4ced535ab2f4f188"
+    }
+  ],
+  "sha256": "a51291c8b54ca6872ced5a73605063d58bd925fc8ecaf3fabc985dd1fbd7d16a"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2025_q4_817",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__BHN_f2025_q4_817_r1_B_n0",
+    "asset_hash": "05f90e65a256b946bb643d522f4e567ca06b725370daad7bc5b621d7f3233eb7",
+    "donor_hash": null,
+    "upstream_hash": "25ed30b0b35edf7738e8c6751dece6e1f93624501b32508265fae2af3d8c5e1b",
+    "prompt_hash": "13bb22fe8d4850ab9c144693cb3aca90303f05f8bc32aef62f79243fc97c6495"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern V reversal indicates potential downside; MACD histogram trending negative confirms weakening bullish momentum.",
+    "evidence_against": "Trend is sideways, which could support a neutral stance.",
+    "justification": "Given the bearish signals from pattern and MACD, a short position aligns with the strategy to avoid buying on weak upside; the expected price decline within the T+2.5 horizon supports this.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-66f5-7b63-aee4-861970d99ab3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-66f5-7b63-aee4-861970d99ab3.request.json",
+      "sha256": "24b77978530aad45bc4d1fde2c27ee27e28c41665aeb1912be84ac82b53ad409"
+    },
+    {
+      "path": "calls/01a1a1e6-66f5-7b63-aee4-861970d99ab3.response.json",
+      "sha256": "3bec6549c02d20cf31bb91e3842b66c51a15453c9b44dc18d024c2ea413c21ba"
+    }
+  ],
+  "sha256": "c6e1eab401308069d96fef6585ee1891c31fbe3c3071d8866797025fb0f5d9d7"
+}

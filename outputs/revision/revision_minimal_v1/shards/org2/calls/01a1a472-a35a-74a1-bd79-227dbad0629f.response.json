@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a472-a35a-74a1-bd79-227dbad0629f",
+  "parent_request_hash": "deec9046acb7de189016a34b822c4c87a4c40da981d74aefa9cacabcdf7536c3",
+  "ended_at_utc": "2026-11-04T02:45:40.526779+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line below signal and histogram trending downward confirm bearish momentum. Trend analysis indicates price likely to stay near support 57.5, not breaking resistance 59.8.\",\"evidence_against\":\"Pattern indicates possible breakout above 60, but low confidence and actual candles don't match.\",\"justification\":\"Given bearish MACD, negative alpha, and sideways trend, short is preferred to avoid buying at high and selling at low. Short trade will capture potential decline to support while avoiding transaction costs.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD line below signal and histogram trending downward confirm bearish momentum. Trend analysis indicates price likely to stay near support 57.5, not breaking resistance 59.8.\",\"evidence_against\":\"Pattern indicates possible breakout above 60, but low confidence and actual candles don't match.\",\"justification\":\"Given bearish MACD, negative alpha, and sideways trend, short is preferred to avoid buying at high and selling at low. Short trade will capture potential decline to support while avoiding transaction costs.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1129,
+                "prompt_tokens": 1554,
+                "total_tokens": 2683,
+                "completion_time": 1.28443362,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 988
+                },
+                "prompt_time": 0.077516732,
+                "prompt_tokens_details": null,
+                "queue_time": 0.157180895,
+                "total_time": 1.361950352
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_75c733514d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a472-a35a-74a1-bd79-227dbad0629f-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1129,
+        "prompt_tokens": 1554,
+        "total_tokens": 2683,
+        "completion_time": 1.28443362,
+        "completion_tokens_details": {
+          "reasoning_tokens": 988
+        },
+        "prompt_time": 0.077516732,
+        "prompt_tokens_details": null,
+        "queue_time": 0.157180895,
+        "total_time": 1.361950352
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_75c733514d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

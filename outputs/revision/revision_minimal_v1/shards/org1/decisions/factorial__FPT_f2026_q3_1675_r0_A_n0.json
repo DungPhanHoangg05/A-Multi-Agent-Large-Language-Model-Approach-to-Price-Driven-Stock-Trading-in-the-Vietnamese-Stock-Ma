@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_A_n0",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "0fabe27311bfe60db040588542d32580c3b1b6086049d69452ba0892ef710d3a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows price above support and approaching resistance, indicating potential breakout. Alpha factors overwhelmingly positive (4/5) support bullish outlook.",
+    "evidence_against": "MACD is below signal line, suggesting weakening momentum.",
+    "justification": "Given the expected price rise to resistance and net profit after fees, a LONG position is justified. MACD bearish signal is outweighed by stronger trend and alpha consensus.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-81ec-7223-a399-42b6768c1651"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-81ec-7223-a399-42b6768c1651.request.json",
+      "sha256": "0abb9b4dca3d526b507a1d83559ab14accd847da7f8103c22f82bf7f94bd54de"
+    },
+    {
+      "path": "calls/01a1a46d-81ec-7223-a399-42b6768c1651.response.json",
+      "sha256": "95e2d6fbeb18117b69eaea2200186f45f1e1bcea173bdc4261bb24c4b26c82b2"
+    }
+  ],
+  "sha256": "3adfbf85253ad90856c4f7c76f924956200e701b12f1dc3a619a11d27616e5f1"
+}

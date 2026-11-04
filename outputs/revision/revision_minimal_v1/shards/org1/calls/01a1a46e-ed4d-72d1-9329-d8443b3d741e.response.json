@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46e-ed4d-72d1-9329-d8443b3d741e",
+  "parent_request_hash": "5cf584711124aef38d25a27cc77fd3585379943ffceedf48be298c12789f46a7",
+  "ended_at_utc": "2026-11-04T02:41:37.154502+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a potential downward adjustment to 130-132 within 3 days. MACD shows bullish momentum with histogram widening, suggesting possible reversal.\",\"evidence_against\":\"Trend and pattern analysis suggest a bearish bias, outweighing bullish indicator signals.\",\"justification\":\"Given the priority of trend over indicator, a short position is preferred to capture potential decline. The short position aligns with the risk of not covering the full capital at open, as per contract rules.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Thấp\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a potential downward adjustment to 130-132 within 3 days. MACD shows bullish momentum with histogram widening, suggesting possible reversal.\",\"evidence_against\":\"Trend and pattern analysis suggest a bearish bias, outweighing bullish indicator signals.\",\"justification\":\"Given the priority of trend over indicator, a short position is preferred to capture potential decline. The short position aligns with the risk of not covering the full capital at open, as per contract rules.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 791,
+                "prompt_tokens": 1485,
+                "total_tokens": 2276,
+                "completion_time": 0.944613545,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 657
+                },
+                "prompt_time": 0.076573215,
+                "prompt_tokens_details": null,
+                "queue_time": 0.368155556,
+                "total_time": 1.02118676
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_f102a3179c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46e-ed4d-72d1-9329-d8443b3d741e-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 791,
+        "prompt_tokens": 1485,
+        "total_tokens": 2276,
+        "completion_time": 0.944613545,
+        "completion_tokens_details": {
+          "reasoning_tokens": 657
+        },
+        "prompt_time": 0.076573215,
+        "prompt_tokens_details": null,
+        "queue_time": 0.368155556,
+        "total_time": 1.02118676
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_f102a3179c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

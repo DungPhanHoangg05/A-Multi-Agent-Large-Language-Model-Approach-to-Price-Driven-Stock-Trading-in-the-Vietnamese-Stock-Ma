@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_S_n0",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "3ae578d722f6a3ba4aa393d05a0c5b99d9431ebbcb5f2bd3298ed2eade3d9324"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support 26.5 and resistance 28.5, V-reversal pattern confirms bullish momentum.",
+    "evidence_against": "MACD line below signal and negative histogram indicate bearish momentum.",
+    "justification": "Entry at open with target 28.5 gives ~1% return, exceeding 0.7% cost; risk limited to 26.8 gives 1:1 risk/reward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-3e83-75f3-beb0-4ba107bb0fd2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-3e83-75f3-beb0-4ba107bb0fd2.request.json",
+      "sha256": "0b9ada3ddc9bbd17ee691f40a3af415c9866ebc92959382cc0e862ecefede752"
+    },
+    {
+      "path": "calls/01a1a471-3e83-75f3-beb0-4ba107bb0fd2.response.json",
+      "sha256": "201e532c36e0446ef950baa0c4648914bc24d9ff9ae1d92def023513eac69b39"
+    }
+  ],
+  "sha256": "b68b8808931d7bf0574a38a8888115b0c17e3fd041c9d433029b6ba569c98929"
+}

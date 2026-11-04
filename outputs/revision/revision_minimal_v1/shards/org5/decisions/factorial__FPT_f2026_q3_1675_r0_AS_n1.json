@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_AS_n1",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "c0ba10731281071282a5ca943214133074abdb4a125f7c7c6b9b470b0f9ec889"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend bullish with price near support 65.5 and approaching resistance 68.5, supported by 4 positive alpha factors. Alpha factors show 4 out of 5 positive signals, indicating upward momentum.",
+    "evidence_against": "MACD line below signal and negative histogram suggest bearish momentum.",
+    "justification": "Given the bullish trend and strong alpha consensus, a LONG position is expected to generate sufficient upside to cover transaction costs. However, MACD bearish signals introduce some risk, so confidence is high but not absolute.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-2d6d-7a71-84b3-0bdf35a3ed4f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-2d6d-7a71-84b3-0bdf35a3ed4f.request.json",
+      "sha256": "63a09741fc64d8c70a970c4fdb17e2709dfd60994762b6cc7cfde902a2ca49e9"
+    },
+    {
+      "path": "calls/01a1a472-2d6d-7a71-84b3-0bdf35a3ed4f.response.json",
+      "sha256": "a4da5092bbc4eb5d028ad0ac6e0a3c9aaa3512a02f680a903936245711b56944"
+    }
+  ],
+  "sha256": "0f0b8c1ddd8a5eb1f31e24390431a9a0847a245abe7e704d13eed60fafa0d206"
+}

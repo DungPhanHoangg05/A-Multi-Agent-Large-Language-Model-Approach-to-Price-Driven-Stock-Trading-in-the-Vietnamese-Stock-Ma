@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_P_n0",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "ccf02db1f01178218714ba95f0ff1d13bec04ea93583efc6215e0e8780640ca9"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up but MACD below signal and histogram negative indicates bearish momentum; support at 70.5 and resistance at 74.5 with price near resistance increases risk of pullback.",
+    "evidence_against": "MACD histogram is trending upward, hinting at possible bullish reversal.",
+    "justification": "Shorting at current price targets a pullback to support 70.5, with stop above resistance 74.5; expected net profit after fees exceeds risk. Trend signals are weak and alpha factors confirm bearish bias, making short the safer choice.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-cc7e-79f0-9021-1189343c979c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-cc7e-79f0-9021-1189343c979c.request.json",
+      "sha256": "66be044b73d630bf8e88387adac4b7237d5a48e35331b85b47d0258c61483a92"
+    },
+    {
+      "path": "calls/01a1a470-cc7e-79f0-9021-1189343c979c.response.json",
+      "sha256": "88c5f6a74955bc985225cc1d4a59bb7709f62d4f07ddd48eb66e127760344916"
+    }
+  ],
+  "sha256": "1ab2bfe04e10f0e692880ed46a44ec8e83a2d29c8ae71ce2b42c58958c369129"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_S_n1",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "fea7c1909d0e954b88ab8472c5c4e2995ea2f2e2e8e6723ac43ea3a90759491b"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates an upward direction with price approaching resistance 22.0 and MACD above signal line showing bullish momentum.",
+    "evidence_against": "Pattern confidence is low and MACD line remains negative, indicating potential weakness.",
+    "justification": "The trend is upward, MACD indicates bullish momentum, and the pattern suggests a breakout above 21.5. Therefore, a LONG trade is recommended with a target of 22.5 and stop at 21.0.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-71a6-7c50-8609-fb891bfe63eb"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-71a6-7c50-8609-fb891bfe63eb.request.json",
+      "sha256": "7c96241c6121f9ebd514da4939a65cfc39aacebeb6d0d71305d7502077140c85"
+    },
+    {
+      "path": "calls/01a1a468-71a6-7c50-8609-fb891bfe63eb.response.json",
+      "sha256": "b402d61ecfeaeb9e064f5ad6e59213e9e1896f40867b08b6a2367478f509bf17"
+    }
+  ],
+  "sha256": "b9eefa3de9bd5394d887f0a90145225e444b1bc9191140224449f7f54c2cccbe"
+}

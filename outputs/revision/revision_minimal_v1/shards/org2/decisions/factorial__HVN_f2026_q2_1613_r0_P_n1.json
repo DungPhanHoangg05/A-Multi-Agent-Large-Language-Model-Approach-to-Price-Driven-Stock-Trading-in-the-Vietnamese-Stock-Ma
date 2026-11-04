@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_P_n1",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "0e4e369fdf3e81db6f97722d0e937e5ab9fc2fd1833ed15cc02ffc2d6a2c1ed5"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with support at 21.0 and resistance at 23.6; 4 out of 5 alpha factors signal a decline.",
+    "evidence_against": "MACD line is above signal, suggesting bullish momentum.",
+    "justification": "Short position aligns with negative trend and alpha consensus; expected to capture downward move with a 2:1 risk‑reward.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-8a90-7b91-836e-52b4afbbab03"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-8a90-7b91-836e-52b4afbbab03.request.json",
+      "sha256": "b8948d05c4495c99eb4fe2ac03a0d7ea6147a5117805cd225d977d18869fe95b"
+    },
+    {
+      "path": "calls/01a1a46d-8a90-7b91-836e-52b4afbbab03.response.json",
+      "sha256": "e013d02767b28a93054b802e17aac715e136b9f09f05536d6ef5e02af1b2f20c"
+    }
+  ],
+  "sha256": "2456273243d5733a788243feda53c3efbe6b67155e02e407cd3c5382987ab469"
+}

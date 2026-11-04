@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_AS_n1",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "ac05262f39bb2d3bc9b58c347af4c59d68fcba15837f92ad42e6094b222a2860"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.1,
+    "evidence_for": "Trend is bullish with price near support and approaching resistance 28.5. Alpha factors show two positive signals and a bullish pattern V.",
+    "evidence_against": "MACD is below signal and histogram negative, indicating bearish momentum.",
+    "justification": "Buying at open and selling at close near 28.5 should yield net profit above 0.7% after fees. The bullish trend and pattern support this expectation.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-dcd1-75a2-a23f-272731b156f4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-dcd1-75a2-a23f-272731b156f4.request.json",
+      "sha256": "eedf4d152308972e0165216c6a4321c6fe40ae135fbe26e4e748b7e57ec6bc71"
+    },
+    {
+      "path": "calls/01a1a46f-dcd1-75a2-a23f-272731b156f4.response.json",
+      "sha256": "b70363e6a036aa594a8c71ed6cb4cd52ba19f924fbaf1704e03bf9faad75fac6"
+    }
+  ],
+  "sha256": "338acd6943558289b5ff800dd3ff157d5e92bc747d804a8aae371e8a5cb2156b"
+}

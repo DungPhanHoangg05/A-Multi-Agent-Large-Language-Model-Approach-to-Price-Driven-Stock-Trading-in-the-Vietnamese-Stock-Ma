@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_A_n1",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "a61dbaa90fde86d1fbeffb58505447446104f1aedffa0606e6bab1cb14c25212"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern analysis shows a clear downward trend, and 4 out of 5 alpha factors are negative, indicating a bearish outlook.",
+    "evidence_against": "MACD line is negative and below zero, indicating bearish momentum.",
+    "justification": "Alpha factors and pattern analysis both indicate a downward trend, outweighing the bullish signals from the trend analysis. Therefore, a short position is chosen to avoid potential losses.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-6d7e-7322-90d0-0366b4cc589b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-6d7e-7322-90d0-0366b4cc589b.request.json",
+      "sha256": "3dc62546a88f07c2ae3d57b5c37cb7273a77b3e1262e8f4b0bba360a7d699263"
+    },
+    {
+      "path": "calls/01a1a468-6d7e-7322-90d0-0366b4cc589b.response.json",
+      "sha256": "228dcb57d3c412cb68b1cf3e25057df1cbd0d052666b01dd2a0cc05993c3d1ff"
+    }
+  ],
+  "sha256": "5e9c8efee450d862a45ee1349ef7bbe4bf5b85bdbab9ab39cf638cb73810e9d1"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_AS_n2",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "da2c0d1ab1d3d51aaee41ca75fd550202281fdab2c8f2888c7fbe666835f6f0d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a downward bias with support at 21.0 and resistance at 23.6; alpha factors indicate 3 out of 5 signals are negative.",
+    "evidence_against": "MACD line is above signal but histogram is declining, suggesting weakening momentum.",
+    "justification": "The prevailing bearish trend and majority negative alpha signals outweigh the short‑term bullish MACD indication; a short position aligns with the 3‑day horizon and risk‑reward target.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-bf0b-7a41-af0a-ee1072817d7b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-bf0b-7a41-af0a-ee1072817d7b.request.json",
+      "sha256": "4a6b97a6ae0f829c182780d7a96ae5f9217d5a27703ce501e1e72b1e6c9fbdca"
+    },
+    {
+      "path": "calls/01a1a46a-bf0b-7a41-af0a-ee1072817d7b.response.json",
+      "sha256": "cea31e00e4995a064477058f873228cd24a02ea2bf95432d58fcde70f5dc6696"
+    }
+  ],
+  "sha256": "185d130624d37afb236830211ba2d4da0dbddf0dd84489c423d28924d41f4bef"
+}

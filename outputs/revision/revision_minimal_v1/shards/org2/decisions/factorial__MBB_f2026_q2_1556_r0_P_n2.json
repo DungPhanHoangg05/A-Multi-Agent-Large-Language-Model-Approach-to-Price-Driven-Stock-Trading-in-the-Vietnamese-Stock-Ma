@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_P_n2",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": "e53c4c8b2393f7a547498c812f0ac2ee733bae826a462cce0a3aa36f2831e2b0",
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "ad90698235a3fe7c2e6ccd07c6a1528948aff718ab74d9b145374bc19179df22"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up with price above support 21.0 and MACD bullish (above signal, positive histogram).",
+    "evidence_against": "Pattern V inverted has low confidence and alpha factors are neutral.",
+    "justification": "Buy when price stays above 21.5, target 22.5, stop 21.0; aligns with trend and momentum.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-3e5d-7240-97cd-98a4904a6c06"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-3e5d-7240-97cd-98a4904a6c06.request.json",
+      "sha256": "c647e77624a5347a7be28e1733e960d2adca74d1349140d5491b921a58045ee7"
+    },
+    {
+      "path": "calls/01a1a46b-3e5d-7240-97cd-98a4904a6c06.response.json",
+      "sha256": "bfd012582b7a7bda79ee8e96cda7e0d02b83057225c418b62ab738bba8e77fd0"
+    }
+  ],
+  "sha256": "e229b403fdadc9c2a530cff8d785ee053205148631d9e49a118dfd79b988d97e"
+}

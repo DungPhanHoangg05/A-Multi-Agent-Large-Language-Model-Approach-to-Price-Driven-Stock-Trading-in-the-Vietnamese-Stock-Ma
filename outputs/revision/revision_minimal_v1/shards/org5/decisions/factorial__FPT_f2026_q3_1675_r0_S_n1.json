@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_S_n1",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "82bddbff5f0d8cfa23f760cadc5bf993ff4c9f6d464c5d700018fdc42d9c2b69"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend up with support at 65.5 and resistance at 68.5, price approaching resistance.",
+    "evidence_against": "MACD below signal line indicating bearish momentum.",
+    "justification": "Shorting at 68.5 with target 65.5 gives ~3% profit after fees, while MACD suggests a reversal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-a417-7942-ba4f-dee4a023220f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-a417-7942-ba4f-dee4a023220f.request.json",
+      "sha256": "7337abbf3895a969ac9baf2a3548f5d0c0bb431a93cba7f3be8feaed76e453d7"
+    },
+    {
+      "path": "calls/01a1a472-a417-7942-ba4f-dee4a023220f.response.json",
+      "sha256": "9e8dbe3a11b918b2ef40d1a27ae05b65f8ad1f92c06db9a3cc0b8a7f92b1704d"
+    }
+  ],
+  "sha256": "073c83b8166b1105fc8f295ffeb7ae56717b9de220f8c45773990b99d4d451ea"
+}

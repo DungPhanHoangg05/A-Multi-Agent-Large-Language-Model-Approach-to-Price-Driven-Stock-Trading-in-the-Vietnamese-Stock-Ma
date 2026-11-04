@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1675",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VJC_f2026_q3_1675_r1_B_n0",
+    "asset_hash": "7b3c107a5b4e15f9c6e6663e7b2749e879349495ba7a996777cd4b55e77aa764",
+    "donor_hash": null,
+    "upstream_hash": "7a6da640343f3fb9b3e9c2417a1174b41fcf7f9d704ec4779961da05938791fd",
+    "prompt_hash": "8aa6f3c58eb7069a57d39dec83c30a2e6eb01a0a78045674b0f5739c53366406"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with increasing histogram indicates bullish momentum; support at 133.5 provides entry point.",
+    "evidence_against": "Trend analysis indicates a continuing downtrend, raising risk of reversal.",
+    "justification": "Pattern reversal (V) and bullish MACD suggest potential upside; however, trend caution requires tight stop at 130.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-1ff2-7122-b75b-cb596163e5ac"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-1ff2-7122-b75b-cb596163e5ac.request.json",
+      "sha256": "a5c6ba8848b105679cccc0720a55d78e4191e8f6b6ae3e3368738c25ba268ddb"
+    },
+    {
+      "path": "calls/01a1a473-1ff2-7122-b75b-cb596163e5ac.response.json",
+      "sha256": "528076b26dae88c127017753798c3b48c9de3f01a56aa3cb80acb7cc7e111859"
+    }
+  ],
+  "sha256": "059f9e888016e86d77acec3cbe07c39ef5fb484123f9730cb56db8b4001a26d9"
+}

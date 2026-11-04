@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_P_n2",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": "0090824c96cbebedd442f209b0c839653d0bc495cf456e157069addad10a2394",
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "050d690934ae7ddcffd8f6ce833450e1ff744e75f4688de8738de4828e98712f"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend up with support at 59 and resistance at 62.5, bullish flag pattern and majority of alpha factors bullish.",
+    "evidence_against": "MACD line below signal indicating bearish momentum.",
+    "justification": "The bullish trend and pattern outweigh the bearish MACD signal, and alpha consensus supports a price breakout above resistance.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-91a8-7df2-a81b-bb05107cf117"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-91a8-7df2-a81b-bb05107cf117.request.json",
+      "sha256": "3c8d067b2cd33fa081ad4c94af73c7cc47ce2302b1160ac4305ba3fdaac10c52"
+    },
+    {
+      "path": "calls/01a1a466-91a8-7df2-a81b-bb05107cf117.response.json",
+      "sha256": "fd24533d8b35bd9c94a418d4feeb1e7b004d145332024be6b733b392f2b672d2"
+    }
+  ],
+  "sha256": "692f85191366ade9b28ee7c7b6a1ce86570d87187d1aa7e0df7d985600fb18a4"
+}

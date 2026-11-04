@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_AS_n0",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "ff6a7122389fd4a5e3eb7857c67a8db8131550d10d1eef0afbe41760938d1083"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates upward movement with price near resistance, and MACD line above signal confirming bullish momentum.",
+    "evidence_against": "Majority of alpha factors signal a bearish outlook.",
+    "justification": "Given the bullish trend and MACD confirmation, a long position is justified despite mixed alpha signals. The expected return exceeds transaction costs, making the trade viable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-7ef3-7a10-a810-4677fac31080"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-7ef3-7a10-a810-4677fac31080.request.json",
+      "sha256": "d88588b65be53e2813894cca0af74b04694e786963bd85f8fcdc855c8cebbdc6"
+    },
+    {
+      "path": "calls/01a1a467-7ef3-7a10-a810-4677fac31080.response.json",
+      "sha256": "0b909667c1f1ecb6495f85e22b5b86139bb774e4b9c58b48488beddaf3520e91"
+    }
+  ],
+  "sha256": "65c8415223372e0cec58315b5b7cb23222f261f4f97924e55eb3db29a76981a2"
+}

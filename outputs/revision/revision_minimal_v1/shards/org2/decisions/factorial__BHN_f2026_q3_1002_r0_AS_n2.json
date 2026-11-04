@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_AS_n2",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "ac05262f39bb2d3bc9b58c347af4c59d68fcba15837f92ad42e6094b222a2860"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.3,
+    "evidence_for": "Trend up with support at 26.5 and resistance at 28.5, V pattern indicates potential breakout.",
+    "evidence_against": "MACD below signal and negative histogram suggest weakening momentum, and sentiment is negative.",
+    "justification": "Given mixed alpha signals and weak momentum, shorting protects against potential reversal.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-7ce8-7823-b018-82b926dde676"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-7ce8-7823-b018-82b926dde676.request.json",
+      "sha256": "3e70ad3fa7e5badbd73af34a87a56f64d2ca9164159d0e0f19284f5157ad2368"
+    },
+    {
+      "path": "calls/01a1a474-7ce8-7823-b018-82b926dde676.response.json",
+      "sha256": "0f7cbec57c010ed2d125999464b5cf652618315cb81981db979ccfbe807d4623"
+    }
+  ],
+  "sha256": "369114caae42d29a0155398ce226e828cc4a5d411814cf0c70b32ee5e5eb599b"
+}

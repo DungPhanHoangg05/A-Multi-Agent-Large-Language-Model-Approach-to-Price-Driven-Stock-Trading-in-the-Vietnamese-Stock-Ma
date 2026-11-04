@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_b2023_h2_929",
+    "realization": 1,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__HVN_b2023_h2_929_r1_B_n0",
+    "asset_hash": "47fc83202a1ef4e84cd78ff8a989357aa27cad3ebeb08f391c65b9ee15a76ef8",
+    "donor_hash": null,
+    "upstream_hash": "fb341bd0c6de51db082c8e45e191d5ea4a3b5b337e34e6bbd04e8f0875cf84df",
+    "prompt_hash": "11b245862f60ec86fdeb7ca2a98173aa7f02be3d0568619337f7e7d50978c8ed"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is downwards with support at 9.65 and resistance at 10.10; MACD line is below signal and histogram is negative, confirming bearish momentum.",
+    "evidence_against": "None",
+    "justification": "Short position aligns with bearish trend and negative momentum; expected to capture decline before T+2.5 settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1f3-f21d-7ec0-a4e3-75f3a139705c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1f3-f21d-7ec0-a4e3-75f3a139705c.request.json",
+      "sha256": "9efb2ced6c24667e5aa48297e7200b9e854e3689e6886f05a7a44a2181301286"
+    },
+    {
+      "path": "calls/01a1a1f3-f21d-7ec0-a4e3-75f3a139705c.response.json",
+      "sha256": "bcf3d2a0e81238a678942d5dba6167926574d42279599c0334cecb113f1c1ff7"
+    }
+  ],
+  "sha256": "ed66ce94a7c511d3a4f5d636999865267b9405a111dabf91558c3e6fdf29b8a1"
+}

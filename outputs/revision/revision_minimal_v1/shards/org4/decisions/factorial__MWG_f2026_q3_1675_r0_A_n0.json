@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_A_n0",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "46a4a375234daad60ae74759e997b44afc8994b5ed895a38953f09d516c6daa3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is up with price near 72, above support 70.5 and approaching resistance 74.5; MACD histogram is trending up indicating increasing bullish momentum.",
+    "evidence_against": "All five alpha factors signal a decreasing trend, suggesting potential reversal.",
+    "justification": "Given the bullish trend and MACD signals, a LONG position is expected to cover costs; however, alpha factors warn of possible reversal, so monitor closely.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-521d-7451-bafc-3520f659ada7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-521d-7451-bafc-3520f659ada7.request.json",
+      "sha256": "a9c7c0424ed930104011b49eeecffb2e764d6d461af76ba71dfb8490472e142b"
+    },
+    {
+      "path": "calls/01a1a470-521d-7451-bafc-3520f659ada7.response.json",
+      "sha256": "3932ba6e60c0cf81fc595438f781579c3df336265bb82dc32645be8c20f8252a"
+    }
+  ],
+  "sha256": "80a4291e5164f6c30d0a5612e7d8f670688f974a294d788723f2f2cdeb837b0b"
+}

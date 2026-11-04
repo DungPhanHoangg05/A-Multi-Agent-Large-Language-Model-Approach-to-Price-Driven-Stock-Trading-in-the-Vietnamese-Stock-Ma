@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_A_n1",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "6af0eadb8b66418f96bdb7d3fd27b7a3c50f639ebfdd67e887266409ceae24ad"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support 112 and resistance 128, MACD bullish with histogram positive.",
+    "evidence_against": "Potential resistance at 128 could cap upside.",
+    "justification": "Alpha factors majority positive and pattern confirms breakout, giving strong upside potential.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a469-d04b-7860-aa27-6f1e40a7f08b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a469-d04b-7860-aa27-6f1e40a7f08b.request.json",
+      "sha256": "e4959d89e3da4974a38e840512e7cfaa4eb5f51e0adc235bb5ccb28d73c27d4c"
+    },
+    {
+      "path": "calls/01a1a469-d04b-7860-aa27-6f1e40a7f08b.response.json",
+      "sha256": "b958c9bb063366d7f9d29bd7827a034fe8b450a7f55fbe8d699f333864d2b40f"
+    }
+  ],
+  "sha256": "e6644f6f87e02021479339f4451ab6fe6b63e5b4bd8ab4c7c61eebdcb68c0444"
+}

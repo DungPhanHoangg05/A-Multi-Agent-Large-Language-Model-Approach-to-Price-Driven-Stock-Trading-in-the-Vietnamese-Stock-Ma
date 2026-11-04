@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_P_n2",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": "3873415cc50ea030ae34965d05f1229f9c456e4aea5e6b59c87cb9cd50f1b637",
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "9008d54827e30292ab3021681d58d1470404571ee79b67652e16800f91eccfe4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows downtrend with repeated lower highs and lows, and MACD is below signal line indicating bearish momentum. Two alpha factors signal decrease, supporting a short position.",
+    "evidence_against": "Trend analysis suggests sideways movement, which could reduce the probability of a clear downward break.",
+    "justification": "Given the bearish pattern and MACD, a short trade is justified, with risk reward ratio of 2:1 to cover fees and slippage. The sideways trend indicates limited upside, so holding cash is preferable if the price fails to break below support.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-4df3-7813-a340-c232c67034e2"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-4df3-7813-a340-c232c67034e2.request.json",
+      "sha256": "8f75127f6ad2ad94db467e87cbfa3de035c42445c5652ddb3c7b91d33121e708"
+    },
+    {
+      "path": "calls/01a1a470-4df3-7813-a340-c232c67034e2.response.json",
+      "sha256": "7b8c9a961a563cbce2e90f2109856a28ba1547719714980a572c81a97b0698cd"
+    }
+  ],
+  "sha256": "c846e2cde845fa9bd468146e6100378a24d3a2a008496403edb545bbc866bf06"
+}

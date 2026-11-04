@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_AS_n1",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "6885fdf6db60f4fa3cfff65dc905820aa951b7703889fe46b4eb19af753341c3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend is bullish with price near resistance 62.5 and pattern indicates potential breakout. Alpha factors show 3 out of 5 increasing, supporting upward bias.",
+    "evidence_against": "MACD line below signal suggests bearish bias, which may limit upside.",
+    "justification": "Given the bullish trend and alpha consensus, a LONG position is justified, expecting a breakout above 62.5. However, MACD bearish signal introduces caution, so tight stop at 61.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a465-a333-7161-899f-d641560950fc"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a465-a333-7161-899f-d641560950fc.request.json",
+      "sha256": "3ac3d27ee6b4985092318e5f22e31205bf9b6d734f0c4b7f4641039d09da7baa"
+    },
+    {
+      "path": "calls/01a1a465-a333-7161-899f-d641560950fc.response.json",
+      "sha256": "016913927bc0cdbb931ce07eae987b7f6154e0976e1a00cd8e4965db31c6e71c"
+    }
+  ],
+  "sha256": "65dcd5fcfb8e43d69a198a671ed2c8f9c61bcdaf6fddf3b61489f0b1d8c862f4"
+}

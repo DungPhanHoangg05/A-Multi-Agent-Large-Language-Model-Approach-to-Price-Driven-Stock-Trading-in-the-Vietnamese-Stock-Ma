@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_S_n2",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "82bddbff5f0d8cfa23f760cadc5bf993ff4c9f6d464c5d700018fdc42d9c2b69"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.8,
+    "evidence_for": "Trend is up with support at 65.5 and resistance at 68.5, and the model indicates a target of 68 with stop at 62. MACD line is positive and above zero, supporting bullish momentum.",
+    "evidence_against": "MACD line is below the signal line and histogram is negative, indicating weakening momentum.",
+    "justification": "Given the expected net gain of ~1.8% after transaction costs and the risk reward ratio of 1.8, a LONG position is justified. The trend and support/resistance levels suggest a breakout is likely within the T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-073a-7752-a274-038b4663d651"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-073a-7752-a274-038b4663d651.request.json",
+      "sha256": "1c80137aa4c273ef9f694ec8c12b2c14b69eb2ecac821e0f73f257d76ac17012"
+    },
+    {
+      "path": "calls/01a1a474-073a-7752-a274-038b4663d651.response.json",
+      "sha256": "63c98f6a5bd9bbb87833972a8266c80b83a558bf107cfa30be28a519064e9465"
+    }
+  ],
+  "sha256": "e667b3a4671b7173211ac4a9c22a39e05d4a731f75b5d6f88fedf7e7c7475e3d"
+}

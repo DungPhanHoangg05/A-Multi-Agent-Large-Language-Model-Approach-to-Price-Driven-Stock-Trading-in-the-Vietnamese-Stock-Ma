@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_A_n2",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "0fabe27311bfe60db040588542d32580c3b1b6086049d69452ba0892ef710d3a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates bullish direction with support at 65.5 and resistance at 68.5, and alpha factors show 4 out of 5 positive signals. MACD histogram negative suggests potential pullback but overall bullish consensus from trend and alpha outweighs.",
+    "evidence_against": "MACD line below signal indicates bearish momentum, raising risk of reversal.",
+    "justification": "Given bullish trend and majority positive alpha, a long position is justified despite MACD bearish signal. Expected upside to resistance 68.5 exceeds two-way transaction cost of 0.7%, yielding a risk-reward ratio above 1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-8f87-72f3-a1b0-3a981a49b3d5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-8f87-72f3-a1b0-3a981a49b3d5.request.json",
+      "sha256": "fb112f6ebd77fca85df43ea83725b519b16116c02573e5a4287b17173611cdab"
+    },
+    {
+      "path": "calls/01a1a473-8f87-72f3-a1b0-3a981a49b3d5.response.json",
+      "sha256": "5bea367c8386817d65e7f3190e3d590a90c242f946487ebd6a4d7eecb4ee5676"
+    }
+  ],
+  "sha256": "6d9e3ff2bb81db9dceac1b8b017d343c453e371905defebdba52c8a20f201e4d"
+}

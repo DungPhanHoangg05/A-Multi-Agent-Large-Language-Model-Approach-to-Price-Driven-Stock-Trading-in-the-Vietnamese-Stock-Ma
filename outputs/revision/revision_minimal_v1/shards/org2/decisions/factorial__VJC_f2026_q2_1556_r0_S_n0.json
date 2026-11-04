@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_S_n0",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "a11ea9dbe17e07d88658bf7fec2a6b760a4c83fca0209e6ae1dd8664a8c16cda"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates upward movement with price approaching resistance 128 and MACD bullish signal. Pattern V reversal confirms bullish momentum with target 130.",
+    "evidence_against": "No clear bearish signals or resistance breach observed.",
+    "justification": "Given bullish trend, pattern, MACD, and positive sentiment, a LONG position is justified with expected target 130 and stop below 118.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-8026-7a30-8b4b-0550a7e033f1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-8026-7a30-8b4b-0550a7e033f1.request.json",
+      "sha256": "1a691585d3f98fa286949b7352f97524f3f63d2a4ab095f6eb3310f4ed058754"
+    },
+    {
+      "path": "calls/01a1a467-8026-7a30-8b4b-0550a7e033f1.response.json",
+      "sha256": "e5e3bb2cb317ddcd3de1cfb1dba4d16c91fce99372a0cc3ecd25f436c6d9084f"
+    }
+  ],
+  "sha256": "6a5d35f3a1436d6600b18b0b3750dd5996fb68faffb94d7ef28c2851b767d6ef"
+}

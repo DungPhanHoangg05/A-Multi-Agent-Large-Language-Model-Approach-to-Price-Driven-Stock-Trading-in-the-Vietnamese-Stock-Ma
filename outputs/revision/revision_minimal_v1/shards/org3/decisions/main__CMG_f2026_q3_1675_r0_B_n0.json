@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "CMG_f2026_q3_1675",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__CMG_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "8932d95590c7783b7bc3de801b2c2fd6d585261e6b75163dd8dd071ca0059cf6",
+    "donor_hash": null,
+    "upstream_hash": "435cdffb9d1c08628943f129e8871464fb871a82dbb8b4df5acfb3272cc1c026",
+    "prompt_hash": "7e10c326b9e00a476df483aa2b938b07fc25022448c3384f0e541986502f616e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with price below resistance 23.5 and near support 22.9, indicating potential further decline. Price has been consolidating near support, reducing upside potential.",
+    "evidence_against": "MACD line is below signal and negative, confirming bearish momentum.",
+    "justification": "Shorting aligns with the confirmed downtrend and bearish momentum; target near support 22.9 offers a favorable risk-reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-3171-78a0-b5d3-6f3eff0ee0e5"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-3171-78a0-b5d3-6f3eff0ee0e5.request.json",
+      "sha256": "9f208e9565b1b54c0d64ff8d6c5be2417e49fe19d64bb592dbbb60d3343d6449"
+    },
+    {
+      "path": "calls/01a1a472-3171-78a0-b5d3-6f3eff0ee0e5.response.json",
+      "sha256": "9b78a96c745bdf379a27a24f283f5bffb5995cb48f8e272d691accd48281d223"
+    }
+  ],
+  "sha256": "a175664375df79e2f0e8011b879b0f37ca909b5128fd068e394c92fb083a22c3"
+}

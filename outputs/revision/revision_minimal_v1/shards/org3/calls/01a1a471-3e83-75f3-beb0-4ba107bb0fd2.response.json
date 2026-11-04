@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a471-3e83-75f3-beb0-4ba107bb0fd2",
+  "parent_request_hash": "b2390ec2f27e9eed0e6bede089bac78a74d2325903984e05805f3236a81f5c73",
+  "ended_at_utc": "2026-11-04T02:44:10.518650+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with support 26.5 and resistance 28.5, V-reversal pattern confirms bullish momentum.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate bearish momentum.\",\"justification\":\"Entry at open with target 28.5 gives ~1% return, exceeding 0.7% cost; risk limited to 26.8 gives 1:1 risk/reward.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"Trend up with support 26.5 and resistance 28.5, V-reversal pattern confirms bullish momentum.\",\"evidence_against\":\"MACD line below signal and negative histogram indicate bearish momentum.\",\"justification\":\"Entry at open with target 28.5 gives ~1% return, exceeding 0.7% cost; risk limited to 26.8 gives 1:1 risk/reward.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1160,
+                "prompt_tokens": 1494,
+                "total_tokens": 2654,
+                "completion_time": 1.722142992,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1035
+                },
+                "prompt_time": 0.075866737,
+                "prompt_tokens_details": null,
+                "queue_time": 1.104856746,
+                "total_time": 1.798009729
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_84bb35977d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a471-3e83-75f3-beb0-4ba107bb0fd2-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1160,
+        "prompt_tokens": 1494,
+        "total_tokens": 2654,
+        "completion_time": 1.722142992,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1035
+        },
+        "prompt_time": 0.075866737,
+        "prompt_tokens_details": null,
+        "queue_time": 1.104856746,
+        "total_time": 1.798009729
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_84bb35977d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

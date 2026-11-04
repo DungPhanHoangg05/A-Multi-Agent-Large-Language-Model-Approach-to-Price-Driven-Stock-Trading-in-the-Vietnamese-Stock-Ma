@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46b-33d1-7313-9625-8913194ced18",
+  "parent_request_hash": "e9b8e13a8f00b48679552ca8b60d9ba1b56f9a01d4c00971b00691bd91b11995",
+  "ended_at_utc": "2026-11-04T02:37:33.330453+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a bullish direction with price approaching resistance 128, MACD histogram is positive and increasing, and 3 out of 5 alpha factors signal upward movement. Sentiment score of 0.6755 further supports a positive outlook.\",\"evidence_against\":\"Price is close to resistance 128, which could limit upside potential.\",\"justification\":\"Given the bullish indicators and expected price rise above 128, a LONG position is justified. The projected gain exceeds the combined fee and slippage threshold, making the trade viable within the 3‑day horizon.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis indicates a bullish direction with price approaching resistance 128, MACD histogram is positive and increasing, and 3 out of 5 alpha factors signal upward movement. Sentiment score of 0.6755 further supports a positive outlook.\",\"evidence_against\":\"Price is close to resistance 128, which could limit upside potential.\",\"justification\":\"Given the bullish indicators and expected price rise above 128, a LONG position is justified. The projected gain exceeds the combined fee and slippage threshold, making the trade viable within the 3‑day horizon.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1036,
+                "prompt_tokens": 1765,
+                "total_tokens": 2801,
+                "completion_time": 1.164928512,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 881
+                },
+                "prompt_time": 0.104012287,
+                "prompt_tokens_details": null,
+                "queue_time": 0.323782344,
+                "total_time": 1.2689407990000001
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_feb9b278f1",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46b-33d1-7313-9625-8913194ced18-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1036,
+        "prompt_tokens": 1765,
+        "total_tokens": 2801,
+        "completion_time": 1.164928512,
+        "completion_tokens_details": {
+          "reasoning_tokens": 881
+        },
+        "prompt_time": 0.104012287,
+        "prompt_tokens_details": null,
+        "queue_time": 0.323782344,
+        "total_time": 1.2689407990000001
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_feb9b278f1",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

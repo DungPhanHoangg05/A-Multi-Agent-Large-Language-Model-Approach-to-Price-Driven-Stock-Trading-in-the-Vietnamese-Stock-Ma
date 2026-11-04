@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46a-c7a5-7821-9fc2-91bee8f20b95",
+  "parent_request_hash": "f609564ec7e4b23df27bc39fbc63ef82c903d710b1a9b72c420e9f420bd8d5c3",
+  "ended_at_utc": "2026-11-04T02:37:05.004629+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support 112 and resistance 128, MACD bullish with histogram positive. Alpha factors majority positive indicating upward momentum.\",\"evidence_against\":\"Potential risk if breakout fails and price stalls below resistance.\",\"justification\":\"Long entry at open with target near resistance 128, expected to cover fees and yield net profit. Holding cash if not enough upside.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support 112 and resistance 128, MACD bullish with histogram positive. Alpha factors majority positive indicating upward momentum.\",\"evidence_against\":\"Potential risk if breakout fails and price stalls below resistance.\",\"justification\":\"Long entry at open with target near resistance 128, expected to cover fees and yield net profit. Holding cash if not enough upside.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 498,
+                "prompt_tokens": 1720,
+                "total_tokens": 2218,
+                "completion_time": 0.64848739,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 383
+                },
+                "prompt_time": 0.088106682,
+                "prompt_tokens_details": null,
+                "queue_time": 0.290087969,
+                "total_time": 0.736594072
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_565badff47",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46a-c7a5-7821-9fc2-91bee8f20b95-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 498,
+        "prompt_tokens": 1720,
+        "total_tokens": 2218,
+        "completion_time": 0.64848739,
+        "completion_tokens_details": {
+          "reasoning_tokens": 383
+        },
+        "prompt_time": 0.088106682,
+        "prompt_tokens_details": null,
+        "queue_time": 0.290087969,
+        "total_time": 0.736594072
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_565badff47",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

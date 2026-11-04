@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a470-c863-7953-8a2a-8115d2c17d6d",
+  "parent_request_hash": "7c6d44b7ed11767f77e0e4067c11a5b58490cf3ddd18f53038c084727e70f9e3",
+  "ended_at_utc": "2026-11-04T02:43:38.786825+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 70.5 and resistance at 74.5; MACD histogram trending upward indicating potential reversal to bullish.\",\"evidence_against\":\"MACD line below signal suggests bearish momentum.\",\"justification\":\"Price likely to stay above 72 and target 75; risk reward ratio acceptable with 2:1.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support at 70.5 and resistance at 74.5; MACD histogram trending upward indicating potential reversal to bullish.\",\"evidence_against\":\"MACD line below signal suggests bearish momentum.\",\"justification\":\"Price likely to stay above 72 and target 75; risk reward ratio acceptable with 2:1.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 917,
+                "prompt_tokens": 1476,
+                "total_tokens": 2393,
+                "completion_time": 0.992874806,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 807
+                },
+                "prompt_time": 0.093148864,
+                "prompt_tokens_details": null,
+                "queue_time": 0.287627507,
+                "total_time": 1.0860236699999999
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9340e7d14d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a470-c863-7953-8a2a-8115d2c17d6d-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 917,
+        "prompt_tokens": 1476,
+        "total_tokens": 2393,
+        "completion_time": 0.992874806,
+        "completion_tokens_details": {
+          "reasoning_tokens": 807
+        },
+        "prompt_time": 0.093148864,
+        "prompt_tokens_details": null,
+        "queue_time": 0.287627507,
+        "total_time": 1.0860236699999999
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9340e7d14d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

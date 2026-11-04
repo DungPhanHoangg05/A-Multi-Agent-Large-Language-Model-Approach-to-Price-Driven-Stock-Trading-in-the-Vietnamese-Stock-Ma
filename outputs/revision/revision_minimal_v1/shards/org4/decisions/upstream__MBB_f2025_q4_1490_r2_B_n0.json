@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2025_q4_1490",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__MBB_f2025_q4_1490_r2_B_n0",
+    "asset_hash": "f1d82d15d78e24a9400db4ad76385237d0398c9cbf42135403f76672543cdb36",
+    "donor_hash": null,
+    "upstream_hash": "a26379204556e37d07acd1ffe508a19cbea21b5e5454b31a25a659210c9a2d25",
+    "prompt_hash": "45c1404724856a54e3033605f54e8103e978e51db4ee7656dfb5a4e5f475f770"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.8,
+    "evidence_for": "Trend is up with price near resistance 20.5 and MACD above signal indicating bullish momentum. V‑reversal pattern shows a strong bounce from 18.4 to above 19.9, supporting a buy entry.",
+    "evidence_against": "Pattern confidence is medium and could fail to overcome resistance, risking insufficient profit to cover fees.",
+    "justification": "Given the bullish trend, reversal pattern, and positive MACD, a LONG position is justified. The stop‑loss at 19.4 and target 20.5 provide a risk‑reward ratio of about 1.8.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1f1-d26e-78f2-a3d9-a5513ec86c2a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1f1-d26e-78f2-a3d9-a5513ec86c2a.request.json",
+      "sha256": "2a27120f5425c33fe2367903da133452a21d9e61bcfe922d3f994279feea1b12"
+    },
+    {
+      "path": "calls/01a1a1f1-d26e-78f2-a3d9-a5513ec86c2a.response.json",
+      "sha256": "28d04f1b08d4d58283319b90bb3ec65cb3adb40cd991b126ba67dadc7558c1bb"
+    }
+  ],
+  "sha256": "72ae472eb0b9f850c8ce1f116c14b058fbf7d1e03d663016874f2883e92b6f6d"
+}

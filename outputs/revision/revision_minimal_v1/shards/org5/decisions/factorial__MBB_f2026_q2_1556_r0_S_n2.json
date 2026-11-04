@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_S_n2",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "fea7c1909d0e954b88ab8472c5c4e2995ea2f2e2e8e6723ac43ea3a90759491b"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with price near support 21 and moving towards resistance 22, MACD bullish with histogram positive. Pattern V reversal confirms bullish momentum after a deep low at 19.9.",
+    "evidence_against": "Price is still below resistance 22, risk of reversal if support fails.",
+    "justification": "Given bullish trend, MACD confirmation, and V pattern reversal, a LONG position is justified. The risk of reversal is mitigated by support at 21 and potential upside to 22.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-37ae-74f1-b2cf-7c9c7a6744e0"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-37ae-74f1-b2cf-7c9c7a6744e0.request.json",
+      "sha256": "d8689001efa63f1afb69439ea1f37696dadd908a65f944bdcad7772eecf448f4"
+    },
+    {
+      "path": "calls/01a1a46b-37ae-74f1-b2cf-7c9c7a6744e0.response.json",
+      "sha256": "251a941654ccda03f9c2f63dd1907efaf7fe8159d1d2921f9c8b83118cb1d7ba"
+    }
+  ],
+  "sha256": "255bd051efd9d2233500111d027c1fcc9f48bcde61500cedafe8873811db133c"
+}

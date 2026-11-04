@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "HVN_b2023_h2_929",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__HVN_b2023_h2_929_r2_AS_n0",
+    "asset_hash": "47fc83202a1ef4e84cd78ff8a989357aa27cad3ebeb08f391c65b9ee15a76ef8",
+    "donor_hash": null,
+    "upstream_hash": "fb341bd0c6de51db082c8e45e191d5ea4a3b5b337e34e6bbd04e8f0875cf84df",
+    "prompt_hash": "27efdf758122f64eadfe0a5548e3aed5ceb5072a4e3f550557f50ae644f505f2"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is down with price below resistance and MACD below signal indicating bearish momentum; pattern shows a V reversal but price broke support, confirming a potential decline.",
+    "evidence_against": "Alpha factors overall TĂNG suggests some bullish bias.",
+    "justification": "Given the bearish trend, negative MACD, and support break, a short position aligns with the risk management rules; the expected target is near 9.6 with stop above 10.2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-66f7-74d0-bd12-0ce0770b5f14"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-66f7-74d0-bd12-0ce0770b5f14.request.json",
+      "sha256": "49b1155ae49d2561488fa72e3f148359d8909269484322754a25a62d7383be77"
+    },
+    {
+      "path": "calls/01a1a1e6-66f7-74d0-bd12-0ce0770b5f14.response.json",
+      "sha256": "cd5b4551d4ace7d9f0182f1916912935aa56da7fd965ffa59a2311aed076f020"
+    }
+  ],
+  "sha256": "7b70868b91e2737b8334f20b1f78641feef544e49eaab6cbefc1047855d88cc0"
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46f-6768-7a11-8a14-81f95f32142b",
+  "parent_request_hash": "85bed60adf5568174d0db6c3aa4fac156532fd9420bd58963bd6895335f39b44",
+  "ended_at_utc": "2026-11-04T02:42:08.683778+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":5,\"evidence_for\":\"Trend is up with price near resistance 68.5 and potential upside of ~3 points; alpha factors show 2 positive signals.\",\"evidence_against\":\"MACD is below signal indicating bearish momentum.\",\"justification\":\"The expected upside exceeds transaction costs, but momentum is weak; still choose LONG due to trend confirmation.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":5,\"evidence_for\":\"Trend is up with price near resistance 68.5 and potential upside of ~3 points; alpha factors show 2 positive signals.\",\"evidence_against\":\"MACD is below signal indicating bearish momentum.\",\"justification\":\"The expected upside exceeds transaction costs, but momentum is weak; still choose LONG due to trend confirmation.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 935,
+                "prompt_tokens": 1783,
+                "total_tokens": 2718,
+                "completion_time": 1.153744107,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 830
+                },
+                "prompt_time": 0.104697401,
+                "prompt_tokens_details": null,
+                "queue_time": 0.41829317,
+                "total_time": 1.258441508
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_ce54c53bd5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46f-6768-7a11-8a14-81f95f32142b-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 935,
+        "prompt_tokens": 1783,
+        "total_tokens": 2718,
+        "completion_time": 1.153744107,
+        "completion_tokens_details": {
+          "reasoning_tokens": 830
+        },
+        "prompt_time": 0.104697401,
+        "prompt_tokens_details": null,
+        "queue_time": 0.41829317,
+        "total_time": 1.258441508
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_ce54c53bd5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

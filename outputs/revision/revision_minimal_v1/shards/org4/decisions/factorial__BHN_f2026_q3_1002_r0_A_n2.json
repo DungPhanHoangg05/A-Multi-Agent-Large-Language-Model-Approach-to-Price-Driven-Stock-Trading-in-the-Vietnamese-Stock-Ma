@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_A_n2",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "058848a268f505e07c69fef20739f93614c895e5e5403ceff021208a01e2d5e8"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows price above support 26.5 and approaching resistance 28.5, indicating upward momentum. Pattern analysis confirms a V reversal with buy signal above 27.0 and target 28.5.",
+    "evidence_against": "MACD is below signal line with negative histogram, suggesting weakening bullish momentum.",
+    "justification": "Given the bullish trend and pattern signals, a long position is expected to generate net profit after fees. The potential upside to 28.5 exceeds the cost of slippage and commissions, providing a favorable risk‑reward profile.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-a95f-7581-9d84-eb350f553934"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-a95f-7581-9d84-eb350f553934.request.json",
+      "sha256": "c16a5a4e285bdf34c81d3056659979f8b09227cb474dc6e78e64e1b7423457db"
+    },
+    {
+      "path": "calls/01a1a472-a95f-7581-9d84-eb350f553934.response.json",
+      "sha256": "1a2ebb80fb24b5b5034d071986c01cacd62519850353a12628059c188b42f6e5"
+    }
+  ],
+  "sha256": "8c413fdf04f28313d8f87e0d129ef30307b4e0ca3114d3bcd0c07436a5574190"
+}

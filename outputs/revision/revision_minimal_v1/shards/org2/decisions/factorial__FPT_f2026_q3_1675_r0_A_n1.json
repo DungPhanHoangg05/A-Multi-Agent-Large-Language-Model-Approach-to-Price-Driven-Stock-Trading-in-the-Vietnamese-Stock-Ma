@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_A_n1",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "0fabe27311bfe60db040588542d32580c3b1b6086049d69452ba0892ef710d3a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates upward movement with price approaching resistance at 68.5, supported by 4 positive alpha factors.",
+    "evidence_against": "MACD shows bearish momentum with histogram negative, suggesting potential slowdown.",
+    "justification": "Expected price rise to resistance should cover transaction costs and yield net profit. However, MACD bearish signal introduces caution, so position should be monitored closely.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-0b5a-7171-afee-57bcaec6f3ef"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-0b5a-7171-afee-57bcaec6f3ef.request.json",
+      "sha256": "2f6c0111803620825545c3609734b2c24d57b3994b9f6c39a1b6e8f807bdb1aa"
+    },
+    {
+      "path": "calls/01a1a474-0b5a-7171-afee-57bcaec6f3ef.response.json",
+      "sha256": "fab6a89955bf8483e7c8daa9e0ca1d2e60b36514ea51f64f05a2ce1a2b1889c0"
+    }
+  ],
+  "sha256": "e2c7df7f4e082e52b7c1532af2ac00eb869d583f9badf2d1ac152f1903e22213"
+}

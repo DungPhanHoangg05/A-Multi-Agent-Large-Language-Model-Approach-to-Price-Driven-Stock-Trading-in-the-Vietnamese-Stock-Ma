@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_P_n1",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "ccf02db1f01178218714ba95f0ff1d13bec04ea93583efc6215e0e8780640ca9"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD below signal and negative histogram indicate bearish momentum; alpha factors overall decreasing suggest potential reversal.",
+    "evidence_against": "Trend analysis shows upward movement and support at 70.5.",
+    "justification": "Given the bearish MACD and decreasing alpha signals, shorting is prudent to avoid potential reversal; the trend up is not strong enough to offset the risk of fees.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a473-1990-76f2-9128-05f73b96729d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a473-1990-76f2-9128-05f73b96729d.request.json",
+      "sha256": "24c49700ed4ef07760ba3892f2c0b38f3c324d87f89972569023c448ce4d61d1"
+    },
+    {
+      "path": "calls/01a1a473-1990-76f2-9128-05f73b96729d.response.json",
+      "sha256": "0e8a3c2ea31a4267131834799f4ed39c176ddcaf2b9b6677d9e1d2f83afc4093"
+    }
+  ],
+  "sha256": "afa25ed1907c9b8cf22657aa51ad82724494c6f6d7bda54f5fb4e379d61ecf35"
+}

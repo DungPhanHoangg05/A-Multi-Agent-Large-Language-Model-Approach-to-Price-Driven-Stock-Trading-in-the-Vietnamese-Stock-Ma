@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VNM_f2026_q3_1675_r0_AS_n0",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "donor_hash": null,
+    "upstream_hash": "f9125474a395bdef515d3d1970f9211212fab00b83cfe4a61915bde7a7dfb4e3",
+    "prompt_hash": "6090070b873c33e3926ec13542e166aa21f3f59e1142feb861285cdd5a3e6565"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram indicate bearish momentum; alpha factors overall negative.",
+    "evidence_against": "Trend analysis shows sideways movement with no clear breakout.",
+    "justification": "MACD and alpha signals confirm bearish bias; short position aligns with risk management rules.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-2795-7e91-b96a-9702b523abcc"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-2795-7e91-b96a-9702b523abcc.request.json",
+      "sha256": "5736086e5d305a494a971fdfb81eafa90ac035c067466a1d267daaa75d6b0e65"
+    },
+    {
+      "path": "calls/01a1a472-2795-7e91-b96a-9702b523abcc.response.json",
+      "sha256": "a8c5b56eab01b9f4cef05e3e3fba2d609a3b528cf5003ca94bd98fdce3ed6c95"
+    }
+  ],
+  "sha256": "31df740d75f9ac995febe85360869e1f013b0f58085c044ff9985315d6378a15"
+}

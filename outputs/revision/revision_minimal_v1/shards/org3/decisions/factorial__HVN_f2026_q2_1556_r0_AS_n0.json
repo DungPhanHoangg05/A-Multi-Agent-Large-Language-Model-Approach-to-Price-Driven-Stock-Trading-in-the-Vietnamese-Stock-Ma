@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_AS_n0",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "36c8830b3bfebeb36f6ae684a3af1bdc68dbe07a42c813bc7c5b7717d4d44f92"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Alpha factors indicate a net decrease trend, MACD line below zero and histogram positive but still bearish, price approaching resistance 23.5 with decreasing slope.",
+    "evidence_against": "Trend analysis shows an upward trend with price above support 21.5, suggesting potential upside.",
+    "justification": "Given the bearish alpha signals and MACD below zero, the price is likely to reverse before reaching resistance, making a short position more favorable. The forecast horizon of T+2.5 aligns with the expected reversal within 3 days.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-50d5-7253-91ef-ac080e5ec2c6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-50d5-7253-91ef-ac080e5ec2c6.request.json",
+      "sha256": "4ab4156346a46e3ccc001c319d756a038b1f47813a95186afb1c5de1d250764d"
+    },
+    {
+      "path": "calls/01a1a46a-50d5-7253-91ef-ac080e5ec2c6.response.json",
+      "sha256": "5f8a76fcfd7f5a41f011f769b820ba3c6f4e996b054777cb3885f4849ae4ed5c"
+    }
+  ],
+  "sha256": "16aee9a45f1ef405cbd404ac06df06138ddb286dd398071d5188c60f0a9ab5d9"
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1618",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VCB_f2026_q3_1618_r0_B_n0",
+    "asset_hash": "90cd834b2c5cfdcbfa6132f6a66f1c0a99d82d9b5145d22b4606bc9611bf40c1",
+    "donor_hash": null,
+    "upstream_hash": "3b487545a7e8511e50ce9bc10ea78a7ff1e5c396a98bb8f0286ad6bae432eda8",
+    "prompt_hash": "48d0b0e2977f4b5d2d1f2ac6f59dea29d9d7cc0adb4f4da5c5c2845421492d80"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 4.5,
+    "evidence_for": "Trend is upward with support at 60.5 and resistance at 64.5, and MACD shows a golden cross confirming bullish momentum. The V‑shaped reversal pattern indicates a strong breakout above 61.5 with target 63.5.",
+    "evidence_against": "Resistance at 64.5 could cap upside and trigger a pullback.",
+    "justification": "The bullish signals outweigh the risk of resistance, and the expected profit (~3.25%) comfortably exceeds the combined fee and slippage (~0.7%). Therefore a LONG position is justified.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-19b7-7303-822d-6b6b4618b134"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-19b7-7303-822d-6b6b4618b134.request.json",
+      "sha256": "85af4842668fd9c23c8975d50e3073d9bb3cd2622c42b9fdd179aece1f4f75ee"
+    },
+    {
+      "path": "calls/01a1a46d-19b7-7303-822d-6b6b4618b134.response.json",
+      "sha256": "62e2270110853ca553d2357b4a45e9cbb02132052483fff528e82f9fe951e63c"
+    }
+  ],
+  "sha256": "4e3a0be2b47c2c30d00f139dfd9744f6bac1562f6041a876e4080df68016e8ec"
+}

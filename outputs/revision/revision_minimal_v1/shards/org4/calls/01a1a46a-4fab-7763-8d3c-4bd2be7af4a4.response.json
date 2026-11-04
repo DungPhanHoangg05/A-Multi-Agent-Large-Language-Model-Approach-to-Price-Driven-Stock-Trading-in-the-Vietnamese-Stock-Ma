@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46a-4fab-7763-8d3c-4bd2be7af4a4",
+  "parent_request_hash": "3d80ff202196de23a0d53accc223b5ff281404dc04750766660cde9fcb4bf5e1",
+  "ended_at_utc": "2026-11-04T02:36:34.432407+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is bearish with price below resistance and MACD line above signal indicating bullish momentum but histogram decreasing, suggesting potential reversal. Pattern reliability is low, but the price is approaching support at 22.5, providing a potential entry point.\",\"evidence_against\":\"Pattern confidence is low and sentiment score is only 0.16, indicating limited bullish support.\",\"justification\":\"Given the bearish trend and lack of strong bullish confirmation, a short position aligns with the strategy to avoid buying on a potential reversal. The short will be closed at T+2.5, capturing any further decline while limiting exposure to upside risk.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend is bearish with price below resistance and MACD line above signal indicating bullish momentum but histogram decreasing, suggesting potential reversal. Pattern reliability is low, but the price is approaching support at 22.5, providing a potential entry point.\",\"evidence_against\":\"Pattern confidence is low and sentiment score is only 0.16, indicating limited bullish support.\",\"justification\":\"Given the bearish trend and lack of strong bullish confirmation, a short position aligns with the strategy to avoid buying on a potential reversal. The short will be closed at T+2.5, capturing any further decline while limiting exposure to upside risk.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 615,
+                "prompt_tokens": 1490,
+                "total_tokens": 2105,
+                "completion_time": 0.885147603,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 452
+                },
+                "prompt_time": 0.089083387,
+                "prompt_tokens_details": null,
+                "queue_time": 0.167837184,
+                "total_time": 0.97423099
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e23fc997ca",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46a-4fab-7763-8d3c-4bd2be7af4a4-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 615,
+        "prompt_tokens": 1490,
+        "total_tokens": 2105,
+        "completion_time": 0.885147603,
+        "completion_tokens_details": {
+          "reasoning_tokens": 452
+        },
+        "prompt_time": 0.089083387,
+        "prompt_tokens_details": null,
+        "queue_time": 0.167837184,
+        "total_time": 0.97423099
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e23fc997ca",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

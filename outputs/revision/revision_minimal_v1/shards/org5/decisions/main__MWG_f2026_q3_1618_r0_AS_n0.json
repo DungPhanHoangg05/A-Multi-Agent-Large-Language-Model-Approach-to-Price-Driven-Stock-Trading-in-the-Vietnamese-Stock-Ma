@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1618",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__MWG_f2026_q3_1618_r0_AS_n0",
+    "asset_hash": "ebc595fc0e186f5f2c0ea0cc968fa3c40381e3c9b3adc3bda84996359ee82301",
+    "donor_hash": null,
+    "upstream_hash": "07ee03f2046b55c7ce9773660e12db68be4908408608ff37d2f940a6312fb504",
+    "prompt_hash": "96977f13a877f07aa0bdd478b06b7bfacac2e71d13073da008410fdd7be3b527"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.3,
+    "evidence_for": "Trend is bullish with price above support and approaching resistance; MACD is above signal with positive histogram indicating bullish momentum.",
+    "evidence_against": "Alpha factors overall indicate a decreasing trend, which could signal a potential reversal.",
+    "justification": "Given the bullish trend, pattern confirmation, and MACD signals, a long position is justified; the risk-reward ratio of 1.3 supports the trade within the 3-day horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-f8ea-76c0-b681-1416f4c02952"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-f8ea-76c0-b681-1416f4c02952.request.json",
+      "sha256": "d5f530e9af00889a10318526a34eaad9df1c808b16c24acfc443fbd46cb18752"
+    },
+    {
+      "path": "calls/01a1a46d-f8ea-76c0-b681-1416f4c02952.response.json",
+      "sha256": "c1239ae8a31e1fe9d4357a23c057e66ba2572f2fa5de3c55a1242cc86805c23f"
+    }
+  ],
+  "sha256": "62db0980fdb32efdf3c68740a99781c399b27688e2b5ba65bdf306ef0213cafa"
+}

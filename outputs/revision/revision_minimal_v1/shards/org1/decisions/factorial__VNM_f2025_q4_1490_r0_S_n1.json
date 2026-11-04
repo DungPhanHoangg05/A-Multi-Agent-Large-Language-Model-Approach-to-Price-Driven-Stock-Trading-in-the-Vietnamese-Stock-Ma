@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_S_n1",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "036aa4b980fd4cef5b83088b29fe257acb52f81d114e0e8c94fcad79791817a6"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend analysis shows price above support 59 and approaching resistance 62.5 with bullish flag pattern. MACD histogram trending upward indicates increasing bullish momentum.",
+    "evidence_against": "MACD line is below signal line, indicating potential bearish pressure.",
+    "justification": "Given the expected profit of ~1.5% minus 0.70% fees, the net gain exceeds the fee threshold and the risk reward ratio is 1:1, making a LONG trade viable. The bullish trend and pattern support entry above 62 with target 64.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-1a90-7593-9d35-6cf697686ef8"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-1a90-7593-9d35-6cf697686ef8.request.json",
+      "sha256": "b8301ebc303487f6fceaa74ce064b7d68e34f87a4ce42ac0f72161cd331e8309"
+    },
+    {
+      "path": "calls/01a1a466-1a90-7593-9d35-6cf697686ef8.response.json",
+      "sha256": "48c236159738d7fe99a03d28047cce5ffc4d8dd238dd918661629eec7e568f87"
+    }
+  ],
+  "sha256": "921de104095ca0e63913e1908a4bc9bef6fe6b1c1c96c2afce2a67d5d6388521"
+}

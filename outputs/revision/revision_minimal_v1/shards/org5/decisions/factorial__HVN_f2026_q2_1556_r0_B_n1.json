@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_B_n1",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "aa7d09471271811a12d6994ec360d4aca62e60d0051e25e17025f7c521767ed2"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.0,
+    "evidence_for": "Trend analysis indicates an upward direction with price approaching resistance at 23.5. MACD shows bullish crossover with positive histogram, confirming upward momentum.",
+    "evidence_against": "Pattern analysis suggests a potential downtrend, but its low reliability weakens its impact.",
+    "justification": "Given the higher reliability of the trend and bullish MACD signals, a LONG position is justified, aiming for the 23.5 resistance within the T+2.5 horizon. The risk is limited to the support at 21.5, providing a 3:1 reward-to-risk ratio.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-e407-7951-8b93-1df7b1abc452"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-e407-7951-8b93-1df7b1abc452.request.json",
+      "sha256": "30aa33bd457ecc8e8972beb49134d602d798dd7d7b8089e6ef4ff99f75a453d6"
+    },
+    {
+      "path": "calls/01a1a468-e407-7951-8b93-1df7b1abc452.response.json",
+      "sha256": "9f0512f9b6d91a8ed742eb1d8ef6edef3e3ca0a53a262c31077225341955d5c6"
+    }
+  ],
+  "sha256": "4e1a32a80795053d024e92eb1ad9d91c7b32d9d034976ce5bb5ca6d89d3d0d13"
+}

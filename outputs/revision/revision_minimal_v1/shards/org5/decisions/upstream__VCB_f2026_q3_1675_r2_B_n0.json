@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VCB_f2026_q3_1675_r2_B_n0",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "4c2e1a0db5f0f8c1fc44d7845b1a7ff47c07acfafd040cf6d65b766b6ba44ec4",
+    "prompt_hash": "1a081bdcfee3f6ef5db426631f7d23e7d42b8b123dc65b3cb1f3f26aca81f3be"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Thấp",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD below signal and histogram trending downwards signal bearish momentum. Trend analysis indicates price likely to stay near support 57.5.",
+    "evidence_against": "Pattern suggests potential upside but confidence is low and actual candle does not match.",
+    "justification": "Shorting avoids exposure to potential decline and aligns with bearish indicators. Holding cash preserves capital until clearer trend emerges.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-db41-7e41-a57d-a655610c4606"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-db41-7e41-a57d-a655610c4606.request.json",
+      "sha256": "3f0ee87461014da08a8a4bdbc1a3fed5457775f04a7c3a1148c3d3c9477f184f"
+    },
+    {
+      "path": "calls/01a1a46f-db41-7e41-a57d-a655610c4606.response.json",
+      "sha256": "8d5ea551655532c381ab1f1ed7710b5ebc5fba5f29c43e59eb60afcb61fa323e"
+    }
+  ],
+  "sha256": "5454b02356ab4ef59f2dcc90aeb69414b748becf6951b397449bc45b2857b54b"
+}

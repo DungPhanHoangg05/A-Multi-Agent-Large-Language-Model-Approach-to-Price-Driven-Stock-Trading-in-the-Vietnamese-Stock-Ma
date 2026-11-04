@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "FPT_b2023_h2_929",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__FPT_b2023_h2_929_r2_AS_n0",
+    "asset_hash": "05c835291e10c9661fc2dfb3c11d27966e66f64aece10a63efd950917c4ddefc",
+    "donor_hash": null,
+    "upstream_hash": "431ae6d9864aeda5de81420807ad4eb3eb6282c0eff5a833a56e20f8ef615411",
+    "prompt_hash": "656bab796c8d8f90dfbc8ecf75aa5ebba4543008b9bdf04b56a0a461bf0f98eb"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up with support at 63.5 and resistance at 69.5, indicating potential upside. Pattern shows a flag up and MACD bearish, but the overall trend and support suggest a short-term bullish move.",
+    "evidence_against": "MACD is below signal and histogram is negative, indicating bearish momentum.",
+    "justification": "Given the expected profit of ~6% exceeds the 0.7% fee, a LONG position is viable. However, bearish MACD and negative alpha suggest caution, so a tight stop at support is advised.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-dddb-7ad1-86e9-0b7533cc9ba9"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-dddb-7ad1-86e9-0b7533cc9ba9.request.json",
+      "sha256": "c31c42376d4e26f495063390e2bc68b704ac5388e8e23ef96b3a061516698d97"
+    },
+    {
+      "path": "calls/01a1a1e6-dddb-7ad1-86e9-0b7533cc9ba9.response.json",
+      "sha256": "f9f7401966811cb7724d036c4d1ba387aa5604647dbb19eb4747be0bcca9aca5"
+    }
+  ],
+  "sha256": "fdb3bfcae7a9c9c8772ebc90ebaf49635687e24e97dcc22ed73f6876b1ac4071"
+}

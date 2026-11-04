@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "CMG_b2023_h2_929",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__CMG_b2023_h2_929_r2_B_n0",
+    "asset_hash": "cdbcf49d3d6a5fe8e1d19eb3a59c9a77ecbfbad398693eec24573f20fb494f24",
+    "donor_hash": null,
+    "upstream_hash": "3d74e14cd66631138a2487806a3f046f5e43772d45fb4494966d34ed17db22a6",
+    "prompt_hash": "966e270e33e5f30ddb23d21a3abbc0cda180d0164d633447ab41b57043f4c533"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "V reversal at 29.8 with strong green candle on 2023-09-21 suggests potential upside.",
+    "evidence_against": "MACD line below signal and negative histogram indicate bearish momentum.",
+    "justification": "Trend is sideways with price near support, and bearish indicator outweighs bullish pattern, so short to avoid risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a1e6-df5b-78d2-90fc-ca1e8e43c4a3"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a1e6-df5b-78d2-90fc-ca1e8e43c4a3.request.json",
+      "sha256": "91e3b057ef0f854ea33f9d6dfa985f5bf2ab2874edab4ebbdc67a43f5417f1ee"
+    },
+    {
+      "path": "calls/01a1a1e6-df5b-78d2-90fc-ca1e8e43c4a3.response.json",
+      "sha256": "8f331204285483fc2bd7face1806eaa63870ff54c93f31764a476d0ed7b73dd6"
+    }
+  ],
+  "sha256": "b558733a64d567a20e65a63cc5748993dfef99efa65410d60d6befe015dab20e"
+}

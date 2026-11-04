@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_P_n0",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "e1705ca2fc815038c33d9c4ad2a52a33f9daba9c4f84b58e06c1a530b0088d7a"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows price near resistance 23.5 and MACD bullish crossover with expanding histogram.",
+    "evidence_against": "Alpha factors overall negative and pattern analysis confirms a downtrend.",
+    "justification": "Mixed signals and negative alpha suggest higher risk of reversal; short position preserves capital.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-7f9f-7ec0-9195-d70546204eae"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-7f9f-7ec0-9195-d70546204eae.request.json",
+      "sha256": "00178dec6e8b890fe84721a6e534808d5f154379e300b4789d4125e2ffec6d59"
+    },
+    {
+      "path": "calls/01a1a467-7f9f-7ec0-9195-d70546204eae.response.json",
+      "sha256": "44c8a09f674d585facc055e69be4458712cd54088e020a1140def0dd658a3562"
+    }
+  ],
+  "sha256": "96569da99545f7ced7b6360d74a0a08dacd707150c59668efcb659f6d00e1b1e"
+}

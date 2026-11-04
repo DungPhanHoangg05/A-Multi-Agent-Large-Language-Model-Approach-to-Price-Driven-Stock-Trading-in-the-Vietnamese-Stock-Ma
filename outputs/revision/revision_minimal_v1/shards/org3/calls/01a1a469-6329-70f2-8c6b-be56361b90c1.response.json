@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a469-6329-70f2-8c6b-be56361b90c1",
+  "parent_request_hash": "b2d8e45c33f12d00e2b6c96af25d9afc2a2e44dd0f50dbd3f606cf976a3b7a2d",
+  "ended_at_utc": "2026-11-04T02:35:34.131622+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend up with support at 59 and resistance at 62.5, pattern flag up indicates bullish breakout potential. Alpha factors show 3 out of 5 positive signals, reinforcing bullish bias.\",\"evidence_against\":\"MACD line below signal suggests potential short-term pullback.\",\"justification\":\"Bullish trend and pattern support a long entry. Alpha consensus and potential upside exceed transaction costs.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend up with support at 59 and resistance at 62.5, pattern flag up indicates bullish breakout potential. Alpha factors show 3 out of 5 positive signals, reinforcing bullish bias.\",\"evidence_against\":\"MACD line below signal suggests potential short-term pullback.\",\"justification\":\"Bullish trend and pattern support a long entry. Alpha consensus and potential upside exceed transaction costs.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 823,
+                "prompt_tokens": 1739,
+                "total_tokens": 2562,
+                "completion_time": 0.977824914,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 700
+                },
+                "prompt_time": 0.101625944,
+                "prompt_tokens_details": null,
+                "queue_time": 0.318077167,
+                "total_time": 1.079450858
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_3023a70d60",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a469-6329-70f2-8c6b-be56361b90c1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 823,
+        "prompt_tokens": 1739,
+        "total_tokens": 2562,
+        "completion_time": 0.977824914,
+        "completion_tokens_details": {
+          "reasoning_tokens": 700
+        },
+        "prompt_time": 0.101625944,
+        "prompt_tokens_details": null,
+        "queue_time": 0.318077167,
+        "total_time": 1.079450858
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_3023a70d60",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

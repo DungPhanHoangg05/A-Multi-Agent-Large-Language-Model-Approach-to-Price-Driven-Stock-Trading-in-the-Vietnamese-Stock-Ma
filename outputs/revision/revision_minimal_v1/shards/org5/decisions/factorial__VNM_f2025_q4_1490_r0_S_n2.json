@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_S_n2",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "036aa4b980fd4cef5b83088b29fe257acb52f81d114e0e8c94fcad79791817a6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and histogram trending upward indicates bearish momentum; price consolidation near resistance 62.5 suggests potential reversal.",
+    "evidence_against": "Trend analysis indicates bullish pattern, but MACD contradicts.",
+    "justification": "Given MACD bearish signal and lack of strong bullish confirmation, shorting is prudent to avoid potential reversal; shorting allows cash holding until T+2.5.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-09fe-76a1-b4d1-26ee563a7d7b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-09fe-76a1-b4d1-26ee563a7d7b.request.json",
+      "sha256": "e34d39937024f69e8cdbeb3f46529571e8d2ee487012b51fc2f19586640ccd33"
+    },
+    {
+      "path": "calls/01a1a467-09fe-76a1-b4d1-26ee563a7d7b.response.json",
+      "sha256": "d4e26844dd5a33da111a3a0c94b8c1ee469c522f44dc404abe2a767da3dac10e"
+    }
+  ],
+  "sha256": "bfd97625c8e49f564de6af2a57b9a76bc015762948518458b9f61d76ab09ffb1"
+}

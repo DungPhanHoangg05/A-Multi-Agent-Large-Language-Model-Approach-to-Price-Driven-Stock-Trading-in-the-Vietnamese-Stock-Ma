@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_S_n2",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": null,
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "2716d30a78f290a30aac034ce2df0c08a5035e5e6c28bbdb74e11e89409750ca"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows downtrend with lower highs and MACD below signal indicating bearish momentum.",
+    "evidence_against": "Trend analysis indicates sideways movement.",
+    "justification": "Short position aligns with bearish pattern and negative MACD, capturing potential decline within T+2.5 horizon.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-3a2f-7492-a4f2-fef9076dd72a"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-3a2f-7492-a4f2-fef9076dd72a.request.json",
+      "sha256": "64f2ae6ea7b9313de5961033274d27859b97489abe804d597b1dab61180685e2"
+    },
+    {
+      "path": "calls/01a1a46b-3a2f-7492-a4f2-fef9076dd72a.response.json",
+      "sha256": "ac470898ec3185c36f0769d276782b79df9413e58e65f4a7c133ffd4cda6473a"
+    }
+  ],
+  "sha256": "1af35c94b69b6daac4ff1002ed345b00c1429fbdd4a320fd2c7ba9ede02ddd0f"
+}

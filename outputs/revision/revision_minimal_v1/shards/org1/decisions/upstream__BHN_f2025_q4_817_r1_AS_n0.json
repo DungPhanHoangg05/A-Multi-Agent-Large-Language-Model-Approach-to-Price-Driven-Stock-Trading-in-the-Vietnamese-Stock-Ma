@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "BHN_f2025_q4_817",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__BHN_f2025_q4_817_r1_AS_n0",
+    "asset_hash": "05f90e65a256b946bb643d522f4e567ca06b725370daad7bc5b621d7f3233eb7",
+    "donor_hash": null,
+    "upstream_hash": "25ed30b0b35edf7738e8c6751dece6e1f93624501b32508265fae2af3d8c5e1b",
+    "prompt_hash": "d27f5f177a04a075b35e460a4be93666ba1cfa6d2d1f54c781e064d718e784c8"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and histogram negative indicates bearish momentum; Alpha factors show overall negative trend.",
+    "evidence_against": "Trend analysis indicates sideways movement, not clear bearish breakout.",
+    "justification": "Given multiple bearish indicators and negative alpha, a short position aligns with risk management and expected profit after fees.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a465-a331-7781-976d-e5c81de90409"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a465-a331-7781-976d-e5c81de90409.request.json",
+      "sha256": "99baa7f2d6edc064083268b88fc82b588da44717dff2822cf891d5929d075c32"
+    },
+    {
+      "path": "calls/01a1a465-a331-7781-976d-e5c81de90409.response.json",
+      "sha256": "e3d5127ab2591d48c1c842864de00c1764b0f1293dc8c0fec92d9052240991e9"
+    }
+  ],
+  "sha256": "3f60e13a34374f1f371b48c9ef651e493216ddfff6a20560b5a8fc648ae6eb01"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "S",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_S_n0",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "fea7c1909d0e954b88ab8472c5c4e2995ea2f2e2e8e6723ac43ea3a90759491b"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with price above support 21 and approaching resistance 22; MACD line above signal and histogram positive indicating bullish momentum.",
+    "evidence_against": "Price is near support 21, risk of reversal if resistance not breached.",
+    "justification": "Entry at 21.5 with target 22.5 and stop at 21.0 gives 1:1 risk reward; bullish indicators support continuation.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-f759-7262-9bf0-917f1b41edd1"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-f759-7262-9bf0-917f1b41edd1.request.json",
+      "sha256": "b66e74a94c3bd179350d80bc7edc51bf9002ba7bf85646de18a7a9ab3d165c2d"
+    },
+    {
+      "path": "calls/01a1a467-f759-7262-9bf0-917f1b41edd1.response.json",
+      "sha256": "2781a1547e9629be77e1f992c4e88a86376df71ea73c2270ecbbdf73e7c99668"
+    }
+  ],
+  "sha256": "8854df46e42b4d58b90ac0ed071ac06b9fed7d0ef4419477940489becddb66bf"
+}

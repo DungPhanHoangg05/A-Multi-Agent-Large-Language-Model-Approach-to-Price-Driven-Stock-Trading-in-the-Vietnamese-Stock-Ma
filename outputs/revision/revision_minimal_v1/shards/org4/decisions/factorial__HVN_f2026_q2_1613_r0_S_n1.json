@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_S_n1",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "c617fcc82bc657dda392f48bc50383eb737ea3f056170d1836476f002a5d8d6c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bearish with price below resistance and MACD line above signal indicating bullish momentum but histogram decreasing, suggesting potential reversal. Pattern reliability is low, but the price is approaching support at 22.5, providing a potential entry point.",
+    "evidence_against": "Pattern confidence is low and sentiment score is only 0.16, indicating limited bullish support.",
+    "justification": "Given the bearish trend and lack of strong bullish confirmation, a short position aligns with the strategy to avoid buying on a potential reversal. The short will be closed at T+2.5, capturing any further decline while limiting exposure to upside risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-4fab-7763-8d3c-4bd2be7af4a4"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-4fab-7763-8d3c-4bd2be7af4a4.request.json",
+      "sha256": "9cf709da59c1960219473b23aac497ceb52c1db110818cf8b2fc57788103fd66"
+    },
+    {
+      "path": "calls/01a1a46a-4fab-7763-8d3c-4bd2be7af4a4.response.json",
+      "sha256": "07185442e11103fd281d589f4e2d2a8c3d67915f52037941b956046e1ee0384a"
+    }
+  ],
+  "sha256": "6b5e767d1336af968a436d62b18752db86327c16082925df2304e717651a5497"
+}

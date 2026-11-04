@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46e-7b6c-7542-9eb6-a4c5f022085c",
+  "parent_request_hash": "be83b64f708a7a2752b1d8aa9789b3e4a67f4504e6daaea0d335c26b3abd9dd9",
+  "ended_at_utc": "2026-11-04T02:41:08.995790+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with support 65.5 and resistance 68.5, price above support and approaching resistance.\",\"evidence_against\":\"MACD below signal and negative histogram indicating weakening momentum.\",\"justification\":\"Momentum weakening suggests potential reversal; short trade preserves cash if price fails to reach target.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up with support 65.5 and resistance 68.5, price above support and approaching resistance.\",\"evidence_against\":\"MACD below signal and negative histogram indicating weakening momentum.\",\"justification\":\"Momentum weakening suggests potential reversal; short trade preserves cash if price fails to reach target.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1156,
+                "prompt_tokens": 1465,
+                "total_tokens": 2621,
+                "completion_time": 1.313994734,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 1055
+                },
+                "prompt_time": 0.088250937,
+                "prompt_tokens_details": null,
+                "queue_time": 0.98698953,
+                "total_time": 1.402245671
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e2cb7a84ec",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46e-7b6c-7542-9eb6-a4c5f022085c-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 1156,
+        "prompt_tokens": 1465,
+        "total_tokens": 2621,
+        "completion_time": 1.313994734,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1055
+        },
+        "prompt_time": 0.088250937,
+        "prompt_tokens_details": null,
+        "queue_time": 0.98698953,
+        "total_time": 1.402245671
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e2cb7a84ec",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

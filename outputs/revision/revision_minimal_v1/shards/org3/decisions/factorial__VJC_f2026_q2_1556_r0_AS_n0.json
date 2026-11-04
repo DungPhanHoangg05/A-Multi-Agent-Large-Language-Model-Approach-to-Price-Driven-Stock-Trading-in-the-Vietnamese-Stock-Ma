@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_AS_n0",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "c90ce0877aa393ed2c48a4a6ad846b91391f5b5da4a711d211de6c06331a7c05"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "MACD histogram positive and increasing indicates bullish momentum. Alpha factors show 3 out of 5 increasing, supporting an uptrend.",
+    "evidence_against": "Price is approaching resistance at 128, which could trigger a pullback.",
+    "justification": "Given the bullish MACD and majority of alpha factors positive, a long position is justified. The risk of hitting resistance is mitigated by the strong momentum and the short horizon of 3 days.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-c340-7b83-b3e4-662e38221034"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-c340-7b83-b3e4-662e38221034.request.json",
+      "sha256": "d372935699c26a15035e9a862ed6663b31a71a753b671b64203dd18b6219e3e7"
+    },
+    {
+      "path": "calls/01a1a46a-c340-7b83-b3e4-662e38221034.response.json",
+      "sha256": "7e67e87378225876f5d112b6dbeb8b2ef4674e04d634b143d8f5c89a9a525150"
+    }
+  ],
+  "sha256": "2e315a1127cf32551d3b5ddbd41831e9486423fd6d1e5b227b418efa71c81984"
+}

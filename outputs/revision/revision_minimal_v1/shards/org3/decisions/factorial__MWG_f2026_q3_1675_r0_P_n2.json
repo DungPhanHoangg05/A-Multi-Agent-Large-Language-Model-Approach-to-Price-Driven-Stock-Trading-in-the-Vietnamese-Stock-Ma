@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_P_n2",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": "31b02241dd316be4dc6516adb06dcf63bc377ba727d147f7baae56330682e897",
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "ccf02db1f01178218714ba95f0ff1d13bec04ea93583efc6215e0e8780640ca9"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram trending upward suggest weakening bullish momentum; overall alpha factors indicate a decreasing trend.",
+    "evidence_against": "The price remains above support at 70.5 and shows an upward trend.",
+    "justification": "Given the bearish signals from MACD and alpha factors, a short position is preferred to avoid potential reversal; the trend up is not strong enough to offset these indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-edd7-7472-888e-19897e31a252"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-edd7-7472-888e-19897e31a252.request.json",
+      "sha256": "6fd4494a4e6b1d2e8a9d260c2e9d74ad932a0fd4201d92ecb8aa88147f48f51d"
+    },
+    {
+      "path": "calls/01a1a474-edd7-7472-888e-19897e31a252.response.json",
+      "sha256": "bc411e2caa44e975ed5339840bda2a4116d167f761fb3fc8797ba82ef12e17d3"
+    }
+  ],
+  "sha256": "4930ba4292d21b4568d0392378e2622f3ebff5b7bce2658b065693087e8730d1"
+}

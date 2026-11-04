@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a1f1-d26d-7563-b983-ee6c557e09b6",
+  "parent_request_hash": "04a07231dfc0e1c77a9497bb9d1e856f0fed3106a2bc0d7cf4527e8c880f2d92",
+  "ended_at_utc": "2026-11-03T15:05:47.400988+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"MACD and histogram are negative, confirming bearish momentum. Pattern V reversal indicates potential further decline below support 9.65.\",\"evidence_against\":\"Trend analysis shows moderate confidence, but overall market sentiment is neutral.\",\"justification\":\"Given the bearish indicators and pattern, a short position aligns with the strategy to avoid buying on a downtrend. The risk/reward ratio is acceptable at 1:1.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"MACD and histogram are negative, confirming bearish momentum. Pattern V reversal indicates potential further decline below support 9.65.\",\"evidence_against\":\"Trend analysis shows moderate confidence, but overall market sentiment is neutral.\",\"justification\":\"Given the bearish indicators and pattern, a short position aligns with the strategy to avoid buying on a downtrend. The risk/reward ratio is acceptable at 1:1.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 678,
+                "prompt_tokens": 1566,
+                "total_tokens": 2244,
+                "completion_time": 0.778814181,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 555
+                },
+                "prompt_time": 0.110216689,
+                "prompt_tokens_details": null,
+                "queue_time": 1.366177755,
+                "total_time": 0.88903087
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_75c733514d",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a1f1-d26d-7563-b983-ee6c557e09b6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 678,
+        "prompt_tokens": 1566,
+        "total_tokens": 2244,
+        "completion_time": 0.778814181,
+        "completion_tokens_details": {
+          "reasoning_tokens": 555
+        },
+        "prompt_time": 0.110216689,
+        "prompt_tokens_details": null,
+        "queue_time": 1.366177755,
+        "total_time": 0.88903087
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_75c733514d",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

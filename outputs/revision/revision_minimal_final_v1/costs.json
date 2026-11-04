@@ -1,0 +1,41 @@
+{
+  "new": {
+    "attempts": 194,
+    "successes": 182,
+    "errors": 12,
+    "stages": {
+      "decision": 194
+    },
+    "errors_by_category": {
+      "other": 1,
+      "rate_or_quota": 10,
+      "schema": 1
+    },
+    "usage_missing_successes": 0,
+    "observed_prompt_tokens": 293885,
+    "observed_completion_tokens": 158161,
+    "latency_seconds_sum": 375.304063
+  },
+  "frozen_source": {
+    "attempts": 455,
+    "successes": 433,
+    "errors": 22,
+    "stages": {
+      "upstream": 240,
+      "decision": 215
+    },
+    "errors_by_category": {
+      "rate_or_quota": 19,
+      "schema": 2,
+      "other": 1
+    },
+    "usage_missing_successes": 0,
+    "observed_prompt_tokens": 769443,
+    "observed_completion_tokens": 182575,
+    "latency_seconds_sum": 987.3750210000001
+  },
+  "n_selected_research_successes": 375,
+  "monetary_cost": null,
+  "served_weight_revision": "unknown",
+  "scope": "Usage SDK quan sát được; không suy billing hoặc usage của calls lỗi. Vision là nguồn kế thừa, không phải calls mới."
+}

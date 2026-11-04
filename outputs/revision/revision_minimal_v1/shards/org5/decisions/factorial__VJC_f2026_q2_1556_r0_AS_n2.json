@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_AS_n2",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": null,
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "c90ce0877aa393ed2c48a4a6ad846b91391f5b5da4a711d211de6c06331a7c05"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 3.5,
+    "evidence_for": "Trend analysis shows a bullish direction with price approaching resistance at 128, and MACD line above signal with increasing histogram indicating strong momentum. Alpha factors are predominantly positive (3 out of 5), supporting an upward bias.",
+    "evidence_against": "Price is close to resistance level 128, which could trigger a pullback and reduce expected gains.",
+    "justification": "Given the bullish trend, positive MACD and alpha signals, and the potential to reach 128, a LONG position is justified. The expected return exceeds the 0.70% fee threshold, making the trade viable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46c-20a5-7a61-8fbe-cbe561050a35"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46c-20a5-7a61-8fbe-cbe561050a35.request.json",
+      "sha256": "f5bfe6a21d1ec4dc0af4825d29e1d52de5ddcf52294677d4f0da69a6a9c800f7"
+    },
+    {
+      "path": "calls/01a1a46c-20a5-7a61-8fbe-cbe561050a35.response.json",
+      "sha256": "98205f332eda36f56d778c9d5fcc9e600c816dd8ad32522b74609a430206ae30"
+    }
+  ],
+  "sha256": "68229cb2369fb6b0ba99789c1296751cca0b609cec8814c8fce15ae0f2cec77d"
+}

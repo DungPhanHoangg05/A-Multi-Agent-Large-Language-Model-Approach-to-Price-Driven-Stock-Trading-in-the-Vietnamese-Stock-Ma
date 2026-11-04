@@ -1,0 +1,93 @@
+{
+  "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+  "attempt_id": "01a1a466-1aa3-7dc0-9614-b4dc6d0e5e00",
+  "context": {
+    "unit_id": "MBB_f2025_q4_1490",
+    "realization": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false,
+    "provider_org": 2,
+    "execution_epoch": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab"
+  },
+  "started_at_utc": "2026-11-04T02:31:57.352022+00:00",
+  "model_metadata": {
+    "ls_provider": "groq",
+    "ls_model_name": "openai/gpt-oss-20b",
+    "ls_temperature": 1e-08,
+    "ls_max_tokens": 2048,
+    "langgraph_node": "Decision Maker"
+  },
+  "invocation_parameters": {
+    "stop": null,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "TradeDecisionOutput",
+        "schema": {
+          "title": "TradeDecisionOutput",
+          "description": "Schema nhị phân bắt buộc cho Groq Structured Outputs.",
+          "properties": {
+            "decision": {
+              "description": "Mandatory binary trading decision. Never neutral.",
+              "enum": [
+                "LONG",
+                "SHORT"
+              ],
+              "type": "string"
+            },
+            "forecast_horizon": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "string"
+            },
+            "risk_reward_ratio": {
+              "maximum": 5.0,
+              "minimum": 1.0,
+              "type": "number"
+            },
+            "evidence_for": {
+              "type": "string"
+            },
+            "evidence_against": {
+              "type": "string"
+            },
+            "justification": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "decision",
+            "forecast_horizon",
+            "confidence",
+            "risk_reward_ratio",
+            "evidence_for",
+            "evidence_against",
+            "justification"
+          ],
+          "type": "object"
+        }
+      }
+    }
+  },
+  "messages": [
+    [
+      {
+        "type": "human",
+        "data": {
+          "content": "Bạn là chuyên gia giao dịch định lượng Việt Nam. Mã: MBB; khung: 1 ngày; mục tiêu: xu hướng 3 phiên giao dịch tiếp theo (T → T+2) — theo quy định thanh toán T+2.5 trên TTCK Việt Nam (T+2.5).\n\nHỢP ĐỒNG: Chỉ chọn LONG hoặc SHORT. LONG khi kỳ vọng vòng BUY toàn bộ vốn tại Open rồi SELL tại Close mục tiêu còn lãi ròng sau phí môi giới 0,25% và trượt giá 0,10% trên MỖI chiều (xấp xỉ 0,70% hai chiều). Nếu không đủ bù phí, đi ngang hoặc giảm, chọn SHORT để giữ CASH suốt horizon; không bán khống, không giữ cổ phiếu sang test sau. Quy định: Cổ phiếu cơ sở mua ngày T chỉ bán được chiều T+2. Nhà đầu tư chịu rủi ro qua tối thiểu 3 nến.\n\n5 BÁO CÁO:\n### [1] PHÂN TÍCH XU HƯỚNG\n**Hướng xu hướng:** Tăng.\n\n**Mức hỗ trợ:** 18.3.\n\n**Mức kháng cự:** 20.5.\n\n**Độ dốc đường xu hướng:** Đang tăng.\n\n**Giá so với hỗ trợ:** Bật lên.\n\n**Phân tích chi tiết:** Giá đã vượt qua vùng kháng cự cũ và đang giao dịch sát dưới đường kháng cự đỏ. Nến xanh gần nhất cho thấy lực cầu đang chiếm ưu thế, đẩy giá lên cao hơn đường hỗ trợ.\n\n**Dự đoán xu hướng:** Giá có khả năng tiếp tục tăng trong 3 phiên tới do đà bật lên mạnh. Mục tiêu là kiểm tra lại vùng kháng cự 20.5.\n\n**Độ tin cậy:** Trung bình.\n\n### [2] MÔ HÌNH NẾN\n**Mô hình:** Đảo chiều chữ V.\n\n**Độ tin cậy:** Trung bình.\n\n**Thiên lệch dự báo:** Tăng.\n\n**Bằng chứng:** Giá giảm từ đỉnh 21.6 xuống đáy 18.4, sau đó bật tăng mạnh vượt qua vùng 19.5 và đang tích lũy lại gần 19.8.\n\n**Nến quan trọng:** Nến xanh thân dài ngày 07/12 phá vỡ xu hướng giảm.\n\n**Hàm ý giao dịch:** Mua khi giá vượt qua kháng cự 19.9, cắt lỗ dưới 19.4.\n\n### [3] CHỈ BÁO KỸ THUẬT\n=== MACD (12,26,9) — CHỈ ĐỌC SỐ TRONG SECTION NÀY ===\n| Chỉ số      | Giá trị mới nhất | Chuỗi 5 nến gần nhất |\n|-------------|-----------------|----------------------|\n| MACD Line   | **0.1281**        | [0.1121, 0.1116, 0.1068, 0.1177, 0.1281]                 |\n| Signal Line | **0.0976**        | [0.0685, 0.0771, 0.0831, 0.09, 0.0976]                 |\n| Histogram   | **0.0305**        | [0.0436, 0.0345, 0.0237, 0.0277, 0.0305]                 |\n\n- Giao cắt: MACD đang ở trên Signal (khoảng cách MACD−Signal = 0.0305)\n- Histogram xu hướng: MỞ RỘNG (động lượng tăng)\n- MACD Line so với 0: Dương → vùng tăng\n[END\n...[đã rút gọn]...\ntắc bắt buộc:\n1. Sử dụng ĐÚNG tín hiệu từng chỉ báo ở trên khi viết diễn giải.\n2. KHÔNG tự đếm lại hay thay đổi số tổng hợp.\n3. KHÔNG dùng số liệu của chỉ báo này khi mô tả chỉ báo khác.\n4. Mỗi section [END ... SECTION] là ranh giới cứng — không cross-reference.\n\n\n### [4] ALPHA FACTORS ĐỊNH LƯỢNG\n## 5 Alpha Factor — MBB\n\n| # | Alpha | Loại | Giá trị | Tín hiệu | Horizon |\n|\n\n**TỔNG HỢP: GIẢM (1 TĂNG / 4 GIẢM / 0 TRUNG TÍNH)**\n\n### [5] TIN TỨC & TÂM LÝ THỊ TRƯỜNG\nSentiment KHÔNG KHẢ DỤNG do thiếu tối thiểu 3 score đã xác minh; không coi là trung tính.\n\nTHỨ TỰ ƯU TIÊN BẰNG CHỨNG:\n1. Trend/Pattern xác định xu hướng, cản và thời điểm; Indicator xác nhận động lượng.\n2. Alpha chuẩn hóa là bằng chứng định lượng: có thể phủ quyết breakout thiếu dòng tiền hoặc báo đảo chiều sớm khi ít nhất 3/5 alpha đồng thuận.\n3. Sentiment có trọng số thấp nhất, không được lấn át dữ liệu giá và alpha.\n4. Cổng xung đột: Khi Trend và Pattern cùng xác nhận xu hướng giảm, không được chọn LONG chỉ vì 1-2 alpha tăng hoặc tin tích cực. LONG ngược xu hướng chỉ hợp lệ khi đồng thời có hỗ trợ mạnh, alpha đảo chiều áp đảo và nến/chỉ báo xác nhận; nếu không chọn SHORT.\n\nChỉ trả về một JSON hợp lệ, không Markdown hay chữ ngoài JSON:\n{\"decision\":\"LONG hoặc SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Rất cao|Cao|Trung bình|Thấp\",\"risk_reward_ratio\":1.0,\"evidence_for\":\"tối đa 2 câu\",\"evidence_against\":\"tối đa 1 câu\",\"justification\":\"tối đa 2 câu\"}",
+          "additional_kwargs": {},
+          "response_metadata": {},
+          "type": "human",
+          "name": null,
+          "id": null
+        }
+      }
+    ]
+  ],
+  "sha256": "469bfbd5eec7409d9cbe0aecdba1a7fdad78f014f3f4868ed029e8c494b8fb05"
+}

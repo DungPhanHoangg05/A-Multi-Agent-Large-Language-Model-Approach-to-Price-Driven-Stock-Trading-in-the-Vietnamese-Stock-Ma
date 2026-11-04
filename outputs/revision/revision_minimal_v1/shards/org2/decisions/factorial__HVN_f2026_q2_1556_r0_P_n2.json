@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_P_n2",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "e1705ca2fc815038c33d9c4ad2a52a33f9daba9c4f84b58e06c1a530b0088d7a"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend bullish with support at 21.5 and resistance at 23.5; MACD shows bullish momentum with histogram positive.",
+    "evidence_against": "Majority of alpha factors indicate a downward bias.",
+    "justification": "Bullish trend and MACD support a buy at open with expected close near resistance; alpha signals caution but not enough to override trend.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46a-46ff-79f1-b7a2-24373ba278be"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46a-46ff-79f1-b7a2-24373ba278be.request.json",
+      "sha256": "8d0f9304df5bb046b038ef8461f0b66fb4c28da276e0384236863c5aab434cf1"
+    },
+    {
+      "path": "calls/01a1a46a-46ff-79f1-b7a2-24373ba278be.response.json",
+      "sha256": "08b2a86c4d18004e7e75510483234cc407b69ca7088b482edf24d7dc3e2c015b"
+    }
+  ],
+  "sha256": "26f779bcbcc2eec5d6228e30af9320a759253e47ef380986a25f0bcd5a5076d6"
+}

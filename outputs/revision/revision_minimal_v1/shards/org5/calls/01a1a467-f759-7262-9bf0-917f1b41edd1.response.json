@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a467-f759-7262-9bf0-917f1b41edd1",
+  "parent_request_hash": "825ed49a943222327f1bc7245c5232f0dd8aab30845fdcbccc2006b7630c2def",
+  "ended_at_utc": "2026-11-04T02:34:00.646235+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend up with price above support 21 and approaching resistance 22; MACD line above signal and histogram positive indicating bullish momentum.\",\"evidence_against\":\"Price is near support 21, risk of reversal if resistance not breached.\",\"justification\":\"Entry at 21.5 with target 22.5 and stop at 21.0 gives 1:1 risk reward; bullish indicators support continuation.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2,\"evidence_for\":\"Trend up with price above support 21 and approaching resistance 22; MACD line above signal and histogram positive indicating bullish momentum.\",\"evidence_against\":\"Price is near support 21, risk of reversal if resistance not breached.\",\"justification\":\"Entry at 21.5 with target 22.5 and stop at 21.0 gives 1:1 risk reward; bullish indicators support continuation.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 550,
+                "prompt_tokens": 1494,
+                "total_tokens": 2044,
+                "completion_time": 0.596653976,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 429
+                },
+                "prompt_time": 0.086844775,
+                "prompt_tokens_details": null,
+                "queue_time": 0.361334656,
+                "total_time": 0.683498751
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d23c14756c",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a467-f759-7262-9bf0-917f1b41edd1-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 550,
+        "prompt_tokens": 1494,
+        "total_tokens": 2044,
+        "completion_time": 0.596653976,
+        "completion_tokens_details": {
+          "reasoning_tokens": 429
+        },
+        "prompt_time": 0.086844775,
+        "prompt_tokens_details": null,
+        "queue_time": 0.361334656,
+        "total_time": 0.683498751
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d23c14756c",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

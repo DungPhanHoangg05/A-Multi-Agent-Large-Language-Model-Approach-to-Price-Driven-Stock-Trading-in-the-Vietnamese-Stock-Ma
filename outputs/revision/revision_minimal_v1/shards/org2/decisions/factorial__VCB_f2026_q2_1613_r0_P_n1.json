@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q2_1613",
+    "org": 1,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VCB_f2026_q2_1613_r0_P_n1",
+    "asset_hash": "c8b83a38f8242bed7a1ec7a21d41fb6036b6d2f2ada20c6eae70b6f40a2bfbcf",
+    "donor_hash": "3873415cc50ea030ae34965d05f1229f9c456e4aea5e6b59c87cb9cd50f1b637",
+    "upstream_hash": "b7769d8b4f3a81330cc0e93272ea41b071d1ad65ec99cd0fafdcaca1692d874f",
+    "prompt_hash": "9008d54827e30292ab3021681d58d1470404571ee79b67652e16800f91eccfe4"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Pattern shows sustained downtrend with high confidence and MACD indicates bearish momentum. Alpha factors show two negative signals supporting a short position.",
+    "evidence_against": "Trend analysis indicates sideways movement, which could reduce potential upside.",
+    "justification": "Given the bearish pattern and MACD signals, a short trade aligns with the expected price decline over the T+2.5 horizon. The risk reward ratio of 2.0 ensures potential gains outweigh transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-7641-7c40-9f0e-10d8bade7307"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-7641-7c40-9f0e-10d8bade7307.request.json",
+      "sha256": "77399a94a35daaab1effc134b1769038868a31b7c23bc2e9ab9d5978ec191ad9"
+    },
+    {
+      "path": "calls/01a1a46e-7641-7c40-9f0e-10d8bade7307.response.json",
+      "sha256": "01bf51de8a4766782d64463a52b446b909b0af73a3f13e53eb98d45a7611dc18"
+    }
+  ],
+  "sha256": "b27109228f18bbbe3b5f7bdc9c31a16857ec0c2aa48a9d62ff9d4cedef3a6e17"
+}

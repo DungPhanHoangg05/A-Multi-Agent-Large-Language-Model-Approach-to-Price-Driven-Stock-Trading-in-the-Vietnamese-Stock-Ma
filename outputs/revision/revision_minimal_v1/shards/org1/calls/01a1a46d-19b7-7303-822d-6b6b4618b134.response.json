@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46d-19b7-7303-822d-6b6b4618b134",
+  "parent_request_hash": "21a8e80bd91e588f06a7ff54a8c44659bca853f5bd137baa67014f29ba3fa09b",
+  "ended_at_utc": "2026-11-04T02:39:37.409196+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":4.5,\"evidence_for\":\"Trend is upward with support at 60.5 and resistance at 64.5, and MACD shows a golden cross confirming bullish momentum. The V‑shaped reversal pattern indicates a strong breakout above 61.5 with target 63.5.\",\"evidence_against\":\"Resistance at 64.5 could cap upside and trigger a pullback.\",\"justification\":\"The bullish signals outweigh the risk of resistance, and the expected profit (~3.25%) comfortably exceeds the combined fee and slippage (~0.7%). Therefore a LONG position is justified.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":4.5,\"evidence_for\":\"Trend is upward with support at 60.5 and resistance at 64.5, and MACD shows a golden cross confirming bullish momentum. The V‑shaped reversal pattern indicates a strong breakout above 61.5 with target 63.5.\",\"evidence_against\":\"Resistance at 64.5 could cap upside and trigger a pullback.\",\"justification\":\"The bullish signals outweigh the risk of resistance, and the expected profit (~3.25%) comfortably exceeds the combined fee and slippage (~0.7%). Therefore a LONG position is justified.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 785,
+                "prompt_tokens": 1434,
+                "total_tokens": 2219,
+                "completion_time": 0.889632363,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 630
+                },
+                "prompt_time": 0.073142512,
+                "prompt_tokens_details": null,
+                "queue_time": 0.156209938,
+                "total_time": 0.962774875
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a8c584dda7",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46d-19b7-7303-822d-6b6b4618b134-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 785,
+        "prompt_tokens": 1434,
+        "total_tokens": 2219,
+        "completion_time": 0.889632363,
+        "completion_tokens_details": {
+          "reasoning_tokens": 630
+        },
+        "prompt_time": 0.073142512,
+        "prompt_tokens_details": null,
+        "queue_time": 0.156209938,
+        "total_time": 0.962774875
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a8c584dda7",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

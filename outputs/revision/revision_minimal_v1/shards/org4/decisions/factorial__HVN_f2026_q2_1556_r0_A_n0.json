@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_A_n0",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "a61dbaa90fde86d1fbeffb58505447446104f1aedffa0606e6bab1cb14c25212"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with positive histogram indicates bullish momentum; price is above support 21.5 and approaching resistance 23.5.",
+    "evidence_against": "Alpha factors show 4 out of 5 decreasing, indicating downward trend.",
+    "justification": "Trend indicates potential rise to resistance 23.5, but alpha factors overwhelmingly signal a decline; shorting protects against downside while still allowing for potential profit if the trend reverses.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-19ef-79e2-9c58-d7d30ed8a9dd"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-19ef-79e2-9c58-d7d30ed8a9dd.request.json",
+      "sha256": "0e159bf627d28afa56930d76eac91f52909c1c09de61ea04758a78d8787156d4"
+    },
+    {
+      "path": "calls/01a1a466-19ef-79e2-9c58-d7d30ed8a9dd.response.json",
+      "sha256": "6cd050165376f193c659c8f19fd604513dc3a001c4548ce993f5d7489286b247"
+    }
+  ],
+  "sha256": "b0362d9d81684805b9113b7d374be894ab2fa3ad0c0ac6f0cc23fca37ff99c29"
+}

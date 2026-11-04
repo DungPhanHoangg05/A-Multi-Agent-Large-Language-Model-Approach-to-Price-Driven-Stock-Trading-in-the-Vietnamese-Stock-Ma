@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_AS_n2",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "36c8830b3bfebeb36f6ae684a3af1bdc68dbe07a42c813bc7c5b7717d4d44f92"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Alpha factors predominantly indicate a downward trend (4/5 decreasing) and MACD shows bearish momentum with histogram positive but line below zero.",
+    "evidence_against": "Trend analysis shows an uptrend, but alpha and MACD contradict, making a short more prudent.",
+    "justification": "Given the conflicting signals, a short position aligns with risk management and fee coverage considerations.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-3f38-72b1-8393-0d5c6d9c17fa"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-3f38-72b1-8393-0d5c6d9c17fa.request.json",
+      "sha256": "7e88ee6229b09d3043d4e97920baa935042632a78ef4c0815c155aaad633529a"
+    },
+    {
+      "path": "calls/01a1a46b-3f38-72b1-8393-0d5c6d9c17fa.response.json",
+      "sha256": "8f52444365175c5bca2b75806e5d2c2c0e18d5179e95e10e5f34992ab150d9bf"
+    }
+  ],
+  "sha256": "9836d0a125efc7efa3931a962a4562b128df6e31d67c887a25913ac9344374d4"
+}

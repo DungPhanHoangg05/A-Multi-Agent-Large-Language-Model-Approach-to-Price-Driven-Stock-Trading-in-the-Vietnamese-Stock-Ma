@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "S",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_S_n2",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "c617fcc82bc657dda392f48bc50383eb737ea3f056170d1836476f002a5d8d6c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is bearish with price below resistance and MACD line above signal but histogram decreasing, indicating potential reversal but risk remains. Pattern reliability is low and sentiment is neutral, so short position is safer.",
+    "evidence_against": "MACD line above signal suggests bullish momentum.",
+    "justification": "Given the bearish trend and weak pattern confirmation, a short position aligns with risk management rules. The short will capture potential decline before the next trading day.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-649b-7453-a7e4-95f310af225f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-649b-7453-a7e4-95f310af225f.request.json",
+      "sha256": "4105a2f62fbf198fdb4f2b77cee7ee0b6cf02ae7f5355a02b3ce56fae3d85e47"
+    },
+    {
+      "path": "calls/01a1a46f-649b-7453-a7e4-95f310af225f.response.json",
+      "sha256": "c198e5c339a6163b95283beb455a28636e26b71ca09943a238505850024ee3e3"
+    }
+  ],
+  "sha256": "2bee0db0c18caf0f7797fadeac8bcbbec24a23cf1d00552358466165d760b79e"
+}

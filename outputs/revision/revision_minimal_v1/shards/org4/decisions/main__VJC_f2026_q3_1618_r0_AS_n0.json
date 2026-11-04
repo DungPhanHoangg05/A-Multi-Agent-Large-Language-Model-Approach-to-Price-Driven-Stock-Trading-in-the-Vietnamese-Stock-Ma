@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VJC_f2026_q3_1618_r0_AS_n0",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "8dc1c4c0258405b30d546c08650f740ad6a7b9983987834a0d11234b072ba4d7",
+    "prompt_hash": "10bb32277f125443caebe13f3d62cbc18fb376d9c772f39830013ad6e3c401dc"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD death cross indicates bearish momentum, and trend analysis shows a sideways market lacking upward breakout.",
+    "evidence_against": "Pattern flag suggests a potential breakout to 145.",
+    "justification": "Given the bearish MACD signal and lack of upward momentum, shorting avoids potential losses. The risk‑reward ratio remains acceptable within the 1–5 range.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-12d6-7b11-9968-aa882fec5053"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-12d6-7b11-9968-aa882fec5053.request.json",
+      "sha256": "7586df6a91d16a52b19c4382e031a156befbf05481d7c8e4773f8fd3441d34a4"
+    },
+    {
+      "path": "calls/01a1a46d-12d6-7b11-9968-aa882fec5053.response.json",
+      "sha256": "26b16a9ddba102c15b421e1f5e259b1b16755a94f2939e2f9943c019a01c648e"
+    }
+  ],
+  "sha256": "a9921867674fe402c756c5f10db09e7e6aafabe2000d6baa1e5a6952e63e69fe"
+}

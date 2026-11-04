@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1675",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VJC_f2026_q3_1675_r2_B_n0",
+    "asset_hash": "7b3c107a5b4e15f9c6e6663e7b2749e879349495ba7a996777cd4b55e77aa764",
+    "donor_hash": null,
+    "upstream_hash": "134b390b992bba0039d88882759bc16c263b5614defa508e69c92b737adbcf0e",
+    "prompt_hash": "49df19de91cf8bbda18a59a7e0131e25df9b7375a76896f7790e82e745e37815"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Thấp",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis indicates a potential downward adjustment to 130-132 within 3 days. MACD shows bullish momentum with histogram widening, suggesting possible reversal.",
+    "evidence_against": "Trend and pattern analysis suggest a bearish bias, outweighing bullish indicator signals.",
+    "justification": "Given the priority of trend over indicator, a short position is preferred to capture potential decline. The short position aligns with the risk of not covering the full capital at open, as per contract rules.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-ed4d-72d1-9329-d8443b3d741e"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-ed4d-72d1-9329-d8443b3d741e.request.json",
+      "sha256": "57a8759688af9fbdc22f6d6464978144fbc47054e47da24492a9e5a1bfe5281e"
+    },
+    {
+      "path": "calls/01a1a46e-ed4d-72d1-9329-d8443b3d741e.response.json",
+      "sha256": "7f1913f8df7d1085347d2943a3bac0fbfeebe42b918dbbbea55b4353d339122c"
+    }
+  ],
+  "sha256": "368555f5f72759fb89a3af37cfe0f22841f184f70c6c7f80408f902e791bccc4"
+}

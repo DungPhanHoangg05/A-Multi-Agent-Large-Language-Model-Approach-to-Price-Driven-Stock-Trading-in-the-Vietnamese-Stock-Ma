@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VNM_f2025_q4_1490",
+    "org": 3,
+    "variant": "AS",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VNM_f2025_q4_1490_r0_AS_n2",
+    "asset_hash": "b19e2bf883b68cc09218c165aa187affb49481ec9335918faf0552db53874f51",
+    "donor_hash": null,
+    "upstream_hash": "d9106206583c6402c4fa219f0c2888209123191eb0ab980669a59d0ee7d0ee0d",
+    "prompt_hash": "6885fdf6db60f4fa3cfff65dc905820aa951b7703889fe46b4eb19af753341c3"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend is bullish with price above support and approaching resistance; pattern shows a rising flag and majority of alpha factors are positive.",
+    "evidence_against": "MACD line is below signal, suggesting bearish momentum.",
+    "justification": "Given the bullish trend, rising flag pattern, and majority of alpha factors supporting an uptrend, a long position is justified. The expected upside exceeds transaction costs, making the trade profitable.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-9289-7741-892e-42e8ec7fc095"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-9289-7741-892e-42e8ec7fc095.request.json",
+      "sha256": "85b00f460031686962b27691ca5d0ed6467d4580f4aef91c5b779c7d36394edb"
+    },
+    {
+      "path": "calls/01a1a466-9289-7741-892e-42e8ec7fc095.response.json",
+      "sha256": "3fd4a09bf3d0a6494c8de6a5db1a2c5733726d27b8fab42544e160060ddd29a1"
+    }
+  ],
+  "sha256": "dcc126362ca5f46d39c08826fe92b0da6b066b08f693c75c0bdf4e6de9b61c56"
+}

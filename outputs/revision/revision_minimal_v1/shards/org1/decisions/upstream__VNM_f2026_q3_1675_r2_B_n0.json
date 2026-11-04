@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1675",
+    "realization": 2,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VNM_f2026_q3_1675_r2_B_n0",
+    "asset_hash": "0d87bfbf0244489dae21907bec07ca069f686f4f710e485426c00ced9ea12f48",
+    "donor_hash": null,
+    "upstream_hash": "51ec2bebe436d8e014fed580b57fb93081416941d49807eb8b4e79639251134e",
+    "prompt_hash": "5aa6bbdea243cd7deeb5d5bff69c78c08b217574afb79f335366e77532ffb808"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and negative histogram indicate bearish momentum; trend is sideways with support at 59.5 and resistance at 63.5, limiting upside.",
+    "evidence_against": "Double bottom pattern at 59.5 suggests potential reversal, but confidence is low.",
+    "justification": "Short position protects cash over horizon; expected price to stay near support or decline, and transaction costs would erode any small upside.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-cf2f-7940-89cd-fb0aec2f9628"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-cf2f-7940-89cd-fb0aec2f9628.request.json",
+      "sha256": "7930a0164a70f35b945128132c6d5533326b6248aab018a840c915e8924c24d9"
+    },
+    {
+      "path": "calls/01a1a46f-cf2f-7940-89cd-fb0aec2f9628.response.json",
+      "sha256": "5bddf08ae803d192b070f74f1900e890c91f7eb8b8cc9746b0b89443774f6af2"
+    }
+  ],
+  "sha256": "24c3f3463576dc10dec4420f82d1fcc9afaee8e67f97a4f225e6248b2259e84f"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "1e304a16d8b88304277af5a5d74351f8ad1d41fc0ed238cd2dc6612b02f8d29b"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "MACD line below signal and negative histogram suggest bearish momentum. Price approaching resistance 74.5 with trend indicating potential reversal.",
+    "evidence_against": "Trend analysis indicates bullish continuation.",
+    "justification": "MACD bearish momentum outweighs bullish trend; shorting near resistance offers potential profit while limiting risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-e3cb-7601-93a2-4ab51995085c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-e3cb-7601-93a2-4ab51995085c.request.json",
+      "sha256": "ebe7fe64e5f9febb987f3826d0ea93c914e2682d792a43c0015c2e94722b1202"
+    },
+    {
+      "path": "calls/01a1a46e-e3cb-7601-93a2-4ab51995085c.response.json",
+      "sha256": "529ac28906953e7a87dcb39ff2d3a1543d5b46b87757b1281163724f0bddc0c9"
+    }
+  ],
+  "sha256": "0bc27ce935ac5beb32dd19431934146de3211cc6144cc3d8fdaf21e7cb9e1847"
+}

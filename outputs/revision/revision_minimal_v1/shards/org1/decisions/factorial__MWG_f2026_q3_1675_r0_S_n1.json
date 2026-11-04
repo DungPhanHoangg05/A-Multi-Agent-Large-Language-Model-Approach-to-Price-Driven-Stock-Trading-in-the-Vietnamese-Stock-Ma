@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "S",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_S_n1",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "0a5f4f7c70bcf74d113f9f874b0797df5fac696bd19291540319bebca2dad7f1"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Rất cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend up with support at 70.5 and resistance at 74.5; MACD histogram trending upward indicating potential reversal to bullish.",
+    "evidence_against": "MACD line below signal suggests bearish momentum.",
+    "justification": "Price likely to stay above 72 and target 75; risk reward ratio acceptable with 2:1.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-c863-7953-8a2a-8115d2c17d6d"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-c863-7953-8a2a-8115d2c17d6d.request.json",
+      "sha256": "4526a41e88d97af57ee55009239085c60f090a897a2bdcc005b8fd8a48c7e45b"
+    },
+    {
+      "path": "calls/01a1a470-c863-7953-8a2a-8115d2c17d6d.response.json",
+      "sha256": "9d9f9c77f5e36f9a2e869ecc6c0404ce67fd3712814bd3d74930c9dff799d894"
+    }
+  ],
+  "sha256": "eff7dd049ebaa8068475c1f160ae261823ad3b05b6f13ab9bf50603fb23f3b23"
+}

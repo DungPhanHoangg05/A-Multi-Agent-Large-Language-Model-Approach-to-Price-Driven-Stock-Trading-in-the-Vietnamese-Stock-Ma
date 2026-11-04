@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_AS_n0",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "c0ba10731281071282a5ca943214133074abdb4a125f7c7c6b9b470b0f9ec889"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 3.5,
+    "evidence_for": "Trend is upward with support at 65.5 and resistance at 68.5, and 4 out of 5 alpha factors signal increase.",
+    "evidence_against": "MACD is below its signal line, indicating bearish momentum.",
+    "justification": "The expected upside of ~2.5% exceeds the 0.7% fee cost, giving a favorable risk‑reward of ~3.5. However, MACD bearishness tempers confidence.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-7388-7793-a7b3-7122123ac9b6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-7388-7793-a7b3-7122123ac9b6.request.json",
+      "sha256": "3b7e41bf5f55a0ee9053ea0549bd504124f811c4e1bee2523461727f06a64366"
+    },
+    {
+      "path": "calls/01a1a46e-7388-7793-a7b3-7122123ac9b6.response.json",
+      "sha256": "2411fd73f7f002b69bd142235b6a602cb9fd3af8e4d92c75af718a7c15a6256b"
+    }
+  ],
+  "sha256": "350f4692b2437ff9319e0d5b3703bfe05b93fd8c133c32b162a073403f6521e6"
+}

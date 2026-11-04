@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VCB_f2026_q3_1675",
+    "realization": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "upstream__VCB_f2026_q3_1675_r1_AS_n0",
+    "asset_hash": "4a26d3c0108f8f238a1c37cb162cb3e9d215c576953adf06612120f8ac64288b",
+    "donor_hash": null,
+    "upstream_hash": "4c2e1a0db5f0f8c1fc44d7845b1a7ff47c07acfafd040cf6d65b766b6ba44ec4",
+    "prompt_hash": "32375c39281673f6343c5d5be0159ad5ff7132a2bde2739a92c1db40a188a83c"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line below signal and histogram trending downward confirm bearish momentum. Trend analysis indicates price likely to stay near support 57.5, not breaking resistance 59.8.",
+    "evidence_against": "Pattern indicates possible breakout above 60, but low confidence and actual candles don't match.",
+    "justification": "Given bearish MACD, negative alpha, and sideways trend, short is preferred to avoid buying at high and selling at low. Short trade will capture potential decline to support while avoiding transaction costs.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-a35a-74a1-bd79-227dbad0629f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-a35a-74a1-bd79-227dbad0629f.request.json",
+      "sha256": "bb59bc1bf551edd2db17306ed361d41b2e9d43fb5efca77abeb11174f900f952"
+    },
+    {
+      "path": "calls/01a1a472-a35a-74a1-bd79-227dbad0629f.response.json",
+      "sha256": "92b689c4e573ad361c3f4d093700a775fe95cf2ae65d58d896862510ba0f4b37"
+    }
+  ],
+  "sha256": "4538ceb6bfd64257009eadbba0ce618d4a132d493ab604a9153da651d06aa71d"
+}

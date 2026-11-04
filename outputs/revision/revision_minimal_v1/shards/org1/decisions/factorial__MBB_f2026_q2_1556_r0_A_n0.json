@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "A",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_A_n0",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "5c531927523e70a36369f785621340e9ef636429c4c23862d71ba0c15b7b3f84"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend analysis shows price approaching resistance 22.0, and MACD indicates bullish momentum with MACD above Signal and positive histogram.",
+    "evidence_against": "Alpha factors overall suggest a downward bias.",
+    "justification": "The bullish trend and MACD confirmation support a LONG position with a target near 22.5, providing upside to cover fees. The risk-reward ratio of 1.5 reflects moderate confidence.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-f890-7501-b555-1d19d3d55112"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-f890-7501-b555-1d19d3d55112.request.json",
+      "sha256": "c0eac3bb941dac611b7d0c6741214a3169b144e9e1862dfc5d4bece7c570f590"
+    },
+    {
+      "path": "calls/01a1a467-f890-7501-b555-1d19d3d55112.response.json",
+      "sha256": "8ae4bf7b75475b488d310274f26fd8a13577656bcd5b48cc717e7ed8a9e0063a"
+    }
+  ],
+  "sha256": "4485b30d6d2647566447249d8ca005e6a1df94199221fee2b79f2885a091ac39"
+}

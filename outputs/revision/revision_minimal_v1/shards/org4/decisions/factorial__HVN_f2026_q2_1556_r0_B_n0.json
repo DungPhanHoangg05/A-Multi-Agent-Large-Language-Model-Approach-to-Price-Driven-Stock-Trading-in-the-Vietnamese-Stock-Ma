@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_B_n0",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": null,
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "aa7d09471271811a12d6994ec360d4aca62e60d0051e25e17025f7c521767ed2"
+  },
+  "prediction": "LONG",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "LONG",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates upward movement toward resistance 23.5 within 3 sessions. MACD shows bullish momentum with MACD above signal and positive histogram.",
+    "evidence_against": "Pattern analysis suggests a bearish trend, but confidence is low and candles do not match.",
+    "justification": "Given the bullish trend and strong MACD confirmation, a LONG position is justified. The potential upside to resistance 23.5 outweighs the low-confidence bearish pattern.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a466-91f6-71d0-9c87-ca4ee19f0b82"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a466-91f6-71d0-9c87-ca4ee19f0b82.request.json",
+      "sha256": "aacd70fbf25f55ff9f06f6efc3b6490d99e90c8391169600e2e3873b84078041"
+    },
+    {
+      "path": "calls/01a1a466-91f6-71d0-9c87-ca4ee19f0b82.response.json",
+      "sha256": "42c89e74f321ad6a2010638ccedb28e991e85e03662ab11dbd28af43ee857b6a"
+    }
+  ],
+  "sha256": "98b36eddf56f85dd23931873ca1c4b0085f8800112b923b83360b486106bd7e0"
+}

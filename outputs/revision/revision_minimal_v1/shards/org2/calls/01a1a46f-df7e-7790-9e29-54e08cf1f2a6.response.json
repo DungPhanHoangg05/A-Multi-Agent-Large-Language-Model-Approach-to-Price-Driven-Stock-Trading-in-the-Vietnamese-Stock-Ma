@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46f-df7e-7790-9e29-54e08cf1f2a6",
+  "parent_request_hash": "f1c96ae083077195e3d489ceac35c1502b0d2616af583ffa938e2ebb318bb7cc",
+  "ended_at_utc": "2026-11-04T02:42:38.943139+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD death cross and negative histogram indicate bearish momentum; trend is sideways with no breakout confirmed.\",\"evidence_against\":\"Pattern suggests potential breakout to 145.\",\"justification\":\"Given bearish MACD signals and lack of breakout, short is preferred; target horizon T+2.5 aligns with settlement.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Cao\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"MACD death cross and negative histogram indicate bearish momentum; trend is sideways with no breakout confirmed.\",\"evidence_against\":\"Pattern suggests potential breakout to 145.\",\"justification\":\"Given bearish MACD signals and lack of breakout, short is preferred; target horizon T+2.5 aligns with settlement.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 522,
+                "prompt_tokens": 1391,
+                "total_tokens": 1913,
+                "completion_time": 0.585438616,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 420
+                },
+                "prompt_time": 0.230804943,
+                "prompt_tokens_details": null,
+                "queue_time": 0.324461592,
+                "total_time": 0.816243559
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_a4315eb300",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46f-df7e-7790-9e29-54e08cf1f2a6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 522,
+        "prompt_tokens": 1391,
+        "total_tokens": 1913,
+        "completion_time": 0.585438616,
+        "completion_tokens_details": {
+          "reasoning_tokens": 420
+        },
+        "prompt_time": 0.230804943,
+        "prompt_tokens_details": null,
+        "queue_time": 0.324461592,
+        "total_time": 0.816243559
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_a4315eb300",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a467-7f9f-7ec0-9195-d70546204eae",
+  "parent_request_hash": "f9105acfd9f5f49e9c575ba821e8f89d5f3c136c4bf64dd37e9c22867ea0fb18",
+  "ended_at_utc": "2026-11-04T02:33:30.235324+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis shows price near resistance 23.5 and MACD bullish crossover with expanding histogram.\",\"evidence_against\":\"Alpha factors overall negative and pattern analysis confirms a downtrend.\",\"justification\":\"Mixed signals and negative alpha suggest higher risk of reversal; short position preserves capital.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend analysis shows price near resistance 23.5 and MACD bullish crossover with expanding histogram.\",\"evidence_against\":\"Alpha factors overall negative and pattern analysis confirms a downtrend.\",\"justification\":\"Mixed signals and negative alpha suggest higher risk of reversal; short position preserves capital.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 806,
+                "prompt_tokens": 1809,
+                "total_tokens": 2615,
+                "completion_time": 0.911528438,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 708
+                },
+                "prompt_time": 0.108696102,
+                "prompt_tokens_details": null,
+                "queue_time": 0.288691529,
+                "total_time": 1.02022454
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_9b8528b477",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a467-7f9f-7ec0-9195-d70546204eae-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 806,
+        "prompt_tokens": 1809,
+        "total_tokens": 2615,
+        "completion_time": 0.911528438,
+        "completion_tokens_details": {
+          "reasoning_tokens": 708
+        },
+        "prompt_time": 0.108696102,
+        "prompt_tokens_details": null,
+        "queue_time": 0.288691529,
+        "total_time": 1.02022454
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_9b8528b477",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1675",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VJC_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "7b3c107a5b4e15f9c6e6663e7b2749e879349495ba7a996777cd4b55e77aa764",
+    "donor_hash": null,
+    "upstream_hash": "134b390b992bba0039d88882759bc16c263b5614defa508e69c92b737adbcf0e",
+    "prompt_hash": "49df19de91cf8bbda18a59a7e0131e25df9b7375a76896f7790e82e745e37815"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD line above signal with positive histogram indicates bullish momentum; V‑shaped reversal pattern suggests potential support near 133.5.",
+    "evidence_against": "Trend analysis shows a clear downtrend with low confidence, indicating price may fall below 130.",
+    "justification": "Given the trend and pattern confirm a downtrend, shorting aligns with risk management; the bullish MACD is insufficient to override the overall bearish bias.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a472-9f4c-7302-b34e-7d1b323aed65"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a472-9f4c-7302-b34e-7d1b323aed65.request.json",
+      "sha256": "fa67e32a49be92e205e7d154e95f5133f0d24d75aad7047f37b3a021d1d97bde"
+    },
+    {
+      "path": "calls/01a1a472-9f4c-7302-b34e-7d1b323aed65.response.json",
+      "sha256": "13096603746c50312c6b3d4d10cbca161f22d2f1e4195f060c0bf6cc2ccf462a"
+    }
+  ],
+  "sha256": "3710e17d7cf472f0d444a63ad50ca71ad859b8430426a205fe706c91e555dfc4"
+}

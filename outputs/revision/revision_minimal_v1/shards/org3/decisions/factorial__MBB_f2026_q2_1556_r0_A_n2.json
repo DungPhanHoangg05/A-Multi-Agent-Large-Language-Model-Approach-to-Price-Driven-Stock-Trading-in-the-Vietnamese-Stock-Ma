@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q2_1556",
+    "org": 4,
+    "variant": "A",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MBB_f2026_q2_1556_r0_A_n2",
+    "asset_hash": "3a499c8a449e49a62cce2803619c6e589d7ed3f720b96f065c6fccb9534f15d1",
+    "donor_hash": null,
+    "upstream_hash": "07864f7cec57d53195141741d6b44a6804a6f0a5c180cf02ce95f5321897eb70",
+    "prompt_hash": "5c531927523e70a36369f785621340e9ef636429c4c23862d71ba0c15b7b3f84"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Trend up to 22.0 and MACD histogram positive indicate short‑term momentum",
+    "evidence_against": "Alpha factors overall bearish and MACD line below zero",
+    "justification": "Trend suggests potential rise but alpha signals bearish, risk of not covering fees, so hold cash",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46b-b017-7870-8e82-982c972beecc"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46b-b017-7870-8e82-982c972beecc.request.json",
+      "sha256": "cc033c43a3d84e227318454fb1f184256367fe68d89662f54a0f42c93bc3effc"
+    },
+    {
+      "path": "calls/01a1a46b-b017-7870-8e82-982c972beecc.response.json",
+      "sha256": "f5a76d72e28bc8db908b60e379c970ce1157ea6a68c987a6ccb2147e77e4e80e"
+    }
+  ],
+  "sha256": "8fda9650e82a87091f0c24e7a3b6e1ebdbb77303f60208e757713c16cf7a2a4b"
+}

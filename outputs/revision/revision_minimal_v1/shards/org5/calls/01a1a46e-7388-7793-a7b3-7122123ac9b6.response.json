@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46e-7388-7793-a7b3-7122123ac9b6",
+  "parent_request_hash": "7c6349c03c5ea2b8249a2bf77d246f60402c4a886011612db92610c2f59c0f63",
+  "ended_at_utc": "2026-11-04T02:41:06.348702+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":3.5,\"evidence_for\":\"Trend is upward with support at 65.5 and resistance at 68.5, and 4 out of 5 alpha factors signal increase.\",\"evidence_against\":\"MACD is below its signal line, indicating bearish momentum.\",\"justification\":\"The expected upside of ~2.5% exceeds the 0.7% fee cost, giving a favorable risk‑reward of ~3.5. However, MACD bearishness tempers confidence.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":3.5,\"evidence_for\":\"Trend is upward with support at 65.5 and resistance at 68.5, and 4 out of 5 alpha factors signal increase.\",\"evidence_against\":\"MACD is below its signal line, indicating bearish momentum.\",\"justification\":\"The expected upside of ~2.5% exceeds the 0.7% fee cost, giving a favorable risk‑reward of ~3.5. However, MACD bearishness tempers confidence.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 922,
+                "prompt_tokens": 1779,
+                "total_tokens": 2701,
+                "completion_time": 1.044975858,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 788
+                },
+                "prompt_time": 0.116794537,
+                "prompt_tokens_details": null,
+                "queue_time": 0.596967335,
+                "total_time": 1.161770395
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e2cb7a84ec",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46e-7388-7793-a7b3-7122123ac9b6-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 922,
+        "prompt_tokens": 1779,
+        "total_tokens": 2701,
+        "completion_time": 1.044975858,
+        "completion_tokens_details": {
+          "reasoning_tokens": 788
+        },
+        "prompt_time": 0.116794537,
+        "prompt_tokens_details": null,
+        "queue_time": 0.596967335,
+        "total_time": 1.161770395
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e2cb7a84ec",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "P",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_P_n2",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": "76b90e4e5e0bbf45c64fa67db5260102e41d52ef33531f1e35035a7d7e7e0d51",
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "0e4e369fdf3e81db6f97722d0e937e5ab9fc2fd1833ed15cc02ffc2d6a2c1ed5"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "Trend analysis shows a clear downtrend with support at 21.0 and resistance at 23.6; 4 out of 5 alpha factors signal a decrease.",
+    "evidence_against": "MACD line is above signal but histogram is declining, indicating weakening momentum.",
+    "justification": "Shorting aligns with the prevailing bearish trend and alpha consensus; the bullish MACD signal is not strong enough to override the negative indicators.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-8f78-7bc0-b5f2-21922c954992"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-8f78-7bc0-b5f2-21922c954992.request.json",
+      "sha256": "8cb3f31f0f36de901251a4611cc6d229cbb4cdfa1d6da1a0df90e45231b1c527"
+    },
+    {
+      "path": "calls/01a1a46d-8f78-7bc0-b5f2-21922c954992.response.json",
+      "sha256": "fa575398b9b59d502f28416636ed8ab366dc554326f5cda72e0c293271e9217a"
+    }
+  ],
+  "sha256": "8a22387fd3d3c91baedc61323d30382d8a33212a423a671b73cd0c06d4ef15e2"
+}

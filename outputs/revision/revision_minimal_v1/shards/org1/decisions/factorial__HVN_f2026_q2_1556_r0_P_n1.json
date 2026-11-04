@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1556",
+    "org": 3,
+    "variant": "P",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1556_r0_P_n1",
+    "asset_hash": "40684a7175a662d42d16c5fae808a7f73b5324834790e4090a6f1552f49d17d9",
+    "donor_hash": "5247a022595c59d735131c6258b6c689de6355f6a5fd21be90e7a4b90a5cc187",
+    "upstream_hash": "014419f40f0d6d489b463f554a8b858ad5517d9115050b7c7bfb35fea2d6cef8",
+    "prompt_hash": "e1705ca2fc815038c33d9c4ad2a52a33f9daba9c4f84b58e06c1a530b0088d7a"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Pattern indicates a clear downtrend with low confidence, and the majority of alpha factors signal a decrease. MACD shows bullish momentum but the line remains negative, indicating potential reversal risk.",
+    "evidence_against": "Trend analysis suggests a potential rise to resistance 23.5 within the next 3 days.",
+    "justification": "Given the conflicting signals, the dominant negative alpha consensus and the risk of missing the short-term upside, the prudent choice is to stay cash (SHORT) to avoid potential losses.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a468-e2c3-75b2-a305-e9b7bad4c45f"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a468-e2c3-75b2-a305-e9b7bad4c45f.request.json",
+      "sha256": "8d323b421435c38b160e93232870d930cce2f378700cef3ff1b0a11635d5ccbb"
+    },
+    {
+      "path": "calls/01a1a468-e2c3-75b2-a305-e9b7bad4c45f.response.json",
+      "sha256": "2314afd5fba4840afdc83b6fa7cd4c008e8ea55acc4cc59aa9f320f2aa22c720"
+    }
+  ],
+  "sha256": "e465208e6c1a0a55e2048ffae06f7aee43c6f154210a819471f2f8ef866a211f"
+}

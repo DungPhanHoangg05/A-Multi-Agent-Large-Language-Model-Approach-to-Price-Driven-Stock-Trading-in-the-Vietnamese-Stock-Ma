@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a46b-b017-7870-8e82-982c972beecc",
+  "parent_request_hash": "7031b70e0560fccdf4bc6a9e3151ee5d46c81ed711e299bfe8fc5625bde4969f",
+  "ended_at_utc": "2026-11-04T02:38:04.741947+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up to 22.0 and MACD histogram positive indicate short‑term momentum\",\"evidence_against\":\"Alpha factors overall bearish and MACD line below zero\",\"justification\":\"Trend suggests potential rise but alpha signals bearish, risk of not covering fees, so hold cash\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"SHORT\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":1.5,\"evidence_for\":\"Trend up to 22.0 and MACD histogram positive indicate short‑term momentum\",\"evidence_against\":\"Alpha factors overall bearish and MACD line below zero\",\"justification\":\"Trend suggests potential rise but alpha signals bearish, risk of not covering fees, so hold cash\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 529,
+                "prompt_tokens": 1759,
+                "total_tokens": 2288,
+                "completion_time": 0.735234371,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 431
+                },
+                "prompt_time": 0.103055204,
+                "prompt_tokens_details": null,
+                "queue_time": 0.386999828,
+                "total_time": 0.838289575
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_e189667b30",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a46b-b017-7870-8e82-982c972beecc-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 529,
+        "prompt_tokens": 1759,
+        "total_tokens": 2288,
+        "completion_time": 0.735234371,
+        "completion_tokens_details": {
+          "reasoning_tokens": 431
+        },
+        "prompt_time": 0.103055204,
+        "prompt_tokens_details": null,
+        "queue_time": 0.386999828,
+        "total_time": 0.838289575
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_e189667b30",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

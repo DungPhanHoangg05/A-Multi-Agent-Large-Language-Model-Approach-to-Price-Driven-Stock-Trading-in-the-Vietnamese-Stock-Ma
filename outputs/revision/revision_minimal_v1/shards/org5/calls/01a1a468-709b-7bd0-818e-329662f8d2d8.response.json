@@ -1,0 +1,67 @@
+{
+  "attempt_id": "01a1a468-709b-7bd0-818e-329662f8d2d8",
+  "parent_request_hash": "c5f170f788f53db00feace5596c6446ebda27c2fe69c0ab47b209f5beadc17fb",
+  "ended_at_utc": "2026-11-04T02:34:32.292047+00:00",
+  "response": {
+    "generations": [
+      [
+        {
+          "text": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support 21.5 and resistance 23.5, MACD above signal indicating bullish momentum.\",\"evidence_against\":\"Alpha factors overall negative, suggesting potential reversal.\",\"justification\":\"Price is approaching resistance and MACD confirms bullish momentum; risk reward ratio is favorable for a short-term trade.\"}",
+          "generation_info": {
+            "finish_reason": "stop",
+            "logprobs": null
+          },
+          "type": "ChatGeneration",
+          "message": {
+            "content": "{\"decision\":\"LONG\",\"forecast_horizon\":\"T+2.5\",\"confidence\":\"Trung bình\",\"risk_reward_ratio\":2.0,\"evidence_for\":\"Trend up with support 21.5 and resistance 23.5, MACD above signal indicating bullish momentum.\",\"evidence_against\":\"Alpha factors overall negative, suggesting potential reversal.\",\"justification\":\"Price is approaching resistance and MACD confirms bullish momentum; risk reward ratio is favorable for a short-term trade.\"}",
+            "additional_kwargs": {},
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 992,
+                "prompt_tokens": 1807,
+                "total_tokens": 2799,
+                "completion_time": 1.217365974,
+                "completion_tokens_details": {
+                  "reasoning_tokens": 887
+                },
+                "prompt_time": 0.099755445,
+                "prompt_tokens_details": null,
+                "queue_time": 0.253672116,
+                "total_time": 1.317121419
+              },
+              "model_name": "openai/gpt-oss-20b",
+              "system_fingerprint": "fp_d3e146e1a5",
+              "service_tier": "on_demand",
+              "finish_reason": "stop",
+              "logprobs": null,
+              "model_provider": "groq"
+            },
+            "type": "ai",
+            "name": null,
+            "id": "lc_run--01a1a468-709b-7bd0-818e-329662f8d2d8-0"
+          }
+        }
+      ]
+    ],
+    "llm_output": {
+      "token_usage": {
+        "completion_tokens": 992,
+        "prompt_tokens": 1807,
+        "total_tokens": 2799,
+        "completion_time": 1.217365974,
+        "completion_tokens_details": {
+          "reasoning_tokens": 887
+        },
+        "prompt_time": 0.099755445,
+        "prompt_tokens_details": null,
+        "queue_time": 0.253672116,
+        "total_time": 1.317121419
+      },
+      "model_name": "openai/gpt-oss-20b",
+      "system_fingerprint": "fp_d3e146e1a5",
+      "service_tier": "on_demand"
+    },
+    "run": null,
+    "type": "LLMResult"
+  }
+}

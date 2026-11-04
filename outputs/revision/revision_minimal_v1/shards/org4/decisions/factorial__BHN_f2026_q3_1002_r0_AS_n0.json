@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "BHN_f2026_q3_1002",
+    "org": 1,
+    "variant": "AS",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__BHN_f2026_q3_1002_r0_AS_n0",
+    "asset_hash": "46811facb693b3b1b63a2a17b734d05db29f1e766206b302eb63979f0ca42eab",
+    "donor_hash": null,
+    "upstream_hash": "baaad843bcfaa65a1e6702eedf25335758930c48c97279c5341b892e2a5d7e4f",
+    "prompt_hash": "ac05262f39bb2d3bc9b58c347af4c59d68fcba15837f92ad42e6094b222a2860"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up, price above support 26.5 and approaching resistance 28.5.",
+    "evidence_against": "MACD below signal, histogram negative, alpha mixed, sentiment negative.",
+    "justification": "Trend indicates potential upside but momentum weak and alpha mixed, so holding cash is safer. Shorting would avoid potential downside until T+2.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-e94a-7b00-a22d-f1db636a177c"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-e94a-7b00-a22d-f1db636a177c.request.json",
+      "sha256": "5764a9fd6ebe296b4c0a5b527928b4101398a742c0dc070641e85fd92d4443ae"
+    },
+    {
+      "path": "calls/01a1a46e-e94a-7b00-a22d-f1db636a177c.response.json",
+      "sha256": "3836f15ea10d0f50352e7e3771b47c5ce514c38ab6d33b49af15ead2fe292f6e"
+    }
+  ],
+  "sha256": "63eed7a5aaae223c08d389258a76f0a359cd20acea4cbe63d5106971124978cf"
+}

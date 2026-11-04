@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "FPT_f2026_q3_1675",
+    "org": 2,
+    "variant": "B",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__FPT_f2026_q3_1675_r0_B_n0",
+    "asset_hash": "b9c52d202385b54d4d8037c1ac02eff0fad774b948a4ed88e7abe06c5fb28bae",
+    "donor_hash": null,
+    "upstream_hash": "b47c14f2e3a209e9e613e035d18b613ff2ee48bcac3a10776e774978127ca6bf",
+    "prompt_hash": "9f35f45d1458b546b0b12e99d540e26fc6151b205c71b87172546a36eb4f88a9"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.0,
+    "evidence_for": "Trend up with support 65.5 and resistance 68.5.",
+    "evidence_against": "MACD below signal and negative histogram indicating weakening momentum.",
+    "justification": "Trend suggests potential breakout but MACD signals bearish momentum, so short to avoid risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a471-b0d1-7bf1-ba69-a5803f613a6b"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a471-b0d1-7bf1-ba69-a5803f613a6b.request.json",
+      "sha256": "bd6910bc91fd0a0c3f9069d54aae0b3692fe1738ca36c51a3102de6351936753"
+    },
+    {
+      "path": "calls/01a1a471-b0d1-7bf1-ba69-a5803f613a6b.response.json",
+      "sha256": "69b1f0bb1851cfdd1160e3cb0f510289e6bb86e694ba11e7a81df2ff462101e5"
+    }
+  ],
+  "sha256": "b1c7563c19f68ff523e2f9d8de944062849776714e7c103283511c2650b7525d"
+}

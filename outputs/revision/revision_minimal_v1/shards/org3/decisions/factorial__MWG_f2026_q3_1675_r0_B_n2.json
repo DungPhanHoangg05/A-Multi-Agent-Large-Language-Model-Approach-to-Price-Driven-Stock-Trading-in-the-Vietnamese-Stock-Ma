@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "MWG_f2026_q3_1675",
+    "org": 5,
+    "variant": "B",
+    "repeat": 2,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__MWG_f2026_q3_1675_r0_B_n2",
+    "asset_hash": "6028cbdda4d4178f6d420440e5928cf03b3ed90a2b945f27d95a56d2c7f3e1d3",
+    "donor_hash": null,
+    "upstream_hash": "b9ea7d8058ecdab98b8590b725e948f7bb8827513584bcedf1f5b7b59579b5d4",
+    "prompt_hash": "1e304a16d8b88304277af5a5d74351f8ad1d41fc0ed238cd2dc6612b02f8d29b"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend is up and pattern shows accumulation, indicating potential upside.",
+    "evidence_against": "MACD line below signal and negative histogram suggest bearish momentum.",
+    "justification": "Given the bearish MACD signals, a short position is preferred to avoid potential reversal. The short trade aligns with the 3‑day holding rule and protects against downside risk.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a474-7d48-72f0-a924-44d0162d58f6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a474-7d48-72f0-a924-44d0162d58f6.request.json",
+      "sha256": "1c25a17b43094cb62cae575974c03d85ac6bab8972ff43f6b27e74bd357953bb"
+    },
+    {
+      "path": "calls/01a1a474-7d48-72f0-a924-44d0162d58f6.response.json",
+      "sha256": "a97120f1623927a884f58df9ea92244fdbf5120121f735942a9e81ffa761b1c8"
+    }
+  ],
+  "sha256": "4f1b95d566c366dfe4c7c2b5ddd3c8bcc1802d0aadc76a0a98a564b2a48879e5"
+}

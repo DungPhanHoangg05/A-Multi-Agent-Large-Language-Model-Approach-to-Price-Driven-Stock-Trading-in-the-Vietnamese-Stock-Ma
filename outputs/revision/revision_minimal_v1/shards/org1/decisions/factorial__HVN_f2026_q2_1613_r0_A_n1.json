@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "HVN_f2026_q2_1613",
+    "org": 4,
+    "variant": "A",
+    "repeat": 1,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__HVN_f2026_q2_1613_r0_A_n1",
+    "asset_hash": "8ebf8bd96d51e85d5c8fd866e62ee3f873c0d613bf449db972eb5e2daff1e40d",
+    "donor_hash": null,
+    "upstream_hash": "e3b24af88262b981d3f61eb0c57c79a1ae40b7e0ccec63aba5b28c670bd13f08",
+    "prompt_hash": "2c1d38e892bc08cda7408b4fe929cfdf4941d43a10826be6a8bbbb573ff31ae6"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis indicates a downtrend with support at 21.0 and resistance at 23.6, and alpha factors show 3 out of 5 signals favoring a decline.",
+    "evidence_against": "MACD line is above the signal line, suggesting bullish momentum.",
+    "justification": "Given the prevailing downtrend and majority of alpha factors signaling a decline, a short position is appropriate, while the bullish MACD may provide a short-term counterpoint but is outweighed by the overall bearish consensus.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46d-0be7-78c0-8841-d2c35df632a7"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46d-0be7-78c0-8841-d2c35df632a7.request.json",
+      "sha256": "42fe11381f15ea609f1c3c318bea933362c6e7059bc74352aa4cebdb23846172"
+    },
+    {
+      "path": "calls/01a1a46d-0be7-78c0-8841-d2c35df632a7.response.json",
+      "sha256": "171e88b54606a2741a7ea530404593d44d2182fde6eedff6175cafab3da5a3e5"
+    }
+  ],
+  "sha256": "74e16ad03fd31dd1ecc2d6e87f5b8f777080cee429dced8dc7ded83718db8a13"
+}

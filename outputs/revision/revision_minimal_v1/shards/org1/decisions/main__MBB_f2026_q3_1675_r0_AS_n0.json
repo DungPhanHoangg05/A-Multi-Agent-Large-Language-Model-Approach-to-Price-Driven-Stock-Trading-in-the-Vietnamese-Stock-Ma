@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "MBB_f2026_q3_1675",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__MBB_f2026_q3_1675_r0_AS_n0",
+    "asset_hash": "bc07502be64f0d53ad3ebe3cb0ae5369763edf78f72e5ccfc01035409ec57152",
+    "donor_hash": null,
+    "upstream_hash": "fc7024662e63b83c2ef74c186954bf5f0e366d1a3f57c16f474d0f2a89092e9d",
+    "prompt_hash": "717883b47390fe709474188a33166f7cce8cbd18234bb408b75752a6f73b6bc3"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Trung bình",
+    "risk_reward_ratio": 1.5,
+    "evidence_for": "Pattern uptrend and overall alpha up",
+    "evidence_against": "MACD bearish and trend sideways",
+    "justification": "Price likely insufficient to cover ~0.7% cost, so short to preserve cash",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46e-05f9-7c90-93e6-5432fec2b6d6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46e-05f9-7c90-93e6-5432fec2b6d6.request.json",
+      "sha256": "982cbb94e2fca8e44c6d94e3597f1e1555ec267bbb0978d1725e66ad6079d96a"
+    },
+    {
+      "path": "calls/01a1a46e-05f9-7c90-93e6-5432fec2b6d6.response.json",
+      "sha256": "eeb521cff89cd1e32bba70ee7101743698f0cc79c2b0f13aeaff8d3127302dfd"
+    }
+  ],
+  "sha256": "c4dc4f66e05ccf9865a0260db194ae06d9cdd1832b6ebfd6cf487e699bdafa5c"
+}

@@ -1,0 +1,50 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q2_1556",
+    "org": 2,
+    "variant": "P",
+    "repeat": 0,
+    "realization": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "factorial__VJC_f2026_q2_1556_r0_P_n0",
+    "asset_hash": "7e051bf8833f3e2003e8668308f7492a8d518994ab56347a66e10d4a8dfa63ad",
+    "donor_hash": "eccb39a87243b96d387f255aa2e8ccd7397bec8c2f6050512f356ba77da58c1e",
+    "upstream_hash": "60ed14934aceadb31552c8b3247333ad3867b973c74e7e18fb219f253dfe5196",
+    "prompt_hash": "08f0349ce702ab62a8387c7cf6e73b9d9d62b6ee8ad8ce68a17d1e73b15b6571"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.5,
+    "evidence_for": "All five alpha factors signal a decrease, indicating downward pressure. Trend slope is decreasing and price is approaching resistance, suggesting a potential reversal.",
+    "evidence_against": "MACD histogram is positive and increasing, indicating bullish momentum.",
+    "justification": "Given the strong consensus of negative alpha signals and the decreasing trend slope, a short position is warranted despite bullish MACD signals. The short trade aims to capture a potential reversal before the price reaches the resistance level.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a467-f821-7513-afaa-865f89b2b793"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a467-f821-7513-afaa-865f89b2b793.request.json",
+      "sha256": "8923d864fac522bff3ef52a9f25d96bae2d11ba2c60bb30d02fbad85d884215a"
+    },
+    {
+      "path": "calls/01a1a467-f821-7513-afaa-865f89b2b793.response.json",
+      "sha256": "03df40e834f6977779b3ae9fcd3dd0e3e3b8f4ed38821b1a79e66a1c7ddc97d6"
+    }
+  ],
+  "sha256": "3fcf0a9484ceae1c20168ee3ceda723c6fae7d7ec058974004024747b2cf0f5d"
+}

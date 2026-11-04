@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VJC_f2026_q3_1618",
+    "realization": 0,
+    "variant": "B",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VJC_f2026_q3_1618_r0_B_n0",
+    "asset_hash": "2f3c0f767c934f659cc3f0f1491b51bd60f217de5486ccbc7550cc6e30239c9b",
+    "donor_hash": null,
+    "upstream_hash": "8dc1c4c0258405b30d546c08650f740ad6a7b9983987834a0d11234b072ba4d7",
+    "prompt_hash": "e64b6531b1074c60b6b382a7464409f8fef778bed431f87c21f5b87267946f7e"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "MACD death cross and negative histogram indicate bearish momentum; trend is sideways with no breakout confirmed.",
+    "evidence_against": "Pattern suggests potential breakout to 145.",
+    "justification": "Given bearish MACD signals and lack of breakout, short is preferred; target horizon T+2.5 aligns with settlement.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a46f-df7e-7790-9e29-54e08cf1f2a6"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a46f-df7e-7790-9e29-54e08cf1f2a6.request.json",
+      "sha256": "99f6f4fb552e67d3b8d4767aab904343a3952879d75d5340aaafafa391247102"
+    },
+    {
+      "path": "calls/01a1a46f-df7e-7790-9e29-54e08cf1f2a6.response.json",
+      "sha256": "e47f5d6f5c8165c9895b78dd051ad2d3bfdffff78533cd108112bfcf8297b750"
+    }
+  ],
+  "sha256": "b4091f934ce5b2ba5d501f497ee7bff2078e3ef08740dad20ec93c75b439ca1f"
+}

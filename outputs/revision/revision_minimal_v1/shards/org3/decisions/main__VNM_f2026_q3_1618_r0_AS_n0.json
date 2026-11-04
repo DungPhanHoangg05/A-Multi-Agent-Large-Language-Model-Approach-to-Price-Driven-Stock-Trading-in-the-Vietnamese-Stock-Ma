@@ -1,0 +1,49 @@
+{
+  "context": {
+    "unit_id": "VNM_f2026_q3_1618",
+    "realization": 0,
+    "variant": "AS",
+    "repeat": 0,
+    "stage": "decision",
+    "node": "Decision Maker",
+    "model": "openai/gpt-oss-20b",
+    "smoke": false
+  },
+  "parent": {
+    "bank_id": "904b838a466290d9c8aa73245a6285e813b4f7c90d280355d3b2847ed9933fab",
+    "job_id": "main__VNM_f2026_q3_1618_r0_AS_n0",
+    "asset_hash": "8fc32d5a4798ec1b6c820b8802123cd49e537f181c64dbc6af241a52c7f192e5",
+    "donor_hash": null,
+    "upstream_hash": "d250f874dc01884777296b14156fc50abfcbe246cc28a4232d02f86db3de666a",
+    "prompt_hash": "ce915b94a5cbc197d4f4b723deaa17ff318478e6a0df9d3460c079bb4f25ed3d"
+  },
+  "prediction": "SHORT",
+  "decision_source": "llm_structured",
+  "fallback_reason": "",
+  "decision": {
+    "decision": "SHORT",
+    "forecast_horizon": "T+2.5",
+    "confidence": "Cao",
+    "risk_reward_ratio": 2.0,
+    "evidence_for": "Trend analysis shows a clear downtrend with support at 54.8 and resistance at 57.0, and MACD indicates weakening momentum. All alpha factors are decreasing, confirming bearish bias.",
+    "evidence_against": "Positive sentiment score is low and does not outweigh bearish indicators.",
+    "justification": "Short position aligns with prevailing bearish trend and avoids potential losses from buying into a declining market. Holding cash preserves capital until a reversal is confirmed.",
+    "decision_source": "llm_structured",
+    "fallback_reason": ""
+  },
+  "request_ids": [
+    "01a1a470-5551-7d63-85f8-2444ed8a5407"
+  ],
+  "failed_request_ids": [],
+  "call_hashes": [
+    {
+      "path": "calls/01a1a470-5551-7d63-85f8-2444ed8a5407.request.json",
+      "sha256": "ecf7c145aca7ec8bd64fa0e16d91c02ca1410ce3545902f10068d60f0374d6dd"
+    },
+    {
+      "path": "calls/01a1a470-5551-7d63-85f8-2444ed8a5407.response.json",
+      "sha256": "d26e413893ea5d314c1ffaf9e5d5829b234f2a290c832afca415dad4ba802a08"
+    }
+  ],
+  "sha256": "ebc3aa0c8b064a214fe94056dd157cee845c21015876e8d7ace3e08e0c713d1e"
+}
