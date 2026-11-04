@@ -1,0 +1,275 @@
+{
+  "api_calls": 0,
+  "cross_epoch_groups": 9,
+  "errors": 0,
+  "expected_failures": 0,
+  "failures": 0,
+  "final_jobs": 375,
+  "full_compile_unit_e2e_or_global_zero_leakage_gate": "NOT_RERUN_OR_CERTIFIED",
+  "limits": [
+    "Mock tests kiểm hành vi code; bằng chứng LLM thật là raw T04, không phải mocks.",
+    "Tests guard phát hiện native row-wise causal FAIL không chứng nhận zero-leakage. News PIT/domain validation vẫn thiếu theo T08.",
+    "Không chạy lại toàn unit suite/E2E/compileall, bootstrap, render chart, scorer hoặc baseline trên market data; chỉ kiểm receipts và ca hợp đồng được chọn.",
+    "T16 receipt .gitattributes là source lịch sử, CLI verify T16 hiện tại sẽ từ chối hash này. T28 kiểm nguyên blob Git và đúng ba eol rules bổ sung T18; các source/runtime/license còn lại khớp.",
+    "T22 kiểm bundle/metadata; không kiểm lại weights sidecar hoặc chạy lại clean replay T23. Alias/fingerprint không là immutable hosted revision.",
+    "T28 không đóng R1–R18 hoặc đạt T30; T29 còn đối soát nhận xét, các giới hạn causal/PIT/order/epoch/quyền public/PID phải chuyển sang bài/response."
+  ],
+  "max_actual_prompt_chars": 4187,
+  "missing_jobs": 0,
+  "native_rowwise_causal_gate": "FAIL",
+  "order_mismatches": 40,
+  "package": {
+    "model_weights_verified": false,
+    "scanned_members_including_nested_zip": 5008,
+    "scope": "Kiểm bytes/archive, không inference hoặc nghiệm thu T23.",
+    "status": "PASS"
+  },
+  "paired_groups": 147,
+  "parents": [
+    {
+      "historical_sources": [],
+      "release": "sentiment_inventory_v1",
+      "self_digest": null,
+      "source_output_hashes": 35,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "sentiment_coverage_v1",
+      "self_digest": null,
+      "source_output_hashes": 145,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "sentiment_contract_v1",
+      "self_digest": null,
+      "source_output_hashes": 1311,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "alpha_registry_v1",
+      "self_digest": null,
+      "source_output_hashes": 14,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "alpha_contract_v1",
+      "self_digest": null,
+      "source_output_hashes": 125,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "alpha_selection_v1",
+      "self_digest": null,
+      "source_output_hashes": 141,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "numeric_controls_design_v1",
+      "self_digest": null,
+      "source_output_hashes": 145,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "numeric_controls_v1",
+      "self_digest": null,
+      "source_output_hashes": 233,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [
+        {
+          "current_sha256": "4340ab28838b43eb65c35eb680c7c9b0e50305892dba71f5b7b2de3510a78e9b",
+          "git_commit": "b3e0561366ad573c11148c2e1b4cadbee40765b7",
+          "historical_sha256": "02bbee8ee82886cfc5c6d37e77b9773fd50ec99ea483678d30c65b92546659e2",
+          "path": ".gitattributes",
+          "scope": "Non-runtime: thêm đúng ba eol rules T18, không coi source cũ bằng source hiện tại."
+        }
+      ],
+      "release": "quantagent_attribution_v1",
+      "self_digest": null,
+      "source_output_hashes": 38,
+      "status": "PASS_WITH_HISTORICAL_NONRUNTIME_SOURCE"
+    },
+    {
+      "historical_sources": [],
+      "release": "fusion_prompt_audit_v1",
+      "self_digest": null,
+      "source_output_hashes": 635,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "execution_evidence_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 24,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "execution_final_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 54,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "execution_sensitivity_v1",
+      "self_digest": null,
+      "source_output_hashes": 29,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "final_contracts_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 2158,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "reference_audit_v1",
+      "self_digest": "compact_sorted_utf8",
+      "source_output_hashes": 27,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "clean_replay_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 14,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "final_baselines_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 28,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "final_temporal_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 62,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "final_repeats_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 631,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "final_cost_integrity_v1",
+      "self_digest": "pretty_sorted_utf8_lf",
+      "source_output_hashes": 3772,
+      "status": "PASS"
+    },
+    {
+      "historical_sources": [],
+      "release": "revision_minimal_final_v1",
+      "self_digest": "compact_sorted_utf8",
+      "source_output_hashes": 3524,
+      "status": "PASS"
+    }
+  ],
+  "passed_case_ids": [
+    "test_paired_protocol.PairedProtocolTests.test_one_decision_variant_failure_aborts_paired_point",
+    "test_paired_protocol.PairedProtocolTests.test_split_graphs_execute_expected_nodes_and_preserve_control_fields",
+    "test_paired_protocol.PairedProtocolTests.test_no_alpha_predictions_are_invariant_across_three_alpha_configs",
+    "test_revision_r4_factorial.PromptLeakageTests.test_all_variant_sections_and_actual_content_are_isolated",
+    "test_revision_r4_factorial.PromptLeakageTests.test_future_or_label_overlapping_donor_is_rejected",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_repeat_copy_prompt_change_missing_or_parent_change_are_rejected",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_future_price_and_volume_poison_does_not_change_cutoff_features",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_date_only_next_day_explicit_availability_and_90_day_window",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_time_split_purges_all_label_spans_touching_next_split",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_imputer_scaler_and_selection_ignore_test_distribution",
+    "test_revision_r2_leakage.RegimeLeakageTests.test_future_prices_and_volumes_do_not_change_context",
+    "test_revision_r2_leakage.RegimeLeakageTests.test_validation_distribution_cannot_fit_thresholds",
+    "test_revision_numeric_design_leakage.NumericDesignLeakageTests.test_eligibility_imputation_scaling_orientation_and_ranking_ignore_validation_test",
+    "test_revision_numeric_design_leakage.NumericDesignLeakageTests.test_prediction_of_one_row_does_not_fit_other_prediction_rows",
+    "test_revision_alpha_contract_leakage.AlphaContractLeakageTests.test_native_rowwise_counterexamples_are_detected_and_fail_causal_guard",
+    "test_backtest_token_budget.BacktestTokenBudgetTests.test_backtest_decision_prompt_has_hard_character_budget",
+    "test_revision_common_study.CallArchiveTests.test_6500_char_prompt_and_missing_context_are_stopped_before_network",
+    "test_revision_r4_factorial.PromptLeakageTests.test_all_five_values_reach_actual_human_message_and_budget_guard",
+    "test_revision_minimal.MinimalQueueTests.test_callback_rejects_changed_model_parameters_and_message",
+    "test_revision_minimal.MinimalQueueTests.test_whitelist_execution_and_resume_skip_successes",
+    "test_revision_minimal.MinimalQueueTests.test_interruption_after_raw_replays_without_new_request",
+    "test_revision_minimal.MinimalQueueTests.test_temporary_checkpoint_recovers_without_calls",
+    "test_revision_minimal.MinimalQueueTests.test_tampered_raw_and_parent_fail_closed",
+    "test_revision_minimal.MinimalQueueTests.test_resigned_parent_mismatch_and_duplicate_repeat_ids_rejected",
+    "test_revision_minimal.MinimalQueueTests.test_resigned_wrong_context_does_not_replay",
+    "test_revision_r4_factorial.ArchiveResumeTests.test_raw_response_resume_and_tamper_guard",
+    "test_chart_rerun.ChartRerunTests.test_exact_archived_pattern_request_replays_without_sdk",
+    "test_chart_rerun.ChartRerunTests.test_pattern_cache_miss_stops_before_client_creation",
+    "test_revision_minimal.MinimalQueueTests.test_one_key_shared_across_workers_and_origin_runs",
+    "test_revision_minimal.MinimalQueueTests.test_provider_quota_state_prevents_early_reset",
+    "test_revision_minimal.MinimalQueueTests.test_missing_ledger_never_silently_resets",
+    "test_revision_minimal.MinimalQueueTests.test_format_retry_is_counted_and_keeps_repeat_identity",
+    "test_revision_72h.QuotaTests.test_provider_pool_uses_another_key_after_one_exhausts_quota",
+    "test_revision_72h.QuotaTests.test_pool_stops_only_after_all_allowed_keys_report_long_quota",
+    "test_revision_72h.QuotaTests.test_short_rate_wait_is_retried_without_global_pause",
+    "test_revision_common_study.CallArchiveTests.test_compound_retry_after_and_daily_quota_stop_before_fallback",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_missing_duplicate_target_and_information_support_fail",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_macro_support_and_undefined_class_are_explicit",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_cash_and_two_leg_fee_ledger_match_independent_formula",
+    "test_revision_final_baselines.FinalBaselineTests.test_hold_or_missing_pair_is_not_classifier_support",
+    "test_revision_final_baselines.FinalBaselineTests.test_cohorts_do_not_backfill_bhn_or_pick_outcomes",
+    "test_revision_baseline_leakage.RevisionDailyLedgerTests.test_continuous_hold_is_one_purchase_and_sale_across_gaps",
+    "test_revision_execution_final.FinalExecutionTests.test_oracle_catches_pending_double_count_and_stock_sale_before_maturity",
+    "test_revision_regression.RegressionAuditTests.test_case_plan_rejects_duplicates_and_missing_names",
+    "test_revision_regression.RegressionAuditTests.test_parent_source_and_output_tamper_fail_closed",
+    "test_revision_regression.RegressionAuditTests.test_failed_skipped_or_expected_failure_cannot_pass",
+    "test_revision_regression.RegressionAuditTests.test_output_path_never_overwrites_or_targets_paper",
+    "test_revision_regression.RegressionAuditTests.test_historical_attributes_cannot_mask_runtime_changes"
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "real_model_forwards": 0,
+  "runtime_after": {
+    "Pillow": "11.0.0",
+    "TA-Lib": "0.6.8",
+    "groq": "0.37.1",
+    "jsonschema": "4.24.0",
+    "langchain-core": "1.2.17",
+    "langchain-groq": "1.1.2",
+    "matplotlib": "3.10.8",
+    "mplfinance": "0.12.10b0",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "pydantic": "2.11.7",
+    "python": "3.13.5",
+    "python-dotenv": "1.2.2",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.1"
+  },
+  "runtime_before": {
+    "Pillow": "11.0.0",
+    "TA-Lib": "0.6.8",
+    "groq": "0.37.1",
+    "jsonschema": "4.24.0",
+    "langchain-core": "1.2.17",
+    "langchain-groq": "1.1.2",
+    "matplotlib": "3.10.8",
+    "mplfinance": "0.12.10b0",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "pydantic": "2.11.7",
+    "python": "3.13.5",
+    "python-dotenv": "1.2.2",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.16.1"
+  },
+  "selected_tests": 48,
+  "skips": 0,
+  "status": "PASS_SCOPED_REGRESSION",
+  "tests_run": 48
+}

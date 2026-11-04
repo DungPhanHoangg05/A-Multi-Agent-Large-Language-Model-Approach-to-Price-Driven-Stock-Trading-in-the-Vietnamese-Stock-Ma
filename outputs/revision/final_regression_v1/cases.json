@@ -1,0 +1,64 @@
+{
+  "audit_guards": [
+    "test_revision_regression.RegressionAuditTests.test_case_plan_rejects_duplicates_and_missing_names",
+    "test_revision_regression.RegressionAuditTests.test_parent_source_and_output_tamper_fail_closed",
+    "test_revision_regression.RegressionAuditTests.test_failed_skipped_or_expected_failure_cannot_pass",
+    "test_revision_regression.RegressionAuditTests.test_output_path_never_overwrites_or_targets_paper",
+    "test_revision_regression.RegressionAuditTests.test_historical_attributes_cannot_mask_runtime_changes"
+  ],
+  "metrics_ledger": [
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_missing_duplicate_target_and_information_support_fail",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_macro_support_and_undefined_class_are_explicit",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_cash_and_two_leg_fee_ledger_match_independent_formula",
+    "test_revision_final_baselines.FinalBaselineTests.test_hold_or_missing_pair_is_not_classifier_support",
+    "test_revision_final_baselines.FinalBaselineTests.test_cohorts_do_not_backfill_bhn_or_pick_outcomes",
+    "test_revision_baseline_leakage.RevisionDailyLedgerTests.test_continuous_hold_is_one_purchase_and_sale_across_gaps",
+    "test_revision_execution_final.FinalExecutionTests.test_oracle_catches_pending_double_count_and_stock_sale_before_maturity"
+  ],
+  "pairing_isolation": [
+    "test_paired_protocol.PairedProtocolTests.test_one_decision_variant_failure_aborts_paired_point",
+    "test_paired_protocol.PairedProtocolTests.test_split_graphs_execute_expected_nodes_and_preserve_control_fields",
+    "test_paired_protocol.PairedProtocolTests.test_no_alpha_predictions_are_invariant_across_three_alpha_configs",
+    "test_revision_r4_factorial.PromptLeakageTests.test_all_variant_sections_and_actual_content_are_isolated",
+    "test_revision_r4_factorial.PromptLeakageTests.test_future_or_label_overlapping_donor_is_rejected",
+    "test_revision_minimal_analysis.MinimalAnalysisTests.test_repeat_copy_prompt_change_missing_or_parent_change_are_rejected"
+  ],
+  "pit_purge": [
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_future_price_and_volume_poison_does_not_change_cutoff_features",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_date_only_next_day_explicit_availability_and_90_day_window",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_time_split_purges_all_label_spans_touching_next_split",
+    "test_revision_baseline_leakage.RevisionBaselineLeakageTests.test_imputer_scaler_and_selection_ignore_test_distribution",
+    "test_revision_r2_leakage.RegimeLeakageTests.test_future_prices_and_volumes_do_not_change_context",
+    "test_revision_r2_leakage.RegimeLeakageTests.test_validation_distribution_cannot_fit_thresholds",
+    "test_revision_numeric_design_leakage.NumericDesignLeakageTests.test_eligibility_imputation_scaling_orientation_and_ranking_ignore_validation_test",
+    "test_revision_numeric_design_leakage.NumericDesignLeakageTests.test_prediction_of_one_row_does_not_fit_other_prediction_rows",
+    "test_revision_alpha_contract_leakage.AlphaContractLeakageTests.test_native_rowwise_counterexamples_are_detected_and_fail_causal_guard"
+  ],
+  "prompt_budget": [
+    "test_backtest_token_budget.BacktestTokenBudgetTests.test_backtest_decision_prompt_has_hard_character_budget",
+    "test_revision_common_study.CallArchiveTests.test_6500_char_prompt_and_missing_context_are_stopped_before_network",
+    "test_revision_r4_factorial.PromptLeakageTests.test_all_five_values_reach_actual_human_message_and_budget_guard",
+    "test_revision_minimal.MinimalQueueTests.test_callback_rejects_changed_model_parameters_and_message"
+  ],
+  "quota_retry": [
+    "test_revision_minimal.MinimalQueueTests.test_one_key_shared_across_workers_and_origin_runs",
+    "test_revision_minimal.MinimalQueueTests.test_provider_quota_state_prevents_early_reset",
+    "test_revision_minimal.MinimalQueueTests.test_missing_ledger_never_silently_resets",
+    "test_revision_minimal.MinimalQueueTests.test_format_retry_is_counted_and_keeps_repeat_identity",
+    "test_revision_72h.QuotaTests.test_provider_pool_uses_another_key_after_one_exhausts_quota",
+    "test_revision_72h.QuotaTests.test_pool_stops_only_after_all_allowed_keys_report_long_quota",
+    "test_revision_72h.QuotaTests.test_short_rate_wait_is_retried_without_global_pause",
+    "test_revision_common_study.CallArchiveTests.test_compound_retry_after_and_daily_quota_stop_before_fallback"
+  ],
+  "resume_raw_tamper": [
+    "test_revision_minimal.MinimalQueueTests.test_whitelist_execution_and_resume_skip_successes",
+    "test_revision_minimal.MinimalQueueTests.test_interruption_after_raw_replays_without_new_request",
+    "test_revision_minimal.MinimalQueueTests.test_temporary_checkpoint_recovers_without_calls",
+    "test_revision_minimal.MinimalQueueTests.test_tampered_raw_and_parent_fail_closed",
+    "test_revision_minimal.MinimalQueueTests.test_resigned_parent_mismatch_and_duplicate_repeat_ids_rejected",
+    "test_revision_minimal.MinimalQueueTests.test_resigned_wrong_context_does_not_replay",
+    "test_revision_r4_factorial.ArchiveResumeTests.test_raw_response_resume_and_tamper_guard",
+    "test_chart_rerun.ChartRerunTests.test_exact_archived_pattern_request_replays_without_sdk",
+    "test_chart_rerun.ChartRerunTests.test_pattern_cache_miss_stops_before_client_creation"
+  ]
+}

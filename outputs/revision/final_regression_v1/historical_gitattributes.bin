@@ -1,0 +1,127 @@
+*.pdf binary
+ESWA/elsarticle.cls -whitespace
+ESWA/elsarticle-num.bst -whitespace
+
+# Giữ nguyên byte của code và bundle audit khi checkout trên Windows.
+AGENTS.md text eol=crlf
+plan.md text eol=lf
+core/revision_audit.py text eol=lf
+scripts/audit_revision_baselines.py text eol=lf
+tests/test_revision_baselines.py text eol=lf
+utils/statistical_tests.py text eol=crlf
+revision/*.md text eol=lf
+outputs/revision/** -text
+scripts/finalize_revision_r1.py text eol=lf
+revision/reviewer_matrix.csv text eol=lf
+core/revision_r2_panel.py text eol=lf
+scripts/analyze_revision_r2.py text eol=lf
+tests/test_revision_r2_leakage.py text eol=lf
+core/revision_r3_repeats.py text eol=lf
+scripts/analyze_revision_r3.py text eol=lf
+tests/test_revision_r3_repeats.py text eol=lf
+core/revision_r4_factorial.py text eol=lf
+core/revision_r4_run.py text eol=lf
+scripts/analyze_revision_r4.py text eol=lf
+scripts/run_revision_r4.py text eol=lf
+tests/test_revision_r4_factorial.py text eol=lf
+scripts/finalize_revision_r4.py text eol=lf
+tests/test_revision_r4_finalize.py text eol=lf
+scripts/audit_revision_lineage.py text eol=lf
+tests/test_revision_lineage.py text eol=lf
+# Source blobs lịch sử giữ nguyên cả whitespace để đối soát SHA-256.
+outputs/revision/legacy_lineage_v1/historical_sources/** -whitespace
+core/revision_dependent_statistics.py text eol=lf
+scripts/analyze_revision_statistics.py text eol=lf
+tests/test_revision_dependent_statistics.py text eol=lf
+revision/r5_statistics_policy.json text eol=lf
+utils/account_risk.py text eol=lf
+scripts/audit_account_annualisation.py text eol=lf
+tests/test_account_risk.py text eol=lf
+core/backtest_engine.py text eol=lf
+core/run_robustness.py text eol=lf
+scripts/run_ablation_matrix.py text eol=lf
+tests/test_account_pnl.py text eol=lf
+tests/test_ablation_matrix.py text eol=lf
+tests/test_robustness_sweep.py text eol=lf
+core/revision_execution.py text eol=lf
+scripts/analyze_revision_execution.py text eol=lf
+tests/test_revision_execution.py text eol=lf
+revision/r15_execution_policy.json text eol=lf
+utils/target_contract.py text eol=lf
+scripts/audit_target_contract.py text eol=lf
+tests/test_target_contract.py text eol=lf
+revision/target_schema.json text eol=lf
+tests/test_paired_protocol.py text eol=lf
+revision/requirements-r1.txt text eol=lf
+paper/sections/appendices.tex text eol=lf
+paper/generated/target_prompt_excerpt.tex text eol=lf
+paper/generated/target_schema_table.tex text eol=lf
+
+.gitattributes text eol=lf
+scripts/audit_indicator_alpha_rules.py text eol=lf
+tests/test_indicator_alpha_rules.py text eol=lf
+revision/indicator_alpha_cases.json text eol=lf
+paper/figs/alpha_agent_pipeline.tex text eol=lf
+paper/generated/alpha4_signed_cases.tex text eol=lf
+paper/sections/02_related_work.tex text eol=lf
+paper/sections/03_problem_formulation.tex text eol=lf
+paper/sections/04_system_architecture.tex text eol=lf
+utils/color_style.py text eol=lf
+agents/trend_agent.py text eol=lf
+scripts/audit_chart_convention.py text eol=lf
+tests/test_chart_convention.py text eol=lf
+revision/chart_convention_policy.json text eol=lf
+outputs/revision/chart_convention_v1/prior_sources/** -whitespace
+utils/static_util.py text eol=lf
+paper/sections/07_limitations.tex text eol=lf
+scripts/run_chart_rerun.py text eol=lf
+tests/test_chart_rerun.py text eol=lf
+.gitignore text eol=lf
+scripts/prepare_chart_r4.py text eol=lf
+tests/test_prepare_chart_r4.py text eol=lf
+core/revision_minimal_bank.py text eol=lf
+core/revision_minimal_run.py text eol=lf
+scripts/run_revision_minimal.py text eol=lf
+tests/test_revision_minimal.py text eol=lf
+core/revision_sentiment_inventory.py text eol=lf
+scripts/audit_sentiment_inventory.py text eol=lf
+tests/test_revision_sentiment_inventory.py text eol=lf
+core/revision_sentiment_coverage.py text eol=lf
+scripts/audit_revision_sentiment_coverage.py text eol=lf
+tests/test_revision_sentiment_coverage.py text eol=lf
+core/revision_sentiment_contract.py text eol=lf
+scripts/audit_sentiment_contract.py text eol=lf
+tests/test_revision_sentiment_contract.py text eol=lf
+core/revision_alpha_registry.py text eol=lf
+scripts/audit_alpha_registry.py text eol=lf
+tests/test_revision_alpha_registry.py text eol=lf
+revision/alpha101_catalogue.json -text
+core/revision_alpha_contract.py text eol=lf
+scripts/audit_alpha_contract.py text eol=lf
+tests/test_revision_alpha_contract.py text eol=lf
+tests/test_revision_alpha_contract_leakage.py text eol=lf
+revision/alpha_translation_cases.json -text
+core/revision_alpha_selection.py text eol=lf
+scripts/audit_alpha_selection.py text eol=lf
+tests/test_revision_alpha_selection.py text eol=lf
+tests/test_revision_alpha_selection_leakage.py text eol=lf
+core/revision_numeric_design.py text eol=lf
+scripts/freeze_numeric_controls.py text eol=lf
+tests/test_revision_numeric_design.py text eol=lf
+tests/test_revision_numeric_design_leakage.py text eol=lf
+revision/numeric_controls_protocol.json -text
+core/revision_numeric_statistics.py text eol=lf
+core/revision_numeric_controls.py text eol=lf
+scripts/run_numeric_controls.py text eol=lf
+tests/test_revision_numeric_statistics.py text eol=lf
+tests/test_revision_numeric_controls.py text eol=lf
+tests/test_revision_numeric_controls_leakage.py text eol=lf
+core/revision_minimal_audit.py text eol=lf
+core/revision_minimal_analysis.py text eol=lf
+scripts/analyze_revision_minimal.py text eol=lf
+tests/test_revision_minimal_analysis.py text eol=lf
+README.md text eol=lf
+THIRD_PARTY_NOTICES.md text eol=lf
+LICENSES/QuantAgent-MIT.txt -text
+scripts/audit_quantagent_attribution.py text eol=lf
+tests/test_quantagent_attribution.py text eol=lf
