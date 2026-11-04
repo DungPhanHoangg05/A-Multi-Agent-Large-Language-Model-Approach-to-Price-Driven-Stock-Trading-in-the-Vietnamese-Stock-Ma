@@ -1,0 +1,115 @@
+{
+  "schema_version": "reference_additions_v1",
+  "entries": [
+    {
+      "key": "white2000reality",
+      "entry_type": "article",
+      "fields": {
+        "author": "White, Halbert",
+        "title": "A Reality Check for Data Snooping",
+        "journal": "Econometrica",
+        "year": "2000",
+        "volume": "68",
+        "number": "5",
+        "pages": "1097--1126",
+        "doi": "10.1111/1468-0262.00152",
+        "url": "https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00152"
+      },
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00152",
+        "https://onlinelibrary.wiley.com/toc/14680262/2000/68/5"
+      ],
+      "target": {
+        "path": "paper/sections/07_limitations.tex",
+        "line": 33
+      },
+      "reason": "Thêm cite ngay White’s Reality Check; issue September 2000, không dùng platform date December 2003. Phương pháp chưa chạy trong study, chỉ định hướng future work.",
+      "proposed_claim_english": "White’s Reality Check addresses data snooping across candidate forecasting or trading rules; it was not applied in this study."
+    },
+    {
+      "key": "hf5cdsentiment",
+      "entry_type": "misc",
+      "fields": {
+        "author": "{5CD-AI}",
+        "title": "5CD-ViSoBERT for Vietnamese Sentiment Analysis",
+        "year": null,
+        "url": "https://huggingface.co/5CD-AI/Vietnamese-Sentiment-visobert",
+        "urldate": "2026-11-04"
+      },
+      "primary_urls": [
+        "https://huggingface.co/5CD-AI/Vietnamese-Sentiment-visobert"
+      ],
+      "target": {
+        "path": "paper/sections/02_related_work.tex",
+        "line": 18
+      },
+      "reason": "Nguồn classifier fine-tuned riêng, không thay paper gốc ViSoBERT; card nêu comments/reviews/social data, không chứng nhận Vietnamese financial-news validation. Publication year và historical revision unknown.",
+      "proposed_claim_english": "We use the public 5CD-AI sentiment classifier derived from ViSoBERT; its model card does not establish validity on Vietnamese financial news."
+    },
+    {
+      "key": "talib_rsi_docs",
+      "entry_type": "misc",
+      "fields": {
+        "author": "{TA-Lib}",
+        "title": "Relative Strength Index (RSI)",
+        "year": null,
+        "url": "https://ta-lib.github.io/ta-doc/indicator/RSI.htm",
+        "urldate": "2026-11-04"
+      },
+      "primary_urls": [
+        "https://ta-lib.github.io/ta-doc/indicator/RSI.htm"
+      ],
+      "target": {
+        "path": "paper/sections/04_system_architecture.tex",
+        "line": 8
+      },
+      "replaces": "wilder1978new",
+      "reason": "Official implementation documentation thay edition sách chưa khóa. Last updated 22/03/2008 không tự coi là publication year; threshold rules riêng theo T20.",
+      "proposed_claim_english": null
+    },
+    {
+      "key": "talib_willr_docs",
+      "entry_type": "misc",
+      "fields": {
+        "author": "{TA-Lib}",
+        "title": "Williams' %R (WILLR)",
+        "year": null,
+        "url": "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm",
+        "urldate": "2026-11-04"
+      },
+      "primary_urls": [
+        "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm"
+      ],
+      "target": {
+        "path": "paper/sections/04_system_architecture.tex",
+        "line": 8
+      },
+      "replaces": "williams1973trading",
+      "reason": "Official implementation documentation thay nguồn title/year không xác minh; không thay bằng sách COT 2005 khác chủ đề. Escape percent nếu chuyển sang BibTeX/TeX.",
+      "proposed_claim_english": null
+    },
+    {
+      "key": "vo2016herdvietnam",
+      "entry_type": "misc",
+      "fields": {
+        "author": "Vo, Xuan Vinh and Phan Dang, Bao Anh",
+        "title": "Herd Behavior in Emerging Equity Markets: Evidence from Vietnam",
+        "year": "2016",
+        "howpublished": "UEH institutional repository, conference/preprint record",
+        "url": "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+        "urldate": "2026-11-04"
+      },
+      "primary_urls": [
+        "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2772455"
+      ],
+      "target": {
+        "path": "paper/sections/02_related_work.tex",
+        "line": 22
+      },
+      "replaces": "pham2021herding",
+      "reason": "Nguồn thay là bài khác, không metadata correction của Pham. UEH ghi issue date2016 và Conference Papers, liên kết author SSRN (first posted29/04/2016, revised13/02/2017). Chưa khóa journal DOI/issue nên không thêm journal fields.",
+      "proposed_claim_english": "Vo and Phan Dang study herding in a sample of 299 HOSE-listed companies over 2005–2015."
+    }
+  ]
+}

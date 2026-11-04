@@ -1,0 +1,88 @@
+{
+  "schema_version": "reference_audit_qa_v1",
+  "status": "PASS",
+  "counts": {
+    "bibliography_entries": 41,
+    "distinct_used_keys": 37,
+    "citation_commands": 40,
+    "citation_key_occurrences": 45,
+    "uncited_entries": 4
+  },
+  "checked_bibliography_rows": 41,
+  "checked_key_occurrences": 45,
+  "checked_additions": 5,
+  "unique_proposed_entries": 39,
+  "proposed_doi_duplicates": 0,
+  "doi_identity_mismatches": 3,
+  "metadata_observations": 46,
+  "protected_sources": 19,
+  "release_outputs_excluding_manifest": 8,
+  "checks": {
+    "original_fields_preserved": true,
+    "all_citation_locations_accounted_for": true,
+    "line_locators_match_original_source": true,
+    "replacement_targets_resolved": true,
+    "proposed_keys_unique": true,
+    "json_finite": true,
+    "csv_na_explicit": true,
+    "protected_source_hashes_match": true,
+    "git_paper_diff_empty": true,
+    "release_local_links_exist": true
+  },
+  "local_links": [
+    {
+      "from": "outputs/revision/reference_audit_v1/report.md",
+      "to": "outputs/revision/reference_audit_v1/changes.csv"
+    },
+    {
+      "from": "outputs/revision/reference_audit_v1/report.md",
+      "to": "outputs/revision/reference_audit_v1/reference_audit.json"
+    },
+    {
+      "from": "outputs/revision/reference_audit_v1/report.md",
+      "to": "outputs/revision/reference_audit_v1/additions.json"
+    },
+    {
+      "from": "outputs/revision/reference_audit_v1/report.md",
+      "to": "outputs/revision/reference_audit_v1/sources.json"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/report.md"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/changes.csv"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/reference_audit.json"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/additions.json"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/inventory.json"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/changes.csv"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/additions.json"
+    },
+    {
+      "from": "plan.md",
+      "to": "outputs/revision/reference_audit_v1/sources.json"
+    }
+  ],
+  "not_run": {
+    "compile_unit_e2e_leakage": "Không đổi code/test/runtime/inputs; task chỉ là phân tích tài liệu. Không dùng kết quả cũ để ghi là chạy lại.",
+    "latex_bibtex_pdf": "Chờ T30/T32/T35; audit này chưa sửa .bib/.tex hoặc build PDF.",
+    "api_inference": "Cấm theo AGENTS.md; tác vụ chỉ đọc metadata công khai và artifacts cục bộ."
+  },
+  "manifest_self_digest_method": "SHA-256 của JSON manifest sau khi bỏ field sha256, sort_keys=True, separators=(comma,colon), ensure_ascii=False, UTF-8; không trailing newline."
+}

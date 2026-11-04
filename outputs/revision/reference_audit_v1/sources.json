@@ -1,0 +1,2053 @@
+{
+  "schema_version": "reference_sources_v1",
+  "access_date": "2026-11-04",
+  "method": "Đọc publisher/DOI/arXiv/official docs và institutional/author records bằng web search/open; tải HTML công khai để ghi metadata/hash khi được phép truy cập. Không gọi API provider, không inference, không tải model weights. Không dùng Crossref/SSRN/Hub metadata API.",
+  "limits": "Primary page indexed excerpts được dùng khi publisher chặn HTTP download; không gán challenge/403/202 là full-text verification. Raw HTML ở tmp không phải archive công khai; hashes chỉ nhận diện lần retrieval, không bảo đảm URL bất biến. Metadata và abstract support không thay đọc toàn văn cho những claim rộng; claim không được hỗ trợ đã thu hẹp/bỏ.",
+  "primary_urls": [
+    "https://academic.oup.com/rfs/article-abstract/29/1/5/1843824",
+    "https://aclanthology.org/2023.emnlp-main.315/",
+    "https://aclanthology.org/2026.acl-long.615/",
+    "https://arxiv.org/abs/1601.00991v3",
+    "https://arxiv.org/abs/1908.10063v1",
+    "https://arxiv.org/abs/2303.17564v3",
+    "https://arxiv.org/abs/2306.06031v1",
+    "https://arxiv.org/abs/2310.11166v2",
+    "https://arxiv.org/abs/2311.16483v1",
+    "https://arxiv.org/abs/2411.08899v1",
+    "https://arxiv.org/abs/2412.20138v7",
+    "https://arxiv.org/abs/2505.09388v1",
+    "https://arxiv.org/abs/2508.10925v1",
+    "https://arxiv.org/abs/2508.11987v3",
+    "https://arxiv.org/abs/2509.09995v3",
+    "https://arxiv.org/abs/2602.00133v1",
+    "https://arxiv.org/abs/2604.07355v1",
+    "https://arxiv.org/abs/2605.19337v2",
+    "https://arxiv.org/abs/2606.17423v1",
+    "https://books.wiley.com/series/wiley_trading/stocks/",
+    "https://businessperspectives.org/publishing-policies2/cash-level-and-corporate-performance-evidence-from-the-gulf-cooperation-council-countries",
+    "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+    "https://docs.langchain.com/oss/python/langgraph/overview",
+    "https://doi.org/10.13106/jafeb.2021.vol8.no3.0045",
+    "https://doi.org/10.3905%2Fjpm.2014.40.5.094",
+    "https://huggingface.co/5CD-AI/Vietnamese-Sentiment-visobert",
+    "https://ieeexplore.ieee.org/abstract/document/7407387",
+    "https://ieeexplore.ieee.org/abstract/document/8010701/metrics",
+    "https://link.springer.com/article/10.1186/1471-2105-7-91",
+    "https://onlinelibrary.wiley.com/doi/10.1111/0022-1082.00265",
+    "https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00152",
+    "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1992.tb04398.x",
+    "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1993.tb04702.x",
+    "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x",
+    "https://onlinelibrary.wiley.com/doi/abs/10.1002/wilm.10525",
+    "https://onlinelibrary.wiley.com/toc/14680262/2000/68/5",
+    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2772455",
+    "https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract.html",
+    "https://ta-lib.github.io/ta-doc/indicator/RSI.htm",
+    "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm",
+    "https://technical.traders.com/archive/display2.asp?mo=MAY&yr=1984",
+    "https://traders.com/documentation/feedbk_docs/2004/04/Charting/charting.html",
+    "https://web.stanford.edu/~wfsharpe/art/art.htm",
+    "https://www.aqr.com/insights/research/journal-article/a-century-of-evidence-on-trend-following-investing",
+    "https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf",
+    "https://www.informit.com/store/technical-analysis-power-tools-for-active-investors-9780131479029",
+    "https://www.mdpi.com/1911-8074/12/2/100",
+    "https://www.mheducation.com/highered/mhp/product/active-portfolio-management-quantitative-approach-producing-superior-returns-selecting-superior-returns-controlling-risk.html",
+    "https://www.penguinrandomhouse.com/books/350647/technical-analysis-of-the-financial-markets-by-john-j-murphy/",
+    "https://www.sciencedirect.com/science/article/pii/S0957417420309556",
+    "https://www.wiley.com/en-us/-p-9780470128015"
+  ],
+  "retrievals": [
+    {
+      "id": "xiong2025quantagent",
+      "url": "https://arxiv.org/abs/2509.09995",
+      "retrieved_at_utc": "2026-11-04T08:35:23.597570+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2509.09995",
+      "downloaded_sha256": "60148abb7e1898b87e509c8a819d812cdd10faa544f198b7b998980fa8eaaa86",
+      "metadata": {
+        "og:title": [
+          "QuantHarness: Price-Driven Multi-Agent LLMs for High-Frequency Trading"
+        ],
+        "citation_title": [
+          "QuantHarness: Price-Driven Multi-Agent LLMs for High-Frequency Trading"
+        ],
+        "citation_author": [
+          "Xiong, Fei",
+          "Zhang, Xiang",
+          "Feng, Aosong",
+          "Sun, Siqi",
+          "You, Chenyu"
+        ],
+        "citation_date": [
+          "2025/09/12"
+        ],
+        "citation_online_date": [
+          "2026/07/27"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2509.09995"
+        ],
+        "citation_arxiv_id": [
+          "2509.09995"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "kakushadze2016formulaic",
+      "url": "https://arxiv.org/abs/1601.00991",
+      "retrieved_at_utc": "2026-11-04T08:35:23.598265+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1601.00991",
+      "downloaded_sha256": "9898fdc73e5fb85c15a0a2b2d741531aa32235cfe0ab8789cc41e4111463a427",
+      "metadata": {
+        "og:title": [
+          "101 Formulaic Alphas"
+        ],
+        "citation_title": [
+          "101 Formulaic Alphas"
+        ],
+        "citation_author": [
+          "Kakushadze, Zura"
+        ],
+        "citation_date": [
+          "2016/01/05"
+        ],
+        "citation_online_date": [
+          "2016/03/18"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/1601.00991"
+        ],
+        "citation_arxiv_id": [
+          "1601.00991"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "nguyen2023visobert",
+      "url": "https://arxiv.org/abs/2310.11166",
+      "retrieved_at_utc": "2026-11-04T08:35:23.598588+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2310.11166",
+      "downloaded_sha256": "335a74ef6add280840827cfac497cb19d13d34aae1d5549e5d98f1522ee93450",
+      "metadata": {
+        "og:title": [
+          "ViSoBERT: A Pre-Trained Language Model for Vietnamese Social Media Text Processing"
+        ],
+        "citation_title": [
+          "ViSoBERT: A Pre-Trained Language Model for Vietnamese Social Media Text Processing"
+        ],
+        "citation_author": [
+          "Nguyen, Quoc-Nam",
+          "Phan, Thang Chau",
+          "Nguyen, Duc-Vu",
+          "Van Nguyen, Kiet"
+        ],
+        "citation_date": [
+          "2023/10/17"
+        ],
+        "citation_online_date": [
+          "2023/10/28"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2310.11166"
+        ],
+        "citation_arxiv_id": [
+          "2310.11166"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "yang2023fingpt",
+      "url": "https://arxiv.org/abs/2306.06031",
+      "retrieved_at_utc": "2026-11-04T08:35:23.598981+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2306.06031",
+      "downloaded_sha256": "c732c424e482a3695f1442d0620746639d784f4105ae53febd0979b9ba432907",
+      "metadata": {
+        "og:title": [
+          "FinGPT: Open-Source Financial Large Language Models"
+        ],
+        "citation_title": [
+          "FinGPT: Open-Source Financial Large Language Models"
+        ],
+        "citation_author": [
+          "Yang, Hongyang",
+          "Liu, Xiao-Yang",
+          "Wang, Christina Dan"
+        ],
+        "citation_date": [
+          "2023/06/09"
+        ],
+        "citation_online_date": [
+          "2025/11/15"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2306.06031"
+        ],
+        "citation_arxiv_id": [
+          "2306.06031"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "wu2023bloomberggpt",
+      "url": "https://arxiv.org/abs/2303.17564",
+      "retrieved_at_utc": "2026-11-04T08:35:23.866161+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2303.17564",
+      "downloaded_sha256": "0e443766a062b9467d0213f829cf70dce5564f19a8544d7466be0d706bbf797f",
+      "metadata": {
+        "og:title": [
+          "BloombergGPT: A Large Language Model for Finance"
+        ],
+        "citation_title": [
+          "BloombergGPT: A Large Language Model for Finance"
+        ],
+        "citation_author": [
+          "Wu, Shijie",
+          "Irsoy, Ozan",
+          "Lu, Steven",
+          "Dabravolski, Vadim",
+          "Dredze, Mark",
+          "Gehrmann, Sebastian",
+          "Kambadur, Prabhanjan",
+          "Rosenberg, David",
+          "Mann, Gideon"
+        ],
+        "citation_date": [
+          "2023/03/30"
+        ],
+        "citation_online_date": [
+          "2023/12/21"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2303.17564"
+        ],
+        "citation_arxiv_id": [
+          "2303.17564"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "tradingagents2024",
+      "url": "https://arxiv.org/abs/2412.20138",
+      "retrieved_at_utc": "2026-11-04T08:35:23.867962+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2412.20138",
+      "downloaded_sha256": "775d6129b8322930bdea6ae8deeb9baa18ee1720d48d2b9d62abf02215b08ecc",
+      "metadata": {
+        "og:title": [
+          "TradingAgents: Multi-Agents LLM Financial Trading Framework"
+        ],
+        "citation_title": [
+          "TradingAgents: Multi-Agents LLM Financial Trading Framework"
+        ],
+        "citation_author": [
+          "Xiao, Yijia",
+          "Sun, Edward",
+          "Luo, Di",
+          "Wang, Wei"
+        ],
+        "citation_date": [
+          "2024/12/28"
+        ],
+        "citation_online_date": [
+          "2025/06/03"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2412.20138"
+        ],
+        "citation_arxiv_id": [
+          "2412.20138"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "han2023chartllama",
+      "url": "https://arxiv.org/abs/2311.16483",
+      "retrieved_at_utc": "2026-11-04T08:35:23.868191+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2311.16483",
+      "downloaded_sha256": "b8c2d8a7f9d461f9ef1ae02b9d2539693cd5c895bb7fc50a8a1166a55e54d475",
+      "metadata": {
+        "og:title": [
+          "ChartLlama: A Multimodal LLM for Chart Understanding and Generation"
+        ],
+        "citation_title": [
+          "ChartLlama: A Multimodal LLM for Chart Understanding and Generation"
+        ],
+        "citation_author": [
+          "Han, Yucheng",
+          "Zhang, Chi",
+          "Chen, Xin",
+          "Yang, Xu",
+          "Wang, Zhibin",
+          "Yu, Gang",
+          "Fu, Bin",
+          "Zhang, Hanwang"
+        ],
+        "citation_date": [
+          "2023/11/27"
+        ],
+        "citation_online_date": [
+          "2023/11/27"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2311.16483"
+        ],
+        "citation_arxiv_id": [
+          "2311.16483"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "tsantekidis2017candlestick",
+      "url": "https://doi.org/10.1109/CBI.2017.23",
+      "retrieved_at_utc": "2026-11-04T08:35:24.025288+00:00",
+      "http_status": 202,
+      "resolved_url": "https://ieeexplore.ieee.org/document/8010701/",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "deng2016rltrading",
+      "url": "https://doi.org/10.1109/TNNLS.2016.2522401",
+      "retrieved_at_utc": "2026-11-04T08:35:24.106799+00:00",
+      "http_status": 202,
+      "resolved_url": "https://ieeexplore.ieee.org/document/7407387/",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "lo2000technical",
+      "url": "https://doi.org/10.1111/0022-1082.00265",
+      "retrieved_at_utc": "2026-11-04T08:35:24.107133+00:00",
+      "http_status": 403,
+      "resolved_url": "https://onlinelibrary.wiley.com/doi/10.1111/0022-1082.00265",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "jegadeesh1993momentum",
+      "url": "https://doi.org/10.1111/j.1540-6261.1993.tb04702.x",
+      "retrieved_at_utc": "2026-11-04T08:35:24.109111+00:00",
+      "http_status": 403,
+      "resolved_url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1993.tb04702.x",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "fama1992crosssection",
+      "url": "https://doi.org/10.1111/j.1540-6261.1992.tb04398.x",
+      "retrieved_at_utc": "2026-11-04T08:35:24.303080+00:00",
+      "http_status": 403,
+      "resolved_url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1992.tb04398.x",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "kang2021singleasset",
+      "url": "https://doi.org/10.1016/j.eswa.2020.114236",
+      "retrieved_at_utc": "2026-11-04T08:35:24.354014+00:00",
+      "http_status": 200,
+      "resolved_url": "https://linkinghub.elsevier.com/retrieve/pii/S0957417420309556",
+      "downloaded_sha256": "c8911c9bf6a55a1284db00f5a3fdc4730d7e469586889f1d61b4d9f6944b30ad",
+      "metadata": {},
+      "html_title": "Redirecting",
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "novy2016alpha",
+      "url": "https://doi.org/10.3905/jpm.2017.44.1.015",
+      "retrieved_at_utc": "2026-11-04T08:35:24.466254+00:00",
+      "http_status": 403,
+      "resolved_url": "http://pm-research.com/lookup/doi/10.3905/jpm.2017.44.1.015",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "tetlock2007news",
+      "url": "https://doi.org/10.1111/j.1540-6261.2007.01232.x",
+      "retrieved_at_utc": "2026-11-04T08:35:24.469591+00:00",
+      "http_status": 403,
+      "resolved_url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "araci2019finbert",
+      "url": "https://arxiv.org/abs/1908.10063",
+      "retrieved_at_utc": "2026-11-04T08:35:24.651187+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1908.10063",
+      "downloaded_sha256": "c2c70c79b1f99c4fac22a97ac158069124ae8c3dc4b9f040c57018ebcdb74855",
+      "metadata": {
+        "og:title": [
+          "FinBERT: Financial Sentiment Analysis with Pre-trained Language Models"
+        ],
+        "citation_title": [
+          "FinBERT: Financial Sentiment Analysis with Pre-trained Language Models"
+        ],
+        "citation_author": [
+          "Araci, Dogu"
+        ],
+        "citation_date": [
+          "2019/08/27"
+        ],
+        "citation_online_date": [
+          "2019/08/27"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/1908.10063"
+        ],
+        "citation_arxiv_id": [
+          "1908.10063"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "vo2019efficiency",
+      "url": "https://doi.org/10.3390/jrfm12020100",
+      "retrieved_at_utc": "2026-11-04T08:35:24.753434+00:00",
+      "http_status": 403,
+      "resolved_url": "https://www.mdpi.com/1911-8074/12/2/100",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "pham2021herding",
+      "url": "https://doi.org/10.13106/jafeb.2021.vol8.no3.0045",
+      "retrieved_at_utc": "2026-11-04T08:35:24.810254+00:00",
+      "http_status": 404,
+      "resolved_url": "https://doi.org/10.13106/jafeb.2021.vol8.no3.0045",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "truong2020technical",
+      "url": "https://doi.org/10.21511/imfi.17(4).2020.02",
+      "retrieved_at_utc": "2026-11-04T08:35:24.841115+00:00",
+      "http_status": 403,
+      "resolved_url": "https://businessperspectives.org/journals/investment-management-and-financial-innovations/issue-366/cash-level-and-corporate-performance-evidence-from-the-gulf-cooperation-council-countries",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "qwen3",
+      "url": "https://arxiv.org/abs/2505.09388",
+      "retrieved_at_utc": "2026-11-04T08:35:25.096299+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2505.09388",
+      "downloaded_sha256": "2d65e4e15e6de89bd7eca7329348dd74ec866b1c344e3a5246b16ba91292e86a",
+      "metadata": {
+        "og:title": [
+          "Qwen3 Technical Report"
+        ],
+        "citation_title": [
+          "Qwen3 Technical Report"
+        ],
+        "citation_author": [
+          "Yang, An",
+          "Li, Anfeng",
+          "Yang, Baosong",
+          "Zhang, Beichen",
+          "Hui, Binyuan",
+          "Zheng, Bo",
+          "Yu, Bowen",
+          "Gao, Chang",
+          "Huang, Chengen",
+          "Lv, Chenxu",
+          "Zheng, Chujie",
+          "Liu, Dayiheng",
+          "Zhou, Fan",
+          "Huang, Fei",
+          "Hu, Feng",
+          "Ge, Hao",
+          "Wei, Haoran",
+          "Lin, Huan",
+          "Tang, Jialong",
+          "Yang, Jian",
+          "Tu, Jianhong",
+          "Zhang, Jianwei",
+          "Yang, Jianxin",
+          "Yang, Jiaxi",
+          "Zhou, Jing",
+          "Zhou, Jingren",
+          "Lin, Junyang",
+          "Dang, Kai",
+          "Bao, Keqin",
+          "Yang, Kexin",
+          "Yu, Le",
+          "Deng, Lianghao",
+          "Li, Mei",
+          "Xue, Mingfeng",
+          "Li, Mingze",
+          "Zhang, Pei",
+          "Wang, Peng",
+          "Zhu, Qin",
+          "Men, Rui",
+          "Gao, Ruize",
+          "Liu, Shixuan",
+          "Luo, Shuang",
+          "Li, Tianhao",
+          "Tang, Tianyi",
+          "Yin, Wenbiao",
+          "Ren, Xingzhang",
+          "Wang, Xinyu",
+          "Zhang, Xinyu",
+          "Ren, Xuancheng",
+          "Fan, Yang",
+          "Su, Yang",
+          "Zhang, Yichang",
+          "Zhang, Yinger",
+          "Wan, Yu",
+          "Liu, Yuqiong",
+          "Wang, Zekun",
+          "Cui, Zeyu",
+          "Zhang, Zhenru",
+          "Zhou, Zhipeng",
+          "Qiu, Zihan"
+        ],
+        "citation_date": [
+          "2025/05/14"
+        ],
+        "citation_online_date": [
+          "2025/05/14"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2505.09388"
+        ],
+        "citation_arxiv_id": [
+          "2505.09388"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "fatemi2024finvision",
+      "url": "https://arxiv.org/abs/2411.08899",
+      "retrieved_at_utc": "2026-11-04T08:35:25.232086+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2411.08899",
+      "downloaded_sha256": "66d9725318a3105190b40371a04dc72c3c3b978549e408cb71a6054f6b196add",
+      "metadata": {
+        "og:title": [
+          "FinVision: A Multi-Agent Framework for Stock Market Prediction"
+        ],
+        "citation_title": [
+          "FinVision: A Multi-Agent Framework for Stock Market Prediction"
+        ],
+        "citation_author": [
+          "Fatemi, Sorouralsadat",
+          "Hu, Yuheng"
+        ],
+        "citation_doi": [
+          "10.1145/3677052.3698688"
+        ],
+        "citation_date": [
+          "2024/10/29"
+        ],
+        "citation_online_date": [
+          "2024/10/29"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2411.08899"
+        ],
+        "citation_arxiv_id": [
+          "2411.08899"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "xia2026agentictrading",
+      "url": "https://arxiv.org/abs/2605.19337",
+      "retrieved_at_utc": "2026-11-04T08:35:25.300537+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2605.19337",
+      "downloaded_sha256": "a0628d6bc64f8e0cbde19eff03790ea14fb97e976430ccc9d7fe2fd23256e663",
+      "metadata": {
+        "og:title": [
+          "Agentic Trading: When LLM Agents Meet Financial Markets"
+        ],
+        "citation_title": [
+          "Agentic Trading: When LLM Agents Meet Financial Markets"
+        ],
+        "citation_author": [
+          "Xia, Yihan",
+          "You, Panpan",
+          "Wang, Taotao",
+          "Liu, Fang",
+          "Qi, Han",
+          "Wu, Xiaoxiao",
+          "Zhang, Shengli"
+        ],
+        "citation_date": [
+          "2026/05/19"
+        ],
+        "citation_online_date": [
+          "2026/10/04"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2605.19337"
+        ],
+        "citation_arxiv_id": [
+          "2605.19337"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "zhang2026predictionarena",
+      "url": "https://arxiv.org/abs/2604.07355",
+      "retrieved_at_utc": "2026-11-04T08:35:25.348557+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2604.07355",
+      "downloaded_sha256": "a5ec1b177e5568131bfe3a7e335783c87f21e07e3308815d0b9979312e37dc4a",
+      "metadata": {
+        "og:title": [
+          "Prediction Arena: Benchmarking AI Models on Real-World Prediction Markets"
+        ],
+        "citation_title": [
+          "Prediction Arena: Benchmarking AI Models on Real-World Prediction Markets"
+        ],
+        "citation_author": [
+          "Zhang, Jaden",
+          "Liu, Gardenia",
+          "Johansson, Oliver",
+          "Yitayew, Hileamlak",
+          "Ohly, Kamryn",
+          "Li, Grace"
+        ],
+        "citation_date": [
+          "2026/03/28"
+        ],
+        "citation_online_date": [
+          "2026/03/28"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2604.07355"
+        ],
+        "citation_arxiv_id": [
+          "2604.07355"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "arora2026predictionmarketbench",
+      "url": "https://arxiv.org/abs/2602.00133",
+      "retrieved_at_utc": "2026-11-04T08:35:25.452500+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2602.00133",
+      "downloaded_sha256": "2c6b948d62851b7fca8b7d143626cb5ac1441df1447064bccf912d0444c10e3b",
+      "metadata": {
+        "og:title": [
+          "PredictionMarketBench: A SWE-bench-Style Framework for Backtesting Trading Agents on Prediction Markets"
+        ],
+        "citation_title": [
+          "PredictionMarketBench: A SWE-bench-Style Framework for Backtesting Trading Agents on Prediction Markets"
+        ],
+        "citation_author": [
+          "Arora, Avi",
+          "Malpani, Ritesh"
+        ],
+        "citation_date": [
+          "2026/01/28"
+        ],
+        "citation_online_date": [
+          "2026/01/28"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2602.00133"
+        ],
+        "citation_arxiv_id": [
+          "2602.00133"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "zeng2025futurexadvancedlivebenchmark",
+      "url": "https://arxiv.org/abs/2508.11987",
+      "retrieved_at_utc": "2026-11-04T08:35:25.519839+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2508.11987",
+      "downloaded_sha256": "7d1f52b12a67701314cd59406e508ae20a478c187d93fa86b8efb95dd372cdfa",
+      "metadata": {
+        "og:title": [
+          "FutureX: An Advanced Live Benchmark for LLM Agents in Future Prediction"
+        ],
+        "citation_title": [
+          "FutureX: An Advanced Live Benchmark for LLM Agents in Future Prediction"
+        ],
+        "citation_author": [
+          "Zeng, Zhiyuan",
+          "Liu, Jiashuo",
+          "Chen, Siyuan",
+          "He, Tianci",
+          "Liao, Yali",
+          "Tian, Yixiao",
+          "Wang, Jinpeng",
+          "Wang, Zaiyuan",
+          "Yang, Yang",
+          "Yin, Lingyue",
+          "Yin, Mingren",
+          "Zhu, Zhenwei",
+          "Cai, Tianle",
+          "Chen, Zehui",
+          "Chen, Jiecao",
+          "Du, Yantao",
+          "Gao, Xiang",
+          "Guo, Jiacheng",
+          "Hu, Liang",
+          "Jiao, Jianpeng",
+          "Li, Xiangsheng",
+          "Liu, Jingkai",
+          "Ni, Shuang",
+          "Wen, Zhoufutu",
+          "Zhang, Ge",
+          "Zhang, Kaiyuan",
+          "Zhou, Xin",
+          "Blanchet, Jose",
+          "Qiu, Xipeng",
+          "Wang, Mengdi",
+          "Huang, Wenhao"
+        ],
+        "citation_date": [
+          "2025/08/16"
+        ],
+        "citation_online_date": [
+          "2025/09/05"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2508.11987"
+        ],
+        "citation_arxiv_id": [
+          "2508.11987"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "openai2025gptoss",
+      "url": "https://arxiv.org/abs/2508.10925",
+      "retrieved_at_utc": "2026-11-04T08:35:25.567064+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2508.10925",
+      "downloaded_sha256": "af7f731e7712981d71beeecf3c702241735b4ed7ea9b47ef182ca06399585d15",
+      "metadata": {
+        "og:title": [
+          "gpt-oss-120b & gpt-oss-20b Model Card"
+        ],
+        "citation_title": [
+          "gpt-oss-120b & gpt-oss-20b Model Card"
+        ],
+        "citation_date": [
+          "2025/08/08"
+        ],
+        "citation_online_date": [
+          "2025/08/08"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2508.10925"
+        ],
+        "citation_arxiv_id": [
+          "2508.10925"
+        ]
+      },
+      "parser_warning": "Danh sách author HTML dài và tách sai; không dùng làm proposed authors. Xem attribution có kiểm trong reference_audit.json.",
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "harvey2016",
+      "url": "https://doi.org/10.1093/rfs/hhv059",
+      "retrieved_at_utc": "2026-11-04T08:35:25.688009+00:00",
+      "http_status": 403,
+      "resolved_url": "https://academic.oup.com/rfs/article-lookup/doi/10.1093/rfs/hhv059",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "bailey2014deflated",
+      "url": "https://doi.org/10.3905/jpm.2014.40.5.094",
+      "retrieved_at_utc": "2026-11-04T08:35:25.737449+00:00",
+      "http_status": 403,
+      "resolved_url": "http://pm-research.com/lookup/doi/10.3905/jpm.2014.40.5.094",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "varma2006bias",
+      "url": "https://doi.org/10.1186/1471-2105-7-91",
+      "retrieved_at_utc": "2026-11-04T08:35:25.819169+00:00",
+      "http_status": 200,
+      "resolved_url": "https://link.springer.com/article/10.1186/1471-2105-7-91",
+      "downloaded_sha256": "ecc060854cfaad72ce044eb7e3902f5edbf4efbb746c8363f9c96eb720644673",
+      "metadata": {
+        "dc.title": [
+          "Bias in error estimation when using cross-validation for model selection"
+        ],
+        "dc.date": [
+          "2006-02-23"
+        ],
+        "citation_pdf_url": [
+          "https://link.springer.com/content/pdf/10.1186/1471-2105-7-91.pdf"
+        ],
+        "citation_fulltext_html_url": [
+          "https://link.springer.com/article/10.1186/1471-2105-7-91"
+        ],
+        "citation_journal_title": [
+          "BMC Bioinformatics"
+        ],
+        "citation_journal_abbrev": [
+          "BMC Bioinformatics"
+        ],
+        "citation_publisher": [
+          "BioMed Central"
+        ],
+        "citation_issn": [
+          "1471-2105"
+        ],
+        "citation_title": [
+          "Bias in error estimation when using cross-validation for model selection"
+        ],
+        "citation_volume": [
+          "7"
+        ],
+        "citation_issue": [
+          "1"
+        ],
+        "citation_publication_date": [
+          "2006/12"
+        ],
+        "citation_online_date": [
+          "2006/02/23"
+        ],
+        "citation_firstpage": [
+          "91"
+        ],
+        "citation_article_type": [
+          "Research article"
+        ],
+        "citation_language": [
+          "en"
+        ],
+        "dc.identifier": [
+          "doi:10.1186/1471-2105-7-91"
+        ],
+        "citation_doi": [
+          "10.1186/1471-2105-7-91"
+        ],
+        "citation_springer_api_url": [
+          "http://api.springer.com/xmldata/jats?q=doi:10.1186/1471-2105-7-91&api_key="
+        ],
+        "dc.creator": [
+          "Varma, Sudhir",
+          "Simon, Richard"
+        ],
+        "citation_reference": [
+          "citation_journal_title=John Wiley and Sons Inc; citation_title=Pattern classification; citation_author=RO Duda, PE Hart, DG Stork; citation_volume=Ch.9; citation_publication_date=2001; citation_pages=483-486; citation_id=CR1",
+          "citation_journal_title=J Natl Cancer Inst; citation_title=Pitfalls in the use of DNA microarray data for diagnostic and prognostic classification; citation_author=R Simon, MD Radmacher, K Dobbin, LM McShane; citation_volume=95; citation_publication_date=2003; citation_pages=14-18; citation_doi=10.1093/jnci/95.1.14; citation_id=CR2",
+          "Ambroise C, McLachlan GJ: Selection bias in gene extraction on the basis of microarray gene-expression data. PNAS 99(10):6562–6566. 2002 May 14 2002 May 14 10.1073/pnas.102102699",
+          "citation_journal_title=J Machine Learning Research; citation_title=Overfitting in making comparisons between variable selection methods; citation_author=J Reunanen; citation_volume=3; citation_publication_date=2003; citation_pages=1371-1382; citation_id=CR4",
+          "Tibshirani R, Hastie T, Narasimhan B, Chu G: Diagnosis of multiple cancer types by shrunken centroids of gene expression. PNAS 99(10):6567–6572. 2002 May 14 2002 May 14 10.1073/pnas.082099299",
+          "Peng S, Xu Q, Ling XB, Peng X, Du W, Chen L: Molecular classification of cancer types from microarray data using the combination of genetic algorithms and support vector machines. FEBS Lett 555(2):358–362. 2003 Dec 4 2003 Dec 4 10.1016/S0014-5793(03)01275-4",
+          "citation_journal_title=Lancet; citation_title=Oligonucleotide microarray for prediction of early intrahepatic recurrence of hepatocellular carcinoma after curative resection; citation_author=N Izuka, M Oka, H Yamada-Okabe, M Nishida, Y Maeda, N Mori, T Takao, T Tamesa, A Tangoku, H Tabushi, K Hamada, H Nakayama, H Ishitsuka, T Miyamoto, A Hirabayashi, S Uchimura, Y Hamamoto; citation_volume=361; citation_publication_date=2003; citation_pages=923-929; citation_doi=10.1016/S0140-6736(03)12775-4; citation_id=CR7",
+          "citation_inbook_title=Statistical learning theory; citation_publication_date=1998; citation_id=CR8; citation_author=VN Vapnik; citation_publisher=John Wiley and Sons",
+          "Chang C-C, Lin C-H: LIBSVM – A Library for Support Vector Machines.[\n                  http://www.csie.ntu.edu.tw/~cjlin/libsvm/\n                  \n                ]",
+          "citation_journal_title=J Am Stat Assoc; citation_title=Improvements on cross-validation: The .632+ bootstrap method; citation_author=B Efron, RJ Tibshirani; citation_volume=92; citation_publication_date=1997; citation_pages=548-560; citation_id=CR10",
+          "citation_journal_title=Bioinformatics; citation_title=Estimating misclassification error with small samples via bootstrap cross-validation; citation_author=WJ Fu, RJ Carroll, S Wang; citation_volume=21; citation_issue=9; citation_publication_date=2005; citation_pages=1979-1986; citation_doi=10.1093/bioinformatics/bti294; citation_id=CR11",
+          "citation_journal_title=Bioinformatics; citation_title=Prediction error estimation: a comparison of resampling methods; citation_author=AM Molinaro, R Simon, RM Pfeiffer; citation_volume=21; citation_issue=15; citation_publication_date=2005; citation_pages=3301-7; citation_doi=10.1093/bioinformatics/bti499; citation_id=CR12"
+        ],
+        "citation_author": [
+          "Varma, Sudhir",
+          "Simon, Richard"
+        ],
+        "citation_author_email": [
+          "varmas@mail.nih.gov",
+          "rsimon@mail.nih.gov"
+        ],
+        "citation_author_institution": [
+          "Biometric Research Branch, National Cancer Institute, Bethesda, USA",
+          "Biometric Research Branch, National Cancer Institute, Bethesda, USA"
+        ],
+        "citation_cover_date": [
+          "2006/12/01"
+        ],
+        "og:title": [
+          "Bias in error estimation when using cross-validation for model selection - BMC Bioinformatics"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "shu2026finchart",
+      "url": "https://aclanthology.org/2026.acl-long.615/",
+      "retrieved_at_utc": "2026-11-04T08:35:26.001718+00:00",
+      "http_status": 200,
+      "resolved_url": "https://aclanthology.org/2026.acl-long.615/",
+      "downloaded_sha256": "d85e18818464c4f5db7cb867abd2a3e516be2b27eb19a076a3e94d44494ac1c8",
+      "metadata": {
+        "citation_title": [
+          "FinChart-Bench: Benchmarking Financial Chart Comprehension in Vision-Language Models"
+        ],
+        "citation_author": [
+          "Dong Shu",
+          "Haoyang Yuan",
+          "Yuchen Wang",
+          "Yanguang Liu",
+          "Huopu Zhang",
+          "Mengnan Du"
+        ],
+        "citation_conference_title": [
+          "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+        ],
+        "citation_publication_date": [
+          "2026/7"
+        ],
+        "citation_pdf_url": [
+          "https://aclanthology.org/2026.acl-long.615.pdf"
+        ],
+        "citation_firstpage": [
+          "13447"
+        ],
+        "citation_lastpage": [
+          "13466"
+        ],
+        "citation_doi": [
+          "10.18653/v1/2026.acl-long.615"
+        ],
+        "og:title": [
+          "FinChart-Bench: Benchmarking Financial Chart Comprehension in Vision-Language Models"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "wang2026martingale",
+      "url": "https://arxiv.org/abs/2606.17423",
+      "retrieved_at_utc": "2026-11-04T08:35:26.053219+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2606.17423",
+      "downloaded_sha256": "5f946cc928db18303737756d06813156554969eee0b4dcd8b11b37beb2ba1d30",
+      "metadata": {
+        "og:title": [
+          "Martingale Doppelgänger-Eval: An Identification Framework for Auditing Candlestick Understanding in Vision-Language Models"
+        ],
+        "citation_title": [
+          "Martingale Doppelg\\\"anger-Eval: An Identification Framework for Auditing Candlestick Understanding in Vision-Language Models"
+        ],
+        "citation_author": [
+          "Wang, Ziyao"
+        ],
+        "citation_date": [
+          "2026/06/16"
+        ],
+        "citation_online_date": [
+          "2026/06/16"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2606.17423"
+        ],
+        "citation_arxiv_id": [
+          "2606.17423"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "quantagent_v3",
+      "url": "https://arxiv.org/abs/2509.09995v3",
+      "retrieved_at_utc": "2026-11-04T08:42:07.305923+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2509.09995v3",
+      "downloaded_sha256": "8e5e7077ef7a6af19c9432bc6562e05f8b10818bd7efc77f3a9ab7debc796403",
+      "metadata": {
+        "og:title": [
+          "QuantAgent: Price-Driven Multi-Agent LLMs for High-Frequency Trading"
+        ],
+        "citation_title": [
+          "QuantAgent: Price-Driven Multi-Agent LLMs for High-Frequency Trading"
+        ],
+        "citation_author": [
+          "Xiong, Fei",
+          "Zhang, Xiang",
+          "Feng, Aosong",
+          "Sun, Siqi",
+          "You, Chenyu"
+        ],
+        "citation_date": [
+          "2025/09/12"
+        ],
+        "citation_online_date": [
+          "2025/09/27"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2509.09995"
+        ],
+        "citation_arxiv_id": [
+          "2509.09995"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "fingpt_v1",
+      "url": "https://arxiv.org/abs/2306.06031v1",
+      "retrieved_at_utc": "2026-11-04T08:42:07.306283+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2306.06031v1",
+      "downloaded_sha256": "516607385eea99af65d5fcb2aae2eee51534503168e4afbf743f087004df47d8",
+      "metadata": {
+        "og:title": [
+          "FinGPT: Open-Source Financial Large Language Models"
+        ],
+        "citation_title": [
+          "FinGPT: Open-Source Financial Large Language Models"
+        ],
+        "citation_author": [
+          "Yang, Hongyang",
+          "Liu, Xiao-Yang",
+          "Wang, Christina Dan"
+        ],
+        "citation_date": [
+          "2023/06/09"
+        ],
+        "citation_online_date": [
+          "2023/06/09"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/2306.06031"
+        ],
+        "citation_arxiv_id": [
+          "2306.06031"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "alpha101_v3",
+      "url": "https://arxiv.org/abs/1601.00991v3",
+      "retrieved_at_utc": "2026-11-04T08:42:07.306773+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1601.00991v3",
+      "downloaded_sha256": "1fec487ef80c0dd2231e336f94dfdcb524a8cfd5bba0b343fc6b2aec786b4980",
+      "metadata": {
+        "og:title": [
+          "101 Formulaic Alphas"
+        ],
+        "citation_title": [
+          "101 Formulaic Alphas"
+        ],
+        "citation_author": [
+          "Kakushadze, Zura"
+        ],
+        "citation_date": [
+          "2016/01/05"
+        ],
+        "citation_online_date": [
+          "2016/03/18"
+        ],
+        "citation_pdf_url": [
+          "https://arxiv.org/pdf/1601.00991"
+        ],
+        "citation_arxiv_id": [
+          "1601.00991"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "visobert_acl",
+      "url": "https://aclanthology.org/2023.emnlp-main.315/",
+      "retrieved_at_utc": "2026-11-04T08:42:07.307023+00:00",
+      "http_status": 200,
+      "resolved_url": "https://aclanthology.org/2023.emnlp-main.315/",
+      "downloaded_sha256": "329f254e90f420b6de793a68116acda419287a2a56b5b351fd52609c37728dd9",
+      "metadata": {
+        "citation_title": [
+          "ViSoBERT: A Pre-Trained Language Model for Vietnamese Social Media Text Processing"
+        ],
+        "citation_author": [
+          "Nam Nguyen",
+          "Thang Phan",
+          "Duc-Vu Nguyen",
+          "Kiet Van Nguyen"
+        ],
+        "citation_conference_title": [
+          "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing"
+        ],
+        "citation_publication_date": [
+          "2023/12"
+        ],
+        "citation_pdf_url": [
+          "https://aclanthology.org/2023.emnlp-main.315.pdf"
+        ],
+        "citation_firstpage": [
+          "5191"
+        ],
+        "citation_lastpage": [
+          "5207"
+        ],
+        "citation_doi": [
+          "10.18653/v1/2023.emnlp-main.315"
+        ],
+        "og:title": [
+          "ViSoBERT: A Pre-Trained Language Model for Vietnamese Social Media Text Processing"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "singleasset_doi_publisher",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0957417420309556",
+      "retrieved_at_utc": "2026-11-04T08:42:07.496927+00:00",
+      "http_status": 403,
+      "resolved_url": "https://www.sciencedirect.com/science/article/abs/pii/S0957417420309556",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "vo_doi_publisher",
+      "url": "https://www.mdpi.com/1911-8074/12/2/100",
+      "retrieved_at_utc": "2026-11-04T08:42:07.497570+00:00",
+      "http_status": 403,
+      "resolved_url": "https://www.mdpi.com/1911-8074/12/2/100",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "truong_doi_publisher",
+      "url": "https://businessperspectives.org/publishing-policies2/cash-level-and-corporate-performance-evidence-from-the-gulf-cooperation-council-countries",
+      "retrieved_at_utc": "2026-11-04T08:42:07.568619+00:00",
+      "http_status": 403,
+      "resolved_url": "https://businessperspectives.org/publishing-policies2/cash-level-and-corporate-performance-evidence-from-the-gulf-cooperation-council-countries",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "appel_publisher",
+      "url": "https://www.informit.com/store/technical-analysis-power-tools-for-active-investors-9780131479029",
+      "retrieved_at_utc": "2026-11-04T08:42:07.710325+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.informit.com/store/technical-analysis-power-tools-for-active-investors-9780131479029",
+      "downloaded_sha256": "06b4e89618c5e39e9414e8650ea17c832933854f7fb4c7cfc307ff464da67f28",
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "murphy_publisher",
+      "url": "https://www.penguinrandomhouse.com/books/350647/technical-analysis-of-the-financial-markets-by-john-j-murphy/",
+      "retrieved_at_utc": "2026-11-04T08:42:07.750270+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.penguinrandomhouse.com/books/350647/technical-analysis-of-the-financial-markets-by-john-j-murphy/",
+      "downloaded_sha256": "c7a0a531f7ddd9ba45a90a79014a6bc265f18365455cd8a9f5346bb91fbad6c3",
+      "metadata": {
+        "og:title": [
+          "Technical Analysis of the Financial Markets by John J. Murphy: 9780735200661 | PenguinRandomHouse.com: Books"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "grinold_publisher",
+      "url": "https://www.mheducation.com/highered/mhp/product/active-portfolio-management-quantitative-approach-producing-superior-returns-selecting-superior-returns-controlling-risk.html",
+      "retrieved_at_utc": "2026-11-04T08:42:08.362459+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.mheducation.com/highered/mhp/product/active-portfolio-management-quantitative-approach-producing-superior-returns-selecting-superior-returns-controlling-risk.html",
+      "downloaded_sha256": "2d9adea39fd8efbc6b2548e1b030de229b5de962c9589d081ca755d23d83510e",
+      "metadata": {
+        "og:title": [
+          "Active Portfolio Management: A Quantitative Approach for Producing Superior Returns and Selecting Superior Returns and Controlling Risk"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "pardo_publisher",
+      "url": "https://www.wiley.com/en-us/-p-9780470128015",
+      "retrieved_at_utc": "2026-11-04T08:42:08.647889+00:00",
+      "http_status": 403,
+      "resolved_url": "https://www.wiley.com/en-us/-p-9780470128015",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "williams_catalog",
+      "url": "https://books.wiley.com/series/wiley_trading/stocks/",
+      "retrieved_at_utc": "2026-11-04T08:42:08.768453+00:00",
+      "http_status": 200,
+      "resolved_url": "https://books.wiley.com/series/wiley_trading/stocks/",
+      "downloaded_sha256": "eadc486a56954e2ed0d1a3a5a67f032fe1628b9b44ec250829b5a8b0d78cb134",
+      "metadata": {},
+      "html_title": "Stocks",
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "lane_archive",
+      "url": "https://technical.traders.com/archive/display2.asp?mo=MAY&yr=1984",
+      "retrieved_at_utc": "2026-11-04T08:42:09.075699+00:00",
+      "http_status": 403,
+      "resolved_url": "https://technical.traders.com/archive/display2.asp?mo=MAY&yr=1984",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "white2000",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00152",
+      "retrieved_at_utc": "2026-11-04T08:42:09.304540+00:00",
+      "http_status": 403,
+      "resolved_url": "https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00152",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "white2000_issue",
+      "url": "https://onlinelibrary.wiley.com/toc/14680262/2000/68/5",
+      "retrieved_at_utc": "2026-11-04T08:42:09.306663+00:00",
+      "http_status": 403,
+      "resolved_url": "https://onlinelibrary.wiley.com/toc/14680262/2000/68/5",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "herd_vietnam_author",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2772455",
+      "retrieved_at_utc": "2026-11-04T08:42:09.372311+00:00",
+      "http_status": null,
+      "downloaded_sha256": null,
+      "access_error": "ConnectionError",
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "herd_vietnam_repository",
+      "url": "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+      "retrieved_at_utc": "2026-11-04T08:42:09.479599+00:00",
+      "http_status": 200,
+      "resolved_url": "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+      "downloaded_sha256": "126a4dd15a77763665e6771168700ffead64b6c82c18787e0ae921ebadf18b79",
+      "metadata": {
+        "dc.creator": [
+          "Võ Xuân Vinh",
+          "Bao Anh Phan Dang"
+        ],
+        "dc.identifier": [
+          "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2772455",
+          "http://digital.lib.ueh.edu.vn/handle/UEH/56589"
+        ],
+        "dc.title": [
+          "Herd behavior in emerging equity markets: evidence from Vietnam"
+        ],
+        "citation_title": [
+          "Herd behavior in emerging equity markets: evidence from Vietnam"
+        ],
+        "citation_language": [
+          "eng"
+        ],
+        "citation_author": [
+          "Võ Xuân Vinh",
+          "Bao Anh Phan Dang"
+        ],
+        "citation_date": [
+          "2016"
+        ],
+        "citation_abstract_html_url": [
+          "https://digital.lib.ueh.edu.vn/handle/UEH/56589"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "herd_vietnam_publisher",
+      "url": "https://www.degruyterbrill.com/document/doi/10.1515/ajle-2016-0020/html",
+      "retrieved_at_utc": "2026-11-04T08:42:09.491812+00:00",
+      "http_status": 202,
+      "resolved_url": "https://www.degruyterbrill.com/document/doi/10.1515/ajle-2016-0020/html",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "talib_rsi",
+      "url": "https://ta-lib.github.io/ta-doc/indicator/RSI.htm",
+      "retrieved_at_utc": "2026-11-04T08:42:09.535249+00:00",
+      "http_status": 200,
+      "resolved_url": "https://ta-lib.github.io/ta-doc/indicator/RSI.htm",
+      "downloaded_sha256": "6ae57c72344fd7e2dc581c6184e5e21accff78936fc982a8a3b2d8ea9c3c5581",
+      "metadata": {},
+      "html_title": "TADOC - Technical Analysis Documentation",
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "talib_willr",
+      "url": "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm",
+      "retrieved_at_utc": "2026-11-04T08:42:09.705535+00:00",
+      "http_status": 200,
+      "resolved_url": "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm",
+      "downloaded_sha256": "4c7bb06faaf9e9adbcbbd3e310554af4e5e2bc657905421810ebe4e73ce87c51",
+      "metadata": {},
+      "html_title": "TADOC - Technical Analysis Documentation",
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "wei_neurips",
+      "url": "https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract.html",
+      "retrieved_at_utc": "2026-11-04T08:42:09.816332+00:00",
+      "http_status": 200,
+      "resolved_url": "https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract.html",
+      "downloaded_sha256": "5712f570939ae222b2d294bbb890baae7772b73a36e78fca77c040ee0cfe8cb6",
+      "metadata": {
+        "citation_title": [
+          "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
+        ],
+        "citation_author": [
+          "Wei, Jason",
+          "Wang, Xuezhi",
+          "Schuurmans, Dale",
+          "Bosma, Maarten",
+          "ichter, brian",
+          "Xia, Fei",
+          "Chi, Ed",
+          "Le, Quoc V",
+          "Zhou, Denny"
+        ],
+        "citation_journal_title": [
+          "Advances in Neural Information Processing Systems"
+        ],
+        "citation_volume": [
+          "35"
+        ],
+        "citation_doi": [
+          "10.52202/068431-1800"
+        ],
+        "citation_firstpage": [
+          "24824"
+        ],
+        "citation_lastpage": [
+          "24837"
+        ],
+        "citation_pdf_url": [
+          "https://proceedings.neurips.cc/paper_files/paper/2022/file/9d5609613524ecf4f15af0f7b31abca4-Paper-Conference.pdf"
+        ],
+        "citation_publication_date": [
+          "2022-12-06"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "langgraph_docs",
+      "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "retrieved_at_utc": "2026-11-04T08:42:09.978530+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.langchain.com/oss/python/langgraph/overview",
+      "downloaded_sha256": "3084fef04cdf2997f8d8de8496afbebc06834b6caeaa5879971dd9087d396477",
+      "metadata": {
+        "og:title": [
+          "LangGraph overview - Docs by LangChain"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "hf_sentiment_card",
+      "url": "https://huggingface.co/5CD-AI/Vietnamese-Sentiment-visobert",
+      "retrieved_at_utc": "2026-11-04T08:42:10.132441+00:00",
+      "http_status": 200,
+      "resolved_url": "https://huggingface.co/5CD-AI/Vietnamese-Sentiment-visobert",
+      "downloaded_sha256": "f92fa6952a5d25e29aa97ab2b31257727eb737c4eb55f6e9671ad26bb102dc30",
+      "metadata": {
+        "og:title": [
+          "5CD-AI/Vietnamese-Sentiment-visobert · Hugging Face"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "sharpe_author",
+      "url": "https://web.stanford.edu/~wfsharpe/art/art.htm",
+      "retrieved_at_utc": "2026-11-04T08:42:10.259541+00:00",
+      "http_status": 200,
+      "resolved_url": "https://web.stanford.edu/~wfsharpe/art/art.htm",
+      "downloaded_sha256": "9e2a4feec111ba01a30fef1163bcf78c7af1651210300525c34bc31a54b5d872",
+      "metadata": {},
+      "html_title": "Articles and Papers",
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "hurst_author",
+      "url": "https://www.aqr.com/insights/research/journal-article/a-century-of-evidence-on-trend-following-investing",
+      "retrieved_at_utc": "2026-11-04T08:42:10.540888+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.aqr.com/insights/research/journal-article/a-century-of-evidence-on-trend-following-investing",
+      "downloaded_sha256": "f47998f3ff8f8cdd39689371123fc3df1732aca1e936f192ec855bee7555bce7",
+      "metadata": {
+        "og:title": [
+          "A Century of Evidence on Trend-Following Investing"
+        ]
+      },
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "harvey_publisher",
+      "url": "https://academic.oup.com/rfs/article-abstract/29/1/5/1843824",
+      "retrieved_at_utc": "2026-11-04T08:42:11.568167+00:00",
+      "http_status": 403,
+      "resolved_url": "https://academic.oup.com/rfs/article-abstract/29/1/5/1843824",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "tsantekidis_publisher",
+      "url": "https://ieeexplore.ieee.org/abstract/document/8010701/metrics",
+      "retrieved_at_utc": "2026-11-04T08:42:11.695446+00:00",
+      "http_status": 420,
+      "resolved_url": "https://ieeexplore.ieee.org/abstract/document/8010701/metrics",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "deng_publisher",
+      "url": "https://ieeexplore.ieee.org/abstract/document/7407387",
+      "retrieved_at_utc": "2026-11-04T08:42:11.744692+00:00",
+      "http_status": 420,
+      "resolved_url": "https://ieeexplore.ieee.org/abstract/document/7407387",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    },
+    {
+      "id": "bailey_publisher",
+      "url": "https://doi.org/10.3905%2Fjpm.2014.40.5.094",
+      "retrieved_at_utc": "2026-11-04T08:42:11.780989+00:00",
+      "http_status": 403,
+      "resolved_url": "http://pm-research.com/lookup/doi/10.3905/jpm.2014.40.5.094",
+      "downloaded_sha256": null,
+      "metadata": {},
+      "evidence_kind": "public_html_retrieval",
+      "interpretation": "HTTP status/hash là dấu vết truy cập, không tự chứng minh metadata; HTTP200 có thể là challenge. Đối chiếu primary indexed/page content được ghi theo từng entry.",
+      "raw_html_archived_in_release": false
+    }
+  ],
+  "primary_observations": [
+    {
+      "key": "xiong2025quantagent",
+      "primary_urls": [
+        "https://arxiv.org/abs/2509.09995v3"
+      ],
+      "status": "verified_version_specific",
+      "observation": "URL không version hiện là QuantHarness/v4 (2026); tên QuantAgent và năm 2025 phải khóa v3, nhất quán comparator T16.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "kakushadze2016formulaic",
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/abs/10.1002/wilm.10525",
+        "https://arxiv.org/abs/1601.00991v3"
+      ],
+      "status": "verified_with_source_discrepancy",
+      "observation": "Entry có nhưng thiếu cite tại câu 101 Alphas. Publisher ghi 72–81, arXiv journal-ref v3 ghi 72–80; ưu tiên pagination publisher, không sửa PDF nguồn.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "nguyen2023visobert",
+      "primary_urls": [
+        "https://aclanthology.org/2023.emnlp-main.315/",
+        "https://arxiv.org/abs/2310.11166v2"
+      ],
+      "status": "verified",
+      "observation": "Thiếu cite; dùng bản EMNLP chính thức, bốn tác giả đầy đủ theo PDF/arXiv; author index ACL rút gọn một số tên.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "yang2023fingpt",
+      "primary_urls": [
+        "https://arxiv.org/abs/2306.06031v1"
+      ],
+      "status": "verified",
+      "observation": "Bài có đúng ba tác giả, bỏ and others; pin v1 năm 2023 thay URL hiện có revision 2025.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "wu2023bloomberggpt",
+      "primary_urls": [
+        "https://arxiv.org/abs/2303.17564v3"
+      ],
+      "status": "verified",
+      "observation": "Title/year/author attribution hợp lệ; hoàn thiện chín tác giả và version để truy vết.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "tradingagents2024",
+      "primary_urls": [
+        "https://arxiv.org/abs/2412.20138v7"
+      ],
+      "status": "verified",
+      "observation": "Tauric Research là tổ chức/repository, không phải danh sách tác giả paper. First posting 28/12/2024, reviewed revision v7 03/06/2025.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "han2023chartllama",
+      "primary_urls": [
+        "https://arxiv.org/abs/2311.16483v1"
+      ],
+      "status": "verified",
+      "observation": "Metadata preprint hợp lệ; pin version 1.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "tsantekidis2017candlestick",
+      "primary_urls": [
+        "https://ieeexplore.ieee.org/abstract/document/8010701/metrics"
+      ],
+      "status": "verified",
+      "observation": "Đầu vào là limit order book, không phải nhận diện nến; sửa loại entry từ article sang inproceedings và tên key tránh diễn giải sai.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "deng2016rltrading",
+      "primary_urls": [
+        "https://ieeexplore.ieee.org/abstract/document/7407387"
+      ],
+      "status": "verified",
+      "observation": "Volume 28(3), 653–664 thuộc March 2017; early access 15/02/2016 giải thích DOI có 2016, không dùng suffix DOI thay năm issue.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "lo2000technical",
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/0022-1082.00265"
+      ],
+      "status": "verified",
+      "observation": "Metadata issue 2000 đúng; platform online date 2002 không thay năm issue.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "jegadeesh1993momentum",
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "status": "verified",
+      "observation": "Title/authors/issue/pages/DOI khớp publisher.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "fama1992crosssection",
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1992.tb04398.x"
+      ],
+      "status": "verified",
+      "observation": "Title/authors/issue/pages/DOI khớp publisher.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "kang2021singleasset",
+      "primary_urls": [
+        "https://www.sciencedirect.com/science/article/pii/S0957417420309556"
+      ],
+      "status": "doi_mismatch",
+      "observation": "DOI trỏ bài meta-evaluation of science/technology project reviewers, khác title/authors/chủ đề gán trong BibTeX.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "novy2016alpha",
+      "primary_urls": [
+        "https://www.aqr.com/insights/research/journal-article/a-century-of-evidence-on-trend-following-investing"
+      ],
+      "status": "verified",
+      "observation": "Metadata Hurst/Ooi/Pedersen 2017 đúng nhưng key novy2016alpha gợi sai tác giả/năm.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "tetlock2007news",
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x"
+      ],
+      "status": "verified",
+      "observation": "Metadata khớp publisher, June 2007.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "araci2019finbert",
+      "primary_urls": [
+        "https://arxiv.org/abs/1908.10063v1"
+      ],
+      "status": "verified",
+      "observation": "Preprint/MSc thesis 2019 hợp lệ; không biến thành journal publication.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "vo2019efficiency",
+      "primary_urls": [
+        "https://www.mdpi.com/1911-8074/12/2/100"
+      ],
+      "status": "doi_mismatch",
+      "observation": "DOI trỏ nghiên cứu financial structure/misery index/growth ở Pakistan, không phải weak-form efficiency Việt Nam.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "pham2021herding",
+      "primary_urls": [
+        "https://doi.org/10.13106/jafeb.2021.vol8.no3.0045",
+        "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2772455"
+      ],
+      "status": "unverified",
+      "observation": "DOI hiện trả 404; chưa xác minh được tổ hợp title/authors/year/journal gốc. Không suy một bài chắc chắn không tồn tại chỉ từ 404.",
+      "limits": "Không xác nhận journal DOI 10.1515/ajle-2016-0020: publisher response 202 không có metadata; đề xuất dùng institutional conference/preprint record đã đọc.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "truong2020technical",
+      "primary_urls": [
+        "https://businessperspectives.org/publishing-policies2/cash-level-and-corporate-performance-evidence-from-the-gulf-cooperation-council-countries"
+      ],
+      "status": "doi_mismatch",
+      "observation": "DOI trỏ bài cash level/corporate performance tại GCC, không phải technical trading Việt Nam.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "wilder1978new",
+      "primary_urls": [
+        "https://ta-lib.github.io/ta-doc/indicator/RSI.htm"
+      ],
+      "status": "partially_verified",
+      "observation": "TA-Lib RSI docs xác nhận tên sách/tác giả/Trend Research/ISBN 0894590278, nhưng chưa đọc title page/ấn bản gốc để khóa năm 1978.",
+      "limits": "Chưa xác minh độc lập publication year/edition gốc; lựa chọn mặc định là thay nguồn implementation, không yêu cầu API hay sách có phí.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "appel2005technical",
+      "primary_urls": [
+        "https://www.informit.com/store/technical-analysis-power-tools-for-active-investors-9780131479029"
+      ],
+      "status": "verified",
+      "observation": "Publisher xác nhận Gerald Appel, title, 1st edition, 21/03/2005; thêm ISBN, publisher theo catalogue FT Press.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "murphy1999technical",
+      "primary_urls": [
+        "https://www.penguinrandomhouse.com/books/350647/technical-analysis-of-the-financial-markets-by-john-j-murphy/"
+      ],
+      "status": "verified_catalogue_edition",
+      "observation": "Catalogue publisher xác nhận 01/01/1999 và ISBN 9780735200661; imprint hiện là Prentice Hall Press, không coi imprint New York Institute of Finance gốc là giả.",
+      "limits": "Chưa đối chiếu title page của bản tác giả sở hữu; proposal chọn bản catalogue đã có ISBN, không trộn edition.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "lane1984stochastic",
+      "primary_urls": [
+        "https://technical.traders.com/archive/display2.asp?mo=MAY&yr=1984",
+        "https://traders.com/documentation/feedbk_docs/2004/04/Charting/charting.html"
+      ],
+      "status": "verified_archive_partial_pagination",
+      "observation": "Archive tháng 5/1984 của publisher ghi Lane’s Stochastics, George C. Lane, M.D.; title gốc Lane’s Stochastic Oscillator không khớp.",
+      "limits": "Volume và pages unknown; archive xác nhận title/author/month/year, không thay thế việc đọc toàn văn.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "williams1973trading",
+      "primary_urls": [
+        "https://books.wiley.com/series/wiley_trading/stocks/",
+        "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm"
+      ],
+      "status": "unverified_original_edition",
+      "observation": "Chưa xác minh title/year 1973. Wiley có Trade Stocks and Commodities with the Insiders: Secrets of the COT Report (2005), khác tựa/năm và không chứng minh Williams %R.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "grinold1999active",
+      "primary_urls": [
+        "https://www.mheducation.com/highered/mhp/product/active-portfolio-management-quantitative-approach-producing-superior-returns-selecting-superior-returns-controlling-risk.html"
+      ],
+      "status": "verified_catalogue_edition",
+      "observation": "Publisher ghi 2nd edition, publication 26/10/1999 và copyright 2000; hai mốc khác nhau. Dùng short title vì catalogue có subtitle lặp.",
+      "limits": "Chưa có page locator cho exact Spearman definition; ISBN đề xuất thuộc eBook catalogue, không gán cho print copy chưa kiểm.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "sharpe1966mutual",
+      "primary_urls": [
+        "https://web.stanford.edu/~wfsharpe/art/art.htm"
+      ],
+      "status": "verified",
+      "observation": "Author bibliography xác nhận January 1966, Journal of Business 39(1),119–138; không thêm DOI chưa kiểm từ primary page.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "pardo2008evaluation",
+      "primary_urls": [
+        "https://www.wiley.com/en-us/-p-9780470128015"
+      ],
+      "status": "verified_catalogue_edition",
+      "observation": "Publisher xác nhận 2nd edition February 2008, ISBN 9780470128015; ebook/O-Book có năm khác không trộn.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "wei2022chain",
+      "primary_urls": [
+        "https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract.html"
+      ],
+      "status": "verified",
+      "observation": "Nâng entry proceedings đầy đủ chín tác giả, gồm Brian Ichter; volume 35 của NeurIPS 2022.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "langgraph2024",
+      "primary_urls": [
+        "https://docs.langchain.com/oss/python/langgraph/overview"
+      ],
+      "status": "verified_documentation_date_unknown",
+      "observation": "Thay commercial landing bằng official overview; publication year 2024 chưa xác minh, key không phải bằng chứng năm.",
+      "limits": "Publication year unknown; dùng n.d./access date khi render, không suy từ copyright hoặc tên key.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "qwen3",
+      "primary_urls": [
+        "https://arxiv.org/abs/2505.09388v1"
+      ],
+      "status": "verified_work_model_mapping_unverified",
+      "observation": "Technical report Qwen3 tồn tại nhưng không được cite; không xác nhận alias vision qwen/qwen3.8-27b trong frozen run.",
+      "limits": "Không gọi provider/model/quota API; exact alias-to-weights mapping vẫn unknown.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "fatemi2024finvision",
+      "primary_urls": [
+        "https://arxiv.org/abs/2411.08899v1"
+      ],
+      "status": "verified_preprint",
+      "observation": "Metadata preprint hợp lệ; pin v1. ArXiv ghi accepted ICAIF 2024 và related DOI, nhưng chưa kiểm ACM proceedings fields nên không tự thêm pages.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "xia2026agentictrading",
+      "primary_urls": [
+        "https://arxiv.org/abs/2605.19337v2"
+      ],
+      "status": "verified",
+      "observation": "Bảy tác giả/title khớp; reviewed version v2 ngày 04/10/2026.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "zhang2026predictionarena",
+      "primary_urls": [
+        "https://arxiv.org/abs/2604.07355v1"
+      ],
+      "status": "verified",
+      "observation": "Sáu tác giả/title/năm khớp; v1 ngày 28/03/2026, không suy ngày từ tháng arXiv ID.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "arora2026predictionmarketbench",
+      "primary_urls": [
+        "https://arxiv.org/abs/2602.00133v1"
+      ],
+      "status": "verified",
+      "observation": "Hai tác giả/title/năm khớp; v1 ngày 28/01/2026.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "zeng2025futurexadvancedlivebenchmark",
+      "primary_urls": [
+        "https://arxiv.org/abs/2508.11987v3"
+      ],
+      "status": "verified",
+      "observation": "Danh sách gốc có 30 tác giả, thiếu Yixiao Tian sau Yali Liao; metadata v3 có 31 tác giả.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "openai2025gptoss",
+      "primary_urls": [
+        "https://arxiv.org/abs/2508.10925v1"
+      ],
+      "status": "verified_model_card",
+      "observation": "Entry model card tồn tại nhưng chưa cite; bảo vệ corporate author OpenAI. HTML citation_author bị tách sai một số tên, không tự chuyển nguyên metadata parser thành authors.",
+      "limits": "Card không chứng nhận backend/weights/epoch của hosted calls; giữ provenance limits T04/T22.",
+      "verified_as_full_text": false
+    },
+    {
+      "key": "harvey2016",
+      "primary_urls": [
+        "https://academic.oup.com/rfs/article-abstract/29/1/5/1843824"
+      ],
+      "status": "verified",
+      "observation": "Issue January 2016; online 09/10/2015 không thay năm issue. DOI/title/authors/pages khớp.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "bailey2014deflated",
+      "primary_urls": [
+        "https://doi.org/10.3905%2Fjpm.2014.40.5.094",
+        "https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf"
+      ],
+      "status": "verified",
+      "observation": "Title/authors/DOI/JPM40(5)94–107/2014 khớp publisher/author manuscript.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "varma2006bias",
+      "primary_urls": [
+        "https://link.springer.com/article/10.1186/1471-2105-7-91"
+      ],
+      "status": "verified",
+      "observation": "BMC Bioinformatics 7 article 91, 23/02/2006; metadata khớp.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "shu2026finchart",
+      "primary_urls": [
+        "https://aclanthology.org/2026.acl-long.615/"
+      ],
+      "status": "verified",
+      "observation": "ACL Anthology 2026.acl-long.615 xác nhận sáu tác giả, title, pages13447–13466 và DOI.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "wang2026martingale",
+      "primary_urls": [
+        "https://arxiv.org/abs/2606.17423v1"
+      ],
+      "status": "verified_preprint",
+      "observation": "Ziyao Wang, preprint v1 ngày 16/06/2026, title đúng.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "white2000reality",
+      "primary_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/1468-0262.00152",
+        "https://onlinelibrary.wiley.com/toc/14680262/2000/68/5"
+      ],
+      "status": "verified_proposed_source_with_stated_date_limits",
+      "observation": "Thêm cite ngay White’s Reality Check; issue September 2000, không dùng platform date December 2003. Phương pháp chưa chạy trong study, chỉ định hướng future work.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "hf5cdsentiment",
+      "primary_urls": [
+        "https://huggingface.co/5CD-AI/Vietnamese-Sentiment-visobert"
+      ],
+      "status": "verified_proposed_source_with_stated_date_limits",
+      "observation": "Nguồn classifier fine-tuned riêng, không thay paper gốc ViSoBERT; card nêu comments/reviews/social data, không chứng nhận Vietnamese financial-news validation. Publication year và historical revision unknown.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "talib_rsi_docs",
+      "primary_urls": [
+        "https://ta-lib.github.io/ta-doc/indicator/RSI.htm"
+      ],
+      "status": "verified_proposed_source_with_stated_date_limits",
+      "observation": "Official implementation documentation thay edition sách chưa khóa. Last updated 22/03/2008 không tự coi là publication year; threshold rules riêng theo T20.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "talib_willr_docs",
+      "primary_urls": [
+        "https://ta-lib.github.io/ta-doc/indicator/WILLR.htm"
+      ],
+      "status": "verified_proposed_source_with_stated_date_limits",
+      "observation": "Official implementation documentation thay nguồn title/year không xác minh; không thay bằng sách COT 2005 khác chủ đề. Escape percent nếu chuyển sang BibTeX/TeX.",
+      "limits": null,
+      "verified_as_full_text": false
+    },
+    {
+      "key": "vo2016herdvietnam",
+      "primary_urls": [
+        "https://digital.lib.ueh.edu.vn/handle/UEH/56589",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2772455"
+      ],
+      "status": "verified_proposed_source_with_stated_date_limits",
+      "observation": "Nguồn thay là bài khác, không metadata correction của Pham. UEH ghi issue date2016 và Conference Papers, liên kết author SSRN (first posted29/04/2016, revised13/02/2017). Chưa khóa journal DOI/issue nên không thêm journal fields.",
+      "limits": null,
+      "verified_as_full_text": false
+    }
+  ]
+}
