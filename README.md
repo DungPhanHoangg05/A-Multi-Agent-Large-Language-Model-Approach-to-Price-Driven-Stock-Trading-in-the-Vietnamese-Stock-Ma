@@ -16,6 +16,12 @@ The forecast label and the economic simulation are intentionally separate. A `LO
 - OHLCV consistency guards for chart-pattern and trend reports.
 - A deterministic offline end-to-end regression test that does not require API credentials.
 
+## Upstream attribution
+
+This repository adapts [QuantAgent, now maintained as QuantHarness](https://github.com/Y-Research-SBU/QuantHarness), by Y-Research @SBU. Its indicator, pattern, trend and decision agents, chart-analysis tools, LangGraph structure and parts of the web interface form the upstream foundation. Vietnamese-market data and sentiment, alpha integration, execution accounting and the paired research workflow extend that foundation. Vision-language chart analysis and multi-agent orchestration are inherited capabilities.
+
+See [Third-party notices](THIRD_PARTY_NOTICES.md) and the preserved [MIT license and copyright notice](LICENSES/QuantAgent-MIT.txt). The source comparison is pinned to upstream commit `92519f806286192345e940e7ab77496462d662b7`; the exact upstream commit originally adopted by this project was not recorded. These notices do not assign a blanket license to project additions, datasets or model weights.
+
 ## Requirements
 
 - Windows with the Python launcher (`py`) for the commands below.
