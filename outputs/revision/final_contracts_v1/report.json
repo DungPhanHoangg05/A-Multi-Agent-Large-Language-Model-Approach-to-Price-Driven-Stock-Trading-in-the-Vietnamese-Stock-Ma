@@ -1,0 +1,165 @@
+{
+  "annualisation_historical_receipt": {
+    "current_hash_matches": 548,
+    "current_risk_ast_unchanged": [
+      {
+        "ast_sha256": "780c351bab815071ba996193a7a551c8c61e07b3598620cfe627da06d0fee961",
+        "equal": true,
+        "function": "compute_variant",
+        "path": "core/backtest_engine.py"
+      },
+      {
+        "ast_sha256": "836fcdd8ba01c9c5efc82264ce9346d69f9ea10d55fee89fdead2e6e83c08b65",
+        "equal": true,
+        "function": "_compute_partial",
+        "path": "core/backtest_engine.py"
+      },
+      {
+        "ast_sha256": "3a1a9233bcad38864af9ce856f53b5dad200dcd460f12bb31c7b9654d0272a33",
+        "equal": true,
+        "function": "_build_summary",
+        "path": "core/backtest_engine.py"
+      },
+      {
+        "ast_sha256": "3dc9343112c17be5bf02a9b7a49ace5299dd091ac814e3c905103219373cf8ce",
+        "equal": true,
+        "function": "_summary_to_result",
+        "path": "core/run_robustness.py"
+      },
+      {
+        "ast_sha256": "e38e93fe686902974c262f2213077ac5e7e9f438382f8ea7f7b22fe81692f955",
+        "equal": true,
+        "function": "summarize_symbol",
+        "path": "scripts/run_ablation_matrix.py"
+      }
+    ],
+    "historical_matches": [
+      {
+        "current_sha256": "b10b4aab6402657cb370af65c9d7ca3cda9a6f328230a3cada2526c90a821d1e",
+        "disposition": "Khớp byte nguồn lịch sử từ Git; không coi receipt cũ khớp source hiện tại.",
+        "git_blob_oid": "da5919583318a8372e23268e7432c88c524669db",
+        "matching_git_commit": "5b8770f951ce6c9011eacba587cf84fbf0cb1fd3",
+        "path": "core/backtest_engine.py",
+        "receipt_sha256": "89c507b81f4a209e0b098dfc6a9769b52c05d3e808756afda17ef2ed513551d8"
+      },
+      {
+        "current_sha256": "c61ba2e5a73cd0924a16957a15d6a24a783e5133ac0f036b6c60b8209c69210d",
+        "disposition": "Khớp byte nguồn lịch sử từ Git; không coi receipt cũ khớp source hiện tại.",
+        "git_blob_oid": "f08794fce7d9982dfb426cbbf36e274a12cf3be1",
+        "matching_git_commit": "5b8770f951ce6c9011eacba587cf84fbf0cb1fd3",
+        "path": "core/run_robustness.py",
+        "receipt_sha256": "cebb17f16d1193682895d690a3a6ba7db5d50740ecdde0340f3ecbc75c56e653"
+      },
+      {
+        "current_sha256": "6cf55da71abae9d36ba3bd1b436357c5f867c34ac3a5e9823deba4ac31231378",
+        "disposition": "Khớp byte nguồn lịch sử từ Git; không coi receipt cũ khớp source hiện tại.",
+        "git_blob_oid": "888db737e56d24c303cbc659ec70cf0eaefa21ef",
+        "matching_git_commit": "5b8770f951ce6c9011eacba587cf84fbf0cb1fd3",
+        "path": "scripts/run_ablation_matrix.py",
+        "receipt_sha256": "1fc7ff4265b00c1a839bfadf2df9ddd1cec71843ceccbd742d79b9cd6a77a8a7"
+      },
+      {
+        "current_sha256": "f80ee62fd311d848ed587205cfe120b97bd3e7994a8ea035d1e4e85aee8ec9db",
+        "disposition": "Khớp byte nguồn lịch sử từ Git; không coi receipt cũ khớp source hiện tại.",
+        "git_blob_oid": "275ea164526908b2407c877df682b14bc1e62ebd",
+        "matching_git_commit": "5b8770f951ce6c9011eacba587cf84fbf0cb1fd3",
+        "path": "tests/test_ablation_matrix.py",
+        "receipt_sha256": "af56b73142d3f2fb21ee36577759a3152bb8fb624e0ca6442aa89f698c37fc68"
+      },
+      {
+        "current_sha256": "38c56e2a71a63b1729a03e56fcc9ee4a061fd82bdeb381f7832bc289ffcd7192",
+        "disposition": "Khớp byte nguồn lịch sử từ Git; không coi receipt cũ khớp source hiện tại.",
+        "git_blob_oid": "f69625c2624c1eed02d04c659a88e829cf717ec3",
+        "matching_git_commit": "5b8770f951ce6c9011eacba587cf84fbf0cb1fd3",
+        "path": "tests/test_robustness_sweep.py",
+        "receipt_sha256": "41aed7278ac6196ac1086b02b3a00fa96fa533729284df74637a185fdab4a979"
+      }
+    ],
+    "total": 553
+  },
+  "code_changed": false,
+  "cycle_frequency_status": {
+    "insufficient_schedule": 51,
+    "irregular_or_gapped_cycles": 459
+  },
+  "indicator_summary": {
+    "alpha4_disposition": "Công thức signed-volume giữ nguyên và receipt 11 prototype/3 registry fixtures còn khớp hash. Không coi selected factor id=4 là Alpha_4 BFE; id trong report là thứ tự top-5. Prototype và registry khác preprocessing, không đồng nhất giá trị hoặc gán causal effect.",
+    "n_actual_decision_requests": 375,
+    "n_model_calls": 0,
+    "n_unit_replays": 102,
+    "n_upstream_nodes": 120,
+    "retained_synthetic_fixture_counts": {
+      "alpha4_cases": 11,
+      "consensus_cases": 5,
+      "indicator_cases": 67,
+      "registry_cases": 3
+    },
+    "rule_disposition": "Năm votes; missing/error vẫn neutral trong mẫu số năm; confidence là heuristic. Chỉ so retained samples sau lọc nonfinite/round bốn chữ số, không suy liền nến khi thiếu dữ liệu. BB/ADX không thuộc năm votes; node chỉ trả report/messages.",
+    "schema_version": "final_indicator_contract_audit_v1"
+  },
+  "interpretation": "Đối soát mô tả sau inference, không portfolio/calibrated inference hoặc profitability. Annualisation 252 là quy ước phiên/năm; Sortino dùng SD population subset âm legacy, không RMS. R5 temporal/dependence còn T25; R11–R13 cần bài/response/locators hiện hành sau T30.",
+  "legacy_hash_checks": {
+    "fusion_prompt_audit_v1": 635,
+    "indicator_alpha_rules_v1": 16,
+    "target_contract_v1": 829
+  },
+  "n_main_cycle_schedules": 510,
+  "n_reference_risk_common_window_reconciled": 510,
+  "new_llm_api_jobs": 0,
+  "new_predictions": 0,
+  "parent_hashes": {
+    "T04": 3524,
+    "T18": 24,
+    "T19": 54
+  },
+  "risk_summary": {
+    "T04": {
+      "accounts": 684,
+      "daily_returns": 31977,
+      "negative_returns": 2252,
+      "sharpe_defined": 345,
+      "sortino_defined": 296,
+      "zero_return_accounts": 339
+    },
+    "T19": {
+      "accounts": 6120,
+      "daily_returns": 394560,
+      "negative_returns": 22667,
+      "sharpe_defined": 2910,
+      "sortino_defined": 2518,
+      "zero_return_accounts": 3210
+    }
+  },
+  "schema_version": "final_contracts_audit_v1",
+  "target_summary": {
+    "class_support_gross": {
+      "DOWN": 70,
+      "UP": 32
+    },
+    "class_support_net": {
+      "DOWN": 77,
+      "UP": 25
+    },
+    "legacy": {
+      "authenticated_decision_close": 0,
+      "disposition": "Giữ actual_prev_close legacy unverified; không suy decision_close hoặc entry từ alias.",
+      "n_records": 600,
+      "prev_alias_equals_entry": 178
+    },
+    "n_entry_differs_from_decision_close": 65,
+    "n_gross_net_label_disagreements": 7,
+    "n_prediction_rows": 918,
+    "n_units": 102,
+    "schema_version": "final_target_contract_audit_v1",
+    "target_costs_frozen": {
+      "fee_each_side": 0.0025,
+      "slippage_each_side": 0.001
+    }
+  },
+  "tests": {
+    "account_risk": 12,
+    "indicator_fixture_suite_rerun": false,
+    "target_contract": 11,
+    "total": 23
+  }
+}
