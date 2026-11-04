@@ -1,0 +1,3644 @@
+{
+  "abstract_words": [
+    180,
+    220
+  ],
+  "appendix_tables": [
+    {
+      "caption_en": "Indicator signal rules and missing-data conventions.",
+      "columns": [
+        "signal",
+        "priority_and_boundaries",
+        "rounding_missingness"
+      ],
+      "id": "A1",
+      "limits_vi": "Thiếu/error vẫn neutral trong denominator5; confidence heuristic.",
+      "panels": [
+        {
+          "rows": 5,
+          "signals": [
+            "MACD",
+            "RSI",
+            "Stochastic",
+            "Williams %R",
+            "ROC"
+          ]
+        }
+      ],
+      "placement": "APP_A",
+      "sources": [
+        "outputs/revision/final_contracts_v1/indicators.json"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Custom factor definitions and distinctions between registry and prototype paths.",
+      "columns": [
+        "factor_ID",
+        "native_handler_formula",
+        "prototype_difference",
+        "interpretation_limit"
+      ],
+      "id": "A2",
+      "limits_vi": "Không fullPythonlistings; signedVolZ5, normalization/sample-SD differences và metadata mismatch.",
+      "panels": [
+        {
+          "custom_factors": 5,
+          "rows": 5
+        }
+      ],
+      "placement": "APP_A",
+      "sources": [
+        "outputs/revision/alpha_registry_v1/registry.json",
+        "outputs/revision/alpha_contract_v1/cases.json",
+        "outputs/revision/final_contracts_v1/report.md"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Symbol-level Full and Base performance on the common historical support.",
+      "columns": [
+        "symbol_variant",
+        "UP_DOWN_support",
+        "accuracy",
+        "BA",
+        "MCC",
+        "UP_recall",
+        "DOWN_recall"
+      ],
+      "id": "A3",
+      "limits_vi": "All81 baseline-symbolrows còn đủ trongS1; không chỉ showmã thắng.",
+      "panels": [
+        {
+          "filters": {
+            "cohort": "all_102",
+            "dimension": "symbol",
+            "variant": [
+              "B",
+              "AS"
+            ]
+          },
+          "identity_fields": [
+            "group",
+            "variant"
+          ],
+          "rows": 18,
+          "selected_ids": [
+            {
+              "group": "BHN",
+              "variant": "AS"
+            },
+            {
+              "group": "CMG",
+              "variant": "AS"
+            },
+            {
+              "group": "FPT",
+              "variant": "AS"
+            },
+            {
+              "group": "HVN",
+              "variant": "AS"
+            },
+            {
+              "group": "MBB",
+              "variant": "AS"
+            },
+            {
+              "group": "MWG",
+              "variant": "AS"
+            },
+            {
+              "group": "VCB",
+              "variant": "AS"
+            },
+            {
+              "group": "VJC",
+              "variant": "AS"
+            },
+            {
+              "group": "VNM",
+              "variant": "AS"
+            },
+            {
+              "group": "BHN",
+              "variant": "B"
+            },
+            {
+              "group": "CMG",
+              "variant": "B"
+            },
+            {
+              "group": "FPT",
+              "variant": "B"
+            },
+            {
+              "group": "HVN",
+              "variant": "B"
+            },
+            {
+              "group": "MBB",
+              "variant": "B"
+            },
+            {
+              "group": "MWG",
+              "variant": "B"
+            },
+            {
+              "group": "VCB",
+              "variant": "B"
+            },
+            {
+              "group": "VJC",
+              "variant": "B"
+            },
+            {
+              "group": "VNM",
+              "variant": "B"
+            }
+          ],
+          "source": "outputs/revision/final_baselines_v1/classification.csv"
+        }
+      ],
+      "placement": "APP_B",
+      "sources": [
+        "outputs/revision/final_baselines_v1/classification.csv",
+        "outputs/revision/final_baselines_v1/per_class.csv"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Account sensitivity under all twelve execution scenarios.",
+      "columns": [
+        "scenario",
+        "Base_return",
+        "Full_return",
+        "Full_difference_from_reference_pp",
+        "Full_residual_stock_accounts",
+        "Full_pending_cash_accounts"
+      ],
+      "id": "A4",
+      "limits_vi": "Đủ12scenarios;51accounts/variant, không chọn favorablebounds hoặc chứngnhậnfills.",
+      "panels": [
+        {
+          "additional_variant": "B",
+          "filters": {
+            "variant": "AS"
+          },
+          "identity_fields": [
+            "scenario"
+          ],
+          "rows": 12,
+          "selected_ids": [
+            {
+              "scenario": "reference"
+            },
+            {
+              "scenario": "pending_t2"
+            },
+            {
+              "scenario": "advance_on_demand"
+            },
+            {
+              "scenario": "advance_auto"
+            },
+            {
+              "scenario": "lower_cost"
+            },
+            {
+              "scenario": "higher_cost"
+            },
+            {
+              "scenario": "sell_charge_10bp"
+            },
+            {
+              "scenario": "no_fill_proxy"
+            },
+            {
+              "scenario": "delayed_proxy"
+            },
+            {
+              "scenario": "lot100_cap1pct"
+            },
+            {
+              "scenario": "combined"
+            },
+            {
+              "scenario": "all_entries_missed"
+            }
+          ],
+          "source": "outputs/revision/execution_final_v1/scenario_summary.csv"
+        }
+      ],
+      "placement": "APP_B",
+      "sources": [
+        "outputs/revision/execution_final_v1/scenario_summary.csv",
+        "outputs/revision/execution_final_v1/report.md"
+      ],
+      "status": "selected_not_rendered"
+    }
+  ],
+  "appendix_target_pages": [
+    4,
+    6
+  ],
+  "comments_closed": 0,
+  "figures": [
+    {
+      "caption_en": "Implemented information flow and shared-report comparison. Aggregation uses prompt instructions rather than a learned fusion module.",
+      "format": "vector_native_code",
+      "id": "F1",
+      "must_not_show": [
+        "learned fusion",
+        "causal certification",
+        "guaranteed conflict resolution",
+        "fresh LLM calls in Indicator/Alpha"
+      ],
+      "must_show": [
+        "deterministic Indicator",
+        "native alpha/sentiment path",
+        "Pattern and corrected Trend",
+        "shared reports",
+        "Base omits alpha/sentiment bundle",
+        "actual Decision prompt"
+      ],
+      "placement": "SEC4",
+      "sources": [
+        "outputs/revision/fusion_prompt_audit_v1/audit.json",
+        "outputs/revision/quantagent_attribution_v1/attribution.json",
+        "outputs/revision/final_cost_integrity_v1/dependencies.csv"
+      ],
+      "status": "selected_not_drawn"
+    },
+    {
+      "caption_en": "Selected historical decision dates and eligibility across nine equities. Missing BHN cells remain excluded rather than being filled with CASH predictions.",
+      "cells": 108,
+      "colour_fields": [
+        "label_net",
+        "eligible"
+      ],
+      "display_filters": {
+        "variant": "B"
+      },
+      "display_rows": 108,
+      "eligible": 102,
+      "excluded": 6,
+      "format": "calendar_grid_from_frozen_rows",
+      "id": "F2",
+      "placement": "SEC5",
+      "prediction_used": false,
+      "selection_rule": "all12dates×9tickers; use one variant B for shared truth/eligibility only, never its prediction",
+      "source_rows": 972,
+      "sources": [
+        "outputs/revision/final_temporal_v1/calendar_panel.csv"
+      ],
+      "status": "selected_not_drawn"
+    },
+    {
+      "caption_en": "Actual Pattern and corrected Trend inputs at the first chronologically eligible main unit. Candle bodies compare Close with Open; the trend legend maps blue to support and red to resistance.",
+      "date": "2023-07-03",
+      "format": "two unmodified actual PNG panels",
+      "id": "F3",
+      "limits": "Không gọi fixture ảnh thật, không sửa/crop/recolor PNG hoặc chứng nhận VLM semantics.",
+      "panels": [
+        {
+          "field": "pattern_image",
+          "kind": "pattern",
+          "png_sha256": "6e3a15ae1ad3bd417312d97b835b3558d4bcf31dc04addbe3c518cf540720f73",
+          "processing": "extract exact bytes; TeX layout only",
+          "source": "outputs/revision/chart_r1_run_v1/shards/org1/charts/CMG_b2023_h2_872.json"
+        },
+        {
+          "field": "trend_image",
+          "kind": "trend",
+          "png_sha256": "265c73db2caba5a76a61ddae0678f6b27f33bcae0f7c45aeb1e28c0c4b36161d",
+          "processing": "extract exact bytes; TeX layout only",
+          "source": "outputs/revision/chart_r1_run_v1/shards/org1/charts/CMG_b2023_h2_872.json"
+        }
+      ],
+      "placement": "SEC4",
+      "selection_rule": "min(date,symbol,unit_id), without outcomes",
+      "sources": [
+        "outputs/revision/chart_r1_run_v1/shards/org1/charts/CMG_b2023_h2_872.json",
+        "outputs/revision/final_cost_integrity_v1/actual_images.csv"
+      ],
+      "status": "selected_not_laid_out",
+      "unit_id": "CMG_b2023_h2_872"
+    }
+  ],
+  "gate": "PASS_FOR_BOUNDED_MANUSCRIPT_WORK",
+  "gate_commit_scope": "Commit quyết định viết, không là execution/model commit.",
+  "gate_decision_commit": "938ac82c",
+  "graphical_abstract": "omit_unless_author_confirms_route_requires_it; reuse F1 if required",
+  "journal_requirements_verified": false,
+  "main_tables": [
+    {
+      "caption_en": "Evaluation scopes and prompt variants in the frozen historical study. Shared main/upstream executions are counted once.",
+      "columns": [
+        "units",
+        "symbols",
+        "dates",
+        "blocks",
+        "support",
+        "executions",
+        "unique_decisions",
+        "sections_present",
+        "prompt_family"
+      ],
+      "id": "T1",
+      "limits_vi": "Upstream54 gồm18main r0; union375. Compact main/upstream khác five-row factorial; Full−Base là bundle.",
+      "panels": [
+        {
+          "id": "A",
+          "rows": 3,
+          "scope_records": [
+            {
+              "blocks": 6,
+              "dates": 12,
+              "decisions": 204,
+              "scope": "main",
+              "support_down": 77,
+              "support_up": 25,
+              "symbols": 9,
+              "units": 102
+            },
+            {
+              "additional_decisions": 36,
+              "blocks": 3,
+              "dates": 3,
+              "decisions": 54,
+              "executions": 3,
+              "scope": "upstream",
+              "shared_main_r0_decisions": 18,
+              "support_down_per_execution": 7,
+              "support_up_per_execution": 2,
+              "symbols": 9,
+              "units": 9,
+              "variants": 2
+            },
+            {
+              "blocks": 3,
+              "dates": 4,
+              "decisions": 135,
+              "executions": 3,
+              "scope": "factorial",
+              "support_down_per_execution": 7,
+              "support_up_per_execution": 2,
+              "symbols": 8,
+              "units": 9,
+              "variants": 5
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "rows": 5,
+          "variants": [
+            "B",
+            "A",
+            "S",
+            "AS",
+            "P"
+          ]
+        }
+      ],
+      "placement": "SEC5",
+      "sources": [
+        "outputs/revision/revision_minimal_final_v1/completion.json",
+        "outputs/revision/final_repeats_v1/protocol.json",
+        "outputs/revision/final_baselines_v1/baseline_contracts.json"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Class-aware performance on the same 102 historical market units. Macro summaries weight symbols equally and retain undefined denominators.",
+      "columns": [
+        "strategy",
+        "accuracy_pct",
+        "balanced_accuracy_pct",
+        "mcc",
+        "UP_precision_pct",
+        "UP_recall_pct",
+        "DOWN_precision_pct",
+        "DOWN_recall_pct",
+        "long_rate_pct",
+        "macro_BA_and_n_defined",
+        "macro_MCC_and_n_defined"
+      ],
+      "id": "T2",
+      "limits_vi": "MCC giữ raw scale, null/NA; đủ chín classifiers, không hold. Primary support25UP77DOWN.",
+      "panels": [
+        {
+          "filters": {
+            "cohort": "all_102",
+            "dimension": "pooled",
+            "group": "all"
+          },
+          "identity_fields": [
+            "variant"
+          ],
+          "per_class_source": "outputs/revision/final_baselines_v1/per_class.csv",
+          "rows": 9,
+          "selected_ids": [
+            {
+              "variant": "AS"
+            },
+            {
+              "variant": "B"
+            },
+            {
+              "variant": "constant_down_cash"
+            },
+            {
+              "variant": "train_majority"
+            },
+            {
+              "variant": "constant_up_cycles"
+            },
+            {
+              "variant": "momentum_20"
+            },
+            {
+              "variant": "logistic_price"
+            },
+            {
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "variant": "factor_only_vote"
+            }
+          ],
+          "source": "outputs/revision/final_baselines_v1/classification.csv"
+        },
+        {
+          "additional_metric": "mcc",
+          "filters": {
+            "cohort": "all_102",
+            "metric": "balanced_accuracy"
+          },
+          "identity_fields": [
+            "variant"
+          ],
+          "rows": 9,
+          "selected_ids": [
+            {
+              "variant": "AS"
+            },
+            {
+              "variant": "B"
+            },
+            {
+              "variant": "constant_down_cash"
+            },
+            {
+              "variant": "train_majority"
+            },
+            {
+              "variant": "constant_up_cycles"
+            },
+            {
+              "variant": "momentum_20"
+            },
+            {
+              "variant": "logistic_price"
+            },
+            {
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "variant": "factor_only_vote"
+            }
+          ],
+          "source": "outputs/revision/final_baselines_v1/macro.csv"
+        }
+      ],
+      "placement": "SEC6.1",
+      "sources": [
+        "outputs/revision/final_baselines_v1/main_comparison.csv",
+        "outputs/revision/final_baselines_v1/per_class.csv",
+        "outputs/revision/final_baselines_v1/macro.csv"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Account outcomes under the fractional reference ledger. Means summarize 51 separate symbol–block accounts per strategy and do not establish executable portfolio returns.",
+      "columns": [
+        "strategy",
+        "mean_account_net_return_pct",
+        "mean_account_drawdown_pct",
+        "mean_account_held_session_fraction_pct",
+        "mean_account_order_count"
+      ],
+      "id": "T3",
+      "limits_vi": "Held fraction gồm calendar CASH gaps, khác target-session/LONG rate. Hold khác cycles; không Sharpe/Sortino trong main.",
+      "panels": [
+        {
+          "filters": {
+            "cohort": "all_102"
+          },
+          "identity_fields": [
+            "variant"
+          ],
+          "rows": 10,
+          "selected_ids": [
+            {
+              "variant": "AS"
+            },
+            {
+              "variant": "B"
+            },
+            {
+              "variant": "constant_down_cash"
+            },
+            {
+              "variant": "train_majority"
+            },
+            {
+              "variant": "constant_up_cycles"
+            },
+            {
+              "variant": "momentum_20"
+            },
+            {
+              "variant": "logistic_price"
+            },
+            {
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "variant": "factor_only_vote"
+            },
+            {
+              "variant": "continuous_hold_price_only"
+            }
+          ],
+          "source": "outputs/revision/final_baselines_v1/financial.csv"
+        }
+      ],
+      "placement": "SEC6.2",
+      "sources": [
+        "outputs/revision/final_baselines_v1/financial.csv"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Execution variability and paired contrasts on two distinct nine-unit panels. Repeated executions do not add independent market dates.",
+      "columns": [
+        "panel_variant",
+        "accuracy_mean_sd",
+        "BA_mean_sd_range",
+        "pairwise_disagreement_pct",
+        "account_return_mean_sd",
+        "contrast_BA_mean_sd_range",
+        "conditional_interval",
+        "family_envelope",
+        "finite_undefined_draws"
+      ],
+      "id": "T4",
+      "limits_vi": "Ba executions; chỉ bảy factorial contrasts, upstreamAS−B riêng. Finite6986/undefined3014 BA draws giữ nguyên; order40/cross-epoch9.",
+      "panels": [
+        {
+          "id": "A",
+          "rows": 7,
+          "selected_ids": [
+            {
+              "panel": "factorial",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "variant": "S"
+            },
+            {
+              "panel": "upstream",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "variant": "B"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "rows": 8,
+          "selected_ids": [
+            {
+              "contrast": "AS-B",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "panel": "factorial"
+            }
+          ]
+        }
+      ],
+      "placement": "SEC6.3",
+      "sources": [
+        "outputs/revision/final_repeats_v1/repeat_summary.csv",
+        "outputs/revision/final_repeats_v1/contrasts.csv",
+        "outputs/revision/final_repeats_v1/disagreement.csv",
+        "outputs/revision/final_repeats_v1/ba_family.json"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Overlapping temporal cohorts and observed trend strata. Small-block intervals and calendar-aligned HAC diagnostics are descriptive rather than calibrated significance tests.",
+      "columns": [
+        "cohort_or_stratum",
+        "N",
+        "n_dates",
+        "n_blocks",
+        "UP_DOWN_support",
+        "Full_BA",
+        "Base_BA",
+        "BA_difference_interval_if_defined",
+        "Full_Base_LONG_rates"
+      ],
+      "id": "T5",
+      "limits_vi": "HAC đo accuracy contrast; báo lags0/1/2 trong prose/S4, không gán p sang BA hoặc tự tạo regimeCI.",
+      "panels": [
+        {
+          "cohorts": [
+            "all_102",
+            "eight_symbols_six_blocks",
+            "nine_symbols_three_recent_blocks"
+          ],
+          "id": "A",
+          "rows": 3
+        },
+        {
+          "id": "B",
+          "rows": 3,
+          "strata": [
+            "bear",
+            "bull",
+            "sideways"
+          ],
+          "variants": [
+            "B",
+            "AS"
+          ]
+        }
+      ],
+      "placement": "SEC6.4",
+      "sources": [
+        "outputs/revision/final_temporal_v1/primary_dependence.json",
+        "outputs/revision/final_temporal_v1/stratified_metrics.json",
+        "outputs/revision/final_temporal_v1/panel_hac.csv"
+      ],
+      "status": "selected_not_rendered"
+    },
+    {
+      "caption_en": "Train-fit numeric selector controls using separate causal adapters. These auxiliary results neither repeat the native LLM selector experiment nor repair its row-wise causal defect.",
+      "columns": [
+        "strategy_or_contrast",
+        "BA_accuracy_MCC",
+        "n_trials",
+        "random_SD_range",
+        "BA_difference",
+        "conditional_interval",
+        "exact_p",
+        "Holm_family23_p"
+      ],
+      "id": "T6",
+      "limits_vi": "Không seed selection, không refit. Random family mean không independent strategies hoặc pooled20N; numeric ledger khác main.",
+      "panels": [
+        {
+          "id": "A",
+          "rows": 4,
+          "strategies": [
+            "fixed_custom5",
+            "dynamic_train_top5",
+            "dynamic_train_top5_no_flip",
+            "random20_family_summary"
+          ]
+        },
+        {
+          "contrasts": [
+            "dynamic_vs_fixed",
+            "dynamic_vs_random_mean",
+            "dynamic_vs_no_flip"
+          ],
+          "holm_family_size": 23,
+          "id": "B",
+          "rows": 3
+        }
+      ],
+      "placement": "SEC6.5",
+      "sources": [
+        "outputs/revision/numeric_controls_v1/summary.json",
+        "outputs/revision/numeric_controls_v1/random_dispersion.json",
+        "outputs/revision/numeric_controls_v1/inference.json",
+        "outputs/revision/alpha_selection_v1/summary.json"
+      ],
+      "status": "selected_not_rendered"
+    }
+  ],
+  "metadata_requires_author_confirmation": true,
+  "native_causal_gate": "FAIL",
+  "repository_only": [
+    "full85 registry/operators/21exclusions",
+    "all raw prompts/reports/images/responses/errors",
+    "retry/cost/checkpoint/quota logs",
+    "full state schema/code listings",
+    "tokenizer/weights/HF routing/Flask serialization/runtime",
+    "exhaustive selection/per-cutoff integrity audits"
+  ],
+  "rights_publication_status": "private companion pending rights/PID T34; reviewer source text not public by default",
+  "scientific_supplements": [
+    {
+      "content": "all classifiers by symbol and class, pooled and macro denominators",
+      "datasets": [
+        {
+          "filters": {
+            "cohort": "all_102",
+            "dimension": "symbol"
+          },
+          "identity_fields": [
+            "group",
+            "variant"
+          ],
+          "rows": 81,
+          "selected_ids": [
+            {
+              "group": "BHN",
+              "variant": "AS"
+            },
+            {
+              "group": "CMG",
+              "variant": "AS"
+            },
+            {
+              "group": "FPT",
+              "variant": "AS"
+            },
+            {
+              "group": "HVN",
+              "variant": "AS"
+            },
+            {
+              "group": "MBB",
+              "variant": "AS"
+            },
+            {
+              "group": "MWG",
+              "variant": "AS"
+            },
+            {
+              "group": "VCB",
+              "variant": "AS"
+            },
+            {
+              "group": "VJC",
+              "variant": "AS"
+            },
+            {
+              "group": "VNM",
+              "variant": "AS"
+            },
+            {
+              "group": "BHN",
+              "variant": "B"
+            },
+            {
+              "group": "CMG",
+              "variant": "B"
+            },
+            {
+              "group": "FPT",
+              "variant": "B"
+            },
+            {
+              "group": "HVN",
+              "variant": "B"
+            },
+            {
+              "group": "MBB",
+              "variant": "B"
+            },
+            {
+              "group": "MWG",
+              "variant": "B"
+            },
+            {
+              "group": "VCB",
+              "variant": "B"
+            },
+            {
+              "group": "VJC",
+              "variant": "B"
+            },
+            {
+              "group": "VNM",
+              "variant": "B"
+            },
+            {
+              "group": "BHN",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "CMG",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "FPT",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "HVN",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "MBB",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "MWG",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "VCB",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "VJC",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "VNM",
+              "variant": "constant_down_cash"
+            },
+            {
+              "group": "BHN",
+              "variant": "train_majority"
+            },
+            {
+              "group": "CMG",
+              "variant": "train_majority"
+            },
+            {
+              "group": "FPT",
+              "variant": "train_majority"
+            },
+            {
+              "group": "HVN",
+              "variant": "train_majority"
+            },
+            {
+              "group": "MBB",
+              "variant": "train_majority"
+            },
+            {
+              "group": "MWG",
+              "variant": "train_majority"
+            },
+            {
+              "group": "VCB",
+              "variant": "train_majority"
+            },
+            {
+              "group": "VJC",
+              "variant": "train_majority"
+            },
+            {
+              "group": "VNM",
+              "variant": "train_majority"
+            },
+            {
+              "group": "BHN",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "CMG",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "FPT",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "HVN",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "MBB",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "MWG",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "VCB",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "VJC",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "VNM",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "group": "BHN",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "CMG",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "FPT",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "HVN",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "MBB",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "MWG",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "VCB",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "VJC",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "VNM",
+              "variant": "momentum_20"
+            },
+            {
+              "group": "BHN",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "CMG",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "FPT",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "HVN",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "MBB",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "MWG",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "VCB",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "VJC",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "VNM",
+              "variant": "logistic_price"
+            },
+            {
+              "group": "BHN",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "CMG",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "FPT",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "HVN",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "MBB",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "MWG",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "VCB",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "VJC",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "VNM",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "group": "BHN",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "CMG",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "FPT",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "HVN",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "MBB",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "MWG",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "VCB",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "VJC",
+              "variant": "factor_only_vote"
+            },
+            {
+              "group": "VNM",
+              "variant": "factor_only_vote"
+            }
+          ],
+          "source": "outputs/revision/final_baselines_v1/classification.csv"
+        },
+        {
+          "filters": {
+            "cohort": "all_102",
+            "dimension": "symbol"
+          },
+          "identity_fields": [
+            "group",
+            "variant",
+            "class"
+          ],
+          "rows": 162,
+          "selected_ids": [
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "AS"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "AS"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "B"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "B"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "constant_down_cash"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "train_majority"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "train_majority"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "constant_up_cycles"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "momentum_20"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "logistic_price"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "logistic_matched_market_inputs"
+            },
+            {
+              "class": "UP",
+              "group": "BHN",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "BHN",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "CMG",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "CMG",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "FPT",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "FPT",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "HVN",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "HVN",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "MBB",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "MBB",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "MWG",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "MWG",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "VCB",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "VCB",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "VJC",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "VJC",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "UP",
+              "group": "VNM",
+              "variant": "factor_only_vote"
+            },
+            {
+              "class": "DOWN",
+              "group": "VNM",
+              "variant": "factor_only_vote"
+            }
+          ],
+          "source": "outputs/revision/final_baselines_v1/per_class.csv"
+        }
+      ],
+      "id": "S1"
+    },
+    {
+      "content": "all repeated executions, disagreements, contrasts and undefined draws",
+      "datasets": [
+        {
+          "filters": {},
+          "identity_fields": [
+            "panel",
+            "variant",
+            "execution"
+          ],
+          "rows": 21,
+          "selected_ids": [
+            {
+              "execution": "0",
+              "panel": "upstream",
+              "variant": "B"
+            },
+            {
+              "execution": "0",
+              "panel": "upstream",
+              "variant": "AS"
+            },
+            {
+              "execution": "1",
+              "panel": "upstream",
+              "variant": "B"
+            },
+            {
+              "execution": "1",
+              "panel": "upstream",
+              "variant": "AS"
+            },
+            {
+              "execution": "2",
+              "panel": "upstream",
+              "variant": "B"
+            },
+            {
+              "execution": "2",
+              "panel": "upstream",
+              "variant": "AS"
+            },
+            {
+              "execution": "0",
+              "panel": "factorial",
+              "variant": "B"
+            },
+            {
+              "execution": "0",
+              "panel": "factorial",
+              "variant": "A"
+            },
+            {
+              "execution": "0",
+              "panel": "factorial",
+              "variant": "S"
+            },
+            {
+              "execution": "0",
+              "panel": "factorial",
+              "variant": "AS"
+            },
+            {
+              "execution": "0",
+              "panel": "factorial",
+              "variant": "P"
+            },
+            {
+              "execution": "1",
+              "panel": "factorial",
+              "variant": "B"
+            },
+            {
+              "execution": "1",
+              "panel": "factorial",
+              "variant": "A"
+            },
+            {
+              "execution": "1",
+              "panel": "factorial",
+              "variant": "S"
+            },
+            {
+              "execution": "1",
+              "panel": "factorial",
+              "variant": "AS"
+            },
+            {
+              "execution": "1",
+              "panel": "factorial",
+              "variant": "P"
+            },
+            {
+              "execution": "2",
+              "panel": "factorial",
+              "variant": "B"
+            },
+            {
+              "execution": "2",
+              "panel": "factorial",
+              "variant": "A"
+            },
+            {
+              "execution": "2",
+              "panel": "factorial",
+              "variant": "S"
+            },
+            {
+              "execution": "2",
+              "panel": "factorial",
+              "variant": "AS"
+            },
+            {
+              "execution": "2",
+              "panel": "factorial",
+              "variant": "P"
+            }
+          ],
+          "source": "outputs/revision/final_repeats_v1/executions.csv"
+        },
+        {
+          "filters": {},
+          "identity_fields": [
+            "panel",
+            "contrast",
+            "metric"
+          ],
+          "rows": 48,
+          "selected_ids": [
+            {
+              "contrast": "AS-B",
+              "metric": "accuracy",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "mcc",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "macro_f1",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "long_rate",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "mean_account_net_return_pct",
+              "panel": "upstream"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-B",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "A-B",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-S",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "S-B",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-A",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "AS-P",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "metric": "accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "metric": "balanced_accuracy",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "metric": "mcc",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "metric": "macro_f1",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "metric": "long_rate",
+              "panel": "factorial"
+            },
+            {
+              "contrast": "interaction",
+              "metric": "mean_account_net_return_pct",
+              "panel": "factorial"
+            }
+          ],
+          "source": "outputs/revision/final_repeats_v1/contrasts.csv"
+        },
+        {
+          "filters": {},
+          "identity_fields": [
+            "panel",
+            "unit_id",
+            "variant"
+          ],
+          "rows": 63,
+          "selected_ids": [
+            {
+              "panel": "upstream",
+              "unit_id": "CMG_b2023_h2_929",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "CMG_b2023_h2_929",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "FPT_b2023_h2_929",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "FPT_b2023_h2_929",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "HVN_b2023_h2_929",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "HVN_b2023_h2_929",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "BHN_f2025_q4_817",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "BHN_f2025_q4_817",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "MBB_f2025_q4_1490",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "MBB_f2025_q4_1490",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "MWG_f2025_q4_1490",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "MWG_f2025_q4_1490",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "VCB_f2026_q3_1675",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "VCB_f2026_q3_1675",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "VJC_f2026_q3_1675",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "VJC_f2026_q3_1675",
+              "variant": "AS"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "VNM_f2026_q3_1675",
+              "variant": "B"
+            },
+            {
+              "panel": "upstream",
+              "unit_id": "VNM_f2026_q3_1675",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "BHN_f2026_q3_1002",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "BHN_f2026_q3_1002",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "BHN_f2026_q3_1002",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "BHN_f2026_q3_1002",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "BHN_f2026_q3_1002",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "FPT_f2026_q3_1675",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "FPT_f2026_q3_1675",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "FPT_f2026_q3_1675",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "FPT_f2026_q3_1675",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "FPT_f2026_q3_1675",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1556",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1556",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1556",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1556",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1556",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MBB_f2026_q2_1556",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MBB_f2026_q2_1556",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MBB_f2026_q2_1556",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MBB_f2026_q2_1556",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MBB_f2026_q2_1556",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MWG_f2026_q3_1675",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MWG_f2026_q3_1675",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MWG_f2026_q3_1675",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MWG_f2026_q3_1675",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "MWG_f2026_q3_1675",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VCB_f2026_q2_1613",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VCB_f2026_q2_1613",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VCB_f2026_q2_1613",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VCB_f2026_q2_1613",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VCB_f2026_q2_1613",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VJC_f2026_q2_1556",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VJC_f2026_q2_1556",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VJC_f2026_q2_1556",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VJC_f2026_q2_1556",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VJC_f2026_q2_1556",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VNM_f2025_q4_1490",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VNM_f2025_q4_1490",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VNM_f2025_q4_1490",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VNM_f2025_q4_1490",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "VNM_f2025_q4_1490",
+              "variant": "P"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1613",
+              "variant": "B"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1613",
+              "variant": "A"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1613",
+              "variant": "S"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1613",
+              "variant": "AS"
+            },
+            {
+              "panel": "factorial",
+              "unit_id": "HVN_f2026_q2_1613",
+              "variant": "P"
+            }
+          ],
+          "source": "outputs/revision/final_repeats_v1/disagreement.csv"
+        }
+      ],
+      "id": "S2"
+    },
+    {
+      "content": "all23 numeric strategies,20random trials,23hypothesis family; registry pointers",
+      "id": "S3",
+      "sources": [
+        "outputs/revision/numeric_controls_v1/test_metrics.json",
+        "outputs/revision/numeric_controls_v1/random_dispersion.json",
+        "outputs/revision/numeric_controls_v1/inference.json",
+        "outputs/revision/alpha_registry_v1/registry.json"
+      ]
+    },
+    {
+      "content": "complete temporal/cohort/regime/HAC/block sensitivity tables",
+      "datasets": [
+        {
+          "filters": {},
+          "identity_fields": [
+            "cohort",
+            "lag"
+          ],
+          "rows": 6,
+          "selected_ids": [
+            {
+              "cohort": "common_eight_96",
+              "lag": "0"
+            },
+            {
+              "cohort": "common_eight_96",
+              "lag": "1"
+            },
+            {
+              "cohort": "common_eight_96",
+              "lag": "2"
+            },
+            {
+              "cohort": "recent_nine_54",
+              "lag": "0"
+            },
+            {
+              "cohort": "recent_nine_54",
+              "lag": "1"
+            },
+            {
+              "cohort": "recent_nine_54",
+              "lag": "2"
+            }
+          ],
+          "source": "outputs/revision/final_temporal_v1/panel_hac.csv"
+        },
+        {
+          "filters": {},
+          "identity_fields": [
+            "cohort",
+            "contrast",
+            "metric",
+            "block_length"
+          ],
+          "rows": 144,
+          "selected_ids": [
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "all_102",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "all_102",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "all_102",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "common_eight_96",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "common_eight_96",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "common_eight_96",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "1",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "2",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-B",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-B",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_down_cash",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_down_cash",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-train_majority",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-train_majority",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-constant_up_cycles",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-momentum_20",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-momentum_20",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_price",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_price",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-logistic_matched_market_inputs",
+              "metric": "accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-factor_only_vote",
+              "metric": "balanced_accuracy"
+            },
+            {
+              "block_length": "3",
+              "cohort": "recent_nine_54",
+              "contrast": "AS-factor_only_vote",
+              "metric": "accuracy"
+            }
+          ],
+          "source": "outputs/revision/final_temporal_v1/block_sensitivity.csv"
+        }
+      ],
+      "id": "S4",
+      "sources": [
+        "outputs/revision/final_temporal_v1/stratified_metrics.json",
+        "outputs/revision/final_temporal_v1/primary_dependence.json"
+      ]
+    }
+  ],
+  "scientific_text_shared_between_entrypoints": true,
+  "sections": [
+    {
+      "heading_en": "Introduction",
+      "id": "SEC1",
+      "source": "paper/sections/01_introduction.tex",
+      "target_prose_words": 450
+    },
+    {
+      "heading_en": "Related work",
+      "id": "SEC2",
+      "source": "paper/sections/02_related_work.tex",
+      "target_prose_words": 350
+    },
+    {
+      "heading_en": "Forecasting task and signal construction",
+      "id": "SEC3",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "target_prose_words": 900
+    },
+    {
+      "heading_en": "Implemented multi-agent system",
+      "id": "SEC4",
+      "source": "paper/sections/04_system_architecture.tex",
+      "target_prose_words": 650
+    },
+    {
+      "heading_en": "Historical evaluation protocol",
+      "id": "SEC5",
+      "source": "paper/sections/05_experimental_setup.tex",
+      "target_prose_words": 900
+    },
+    {
+      "heading_en": "Results",
+      "id": "SEC6",
+      "source": "paper/sections/06_backtest_results.tex",
+      "target_prose_words": 1500
+    },
+    {
+      "heading_en": "Discussion and limitations",
+      "id": "SEC7",
+      "source": "paper/sections/07_limitations.tex",
+      "target_prose_words": 650
+    },
+    {
+      "heading_en": "Conclusion",
+      "id": "SEC8",
+      "source": "paper/sections/08_conclusion.tex",
+      "target_prose_words": 150
+    }
+  ],
+  "target_main_prose_words_including_abstract": 5750,
+  "title_en": "Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation"
+}
