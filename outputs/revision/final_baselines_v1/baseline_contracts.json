@@ -1,0 +1,12 @@
+{
+  "AS": "Full: Indicator/Pattern/Trend cộng native selected alpha và frozen sentiment context; tổng hợp ở prompt.",
+  "B": "Base: shared upstream bỏ alpha/sentiment bundle; Full−Base là bundle contrast.",
+  "constant_down_cash": "Luôn SHORT; ledger long-only là CASH. Không fit từ test labels.",
+  "constant_up_cycles": "LONG từng cycle ba bars đã đăng ký; exit và trả phí từng cycle, CASH qua gaps.",
+  "continuous_hold_price_only": "Một LONG từ entry đầu đến exit cuối của mã/block, giữ qua gaps. Không có classification prediction; total return gồm cổ tức/corporate actions chưa xác minh.",
+  "factor_only_vote": "Vote đều mọi factors cố định; medians/orientations chỉ từ train, khác native top-five và controls T13.",
+  "logistic_matched_market_inputs": "Raw OHLCV cộng selected factor numeric inputs và sentiment/missingness; không LLM/vision report embeddings. Cùng recipe validation, không chứng minh semantic-input equivalence.",
+  "logistic_price": "Chọn C/threshold bằng validation BA; final refit imputer/scaler/classifier trên purged train+validation; tái dùng predictions đã lưu.",
+  "momentum_20": "Price return 20 phiên quá khứ >0 => LONG; zero => SHORT.",
+  "train_majority": "Majority chỉ từ purged train net labels; train mean >0,5 => LONG, hòa => SHORT."
+}
