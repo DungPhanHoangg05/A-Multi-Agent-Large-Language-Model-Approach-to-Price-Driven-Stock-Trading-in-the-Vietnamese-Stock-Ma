@@ -1,15 +1,90 @@
 \FloatBarrier
 \appendix
-\setcounter{table}{0}
-\section{Signal definitions and implementation distinctions}
-\label{app:signals}
-The tables retain scientific definitions needed to interpret the implemented reports. Full Python, operator windows/guards, expression registry and complete prompts remain in the companion repository/package. Declared state slots do not imply their numerical arrays reached Decision; the actual Indicator path delivers report text and messages.
-\input{generated/a01_rules.tex}
-\input{generated/a02_custom.tex}
+\section{Agent System Prompts}
+\label{app:prompts}
+The original prompt appendix is retained as a concise description of the roles and output contracts. The summaries below are English explanations of the actual Vietnamese prompt families, not new verbatim templates or translations claimed to be identical to each archived request. Exact messages, image payloads and request metadata remain in the companion archive. The evaluated path must be distinguished from optional prompts present in general live-mode code.
+
+\subsection{Decision Agent Prompt}
+\label{app:prompt_decision}
+The prompt supplies distilled Indicator, Pattern and Trend reports with variant-enabled factor and sentiment sections. It requests comparison of trend/key levels, candles, momentum and enabled quantitative/text evidence, followed by a forced LONG/SHORT forecast for the net next-open/target-close cycle. The output contract comprises direction, horizon, confidence, risk/reward, supporting/opposing evidence and justification. General instructions remain in Base, while both factor and sentiment sections are removed. Main compact factor text and factorial five-row text are different families. Section~\ref{sec:systemarchitecture} and Figure~\ref{fig:decision_agent} describe these distinctions; the exact archived request is authoritative.
+
+\subsection{Pattern Agent Prompt}
+\label{app:prompt_pattern}
+The visual input is the archived candlestick PNG. The requested report covers pattern, confidence, directional bias, evidence, key candles and implication. The body-colour convention is green for Close greater than Open and red otherwise, including doji. This instruction and the deterministic consistency flag do not establish that the model grounded its answer in local chart evidence.
+
+\subsection{Trend Agent Prompt}
+\label{app:prompt_trend}
+The trend input is a separate PNG with support/resistance annotations. The requested report covers direction, support, resistance, line slope, price relative to support, detailed analysis, forecast and confidence. Support is blue and resistance red in the corrected input. Actual Vietnamese wording, inherited high-frequency language and unknown semantic compliance remain documented; an English summary does not remove those limitations.
+
+\subsection{Indicator Agent Prompt}
+\label{app:prompt_indicator}
+The software contains an optional LLM reporting path, but the evaluated backtest returns a deterministic report without that LLM call. The five votes, counts and heuristic confidence are generated numerically. Treating the optional prompt as an observed study request would misdescribe both the input contract and call cost. The rules used here are in \ref{app:indicator_logic}.
+
+\subsection{Sentiment LLM Prompt (Subroutine of Alpha Agent)}
+\label{app:prompt_sentiment}
+The frozen sentiment path uses saved classifier scores and aggregate/count fields. It does not establish that an LLM read a peer/article corpus in this experiment. Scorer identity, the probability-difference score, decay and unavailable peer fields are specified in Section~\ref{sec:formulation}. Optional crawler/LLM capabilities in the application are not substituted for missing frozen inputs.
+
+\subsection{Alpha Agent LLM Reasoning Prompt}
+\label{app:prompt_alpha}
+An optional live-mode reasoning prompt exists, but the frozen numerical/report path bypasses an additional Alpha reasoning call. The enabled factor rows and skill fields are delivered to Decision using the recorded family. We consequently describe an Alpha role rather than claiming a separate model interpreted every selected factor before Decision.
+
+\FloatBarrier
+\section{LangGraph State Schema}
+\label{app:state_schema}
+The declared \texttt{IndicatorAgentState} is a shared \texttt{TypedDict}; the backtest wrapper and individual nodes determine which fields are actually populated. Inputs include \texttt{kline\_data}, \texttt{time\_frame}, \texttt{stock\_name}, \texttt{is\_backtest}, \texttt{point\_in\_time\_df}, \texttt{as\_of\_date}, language and the two image payloads. Report fields are \texttt{indicator\_report}, \texttt{alpha\_report}, \texttt{pattern\_report}, \texttt{trend\_report} and \texttt{sentiment\_report}; sentiment data/normalizer fields and message history are distinct from those reports. Final output fields include \texttt{decision\_prompt} and \texttt{final\_trade\_decision}.
+
+Declared RSI/MACD/Stochastic/ROC/Williams, ATR, Bollinger and ADX/DI arrays do not imply that every array is forwarded by the deterministic backtest Indicator node or that each is a separate vote. Likewise, a sentiment schema comment does not establish that its peer or relative fields were observed. The previous state table's close-to-close log-return description is superseded by the net Open-to-Close target in Eq.~\ref{eq:netlabel}. The evaluated pair shares upstream report parents, then uses variant-specific Decision composition and separate ledgers. The full schema listing and wrapper provenance are retained in source rather than reproduced as a misleading complete runtime trace.
 
 \FloatBarrier
 \setcounter{table}{0}
-\section{Additional account and symbol results}
+\section{Custom Alpha Formula Implementation}
+\label{app:signals}
+The original custom-formula appendix is retained with native handler definitions and prototype/fallback distinctions. ``Custom'' describes their role in this implementation; it is not a validated novelty or profitability claim. The following formulas precede native global normalization and IC orientation. Handler identities are not the rank of a selected display row.
+\input{generated/a02_custom.tex}
+
+\subsection{Flow-Driven Momentum (FDM)}
+FDM multiplies volatility-adjusted one-bar return by a volume/ADV20 ratio before the scaled tanh. The return adjustment uses rolling sample SD with its implementation-specific minimum observations. It is an OHLCV proxy, not directly measured order flow.
+
+\subsection{MACD/Return Proxy (SFA)}
+The native SFA handler combines a normalized MACD histogram and adjusted return. Its name/description and the earlier MACD-Flow display template do not substitute for the handler. No sentiment variable enters this native formula; the prototype has a separate sentiment branch.
+
+\subsection{Liquidity Void Reversion (LVR)}
+LVR applies a rolling z-score to the Close--SMA5 deviation divided by Close, with a negative multiplier before tanh. Guarded denominators, rolling windows, partial samples and sample-SD conventions are retained from the implementation.
+
+\subsection{Bollinger Squeeze \& Flow (BFE)}
+BFE uses $\tanh(1.5(\%B-0.5)VolZ_5)$. Negative volume z-score reverses the sign, and zero cancels it. There is no volume-expansion or squeeze gate in this formula. Registry preprocessing uses sample SD and differs from the rounded/population-SD prototype; they are not treated as interchangeable.
+
+\subsection{Order Flow Exhaustion (OFE)}
+OFE combines adjusted return with the close location relative to the bar midpoint/range. The name does not authenticate signed trade flow. Its guarded OHLCV expression and subsequent native normalization remain part of the actual signal definition.
+
+\FloatBarrier
+\setcounter{table}{0}
+\section{Indicator Signal Classification Logic}
+\label{app:indicator_logic}
+\input{generated/a01_rules.tex}
+\subsection{MACD Classification}
+Previous strict/current inclusive line crossing is checked before histogram sign/change. Parameters are 12/26/9. A Stochastic oscillator has no MACD histogram; the two rules must not be conflated.
+\subsection{RSI Classification}
+The ordered extreme branches ($\ge70$ bearish, $\le30$ bullish) precede interior trend bands. Thus $55\le RSI<70$ is bullish and $30<RSI\le45$ bearish; the middle interval uses change against the third retained observation. This ordering resolves overlaps in the old table.
+\subsection{Stochastic Oscillator Classification}
+Crossing has priority over overbought/oversold thresholds. Legacy equality and zero-D truthiness behaviour is retained and disclosed rather than replaced retrospectively with an idealized oscillator rule.
+\subsection{Williams \%R Classification}
+Values $\ge-20$ are bearish and $\le-80$ bullish before the interior retained-sample direction rule. This is a bounded momentum indicator, not a volatility measure.
+\subsection{ROC Classification}
+After four-decimal rounding, ROC greater than $+0.5\%$ is bullish, below $-0.5\%$ bearish, and equality is neutral.
+\subsection{Consensus Rule}
+Nonfinite samples are removed while zero is retained; retained observations need not be consecutive. Missing/error votes are neutral in denominator five. Directional plurality, a mixed tie and heuristic confidence are distinct from a requirement that every directional vote have a strict majority. None is a calibrated forecast probability.
+
+\FloatBarrier
+\section{Software Dependencies and Reproducibility}
+\label{app:software}
+The research runtime is Python 3.13.5 with pinned numerical, graph, model-client and chart dependencies recorded in the reproducibility package. Indicator calculations use TA-Lib; chart images and numerical diagnostics have their own source hashes. Raw actual prompts, callback/error records, retry/checkpoint state, provider aliases and model/scorer assets are retained separately from scientific companion tables. Local saved-prediction replay reproduces metric calculations, not newly served model outputs or historical news availability.
+
+The operational installation, Flask/JSON handling, tokenizer configuration and optional endpoint routing instructions remain in the repository. Their existence does not establish that each backend was used in the frozen study. Public distribution remains conditional on rights and a real persistent identifier. No credentials or private review document belong in a public reproducibility package.
+
+\FloatBarrier
+\setcounter{table}{0}
+\section{Additional Account and Symbol Results}
 \label{app:additional}
 These tables use the same final supports and unchanged predictions as the main results. Supplement S1 gives every baseline by symbol and both classes; S2 contains all execution rows/contrasts; S3 the complete numeric/random family; S4 all temporal/regime/HAC diagnostics. They are scientific companion tables, distinct from raw execution logs and implementation files. No additional market observation is created by these alternative tabulations.
 \input{generated/a03_symbols.tex}

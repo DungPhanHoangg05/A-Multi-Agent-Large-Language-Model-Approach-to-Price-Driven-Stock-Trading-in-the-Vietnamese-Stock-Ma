@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,
+ box/.style={draw=blue!55!black,fill=blue!4,rounded corners,align=center,text width=4.1cm,minimum height=1.5cm,font=\footnotesize},arr/.style={->,thick}]
+\draw[->,thick] (-0.3,0)--(14.5,0);
+\node[font=\footnotesize] at (7.1,-0.9) {Observed bar position};
+\draw[very thick,blue!60!black] (0,0.2)--(8.4,0.2);
+\node[above,align=center,font=\small] at (4.2,0.3) {Chart window $[e-45,e)$\\Only bars through decision $d=e-1$ are visible};
+\foreach \x/\lab in {0/{e-45},8.4/{d=e-1},10/{e},13.6/{e+2}}{\draw (\x,-0.12)--(\x,0.12);\node[below,font=\small] at (\x,-0.15) {$\lab$};}
+\draw[<->,thick,orange!80!black] (10,1.5)--(13.6,1.5);
+\node[above,align=center,font=\small] at (11.8,1.6) {Entry Open to exit Close\\$L=3$ observed bars};
+\node[box] (t) at (2,-2.5) {Chronological training\\Labels mature before validation};
+\node[box] (v) at (7.1,-2.5) {Validation / purge\\Labels exit before first test decision};
+\node[box] (q) at (12.2,-2.5) {Frozen test dates\\Two dates per block; six blocks};
+\draw[arr] (t)--(v);\draw[arr] (v)--(q);
+\node[align=center,text width=14.0cm,font=\footnotesize] at (7.1,-4.5) {Shared reports $\rightarrow$ variant Decisions $\rightarrow$ immutable truth and separate accounts.\\Twelve dates / 102 eligible units; no synthetic bars and no uniform $S=3$ grid.};
+\end{tikzpicture}

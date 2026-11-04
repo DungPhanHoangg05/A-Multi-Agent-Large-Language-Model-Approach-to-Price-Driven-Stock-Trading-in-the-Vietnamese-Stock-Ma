@@ -1,7 +1,8 @@
-\section{Results}
+\section{Backtest Results}
 \label{sec:backtestresults}
 
-\subsection{Main class-aware comparison}
+\subsection{Nine-Symbol Paired Benchmark}
+\subsubsection{Main class-aware comparison}
 Table~\ref{tab:classification} uses all 102 main units, not the 180-point legacy study. Full accuracy is \FullAccuracy\%, Base \BaseAccuracy\%, and CASH/train-majority \CashAccuracy\%. Because 77/102 outcomes are DOWN, ordinary accuracy alone favours conservatism. Full BA is \FullBA\%, Base \BaseBA\%, and logistic-price \LogisticPriceBA\%; the Full--Base BA difference is \DeltaBA\ percentage points. All comparators, including less favourable ones, remain in the table. Undefined constant-rule MCC is NA.
 
 Full and Base each identify seven of 25 UP outcomes. Full issues 24 LONG forecasts, with 17 false positives, versus Base's 29 LONG forecasts and 22 false positives. Thus the observed BA difference accompanies improved DOWN recall rather than additional captured UP cases. This pattern is compatible with a shift towards CASH; it does not identify why the shift occurred or establish information-specific alpha. Neither a higher score than Base nor a smaller loss than an always-invested rule is sufficient evidence of profitability or broad superiority.
@@ -9,13 +10,14 @@ Full and Base each identify seven of 25 UP outcomes. Full issues 24 LONG forecas
 Pooled and macro values are different estimands. BHN contributes six eligible units, the other eight symbols twelve; missing class support reduces some macro denominators. Table~\ref{tab:symbol_results} reports Full/Base by symbol. Companion S1 includes all 81 symbol--classifier rows, both-class metrics and all pooled/macro denominators, so comparator reporting is not restricted to selected symbols or the main table's aggregate.
 \input{generated/t02_classification.tex}
 
-\subsection{Account outcomes and exposure}
+\subsubsection{Account outcomes and exposure}
 Full mean net account return is \FullReturn\%, versus Base \BaseReturn\% and CASH zero (Table~\ref{tab:accounts}). Full therefore does not even outperform Base on this main economic mean, despite its higher BA. Always-LONG cycles and continuous hold have different costs and gap exposure, and neither is substituted for the other. The held-session fractions include the long CASH gaps between the two cutoffs in each block; their low values should not be confused with LONG percentages over scheduled decision units.
 
 Returns and drawdowns summarize separate accounts, not one portfolio, total-return index or certified executable strategy. Risk ratios cannot recover evidence of profitability from sparse trades. The main schedules have 57 observed sessions between cutoffs, so pending-cash/on-demand-advance equivalence on these accounts provides little evidence about rapid capital reuse. All twelve economic sensitivities are reported in Table~\ref{tab:execution}. The all-entries-missed scenario gives zero but is not a mathematical worst-return bound; other assumptions may introduce unfilled entries, delays, pending balances or residual shares. Predictions and classification labels are unchanged across these sensitivities.
 \input{generated/t03_accounts.tex}
 
-\subsection{Repeated executions and factorial contrasts}
+\subsection{Disentangled Alpha--Sentiment Ablation}
+\subsubsection{Repeated executions and factorial contrasts}
 Table~\ref{tab:repeats} retains all three executions, sample SD, range and cutoff-level prediction disagreement summaries. The two panels have nine market units each but different symbols, dates and prompt families. Their means and SDs are not transferable to the broad 102-unit main study. Zero metric SD does not imply identical predictions: factorial S has unchanged aggregate BA but nonzero disagreement. Return means use nine upstream or eight factorial symbol--block accounts per variant/execution.
 
 On the factorial panel the AS--B BA mean is $-9.52$ pp and AS--P is $-11.90$ pp. Interaction $AS-A-S+B$ is $+14.29$ pp, whereas the gap of mean BA between AS and the observed best single component is zero. These are different quantities. All seven descriptive BA family envelopes contain zero; only 6,986 of 10,000 BA draws retain both classes and 3,014 are undefined. Conditional intervals are not zero-imputed or advertised as calibrated familywise coverage. All factorial mean account returns are negative.
@@ -23,7 +25,8 @@ On the factorial panel the AS--B BA mean is $-9.52$ pp and AS--P is $-11.90$ pp.
 The upstream AS--B mean BA difference is $+4.76$ pp, with conditional percentile interval $[0,10]$ pp. This higher-performing small panel does not replace the main or factorial outcomes. Actual shared reports and paired prompt contents match their frozen parents, but 40 of 147 groups have a successful-call order different from the listed job order, and nine span execution epochs. Routing/quota/resume did not implement full counterbalancing. We retain every outcome and disclose the resulting time/order confounding rather than selecting a clean-looking subset or repairing it retrospectively.
 \input{generated/t04_repeats.tex}
 
-\subsection{Temporal and dependence diagnostics}
+\subsection{Robustness and Sensitivity}
+\subsubsection{Temporal and dependence diagnostics}
 Table~\ref{tab:temporal} keeps the all-102 primary cohort and two overlapping structural cohorts. The primary Full--Base BA interval is $[\PrimaryLow,\PrimaryHigh]$ pp. The common-eight cohort has 96 units over twelve dates; recent-nine has 54 over six dates. They are sensitivity views, not independent replications or grounds for choosing a more favourable headline. The six-block sample includes an all-DOWN early-2025 block: within-block BA without both classes is undefined rather than fabricated.
 
 Past Close/SMA60 contexts distinguish bull, bear and sideways observations. These are per-security descriptions, not validated market-wide index regimes or a regime-conditioned trading policy. Additional volatility and turnover-proxy thresholds are fitted on purged training data, but their post-inference stratification remains descriptive. Close times Volume is in vendor units, not measured spread/depth liquidity. Exposure based on three target sessions differs from whole-calendar exposure with gaps.
@@ -31,7 +34,7 @@ Past Close/SMA60 contexts distinguish bull, bear and sideways observations. Thes
 Calendar-aligned HAC accuracy effects for common-eight/recent-nine are $+3.125/+9.259$ pp. At lags 0/1/2, common-eight SEs are 0.026042/0.023146/0.020172 with $p$-values 0.255346, 0.204107 and 0.149610; recent-nine SEs are 0.040713/0.047112/0.045710 with $p$-values 0.072051, 0.106554 and 0.098654. These are accuracy, not BA, effects on twelve/six selected dates. Companion S4 retains all six rows, the calendar masks, all regime strata, block-length sensitivities and leave-one-block-out diagnostics. Few clusters and irregular dates prevent reliable significance, null-effect or calibrated-coverage conclusions.
 \input{generated/t05_temporal.tex}
 
-\subsection{Auxiliary numeric selector controls}
+\subsubsection{Auxiliary numeric selector controls}
 Table~\ref{tab:numeric} is a separate numeric study, not an LLM factor-selector ablation. Causal adapters and train-only eligibility, imputation, scaling, orientation and ranking are fitted once per symbol--block scope, then retained through validation/test. Fixed custom five, dynamic train top-five, the same IDs without sign flip, and all twenty random eligible-five trials produce 2,346 predictions on the same 102 units. No random seed is selected after observing results.
 
 Dynamic-minus-fixed, dynamic-minus-random-family and dynamic-minus-no-flip BA differences are respectively $+15.84$, $+7.33$ and $+6.44$ pp. Exact six-block two-sided sign-flip values are 0.0625, 0.125 and 0.53125; Holm correction over all 23 declared hypotheses gives adjusted $p=1$ throughout. Unadjusted percentile intervals and the entire random dispersion remain visible. Positive point differences do not establish superiority, and the no-flip contrast does not identify sign-flip value inside the LLM pipeline.

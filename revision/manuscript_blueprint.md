@@ -1,5 +1,7 @@
 # Đặc tả bố cục bản thảo và bảng hình
 
+> **Chỉ dẫn biên tập hiện hành (05/11/2026):** theo phản hồi trực tiếp của tác giả, giữ khung bài gốc và sửa tại chỗ để đáp ứng reviewer. Quyết định cũ về bỏ tiểu mục/ba sơ đồ chi tiết, rút còn ba figures và appendix hai phần không còn là đặc tả cho bản hiện hành. Giữ tám sections gốc, các tiểu mục khoa học và vai trò từng agent; khôi phục sơ đồ Alpha/Decision/walk-forward bằng phiên bản đúng hợp đồng đã audit. Các số liệu/claims sai phải được sửa, không khôi phục theo bản cũ. Phần dưới là căn cứ của T31 lịch sử, không phải lý do tiếp tục cắt khung bài. Tiến độ và nghiệm thu bản phục hồi nằm trong `plan.md`.
+
 Đặc tả này chốt nội dung cho lần sửa nguồn T32 theo gate T30 `PASS_FOR_BOUNDED_MANUSCRIPT_WORK`. Phạm vi là **historical exploratory evaluation**, có audit lỗi và giới hạn; native causal gate vẫn **FAIL**. Đây là hướng dẫn biên tập, không phải bản thảo đã sửa, response đã gửi hoặc xác nhận đủ điều kiện nộp bài. Tiến độ nằm tại [plan.md](../plan.md).
 
 Title được chọn cho cả hai entrypoints:

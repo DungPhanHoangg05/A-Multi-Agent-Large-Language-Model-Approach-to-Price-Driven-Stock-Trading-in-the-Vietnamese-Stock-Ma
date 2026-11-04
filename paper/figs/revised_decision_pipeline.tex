@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,
+ box/.style={draw=blue!55!black,fill=blue!4,rounded corners,align=center,text width=6.5cm,minimum height=1.8cm,font=\footnotesize},
+ act/.style={box,draw=orange!65!black,fill=orange!6},arr/.style={->,thick}]
+\node[box] (r) at (0,0) {\textbf{1. Shared reports}\\Indicator / Pattern / Trend\\Enabled factor/sentiment text};
+\node[box] (p) at (7.6,0) {\textbf{2. Distil and compose prompt}\\Observed maximum: 4,187 characters\\Guard: below 6,500 characters};
+\node[box] (i) at (0,-2.9) {\textbf{3. Evidence-priority instructions}\\Trend/candles; then momentum\\Enabled factors and sentiment};
+\node[box] (j) at (7.6,-2.9) {\textbf{4. Structured forecast}\\LONG/SHORT; horizon; confidence\\Risk/reward; evidence; justification};
+\node[act] (l) at (0,-5.8) {\textbf{LONG: reference action}\\Buy at next Open; exit at target Close\\Both-leg brokerage and slippage};
+\node[act] (c) at (7.6,-5.8) {\textbf{SHORT: CASH action}\\No short sale or bearish return\\DOWN remains a classification};
+\draw[arr] (r)--(p);
+\draw[arr] (p.south)--++(0,-0.5)-|(i.north);
+\draw[arr] (i)--(j);
+\draw[arr] (j.south)--++(0,-0.5)-|(l.north);
+\draw[arr] (j.south)--(c.north);
+\node[align=center,text width=14.0cm,font=\footnotesize] at (3.8,-7.8) {Prompt precedence and model confidence are heuristics; they do not certify reasoning,\\calibration, executable fills or a learned fusion mechanism.};
+\end{tikzpicture}

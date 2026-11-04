@@ -1,0 +1,187 @@
+\relax 
+\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
+\@nameuse{bbl@beforestart}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\babel@aux{english}{}
+\Newlabel{t1}{1}
+\citation{xiong2025quantagent}
+\citation{xiong2025quantagent}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.2}\protected@file@percent }
+\newlabel{sec:introduction}{{1}{1}{Introduction}{section.2}{}}
+\citation{wu2023bloomberggpt,yang2023fingpt}
+\citation{tradingagents2024}
+\citation{xiong2025quantagent}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related works}{2}{section.3}\protected@file@percent }
+\newlabel{sec:relatedworks}{{2}{2}{Related works}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}LLM Agents in Financial Analysis}{2}{subsection.4}\protected@file@percent }
+\citation{han2023chartllama}
+\citation{tsantekidis2017lob}
+\citation{kakushadze2016formulaic}
+\citation{harvey2016}
+\citation{varma2006bias}
+\citation{bailey2014deflated}
+\citation{white2000reality}
+\citation{nguyen2023visobert}
+\citation{hf5cdsentiment}
+\citation{araci2019finbert}
+\citation{openai2025gptoss}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Technical Analysis and Pattern Recognition}{3}{subsection.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Quantitative Alpha Factor Research}{3}{subsection.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Sentiment Analysis in Finance and Vietnamese NLP}{3}{subsection.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Trading Systems for Emerging Markets}{3}{subsection.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Evaluation Standards and Agentic Benchmarks}{3}{subsection.9}\protected@file@percent }
+\citation{kakushadze2016formulaic}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Problem Formulation}{4}{section.10}\protected@file@percent }
+\newlabel{sec:formulation}{{3}{4}{Problem Formulation}{section.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Market Model and Data}{4}{subsection.11}\protected@file@percent }
+\newlabel{eq:time_index_contract}{{1}{4}{Market Model and Data}{equation.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Directional Prediction Task}{4}{subsection.13}\protected@file@percent }
+\newlabel{eq:netlabel}{{2}{4}{Directional Prediction Task}{equation.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Alpha Factor Formalisation and Adaptation}{4}{subsection.15}\protected@file@percent }
+\newlabel{eq:alpha_norm}{{3}{5}{Alpha Factor Formalisation and Adaptation}{equation.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Walk-Forward Alpha Selection}{5}{subsection.17}\protected@file@percent }
+\newlabel{eq:ic}{{4}{5}{Walk-Forward Alpha Selection}{equation.18}{}}
+\citation{nguyen2023visobert,hf5cdsentiment}
+\newlabel{eq:candidate_minmax}{{5}{6}{Walk-Forward Alpha Selection}{equation.19}{}}
+\newlabel{eq:composite}{{6}{6}{Walk-Forward Alpha Selection}{equation.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Sentiment Signal Construction}{6}{subsection.21}\protected@file@percent }
+\newlabel{eq:sentiment}{{7}{6}{Sentiment Signal Construction}{equation.22}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Multi-Agent Decision Function}{7}{subsection.23}\protected@file@percent }
+\newlabel{eq:decision_function}{{8}{7}{Multi-Agent Decision Function}{equation.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Walk-Forward Evaluation Protocol}{7}{subsection.25}\protected@file@percent }
+\newlabel{alg:walkforward}{{1}{7}{Walk-Forward Evaluation Protocol}{algorithm.26}{}}
+\citation{xiong2025quantagent}
+\citation{talib_rsi_docs,talib_willr_docs}
+\@writefile{toc}{\contentsline {section}{\numberline {4}System architecture}{8}{section.34}\protected@file@percent }
+\newlabel{sec:systemarchitecture}{{4}{8}{System architecture}{section.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Overview}{8}{subsection.35}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces System pipeline with shared-report Full/Base comparison. Indicator and alpha backtest reports are deterministic/numerical; Pattern and Trend use vision requests. Decision aggregates enabled reports by prompt instructions.}}{8}{figure.36}\protected@file@percent }
+\newlabel{fig:flow}{{1}{8}{System pipeline with shared-report Full/Base comparison. Indicator and alpha backtest reports are deterministic/numerical; Pattern and Trend use vision requests. Decision aggregates enabled reports by prompt instructions}{figure.36}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Indicator Agent}{8}{subsection.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Alpha Agent}{9}{subsection.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Alpha selection.}{9}{section*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sentiment integration.}{9}{section*.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Pattern Agent}{9}{subsection.42}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Alpha Agent: native OHLCV selection and separate sentiment context. Native factor diagnostics retain their causal/selection defects; the frozen sentiment path has no authenticated peer comparison. Both reports enter Decision only when enabled by the variant.}}{10}{figure.41}\protected@file@percent }
+\newlabel{fig:alpha_agent}{{2}{10}{Alpha Agent: native OHLCV selection and separate sentiment context. Native factor diagnostics retain their causal/selection defects; the frozen sentiment path has no authenticated peer comparison. Both reports enter Decision only when enabled by the variant}{figure.41}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Trend Agent}{10}{subsection.44}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Actual Pattern and corrected Trend inputs for CMG on 3 July 2023, the first chronologically eligible main unit. Bodies compare Close with Open; the Trend legend maps blue to support and red to resistance. The unit was selected by date then symbol/ID without inspecting outcomes.}}{11}{figure.43}\protected@file@percent }
+\newlabel{fig:charts}{{3}{11}{Actual Pattern and corrected Trend inputs for CMG on 3 July 2023, the first chronologically eligible main unit. Bodies compare Close with Open; the Trend legend maps blue to support and red to resistance. The unit was selected by date then symbol/ID without inspecting outcomes}{figure.43}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Decision Agent}{12}{subsection.45}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Decision Agent pipeline. Evidence priorities are prompt heuristics rather than learned/calibrated weights. The structured forecast is evaluated separately from the conditional long-only account action.}}{12}{figure.46}\protected@file@percent }
+\newlabel{fig:decision_agent}{{4}{12}{Decision Agent pipeline. Evidence priorities are prompt heuristics rather than learned/calibrated weights. The structured forecast is evaluated separately from the conditional long-only account action}{figure.46}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Setup}{13}{section.47}\protected@file@percent }
+\newlabel{sec:experimentalsetup}{{5}{13}{Experimental Setup}{section.47}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Dataset and Point-in-Time Data Contract}{13}{subsection.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Walk-Forward Protocol}{13}{subsection.49}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Evaluation scopes and prompt variants in the frozen historical study. Shared main/upstream executions are counted once.}}{13}{table.51}\protected@file@percent }
+\newlabel{tab:scope}{{1}{13}{Evaluation scopes and prompt variants in the frozen historical study. Shared main/upstream executions are counted once}{table.51}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Selected historical decision dates and eligibility across nine equities. Missing BHN cells remain excluded rather than being filled with CASH predictions. Labels are shared evaluation truth, not a visualization selected from Full's successful forecasts.}}{14}{figure.50}\protected@file@percent }
+\newlabel{fig:calendar}{{5}{14}{Selected historical decision dates and eligibility across nine equities. Missing BHN cells remain excluded rather than being filled with CASH predictions. Labels are shared evaluation truth, not a visualization selected from Full's successful forecasts}{figure.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Walk-forward time-index and split contract. The 45-bar chart ends at $d=e-1$, entry is at $e$ and the $L=3$ target is at $e+2$. The final study visits twelve selected dates across six blocks; it does not use a uniform $S=3$, twenty-point grid. Outer cutoff isolation does not certify native row-wise causality.}}{14}{figure.52}\protected@file@percent }
+\newlabel{fig:walkforward}{{6}{14}{Walk-forward time-index and split contract. The 45-bar chart ends at $d=e-1$, entry is at $e$ and the $L=3$ target is at $e+2$. The final study visits twelve selected dates across six blocks; it does not use a uniform $S=3$, twenty-point grid. Outer cutoff isolation does not certify native row-wise causality}{figure.52}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Paired Baseline and Disentangled Ablations}{15}{subsection.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Account and Statistical Metrics}{15}{subsection.54}\protected@file@percent }
+\newlabel{eq:classification_metrics}{{9}{15}{Account and Statistical Metrics}{equation.55}{}}
+\citation{vsd2022settlement}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Implementation and Robustness Design}{16}{subsection.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Backtest Results}{16}{section.57}\protected@file@percent }
+\newlabel{sec:backtestresults}{{6}{16}{Backtest Results}{section.57}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Nine-Symbol Paired Benchmark}{16}{subsection.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}Main class-aware comparison}{16}{subsubsection.59}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Class-aware performance on the same 102 historical market units. Macro summaries weight symbols equally and retain undefined denominators.}}{17}{table.60}\protected@file@percent }
+\newlabel{tab:classification}{{2}{17}{Class-aware performance on the same 102 historical market units. Macro summaries weight symbols equally and retain undefined denominators}{table.60}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.2}Account outcomes and exposure}{17}{subsubsection.61}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Account outcomes under the fractional reference ledger. Means summarize 51 separate symbol–block accounts per strategy and do not establish executable portfolio returns.}}{18}{table.62}\protected@file@percent }
+\newlabel{tab:accounts}{{3}{18}{Account outcomes under the fractional reference ledger. Means summarize 51 separate symbol–block accounts per strategy and do not establish executable portfolio returns}{table.62}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Disentangled Alpha--Sentiment Ablation}{18}{subsection.63}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Repeated executions and factorial contrasts}{18}{subsubsection.64}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Execution variability and paired contrasts on two distinct nine-unit panels. Repeated executions do not add independent market dates.}}{19}{table.65}\protected@file@percent }
+\newlabel{tab:repeats}{{4}{19}{Execution variability and paired contrasts on two distinct nine-unit panels. Repeated executions do not add independent market dates}{table.65}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Robustness and Sensitivity}{19}{subsection.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}Temporal and dependence diagnostics}{19}{subsubsection.67}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Overlapping temporal cohorts and observed trend strata. Small-block intervals and calendar-aligned HAC diagnostics are descriptive rather than calibrated significance tests.}}{20}{table.68}\protected@file@percent }
+\newlabel{tab:temporal}{{5}{20}{Overlapping temporal cohorts and observed trend strata. Small-block intervals and calendar-aligned HAC diagnostics are descriptive rather than calibrated significance tests}{table.68}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}Auxiliary numeric selector controls}{20}{subsubsection.69}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Train-fit numeric selector controls using separate causal adapters. These auxiliary results neither repeat the native LLM selector experiment nor repair its row-wise causal defect.}}{21}{table.70}\protected@file@percent }
+\newlabel{tab:numeric}{{6}{21}{Train-fit numeric selector controls using separate causal adapters. These auxiliary results neither repeat the native LLM selector experiment nor repair its row-wise causal defect}{table.70}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Limitations \& Future Work}{21}{section.71}\protected@file@percent }
+\newlabel{sec:limitations}{{7}{21}{Limitations \& Future Work}{section.71}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Limitations}{21}{subsection.72}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{What the comparisons establish}{21}{section*.73}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Causal construction and domain validity}{21}{section*.74}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sampling, dependence and hosted variability}{21}{section*.75}\protected@file@percent }
+\citation{white2000reality,bailey2014deflated}
+\@writefile{toc}{\contentsline {paragraph}{Economic and visual scope}{22}{section*.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Future Work}{22}{subsection.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Broader Impact}{22}{subsection.78}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{22}{section.79}\protected@file@percent }
+\newlabel{sec:conclusion}{{8}{22}{Conclusion}{section.79}{}}
+\@writefile{toc}{\let\numberline\tmptocnumberline}
+\@writefile{toc}{\contentsline {section}{\numberline {Appendix~A}Agent System Prompts}{23}{appendix.83}\protected@file@percent }
+\newlabel{app:prompts}{{Appendix~A}{23}{Agent System Prompts}{appendix.83}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~A.1}Decision Agent Prompt}{23}{subsection.84}\protected@file@percent }
+\newlabel{app:prompt_decision}{{Appendix~A.1}{23}{Decision Agent Prompt}{subsection.84}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~A.2}Pattern Agent Prompt}{23}{subsection.85}\protected@file@percent }
+\newlabel{app:prompt_pattern}{{Appendix~A.2}{23}{Pattern Agent Prompt}{subsection.85}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~A.3}Trend Agent Prompt}{24}{subsection.86}\protected@file@percent }
+\newlabel{app:prompt_trend}{{Appendix~A.3}{24}{Trend Agent Prompt}{subsection.86}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~A.4}Indicator Agent Prompt}{24}{subsection.87}\protected@file@percent }
+\newlabel{app:prompt_indicator}{{Appendix~A.4}{24}{Indicator Agent Prompt}{subsection.87}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~A.5}Sentiment LLM Prompt (Subroutine of Alpha Agent)}{24}{subsection.88}\protected@file@percent }
+\newlabel{app:prompt_sentiment}{{Appendix~A.5}{24}{Sentiment LLM Prompt (Subroutine of Alpha Agent)}{subsection.88}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~A.6}Alpha Agent LLM Reasoning Prompt}{24}{subsection.89}\protected@file@percent }
+\newlabel{app:prompt_alpha}{{Appendix~A.6}{24}{Alpha Agent LLM Reasoning Prompt}{subsection.89}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {Appendix~B}LangGraph State Schema}{24}{appendix.90}\protected@file@percent }
+\newlabel{app:state_schema}{{Appendix~B}{24}{LangGraph State Schema}{appendix.90}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {Appendix~C}Custom Alpha Formula Implementation}{24}{appendix.91}\protected@file@percent }
+\newlabel{app:signals}{{Appendix~C}{24}{Custom Alpha Formula Implementation}{appendix.91}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {C.1}{\ignorespaces Custom native factor definitions and implementation distinctions.}}{25}{table.92}\protected@file@percent }
+\newlabel{tab:custom_definitions}{{C.1}{25}{Custom native factor definitions and implementation distinctions}{table.92}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~C.1}Flow-Driven Momentum (FDM)}{25}{subsection.93}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~C.2}MACD/Return Proxy (SFA)}{25}{subsection.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~C.3}Liquidity Void Reversion (LVR)}{25}{subsection.95}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~C.4}Bollinger Squeeze \& Flow (BFE)}{25}{subsection.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~C.5}Order Flow Exhaustion (OFE)}{26}{subsection.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {Appendix~D}Indicator Signal Classification Logic}{26}{appendix.98}\protected@file@percent }
+\newlabel{app:indicator_logic}{{Appendix~D}{26}{Indicator Signal Classification Logic}{appendix.98}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {D.1}{\ignorespaces Indicator signal rules and missing-data conventions.}}{26}{table.99}\protected@file@percent }
+\newlabel{tab:indicator_rules}{{D.1}{26}{Indicator signal rules and missing-data conventions}{table.99}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~D.1}MACD Classification}{26}{subsection.100}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~D.2}RSI Classification}{26}{subsection.101}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~D.3}Stochastic Oscillator Classification}{26}{subsection.102}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~D.4}Williams \%R Classification}{26}{subsection.103}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~D.5}ROC Classification}{26}{subsection.104}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {Appendix~D.6}Consensus Rule}{27}{subsection.105}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {Appendix~E}Software Dependencies and Reproducibility}{27}{appendix.106}\protected@file@percent }
+\newlabel{app:software}{{Appendix~E}{27}{Software Dependencies and Reproducibility}{appendix.106}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {Appendix~F}Additional Account and Symbol Results}{27}{appendix.107}\protected@file@percent }
+\newlabel{app:additional}{{Appendix~F}{27}{Additional Account and Symbol Results}{appendix.107}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.1}{\ignorespaces Full and Base symbol-level results on their common historical support.}}{28}{table.108}\protected@file@percent }
+\newlabel{tab:symbol_results}{{F.1}{28}{Full and Base symbol-level results on their common historical support}{table.108}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.2}{\ignorespaces All twelve account-execution sensitivities on unchanged predictions.}}{28}{table.109}\protected@file@percent }
+\newlabel{tab:execution}{{F.2}{28}{All twelve account-execution sensitivities on unchanged predictions}{table.109}{}}
+\bibstyle{elsarticle-num}
+\bibdata{references}
+\bibcite{xiong2025quantagent}{{1}{}{{}}{{}}}
+\bibcite{wu2023bloomberggpt}{{2}{}{{}}{{}}}
+\bibcite{yang2023fingpt}{{3}{}{{}}{{}}}
+\bibcite{tradingagents2024}{{4}{}{{}}{{}}}
+\bibcite{han2023chartllama}{{5}{}{{}}{{}}}
+\bibcite{tsantekidis2017lob}{{6}{}{{}}{{}}}
+\bibcite{kakushadze2016formulaic}{{7}{}{{}}{{}}}
+\bibcite{harvey2016}{{8}{}{{}}{{}}}
+\bibcite{varma2006bias}{{9}{}{{}}{{}}}
+\bibcite{bailey2014deflated}{{10}{}{{}}{{}}}
+\bibcite{white2000reality}{{11}{}{{}}{{}}}
+\bibcite{nguyen2023visobert}{{12}{}{{}}{{}}}
+\bibcite{hf5cdsentiment}{{13}{}{{}}{{}}}
+\bibcite{araci2019finbert}{{14}{}{{}}{{}}}
+\bibcite{openai2025gptoss}{{15}{}{{}}{{}}}
+\bibcite{talib_rsi_docs}{{16}{}{{}}{{}}}
+\bibcite{talib_willr_docs}{{17}{}{{}}{{}}}
+\bibcite{vsd2022settlement}{{18}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\gdef \@abspage@last{31}

@@ -1,0 +1,22 @@
+\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,
+ box/.style={draw=blue!55!black,fill=blue!4,rounded corners,align=center,text width=6.4cm,minimum height=1.2cm,font=\footnotesize},
+ sent/.style={box,draw=green!40!black,fill=green!4},
+ endbox/.style={draw=orange!65!black,fill=orange!7,rounded corners,align=center,text width=13.7cm,minimum height=1.2cm,font=\footnotesize},
+ arr/.style={->,thick}]
+\node[font=\bfseries] at (0,1.1) {Native OHLCV path};
+\node[font=\bfseries] at (7.3,1.1) {Separate frozen sentiment path};
+\node[box] (a1) at (0,0) {Prefix ending at decision $d$\\Up to 600 observed bars};
+\node[box] (a2) at (0,-1.8) {85 native candidates\\80 adaptations + five custom handlers};
+\node[box] (a3) at (0,-3.6) {Finite-support diagnostics and IC sign\\Same trailing sample; in-sample selection};
+\node[box] (a4) at (0,-5.4) {Weighted score; select top five\\Native row-wise causal defect remains};
+\node[box] (a5) at (0,-7.2) {Factor report / skill fields\\Compact or explicit-five-row family};
+\node[sent] (s1) at (7.3,0) {Saved article scores and provenance\\Historical availability unverified};
+\node[sent] (s2) at (7.3,-1.8) {90-day cutoff window; distinct identities\\At least three valid records for availability};
+\node[sent] (s3) at (7.3,-3.6) {Probability difference / weighted mean\\30-day decay half-life};
+\node[sent] (s4) at (7.3,-5.4) {Aggregate/count report\\No observed peer/article-detail comparison};
+\node[sent] (s5) at (7.3,-7.2) {Separate sentiment text / missingness\\Reliability $\ge8$ is a different flag};
+\node[endbox] (o) at (3.65,-9.3) {Variant-enabled sections enter Decision; sentiment does not enter native factor formulas.\\No extra Alpha reasoning-model call on this backtest path.};
+\foreach \p/\q in {a1/a2,a2/a3,a3/a4,a4/a5,s1/s2,s2/s3,s3/s4,s4/s5}{\draw[arr] (\p)--(\q);}
+\draw[arr] (a5.south)--(a5.south |- o.north);
+\draw[arr] (s5.south)--(s5.south |- o.north);
+\end{tikzpicture}

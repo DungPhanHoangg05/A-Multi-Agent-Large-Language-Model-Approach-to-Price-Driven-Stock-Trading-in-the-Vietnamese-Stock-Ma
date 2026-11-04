@@ -1,31 +1,70 @@
-\section{Implemented multi-agent system}
+\section{System architecture}
 \label{sec:systemarchitecture}
+\subsection{Overview}
+The implementation uses a LangGraph directed graph with five specialised roles and a shared typed state. Indicator, Pattern, Trend and Decision roles, shared state, chart tools and trendline procedures reuse or modify QuantAgent components; the upstream MIT notice is preserved in the repository \cite{xiong2025quantagent}. Alpha adds numerical factor and Vietnamese sentiment reports. This integration is an engineering adaptation, distinct from inventing the inherited graph or validating a learned knowledge-fusion method.
 
-\subsection{Roles and actual information flow}
-Figure~\ref{fig:flow} describes the implementation evaluated here. Indicator Agent computes and renders five deterministic TA-Lib-based votes: MACD, RSI, Stochastic, Williams \%R and ROC. They are momentum/trend indicators, not five volatility oscillators. Its backtest node returns a report and messages, without calling an LLM or forwarding the declared state schema's complete numeric arrays. Bollinger variables can be computed on the alpha path; BB/ADX state declarations do not create two additional Indicator votes. \ref{app:signals} specifies the ordered boundaries and missing-data convention \cite{talib_rsi_docs,talib_willr_docs}.
+Figure~\ref{fig:flow} shows the actual information flow. In the evaluated backtest, Indicator is deterministic and the numerical/report Alpha path bypasses an additional alpha-reasoning LLM call. Pattern and Trend consume their separate chart images, while Decision receives the condensed reports and enabled quantitative/text sections. The five role names consequently do not imply five hosted LLM calls per forecast. Model aliases and actual request accounting are specified in Section~\ref{sec:experimentalsetup}.
 
-The Alpha role supplies native selected-factor and sentiment context. In the evaluated backtest its numerical/report path bypasses an additional alpha-reasoning LLM invocation. Pattern and Trend read their respective cached chart images through the vision model, and Decision receives condensed Indicator, Pattern and Trend reports plus the enabled factor/sentiment sections. Indicator, Pattern, Trend and Decision roles, shared state, chart tools and trendline procedure reuse or modify QuantAgent code; the upstream MIT notice is preserved in the repository \cite{xiong2025quantagent}. Domain adaptation, input processing and the evaluation protocol should be distinguished from the reused architecture.
-
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 \centering
 \input{figs/final_flow.tex}
-\caption{Implemented information flow and shared-report comparison. Aggregation uses prompt instructions rather than a learned fusion module. Indicator and alpha backtest reports do not require additional reasoning-model calls.}
+\caption{System pipeline with shared-report Full/Base comparison. Indicator and alpha backtest reports are deterministic/numerical; Pattern and Trend use vision requests. Decision aggregates enabled reports by prompt instructions.}
 \label{fig:flow}
 \end{figure}
 
-\subsection{Charts and aggregation}
-Figure~\ref{fig:charts} shows the earliest chronologically eligible main unit, chosen by date then symbol/unit ID without inspecting outcomes. Images are exact archived PNGs: Pattern is replayed from its original request, while Trend uses the corrected legend. Candle bodies are green when Close exceeds Open and red otherwise, including a doji; this is an Open--Close body rule, not the exchange price board's reference-price rule. Support is blue and resistance red. The original claim of green bearish/red bullish candles following Vietnamese market convention is withdrawn.
+\subsection{Indicator Agent}
+Indicator Agent computes and renders five deterministic TA-Lib-based votes: MACD(12,26,9), RSI(14), Stochastic(14,3,3), Williams \%R(14) and ROC(10). They are momentum/trend indicators, not five volatility oscillators. Its backtest node returns a report and messages, without calling an LLM or forwarding the declared state schema's complete numeric arrays. Bollinger variables can be computed on the alpha path; BB/ADX state declarations do not create two additional Indicator votes. \ref{app:indicator_logic} specifies the ordered boundaries and missing-data convention \cite{talib_rsi_docs,talib_willr_docs}.
 
-\begin{figure}[p]
+Four-decimal rounding precedes classification, nonfinite samples are removed and zero is retained. Crossovers take priority where specified; overlapping RSI/Williams thresholds require ordered branches rather than two simultaneous unconditional rules. Each missing/error result contributes a neutral vote within the fixed denominator of five. Directional plurality and the confidence categories are deterministic summary heuristics. They are not calibrated probabilities, and an immutable signal tally does not make a downstream narrative correct.
+
+\subsection{Alpha Agent}
+\paragraph{Alpha selection.}
+The Alpha role evaluates 85 native candidates: 80 retained WorldQuant adaptations and five custom formulas. It supplies a selected top-five report from the trailing prefix, using the diagnostic score in Eq.~\ref{eq:composite}. The transformations, metric support, IC orientation and native row-wise causal failure are defined in Section~\ref{sec:formulation}. A rolling own-history rank is not a cross-sectional rank, and the 21 exclusions are not all justified by an inability to translate cross-sectional operators. Full expressions and exception handling remain in the registry; \ref{app:signals} gives the custom formulas needed to read the reports.
+
+Selection, IC sign and candidate diagnostics reuse trailing observations. Hence the current value is an input to a report, while the reported skill fields are in-sample ranking statistics. Neither choosing the top five nor reversing negative IC establishes out-of-sample profitability. Six selected metadata slots have description/handler mismatches; actual prompts, metadata and implementation identity are kept distinct. No historical prediction is repaired to agree with a corrected description.
+
+\paragraph{Sentiment integration.}
+Vietnamese sentiment is a separate contextual report, not an input to the native OHLCV factor formulas or score. The frozen provider supplies aggregate/count information and empty article-detail/peer lists. Relative sentiment and z-score fields on that path are consequently zero-valued outputs of the normalizer, rather than measured contemporaneous peer evidence. The three-article availability rule differs from the eight-article reliability flag. The 90-day window, 30-day decay, scorer revision and provenance limitations are specified in Section~\ref{sec:formulation}.
+
+Figure~\ref{fig:alpha_agent} retains the two-branch explanation of the original Alpha diagram while separating what the frozen study actually delivers from the live crawler's capabilities. Optional live endpoints, lexicon fallbacks and peer discovery are repository capabilities; they are not evidence that the corresponding inputs were used or historically available in the evaluated calls.
+
+\begin{figure}[!htbp]
+\centering\input{figs/revised_alpha_pipeline.tex}
+\caption{Alpha Agent: native OHLCV selection and separate sentiment context. Native factor diagnostics retain their causal/selection defects; the frozen sentiment path has no authenticated peer comparison. Both reports enter Decision only when enabled by the variant.}
+\label{fig:alpha_agent}
+\end{figure}
+
+\subsection{Pattern Agent}
+Pattern Agent analyses a candlestick PNG rendered from the exact 45-bar window. The prompt requests a chart formation, recent-candle evidence, directional bias, confidence and trading implication. The report parser retains the structured text fields; format completion and consistency checks are distinguished from financial correctness. Figure~\ref{fig:charts} presents an actual archived chart pair rather than a synthetic demonstration.
+
+Candle bodies are green when Close exceeds Open and red otherwise, including a doji. This is an Open--Close body rule, not the Vietnamese exchange board's reference-price colouring rule. The earlier claim of green bearish/red bullish bodies is incorrect. After inference, consistency rules compare the claimed bias with simple OHLCV-derived properties such as the final body and recent closes. A contradiction flag can reduce displayed confidence; it cannot reveal which candle the VLM actually attended to. Alternative text-only paths in the general application are not assumed to have replaced any frozen vision input.
+
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.90\textwidth]{figs/final_pattern.png}\par\smallskip
 \includegraphics[width=0.90\textwidth]{figs/final_trend.png}
-\caption{Actual Pattern and corrected Trend inputs for CMG on 3 July 2023, the first chronologically eligible main unit. Bodies compare Close with Open; the Trend legend maps blue to support and red to resistance. These are historical inputs, not synthetic fixtures or evidence of validated visual understanding.}
+\caption{Actual Pattern and corrected Trend inputs for CMG on 3 July 2023, the first chronologically eligible main unit. Bodies compare Close with Open; the Trend legend maps blue to support and red to resistance. The unit was selected by date then symbol/ID without inspecting outcomes.}
 \label{fig:charts}
 \end{figure}
 
-The renderer audit matched 204 images across 102 units byte for byte and pixel for pixel, and 240 actual vision requests matched their image caches and Vietnamese templates. It verified body geometry, colour and legend handles. It did not establish what the vision model attended to. In particular, the Vietnamese word \emph{xanh} is less colour-specific than the corrected English ``blue'' wording. Inherited high-frequency/K-line prompt language also remains distinguishable from the daily-bar application. Deterministic consistency flags can catch obvious output contradictions but cannot certify visual grounding.
+\subsection{Trend Agent}
+Trend Agent receives a separate chart with fitted support/resistance lines. The inherited fitting utility starts with a least-squares close-price line, selects upper/lower deviation pivots, and optimizes a slope through each pivot under a non-crossing constraint. It implements both a close-only channel and a high/low channel, the latter using close-price regression to find pivots and high/low data for the bounds. These are numerical lines over the supplied window, not human-verified latent support levels.
 
-Reports are distilled and capped before Decision. The observed successful Decision prompts are at most 4,187 characters, below the 6,500-character guard. Priority and conflict instructions prefer price/chart evidence, allow quantitative factors to challenge it, and give sentiment lower priority. These are prompt heuristics, not learned/calibrated weights, an explicit knowledge representation, or guaranteed conflict resolution. The system performs prompt-level report aggregation; no separate experiment validates a new reasoning or knowledge-fusion algorithm. Complete actual prompts and consistency rules belong to the companion archive, not lengthy article appendices.
+For row position $u$, a fitted line has form $b+mu$. A support bound must remain below the corresponding price sequence within the implementation tolerance; resistance must remain above it. The local slope search reduces its step when the squared-deviation objective fails to improve or violates the constraint. The VLM then describes direction, levels, slope, price relative to support, forecast and confidence. Support is drawn blue and resistance red. A deterministic consistency check against simple price/trend summaries does not validate every reported level or coordinate.
 
-Base retains the same upstream report content and general instructions but removes both alpha and sentiment sections. Thus general instructions may still mention those concepts. Main/upstream prompts use a compact factor representation, whereas the factorial panel delivers five explicit value rows. We retain this representation difference in component comparisons rather than assuming identical information delivery across prompt families.
+The renderer audit matched 204 images across 102 units byte for byte and pixel for pixel, and 240 actual vision requests matched their image caches and Vietnamese templates. It verified body geometry, colour and legend handles, not the model's visual understanding. In particular, the Vietnamese word \emph{xanh} is less colour-specific than the corrected English ``blue'' wording. Inherited high-frequency/K-line prompt language also remains distinguishable from this daily-bar application. Matched local-pattern interventions and trend swaps would be needed to test whether the model uses the purported visual evidence.
+
+\subsection{Decision Agent}
+Decision receives condensed Indicator, Pattern and Trend reports plus enabled factor/sentiment sections. Reports are distilled and capped before prompt composition. The observed successful Decision prompts are at most 4,187 characters, below the 6,500-character guard. The older diagram's 7,500-character cap is not the current contract. Figure~\ref{fig:decision_agent} shows report composition, prompt instructions, structured output and the separate action mapping.
+
+\begin{figure}[!htbp]
+\centering\input{figs/revised_decision_pipeline.tex}
+\caption{Decision Agent pipeline. Evidence priorities are prompt heuristics rather than learned/calibrated weights. The structured forecast is evaluated separately from the conditional long-only account action.}
+\label{fig:decision_agent}
+\end{figure}
+
+The instructions ask for trend/key-level assessment, recent-candle evidence, momentum confirmation and comparison with enabled factor/sentiment context. Price/chart evidence has priority, quantitative factors may challenge it, and sentiment has lower priority. These instructions describe an intended analysis sequence; they are not an independently observed internal reasoning trace or a guaranteed conflict-resolution algorithm.
+
+The required output includes a binary LONG/SHORT forecast, forecast horizon, confidence, risk/reward field, evidence for/against and justification. Model confidence and risk/reward statements do not constitute calibrated uncertainty or executable price levels. In the long-only reference ledger, SHORT maps to CASH and LONG to the specified next-open/target-close cycle. The classifier's labels and account execution remain distinct.
+
+Base retains the same upstream content and general instructions but removes both alpha and sentiment sections; those concepts may still appear in general instructions. Thus Full--Base changes a bundle and prompt length, not solely one numerical factor. Main/upstream prompts use compact factor text, whereas factorial A/AS/P deliver five explicit rows. The resulting representation difference remains part of the interpretation of the separate panels.

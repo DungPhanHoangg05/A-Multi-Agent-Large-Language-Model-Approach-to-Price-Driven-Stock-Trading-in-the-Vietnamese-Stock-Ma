@@ -1,7 +1,9 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Large language models can turn numerical indicators, news and chart images into financial narratives, but a coherent narrative is not necessarily an informative forecast. Evaluation must distinguish a change in class preference from improved discrimination and must distinguish simulated account outcomes from executable trading returns. These distinctions are especially important when transaction costs make the profitable-LONG class rare and when several equities share the same decision dates.
+Large language models (LLMs) have recently been used as reasoning engines in financial analysis. Their value for knowledge-based decision support depends on how quantitative, textual and visual evidence is represented and assessed, rather than on distributing tasks among agents alone. Frameworks such as QuantAgent \cite{xiong2025quantagent} provide a starting point for chart-based LLM decision support. Adapting such a framework to Vietnamese equities requires explicit treatment of Vietnamese-language news, single-asset factor inputs and the distinction between a directional forecast and a feasible cash-equity trade.
+
+Vietnam motivates this implementation in three ways. First, the bar-count forecast horizon must be distinguished from entry, exit and settlement assumptions. Second, Vietnamese news requires a language-appropriate scorer, whose financial-domain validity still needs independent assessment. Third, OHLCV-only factor construction cannot retain the peer-relative meaning of every cross-sectional expression. These are practical adaptation questions, not evidence that the resulting system has solved emerging-market prediction.
 
 We examine a concrete multi-agent implementation for Vietnamese equities. It combines deterministic technical-indicator reports, a native selector over 85 OHLCV factor candidates, Vietnamese sentiment scores, two chart-reading roles and a final binary Decision Agent. Indicator, Pattern, Trend and Decision roles and associated utilities reuse or modify QuantAgent components \cite{xiong2025quantagent}. The integration is an implementation and domain-adaptation exercise: condensed reports enter a prompt with heuristic evidence-priority instructions, rather than a learned knowledge-fusion representation.
 
@@ -11,4 +13,14 @@ The completed release contains 102 main market units spanning six historical blo
 
 The evaluation also exposes unresolved methodological defects. Native factor operations are isolated from prices after the outer decision cutoff in synthetic probes, but are not causal row by row within their trailing history. Native ranking and orientation diagnostics are in-sample. News availability and the sentiment classifier's financial-domain validity are not independently authenticated. We preserve these facts when reporting the frozen outputs. Separate train-fit numeric controls use causal adapters and cannot retrospectively repair the native LLM study.
 
-The contributions are therefore an auditable implementation description, a common-support comparison including simple controls, and an explicit accounting of repeat, provenance and execution limitations. Historical snapshots, actual requests/responses and metrics are retained with hashes for offline replay. The evidence is historical and exploratory: the reduced scope was amended after some inference, all outcome dates preceded the freeze, and the study does not establish causal component value or prospective deployment performance.
+The main contributions are as follows:
+\begin{itemize}
+\item An implementation-level account of five specialised roles, their reused components, and the separate quantitative, textual and visual reports delivered to Decision.
+\item An explicit formulation of the net-return target, factor transformations and Vietnamese sentiment recipe, including the construction defects and provenance gaps found by audit.
+\item A shared-report comparison with class-aware baselines, three-execution panels and a five-variant factorial/placebo study, with their distinct supports and confounds retained.
+\item A transaction-cost-aware reference ledger and saved-prediction replay that distinguish classification, account outcomes and unresolved execution assumptions.
+\end{itemize}
+
+Historical snapshots, actual requests/responses and metrics are retained with hashes for offline replay. The evidence is historical and exploratory: the reduced scope was amended after some inference, all outcome dates preceded the freeze, and the study does not establish causal component value or prospective deployment performance.
+
+The remainder of this paper follows the original structure. Section~\ref{sec:relatedworks} reviews related work; Section~\ref{sec:formulation} formalises the task and signals; Section~\ref{sec:systemarchitecture} describes each agent; Section~\ref{sec:experimentalsetup} specifies the evaluation; Section~\ref{sec:backtestresults} reports results; Section~\ref{sec:limitations} discusses limitations and future work; and Section~\ref{sec:conclusion} concludes.

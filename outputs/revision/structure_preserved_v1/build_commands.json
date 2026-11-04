@@ -1,0 +1,106 @@
+[
+  {
+    "args": [
+      "pdflatex",
+      "--disable-installer",
+      "-halt-on-error",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-recorder",
+      "main.tex"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main",
+    "returncode": 0,
+    "transcript": "build_logs/main/command_1.log"
+  },
+  {
+    "args": [
+      "bibtex",
+      "--disable-installer",
+      "main"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main",
+    "returncode": 0,
+    "transcript": "build_logs/main/command_2.log"
+  },
+  {
+    "args": [
+      "pdflatex",
+      "--disable-installer",
+      "-halt-on-error",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-recorder",
+      "main.tex"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main",
+    "returncode": 0,
+    "transcript": "build_logs/main/command_3.log"
+  },
+  {
+    "args": [
+      "pdflatex",
+      "--disable-installer",
+      "-halt-on-error",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-recorder",
+      "main.tex"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main",
+    "returncode": 0,
+    "transcript": "build_logs/main/command_4.log"
+  },
+  {
+    "args": [
+      "pdflatex",
+      "--disable-installer",
+      "-halt-on-error",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-recorder",
+      "main_submit.tex"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main_submit",
+    "returncode": 0,
+    "transcript": "build_logs/main_submit/command_1.log"
+  },
+  {
+    "args": [
+      "bibtex",
+      "--disable-installer",
+      "main_submit"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main_submit",
+    "returncode": 0,
+    "transcript": "build_logs/main_submit/command_2.log"
+  },
+  {
+    "args": [
+      "pdflatex",
+      "--disable-installer",
+      "-halt-on-error",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-recorder",
+      "main_submit.tex"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main_submit",
+    "returncode": 0,
+    "transcript": "build_logs/main_submit/command_3.log"
+  },
+  {
+    "args": [
+      "pdflatex",
+      "--disable-installer",
+      "-halt-on-error",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-recorder",
+      "main_submit.tex"
+    ],
+    "cwd": "tmp/pdfs/structure_build_04/main_submit",
+    "returncode": 0,
+    "transcript": "build_logs/main_submit/command_4.log"
+  }
+]

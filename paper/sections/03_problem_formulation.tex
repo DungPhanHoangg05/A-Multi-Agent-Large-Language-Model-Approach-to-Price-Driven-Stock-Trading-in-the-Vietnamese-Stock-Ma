@@ -1,7 +1,18 @@
-\section{Forecasting task and signal construction}
+\section{Problem Formulation}
 \label{sec:formulation}
 
-\subsection{Decision, target and account action}
+\subsection{Market Model and Data}
+For each security $s$ in the declared universe $\mathcal{S}$, let $\mathbf{x}_u=(O_u,H_u,L_u,C_u,V_u)$ denote one observed OHLCV bar at zero-based position $u$. Positions index vendor observations, not consecutive calendar days. The evaluated chart window has $W=45$ bars and exclusive end $e$:
+\begin{equation}
+ \mathbf{X}_e=(\mathbf{x}_{e-W},\ldots,\mathbf{x}_{e-1}),
+ \qquad d=e-1,\qquad h=e-1+L.
+ \label{eq:time_index_contract}
+\end{equation}
+The last visible bar is $d$, entry is planned at $e$, and the candidate exit is at $h$. Thus neither entry nor exit prices belong to the visible chart. The alpha path separately receives a historical prefix ending at $d$, up to 600 observed bars. These two history requirements should not be conflated. Weekends, holidays and vendor gaps do not create synthetic bars; incomplete target spans are rejected.
+
+Price/volume fields retain the reconstructed vendor units and adjustment conventions. Missing-volume handling in the native implementation can substitute intrabar range as a proxy; its whole-frame branch is one source of the row-wise causal defect described below. A numerical proxy does not authenticate actual turnover, transaction VWAP or market depth. Dataset eligibility and the BHN exclusions are defined in Section~\ref{sec:experimentalsetup}.
+
+\subsection{Directional Prediction Task}
 Let $d$ be the last observed session at a decision cutoff, $e=d+1$ the planned entry session, and $L=3$. The candidate LONG cycle buys at $Open_e$ and exits at $Close_{e+L-1}=Close_{d+3}$. Thus three observed bars include the entry bar, and exit is two observed sessions after entry. With brokerage $f=0.0025$ and slippage $s=0.001$ on each leg, the target is
 \begin{equation}
  r^{net}_d=\frac{Close_{d+3}}{Open_{d+1}}
@@ -13,18 +24,51 @@ UP means a strictly positive candidate LONG net return; zero belongs to DOWN. Gr
 
 The agent chooses LONG or SHORT. In the long-only reference ledger, LONG allocates the account to the cycle and SHORT holds CASH; SHORT is not a short sale and a correct DOWN classification earns no bearish trading return. Account return therefore differs from the candidate-LONG target. Missing horizons are rejected rather than shortened. Canonical exports distinguish decision Close, entry Open and exit Close. A legacy field called \texttt{actual\_prev\_close} is not authenticated as decision Close merely because it sometimes equals entry Open; its unresolved semantic provenance is preserved in the legacy audit.
 
-\subsection{Native factor path and its causal defect}
+\subsection{Alpha Factor Formalisation and Adaptation}
 At each outer cutoff the native implementation receives a 600-session historical prefix and selects five of 85 candidates. Eighty are retained WorldQuant adaptations and five are custom formulas. The companion registry gives every source expression, handler, operator window, ties/fills and excluded expression; it does not assert mathematical equivalence to the source catalogue \cite{kakushadze2016formulaic}. Among 21 exclusions, 17 involve industry neutralization, one market capitalization, and three price/volume omissions have no authenticated selection rationale. They are not all described as impossible cross-sectional translations.
 
+A registered function maps features constructed from the available history to a sequence of factor values. Replacing a cross-sectional rank by a rolling rank changes the question from comparison with peers to comparison with the asset's own past. The native rank implementation counts preceding values strictly below the current value, so ties do not contribute as lower values. Partial windows and the source expression's explicit time-series lookbacks remain operator-specific. This heuristic localisation is not an invariance-preserving derivation of the source formula.
+
+Let $a^{(k)}_{u,d}$ be the normalized value for candidate $k$ at row $u$ as computed from the prefix ending at $d$. The second index is intentional: whole-Series normalization may change a historical row when the prefix changes. A zscore--tanh path has the form
+\begin{equation}
+ a^{(k)}_{u,d}=\tanh\!\left(\frac{\alpha^{(k)}_u-\mu_{k,d}}{\sigma_{k,d}+\epsilon}\right),
+ \label{eq:alpha_norm}
+\end{equation}
+where the location and scale are derived from the supplied Series, not necessarily a training-only fit independent of each row. Min--max and rank-based alternatives also exist. Equation~\ref{eq:alpha_norm} illustrates one implemented transform, rather than claiming that every candidate uses one identical causal normalization. ADV is mean share volume over the specified lookback and the daily VWAP proxy uses typical price; neither adds missing cross-sectional information.
+
+\subsection{Walk-Forward Alpha Selection}
 Native candidate diagnostics use the trailing sample to estimate rank correlation (IC), sign orientation, directional accuracy and a signed-return Sharpe proxy, then rank a weighted composite. IC orientation and factor selection are consequently in-sample diagnostics, not independent factor discoveries. The normalization names include zscore--tanh, min--max and rank-based transforms; the actual whole-Series implementations, partial windows, denominator guards and NaN/zero fills matter more than their nominal names. Returns are implemented as percentage changes, and VWAP/ADV use OHLCV proxies rather than independently measured transaction VWAP or dollar volume.
 
 The default score is $0.40\,m(|IC|)+0.35\,m(Accuracy)+0.25\,m(Sharpe)$, where $m$ is min--max scaling across candidate diagnostics (a constant range maps to 0.5). Negative IC reverses the signal used for diagnostic accuracy and the signed-return proxy; displayed diagnostic rounding precedes ranking. Directional accuracy uses the strong-signal subset $|a|>0.05$, with fallback conventions for insufficient support. The signed-return Sharpe proxy is not a realized long-only CASH ledger. The nominal minimum-history check is not a causal warm-up trim: partially filled early rows can enter native diagnostics. Exact metric guards and tie/sort behaviour remain in the registry implementation rather than being replaced with an idealized formula.
+
+For clarity, write $\mathcal{T}_{k,d}$ for the finite historical sample entering a candidate's diagnostics, and $r^{net}_u$ for the corresponding candidate-LONG net target. The rank-correlation diagnostic and orientation are
+\begin{equation}
+ IC_{k,d}=\operatorname{SpearmanCorr}(a^{(k)}_{u,d},r^{net}_u)_{u\in\mathcal{T}_{k,d}},
+ \qquad o_{k,d}=\begin{cases}-1,&IC_{k,d}<0,\\1,&\text{otherwise}.\end{cases}
+ \label{eq:ic}
+\end{equation}
+Oriented signal signs enter historical accuracy on the strong-signal subset and the signed-return proxy. Those diagnostics and the top-five choice reuse the same trailing observations. They are therefore selection statistics, even when the current entry and exit bars are outside the supplied prefix. The actual code's finite-support guards, default values and rounding are preserved in the registry audit.
+
+For eligible candidates $\mathcal{V}_d$, min--max scaling of diagnostic $q$ is
+\begin{equation}
+ m_d(q_k)=\begin{cases}
+ (q_k-q_{min})/(q_{max}-q_{min}),&q_{max}-q_{min}\ge10^{-9},\\
+ 0.5,&\text{otherwise},
+ \end{cases}
+ \label{eq:candidate_minmax}
+\end{equation}
+where the extrema are over $\mathcal{V}_d$. The native ranking is
+\begin{equation}
+ S_{k,d}=0.40m_d(|IC_{k,d}|)+0.35m_d(Accuracy_{k,d})+0.25m_d(Sharpe_{k,d}),
+ \label{eq:composite}
+\end{equation}
+and the five highest eligible scores supply the current report. The quantity named Sharpe in this selector is a signed-return ranking proxy, not the long-only account Sharpe. Its inclusion does not demonstrate factor profitability. Causal train-fit fixed/dynamic/random controls are a separate study in Section~\ref{sec:backtestresults}.
 
 \textbf{The native row-wise causal gate fails.} Counterexamples show that \texttt{delay().bfill()}, whole-Series normalization and the full-frame volume-availability branch can change earlier row values when later rows are extended or altered. In contrast, synthetic outer-cutoff probes found that poisoning data after the supplied 600-bar prefix did not change the native outputs. These are different properties: cutoff isolation in a fixture does not make all rows within the prefix causal, certify news PIT, or remove selection bias. We have not repaired the historical native inputs and then attributed the same saved LLM outcomes to a corrected mechanism.
 
 Custom definitions are summarized in \ref{app:signals}. For example, native BFE uses $\tanh(1.5(\%B-0.5)VolZ_5)$: negative volume z-score reverses the sign and zero cancels it. There is no volume-expansion or squeeze gate. Native registry and prototype/fallback paths have different preprocessing, including sample versus population SD and rounded technical variables. A selected-factor display rank is not a permanent factor ID. Six selected metadata slots on six main units disagree with handler descriptions; the affected actual prompts did not contain the literal wrong formula. Their semantic effect on the LLM has not been measured separately. Handler identity, descriptions and frozen outcomes remain distinguishable.
 
-\subsection{Sentiment recipe and availability}
+\subsection{Sentiment Signal Construction}
 The archived local scoring recipe identifies \texttt{5CD-AI/Vietnamese-Sentiment-visobert} at revision \texttt{d7738b85200272f10ba8b048d80236c8c582b581}, with labels NEG/POS/NEU and article score $P(POS)-P(NEG)$. Tokenization uses an explicit 256-token limit, batch size eight, padding and truncation; tokenizer checks and saved probability/score checks do not constitute a new model evaluation. The released scorer is distinct from the ViSoBERT backbone citation \cite{nguyen2023visobert,hf5cdsentiment}.
 
 Availability requires at least three distinct identities with explicit accepted scorer provenance and finite scores in a 90-day cutoff window. Date-only publication is conservatively made available the following day; explicit availability metadata is retained. For eligible articles, the frozen aggregate is
@@ -35,3 +79,32 @@ Availability requires at least three distinct identities with explicit accepted 
 with age in days at the cutoff, hence a 30-day half-life. Missing sentiment is not an observed zero/neutral signal. The frozen provider supplies the aggregate/count report but empty article-detail and peer lists to the normalizer; its z-score and relative fields are therefore zero on this path, not independently observed peer information. The normalizer's reliability flag uses at least eight articles, distinct from the three-article availability rule. A false reliability flag alone does not mean the weighted report was missing. We do not substitute the prototype sentiment equations for these actual inputs.
 
 Legacy inventory contains 180 article records and 177 unique identities, not 8,180 authenticated articles. All 180 legacy scorer identities are unknown; under the corrected strict eligibility/provenance rule none of the 180 legacy test cutoffs has three valid articles. Old runtime counts, duplicate memberships and article counts are retained separately from this strict audit. The reconstructed study and 154 locally rescored excerpts are a separate provenance scope. Actual prompt audits establish which sections were delivered, not that the news content was historically available or correctly interpreted. The authors have no independently labelled financial-news validation set. Social-media domain mismatch and unauthenticated content/publication availability preclude financial-domain accuracy and PIT-certified sentiment claims.
+
+
+\subsection{Multi-Agent Decision Function}
+Let $R^I_d,R^P_d,R^T_d$ be the Indicator, Pattern and Trend reports shared within a pair, and let $R^A_d,R^S_d$ denote the factor and sentiment sections. With variant mask $v=(v_A,v_S)$, the implemented decision can be written
+\begin{equation}
+ \widehat y_{d,v}=\mathcal{D}_{\theta}\!\left(\operatorname{distill}(R^I_d,R^P_d,R^T_d),
+ v_A R^A_d,v_S R^S_d;\pi_v\right),
+ \label{eq:decision_function}
+\end{equation}
+where the products indicate inclusion/omission of text sections, not numerical multiplication. $\pi_v$ includes formatting and evidence-priority instructions. Main Full uses $(1,1)$ and Base $(0,0)$; factorial A/S/AS use $(1,0)/(0,1)/(1,1)$, and P replaces the factor values using the frozen donor rule. This notation describes prompt composition, not a learned fusion layer. Confidence and risk/reward fields are model statements and are not calibrated probabilities or independently executed orders.
+
+\subsection{Walk-Forward Evaluation Protocol}
+The evaluation visits the frozen list of eligible cutoffs in chronological order within each account scope. It does not run a new uniform three-bar grid across the entire price history. At each cutoff the common inputs and report parents are retained, and each registered variant yields its recorded prediction. Only subsequently are predictions joined to the immutable net target and reference account ledger. The following algorithm describes this paired historical protocol; it does not certify row-wise causality of the native selector.
+
+\par\medskip\noindent\fbox{\begin{minipage}{0.95\linewidth}
+\refstepcounter{algorithm}\label{alg:walkforward}
+\textbf{Algorithm \thealgorithm. Shared-report historical evaluation}
+\begin{enumerate}
+\item Read the frozen eligible unit list and chronological train/validation/test masks; reject incomplete windows or horizons.
+\item At $d=e-1$, retain the 45-bar chart window, historical factor prefix, sentiment provenance and their exact hashes.
+\item Compute Indicator/factor reports and obtain the recorded Pattern/Trend reports. Retain upstream identity for the pair.
+\item Compose each registered variant from the shared reports, enabled factor/sentiment sections and the correct prompt family.
+\item Retain its actual request, successful output, errors/order/epoch and checkpoint; never choose an outcome by test performance.
+\item Join saved LONG/SHORT forecasts to the common net labels. Map SHORT to CASH in each separate account.
+\item Report pooled/macro/support-aware classification, paired block diagnostics and account outcomes on their declared scopes.
+\end{enumerate}
+\end{minipage}}\par\medskip
+
+Under the fractional reference ledger, a non-overlapping cycle with LONG indicator $\ell_j$ updates wealth by $W_{j+1}=W_j(1+\ell_j r^{net}_j)$, while a CASH cycle leaves wealth unchanged. This product applies to each account and its reference assumptions; settlement/capacity sensitivities retain explicit receivables and residual holdings instead of being replaced by this shorthand. Account means across securities are not portfolio wealth.
