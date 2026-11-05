@@ -1,0 +1,351 @@
+{
+  "blocks": [
+    {
+      "current": "\\begin{equation}\n    \\mathbf{x}_u = \\bigl(O_u,\\, H_u,\\, L_u,\\, C_u,\\, V_u\\bigr)\n    \\;\\in\\; \\mathbb{R}^5_{+},\n    \\quad u = 0, 1, \\ldots, T-1,\n\\end{equation}",
+      "current_sha256": "b9a5ad485708b7abd7b53760f603fcb3e2dfdae4420ae6f6653c358406b586bc",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\mathbf{x}_u = \\bigl(O_u,\\, H_u,\\, L_u,\\, C_u,\\, V_u\\bigr)\n    \\;\\in\\; \\mathbb{R}^5_{+},\n    \\quad u = 0, 1, \\ldots, T-1,\n\\end{equation}",
+      "original_index": 0,
+      "original_sha256": "b9a5ad485708b7abd7b53760f603fcb3e2dfdae4420ae6f6653c358406b586bc",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathbf{X}_{e} = \\bigl(\\mathbf{x}_{e-W},\\,\n                           \\mathbf{x}_{e-W+1},\\, \\ldots,\\,\n                           \\mathbf{x}_{e-1}\\bigr)\n    \\;\\in\\; \\mathbb{R}^{W \\times 5}.\n    \\qquad\\text{(equivalently, }\\mathbf{X}_{e}=\\mathbf{X}_{[e-W,e)}\\text{)}\n\\end{equation}",
+      "current_sha256": "c198b096f65d3b37dcfa0cc3618404f5524ce8f6f9a90cbbca28f9dab768766a",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\mathbf{X}_{e} = \\bigl(\\mathbf{x}_{e-W},\\,\n                           \\mathbf{x}_{e-W+1},\\, \\ldots,\\,\n                           \\mathbf{x}_{e-1}\\bigr)\n    \\;\\in\\; \\mathbb{R}^{W \\times 5}.\n    \\qquad\\text{(equivalently, }\\mathbf{X}_{e}=\\mathbf{X}_{[e-W,e)}\\text{)}\n\\end{equation}",
+      "original_index": 1,
+      "original_sha256": "c198b096f65d3b37dcfa0cc3618404f5524ce8f6f9a90cbbca28f9dab768766a",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\boxed{\\quad\n    \\text{window}=[e-W,e),\\qquad d=e-1,\\qquad\n    \\text{entry}=e,\\qquad h=e-1+L.\\quad}\n    \\label{eq:time_index_contract}\n\\end{equation}",
+      "current_sha256": "7a146dbb63af3e5cc5eeeab9c087314130abacf685940ec9647d952226b24ece",
+      "environment": "equation",
+      "labels": [
+        "eq:time_index_contract"
+      ],
+      "original": "\\begin{equation}\n    \\boxed{\\quad\n    \\text{window}=[e-W,e),\\qquad d=e-1,\\qquad\n    \\text{entry}=e,\\qquad h=e-1+L.\\quad}\n    \\label{eq:time_index_contract}\n\\end{equation}",
+      "original_index": 2,
+      "original_sha256": "7a146dbb63af3e5cc5eeeab9c087314130abacf685940ec9647d952226b24ece",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    r^{\\mathrm{net}}_{e,L}\n    =\\frac{C_h}{O_e}\n      \\frac{(1-c_{\\mathrm{slip}})(1-c_{\\mathrm{fee}})}\n           {(1+c_{\\mathrm{slip}})(1+c_{\\mathrm{fee}})}-1,\n    \\qquad\n    y_{e,L}=\n    \\begin{cases}\n        +1, & r^{\\mathrm{net}}_{e,L}>0,\\\\\n        -1, & r^{\\mathrm{net}}_{e,L}\\leq 0.\n    \\end{cases}\n    \\label{eq:label}\n\\end{equation}",
+      "current_sha256": "02351038b81429486c5c21b5e56ad1b4ecd6d1ee3518b115fec1db05c5b2d36e",
+      "environment": "equation",
+      "labels": [
+        "eq:label"
+      ],
+      "original": "\\begin{equation}\n    r^{\\mathrm{net}}_{e,L}\n    =\\frac{C_h}{O_e}\n      \\frac{(1-c_{\\mathrm{slip}})(1-c_{\\mathrm{fee}})}\n           {(1+c_{\\mathrm{slip}})(1+c_{\\mathrm{fee}})}-1,\n    \\qquad\n    y_{e,L}=\n    \\begin{cases}\n        +1, & r^{\\mathrm{net}}_{e,L}>0,\\\\\n        -1, & r^{\\mathrm{net}}_{e,L}\\leq 0.\n    \\end{cases}\n    \\label{eq:label}\n\\end{equation}",
+      "original_index": 3,
+      "original_sha256": "02351038b81429486c5c21b5e56ad1b4ecd6d1ee3518b115fec1db05c5b2d36e",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\hat{y}_{e,L} \\;=\\; \\mathcal{F}\\!\\bigl(\\mathbf{X}_e\\bigr)\n    \\;\\in\\; \\{-1,\\, +1\\},\n\\end{equation}",
+      "current_sha256": "f5b11e219909fc45132c2ab5d4b61741d9aa84bd8c2953ac468c5fc2ef1b8bbc",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\hat{y}_{e,L} \\;=\\; \\mathcal{F}\\!\\bigl(\\mathbf{X}_e\\bigr)\n    \\;\\in\\; \\{-1,\\, +1\\},\n\\end{equation}",
+      "original_index": 4,
+      "original_sha256": "f5b11e219909fc45132c2ab5d4b61741d9aa84bd8c2953ac468c5fc2ef1b8bbc",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\alpha^{(k)} : \\mathbb{R}^{T_{\\mathrm{hist}} \\times d}\n    \\;\\longrightarrow\\; \\mathbb{R},\n\\end{equation}",
+      "current_sha256": "e2bb342b0520151c94fd3ae97a0f21edc471f78c83ecbc532ae3a72a9d1b963f",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\alpha^{(k)} : \\mathbb{R}^{T_{\\mathrm{hist}} \\times d}\n    \\;\\longrightarrow\\; \\mathbb{R},\n\\end{equation}",
+      "original_index": 5,
+      "original_sha256": "e2bb342b0520151c94fd3ae97a0f21edc471f78c83ecbc532ae3a72a9d1b963f",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\operatorname{ts\\_rank}(x_u,w)\n    \\;=\\;\n    \\frac{1}{\\max(n_{u,w}-1,1)}\n    \\sum_{x_v\\in\\mathcal{H}_{u,w}} \\mathbf{1}[x_u>x_v].\n    \\label{eq:ts_rank_localised}\n\\end{equation}",
+      "current_sha256": "e23194a72ce31c53a0b8c011453317ffafbec8ca3d841a2deb5b28c784b8fc7d",
+      "environment": "equation",
+      "labels": [
+        "eq:ts_rank_localised"
+      ],
+      "original": "\\begin{equation}\n    \\operatorname{ts\\_rank}(x_u,w)\n    \\;=\\;\n    \\frac{1}{\\max(n_{u,w}-1,1)}\n    \\sum_{x_v\\in\\mathcal{H}_{u,w}} \\mathbf{1}[x_u>x_v].\n    \\label{eq:ts_rank_localised}\n\\end{equation}",
+      "original_index": 6,
+      "original_sha256": "e23194a72ce31c53a0b8c011453317ffafbec8ca3d841a2deb5b28c784b8fc7d",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\tilde{\\alpha}^{(k)}_{u,e}\n    \\;=\\;\n    \\tanh\\!\\left(\n        \\frac{\\alpha^{(k)}_u - \\mu_{k,e}}{\\sigma_{k,e} + \\varepsilon}\n    \\right),\n    \\label{eq:alpha_norm}\n\\end{equation}",
+      "current_sha256": "7a447124a120606ac9adae89d08612fb848b22ea7e4f5cf0ae8b6e7fcfc98522",
+      "environment": "equation",
+      "labels": [
+        "eq:alpha_norm"
+      ],
+      "original": "\\begin{equation}\n    \\tilde{\\alpha}^{(k)}_{u,e}\n    \\;=\\;\n    \\tanh\\!\\left(\n        \\frac{\\alpha^{(k)}_u - \\mu_{k,e}}{\\sigma_{k,e} + \\varepsilon}\n    \\right),\n    \\label{eq:alpha_norm}\n\\end{equation}",
+      "original_index": 7,
+      "original_sha256": "7a447124a120606ac9adae89d08612fb848b22ea7e4f5cf0ae8b6e7fcfc98522",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathrm{IC}_k \\;=\\;\n    \\operatorname{SpearmanCorr}\\!\\bigl(\n        \\tilde{\\alpha}^{(k)}_{\\mathcal{T}_{\\mathrm{eval}}},\\;\n        r^{\\mathrm{net},(L)}_{\\mathcal{T}_{\\mathrm{eval}}}\n    \\bigr).\n    \\label{eq:ic}\n\\end{equation}",
+      "current_sha256": "f8f1b4a44f2fe079cb2d1b440e8287fb3aa38ef7787c8c2320d4687f3cd97526",
+      "environment": "equation",
+      "labels": [
+        "eq:ic"
+      ],
+      "original": "\\begin{equation}\n    \\mathrm{IC}_k \\;=\\;\n    \\operatorname{SpearmanCorr}\\!\\bigl(\n        \\tilde{\\alpha}^{(k)}_{\\mathcal{T}_{\\mathrm{eval}}},\\;\n        r^{\\mathrm{net},(L)}_{\\mathcal{T}_{\\mathrm{eval}}}\n    \\bigr).\n    \\label{eq:ic}\n\\end{equation}",
+      "original_index": 8,
+      "original_sha256": "f8f1b4a44f2fe079cb2d1b440e8287fb3aa38ef7787c8c2320d4687f3cd97526",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathrm{Acc}_k \\;=\\;\n    \\frac{1}{|\\mathcal{T}^*|}\n    \\sum_{u \\in \\mathcal{T}^*}\n    \\mathbf{1}\\!\\left[\n        \\operatorname{sign}\\!\\bigl(\\tilde{\\alpha}^{(k),\\mathrm{or}}_u\\bigr)\n        = y^{(L)}_u\n    \\right],\n\\end{equation}",
+      "current_sha256": "c1cc0b7d95354f1b25f636c8859c6dd9244bc3d93b41849bcfe02a98c6aea3cb",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\mathrm{Acc}_k \\;=\\;\n    \\frac{1}{|\\mathcal{T}^*|}\n    \\sum_{u \\in \\mathcal{T}^*}\n    \\mathbf{1}\\!\\left[\n        \\operatorname{sign}\\!\\bigl(\\tilde{\\alpha}^{(k)}_u\\bigr)\n        = y^{(L)}_u\n    \\right],\n\\end{equation}",
+      "original_index": 9,
+      "original_sha256": "080d6d995a706cc92c722e935c0c61b60e9d7977cb9459848ec29b72d0df27bb",
+      "reason": "Dùng signal đã định hướng IC, giữ dạng tổng/chỉ thị và bố trí gốc.",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "necessary_scientific_or_locator_change"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathrm{LongAcc}_k \\;=\\;\n    \\frac{\n        \\sum_u \\mathbf{1}\\!\\left[\n            \\tilde{\\alpha}^{(k),\\mathrm{or}}_u > 0.05 \\;\\wedge\\; r^{\\mathrm{net},(L)}_u > 0\n        \\right]\n    }{\n        \\sum_u \\mathbf{1}\\!\\left[\n            \\tilde{\\alpha}^{(k),\\mathrm{or}}_u > 0.05\n        \\right]\n    }.\n\\end{equation}",
+      "current_sha256": "d67f9fdb7134b022c93cea885ea8d3897f2b1731a65495d73ee238bba300df7c",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\mathrm{LongAcc}_k \\;=\\;\n    \\frac{\n        \\sum_u \\mathbf{1}\\!\\left[\n            \\tilde{\\alpha}^{(k)}_u > 0.05 \\;\\wedge\\; r^{\\mathrm{net},(L)}_u > 0\n        \\right]\n    }{\n        \\sum_u \\mathbf{1}\\!\\left[\n            \\tilde{\\alpha}^{(k)}_u > 0.05\n        \\right]\n    }.\n\\end{equation}",
+      "original_index": 10,
+      "original_sha256": "05b69b2c8194e9c46874f61f5d4055c1dae2abe22b430539a79e636251b0d662",
+      "reason": "Định hướng IC phải áp dụng cả long-only diagnostic.",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "necessary_scientific_or_locator_change"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathrm{Sharpe}_k \\;=\\;\n    \\sqrt{\\frac{252}{L}} \\cdot\n    \\frac{\n        \\mathbb{E}_{u\\in\\mathcal{T}_{\\mathrm{eval}}}\\!\\left[z^{(k)}_u\\right]\n    }{\n        \\mathrm{Std}_{u\\in\\mathcal{T}_{\\mathrm{eval}}}\\!\\left[z^{(k)}_u\\right]\n        + \\varepsilon\n    }.\n    \\label{eq:sharpe}\n\\end{equation}",
+      "current_sha256": "309b36162b24429c35ba53a4c5d123e442309f1ecbb48678484bdf54509f60d6",
+      "environment": "equation",
+      "labels": [
+        "eq:sharpe"
+      ],
+      "original": "\\begin{equation}\n    \\mathrm{Sharpe}_k \\;=\\;\n    \\sqrt{\\frac{252}{L}} \\cdot\n    \\frac{\n        \\mathbb{E}_{u\\in\\mathcal{T}_{\\mathrm{eval}}}\\!\\left[z^{(k)}_u\\right]\n    }{\n        \\mathrm{Std}_{u\\in\\mathcal{T}_{\\mathrm{eval}}}\\!\\left[z^{(k)}_u\\right]\n        + \\varepsilon\n    }.\n    \\label{eq:sharpe}\n\\end{equation}",
+      "original_index": 11,
+      "original_sha256": "309b36162b24429c35ba53a4c5d123e442309f1ecbb48678484bdf54509f60d6",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathcal{N}_{\\mathcal{V}}(q_k) =\n    \\begin{cases}\n        \\dfrac{q_k-q_{\\min}}{q_{\\max}-q_{\\min}},\n        & q_{\\max}-q_{\\min} \\geq \\varepsilon_{\\mathrm{rank}},\\\\[6pt]\n        \\dfrac{1}{2}, & \\text{otherwise},\n    \\end{cases}\n    \\label{eq:candidate_minmax}\n\\end{equation}",
+      "current_sha256": "a6fa3d381bc9354ad3d83f11d95286c01c33d80458cd47d2efa09ff76377d191",
+      "environment": "equation",
+      "labels": [
+        "eq:candidate_minmax"
+      ],
+      "original": "\\begin{equation}\n    \\mathcal{N}_{\\mathcal{V}}(q_k) =\n    \\begin{cases}\n        \\dfrac{q_k-q_{\\min}}{q_{\\max}-q_{\\min}},\n        & q_{\\max}-q_{\\min} \\geq \\varepsilon_{\\mathrm{rank}},\\\\[6pt]\n        \\dfrac{1}{2}, & \\text{otherwise},\n    \\end{cases}\n    \\label{eq:candidate_minmax}\n\\end{equation}",
+      "original_index": 12,
+      "original_sha256": "a6fa3d381bc9354ad3d83f11d95286c01c33d80458cd47d2efa09ff76377d191",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    S_k \\;=\\;\n    0.40\\,\\mathcal{N}_{\\mathcal{V}}(|\\mathrm{IC}_k|)\n    \\;+\\; 0.35\\,\\mathcal{N}_{\\mathcal{V}}(\\mathrm{Acc}_k)\n    \\;+\\; 0.25\\,\\mathcal{N}_{\\mathcal{V}}(\\mathrm{Sharpe}_k).\n    \\label{eq:composite}\n\\end{equation}",
+      "current_sha256": "d1d47010635c9fdb9dda65ba28b7bb89c6d3814aa0156cc6cffe158334b69f4b",
+      "environment": "equation",
+      "labels": [
+        "eq:composite"
+      ],
+      "original": "\\begin{equation}\n    S_k \\;=\\;\n    0.40\\,\\mathcal{N}_{\\mathcal{V}}(|\\mathrm{IC}_k|)\n    \\;+\\; 0.35\\,\\mathcal{N}_{\\mathcal{V}}(\\mathrm{Acc}_k)\n    \\;+\\; 0.25\\,\\mathcal{N}_{\\mathcal{V}}(\\mathrm{Sharpe}_k).\n    \\label{eq:composite}\n\\end{equation}",
+      "original_index": 13,
+      "original_sha256": "d1d47010635c9fdb9dda65ba28b7bb89c6d3814aa0156cc6cffe158334b69f4b",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathcal{A}^{*} \\;=\\;\n    \\underset{\\mathcal{B}\\,\\subseteq\\,\\mathcal{V},\\;|\\mathcal{B}|=K}\n    {\\arg\\max}\n    \\;\\sum_{\\alpha^{(k)} \\in \\mathcal{B}} S_k.\n    \\label{eq:selection}\n\\end{equation}",
+      "current_sha256": "3c26585536ea91b24121985844546469bae1524a551b7befec0d35739e84b452",
+      "environment": "equation",
+      "labels": [
+        "eq:selection"
+      ],
+      "original": "\\begin{equation}\n    \\mathcal{A}^{*} \\;=\\;\n    \\underset{\\mathcal{B}\\,\\subseteq\\,\\mathcal{V},\\;|\\mathcal{B}|=K}\n    {\\arg\\max}\n    \\;\\sum_{\\alpha^{(k)} \\in \\mathcal{B}} S_k.\n    \\label{eq:selection}\n\\end{equation}",
+      "original_index": 14,
+      "original_sha256": "3c26585536ea91b24121985844546469bae1524a551b7befec0d35739e84b452",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\rho_i \\;=\\; \\mathrm{Scorer}_i(d_i) \\;\\in\\; [-1,\\, 1],\n\\end{equation}",
+      "current_sha256": "90eab9543ad0bbfa6cc6eb2090c6bea56a55128e047062a5c86c8a9bc550fd0b",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\rho_i \\;=\\; \\mathrm{Scorer}_i(d_i) \\;\\in\\; [-1,\\, 1],\n\\end{equation}",
+      "original_index": 15,
+      "original_sha256": "90eab9543ad0bbfa6cc6eb2090c6bea56a55128e047062a5c86c8a9bc550fd0b",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\bar{\\rho}_e \\;=\\;\n    \\frac{1}{|\\mathcal{D}_e|} \\sum_{i=1}^{|\\mathcal{D}_e|} \\rho_i.\n\\end{equation}",
+      "current_sha256": "cdfb46df2ba4bdb80591c5116ac26abf470d2c29670df6dbcdffb7c84e68466b",
+      "environment": "equation",
+      "labels": [],
+      "original": "\\begin{equation}\n    \\bar{\\rho}_e \\;=\\;\n    \\frac{1}{|\\mathcal{D}_e|} \\sum_{i=1}^{|\\mathcal{D}_e|} \\rho_i.\n\\end{equation}",
+      "original_index": 16,
+      "original_sha256": "cdfb46df2ba4bdb80591c5116ac26abf470d2c29670df6dbcdffb7c84e68466b",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{align}\n    \\Delta_i(\\tau_d) &= \\tau_d - \\mathrm{date}(d_i), \\\\\n    w_i(\\tau_d) &= 2^{-\\Delta_i(\\tau_d)/h}, \\qquad h=30\\ \\text{days}, \\\\\n    S_{\\mathrm{decay},e}\n    &= \\frac{\\sum_{d_i\\in\\mathcal{D}_e} w_i(\\tau_d)\\rho_i}\n             {\\sum_{d_i\\in\\mathcal{D}_e} w_i(\\tau_d)},\n    \\label{eq:sent_decay} \\\\[4pt]\n    \\mathrm{Rel}_{\\mathrm{sent},e}\n    &\\;=\\;\n    S_{\\mathrm{decay},e} \\;-\\;\n    \\frac{1}{|\\mathcal{R}_e|}\n    \\sum_{s' \\in \\mathcal{R}_e} S^{(s')}_{\\mathrm{decay},e},\n    \\label{eq:relsent}\n\\end{align}",
+      "current_sha256": "13d8514bf564e4c73a2a4b8281f99364501dc4458b60f7083f69545d141514a0",
+      "environment": "align",
+      "labels": [
+        "eq:sent_decay",
+        "eq:relsent"
+      ],
+      "original": "\\begin{align}\n    \\Delta_i(\\tau_d) &= \\tau_d - \\mathrm{date}(d_i), \\\\\n    w_i(\\tau_d) &= 2^{-\\Delta_i(\\tau_d)/h}, \\qquad h=30\\ \\text{days}, \\\\\n    S_{\\mathrm{decay},e}\n    &= \\frac{\\sum_{d_i\\in\\mathcal{D}_e} w_i(\\tau_d)\\rho_i}\n             {\\sum_{d_i\\in\\mathcal{D}_e} w_i(\\tau_d)},\n    \\label{eq:sent_decay} \\\\[4pt]\n    \\mathrm{Rel}_{\\mathrm{sent},e}\n    &\\;=\\;\n    S_{\\mathrm{decay},e} \\;-\\;\n    \\frac{1}{|\\mathcal{R}_e|}\n    \\sum_{s' \\in \\mathcal{R}_e} S^{(s')}_{\\mathrm{decay},e},\n    \\label{eq:relsent}\n\\end{align}",
+      "original_index": 17,
+      "original_sha256": "13d8514bf564e4c73a2a4b8281f99364501dc4458b60f7083f69545d141514a0",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{align}\n    \\mathbf{r}^{\\mathrm{ind}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{ind}}\\!\\bigl(\\mathbf{X}_e\\bigr),\n    \\label{eq:ind} \\\\\n    \\mathbf{a}_e\n    &\\;=\\; \\mathcal{F}_{\\mathrm{factor}}\\!\\bigl(\n            \\mathbf{X}^{\\mathrm{hist}}_e,\\; \\mathcal{A}^{*}\n           \\bigr),\n    \\label{eq:alpha_factor} \\\\\n    \\mathbf{c}^{\\mathrm{sent}}_e\n    &\\;=\\; \\mathcal{F}_{\\mathrm{context}}\\!\\bigl(\n            S_{\\mathrm{decay},e},\\; n_e,\\; m_e\n           \\bigr),\n    \\label{eq:sent_context} \\\\\n    \\mathbf{r}^{\\mathrm{alpha}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{text}}\\!\\bigl(\n            \\mathbf{a}_e,\\; \\mathbf{c}^{\\mathrm{sent}}_e\n           \\bigr),\n    \\label{eq:alpha} \\\\\n    \\mathbf{r}^{\\mathrm{pat}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{pat}}\\!\\bigl(\n            \\mathbf{I}^{\\mathrm{kline}}_e\n           \\bigr),\n    \\label{eq:pat} \\\\\n    \\mathbf{r}^{\\mathrm{trend}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{trend}}\\!\\bigl(\n            \\mathbf{I}^{\\mathrm{trend}}_e\n           \\bigr),\n    \\label{eq:trend}\n\\end{align}",
+      "current_sha256": "32f9accea54cee44d1917cfb48b54f478677b4a60ff67b3badd7a207d9e873c7",
+      "environment": "align",
+      "labels": [
+        "eq:ind",
+        "eq:alpha_factor",
+        "eq:sent_context",
+        "eq:alpha",
+        "eq:pat",
+        "eq:trend"
+      ],
+      "original": "\\begin{align}\n    \\mathbf{r}^{\\mathrm{ind}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{ind}}\\!\\bigl(\\mathbf{X}_e\\bigr),\n    \\label{eq:ind} \\\\\n    \\mathbf{a}_e\n    &\\;=\\; \\mathcal{F}_{\\mathrm{factor}}\\!\\bigl(\n            \\mathbf{X}_e,\\; \\mathcal{A}^{*}\n           \\bigr),\n    \\label{eq:alpha_factor} \\\\\n    \\mathbf{c}^{\\mathrm{sent}}_e\n    &\\;=\\; \\mathcal{F}_{\\mathrm{context}}\\!\\bigl(\n            \\mathcal{D}_e,\\;\n            S_{\\mathrm{decay},e},\\;\n            \\mathrm{Rel}_{\\mathrm{sent},e}\n           \\bigr),\n    \\label{eq:sent_context} \\\\\n    \\mathbf{r}^{\\mathrm{alpha}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{text}}\\!\\bigl(\n            \\mathbf{a}_e,\\; \\mathbf{c}^{\\mathrm{sent}}_e\n           \\bigr),\n    \\label{eq:alpha} \\\\\n    \\mathbf{r}^{\\mathrm{pat}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{pat}}\\!\\bigl(\n            \\mathbf{I}^{\\mathrm{kline}}_e\n           \\bigr),\n    \\label{eq:pat} \\\\\n    \\mathbf{r}^{\\mathrm{trend}}\n    &\\;=\\; \\mathcal{F}_{\\mathrm{trend}}\\!\\bigl(\n            \\mathbf{I}^{\\mathrm{trend}}_e\n           \\bigr),\n    \\label{eq:trend}\n\\end{align}",
+      "original_index": 18,
+      "original_sha256": "a6c5d50dca998f0d556767841bb0b2b7f138e5f2f4ea82755efe9dc737dddfbf",
+      "reason": "Phân biệt history/chart; context thực là aggregate/count/missingness, không chuyển articles/peers chưa quan sát vào Decision.",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "necessary_scientific_or_locator_change"
+    },
+    {
+      "current": "\\begin{equation}\n    \\hat{y}_{e,L} \\;=\\; \\mathcal{F}_{\\mathrm{dec}}\\!\\bigl(\n        \\mathbf{r}^{\\mathrm{ind}},\\;\n        \\mathbf{r}^{\\mathrm{alpha}},\\;\n        \\mathbf{r}^{\\mathrm{pat}},\\;\n        \\mathbf{r}^{\\mathrm{trend}}\n    \\bigr) \\;\\in\\; \\{-1,\\, +1\\}.\n    \\label{eq:decision}\n\\end{equation}",
+      "current_sha256": "7c92a5959cfd58dfce07d4b2156708d4df1da434077e8e1c74a4e3cb8d5eddbb",
+      "environment": "equation",
+      "labels": [
+        "eq:decision"
+      ],
+      "original": "\\begin{equation}\n    \\hat{y}_{e,L} \\;=\\; \\mathcal{F}_{\\mathrm{dec}}\\!\\bigl(\n        \\mathbf{r}^{\\mathrm{ind}},\\;\n        \\mathbf{r}^{\\mathrm{alpha}},\\;\n        \\mathbf{r}^{\\mathrm{pat}},\\;\n        \\mathbf{r}^{\\mathrm{trend}}\n    \\bigr) \\;\\in\\; \\{-1,\\, +1\\}.\n    \\label{eq:decision}\n\\end{equation}",
+      "original_index": 19,
+      "original_sha256": "7c92a5959cfd58dfce07d4b2156708d4df1da434077e8e1c74a4e3cb8d5eddbb",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathcal{T} \\;=\\;\n    \\bigl\\{\\, e_i \\;\\mid\\; d_i=e_i-1\\in\\mathcal{D}_{\\mathrm{test}},\\;\n    W\\le e_i\\le T-L\\,\\bigr\\},\n    \\qquad e_1<\\cdots<e_{N_s},\n    \\label{eq:testpoints}\n\\end{equation}",
+      "current_sha256": "15ad798d31752d84d48f753f5dac7f2a3f654221eddb40ea4439f649a9458c61",
+      "environment": "equation",
+      "labels": [
+        "eq:testpoints"
+      ],
+      "original": "\\begin{equation}\n    \\mathcal{T} \\;=\\;\n    \\bigl\\{\\, e_i = T-L-(i-1)\\cdot S\n    \\;\\mid\\; i = 1, 2, \\ldots, N_{\\mathrm{test}} \\,\\bigr\\},\n    \\label{eq:testpoints}\n\\end{equation}",
+      "original_index": 20,
+      "original_sha256": "7d73bbf4ccd1b6a414a62f8160ddefb9f430cdb0e18647c79869962455f8fe44",
+      "reason": "Thay grid đều S=3/N=20 không còn đúng bằng lịch eligible thực; giữ environment và nhãn công thức gốc.",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "necessary_scientific_or_locator_change"
+    },
+    {
+      "current": "\\begin{align}\n    \\mathrm{Acc}\n    &\\;=\\;\n    \\frac{1}{|\\mathcal{T}|}\n    \\sum_{e \\in \\mathcal{T}}\n    \\mathbf{1}\\!\\bigl[\\hat{y}_{e,L} = y_{e,L}\\bigr],\n    \\label{eq:acc} \\\\[4pt]\n    \\Delta\\mathrm{Acc}\n    &\\;=\\;\n    \\mathrm{Acc}_{\\mathrm{Full}}\n    \\;-\\; \\mathrm{Acc}_{\\mathrm{Base}},\n    \\label{eq:lift} \\\\[4pt]\n    q_e\n    &\\;=\\;\n    a_e\\left[\n    \\frac{C_{e-1+L}}{O_e}\n    \\frac{(1-c_{\\mathrm{slip}})(1-c_{\\mathrm{fee}})}\n         {(1+c_{\\mathrm{slip}})(1+c_{\\mathrm{fee}})}-1\n    \\right],\n    \\label{eq:execution_return}\\\\[4pt]\n    W_{k+1}\n    &\\;=\\;\n    W_k\\left(1+q_{e_k}\\right),\\qquad W_0=1,\n    \\label{eq:wealth_update}\\\\[4pt]\n    R_{\\mathrm{acct}}\n    &\\;=\\;\n    \\frac{W_K}{W_0}-1,\n    \\label{eq:account_return}\n\\end{align}",
+      "current_sha256": "71df572e02831fb6edd86a8fd4f237a99196e5cfcfe1bdd9ae2ec4afe27d2ac2",
+      "environment": "align",
+      "labels": [
+        "eq:acc",
+        "eq:lift",
+        "eq:execution_return",
+        "eq:wealth_update",
+        "eq:account_return"
+      ],
+      "original": "\\begin{align}\n    \\mathrm{Acc}\n    &\\;=\\;\n    \\frac{1}{|\\mathcal{T}|}\n    \\sum_{e \\in \\mathcal{T}}\n    \\mathbf{1}\\!\\bigl[\\hat{y}_{e,L} = y_{e,L}\\bigr],\n    \\label{eq:acc} \\\\[4pt]\n    \\Delta\\mathrm{Acc}\n    &\\;=\\;\n    \\mathrm{Acc}_{\\mathrm{Full}}\n    \\;-\\; \\mathrm{Acc}_{\\mathrm{No\\text{-}\\alpha}},\n    \\label{eq:lift} \\\\[4pt]\n    q_e\n    &\\;=\\;\n    a_e\\left[\n    \\frac{C_{e-1+L}}{O_e}\n    \\frac{(1-c_{\\mathrm{slip}})(1-c_{\\mathrm{fee}})}\n         {(1+c_{\\mathrm{slip}})(1+c_{\\mathrm{fee}})}-1\n    \\right],\n    \\label{eq:execution_return}\\\\[4pt]\n    W_{k+1}\n    &\\;=\\;\n    W_k\\left(1+q_{e_k}\\right),\\qquad W_0=1,\n    \\label{eq:wealth_update}\\\\[4pt]\n    R_{\\mathrm{acct}}\n    &\\;=\\;\n    \\frac{W_K}{W_0}-1,\n    \\label{eq:account_return}\n\\end{align}",
+      "original_index": 21,
+      "original_sha256": "a2055d31bc5a2d399d1325a9156973447abf66131497d8dcb114f0cbc5bc9664",
+      "reason": "Base bỏ cả factor/sentiment: đổi tên comparator, không gọi difference là causal Alpha Lift.",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "necessary_scientific_or_locator_change"
+    },
+    {
+      "current": "\\begin{align}\n    \\mathrm{Sharpe}_{\\mathrm{acct}}\n    &=\\sqrt{252}\\,\\frac{\\mathbb{E}[r^{\\mathrm{day}}_t]}\n    {\\mathrm{Std}[r^{\\mathrm{day}}_t]},\n    \\label{eq:account_sharpe}\\\\[4pt]\n    \\mathrm{MDD}_{\\mathrm{acct}}\n    &=\\max_{0\\le t\\le T_{\\mathrm{day}}}\n      \\left(1-\\frac{W^{\\mathrm{day}}_t}{\\max_{0\\le j\\le t}W^{\\mathrm{day}}_j}\\right).\n    \\label{eq:account_mdd}\n\\end{align}",
+      "current_sha256": "c335234ac7d7431ccd8e7b432e86bccdab385d469f809f16e3f031161ab97add",
+      "environment": "align",
+      "labels": [
+        "eq:account_sharpe",
+        "eq:account_mdd"
+      ],
+      "original": "\\begin{align}\n    \\mathrm{Sharpe}_{\\mathrm{acct}}\n    &=\\sqrt{252}\\,\\frac{\\mathbb{E}[\\rho_k]}\n    {\\mathrm{Std}[\\rho_k]+\\varepsilon},\n    \\label{eq:account_sharpe}\\\\[4pt]\n    \\mathrm{MDD}_{\\mathrm{acct}}\n    &=\\max_{0\\leq k\\leq K}\n      \\left(1-\\frac{W_k}{\\max_{0\\leq i\\leq k}W_i}\\right).\n    \\label{eq:account_mdd}\n\\end{align}",
+      "original_index": 22,
+      "original_sha256": "8949a455414b0edfa3573101582256b858ea4c744bb7e6c0e6baf66579886053",
+      "reason": "Sửa annualisation: Sharpe dùng returns theo daily calendar, không sqrt252 nhân cycle returns gapped; MDD từ đường daily-close có anchor.",
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "necessary_scientific_or_locator_change"
+    },
+    {
+      "current": "\\begin{equation}\n    \\mathrm{HitRate}=\\frac{1}{|\\mathcal{X}|}\n    \\sum_{e\\in\\mathcal{X}}\\mathbf{1}[q_e>0],\\qquad\n    \\mathrm{AvgTrade}=\\frac{1}{|\\mathcal{X}|}\n    \\sum_{e\\in\\mathcal{X}}q_e,\n    \\label{eq:account_trade_metrics}\n\\end{equation}",
+      "current_sha256": "e474ebc9f3c111f2722fd1cf42586ed53a62b8873a35222df63decbc70886a84",
+      "environment": "equation",
+      "labels": [
+        "eq:account_trade_metrics"
+      ],
+      "original": "\\begin{equation}\n    \\mathrm{HitRate}=\\frac{1}{|\\mathcal{X}|}\n    \\sum_{e\\in\\mathcal{X}}\\mathbf{1}[q_e>0],\\qquad\n    \\mathrm{AvgTrade}=\\frac{1}{|\\mathcal{X}|}\n    \\sum_{e\\in\\mathcal{X}}q_e,\n    \\label{eq:account_trade_metrics}\n\\end{equation}",
+      "original_index": 23,
+      "original_sha256": "e474ebc9f3c111f2722fd1cf42586ed53a62b8873a35222df63decbc70886a84",
+      "reason": null,
+      "source": "paper/sections/03_problem_formulation.tex",
+      "status": "original_block_restored_exact_LF"
+    }
+  ],
+  "highlight_lengths": [
+    83,
+    76,
+    77,
+    65,
+    74
+  ],
+  "highlights": [
+    "Quantitative alpha and Vietnamese sentiment extend a multi-agent trading framework.",
+    "An 85-factor registry adapts OHLCV signals to single-stock decision context.",
+    "Shared-report comparisons evaluate factor, sentiment and past-donor variants.",
+    "Balanced-accuracy gains coincide with fewer false LONG forecasts.",
+    "Cost-aware accounts distinguish directional scores from economic outcomes."
+  ],
+  "original_archive": "revision/manuscript_original.zip",
+  "title": "Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration"
+}

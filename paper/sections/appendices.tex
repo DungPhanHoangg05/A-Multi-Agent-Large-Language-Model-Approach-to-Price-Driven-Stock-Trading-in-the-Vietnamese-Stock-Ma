@@ -2,7 +2,7 @@
 \appendix
 \section{Agent System Prompts}
 \label{app:prompts}
-The original prompt appendix is retained as a concise description of the roles and output contracts. The summaries below are English explanations of the actual Vietnamese prompt families, not new verbatim templates or translations claimed to be identical to each archived request. Exact messages, image payloads and request metadata remain in the companion archive. The evaluated path must be distinguished from optional prompts present in general live-mode code.
+This appendix specifies the role-level prompt and output contracts used to interpret the system. The summaries below are English explanations of the actual Vietnamese prompt families, not new verbatim templates or translations claimed to be identical to each archived request. Exact messages, image payloads and request metadata remain in the companion archive. The evaluated path must be distinguished from optional prompts present in general live-mode code.
 
 \subsection{Decision Agent Prompt}
 \label{app:prompt_decision}
@@ -33,13 +33,13 @@ An optional live-mode reasoning prompt exists, but the frozen numerical/report p
 \label{app:state_schema}
 The declared \texttt{IndicatorAgentState} is a shared \texttt{TypedDict}; the backtest wrapper and individual nodes determine which fields are actually populated. Inputs include \texttt{kline\_data}, \texttt{time\_frame}, \texttt{stock\_name}, \texttt{is\_backtest}, \texttt{point\_in\_time\_df}, \texttt{as\_of\_date}, language and the two image payloads. Report fields are \texttt{indicator\_report}, \texttt{alpha\_report}, \texttt{pattern\_report}, \texttt{trend\_report} and \texttt{sentiment\_report}; sentiment data/normalizer fields and message history are distinct from those reports. Final output fields include \texttt{decision\_prompt} and \texttt{final\_trade\_decision}.
 
-Declared RSI/MACD/Stochastic/ROC/Williams, ATR, Bollinger and ADX/DI arrays do not imply that every array is forwarded by the deterministic backtest Indicator node or that each is a separate vote. Likewise, a sentiment schema comment does not establish that its peer or relative fields were observed. The previous state table's close-to-close log-return description is superseded by the net Open-to-Close target in Eq.~\ref{eq:netlabel}. The evaluated pair shares upstream report parents, then uses variant-specific Decision composition and separate ledgers. The full schema listing and wrapper provenance are retained in source rather than reproduced as a misleading complete runtime trace.
+Declared RSI/MACD/Stochastic/ROC/Williams, ATR, Bollinger and ADX/DI arrays do not imply that every array is forwarded by the deterministic backtest Indicator node or that each is a separate vote. Likewise, a sentiment schema comment does not establish that its peer or relative fields were observed. The forecasting target is the net Open-to-Close cycle in Eq.~\ref{eq:label}; it is separate from the state schema's field names. The evaluated pair shares upstream report parents, then uses variant-specific Decision composition and separate ledgers. The full schema listing and wrapper provenance are retained in source rather than reproduced as a misleading complete runtime trace.
 
 \FloatBarrier
 \setcounter{table}{0}
 \section{Custom Alpha Formula Implementation}
 \label{app:signals}
-The original custom-formula appendix is retained with native handler definitions and prototype/fallback distinctions. ``Custom'' describes their role in this implementation; it is not a validated novelty or profitability claim. The following formulas precede native global normalization and IC orientation. Handler identities are not the rank of a selected display row.
+The custom formulas below specify native handlers and distinguish their preprocessing from prototype/fallback implementations. ``Custom'' describes their role in this implementation; it is not a validated novelty or profitability claim. The following formulas precede native global normalization and IC orientation. Handler identities are not the rank of a selected display row.
 \input{generated/a02_custom.tex}
 
 \subsection{Flow-Driven Momentum (FDM)}
@@ -65,7 +65,7 @@ OFE combines adjusted return with the close location relative to the bar midpoin
 \subsection{MACD Classification}
 Previous strict/current inclusive line crossing is checked before histogram sign/change. Parameters are 12/26/9. A Stochastic oscillator has no MACD histogram; the two rules must not be conflated.
 \subsection{RSI Classification}
-The ordered extreme branches ($\ge70$ bearish, $\le30$ bullish) precede interior trend bands. Thus $55\le RSI<70$ is bullish and $30<RSI\le45$ bearish; the middle interval uses change against the third retained observation. This ordering resolves overlaps in the old table.
+The ordered extreme branches ($\ge70$ bearish, $\le30$ bullish) precede interior trend bands. Thus $55\le RSI<70$ is bullish and $30<RSI\le45$ bearish; the middle interval uses change against the third retained observation. The ordered branches make the extreme and interior regions mutually exclusive.
 \subsection{Stochastic Oscillator Classification}
 Crossing has priority over overbought/oversold thresholds. Legacy equality and zero-D truthiness behaviour is retained and disclosed rather than replaced retrospectively with an idealized oscillator rule.
 \subsection{Williams \%R Classification}
@@ -83,10 +83,16 @@ The research runtime is Python 3.13.5 with pinned numerical, graph, model-client
 The operational installation, Flask/JSON handling, tokenizer configuration and optional endpoint routing instructions remain in the repository. Their existence does not establish that each backend was used in the frozen study. Public distribution remains conditional on rights and a real persistent identifier. No credentials or private review document belong in a public reproducibility package.
 
 \FloatBarrier
+\clearpage
 \setcounter{table}{0}
 \section{Additional Account and Symbol Results}
 \label{app:additional}
 These tables use the same final supports and unchanged predictions as the main results. Supplement S1 gives every baseline by symbol and both classes; S2 contains all execution rows/contrasts; S3 the complete numeric/random family; S4 all temporal/regime/HAC diagnostics. They are scientific companion tables, distinct from raw execution logs and implementation files. No additional market observation is created by these alternative tabulations.
+% Hai bảng đặt sau heading của chính appendix, không nổi ngược lên phần trước.
+\begingroup
+\let\savedappendixtable\table
+\def\table[#1]{\savedappendixtable[H]}
 \input{generated/a03_symbols.tex}
 \input{generated/a04_execution.tex}
+\endgroup
 \FloatBarrier

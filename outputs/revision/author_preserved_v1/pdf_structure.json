@@ -1,0 +1,1394 @@
+{
+  "main": {
+    "citations": {
+      "araci2019finbert": 14,
+      "bailey2014deflated": 10,
+      "han2023chartllama": 5,
+      "harvey2016": 8,
+      "hf5cdsentiment": 13,
+      "kakushadze2016formulaic": 7,
+      "nguyen2023visobert": 12,
+      "openai2025gptoss": 15,
+      "talib_rsi_docs": 16,
+      "talib_willr_docs": 17,
+      "tradingagents2024": 4,
+      "tsantekidis2017lob": 6,
+      "varma2006bias": 9,
+      "vsd2022settlement": 18,
+      "white2000reality": 11,
+      "wu2023bloomberggpt": 2,
+      "xiong2025quantagent": 1,
+      "yang2023fingpt": 3
+    },
+    "labels": {
+      "alg:walkforward": {
+        "logical_page": 4,
+        "number": "1",
+        "physical_page": 5
+      },
+      "app:additional": {
+        "logical_page": 31,
+        "number": "Appendix~F",
+        "physical_page": 32
+      },
+      "app:indicator_logic": {
+        "logical_page": 29,
+        "number": "Appendix~D",
+        "physical_page": 30
+      },
+      "app:prompt_alpha": {
+        "logical_page": 27,
+        "number": "Appendix~A.6",
+        "physical_page": 28
+      },
+      "app:prompt_decision": {
+        "logical_page": 27,
+        "number": "Appendix~A.1",
+        "physical_page": 28
+      },
+      "app:prompt_indicator": {
+        "logical_page": 27,
+        "number": "Appendix~A.4",
+        "physical_page": 28
+      },
+      "app:prompt_pattern": {
+        "logical_page": 27,
+        "number": "Appendix~A.2",
+        "physical_page": 28
+      },
+      "app:prompt_sentiment": {
+        "logical_page": 27,
+        "number": "Appendix~A.5",
+        "physical_page": 28
+      },
+      "app:prompt_trend": {
+        "logical_page": 27,
+        "number": "Appendix~A.3",
+        "physical_page": 28
+      },
+      "app:prompts": {
+        "logical_page": 27,
+        "number": "Appendix~A",
+        "physical_page": 28
+      },
+      "app:signals": {
+        "logical_page": 28,
+        "number": "Appendix~C",
+        "physical_page": 29
+      },
+      "app:software": {
+        "logical_page": 30,
+        "number": "Appendix~E",
+        "physical_page": 31
+      },
+      "app:state_schema": {
+        "logical_page": 28,
+        "number": "Appendix~B",
+        "physical_page": 29
+      },
+      "eq:acc": {
+        "logical_page": 10,
+        "number": "30",
+        "physical_page": 11
+      },
+      "eq:account_mdd": {
+        "logical_page": 10,
+        "number": "36",
+        "physical_page": 11
+      },
+      "eq:account_return": {
+        "logical_page": 10,
+        "number": "34",
+        "physical_page": 11
+      },
+      "eq:account_sharpe": {
+        "logical_page": 10,
+        "number": "35",
+        "physical_page": 11
+      },
+      "eq:account_trade_metrics": {
+        "logical_page": 10,
+        "number": "37",
+        "physical_page": 11
+      },
+      "eq:alpha": {
+        "logical_page": 9,
+        "number": "25",
+        "physical_page": 10
+      },
+      "eq:alpha_factor": {
+        "logical_page": 9,
+        "number": "23",
+        "physical_page": 10
+      },
+      "eq:alpha_norm": {
+        "logical_page": 6,
+        "number": "8",
+        "physical_page": 7
+      },
+      "eq:candidate_minmax": {
+        "logical_page": 7,
+        "number": "13",
+        "physical_page": 8
+      },
+      "eq:classification_metrics": {
+        "logical_page": 18,
+        "number": "38",
+        "physical_page": 19
+      },
+      "eq:composite": {
+        "logical_page": 7,
+        "number": "14",
+        "physical_page": 8
+      },
+      "eq:decision": {
+        "logical_page": 9,
+        "number": "28",
+        "physical_page": 10
+      },
+      "eq:execution_return": {
+        "logical_page": 10,
+        "number": "32",
+        "physical_page": 11
+      },
+      "eq:ic": {
+        "logical_page": 6,
+        "number": "9",
+        "physical_page": 7
+      },
+      "eq:ind": {
+        "logical_page": 9,
+        "number": "22",
+        "physical_page": 10
+      },
+      "eq:label": {
+        "logical_page": 5,
+        "number": "4",
+        "physical_page": 6
+      },
+      "eq:lift": {
+        "logical_page": 10,
+        "number": "31",
+        "physical_page": 11
+      },
+      "eq:pat": {
+        "logical_page": 9,
+        "number": "26",
+        "physical_page": 10
+      },
+      "eq:relsent": {
+        "logical_page": 8,
+        "number": "21",
+        "physical_page": 9
+      },
+      "eq:selection": {
+        "logical_page": 7,
+        "number": "15",
+        "physical_page": 8
+      },
+      "eq:sent_context": {
+        "logical_page": 9,
+        "number": "24",
+        "physical_page": 10
+      },
+      "eq:sent_decay": {
+        "logical_page": 8,
+        "number": "20",
+        "physical_page": 9
+      },
+      "eq:sharpe": {
+        "logical_page": 7,
+        "number": "12",
+        "physical_page": 8
+      },
+      "eq:testpoints": {
+        "logical_page": 9,
+        "number": "29",
+        "physical_page": 10
+      },
+      "eq:time_index_contract": {
+        "logical_page": 5,
+        "number": "3",
+        "physical_page": 6
+      },
+      "eq:trend": {
+        "logical_page": 9,
+        "number": "27",
+        "physical_page": 10
+      },
+      "eq:ts_rank_localised": {
+        "logical_page": 6,
+        "number": "7",
+        "physical_page": 7
+      },
+      "eq:wealth_update": {
+        "logical_page": 10,
+        "number": "33",
+        "physical_page": 11
+      },
+      "fig:alpha_agent": {
+        "logical_page": 13,
+        "number": "2",
+        "physical_page": 14
+      },
+      "fig:calendar": {
+        "logical_page": 17,
+        "number": "5",
+        "physical_page": 18
+      },
+      "fig:charts": {
+        "logical_page": 14,
+        "number": "3",
+        "physical_page": 15
+      },
+      "fig:decision_agent": {
+        "logical_page": 15,
+        "number": "4",
+        "physical_page": 16
+      },
+      "fig:flow": {
+        "logical_page": 11,
+        "number": "1",
+        "physical_page": 12
+      },
+      "fig:walkforward": {
+        "logical_page": 17,
+        "number": "6",
+        "physical_page": 18
+      },
+      "sec:backtestresults": {
+        "logical_page": 19,
+        "number": "6",
+        "physical_page": 20
+      },
+      "sec:conclusion": {
+        "logical_page": 25,
+        "number": "8",
+        "physical_page": 26
+      },
+      "sec:experimentalsetup": {
+        "logical_page": 16,
+        "number": "5",
+        "physical_page": 17
+      },
+      "sec:formulation": {
+        "logical_page": 4,
+        "number": "3",
+        "physical_page": 5
+      },
+      "sec:introduction": {
+        "logical_page": 1,
+        "number": "1",
+        "physical_page": 2
+      },
+      "sec:limitations": {
+        "logical_page": 24,
+        "number": "7",
+        "physical_page": 25
+      },
+      "sec:relatedworks": {
+        "logical_page": 3,
+        "number": "2",
+        "physical_page": 4
+      },
+      "sec:systemarchitecture": {
+        "logical_page": 11,
+        "number": "4",
+        "physical_page": 12
+      },
+      "tab:accounts": {
+        "logical_page": 21,
+        "number": "3",
+        "physical_page": 22
+      },
+      "tab:classification": {
+        "logical_page": 20,
+        "number": "2",
+        "physical_page": 21
+      },
+      "tab:custom_definitions": {
+        "logical_page": 28,
+        "number": "C.1",
+        "physical_page": 29
+      },
+      "tab:execution": {
+        "logical_page": 32,
+        "number": "F.2",
+        "physical_page": 33
+      },
+      "tab:indicator_rules": {
+        "logical_page": 29,
+        "number": "D.1",
+        "physical_page": 30
+      },
+      "tab:numeric": {
+        "logical_page": 24,
+        "number": "6",
+        "physical_page": 25
+      },
+      "tab:repeats": {
+        "logical_page": 22,
+        "number": "4",
+        "physical_page": 23
+      },
+      "tab:scope": {
+        "logical_page": 16,
+        "number": "1",
+        "physical_page": 17
+      },
+      "tab:symbol_results": {
+        "logical_page": 31,
+        "number": "F.1",
+        "physical_page": 32
+      },
+      "tab:temporal": {
+        "logical_page": 23,
+        "number": "5",
+        "physical_page": 24
+      }
+    },
+    "metadata": {
+      "author": "Hong-Viet Tran ; Hoang-Dung Phan ; Thanh-Tam Do Thi ; Phuong-Thai Nguyen ; Van-Tang Nguyen ; ",
+      "creationDate": "D:20261105093950+07'00'",
+      "creator": "LaTeX with hyperref",
+      "encryption": null,
+      "format": "PDF 1.5",
+      "keywords": "",
+      "modDate": "D:20261105093950+07'00'",
+      "producer": "MiKTeX pdfTeX-1.40.28",
+      "subject": "",
+      "title": "Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration",
+      "trapped": ""
+    },
+    "outline": [
+      [
+        1,
+        "Introduction",
+        2
+      ],
+      [
+        1,
+        "Related works",
+        4
+      ],
+      [
+        2,
+        "LLM Agents in Financial Analysis",
+        4
+      ],
+      [
+        2,
+        "Technical Analysis and Pattern Recognition",
+        4
+      ],
+      [
+        2,
+        "Quantitative Alpha Factor Research",
+        4
+      ],
+      [
+        2,
+        "Sentiment Analysis in Finance and Vietnamese NLP",
+        4
+      ],
+      [
+        2,
+        "Trading Systems for Emerging Markets",
+        5
+      ],
+      [
+        2,
+        "Evaluation Standards and Agentic Benchmarks",
+        5
+      ],
+      [
+        1,
+        "Problem Formulation",
+        5
+      ],
+      [
+        2,
+        "Market Model and Data",
+        6
+      ],
+      [
+        2,
+        "Directional Prediction Task",
+        6
+      ],
+      [
+        2,
+        "Alpha Factor Formalisation and Adaptation",
+        7
+      ],
+      [
+        2,
+        "Walk-Forward Alpha Selection",
+        7
+      ],
+      [
+        2,
+        "Sentiment Signal Construction",
+        9
+      ],
+      [
+        2,
+        "Multi-Agent Decision Function",
+        10
+      ],
+      [
+        2,
+        "Walk-Forward Evaluation Protocol",
+        10
+      ],
+      [
+        1,
+        "System architecture",
+        12
+      ],
+      [
+        2,
+        "Overview",
+        12
+      ],
+      [
+        2,
+        "Indicator Agent",
+        12
+      ],
+      [
+        2,
+        "Alpha Agent",
+        13
+      ],
+      [
+        2,
+        "Pattern Agent",
+        13
+      ],
+      [
+        2,
+        "Trend Agent",
+        13
+      ],
+      [
+        2,
+        "Decision Agent",
+        16
+      ],
+      [
+        1,
+        "Experimental Setup",
+        17
+      ],
+      [
+        2,
+        "Dataset and Point-in-Time Data Contract",
+        17
+      ],
+      [
+        2,
+        "Walk-Forward Protocol",
+        17
+      ],
+      [
+        2,
+        "Paired Baseline and Disentangled Ablations",
+        19
+      ],
+      [
+        2,
+        "Account and Statistical Metrics",
+        19
+      ],
+      [
+        2,
+        "Implementation and Robustness Design",
+        20
+      ],
+      [
+        1,
+        "Backtest Results",
+        20
+      ],
+      [
+        2,
+        "Nine-Symbol Paired Benchmark",
+        20
+      ],
+      [
+        3,
+        "Main class-aware comparison",
+        20
+      ],
+      [
+        3,
+        "Account outcomes and exposure",
+        21
+      ],
+      [
+        2,
+        "Disentangled Alpha–Sentiment Ablation",
+        22
+      ],
+      [
+        3,
+        "Repeated executions and factorial contrasts",
+        22
+      ],
+      [
+        2,
+        "Robustness and Sensitivity",
+        23
+      ],
+      [
+        3,
+        "Temporal and dependence diagnostics",
+        23
+      ],
+      [
+        3,
+        "Auxiliary numeric selector controls",
+        24
+      ],
+      [
+        1,
+        "Limitations & Future Work",
+        25
+      ],
+      [
+        2,
+        "Limitations",
+        25
+      ],
+      [
+        2,
+        "Future Work",
+        26
+      ],
+      [
+        2,
+        "Broader Impact",
+        26
+      ],
+      [
+        1,
+        "Conclusion",
+        26
+      ],
+      [
+        1,
+        "Agent System Prompts",
+        28
+      ],
+      [
+        2,
+        "Decision Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Pattern Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Trend Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Indicator Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Sentiment LLM Prompt (Subroutine of Alpha Agent)",
+        28
+      ],
+      [
+        2,
+        "Alpha Agent LLM Reasoning Prompt",
+        28
+      ],
+      [
+        1,
+        "LangGraph State Schema",
+        29
+      ],
+      [
+        1,
+        "Custom Alpha Formula Implementation",
+        29
+      ],
+      [
+        2,
+        "Flow-Driven Momentum (FDM)",
+        30
+      ],
+      [
+        2,
+        "MACD/Return Proxy (SFA)",
+        30
+      ],
+      [
+        2,
+        "Liquidity Void Reversion (LVR)",
+        30
+      ],
+      [
+        2,
+        "Bollinger Squeeze & Flow (BFE)",
+        30
+      ],
+      [
+        2,
+        "Order Flow Exhaustion (OFE)",
+        30
+      ],
+      [
+        1,
+        "Indicator Signal Classification Logic",
+        30
+      ],
+      [
+        2,
+        "MACD Classification",
+        31
+      ],
+      [
+        2,
+        "RSI Classification",
+        31
+      ],
+      [
+        2,
+        "Stochastic Oscillator Classification",
+        31
+      ],
+      [
+        2,
+        "Williams %R Classification",
+        31
+      ],
+      [
+        2,
+        "ROC Classification",
+        31
+      ],
+      [
+        2,
+        "Consensus Rule",
+        31
+      ],
+      [
+        1,
+        "Software Dependencies and Reproducibility",
+        31
+      ],
+      [
+        1,
+        "Additional Account and Symbol Results",
+        32
+      ]
+    ],
+    "pages": 34,
+    "sha256": "0213d2a9894a00b4fa6e53d00ac6a7be9a7fa8ce53adfca9b02c0d399783f7f9"
+  },
+  "main_submit": {
+    "citations": {
+      "araci2019finbert": 14,
+      "bailey2014deflated": 10,
+      "han2023chartllama": 5,
+      "harvey2016": 8,
+      "hf5cdsentiment": 13,
+      "kakushadze2016formulaic": 7,
+      "nguyen2023visobert": 12,
+      "openai2025gptoss": 15,
+      "talib_rsi_docs": 16,
+      "talib_willr_docs": 17,
+      "tradingagents2024": 4,
+      "tsantekidis2017lob": 6,
+      "varma2006bias": 9,
+      "vsd2022settlement": 18,
+      "white2000reality": 11,
+      "wu2023bloomberggpt": 2,
+      "xiong2025quantagent": 1,
+      "yang2023fingpt": 3
+    },
+    "labels": {
+      "alg:walkforward": {
+        "logical_page": 4,
+        "number": "1",
+        "physical_page": 5
+      },
+      "app:additional": {
+        "logical_page": 31,
+        "number": "Appendix~F",
+        "physical_page": 32
+      },
+      "app:indicator_logic": {
+        "logical_page": 29,
+        "number": "Appendix~D",
+        "physical_page": 30
+      },
+      "app:prompt_alpha": {
+        "logical_page": 27,
+        "number": "Appendix~A.6",
+        "physical_page": 28
+      },
+      "app:prompt_decision": {
+        "logical_page": 26,
+        "number": "Appendix~A.1",
+        "physical_page": 27
+      },
+      "app:prompt_indicator": {
+        "logical_page": 27,
+        "number": "Appendix~A.4",
+        "physical_page": 28
+      },
+      "app:prompt_pattern": {
+        "logical_page": 27,
+        "number": "Appendix~A.2",
+        "physical_page": 28
+      },
+      "app:prompt_sentiment": {
+        "logical_page": 27,
+        "number": "Appendix~A.5",
+        "physical_page": 28
+      },
+      "app:prompt_trend": {
+        "logical_page": 27,
+        "number": "Appendix~A.3",
+        "physical_page": 28
+      },
+      "app:prompts": {
+        "logical_page": 26,
+        "number": "Appendix~A",
+        "physical_page": 27
+      },
+      "app:signals": {
+        "logical_page": 28,
+        "number": "Appendix~C",
+        "physical_page": 29
+      },
+      "app:software": {
+        "logical_page": 30,
+        "number": "Appendix~E",
+        "physical_page": 31
+      },
+      "app:state_schema": {
+        "logical_page": 27,
+        "number": "Appendix~B",
+        "physical_page": 28
+      },
+      "eq:acc": {
+        "logical_page": 10,
+        "number": "30",
+        "physical_page": 11
+      },
+      "eq:account_mdd": {
+        "logical_page": 10,
+        "number": "36",
+        "physical_page": 11
+      },
+      "eq:account_return": {
+        "logical_page": 10,
+        "number": "34",
+        "physical_page": 11
+      },
+      "eq:account_sharpe": {
+        "logical_page": 10,
+        "number": "35",
+        "physical_page": 11
+      },
+      "eq:account_trade_metrics": {
+        "logical_page": 10,
+        "number": "37",
+        "physical_page": 11
+      },
+      "eq:alpha": {
+        "logical_page": 9,
+        "number": "25",
+        "physical_page": 10
+      },
+      "eq:alpha_factor": {
+        "logical_page": 9,
+        "number": "23",
+        "physical_page": 10
+      },
+      "eq:alpha_norm": {
+        "logical_page": 6,
+        "number": "8",
+        "physical_page": 7
+      },
+      "eq:candidate_minmax": {
+        "logical_page": 7,
+        "number": "13",
+        "physical_page": 8
+      },
+      "eq:classification_metrics": {
+        "logical_page": 18,
+        "number": "38",
+        "physical_page": 19
+      },
+      "eq:composite": {
+        "logical_page": 7,
+        "number": "14",
+        "physical_page": 8
+      },
+      "eq:decision": {
+        "logical_page": 9,
+        "number": "28",
+        "physical_page": 10
+      },
+      "eq:execution_return": {
+        "logical_page": 10,
+        "number": "32",
+        "physical_page": 11
+      },
+      "eq:ic": {
+        "logical_page": 6,
+        "number": "9",
+        "physical_page": 7
+      },
+      "eq:ind": {
+        "logical_page": 9,
+        "number": "22",
+        "physical_page": 10
+      },
+      "eq:label": {
+        "logical_page": 5,
+        "number": "4",
+        "physical_page": 6
+      },
+      "eq:lift": {
+        "logical_page": 10,
+        "number": "31",
+        "physical_page": 11
+      },
+      "eq:pat": {
+        "logical_page": 9,
+        "number": "26",
+        "physical_page": 10
+      },
+      "eq:relsent": {
+        "logical_page": 8,
+        "number": "21",
+        "physical_page": 9
+      },
+      "eq:selection": {
+        "logical_page": 7,
+        "number": "15",
+        "physical_page": 8
+      },
+      "eq:sent_context": {
+        "logical_page": 9,
+        "number": "24",
+        "physical_page": 10
+      },
+      "eq:sent_decay": {
+        "logical_page": 8,
+        "number": "20",
+        "physical_page": 9
+      },
+      "eq:sharpe": {
+        "logical_page": 7,
+        "number": "12",
+        "physical_page": 8
+      },
+      "eq:testpoints": {
+        "logical_page": 9,
+        "number": "29",
+        "physical_page": 10
+      },
+      "eq:time_index_contract": {
+        "logical_page": 5,
+        "number": "3",
+        "physical_page": 6
+      },
+      "eq:trend": {
+        "logical_page": 9,
+        "number": "27",
+        "physical_page": 10
+      },
+      "eq:ts_rank_localised": {
+        "logical_page": 6,
+        "number": "7",
+        "physical_page": 7
+      },
+      "eq:wealth_update": {
+        "logical_page": 10,
+        "number": "33",
+        "physical_page": 11
+      },
+      "fig:alpha_agent": {
+        "logical_page": 13,
+        "number": "2",
+        "physical_page": 14
+      },
+      "fig:calendar": {
+        "logical_page": 16,
+        "number": "5",
+        "physical_page": 17
+      },
+      "fig:charts": {
+        "logical_page": 14,
+        "number": "3",
+        "physical_page": 15
+      },
+      "fig:decision_agent": {
+        "logical_page": 15,
+        "number": "4",
+        "physical_page": 16
+      },
+      "fig:flow": {
+        "logical_page": 11,
+        "number": "1",
+        "physical_page": 12
+      },
+      "fig:walkforward": {
+        "logical_page": 17,
+        "number": "6",
+        "physical_page": 18
+      },
+      "sec:backtestresults": {
+        "logical_page": 19,
+        "number": "6",
+        "physical_page": 20
+      },
+      "sec:conclusion": {
+        "logical_page": 25,
+        "number": "8",
+        "physical_page": 26
+      },
+      "sec:experimentalsetup": {
+        "logical_page": 15,
+        "number": "5",
+        "physical_page": 16
+      },
+      "sec:formulation": {
+        "logical_page": 4,
+        "number": "3",
+        "physical_page": 5
+      },
+      "sec:introduction": {
+        "logical_page": 1,
+        "number": "1",
+        "physical_page": 2
+      },
+      "sec:limitations": {
+        "logical_page": 24,
+        "number": "7",
+        "physical_page": 25
+      },
+      "sec:relatedworks": {
+        "logical_page": 3,
+        "number": "2",
+        "physical_page": 4
+      },
+      "sec:systemarchitecture": {
+        "logical_page": 10,
+        "number": "4",
+        "physical_page": 11
+      },
+      "tab:accounts": {
+        "logical_page": 21,
+        "number": "3",
+        "physical_page": 22
+      },
+      "tab:classification": {
+        "logical_page": 20,
+        "number": "2",
+        "physical_page": 21
+      },
+      "tab:custom_definitions": {
+        "logical_page": 28,
+        "number": "C.1",
+        "physical_page": 29
+      },
+      "tab:execution": {
+        "logical_page": 32,
+        "number": "F.2",
+        "physical_page": 33
+      },
+      "tab:indicator_rules": {
+        "logical_page": 29,
+        "number": "D.1",
+        "physical_page": 30
+      },
+      "tab:numeric": {
+        "logical_page": 24,
+        "number": "6",
+        "physical_page": 25
+      },
+      "tab:repeats": {
+        "logical_page": 22,
+        "number": "4",
+        "physical_page": 23
+      },
+      "tab:scope": {
+        "logical_page": 17,
+        "number": "1",
+        "physical_page": 18
+      },
+      "tab:symbol_results": {
+        "logical_page": 31,
+        "number": "F.1",
+        "physical_page": 32
+      },
+      "tab:temporal": {
+        "logical_page": 23,
+        "number": "5",
+        "physical_page": 24
+      }
+    },
+    "metadata": {
+      "author": "",
+      "creationDate": "D:20261105093957+07'00'",
+      "creator": "LaTeX with hyperref",
+      "encryption": null,
+      "format": "PDF 1.5",
+      "keywords": "",
+      "modDate": "D:20261105093957+07'00'",
+      "producer": "MiKTeX pdfTeX-1.40.28",
+      "subject": "",
+      "title": "Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration",
+      "trapped": ""
+    },
+    "outline": [
+      [
+        1,
+        "Introduction",
+        2
+      ],
+      [
+        1,
+        "Related works",
+        4
+      ],
+      [
+        2,
+        "LLM Agents in Financial Analysis",
+        4
+      ],
+      [
+        2,
+        "Technical Analysis and Pattern Recognition",
+        4
+      ],
+      [
+        2,
+        "Quantitative Alpha Factor Research",
+        4
+      ],
+      [
+        2,
+        "Sentiment Analysis in Finance and Vietnamese NLP",
+        4
+      ],
+      [
+        2,
+        "Trading Systems for Emerging Markets",
+        4
+      ],
+      [
+        2,
+        "Evaluation Standards and Agentic Benchmarks",
+        5
+      ],
+      [
+        1,
+        "Problem Formulation",
+        5
+      ],
+      [
+        2,
+        "Market Model and Data",
+        5
+      ],
+      [
+        2,
+        "Directional Prediction Task",
+        6
+      ],
+      [
+        2,
+        "Alpha Factor Formalisation and Adaptation",
+        6
+      ],
+      [
+        2,
+        "Walk-Forward Alpha Selection",
+        7
+      ],
+      [
+        2,
+        "Sentiment Signal Construction",
+        9
+      ],
+      [
+        2,
+        "Multi-Agent Decision Function",
+        10
+      ],
+      [
+        2,
+        "Walk-Forward Evaluation Protocol",
+        10
+      ],
+      [
+        1,
+        "System architecture",
+        11
+      ],
+      [
+        2,
+        "Overview",
+        11
+      ],
+      [
+        2,
+        "Indicator Agent",
+        12
+      ],
+      [
+        2,
+        "Alpha Agent",
+        13
+      ],
+      [
+        2,
+        "Pattern Agent",
+        13
+      ],
+      [
+        2,
+        "Trend Agent",
+        13
+      ],
+      [
+        2,
+        "Decision Agent",
+        14
+      ],
+      [
+        1,
+        "Experimental Setup",
+        16
+      ],
+      [
+        2,
+        "Dataset and Point-in-Time Data Contract",
+        16
+      ],
+      [
+        2,
+        "Walk-Forward Protocol",
+        17
+      ],
+      [
+        2,
+        "Paired Baseline and Disentangled Ablations",
+        17
+      ],
+      [
+        2,
+        "Account and Statistical Metrics",
+        19
+      ],
+      [
+        2,
+        "Implementation and Robustness Design",
+        20
+      ],
+      [
+        1,
+        "Backtest Results",
+        20
+      ],
+      [
+        2,
+        "Nine-Symbol Paired Benchmark",
+        20
+      ],
+      [
+        3,
+        "Main class-aware comparison",
+        20
+      ],
+      [
+        3,
+        "Account outcomes and exposure",
+        21
+      ],
+      [
+        2,
+        "Disentangled Alpha–Sentiment Ablation",
+        22
+      ],
+      [
+        3,
+        "Repeated executions and factorial contrasts",
+        22
+      ],
+      [
+        2,
+        "Robustness and Sensitivity",
+        22
+      ],
+      [
+        3,
+        "Temporal and dependence diagnostics",
+        22
+      ],
+      [
+        3,
+        "Auxiliary numeric selector controls",
+        24
+      ],
+      [
+        1,
+        "Limitations & Future Work",
+        25
+      ],
+      [
+        2,
+        "Limitations",
+        25
+      ],
+      [
+        2,
+        "Future Work",
+        26
+      ],
+      [
+        2,
+        "Broader Impact",
+        26
+      ],
+      [
+        1,
+        "Conclusion",
+        26
+      ],
+      [
+        1,
+        "Agent System Prompts",
+        27
+      ],
+      [
+        2,
+        "Decision Agent Prompt",
+        27
+      ],
+      [
+        2,
+        "Pattern Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Trend Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Indicator Agent Prompt",
+        28
+      ],
+      [
+        2,
+        "Sentiment LLM Prompt (Subroutine of Alpha Agent)",
+        28
+      ],
+      [
+        2,
+        "Alpha Agent LLM Reasoning Prompt",
+        28
+      ],
+      [
+        1,
+        "LangGraph State Schema",
+        28
+      ],
+      [
+        1,
+        "Custom Alpha Formula Implementation",
+        29
+      ],
+      [
+        2,
+        "Flow-Driven Momentum (FDM)",
+        29
+      ],
+      [
+        2,
+        "MACD/Return Proxy (SFA)",
+        29
+      ],
+      [
+        2,
+        "Liquidity Void Reversion (LVR)",
+        29
+      ],
+      [
+        2,
+        "Bollinger Squeeze & Flow (BFE)",
+        30
+      ],
+      [
+        2,
+        "Order Flow Exhaustion (OFE)",
+        30
+      ],
+      [
+        1,
+        "Indicator Signal Classification Logic",
+        30
+      ],
+      [
+        2,
+        "MACD Classification",
+        30
+      ],
+      [
+        2,
+        "RSI Classification",
+        30
+      ],
+      [
+        2,
+        "Stochastic Oscillator Classification",
+        30
+      ],
+      [
+        2,
+        "Williams %R Classification",
+        31
+      ],
+      [
+        2,
+        "ROC Classification",
+        31
+      ],
+      [
+        2,
+        "Consensus Rule",
+        31
+      ],
+      [
+        1,
+        "Software Dependencies and Reproducibility",
+        31
+      ],
+      [
+        1,
+        "Additional Account and Symbol Results",
+        32
+      ]
+    ],
+    "pages": 35,
+    "sha256": "4f5d62b05b06942d2cbb4d04e81156df554162e6bf9304de5e1e7973fa978c16"
+  }
+}

@@ -4,9 +4,9 @@ Working response aligned to the final historical evaluation and the author-confi
 
 This response covers all eighteen comments and all 87 indexed requests. The short request descriptions below are paraphrases, not quotations. A written answer or disclosed shortfall is not acceptance or closure. Native row-wise causal construction still fails; financial-news domain/PIT validation, fixed/random factors through the hosted LLM, public rights/PID and some historical version identities remain missing. Stronger claims have been withdrawn rather than certified by implementation tests.
 
-Locations refer to the **structure-preserving revised PDFs** and current source anchors, with scientific companions S1-S4 identified separately. Main and submit each have 31 physical pages, including the separate unnumbered highlights sheet. Physical page 2 is the title/abstract page; subsequent visible page numbers are one lower than physical pages. The PDFs do not print line numbers, so locators use physical pages, visible page numbers where present, sections and tables; JSON bounding boxes identify the exact rendered text rather than inventing printed line numbers. Earlier response/PDF locators and closure statements apply only to their named historical versions. The previous response is preserved byte-for-byte in [previous_response.zip](../outputs/revision/reviewer_response_v1/previous_response.zip), not silently overwritten as evidence.
+Locations refer to the **author-title and original-formulation PDFs** and current source anchors, with scientific companions S1-S4 identified separately. Main has 34 physical pages and submit 35, including the separate unnumbered highlights sheet. Physical page 2 is the title/abstract page; subsequent visible page numbers are one lower than physical pages. The PDFs do not print line numbers, so locators use physical pages, visible page numbers where present, sections and tables; JSON bounding boxes identify the exact rendered text rather than inventing printed line numbers. Earlier response/PDF locators and closure statements apply only to their named historical versions. The previous response is preserved byte-for-byte in [previous_response.zip](../outputs/revision/reviewer_response_v1/previous_response.zip), not silently overwritten as evidence.
 
-The [request-level mapping](../outputs/revision/structure_preserved_v1/response_map.json) records each request, actual answer, evidence hashes, source anchors and outstanding limits. [Archive instructions](archive_runbook.md) describe a private final-evidence package; it has no PID and is not authorized for public release. No API/provider/upload calls are made by this revision task.
+The [request-level mapping](../outputs/revision/author_preserved_v1/response_map.json) records each request, actual answer, evidence hashes, source anchors and outstanding limits. [Archive instructions](archive_runbook.md) describe a private final-evidence package; it has no PID and is not authorized for public release. No API/provider/upload calls are made by this revision task.
 
 
 ## R1 — Baselines, class imbalance and economic interpretation
@@ -55,13 +55,13 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R1.1**: main physical pp. 15,19,20; main_submit physical pp. 15,18,19.
-- **R1.2**: main physical pp. 19,20; main_submit physical pp. 18,19.
-- **R1.3**: main physical pp. 19,20; main_submit physical pp. 18,19.
-- **R1.4**: main physical pp. 19,20; main_submit physical pp. 18,19.
-- **R1.5**: main physical pp. 19,20; main_submit physical pp. 18,19.
-- **R1.6**: main physical pp. 19,20; main_submit physical pp. 18,19.
-- **R1.7**: main physical pp. 1,2,19,20,24; main_submit physical pp. 1,2,18,19,23.
+- **R1.1**: main physical pp. 18,21,22; main_submit physical pp. 17,21,22.
+- **R1.2**: main physical pp. 21,22; main_submit physical pp. 21,22.
+- **R1.3**: main physical pp. 21,22; main_submit physical pp. 21,22.
+- **R1.4**: main physical pp. 21,22; main_submit physical pp. 21,22.
+- **R1.5**: main physical pp. 21,22; main_submit physical pp. 21,22.
+- **R1.6**: main physical pp. 21,22; main_submit physical pp. 21,22.
+- **R1.7**: main physical pp. 1,2,21,22,26; main_submit physical pp. 1,2,21,22,26.
 
 ## R2 — Historical coverage and cross-sectional dependence
 
@@ -94,10 +94,10 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R2.1**: main physical pp. 14,15,21; main_submit physical pp. 14,15,21.
-- **R2.2**: main physical pp. 14,21; main_submit physical pp. 14,21.
-- **R2.3**: main physical pp. 14,21; main_submit physical pp. 14,21.
-- **R2.4**: main physical pp. 14,15,16,21; main_submit physical pp. 14,15,21.
+- **R2.1**: main physical pp. 17,18,24; main_submit physical pp. 17,24.
+- **R2.2**: main physical pp. 17,24; main_submit physical pp. 17,24.
+- **R2.3**: main physical pp. 17,24; main_submit physical pp. 17,24.
+- **R2.4**: main physical pp. 17,18,24; main_submit physical pp. 17,18,24.
 
 ## R3 — Repeated executions and variability
 
@@ -130,10 +130,10 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R3.1**: main physical pp. 16,21; main_submit physical pp. 16,20.
-- **R3.2**: main physical pp. 16,21; main_submit physical pp. 16,20.
-- **R3.3**: main physical pp. 16,21; main_submit physical pp. 16,20.
-- **R3.4**: main physical pp. 16,21; main_submit physical pp. 16,20.
+- **R3.1**: main physical pp. 19,23; main_submit physical pp. 19,23.
+- **R3.2**: main physical pp. 19,23; main_submit physical pp. 19,23.
+- **R3.3**: main physical pp. 19,23; main_submit physical pp. 19,23.
+- **R3.4**: main physical pp. 19,23; main_submit physical pp. 19,23.
 
 ## R4 — Bundle ablation, factorial contrasts and placebo
 
@@ -171,11 +171,11 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R4.1**: main physical pp. 15,16,21; main_submit physical pp. 14,16,20.
-- **R4.2**: main physical pp. 15,16,21; main_submit physical pp. 14,16,20.
-- **R4.3**: main physical pp. 15,16,21; main_submit physical pp. 14,16,20.
-- **R4.4**: main physical pp. 15,16,21; main_submit physical pp. 14,16,20.
-- **R4.5**: main physical pp. 15,16,21; main_submit physical pp. 14,16,20.
+- **R4.1**: main physical pp. 17,19,23; main_submit physical pp. 18,19,23.
+- **R4.2**: main physical pp. 17,19,23; main_submit physical pp. 18,19,23.
+- **R4.3**: main physical pp. 17,19,23; main_submit physical pp. 18,19,23.
+- **R4.4**: main physical pp. 17,19,23; main_submit physical pp. 18,19,23.
+- **R4.5**: main physical pp. 17,19,23; main_submit physical pp. 18,19,23.
 
 ## R5 — Uncertainty, HAC and risk conventions
 
@@ -213,11 +213,11 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R5.1**: main physical pp. 17,21; main_submit physical pp. 16,21.
-- **R5.2**: main physical pp. 17,20,21; main_submit physical pp. 16,20,21.
-- **R5.3**: main physical pp. 17,21; main_submit physical pp. 16,21.
-- **R5.4**: main physical pp. 17,21; main_submit physical pp. 16,21.
-- **R5.5**: main physical pp. 17,21; main_submit physical pp. 16,21.
+- **R5.1**: main physical pp. 19,24; main_submit physical pp. 19,24.
+- **R5.2**: main physical pp. 19,23,24; main_submit physical pp. 19,23,24.
+- **R5.3**: main physical pp. 19,24; main_submit physical pp. 19,24.
+- **R5.4**: main physical pp. 19,24; main_submit physical pp. 19,24.
+- **R5.5**: main physical pp. 19,24; main_submit physical pp. 19,24.
 
 ## R6 — Legacy lineage and duplicated results
 
@@ -245,9 +245,9 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R6.1**: main physical pp. 22; main_submit physical pp. 22.
-- **R6.2**: main physical pp. 22; main_submit physical pp. 22.
-- **R6.3**: main physical pp. 22; main_submit physical pp. 22.
+- **R6.1**: main physical pp. 25; main_submit physical pp. 25.
+- **R6.2**: main physical pp. 25; main_submit physical pp. 25.
+- **R6.3**: main physical pp. 25; main_submit physical pp. 25.
 
 ## R7 — Sentiment counts, provenance and domain validation
 
@@ -295,19 +295,19 @@ Date-only content is made available the following day by an explicit conservativ
 Evidence: [outputs/revision/legacy_lineage_v1/report.json](../outputs/revision/legacy_lineage_v1/report.json); [outputs/revision/reference_audit_v1/reference_audit.json](../outputs/revision/reference_audit_v1/reference_audit.json); [outputs/revision/sentiment_contract_v1/scorer_tokenizer.json](../outputs/revision/sentiment_contract_v1/scorer_tokenizer.json); [outputs/revision/sentiment_contract_v1/summary.json](../outputs/revision/sentiment_contract_v1/summary.json); [outputs/revision/sentiment_coverage_v1/coverage.json](../outputs/revision/sentiment_coverage_v1/coverage.json); [outputs/revision/sentiment_coverage_v1/summary.json](../outputs/revision/sentiment_coverage_v1/summary.json); [outputs/revision/sentiment_inventory_v1/inventory.json](../outputs/revision/sentiment_inventory_v1/inventory.json); [outputs/revision/sentiment_inventory_v1/summary.json](../outputs/revision/sentiment_inventory_v1/summary.json).
 
 
-Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:81](../paper/sections/03_problem_formulation.tex) (`Legacy inventory`).
+Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:294](../paper/sections/03_problem_formulation.tex) (`Legacy inventory`).
 
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R7.1**: main physical pp. 8; main_submit physical pp. 8.
-- **R7.2**: main physical pp. 8; main_submit physical pp. 8.
-- **R7.3**: main physical pp. 8; main_submit physical pp. 8.
-- **R7.4**: main physical pp. 8; main_submit physical pp. 8.
-- **R7.5**: main physical pp. 8; main_submit physical pp. 8.
-- **R7.6**: main physical pp. 8; main_submit physical pp. 8.
-- **R7.7**: main physical pp. 8,23; main_submit physical pp. 8,22.
-- **R7.8**: main physical pp. 8; main_submit physical pp. 8.
+- **R7.1**: main physical pp. 10; main_submit physical pp. 9.
+- **R7.2**: main physical pp. 10; main_submit physical pp. 9.
+- **R7.3**: main physical pp. 10; main_submit physical pp. 9.
+- **R7.4**: main physical pp. 10; main_submit physical pp. 9.
+- **R7.5**: main physical pp. 10; main_submit physical pp. 9.
+- **R7.6**: main physical pp. 10; main_submit physical pp. 9.
+- **R7.7**: main physical pp. 10,25; main_submit physical pp. 9,25.
+- **R7.8**: main physical pp. 10; main_submit physical pp. 9.
 
 ## R8 — Attribution and the meaning of aggregation
 
@@ -345,11 +345,11 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R8.1**: main physical pp. 2,3,4,9,10,24,30; main_submit physical pp. 2,3,9,24,30.
-- **R8.2**: main physical pp. 2,3,4,9,24,30; main_submit physical pp. 2,3,9,24,30.
-- **R8.3**: main physical pp. 2,3,4,9,24,30; main_submit physical pp. 2,3,9,24,30.
-- **R8.4**: main physical pp. 2,3,4,9,24,30; main_submit physical pp. 2,3,9,24,30.
-- **R8.5**: main physical pp. 2,3,4,9,14,24,30; main_submit physical pp. 2,3,9,13,24,30.
+- **R8.1**: main physical pp. 2,3,4,12,27,33; main_submit physical pp. 2,3,4,12,27,34.
+- **R8.2**: main physical pp. 2,3,4,12,27,33; main_submit physical pp. 2,3,4,12,27,34.
+- **R8.3**: main physical pp. 2,3,4,12,27,33; main_submit physical pp. 2,3,4,12,27,34.
+- **R8.4**: main physical pp. 2,3,4,12,27,33; main_submit physical pp. 2,3,4,12,27,34.
+- **R8.5**: main physical pp. 2,3,4,12,16,27,33; main_submit physical pp. 2,3,4,12,16,27,34.
 
 ## R9 — Reproducibility, model provenance and public archive
 
@@ -392,12 +392,12 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R9.1**: main physical pp. 17,24; main_submit physical pp. 17,24.
-- **R9.2**: main physical pp. 17,24; main_submit physical pp. 17,24.
-- **R9.3**: main physical pp. 17,24; main_submit physical pp. 17,24.
-- **R9.4**: main physical pp. 17,24; main_submit physical pp. 17,24.
-- **R9.5**: main physical pp. 17,24; main_submit physical pp. 17,24.
-- **R9.6**: main physical pp. 17,24; main_submit physical pp. 17,24.
+- **R9.1**: main physical pp. 20,27; main_submit physical pp. 20,27.
+- **R9.2**: main physical pp. 20,27; main_submit physical pp. 20,27.
+- **R9.3**: main physical pp. 20,27; main_submit physical pp. 20,27.
+- **R9.4**: main physical pp. 20,27; main_submit physical pp. 20,27.
+- **R9.5**: main physical pp. 20,27; main_submit physical pp. 20,27.
+- **R9.6**: main physical pp. 20,27; main_submit physical pp. 20,27.
 
 ## R10 — Selection diagnostics and auxiliary numeric controls
 
@@ -435,17 +435,17 @@ Each retained expression is linked to the actual handler, operator calls, window
 Evidence: [outputs/revision/alpha_contract_v1/leakage.json](../outputs/revision/alpha_contract_v1/leakage.json); [outputs/revision/alpha_contract_v1/summary.json](../outputs/revision/alpha_contract_v1/summary.json); [outputs/revision/alpha_registry_v1/registry.json](../outputs/revision/alpha_registry_v1/registry.json); [outputs/revision/alpha_registry_v1/summary.json](../outputs/revision/alpha_registry_v1/summary.json); [outputs/revision/alpha_selection_v1/aggregate.json](../outputs/revision/alpha_selection_v1/aggregate.json); [outputs/revision/alpha_selection_v1/transitions.json](../outputs/revision/alpha_selection_v1/transitions.json); [outputs/revision/numeric_controls_v1/inference.json](../outputs/revision/numeric_controls_v1/inference.json); [outputs/revision/numeric_controls_v1/summary.json](../outputs/revision/numeric_controls_v1/summary.json); [revision/numeric_controls_protocol.json](../revision/numeric_controls_protocol.json).
 
 
-Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:67](../paper/sections/03_problem_formulation.tex) (`The native row-wise causal gate fails.`); [paper/generated/t06_numeric.tex:6](../paper/generated/t06_numeric.tex) (`\label{tab:numeric}`).
+Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:249](../paper/sections/03_problem_formulation.tex) (`The native row-wise causal gate fails.`); [paper/generated/t06_numeric.tex:6](../paper/generated/t06_numeric.tex) (`\label{tab:numeric}`).
 
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R10.1**: main physical pp. 7,22; main_submit physical pp. 7,21,22.
-- **R10.2**: main physical pp. 7,22; main_submit physical pp. 7,22.
-- **R10.3**: main physical pp. 7,22; main_submit physical pp. 7,22.
-- **R10.4**: main physical pp. 7,22; main_submit physical pp. 7,22.
-- **R10.5**: main physical pp. 7,22; main_submit physical pp. 7,22.
-- **R10.6**: main physical pp. 7,22; main_submit physical pp. 7,22.
+- **R10.1**: main physical pp. 9,24,25; main_submit physical pp. 8,24,25.
+- **R10.2**: main physical pp. 9,25; main_submit physical pp. 8,25.
+- **R10.3**: main physical pp. 9,25; main_submit physical pp. 8,25.
+- **R10.4**: main physical pp. 9,25; main_submit physical pp. 8,25.
+- **R10.5**: main physical pp. 9,25; main_submit physical pp. 8,25.
+- **R10.6**: main physical pp. 9,25; main_submit physical pp. 8,25.
 
 ## R11 — Target definition and the legacy price alias
 
@@ -463,13 +463,13 @@ Canonical exports distinguish decision Close, entry Open and exit Close. The leg
 Evidence: [outputs/revision/final_contracts_v1/report.md](../outputs/revision/final_contracts_v1/report.md); [outputs/revision/final_contracts_v1/targets.json](../outputs/revision/final_contracts_v1/targets.json); [revision/target_schema.json](../revision/target_schema.json).
 
 
-Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:25](../paper/sections/03_problem_formulation.tex) (`actual\_prev\_close`).
+Current source locations (PDF positions are listed separately): [paper/sections/03_problem_formulation.tex:99](../paper/sections/03_problem_formulation.tex) (`actual\_prev\_close`).
 
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R11.1**: main physical pp. 5,16; main_submit physical pp. 5,15.
-- **R11.2**: main physical pp. 5; main_submit physical pp. 5.
+- **R11.1**: main physical pp. 6,18; main_submit physical pp. 6,18.
+- **R11.2**: main physical pp. 6; main_submit physical pp. 6.
 
 ## R12 — Indicator identities and priority rules
 
@@ -502,10 +502,10 @@ Current source locations (PDF positions are listed separately): [paper/generated
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R12.1**: main physical pp. 28; main_submit physical pp. 27.
-- **R12.2**: main physical pp. 28; main_submit physical pp. 27.
-- **R12.3**: main physical pp. 9,28; main_submit physical pp. 9,27.
-- **R12.4**: main physical pp. 28; main_submit physical pp. 27.
+- **R12.1**: main physical pp. 30; main_submit physical pp. 30.
+- **R12.2**: main physical pp. 30; main_submit physical pp. 30.
+- **R12.3**: main physical pp. 12,30; main_submit physical pp. 12,30.
+- **R12.4**: main physical pp. 30; main_submit physical pp. 30.
 
 ## R13 — Signed-volume custom factor descriptions
 
@@ -533,9 +533,9 @@ Current source locations (PDF positions are listed separately): [paper/generated
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R13.1**: main physical pp. 11,27; main_submit physical pp. 11,26.
-- **R13.2**: main physical pp. 27; main_submit physical pp. 26.
-- **R13.3**: main physical pp. 27; main_submit physical pp. 26.
+- **R13.1**: main physical pp. 14,29; main_submit physical pp. 14,29.
+- **R13.2**: main physical pp. 29; main_submit physical pp. 29.
+- **R13.3**: main physical pp. 29; main_submit physical pp. 29.
 
 ## R14 — Chart conventions, corrected inputs and visual limits
 
@@ -563,9 +563,9 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R14.1**: main physical pp. 11,12; main_submit physical pp. 10,12.
-- **R14.2**: main physical pp. 11,12; main_submit physical pp. 10,12.
-- **R14.3**: main physical pp. 11,12; main_submit physical pp. 10,12.
+- **R14.1**: main physical pp. 13,15; main_submit physical pp. 13,15.
+- **R14.2**: main physical pp. 13,15; main_submit physical pp. 13,15.
+- **R14.3**: main physical pp. 13,15; main_submit physical pp. 13,15.
 
 ## R15 — Execution, settlement and horizon assumptions
 
@@ -593,9 +593,9 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R15.1**: main physical pp. 17,30; main_submit physical pp. 17,29.
-- **R15.2**: main physical pp. 17,30; main_submit physical pp. 17,29.
-- **R15.3**: main physical pp. 17,30; main_submit physical pp. 17,29.
+- **R15.1**: main physical pp. 20,33; main_submit physical pp. 20,33.
+- **R15.2**: main physical pp. 20,33; main_submit physical pp. 20,33.
+- **R15.3**: main physical pp. 20,33; main_submit physical pp. 20,33.
 
 ## R16 — Bibliographic corrections and unresolved historical numbering
 
@@ -658,16 +658,16 @@ Current source locations (PDF positions are listed separately): [paper/sections/
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R16.1**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.2**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.3**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.4**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.5**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.6**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.7**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.8**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.9**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
-- **R16.10**: main physical pp. 4,30,31; main_submit physical pp. 4,30,31.
+- **R16.1**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.2**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.3**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.4**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.5**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.6**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.7**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.8**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.9**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
+- **R16.10**: main physical pp. 4,33,34; main_submit physical pp. 4,34,35.
 
 ## R17 — Presentation and scope
 
@@ -679,7 +679,7 @@ The appendix retains the original scientific topics: role-specific prompt contra
 
 ### R17.2
 
-We retained the original eight-section manuscript framework and restored the related-work, problem-formulation and individual-agent subsections. The Alpha, Decision and walk-forward diagrams are updated in place in their original explanatory roles, alongside the overall flow and the verified chart/calendar figures. Six main tables, six main figures, one protocol algorithm and four appendix tables accompany the corrected historical evidence. Both PDFs have 31 physical pages including the highlights sheet and have passed visual QA. This preserves the original scientific structure while correcting unsupported content; no journal page-limit or anonymity compliance is certified.
+The complete manuscript retains the author's original title and eight-section framework, with all original scientific heading topics, agent descriptions, six figures, six main tables and four appendix tables. Twenty-four mathematical blocks use the original notation and equation/align structure: eighteen are restored unchanged and six have only the necessary scientific corrections for IC orientation, actual context/history, the eligible date schedule, the bundle comparator or daily account risk. The original ruled, line-numbered algorithm style is retained. Main and submit have 34 and 35 physical pages, respectively, including highlights; both have passed visual QA. Operational full listings remain in the repository. This is a full scientific article, not a document consisting of reviewer replies, and no journal page-limit or anonymity compliance is certified.
 
 
 ### R17.3
@@ -699,23 +699,23 @@ The original individual-agent subsection structure is retained. Current chart-ag
 
 ### R17.6
 
-Both entrypoints now use Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation. Abstract, highlights and conclusion match that decision-support scope and the negative/bounded results; they no longer promise profitable stock trading or a novel validated fusion algorithm. This title change does not certify journal fit or a submission route.
+At the author's instruction, the manuscript retains the original title, Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration. The extension is the integration of quantitative alpha and Vietnamese sentiment into the reused chart-agent framework. The abstract, five academic highlights, contributions and conclusion describe that method and the observed class-aware/economic results; they do not claim a novel learned fusion model, causal alpha, stable superiority or profitable deployment. The narrower retitling proposed in an earlier revision is not adopted in this version, and this presentation request is not declared closed.
 
 
 Evidence: [outputs/revision/final_baselines_v1/financial.csv](../outputs/revision/final_baselines_v1/financial.csv); [outputs/revision/final_baselines_v1/report.md](../outputs/revision/final_baselines_v1/report.md); [outputs/revision/final_regression_v1/report.json](../outputs/revision/final_regression_v1/report.json); [outputs/revision/fusion_prompt_audit_v1/audit.json](../outputs/revision/fusion_prompt_audit_v1/audit.json); [outputs/revision/reference_audit_v1/inventory.json](../outputs/revision/reference_audit_v1/inventory.json); [outputs/revision/reproducibility_v1/manifest.json](../outputs/revision/reproducibility_v1/manifest.json).
 
 
-Current source locations (PDF positions are listed separately): [paper/sections/appendices.tex:2](../paper/sections/appendices.tex) (`\appendix`); [paper/main.tex:61](../paper/main.tex) (`\title{`); [revision/implementation_notes.md:1](../revision/implementation_notes.md) (`#`).
+Current source locations (PDF positions are listed separately): [paper/sections/appendices.tex:2](../paper/sections/appendices.tex) (`\appendix`); [paper/main.tex:62](../paper/main.tex) (`\title{`); [revision/implementation_notes.md:1](../revision/implementation_notes.md) (`#`).
 
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R17.1**: main physical pp. 2,25,26,29; main_submit physical pp. 2,24,25,28.
-- **R17.2**: main physical pp. 2,9,11,14,16,25; main_submit physical pp. 2,8,11,13,15,24.
-- **R17.3**: main physical pp. 2,25; main_submit physical pp. 2,24.
-- **R17.4**: main physical pp. 2,25; main_submit physical pp. 2,24.
-- **R17.5**: main physical pp. 2,9,25; main_submit physical pp. 2,9,24.
-- **R17.6**: main physical pp. 1,2,24,25; main_submit physical pp. 1,2,23,24.
+- **R17.1**: main physical pp. 2,28,29,31; main_submit physical pp. 2,27,28,31.
+- **R17.2**: main physical pp. 2,5,14,16,18,28; main_submit physical pp. 2,5,14,16,18,27.
+- **R17.3**: main physical pp. 2,28; main_submit physical pp. 2,27.
+- **R17.4**: main physical pp. 2,28; main_submit physical pp. 2,27.
+- **R17.5**: main physical pp. 2,12,28; main_submit physical pp. 2,11,27.
+- **R17.6**: main physical pp. 1,2,26,28; main_submit physical pp. 1,2,26,27.
 
 ## R18 — Author metadata
 
@@ -738,14 +738,14 @@ The author explicitly confirmed Phuong-Thai Nguyen's ORCID as 0009-0006-2033-778
 Evidence: [outputs/revision/author_metadata_v1/manifest.json](../outputs/revision/author_metadata_v1/manifest.json); [revision/author_metadata.md](../revision/author_metadata.md); [revision/reviewer_matrix.csv](../revision/reviewer_matrix.csv).
 
 
-Current source locations (PDF positions are listed separately): [paper/main.tex:65](../paper/main.tex) (`\author[`); [paper/main_submit.tex:65](../paper/main_submit.tex) (`\author[`).
+Current source locations (PDF positions are listed separately): [paper/main.tex:66](../paper/main.tex) (`\author[`); [paper/main_submit.tex:66](../paper/main_submit.tex) (`\author[`).
 
 
 Verified PDF locations (physical pages; exact anchors/bounding boxes in the mapping):
 
-- **R18.1**: main physical pp. 2,24; main_submit: author block not rendered.
-- **R18.2**: main physical pp. 2,24; main_submit: author block not rendered.
-- **R18.3**: main physical pp. 2,24; main_submit: author block not rendered.
+- **R18.1**: main physical pp. 2,27; main_submit: author block not rendered.
+- **R18.2**: main physical pp. 2,27; main_submit: author block not rendered.
+- **R18.3**: main physical pp. 2,27; main_submit: author block not rendered.
 
 ## Remaining release requirements
 

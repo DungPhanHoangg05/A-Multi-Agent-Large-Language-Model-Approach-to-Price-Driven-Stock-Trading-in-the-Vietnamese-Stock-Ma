@@ -564,7 +564,7 @@ R16 tái dùng audit **41 bibliography entries** và câu dẫn T21; ba DOI sai 
 
 ### F. Sửa bản thảo sau cùng, sau gate T30 có giới hạn
 
-**Chỉ dẫn biên tập hiện hành ngày 05/11/2026:** tác giả yêu cầu giữ khung bài cũ, sửa tại chỗ theo reviewer. T31/T32/T35 bên dưới là các mốc lịch sử; quyết định rút tiểu mục, bỏ ba sơ đồ chi tiết và thu appendix còn hai phần đã được thay thế bằng T35a. Nguồn hiện hành vẫn ở paper/, PDF hiện hành ở outputs/revision/structure_preserved_v1/.
+**Chỉ dẫn biên tập hiện hành ngày 05/11/2026:** tác giả yêu cầu giữ khung bài cũ, tên bài, ký hiệu và format công thức, sửa tại chỗ theo reviewer; highlights phải nêu đóng góp học thuật. T31/T32/T35 bên dưới là các mốc lịch sử; quyết định đổi tên/rút nội dung đã được thay thế bằng T35a/T35b. Nguồn hiện hành ở `paper/`, PDF hiện hành ở `outputs/revision/author_preserved_v1/`.
 
 | ID | Việc cần làm | Điều kiện hoàn thành | Trạng thái / dependency |
 |---|---|---|---|
@@ -574,7 +574,8 @@ R16 tái dùng audit **41 bibliography entries** và câu dẫn T21; ba DOI sai 
 | T34 | Response đủ R1–R18 và archive — R9. | Action/evidence/locator/giới hạn từng yêu cầu. Tác giả tự publish lấy PID thật khi có quyền chia sẻ; Codex chuẩn bị package/lệnh, không tự gọi API upload. Thiếu PID giữ pending. | **Hoàn tất response/private archive; public rights/PID còn thiếu**; [response](revision/response_to_reviewers.md), [87 answers](outputs/revision/reviewer_response_v1/response_map.json), [report/QA](outputs/revision/reviewer_response_v1/report.md), [runbook](revision/archive_runbook.md). Tám tests mới PASS; 0 comments đóng, PDF locators chờ T35 |
 | T35 | Build/QA hai PDF và chốt locators. | Không undefined refs/citations; tables/totals/captions/figures đúng release; main/submission nhất quán. Kiểm trực quan appendix, bỏ trùng và chi tiết vận hành; không tăng độ dài để chứa mọi artifact. | **PASS — main 22/submit 21 trang vật lý, đủ 87 locators**; [PDF/QA report](outputs/revision/final_pdf_v1/report.md), [mapping](outputs/revision/final_pdf_v1/response_map.json), [manifest](outputs/revision/final_pdf_v1/manifest.json). 43 trang kiểm trực quan, 130 cells mỗi PDF, zero undefined refs/cites/overfull; không suy quyền/PID/route hoặc đóng comment |
 | T35a | Phục hồi khung bài gốc theo chỉ dẫn trực tiếp của tác giả, giữ các sửa khoa học đúng bằng chứng. | Đủ đầu mục gốc, khôi phục vai trò hình minh họa bằng phiên bản đúng; số liệu cuối/metadata/bằng chứng nguyên vẹn; build và remap response. | **PASS trong scope tài liệu — 31/31 trang, 61/61 đầu mục gốc, sáu figures, 87 locators**; [report](outputs/revision/structure_preserved_v1/report.md), [QA](outputs/revision/structure_preserved_v1/qa.json), [mapping](outputs/revision/structure_preserved_v1/response_map.json), [manifest](outputs/revision/structure_preserved_v1/manifest.json). 10 bảng/16 PNG giữ byte, native causal FAIL/0 comments đóng |
-| T36 | Nghiệm thu, commit/merge và bàn giao. | Comment chỉ đóng khi đủ thay đổi/evidence/vị trí bài/response. Thiếu gì ghi đúng; merge `fix`, xóa task branch local; không push/submit. | Chờ nghiệm thu cuối trên bản giữ khung T35a; T35 cũ là PDF lịch sử. Public/PID/route và scientific shortfalls vẫn mở |
+| T35b | Giữ tên bài, format toán và bài báo đầy đủ; highlights nêu contribution theo chỉ dẫn tác giả. | Tên gốc, ký hiệu/equation/align và thuật toán gốc; chỉ sửa toán cần thiết theo bằng chứng; đủ bài từ đầu đến cuối, response riêng; build/QA/locators mới. | **PASS trong scope tài liệu — main 34/submit 35 trang, 24 khối toán đối chiếu, 61 đầu mục, 87 locators**; [report](outputs/revision/author_preserved_v1/report.md), [QA](outputs/revision/author_preserved_v1/qa.json), [manifest](outputs/revision/author_preserved_v1/manifest.json). Năm academic highlights; 10 bảng/16 PNG giữ byte; native causal FAIL/0 comments đóng |
+| T36 | Nghiệm thu, commit/merge và bàn giao. | Comment chỉ đóng khi đủ thay đổi/evidence/vị trí bài/response. Thiếu gì ghi đúng; merge `fix`, xóa task branch local; không push/submit. | Chờ nghiệm thu cuối trên bản giữ tên/khung/toán T35b; T35/T35a là PDF lịch sử. Public/PID/route và scientific shortfalls vẫn mở |
 
 **T31 — đặc tả bố cục đã chốt.** [Blueprint](revision/manuscript_blueprint.md) chọn title **“Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation”** cho cả hai entrypoints, bỏ framing enhancement/profitable trading/novel learned fusion. Giữ tám source sections: Introduction; Related work; Forecasting task and signal construction; Implemented multi-agent system; Historical evaluation protocol; Results; Discussion and limitations; Conclusion. Mục tiêu nội bộ **khoảng 5.750 từ prose gồm abstract 180–220 từ**, không tính bibliography/tables/captions/equations; không nhận là journal limit đã xác nhận hoặc số trang đã render. Metadata/ORCID/route vẫn chờ tác giả T33.
 
@@ -740,3 +741,36 @@ Các build logs/aux trong receipt T35 giữ nguyên whitespace/CRLF do TeX sinh,
 Đã đưa **35 thư mục rỗng** của các work/provider-lock/cache và namespace tin trống ra khỏi outputs, giữ tại `tmp/fix_outputs_empty_folders/` đã được Git ignore. Hai lệnh xóa thư mục bị duyệt tự động từ chối với lý do `blocked by policy`; phương án di chuyển đã kiểm nguồn/đích trong workspace và từng thư mục rỗng thành công, không tuyên bố đã xóa vật lý chúng. Danh sách tạm/đối chiếu nằm trong `tmp/`, không tạo thêm receipt/progress file trong outputs.
 
 Kiểm sau dọn: chênh lệch file đúng 84 file đã chọn, không phát sinh file output khác, mọi output còn lại giữ dung lượng; toàn bộ output được Git theo dõi giữ nguyên, các file ngoài outputs/revision giữ nguyên danh sách/dung lượng. **92 current source/output hashes** của bản giữ khung bài PASS; T35 **5.169 refs =5.158 current +11 đúng historical members**, cùng 59 inherited historical references PASS. Không đổi source bài/response/code/runtime/schema/inputs hoặc manifests lịch sử. Task dọn cache/state thừa và ghi tài liệu nên chỉ kiểm phạm vi/path/hash/diff, không chạy compile/unit/E2E/leakage/full suite, API/model/fit/replay mới. Không tự tiếp tục T36, push, publish hoặc submit.
+
+**T35b — giữ tên bài, format toán và đóng góp học thuật theo tác giả (05/11/2026).** Đã giữ đúng tên **Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration** ở cả hai entrypoints/PDF metadata. Bài đầy đủ tám sections và appendix/references, 61 đầu mục có mapping, sáu figures/mười tables/một algorithm; response riêng với đủ 87 locators hiện hành. Highlights gồm năm đóng góp về tích hợp quantitative/Vietnamese sentiment, registry single-asset, thiết kế shared-report, phát hiện về false LONG và phân biệt phân loại với hiệu quả kinh tế; abstract/contributions/conclusion đồng bộ, không chỉ kể audit hoặc trả lời reviewer. Năm keywords dùng bản main gốc cho cả hai entrypoints. Tên/thứ tự/ORCID/affiliations/CRediT/funding/conflict giữ theo xác nhận T33; không suy thêm email/route.
+
+[Đối chiếu toán](outputs/revision/author_preserved_v1/formula_comparison.json) ghi 24 khối gốc: **18 khối nguyên dạng LF +sáu sửa cần thiết**, giữ notation/equation/align, nhãn +1/-1, net target và kiểu thuật toán ruled/vlined/linesnumbered. Sáu sửa là IC-oriented diagnostics (hai khối), history/context thực, eligible schedule, tên comparator Base và daily-account risk; không phục hồi lỗi để giữ nguyên nội dung sai. Mọi table source/caption/notes cùng 16 PNG giữ byte, 130 numeric cells/PDF và ba ảnh nhúng khớp pixel. Đã xem trực quan đủ **69 trang cuối: main 34, submit 35**, sửa dấu chấm kép paragraph và giữ bảng F.1/F.2 sau heading Appendix F. Tám lệnh LaTeX/BibTeX thành công với installer tắt, không warning/undefined refs/cites/overfull/missing glyph/Type3/clipping; bốn underfull notices mỗi PDF thuộc bảng giữ nguyên vẫn đọc được.
+
+[Manifest mới](outputs/revision/author_preserved_v1/manifest.json) khóa **63 sources +33 outputs =96 hashes**; hai ZIP trước/sau mỗi ZIP 52 members. Runtime ghi **223 external TeX/font input hashes**, executable hashes kiểm lại. [Parent verification](outputs/revision/author_preserved_v1/parent_verification.json): T35a **92 refs =81 current +11 historical** đúng before ZIP/member; T35 đủ 5.169 references cùng 59 historical references khớp theo bridge lịch sử, không sửa manifests cũ hoặc fallback runtime/data. Các PDF T35/T35a là phiên bản lịch sử, không là current source checker sau lần sửa này. Chỉ LaTeX/tài liệu nên không compile Python hoặc chạy unit/E2E/leakage/full suite; kiểm phù hợp là build/visual/source/data/metadata/hash/locators. Không API, inference/scorer/fit/bootstrap, không động luồng KLTN. Native causal FAIL và scientific/public/PID/editorial shortfalls vẫn mở, **0 comments đóng**; không tự làm T36, push/publish/submit.
+
+Đối soát bản hiện hành T35b, chỉ đọc/offline:
+
+```powershell
+@'
+from pathlib import Path
+from zipfile import ZipFile
+from core.revision_reproducibility import read, file_hash, digest, check_self_digest
+root = Path('.')
+folder = root / 'outputs/revision/author_preserved_v1'
+manifest = read(folder / 'manifest.json')
+assert check_self_digest(manifest)
+for group, base in [('sources', root), ('outputs', folder)]:
+    for row in manifest[group]:
+        assert file_hash(base / row['path']) == row['sha256'], row['path']
+with ZipFile(folder / 'sources.zip') as archive:
+    assert len(archive.namelist()) == 52
+    for name in archive.namelist():
+        assert archive.read(name) == (root / name).read_bytes(), name
+for row in read(folder / 'parent_verification.json')['new_historical_references']:
+    with ZipFile(root / row['archive']) as archive:
+        assert digest(archive.read(row['member'])) == row['sha256']
+print('PASS: 96 current hashes, 52 source members, 11 immediate historical members')
+'@ | py -3.13 -X utf8 -
+```
+
+Lệnh rebuild tài liệu T35 ở trên vẫn áp dụng cho current `paper/` nếu dùng đích tạm mới; không chạy các lệnh inference/API để build bài.

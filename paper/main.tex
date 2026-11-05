@@ -1,4 +1,4 @@
-% Nguồn bài historical exploratory theo gate T30; metadata tác giả chờ T33.
+% Giữ tên và cấu trúc tác giả; số liệu và diễn giải theo bằng chứng hiện hành.
 \PassOptionsToPackage{pdfusetitle=false,hypertexnames=false,hidelinks}{hyperref}
 \documentclass[preprint,12pt]{elsarticle}
 
@@ -34,6 +34,7 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{float}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 \usepackage[section]{placeins}
 
 
@@ -58,7 +59,7 @@
 
 %% Title, authors and addresses
 
-\title{Multi-Agent LLM Decision Support for Vietnamese Equities: A Historical Evaluation\tnoteref{t1}}
+\title{Enhancing Multi-Agent Large Language Models for Stock Trading through Quantitative Alpha Integration\tnoteref{t1}}
 \tnotetext[t1]{This research is funded by Foreign Trade University under research program number FTURP02-2026-08.}
 
 %% Authors
@@ -86,7 +87,7 @@
 
 %% Abstract
 \begin{abstract}
-We evaluate a multi-agent LLM implementation for Vietnamese equity decision support using frozen historical calls and class-aware numerical controls. The study covers 102 market units across nine equities, twelve selected dates and six blocks, with 25 UP and 77 DOWN net-return labels. Its Full--Base comparison changes both factor and sentiment sections and is treated as a bundle contrast. Full balanced accuracy is \FullBA\%, compared with \BaseBA\% for Base and \LogisticPriceBA\% for a price-only logistic comparator. CASH has ordinary accuracy \CashAccuracy\% but balanced accuracy 50\%. Mean separate-account net returns are \FullReturn\% for Full and \BaseReturn\% for Base. Scope was amended after partial inference, making the study exploratory. Two distinct nine-unit panels retain three executions and a past-donor factorial placebo, with small support and ordering/epoch confounds. An auxiliary train-fit numeric study does not repair the native selector's row-wise causal defect. Financial-news domain validity, historical news availability and immutable hosted-model revisions remain unverified. We archive inputs, requests and outcomes for saved-prediction replay, while public distribution rights and a persistent identifier remain pending. The evidence supports a bounded historical implementation assessment, not causal alpha attribution, general predictive superiority or deployable profitability.
+Quantitative signals and local-language news offer complementary context for multi-agent LLM trading, but their incremental value requires matched evaluation. We study quantitative alpha integration in a five-role framework for Vietnamese equities, combining an 85-candidate OHLCV registry, Vietnamese sentiment and two chart-reading agents. Selected factors and sentiment remain separate inputs to a report-based Decision Agent. A shared-report protocol compares Full and Base on 102 historical market units across nine equities, twelve dates and six blocks, with 25 UP and 77 DOWN net-return labels. Full balanced accuracy is \FullBA\%, versus \BaseBA\% for Base and \LogisticPriceBA\% for a price-only logistic comparator. The Full--Base difference is \DeltaBA\ percentage points, with a descriptive block interval of $[\PrimaryLow,\PrimaryHigh]$ points. Both variants capture seven UP outcomes; Full makes fewer false LONG forecasts. Mean separate-account net returns are \FullReturn\% and \BaseReturn\%, respectively. Three-execution component/placebo panels and train-fit numeric controls provide additional, separately scoped comparisons. The reduced historical scope is exploratory, native factor construction is not fully row-causal, and financial-news validity and availability remain unverified. The study contributes a specified integration and comparative evaluation, while its results do not establish causal component gains or deployable profitability.
 \end{abstract}
 
 %%Graphical abstract
@@ -94,15 +95,16 @@ We evaluate a multi-agent LLM implementation for Vietnamese equity decision supp
 
 %%Research highlights
 \begin{highlights}
-\item Frozen calls support an auditable historical LLM evaluation.
-\item Class-aware baselines contextualize results on 102 market units.
-\item Repeated executions expose variability and ordering limitations.
-\item Negative account returns limit economic and deployment claims.
+\item Quantitative alpha and Vietnamese sentiment extend a multi-agent trading framework.
+\item An 85-factor registry adapts OHLCV signals to single-stock decision context.
+\item Shared-report comparisons evaluate factor, sentiment and past-donor variants.
+\item Balanced-accuracy gains coincide with fewer false LONG forecasts.
+\item Cost-aware accounts distinguish directional scores from economic outcomes.
 \end{highlights}
 
 %% Keywords
 \begin{keyword}
-Multi-agent LLM \sep Vietnamese equities \sep Historical evaluation \sep Class imbalance \sep Reproducibility
+Multi-agent LLM \sep Knowledge fusion \sep Knowledge integration \sep Financial decision support \sep Alpha factor selection
 \end{keyword}
 
 \end{frontmatter}

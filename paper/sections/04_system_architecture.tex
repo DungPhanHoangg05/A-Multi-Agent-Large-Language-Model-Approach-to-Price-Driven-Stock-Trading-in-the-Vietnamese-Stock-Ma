@@ -18,15 +18,15 @@ Indicator Agent computes and renders five deterministic TA-Lib-based votes: MACD
 Four-decimal rounding precedes classification, nonfinite samples are removed and zero is retained. Crossovers take priority where specified; overlapping RSI/Williams thresholds require ordered branches rather than two simultaneous unconditional rules. Each missing/error result contributes a neutral vote within the fixed denominator of five. Directional plurality and the confidence categories are deterministic summary heuristics. They are not calibrated probabilities, and an immutable signal tally does not make a downstream narrative correct.
 
 \subsection{Alpha Agent}
-\paragraph{Alpha selection.}
+\paragraph{Alpha selection}
 The Alpha role evaluates 85 native candidates: 80 retained WorldQuant adaptations and five custom formulas. It supplies a selected top-five report from the trailing prefix, using the diagnostic score in Eq.~\ref{eq:composite}. The transformations, metric support, IC orientation and native row-wise causal failure are defined in Section~\ref{sec:formulation}. A rolling own-history rank is not a cross-sectional rank, and the 21 exclusions are not all justified by an inability to translate cross-sectional operators. Full expressions and exception handling remain in the registry; \ref{app:signals} gives the custom formulas needed to read the reports.
 
 Selection, IC sign and candidate diagnostics reuse trailing observations. Hence the current value is an input to a report, while the reported skill fields are in-sample ranking statistics. Neither choosing the top five nor reversing negative IC establishes out-of-sample profitability. Six selected metadata slots have description/handler mismatches; actual prompts, metadata and implementation identity are kept distinct. No historical prediction is repaired to agree with a corrected description.
 
-\paragraph{Sentiment integration.}
+\paragraph{Sentiment integration}
 Vietnamese sentiment is a separate contextual report, not an input to the native OHLCV factor formulas or score. The frozen provider supplies aggregate/count information and empty article-detail/peer lists. Relative sentiment and z-score fields on that path are consequently zero-valued outputs of the normalizer, rather than measured contemporaneous peer evidence. The three-article availability rule differs from the eight-article reliability flag. The 90-day window, 30-day decay, scorer revision and provenance limitations are specified in Section~\ref{sec:formulation}.
 
-Figure~\ref{fig:alpha_agent} retains the two-branch explanation of the original Alpha diagram while separating what the frozen study actually delivers from the live crawler's capabilities. Optional live endpoints, lexicon fallbacks and peer discovery are repository capabilities; they are not evidence that the corresponding inputs were used or historically available in the evaluated calls.
+Figure~\ref{fig:alpha_agent} separates OHLCV factor selection from sentiment-context construction and shows the information delivered by the evaluated backtest. Optional live endpoints, lexicon fallbacks and peer discovery are repository capabilities; they are not evidence that the corresponding inputs were used or historically available in the evaluated calls.
 
 \begin{figure}[!htbp]
 \centering\input{figs/revised_alpha_pipeline.tex}
@@ -37,7 +37,7 @@ Figure~\ref{fig:alpha_agent} retains the two-branch explanation of the original 
 \subsection{Pattern Agent}
 Pattern Agent analyses a candlestick PNG rendered from the exact 45-bar window. The prompt requests a chart formation, recent-candle evidence, directional bias, confidence and trading implication. The report parser retains the structured text fields; format completion and consistency checks are distinguished from financial correctness. Figure~\ref{fig:charts} presents an actual archived chart pair rather than a synthetic demonstration.
 
-Candle bodies are green when Close exceeds Open and red otherwise, including a doji. This is an Open--Close body rule, not the Vietnamese exchange board's reference-price colouring rule. The earlier claim of green bearish/red bullish bodies is incorrect. After inference, consistency rules compare the claimed bias with simple OHLCV-derived properties such as the final body and recent closes. A contradiction flag can reduce displayed confidence; it cannot reveal which candle the VLM actually attended to. Alternative text-only paths in the general application are not assumed to have replaced any frozen vision input.
+Candle bodies are green when Close exceeds Open and red otherwise, including a doji. This is an Open--Close body rule, not the Vietnamese exchange board's reference-price colouring rule. The exchange-board convention is not used to infer candle direction. After inference, consistency rules compare the claimed bias with simple OHLCV-derived properties such as the final body and recent closes. A contradiction flag can reduce displayed confidence; it cannot reveal which candle the VLM actually attended to. Alternative text-only paths in the general application are not assumed to have replaced any frozen vision input.
 
 \begin{figure}[!htbp]
 \centering
@@ -55,7 +55,7 @@ For row position $u$, a fitted line has form $b+mu$. A support bound must remain
 The renderer audit matched 204 images across 102 units byte for byte and pixel for pixel, and 240 actual vision requests matched their image caches and Vietnamese templates. It verified body geometry, colour and legend handles, not the model's visual understanding. In particular, the Vietnamese word \emph{xanh} is less colour-specific than the corrected English ``blue'' wording. Inherited high-frequency/K-line prompt language also remains distinguishable from this daily-bar application. Matched local-pattern interventions and trend swaps would be needed to test whether the model uses the purported visual evidence.
 
 \subsection{Decision Agent}
-Decision receives condensed Indicator, Pattern and Trend reports plus enabled factor/sentiment sections. Reports are distilled and capped before prompt composition. The observed successful Decision prompts are at most 4,187 characters, below the 6,500-character guard. The older diagram's 7,500-character cap is not the current contract. Figure~\ref{fig:decision_agent} shows report composition, prompt instructions, structured output and the separate action mapping.
+Decision receives condensed Indicator, Pattern and Trend reports plus enabled factor/sentiment sections. Reports are distilled and capped before prompt composition. The observed successful Decision prompts are at most 4,187 characters, below the 6,500-character guard. Figure~\ref{fig:decision_agent} shows report composition, prompt instructions, structured output and the separate action mapping.
 
 \begin{figure}[!htbp]
 \centering\input{figs/revised_decision_pipeline.tex}
