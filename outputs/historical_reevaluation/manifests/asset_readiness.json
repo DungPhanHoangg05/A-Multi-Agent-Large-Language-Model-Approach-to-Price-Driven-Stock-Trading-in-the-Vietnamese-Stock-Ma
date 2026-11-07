@@ -1,0 +1,1257 @@
+{
+  "audit_source_sha256": {
+    "core/historical_asset_readiness.py": "914d9cfa94696f0dec572fac0af0d6ab4ddc1e0160edcd705434b8a27d9579f1",
+    "scripts/prepare_historical_assets.py": "389dea7df09b14318ea5af5c5913f2613d79fa316ca981033fc004438b4936d3"
+  },
+  "authorization": {
+    "api": false,
+    "inference": false,
+    "refit": false,
+    "training": false
+  },
+  "base_commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+  "calendar": {
+    "exit_vs_t_plus_2_mismatches": 0,
+    "nonbusiness_entries": 0,
+    "nonbusiness_exits": 0,
+    "scope": "DONOR_SETTLEMENT_CALENDAR_ONLY_NOT_EXCHANGE_FILL_CERTIFICATION"
+  },
+  "candidate_grid_sha256": "c76b23ba0fd771cd13d2bb1b126219d97263c10cce35b7f434e6545d4abdf399",
+  "dependencies": {
+    "EXECUTION_DATA": {
+      "reason": "Thiếu ledger quyền, đơn vị và lịch/khả năng khớp lệnh đã xác minh cho 9 mã tới 2026.",
+      "status": "PENDING_EXECUTION_DATA"
+    },
+    "FROZEN_MT_ASSETS": {
+      "status": "BLOCKED_ASSET"
+    },
+    "VNINDEX_2026": {
+      "last_date": "2025-12-31",
+      "missing_cutoff_dates": [
+        "2026-04-01",
+        "2026-04-06",
+        "2026-04-09",
+        "2026-04-14",
+        "2026-04-17",
+        "2026-04-22",
+        "2026-04-28",
+        "2026-05-05",
+        "2026-05-08",
+        "2026-05-13",
+        "2026-05-18",
+        "2026-05-21",
+        "2026-05-26",
+        "2026-05-29",
+        "2026-06-03",
+        "2026-06-08",
+        "2026-06-11",
+        "2026-06-16",
+        "2026-06-19",
+        "2026-06-24",
+        "2026-07-01",
+        "2026-07-06",
+        "2026-07-09",
+        "2026-07-14",
+        "2026-07-17",
+        "2026-07-22",
+        "2026-07-27",
+        "2026-07-30",
+        "2026-08-04",
+        "2026-08-07",
+        "2026-08-12",
+        "2026-08-17",
+        "2026-08-20",
+        "2026-08-25",
+        "2026-08-28",
+        "2026-09-07",
+        "2026-09-10",
+        "2026-09-15",
+        "2026-09-18",
+        "2026-09-23"
+      ],
+      "path": "data/historical/VNINDEX.csv",
+      "status": "BLOCKED_ASSET"
+    }
+  },
+  "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+  "execution_overlap": [
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 751,
+        "Open": 751,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices",
+      "events_coverage_end": "2022-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2022-12-30",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 751,
+      "series_spliced": false,
+      "symbol": "FPT"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 751,
+        "Open": 751,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices",
+      "events_coverage_end": "2022-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2022-12-30",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 751,
+      "series_spliced": false,
+      "symbol": "VNM"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 751,
+        "Open": 751,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices",
+      "events_coverage_end": "2022-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2022-12-30",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 751,
+      "series_spliced": false,
+      "symbol": "VCB"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 751,
+        "Open": 751,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices",
+      "events_coverage_end": "2022-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2022-12-30",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 751,
+      "series_spliced": false,
+      "symbol": "MWG"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 1250,
+        "Open": 1250,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices_oos",
+      "events_coverage_end": "2024-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2024-12-31",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 1250,
+      "series_spliced": false,
+      "symbol": "FPT"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 1250,
+        "Open": 1250,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices_oos",
+      "events_coverage_end": "2024-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2024-12-31",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 1250,
+      "series_spliced": false,
+      "symbol": "VNM"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 1250,
+        "Open": 1250,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices_oos",
+      "events_coverage_end": "2024-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2024-12-31",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 1250,
+      "series_spliced": false,
+      "symbol": "VCB"
+    },
+    {
+      "corporate_action_policy": "EXCLUDE_WHEN_ENTRY_LT_EXRIGHT_LE_EXIT",
+      "different_rows": {
+        "Close": 1250,
+        "Open": 1250,
+        "Volume": 0
+      },
+      "directory": "data/execution_prices_oos",
+      "events_coverage_end": "2024-12-31",
+      "first_date": "2020-01-02",
+      "last_date": "2024-12-31",
+      "old_price_basis": "UNADJUSTED_EXECUTION",
+      "old_price_unit": "thousand_VND",
+      "overlap_rows": 1250,
+      "series_spliced": false,
+      "symbol": "MWG"
+    }
+  ],
+  "frozen_assets": {
+    "archive_sha256": "1b1b7428c62f8a8d06d51db091afe68f046412ae8ef3a4843bd87f0371764f0c",
+    "expected_files": 2,
+    "files": [
+      {
+        "expected": {
+          "bytes": 1099072,
+          "sha256": "f8631d9e1bd15ac40422e58827c126e8c7eb9b0512a21c4a0697784cb86cd2dd"
+        },
+        "origin": null,
+        "path": "outputs/bayesian_benchmark/mt_bicl/model/candidate.pt",
+        "restored_path": null,
+        "status": "BLOCKED_ASSET"
+      },
+      {
+        "expected": {
+          "bytes": 436174,
+          "sha256": "7a89978336d1307d2b65a8a9712a26792451900f78351ba8bf03bf5ee277dc78"
+        },
+        "origin": null,
+        "path": "outputs/bayesian_benchmark/mt_bicl/model/teacher.json",
+        "restored_path": null,
+        "status": "BLOCKED_ASSET"
+      }
+    ],
+    "ready_files": 0,
+    "search_scope": [
+      "local_release_paths",
+      "reachable_git_objects_all_refs",
+      "docs/plan/implementation_evidence.zip"
+    ]
+  },
+  "grid": {
+    "anchor_units": 102,
+    "by_fold": {
+      "b2023_h2": 160,
+      "b2024_h2": 160,
+      "b2025_h1": 160,
+      "f2025_q4": 180,
+      "f2026_q2": 180,
+      "f2026_q3": 180
+    },
+    "core4": 480,
+    "cutoff_dates": 120,
+    "eligibility_final": false,
+    "units": 1020
+  },
+  "hmm_existing": {
+    "fit_end": "2022-12-30",
+    "frozen_model_compatibility_requires_verification": true,
+    "method": "HMM"
+  },
+  "label_bridge": {
+    "execution_data_certified": false,
+    "grid_cycles": 1020,
+    "historical_bank_membership_certified": false,
+    "ledger_boundary": "previous_exit < next_entry",
+    "max_abs_error": 0.0,
+    "query_outcomes_exported": false,
+    "retrieval_boundary": "exit_date < query_date",
+    "scope": "ENGINE_ORACLE_PARITY_ON_VENDOR_SERIES_ONLY",
+    "status": "PASS",
+    "tolerance": 1e-12
+  },
+  "legacy_raw_news_cache": [
+    {
+      "path": "sentiment_cache_BHN.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "59c84329f77190cb83352038917c3141bb74daf6ae36bed545e1729784af8dd5",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_CMG.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "b3b27296c3ab582ea1e03607a31c0151f58594430acc2dc8372ed8dadaea6bb5",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_FPT.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "1421d13d66d31848f037e3c21ae6136afa85dfeb31db3b978f4b59663ea50ae5",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_HVN.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "fba87d73ae5dc70b7f015d6e2f5222c618c6ff437bcdd886138319942a0ca863",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_MBB.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "d4083f7c6b6b2e500c3283eb19998836baf73b48a938839c99648c339fbc5e7b",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_MWG.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "e4301271aa79503ca793ebc2e8b823bc4defb76b484eb05fde751f2603612df8",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_VCB.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "2bdc60222d36f677df0f3fe96426009913f91b1db54fc8e038bab0d95afcefd5",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_VJC.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "4662d47ad75b6605b8293f2101b2aafae701e1549e15b2c2350ee9c65b00c36b",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "path": "sentiment_cache_VNM.json",
+      "reason": "NOT_IN_DONOR_GIT",
+      "sha256": "2b8c09d19bdd1315545e6162635453d996e7820612589ffe7fc7dab8ea247184",
+      "status": "BLOCKED_ASSET"
+    }
+  ],
+  "local_sources": [
+    {
+      "blob_oid": "fa5c7ed2984f599eb21e448de55869b5dfc5fab1",
+      "bytes": 598,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 598,
+      "git_blob_sha256": "f7b629cf409a2ab23b50e3bbd6cfd4e15bcb538eb2e7c68d26d278290dcc20dd",
+      "path": "docs/plan/week11/mt_bicl_model.json",
+      "sha256": "f7b629cf409a2ab23b50e3bbd6cfd4e15bcb538eb2e7c68d26d278290dcc20dd"
+    },
+    {
+      "blob_oid": "75719b6530d63d695c514e6a7d3d63a265178166",
+      "bytes": 9610671,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 9610671,
+      "git_blob_sha256": "1b1b7428c62f8a8d06d51db091afe68f046412ae8ef3a4843bd87f0371764f0c",
+      "path": "docs/plan/implementation_evidence.zip",
+      "sha256": "1b1b7428c62f8a8d06d51db091afe68f046412ae8ef3a4843bd87f0371764f0c"
+    },
+    {
+      "blob_oid": "34ebd9468e3b6ccfcafee3ccf9acd12e97382899",
+      "bytes": 153617,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 151617,
+      "git_blob_sha256": "61756c70e7a20c2debc5922324fc554fdfcec498fc7a31638d05bb573230666e",
+      "path": "data/historical/VNINDEX.csv",
+      "sha256": "971eec19f3f2b252b0810f551bbfd50c0c31a2c26957da0b9434b9b25e869a34"
+    },
+    {
+      "blob_oid": "d5c880963eb21ce506c514595a7d1a162dd6d301",
+      "bytes": 5478,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 5267,
+      "git_blob_sha256": "7c1749752d449844cd458b71bb3fe5f276961b794e1bc8d1f1b90d8bddac026e",
+      "path": "data_manager/regime_model.json",
+      "sha256": "58a8bccb11466177114017aeb648d934106629c1598ac96bd0bde9e5d5263ebd"
+    },
+    {
+      "blob_oid": "8798f89c381508f9c5f7f2a99328c2a354230dac",
+      "bytes": 11500,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 11500,
+      "git_blob_sha256": "c94667b3fc6d1924ef187f5456a1f2b77db9beb4d1116a6a56453a2fa73118d4",
+      "path": "docs/plan/week11/mt_bicl_protocol.json",
+      "sha256": "c94667b3fc6d1924ef187f5456a1f2b77db9beb4d1116a6a56453a2fa73118d4"
+    },
+    {
+      "blob_oid": "88d1f96c78350d186483d85e47ea752088cea168",
+      "bytes": 72428,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 70907,
+      "git_blob_sha256": "58366a4e517952a2c666fa86d0fc39615e1f3cf1aab88926cfecf8d0a114b96d",
+      "path": "core/backtest_engine.py",
+      "sha256": "57074df54e806adb1685436eac9bbe3053a87cadb12cb6613e682589ec8e8f2d"
+    },
+    {
+      "blob_oid": "0576e89ad732aa46b858017dda4ce4f70e53fdcc",
+      "bytes": 22796,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 22796,
+      "git_blob_sha256": "914d9cfa94696f0dec572fac0af0d6ab4ddc1e0160edcd705434b8a27d9579f1",
+      "path": "core/historical_asset_readiness.py",
+      "sha256": "914d9cfa94696f0dec572fac0af0d6ab4ddc1e0160edcd705434b8a27d9579f1"
+    },
+    {
+      "blob_oid": "846e600db89bf5df409201b9e185fc4ffa4484ca",
+      "bytes": 912,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 912,
+      "git_blob_sha256": "389dea7df09b14318ea5af5c5913f2613d79fa316ca981033fc004438b4936d3",
+      "path": "scripts/prepare_historical_assets.py",
+      "sha256": "389dea7df09b14318ea5af5c5913f2613d79fa316ca981033fc004438b4936d3"
+    },
+    {
+      "blob_oid": "2230cbbe9b06755dc2e475be5d23d6a00772afdb",
+      "bytes": 6176,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 6176,
+      "git_blob_sha256": "17f350a112ae2d3580da08076cd4327775799e497e9987e9a6b30bd2ac65d8b3",
+      "path": "core/mt_bicl_accounting.py",
+      "sha256": "17f350a112ae2d3580da08076cd4327775799e497e9987e9a6b30bd2ac65d8b3"
+    },
+    {
+      "blob_oid": "0b6d54b06b8a235ef2f56d7366e63237d8fe1972",
+      "bytes": 4236,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 4236,
+      "git_blob_sha256": "7b4b217771b9e6445ae1be17d15ca2c50403e197a95e58c61d1f679c669aa98b",
+      "path": "core/mt_bicl_adapter.py",
+      "sha256": "7b4b217771b9e6445ae1be17d15ca2c50403e197a95e58c61d1f679c669aa98b"
+    },
+    {
+      "blob_oid": "ccd667d6a7ac04f04dac361a20b7913426e797d3",
+      "bytes": 16411,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 16411,
+      "git_blob_sha256": "bec81a056d562a89dd6fd23abb84893c7bd8a29040464c7b11e6a91a67315b5d",
+      "path": "core/mt_bicl_analysis.py",
+      "sha256": "bec81a056d562a89dd6fd23abb84893c7bd8a29040464c7b11e6a91a67315b5d"
+    },
+    {
+      "blob_oid": "1ca94cce75fdd72703219f7c4ae940208ff6cb58",
+      "bytes": 4086,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 4086,
+      "git_blob_sha256": "07bada86aa15c4e11739238a300921d773a4265ba1402238cfdd64ddd95726b2",
+      "path": "core/mt_bicl_audit.py",
+      "sha256": "07bada86aa15c4e11739238a300921d773a4265ba1402238cfdd64ddd95726b2"
+    },
+    {
+      "blob_oid": "fee69f9271f11282e73a08c38fbea8d8db6c01b9",
+      "bytes": 16128,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 16128,
+      "git_blob_sha256": "e537efa9f2049e4de217ee13a0aa28bb6ab100953438de0cb24aae3f26dcdb47",
+      "path": "core/mt_bicl_bank.py",
+      "sha256": "e537efa9f2049e4de217ee13a0aa28bb6ab100953438de0cb24aae3f26dcdb47"
+    },
+    {
+      "blob_oid": "3f967019a42507c5e709144338a3c3bf1766c6f0",
+      "bytes": 8352,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 8352,
+      "git_blob_sha256": "cf61434f719b43fb908711fd17972fe33ef6db3c3031df2f69671980f0e38c1e",
+      "path": "core/mt_bicl_context.py",
+      "sha256": "cf61434f719b43fb908711fd17972fe33ef6db3c3031df2f69671980f0e38c1e"
+    },
+    {
+      "blob_oid": "1cd278f28e46ad2ec148d58ccf79ce9a6d21cdac",
+      "bytes": 9335,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 9335,
+      "git_blob_sha256": "cb155d306aacb5ec3172fd9d54da2ee344b47ddb1ceafcc2fd50410f2e6eb432",
+      "path": "core/mt_bicl_contracts.py",
+      "sha256": "cb155d306aacb5ec3172fd9d54da2ee344b47ddb1ceafcc2fd50410f2e6eb432"
+    },
+    {
+      "blob_oid": "d7bf1186750ab0e8f5a66a3ccaae437827d7e344",
+      "bytes": 10909,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 10909,
+      "git_blob_sha256": "2c02c0c9886a4f556444003d5fe39a2c0165eb3710318b82d9eb4e43e4d4c435",
+      "path": "core/mt_bicl_decision.py",
+      "sha256": "2c02c0c9886a4f556444003d5fe39a2c0165eb3710318b82d9eb4e43e4d4c435"
+    },
+    {
+      "blob_oid": "bc5a48a0727637cc2ea4bfb94a6fde722f391016",
+      "bytes": 6008,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 6008,
+      "git_blob_sha256": "53caa9c70b1e8cd356ae1e0e066e2c8d9fc224265d99de1688b809c993fcc639",
+      "path": "core/mt_bicl_distillation.py",
+      "sha256": "53caa9c70b1e8cd356ae1e0e066e2c8d9fc224265d99de1688b809c993fcc639"
+    },
+    {
+      "blob_oid": "f00c3d16a42a88160925a8dcc57bacf2714176d2",
+      "bytes": 2104,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 2104,
+      "git_blob_sha256": "cb0841d015144c5bd6bcd7ec67e3d72abef3ded7716f54a518d900d6c0a7a308",
+      "path": "core/mt_bicl_evaluation.py",
+      "sha256": "cb0841d015144c5bd6bcd7ec67e3d72abef3ded7716f54a518d900d6c0a7a308"
+    },
+    {
+      "blob_oid": "d46efb2801267c0a6b537bfc76f78787512f7620",
+      "bytes": 8115,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 8115,
+      "git_blob_sha256": "8c3fb1d4d4557bd976af13c79fd12e5025d83432eceb194c172a4c282ea8331e",
+      "path": "core/mt_bicl_features.py",
+      "sha256": "8c3fb1d4d4557bd976af13c79fd12e5025d83432eceb194c172a4c282ea8331e"
+    },
+    {
+      "blob_oid": "731b9a1b895b9d4dc7791b7e73b095ec0d3d63ba",
+      "bytes": 3693,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 3693,
+      "git_blob_sha256": "5a273a32bab9d15e6404c200c8a7d89206d6ebbe9dab4df5eece7e5be7dc7b61",
+      "path": "core/mt_bicl_inputs.py",
+      "sha256": "5a273a32bab9d15e6404c200c8a7d89206d6ebbe9dab4df5eece7e5be7dc7b61"
+    },
+    {
+      "blob_oid": "9856b930eae2ebb9d20c0e02ac2e816a3a3b5d09",
+      "bytes": 4639,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 4639,
+      "git_blob_sha256": "59b9387c3e7f8834e6a7fd60fab6ac4b52d23421f1913709592ee848fe9ba4fc",
+      "path": "core/mt_bicl_io.py",
+      "sha256": "59b9387c3e7f8834e6a7fd60fab6ac4b52d23421f1913709592ee848fe9ba4fc"
+    },
+    {
+      "blob_oid": "c76421eeb95cbdb446f025a66c3d095529ee9bf5",
+      "bytes": 5146,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 5146,
+      "git_blob_sha256": "01b4202a996765399add9056405266d9805f69daa89a3a29e8d3d45d2d725579",
+      "path": "core/mt_bicl_oracle.py",
+      "sha256": "01b4202a996765399add9056405266d9805f69daa89a3a29e8d3d45d2d725579"
+    },
+    {
+      "blob_oid": "9898b4fdfbe19c69d376680486500fd3a568421c",
+      "bytes": 7371,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 7371,
+      "git_blob_sha256": "301525c36c150e21f09a1971101d53d5927cf38c1d2921017c477441e097b488",
+      "path": "core/mt_bicl_policy.py",
+      "sha256": "301525c36c150e21f09a1971101d53d5927cf38c1d2921017c477441e097b488"
+    },
+    {
+      "blob_oid": "f2e5910171023f99fbe8af0730b93fb7daf51bc2",
+      "bytes": 9947,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 9947,
+      "git_blob_sha256": "93519b6951a6d5c4df18a420eaf080af33ee9448422dcda3903b7809840c90c2",
+      "path": "core/mt_bicl_prompt.py",
+      "sha256": "93519b6951a6d5c4df18a420eaf080af33ee9448422dcda3903b7809840c90c2"
+    },
+    {
+      "blob_oid": "0b5ac28fe296eaacc1a3cc266f80e74a11dfccf1",
+      "bytes": 372,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 372,
+      "git_blob_sha256": "588d801af508201bf5ee93f390516aed2ac06a30a09057487ebaba2da55f0003",
+      "path": "core/mt_bicl_prompt_limits.py",
+      "sha256": "588d801af508201bf5ee93f390516aed2ac06a30a09057487ebaba2da55f0003"
+    },
+    {
+      "blob_oid": "0f7448b76a380132ad1d70cd3caa3b964abca476",
+      "bytes": 2872,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 2872,
+      "git_blob_sha256": "2a04ced0fbb70cd4e2ca9427cffd7d2132df5c1ef883702e4317f85b153b9398",
+      "path": "core/mt_bicl_protocol.py",
+      "sha256": "2a04ced0fbb70cd4e2ca9427cffd7d2132df5c1ef883702e4317f85b153b9398"
+    },
+    {
+      "blob_oid": "6b98e638201df089bd8ddf2261636b032278a949",
+      "bytes": 2485,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 2485,
+      "git_blob_sha256": "e56c114e5c0987ba2f237ee59f643e2b9c972eb45a53ddd3aecf5caa658460f1",
+      "path": "core/mt_bicl_reference.py",
+      "sha256": "e56c114e5c0987ba2f237ee59f643e2b9c972eb45a53ddd3aecf5caa658460f1"
+    },
+    {
+      "blob_oid": "018061d173d08e18c4b0dd7d22b23d2809a5e09d",
+      "bytes": 6547,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 6547,
+      "git_blob_sha256": "6d036cb93c0ca3a965e536145fe2074fc2e27064c21cae0c2d7de637fcada704",
+      "path": "core/mt_bicl_regimes.py",
+      "sha256": "6d036cb93c0ca3a965e536145fe2074fc2e27064c21cae0c2d7de637fcada704"
+    },
+    {
+      "blob_oid": "c85334535eadba03f9e17b2851604ed397fa24a9",
+      "bytes": 7618,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 7618,
+      "git_blob_sha256": "e1914ad6029af9b40a1fd07f77e5250c1f521f1813d02bd45cc9f80d8f4c6333",
+      "path": "core/mt_bicl_reporting.py",
+      "sha256": "e1914ad6029af9b40a1fd07f77e5250c1f521f1813d02bd45cc9f80d8f4c6333"
+    },
+    {
+      "blob_oid": "0789f14ffcc801009796cc9be14b1031df183c6e",
+      "bytes": 6594,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 6594,
+      "git_blob_sha256": "f960bd8efae36c641cff2cca9e444877f1b44debddeee985cb84d12de615d27e",
+      "path": "core/mt_bicl_scaler.py",
+      "sha256": "f960bd8efae36c641cff2cca9e444877f1b44debddeee985cb84d12de615d27e"
+    },
+    {
+      "blob_oid": "9beb7ee3a58bf040e09259b5afbb35007e531ef8",
+      "bytes": 7768,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 7768,
+      "git_blob_sha256": "d87b67432ea415ef60fb12eb96c8658565ee672de801273512d0ddc53454cd4b",
+      "path": "core/mt_bicl_stream.py",
+      "sha256": "d87b67432ea415ef60fb12eb96c8658565ee672de801273512d0ddc53454cd4b"
+    },
+    {
+      "blob_oid": "373702f824e8a4f137717d1fe8283b60918bf767",
+      "bytes": 9288,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 9288,
+      "git_blob_sha256": "fa2a7c783177f8c19fcebecaa320ac92d71c219fccbedb37a641ed658e56a885",
+      "path": "core/mt_bicl_student.py",
+      "sha256": "fa2a7c783177f8c19fcebecaa320ac92d71c219fccbedb37a641ed658e56a885"
+    },
+    {
+      "blob_oid": "19971fa20bd0dac1d38f87ef29c6c20010850517",
+      "bytes": 15619,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 15619,
+      "git_blob_sha256": "0e8fdd0ce442ceb567f2650780dc812b9c3686d527be139957733bbeb41f72f1",
+      "path": "core/mt_bicl_tasks.py",
+      "sha256": "0e8fdd0ce442ceb567f2650780dc812b9c3686d527be139957733bbeb41f72f1"
+    },
+    {
+      "blob_oid": "f410424795fe3bce5f3c169748405eab3a0e5055",
+      "bytes": 9423,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 9423,
+      "git_blob_sha256": "423dc73be34113634b473ca391c293c1520b046be2e157a9ad8b2ba22734d151",
+      "path": "core/mt_bicl_teacher.py",
+      "sha256": "423dc73be34113634b473ca391c293c1520b046be2e157a9ad8b2ba22734d151"
+    },
+    {
+      "blob_oid": "cadd65d03af97fbab9d37c3ae2d4a207df162b8f",
+      "bytes": 7170,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 7170,
+      "git_blob_sha256": "7678ff30ad5cb8f563628f41e3ba7f42415c035df02d0cab1833da6ccdef87b2",
+      "path": "core/mt_bicl_utility.py",
+      "sha256": "7678ff30ad5cb8f563628f41e3ba7f42415c035df02d0cab1833da6ccdef87b2"
+    },
+    {
+      "blob_oid": "581bbfa08c0f3c84165a1396dc2071794ae3da50",
+      "bytes": 126310,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 125058,
+      "git_blob_sha256": "b793cb5fc27fcf83e6c55350e2a59f908925f4dca2fcab3139826b5e30c4c4a4",
+      "path": "data/execution_prices/FPT.csv",
+      "sha256": "0a6606403e70247c8cf501844f2f011ec357c21d83095ed5c90336cd4f043a53"
+    },
+    {
+      "blob_oid": "b4456699daef730b85a84df096e302ef6d4f0049",
+      "bytes": 45258,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 44115,
+      "git_blob_sha256": "50eee936d97f5254ff844fdbbf22e2ccae3f501dae889f71f43c29750015e6ea",
+      "path": "data/execution_prices/FPT.events.json",
+      "sha256": "0b37c6fd385b0e6ecd082aad0d00942d04343fa42ed2ec19aae4d3666991871c"
+    },
+    {
+      "blob_oid": "bfcb3a3230326e0b951711e0b7c86e88be5df990",
+      "bytes": 51031,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 51031,
+      "git_blob_sha256": "16faea0ecdd68dd1f9af75a416ee30ded34e35ab60c09e53b00552babeaf90a5",
+      "path": "data/execution_prices/FPT.evidence.json.gz",
+      "sha256": "16faea0ecdd68dd1f9af75a416ee30ded34e35ab60c09e53b00552babeaf90a5"
+    },
+    {
+      "blob_oid": "841c3893d0f24ef37c9584f90d26afbcc1e322e0",
+      "bytes": 34049,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 33068,
+      "git_blob_sha256": "7287fc67c85a85ca3adb34029a85b2007b1651e2aee4254e8b4e52b3667cf6af",
+      "path": "data/execution_prices/manifest.json",
+      "sha256": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c"
+    },
+    {
+      "blob_oid": "dd3a50e62c9925effbd0a74a0ef272f51ecdf49c",
+      "bytes": 130517,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 129265,
+      "git_blob_sha256": "052382c862c6bf3260d991ed713d4ba4a9dd629850f1f7d65a3f170ef42d9f46",
+      "path": "data/execution_prices/MWG.csv",
+      "sha256": "3839c5d0d7240c997e02624b6afceb3aba88fb621a6e157a3852bcec15464693"
+    },
+    {
+      "blob_oid": "d05acf7914c17cfeec07b691e3d20387bbe410ba",
+      "bytes": 39639,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 38693,
+      "git_blob_sha256": "50a75568937f354af0efb4d4869ad99ae3bf65aa862670c725450af057ec4344",
+      "path": "data/execution_prices/MWG.events.json",
+      "sha256": "d9dc14691cc7943e663a4d54dd503fd4f684b1ceb8d43a4b6364f630abb96607"
+    },
+    {
+      "blob_oid": "6602b44f867a7b973d9eddb6125bedce7870bbc1",
+      "bytes": 54239,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 54239,
+      "git_blob_sha256": "7b3424fe6ad1db982a684fbd6b7c4dbaa593161023b10bf3ed51f9c71cd0f3a9",
+      "path": "data/execution_prices/MWG.evidence.json.gz",
+      "sha256": "7b3424fe6ad1db982a684fbd6b7c4dbaa593161023b10bf3ed51f9c71cd0f3a9"
+    },
+    {
+      "blob_oid": "ac2faa4f44a7f0eee55b89bf2b306757111cfc58",
+      "bytes": 126377,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 125125,
+      "git_blob_sha256": "c38c3f554fd7d99ab8ec743297c94f981f273189b2f5cef39d7e513c74ff7790",
+      "path": "data/execution_prices/VCB.csv",
+      "sha256": "64b6b272bad012f7739b6ecf33ce2d4e7dd8ae26429022fbeed3954796bbbe88"
+    },
+    {
+      "blob_oid": "66940334d0caa136f1f5492f127a875b3d54a2ff",
+      "bytes": 13524,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 13212,
+      "git_blob_sha256": "135262fe7e486593603be7a733df610f77035833cdea1674d6edb25ad877af71",
+      "path": "data/execution_prices/VCB.events.json",
+      "sha256": "0b01353f19a36696b6a5ff23a18d6920f8c4358f1bcebbfb22a0f9d31c992fc1"
+    },
+    {
+      "blob_oid": "379da92a1741cef7674d92377e1a7338f2c7fb8b",
+      "bytes": 49911,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 49911,
+      "git_blob_sha256": "a2d6434d43680fee3dd9be27021a48519fd542e5346d6cb37d1e528e6934fcc8",
+      "path": "data/execution_prices/VCB.evidence.json.gz",
+      "sha256": "a2d6434d43680fee3dd9be27021a48519fd542e5346d6cb37d1e528e6934fcc8"
+    },
+    {
+      "blob_oid": "90cee3db90c6a32e5195fd54e13524b683b15960",
+      "bytes": 130626,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 129374,
+      "git_blob_sha256": "dd357044cb6721fa3a30918da4e3a6b86e1ee2616a6240a5eccbd51bb24b1600",
+      "path": "data/execution_prices/VNM.csv",
+      "sha256": "7f36c58a33d6330ef75164d2d4e45de91494d19d723de9d4e4c573b6acdbdf1c"
+    },
+    {
+      "blob_oid": "1f58ad08ab32aab3999569706f3014378e3d7413",
+      "bytes": 24355,
+      "checkout_crlf_only": true,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 23773,
+      "git_blob_sha256": "503b33c4dee9ee64f2d7cb44f8e035fcac6dcdbf6fb457db1dea80154878a7c5",
+      "path": "data/execution_prices/VNM.events.json",
+      "sha256": "31dc19e82f3ed1965568393ea91e281924cff7d9aa0efcb7e97446e00c174fd9"
+    },
+    {
+      "blob_oid": "0d0c5479c0d0fc0e14f42c9e30fd0ea55b6e61a7",
+      "bytes": 52025,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 52025,
+      "git_blob_sha256": "e10845a4547032817345c4fe6995afd25baf4eb3fd5773e180790ed4be0ea0c6",
+      "path": "data/execution_prices/VNM.evidence.json.gz",
+      "sha256": "e10845a4547032817345c4fe6995afd25baf4eb3fd5773e180790ed4be0ea0c6"
+    },
+    {
+      "blob_oid": "9877535269551bdebfa44e170f3de7b3bb1f294e",
+      "bytes": 177969,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 177969,
+      "git_blob_sha256": "ca20b01f40fd1e0e8a29d2af9b67173daec13ae6821156930244e6df02f2a53d",
+      "path": "data/execution_prices_oos/FPT.csv",
+      "sha256": "ca20b01f40fd1e0e8a29d2af9b67173daec13ae6821156930244e6df02f2a53d"
+    },
+    {
+      "blob_oid": "28e552b38364a8c1d52245f9c433863887b32768",
+      "bytes": 56054,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 56054,
+      "git_blob_sha256": "5d7c5974b26691d5e58ee2b620d4baa4ded301c960ec1ae95f1a076011ebea43",
+      "path": "data/execution_prices_oos/FPT.events.json",
+      "sha256": "5d7c5974b26691d5e58ee2b620d4baa4ded301c960ec1ae95f1a076011ebea43"
+    },
+    {
+      "blob_oid": "e1186b13fa8b07e201a11dccf14de77afb796160",
+      "bytes": 72163,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 72163,
+      "git_blob_sha256": "6f7a7bd4b2e76e3b0ca91c89b393e57df8d86f89be91f232bee0109b3a79aabc",
+      "path": "data/execution_prices_oos/FPT.evidence.json.gz",
+      "sha256": "6f7a7bd4b2e76e3b0ca91c89b393e57df8d86f89be91f232bee0109b3a79aabc"
+    },
+    {
+      "blob_oid": "5350d637ec9d58778f0fc62ed2e1f37394abc82b",
+      "bytes": 35530,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 35530,
+      "git_blob_sha256": "bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4",
+      "path": "data/execution_prices_oos/manifest.json",
+      "sha256": "bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4"
+    },
+    {
+      "blob_oid": "ae632ccac5c9a57a82e461d8ca35a8ccfe1c3dd6",
+      "bytes": 181011,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 181011,
+      "git_blob_sha256": "edbed178d110d17ffe5a0d8ee2d479fd6bd1cc1d8708b93ef704e065f644290e",
+      "path": "data/execution_prices_oos/MWG.csv",
+      "sha256": "edbed178d110d17ffe5a0d8ee2d479fd6bd1cc1d8708b93ef704e065f644290e"
+    },
+    {
+      "blob_oid": "9452c66790c8045dc403d1f982a521ad2e76513b",
+      "bytes": 45017,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 45017,
+      "git_blob_sha256": "80fe8ecad9f6d1679f46a3ccbbb785f2d45cb27afa1840c07b15b9920b608fc8",
+      "path": "data/execution_prices_oos/MWG.events.json",
+      "sha256": "80fe8ecad9f6d1679f46a3ccbbb785f2d45cb27afa1840c07b15b9920b608fc8"
+    },
+    {
+      "blob_oid": "5e44c23b48e3052f5c271dba774d24a399686327",
+      "bytes": 75630,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 75630,
+      "git_blob_sha256": "1f1bb28ac1d8b91c75f9f010f229719b3f7c52b75ceabb5eb2f91e9ec82647a2",
+      "path": "data/execution_prices_oos/MWG.evidence.json.gz",
+      "sha256": "1f1bb28ac1d8b91c75f9f010f229719b3f7c52b75ceabb5eb2f91e9ec82647a2"
+    },
+    {
+      "blob_oid": "987d9a4d359761c9a1aa0610edaa091357aa62a5",
+      "bytes": 176748,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 176748,
+      "git_blob_sha256": "d1b7f48a1ae2e0056d3332e2d8db0b8bc6f4f1f09c4c3aa7ae8953d2e2f79489",
+      "path": "data/execution_prices_oos/VCB.csv",
+      "sha256": "d1b7f48a1ae2e0056d3332e2d8db0b8bc6f4f1f09c4c3aa7ae8953d2e2f79489"
+    },
+    {
+      "blob_oid": "279a6b5fef6d0e98d6cc99f28c88f9e35de7d8f1",
+      "bytes": 16750,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 16750,
+      "git_blob_sha256": "b27a8921ffd627efdbc8ba638e86ba51feee666d5f98c172755b81046fa4d934",
+      "path": "data/execution_prices_oos/VCB.events.json",
+      "sha256": "b27a8921ffd627efdbc8ba638e86ba51feee666d5f98c172755b81046fa4d934"
+    },
+    {
+      "blob_oid": "5175e09d599617bc381bdf49b0c96465d8d9244b",
+      "bytes": 68651,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 68651,
+      "git_blob_sha256": "ff19c416fbaf091e52d4cf14e8ce04a97010ced927838adc82eeb1d4707bccfa",
+      "path": "data/execution_prices_oos/VCB.evidence.json.gz",
+      "sha256": "ff19c416fbaf091e52d4cf14e8ce04a97010ced927838adc82eeb1d4707bccfa"
+    },
+    {
+      "blob_oid": "42b22f7f9c736774ace30b5986e7f575d9fc9efc",
+      "bytes": 181004,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 181004,
+      "git_blob_sha256": "eeca6e035692987aac4d86a795557ef2ec817328f8ba41c8802bf5b3bd691413",
+      "path": "data/execution_prices_oos/VNM.csv",
+      "sha256": "eeca6e035692987aac4d86a795557ef2ec817328f8ba41c8802bf5b3bd691413"
+    },
+    {
+      "blob_oid": "d4d64965f3cc3b2ccef22842fff265151a877adc",
+      "bytes": 31156,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 31156,
+      "git_blob_sha256": "85627c69bb76b67db3ac34fd2ae335865d9055a0d873877c929869e5623fdbb3",
+      "path": "data/execution_prices_oos/VNM.events.json",
+      "sha256": "85627c69bb76b67db3ac34fd2ae335865d9055a0d873877c929869e5623fdbb3"
+    },
+    {
+      "blob_oid": "f6f9d36792c2fe491803ee32b9905bbcfcba92ae",
+      "bytes": 71369,
+      "checkout_crlf_only": false,
+      "commit": "4a065b46e7c43c9f35bb13e6eb269125ae02a92f",
+      "git_blob_bytes": 71369,
+      "git_blob_sha256": "00403d281514e1365a1af2e5b2c0e73f3eb5258ff0b8b65bef92d35e63df34b3",
+      "path": "data/execution_prices_oos/VNM.evidence.json.gz",
+      "sha256": "00403d281514e1365a1af2e5b2c0e73f3eb5258ff0b8b65bef92d35e63df34b3"
+    }
+  ],
+  "news": {
+    "availability_policy": "DATE_ONLY_NEXT_DAY",
+    "content_pit_certified": false,
+    "downstream_normalizer_and_extended_coverage": "H04_REQUIRED",
+    "membership_count": 155,
+    "scorer_revision": "d7738b85200272f10ba8b048d80236c8c582b581",
+    "status": "FROZEN_SCORES_VERIFIED",
+    "unique_scored_articles": 154
+  },
+  "price_views": {
+    "BHN": {
+      "analysis_first_date": "2022-09-14",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [
+        "2022-09-13"
+      ],
+      "excluded_prefix_rows": 673,
+      "raw_rows": 1681
+    },
+    "CMG": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "FPT": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "HVN": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "MBB": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "MWG": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "VCB": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "VJC": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    },
+    "VNM": {
+      "analysis_first_date": "2020-01-02",
+      "analysis_last_date": "2026-09-30",
+      "bad_ohlc_dates": [],
+      "excluded_prefix_rows": 0,
+      "raw_rows": 1681
+    }
+  },
+  "registry": [
+    {
+      "blocking_dependencies": [],
+      "inference_released": false,
+      "method": "Original_common",
+      "price_quality": "VENDOR_SERIES_LIMITED",
+      "scope": "ASSET_DATA_ONLY_FULL_1020_GRID",
+      "status": "READY"
+    },
+    {
+      "blocking_dependencies": [
+        "VNINDEX_2026"
+      ],
+      "inference_released": false,
+      "method": "bayesian_v1",
+      "price_quality": "VENDOR_SERIES_LIMITED",
+      "scope": "ASSET_DATA_ONLY_FULL_1020_GRID",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "blocking_dependencies": [
+        "VNINDEX_2026"
+      ],
+      "inference_released": false,
+      "method": "C2",
+      "price_quality": "VENDOR_SERIES_LIMITED",
+      "scope": "ASSET_DATA_ONLY_FULL_1020_GRID",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "blocking_dependencies": [
+        "VNINDEX_2026"
+      ],
+      "inference_released": false,
+      "method": "A_tp_pool",
+      "price_quality": "VENDOR_SERIES_LIMITED",
+      "scope": "ASSET_DATA_ONLY_FULL_1020_GRID",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "blocking_dependencies": [
+        "VNINDEX_2026"
+      ],
+      "inference_released": false,
+      "method": "B_semantic",
+      "price_quality": "VENDOR_SERIES_LIMITED",
+      "scope": "ASSET_DATA_ONLY_FULL_1020_GRID",
+      "status": "BLOCKED_ASSET"
+    },
+    {
+      "blocking_dependencies": [
+        "VNINDEX_2026",
+        "FROZEN_MT_ASSETS"
+      ],
+      "inference_released": false,
+      "method": "MT_BICL",
+      "price_quality": "VENDOR_SERIES_LIMITED",
+      "scope": "ASSET_DATA_ONLY_FULL_1020_GRID",
+      "status": "BLOCKED_ASSET"
+    }
+  ],
+  "runtime_python": "3.13.5",
+  "source_archive": [
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/manifest.json",
+      "blob_oid": "de68938280cf2b2d1cd43ff915b0721177da5325",
+      "bytes": 3228,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "d74896420c0dfd0db37a6e821b4c025ff6c9dc3fba9f27589fe566f3ad1ae0ec",
+      "source_path": "outputs/revision/r1_prices_v1/manifest.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_72h_bank_v2/manifest.json",
+      "blob_oid": "34447acc000364f592c1416d1da3e602bab9e8ac",
+      "bytes": 271362,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "b1f9c9261b5220f5d33a5fd759ddb4d6e7c5dc13431ea88218eae312e4d35f97",
+      "source_path": "outputs/revision/r1_72h_bank_v2/manifest.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_72h_bank_v2/news.json",
+      "blob_oid": "338b6353a5bae82e51baa209528972dbb4a46810",
+      "bytes": 49840,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "04eea13ccd8cee49508612e65ac5a7fe2cb423b90cf984191f80a4b7c6769b8e",
+      "source_path": "outputs/revision/r1_72h_bank_v2/news.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_72h_bank_v2/article_audit.json",
+      "blob_oid": "a44c4d625c05dec828dc7efe6ef40ba0d952f8c0",
+      "bytes": 221570,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "336aa144936368dbf1e80f2c4a25f718be1fd51c04a6b77ed5e88c703ac57924",
+      "source_path": "outputs/revision/r1_72h_bank_v2/article_audit.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_72h_bank_v2/local_scores.json",
+      "blob_oid": "cd0a863e94228e5280e18680dd7e3c37b84ec5c2",
+      "bytes": 42311,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "9481df99807b962803e1381b887ae07a0593e0d799bb05448e81f8603c488acd",
+      "source_path": "outputs/revision/r1_72h_bank_v2/local_scores.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/utils/target_contract.py",
+      "blob_oid": "741b20b5cc61c0e9f84129433fb727bfbf9a790d",
+      "bytes": 5124,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "fee60ff471ddc827b19af12688f353b7f950c119a4d4fd092acc1ee7071fca26",
+      "source_path": "utils/target_contract.py"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/core/revision_baselines.py",
+      "blob_oid": "8f5f2df0ac04ef23a95f70c0c37e795b29c672c5",
+      "bytes": 17931,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "df8eb84d7dd190023421b2753dc462a89d0ce4907ceff804c22b368ec6151e88",
+      "source_path": "core/revision_baselines.py"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/core/revision72_data.py",
+      "blob_oid": "5cfc1d95a4612f7330e0d532fb4bc85e4aaa87da",
+      "bytes": 19423,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "abf49fcddcdae8eced8addf39b8bbc05af4358e7a548d8de2088d42775c9085a",
+      "source_path": "core/revision72_data.py"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/execution_evidence_v1/manifest.json",
+      "blob_oid": "30dad477681bfb8c8917049067822f3cd05b1634",
+      "bytes": 3956,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "0b2b1645db4eea97426c5d54fc7cea513efcc448797ed83c6c939ed181575328",
+      "source_path": "outputs/revision/execution_evidence_v1/manifest.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/execution_evidence_v1/calendar.json",
+      "blob_oid": "6d6d81a0b230f683e2dafb2e964187c9f555a4ed",
+      "bytes": 3631,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "b66703410b214b063b9ecbbd9eb4e1b8bc239e2d43998e08bbf8ebdb2cffe8c1",
+      "source_path": "outputs/revision/execution_evidence_v1/calendar.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/execution_evidence_v1/sources.json",
+      "blob_oid": "546d2cf3ec46f8ceb072e87042754434ca5688b3",
+      "bytes": 24919,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "81f285ee3e22229d29dcb19d76a3ad5059d4042a77643b662d7bdafeeaa42768",
+      "source_path": "outputs/revision/execution_evidence_v1/sources.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/execution_evidence_v1/sample_audit.json",
+      "blob_oid": "ca99f438d34856a965fa7506711acb44edcd70ac",
+      "bytes": 81501,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "14f59d7aa3ce9d3df9f7c10c63eade0e35b080416e1ad2c3e845997a4d9436bd",
+      "source_path": "outputs/revision/execution_evidence_v1/sample_audit.json"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/BHN.csv",
+      "blob_oid": "fdaf69389bf8b9a05e583c143a3c8679735430f6",
+      "bytes": 65973,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "19564bd9d81d1d730f1e52b7457c080a4172002f062630d0d32f45415bddc15c",
+      "source_path": "outputs/revision/r1_prices_v1/BHN.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/CMG.csv",
+      "blob_oid": "c8732d07f569931b465bc88b818ebe39638d8644",
+      "bytes": 68579,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "0df2267c3547d032b2adae6b36324b052a3e82a912d825629c3a71c0cef98fbc",
+      "source_path": "outputs/revision/r1_prices_v1/CMG.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/FPT.csv",
+      "blob_oid": "23486a31cda6ebc745c7331bd33f9d26bc2b6698",
+      "bytes": 71865,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "b3734bd8a4e0af790d85dc44eec06e0454543097c777729446292a8db2019e0b",
+      "source_path": "outputs/revision/r1_prices_v1/FPT.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/HVN.csv",
+      "blob_oid": "398ed51e5df111d991ef4d4264dbb5c389460312",
+      "bytes": 69175,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "fbae86e08a0ae2df3165b0fb7e87064d810ddbfcd5615e580eb88965088c785c",
+      "source_path": "outputs/revision/r1_prices_v1/HVN.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/MBB.csv",
+      "blob_oid": "e116f6733ff3dbbe50bc960ffd4b8c3d1f18bb4e",
+      "bytes": 69369,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "70e9c89ce508eb38f0fe496dfcb2caf69ffcebcacfb4c47dcacf6a7b6b644dc7",
+      "source_path": "outputs/revision/r1_prices_v1/MBB.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/MWG.csv",
+      "blob_oid": "bef92b63d19114b0f1617a75955ee156422b8327",
+      "bytes": 71422,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "3081843791152a151a40c4bc42611e0e6ca3414cc86703ba93f748c04f6d8a1c",
+      "source_path": "outputs/revision/r1_prices_v1/MWG.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/VCB.csv",
+      "blob_oid": "05c09a0a46adf3ac573f473f11f9bad81efc0cbd",
+      "bytes": 70675,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "fa324f48c7d0ff3710b727670f9e7eb523f43d4974136f0af5fcec1ddc3a2f10",
+      "source_path": "outputs/revision/r1_prices_v1/VCB.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/VJC.csv",
+      "blob_oid": "c2428a730c617a400070486ed68f2ff93249ce70",
+      "bytes": 70267,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "7a94bdd62ea0dd6044dc9846afc0d5a8a8923bef6133dc2addba1af73ee8c3db",
+      "source_path": "outputs/revision/r1_prices_v1/VJC.csv"
+    },
+    {
+      "archive_path": "outputs/historical_reevaluation/inputs/fix/outputs/revision/r1_prices_v1/VNM.csv",
+      "blob_oid": "a1e0c0d6dc8f94ff6f4c06905651ef53b2ecb124",
+      "bytes": 71192,
+      "donor_commit": "9efd23f4157e0d3ab8069fccab7dccf03439a714",
+      "sha256": "78e00d997b45e48ccc2aa76c41adf50e8ada350a0f58468a0d080480e8832d50",
+      "source_path": "outputs/revision/r1_prices_v1/VNM.csv"
+    }
+  ],
+  "status": "AUDIT_COMPLETE_WITH_BLOCKERS",
+  "version": "historical_asset_readiness_v1"
+}

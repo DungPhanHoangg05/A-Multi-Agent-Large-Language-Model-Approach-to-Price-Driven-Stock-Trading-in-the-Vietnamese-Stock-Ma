@@ -67,4 +67,7 @@ Các log nằm tại `outputs/bayesian_benchmark/mt_bicl/validation.log` và
 data_manager, utils và cấu hình gốc so mốc bắt đầu. Source/receipt donor và
 lưới1.020 unit giữ nguyên byte. Phần dọn ledger đã loại519 request của
 thí nghiệm bị bỏ; các nhóm request còn lại được giữ và tên nhánh MT-BICL
-được đồng bộ. Kết quả readiness mới được cold-verify sau khi neo source.
+được đồng bộ. Readiness mới đã tạo và cold-verify PASS, registry6 nhánh có1 READY và5
+BLOCKED_ASSET; model package0/2 component, VNINDEX2026 còn thiếu.
+Label bridge1.020 cycle PASS; kinh tế giữ PENDING_EXECUTION_DATA.
+Receipt tại `outputs/historical_reevaluation/manifests/asset_readiness.json`.
