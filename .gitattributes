@@ -10,3 +10,21 @@ docs/plan/week3/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-t
 docs/plan/week4/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 outputs/vnindex_regimes_2018_2022.manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 outputs/vnindex_regimes_2018_2022.svg -text -whitespace
+
+# Giữ byte inventory/benchmark và mã đo có SHA-256 khi checkout trên Windows.
+
+# Khóa byte nguồn và manifest development trước response W11 đầu tiên.
+
+# Giữ byte nguồn utility v3 ổn định khi checkout trên Windows.
+docs/plan/week11/validation_checks_v3/*.json -text
+
+# Readiness lịch sử giữ nguyên byte donor và receipt, không chuyển LF/CRLF.
+outputs/historical_reevaluation/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+core/historical_asset_readiness.py text eol=lf
+scripts/prepare_historical_assets.py text eol=lf
+tests/test_historical_asset_readiness_leakage.py text eol=lf
+
+core/mt_bicl*.py text eol=lf
+scripts/*mt_bicl*.py text eol=lf
+tests/*mt_bicl*.py text eol=lf
+docs/plan/week11/mt_bicl*.json -text

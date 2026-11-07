@@ -1,0 +1,300 @@
+{
+  "runtime": {
+    "python": "3.13.5",
+    "torch": "2.11.0+cu128",
+    "cuda": "12.8",
+    "numpy": "2.1.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "hmmlearn": "0.3.3",
+    "dependency_upgrade": false
+  },
+  "economic_contract": {
+    "label_function": "core.backtest_engine.compute_round_trip_net_return",
+    "entry": "Open(t+1)",
+    "exit": "Close(t+3)",
+    "fee_each_side": 0.0025,
+    "slippage_each_side": 0.001,
+    "y": "int(r_net>0)",
+    "r_net_unit": "fraction",
+    "action_short": "CASH",
+    "initial_cash_vnd": 50000000,
+    "lot": 100,
+    "tp_sl_override_fixed_exit": false
+  },
+  "features": {
+    "columns": [
+      "momentum_5",
+      "momentum_20",
+      "volatility_20",
+      "ma_distance_20"
+    ],
+    "primitive": "pit_price_features_v1",
+    "required_bars": 21,
+    "corporate_action_policy": "raw_segment_21_v1",
+    "decision_action_confidence_reports_as_features": false,
+    "missing_vector": "NO_IMPUTATION_CONTEXT_OFF_WITH_REASON"
+  },
+  "calendar": {
+    "source": "data/historical/VNINDEX.csv",
+    "anchor": "2018-01-02",
+    "index_origin": 0,
+    "bank_query_indices": "20+3*j, j>=0, require t+3 in calendar",
+    "step": 3,
+    "task_id": "symbol:block{floor(query_calendar_index/63):04d}",
+    "block_sessions": 63,
+    "cycle_in_task": "query/entry/exit phải cùng block; không chuyển cycle sang block khác",
+    "split_purge": "query và exit phải cùng partition; khoảng nắm giữ không cắt biên",
+    "historical_id": "symbol-YYYY-MM-DD theo query, không theo action",
+    "calendar_gap": "UNAVAILABLE_MISSING_SESSION; không nén lịch hoặc nội suy"
+  },
+  "splits": {
+    "train": [
+      "2018-01-02",
+      "2020-12-31"
+    ],
+    "checkpoint_selection": [
+      "2021-01-01",
+      "2021-12-31"
+    ],
+    "validation": [
+      "2022-01-01",
+      "2022-12-31"
+    ],
+    "development": [
+      "2023-01-01",
+      "2023-12-31"
+    ],
+    "exposed_reference": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "conditional_confirmation": [
+      "2025-01-01",
+      "2025-12-31"
+    ],
+    "no_automatic_resplit": true,
+    "minimum_support_before_training": {
+      "train_cycles_per_symbol": 100,
+      "train_blocks_with_two_cycles_per_symbol": 4,
+      "checkpoint_cycles_per_symbol": 40,
+      "failure": "STOP_INSUFFICIENT_TRAIN_SUPPORT; không chuyển 2022 vào train"
+    }
+  },
+  "scaler": {
+    "family": "standardization_ddof0",
+    "scope": "global_four_symbols_equal_per_cycle_no_labels",
+    "train_episode_fit": "Chỉ feature cycle thuộc train đã đóng exit<query; không fit bằng future train rows của query đó",
+    "minimum_closed_cycles": 2,
+    "zero_std_scale": 1.0,
+    "post_train_fit": "Mọi feature train hợp lệ exit<=2020-12-31; freeze trước 2021",
+    "apply": "Cùng scaler episode cho prior/target/query; giữ vector raw và z đầy đủ trong sidecar",
+    "clip_model_and_distance": [
+      -4.0,
+      4.0
+    ],
+    "centroid": "Mean vector scale/clip của mọi cycle hợp lệ trong task đã đóng trước query, không chỉ tám cycle được chọn",
+    "auxiliary_loss_note": "Loss ở C trong episode là teacher-forced target loss, không báo như dự báo PIT độc lập tại ngày C."
+  },
+  "regime": {
+    "primitive": "MarketRegimeDetector",
+    "min_raw_rows": 499,
+    "train_task_metadata": "Fit historical prefix <=block_start, classify tại block_start; khóa metadata theo task ID",
+    "train_query": "Dùng model prefix của đầu block hiện tại, classify prefix <=query",
+    "insufficient_history": {
+      "regime": "UNKNOWN",
+      "reason": "INSUFFICIENT_REGIME_HISTORY",
+      "retain_price_cycles": true,
+      "known_match": false
+    },
+    "other_fit_or_integrity_error": "RAISE_STOP_NOT_UNKNOWN",
+    "evaluation_model": "Fit một lần bằng VNINDEX <=2020-12-31 trong namespace mới, classify query từ 2021; không dùng artifact cuối 2022",
+    "old_task_metadata": "Không gán lại bằng artifact fit sau đầu block; block từ 2021 dùng model cuối 2020, block vắt 2020/2021 giữ metadata historical-prefix",
+    "classification_method": "Giữ HMM hoặc fallback calibration của primitive cùng provenance; không đổi parameters",
+    "missing_regime_in_numeric_input": false,
+    "task_metadata_after_2020": "Block bắt đầu từ 2021 dùng model cuối 2020 đóng băng; chỉ classify prefix đến block_start, không refit bằng validation/test"
+  },
+  "membership": {
+    "same_symbol_only": true,
+    "closed_rule": "exit_date < query_date",
+    "prior_task_rule": "block_end < target_block_start; cycle thuộc prior block và >=2 cycle hợp lệ",
+    "max_prior_tasks": 3,
+    "max_cycles_per_prior": 8,
+    "min_cycles_per_prior": 2,
+    "target": "Tối đa tám cycle mới nhất trong current block, exit<query, tăng dần cutoff/ID",
+    "max_target_cycles": 8,
+    "prior_task_rank": [
+      "known_regime_match_first",
+      "centroid_euclidean_distance_ascending",
+      "latest_closed_exit_descending",
+      "task_id_lexicographic"
+    ],
+    "prior_cycle_rank": [
+      "euclidean_distance_to_query_ascending",
+      "as_of_date_descending",
+      "episode_id_lexicographic"
+    ],
+    "cycle_order_in_selected_prior": "as_of_date/ID tăng dần sau khi chọn tám cycle gần query nhất theo distance",
+    "disjoint": "ID và khoảng [entry,exit] của mọi observation và query rời nhau; cycle cắt block đã loại",
+    "age_cap_days": null,
+    "missing": "Giữ K=0..3,m=0..8 và reasons, không bù task khác mã, không cân bằng nhãn",
+    "violation": "Candidate tương lai bị loại trước rank; membership đã chọn chứa future/overlap phải raise ValueError/AssertionError",
+    "centroid_scaler_fit_ids": "Lưu ID/hash của tập fit scaler và toàn cycle centroid trước cutoff; không dùng y để rank"
+  },
+  "projection": {
+    "full_membership_summary_each_P_T": [
+      "n",
+      "wins",
+      "losses",
+      "mean_r_net_fraction"
+    ],
+    "max_exemplars_per_prior": 1,
+    "max_target_exemplars": 1,
+    "exemplar_selection": "DISTANCE_DATE_ID_NOT_LABEL",
+    "exemplar_fields": [
+      "quantized_four_features",
+      "y",
+      "r_net_fraction",
+      "age_days"
+    ],
+    "full_context_ids_and_precision_in_sidecar": true,
+    "flag_small_target_m_at_most": 3,
+    "prefix_chars_inclusive_max": 600,
+    "fact_card_chars_inclusive_max": 700,
+    "anchor_card_chars_inclusive_max": 80,
+    "prompt_chars_exclusive_max": 6500,
+    "distill_and_cap": "UNCHANGED",
+    "overflow": "FAIL_BEFORE_API_NO_LABEL_OR_LEGEND_DROP"
+  },
+  "utility": {
+    "source": "TEACHER_SIGN_BAYESIAN_BOOTSTRAP_MAGNITUDE",
+    "draws": 4096,
+    "rng": "PCG64",
+    "quantile_method": "linear",
+    "quantiles": [
+      0.1,
+      0.9
+    ],
+    "support": {
+      "K_min": 2,
+      "gain_min": 5,
+      "loss_min": 5,
+      "zero_net_in_loss": true
+    },
+    "deduplicate": "UNIQUE_EPISODE_IDS_IN_D_UNION_C_EACH_OBSERVATION_ONCE_PER_SIGN_OR_MAGNITUDE_FACTOR",
+    "lambda_posterior": "PI_LAMBDA_PRODUCT_BETA_BINOMIAL_LIKELIHOODS_OF_EACH_PRIOR_AND_TARGET_TASK_NO_POOLED_COUNTS",
+    "theta_draw": "BETA_ALPHA_LAMBDA_PLUS_TARGET_SUCCESSES_BETA_LAMBDA_PLUS_TARGET_FAILURES",
+    "mean_theta_oracle": "SUM_LAMBDA_POSTERIOR_TIMES_TARGET_POSTERIOR_MEAN_MATCH_predict_counts",
+    "magnitude_draw": "DIRICHLET1_WEIGHTS_NORMALIZE_EXP_NEGLOG_U_PER_SIGN_OVER_UNIQUE_CLOSED_NET_MAGNITUDES",
+    "U_draw": "theta_draw*gain_draw-(1-theta_draw)*loss_draw",
+    "CASH_utility": 0.0,
+    "mean_U_analytic": "teacher_mean_theta*sample_gain_mean-(1-teacher_mean_theta)*sample_loss_mean",
+    "MC_mean_separate": true,
+    "no_cost_double_subtraction": true,
+    "no_LLM_TP_SL_payoffs": true,
+    "seed_material": "utility-v3|{protocol_byte_sha256}|{point_id}|{component}",
+    "seed_integer": "FIRST16_SHA256_BYTES_UNSIGNED_BIG_ENDIAN_UINT128_STORED_DECIMAL_STRING",
+    "CRN_components": [
+      "lambda",
+      "theta",
+      "magnitude|episode_id"
+    ],
+    "CRN_uniform": "PCG64_integers_low1_high2pow53_exclusive_dtype_uint64_divide2pow53",
+    "CRN_lambda": "INVERSE_CDF_SAME_LAMBDA_UNIFORMS",
+    "CRN_theta": "scipy.stats.beta.ppf_SAME_THETA_UNIFORMS",
+    "CRN_magnitude": "SAME_PER_EPISODE_UNIFORMS_SUBSET_AND_RENORMALIZE_FOR_NO_TARGET",
+    "shared_across": [
+      "branch",
+      "repeat"
+    ],
+    "sensitivity": "LEAVE_ONE_PRIOR_TASK_OUT_DIAGNOSTIC_NO_POLICY_SELECTION",
+    "limitations": [
+      "SIGN_MAGNITUDE_FACTORIZATION_ASSUMPTION",
+      "NO_UNSEEN_TAIL_SUPPORT",
+      "SERIAL_DEPENDENCE",
+      "INTERVAL_NOT_COVERAGE_GUARANTEE"
+    ],
+    "student_role": "POINT_PROBABILITY_ONLY_NO_TEACHER_FALLBACK_IF_APPROXIMATION_FAILS"
+  },
+  "facts": {
+    "hard_assertions": [
+      "MACD_SIGNAL",
+      "MACD_ZERO",
+      "PRICE_SMA20"
+    ],
+    "horizon": "T+2.5",
+    "warnings": "TREND_PATTERN_ALPHA_SENTIMENT_AS_REPORTED_NOT_NUMERIC_GROUND_TRUTH",
+    "validator": "ENUMS_AND_VISIBLE_FACT_IDS_EXACT_PACKET_MATCH_UNKNOWN_EXPLICIT",
+    "unvalidated": "FREE_PROSE_JUSTIFICATIONS_PRESERVED_NOT_CLAIMED_SEMANTICALLY_PROVEN",
+    "invalid_anchor": "USE_ORIGINAL_ACTION_ALL_ANCHORED_BRANCHES_REASON_AND_SOURCE_HASH",
+    "anchor_API_or_integrity_error": "STOP_NOT_FALLBACK",
+    "invalid_revision_assertions": "KEEP_A0_NOT_CASH"
+  },
+  "policy": {
+    "a0": "FACT_ANCHOR_VALIDATED_ACTION_OR_ORIGINAL_ON_ASSERTION_MISMATCH",
+    "same_proposed_as_a0": "KEEP",
+    "change_rule": "FACTS_VALID_AND_SUPPORTED_AND_Q10_DELTA_U_STRICT_GT0",
+    "delta_U_draw": "(I_proposed_LONG-I_a0_LONG)*U_draw",
+    "CASH_TO_LONG_q10": "Q10_U",
+    "LONG_TO_CASH_q10": "NEGATIVE_Q90_U",
+    "zero_threshold": 0.0,
+    "nonpositive_or_missing_support": "KEEP_A0_WITH_REASON",
+    "integrity_API_PIT_error": "STOP_KEEP_UUID_AND_RESERVE",
+    "bypass_is_cache_hit": false,
+    "raw_final_and_anchor_proof_separate": true,
+    "symbol_date_blacklist": false
+  },
+  "decision": {
+    "config": {
+      "symbol_order": [
+        "FPT",
+        "MWG",
+        "VCB",
+        "VNM"
+      ],
+      "signal_config": {
+        "models": {
+          "agent_llm_max_tokens": 2048,
+          "agent_llm_model": "openai/gpt-oss-20b",
+          "agent_llm_temperature": 0.0,
+          "graph_llm_max_tokens": 1024,
+          "graph_llm_model": "qwen/qwen3.8-27b",
+          "graph_llm_temperature": 0.0
+        },
+        "window_size": 45,
+        "norm_method": "zscore_tanh",
+        "alpha_weights": null,
+        "language": "vi",
+        "time_frame": "1d"
+      },
+      "client_options": {
+        "agent": {
+          "reasoning_format": "hidden",
+          "reasoning_effort": "low"
+        },
+        "graph": {
+          "reasoning_format": "hidden",
+          "reasoning_effort": "none"
+        }
+      },
+      "client_max_retries": 0,
+      "service_tier": "on_demand"
+    }
+  },
+  "version": "mt_bicl_protocol",
+  "status": "SPEC_ONLY",
+  "training_allowed": false,
+  "teacher_fit_allowed": false,
+  "decision_calls_allowed": false,
+  "confirmation_allowed": false,
+  "namespace": "outputs/bayesian_benchmark/mt_bicl",
+  "candidate": "MT_BICL",
+  "random_stream_sha256": "1912d18145fcc0eb46563206a83cfbacf5420d48fd828d0f79abfb56fa0b7b48",
+  "price_manifest_sha256": {
+    "data/execution_prices": "e254273e7fb842cdf9fa60007ea7dcc5994ac7190975a5cf940e57852e52f09c",
+    "data/execution_prices_oos": "bb70790062210ad983e5250dae650a3d355cad4d4ba57807411208a5ac9c00f4"
+  },
+  "development": {
+    "symbol_cutoffs": {}
+  }
+}
