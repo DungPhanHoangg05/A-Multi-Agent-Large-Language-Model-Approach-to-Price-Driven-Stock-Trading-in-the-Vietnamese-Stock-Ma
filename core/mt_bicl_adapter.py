@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import subprocess
 from typing import Any
 
 import torch
@@ -26,15 +27,23 @@ class StudentAdapter:
         """Kiểm envelope, namespace và byte từng component trước khi nạp tensor."""
         root = root.resolve()
         path = manifest or root / "docs/plan/week11/mt_bicl_model.json"
-        record = json.loads(path.read_bytes())
+        raw_manifest = path.read_bytes()
+        if manifest is None:
+            anchored = subprocess.check_output(
+                ["git", "show", "HEAD:docs/plan/week11/mt_bicl_model.json"], cwd=root
+            )
+            if raw_manifest != anchored:
+                raise ValueError("Model manifest MT-BICL khác bản đã neo Git")
+        record = json.loads(raw_manifest)
         payload = record["payload"]
         if content_hash(payload) != record["sha256"]:
             raise ValueError("Model manifest MT-BICL sai checksum")
         components: dict[str, Path] = {}
         for directory, entries in payload["artifact_trees"].items():
             for name, expected in entries.items():
-                component = (root / directory / name).resolve()
-                if not component.is_relative_to(root) or component.is_symlink() or name in components:
+                candidate = root / directory / name
+                component = candidate.resolve()
+                if not component.is_relative_to(root) or candidate.is_symlink() or name in components:
                     raise ValueError("Đường dẫn component MT-BICL không hợp lệ")
                 raw = component.read_bytes()
                 if len(raw) != expected["bytes"] or hashlib.sha256(raw).hexdigest() != expected["sha256"]:

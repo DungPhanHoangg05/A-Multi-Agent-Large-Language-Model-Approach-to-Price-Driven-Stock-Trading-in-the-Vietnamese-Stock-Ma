@@ -55,9 +55,10 @@ Các hợp đồng kinh tế/PIT/paired/prompt và quyền release vẫn đượ
 Phạm vi kiểm của đợt hợp nhất gồm utility/oracle, prompt/facts/policy,
 student frozen/query poison, bank/scaler/task/stream leakage, readiness
 và hồi quy paired/prompt/token/callers. Biên dịch đúng các Python thay đổi.
-Kết quả kiểm PASS gồm158 test riêng biệt trong16 module liên quan;106 test
+Kết quả kiểm PASS gồm159 test riêng biệt trong16 module liên quan;106 test
 MT-BICL được chạy lại PASS sau thay đổi nhãn schema cuối. Đã biên dịch36
-Python thay đổi; raw utility draw SHA đối soát với mốc trước dọn là
+Python thay đổi; thêm17 lượt kiểm loader/readiness PASS sau khi khóa manifest
+mặc định với Git. Raw utility draw SHA đối soát với mốc trước dọn là
 `e98d2e0d2dc10f0efe21cd2185f05316d81b62d9aa70f0ba8d2c8c36192b9a90`.
 Các log nằm tại `outputs/bayesian_benchmark/mt_bicl/validation.log` và
 `validation_mt_bicl.log`. Không chạy lại toàn suite/E2E theo AGENTS1.2.

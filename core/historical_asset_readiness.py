@@ -339,8 +339,9 @@ def run(root: Path, *, verify: bool = False) -> dict[str, Any]:
                          "price_quality": "VENDOR_SERIES_LIMITED", "inference_released": False})
     # Neo các input develop và mã thực sự được dùng; không tự ghi hash nguồn đã đổi.
     local_paths = [RELEASE, ARCHIVE, vnindex_path, "data_manager/regime_model.json",
-                   "docs/plan/week11/mt_bicl_protocol.json", "core/mt_bicl_student.py",
-                   "core/mt_bicl_teacher.py", "core/backtest_engine.py"]
+                   "docs/plan/week11/mt_bicl_protocol.json", "core/backtest_engine.py",
+                   "core/historical_asset_readiness.py", "scripts/prepare_historical_assets.py"]
+    local_paths.extend(p.relative_to(root).as_posix() for p in sorted((root / "core").glob("mt_bicl*.py")))
     for directory in ("data/execution_prices", "data/execution_prices_oos"):
         local_paths.extend(p.relative_to(root).as_posix() for p in sorted((root / directory).glob("*")) if p.is_file())
     source_commit = git(root, "log", "-1", "--format=%H", "--", *local_paths).decode().strip()

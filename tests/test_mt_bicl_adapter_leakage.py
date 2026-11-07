@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import torch
 
@@ -60,6 +61,18 @@ class AdapterTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             with self.assertRaises(FileNotFoundError):
                 StudentAdapter(Path(temporary))
+
+    def test_default_manifest_cannot_be_self_resealed(self) -> None:
+        """Manifest mặc định phải khớp Git trước khi xét các component."""
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = root / "docs/plan/week11/mt_bicl_model.json"
+            path.parent.mkdir(parents=True)
+            payload = {"artifact_trees": {}}
+            path.write_text(json.dumps({"payload": payload, "sha256": content_hash(payload)}), encoding="utf-8")
+            with patch("core.mt_bicl_adapter.subprocess.check_output", return_value=b"anchored manifest"):
+                with self.assertRaisesRegex(ValueError, "neo Git"):
+                    StudentAdapter(root)
 
 
 if __name__ == "__main__":
